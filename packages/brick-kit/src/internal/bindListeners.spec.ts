@@ -578,7 +578,7 @@ describe("bindListeners", () => {
         { action: "preview.debug", args: ["test"] },
       ],
       key2: [
-        { target: "#target-elem", method: "forGood" },
+        { target: '<% "#target-elem" %>', method: "forGood" },
         { target: "_self", method: "forGood", args: ["target is _self"] },
         {
           target: "#target-elem,#target-elem2",
@@ -634,6 +634,7 @@ describe("bindListeners", () => {
           target: "#target-elem",
           properties: { someProperty: "${EVENT.detail}" },
         },
+        { target: "<% {} %>", method: "forGood" },
         {
           useProvider: "any-provider",
           args: ["for", "${EVENT.detail}"],
@@ -894,7 +895,7 @@ describe("bindListeners", () => {
       })
     );
 
-    expect(console.error).toBeCalledTimes(6);
+    expect(console.error).toBeCalledTimes(8);
     expect(console.error).toHaveBeenNthCalledWith(
       1,
       "specified args for console.error"
@@ -910,12 +911,18 @@ describe("bindListeners", () => {
       "target not found:",
       "#not-existed"
     );
+    expect(console.error).toHaveBeenNthCalledWith(5, "unexpected target:", {});
     expect(console.error).toHaveBeenNthCalledWith(
-      5,
+      6,
+      "target not found:",
+      "<% {} %>"
+    );
+    expect(console.error).toHaveBeenNthCalledWith(
+      7,
       'Error: Provider not defined: "not-defined-provider".'
     );
     expect(console.error).toHaveBeenNthCalledWith(
-      6,
+      8,
       expect.objectContaining({
         message: expect.stringContaining("EVENT.oops is not a function"),
       })
@@ -1071,7 +1078,7 @@ describe("bindListeners", () => {
       {
         keyWillFindTarget: [
           {
-            targetRef: "button",
+            targetRef: '<% "button" %>',
             method: "forGood",
           },
           {
