@@ -1,4 +1,6 @@
+import React from "react";
 import { message } from "antd";
+import { ArgsProps } from "antd/lib/message";
 import { userAnalytics } from "@next-core/easyops-analytics";
 import {
   BrickEventHandler,
@@ -37,8 +39,8 @@ import {
   CustomTemplateContext,
   getCustomTemplateContext,
 } from "../core/CustomTemplates/CustomTemplateContext";
-import React from "react";
-import { ArgsProps } from "antd/lib/message";
+import { isPreEvaluated } from "./evaluate";
+import { isEvaluable } from "@next-core/brick-utils";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -606,33 +608,60 @@ function customListenerFactory(
       return;
     }
     let targets: HTMLElement[] = [];
-    if (typeof handler.target === "string") {
-      if (handler.target === "_self") {
+    const rawTarget = handler.target;
+    const rawTargetRef = handler.targetRef;
+    let computedTarget = rawTarget;
+    // Allow `target` to be set as evaluable string.
+    if (
+      typeof rawTarget === "string"
+        ? isEvaluable(rawTarget)
+        : isPreEvaluated(rawTarget)
+    ) {
+      computedTarget = computeRealValue(rawTarget, context);
+    }
+    if (typeof computedTarget === "string") {
+      if (computedTarget === "_self") {
         targets.push(runtimeBrick.element);
       } else if (handler.multiple) {
-        targets = Array.from(document.querySelectorAll(handler.target));
+        targets = Array.from(document.querySelectorAll(computedTarget));
       } else {
-        const found = document.querySelector(handler.target) as HTMLElement;
+        const found = document.querySelector(computedTarget) as HTMLElement;
         if (found !== null) {
           targets.push(found);
         }
       }
-    } else if (handler.target) {
-      targets.push(handler.target as HTMLElement);
-    } else if (handler.targetRef) {
+    } else if (computedTarget) {
+      if (computedTarget instanceof HTMLElement) {
+        targets.push(computedTarget as HTMLElement);
+      } else {
+        // eslint-disable-next-line no-console
+        console.error("unexpected target:", computedTarget);
+      }
+    } else if (rawTargetRef) {
+      let computedTargetRef = rawTargetRef;
+      // Allow `targetRef` to be set as evaluable string.
+      if (
+        typeof rawTargetRef === "string"
+          ? isEvaluable(rawTargetRef)
+          : isPreEvaluated(rawTargetRef)
+      ) {
+        computedTargetRef = computeRealValue(rawTargetRef, context, true) as
+          | string
+          | string[];
+      }
       const tpl: RuntimeBrickElement = getTplContext(
         context.tplContextId
       ).getBrick().element;
       targets.push(
         ...[]
-          .concat(handler.targetRef)
+          .concat(computedTargetRef)
           .map((ref) => tpl.$$getElementByRef?.(ref))
           .filter(Boolean)
       );
     }
     if (targets.length === 0) {
       // eslint-disable-next-line no-console
-      console.error("target not found:", handler.target || handler.targetRef);
+      console.error("target not found:", rawTarget || rawTargetRef);
       return;
     }
     if (isExecuteCustomHandler(handler)) {
