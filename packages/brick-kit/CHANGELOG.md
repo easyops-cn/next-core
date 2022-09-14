@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.140.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.139.0...@next-core/brick-kit@2.140.0) (2022-09-14)
+
+
+### Features
+
+* allow target/targetRef to be set as evaluable string ([ef06f22](https://github.com/easyops-cn/next-core/commit/ef06f22d8401880a7c450a04f09ed08c9748846c))
+
+
+
+
+
 # [2.139.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.138.0...@next-core/brick-kit@2.139.0) (2022-09-13)
 
 
