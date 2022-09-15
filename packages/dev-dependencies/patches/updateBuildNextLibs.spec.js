@@ -42,7 +42,8 @@ const tree = {
 
 const contents = {
   "/tmp/libs/flow-chart/package.json": `{
-  "name": "@libs/flow-chart"
+  "name": "@libs/flow-chart",
+  "scripts": {}
 }`,
   "/tmp/libs/lib-a/package.json": `{
   "name": "@next-libs/lib-a",

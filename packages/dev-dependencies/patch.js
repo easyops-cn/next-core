@@ -157,7 +157,6 @@ module.exports = async function patch() {
   }
 
   if (semver.lt(currentRenewVersion, "1.10.3")) {
-    updateBuildNextLibs();
     addPreBuildScriptForBricks();
   }
 
@@ -184,6 +183,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.14.0")) {
     migrateLazyBricksWithJest();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.14.91")) {
+    updateBuildNextLibs();
   }
 
   updateDevDependenciesVersion();
