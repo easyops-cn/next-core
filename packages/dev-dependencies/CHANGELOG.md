@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.91](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.90...@next-core/dev-dependencies@1.14.91) (2022-09-15)
+
+
+### Bug Fixes
+
+* re-patch for build-next-libs ([54051c9](https://github.com/easyops-cn/next-core/commit/54051c91181e74153c004c0b5d5f661f36f984ef))
+
+
+
+
+
 ## [1.14.90](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.89...@next-core/dev-dependencies@1.14.90) (2022-09-14)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

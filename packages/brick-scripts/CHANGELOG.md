@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](/compare/@next-core/brick-scripts@3.0.0...@next-core/brick-scripts@3.0.1) (2022-09-15)
+
+
+### Bug Fixes
+
+* re-patch for build-next-libs 54051c9
+
+
+
+
+
 # [3.0.0](/compare/@next-core/brick-scripts@2.7.6...@next-core/brick-scripts@3.0.0) (2022-09-09)
 
 
