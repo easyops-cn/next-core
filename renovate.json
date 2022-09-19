@@ -95,6 +95,11 @@
     {
       "groupName": "cypress packages",
       "matchPackageNames": ["cypress", "cypress/included"]
+    },
+    {
+      "matchPackageNames": ["typedoc", "@microsoft/api-extractor],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]
