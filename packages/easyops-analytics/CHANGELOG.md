@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.3...@next-core/easyops-analytics@0.9.0) (2022-09-19)
+
+
+### Features
+
+* **easyops-analytics:** add metic ([e4f6c68](https://github.com/easyops-cn/next-core/commit/e4f6c6888f5bb315406a54edbb4d679d10fc3b48))
+
+
+
+
+
 ## [0.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.2...@next-core/easyops-analytics@0.8.3) (2022-09-02)
 
 

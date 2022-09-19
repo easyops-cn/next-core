@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.141.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.140.0...@next-core/brick-kit@2.141.0) (2022-09-19)
+
+
+### Features
+
+* **easyops-analytics:** add metic ([e4f6c68](https://github.com/easyops-cn/next-core/commit/e4f6c6888f5bb315406a54edbb4d679d10fc3b48))
+
+
+
+
+
 # [2.140.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.139.0...@next-core/brick-kit@2.140.0) (2022-09-14)
 
 
