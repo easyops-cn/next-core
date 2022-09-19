@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.141.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.141.0...@next-core/brick-kit@2.141.1) (2022-09-19)
+
+
+### Bug Fixes
+
+* 获取standalone micro app接口调整 ([1a2404d](https://github.com/easyops-cn/next-core/commit/1a2404d78225645e56f83a7a4c1f8a5316dea2b7))
+
+
+
+
+
 # [2.141.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.140.0...@next-core/brick-kit@2.141.0) (2022-09-19)
 
 
