@@ -22,14 +22,13 @@ export async function fetchStandaloneApps(saIds: string[]): Promise<void> {
   }
   try {
     const result = await RuntimeApi_searchMicroAppStandalone({
-      query: { isActiveVersion: true, appId: { $in: searchIds } },
-      fields: ["appId", "version"],
+      query: { appId: { $in: searchIds } },
+      fields: ["appId", "currentVersion", "installStatus"],
     });
     for (const item of result.list) {
       standaloneApps.push({
+        ...item,
         id: item.appId,
-        currentVersion: item.version,
-        installStatus: "ok",
       });
     }
     for (const id of searchIds) {

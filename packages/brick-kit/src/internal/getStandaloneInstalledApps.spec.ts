@@ -34,8 +34,6 @@ const mockConsoleError = jest
 describe("preFetchInstalledMicroApp", () => {
   let preFetchStandaloneInstalledApps: typeof _preFetchStandaloneInstalledApps;
   let getStandaloneInstalledApps: typeof _getStandaloneInstalledApps;
-  let validatePermissions: typeof _validatePermissions;
-  let resetPermissionPreChecks: typeof _resetPermissionPreChecks;
 
   beforeEach(() => {
     jest.isolateModules(() => {
@@ -43,8 +41,6 @@ describe("preFetchInstalledMicroApp", () => {
       const m = require("./getStandaloneInstalledApps");
       preFetchStandaloneInstalledApps = m.preFetchStandaloneInstalledApps;
       getStandaloneInstalledApps = m.getStandaloneInstalledApps;
-      // validatePermissions = m.validatePermissions;
-      // resetPermissionPreChecks = m.resetPermissionPreChecks;
     });
   });
 
@@ -63,19 +59,29 @@ describe("preFetchInstalledMicroApp", () => {
     mockScanInstalledAppsInStoryboard.mockReturnValueOnce(["appA", "appB"]);
     mockSearchMicroAppStandalone.mockResolvedValueOnce({
       list: [
-        { appId: "appA", version: "1.0.1" },
-        { appId: "appB", version: "1.0.1" },
+        { appId: "appA", currentVersion: "1.0.1", installStatus: "ok" },
+        { appId: "appB", currentVersion: "1.0.1", installStatus: "ok" },
       ],
       total: 2,
     });
     await preFetchStandaloneInstalledApps(null);
     expect(mockSearchMicroAppStandalone).toBeCalledWith({
-      query: { isActiveVersion: true, appId: { $in: ["appA", "appB"] } },
-      fields: ["appId", "version"],
+      query: { appId: { $in: ["appA", "appB"] } },
+      fields: ["appId", "currentVersion", "installStatus"],
     });
     expect(getStandaloneInstalledApps()).toEqual([
-      { id: "appA", currentVersion: "1.0.1", installStatus: "ok" },
-      { id: "appB", currentVersion: "1.0.1", installStatus: "ok" },
+      {
+        id: "appA",
+        appId: "appA",
+        currentVersion: "1.0.1",
+        installStatus: "ok",
+      },
+      {
+        id: "appB",
+        appId: "appB",
+        currentVersion: "1.0.1",
+        installStatus: "ok",
+      },
     ]);
   });
 
@@ -84,34 +90,49 @@ describe("preFetchInstalledMicroApp", () => {
     mockScanInstalledAppsInStoryboard.mockReturnValueOnce(["appA", "appB"]);
     mockSearchMicroAppStandalone.mockResolvedValueOnce({
       list: [
-        { appId: "appA", version: "1.0.1" },
-        { appId: "appB", version: "1.0.1" },
+        { appId: "appA", currentVersion: "1.0.1", installStatus: "ok" },
+        { appId: "appB", currentVersion: "1.0.1", installStatus: "ok" },
       ],
       total: 2,
     });
     await preFetchStandaloneInstalledApps(null);
     expect(mockSearchMicroAppStandalone).toBeCalledWith({
-      query: { isActiveVersion: true, appId: { $in: ["appA", "appB"] } },
-      fields: ["appId", "version"],
+      query: { appId: { $in: ["appA", "appB"] } },
+      fields: ["appId", "currentVersion", "installStatus"],
     });
 
     // second time
     mockScanInstalledAppsInStoryboard.mockReturnValueOnce(["appB", "appC"]);
     mockSearchMicroAppStandalone.mockResolvedValueOnce({
-      list: [{ appId: "appC", version: "1.0.2" }],
+      list: [{ appId: "appC", currentVersion: "1.0.2", installStatus: "ok" }],
       total: 2,
     });
     await preFetchStandaloneInstalledApps(null);
     expect(mockSearchMicroAppStandalone).toBeCalledWith({
-      query: { isActiveVersion: true, appId: { $in: ["appC"] } },
-      fields: ["appId", "version"],
+      query: { appId: { $in: ["appC"] } },
+      fields: ["appId", "currentVersion", "installStatus"],
     });
 
     // expect return A B C
     expect(getStandaloneInstalledApps()).toEqual([
-      { id: "appA", currentVersion: "1.0.1", installStatus: "ok" },
-      { id: "appB", currentVersion: "1.0.1", installStatus: "ok" },
-      { id: "appC", currentVersion: "1.0.2", installStatus: "ok" },
+      {
+        id: "appA",
+        appId: "appA",
+        currentVersion: "1.0.1",
+        installStatus: "ok",
+      },
+      {
+        id: "appB",
+        appId: "appB",
+        currentVersion: "1.0.1",
+        installStatus: "ok",
+      },
+      {
+        id: "appC",
+        appId: "appC",
+        currentVersion: "1.0.2",
+        installStatus: "ok",
+      },
     ]);
   });
 
