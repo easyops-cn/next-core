@@ -535,7 +535,11 @@ export class Router {
           this.mediaEventTargetHandler as EventListener
         );
 
-        pageTracker?.(locationContext.getCurrentMatch().path);
+        pageTracker?.({
+          path: locationContext.getCurrentMatch().path,
+          username: getAuth().username,
+          pageTitle: document.title,
+        });
 
         // analytics page_view event
         userAnalytics.event("page_view", {
