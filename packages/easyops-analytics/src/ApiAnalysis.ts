@@ -57,10 +57,10 @@ export type PageMetric = Pick<
   | "et"
   | "username"
   | "time"
+  | "size"
 > & {
   apiCount: number;
   maxApiTimeCost: number;
-  apiSizeCost: number;
   type: "page";
   pageTitle: string;
 };
@@ -182,7 +182,7 @@ class ApiAnalysisService {
           : 0,
         st: startTime,
         et: endTime,
-        apiSizeCost: this.queue
+        size: this.queue
           .map((v) => v.size)
           .filter(Number)
           .reduce((a, b) => a + b, 0),
