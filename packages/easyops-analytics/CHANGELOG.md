@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.9.0...@next-core/easyops-analytics@0.9.1) (2022-09-19)
+
+
+### Bug Fixes
+
+* **easyops-analytics:** refine analytics ([6e59759](https://github.com/easyops-cn/next-core/commit/6e59759346752ab3e371ba2ae712bfc58bd9c7c2))
+
+
+
+
+
 # [0.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.3...@next-core/easyops-analytics@0.9.0) (2022-09-19)
 
 
