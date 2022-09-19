@@ -97,7 +97,7 @@
       "matchPackageNames": ["cypress", "cypress/included"]
     },
     {
-      "matchPackageNames": ["typedoc", "@microsoft/api-extractor],
+      "matchPackageNames": ["typedoc", "@microsoft/api-extractor"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false
     }
