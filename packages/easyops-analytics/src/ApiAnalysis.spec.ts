@@ -12,7 +12,12 @@ const mockSendBeacon = jest.fn();
 
 describe("ApiAnalysis", () => {
   const uuid = "13be32d5-9868-417b-9ee5-528910ede818";
-  const route = "/developers/:id";
+  const params = {
+    path: "/developers/:id",
+    pageTitle: "test",
+    username: "mock-user",
+  } as any;
+
   (global as any).URL = {
     createObjectURL: () => `blob:https://google.com/${uuid}`,
     revokeObjectURL: jest.fn(),
@@ -71,7 +76,7 @@ describe("ApiAnalysis", () => {
       },
     };
     analyzer.analyses(response as any);
-    pageTracker(route);
+    pageTracker(params);
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
@@ -115,6 +120,11 @@ describe("ApiAnalysis", () => {
         type: "page",
         maxApiTimeCost: 2,
         time: 1603109441,
+        et: 1603109440807,
+        apiSizeCost: 28,
+        pageTitle: "test",
+        st: 1603109440807,
+        username: "mock-user",
       },
       {
         api: "api/auth/login",
@@ -134,7 +144,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
-        route,
+        route: "/developers/:id",
       },
     ]);
   });
@@ -202,6 +212,11 @@ describe("ApiAnalysis", () => {
         type: "page",
         maxApiTimeCost: 2,
         time: 1603109441,
+        et: 1603109440807,
+        apiSizeCost: 28,
+        pageTitle: "test",
+        st: 1603109440807,
+        username: "mock-user",
       },
       {
         api: "api/auth/login",
@@ -221,7 +236,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
-        route,
+        route: "/developers/:id",
       },
     ]);
   });
@@ -285,6 +300,11 @@ describe("ApiAnalysis", () => {
         route: "/developers/:id",
         type: "page",
         time: 1603109441,
+        et: 1603109440807,
+        apiSizeCost: 28,
+        pageTitle: "test",
+        st: 1603109440807,
+        username: "mock-user",
       },
       {
         api: "api/auth/login",
@@ -304,7 +324,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
-        route,
+        route: "/developers/:id",
       },
     ]);
   });

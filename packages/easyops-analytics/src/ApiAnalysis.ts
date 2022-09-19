@@ -48,10 +48,21 @@ export interface ApiMetric {
 
 export type PageMetric = Pick<
   ApiMetric,
-  "lt" | "page" | "pageId" | "route" | "_ver"
+  | "lt"
+  | "page"
+  | "pageId"
+  | "route"
+  | "_ver"
+  | "st"
+  | "et"
+  | "username"
+  | "time"
 > & {
   apiCount: number;
   maxApiTimeCost: number;
+  apiSizeCost: number;
+  type: "page";
+  pageTitle: string;
 };
 export type MixMetric = ApiMetric | PageMetric;
 
@@ -96,6 +107,8 @@ class ApiAnalysisService {
         "route",
         "apiCount",
         "maxApiTimeCost",
+        "apiSizeCost",
+        "pageTitle",
       ],
       data: this.logs,
     };
@@ -137,10 +150,18 @@ class ApiAnalysisService {
     return uuid;
   }
 
-  pageTracker(): (path: string) => void {
+  pageTracker(): ({
+    path,
+    pageTitle,
+    username,
+  }: {
+    path: string;
+    pageTitle: string;
+    username: string;
+  }) => void {
     const startTime = Date.now();
     this.queue = [];
-    return (path: string) => {
+    return ({ path, pageTitle, username }) => {
       const endTime = Date.now();
       // page load time
       const lt = endTime - startTime;
@@ -150,15 +171,25 @@ class ApiAnalysisService {
         pageId: this.genUUID(),
       };
 
-      const pageMetric = {
+      const pageMetric: PageMetric = {
         type: "page",
         apiCount: this.queue.length,
         page: location.href,
         time: Math.round(startTime / 1000),
         _ver: startTime,
-        maxApiTimeCost: Math.max(...this.queue.map((api) => api.duration)),
+        maxApiTimeCost: this.queue.length
+          ? Math.max(...this.queue.map((api) => api.duration))
+          : 0,
+        st: startTime,
+        et: endTime,
+        apiSizeCost: this.queue
+          .map((v) => v.size)
+          .filter(Number)
+          .reduce((a, b) => a + b, 0),
+        pageTitle,
+        username,
         ...extra,
-      } as PageMetric;
+      };
       this.logs.push(pageMetric);
       const queuedApiList = this.queue.map((api) => ({ ...api, ...extra }));
       this.logs.push(...queuedApiList);
