@@ -35,7 +35,10 @@ import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
 import { formRenderer } from "./CustomForms/constants";
-import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
+import {
+  RuntimeApi_runtimeMicroAppStandalone,
+  LaunchpadApi_getLaunchpadInfo,
+} from "@next-sdk/micro-app-standalone-sdk";
 
 i18next.init({
   fallbackLng: "en",
@@ -83,6 +86,8 @@ const spyOnGetAppStoryboard = (
     },
   },
 });
+const spyOnLaunchpadApi_getLaunchpadInfo =
+  LaunchpadApi_getLaunchpadInfo as jest.Mock;
 const spyOnRuntimeMicroAppStandalone =
   RuntimeApi_runtimeMicroAppStandalone as jest.Mock;
 const spyOnAuthenticate = authenticate as jest.Mock;
@@ -111,6 +116,20 @@ const mockInitAnalytics = initAnalytics as jest.Mock;
 (getRuntime as jest.Mock).mockImplementation(() => ({
   applyPageTitle: spyOnApplyPageTitle,
 }));
+
+spyOnLaunchpadApi_getLaunchpadInfo.mockReturnValue({
+  settings: {},
+  storyboards: [
+    {
+      app: {
+        id: "app-1",
+        userConfig: {
+          configA: "valueA",
+        },
+      },
+    },
+  ],
+});
 
 spyOnScanBricksInBrickConf.mockImplementation((brickConf) => [brickConf.brick]);
 
@@ -536,6 +555,7 @@ describe("Kernel", () => {
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
     expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+    expect(spyOnLaunchpadApi_getLaunchpadInfo).toBeCalledTimes(2);
 
     expect(kernel.bootstrapData.storyboards[0].app.userConfig).toEqual({
       configA: "valueA",
@@ -576,13 +596,13 @@ describe("Kernel", () => {
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
     expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+    expect(spyOnLaunchpadApi_getLaunchpadInfo).toBeCalledTimes(2);
 
     expect(mockConsoleWarn).toBeCalledWith(
       "request standalone runtime api from micro-app-standalone failed: ",
       "oops",
       ", something might went wrong running standalone micro app"
     );
-    expect(kernel.bootstrapData.storyboards[0].app.userConfig).toBeUndefined();
   });
 
   it("should firstRendered", async () => {

@@ -1,4 +1,4 @@
-import { cloneDeep, pick } from "lodash";
+import { cloneDeep, omit, pick, set } from "lodash";
 import {
   loadScript,
   prefetchScript,
@@ -21,6 +21,7 @@ import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
+  LaunchpadApi_getLaunchpadInfo,
   RuntimeApi_runtimeMicroAppStandalone,
   RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
 } from "@next-sdk/micro-app-standalone-sdk";
@@ -201,6 +202,11 @@ export class Kernel {
     }
   }
 
+  private async getLaunchpadInfo(): Promise<BootstrapData> {
+    const launchpadInfo = await LaunchpadApi_getLaunchpadInfo(null);
+    return launchpadInfo as unknown as BootstrapData;
+  }
+
   private async loadMicroApps(
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
@@ -219,10 +225,20 @@ export class Kernel {
             interceptorParams,
           }
         ));
-    const bootstrapResponse = {
+    let bootstrapResponse = {
       templatePackages: [],
       ...data,
     } as BootstrapData;
+    if (window.STANDALONE_MICRO_APPS) {
+      const launchpadInfo = await this.getLaunchpadInfo();
+      bootstrapResponse = {
+        ...bootstrapResponse,
+        ...launchpadInfo,
+        storyboards: launchpadInfo.storyboards.concat(
+          bootstrapResponse.storyboards
+        ),
+      };
+    }
     // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
@@ -233,7 +249,7 @@ export class Kernel {
     };
   }
 
-  reloadMicroApps(
+  async reloadMicroApps(
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
@@ -242,6 +258,16 @@ export class Kernel {
       return this.loadMicroApps(params, interceptorParams);
     } else {
       // load launchpad info
+      const launchpadInfo = await this.getLaunchpadInfo();
+      this.bootstrapData = {
+        ...this.bootstrapData,
+        ...launchpadInfo,
+        storyboards: launchpadInfo.storyboards.concat(
+          this.bootstrapData.storyboards.find(
+            (item) => item.app.id === this.currentApp?.id
+          )
+        ),
+      };
     }
   }
 
