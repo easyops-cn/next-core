@@ -431,7 +431,7 @@ describe("Kernel", () => {
     expect(getI18NData).toBeCalledTimes(1);
   });
 
-  it("should fulfil i18n for standalone micro-apps", async () => {
+  it("shouldn't fulfil i18n for standalone micro-apps", async () => {
     window.STANDALONE_MICRO_APPS = true;
     window.NO_AUTH_GUARD = false;
     const mountPoints: MountPoints = {
@@ -457,7 +457,7 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboardI18n(["hello"]);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
-    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+    expect(spyOnRuntimeMicroAppStandalone).not.toBeCalled();
   });
 
   it("should bootstrap for standalone micro-apps", async () => {
@@ -995,7 +995,7 @@ describe("Kernel", () => {
         },
       ],
     } as any;
-    const menus = kernel.getStandaloneMenus("menu-1");
+    const menus = await kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([
       {
         menuId: "menu-1",
@@ -1044,7 +1044,7 @@ describe("Kernel", () => {
         },
       ],
     } as any;
-    const menus = kernel.getStandaloneMenus("menu-1");
+    const menus = await kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([
       {
         menuId: "menu-1",
@@ -1072,8 +1072,57 @@ describe("Kernel", () => {
         },
       ],
     } as any;
-    const menus = kernel.getStandaloneMenus("menu-1");
+    const menus = await kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([]);
+  });
+
+  it("should get standalone from outside app menus", async () => {
+    const mockSearchMenu = InstanceApi_postSearch as jest.Mock;
+    mockSearchMenu.mockResolvedValueOnce({
+      list: [
+        {
+          menuId: "menu-3",
+          title: "menu-3-form-outside",
+          app: [
+            {
+              appId: "app-outside",
+            },
+          ],
+        },
+      ],
+    });
+    kernel.currentApp = {
+      id: "app-b",
+    } as any;
+    kernel.bootstrapData = {
+      storyboards: [
+        {
+          app: {
+            id: "app-b",
+          },
+          meta: {
+            menus: [
+              {
+                menuId: "menu-1",
+                title: "Menu 1",
+              },
+            ],
+          },
+        },
+      ],
+    } as any;
+    const menus = await kernel.getStandaloneMenus("menu-3");
+    expect(menus).toEqual([
+      {
+        menuId: "menu-3",
+        title: "menu-3-form-outside",
+        app: [
+          {
+            appId: "app-outside",
+          },
+        ],
+      },
+    ]);
   });
 
   it("should apply custom theme", async () => {

@@ -240,6 +240,8 @@ export class Kernel {
     // There is no need to reload standalone micro-apps.
     if (!window.STANDALONE_MICRO_APPS) {
       return this.loadMicroApps(params, interceptorParams);
+    } else {
+      // load launchpad info
     }
   }
 
@@ -330,10 +332,7 @@ export class Kernel {
       .filter((story) => story && !story.$$fulfilled && !story.$$i18nFulfilled);
 
     if (window.STANDALONE_MICRO_APPS) {
-      // Fallback to fullfil whole storyboard for standalone micro-apps.
-      await Promise.all(
-        filteredStoryboards.map((story) => this.fulfilStoryboard(story))
-      );
+      // standalone micros-apps not need to request i18n
       return;
     }
 
@@ -866,7 +865,10 @@ export class Kernel {
     return Object.assign({}, this.bootstrapData?.settings?.featureFlags);
   }
 
-  getStandaloneMenus(menuId: string, isPreFetch?: boolean): MenuRawData[] {
+  async getStandaloneMenus(
+    menuId: string,
+    isPreFetch?: boolean
+  ): Promise<MenuRawData[]> {
     const app = isPreFetch ? this.nextApp : this.currentApp;
     const currentAppId = app.id;
     const currentStoryboard = this.bootstrapData.storyboards.find(
@@ -877,7 +879,8 @@ export class Kernel {
       : currentStoryboard.meta?.menus
       ? cloneDeep(currentStoryboard.meta.menus)
       : [];
-    return menus
+
+    let filterMenus = menus
       .filter((menu) => menu.menuId === menuId)
       .map((menu) => ({
         ...menu,
@@ -885,6 +888,43 @@ export class Kernel {
           ? {}
           : { app: [{ appId: currentAppId }] }),
       }));
+
+    if (!filterMenus.length) {
+      filterMenus =
+        ((
+          await InstanceApi_postSearch("STANDALONE_MENU@EASYOPS", {
+            page: 1,
+            page_size: 200,
+            fields: {
+              menuId: true,
+              title: true,
+              icon: true,
+              link: true,
+              titleDataSource: true,
+              defaultCollapsed: true,
+              defaultCollapsedBreakpoint: true,
+              type: true,
+              injectMenuGroupId: true,
+              dynamicItems: true,
+              itemsResolve: true,
+              items: true,
+              i18n: true,
+              "items.children": true,
+              "app.appId": true,
+            },
+            query: {
+              menuId: {
+                $eq: menuId,
+              },
+              "app.isActiveVersion": {
+                $eq: true,
+              },
+            },
+          })
+        )?.list as MenuRawData[]) ?? [];
+    }
+
+    return filterMenus as MenuRawData[];
   }
 
   getOriginFaviconHref(): string {
