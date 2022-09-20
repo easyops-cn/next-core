@@ -85,7 +85,7 @@ export async function fetchMenuById(
     return menuCache.get(menuId);
   }
   const menuList = window.STANDALONE_MICRO_APPS
-    ? kernel.getStandaloneMenus(menuId, isPreFetch)
+    ? await kernel.getStandaloneMenus(menuId, isPreFetch)
     : ((
         await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
           page: 1,
@@ -432,17 +432,11 @@ function computeRealValueWithOverrideApp<
     const storyboard = kernel.bootstrapData.storyboards.find(
       (story) => story.app.id === overrideAppId
     );
-    /* istanbul ignore else: non-productive case */
-    if (storyboard) {
-      newContext = {
-        ...context,
-        overrideApp: storyboard.app,
-        appendI18nNamespace: data[symbolMenuI18nNamespace],
-      };
-    } else {
-      // eslint-disable-next-line no-console
-      console.error("The app which injects menu was not found:", overrideAppId);
-    }
+    newContext = {
+      ...context,
+      overrideApp: storyboard?.app,
+      appendI18nNamespace: data[symbolMenuI18nNamespace],
+    };
   }
   return computeRealValue(data, newContext, true, {
     ignoreSymbols: true,
