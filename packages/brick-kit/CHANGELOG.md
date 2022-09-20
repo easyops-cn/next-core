@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.142.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.141.2...@next-core/brick-kit@2.142.0) (2022-09-20)
+
+
+### Features
+
+* standalone app not need to request i18n ([8f62e8b](https://github.com/easyops-cn/next-core/commit/8f62e8b78e3327817009cbfcf5154636041614f1))
+
+
+
+
+
 ## [2.141.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.141.1...@next-core/brick-kit@2.141.2) (2022-09-19)
 
 **Note:** Version bump only for package @next-core/brick-kit
