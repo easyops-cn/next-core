@@ -617,7 +617,7 @@ function customListenerFactory(
         ? isEvaluable(rawTarget)
         : isPreEvaluated(rawTarget)
     ) {
-      computedTarget = computeRealValue(rawTarget, context);
+      computedTarget = computeRealValue(rawTarget, { ...context, event });
     }
     if (typeof computedTarget === "string") {
       if (computedTarget === "_self") {
@@ -645,9 +645,11 @@ function customListenerFactory(
           ? isEvaluable(rawTargetRef)
           : isPreEvaluated(rawTargetRef)
       ) {
-        computedTargetRef = computeRealValue(rawTargetRef, context, true) as
-          | string
-          | string[];
+        computedTargetRef = computeRealValue(
+          rawTargetRef,
+          { ...context, event },
+          true
+        ) as string | string[];
       }
       const tpl: RuntimeBrickElement = getTplContext(
         context.tplContextId
