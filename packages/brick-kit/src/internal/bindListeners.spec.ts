@@ -1041,6 +1041,7 @@ describe("bindListeners", () => {
     const microView = document.createElement("div") as any;
     const sourceElem = document.createElement("div") as any;
     const useBrickElem = document.createElement("div") as any;
+    useBrickElem.id = "useBrickEle";
     tplElement.$$typeof = "custom-template";
     tplElement.$$getElementByRef = (ref: string) =>
       ref === "button" ? button : undefined;
@@ -1077,6 +1078,12 @@ describe("bindListeners", () => {
       sourceElem,
       {
         keyWillFindTarget: [
+          {
+            target: "<% `#${EVENT.detail.id}` %>",
+            properties: {
+              isEdit: true,
+            },
+          },
           {
             targetRef: '<% "button" %>',
             method: "forGood",
@@ -1129,10 +1136,18 @@ describe("bindListeners", () => {
       "not-existed"
     );
 
-    sourceElem.dispatchEvent(new CustomEvent("keyWillFindTarget"));
+    sourceElem.dispatchEvent(
+      new CustomEvent("keyWillFindTarget", {
+        detail: {
+          id: "useBrickEle",
+        },
+      })
+    );
     expect(button.forGood).toBeCalled();
     expect(button.forArray).toBeCalled();
     expect(tplContext.state.getValue("myState")).toBe("initial:updated");
+
+    expect(useBrickElem.isEdit).toBe(true);
 
     useBrickElem.dispatchEvent(
       new CustomEvent("triggeredByUseBrick", {
