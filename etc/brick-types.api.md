@@ -1429,6 +1429,7 @@ export interface MicroApp {
     name: string;
     noAuthGuard?: boolean;
     private?: boolean;
+    standaloneMode?: boolean;
     status?: "developing" | "enabled" | "disabled";
     theme?: "light" | "dark-v2";
     userConfig?: Record<string, unknown>;
