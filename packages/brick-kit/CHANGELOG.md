@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.144.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.143.0...@next-core/brick-kit@2.144.0) (2022-09-25)
+
+
+### Features
+
+* support micro-app jump to standalone-app ([b469a35](https://github.com/easyops-cn/next-core/commit/b469a35858bb01d3bb8f0032ed70df4b63e69d0f))
+
+
+
+
+
 # [2.143.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.142.0...@next-core/brick-kit@2.143.0) (2022-09-25)
 
 
