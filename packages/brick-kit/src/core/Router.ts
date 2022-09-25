@@ -232,6 +232,15 @@ export class Router {
     );
 
     if (storyboard) {
+      if (!window.STANDALONE_MICRO_APPS) {
+        if (storyboard.app.standaloneMode) {
+          // if nextApp was standalone micro-apps, use location.replace to reload window;
+          const path = history.createHref({
+            pathname: storyboard.app.homepage,
+          });
+          window.location.replace(path);
+        }
+      }
       await this.kernel.fulfilStoryboard(storyboard);
 
       // 将动态解析后的模板还原，以便重新动态解析。
