@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.143.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.142.0...@next-core/brick-kit@2.143.0) (2022-09-25)
+
+
+### Bug Fixes
+
+* target/ targetRef 能够获取事件信息 ([c7cbd24](https://github.com/easyops-cn/next-core/commit/c7cbd24aa335a68d582ec183b3c600b6e41ca127))
+
+
+### Features
+
+* bootstrap add standaloneMode field ([676cd23](https://github.com/easyops-cn/next-core/commit/676cd238e49713afe885feec5f73d5ff3ffaa8d1))
+
+
+
+
+
 # [2.142.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.141.2...@next-core/brick-kit@2.142.0) (2022-09-20)
 
 

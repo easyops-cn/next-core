@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.76.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.75.0...@next-core/brick-types@2.76.0) (2022-09-25)
+
+
+### Features
+
+* bootstrap add standaloneMode field ([676cd23](https://github.com/easyops-cn/next-core/commit/676cd238e49713afe885feec5f73d5ff3ffaa8d1))
+
+
+
+
+
 # [2.75.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.74.0...@next-core/brick-types@2.75.0) (2022-09-08)
 
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.17](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.16...@next-core/illustrations@0.9.17) (2022-09-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+
+
+
+
 ## [0.9.16](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.15...@next-core/illustrations@0.9.16) (2022-09-08)
 
 **Note:** Version bump only for package @next-core/illustrations
