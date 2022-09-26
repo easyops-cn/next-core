@@ -6,7 +6,14 @@ import {
   MatchOptions,
   MatchResult,
   MatchParams,
+  PluginRuntimeContext,
 } from "@next-core/brick-types";
+
+export type MatchPathOptions = MatchOptions &
+  CompileOptions & {
+    checkIf?: (context: PluginRuntimeContext) => boolean;
+    getContext?: (match: any) => PluginRuntimeContext;
+  };
 
 const cache: Map<string, Map<string, CompileResult>> = new Map();
 const cacheLimit = 10000;
@@ -40,9 +47,16 @@ function compilePath(path: string, options: CompileOptions): CompileResult {
  */
 export function matchPath(
   pathname: string,
-  options: MatchOptions & CompileOptions
+  options: MatchPathOptions
 ): MatchResult {
-  const { path: p, exact = false, strict = false, sensitive = true } = options;
+  const {
+    path: p,
+    exact = false,
+    strict = false,
+    sensitive = true,
+    checkIf,
+    getContext,
+  } = options;
 
   const paths = Array.isArray(p) ? p : [p];
 
@@ -69,8 +83,7 @@ export function matchPath(
     }
 
     const initialParams: MatchParams = {};
-
-    return {
+    const result = {
       path, // the path used to match
       url: path === "/" && url === "" ? "/" : url, // the matched portion of the URL
       isExact, // whether or not we matched exactly
@@ -79,6 +92,12 @@ export function matchPath(
         return memo;
       }, initialParams),
     };
+
+    if (checkIf && !checkIf(getContext(result))) {
+      return null;
+    }
+
+    return result;
   }, null);
 }
 

@@ -222,6 +222,8 @@ export class LocationContext {
       const match = matchPath(this.location.pathname, {
         path: computedPath,
         exact: route.exact,
+        checkIf: (context) => looseCheckIf(route, context),
+        getContext: (match) => this.getContext({ match }),
       });
       if (match !== null) {
         if (app.noAuthGuard || route.public || isLoggedIn()) {

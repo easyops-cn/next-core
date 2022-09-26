@@ -354,6 +354,10 @@ export interface RouteConfOfRedirect extends BaseRouteConf {
  */
 export interface BaseRouteConf {
   /**
+   * 条件配置，根据 `if` 的计算结果来决定是否展示路由
+   */
+  if?: string | boolean;
+  /**
    * 路由地址，通常应使用 `${APP.homepage}` 开头。
    */
   path: string;

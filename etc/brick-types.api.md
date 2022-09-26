@@ -114,6 +114,7 @@ export interface BaseRouteConf {
     documentId?: string;
     exact?: boolean;
     hybrid?: boolean;
+    if?: string | boolean;
     menu?: MenuConf;
     path: string;
     permissionsPreCheck?: string[];
