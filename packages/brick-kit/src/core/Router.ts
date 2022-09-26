@@ -238,7 +238,7 @@ export class Router {
           const path = history.createHref({
             pathname: storyboard.app.homepage,
           });
-          window.location.replace(path);
+          window.location.assign(path);
         }
       }
       await this.kernel.fulfilStoryboard(storyboard);
