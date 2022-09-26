@@ -22,7 +22,7 @@ const jsonFieldsInRoute = [
 ];
 
 // Fields stored as yaml string will be parsed when build & push.
-const yamlFieldsInRoute = ["permissionsPreCheck"];
+const yamlFieldsInRoute = ["permissionsPreCheck", "if"];
 
 const jsonFieldsInBrick = [
   "properties",
