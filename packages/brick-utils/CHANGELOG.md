@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.42.0...@next-core/brick-utils@2.42.1) (2022-09-26)
+
+
+### Bug Fixes
+
+* fix router.if was null and return false ([cdef1d6](https://github.com/easyops-cn/next-core/commit/cdef1d61fd739b2de7666aae18591488b8cf4253))
+
+
+
+
+
 # [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.41.2...@next-core/brick-utils@2.42.0) (2022-09-26)
 
 
