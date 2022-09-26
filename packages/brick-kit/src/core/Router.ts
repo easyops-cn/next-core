@@ -273,6 +273,8 @@ export class Router {
       registerFormRenderer();
 
       collectContract(storyboard.meta?.contracts);
+    } else if (window.STANDALONE_MICRO_APPS) {
+      window.location.reload();
     }
 
     const { mountPoints, currentApp: previousApp } = this.kernel;

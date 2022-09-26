@@ -237,9 +237,6 @@ export class LocationContext {
   }
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
-    if (window.STANDALONE_MICRO_APPS && storyboards.length === 1) {
-      return storyboards[0];
-    }
     // Put apps with longer homepage before shorter ones.
     // E.g., `/legacy/tool` will match first before `/legacy`.
     // This enables two apps with relationship of parent-child of homepage.
