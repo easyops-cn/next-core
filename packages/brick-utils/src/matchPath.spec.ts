@@ -1,12 +1,8 @@
-import { matchPath, toPath } from "./matchPath";
-import {
-  MatchOptions,
-  CompileOptions,
-  MatchResult,
-} from "@next-core/brick-types";
+import { matchPath, MatchPathOptions, toPath } from "./matchPath";
+import { MatchResult } from "@next-core/brick-types";
 
 describe("matchPath", () => {
-  it.each<[string, MatchOptions & CompileOptions, MatchResult]>([
+  it.each<[string, MatchPathOptions, MatchResult]>([
     [
       "/",
       {
@@ -69,6 +65,33 @@ describe("matchPath", () => {
       "/next",
       {
         path: [],
+      },
+      null,
+    ],
+    [
+      "/next",
+      {
+        path: ["/:id", "/before"],
+        exact: true,
+        checkIf: () => true,
+        getContext: () => ({} as any),
+      },
+      {
+        path: "/:id",
+        url: "/next",
+        isExact: true,
+        params: {
+          id: "next",
+        },
+      },
+    ],
+    [
+      "/next",
+      {
+        path: ["/:id", "/before"],
+        exact: true,
+        checkIf: () => false,
+        getContext: () => ({} as any),
       },
       null,
     ],
