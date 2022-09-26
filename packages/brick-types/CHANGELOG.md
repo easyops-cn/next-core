@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.77.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.76.0...@next-core/brick-types@2.77.0) (2022-09-26)
+
+
+### Features
+
+* support router if condition ([4486130](https://github.com/easyops-cn/next-core/commit/44861303b0c236ec36f3bb55f469229e23116e5d))
+
+
+
+
+
 # [2.76.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.75.0...@next-core/brick-types@2.76.0) (2022-09-25)
 
 

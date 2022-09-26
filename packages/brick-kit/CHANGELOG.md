@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.145.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.144.0...@next-core/brick-kit@2.145.0) (2022-09-26)
+
+
+### Features
+
+* support router if condition ([4486130](https://github.com/easyops-cn/next-core/commit/44861303b0c236ec36f3bb55f469229e23116e5d))
+
+
+
+
+
 # [2.144.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.143.0...@next-core/brick-kit@2.144.0) (2022-09-25)
 
 

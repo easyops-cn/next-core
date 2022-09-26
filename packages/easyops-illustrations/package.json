@@ -1,6 +1,6 @@
 {
   "name": "@next-core/illustrations",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/easyops-illustrations",
   "license": "GPL-3.0",
@@ -32,6 +32,6 @@
     "prettier": "^2.6.2"
   },
   "dependencies": {
-    "@next-core/brick-types": "^2.76.0"
+    "@next-core/brick-types": "^2.77.0"
   }
 }
