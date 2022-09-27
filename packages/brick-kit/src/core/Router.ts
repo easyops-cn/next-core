@@ -174,6 +174,25 @@ export class Router {
       this.prevLocation = location;
       this.locationContext.handlePageLeave();
       this.locationContext.messageDispatcher.reset();
+
+      const storyboard = this.locationContext.matchStoryboard(
+        this.kernel.bootstrapData.storyboards,
+        location
+      );
+      if (!window.STANDALONE_MICRO_APPS) {
+        if (storyboard && storyboard.app.standaloneMode) {
+          // if nextApp was standalone micro-apps, use location.assign to reload window;
+          const path = history.createHref({
+            pathname: storyboard.app.homepage,
+          });
+          window.location.assign(path);
+        }
+      } else {
+        if (!storyboard) {
+          window.location.reload();
+        }
+      }
+
       if (this.rendering) {
         this.nextLocation = location;
       } else {
@@ -232,15 +251,6 @@ export class Router {
     );
 
     if (storyboard) {
-      if (!window.STANDALONE_MICRO_APPS) {
-        if (storyboard.app.standaloneMode) {
-          // if nextApp was standalone micro-apps, use location.replace to reload window;
-          const path = history.createHref({
-            pathname: storyboard.app.homepage,
-          });
-          window.location.replace(path);
-        }
-      }
       await this.kernel.fulfilStoryboard(storyboard);
 
       // 将动态解析后的模板还原，以便重新动态解析。
