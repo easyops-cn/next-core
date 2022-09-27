@@ -1,4 +1,4 @@
-import { cloneDeep, pick } from "lodash";
+import { cloneDeep, merge, pick } from "lodash";
 import {
   loadScript,
   prefetchScript,
@@ -10,6 +10,7 @@ import {
   getDllAndDepsByResource,
   scanProcessorsInAny,
   CustomApiInfo,
+  deepFreeze,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
@@ -223,7 +224,7 @@ export class Kernel {
       templatePackages: [],
       ...data,
     } as BootstrapData;
-    // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+    // Merge `app.defaultConfig` and `app.userConfig` to `app.config`. Should merge config again in standalone mode when doFulfilStoryboard because static bootstrap.json do not have userConfig.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
@@ -279,11 +280,14 @@ export class Kernel {
           );
         }
         if (appRuntimeData) {
-          // merge user config
+          // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
           storyboard.app.userConfig = {
             ...storyboard.app.userConfig,
             ...appRuntimeData.userConfig,
           };
+          storyboard.app.config = deepFreeze(
+            merge({}, storyboard.app.defaultConfig, storyboard.app.userConfig)
+          );
           // get inject menus (Actually, appRuntimeData contains both main and inject menus)
           storyboard.meta = {
             ...storyboard.meta,

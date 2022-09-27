@@ -506,6 +506,7 @@ describe("Kernel", () => {
     const appHello: any = {
       app: {
         id: "hello",
+        defaultConfig: { configA: { key1: "value1" } },
       },
     };
     mockStandaloneBootstrap.mockResolvedValueOnce({
@@ -519,7 +520,8 @@ describe("Kernel", () => {
         },
       ],
       userConfig: {
-        configA: "valueA",
+        configA: { key2: "value2" },
+        configB: "valueB",
       },
     });
     spyOnCheckLogin.mockResolvedValueOnce({
@@ -538,7 +540,12 @@ describe("Kernel", () => {
     expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
 
     expect(kernel.bootstrapData.storyboards[0].app.userConfig).toEqual({
-      configA: "valueA",
+      configA: { key2: "value2" },
+      configB: "valueB",
+    });
+    expect(kernel.bootstrapData.storyboards[0].app.config).toEqual({
+      configA: { key1: "value1", key2: "value2" },
+      configB: "valueB",
     });
   });
 
