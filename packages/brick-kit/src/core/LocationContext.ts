@@ -236,10 +236,10 @@ export class LocationContext {
     return "missed";
   }
 
-  matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
-    if (window.STANDALONE_MICRO_APPS && storyboards.length === 1) {
-      return storyboards[0];
-    }
+  matchStoryboard(
+    storyboards: RuntimeStoryboard[],
+    location?: PluginLocation
+  ): RuntimeStoryboard {
     // Put apps with longer homepage before shorter ones.
     // E.g., `/legacy/tool` will match first before `/legacy`.
     // This enables two apps with relationship of parent-child of homepage.
@@ -252,7 +252,7 @@ export class LocationContext {
       const homepage = storyboard.app?.homepage;
       if (typeof homepage === "string" && homepage[0] === "/") {
         if (
-          matchPath(this.location.pathname, {
+          matchPath((location || this.location).pathname, {
             path: homepage,
             exact: homepage === "/",
           })
