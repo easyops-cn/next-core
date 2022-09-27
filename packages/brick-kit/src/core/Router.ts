@@ -181,10 +181,12 @@ export class Router {
       );
       if (!window.STANDALONE_MICRO_APPS) {
         if (storyboard && storyboard.app.standaloneMode) {
+          // from non-standalone app to standalone app, should jump out off site
           window.location.assign(window.location.href);
         }
       } else {
         if (!storyboard) {
+          // from standalone app goback to non-standalone app, should reload
           window.location.reload();
         }
       }
