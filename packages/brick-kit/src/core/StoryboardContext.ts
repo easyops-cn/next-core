@@ -296,36 +296,6 @@ async function resolveNormalStoryboardContext(
       // Or if the resolve is ignored or lazy, use its `value` as a fallback.
       value = computeRealValue(contextConf.value, mergedContext, true);
     }
-
-    if (contextConf.track) {
-      // Track its dependencies and auto update when each of them changed.
-      const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
-        load ? contextConf.resolve : contextConf.value
-      );
-      for (const dep of deps) {
-        const ctx = storyboardContextWrapper.get().get(dep);
-        (
-          ctx as StoryboardContextItemFreeVariable
-        )?.eventTarget?.addEventListener(
-          isTemplateState ? "state.change" : "context.change",
-          () => {
-            if (load) {
-              storyboardContextWrapper.updateValue(
-                contextConf.name,
-                { cache: "default" },
-                "refresh"
-              );
-            } else {
-              storyboardContextWrapper.updateValue(
-                contextConf.name,
-                computeRealValue(contextConf.value, mergedContext, true),
-                "replace"
-              );
-            }
-          }
-        );
-      }
-    }
   }
 
   resolveFreeVariableValue(
@@ -413,5 +383,35 @@ function resolveFreeVariableValue(
       );
     }
   }
+
+  if (contextConf.track) {
+    const isTemplateState = !!storyboardContextWrapper.tplContextId;
+    // Track its dependencies and auto update when each of them changed.
+    const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
+      load ? contextConf.resolve : contextConf.value
+    );
+    for (const dep of deps) {
+      const ctx = storyboardContextWrapper.get().get(dep);
+      (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
+        isTemplateState ? "state.change" : "context.change",
+        () => {
+          if (load) {
+            storyboardContextWrapper.updateValue(
+              contextConf.name,
+              { cache: "default" },
+              "refresh"
+            );
+          } else {
+            storyboardContextWrapper.updateValue(
+              contextConf.name,
+              computeRealValue(contextConf.value, mergedContext, true),
+              "replace"
+            );
+          }
+        }
+      );
+    }
+  }
+
   storyboardContextWrapper.set(contextConf.name, newContext);
 }
