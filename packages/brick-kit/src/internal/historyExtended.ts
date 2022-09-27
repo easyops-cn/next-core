@@ -134,11 +134,9 @@ export function historyExtended(
     setBlockMessage,
     getBlockMessage,
     unblock,
-    push,
-    replace,
-    ...(window.STANDALONE_MICRO_APPS
-      ? standaloneHistoryOverridden({ ...browserHistory, push, replace })
-      : {}),
+    // push,
+    // replace,
+    ...historyOverridden({ ...browserHistory, push, replace }),
   };
 }
 
@@ -147,7 +145,7 @@ export function historyExtended(
  *
  * when `push` or `replace` to other apps, force page refresh.
  */
-function standaloneHistoryOverridden(
+function historyOverridden(
   browserHistory: History<PluginHistoryState> &
     Pick<ExtendedHistory, "push" | "replace">
 ): Pick<ExtendedHistory, "push" | "replace"> {

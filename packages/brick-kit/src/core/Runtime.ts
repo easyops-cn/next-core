@@ -429,8 +429,11 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
 }
 
 export function _internalApiHasMatchedApp(pathname: string): boolean {
-  for (const { homepage } of kernel.bootstrapData.microApps) {
-    if (pathname === homepage || pathname.startsWith(`${homepage}/`)) {
+  for (const { homepage, standaloneMode } of kernel.bootstrapData.microApps) {
+    if (
+      pathname === homepage ||
+      (pathname.startsWith(`${homepage}/`) && standaloneMode !== true)
+    ) {
       return true;
     }
   }

@@ -174,20 +174,19 @@ export class Router {
       this.prevLocation = location;
       this.locationContext.handlePageLeave();
       this.locationContext.messageDispatcher.reset();
-
-      const storyboard = this.locationContext.matchStoryboard(
-        this.kernel.bootstrapData.storyboards,
-        location
-      );
-      if (!window.STANDALONE_MICRO_APPS) {
-        if (storyboard && storyboard.app.standaloneMode) {
-          window.location.assign(window.location.href);
-        }
-      } else {
-        if (!storyboard) {
-          window.location.reload();
-        }
-      }
+      // const storyboard = this.locationContext.matchStoryboard(
+      //   this.kernel.bootstrapData.storyboards,
+      //   location
+      // );
+      // if (!window.STANDALONE_MICRO_APPS) {
+      //   if (storyboard && storyboard.app.standaloneMode) {
+      //     window.location.assign(window.location.href);
+      //   }
+      // } else {
+      //   if (!storyboard) {
+      //     window.location.reload();
+      //   }
+      // }
 
       if (this.rendering) {
         this.nextLocation = location;
