@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.145.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.145.2...@next-core/brick-kit@2.145.3) (2022-09-27)
+
+
+### Bug Fixes
+
+* app to standalone app, path to homepage ([af5a01d](https://github.com/easyops-cn/next-core/commit/af5a01d0e1f1875430084f9e253d326f0994386a))
+* standalone back and show pageNotFound ([80d1c18](https://github.com/easyops-cn/next-core/commit/80d1c185a4f3bf5039192b7861e710456c416080))
+
+
+
+
+
 ## [2.145.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.145.1...@next-core/brick-kit@2.145.2) (2022-09-27)
 
 
