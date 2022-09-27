@@ -181,11 +181,7 @@ export class Router {
       );
       if (!window.STANDALONE_MICRO_APPS) {
         if (storyboard && storyboard.app.standaloneMode) {
-          // if nextApp was standalone micro-apps, use location.assign to reload window;
-          const path = history.createHref({
-            pathname: storyboard.app.homepage,
-          });
-          window.location.assign(path);
+          window.location.assign(window.location.href);
         }
       } else {
         if (!storyboard) {
