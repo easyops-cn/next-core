@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.146.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.145.3...@next-core/brick-kit@2.146.0) (2022-09-28)
+
+
+### Features
+
+* **StoryboardContext:** move logic of track into resolveFreeVariableValue to support tracking state in useBrick ([62b8445](https://github.com/easyops-cn/next-core/commit/62b8445b28e20c6b12e0eda7b3711d83a2be365c))
+
+
+
+
+
 ## [2.145.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.145.2...@next-core/brick-kit@2.145.3) (2022-09-27)
 
 
