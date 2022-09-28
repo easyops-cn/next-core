@@ -3,6 +3,7 @@ import {
   HttpResponseError,
   HttpParseError,
   HttpFetchError,
+  HttpAbortError,
 } from "@next-core/brick-http";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -12,6 +13,7 @@ import { K, NS_BRICK_KIT } from "./i18n/constants";
 import { getHistory } from "./history";
 import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getRuntime } from "./runtime";
+import { isHttpAbortError } from "./internal/isHttpAbortError";
 
 /**
  * 将 http 请求错误转换为可读的字符串。
@@ -53,8 +55,17 @@ let unauthenticatedConfirmModal: ReturnType<ModalFunc>;
  * @param error - 错误对象。
  */
 export function handleHttpError(
-  error: Error | HttpFetchError | HttpResponseError | HttpParseError
+  error:
+    | Error
+    | HttpFetchError
+    | HttpResponseError
+    | HttpParseError
+    | HttpAbortError
 ): ReturnType<ModalFunc> {
+  // Do nothing if aborted http requests
+  if (isHttpAbortError(error)) {
+    return;
+  }
   // Redirect to login page if not logged in.
   if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
     // Do not show multiple confirm modals.

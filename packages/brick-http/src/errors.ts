@@ -54,3 +54,10 @@ export class HttpParseError extends Error {
     this.response = response;
   }
 }
+
+export class HttpAbortError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "HttpAbortError";
+  }
+}
