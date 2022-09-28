@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.146.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.146.0...@next-core/brick-kit@2.146.1) (2022-09-28)
+
+
+### Bug Fixes
+
+* fix standalone jump problem ([e61c446](https://github.com/easyops-cn/next-core/commit/e61c446e70bc9421977c045962d8e70e226df14e))
+
+
+
+
+
 # [2.146.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.145.3...@next-core/brick-kit@2.146.0) (2022-09-28)
 
 
