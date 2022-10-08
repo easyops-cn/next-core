@@ -220,7 +220,20 @@ module.exports = (runtimeFlags) => {
   const rootDir = process.env.INIT_CWD.endsWith("/packages/brick-container")
     ? path.join(process.env.INIT_CWD, "../..")
     : process.env.INIT_CWD;
-  const nextRepoDir = getBrickNextDir();
+
+  function getDevConfig() {
+    const devConfigJsPath = path.join(rootDir, "dev.config.js");
+    if (fs.existsSync(devConfigJsPath)) {
+      return require(devConfigJsPath);
+    }
+  }
+
+  const devConfig = getDevConfig();
+  const nextRepoDir =
+    (!_standalone && devConfig && devConfig.nextRepoDir) || rootDir;
+  const standaloneAppsConfig =
+    (devConfig && devConfig.standaloneAppsConfig) || [];
+  const appConfig = (devConfig && devConfig.appConfig) || {};
 
   const { usePublicScope, standalone: confStandalone } =
     getEasyopsConfig(nextRepoDir);
@@ -290,31 +303,6 @@ module.exports = (runtimeFlags) => {
       ? process.env.NO_MERGE_SETTINGS !== "true"
       : flags.mergeSettings;
 
-  function getBrickNextDir() {
-    if (!_standalone) {
-      const devConfig = getDevConfig();
-      if (devConfig && devConfig.nextRepoDir) {
-        return devConfig.nextRepoDir;
-      }
-    }
-    return rootDir;
-  }
-
-  function getDevConfig() {
-    const devConfigJsPath = path.join(rootDir, "dev.config.js");
-    if (fs.existsSync(devConfigJsPath)) {
-      return require(devConfigJsPath);
-    }
-  }
-
-  function getAppConfig() {
-    const devConfig = getDevConfig();
-    if (devConfig) {
-      return devConfig.appConfig || {};
-    }
-    return {};
-  }
-
   const microAppsDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
@@ -332,8 +320,16 @@ module.exports = (runtimeFlags) => {
     `node_modules/${usePublicScope ? "@next-legacy-templates" : "@templates"}`
   );
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
-  const appConfig = getAppConfig();
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
+
+  if (flags.standaloneMicroApps) {
+    standaloneAppsConfig.push({
+      appDir: flags.standaloneAppDir,
+      appRoot:
+        flags.standaloneAppRoot || `${baseHref}${flags.standaloneAppDir}`,
+      bootstrapHash: flags.bootstrapHash,
+    });
+  }
 
   const env = {
     rootDir,
@@ -358,11 +354,9 @@ module.exports = (runtimeFlags) => {
     alternativeBrickPackagesDir,
     templatePackagesDir,
     navbarJsonPath,
-    standaloneMicroApps: flags.standaloneMicroApps,
-    standaloneAppDir: flags.standaloneAppDir,
-    standaloneAppRoot: flags.standaloneMicroApps
-      ? flags.standaloneAppRoot || `${baseHref}${flags.standaloneAppDir}`
-      : "",
+    hasStandaloneApps: standaloneAppsConfig.length > 0,
+    standaloneAppsConfig,
+    allAppsConfig: standaloneAppsConfig.concat(null),
     bootstrapHash: flags.bootstrapHash,
     host: flags.host,
     port: Number(flags.port),
@@ -453,7 +447,7 @@ module.exports = (runtimeFlags) => {
   console.log();
   console.log(
     chalk.bold.cyan("mode:"),
-    env.standaloneMicroApps
+    env.hasStandaloneApps
       ? chalk.bgCyanBright("standalone-micro-apps")
       : env.standalone
       ? chalk.bgBlueBright("standalone")
@@ -464,9 +458,8 @@ module.exports = (runtimeFlags) => {
       : chalk.bgWhite("local")
   );
 
-  if (env.standaloneMicroApps) {
-    console.log(chalk.bold.cyan("app dir:"), env.standaloneAppDir);
-    console.log(chalk.bold.cyan("app root:"), env.standaloneAppRoot);
+  if (env.hasStandaloneApps) {
+    console.log(chalk.bold.cyan("standalone apps:"), env.standaloneAppsConfig);
   }
 
   console.log(

@@ -24,7 +24,8 @@ function getNamesOfMicroApps(env, mocked) {
     .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
     .map((dirent) => dirent.name);
   // Ignore `auth` for fully standalone micro-apps.
-  return mocked && env.standaloneAppDir
+  return mocked &&
+    env.standaloneAppsConfig.some((standaloneConfig) => standaloneConfig.appDir)
     ? apps.filter((name) => name !== "auth")
     : apps;
 }

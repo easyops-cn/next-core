@@ -34,8 +34,9 @@ module.exports = (env) => {
     brickPackagesDir,
     alternativeBrickPackagesDir,
     useLegacyBootstrap,
-    standaloneMicroApps,
-    standaloneAppRoot,
+    hasStandaloneApps,
+    standaloneAppsConfig,
+    allAppsConfig,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -54,38 +55,44 @@ module.exports = (env) => {
     },
   };
   if (useRemote) {
-    const assetRoot = standaloneMicroApps ? `${standaloneAppRoot}-/` : "";
-    if (standaloneMicroApps) {
-      // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
-      proxyPaths.push(assetRoot);
-      proxyPaths.push(`${standaloneAppRoot}conf.yaml`);
-    }
+    for (const standaloneConfig of allAppsConfig) {
+      const assetRoot = standaloneConfig ? `${standaloneConfig.appRoot}-/` : "";
+      if (standaloneConfig) {
+        // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
+        proxyPaths.push(assetRoot);
+        proxyPaths.push(`${standaloneConfig.appRoot}conf.yaml`);
+      }
 
-    const assetPaths = ["bricks", "micro-apps", "templates"];
-    proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
+      const assetPaths = ["bricks", "micro-apps", "templates"];
+      proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
+    }
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (env.asCdn) {
         return;
       }
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
+      const isStandaloneBootstrap =
+        hasStandaloneApps &&
+        new RegExp(
+          `^${escapeRegExp(
+            // 匹配 `/next/your-app/-/bootstrap.[hash].json`
+            `${standaloneAppsConfig
+              .map((standaloneConfig) => escapeRegExp(standaloneConfig.appRoot))
+              .join("|")}-/bootstrap.`
+          )}[^.]+\\.json$`
+        ).test(req.path);
       if (
         req.path === "/next/api/auth/bootstrap" ||
         req.path === "/next/api/auth/v2/bootstrap" ||
-        (standaloneMicroApps &&
-          new RegExp(
-            `^${escapeRegExp(
-              // 匹配 `/next/your-app/-/bootstrap.[hash].json`
-              `${standaloneAppRoot}-/bootstrap.`
-            )}[^.]+\\.json$`
-          ).test(req.path))
+        isStandaloneBootstrap
       ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
           }
           const result = JSON.parse(raw);
-          const data = standaloneMicroApps ? result : result.data;
+          const data = isStandaloneBootstrap ? result : result.data;
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
               .map((id) =>
