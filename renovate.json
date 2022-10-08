@@ -59,7 +59,13 @@
     },
     {
       "groupName": "svgr packages",
-      "matchPackagePatterns": ["^@svgr/"]
+      "matchPackagePatterns": ["^@svgr/"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "matchPackagePatterns": ["^@svgr/"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
       "depTypeList": ["engines"],
