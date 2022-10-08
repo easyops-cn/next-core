@@ -65,6 +65,7 @@ import { imagesFactory } from "../internal/images";
 import { computeRealValue } from "../internal/setProperties";
 import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
+import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 
 export class Router {
   private defaultCollapsed = false;
@@ -177,18 +178,14 @@ export class Router {
       this.locationContext.handlePageLeave();
       this.locationContext.messageDispatcher.reset();
 
-      const storyboard = this.locationContext.matchStoryboard(
-        this.kernel.bootstrapData.storyboards,
-        location
-      );
-      // Whether non-standalone app to standalone app, or standlone app to non-standalone app
-      // window should reload to refresh the resource
-      if (!window.STANDALONE_MICRO_APPS) {
-        if (storyboard && storyboard.app.standaloneMode) {
-          window.location.reload();
-        }
-      } else {
-        if (!storyboard) {
+      if (action === "POP") {
+        const storyboard = matchStoryboard(
+          this.kernel.bootstrapData.storyboards,
+          location.pathname
+        );
+        // When a browser action of goBack or goForward is performing,
+        // force reload when the target page is a page of an outside app.
+        if (isOutsideApp(storyboard)) {
           window.location.reload();
         }
       }

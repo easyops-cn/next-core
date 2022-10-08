@@ -6,13 +6,15 @@ import {
 } from "@next-core/brick-types";
 import { History } from "history";
 import { getUserConfirmation, historyExtended } from "./historyExtended";
-import { _internalApiHasMatchedApp } from "../core/Runtime";
+import { isOutsideApp } from "../core/matchStoryboard";
 
 jest.mock("../core/Runtime", () => ({
-  _internalApiHasMatchedApp: jest.fn(),
+  _internalApiMatchStoryboard: jest.fn(),
 }));
 
-const mockHasMatchedApp = _internalApiHasMatchedApp as jest.Mock;
+jest.mock("../core/matchStoryboard");
+
+const mockIsOutsideApp = (isOutsideApp as jest.Mock).mockReturnValue(false);
 
 describe("historyExtended", () => {
   const location = window.location;
@@ -41,8 +43,7 @@ describe("historyExtended", () => {
   let ext: ReturnType<typeof historyExtended>;
 
   afterEach(() => {
-    jest.clearAllMocks();
-    window.STANDALONE_MICRO_APPS = undefined;
+    jest.resetAllMocks();
   });
 
   afterAll(() => {
@@ -223,6 +224,7 @@ describe("historyExtended", () => {
   );
 
   it("should work for history.reload", () => {
+    mockIsOutsideApp.mockReturnValueOnce(false);
     ext = historyExtended(history);
     const callback = jest.fn();
     ext.reload(callback);
@@ -243,6 +245,7 @@ describe("historyExtended", () => {
   });
 
   it("should work for callback of history.push", () => {
+    mockIsOutsideApp.mockReturnValueOnce(false);
     ext = historyExtended(history);
     const callback = jest.fn();
     ext.push("/a", undefined, callback);
@@ -288,8 +291,7 @@ describe("historyExtended", () => {
   ])(
     "history[%j](...%j) with the same app should work for standalone micro-apps",
     (method, callerArgs, calleeArgs) => {
-      window.STANDALONE_MICRO_APPS = true;
-      mockHasMatchedApp.mockReturnValueOnce(true);
+      mockIsOutsideApp.mockReturnValueOnce(false);
       ext = historyExtended(history);
       ext[method](...callerArgs);
       expect(history[method]).toBeCalledWith(...calleeArgs);
@@ -320,10 +322,8 @@ describe("historyExtended", () => {
   ])(
     "history[%j](...%j) with another app should work for standalone micro-apps",
     (method, callerArgs, url) => {
-      window.STANDALONE_MICRO_APPS = true;
-      mockHasMatchedApp.mockReturnValue(false);
       ext = historyExtended(history);
-      mockHasMatchedApp.mockReset();
+      mockIsOutsideApp.mockReturnValueOnce(true);
       ext[method](...callerArgs);
       expect(
         window.location[method === "push" ? "assign" : "replace"]

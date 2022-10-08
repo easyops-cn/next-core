@@ -15,6 +15,7 @@ import {
   SidebarMenu,
   RouteConf,
   CustomTemplate,
+  RuntimeStoryboard,
 } from "@next-core/brick-types";
 import compareVersions from "compare-versions";
 import {
@@ -41,6 +42,7 @@ import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { matchStoryboard } from "./matchStoryboard";
 
 let kernel: Kernel;
 
@@ -428,13 +430,11 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   return kernel.router.getCurrentContext();
 }
 
-export function _internalApiHasMatchedApp(pathname: string): boolean {
-  for (const { homepage } of kernel.bootstrapData.microApps) {
-    if (pathname === homepage || pathname.startsWith(`${homepage}/`)) {
-      return true;
-    }
-  }
-  return false;
+/* istanbul ignore next */
+export function _internalApiMatchStoryboard(
+  pathname: string
+): RuntimeStoryboard {
+  return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
 }
 
 /* istanbul ignore next */

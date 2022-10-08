@@ -81,6 +81,7 @@ import {
   RuntimeBrickConfOfFormSymbols,
   symbolForFormContextId,
 } from "./CustomForms/constants";
+import { matchStoryboard } from "./matchStoryboard";
 
 export type MatchRoutesResult =
   | {
@@ -236,31 +237,8 @@ export class LocationContext {
     return "missed";
   }
 
-  matchStoryboard(
-    storyboards: RuntimeStoryboard[],
-    location?: PluginLocation
-  ): RuntimeStoryboard {
-    // Put apps with longer homepage before shorter ones.
-    // E.g., `/legacy/tool` will match first before `/legacy`.
-    // This enables two apps with relationship of parent-child of homepage.
-    const sortedStoryboards = orderBy(
-      storyboards,
-      (storyboard) => storyboard.app?.homepage?.length ?? 0,
-      "desc"
-    );
-    for (const storyboard of sortedStoryboards) {
-      const homepage = storyboard.app?.homepage;
-      if (typeof homepage === "string" && homepage[0] === "/") {
-        if (
-          matchPath((location || this.location).pathname, {
-            path: homepage,
-            exact: homepage === "/",
-          })
-        ) {
-          return storyboard;
-        }
-      }
-    }
+  matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
+    return matchStoryboard(storyboards, this.location.pathname);
   }
 
   getSubStoryboardByRoute(storyboard: Storyboard): Storyboard {
