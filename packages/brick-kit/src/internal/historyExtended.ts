@@ -10,7 +10,8 @@ import {
   UpdateQueryFunction,
 } from "@next-core/brick-types";
 import { getBasePath } from "./getBasePath";
-import { _internalApiHasMatchedApp } from "../core/Runtime";
+import { _internalApiMatchStoryboard } from "../core/Runtime";
+import { isOutsideApp } from "../core/matchStoryboard";
 
 let blocked = false;
 export function getUserConfirmation(
@@ -134,11 +135,7 @@ export function historyExtended(
     setBlockMessage,
     getBlockMessage,
     unblock,
-    push,
-    replace,
-    ...(window.STANDALONE_MICRO_APPS
-      ? standaloneHistoryOverridden({ ...browserHistory, push, replace })
-      : {}),
+    ...historyOverridden({ ...browserHistory, push, replace }),
   };
 }
 
@@ -147,7 +144,7 @@ export function historyExtended(
  *
  * when `push` or `replace` to other apps, force page refresh.
  */
-function standaloneHistoryOverridden(
+function historyOverridden(
   browserHistory: History<PluginHistoryState> &
     Pick<ExtendedHistory, "push" | "replace">
 ): Pick<ExtendedHistory, "push" | "replace"> {
@@ -161,20 +158,27 @@ function standaloneHistoryOverridden(
       } else {
         pathname = path.pathname;
       }
-      if (pathname === "" || _internalApiHasMatchedApp(pathname)) {
-        return (method === "push" ? originalPush : originalReplace)(
-          path as string,
-          state,
-          callback
+
+      // When history.push or history.replace is performing with a non-empty pathname,
+      // force load the target page when it is a page of an outside app.
+      if (
+        pathname !== "" &&
+        isOutsideApp(_internalApiMatchStoryboard(pathname))
+      ) {
+        // Going to outside apps.
+        return location[method === "push" ? "assign" : "replace"](
+          pathIsString
+            ? getBasePath() + path.replace(/^\//, "")
+            : browserHistory.createHref(
+                path as LocationDescriptorObject<PluginHistoryState>
+              )
         );
       }
-      // Going to outside apps.
-      return location[method === "push" ? "assign" : "replace"](
-        pathIsString
-          ? getBasePath() + path.replace(/^\//, "")
-          : browserHistory.createHref(
-              path as LocationDescriptorObject<PluginHistoryState>
-            )
+
+      return (method === "push" ? originalPush : originalReplace)(
+        path as string,
+        state,
+        callback
       );
     };
   }
