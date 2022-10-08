@@ -1,5 +1,10 @@
 import { fetch } from "./fetch";
-import { HttpFetchError, HttpResponseError, HttpParseError } from "./errors";
+import {
+  HttpFetchError,
+  HttpResponseError,
+  HttpParseError,
+  HttpAbortError,
+} from "./errors";
 import InterceptorManager from "./InterceptorManager";
 
 export interface HttpRequestConfig {
@@ -24,7 +29,7 @@ export interface HttpResponse<T = any> {
 
 export interface HttpError {
   config: HttpRequestConfig;
-  error: HttpFetchError | HttpResponseError | HttpParseError;
+  error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError;
 }
 
 function isNil(value: any): boolean {
@@ -44,6 +49,7 @@ export interface RequestCustomOptions {
   observe?: "data" | "response";
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
   interceptorParams?: any;
+  noAbortOnRouteChange?: boolean;
 }
 
 export type HttpCustomOptions = RequestCustomOptions & {
@@ -52,8 +58,12 @@ export type HttpCustomOptions = RequestCustomOptions & {
 
 export type HttpOptions = HttpCustomOptions & RequestInit;
 
+// https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+export const isHttpAbortError = (error: any) =>
+  error instanceof DOMException && error.code === 20;
+
 const createError = (
-  error: HttpFetchError | HttpResponseError | HttpParseError,
+  error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError,
   config: HttpRequestConfig
 ): HttpError => {
   return {
@@ -82,7 +92,14 @@ const request = async <T>(
     try {
       response = await fetch(url, init);
     } catch (e) {
-      reject(createError(new HttpFetchError(e.toString()), config));
+      reject(
+        createError(
+          isHttpAbortError(e)
+            ? new HttpAbortError(e.toString())
+            : new HttpFetchError(e.toString()),
+          config
+        )
+      );
       return;
     }
 
@@ -103,7 +120,14 @@ const request = async <T>(
     try {
       data = await response[responseType]();
     } catch (e) {
-      reject(createError(new HttpParseError(response), config));
+      reject(
+        createError(
+          isHttpAbortError(e)
+            ? new HttpAbortError(e.toString())
+            : new HttpParseError(response),
+          config
+        )
+      );
       return;
     }
 

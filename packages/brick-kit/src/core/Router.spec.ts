@@ -4,7 +4,7 @@ import {
   mapCustomApisToNameAndNamespace,
   scanStoryboard,
 } from "@next-core/brick-utils";
-import { HttpResponseError } from "@next-core/brick-http";
+import { HttpAbortError, HttpResponseError } from "@next-core/brick-http";
 import { History, Location, LocationListener } from "history";
 import { getHistory } from "../history";
 import { Router } from "./Router";
@@ -333,6 +333,24 @@ describe("Router", () => {
       },
     ]);
     expect(mockConsoleError).toBeCalled();
+  });
+
+  it("should ignore http abort error", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults(
+      null,
+      new HttpAbortError("The user aborted a request.")
+    );
+    await router.bootstrap();
+    expect(spyOnHistory.replace).not.toBeCalled();
+    expect(mockConsoleError).toBeCalledTimes(1);
+    expect(spyOnMountTree).toBeCalledTimes(0);
   });
 
   it("should show page error.", async () => {

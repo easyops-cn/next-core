@@ -6,6 +6,7 @@ import {
   HttpFetchError,
   HttpParseError,
   HttpResponseError,
+  HttpAbortError,
 } from "./";
 
 jest.mock("./fetch");
@@ -362,6 +363,20 @@ describe("http", () => {
       await http.get("http://example.com");
     } catch (e) {
       expect(e).toBeInstanceOf(HttpParseError);
+    }
+  });
+
+  it("should throw a HttpAbortError", async () => {
+    __setReturnValue(
+      Promise.reject(
+        new DOMException("The user aborted a request.", "AbortError")
+      )
+    );
+    expect.assertions(1);
+    try {
+      await http.get("http://example.com");
+    } catch (e) {
+      expect(e).toBeInstanceOf(HttpAbortError);
     }
   });
 

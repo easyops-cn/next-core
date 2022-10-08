@@ -63,6 +63,8 @@ import {
 import { mergePreviewRoutes } from "../internal/mergePreviewRoutes";
 import { imagesFactory } from "../internal/images";
 import { computeRealValue } from "../internal/setProperties";
+import { abortController } from "../abortController";
+import { isHttpAbortError } from "../internal/isHttpAbortError";
 
 export class Router {
   private defaultCollapsed = false;
@@ -169,7 +171,7 @@ export class Router {
         this.prevLocation = location;
         return;
       }
-
+      abortController.abortPendingRequest();
       this.locationChangeNotify(this.prevLocation.pathname, location.pathname);
       this.prevLocation = location;
       this.locationContext.handlePageLeave();
@@ -389,6 +391,8 @@ export class Router {
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
           mountRoutesResult.flags.unauthenticated = true;
+        } else if (isHttpAbortError(error)) {
+          return;
         } else {
           await this.kernel.layoutBootstrap(layoutType);
           const brickPageError = this.kernel.presetBricks.pageError;

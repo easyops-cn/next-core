@@ -12,6 +12,7 @@ import {
   getRuntime,
   getRuntimeMisc,
   getHistory,
+  abortController,
 } from "@next-core/brick-kit";
 import { FeatureFlags, PluginHistory } from "@next-core/brick-types";
 import {
@@ -64,6 +65,18 @@ const mountPoints = {
 const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
 const analyzer = apiAnalyzer.create({
   api,
+});
+
+http.interceptors.request.use(function (config: HttpRequestConfig) {
+  return {
+    ...config,
+    options: {
+      ...config.options,
+      signal: config.options?.noAbortOnRouteChange
+        ? null
+        : abortController.getSignalToken(),
+    },
+  };
 });
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {

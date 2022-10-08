@@ -33,6 +33,7 @@ import { EstreeNode } from '@next-core/brick-utils';
 import { ExtField } from '@next-core/brick-types';
 import { FeatureFlags } from '@next-core/brick-types';
 import { GeneralTransform } from '@next-core/brick-types';
+import { HttpAbortError } from '@next-core/brick-http';
 import { HttpFetchError } from '@next-core/brick-http';
 import { HttpOptions } from '@next-core/brick-http';
 import { HttpParseError } from '@next-core/brick-http';
@@ -80,6 +81,14 @@ import { UserInfo } from '@next-core/brick-types';
 import { UseSingleBrickConf } from '@next-core/brick-types';
 import { WithTranslation } from 'react-i18next';
 import { WithTranslationProps } from 'react-i18next';
+
+// Warning: (ae-internal-missing-underscore) The name "abortController" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export const abortController: {
+    abortPendingRequest: () => void;
+    getSignalToken: () => AbortSignal;
+};
 
 // @public
 export interface AbstractRuntime {
@@ -345,7 +354,7 @@ export function getRuntime(): Runtime;
 export function getRuntimeMisc(): RuntimeMisc;
 
 // @public
-export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError): ReturnType<ModalFunc>;
+export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError): ReturnType<ModalFunc>;
 
 // @public
 export function httpErrorToString(error: Error | HttpFetchError | HttpResponseError | HttpParseError | Event): string;

@@ -7,6 +7,7 @@ import {
   HttpFetchError,
   HttpResponseError,
   HttpParseError,
+  HttpAbortError,
 } from "@next-core/brick-http";
 import {
   httpErrorToString,
@@ -196,6 +197,12 @@ describe("handleHttpError", () => {
     });
 
     mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
+  });
+
+  it("should return undefined if abort http request", () => {
+    expect(
+      handleHttpError(new HttpAbortError("The user aborted a request."))
+    ).toBeUndefined();
   });
 });
 
