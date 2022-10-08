@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.30.17...@next-dll/editor-bricks-helper@0.31.0) (2022-10-08)
+
+
+### Features
+
+*  support cancel pending requests on route changed ([aa37eed](https://github.com/easyops-cn/next-core/commit/aa37eed0ab03f558fea693d7763da60d0807189b))
+
+
+
+
+
 ## [0.30.17](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.30.16...@next-dll/editor-bricks-helper@0.30.17) (2022-09-29)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper

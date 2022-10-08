@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.17...@next-core/brick-dll@2.37.0) (2022-10-08)
+
+
+### Features
+
+*  support cancel pending requests on route changed ([aa37eed](https://github.com/easyops-cn/next-core/commit/aa37eed0ab03f558fea693d7763da60d0807189b))
+
+
+
+
+
 ## [2.36.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.16...@next-core/brick-dll@2.36.17) (2022-09-29)
 
 **Note:** Version bump only for package @next-core/brick-dll

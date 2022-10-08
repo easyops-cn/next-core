@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.76.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.75.34...@next-core/brick-container@2.76.0) (2022-10-08)
+
+
+### Bug Fixes
+
+* support debugging remote with multiple standalone apps ([1a9a33e](https://github.com/easyops-cn/next-core/commit/1a9a33ef52fc240e1702affbad5ee1e40c590607))
+
+
+### Features
+
+*  support cancel pending requests on route changed ([aa37eed](https://github.com/easyops-cn/next-core/commit/aa37eed0ab03f558fea693d7763da60d0807189b))
+
+
+
+
+
 ## [2.75.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.75.33...@next-core/brick-container@2.75.34) (2022-09-29)
 
 **Note:** Version bump only for package @next-core/brick-container
