@@ -2453,6 +2453,16 @@ export interface UpdateQueryOptions extends PluginHistoryState {
 }
 
 // @public
+export interface UseBackendConf {
+    // (undocumented)
+    args: any[] | ((...args: any[]) => any[]);
+    // (undocumented)
+    provider: string;
+    // (undocumented)
+    transform?: (data: any) => void;
+}
+
+// @public
 export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
 
 // @public
