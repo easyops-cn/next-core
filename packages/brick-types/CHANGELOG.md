@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.78.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.77.0...@next-core/brick-types@2.78.0) (2022-10-09)
+
+
+### Features
+
+*  collect useBackend api contract ([926f10a](https://github.com/easyops-cn/next-core/commit/926f10a7a88bfe7d4bebbf083ab4c0aba853210a))
+
+
+
+
+
 # [2.77.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.76.0...@next-core/brick-types@2.77.0) (2022-09-26)
 
 

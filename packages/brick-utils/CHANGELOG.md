@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.42.2...@next-core/brick-utils@2.43.0) (2022-10-09)
+
+
+### Features
+
+*  collect useBackend api contract ([926f10a](https://github.com/easyops-cn/next-core/commit/926f10a7a88bfe7d4bebbf083ab4c0aba853210a))
+
+
+
+
+
 ## [2.42.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.42.1...@next-core/brick-utils@2.42.2) (2022-09-29)
 
 **Note:** Version bump only for package @next-core/brick-utils
