@@ -1466,6 +1466,13 @@ export interface UseBrickSlotConf {
   bricks: UseSingleBrickConf[];
 }
 
+/** 在 `useBackend` 中使用provider的配置  **/
+export interface UseBackendConf {
+  provider: string;
+  args: any[] | ((...args: any[]) => any[]);
+  transform?: (data: any) => void;
+}
+
 /**
  * 应用的 Storyboard 元信息（包括自定义模板和国际化配置）。
  */

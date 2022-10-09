@@ -5,6 +5,7 @@ describe("scanStoryboard", () => {
   const customApiA = "easyops.custom_api@awesomeApiA";
   const customApiB = "easyops.custom_api@awesomeApiB";
   const customApiC = "easyops.custom_api_c@awesomeApiC";
+  const customApiD = "easyops.custom_api_c@awesomeApiD";
   const storyboard: Storyboard = {
     meta: {
       customTemplates: [
@@ -67,6 +68,17 @@ describe("scanStoryboard", () => {
               },
             },
           },
+          {
+            brick: "b-d",
+            properties: {
+              useBackend: {
+                provider: customApiD,
+              },
+              useBrick: {
+                brick: "b-f",
+              },
+            },
+          },
         ],
         menu: {
           type: "resolve",
@@ -103,10 +115,12 @@ describe("scanStoryboard", () => {
         "b-b",
         "b-c",
         "b-e",
+        "b-d",
+        "b-f",
         "b-x",
         "b-y",
       ],
-      customApis: [customApiA, customApiB, customApiC],
+      customApis: [customApiA, customApiB, customApiD, customApiC],
     });
   });
 });
