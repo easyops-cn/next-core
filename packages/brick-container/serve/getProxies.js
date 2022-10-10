@@ -271,24 +271,37 @@ module.exports = (env) => {
           return JSON.stringify(result);
         });
       } else if (
-        env.cookieSameSiteNone &&
         (req.path === "/next/api/auth/login/v2" ||
-          req.path === "/api/auth/login/v2")
+          req.path === "/api/auth/login/v2") &&
+        res.statusCode === 200 &&
+        Array.isArray(proxyRes.headers["set-cookie"])
       ) {
-        if (
-          res.statusCode === 200 &&
-          Array.isArray(proxyRes.headers["set-cookie"])
-        ) {
+        const secureCookieFlags = ["SameSite=None", "Secure"];
+        if (env.cookieSameSiteNone) {
           proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
             (cookie) => {
               const separator = "; ";
               const parts = cookie.split(separator);
-              for (const part of ["SameSite=None", "Secure"]) {
+              for (const part of secureCookieFlags) {
                 if (!parts.includes(part)) {
                   parts.push(part);
                 }
               }
               return parts.join(separator);
+            }
+          );
+        } else if (!env.https) {
+          proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
+            (cookie) => {
+              const separator = "; ";
+              const parts = cookie.split(separator);
+              const filteredParts = [];
+              for (const part of parts) {
+                if (!secureCookieFlags.includes(part)) {
+                  filteredParts.push(part);
+                }
+              }
+              return filteredParts.join(separator);
             }
           );
         }
