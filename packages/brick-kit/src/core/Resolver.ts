@@ -247,7 +247,11 @@ export class Resolver {
     } else {
       promise = (async () => {
         if (useProvider) {
-          actualArgs = await getArgsOfCustomApi(useProvider, actualArgs);
+          actualArgs = await getArgsOfCustomApi(
+            useProvider,
+            actualArgs,
+            method
+          );
         }
         return providerBrick[method](...actualArgs);
       })();
