@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.76.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.1...@next-core/brick-container@2.76.2) (2022-10-10)
+
+
+### Bug Fixes
+
+* remove secure cookie flags with non-https ([5a5eca3](https://github.com/easyops-cn/next-core/commit/5a5eca3936c1efdb50c375dfdf0a99f75e237c28))
+
+
+
+
+
 ## [2.76.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.0...@next-core/brick-container@2.76.1) (2022-10-09)
 
 **Note:** Version bump only for package @next-core/brick-container
