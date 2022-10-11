@@ -13,6 +13,10 @@ function getPath(type, pkg) {
       return `bricks/${pkg}/dist/editors/editors.*.js`;
     case "lazyBricks":
       return `bricks/${pkg}/dist/lazy-bricks/**/*.js`;
+    case "chunks":
+      return `bricks/${pkg}/dist/chunks/**/*.js`;
+    case "workers":
+      return `bricks/${pkg}/dist/workers/**/*.js`;
     default:
       throw new Error(`Invalid size-limit type: ${type}`);
   }
@@ -24,7 +28,7 @@ module.exports = function (sizeLimitJson) {
 
   dirMap.forEach((conf, type) => {
     const pkgMap = new Map(Object.entries(conf));
-    const dir = type === "editors" || type === "lazyBricks" ? "bricks" : type;
+    const dir = type === "templates" || type === "libs" ? type : "bricks";
 
     if (!pkgMap.has("*")) {
       throw new Error(`'*' is required for ${type}`);
