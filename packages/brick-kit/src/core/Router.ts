@@ -238,7 +238,7 @@ export class Router {
     const renderStartTime = performance.now();
     // Create the page tracker before page load.
     // And the API Analyzer maybe disabled.
-    const pageTracker = apiAnalyzer.getInstance()?.pageTracker();
+    const tracePageEnd = apiAnalyzer.getInstance()?.tracePage();
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
@@ -555,7 +555,7 @@ export class Router {
           this.mediaEventTargetHandler as EventListener
         );
 
-        pageTracker?.({
+        tracePageEnd?.({
           path: locationContext.getCurrentMatch().path,
           username: getAuth().username,
           pageTitle: document.title,

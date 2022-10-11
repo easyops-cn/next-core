@@ -37,7 +37,7 @@ jest.mock("@next-core/easyops-analytics", () => ({
   apiAnalyzer: {
     create: () => jest.mock,
     getInstance: () => ({
-      pageTracker: jest.fn,
+      tracePage: jest.fn,
     }),
   },
   userAnalytics: {

@@ -27,7 +27,7 @@ export const BrickIcon = ({
           // eslint-disable-next-line no-console
           console.error("Load icons failed:", error);
         }
-        // Avoid prototype collisions, such as `icon: "toString"`.
+        // Avoid prototype collisions, such as `icon: "toString"`..
         if (hasOwnProperty(categoryIcons, icon)) {
           component = categoryIcons[icon];
         }
