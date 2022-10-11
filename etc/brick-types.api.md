@@ -1479,6 +1479,19 @@ export interface NavbarConf {
     menuBar: string;
 }
 
+// @public (undocumented)
+export interface NavTip {
+    // (undocumented)
+    closeable?: boolean;
+    // (undocumented)
+    info?: {
+        url: string;
+        label: string;
+    };
+    // (undocumented)
+    text: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
