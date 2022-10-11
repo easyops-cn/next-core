@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.148.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.147.2...@next-core/brick-kit@2.148.0) (2022-10-11)
+
+
+### Features
+
+* support emit render info ([2bac5d0](https://github.com/easyops-cn/next-core/commit/2bac5d018e265025c69440c63178ea9711cce679))
+
+
+
+
+
 ## [2.147.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.147.1...@next-core/brick-kit@2.147.2) (2022-10-11)
 
 
