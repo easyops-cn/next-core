@@ -5,44 +5,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.6.0...@next-core/brick-http@2.7.0) (2022-10-08)
 
-
 ### Features
 
-*  support cancel pending requests on route changed ([aa37eed](https://github.com/easyops-cn/next-core/commit/aa37eed0ab03f558fea693d7763da60d0807189b))
-
-
-
-
+- support cancel pending requests on route changed ([aa37eed](https://github.com/easyops-cn/next-core/commit/aa37eed0ab03f558fea693d7763da60d0807189b))
 
 # [2.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.5.0...@next-core/brick-http@2.6.0) (2022-08-23)
 
-
 ### Features
 
-* support clearPreviewRequestCacheIgnoreList ([f7a6d41](https://github.com/easyops-cn/next-core/commit/f7a6d417625642af4d37ae0ca87cdeb4a316a7fa))
-
-
-
-
+- support clearPreviewRequestCacheIgnoreList ([f7a6d41](https://github.com/easyops-cn/next-core/commit/f7a6d417625642af4d37ae0ca87cdeb4a316a7fa))
 
 # [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.4.2...@next-core/brick-http@2.5.0) (2022-08-10)
 
-
 ### Features
 
-* **http:** add match-api-cache event ([02487fa](https://github.com/easyops-cn/next-core/commit/02487fa3706cf548281ab702ba6d4b0a9e8ba272))
-
-
-
-
+- **http:** add match-api-cache event ([02487fa](https://github.com/easyops-cn/next-core/commit/02487fa3706cf548281ab702ba6d4b0a9e8ba272))
 
 ## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.4.1...@next-core/brick-http@2.4.2) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/brick-http
-
-
-
-
 
 ## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.4.0...@next-core/brick-http@2.4.1) (2022-07-18)
 

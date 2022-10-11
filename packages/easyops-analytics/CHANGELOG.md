@@ -7,100 +7,54 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/easyops-analytics
 
-
-
-
-
 ## [0.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.9.0...@next-core/easyops-analytics@0.9.1) (2022-09-19)
-
 
 ### Bug Fixes
 
-* **easyops-analytics:** refine analytics ([6e59759](https://github.com/easyops-cn/next-core/commit/6e59759346752ab3e371ba2ae712bfc58bd9c7c2))
-
-
-
-
+- **easyops-analytics:** refine analytics ([6e59759](https://github.com/easyops-cn/next-core/commit/6e59759346752ab3e371ba2ae712bfc58bd9c7c2))
 
 # [0.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.3...@next-core/easyops-analytics@0.9.0) (2022-09-19)
 
-
 ### Features
 
-* **easyops-analytics:** add metic ([e4f6c68](https://github.com/easyops-cn/next-core/commit/e4f6c6888f5bb315406a54edbb4d679d10fc3b48))
-
-
-
-
+- **easyops-analytics:** add metic ([e4f6c68](https://github.com/easyops-cn/next-core/commit/e4f6c6888f5bb315406a54edbb4d679d10fc3b48))
 
 ## [0.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.2...@next-core/easyops-analytics@0.8.3) (2022-09-02)
 
-
 ### Bug Fixes
 
-* **easyops-analytics:** support more metric ([8078d41](https://github.com/easyops-cn/next-core/commit/8078d4102421655fbe3d687016418cb271a0db6b))
-
-
-
-
+- **easyops-analytics:** support more metric ([8078d41](https://github.com/easyops-cn/next-core/commit/8078d4102421655fbe3d687016418cb271a0db6b))
 
 ## [0.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.1...@next-core/easyops-analytics@0.8.2) (2022-08-29)
 
-
 ### Bug Fixes
 
-* **easyops-analytics:** support more metric ([b259339](https://github.com/easyops-cn/next-core/commit/b2593398eb6a4d71f7aa68020c435d4d3d15ff31))
-
-
-
-
+- **easyops-analytics:** support more metric ([b259339](https://github.com/easyops-cn/next-core/commit/b2593398eb6a4d71f7aa68020c435d4d3d15ff31))
 
 ## [0.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.8.0...@next-core/easyops-analytics@0.8.1) (2022-08-26)
 
-
 ### Bug Fixes
 
-* **easyops-analytics:** support more metric ([179f9f5](https://github.com/easyops-cn/next-core/commit/179f9f5169ed4fd9101e341d0ea0abb9fceb124a))
-* **easyops-analytics:** support more metric ([1d834d2](https://github.com/easyops-cn/next-core/commit/1d834d2233fe2c00e118b561cd737c27bcd2654d))
-
-
-
-
+- **easyops-analytics:** support more metric ([179f9f5](https://github.com/easyops-cn/next-core/commit/179f9f5169ed4fd9101e341d0ea0abb9fceb124a))
+- **easyops-analytics:** support more metric ([1d834d2](https://github.com/easyops-cn/next-core/commit/1d834d2233fe2c00e118b561cd737c27bcd2654d))
 
 # [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.7.13...@next-core/easyops-analytics@0.8.0) (2022-08-26)
 
-
 ### Features
 
-* **easyops-analytics:** support more metric ([ea58c8a](https://github.com/easyops-cn/next-core/commit/ea58c8a60f93120cacfa2fe7bf80a65a1cbca418))
-
-
-
-
+- **easyops-analytics:** support more metric ([ea58c8a](https://github.com/easyops-cn/next-core/commit/ea58c8a60f93120cacfa2fe7bf80a65a1cbca418))
 
 ## [0.7.13](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.7.12...@next-core/easyops-analytics@0.7.13) (2022-08-23)
 
 **Note:** Version bump only for package @next-core/easyops-analytics
 
-
-
-
-
 ## [0.7.12](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.7.11...@next-core/easyops-analytics@0.7.12) (2022-08-10)
 
 **Note:** Version bump only for package @next-core/easyops-analytics
 
-
-
-
-
 ## [0.7.11](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.7.10...@next-core/easyops-analytics@0.7.11) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/easyops-analytics
-
-
-
-
 
 ## [0.7.10](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.7.9...@next-core/easyops-analytics@0.7.10) (2022-07-18)
 

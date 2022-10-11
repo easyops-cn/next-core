@@ -5,190 +5,106 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.79.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.78.0...@next-core/brick-types@2.79.0) (2022-10-11)
 
-
 ### Features
 
-* support emit render info ([2bac5d0](https://github.com/easyops-cn/next-core/commit/2bac5d018e265025c69440c63178ea9711cce679))
-
-
-
-
+- support emit render info ([2bac5d0](https://github.com/easyops-cn/next-core/commit/2bac5d018e265025c69440c63178ea9711cce679))
 
 # [2.78.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.77.0...@next-core/brick-types@2.78.0) (2022-10-09)
 
-
 ### Features
 
-*  collect useBackend api contract ([926f10a](https://github.com/easyops-cn/next-core/commit/926f10a7a88bfe7d4bebbf083ab4c0aba853210a))
-
-
-
-
+- collect useBackend api contract ([926f10a](https://github.com/easyops-cn/next-core/commit/926f10a7a88bfe7d4bebbf083ab4c0aba853210a))
 
 # [2.77.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.76.0...@next-core/brick-types@2.77.0) (2022-09-26)
 
-
 ### Features
 
-* support router if condition ([4486130](https://github.com/easyops-cn/next-core/commit/44861303b0c236ec36f3bb55f469229e23116e5d))
-
-
-
-
+- support router if condition ([4486130](https://github.com/easyops-cn/next-core/commit/44861303b0c236ec36f3bb55f469229e23116e5d))
 
 # [2.76.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.75.0...@next-core/brick-types@2.76.0) (2022-09-25)
 
-
 ### Features
 
-* bootstrap add standaloneMode field ([676cd23](https://github.com/easyops-cn/next-core/commit/676cd238e49713afe885feec5f73d5ff3ffaa8d1))
-
-
-
-
+- bootstrap add standaloneMode field ([676cd23](https://github.com/easyops-cn/next-core/commit/676cd238e49713afe885feec5f73d5ff3ffaa8d1))
 
 # [2.75.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.74.0...@next-core/brick-types@2.75.0) (2022-09-08)
 
-
 ### Features
 
-* support history callback ([ca1d42e](https://github.com/easyops-cn/next-core/commit/ca1d42ee0bef5ab0cacf811c60b1324c1bd14837))
-
-
-
-
+- support history callback ([ca1d42e](https://github.com/easyops-cn/next-core/commit/ca1d42ee0bef5ab0cacf811c60b1324c1bd14837))
 
 # [2.74.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.73.1...@next-core/brick-types@2.74.0) (2022-09-06)
 
-
 ### Features
 
-* support to use contract in widgets ([25b3337](https://github.com/easyops-cn/next-core/commit/25b333724f9c45131b209845a7caef3e8597888d))
-
-
-
-
+- support to use contract in widgets ([25b3337](https://github.com/easyops-cn/next-core/commit/25b333724f9c45131b209845a7caef3e8597888d))
 
 ## [2.73.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.73.0...@next-core/brick-types@2.73.1) (2022-09-06)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 # [2.73.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.72.0...@next-core/brick-types@2.73.0) (2022-09-05)
-
 
 ### Features
 
-* support context/state load/refresh callback ([4dfdd8b](https://github.com/easyops-cn/next-core/commit/4dfdd8bc8e91430a99857154237bae290c685329))
-
-
-
-
+- support context/state load/refresh callback ([4dfdd8b](https://github.com/easyops-cn/next-core/commit/4dfdd8bc8e91430a99857154237bae290c685329))
 
 # [2.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.71.0...@next-core/brick-types@2.72.0) (2022-09-02)
 
-
 ### Bug Fixes
 
-* ignore cache when refresh context ([a7d5f86](https://github.com/easyops-cn/next-core/commit/a7d5f864475ebff6f6e7ebd1abbf09afb6a77473))
-
+- ignore cache when refresh context ([a7d5f86](https://github.com/easyops-cn/next-core/commit/a7d5f864475ebff6f6e7ebd1abbf09afb6a77473))
 
 ### Features
 
-* support context.load ([7056edd](https://github.com/easyops-cn/next-core/commit/7056eddb088e4fa3fd6aadafd8e027eaddcd63db))
-
-
-
-
+- support context.load ([7056edd](https://github.com/easyops-cn/next-core/commit/7056eddb088e4fa3fd6aadafd8e027eaddcd63db))
 
 # [2.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.70.0...@next-core/brick-types@2.71.0) (2022-09-01)
 
-
 ### Features
 
-* stories rollup factory ([afe2827](https://github.com/easyops-cn/next-core/commit/afe2827d244605a12cc441ed369a103921f31d5f))
-
-
-
-
+- stories rollup factory ([afe2827](https://github.com/easyops-cn/next-core/commit/afe2827d244605a12cc441ed369a103921f31d5f))
 
 # [2.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.69.0...@next-core/brick-types@2.70.0) (2022-08-26)
 
-
 ### Features
 
-* support bundling menu with i18n ([148393b](https://github.com/easyops-cn/next-core/commit/148393b3f2b6196f72e1340d6b9084b04599993d))
-
-
-
-
+- support bundling menu with i18n ([148393b](https://github.com/easyops-cn/next-core/commit/148393b3f2b6196f72e1340d6b9084b04599993d))
 
 # [2.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.68.1...@next-core/brick-types@2.69.0) (2022-08-25)
 
-
 ### Features
 
-* context can track its deps now ([4993308](https://github.com/easyops-cn/next-core/commit/49933089e1ff6ec1ec5f01eeac5609dde07c1e2e))
-* support lazy context ([39fdffb](https://github.com/easyops-cn/next-core/commit/39fdffb0500df36d5bb9447d63a448bd2b78df14))
-
-
-
-
+- context can track its deps now ([4993308](https://github.com/easyops-cn/next-core/commit/49933089e1ff6ec1ec5f01eeac5609dde07c1e2e))
+- support lazy context ([39fdffb](https://github.com/easyops-cn/next-core/commit/39fdffb0500df36d5bb9447d63a448bd2b78df14))
 
 ## [2.68.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.68.0...@next-core/brick-types@2.68.1) (2022-08-23)
 
-
 ### Bug Fixes
 
-* fulfill i18n only when loading injected menus ([e9f7950](https://github.com/easyops-cn/next-core/commit/e9f7950a3e3208cc2e17a4bec6559baea9da76b6))
-
-
-
-
+- fulfill i18n only when loading injected menus ([e9f7950](https://github.com/easyops-cn/next-core/commit/e9f7950a3e3208cc2e17a4bec6559baea9da76b6))
 
 # [2.68.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.67.0...@next-core/brick-types@2.68.0) (2022-08-19)
 
-
 ### Features
 
-* support crsf token ([3ef8c62](https://github.com/easyops-cn/next-core/commit/3ef8c624af8126185222ce2e98c4c5622e6de9e7))
-
-
-
-
+- support crsf token ([3ef8c62](https://github.com/easyops-cn/next-core/commit/3ef8c624af8126185222ce2e98c4c5622e6de9e7))
 
 # [2.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.66.0...@next-core/brick-types@2.67.0) (2022-08-08)
 
-
 ### Features
 
-* support userConfig & injectMenus in standalone mode ([cd890ed](https://github.com/easyops-cn/next-core/commit/cd890edf01b12c18a771d677106de74ca4e837be))
-
-
-
-
+- support userConfig & injectMenus in standalone mode ([cd890ed](https://github.com/easyops-cn/next-core/commit/cd890edf01b12c18a771d677106de74ca4e837be))
 
 # [2.66.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.65.1...@next-core/brick-types@2.66.0) (2022-08-08)
 
-
 ### Features
 
-* support INSTALLED_APPS in standalone mode ([c152053](https://github.com/easyops-cn/next-core/commit/c1520532597c88d1def251aafd44831c7a7fad56))
-
-
-
-
+- support INSTALLED_APPS in standalone mode ([c152053](https://github.com/easyops-cn/next-core/commit/c1520532597c88d1def251aafd44831c7a7fad56))
 
 ## [2.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.65.0...@next-core/brick-types@2.65.1) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 # [2.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.64.4...@next-core/brick-types@2.65.0) (2022-07-18)
 

@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/public-scoped-sdk
 
-
-
-
-
 ## [0.2.8](https://github.com/easyops-cn/next-core/compare/@next-core/public-scoped-sdk@0.2.7...@next-core/public-scoped-sdk@0.2.8) (2022-08-02)
 
 **Note:** Version bump only for package @next-core/public-scoped-sdk

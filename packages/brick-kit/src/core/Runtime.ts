@@ -17,7 +17,7 @@ import {
   CustomTemplate,
   RuntimeStoryboard,
 } from "@next-core/brick-types";
-import compareVersions from "compare-versions";
+import { compare, type CompareOperator } from "compare-versions";
 import {
   Kernel,
   MenuBar,
@@ -232,10 +232,10 @@ export class Runtime implements AbstractRuntime {
         if (!matches) {
           throw new TypeError(`Invalid match version: ${matchVersion}`);
         }
-        return compareVersions.compare(
+        return compare(
           app.currentVersion,
           matches[2],
-          matches[1] as compareVersions.CompareOperator
+          matches[1] as CompareOperator
         );
       } catch (error) {
         // eslint-disable-next-line no-console

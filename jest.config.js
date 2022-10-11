@@ -44,4 +44,8 @@ module.exports = {
   fakeTimers: {
     enableGlobally: true,
   },
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true,
+  },
 };

@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/jest-config-factory
 
-
-
-
-
 ## [0.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.2...@next-core/jest-config-factory@0.4.3) (2022-06-24)
 
 **Note:** Version bump only for package @next-core/jest-config-factory

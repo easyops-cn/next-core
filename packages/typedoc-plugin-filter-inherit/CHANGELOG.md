@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/typedoc-plugin-filter-inherit
 
-
-
-
-
 ## [1.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/typedoc-plugin-filter-inherit@1.2.1...@next-core/typedoc-plugin-filter-inherit@1.2.2) (2022-06-24)
 
 **Note:** Version bump only for package @next-core/typedoc-plugin-filter-inherit

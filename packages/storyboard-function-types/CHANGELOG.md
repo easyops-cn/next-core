@@ -7,17 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/storyboard-function-types
 
-
-
-
-
 ## [0.2.8](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard-function-types@0.2.7...@next-core/storyboard-function-types@0.2.8) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/storyboard-function-types
-
-
-
-
 
 ## [0.2.7](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard-function-types@0.2.6...@next-core/storyboard-function-types@0.2.7) (2022-06-24)
 

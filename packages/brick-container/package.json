@@ -29,17 +29,17 @@
   },
   "dependencies": {
     "@next-core/repo-config": "^0.2.1",
-    "body-parser": "^1.20.0",
+    "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "concat-stream": "^2.0.0",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "meow": "^9.0.0",
     "mockdate": "^3.0.5",
-    "ws": "^8.8.1"
+    "ws": "^8.9.0"
   },
   "devDependencies": {
     "@next-core/brick-dll": "^2.37.3",
@@ -57,12 +57,12 @@
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^6.4.1",
-    "core-js": "^3.23.5",
+    "core-js": "^3.25.5",
     "css-loader": "^5.2.7",
     "fs-extra": "^10.1.0",
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
-    "i18next-browser-languagedetector": "^6.1.4",
+    "i18next-browser-languagedetector": "^6.1.8",
     "less": "^3.13.1",
     "less-loader": "^7.3.0",
     "mini-css-extract-plugin": "^1.6.2",
@@ -70,7 +70,7 @@
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.3",
+    "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
   }
 }
