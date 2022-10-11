@@ -73,7 +73,7 @@
     "@types/js-yaml": "^3.12.7",
     "@types/lodash": "^4.14.186",
     "@types/lolex": "^5.1.2",
-    "@types/node": "^16.11.45",
+    "@types/node": "^16.11.65",
     "@types/react": "^16.14.32",
     "@types/react-dom": "^16.9.16",
     "@types/react-test-renderer": "^17.0.2",
