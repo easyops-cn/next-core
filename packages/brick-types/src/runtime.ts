@@ -321,6 +321,15 @@ export interface UserInfo {
   user_memo: string;
 }
 
+export interface NavTip {
+  text: string;
+  closeable?: boolean;
+  info?: {
+    url: string;
+    label: string;
+  };
+}
+
 /** @internal */
 export interface MagicBrickConfig {
   selector: string;
