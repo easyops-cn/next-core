@@ -6,6 +6,7 @@ import type {
   PluginLocation,
   PluginRuntimeContext,
   RuntimeMisc,
+  NavTip,
 } from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
@@ -234,6 +235,7 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
+    const renderStartTime = performance.now();
     // Create the page tracker before page load.
     // And the API Analyzer maybe disabled.
     const pageTracker = apiAnalyzer.getInstance()?.pageTracker();
@@ -558,6 +560,36 @@ export class Router {
           username: getAuth().username,
           pageTitle: document.title,
         });
+
+        const renderTime = performance.now() - renderStartTime;
+        const { loadTime = 0, loadInfoPage } =
+          this.kernel.bootstrapData.settings?.misc ?? {};
+        if (currentApp.isBuildPush && loadTime > 0 && renderTime > loadTime) {
+          const getSecond = (time: number): number =>
+            Math.floor(time * 100) / 100;
+          window.dispatchEvent(
+            new CustomEvent<NavTip[]>("app.bar.tips", {
+              detail: [
+                {
+                  text: `您的页面存在性能问题, 当前页面渲染时间为: ${getSecond(
+                    renderTime / 1000
+                  )} 秒, 规定阈值为: ${getSecond(
+                    (loadTime as number) / 1000
+                  )} 秒; 您已超过, 请您针对该页面进行性能优化!`,
+                  closeable: false,
+                  ...(loadInfoPage
+                    ? {
+                        info: {
+                          label: "查看详情",
+                          url: loadInfoPage as string,
+                        },
+                      }
+                    : {}),
+                },
+              ],
+            })
+          );
+        }
 
         // analytics page_view event
         userAnalytics.event("page_view", {
