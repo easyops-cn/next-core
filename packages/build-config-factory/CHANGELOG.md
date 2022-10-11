@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.30](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.29...@next-core/build-config-factory@2.23.30) (2022-10-11)
+
+
+### Bug Fixes
+
+* **size-limit:** support size-limit of chunks and workers ([4394c4f](https://github.com/easyops-cn/next-core/commit/4394c4fb610e79927f8880779412464046712933))
+
+
+
+
+
 ## [2.23.29](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.28...@next-core/build-config-factory@2.23.29) (2022-10-09)
 
 **Note:** Version bump only for package @next-core/build-config-factory
