@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.9.2...@next-core/easyops-analytics@0.10.0) (2022-10-11)
+
+
+### Features
+
+*  收集非pageLoad的api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
+
+
+
+
 ## [0.9.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.9.1...@next-core/easyops-analytics@0.9.2) (2022-10-08)
 
 **Note:** Version bump only for package @next-core/easyops-analytics

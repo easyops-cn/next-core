@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.149.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.148.0...@next-core/brick-kit@2.149.0) (2022-10-11)
+
+
+### Bug Fixes
+
+* fix compare-versions usage ([ec35359](https://github.com/easyops-cn/next-core/commit/ec35359f2cffe78c34031fa1e21a8da7d82e370b))
+
+
+### Features
+
+*  收集非pageLoad的api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
+
+
+
+
 # [2.148.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.147.2...@next-core/brick-kit@2.148.0) (2022-10-11)
 
 ### Features

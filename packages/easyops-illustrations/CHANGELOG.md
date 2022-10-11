@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.20...@next-core/illustrations@0.10.0) (2022-10-11)
+
+
+### Features
+
+*  收集非pageLoad的api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
+
+
+
+
 ## [0.9.20](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.19...@next-core/illustrations@0.9.20) (2022-10-11)
 
 **Note:** Version bump only for package @next-core/illustrations

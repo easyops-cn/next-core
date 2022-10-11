@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.4...@next-core/jest-config-factory@0.4.5) (2022-10-11)
+
+
+### Bug Fixes
+
+* keep jest v28 behavior ([7bf9ed6](https://github.com/easyops-cn/next-core/commit/7bf9ed68f4e5363a804ae47a5701deafc021bf0f))
+
+
+
+
+
 ## [0.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.3...@next-core/jest-config-factory@0.4.4) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/jest-config-factory

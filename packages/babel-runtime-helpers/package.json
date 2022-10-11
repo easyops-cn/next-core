@@ -1,6 +1,6 @@
 {
   "name": "@next-core/babel-runtime-helpers",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "Make all babel runtime helpers available in @next-core/brick-dll",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/babel-runtime-helpers",
   "license": "GPL-3.0",

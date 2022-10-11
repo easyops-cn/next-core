@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.27.14...@next-core/brick-icons@2.28.0) (2022-10-11)
+
+
+### Features
+
+*  收集非pageLoad的api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
+
+
+
+
 ## [2.27.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.27.13...@next-core/brick-icons@2.27.14) (2022-10-11)
 
 **Note:** Version bump only for package @next-core/brick-icons
