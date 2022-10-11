@@ -91,11 +91,11 @@ describe("Illustration", () => {
   });
 
   it("translateIllustrationConfig should work when category is feedback", () => {
-    const illustrationConfig: any = translateIllustrationConfig(true, {
+    const illustrationConfig = translateIllustrationConfig(true, {
       name: "info",
       category: "feedback",
       theme: "light",
-    });
+    }) as any;
     expect(illustrationConfig.name).toEqual("info");
     expect(illustrationConfig.category).toEqual("feedback");
   });
