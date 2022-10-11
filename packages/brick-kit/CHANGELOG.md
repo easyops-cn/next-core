@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.147.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.147.1...@next-core/brick-kit@2.147.2) (2022-10-11)
+
+
+### Bug Fixes
+
+* **FlowApi:** fix download api without data must pass data argument ([a2fcfc4](https://github.com/easyops-cn/next-core/commit/a2fcfc430f13f1ec385f53eeedfab843ac5adc6b))
+
+
+
+
+
 ## [2.147.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.147.0...@next-core/brick-kit@2.147.1) (2022-10-09)
 
 **Note:** Version bump only for package @next-core/brick-kit
