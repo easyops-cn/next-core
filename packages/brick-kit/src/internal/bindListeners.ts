@@ -749,7 +749,8 @@ async function brickCallback(
     if (isUseProviderHandler(handler)) {
       computedArgs = await getArgsOfCustomApi(
         handler.useProvider,
-        computedArgs
+        computedArgs,
+        method
       );
     }
     return (target as any)[method](...computedArgs);

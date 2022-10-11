@@ -123,7 +123,17 @@ jest
             version: "1.0.0",
             endpoint: {
               method: "get",
-              uri: "/api/export",
+              uri: "/api/export/:id",
+            },
+            request: {
+              type: "object",
+              fields: [
+                {
+                  description: "id",
+                  name: "id",
+                  type: "string",
+                },
+              ],
             },
             response: {
               type: "file",
@@ -189,8 +199,10 @@ describe("FlowApi", () => {
     ).toEqual([
       {
         url: "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
+        originalUri: "/object/:objectId/instance/_search",
         method: "POST",
         responseWrapper: true,
+        isFileType: false,
       },
       { fields: { "*": true } },
     ]);
@@ -200,16 +212,20 @@ describe("FlowApi", () => {
     ).toEqual([
       {
         url: "api/gateway/api_service.easyops.custom_api.apiListMethod/list",
+        originalUri: "/list",
         method: "get",
         responseWrapper: false,
+        isFileType: false,
       },
     ]);
 
     expect(await getArgsOfCustomApi("easyops.custom_api@test", [])).toEqual([
       {
         url: "api/gateway/api_service.easyops.custom_api.test/api/test",
+        originalUri: "/api/test",
         method: "get",
         responseWrapper: true,
+        isFileType: false,
       },
     ]);
 
@@ -218,25 +234,62 @@ describe("FlowApi", () => {
     ).toEqual([
       {
         url: "api/gateway/easyops.custom_api.getStatus@1.0.0/api/status",
+        originalUri: "/api/status",
         method: "get",
         responseWrapper: false,
+        isFileType: false,
+      },
+    ]);
+
+    expect(
+      await getArgsOfCustomApi(
+        "easyops.custom_api@exportMarkdown:1.0.0",
+        ["test.md", "123"],
+        "saveAs"
+      )
+    ).toEqual([
+      "test.md",
+      {
+        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export/123",
+        originalUri: "/api/export/:id",
+        method: "get",
+        request: {
+          fields: [
+            {
+              description: "id",
+              name: "id",
+              type: "string",
+            },
+          ],
+          type: "object",
+        },
+        responseWrapper: true,
+        isFileType: true,
       },
     ]);
 
     expect(
       await getArgsOfCustomApi("easyops.custom_api@exportMarkdown:1.0.0", [
-        "test.md",
-        { content: "hello world" },
+        "123",
       ])
     ).toEqual([
-      "test.md",
       {
-        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export",
+        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export/123",
+        originalUri: "/api/export/:id",
         method: "get",
-        responseWrapper: false,
+        request: {
+          fields: [
+            {
+              description: "id",
+              name: "id",
+              type: "string",
+            },
+          ],
+          type: "object",
+        },
+        responseWrapper: true,
+        isFileType: true,
       },
-      { content: "hello world" },
-      { responseType: "blob" },
     ]);
 
     expect(
@@ -248,6 +301,8 @@ describe("FlowApi", () => {
         method: "GET",
         responseWrapper: true,
         url: "api/gateway/easyops.api.test.sailor.TestMock@1.0.0/a/b/c/object-1",
+        originalUri: "/a/b/c/:objectId",
+        isFileType: false,
       },
     ]);
 
@@ -259,6 +314,8 @@ describe("FlowApi", () => {
         method: "get",
         responseWrapper: false,
         url: "api/gateway/cmdb.loginc/api/cmdb",
+        originalUri: "/api/cmdb",
+        isFileType: false,
       },
       "APP",
     ]);

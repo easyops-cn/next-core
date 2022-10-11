@@ -1,3 +1,4 @@
+import { ContractRequest, ExtField } from "@next-core/brick-types";
 import {
   CustomApi,
   CustomApiParams,
@@ -5,6 +6,7 @@ import {
   hasFileType,
   transformFormData,
 } from "./CustomApi";
+import { http } from "@next-core/brick-http";
 
 jest.mock("@next-core/brick-http", () => ({
   http: {
@@ -17,8 +19,11 @@ jest.mock("@next-core/brick-http", () => ({
   },
 }));
 
+const mockedSimpleRequest = http.simpleRequest as jest.Mock;
+const mockedRequestWithBody = http.requestWithBody as jest.Mock;
+
 describe("CustomApi", () => {
-  it.each<[CustomApiParams, any, any, any]>([
+  it.each<[CustomApiParams, any, any, any, any]>([
     [
       {
         url: "/xxx",
@@ -28,6 +33,7 @@ describe("CustomApi", () => {
       { a: 1 } as any,
       undefined,
       "simpleRequest resolved",
+      ["get", "/xxx", { params: { a: 1 } }],
     ],
     [
       {
@@ -36,6 +42,7 @@ describe("CustomApi", () => {
       { a: 1 } as any,
       undefined,
       "simpleRequest resolved",
+      ["GET", "/xxx", { params: { a: 1 } }],
     ],
     [
       {
@@ -45,7 +52,40 @@ describe("CustomApi", () => {
       { a: 1 } as any,
       undefined,
       { data: "simpleRequest resolved" },
+      ["GET", "/xxx", { params: { a: 1 } }],
     ],
+    [
+      {
+        url: "/xxx/111",
+        originalUri: "/xxx/:id",
+        method: "get",
+        responseWrapper: false,
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "id",
+              type: "string",
+              description: "",
+            },
+          ],
+        },
+        isFileType: true,
+      },
+      undefined,
+      undefined,
+      { data: "simpleRequest resolved" },
+      ["get", "/xxx/111", { responseType: "blob" }],
+    ],
+  ])(
+    "CustomApi(%j) simple request should work",
+    async (params1, params2, params3, result, simpleRequestArgs) => {
+      expect(await CustomApi(params1, params2, params3)).toEqual(result);
+      expect(mockedSimpleRequest).toBeCalledWith(...simpleRequestArgs);
+    }
+  );
+
+  it.each<[CustomApiParams, any, any, any, any]>([
     [
       {
         url: "/xxx",
@@ -55,6 +95,7 @@ describe("CustomApi", () => {
       { a: 1 } as any,
       undefined,
       { data: "requestWithBody resolved" },
+      ["post", "/xxx", { a: 1 }, {}],
     ],
     [
       {
@@ -65,6 +106,7 @@ describe("CustomApi", () => {
       { a: 1 } as any,
       { headers: new Headers({ "x-requested-with": "XMLHttpRequest" }) } as any,
       "requestWithBody resolved",
+      ["post", "/xxx", { a: 1 }, { headers: expect.any(Headers) }],
     ],
     [
       {
@@ -77,6 +119,7 @@ describe("CustomApi", () => {
             {
               name: "file",
               type: "file",
+              description: "",
             },
           ],
         },
@@ -89,10 +132,38 @@ describe("CustomApi", () => {
       } as any,
       undefined,
       "requestWithBody resolved",
+      ["post", "/xxx", expect.any(FormData), {}],
     ],
-  ])("CustomApi(%j) should work", async (params1, params2, params3, result) => {
-    expect(await CustomApi(params1, params2, params3)).toEqual(result);
-  });
+    [
+      {
+        url: "/xxx/123",
+        originalUri: "/xxx/:id",
+        method: "post",
+        responseWrapper: true,
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "id",
+              type: "string",
+              description: "",
+            },
+          ],
+        },
+        isFileType: true,
+      },
+      undefined,
+      undefined,
+      { data: "requestWithBody resolved" },
+      ["post", "/xxx/123", undefined, { responseType: "blob" }],
+    ],
+  ])(
+    "CustomApi(%j) not simple request should work",
+    async (params1, params2, params3, result, requestWithBodyArgs) => {
+      expect(await CustomApi(params1, params2, params3)).toEqual(result);
+      expect(mockedRequestWithBody).toBeCalledWith(...requestWithBodyArgs);
+    }
+  );
 
   it.each([
     [
@@ -164,7 +235,9 @@ describe("CustomApi", () => {
   ])(
     "processExtFields(%j) should work",
     (params1, params2, params3, result) => {
-      expect(processExtFields(params1, params2, params3)).toEqual(result);
+      expect(processExtFields(params1 as ExtField[], params2, params3)).toEqual(
+        result
+      );
     }
   );
 
@@ -282,7 +355,7 @@ describe("CustomApi", () => {
       false,
     ],
   ])("hasFileType(%j) should work", (response, result) => {
-    expect(hasFileType(response)).toEqual(result);
+    expect(hasFileType(response as ContractRequest)).toEqual(result);
   });
 
   it("transformFormData should work", () => {

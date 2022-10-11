@@ -339,6 +339,8 @@ describe("Resolver", () => {
       method: "POST",
       responseWrapper: true,
       url: "api/gateway/api_service.easyops.custom_api.myAwesomeApi/object/myObjectId/instance/_search",
+      originalUri: "/object/:objectId/instance/_search",
+      isFileType: false,
     });
     kernel.getProviderBrick = _getProviderBrick;
   });

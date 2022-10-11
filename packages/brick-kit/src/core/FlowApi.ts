@@ -17,7 +17,8 @@ export function isCustomApiProvider(provider: string): boolean {
 
 export async function getArgsOfCustomApi(
   provider: string,
-  originalArgs: unknown[]
+  originalArgs: unknown[],
+  method?: string
 ): Promise<unknown[]> {
   if (!isCustomApiProvider(provider)) {
     return originalArgs;
@@ -37,13 +38,13 @@ export async function getArgsOfCustomApi(
 
   const apiProfile = getApiProfileFromApiDefinition(provider, apiDefinition);
 
-  return getApiArgsFromApiProfile(apiProfile, originalArgs);
+  return getApiArgsFromApiProfile(apiProfile, originalArgs, method);
 }
 
 function getApiArgsFromApiProfile(
   {
     uri,
-    method,
+    method: apiMethod,
     ext_fields,
     name,
     namespace,
@@ -53,10 +54,12 @@ function getApiArgsFromApiProfile(
     isFileType,
     request,
   }: CustomApiProfile,
-  originalArgs: unknown[]
+  originalArgs: unknown[],
+  method?: string
 ): unknown[] {
+  const isDownload = isFileType && method === "saveAs";
   let fileName: string;
-  if (isFileType) {
+  if (isDownload) {
     fileName = originalArgs.shift() as string;
   }
 
@@ -69,29 +72,19 @@ function getApiArgsFromApiProfile(
     version
   );
 
-  return isFileType
-    ? [
-        fileName,
-        {
-          url,
-          method,
-          ext_fields,
-          responseWrapper: false,
-          request,
-        },
-        ...args,
-        { responseType: "blob" },
-      ]
-    : [
-        {
-          url,
-          method,
-          ext_fields,
-          responseWrapper,
-          request,
-        },
-        ...args,
-      ];
+  return [
+    ...(isDownload ? [fileName] : []),
+    {
+      url,
+      originalUri: uri,
+      method: apiMethod,
+      ext_fields,
+      responseWrapper,
+      request,
+      isFileType,
+    },
+    ...args,
+  ];
 }
 
 function getTransformedUriAndRestArgs(
