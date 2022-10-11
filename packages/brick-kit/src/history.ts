@@ -1,6 +1,9 @@
 import { createBrowserHistory } from "history";
 import { PluginHistory } from "@next-core/brick-types";
-import { historyExtended } from "./internal/historyExtended";
+import {
+  getUserConfirmation,
+  historyExtended,
+} from "./internal/historyExtended";
 import { getBasePath } from "./internal/getBasePath";
 
 let history: PluginHistory;
@@ -9,6 +12,7 @@ let history: PluginHistory;
 export function createHistory(): PluginHistory {
   const browserHistory = createBrowserHistory({
     basename: getBasePath().replace(/\/$/, ""),
+    getUserConfirmation,
   });
   Object.assign(browserHistory, historyExtended(browserHistory));
   history = browserHistory as PluginHistory;

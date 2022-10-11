@@ -13,6 +13,7 @@ export function authenticate(newAuth: AuthInfo): void {
     loginFrom: newAuth.loginFrom,
     accessRule: newAuth.accessRule,
     isAdmin: newAuth.isAdmin,
+    csrfToken: newAuth.csrfToken,
   });
 
   // re-init analytics to set user_id
@@ -39,6 +40,7 @@ export function logout(): void {
   auth.userInstanceId = undefined;
   auth.accessRule = undefined;
   auth.isAdmin = undefined;
+  auth.csrfToken = undefined;
   resetPermissionPreChecks();
 
   // re-init analytics to clear user_id

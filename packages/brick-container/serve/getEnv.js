@@ -101,6 +101,9 @@ module.exports = (runtimeFlags) => {
       server: {
         type: "string",
       },
+      legacyConsole: {
+        type: "boolean",
+      },
       consoleServer: {
         type: "string",
       },
@@ -118,6 +121,7 @@ module.exports = (runtimeFlags) => {
       standalone: {
         type: "boolean",
       },
+      // <!-- Options for standalone micro-apps started.
       standaloneMicroApps: {
         type: "boolean",
       },
@@ -125,11 +129,28 @@ module.exports = (runtimeFlags) => {
         type: "string",
         default: "",
       },
+      standaloneAppRoot: {
+        type: "string",
+      },
+      bootstrapHash: {
+        type: "string",
+        default: "hash",
+      },
+      setSubdir: {
+        type: "string",
+      },
+      // --> Options for standalone micro-apps ended.
       legacyBootstrap: {
         type: "boolean",
       },
       mockDate: {
         type: "string",
+      },
+      publicCdn: {
+        type: "string",
+      },
+      asCdn: {
+        type: "boolean",
       },
       // Todo(steve): remove `help` and `version` after meow fixed it.
       help: {
@@ -151,7 +172,7 @@ module.exports = (runtimeFlags) => {
         --console-server        Set remote console server address, defaults to remote server address
         --subdir                Set base href to "/next/" instead of "/"
         --local-bricks          Specify local brick packages to be used in remote mode
-        --legacy-bootstrap      use legacy bootstrap provider
+        --legacy-bootstrap      Use legacy bootstrap provider
         --local-editors         Specify local editor packages to be used in remote mode
         --local-snippets        Specify local snippet packages to be used in remote mode
         --local-micro-apps      Specify local micro apps to be used in remote mode
@@ -170,6 +191,9 @@ module.exports = (runtimeFlags) => {
         --https                 Enable serving by https
         --cookie-same-site-none Enable serving by https
         --mock-date             Setting mock date (for sandbox demo website only)
+        --public-cdn            Setting public cdn site
+        --as-cdn                Serve as cdn site
+        --legacy-console        Enable legacy console proxy
         --help                  Show help message
         --version               Show brick container version
       `,
@@ -196,7 +220,20 @@ module.exports = (runtimeFlags) => {
   const rootDir = process.env.INIT_CWD.endsWith("/packages/brick-container")
     ? path.join(process.env.INIT_CWD, "../..")
     : process.env.INIT_CWD;
-  const nextRepoDir = getBrickNextDir();
+
+  function getDevConfig() {
+    const devConfigJsPath = path.join(rootDir, "dev.config.js");
+    if (fs.existsSync(devConfigJsPath)) {
+      return require(devConfigJsPath);
+    }
+  }
+
+  const devConfig = getDevConfig();
+  const nextRepoDir =
+    (!_standalone && devConfig && devConfig.nextRepoDir) || rootDir;
+  const standaloneAppsConfig =
+    (devConfig && devConfig.standaloneAppsConfig) || [];
+  const appConfig = (devConfig && devConfig.appConfig) || {};
 
   const { usePublicScope, standalone: confStandalone } =
     getEasyopsConfig(nextRepoDir);
@@ -204,7 +241,11 @@ module.exports = (runtimeFlags) => {
   const standalone = confStandalone || _standalone;
 
   const useOffline = flags.offline || process.env.OFFLINE === "true";
-  const useSubdir = flags.subdir || process.env.SUBDIR === "true";
+  const useSubdir =
+    flags.subdir ||
+    !!flags.setSubdir ||
+    process.env.SUBDIR === "true" ||
+    !!process.env.SET_SUBDIR;
   const useRemote =
     flags.remote === undefined
       ? process.env.NO_REMOTE !== "true"
@@ -212,9 +253,15 @@ module.exports = (runtimeFlags) => {
   const useAutoRemote = flags.autoRemote || process.env.AUTO_REMOTE === "true";
   const useLegacyBootstrap =
     flags.legacyBootstrap || process.env.LEGACY_BOOTSTRAP === "true";
-  const baseHref = useSubdir ? "/next/" : "/";
+  const baseHref = flags.setSubdir
+    ? `/${flags.setSubdir.replace(/^\/|\/$/, "")}/`
+    : useSubdir
+    ? "/next/"
+    : "/";
   const server = getServerPath(flags.server || process.env.SERVER);
   let consoleServer = flags.consoleServer || process.env.CONSOLE_SERVER;
+  const legacyConsole =
+    consoleServer || flags.legacyConsole || process.env.LEGACY_CONSOLE;
   consoleServer = consoleServer ? getServerPath(consoleServer) : server;
 
   const localBrickPackages = flags.localBricks
@@ -256,31 +303,6 @@ module.exports = (runtimeFlags) => {
       ? process.env.NO_MERGE_SETTINGS !== "true"
       : flags.mergeSettings;
 
-  function getBrickNextDir() {
-    if (!_standalone) {
-      const devConfig = getDevConfig();
-      if (devConfig && devConfig.nextRepoDir) {
-        return devConfig.nextRepoDir;
-      }
-    }
-    return rootDir;
-  }
-
-  function getDevConfig() {
-    const devConfigJsPath = path.join(rootDir, "dev.config.js");
-    if (fs.existsSync(devConfigJsPath)) {
-      return require(devConfigJsPath);
-    }
-  }
-
-  function getAppConfig() {
-    const devConfig = getDevConfig();
-    if (devConfig) {
-      return devConfig.appConfig || {};
-    }
-    return {};
-  }
-
   const microAppsDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
@@ -298,8 +320,16 @@ module.exports = (runtimeFlags) => {
     `node_modules/${usePublicScope ? "@next-legacy-templates" : "@templates"}`
   );
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
-  const appConfig = getAppConfig();
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
+
+  if (flags.standaloneMicroApps) {
+    standaloneAppsConfig.push({
+      appDir: flags.standaloneAppDir,
+      appRoot:
+        flags.standaloneAppRoot || `${baseHref}${flags.standaloneAppDir}`,
+      bootstrapHash: flags.bootstrapHash,
+    });
+  }
 
   const env = {
     rootDir,
@@ -324,24 +354,30 @@ module.exports = (runtimeFlags) => {
     alternativeBrickPackagesDir,
     templatePackagesDir,
     navbarJsonPath,
-    standaloneMicroApps: flags.standaloneMicroApps,
-    standaloneAppDir: flags.standaloneAppDir,
+    hasStandaloneApps: standaloneAppsConfig.length > 0,
+    standaloneAppsConfig,
+    allAppsConfig: standaloneAppsConfig.concat(null),
+    bootstrapHash: flags.bootstrapHash,
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     https: flags.https,
     cookieSameSiteNone: flags.cookieSameSiteNone,
     server,
+    legacyConsole,
     consoleServer,
     appConfig,
     verbose: flags.verbose || process.env.VERBOSE === "true",
     mocked: flags.mock === undefined ? process.env.MOCK === "true" : flags.mock,
     mockedMicroAppsDir,
-    liveReload:
-      flags.liveReload === undefined
-        ? process.env.NO_LIVE_RELOAD !== "true"
-        : flags.liveReload,
+    liveReload: flags.asCdn
+      ? false
+      : flags.liveReload === undefined
+      ? process.env.NO_LIVE_RELOAD !== "true"
+      : flags.liveReload,
     mockDate: flags.mockDate,
+    publicCdn: flags.publicCdn,
+    asCdn: flags.asCdn,
   };
 
   checkLocalPackages(env);
@@ -411,7 +447,7 @@ module.exports = (runtimeFlags) => {
   console.log();
   console.log(
     chalk.bold.cyan("mode:"),
-    env.standaloneMicroApps
+    env.hasStandaloneApps
       ? chalk.bgCyanBright("standalone-micro-apps")
       : env.standalone
       ? chalk.bgBlueBright("standalone")
@@ -422,8 +458,8 @@ module.exports = (runtimeFlags) => {
       : chalk.bgWhite("local")
   );
 
-  if (env.standaloneMicroApps) {
-    console.log(chalk.bold.cyan("app dir:"), env.standaloneAppDir);
+  if (env.hasStandaloneApps) {
+    console.log(chalk.bold.cyan("standalone apps:"), env.standaloneAppsConfig);
   }
 
   console.log(
@@ -440,6 +476,14 @@ module.exports = (runtimeFlags) => {
     chalk.bold.cyan("remote:"),
     env.useRemote || !env.useLocalContainer ? server : "N/A"
   );
+
+  if (env.publicCdn) {
+    console.log(chalk.bold.cyan("public-cdn:"), env.publicCdn);
+  }
+
+  if (env.asCdn) {
+    console.log(chalk.bold.yellow("as-cdn: true"));
+  }
 
   return env;
 };

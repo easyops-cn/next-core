@@ -13,6 +13,7 @@ import {
   HandleReject,
   HandleRejectByCatch,
   GeneralTransform,
+  ResolveOptions,
 } from "@next-core/brick-types";
 import { asyncProcessBrick } from "@next-core/brick-utils";
 import { computeRealValue } from "../internal/setProperties";
@@ -99,21 +100,24 @@ export class Resolver {
     resolveConf: ResolveConf,
     conf: BrickConf,
     brick?: RuntimeBrick,
-    context?: PluginRuntimeContext
+    context?: PluginRuntimeContext,
+    options?: ResolveOptions
   ): Promise<void>;
   async resolveOne(
     type: "reference",
     resolveConf: ResolveConf,
     conf: Record<string, any>,
     brick?: RuntimeBrick,
-    context?: PluginRuntimeContext
+    context?: PluginRuntimeContext,
+    options?: ResolveOptions
   ): Promise<void>;
   async resolveOne(
     type: "brick" | "reference",
     resolveConf: ResolveConf,
     conf: BrickConf | Record<string, any>,
     brick?: RuntimeBrick,
-    context?: PluginRuntimeContext
+    context?: PluginRuntimeContext,
+    options?: ResolveOptions
   ): Promise<void> {
     const brickConf = conf as BrickConf;
     const propsReference = conf as Record<string, any>;
@@ -210,27 +214,44 @@ export class Resolver {
       }
     }
 
-    const cacheKey = JSON.stringify({
-      provider,
-      useProvider,
-      method,
-      args,
-    });
+    let actualArgs = args
+      ? ref
+        ? args // `args` are already computed for `defineResolves`
+        : context
+        ? computeRealValue(args, context, true)
+        : args
+      : providerBrick.args || [];
+
+    let cacheKey: string;
+    try {
+      // `actualArgs` may contain circular references, which makes
+      // JSON stringify failed, thus we fallback to original args.
+      cacheKey = JSON.stringify({
+        provider,
+        useProvider,
+        method,
+        actualArgs,
+      });
+    } catch (e) {
+      cacheKey = JSON.stringify({
+        provider,
+        useProvider,
+        method,
+        args,
+      });
+    }
+
     let promise: Promise<any>;
-    if (this.cache.has(cacheKey)) {
+    if (options?.cache !== "reload" && this.cache.has(cacheKey)) {
       promise = this.cache.get(cacheKey);
     } else {
-      let actualArgs = args
-        ? ref
-          ? args // `args` are already computed for `defineResolves`
-          : context
-          ? computeRealValue(args, context, true)
-          : args
-        : providerBrick.args || [];
-
       promise = (async () => {
         if (useProvider) {
-          actualArgs = await getArgsOfCustomApi(useProvider, actualArgs);
+          actualArgs = await getArgsOfCustomApi(
+            useProvider,
+            actualArgs,
+            method
+          );
         }
         return providerBrick[method](...actualArgs);
       })();

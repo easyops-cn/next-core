@@ -5,14 +5,16 @@ import {
   PluginHistoryState,
 } from "@next-core/brick-types";
 import { History } from "history";
-import { historyExtended } from "./historyExtended";
-import { _internalApiHasMatchedApp } from "../core/Runtime";
+import { getUserConfirmation, historyExtended } from "./historyExtended";
+import { isOutsideApp } from "../core/matchStoryboard";
 
 jest.mock("../core/Runtime", () => ({
-  _internalApiHasMatchedApp: jest.fn(),
+  _internalApiMatchStoryboard: jest.fn(),
 }));
 
-const mockHasMatchedApp = _internalApiHasMatchedApp as jest.Mock;
+jest.mock("../core/matchStoryboard");
+
+const mockIsOutsideApp = (isOutsideApp as jest.Mock).mockReturnValue(false);
 
 describe("historyExtended", () => {
   const location = window.location;
@@ -41,10 +43,7 @@ describe("historyExtended", () => {
   let ext: ReturnType<typeof historyExtended>;
 
   afterEach(() => {
-    // history.push.mockClear();
-    // history.replace.mockClear();
-    jest.clearAllMocks();
-    window.STANDALONE_MICRO_APPS = undefined;
+    jest.resetAllMocks();
   });
 
   afterAll(() => {
@@ -220,23 +219,46 @@ describe("historyExtended", () => {
     (callerArgs, loc) => {
       ext = historyExtended(history);
       ext.pushAnchor(...callerArgs);
-      expect(history.push).toBeCalledWith(loc);
+      expect(history.push).toBeCalledWith(loc, undefined);
     }
   );
 
   it("should work for history.reload", () => {
+    mockIsOutsideApp.mockReturnValueOnce(false);
     ext = historyExtended(history);
-    ext.reload();
-    expect(history.replace).toBeCalledWith({
-      pathname: "/a",
-      search: "?b=1",
-      hash: "#c",
-      key: "d",
-      state: {
-        from: "e",
-        notify: true,
+    const callback = jest.fn();
+    ext.reload(callback);
+    expect(history.replace).toBeCalledWith(
+      {
+        pathname: "/a",
+        search: "?b=1",
+        hash: "#c",
+        key: "d",
+        state: {
+          from: "e",
+          notify: true,
+        },
       },
-    });
+      undefined
+    );
+    expect(callback).toBeCalledWith(false);
+  });
+
+  it("should work for callback of history.push", () => {
+    mockIsOutsideApp.mockReturnValueOnce(false);
+    ext = historyExtended(history);
+    const callback = jest.fn();
+    ext.push("/a", undefined, callback);
+    expect(history.push).toBeCalledWith("/a", undefined);
+    expect(callback).toBeCalledWith(false);
+  });
+
+  it("should work for callback of history.replace", () => {
+    ext = historyExtended(history);
+    const callback = jest.fn();
+    ext.replace("/a", { notify: false }, callback);
+    expect(history.replace).toBeCalledWith("/a", { notify: false });
+    expect(callback).toBeCalledWith(false);
   });
 
   it.each<
@@ -269,8 +291,7 @@ describe("historyExtended", () => {
   ])(
     "history[%j](...%j) with the same app should work for standalone micro-apps",
     (method, callerArgs, calleeArgs) => {
-      window.STANDALONE_MICRO_APPS = true;
-      mockHasMatchedApp.mockReturnValueOnce(true);
+      mockIsOutsideApp.mockReturnValueOnce(false);
       ext = historyExtended(history);
       ext[method](...callerArgs);
       expect(history[method]).toBeCalledWith(...calleeArgs);
@@ -301,14 +322,21 @@ describe("historyExtended", () => {
   ])(
     "history[%j](...%j) with another app should work for standalone micro-apps",
     (method, callerArgs, url) => {
-      window.STANDALONE_MICRO_APPS = true;
-      mockHasMatchedApp.mockReturnValue(false);
       ext = historyExtended(history);
-      mockHasMatchedApp.mockReset();
+      mockIsOutsideApp.mockReturnValueOnce(true);
       ext[method](...callerArgs);
       expect(
         window.location[method === "push" ? "assign" : "replace"]
       ).toBeCalledWith(url);
     }
   );
+});
+
+describe("getUserConfirmation", () => {
+  it("should work", () => {
+    const callback = jest.fn();
+    jest.spyOn(window, "confirm").mockReturnValueOnce(true);
+    getUserConfirmation("hello", callback);
+    expect(callback).toBeCalledWith(true);
+  });
 });

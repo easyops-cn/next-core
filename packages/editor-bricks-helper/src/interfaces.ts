@@ -122,7 +122,8 @@ export type EventDetailOfWorkbenchTreeNodeMove = {
   nodeUid: number;
   nodeInstanceId: string;
   nodeIds: string[];
-  nodeData: {
+  objectId: string;
+  nodeData?: {
     parent: string;
     mountPoint: string;
   };
@@ -137,11 +138,22 @@ export interface WorkbenchNodeData extends NodeInstance {
 export interface WorkbenchNodeAdd {
   nodeData: WorkbenchNodeData & {
     bricks: BrickConf[];
+    $$uid?: number;
   };
   mountPoint: string;
   dragOverInstanceId: string;
-  parentInstanceId: string;
+  /**
+   * @deprecated 请使用 parent。
+   * @internal
+   */
+  parentInstanceId?: string;
+  parent: string;
   dragStatus: dragStatus;
+  sortData?: {
+    nodeUids: number[];
+    nodeIds: string[];
+    nodeInstanceIds: string[];
+  };
 }
 export interface WorkbenchTreeNodeMoveProps {
   dragNodeUid: number;
@@ -154,6 +166,7 @@ export interface EventDetailOfNodeReorder {
   nodeUids: number[];
   parentUid: number;
   nodeIds: string[];
+  objectId?: string;
 }
 
 export interface EventDetailOfNodeDragStart {

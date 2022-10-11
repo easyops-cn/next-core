@@ -142,7 +142,7 @@ html[data-theme="dark-v2"],
 
   /* 8.0 框架 */
   --v8-top-navigation-bg: #323237;
-  --v8-top-menu-item-hover: var(--palette-rgba-gray-4);
+  --v8-top-menu-item-hover: var(--palette-rgba-gray-2);
   --v8-top-menu-item-selected-bg: var(--palette-rgba-gray-4);
   --v8-left-menu-bg: rgba(32, 32, 33, 0.3);
   --v8-left-menu-hover-bg: rgba(32, 32, 33, 0.8);
@@ -469,6 +469,7 @@ html[data-theme="dark-v2"],
   --antd-tabs-panel-type-shadow: var(--base-shadow);
   --antd-tabs-panel-type-selected-color: var(--color-normal-icon);
   --antd-tabs-panel-type-selected-bg: var(--color-brand);
+  --antd-tabs-title-wrapper-bg-channel: 32, 32, 33;
 
   /*** inputNumber ***/
   --antd-input-number-handler-wrap-bg: var(--color-fill-bg-base-1);

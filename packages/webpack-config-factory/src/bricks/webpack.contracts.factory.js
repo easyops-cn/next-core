@@ -90,8 +90,9 @@ module.exports = (cwdDirname = process.cwd(), brickEntries) => {
     plugins: [
       new webpack.IgnorePlugin({
         // Ignore all non-js files, which do not matter with contracts.
-        resourceRegExp:
-          /\.(?:md|svga?|woff(2)?|ttf|eot|png|jpg|css|less|html)$/,
+        checkResource(resource) {
+          return /\.\w+$/.test(resource) && !/\.(ts|js)x?$/.test(resource);
+        },
       }),
       new CleanWebpackPlugin(),
       new ScanUseProviderHookContractsPlugin({

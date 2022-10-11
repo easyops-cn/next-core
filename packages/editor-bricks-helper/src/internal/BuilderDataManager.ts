@@ -37,12 +37,14 @@ import { expandTemplateEdges } from "./expandTemplateEdges";
 import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 import { getSnippetNodeDetail } from "../DropZone/getSnippetNodeDetail";
+import { getObjectIdByNode } from "./getObjectIdByNode";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
   NODE_MOVE = "builder.node.move",
   NODE_REORDER = "builder.node.reorder",
   NODE_CLICK = "builder.node.click",
+  NODE_UPDATE = "builder.node.update",
   SNIPPET_APPLY = "builder.snippet.apply",
   CONTEXT_MENU_CHANGE = "builder.contextMenu.change",
   DATA_CHANGE = "builder.data.change",
@@ -200,7 +202,9 @@ export class BuilderDataManager {
       rootNodeIsCustomTemplate
     );
     this.eventTarget.dispatchEvent(
-      new CustomEvent(BuilderInternalEventType.DATA_CHANGE)
+      new CustomEvent(BuilderInternalEventType.DATA_CHANGE, {
+        detail: this.data,
+      })
     );
   }
 
@@ -247,6 +251,43 @@ export class BuilderDataManager {
     this.data = deleteNodeFromTree(detail.nodeUid, this.data);
 
     this.runAddNodeAction(detail);
+  }
+
+  updateNode(instanceId: string, detail: BuilderRuntimeNode): void {
+    const { rootId, nodes, edges, wrapperNode } = this.data;
+    const updateNode = nodes.find((item) => item.instanceId === instanceId);
+    const newNodes = nodes.map((item) => {
+      if (item.instanceId === instanceId) {
+        return {
+          ...item,
+          ...detail,
+        };
+      }
+      return item;
+    });
+    const newEdges =
+      detail.mountPoint === undefined || detail.mountPoint === null
+        ? edges
+        : edges.map((item) => {
+            if (item.child === updateNode.$$uid) {
+              return {
+                ...item,
+                mountPoint: detail.mountPoint,
+              };
+            }
+            return item;
+          });
+    this.data = {
+      rootId,
+      nodes: newNodes,
+      edges: newEdges,
+      wrapperNode,
+    };
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
+        detail: this.data,
+      })
+    );
   }
 
   private redirectMountPoint(
@@ -442,6 +483,11 @@ export class BuilderDataManager {
       (edge) => orderedSiblingEdges.indexOf(edge)
     );
     this.reorder(parentUid, orderedEdges);
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
+        detail: this.data,
+      })
+    );
   }
 
   private getDragInfo({
@@ -458,22 +504,19 @@ export class BuilderDataManager {
     const { rootId, nodes, edges } = this.data;
     const isDragRoot = dragOverNodeUid === rootId;
     /*
-     * 如果没有id, 则为新增状态, 没有edge, 否则为移动状态
+     * 如果找不到edge, 则为新增状态, 否则为移动状态
      */
-    const isAdd = nodeData.id;
-    const dragEdge = !isAdd
-      ? edges.find((item) => item.child === dragNodeUid)
-      : null;
+    const dragEdge = edges.find((item) => item.child === dragNodeUid);
     const dragOverEdge = edges.find((item) => item.child === dragOverNodeUid);
     /**
      * 如果是根节点, 则mountPoint强制等于 bricks
-     * 如果是属于拖动进某个节点中, 则使用原mountPoint(新增节点为content)
+     * 如果是属于拖动进某个节点中, 默认使用 content
      * 其他情况, 使用被拖拽节点的mountPoint
      */
     const mountPoint = isDragRoot
       ? "bricks"
       : dragStatus === "inside"
-      ? dragEdge?.mountPoint ?? "content"
+      ? "content"
       : dragOverEdge.mountPoint;
 
     const parentEdge = edges.find((item) => item.child === dragOverNodeUid);
@@ -493,8 +536,12 @@ export class BuilderDataManager {
       (edge) => edge.child !== dragNodeUid && edge.parent === parentUid
     );
     const sortUids = sortBy(siblingEdge, "sort").map((item) => item.child);
-    const sortNodeIds: string[] = sortUids.map((item) => {
-      return nodes.find((node) => node.$$uid === item).id;
+    const sortNodeIds: string[] = [];
+    const sortNodeInstanceIds: string[] = [];
+    sortUids.forEach((item) => {
+      const node = nodes.find((node) => node.$$uid === item);
+      sortNodeIds.push(node.id);
+      sortNodeInstanceIds.push(node.instanceId);
     });
     let sortIndex: number;
     if (dragStatus === "inside") {
@@ -503,6 +550,7 @@ export class BuilderDataManager {
         : 0;
       // 插入默认插最后
       sortNodeIds.push(nodeData.id);
+      sortNodeInstanceIds.push(nodeData.instanceId);
     } else if (dragStatus === "top" || dragStatus === "bottom") {
       const overIndex = sortUids.findIndex((item) => item === dragOverNodeUid);
       sortIndex = dragStatus === "top" ? overIndex : overIndex + 1;
@@ -510,6 +558,7 @@ export class BuilderDataManager {
       sortNodeIds.splice(sortIndex, 0, nodeData.id);
       // 如果是新增的情况下, 没有edge, 则取dragNodeUid(新创建的uid)
       sortUids.splice(sortIndex, 0, dragEdge?.child ?? dragNodeUid);
+      sortNodeInstanceIds.splice(sortIndex, 0, nodeData.instanceId);
     }
 
     return {
@@ -519,23 +568,22 @@ export class BuilderDataManager {
       parnetNodeData,
       sortUids,
       sortNodeIds,
+      sortNodeInstanceIds,
     };
   }
 
-  workbenchNodeAdd(detail: WorkbenchNodeAdd): void {
+  workbenchNodeAdd(
+    detail: WorkbenchNodeAdd,
+    isNeedUpdateSnippet = true
+  ): void | EventDetailOfSnippetApply {
     const { nodes, edges, rootId } = this.data;
-    const {
-      nodeData,
-      dragOverInstanceId,
-      parentInstanceId,
-      dragStatus,
-      mountPoint,
-    } = detail;
-    if (nodeData.instanceId) {
+    const { nodeData, dragOverInstanceId, dragStatus, mountPoint } = detail;
+    if (nodeData.instanceId && !nodeData.instanceId.startsWith("mock")) {
       // move
     } else {
       // insert
-      const newNodeUid = getUniqueNodeId();
+      const parentInstanceId = detail.parent || detail.parentInstanceId;
+      const newNodeUid = nodeData.$$uid || getUniqueNodeId();
       const overNode = nodes.find(
         (item) => item.instanceId === dragOverInstanceId
       );
@@ -565,9 +613,11 @@ export class BuilderDataManager {
         sortIndex,
         sortUids: nodeUids,
         sortNodeIds: nodeIds,
+        sortNodeInstanceIds: nodeInstanceIds,
       } = this.getDragInfo({
         nodeData: {
-          id: null,
+          id: nodeData.id ?? null,
+          instanceId: nodeData.instanceId ?? null,
         } as BuilderRuntimeNode,
         dragNodeUid: newNodeUid,
         dragOverNodeUid,
@@ -576,10 +626,11 @@ export class BuilderDataManager {
 
       nodeData.parent = parentInstanceId;
       nodeData.mountPoint = mountPoint;
+      nodeData.sort = sortIndex;
 
       if (nodeData.bricks) {
         // snippet
-        this.snippetApply({
+        const snippetData = {
           parentUid,
           nodeDetails: nodeData.bricks.map((brickConf) =>
             getSnippetNodeDetail({
@@ -593,8 +644,12 @@ export class BuilderDataManager {
           ),
           nodeIds,
           nodeUids,
-        });
-        return;
+        };
+        if (isNeedUpdateSnippet) {
+          this.snippetApply(snippetData);
+        } else {
+          return snippetData;
+        }
       }
 
       this.runAddNodeAction({
@@ -605,12 +660,19 @@ export class BuilderDataManager {
         nodeData,
         sort: sortIndex,
       });
+      const sortData = {
+        nodeUids,
+        nodeInstanceIds,
+        nodeIds,
+      };
+      detail.sortData = sortData;
       this.eventTarget.dispatchEvent(
         new CustomEvent(BuilderInternalEventType.NODE_ADD, {
           detail: {
             nodeUid: newNodeUid,
             parentUid,
             nodeUids,
+            nodeInstanceIds,
             nodeIds,
             nodeData,
           },
@@ -623,6 +685,11 @@ export class BuilderDataManager {
     const { rootId, nodes, edges, wrapperNode } = this.data;
     const { dragNodeUid, dragOverNodeUid, dragStatus } = detail;
     const nodeData = nodes.find((item) => item.$$uid === dragNodeUid);
+    const originEdge = edges.find((edge) => edge.child === nodeData.$$uid);
+    const originParentUid = originEdge.parent;
+    const originParentNode = nodes.find(
+      (node) => node.$$uid === originParentUid
+    );
     const {
       parentUid,
       parnetNodeData,
@@ -667,13 +734,24 @@ export class BuilderDataManager {
             nodeUid: dragNodeUid,
             nodeInstanceId: nodeData.instanceId,
             nodeIds,
-            nodeData: {
-              parent: parnetNodeData.instanceId,
-              mountPoint: mountPoint,
-            },
+            ...(originParentNode.instanceId !== parnetNodeData.instanceId ||
+            originEdge.mountPoint !== mountPoint
+              ? {
+                  nodeData: {
+                    parent: parnetNodeData.instanceId,
+                    mountPoint: mountPoint,
+                  },
+                }
+              : {}),
+            objectId: getObjectIdByNode(nodeData),
           },
         }
       )
+    );
+    this.eventTarget.dispatchEvent(
+      new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
+        detail: this.data,
+      })
     );
   }
 
@@ -721,6 +799,9 @@ export class BuilderDataManager {
             nodeUids: childUids,
             parentUid,
             nodeIds: childIds,
+            objectId: getObjectIdByNode(
+              nodes.find((node) => node.$$uid === parentUid)
+            ),
           },
         }
       )
@@ -866,6 +947,21 @@ export class BuilderDataManager {
     return () => {
       this.eventTarget.removeEventListener(
         BuilderInternalEventType.NODE_CLICK,
+        fn as EventListener
+      );
+    };
+  }
+
+  onNodeUpdate(
+    fn: (event: CustomEvent<BuilderCanvasData>) => void
+  ): () => void {
+    this.eventTarget.addEventListener(
+      BuilderInternalEventType.NODE_UPDATE,
+      fn as EventListener
+    );
+    return () => {
+      this.eventTarget.removeEventListener(
+        BuilderInternalEventType.NODE_UPDATE,
         fn as EventListener
       );
     };

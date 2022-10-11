@@ -273,6 +273,7 @@ describe("getDefaultProperties is work", () => {
         fieldType: "IP",
       },
     ]);
+    /* eslint-disable */
     expect(result).toEqual({
       brick: "forms.general-input",
       properties: {
@@ -283,12 +284,16 @@ describe("getDefaultProperties is work", () => {
         label: "用户名",
         name: "test",
         pattern:
-          /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/,
+          "((^s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))s*$)|(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*$))",
+        message: {
+          pattern: "输入字符不匹配IP格式",
+        },
         placeholder: "不允许特殊字符",
         readOnly: false,
         required: true,
       },
     });
+    /* eslint-disable */
   });
 
   it("getDefaultProperties by JSON", () => {
@@ -633,6 +638,21 @@ describe("ExpandCustomForm is work", () => {
         updateAuthorizers: [],
       },
     ],
+    context: [
+      {
+        name: "departmentOption",
+        value: [
+          {
+            name: "web前端",
+            value: "web",
+          },
+          {
+            name: "管理层",
+            value: "manager",
+          },
+        ],
+      },
+    ],
   };
   const _formData = {};
   const brickConf = {
@@ -648,467 +668,8 @@ describe("ExpandCustomForm is work", () => {
       formData: "<% CTX.formData %>",
     },
   };
-  expect(ExpandCustomForm(formData, brickConf, true)).toEqual({
-    bg: false,
-    brick: "div",
-    iid: "5e27819b1e711",
-    injectDeep: true,
-    portal: false,
-    properties: {
-      dataset: {
-        testid: "test",
-      },
-      formData: "<% CTX.formData %>",
-    },
-    slots: {
-      "": {
-        bricks: [
-          {
-            brick: "basic-bricks.micro-view",
-            properties: { style: { padding: "12px" } },
-            slots: {
-              content: {
-                bricks: [
-                  {
-                    brick: "forms.general-form",
-                    context: {},
-                    properties: {
-                      formItemConfig: {},
-                      id: "form_137",
-                      sectionConfig: {},
-                      values: {},
-                      className: "form-preview",
-                    },
-                    events: {
-                      "validate.error": [
-                        {
-                          action: "preview.debug",
-                          args: ["validate.error", "<% EVENT.detail %>"],
-                        },
-                      ],
-                      "validate.success": [
-                        {
-                          action: "preview.debug",
-                          args: ["validate.success", "<% EVENT.detail %>"],
-                        },
-                      ],
-                    },
-                    bricks: [
-                      {
-                        brick: "basic-bricks.grid-layout",
-                        mountPoint: "items",
-                        instanceId: "123",
-                        properties: {
-                          columns: 1,
-                          id: "grid_138",
-                          title: "行容器",
-                        },
-                        bricks: [
-                          {
-                            id: "userName",
-                            mountPoint: "items",
-                            brick: "forms.general-input",
-                            properties: {
-                              dataset: {
-                                testid: "userName",
-                              },
-                              id: "userName",
-                              name: "userName",
-                              label: "用户名",
-                              readOnly: true,
-                              required: true,
-                              placeholder: "不允许特殊字符",
-                            },
-                            if: "",
-                          },
-                          {
-                            id: "userId",
-                            mountPoint: "items",
-                            brick: "forms.general-input",
-                            properties: {
-                              dataset: {
-                                testid: "userId",
-                              },
-                              id: "userId",
-                              name: "userId",
-                              label: "ID",
-                              readOnly: false,
-                              required: false,
-                              placeholder: "不允许特殊字符",
-                            },
-                          },
-                          {
-                            id: "age",
-                            mountPoint: "items",
-                            brick: "forms.general-input-number",
-                            properties: {
-                              dataset: {
-                                testid: "age",
-                              },
-                              id: "age",
-                              name: "age",
-                              label: "年龄",
-                              readOnly: false,
-                              required: false,
-                              placeholder: "不允许特殊字符",
-                              precision: 0,
-                              inputBoxStyle: {
-                                width: "100%",
-                              },
-                            },
-                          },
-                          {
-                            id: "department",
-                            mountPoint: "items",
-                            brick: "forms.general-select",
-                            properties: {
-                              dataset: {
-                                testid: "department",
-                              },
-                              id: "department",
-                              name: "department",
-                              label: "部门",
-                              readOnly: false,
-                              required: true,
-                              options: [
-                                {
-                                  label: "选项一",
-                                  value: 1,
-                                },
-                                {
-                                  label: "选项二",
-                                  value: 2,
-                                },
-                              ],
-                              placeholder: "不允许特殊字符",
-                              inputBoxStyle: {
-                                width: "100%",
-                              },
-                            },
-                          },
-                          {
-                            id: "status",
-                            mountPoint: "items",
-                            brick: "forms.general-select",
-                            properties: {
-                              dataset: {
-                                testid: "status",
-                              },
-                              id: "status",
-                              name: "status",
-                              label: "状态",
-                              readOnly: false,
-                              required: true,
-                              options: [
-                                {
-                                  label: "选项一",
-                                  value: 1,
-                                },
-                                {
-                                  label: "选项二",
-                                  value: 2,
-                                },
-                              ],
-                              inputBoxStyle: {
-                                width: "100%",
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    ],
-                    slots: {
-                      items: {
-                        bricks: [
-                          {
-                            brick: "basic-bricks.grid-layout",
-                            mountPoint: "items",
-                            iid: "123",
-                            properties: {
-                              columns: 1,
-                              id: "grid_138",
-                              title: "行容器",
-                            },
-                            bricks: [
-                              {
-                                id: "userName",
-                                mountPoint: "items",
-                                brick: "forms.general-input",
-                                properties: {
-                                  dataset: {
-                                    testid: "userName",
-                                  },
-                                  id: "userName",
-                                  name: "userName",
-                                  label: "用户名",
-                                  readOnly: true,
-                                  required: true,
-                                  placeholder: "不允许特殊字符",
-                                },
-                                if: "",
-                              },
-                              {
-                                id: "userId",
-                                mountPoint: "items",
-                                brick: "forms.general-input",
-                                properties: {
-                                  dataset: {
-                                    testid: "userId",
-                                  },
-                                  id: "userId",
-                                  name: "userId",
-                                  label: "ID",
-                                  readOnly: false,
-                                  required: false,
-                                  placeholder: "不允许特殊字符",
-                                },
-                              },
-                              {
-                                id: "age",
-                                mountPoint: "items",
-                                brick: "forms.general-input-number",
-                                properties: {
-                                  dataset: {
-                                    testid: "age",
-                                  },
-                                  id: "age",
-                                  name: "age",
-                                  label: "年龄",
-                                  readOnly: false,
-                                  required: false,
-                                  placeholder: "不允许特殊字符",
-                                  precision: 0,
-                                  inputBoxStyle: {
-                                    width: "100%",
-                                  },
-                                },
-                              },
-                              {
-                                id: "department",
-                                mountPoint: "items",
-                                brick: "forms.general-select",
-                                properties: {
-                                  dataset: {
-                                    testid: "department",
-                                  },
-                                  id: "department",
-                                  name: "department",
-                                  label: "部门",
-                                  readOnly: false,
-                                  required: true,
-                                  options: [
-                                    {
-                                      label: "选项一",
-                                      value: 1,
-                                    },
-                                    {
-                                      label: "选项二",
-                                      value: 2,
-                                    },
-                                  ],
-                                  placeholder: "不允许特殊字符",
-                                  inputBoxStyle: {
-                                    width: "100%",
-                                  },
-                                },
-                              },
-                              {
-                                id: "status",
-                                mountPoint: "items",
-                                brick: "forms.general-select",
-                                properties: {
-                                  dataset: {
-                                    testid: "status",
-                                  },
-                                  id: "status",
-                                  name: "status",
-                                  label: "状态",
-                                  readOnly: false,
-                                  required: true,
-                                  options: [
-                                    {
-                                      label: "选项一",
-                                      value: 1,
-                                    },
-                                    {
-                                      label: "选项二",
-                                      value: 2,
-                                    },
-                                  ],
-                                  inputBoxStyle: {
-                                    width: "100%",
-                                  },
-                                },
-                              },
-                            ],
-                            slots: {
-                              items: {
-                                bricks: [
-                                  {
-                                    mountPoint: "items",
-                                    brick: "forms.general-input",
-                                    properties: {
-                                      dataset: {
-                                        testid: "userName",
-                                      },
-                                      id: "userName",
-                                      name: "userName",
-                                      label: "用户名",
-                                      readOnly: true,
-                                      required: true,
-                                      placeholder: "不允许特殊字符",
-                                    },
-                                    if: "",
-                                  },
-                                  {
-                                    mountPoint: "items",
-                                    brick: "forms.general-input",
-                                    properties: {
-                                      dataset: {
-                                        testid: "userId",
-                                      },
-                                      id: "userId",
-                                      name: "userId",
-                                      label: "ID",
-                                      readOnly: false,
-                                      required: false,
-                                      placeholder: "不允许特殊字符",
-                                    },
-                                  },
-                                  {
-                                    mountPoint: "items",
-                                    brick: "forms.general-input-number",
-                                    properties: {
-                                      dataset: {
-                                        testid: "age",
-                                      },
-                                      id: "age",
-                                      name: "age",
-                                      label: "年龄",
-                                      readOnly: false,
-                                      required: false,
-                                      placeholder: "不允许特殊字符",
-                                      precision: 0,
-                                      inputBoxStyle: {
-                                        width: "100%",
-                                      },
-                                    },
-                                  },
-                                  {
-                                    mountPoint: "items",
-                                    brick: "forms.general-select",
-                                    properties: {
-                                      dataset: {
-                                        testid: "department",
-                                      },
-                                      id: "department",
-                                      name: "department",
-                                      label: "部门",
-                                      readOnly: false,
-                                      required: true,
-                                      options: [
-                                        {
-                                          label: "选项一",
-                                          value: 1,
-                                        },
-                                        {
-                                          label: "选项二",
-                                          value: 2,
-                                        },
-                                      ],
-                                      placeholder: "不允许特殊字符",
-                                      inputBoxStyle: {
-                                        width: "100%",
-                                      },
-                                    },
-                                  },
-                                  {
-                                    mountPoint: "items",
-                                    brick: "forms.general-select",
-                                    properties: {
-                                      dataset: {
-                                        testid: "status",
-                                      },
-                                      id: "status",
-                                      name: "status",
-                                      label: "状态",
-                                      readOnly: false,
-                                      required: true,
-                                      options: [
-                                        {
-                                          label: "选项一",
-                                          value: 1,
-                                        },
-                                        {
-                                          label: "选项二",
-                                          value: 2,
-                                        },
-                                      ],
-                                      inputBoxStyle: {
-                                        width: "100%",
-                                      },
-                                    },
-                                  },
-                                ],
-                                type: "bricks",
-                              },
-                            },
-                          },
-                        ],
-                        type: "bricks",
-                      },
-                    },
-                  },
-                ],
-                type: "bricks",
-              },
-            },
-          },
-        ],
-        type: "bricks",
-      },
-    },
-  });
-  expect(ExpandCustomForm(_formData, brickConf)).toEqual({
-    brick: "div",
-    slots: {
-      "": {
-        bricks: [
-          {
-            brick: "presentational-bricks.brick-illustration",
-            properties: {
-              category: "default",
-              header: {
-                title: "参数错误",
-              },
-              mode: "guide",
-              name: "search-empty",
-            },
-          },
-        ],
-        type: "bricks",
-      },
-    },
-  });
-  expect(ExpandCustomForm(_formData, brickConf)).toEqual({
-    brick: "div",
-    slots: {
-      "": {
-        bricks: [
-          {
-            brick: "presentational-bricks.brick-illustration",
-            properties: {
-              category: "default",
-              header: {
-                title: "参数错误",
-              },
-              mode: "guide",
-              name: "search-empty",
-            },
-          },
-        ],
-        type: "bricks",
-      },
-    },
+  it("ExpandCustomForm is work", async () => {
+    expect(await ExpandCustomForm(formData, brickConf, true)).toMatchSnapshot();
+    expect(await ExpandCustomForm(_formData, brickConf)).toMatchSnapshot();
   });
 });

@@ -28,6 +28,12 @@ export interface StoryConf extends BrickConf {
 }
 
 /** @internal */
+export interface SrcIcon {
+  imgSrc?: string;
+  imgStyle?: React.CSSProperties;
+}
+
+/** @internal */
 export interface Story {
   category: string;
   storyId: string;
@@ -39,7 +45,7 @@ export interface Story {
   tags?: I18nData[];
   doc?: string | StoryDoc;
   actions?: Action[];
-  icon?: MenuIcon;
+  icon?: MenuIcon | SrcIcon;
   previewColumns?: number;
   author?: string;
   layerType?: LayerType;

@@ -1,6 +1,7 @@
 exports.PUBLIC_SCOPED_SDK = [
   "cmdb",
   "micro-app",
+  "micro-app-standalone",
   "monitor",
   "msgsender",
   "next-builder",
@@ -9,4 +10,5 @@ exports.PUBLIC_SCOPED_SDK = [
   "user-service",
   "air-admin-service",
   "api-gateway",
+  "form-builder-service",
 ];

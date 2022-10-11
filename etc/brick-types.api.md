@@ -70,6 +70,8 @@ export interface AuthInfo {
     // (undocumented)
     accessRule?: string;
     // (undocumented)
+    csrfToken?: string;
+    // (undocumented)
     isAdmin?: boolean;
     // (undocumented)
     loginFrom?: string;
@@ -112,6 +114,7 @@ export interface BaseRouteConf {
     documentId?: string;
     exact?: boolean;
     hybrid?: boolean;
+    if?: string | boolean;
     menu?: MenuConf;
     path: string;
     permissionsPreCheck?: string[];
@@ -714,7 +717,7 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
 
 // @public
 export interface BuiltinBrickEventHandler {
-    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "state.update" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "preview.debug" | "analytics.event";
+    action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "context.refresh" | "context.load" | "state.update" | "state.refresh" | "state.load" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "preview.debug" | "analytics.event";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
     if?: string | boolean;
@@ -828,9 +831,15 @@ export interface ContextConf {
     name: string;
     onChange?: BrickEventHandler | BrickEventHandler[];
     property?: string;
-    resolve?: ResolveConf;
+    resolve?: ContextResolveConf;
+    track?: boolean;
     value?: unknown;
 }
+
+// @public
+export type ContextResolveConf = ResolveConf & {
+    lazy?: boolean;
+};
 
 // @public (undocumented)
 export interface Contract {
@@ -950,6 +959,7 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
 // @public
 export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
+    contracts?: Contract[];
     name: string;
     proxy?: CustomTemplateProxy;
     state?: CustomTemplateState[];
@@ -1062,7 +1072,7 @@ export interface CustomTemplateProxyWithExtra {
 }
 
 // @public
-export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve">;
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve" | "track">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {
@@ -1151,12 +1161,12 @@ export interface ExtendedHistory {
     // @internal (undocumented)
     getBlockMessage: () => string;
     // Warning: (ae-incompatible-release-tags) The symbol "push" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
-    push?: History_2<PluginHistoryState>["push"];
+    push?: (location: LocationDescriptor<PluginHistoryState>, state?: PluginHistoryState, callback?: (blocked: boolean) => void) => void;
     pushAnchor: UpdateAnchorFunction;
     pushQuery: UpdateQueryFunction;
-    reload: () => void;
+    reload: (callback?: (blocked: boolean) => void) => void;
     // Warning: (ae-incompatible-release-tags) The symbol "replace" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
-    replace?: History_2<PluginHistoryState>["replace"];
+    replace?: (location: LocationDescriptor<PluginHistoryState>, state?: PluginHistoryState, callback?: (blocked: boolean) => void) => void;
     replaceQuery: UpdateQueryFunction;
     // @internal (undocumented)
     setBlockMessage: (message: string) => void;
@@ -1359,6 +1369,8 @@ export interface MenuRawData {
     // (undocumented)
     dynamicItems?: boolean;
     // (undocumented)
+    i18n?: MetaI18n;
+    // (undocumented)
     icon?: MenuIcon;
     // (undocumented)
     injectMenuGroupId?: string;
@@ -1418,6 +1430,7 @@ export interface MicroApp {
     name: string;
     noAuthGuard?: boolean;
     private?: boolean;
+    standaloneMode?: boolean;
     status?: "developing" | "enabled" | "disabled";
     theme?: "light" | "dark-v2";
     userConfig?: Record<string, unknown>;
@@ -1495,8 +1508,11 @@ export type PluginLocation = Location_2<PluginHistoryState>;
 export interface PluginRuntimeContext {
     anchor?: string;
     app?: MicroApp;
+    appendI18nNamespace?: string;
     event?: CustomEvent;
     flags?: FeatureFlags;
+    // @internal (undocumented)
+    formContextId?: string;
     hash?: string;
     // @internal (undocumented)
     match?: MatchResult;
@@ -1710,6 +1726,13 @@ export interface ResolveMenuConf {
     type: "resolve";
 }
 
+// Warning: (ae-internal-missing-underscore) The name "ResolveOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface ResolveOptions {
+    cache?: "default" | "reload";
+}
+
 // Warning: (ae-internal-missing-underscore) The name "RouteAliasConf" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1751,6 +1774,8 @@ export interface RouteConfOfRoutes extends BaseRouteConf {
 export interface RuntimeBootstrapData extends BootstrapData {
     // (undocumented)
     microApps: MicroApp[];
+    // (undocumented)
+    offSiteStandaloneApps?: Partial<MicroApp>[];
     // (undocumented)
     storyboards: RuntimeStoryboard[];
 }
@@ -1804,6 +1829,8 @@ export interface RuntimeStoryboard extends Storyboard {
     $$fulfilled?: boolean;
     // (undocumented)
     $$fulfilling?: Promise<void>;
+    // (undocumented)
+    $$i18nFulfilled?: boolean;
     // (undocumented)
     $$registerCustomTemplateProcessed?: boolean;
 }
@@ -1999,6 +2026,16 @@ export interface SnippetDefinition {
     thumbnail?: string;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "SrcIcon" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SrcIcon {
+    // (undocumented)
+    imgSrc?: string;
+    // (undocumented)
+    imgStyle?: React.CSSProperties;
+}
+
 // @public
 export interface StaticMenuConf extends StaticMenuProps {
     // (undocumented)
@@ -2035,7 +2072,7 @@ export interface Story {
     // (undocumented)
     doc?: string | StoryDoc;
     // (undocumented)
-    icon?: MenuIcon;
+    icon?: MenuIcon | SrcIcon;
     // (undocumented)
     isCustomTemplate?: boolean;
     // (undocumented)
@@ -2098,6 +2135,12 @@ export interface StoryboardContextItemFreeVariable {
     // (undocumented)
     eventTarget?: EventTarget;
     // (undocumented)
+    load?: (options?: ResolveOptions) => Promise<unknown>;
+    // (undocumented)
+    loaded?: boolean;
+    // (undocumented)
+    loading?: Promise<unknown>;
+    // (undocumented)
     type: "free-variable";
     // (undocumented)
     value: unknown;
@@ -2112,10 +2155,12 @@ export interface StoryboardFunction {
 
 // @public
 export interface StoryboardMeta {
-    contracts: Contract[];
+    contracts?: Contract[];
     customTemplates?: CustomTemplate[];
     functions?: StoryboardFunction[];
     i18n?: MetaI18n;
+    // (undocumented)
+    injectMenus?: MenuRawData[];
     // (undocumented)
     menus?: MenuRawData[];
     mocks?: Mocks;
@@ -2393,10 +2438,10 @@ export interface TransformMap {
 // Warning: (ae-incompatible-release-tags) The symbol "UpdateAnchorFunction" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
 //
 // @public
-export type UpdateAnchorFunction = (hash: string, state?: PluginHistoryState) => void;
+export type UpdateAnchorFunction = (hash: string, state?: PluginHistoryState, callback?: (blocked: boolean) => void) => void;
 
 // @public
-export type UpdateQueryFunction = (query: Record<string, unknown>, options?: UpdateQueryOptions) => void;
+export type UpdateQueryFunction = (query: Record<string, unknown>, options?: UpdateQueryOptions, callback?: (blocked: boolean) => void) => void;
 
 // Warning: (ae-incompatible-release-tags) The symbol "UpdateQueryOptions" is marked as @public, but its signature references "PluginHistoryState" which is marked as @internal
 //
@@ -2405,6 +2450,16 @@ export interface UpdateQueryOptions extends PluginHistoryState {
     clear?: boolean;
     extraQuery?: Record<string, unknown>;
     keepHash?: boolean;
+}
+
+// @public
+export interface UseBackendConf {
+    // (undocumented)
+    args: any[] | ((...args: any[]) => any[]);
+    // (undocumented)
+    provider: string;
+    // (undocumented)
+    transform?: (data: any) => void;
 }
 
 // @public

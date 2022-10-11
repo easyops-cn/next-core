@@ -12,7 +12,12 @@ const mockSendBeacon = jest.fn();
 
 describe("ApiAnalysis", () => {
   const uuid = "13be32d5-9868-417b-9ee5-528910ede818";
-  const route = "/developers/:id";
+  const params = {
+    path: "/developers/:id",
+    pageTitle: "test",
+    username: "mock-user",
+  } as any;
+
   (global as any).URL = {
     createObjectURL: () => `blob:https://google.com/${uuid}`,
     revokeObjectURL: jest.fn(),
@@ -71,7 +76,7 @@ describe("ApiAnalysis", () => {
       },
     };
     analyzer.analyses(response as any);
-    pageTracker(route);
+    pageTracker(params);
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
@@ -106,6 +111,22 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        _ver: 1603109440807,
+        apiCount: 1,
+        lt: 0,
+        page: "http://localhost/",
+        pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
+        route: "/developers/:id",
+        type: "page",
+        maxApiTimeCost: 2,
+        time: 1603109441,
+        et: 1603109440807,
+        size: 28,
+        pageTitle: "test",
+        st: 1603109440807,
+        username: "mock-user",
+      },
+      {
         api: "api/auth/login",
         code: 0,
         duration: 2,
@@ -113,7 +134,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: uuid,
+        pageId: "88-" + uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -123,7 +144,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
-        route,
+        route: "/developers/:id",
       },
     ]);
   });
@@ -182,6 +203,22 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        _ver: 1603109440807,
+        apiCount: 1,
+        lt: 0,
+        page: "http://localhost/",
+        pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
+        route: "/developers/:id",
+        type: "page",
+        maxApiTimeCost: 2,
+        time: 1603109441,
+        et: 1603109440807,
+        size: 28,
+        pageTitle: "test",
+        st: 1603109440807,
+        username: "mock-user",
+      },
+      {
         api: "api/auth/login",
         code: 0,
         duration: 2,
@@ -189,7 +226,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: uuid,
+        pageId: "88-" + uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -199,7 +236,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
-        route,
+        route: "/developers/:id",
       },
     ]);
   });
@@ -254,6 +291,22 @@ describe("ApiAnalysis", () => {
     expect(mockSendBeacon).toHaveBeenCalledWith(analyzer.api, blob);
     expect(analyzer.logs).toEqual([
       {
+        apiCount: 1,
+        _ver: 1603109440807,
+        lt: 0,
+        maxApiTimeCost: 2,
+        page: "http://localhost/",
+        pageId: "88-13be32d5-9868-417b-9ee5-528910ede818",
+        route: "/developers/:id",
+        type: "page",
+        time: 1603109441,
+        et: 1603109440807,
+        size: 28,
+        pageTitle: "test",
+        st: 1603109440807,
+        username: "mock-user",
+      },
+      {
         api: "api/auth/login",
         code: 0,
         duration: 2,
@@ -261,7 +314,7 @@ describe("ApiAnalysis", () => {
         lt: 0,
         msg: "",
         page: "http://localhost/",
-        pageId: uuid,
+        pageId: "88-" + uuid,
         size: 28,
         st: 1603109440805,
         _ver: 1603109440805,
@@ -271,7 +324,7 @@ describe("ApiAnalysis", () => {
         type: "api",
         uid: "abc",
         username: "mock-user",
-        route,
+        route: "/developers/:id",
       },
     ]);
   });

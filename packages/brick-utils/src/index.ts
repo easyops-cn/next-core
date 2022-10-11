@@ -19,10 +19,15 @@ export * from "./cook";
 export * from "./resolveContextConcurrently";
 export * from "./scanCustomApisInStoryboard";
 export * from "./smartDisplayForEvaluableString";
-export { scanStoryboard } from "./scanStoryboard";
+export {
+  scanStoryboard,
+  collectBricksByCustomTemplates,
+} from "./scanStoryboard";
 export * from "./JsonStorage";
 export * from "./builder";
 export * from "./deepFreeze";
 export * from "./track";
 export * from "./visitStoryboard";
 export * from "./debounceByAnimationFrame";
+export * from "./scanInstalledAppsInStoryboard";
+export * from "./makeThrottledAggregation";

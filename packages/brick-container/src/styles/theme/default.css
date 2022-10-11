@@ -174,7 +174,9 @@
   /* 8.0 框架 */
   --v8-top-navigation-bg: var(--palette-gray-1);
   --v8-top-menu-item-hover: var(--palette-gray-3);
-  --v8-top-menu-item-selected-bg: var(--palette-gray-3);
+  --v8-dropdown-selected-bg: #f0f6ff;
+  --v8-dropdown-selected: #1a7aff;
+  --v8-top-menu-item-selected-bg: var(--palette-blue-1);
   --v8-left-menu-bg: rgba(255, 255, 255, 0.3);
   --v8-left-menu-hover-bg: rgba(255, 255, 255, 0.8);
   --v8-left-sidebar-item-hover: rgba(--palette-gray-3);
@@ -495,6 +497,7 @@
   /*** tabs ***/
   --antd-tabs-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.04);
   --antd-tabs-title-wrapper-bg: var(--antd-component-background);
+  --antd-tabs-title-wrapper-bg-channel: 255, 255, 255;
   --antd-tabs-title-border-color: var(--palette-gray-4);
   --antd-tabs-title-color: var(--text-color-default);
   --antd-tabs-title-hover-color: #40a9ff;

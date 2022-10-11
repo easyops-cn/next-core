@@ -68,16 +68,20 @@ import {
   TrackingContextItem,
 } from "../internal/listenOnTrackingContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
-import { constructMenuByMenusList } from "../internal/menu";
+import { preConstructMenus } from "../internal/menu";
 import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
-import { CustomTemplate } from "../../../brick-types/dist/types/manifest";
 import {
   ExpandCustomForm,
   formDataProperties,
 } from "./CustomForms/ExpandCustomForm";
-import { formRenderer } from "./CustomForms/constants";
+import {
+  formRenderer,
+  RuntimeBrickConfOfFormSymbols,
+  symbolForFormContextId,
+} from "./CustomForms/constants";
+import { matchStoryboard } from "./matchStoryboard";
 
 export type MatchRoutesResult =
   | {
@@ -171,9 +175,11 @@ export class LocationContext {
   private getContext({
     match,
     tplContextId,
+    formContextId,
   }: {
     match: MatchResult;
     tplContextId?: string;
+    formContextId?: string;
   }): PluginRuntimeContext {
     const auth = getAuth();
     const context: PluginRuntimeContext = {
@@ -195,6 +201,7 @@ export class LocationContext {
       segues: this.segues,
       storyboardContext: this.storyboardContextWrapper.get(),
       tplContextId,
+      formContextId,
     };
     return context;
   }
@@ -216,6 +223,8 @@ export class LocationContext {
       const match = matchPath(this.location.pathname, {
         path: computedPath,
         exact: route.exact,
+        checkIf: (context) => looseCheckIf(route, context),
+        getContext: (match) => this.getContext({ match }),
       });
       if (match !== null) {
         if (app.noAuthGuard || route.public || isLoggedIn()) {
@@ -229,30 +238,7 @@ export class LocationContext {
   }
 
   matchStoryboard(storyboards: RuntimeStoryboard[]): RuntimeStoryboard {
-    if (window.STANDALONE_MICRO_APPS && storyboards.length === 1) {
-      return storyboards[0];
-    }
-    // Put apps with longer homepage before shorter ones.
-    // E.g., `/legacy/tool` will match first before `/legacy`.
-    // This enables two apps with relationship of parent-child of homepage.
-    const sortedStoryboards = orderBy(
-      storyboards,
-      (storyboard) => storyboard.app?.homepage?.length ?? 0,
-      "desc"
-    );
-    for (const storyboard of sortedStoryboards) {
-      const homepage = storyboard.app?.homepage;
-      if (typeof homepage === "string" && homepage[0] === "/") {
-        if (
-          matchPath(this.location.pathname, {
-            path: homepage,
-            exact: homepage === "/",
-          })
-        ) {
-          return storyboard;
-        }
-      }
-    }
+    return matchStoryboard(storyboards, this.location.pathname);
   }
 
   getSubStoryboardByRoute(storyboard: Storyboard): Storyboard {
@@ -570,9 +556,15 @@ export class LocationContext {
     const tplContextId = (brickConf as RuntimeBrickConfWithTplSymbols)[
       symbolForTplContextId
     ];
+
+    const formContextId = (brickConf as RuntimeBrickConfOfFormSymbols)[
+      symbolForFormContextId
+    ];
+
     const context = this.getContext({
       match,
       tplContextId,
+      formContextId,
     });
 
     // First, check whether the brick should be rendered.
@@ -604,6 +596,11 @@ export class LocationContext {
       tplStack.push(tplTagName);
     }
 
+    if (brickConf.brick === formRenderer) {
+      brickConf.properties.formData = JSON.stringify(
+        brickConf.properties.formData
+      );
+    }
     const brick: RuntimeBrick = {};
 
     await this.storyboardContextWrapper.define(
@@ -631,6 +628,7 @@ export class LocationContext {
         symbolForRefForProxy
       ],
       tplContextId,
+      formContextId,
       iid: brickConf.iid,
       ...(brickConf.lifeCycle?.onScrollIntoView
         ? {
@@ -679,6 +677,8 @@ export class LocationContext {
     const isBaseLayout: boolean = [
       "base-layout.tpl-homepage-base-module",
       "base-layout.tpl-base-page-module",
+      "base-layout.tpl-homepage-base-module-cmdb",
+      "base-layout.tpl-base-page-module-cmdb",
     ].includes(tplTagName as string);
     if (
       tplTagName &&
@@ -703,11 +703,14 @@ export class LocationContext {
     }
 
     if (brick.type === formRenderer) {
-      const formData: formDataProperties = brick.properties.formData;
-      expandedBrickConf = ExpandCustomForm(
+      const formData: formDataProperties = JSON.parse(
+        brick.properties.formData
+      );
+      expandedBrickConf = await ExpandCustomForm(
         formData,
         brickConf,
-        brick.properties.isPreview
+        brick.properties.isPreview,
+        context
       );
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
@@ -715,7 +718,7 @@ export class LocationContext {
     if (expandedBrickConf.exports) {
       for (const [prop, ctxName] of Object.entries(expandedBrickConf.exports)) {
         if (typeof ctxName === "string" && ctxName.startsWith("CTX.")) {
-          this.storyboardContextWrapper.set(ctxName.substr(4), {
+          this.storyboardContextWrapper.set(ctxName.substring(4), {
             type: "brick-property",
             brick,
             prop,
@@ -997,11 +1000,7 @@ export class LocationContext {
   private async preFetchMenu(data: unknown): Promise<void> {
     const useMenus: string[] = scanAppGetMenuInAny(data);
     if (useMenus.length) {
-      await constructMenuByMenusList(
-        useMenus,
-        this.getCurrentContext(),
-        this.kernel
-      );
+      await preConstructMenus(useMenus, this.getCurrentContext(), this.kernel);
     }
   }
 

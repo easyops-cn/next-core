@@ -12,6 +12,7 @@ import {
   ContextConf,
   ResolveConf,
   MessageConf,
+  UseBackendConf,
 } from "@next-core/brick-types";
 import { uniq } from "lodash";
 import { isObject } from "./isObject";
@@ -205,23 +206,36 @@ function collectUsedBricksInProperties(value: any, collection: string[]): void {
       collectUsedBricksInProperties(item, collection);
     });
   } else if (isObject(value)) {
-    if (value.useBrick) {
-      [].concat(value.useBrick).forEach((useBrickConf: UseSingleBrickConf) => {
-        if (typeof useBrickConf?.brick === "string") {
-          collection.push(useBrickConf.brick);
-          collectUsedBricksInProperties(useBrickConf.properties, collection);
-          collectUsedBricksInEventHandlers(useBrickConf.events, collection);
-
-          if (useBrickConf.slots) {
-            Object.values(useBrickConf.slots).forEach((slotConf) => {
-              collectBricksInBrickConfs(
-                slotConf.bricks as BrickConf[],
+    if (value.useBrick || value.useBackend) {
+      if (value.useBrick) {
+        []
+          .concat(value.useBrick)
+          .forEach((useBrickConf: UseSingleBrickConf) => {
+            if (typeof useBrickConf?.brick === "string") {
+              collection.push(useBrickConf.brick);
+              collectUsedBricksInProperties(
+                useBrickConf.properties,
                 collection
               );
-            });
-          }
+              collectUsedBricksInEventHandlers(useBrickConf.events, collection);
+
+              if (useBrickConf.slots) {
+                Object.values(useBrickConf.slots).forEach((slotConf) => {
+                  collectBricksInBrickConfs(
+                    slotConf.bricks as BrickConf[],
+                    collection
+                  );
+                });
+              }
+            }
+          });
+      }
+
+      if (value.useBackend as UseBackendConf) {
+        if (typeof value.useBackend?.provider === "string") {
+          collection.push(value.useBackend?.provider);
         }
-      });
+      }
     } else {
       Object.values(value).forEach((item) => {
         collectUsedBricksInProperties(item, collection);
@@ -301,7 +315,7 @@ function collectBricksInCustomTemplates(
   }
 }
 
-function collectBricksByCustomTemplates(
+export function collectBricksByCustomTemplates(
   customTemplates: CustomTemplate[]
 ): Map<string, string[]> {
   const collectionByTpl = new Map<string, string[]>();
@@ -310,6 +324,7 @@ function collectBricksByCustomTemplates(
       const collection = [] as string[];
       collectionByTpl.set(tpl.name, collection);
       collectBricksInBrickConfs(tpl.bricks, collection);
+      collectBricksInContext(tpl.state, collection);
     });
   }
   return collectionByTpl;

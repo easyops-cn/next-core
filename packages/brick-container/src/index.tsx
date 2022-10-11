@@ -9,12 +9,18 @@ import {
   httpErrorToString,
   getMockInfo,
   developHelper,
+  getRuntime,
+  getRuntimeMisc,
+  getHistory,
+  abortController,
 } from "@next-core/brick-kit";
+import { FeatureFlags, PluginHistory } from "@next-core/brick-types";
 import {
   http,
   HttpRequestConfig,
   HttpResponse,
   HttpError,
+  ClearRequestCacheListConfig,
 } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
@@ -56,19 +62,29 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
-let analyzer: ReturnType<typeof apiAnalyzer.create>;
-
-// Disable API stats for standalone micro-apps.
-if (!window.STANDALONE_MICRO_APPS) {
-  const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
-  analyzer = apiAnalyzer.create({
-    api,
-  });
-}
+const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
+const analyzer = apiAnalyzer.create({
+  api,
+});
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
+  return {
+    ...config,
+    options: {
+      ...config.options,
+      signal: config.options?.noAbortOnRouteChange
+        ? null
+        : abortController.getSignalToken(),
+    },
+  };
+});
+
+http.interceptors.request.use(function (config: HttpRequestConfig) {
+  const { csrfToken } = getAuth();
   const headers = new Headers(config.options?.headers || {});
   headers.set("lang", i18n.resolvedLanguage);
+
+  csrfToken && headers.set("X-CSRF-Token", csrfToken);
   const mockInfo = getMockInfo(config.url, config.method);
   if (mockInfo) {
     config.url = mockInfo.url;
@@ -83,6 +99,13 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   };
 });
 
+const isInSpecialFrame = (): boolean => {
+  return (
+    getRuntimeMisc().isInIframeOfSameSite &&
+    !getRuntimeMisc().isInIframeOfVisualBuilder
+  );
+};
+
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   if (analyzer) {
     const { userInstanceId: uid, username } = getAuth();
@@ -94,23 +117,29 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
       username,
     };
   }
+
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
-    window.dispatchEvent(new CustomEvent("request.start"));
+    const curWindow = isInSpecialFrame() ? window.parent : window;
+    curWindow.dispatchEvent(new CustomEvent("request.start"));
   }
   return config;
 });
 
 http.interceptors.response.use(
   function (response: HttpResponse) {
-    window.dispatchEvent(new CustomEvent("request.end"));
-    analyzer?.analyses(response);
+    const curWindow = isInSpecialFrame() ? window.parent : window;
+    curWindow.dispatchEvent(new CustomEvent("request.end"));
+    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
+      analyzer?.analyses(response);
     return response.config.options?.observe === "response"
       ? response
       : response.data;
   },
   function (error: HttpError) {
-    analyzer?.analyses(error);
-    window.dispatchEvent(new CustomEvent("request.end"));
+    (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
+      analyzer?.analyses(error);
+    const curWindow = isInSpecialFrame() ? window.parent : window;
+    curWindow.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
   }
 );
@@ -126,10 +155,12 @@ async function startPreview(): Promise<void> {
     return;
   }
   previewStarted = true;
+  const localhostRegExp = /^https?:\/\/localhost(?:$|:)/;
   // Make sure preview from the expected origins.
   let previewAllowed =
     previewFromOrigin === location.origin ||
-    /^https?:\/\/localhost(?:$|:)/.test(previewFromOrigin);
+    localhostRegExp.test(previewFromOrigin) ||
+    localhostRegExp.test(location.origin);
   if (!previewAllowed) {
     const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
       allowedPreviewFromOrigins?: string[];
@@ -176,10 +207,32 @@ if (window.parent) {
       previewFromOrigin = origin;
       previewOptions = data.options;
       http.enableCache(true);
+      http.on("match-api-cache", (num: number) => {
+        window.parent.postMessage(
+          {
+            type: "match-api-cache",
+            sender: "previewer",
+            forwardedFor: "builder",
+            num,
+          },
+          origin
+        );
+      });
+      http.setClearCacheIgnoreList(
+        previewOptions.clearPreviewRequestCacheIgnoreList || []
+      );
       startPreview();
     }
   };
   window.addEventListener("message", listener);
+}
+
+if ((window as CypressContainer).Cypress) {
+  (window as CypressContainer).__test_only_getHistory = getHistory;
+  (window as CypressContainer).__test_only_getBasePath =
+    getRuntime().getBasePath;
+  (window as CypressContainer).__test_only_getFeatureFlags =
+    getRuntime().getFeatureFlags;
 }
 
 async function bootstrap(): Promise<void> {
@@ -218,6 +271,14 @@ async function bootstrap(): Promise<void> {
 
 bootstrap();
 
+type CypressContainer = Window &
+  typeof globalThis & {
+    Cypress: unknown;
+    __test_only_getHistory?(): PluginHistory;
+    __test_only_getBasePath?(): string;
+    __test_only_getFeatureFlags?(): FeatureFlags;
+  };
+
 export interface PreviewHelperBrick {
   start(previewFromOrigin: string, options?: PreviewStartOptions): void;
 }
@@ -234,4 +295,5 @@ export interface PreviewStartOptions {
   settings?: {
     properties?: Record<string, unknown>;
   };
+  clearPreviewRequestCacheIgnoreList?: ClearRequestCacheListConfig[];
 }

@@ -3,6 +3,276 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.37.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.37.1...@next-core/brick-dll@2.37.2) (2022-10-11)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.37.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.37.0...@next-core/brick-dll@2.37.1) (2022-10-09)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+# [2.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.17...@next-core/brick-dll@2.37.0) (2022-10-08)
+
+### Features
+
+- support cancel pending requests on route changed ([aa37eed](https://github.com/easyops-cn/next-core/commit/aa37eed0ab03f558fea693d7763da60d0807189b))
+
+## [2.36.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.16...@next-core/brick-dll@2.36.17) (2022-09-29)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.15...@next-core/brick-dll@2.36.16) (2022-09-28)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.14...@next-core/brick-dll@2.36.15) (2022-09-28)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.13...@next-core/brick-dll@2.36.14) (2022-09-27)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.12...@next-core/brick-dll@2.36.13) (2022-09-27)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.11...@next-core/brick-dll@2.36.12) (2022-09-26)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.10...@next-core/brick-dll@2.36.11) (2022-09-26)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.9...@next-core/brick-dll@2.36.10) (2022-09-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.8...@next-core/brick-dll@2.36.9) (2022-09-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.7...@next-core/brick-dll@2.36.8) (2022-09-20)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.6...@next-core/brick-dll@2.36.7) (2022-09-19)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.5...@next-core/brick-dll@2.36.6) (2022-09-19)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.4...@next-core/brick-dll@2.36.5) (2022-09-19)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.3...@next-core/brick-dll@2.36.4) (2022-09-14)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.2...@next-core/brick-dll@2.36.3) (2022-09-13)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.1...@next-core/brick-dll@2.36.2) (2022-09-08)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.36.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.36.0...@next-core/brick-dll@2.36.1) (2022-09-07)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+# [2.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.35.0...@next-core/brick-dll@2.36.0) (2022-09-07)
+
+### Features
+
+- support makeThrottledAggregation ([b44074c](https://github.com/easyops-cn/next-core/commit/b44074ca2d11c080a6e9d64212a81a5a3a154c8c))
+
+# [2.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.15...@next-core/brick-dll@2.35.0) (2022-09-06)
+
+### Features
+
+- support to use contract in widgets ([25b3337](https://github.com/easyops-cn/next-core/commit/25b333724f9c45131b209845a7caef3e8597888d))
+
+## [2.34.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.14...@next-core/brick-dll@2.34.15) (2022-09-06)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.13...@next-core/brick-dll@2.34.14) (2022-09-05)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.12...@next-core/brick-dll@2.34.13) (2022-09-05)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.11...@next-core/brick-dll@2.34.12) (2022-09-02)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.10...@next-core/brick-dll@2.34.11) (2022-09-02)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.9...@next-core/brick-dll@2.34.10) (2022-09-01)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.8...@next-core/brick-dll@2.34.9) (2022-08-31)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.7...@next-core/brick-dll@2.34.8) (2022-08-30)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.6...@next-core/brick-dll@2.34.7) (2022-08-30)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.5...@next-core/brick-dll@2.34.6) (2022-08-29)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.4...@next-core/brick-dll@2.34.5) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.3...@next-core/brick-dll@2.34.4) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.2...@next-core/brick-dll@2.34.3) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.1...@next-core/brick-dll@2.34.2) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.34.0...@next-core/brick-dll@2.34.1) (2022-08-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+# [2.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.19...@next-core/brick-dll@2.34.0) (2022-08-25)
+
+### Features
+
+- the next site in iframe and loading bar is triggered by outerside ([8bfc755](https://github.com/easyops-cn/next-core/commit/8bfc755ec0c73c8b2290a2b1d588e462c3c9d551))
+
+## [2.33.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.18...@next-core/brick-dll@2.33.19) (2022-08-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.17...@next-core/brick-dll@2.33.18) (2022-08-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.16...@next-core/brick-dll@2.33.17) (2022-08-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.15...@next-core/brick-dll@2.33.16) (2022-08-23)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.14...@next-core/brick-dll@2.33.15) (2022-08-23)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.13...@next-core/brick-dll@2.33.14) (2022-08-22)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.12...@next-core/brick-dll@2.33.13) (2022-08-22)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.11...@next-core/brick-dll@2.33.12) (2022-08-19)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.10...@next-core/brick-dll@2.33.11) (2022-08-19)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.9...@next-core/brick-dll@2.33.10) (2022-08-18)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.8...@next-core/brick-dll@2.33.9) (2022-08-18)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.7...@next-core/brick-dll@2.33.8) (2022-08-17)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.6...@next-core/brick-dll@2.33.7) (2022-08-12)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.5...@next-core/brick-dll@2.33.6) (2022-08-11)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.4...@next-core/brick-dll@2.33.5) (2022-08-10)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.3...@next-core/brick-dll@2.33.4) (2022-08-10)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.2...@next-core/brick-dll@2.33.3) (2022-08-09)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.1...@next-core/brick-dll@2.33.2) (2022-08-09)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.33.0...@next-core/brick-dll@2.33.1) (2022-08-08)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.9...@next-core/brick-dll@2.33.0) (2022-08-08)
+
+### Features
+
+- support INSTALLED_APPS in standalone mode ([c152053](https://github.com/easyops-cn/next-core/commit/c1520532597c88d1def251aafd44831c7a7fad56))
+
+## [2.32.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.8...@next-core/brick-dll@2.32.9) (2022-08-03)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.32.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.7...@next-core/brick-dll@2.32.8) (2022-08-01)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.32.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.6...@next-core/brick-dll@2.32.7) (2022-07-29)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.32.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.5...@next-core/brick-dll@2.32.6) (2022-07-25)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.32.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.4...@next-core/brick-dll@2.32.5) (2022-07-22)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.32.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.3...@next-core/brick-dll@2.32.4) (2022-07-21)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+## [2.32.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.2...@next-core/brick-dll@2.32.3) (2022-07-20)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
 ## [2.32.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.32.1...@next-core/brick-dll@2.32.2) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/brick-dll

@@ -17,6 +17,7 @@ export interface BootstrapData {
 export interface RuntimeBootstrapData extends BootstrapData {
   storyboards: RuntimeStoryboard[];
   microApps: MicroApp[];
+  offSiteStandaloneApps?: Partial<MicroApp>[];
 }
 
 /** @internal */
@@ -178,6 +179,11 @@ export interface MicroApp {
    * 该应用所属主题， dark 已经被用大屏模式，这里使用 dark-v2
    */
   theme?: "light" | "dark-v2";
+
+  /**
+   * 该应用是否是独立打包应用
+   */
+  standaloneMode?: boolean;
 }
 
 /**
@@ -240,6 +246,7 @@ export interface AuthInfo {
   loginFrom?: string;
   accessRule?: string;
   isAdmin?: boolean;
+  csrfToken?: string;
 }
 
 /** @internal */
@@ -286,6 +293,7 @@ export interface RuntimeStoryboard extends Storyboard {
   $$registerCustomTemplateProcessed?: boolean;
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
+  $$i18nFulfilled?: boolean;
 }
 
 export function isRouteConfOfBricks(
@@ -345,6 +353,10 @@ export interface RouteConfOfRedirect extends BaseRouteConf {
  * 路由的基本配置信息。
  */
 export interface BaseRouteConf {
+  /**
+   * 条件配置，根据 `if` 的计算结果来决定是否展示路由
+   */
+  if?: string | boolean;
   /**
    * 路由地址，通常应使用 `${APP.homepage}` 开头。
    */
@@ -475,7 +487,7 @@ export interface ContextConf {
   /**
    * 异步处理配置。如需 transform，将使用转换后的结果的 `value` 字段作为值。
    */
-  resolve?: ResolveConf;
+  resolve?: ContextResolveConf;
 
   /**
    * 要绑定的构件属性名。
@@ -488,10 +500,26 @@ export interface ContextConf {
   if?: string | boolean;
 
   /**
+   * 是否自动跟踪自己依赖的上下文数据，当它们变化时自动计算获得新的值。
+   */
+  track?: boolean;
+
+  /**
    * 当数据发生变化时触发的事件。注意，该事件仅适用于自由变量或异步处理的数据，不适用于绑定构件属性的数据。
    */
   onChange?: BrickEventHandler | BrickEventHandler[];
 }
+
+/**
+ * 用于 Context 的异步数据处理配置。
+ */
+export type ContextResolveConf = ResolveConf & {
+  /**
+   * 启用懒加载时，系统不再主动加载该异步数据（此时默认的 `value` 为 `null`），
+   * 需要用户主动通过 `context.refresh` 触发。
+   */
+  lazy?: boolean;
+};
 
 /**
  * 页面切换配置表。
@@ -1159,9 +1187,13 @@ export interface BuiltinBrickEventHandler {
     // Storyboard context
     | "context.assign"
     | "context.replace"
+    | "context.refresh"
+    | "context.load"
 
     // Update template state
     | "state.update"
+    | "state.refresh"
+    | "state.load"
 
     // Find related tpl and dispatch event.
     | "tpl.dispatchEvent"
@@ -1434,6 +1466,13 @@ export interface UseBrickSlotConf {
   bricks: UseSingleBrickConf[];
 }
 
+/** 在 `useBackend` 中使用provider的配置  **/
+export interface UseBackendConf {
+  provider: string;
+  args: any[] | ((...args: any[]) => any[]);
+  transform?: (data: any) => void;
+}
+
 /**
  * 应用的 Storyboard 元信息（包括自定义模板和国际化配置）。
  */
@@ -1449,11 +1488,13 @@ export interface StoryboardMeta {
 
   menus?: MenuRawData[];
 
+  injectMenus?: MenuRawData[];
+
   /** 应用启用mock服务列表 */
   mocks?: Mocks;
 
   /** 应用所用到的契约 **/
-  contracts: Contract[];
+  contracts?: Contract[];
 }
 
 export interface Mocks {
@@ -1576,12 +1617,15 @@ export interface CustomTemplate {
 
   /** 状态数据配置列表。 */
   state?: CustomTemplateState[];
+
+  /** 契约的定义，只有 widget 才有该字段 */
+  contracts?: Contract[];
 }
 
 /** 自定义模板状态数据配置。 */
 export type CustomTemplateState = Pick<
   ContextConf,
-  "name" | "value" | "if" | "resolve"
+  "name" | "value" | "if" | "resolve" | "track"
 >;
 
 /**

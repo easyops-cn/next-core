@@ -3,6 +3,82 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.56](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.55...@next-core/cook@1.6.56) (2022-10-09)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.55](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.54...@next-core/cook@1.6.55) (2022-09-29)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.54](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.53...@next-core/cook@1.6.54) (2022-09-26)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.53](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.52...@next-core/cook@1.6.53) (2022-09-25)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.52](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.51...@next-core/cook@1.6.52) (2022-09-08)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.51](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.50...@next-core/cook@1.6.51) (2022-09-06)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.50](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.49...@next-core/cook@1.6.50) (2022-09-06)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.49](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.48...@next-core/cook@1.6.49) (2022-09-05)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.48](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.47...@next-core/cook@1.6.48) (2022-09-02)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.47](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.46...@next-core/cook@1.6.47) (2022-09-01)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.46](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.45...@next-core/cook@1.6.46) (2022-08-31)
+
+### Bug Fixes
+
+- remove dead code ([61db875](https://github.com/easyops-cn/next-core/commit/61db8759d48e0de3a31c55bf2ced50cf8617a5a2))
+
+## [1.6.45](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.44...@next-core/cook@1.6.45) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.44](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.43...@next-core/cook@1.6.44) (2022-08-25)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.43](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.42...@next-core/cook@1.6.43) (2022-08-23)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.42](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.41...@next-core/cook@1.6.42) (2022-08-19)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.41](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.40...@next-core/cook@1.6.41) (2022-08-08)
+
+**Note:** Version bump only for package @next-core/cook
+
+## [1.6.40](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.39...@next-core/cook@1.6.40) (2022-08-08)
+
+### Bug Fixes
+
+- fix linting with var in muti-line ([28c1f26](https://github.com/easyops-cn/next-core/commit/28c1f2611138f67ee650c942a86b217e77f30ba4))
+
+## [1.6.39](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.38...@next-core/cook@1.6.39) (2022-07-20)
+
+**Note:** Version bump only for package @next-core/cook
+
 ## [1.6.38](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.37...@next-core/cook@1.6.38) (2022-07-18)
 
 **Note:** Version bump only for package @next-core/cook

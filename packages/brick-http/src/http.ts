@@ -1,5 +1,10 @@
 import { fetch } from "./fetch";
-import { HttpFetchError, HttpResponseError, HttpParseError } from "./errors";
+import {
+  HttpFetchError,
+  HttpResponseError,
+  HttpParseError,
+  HttpAbortError,
+} from "./errors";
 import InterceptorManager from "./InterceptorManager";
 
 export interface HttpRequestConfig {
@@ -8,6 +13,10 @@ export interface HttpRequestConfig {
   data?: any;
   meta?: Record<string, any>;
   options?: HttpOptions;
+}
+export interface ClearRequestCacheListConfig {
+  uri?: string;
+  method?: string;
 }
 
 export interface HttpResponse<T = any> {
@@ -20,7 +29,7 @@ export interface HttpResponse<T = any> {
 
 export interface HttpError {
   config: HttpRequestConfig;
-  error: HttpFetchError | HttpResponseError | HttpParseError;
+  error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError;
 }
 
 function isNil(value: any): boolean {
@@ -40,6 +49,7 @@ export interface RequestCustomOptions {
   observe?: "data" | "response";
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
   interceptorParams?: any;
+  noAbortOnRouteChange?: boolean;
 }
 
 export type HttpCustomOptions = RequestCustomOptions & {
@@ -48,8 +58,12 @@ export type HttpCustomOptions = RequestCustomOptions & {
 
 export type HttpOptions = HttpCustomOptions & RequestInit;
 
+// https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+export const isHttpAbortError = (error: any) =>
+  error instanceof DOMException && error.code === 20;
+
 const createError = (
-  error: HttpFetchError | HttpResponseError | HttpParseError,
+  error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError,
   config: HttpRequestConfig
 ): HttpError => {
   return {
@@ -78,7 +92,14 @@ const request = async <T>(
     try {
       response = await fetch(url, init);
     } catch (e) {
-      reject(createError(new HttpFetchError(e.toString()), config));
+      reject(
+        createError(
+          isHttpAbortError(e)
+            ? new HttpAbortError(e.toString())
+            : new HttpFetchError(e.toString()),
+          config
+        )
+      );
       return;
     }
 
@@ -99,7 +120,14 @@ const request = async <T>(
     try {
       data = await response[responseType]();
     } catch (e) {
-      reject(createError(new HttpParseError(response), config));
+      reject(
+        createError(
+          isHttpAbortError(e)
+            ? new HttpAbortError(e.toString())
+            : new HttpParseError(response),
+          config
+        )
+      );
       return;
     }
 
@@ -211,13 +239,38 @@ const requestWithBody = <T = any>(
 };
 
 class Http {
+  private listener: Record<string, any> = {};
   private requestCache = new Map<string, Promise<any>>();
 
   private isEnableCache: boolean;
+  private clearCacheIgnoreList: ClearRequestCacheListConfig[] = [];
 
   public enableCache = (enable: boolean): void => {
     this.isEnableCache = enable;
   };
+  public setClearCacheIgnoreList = (
+    list: ClearRequestCacheListConfig[]
+  ): void => {
+    this.clearCacheIgnoreList = list;
+  };
+
+  public on(action: string, fn: any): void {
+    if (this.listener[action]) {
+      this.listener[action].push(fn);
+    } else {
+      this.listener[action] = [fn];
+    }
+  }
+
+  private emit(action: string, args: any): void {
+    const listenList = this.listener[action];
+    if (listenList) {
+      let len = listenList.length;
+      while (len--) {
+        listenList[len](args);
+      }
+    }
+  }
 
   public interceptors: {
     request: InterceptorManager<HttpRequestConfig>;
@@ -291,6 +344,7 @@ class Http {
         key = config.url;
       }
       if (this.requestCache.has(key)) {
+        this.emit("match-api-cache", this.requestCache.size);
         return this.requestCache.get(key);
       }
     }
@@ -309,8 +363,19 @@ class Http {
     while (chain.length) {
       promise = promise.then(chain.shift(), chain.shift());
     }
-
-    this.isEnableCache && this.requestCache.set(key, promise);
+    if (this.isEnableCache) {
+      const shouldCache = this.clearCacheIgnoreList.some(
+        (req) =>
+          req.method === config.method &&
+          (!req.uri || new RegExp(req.uri).test(config.url))
+      );
+      // 遇到 clearCacheIgnoreList 缓存列表外的，需要清除缓存
+      if (shouldCache) {
+        this.requestCache.set(key, promise);
+      } else {
+        this.requestCache.clear();
+      }
+    }
     return promise;
   }
 

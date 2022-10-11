@@ -14,6 +14,7 @@ export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
   widgetId?: string;
   app?: PartialMicroApp;
+  appendI18nNamespace?: string;
   storyboardFunctions?: unknown;
   isStoryboardFunction?: boolean;
 }
@@ -42,6 +43,7 @@ function getIndividualGlobal(
     collectCoverage,
     widgetId,
     app,
+    appendI18nNamespace,
     storyboardFunctions,
     isStoryboardFunction,
   }: GeneralGlobalsOptions
@@ -62,7 +64,12 @@ function getIndividualGlobal(
         ? identity
         : widgetId
         ? widgetI18nFactory(widgetId)
-        : getFixedT(null, getI18nNamespace("app", app.id));
+        : getFixedT(
+            null,
+            [appendI18nNamespace, getI18nNamespace("app", app.id)].filter(
+              Boolean
+            )
+          );
     case "I18N_TEXT":
       return collectCoverage ? fakeI18nText : i18nText;
     case "PERMISSIONS":
@@ -81,8 +88,15 @@ function getIndividualGlobal(
         ? {
             href: "http://localhost:3000/functions/test",
             origin: "http://localhost:3000",
+            host: "localhost:3000",
+            hostname: "localhost",
           }
-        : { href: location.href, origin: location.origin };
+        : {
+            href: location.href,
+            origin: location.origin,
+            host: location.host,
+            hostname: location.hostname,
+          };
   }
 }
 

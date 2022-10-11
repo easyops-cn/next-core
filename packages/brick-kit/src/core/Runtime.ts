@@ -14,6 +14,8 @@ import {
   SiteMapItem,
   SidebarMenu,
   RouteConf,
+  CustomTemplate,
+  RuntimeStoryboard,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {
@@ -27,7 +29,6 @@ import {
 } from "./exports";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import {
-  RelatedApp,
   RouterState,
   RecentApps,
   CustomApiDefinition,
@@ -41,6 +42,7 @@ import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { matchStoryboard } from "./matchStoryboard";
 
 let kernel: Kernel;
 
@@ -116,9 +118,38 @@ export function _dev_only_updateTemplatePreviewSettings(
 /* istanbul ignore next */
 export function _dev_only_updateSnippetPreviewSettings(
   appId: string,
-  snippetData: any
+  snippetData: {
+    snippetId: string;
+    bricks: BrickConf[];
+  }
 ): void {
   kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData);
+}
+
+/* istanbul ignore next */
+export function _dev_only_updateStoryboardByRoute(
+  appId: string,
+  newRoute: RouteConf
+): void {
+  kernel._dev_only_updateStoryboardByRoute(appId, newRoute);
+}
+
+export function _dev_only_updateStoryboardByTemplate(
+  appId: string,
+  newTemplate: CustomTemplate,
+  settings?: unknown
+): void {
+  kernel._dev_only_updateStoryboardByTemplate(appId, newTemplate, settings);
+}
+
+export function _dev_only_updateStoryboardBySnippet(
+  appId: string,
+  newSnippet: {
+    snippetId: string;
+    bricks: BrickConf[];
+  }
+): void {
+  kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet);
 }
 
 /* istanbul ignore next */
@@ -182,7 +213,10 @@ export class Runtime implements AbstractRuntime {
   }
 
   hasInstalledApp(appId: string, matchVersion?: string): boolean {
-    return kernel.bootstrapData.microApps.some((app) => {
+    const allMicroApps = window.STANDALONE_MICRO_APPS
+      ? kernel.bootstrapData.offSiteStandaloneApps
+      : kernel.bootstrapData.microApps;
+    return allMicroApps.some((app) => {
       const foundApp = app.id === appId && app.installStatus !== "running";
       if (!matchVersion || !foundApp) {
         return foundApp;
@@ -222,7 +256,7 @@ export class Runtime implements AbstractRuntime {
 
   /* istanbul ignore next */
   reloadSharedData(): void {
-    return kernel.loadSharedData();
+    // Drop supports for related apps;
   }
 
   /* istanbul ignore next */
@@ -321,27 +355,27 @@ export class Runtime implements AbstractRuntime {
   registerWidgetI18n = registerWidgetI18n;
 
   /* istanbul ignore next */
-  getRelatedApps(appId: string): RelatedApp[] {
-    // eslint-disable-next-line no-console
-    console.warn(
-      "`getRuntime().getRelatedApps()` is deprecated and will always return an empty array, please use `await getRuntime().getRelatedAppsAsync()` instead"
-    );
+  getRelatedApps(appId: string): unknown[] {
     return [];
   }
 
   /* istanbul ignore next */
-  getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
-    return kernel.getRelatedAppsAsync(appId);
+  getRelatedAppsAsync(appId: string): Promise<unknown[]> {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "`getRuntime().getRelatedAppsAsync()` is deprecated and will always resolve with an empty array"
+    );
+    return Promise.resolve([]);
   }
 
   /* istanbul ignore next */
   popWorkspaceStack(): void {
-    return kernel.popWorkspaceStack();
+    // deprecated
   }
 
   /* istanbul ignore next */
   resetWorkspaceStack(): void {
-    kernel.workspaceStack = [];
+    // deprecated
   }
 
   getBasePath = getBasePath;
@@ -396,13 +430,11 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
   return kernel.router.getCurrentContext();
 }
 
-export function _internalApiHasMatchedApp(pathname: string): boolean {
-  for (const { homepage } of kernel.bootstrapData.microApps) {
-    if (pathname === homepage || pathname.startsWith(`${homepage}/`)) {
-      return true;
-    }
-  }
-  return false;
+/* istanbul ignore next */
+export function _internalApiMatchStoryboard(
+  pathname: string
+): RuntimeStoryboard {
+  return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
 }
 
 /* istanbul ignore next */

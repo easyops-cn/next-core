@@ -34,8 +34,9 @@ module.exports = (env) => {
     brickPackagesDir,
     alternativeBrickPackagesDir,
     useLegacyBootstrap,
-    standaloneMicroApps,
-    standaloneAppDir,
+    hasStandaloneApps,
+    standaloneAppsConfig,
+    allAppsConfig,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -54,34 +55,44 @@ module.exports = (env) => {
     },
   };
   if (useRemote) {
-    const assetRoot = standaloneMicroApps ? `${standaloneAppDir}-/` : "";
-    if (standaloneMicroApps) {
-      // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
-      proxyPaths.push(assetRoot);
+    for (const standaloneConfig of allAppsConfig) {
+      const assetRoot = standaloneConfig ? `${standaloneConfig.appRoot}-/` : "";
+      if (standaloneConfig) {
+        // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
+        proxyPaths.push(assetRoot);
+        proxyPaths.push(`${standaloneConfig.appRoot}conf.yaml`);
+      }
+
+      const assetPaths = ["bricks", "micro-apps", "templates"];
+      proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
     }
 
-    const assetPaths = ["bricks", "micro-apps", "templates"];
-    proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
-
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
+      if (env.asCdn) {
+        return;
+      }
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
+      const isStandaloneBootstrap =
+        hasStandaloneApps &&
+        new RegExp(
+          `^${escapeRegExp(
+            // 匹配 `/next/your-app/-/bootstrap.[hash].json`
+            `${standaloneAppsConfig
+              .map((standaloneConfig) => escapeRegExp(standaloneConfig.appRoot))
+              .join("|")}-/bootstrap.`
+          )}[^.]+\\.json$`
+        ).test(req.path);
       if (
         req.path === "/next/api/auth/bootstrap" ||
         req.path === "/next/api/auth/v2/bootstrap" ||
-        (standaloneMicroApps &&
-          new RegExp(
-            `^${escapeRegExp(
-              // 匹配 `/next/your-app/-/bootstrap.[hash].json`
-              `/next/${standaloneAppDir}-/bootstrap.`
-            )}[^.]+\\.json$`
-          ).test(req.path))
+        isStandaloneBootstrap
       ) {
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
           }
           const result = JSON.parse(raw);
-          const data = standaloneMicroApps ? result : result.data;
+          const data = isStandaloneBootstrap ? result : result.data;
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
               .map((id) =>
@@ -260,16 +271,38 @@ module.exports = (env) => {
           return JSON.stringify(result);
         });
       } else if (
-        env.cookieSameSiteNone &&
         (req.path === "/next/api/auth/login/v2" ||
-          req.path === "/api/auth/login/v2")
+          req.path === "/api/auth/login/v2") &&
+        res.statusCode === 200 &&
+        Array.isArray(proxyRes.headers["set-cookie"])
       ) {
-        if (
-          res.statusCode === 200 &&
-          Array.isArray(proxyRes.headers["set-cookie"])
-        ) {
+        const secureCookieFlags = ["SameSite=None", "Secure"];
+        if (env.cookieSameSiteNone) {
           proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
-            (cookie) => `${cookie}; SameSite=None; Secure`
+            (cookie) => {
+              const separator = "; ";
+              const parts = cookie.split(separator);
+              for (const part of secureCookieFlags) {
+                if (!parts.includes(part)) {
+                  parts.push(part);
+                }
+              }
+              return parts.join(separator);
+            }
+          );
+        } else if (!env.https) {
+          proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
+            (cookie) => {
+              const separator = "; ";
+              const parts = cookie.split(separator);
+              const filteredParts = [];
+              for (const part of parts) {
+                if (!secureCookieFlags.includes(part)) {
+                  filteredParts.push(part);
+                }
+              }
+              return filteredParts.join(separator);
+            }
           );
         }
       }
@@ -277,7 +310,7 @@ module.exports = (env) => {
   }
 
   const rootProxyOptions = {};
-  if (!env.useLocalContainer) {
+  if (!env.useLocalContainer && !env.asCdn) {
     proxyPaths.push("");
     rootProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (
@@ -289,12 +322,12 @@ module.exports = (env) => {
             !(
               res.statusCode === 200 &&
               res.get("content-type") === "text/html" &&
-              raw.includes("/next/browse-happy.html")
+              raw.includes(`/next/browse-happy.html`)
             )
           ) {
             return raw;
           }
-          const content = env.useSubdir ? raw : raw.replace(/\/next\//g, "/");
+          const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
           return env.liveReload
             ? appendLiveReloadScript(content, env)
             : content;
@@ -306,17 +339,21 @@ module.exports = (env) => {
   return useOffline
     ? undefined
     : {
-        [`${baseHref}api/websocket_service`]: {
-          target: server,
-          secure: false,
-          changeOrigin: true,
-          ws: true,
-          headers: {
-            Origin: server,
-            referer: server,
-          },
-          pathRewrite: pathRewriteFactory("api/websocket_service"),
-        },
+        ...(env.asCdn
+          ? {}
+          : {
+              [`${baseHref}api/websocket_service`]: {
+                target: server,
+                secure: false,
+                changeOrigin: true,
+                ws: true,
+                headers: {
+                  Origin: server,
+                  referer: server,
+                },
+                pathRewrite: pathRewriteFactory("api/websocket_service"),
+              },
+            }),
         ...(useLegacyBootstrap
           ? {
               [`${baseHref}api/auth/v2/bootstrap`]: {
@@ -337,7 +374,7 @@ module.exports = (env) => {
             }
           : {}),
         ...proxyPaths.reduce((acc, seg) => {
-          acc[`${baseHref}${seg}`] = {
+          acc[seg.startsWith("/") ? seg : `${baseHref}${seg}`] = {
             target: server,
             secure: false,
             changeOrigin: true,

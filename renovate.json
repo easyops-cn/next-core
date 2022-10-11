@@ -59,7 +59,13 @@
     },
     {
       "groupName": "svgr packages",
-      "matchPackagePatterns": ["^@svgr/"]
+      "matchPackagePatterns": ["^@svgr/"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "matchPackagePatterns": ["^@svgr/"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
       "depTypeList": ["engines"],
@@ -72,6 +78,11 @@
     {
       "groupName": "type packages",
       "matchPackagePatterns": ["^@types/"]
+    },
+    {
+      "matchPackagePatterns": ["^@types/"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
       "groupName": "rollup packages",
@@ -90,6 +101,11 @@
     {
       "groupName": "cypress packages",
       "matchPackageNames": ["cypress", "cypress/included"]
+    },
+    {
+      "matchPackageNames": ["typedoc", "@microsoft/api-extractor"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]

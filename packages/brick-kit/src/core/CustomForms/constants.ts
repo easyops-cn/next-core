@@ -10,3 +10,7 @@ export const filterProperties: string[] = [
   "bricks",
   "mountPoint",
 ];
+export const symbolForFormContextId = Symbol.for("form.contextId");
+export interface RuntimeBrickConfOfFormSymbols {
+  [symbolForFormContextId]?: string;
+}

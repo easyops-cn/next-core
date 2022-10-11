@@ -1,4 +1,6 @@
+import React from "react";
 import { message } from "antd";
+import { ArgsProps } from "antd/lib/message";
 import { userAnalytics } from "@next-core/easyops-analytics";
 import {
   BrickEventHandler,
@@ -30,15 +32,15 @@ import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "../websocket/interfaces";
 import { applyTheme, applyMode } from "../themeAndMode";
 import { clearMenuTitleCache, clearMenuCache } from "./menu";
-import { PollableCallback, PollableCallbackFunction, startPoll } from "./poll";
+import { PollableCallback, startPoll } from "./poll";
 import { getArgsOfCustomApi } from "../core/FlowApi";
 import { getRuntime } from "../runtime";
 import {
   CustomTemplateContext,
   getCustomTemplateContext,
 } from "../core/CustomTemplates/CustomTemplateContext";
-import React from "react";
-import { ArgsProps } from "antd/lib/message";
+import { isPreEvaluated } from "./evaluate";
+import { isEvaluable } from "@next-core/brick-utils";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -125,19 +127,15 @@ export function listenerFactory(
       case "history.replaceQuery":
       case "history.pushAnchor":
       case "history.block":
-        return builtinHistoryListenerFactory(
-          method,
-          handler.args,
-          handler,
-          context
-        );
       case "history.goBack":
       case "history.goForward":
       case "history.reload":
       case "history.unblock":
-        return builtinHistoryWithoutArgsListenerFactory(
+        return builtinHistoryListenerFactory(
           method,
+          handler.args,
           handler,
+          handler.callback,
           context
         );
       case "segue.push":
@@ -146,6 +144,7 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
+          handler.callback,
           context
         );
       case "alias.push":
@@ -222,14 +221,25 @@ export function listenerFactory(
         }) as EventListener;
       case "context.assign":
       case "context.replace":
+      case "context.refresh":
+      case "context.load":
         return builtinContextListenerFactory(
           method,
           handler.args,
           handler,
+          handler.callback,
           context
         );
       case "state.update":
-        return builtinStateListenerFactory(handler.args, handler, context);
+      case "state.refresh":
+      case "state.load":
+        return builtinStateListenerFactory(
+          method,
+          handler.args,
+          handler,
+          handler.callback,
+          context
+        );
       case "tpl.dispatchEvent":
         return builtinTplDispatchEventFactory(handler.args, handler, context);
       case "message.subscribe":
@@ -356,9 +366,10 @@ function builtinTplDispatchEventFactory(
 }
 
 function builtinContextListenerFactory(
-  method: "assign" | "replace",
+  method: "assign" | "replace" | "refresh" | "load",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
@@ -367,13 +378,15 @@ function builtinContextListenerFactory(
     }
     const storyboardContext = _internalApiGetStoryboardContextWrapper();
     const [name, value] = argsFactory(args, context, event);
-    storyboardContext.updateValue(name as string, value, method);
+    storyboardContext.updateValue(name as string, value, method, callback);
   } as EventListener;
 }
 
 function builtinStateListenerFactory(
+  method: "update" | "refresh" | "load",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
@@ -382,7 +395,12 @@ function builtinStateListenerFactory(
     }
     const tplContext = getTplContext(context.tplContextId);
     const [name, value] = argsFactory(args, context, event);
-    tplContext.state.updateValue(name as string, value, "replace");
+    tplContext.state.updateValue(
+      name as string,
+      value,
+      method === "update" ? "replace" : method,
+      callback
+    );
   } as EventListener;
 }
 
@@ -409,6 +427,7 @@ function builtinSegueListenerFactory(
   method: "push" | "replace",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
@@ -424,7 +443,19 @@ function builtinSegueListenerFactory(
         ...(argsFactory(args, context, event) as Parameters<
           ReturnType<typeof getUrlBySegueFactory>
         >)
-      )
+      ),
+      undefined,
+      callback
+        ? (blocked) => {
+            const callbackFactory = eventCallbackFactory(
+              callback,
+              () => context,
+              null
+            );
+            callbackFactory(blocked ? "error" : "success")({ blocked });
+            callbackFactory("finally")({ blocked });
+          }
+        : undefined
     );
   } as EventListener;
 }
@@ -577,33 +608,62 @@ function customListenerFactory(
       return;
     }
     let targets: HTMLElement[] = [];
-    if (typeof handler.target === "string") {
-      if (handler.target === "_self") {
+    const rawTarget = handler.target;
+    const rawTargetRef = handler.targetRef;
+    let computedTarget = rawTarget;
+    // Allow `target` to be set as evaluable string.
+    if (
+      typeof rawTarget === "string"
+        ? isEvaluable(rawTarget)
+        : isPreEvaluated(rawTarget)
+    ) {
+      computedTarget = computeRealValue(rawTarget, { ...context, event });
+    }
+    if (typeof computedTarget === "string") {
+      if (computedTarget === "_self") {
         targets.push(runtimeBrick.element);
       } else if (handler.multiple) {
-        targets = Array.from(document.querySelectorAll(handler.target));
+        targets = Array.from(document.querySelectorAll(computedTarget));
       } else {
-        const found = document.querySelector(handler.target) as HTMLElement;
+        const found = document.querySelector(computedTarget) as HTMLElement;
         if (found !== null) {
           targets.push(found);
         }
       }
-    } else if (handler.target) {
-      targets.push(handler.target as HTMLElement);
-    } else if (handler.targetRef) {
+    } else if (computedTarget) {
+      if (computedTarget instanceof HTMLElement) {
+        targets.push(computedTarget as HTMLElement);
+      } else {
+        // eslint-disable-next-line no-console
+        console.error("unexpected target:", computedTarget);
+      }
+    } else if (rawTargetRef) {
+      let computedTargetRef = rawTargetRef;
+      // Allow `targetRef` to be set as evaluable string.
+      if (
+        typeof rawTargetRef === "string"
+          ? isEvaluable(rawTargetRef)
+          : isPreEvaluated(rawTargetRef)
+      ) {
+        computedTargetRef = computeRealValue(
+          rawTargetRef,
+          { ...context, event },
+          true
+        ) as string | string[];
+      }
       const tpl: RuntimeBrickElement = getTplContext(
         context.tplContextId
       ).getBrick().element;
       targets.push(
         ...[]
-          .concat(handler.targetRef)
+          .concat(computedTargetRef)
           .map((ref) => tpl.$$getElementByRef?.(ref))
           .filter(Boolean)
       );
     }
     if (targets.length === 0) {
       // eslint-disable-next-line no-console
-      console.error("target not found:", handler.target || handler.targetRef);
+      console.error("target not found:", rawTarget || rawTargetRef);
       return;
     }
     if (isExecuteCustomHandler(handler)) {
@@ -634,6 +694,38 @@ function customListenerFactory(
   } as EventListener;
 }
 
+export function eventCallbackFactory(
+  callback: BrickEventHandlerCallback,
+  getContext: () => PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
+) {
+  return function callbackFactory(
+    type: "success" | "error" | "finally" | "progress"
+  ) {
+    return function (result?: unknown) {
+      if (callback?.[type]) {
+        try {
+          const event = new CustomEvent(`callback.${type}`, {
+            detail: result,
+          });
+          const context = getContext();
+          [].concat(callback[type]).forEach((eachHandler) => {
+            listenerFactory(eachHandler, context, runtimeBrick)(event);
+          });
+        } catch (err) {
+          // Do not throw errors in `callback.success` or `callback.progress`,
+          // to avoid the following triggering of `callback.error`.
+          // eslint-disable-next-line
+          console.error(err);
+        }
+      } else if (type === "error") {
+        // eslint-disable-next-line
+        console.error("Unhandled callback error:", result);
+      }
+    };
+  };
+}
+
 async function brickCallback(
   target: HTMLElement,
   handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
@@ -657,55 +749,29 @@ async function brickCallback(
     if (isUseProviderHandler(handler)) {
       computedArgs = await getArgsOfCustomApi(
         handler.useProvider,
-        computedArgs
+        computedArgs,
+        method
       );
     }
     return (target as any)[method](...computedArgs);
   };
 
-  const {
-    success,
-    error,
-    finally: finallyHook,
-    progress,
-  } = handler.callback ?? {};
-
-  if (!(success || error || finallyHook || progress)) {
+  if (!handler.callback) {
     task();
     return;
   }
 
-  const callbackFactory =
-    (
-      eventType: string,
-      specificHandler: BrickEventHandler | BrickEventHandler[]
-    ): PollableCallbackFunction =>
-    (result: unknown) => {
-      if (specificHandler) {
-        try {
-          const event = new CustomEvent(eventType, {
-            detail: result,
-          });
-          [].concat(specificHandler).forEach((eachHandler) => {
-            listenerFactory(eachHandler, context, runtimeBrick)(event);
-          });
-        } catch (err) {
-          // Do not throw errors in `callback.success` or `callback.progress`,
-          // to avoid the following triggering of `callback.error`.
-          // eslint-disable-next-line
-          console.error(err);
-        }
-      } else if (eventType === "callback.error") {
-        // eslint-disable-next-line
-        console.error("Unhandled callback error:", result);
-      }
-    };
+  const callbackFactory = eventCallbackFactory(
+    handler.callback,
+    () => context,
+    runtimeBrick
+  );
 
   const pollableCallback: Required<PollableCallback> = {
-    progress: callbackFactory("callback.progress", progress),
-    success: callbackFactory("callback.success", success),
-    error: callbackFactory("callback.error", error),
-    finally: callbackFactory("callback.finally", finallyHook),
+    progress: callbackFactory("progress"),
+    success: callbackFactory("success"),
+    error: callbackFactory("error"),
+    finally: callbackFactory("finally"),
   };
 
   let poll: ProviderPollOptions;
@@ -735,37 +801,61 @@ function builtinHistoryListenerFactory(
     | "pushQuery"
     | "replaceQuery"
     | "pushAnchor"
-    | "block",
+    | "block"
+    | "goBack"
+    | "goForward"
+    | "reload"
+    | "unblock",
   args: unknown[],
   ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
     if (!looseCheckIf(ifContainer, { ...context, event })) {
       return;
     }
-    (
-      getHistory()[method === "block" ? "setBlockMessage" : method] as (
-        ...args: unknown[]
-      ) => unknown
-    )(
-      ...argsFactory(args, context, event, {
+    let baseArgsLength = 0;
+    let hasCallback = false;
+    let overrideMethod = method as "setBlockMessage";
+    switch (method) {
+      case "push":
+      case "replace":
+      case "pushQuery":
+      case "replaceQuery":
+      case "pushAnchor":
+        baseArgsLength = 2;
+        hasCallback = true;
+        break;
+      case "reload":
+        hasCallback = true;
+        break;
+      case "block":
+        baseArgsLength = 1;
+        overrideMethod = "setBlockMessage";
+        break;
+    }
+    let computedArgs: unknown[] = [];
+    if (baseArgsLength > 0) {
+      computedArgs = argsFactory(args, context, event, {
         useEventDetailAsDefault: true,
-      })
-    );
-  } as EventListener;
-}
-
-function builtinHistoryWithoutArgsListenerFactory(
-  method: "goBack" | "goForward" | "reload" | "unblock",
-  ifContainer: IfContainer,
-  context: PluginRuntimeContext
-): EventListener {
-  return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
-      return;
+      });
+      computedArgs.length = baseArgsLength;
     }
-    getHistory()[method]();
+    if (hasCallback && callback) {
+      const callbackFactory = eventCallbackFactory(
+        callback,
+        () => context,
+        null
+      );
+      computedArgs.push((blocked: boolean) => {
+        callbackFactory(blocked ? "error" : "success")({ blocked });
+        callbackFactory("finally")({ blocked });
+      });
+    }
+    (getHistory()[overrideMethod] as (...args: unknown[]) => unknown)(
+      ...computedArgs
+    );
   } as EventListener;
 }
 

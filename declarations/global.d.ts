@@ -50,6 +50,9 @@ interface Window {
   /** The app root, E.g. "hello-world/" */
   APP_ROOT?: string;
 
+  /** The public cdn, E.g. "https://my.cdn.site/" */
+  PUBLIC_CDN?: string;
+
   /** The public root, E.g. "hello-world/-/" */
   PUBLIC_ROOT?: string;
 

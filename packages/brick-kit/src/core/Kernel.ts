@@ -1,4 +1,4 @@
-import { cloneDeep, pick, sortBy } from "lodash";
+import { cloneDeep, merge, pick } from "lodash";
 import {
   loadScript,
   prefetchScript,
@@ -10,6 +10,7 @@ import {
   getDllAndDepsByResource,
   scanProcessorsInAny,
   CustomApiInfo,
+  deepFreeze,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
@@ -18,8 +19,12 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
+import {
+  RuntimeApi_runtimeMicroAppStandalone,
+  RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
+} from "@next-sdk/micro-app-standalone-sdk";
 import type {
   MountPoints,
   BootstrapData,
@@ -37,9 +42,10 @@ import type {
   MenuRawData,
   Storyboard,
   SimpleFunction,
-  RouteConfOfBricks,
+  CustomTemplate,
+  MetaI18n,
 } from "@next-core/brick-types";
-import { authenticate, isLoggedIn } from "../auth";
+import { authenticate } from "../auth";
 import {
   Router,
   MenuBar,
@@ -48,16 +54,10 @@ import {
   registerCustomTemplate,
 } from "./exports";
 import { getHistory } from "../history";
-import {
-  RelatedApp,
-  VisitedWorkspace,
-  RecentApps,
-  CustomApiDefinition,
-  ThemeSetting,
-} from "./interfaces";
+import { RecentApps, CustomApiDefinition, ThemeSetting } from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
-import { listenDevtools } from "../internal/devtools";
+import { listenDevtools, listenDevtoolsEagerly } from "../internal/devtools";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
@@ -73,6 +73,8 @@ import {
 } from "../internal/applyColorTheme";
 import { formDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
+import { customTemplateRegistry } from "./CustomTemplates";
+import { getRuntimeMisc } from "../internal/misc";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -85,16 +87,14 @@ export class Kernel {
   public currentApp: MicroApp;
   public previousApp: MicroApp;
   public nextApp: MicroApp;
-  public currentUrl: string;
   public currentRoute: RouteConf;
-  public workspaceStack: VisitedWorkspace[] = [];
   public currentLayout: LayoutType;
   public allUserMapPromise: Promise<Map<string, UserInfo>> = Promise.resolve(
     new Map()
   );
   public allMagicBrickConfigMapPromise: Promise<Map<string, MagicBrickConfig>> =
     Promise.resolve(new Map());
-  private allRelatedAppsPromise: Promise<RelatedApp[]> = Promise.resolve([]);
+  private originFaviconHref: string;
   public allMicroAppApiOrchestrationPromise: Promise<
     Map<string, CustomApiDefinition>
   > = Promise.resolve(new Map());
@@ -103,7 +103,15 @@ export class Kernel {
   private loadMagicBrickConfigStarted = false;
 
   async bootstrap(mountPoints: MountPoints): Promise<void> {
+    listenDevtoolsEagerly();
     this.mountPoints = mountPoints;
+    if (
+      getRuntimeMisc().isInIframeOfSameSite &&
+      !getRuntimeMisc().isInIframeOfVisualBuilder
+    ) {
+      document.body.classList.add("bars-hidden-in-iframe");
+    }
+
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
     if (this.bootstrapData.storyboards.length === 0) {
       throw new Error("No storyboard were found.");
@@ -113,9 +121,6 @@ export class Kernel {
       this.bootstrapData.settings?.misc?.theme as ThemeSetting
     );
 
-    if (isLoggedIn()) {
-      this.loadSharedData();
-    }
     this.menuBar = new MenuBar(this, "menuBar");
     this.appBar = new AppBar(this, "appBar");
     this.loadingBar = new BaseBar(this, "loadingBar");
@@ -123,6 +128,9 @@ export class Kernel {
 
     initAnalytics();
 
+    this.originFaviconHref = (
+      document.querySelector("link[rel='shortcut icon']") as HTMLLinkElement
+    )?.href;
     await this.router.bootstrap();
     if (!window.STANDALONE_MICRO_APPS) {
       this.legacyAuthGuard();
@@ -203,7 +211,7 @@ export class Kernel {
       : BootstrapV2Api_bootstrapV2(
           {
             appFields:
-              "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status,icons",
+              "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status,icons,standaloneMode",
             ignoreTemplateFields: "templates",
             ignoreBrickFields: "bricks,processors,providers,editors",
             ...params,
@@ -216,7 +224,7 @@ export class Kernel {
       templatePackages: [],
       ...data,
     } as BootstrapData;
-    // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+    // Merge `app.defaultConfig` and `app.userConfig` to `app.config`. Should merge config again in standalone mode when doFulfilStoryboard because static bootstrap.json do not have userConfig.
     processBootstrapResponse(bootstrapResponse);
     this.bootstrapData = {
       ...bootstrapResponse,
@@ -233,6 +241,8 @@ export class Kernel {
     // There is no need to reload standalone micro-apps.
     if (!window.STANDALONE_MICRO_APPS) {
       return this.loadMicroApps(params, interceptorParams);
+    } else {
+      // load launchpad info
     }
   }
 
@@ -250,7 +260,41 @@ export class Kernel {
     storyboard: RuntimeStoryboard
   ): Promise<void> {
     if (window.STANDALONE_MICRO_APPS) {
-      Object.assign(storyboard, { $$fulfilled: true });
+      Object.assign(storyboard, {
+        $$fulfilled: true,
+        $$fulfilling: null,
+      });
+      if (!window.NO_AUTH_GUARD) {
+        let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody;
+        try {
+          appRuntimeData = await RuntimeApi_runtimeMicroAppStandalone(
+            storyboard.app.id
+          );
+        } catch (error) {
+          // make it not crash when the backend service is not updated.
+          // eslint-disable-next-line no-console
+          console.warn(
+            "request standalone runtime api from micro-app-standalone failed: ",
+            error,
+            ", something might went wrong running standalone micro app"
+          );
+        }
+        if (appRuntimeData) {
+          // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+          storyboard.app.userConfig = {
+            ...storyboard.app.userConfig,
+            ...appRuntimeData.userConfig,
+          };
+          storyboard.app.config = deepFreeze(
+            merge({}, storyboard.app.defaultConfig, storyboard.app.userConfig)
+          );
+          // get inject menus (Actually, appRuntimeData contains both main and inject menus)
+          storyboard.meta = {
+            ...storyboard.meta,
+            injectMenus: appRuntimeData.injectMenus as MenuRawData[],
+          };
+        }
+      }
     } else {
       const { routes, meta, app } = await BootstrapV2Api_getAppStoryboardV2(
         storyboard.app.id,
@@ -261,6 +305,7 @@ export class Kernel {
         meta,
         app: { ...storyboard.app, ...app },
         $$fulfilled: true,
+        $$fulfilling: null,
       });
     }
     this.postProcessStoryboard(storyboard);
@@ -268,7 +313,10 @@ export class Kernel {
 
   private postProcessStoryboard(storyboard: RuntimeStoryboard): void {
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+    this.postProcessStoryboardI18n(storyboard);
+  }
 
+  private postProcessStoryboardI18n(storyboard: RuntimeStoryboard): void {
     if (storyboard.meta?.i18n) {
       // Prefix to avoid conflict between brick package's i18n namespace.
       const i18nNamespace = getI18nNamespace("app", storyboard.app.id);
@@ -276,6 +324,59 @@ export class Kernel {
       Object.entries(storyboard.meta.i18n).forEach(([lang, resources]) => {
         i18next.addResourceBundle(lang, i18nNamespace, resources);
       });
+    }
+  }
+
+  async fulfilStoryboardI18n(appIds: string[]): Promise<void> {
+    // Ignore already fulfilled apps.
+    const filteredStoryboards = appIds
+      .map((appId) =>
+        this.bootstrapData.storyboards.find((story) => story.app.id === appId)
+      )
+      .filter((story) => story && !story.$$fulfilled && !story.$$i18nFulfilled);
+
+    if (window.STANDALONE_MICRO_APPS) {
+      // standalone micros-apps not need to request i18n
+      return;
+    }
+
+    // Do not fulfil i18n if the app is doing a whole fulfilling.
+    const fulfilling: Promise<void>[] = [];
+    const filteredAppIds: string[] = [];
+    for (const story of filteredStoryboards) {
+      if (story.$$fulfilling) {
+        fulfilling.push(story.$$fulfilling);
+      } else {
+        filteredAppIds.push(story.app.id);
+      }
+    }
+
+    if (filteredAppIds.length === 0) {
+      // Still wait for these whole fulfilling.
+      await Promise.all(fulfilling);
+      return;
+    }
+
+    const [{ i18nInfo }] = await Promise.all([
+      InstalledMicroAppApi_getI18NData({
+        appIds: filteredAppIds.join(","),
+      }),
+      // Still wait for these whole fulfilling.
+      ...fulfilling,
+    ]);
+
+    for (const { appId, i18n } of i18nInfo) {
+      const storyboard = this.bootstrapData.storyboards.find(
+        (story) => story.app.id === appId
+      );
+      Object.assign(storyboard, {
+        meta: {
+          ...storyboard.meta,
+          i18n: i18n as MetaI18n,
+        },
+        $$i18nFulfilled: true,
+      });
+      this.postProcessStoryboardI18n(storyboard);
     }
   }
 
@@ -288,7 +389,7 @@ export class Kernel {
     );
     Object.assign(storyboard, {
       ...storyboardPatch,
-      $$fulfilling: Promise.resolve(),
+      $$fulfilling: null,
       $$fulfilled: true,
       $$registerCustomTemplateProcessed: false,
       $$depsProcessed: false,
@@ -301,7 +402,7 @@ export class Kernel {
     templateId: string,
     settings?: unknown
   ): void {
-    const { routes } = this.bootstrapData.storyboards.find(
+    const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
     const previewPath = `\${APP.homepage}/_dev_only_/template-preview/${templateId}`;
@@ -318,6 +419,7 @@ export class Kernel {
       ],
       menu: false,
       exact: true,
+      hybrid: app.legacy === "iframe",
     };
     if (previewRouteIndex === -1) {
       routes.unshift(newPreviewRoute);
@@ -333,7 +435,7 @@ export class Kernel {
       bricks: BrickConf[];
     }
   ): void {
-    const { routes } = this.bootstrapData.storyboards.find(
+    const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
     const previewPath = `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`;
@@ -348,12 +450,72 @@ export class Kernel {
           : [{ brick: "span" }],
       menu: false,
       exact: true,
+      hybrid: app.legacy === "iframe",
     };
     if (previewRouteIndex === -1) {
       routes.unshift(newPreviewRoute);
     } else {
       routes.splice(previewRouteIndex, 1, newPreviewRoute);
     }
+  }
+
+  _dev_only_updateStoryboardByRoute(appId: string, newRoute: RouteConf): void {
+    const storyboard = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+    let match = false;
+    const getKey = (route: RouteConf): string => `${route.path}.${route.exact}`;
+    const replaceRoute = (routes: RouteConf[], key: string): RouteConf[] => {
+      return routes.map((route) => {
+        const routeKey = getKey(route);
+        if (route.type === "routes") {
+          route.routes = replaceRoute(route.routes, key);
+          return route;
+        } else if (routeKey === key) {
+          match = true;
+          return newRoute;
+        } else {
+          return route;
+        }
+      });
+    };
+    storyboard.routes = replaceRoute(storyboard.routes, getKey(newRoute));
+    if (!match) {
+      storyboard.routes.unshift(newRoute);
+    }
+  }
+
+  _dev_only_updateStoryboardByTemplate(
+    appId: string,
+    newTemplate: CustomTemplate,
+    settings: unknown
+  ): void {
+    const tplName = `${appId}.${newTemplate.name}`;
+    customTemplateRegistry.delete(tplName);
+    registerCustomTemplate(
+      tplName,
+      {
+        bricks: newTemplate.bricks,
+        proxy: newTemplate.proxy,
+        state: newTemplate.state,
+      },
+      appId
+    );
+    this._dev_only_updateTemplatePreviewSettings(
+      appId,
+      newTemplate.name,
+      settings
+    );
+  }
+
+  _dev_only_updateStoryboardBySnippet(
+    appId: string,
+    newSnippet: {
+      snippetId: string;
+      bricks: BrickConf[];
+    }
+  ): void {
+    this._dev_only_updateSnippetPreviewSettings(appId, newSnippet);
   }
 
   _dev_only_updateFormPreviewSettings(
@@ -580,12 +742,6 @@ export class Kernel {
     document.body.classList.toggle("show-legacy-iframe", visible);
   }
 
-  loadSharedData(): void {
-    if (!window.STANDALONE_MICRO_APPS) {
-      this.loadRelatedAppsAsync();
-    }
-  }
-
   loadUsersAsync(): void {
     if (!this.loadUsersStarted) {
       this.loadUsersStarted = true;
@@ -702,82 +858,10 @@ export class Kernel {
     return allMagicBrickConfigMap;
   }
 
-  private loadRelatedAppsAsync(): void {
-    this.allRelatedAppsPromise = this.loadRelatedApps();
-  }
-
-  private async loadRelatedApps(): Promise<RelatedApp[]> {
-    let relatedApps: RelatedApp[] = [];
-    try {
-      relatedApps = (await ObjectMicroAppApi_getObjectMicroAppList()).list;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn("Load related apps error:", error);
-    }
-    return relatedApps;
-  }
-
-  async getRelatedAppsAsync(appId: string): Promise<RelatedApp[]> {
-    if (!appId) {
-      return [];
-    }
-    const allRelatedApps = await this.allRelatedAppsPromise;
-    const thisApp = allRelatedApps.find((item) => item.microAppId === appId);
-    if (!thisApp) {
-      return [];
-    }
-    return sortBy(
-      allRelatedApps.filter((item) => item.objectId === thisApp.objectId),
-      ["order"]
-    );
-  }
-
-  async updateWorkspaceStack(): Promise<void> {
-    if (this.currentApp && this.currentApp.id) {
-      const workspace: VisitedWorkspace = {
-        appId: this.currentApp.id,
-        appName: this.currentApp.name,
-        appLocaleName: this.currentApp.localeName,
-        url: this.currentUrl,
-      };
-      if (this.workspaceStack.length > 0) {
-        const previousWorkspace =
-          this.workspaceStack[this.workspaceStack.length - 1];
-        const relatedApps = await this.getRelatedAppsAsync(
-          previousWorkspace.appId
-        );
-        if (
-          relatedApps.some((item) => item.microAppId === this.currentApp.id)
-        ) {
-          Object.assign(previousWorkspace, workspace);
-          return;
-        }
-      }
-
-      const relatedApps = await this.getRelatedAppsAsync(this.currentApp.id);
-      if (relatedApps.length > 0) {
-        this.workspaceStack.push(workspace);
-        return;
-      }
-    }
-    this.workspaceStack = [];
-  }
-
-  getPreviousWorkspace(): VisitedWorkspace {
-    if (this.workspaceStack.length > 1) {
-      return this.workspaceStack[this.workspaceStack.length - 2];
-    }
-  }
-
-  popWorkspaceStack(): void {
-    this.workspaceStack.pop();
-  }
-
   getRecentApps(): RecentApps {
     return {
       previousApp: this.previousApp,
       currentApp: this.currentApp,
-      previousWorkspace: this.getPreviousWorkspace(),
     };
   }
 
@@ -785,17 +869,70 @@ export class Kernel {
     return Object.assign({}, this.bootstrapData?.settings?.featureFlags);
   }
 
-  getStandaloneMenus(menuId: string): MenuRawData[] {
-    const currentAppId = this.currentApp.id;
+  async getStandaloneMenus(
+    menuId: string,
+    isPreFetch?: boolean
+  ): Promise<MenuRawData[]> {
+    const app = isPreFetch ? this.nextApp : this.currentApp;
+    const currentAppId = app.id;
     const currentStoryboard = this.bootstrapData.storyboards.find(
       (storyboard) => storyboard.app.id === currentAppId
     );
-    return (cloneDeep(currentStoryboard.meta?.menus) ?? [])
+    const menus = currentStoryboard.meta?.injectMenus
+      ? cloneDeep(currentStoryboard.meta.injectMenus)
+      : currentStoryboard.meta?.menus
+      ? cloneDeep(currentStoryboard.meta.menus)
+      : [];
+
+    let filterMenus = menus
       .filter((menu) => menu.menuId === menuId)
       .map((menu) => ({
         ...menu,
-        app: [{ appId: currentAppId }],
+        ...(menu.app?.length && menu.app[0].appId
+          ? {}
+          : { app: [{ appId: currentAppId }] }),
       }));
+
+    if (!filterMenus.length) {
+      filterMenus =
+        ((
+          await InstanceApi_postSearch("STANDALONE_MENU@EASYOPS", {
+            page: 1,
+            page_size: 200,
+            fields: {
+              menuId: true,
+              title: true,
+              icon: true,
+              link: true,
+              titleDataSource: true,
+              defaultCollapsed: true,
+              defaultCollapsedBreakpoint: true,
+              type: true,
+              injectMenuGroupId: true,
+              dynamicItems: true,
+              itemsResolve: true,
+              items: true,
+              i18n: true,
+              "items.children": true,
+              "app.appId": true,
+            },
+            query: {
+              menuId: {
+                $eq: menuId,
+              },
+              "app.isActiveVersion": {
+                $eq: true,
+              },
+            },
+          })
+        )?.list as MenuRawData[]) ?? [];
+    }
+
+    return filterMenus as MenuRawData[];
+  }
+
+  getOriginFaviconHref(): string {
+    return this.originFaviconHref;
   }
 
   async getProviderBrick(provider: string): Promise<HTMLElement> {

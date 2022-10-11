@@ -11,7 +11,6 @@ export function askTargetType(type: TargetType): inquirer.ListQuestion<{
     message: "What do you want?",
     choices: [
       TargetType.A_NEW_BRICK,
-      // TargetType.A_NEW_EDITOR_BRICK,
       TargetType.A_NEW_CUSTOM_PROVIDER,
       TargetType.A_NEW_PACKAGE_OF_BRICKS,
       TargetType.A_NEW_CUSTOM_PROCESSOR,

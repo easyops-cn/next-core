@@ -1,6 +1,6 @@
 {
   "name": "@next-core/supply",
-  "version": "1.0.49",
+  "version": "1.0.66",
   "description": "Supply for expressions and storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/supply",
   "license": "GPL-3.0",
@@ -29,10 +29,10 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.65.0"
+    "@next-core/brick-types": "^2.78.0"
   },
   "devDependencies": {
-    "@next-core/pipes": "^1.0.5",
+    "@next-core/pipes": "^1.0.7",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"

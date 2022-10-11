@@ -4,6 +4,7 @@ const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const commonjs = require("@rollup/plugin-commonjs");
 const json = require("@rollup/plugin-json");
 const postcss = require("rollup-plugin-postcss");
+const url = require("@rollup/plugin-url");
 const image = require("@rollup/plugin-image");
 const copy = require("rollup-plugin-copy");
 const postcssNested = require("postcss-nested");
@@ -127,13 +128,8 @@ exports.rollupFactory = ({
   };
 };
 
-exports.rollupFactoryForSnippets = () => ({
-  input: "snippets/index.ts",
-  output: {
-    file: "dist-snippets/index.js",
-    format: "cjs",
-  },
-  plugins: [
+function getCommonPlugins() {
+  return [
     nodeResolve({
       extensions: [".ts"],
     }),
@@ -142,6 +138,33 @@ exports.rollupFactoryForSnippets = () => ({
       extensions: ["ts"],
       babelHelpers: "runtime",
     }),
-    image(),
+  ];
+}
+
+exports.rollupFactoryForSnippets = () => ({
+  input: "snippets/index.ts",
+  output: {
+    file: "dist-snippets/index.js",
+    format: "cjs",
+  },
+  plugins: [...getCommonPlugins(), image()],
+});
+
+exports.rollupFactoryForStories = () => ({
+  input: "stories/index.ts",
+  output: {
+    file: "dist/stories/index.js",
+    format: "cjs",
+  },
+  plugins: [
+    ...getCommonPlugins(),
+    url({
+      limit: 1024,
+      destDir: "dist/stories-asserts",
+      fileName: "[name].[hash][extname]",
+      publicPath: `bricks/${path.basename(
+        process.cwd()
+      )}/dist/stories-asserts/`,
+    }),
   ],
 });

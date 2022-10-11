@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.19](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.18...@next-core/illustrations@0.9.19) (2022-10-09)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.18](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.17...@next-core/illustrations@0.9.18) (2022-09-26)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.17](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.16...@next-core/illustrations@0.9.17) (2022-09-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.16](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.15...@next-core/illustrations@0.9.16) (2022-09-08)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.15](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.14...@next-core/illustrations@0.9.15) (2022-09-06)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.14](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.13...@next-core/illustrations@0.9.14) (2022-09-06)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.13](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.12...@next-core/illustrations@0.9.13) (2022-09-05)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.12](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.11...@next-core/illustrations@0.9.12) (2022-09-02)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.11](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.10...@next-core/illustrations@0.9.11) (2022-09-01)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.10](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.9...@next-core/illustrations@0.9.10) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.9](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.8...@next-core/illustrations@0.9.9) (2022-08-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.8](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.7...@next-core/illustrations@0.9.8) (2022-08-23)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.7](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.6...@next-core/illustrations@0.9.7) (2022-08-19)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.6](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.5...@next-core/illustrations@0.9.6) (2022-08-08)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.4...@next-core/illustrations@0.9.5) (2022-08-08)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.4](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.3...@next-core/illustrations@0.9.4) (2022-07-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.9.3](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.2...@next-core/illustrations@0.9.3) (2022-07-20)
+
+**Note:** Version bump only for package @next-core/illustrations
+
 ## [0.9.2](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.1...@next-core/illustrations@0.9.2) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/illustrations

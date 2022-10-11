@@ -4,7 +4,7 @@ import {
   mapCustomApisToNameAndNamespace,
   scanStoryboard,
 } from "@next-core/brick-utils";
-import { HttpResponseError } from "@next-core/brick-http";
+import { HttpAbortError, HttpResponseError } from "@next-core/brick-http";
 import { History, Location, LocationListener } from "history";
 import { getHistory } from "../history";
 import { Router } from "./Router";
@@ -19,6 +19,10 @@ import { mountTree, mountStaticNode } from "./reconciler";
 import { getAuth, isLoggedIn } from "../auth";
 import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "../internal/checkPermissions";
+import {
+  getStandaloneInstalledApps,
+  preFetchStandaloneInstalledApps,
+} from "../internal/getStandaloneInstalledApps";
 import { mediaEventTarget } from "../internal/mediaQuery";
 
 jest.mock("../history");
@@ -28,6 +32,7 @@ jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("../internal/checkPermissions");
+jest.mock("../internal/getStandaloneInstalledApps");
 jest.mock("@next-core/easyops-analytics", () => ({
   apiAnalyzer: {
     create: () => jest.mock,
@@ -146,8 +151,6 @@ describe("Router", () => {
     toggleBars: jest.fn(),
     firstRendered: jest.fn(),
     toggleLegacyIframe: jest.fn(),
-    updateWorkspaceStack: jest.fn(),
-    getPreviousWorkspace: jest.fn(),
     getRecentApps: jest.fn(),
     loadDepsOfStoryboard: jest.fn(),
     registerCustomTemplatesInStoryboard: jest.fn(),
@@ -156,6 +159,7 @@ describe("Router", () => {
     prefetchDepsOfStoryboard: jest.fn(),
     loadDynamicBricks: jest.fn(),
     layoutBootstrap: jest.fn(),
+    getOriginFaviconHref: jest.fn(),
     presetBricks: {
       pageNotFound: "basic-bricks.page-not-found",
       pageError: "basic-bricks.page-error",
@@ -225,87 +229,84 @@ describe("Router", () => {
     expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
     expect(kernel.fulfilStoryboard).toBeCalled();
     expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
-    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
+    expect(kernel.prefetchDepsOfStoryboard).not.toBeCalled();
     expect(preCheckPermissions).toBeCalled();
+    expect(preFetchStandaloneInstalledApps).not.toBeCalled();
+    expect(getStandaloneInstalledApps).not.toBeCalled();
     expect(spyOnMediaEventTargetAddEventListener).toBeCalled();
     expect(mockUserAnalyticsEvent).toBeCalledWith("page_view", {
       micro_app_id: "hello",
       route_alias: "route alias",
       ...analyticsData,
     });
+    jest.advanceTimersByTime(0);
+    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
-  it("it should work-MergePreviewRouter", async () => {
-    const router = new Router(kernel);
-    const result = router.MergePreviewRouter([
-      {
-        path: "${APP.homepage}/home",
+
+  it("should render matched storyboard in standalone mode", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const analyticsData = {
+      prop1: "value",
+    };
+    __setMatchedStoryboard({
+      routes: [],
+      app: {
+        id: "hello-standalone",
       },
+    });
+    __setMountRoutesResults(
       {
-        path: "${APP.homepage}/_dev_only_/template-preview/test",
-      },
-      {
-        path: "${APP.homepage}/test1",
-      },
-      {
-        path: "${APP.homepage}/_dev_only_/form-preview/test",
-      },
-      {
-        path: "${APP.homepage}/test2",
-      },
-      {
-        path: "${APP.homepage}/_dev_only_/snippet-preview/test",
-      },
-    ]);
-    expect(result).toEqual([
-      {
-        path: "${APP.homepage}/home",
-      },
-      {
-        path: "${APP.homepage}/_dev_only_/template-preview/test",
-      },
-      {
-        bricks: [
+        route: {
+          alias: "route alias",
+        },
+        main: [
           {
-            brick: "span",
+            type: "p",
           },
         ],
-        exact: true,
-        menu: false,
-        path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
+        menuBar: {
+          title: "menu",
+        },
+        appBar: {
+          title: "app",
+        },
+        analyticsData,
       },
-      {
-        path: "${APP.homepage}/test1",
-      },
-      {
-        path: "${APP.homepage}/_dev_only_/form-preview/test",
-      },
-      {
-        bricks: [
-          {
-            brick: "span",
-          },
-        ],
-        exact: true,
-        menu: false,
-        path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
-      },
-      {
-        path: "${APP.homepage}/test2",
-      },
-      {
-        path: "${APP.homepage}/_dev_only_/snippet-preview/test",
-      },
-      {
-        bricks: [
-          {
-            brick: "span",
-          },
-        ],
-        exact: true,
-        menu: false,
-        path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
-      },
-    ]);
+      null
+    );
+    expect(router.getState()).toBe("initial");
+    await router.bootstrap();
+    expect(router.getState()).toBe("mounted");
+    expect(spyOnHistory.listen).toBeCalled();
+    const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
+    expect(dispatchedEvent.type).toBe("app.change");
+    expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
+    expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
+    expect(spyOnMountStaticNode.mock.calls[0][1]).toEqual({
+      title: "menu",
+      subMenu: null,
+    });
+    expect(spyOnMountStaticNode.mock.calls[1][0]).toBe(kernel.appBar.element);
+    expect(spyOnMountStaticNode.mock.calls[1][1]).toEqual({ title: "app" });
+    expect(kernel.toggleBars).not.toBeCalled();
+    expect(kernel.firstRendered).toBeCalled();
+    expect(kernel.loadDepsOfStoryboard).toBeCalled();
+    expect(kernel.registerCustomTemplatesInStoryboard).toBeCalled();
+    expect(kernel.fulfilStoryboard).toBeCalled();
+    expect(kernel.loadMicroAppApiOrchestrationAsync).toBeCalled();
+    expect(kernel.prefetchDepsOfStoryboard).not.toBeCalled();
+    expect(preCheckPermissions).toBeCalled();
+    expect(preFetchStandaloneInstalledApps).toBeCalled();
+    expect(getStandaloneInstalledApps).toBeCalled();
+    expect(spyOnMediaEventTargetAddEventListener).toBeCalled();
+    expect(mockUserAnalyticsEvent).toBeCalledWith("page_view", {
+      micro_app_id: "hello-standalone",
+      route_alias: "route alias",
+      ...analyticsData,
+    });
+    jest.advanceTimersByTime(0);
+    expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
 
   it("should redirect to login page if not logged in.", async () => {
@@ -332,6 +333,24 @@ describe("Router", () => {
       },
     ]);
     expect(mockConsoleError).toBeCalled();
+  });
+
+  it("should ignore http abort error", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults(
+      null,
+      new HttpAbortError("The user aborted a request.")
+    );
+    await router.bootstrap();
+    expect(spyOnHistory.replace).not.toBeCalled();
+    expect(mockConsoleError).toBeCalledTimes(1);
+    expect(spyOnMountTree).toBeCalledTimes(0);
   });
 
   it("should show page error.", async () => {
@@ -477,6 +496,41 @@ describe("Router", () => {
   });
 
   it("should handle when page not found", async () => {
+    await router.bootstrap();
+    expect(kernel.loadDynamicBricks).toBeCalledWith([
+      "basic-bricks.page-not-found",
+    ]);
+    expect(spyOnMountTree).toBeCalledTimes(1);
+    expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
+      {
+        type: "basic-bricks.page-not-found",
+        properties: {
+          url: "/oops",
+        },
+      },
+    ]);
+  });
+
+  it("should handle when page found is an abstract route", async () => {
+    __setMatchedStoryboard({
+      routes: [],
+      app: {
+        id: "hello",
+      },
+    });
+    __setMountRoutesResults(
+      {
+        route: {
+          type: "routes",
+        },
+        main: [
+          {
+            type: "p",
+          },
+        ],
+      },
+      null
+    );
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
       "basic-bricks.page-not-found",

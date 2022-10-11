@@ -1,4 +1,9 @@
-import { trackContext, trackState } from "./track";
+import {
+  trackContext,
+  trackState,
+  trackUsedContext,
+  trackUsedState,
+} from "./track";
 
 const consoleWarn = jest
   .spyOn(console, "warn")
@@ -51,5 +56,29 @@ describe("trackState", () => {
   it("should return false if no STATE usage were found", () => {
     expect(trackState("<% 'track state', () => DATA.bad %>")).toBe(false);
     expect(consoleWarn).toBeCalled();
+  });
+});
+
+describe("trackUsedContext", () => {
+  it("should return used context", () => {
+    expect(
+      trackUsedContext([
+        "<% CTX.good1 %>",
+        "<% CTX['good2'] %>",
+        "<% STATE.bad1 %>",
+      ])
+    ).toEqual(["good1", "good2"]);
+  });
+});
+
+describe("trackUsedState", () => {
+  it("should return used state", () => {
+    expect(
+      trackUsedState([
+        "<% STATE.good1 %>",
+        "<% STATE['good2'] %>",
+        "<% CTX.bad1 %>",
+      ])
+    ).toEqual(["good1", "good2"]);
   });
 });

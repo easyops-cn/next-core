@@ -32,16 +32,6 @@ describe("loadTemplate", () => {
     });
     expect(files).toMatchSnapshot();
   });
-  it("should create a new editor brick", async () => {
-    const files = await loadTemplate({
-      targetType: TargetType.A_NEW_EDITOR_BRICK,
-      packageName: "for-good",
-      brickName: "for-better",
-      processorName: "",
-      targetRoot: "dist",
-    });
-    expect(files).toMatchSnapshot();
-  });
   it("should create a new custom template", async () => {
     const files = await loadTemplate({
       targetType: TargetType.A_NEW_CUSTOM_TEMPLATE,

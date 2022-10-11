@@ -39,9 +39,6 @@ export async function create(flags: AskFlags): Promise<void> {
     case TargetType.A_NEW_BRICK:
       targetRoot = path.join(pkgRoot, "src", brickName);
       break;
-    case TargetType.A_NEW_EDITOR_BRICK:
-      targetRoot = path.join(pkgRoot, "src/editor-bricks", brickName);
-      break;
     case TargetType.A_NEW_CUSTOM_TEMPLATE:
       targetRoot = path.join(pkgRoot, "src/custom-templates");
       break;
@@ -178,27 +175,6 @@ export async function create(flags: AskFlags): Promise<void> {
             }
           }
         }
-      }
-      break;
-    case TargetType.A_NEW_EDITOR_BRICK:
-      {
-        const editorBricksIndexTs = path.join(
-          pkgRoot,
-          "src/editor-bricks/index.ts"
-        );
-        const importStatement = `import "./${brickName}/${brickName}.editor";${os.EOL}`;
-        const fileExisted = fs.existsSync(editorBricksIndexTs);
-        if (fileExisted) {
-          fs.appendFileSync(editorBricksIndexTs, importStatement);
-        } else {
-          fs.writeFileSync(editorBricksIndexTs, importStatement);
-        }
-
-        console.log(
-          `${chalk.bold(
-            `File ${fileExisted ? "updated" : "created"}`
-          )}: ./${path.relative(process.cwd(), editorBricksIndexTs)}`
-        );
       }
       break;
   }

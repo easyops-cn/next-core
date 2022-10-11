@@ -24,117 +24,135 @@ module.exports = function serve(runtimeFlags) {
 
   serveLocal(env, app);
 
-  let cachedIndexHtml;
+  const serveIndexHtmlFactory = (standaloneConfig) => (_req, res) => {
+    const indexHtml = path.join(distDir, "index.html");
+    let content = fs.readFileSync(indexHtml, "utf8");
 
-  const serveIndexHtml = (_req, res) => {
-    if (!cachedIndexHtml) {
-      const indexHtml = path.join(distDir, "index.html");
-      let content = fs.readFileSync(indexHtml, "utf8");
-
-      if (env.liveReload) {
-        content = appendLiveReloadScript(content, env);
-      }
-
-      content = content
-        .replace(
-          new RegExp(
-            escapeRegExp("<!--# echo var='base_href' default='/' -->"),
-            "g"
-          ),
-          env.baseHref
-        )
-        .replace(
-          new RegExp(
-            escapeRegExp("<!--# echo var='app_root' default='' -->"),
-            "g"
-          ),
-          env.standaloneMicroApps ? env.standaloneAppDir : ""
-        )
-        .replace(
-          new RegExp(
-            escapeRegExp("<!--# echo var='core_root' default='' -->"),
-            "g"
-          ),
-          env.standaloneMicroApps ? `${env.standaloneAppDir}-/core/` : ""
-        )
-        .replace(
-          new RegExp(
-            escapeRegExp("<!--# echo var='mock_date' default='' -->"),
-            "g"
-          ),
-          env.mockDate ?? ""
-        );
-
-      if (env.standaloneMicroApps) {
-        content = content.replace(
-          "</head>",
-          [
-            "<script>",
-            "((w)=>{",
-            [
-              "w.STANDALONE_MICRO_APPS=!0",
-              `var a=w.APP_ROOT=${JSON.stringify(env.standaloneAppDir)}`,
-              'var p=w.PUBLIC_ROOT=a+"-/"',
-              'w.CORE_ROOT=p+"core/"',
-              `w.BOOTSTRAP_FILE=p+"bootstrap.hash.json"`,
-            ]
-              .filter(Boolean)
-              .join(";"),
-            "})(window)",
-            "</script></head>",
-          ].join("")
-        );
-      }
-
-      cachedIndexHtml = content;
+    if (env.liveReload) {
+      content = appendLiveReloadScript(content, env);
     }
 
     // Replace nginx ssi placeholders.
-    res.send(cachedIndexHtml);
+    content = content
+      .replace(
+        new RegExp(
+          escapeRegExp("<!--# echo var='base_href' default='/' -->"),
+          "g"
+        ),
+        env.baseHref
+      )
+      .replace(
+        new RegExp(
+          escapeRegExp("<!--# echo var='app_root' default='' -->"),
+          "g"
+        ),
+        standaloneConfig ? standaloneConfig.appRoot : ""
+      )
+      .replace(
+        new RegExp(
+          escapeRegExp("<!--# echo var='core_root' default='' -->"),
+          "g"
+        ),
+        `${env.publicCdn ?? ""}${
+          standaloneConfig ? `${standaloneConfig.appRoot}-/core/` : ""
+        }`
+      )
+      .replace(
+        new RegExp(
+          escapeRegExp("<!--# echo var='mock_date' default='' -->"),
+          "g"
+        ),
+        env.mockDate ?? ""
+      )
+      .replace(
+        new RegExp(
+          escapeRegExp("<!--# echo var='public_cdn' default='' -->"),
+          "g"
+        ),
+        env.publicCdn ?? ""
+      );
+
+    if (standaloneConfig) {
+      content = content.replace(
+        "</head>",
+        [
+          "<script>",
+          "((w)=>{",
+          [
+            "w.STANDALONE_MICRO_APPS=!0",
+            `var a=w.APP_ROOT=${JSON.stringify(standaloneConfig.appRoot)}`,
+            `var d=a+"-/"`,
+            'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
+            'w.CORE_ROOT=p+"core/"',
+            `w.BOOTSTRAP_FILE=d+"bootstrap.${standaloneConfig.bootstrapHash}.json"`,
+          ]
+            .filter(Boolean)
+            .join(";"),
+          "})(window)",
+          "</script></head>",
+        ].join("")
+      );
+    }
+
+    res.send(content);
   };
 
-  if (env.standaloneMicroApps) {
-    // Return a fake `conf.yaml` for standalone micro-apps.
-    app.get(`${env.baseHref}conf.yaml`, (req, res) => {
-      res.setHeader("content-type", "text/plain");
-      res.send(
-        yaml.safeDump({
-          sys_settings: {
-            feature_flags: {
-              "development-mode": true,
+  if (!env.useRemote) {
+    let fakeAuthHandled = false;
+    for (const standaloneConfig of env.standaloneAppsConfig) {
+      // Return a fake `conf.yaml` for standalone micro-apps.
+      app.get(`${standaloneConfig.appRoot}conf.yaml`, (req, res) => {
+        res.setHeader("content-type", "text/plain");
+        res.send(
+          yaml.safeDump({
+            sys_settings: {
+              feature_flags: {
+                "development-mode": true,
+              },
             },
-          },
-        })
-      );
-    });
-
-    // Return a fake page of `/auth/*` for fully standalone micro-apps.
-    if (env.standaloneAppDir) {
-      app.get(`${env.baseHref}auth/login`, (req, res) => {
-        res.send("Developing Login");
+          })
+        );
       });
+
+      // Return a fake page of `/auth/*` for fully standalone micro-apps.
+      if (!fakeAuthHandled && standaloneConfig.appDir) {
+        fakeAuthHandled = true;
+        app.get(`${env.baseHref}auth/login`, (req, res) => {
+          res.send("Developing Login");
+        });
+      }
     }
   }
 
-  const serveRoot = env.standaloneMicroApps
-    ? `${env.baseHref}${env.standaloneAppDir}`
-    : env.baseHref;
-
   if (env.useLocalContainer) {
-    // Serve index.html.
-    app.get(serveRoot, serveIndexHtml);
-
-    // Serve browse-happy.html.
     const browseHappyHtml = "browse-happy.html";
-    app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
-      res.sendFile(path.join(distDir, browseHappyHtml));
-    });
+    for (const standaloneConfig of env.allAppsConfig) {
+      const serveRoot = `${env.baseHref}${
+        standaloneConfig ? standaloneConfig.appDir : ""
+      }`;
+      if (env.asCdn) {
+        app.get(serveRoot, (req, res) => {
+          res.sendStatus(404);
+        });
+        app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
+          res.sendStatus(404);
+        });
+      } else {
+        // Serve index.html.
+        app.get(serveRoot, serveIndexHtmlFactory(standaloneConfig));
 
-    // Serve static files.
-    const staticRoot = env.standaloneMicroApps
-      ? `${serveRoot}-/core/`
-      : serveRoot;
-    app.use(staticRoot, express.static(distDir));
+        // Serve browse-happy.html.
+        app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
+          res.sendFile(path.join(distDir, browseHappyHtml));
+        });
+      }
+
+      // Serve static files.
+      const staticRoot = standaloneConfig
+        ? `${standaloneConfig.appRoot || serveRoot}-/core/`
+        : serveRoot;
+      app.use(staticRoot, express.static(distDir));
+    }
   }
 
   // Using proxies.
@@ -154,32 +172,62 @@ module.exports = function serve(runtimeFlags) {
       );
     }
 
-    if (env.useSubdir) {
-      app.all(
-        /^(?!\/next\/).+/,
+    if (env.useSubdir && !env.asCdn) {
+      app.get(
+        "/",
         createProxyMiddleware({
-          target: env.consoleServer,
+          target: env.server,
           secure: false,
           changeOrigin: true,
-          logLevel: "warn",
+          onProxyRes(proxyRes, req) {
+            if (
+              req.path === "/" &&
+              proxyRes.statusCode >= 301 &&
+              proxyRes.statusCode <= 303
+            ) {
+              const rawLocation = proxyRes.headers["location"] || "";
+              const expectLocation = ["http:", "https:"]
+                .map((scheme) => env.server.replace(/^https?:/, scheme))
+                .flatMap((url) => [`${url}/next`, `${url}/next/`]);
+              if (expectLocation.some((loc) => rawLocation === loc)) {
+                proxyRes.headers["location"] = env.baseHref;
+                console.log('Root redirection intercepted: "%s"', rawLocation);
+              }
+            }
+          },
         })
       );
+
+      if (env.legacyConsole) {
+        app.all(
+          new RegExp(`^(?!${escapeRegExp(env.baseHref)}).+`),
+          createProxyMiddleware({
+            target: env.consoleServer,
+            secure: false,
+            changeOrigin: true,
+            logLevel: "warn",
+          })
+        );
+      }
     }
   }
 
-  if (env.useLocalContainer) {
-    app.use(serveRoot, serveIndexHtml);
-
-    if (env.standaloneAppDir) {
-      // Return a fake 404 page for path other than current app.
-      app.use(env.baseHref, (req, res) => {
-        res.send(
-          `<basic-bricks.page-not-found>${env.baseHref.replace(/\/$/, "")}${
-            req.path
-          } is not found</basic-bricks.page-not-found>`
-        );
-      });
+  if (env.useLocalContainer && !env.asCdn) {
+    for (const standaloneConfig of env.allAppsConfig) {
+      const serveRoot = `${env.baseHref}${
+        standaloneConfig ? standaloneConfig.appDir : ""
+      }`;
+      app.use(serveRoot, serveIndexHtmlFactory(standaloneConfig));
     }
+
+    // Return a fake 404 page for not-existed apps.
+    app.use(env.baseHref, (req, res) => {
+      res.send(
+        `<basic-bricks.page-not-found>${env.baseHref.replace(/\/$/, "")}${
+          req.path
+        } is not found</basic-bricks.page-not-found>`
+      );
+    });
   }
 
   if (env.https) {

@@ -1,8 +1,10 @@
 import EventTarget from "@ungap/event-target";
 import {
   BrickEventHandler,
+  BrickEventHandlerCallback,
   ContextConf,
   PluginRuntimeContext,
+  ResolveOptions,
   StoryboardContextItem,
   StoryboardContextItemFreeVariable,
 } from "@next-core/brick-types";
@@ -11,11 +13,18 @@ import {
   isObject,
   resolveContextConcurrently,
   syncResolveContextConcurrently,
+  trackUsedContext,
+  trackUsedState,
 } from "@next-core/brick-utils";
 import { looseCheckIf } from "../checkIf";
-import { listenerFactory } from "../internal/bindListeners";
+import {
+  eventCallbackFactory,
+  listenerFactory,
+} from "../internal/bindListeners";
 import { computeRealValue } from "../internal/setProperties";
-import { RuntimeBrick, _internalApiGetResolver } from "./exports";
+import { RuntimeBrick, _internalApiGetCurrentContext } from "./exports";
+import { _internalApiGetResolver } from "./Runtime";
+import { handleHttpError } from "../handleHttpError";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
@@ -47,7 +56,8 @@ export class StoryboardContextWrapper {
   updateValue(
     name: string,
     value: unknown,
-    method: "assign" | "replace"
+    method: "assign" | "replace" | "refresh" | "load",
+    callback?: BrickEventHandlerCallback
   ): void {
     if (!this.data.has(name)) {
       if (this.tplContextId) {
@@ -69,8 +79,77 @@ export class StoryboardContextWrapper {
     if (item.type !== "free-variable") {
       // eslint-disable-next-line no-console
       console.error(
-        `Conflict storyboard context "${name}", expected "free-variable", received "${item.type}".`
+        `Unexpected storyboard context "${name}", expected "free-variable", received "${item.type}".`
       );
+      return;
+    }
+
+    if (method === "refresh" || method === "load") {
+      if (!item.load) {
+        throw new Error(
+          `You can not ${method} the storyboard context "${name}" which has no resolve.`
+        );
+      }
+
+      let promise: Promise<unknown>;
+      if (method === "load") {
+        // Try to reuse previous request when calling `load`.
+        if (item.loaded) {
+          promise = Promise.resolve(item.value);
+        } else if (item.loading) {
+          promise = item.loading;
+        }
+      }
+
+      if (!promise) {
+        promise = item.loading = item.load({
+          cache: method === "load" ? "default" : "reload",
+          ...(value as ResolveOptions),
+        });
+        // Do not use the chained promise, since the callbacks need the original promise.
+        promise.then(
+          (val) => {
+            item.loaded = true;
+            item.value = val;
+            item.eventTarget?.dispatchEvent(
+              new CustomEvent(
+                this.tplContextId ? "state.change" : "context.change",
+                {
+                  detail: item.value,
+                }
+              )
+            );
+          },
+          (err) => {
+            // Let users to override error handling.
+            if (!callback?.error) {
+              handleHttpError(err);
+            }
+          }
+        );
+      }
+
+      if (callback) {
+        const callbackFactory = eventCallbackFactory(
+          callback,
+          () =>
+            this.getResolveOptions(_internalApiGetCurrentContext())
+              .mergedContext,
+          null
+        );
+
+        promise.then(
+          (val) => {
+            callbackFactory("success")({ value: val });
+            callbackFactory("finally")();
+          },
+          (err) => {
+            callbackFactory("error")(err);
+            callbackFactory("finally")();
+          }
+        );
+      }
+
       return;
     }
 
@@ -181,43 +260,52 @@ async function resolveNormalStoryboardContext(
   if (!looseCheckIf(contextConf, mergedContext)) {
     return false;
   }
-  let isResolve = false;
-  let value = getDefinedTemplateState(
-    !!storyboardContextWrapper.tplContextId,
-    contextConf,
-    brick
-  );
+  const isTemplateState = !!storyboardContextWrapper.tplContextId;
+  let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
+  let load: StoryboardContextItemFreeVariable["load"] = null;
+  let isLazyResolve = false;
   if (value === undefined) {
     if (contextConf.resolve) {
       if (looseCheckIf(contextConf.resolve, mergedContext)) {
-        isResolve = true;
-        const valueConf: Record<string, unknown> = {};
-        await _internalApiGetResolver().resolveOne(
-          "reference",
-          {
-            transform: "value",
-            transformMapArray: false,
-            ...contextConf.resolve,
-          },
-          valueConf,
-          null,
-          mergedContext
-        );
-        value = valueConf.value;
+        load = async (options) => {
+          const valueConf: Record<string, unknown> = {};
+          await _internalApiGetResolver().resolveOne(
+            "reference",
+            {
+              transform: "value",
+              transformMapArray: false,
+              ...contextConf.resolve,
+            },
+            valueConf,
+            null,
+            mergedContext,
+            options
+          );
+          return valueConf.value;
+        };
+        isLazyResolve = contextConf.resolve.lazy;
+        if (!isLazyResolve) {
+          value = await load();
+        }
       } else if (!hasOwnProperty(contextConf, "value")) {
         return false;
       }
     }
-    if (!isResolve && contextConf.value !== undefined) {
+    if ((!load || isLazyResolve) && contextConf.value !== undefined) {
+      // If the context has no resolve, just use its `value`.
+      // Or if the resolve is ignored or lazy, use its `value` as a fallback.
       value = computeRealValue(contextConf.value, mergedContext, true);
     }
   }
+
   resolveFreeVariableValue(
     value,
     contextConf,
     mergedContext,
     storyboardContextWrapper,
-    brick
+    brick,
+    load,
+    !isLazyResolve
   );
   return true;
 }
@@ -271,13 +359,17 @@ function resolveFreeVariableValue(
   contextConf: ContextConf,
   mergedContext: PluginRuntimeContext,
   storyboardContextWrapper: StoryboardContextWrapper,
-  brick?: RuntimeBrick
+  brick?: RuntimeBrick,
+  load?: StoryboardContextItemFreeVariable["load"],
+  loaded?: boolean
 ): void {
   const newContext: StoryboardContextItem = {
     type: "free-variable",
     value,
     // This is required for tracking context, even if no `onChange` is specified.
     eventTarget: new EventTarget(),
+    load,
+    loaded,
   };
   if (contextConf.onChange) {
     for (const handler of ([] as BrickEventHandler[]).concat(
@@ -291,5 +383,35 @@ function resolveFreeVariableValue(
       );
     }
   }
+
+  if (contextConf.track) {
+    const isTemplateState = !!storyboardContextWrapper.tplContextId;
+    // Track its dependencies and auto update when each of them changed.
+    const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
+      load ? contextConf.resolve : contextConf.value
+    );
+    for (const dep of deps) {
+      const ctx = storyboardContextWrapper.get().get(dep);
+      (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
+        isTemplateState ? "state.change" : "context.change",
+        () => {
+          if (load) {
+            storyboardContextWrapper.updateValue(
+              contextConf.name,
+              { cache: "default" },
+              "refresh"
+            );
+          } else {
+            storyboardContextWrapper.updateValue(
+              contextConf.name,
+              computeRealValue(contextConf.value, mergedContext, true),
+              "replace"
+            );
+          }
+        }
+      );
+    }
+  }
+
   storyboardContextWrapper.set(contextConf.name, newContext);
 }

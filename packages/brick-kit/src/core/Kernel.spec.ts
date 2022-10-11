@@ -14,7 +14,7 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import { ObjectMicroAppApi_getObjectMicroAppList } from "@next-sdk/micro-app-sdk";
+import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   LayoutType,
@@ -35,6 +35,7 @@ import { initAnalytics } from "./initAnalytics";
 import { standaloneBootstrap } from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
 import { formRenderer } from "./CustomForms/constants";
+import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
 
 i18next.init({
   fallbackLng: "en",
@@ -44,6 +45,7 @@ jest.mock("@next-core/brick-utils");
 jest.mock("@next-sdk/auth-sdk");
 jest.mock("@next-sdk/user-service-sdk");
 jest.mock("@next-sdk/api-gateway-sdk");
+jest.mock("@next-sdk/micro-app-standalone-sdk");
 jest.mock("@next-sdk/micro-app-sdk");
 jest.mock("@next-sdk/cmdb-sdk");
 jest.mock("./Bars");
@@ -81,14 +83,15 @@ const spyOnGetAppStoryboard = (
     },
   },
 });
+const spyOnRuntimeMicroAppStandalone =
+  RuntimeApi_runtimeMicroAppStandalone as jest.Mock;
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyApplyColorTheme = applyColorTheme as jest.Mock;
 const spyOnRouter = Router as jest.Mock;
 const searchAllUsersInfo = UserAdminApi_searchAllUsersInfo as jest.Mock;
 const searchAllMagicBrickConfig = InstanceApi_postSearch as jest.Mock;
-const getObjectMicroAppList =
-  ObjectMicroAppApi_getObjectMicroAppList as jest.Mock;
+const getI18NData = InstalledMicroAppApi_getI18NData as jest.Mock;
 
 const spyOnLoadScript = loadScript as jest.Mock;
 const spyOnGetDllAndDepsOfStoryboard =
@@ -127,7 +130,9 @@ spyOnGetDllAndDepsByResource.mockImplementation(
   })
 );
 
-jest.spyOn(console, "warn").mockImplementation(() => void 0);
+const mockConsoleWarn = jest
+  .spyOn(console, "warn")
+  .mockImplementation(() => void 0);
 
 const mockStandaloneBootstrap = standaloneBootstrap as jest.Mock;
 
@@ -174,22 +179,6 @@ describe("Kernel", () => {
       loggedIn: true,
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
-    getObjectMicroAppList.mockResolvedValueOnce({
-      list: [
-        {
-          microAppId: "a",
-          objectId: "App",
-        },
-        {
-          microAppId: "b",
-          objectId: "App",
-        },
-        {
-          microAppId: "c",
-          objectId: "Host",
-        },
-      ],
-    });
     spyOnBootstrap.mockResolvedValueOnce({
       storyboards: [
         {
@@ -218,71 +207,11 @@ describe("Kernel", () => {
     expect(spyOnAuthenticate.mock.calls[0][0]).toEqual({
       loggedIn: true,
     });
-    // expect(spyOnMenuBar.mock.instances[0].bootstrap).toBeCalled();
-    // expect(spyOnAppBar.mock.instances[0].bootstrap).toBeCalled();
     expect(spyOnRouter.mock.instances[0].bootstrap).toBeCalled();
 
     expect(kernel.getFeatureFlags()).toEqual({
       "load-magic-brick-config": true,
     });
-    expect((await kernel.getRelatedAppsAsync(undefined)).length).toBe(0);
-    expect((await kernel.getRelatedAppsAsync("x")).length).toBe(0);
-    expect((await kernel.getRelatedAppsAsync("a")).length).toBe(2);
-
-    kernel.popWorkspaceStack();
-    await kernel.updateWorkspaceStack();
-
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "a",
-      name: "A",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/a";
-    kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toBe(undefined);
-    expect(kernel.getRecentApps()).toEqual({
-      previousApp: undefined,
-      currentApp: {
-        id: "a",
-        name: "A",
-      },
-      previousWorkspace: undefined,
-    });
-
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "b",
-      name: "B",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/b";
-    kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toBe(undefined);
-
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "c",
-      name: "C",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/c";
-    await kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toEqual({
-      appId: "b",
-      appName: "B",
-      url: "/b",
-    });
-
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentApp = {
-      id: "x",
-      name: "X",
-    } as any;
-    // eslint-disable-next-line require-atomic-updates
-    kernel.currentUrl = "/x";
-    await kernel.updateWorkspaceStack();
-    expect(kernel.getPreviousWorkspace()).toBe(undefined);
 
     // `postMessage` did not trigger events.
     // window.postMessage({ type: "auth.guard" }, window.location.origin);
@@ -434,6 +363,103 @@ describe("Kernel", () => {
     spyOnBootstrap.mockReset();
   });
 
+  it("should fulfil i18n", async () => {
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    const appFake: any = {
+      app: {
+        id: "fake",
+      },
+    };
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello, appFake],
+    });
+    await kernel.bootstrap(mountPoints);
+
+    kernel.fulfilStoryboard(appFake);
+    expect(appFake).toMatchObject({
+      $$fulfilling: expect.any(Promise),
+    });
+
+    getI18NData.mockImplementationOnce(({ appIds }: { appIds: string }) =>
+      Promise.resolve({
+        i18nInfo: appIds
+          .split(",")
+          .filter(Boolean)
+          .map((appId) => ({
+            appId,
+            i18n: {
+              en: {
+                WORLD: "World",
+              },
+            },
+          })),
+      })
+    );
+    await kernel.fulfilStoryboardI18n(["fake", "hello"]);
+
+    // `fake` is ignored since it's already being fulfilling.
+    expect(getI18NData).toBeCalledWith({ appIds: "hello" });
+
+    expect(appHello).toMatchObject({
+      $$i18nFulfilled: true,
+      meta: {
+        i18n: {
+          en: {
+            WORLD: "World",
+          },
+        },
+      },
+    });
+
+    // It should only fulfil once.
+    await kernel.fulfilStoryboardI18n(["fake", "hello"]);
+    expect(getI18NData).toBeCalledTimes(1);
+  });
+
+  it("shouldn't fulfil i18n for standalone micro-apps", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    await kernel.bootstrap(mountPoints);
+
+    await kernel.fulfilStoryboardI18n(["hello"]);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
+    expect(spyOnRuntimeMicroAppStandalone).not.toBeCalled();
+  });
+
   it("should bootstrap for standalone micro-apps", async () => {
     window.STANDALONE_MICRO_APPS = true;
     window.NO_AUTH_GUARD = true;
@@ -464,6 +490,106 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
+  });
+
+  it("should bootstrap for standalone micro-apps, without no auth guard", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+        defaultConfig: { configA: { key1: "value1" } },
+      },
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    spyOnRuntimeMicroAppStandalone.mockResolvedValueOnce({
+      injectMenus: [
+        {
+          menuId: "menu-1",
+          title: "Menu 1",
+        },
+      ],
+      userConfig: {
+        configA: { key2: "value2" },
+        configB: "valueB",
+      },
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    await kernel.bootstrap(mountPoints);
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.reloadMicroApps();
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.fulfilStoryboard(appHello);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
+    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+
+    expect(kernel.bootstrapData.storyboards[0].app.userConfig).toEqual({
+      configA: { key2: "value2" },
+      configB: "valueB",
+    });
+    expect(kernel.bootstrapData.storyboards[0].app.config).toEqual({
+      configA: { key1: "value1", key2: "value2" },
+      configB: "valueB",
+    });
+  });
+
+  it("should bootstrap for standalone micro-apps, without no auth guard, get runtime failed", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = false;
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+    const appHello: any = {
+      app: {
+        id: "hello",
+      },
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [appHello],
+    });
+    spyOnRuntimeMicroAppStandalone.mockRejectedValueOnce("oops");
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    await kernel.bootstrap(mountPoints);
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.reloadMicroApps();
+    expect(spyOnBootstrap).not.toBeCalled();
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.fulfilStoryboard(appHello);
+    expect(spyOnGetAppStoryboard).not.toBeCalled();
+    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+
+    expect(mockConsoleWarn).toBeCalledWith(
+      "request standalone runtime api from micro-app-standalone failed: ",
+      "oops",
+      ", something might went wrong running standalone micro app"
+    );
+    expect(kernel.bootstrapData.storyboards[0].app.userConfig).toBeUndefined();
   });
 
   it("should firstRendered", async () => {
@@ -876,7 +1002,56 @@ describe("Kernel", () => {
         },
       ],
     } as any;
-    const menus = kernel.getStandaloneMenus("menu-1");
+    const menus = await kernel.getStandaloneMenus("menu-1");
+    expect(menus).toEqual([
+      {
+        menuId: "menu-1",
+        title: "Menu 1",
+        app: [{ appId: "app-b" }],
+      },
+      {
+        menuId: "menu-1",
+        title: "Menu 1 Alternative",
+        app: [{ appId: "app-b" }],
+      },
+    ]);
+  });
+
+  it("should get standalone inject menus", async () => {
+    kernel.currentApp = {
+      id: "app-b",
+    } as any;
+    kernel.bootstrapData = {
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+          },
+        },
+        {
+          app: {
+            id: "app-b",
+          },
+          meta: {
+            injectMenus: [
+              {
+                menuId: "menu-1",
+                title: "Menu 1",
+              },
+              {
+                menuId: "menu-2",
+                title: "Menu 2",
+              },
+              {
+                menuId: "menu-1",
+                title: "Menu 1 Alternative",
+              },
+            ],
+          },
+        },
+      ],
+    } as any;
+    const menus = await kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([
       {
         menuId: "menu-1",
@@ -904,8 +1079,57 @@ describe("Kernel", () => {
         },
       ],
     } as any;
-    const menus = kernel.getStandaloneMenus("menu-1");
+    const menus = await kernel.getStandaloneMenus("menu-1");
     expect(menus).toEqual([]);
+  });
+
+  it("should get standalone from outside app menus", async () => {
+    const mockSearchMenu = InstanceApi_postSearch as jest.Mock;
+    mockSearchMenu.mockResolvedValueOnce({
+      list: [
+        {
+          menuId: "menu-3",
+          title: "menu-3-form-outside",
+          app: [
+            {
+              appId: "app-outside",
+            },
+          ],
+        },
+      ],
+    });
+    kernel.currentApp = {
+      id: "app-b",
+    } as any;
+    kernel.bootstrapData = {
+      storyboards: [
+        {
+          app: {
+            id: "app-b",
+          },
+          meta: {
+            menus: [
+              {
+                menuId: "menu-1",
+                title: "Menu 1",
+              },
+            ],
+          },
+        },
+      ],
+    } as any;
+    const menus = await kernel.getStandaloneMenus("menu-3");
+    expect(menus).toEqual([
+      {
+        menuId: "menu-3",
+        title: "menu-3-form-outside",
+        app: [
+          {
+            appId: "app-outside",
+          },
+        ],
+      },
+    ]);
   });
 
   it("should apply custom theme", async () => {
@@ -1131,10 +1355,210 @@ describe("Kernel", () => {
             bricks: [],
           },
         ],
-        $$fulfilling: Promise.resolve(),
+        $$fulfilling: null,
         $$fulfilled: true,
         $$registerCustomTemplateProcessed: false,
         $$depsProcessed: false,
+      },
+    ]);
+  });
+
+  it("should update storyboard by route", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+            },
+          ],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [
+            {
+              alias: "page1",
+              path: "${APP.homepage}/page1",
+              bricks: [],
+            },
+          ],
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+    kernel._dev_only_updateStoryboardByRoute("app-b", {
+      alias: "page1",
+      path: "${APP.homepage}/page1",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [{ alias: "home", bricks: [], path: "${APP.homepage}" }],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            alias: "page1",
+            bricks: [{ brick: "div" }],
+            path: "${APP.homepage}/page1",
+          },
+        ],
+      },
+    ]);
+
+    kernel._dev_only_updateStoryboardByRoute("app-b", {
+      alias: "page2",
+      path: "${APP.homepage}/page2",
+      exact: true,
+      bricks: [],
+    });
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [{ alias: "home", bricks: [], path: "${APP.homepage}" }],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            alias: "page2",
+            path: "${APP.homepage}/page2",
+            exact: true,
+            bricks: [],
+          },
+          {
+            alias: "page1",
+            bricks: [{ brick: "div" }],
+            path: "${APP.homepage}/page1",
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("should update storyboard by template", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+          },
+          routes: [],
+        },
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [],
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+
+    kernel._dev_only_updateStoryboardByTemplate(
+      "app-b",
+      {
+        name: "tpl-a",
+        proxy: null,
+        state: [{ name: "test1", value: "test1" }],
+        bricks: [
+          {
+            brick: "div",
+          },
+        ],
+      },
+      {
+        properties: {
+          textContent: "hello",
+        },
+      }
+    );
+
+    expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
+      "app-b.tpl-a",
+      {
+        proxy: null,
+        state: [{ name: "test1", value: "test1" }],
+        bricks: [
+          {
+            brick: "div",
+          },
+        ],
+      },
+      "app-b"
+    );
+
+    expect(kernel.bootstrapData.storyboards).toEqual([
+      {
+        app: {
+          config: {},
+          homepage: "/app-a",
+          id: "app-a",
+          localeName: undefined,
+        },
+        routes: [],
+      },
+      {
+        app: {
+          config: {},
+          homepage: "/app-b",
+          id: "app-b",
+          localeName: undefined,
+        },
+        routes: [
+          {
+            bricks: [{ brick: "tpl-a", properties: { textContent: "hello" } }],
+            exact: true,
+            menu: false,
+            hybrid: false,
+            path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          },
+        ],
       },
     ]);
   });
@@ -1215,6 +1639,7 @@ describe("Kernel", () => {
                 context: [{ name: "quality" }],
               },
             ],
+            hybrid: false,
             menu: false,
             exact: true,
           },
@@ -1261,6 +1686,7 @@ describe("Kernel", () => {
             ],
             menu: false,
             exact: true,
+            hybrid: false,
           },
           {
             alias: "home",
@@ -1312,8 +1738,6 @@ describe("Kernel", () => {
           },
         },
       ],
-      path: "/snippet-a",
-      type: "bricks",
     });
     expect(mockStoryBoard).toMatchInlineSnapshot(`
       Array [
@@ -1344,6 +1768,7 @@ describe("Kernel", () => {
                 },
               ],
               "exact": true,
+              "hybrid": false,
               "menu": false,
               "path": "\${APP.homepage}/_dev_only_/snippet-preview/snippet-a",
             },
@@ -1398,6 +1823,7 @@ describe("Kernel", () => {
                 },
               ],
               "exact": true,
+              "hybrid": false,
               "menu": false,
               "path": "\${APP.homepage}/_dev_only_/snippet-preview/snippet-a",
             },
@@ -1480,7 +1906,7 @@ describe("Kernel", () => {
           mtime: "2022-06-07 15:34:11",
           name: "用户名",
           type: "STRING",
-        },
+        } as any,
       ],
     });
     expect(kernel.bootstrapData.storyboards).toEqual([

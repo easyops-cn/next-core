@@ -7,6 +7,13 @@ import {
   MESSAGE_SOURCE_PANEL,
 } from "./devtools";
 
+global.requestIdleCallback = (callback: IdleRequestCallback): number => {
+  Promise.resolve().then(() => {
+    callback(null);
+  });
+  return 0;
+};
+
 jest.mock("../core/Runtime", () => ({
   _internalApiGetCurrentContext: () => {
     return {
@@ -132,7 +139,8 @@ describe("devtools", () => {
           payload: {
             id: 0,
             error:
-              "Cannot read property 'name' of null, in \"<% EVENT.detail.name %>\"",
+              // "Cannot read property 'name' of null, in \"<% EVENT.detail.name %>\"",
+              expect.stringContaining("Cannot read propert"),
             detail: {
               raw: "<% EVENT.detail.name %>",
               context: {

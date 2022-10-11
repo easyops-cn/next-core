@@ -27,6 +27,7 @@ export interface RuntimeBrick {
     brick?: RuntimeBrick;
   };
   tplContextId?: string;
+  formContextId?: string;
   isExternalOfTpl?: boolean;
   isParent?: boolean;
   ref?: string;

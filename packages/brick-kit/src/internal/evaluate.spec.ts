@@ -12,6 +12,7 @@ import { getItemFactory } from "./Storage";
 import { getRuntime } from "../runtime";
 import { registerWidgetI18n } from "../core/WidgetI18n";
 import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import { CustomFormContext } from "../core/CustomForms/CustomFormContext";
 
 jest.mock("./devtools");
 jest.mock("../runtime");
@@ -58,6 +59,9 @@ i18next.addResourceBundle("en", "$app-hello", {
 });
 i18next.addResourceBundle("en", "$app-hola", {
   HELLO: "Hola",
+});
+i18next.addResourceBundle("en", "$menu-hello", {
+  HELLO: "Hi",
 });
 
 registerWidgetI18n("my-widget", {
@@ -180,6 +184,12 @@ tplContext.setVariables({
 tplContext.state.set("scopedData", {
   type: "free-variable",
   value: "Yes",
+});
+
+const formContext = new CustomFormContext();
+formContext.formState.set("description", {
+  type: "free-variable",
+  value: "test",
 });
 
 describe("shouldDismissRecursiveMarkingInjected", () => {
@@ -340,6 +350,17 @@ describe("evaluate", () => {
     ).toEqual(result);
   });
 
+  it.each<[string, any]>([
+    ["<% [] %>", []],
+    ["<% FORM_STATE.description %>", "test"],
+  ])("evaluate(%j, { formContextId }) should return %j", (raw, result) => {
+    expect(
+      evaluate(raw, {
+        formContextId: formContext.id,
+      })
+    ).toEqual(result);
+  });
+
   it("should work when using both `EVENT` and `DATA`", () => {
     // Simulate a transformation with `EVENT`
     const preEvaluated = evaluate("<% EVENT.detail + DATA %>", {
@@ -420,6 +441,14 @@ describe("evaluate", () => {
         },
       })
     ).toEqual("/hola:Hola");
+  });
+
+  it("should work when using `appendI18nNamespace`", () => {
+    expect(
+      evaluate("<% `${APP.homepage}:${I18N('HELLO')}` %>", {
+        appendI18nNamespace: "$menu-hello",
+      })
+    ).toEqual("/hello:Hi");
   });
 
   it("should work when set lazy", () => {

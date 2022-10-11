@@ -3,6 +3,100 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.42.2...@next-core/brick-utils@2.43.0) (2022-10-09)
+
+### Features
+
+- collect useBackend api contract ([926f10a](https://github.com/easyops-cn/next-core/commit/926f10a7a88bfe7d4bebbf083ab4c0aba853210a))
+
+## [2.42.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.42.1...@next-core/brick-utils@2.42.2) (2022-09-29)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.42.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.42.0...@next-core/brick-utils@2.42.1) (2022-09-26)
+
+### Bug Fixes
+
+- fix router.if was null and return false ([cdef1d6](https://github.com/easyops-cn/next-core/commit/cdef1d61fd739b2de7666aae18591488b8cf4253))
+
+# [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.41.2...@next-core/brick-utils@2.42.0) (2022-09-26)
+
+### Features
+
+- support router if condition ([4486130](https://github.com/easyops-cn/next-core/commit/44861303b0c236ec36f3bb55f469229e23116e5d))
+
+## [2.41.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.41.1...@next-core/brick-utils@2.41.2) (2022-09-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.41.0...@next-core/brick-utils@2.41.1) (2022-09-08)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.40.0...@next-core/brick-utils@2.41.0) (2022-09-07)
+
+### Features
+
+- support makeThrottledAggregation ([b44074c](https://github.com/easyops-cn/next-core/commit/b44074ca2d11c080a6e9d64212a81a5a3a154c8c))
+
+# [2.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.6...@next-core/brick-utils@2.40.0) (2022-09-06)
+
+### Features
+
+- support to use contract in widgets ([25b3337](https://github.com/easyops-cn/next-core/commit/25b333724f9c45131b209845a7caef3e8597888d))
+
+## [2.39.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.5...@next-core/brick-utils@2.39.6) (2022-09-06)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.39.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.4...@next-core/brick-utils@2.39.5) (2022-09-05)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.39.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.3...@next-core/brick-utils@2.39.4) (2022-09-02)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.39.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.2...@next-core/brick-utils@2.39.3) (2022-09-01)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.39.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.1...@next-core/brick-utils@2.39.2) (2022-08-31)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.39.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.39.0...@next-core/brick-utils@2.39.1) (2022-08-26)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.38.3...@next-core/brick-utils@2.39.0) (2022-08-25)
+
+### Features
+
+- context can track its deps now ([4993308](https://github.com/easyops-cn/next-core/commit/49933089e1ff6ec1ec5f01eeac5609dde07c1e2e))
+
+## [2.38.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.38.2...@next-core/brick-utils@2.38.3) (2022-08-23)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.38.1...@next-core/brick-utils@2.38.2) (2022-08-19)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.38.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.38.0...@next-core/brick-utils@2.38.1) (2022-08-08)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.26...@next-core/brick-utils@2.38.0) (2022-08-08)
+
+### Features
+
+- support INSTALLED_APPS in standalone mode ([c152053](https://github.com/easyops-cn/next-core/commit/c1520532597c88d1def251aafd44831c7a7fad56))
+
+## [2.37.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.25...@next-core/brick-utils@2.37.26) (2022-07-20)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
 ## [2.37.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.37.24...@next-core/brick-utils@2.37.25) (2022-07-18)
 
 **Note:** Version bump only for package @next-core/brick-utils

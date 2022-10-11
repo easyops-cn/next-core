@@ -23,6 +23,7 @@ import { collectMergeBases } from "./collectMergeBases";
 import { CustomTemplateContext } from "./CustomTemplateContext";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate";
 import { setupTemplateProxy } from "./setupTemplateProxy";
+import { collectWidgetContract } from "../CollectContracts";
 
 export interface ProxyContext {
   reversedProxies: ReversedProxies;
@@ -49,6 +50,9 @@ export function expandCustomTemplate(
 ): RuntimeBrickConf {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
+  if (template.contracts) {
+    collectWidgetContract(template.contracts);
+  }
   if (Array.isArray(template.state)) {
     tplContext.state.syncDefine(template.state, context, proxyBrick);
   }
@@ -68,6 +72,9 @@ export async function asyncExpandCustomTemplate(
 ): Promise<RuntimeBrickConf> {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
+  if (template.contracts) {
+    collectWidgetContract(template.contracts);
+  }
   if (Array.isArray(template.state)) {
     await tplContext.state.define(template.state, context, proxyBrick);
   }

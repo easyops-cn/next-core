@@ -21,8 +21,15 @@ function updateBuildNextLibs() {
         "package.json"
       );
       const packageJson = readJson(packageJsonPath);
-      if (packageJson.name === "@libs/flow-chart") {
-        // `@libs/flow-chart` is a special case.
+      if (
+        packageJson.scripts["build:main"] ||
+        [
+          // Handle special cases.
+          "@libs/flow-chart",
+          "@libs/stereo",
+          "@libs/stereo-three",
+        ].includes(packageJson.name)
+      ) {
         return;
       }
       packageJson.main = "dist/cjs/index.js";

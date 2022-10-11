@@ -27,133 +27,127 @@ module.exports = (env, app) => {
     mocked,
     mockedMicroAppsDir,
     mockedMicroApps,
-    standaloneMicroApps,
-    standaloneAppDir,
+    allAppsConfig,
+    asCdn,
   } = env;
   let username;
 
-  const publicRoot = standaloneMicroApps
-    ? `${baseHref}${standaloneAppDir}-/`
-    : baseHref;
+  for (const standaloneConfig of allAppsConfig) {
+    const publicRoot = standaloneConfig
+      ? `${standaloneConfig.appRoot}-/`
+      : baseHref;
 
-  // 开发时默认拦截 bootstrap 请求。
-  // 如果设定 `REMOTE=true`，则透传远端请求。
-  if (useRemote) {
-    // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
-    localEditorPackages.forEach((pkgId) => {
-      // 直接返回本地构件库编辑器相关文件。
-      app.get(`${publicRoot}bricks/${pkgId}/dist/editors/*`, (req, res) => {
-        tryServeFiles(
-          [
-            path.join(brickPackagesDir, pkgId, "dist-editors", req.params[0]),
-            path.join(brickPackagesDir, pkgId, "dist/editors", req.params[0]),
-            path.join(
-              alternativeBrickPackagesDir,
-              pkgId,
-              "dist-editors",
-              req.params[0]
-            ),
-            path.join(
-              alternativeBrickPackagesDir,
-              pkgId,
-              "dist/editors",
-              req.params[0]
-            ),
-          ],
-          req,
-          res
-        );
-      });
-    });
-
-    localBrickPackages.forEach((pkgId) => {
-      // 直接返回本地构件库相关文件（但排除编辑器相关文件）。
-      app.get(
-        new RegExp(
-          `^${escapeRegExp(
-            `${publicRoot}bricks/${pkgId}/`
-          )}(?!dist\\/editors\\/)(.+)`
-        ),
-        (req, res) => {
+    // 开发时默认拦截 bootstrap 请求。
+    // 如果设定 `REMOTE=true`，则透传远端请求。
+    if (useRemote) {
+      // 设定透传远端请求时，可以指定特定的 brick packages, micro apps, template packages 使用本地文件。
+      localEditorPackages.forEach((pkgId) => {
+        // 直接返回本地构件库编辑器相关文件。
+        app.get(`${publicRoot}bricks/${pkgId}/dist/editors/*`, (req, res) => {
           tryServeFiles(
             [
-              path.join(brickPackagesDir, pkgId, req.params[0]),
-              path.join(alternativeBrickPackagesDir, pkgId, req.params[0]),
+              path.join(brickPackagesDir, pkgId, "dist-editors", req.params[0]),
+              path.join(brickPackagesDir, pkgId, "dist/editors", req.params[0]),
+              path.join(
+                alternativeBrickPackagesDir,
+                pkgId,
+                "dist-editors",
+                req.params[0]
+              ),
+              path.join(
+                alternativeBrickPackagesDir,
+                pkgId,
+                "dist/editors",
+                req.params[0]
+              ),
             ],
             req,
             res
           );
-        }
-      );
-    });
+        });
+      });
 
-    standaloneMicroApps ||
-      localMicroApps.forEach((appId) => {
-        // 直接返回本地小产品相关文件。
-        app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
-          const filePath = path.join(microAppsDir, appId, req.params[0]);
-          tryServeFiles(filePath, req, res);
-        });
-      });
-    localTemplates.forEach((pkgId) => {
-      // 直接返回本地模板相关文件。
-      app.get(`${publicRoot}templates/${pkgId}/*`, (req, res) => {
-        const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
-        tryServeFiles(filePath, req, res);
-      });
-    });
-    standaloneMicroApps ||
-      mockedMicroApps.forEach((appId) => {
-        // 直接返回本地小产品相关文件。
-        app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
-          const filePath = path.join(mockedMicroAppsDir, appId, req.params[0]);
-          tryServeFiles(filePath, req, res);
-        });
-        app.get(`${baseHref}api/auth(/v2)?/bootstrap/${appId}`, (req, res) => {
-          res.json({
-            code: 0,
-            data: getSingleStoryboard(env, appId, true),
-          });
-        });
-      });
-    // API to fulfil the active storyboard.
-    standaloneMicroApps ||
-      localMicroApps.concat(mockedMicroApps).forEach((appId) => {
-        app.get(`${baseHref}api/auth(/v2)?/bootstrap/${appId}`, (req, res) => {
-          res.json({
-            code: 0,
-            data: getSingleStoryboard(
-              env,
-              appId,
-              mockedMicroApps.includes(appId)
-            ),
-          });
-        });
-      });
-  } else {
-    if (standaloneMicroApps) {
-      app.get(`${publicRoot}bootstrap.hash.json`, (req, res) => {
-        res.json({
-          navbar: getNavbar(env),
-          storyboards: (mocked
-            ? getStoryboardsByMicroApps(env, true, {
-                brief: req.query.brief === "true",
-              })
-            : []
-          ).concat(
-            getStoryboardsByMicroApps(env, false, {
-              brief: req.query.brief === "true",
-            })
+      localBrickPackages.forEach((pkgId) => {
+        // 直接返回本地构件库相关文件（但排除编辑器相关文件）。
+        app.get(
+          new RegExp(
+            `^${escapeRegExp(
+              `${publicRoot}bricks/${pkgId}/`
+            )}(?!dist\\/editors\\/)(.+)`
           ),
-          brickPackages: getBrickPackages(env),
-          templatePackages: getTemplatePackages(env),
+          (req, res) => {
+            tryServeFiles(
+              [
+                path.join(brickPackagesDir, pkgId, req.params[0]),
+                path.join(alternativeBrickPackagesDir, pkgId, req.params[0]),
+              ],
+              req,
+              res
+            );
+          }
+        );
+      });
+
+      standaloneConfig ||
+        localMicroApps.forEach((appId) => {
+          // 直接返回本地小产品相关文件。
+          app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
+            const filePath = path.join(microAppsDir, appId, req.params[0]);
+            tryServeFiles(filePath, req, res);
+          });
+        });
+      localTemplates.forEach((pkgId) => {
+        // 直接返回本地模板相关文件。
+        app.get(`${publicRoot}templates/${pkgId}/*`, (req, res) => {
+          const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
+          tryServeFiles(filePath, req, res);
         });
       });
+
+      standaloneConfig ||
+        mockedMicroApps.forEach((appId) => {
+          // 直接返回本地小产品相关文件。
+          app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
+            const filePath = path.join(
+              mockedMicroAppsDir,
+              appId,
+              req.params[0]
+            );
+            tryServeFiles(filePath, req, res);
+          });
+          asCdn ||
+            app.get(
+              `${baseHref}api/auth(/v2)?/bootstrap/${appId}`,
+              (req, res) => {
+                res.json({
+                  code: 0,
+                  data: getSingleStoryboard(env, appId, true),
+                });
+              }
+            );
+        });
+      // API to fulfil the active storyboard.
+      asCdn ||
+        standaloneConfig ||
+        localMicroApps.concat(mockedMicroApps).forEach((appId) => {
+          app.get(
+            `${baseHref}api/auth(/v2)?/bootstrap/${appId}`,
+            (req, res) => {
+              res.json({
+                code: 0,
+                data: getSingleStoryboard(
+                  env,
+                  appId,
+                  mockedMicroApps.includes(appId)
+                ),
+              });
+            }
+          );
+        });
     } else {
-      app.get(`${baseHref}api/auth(/v2)?/bootstrap`, (req, res) => {
-        res.json({
-          code: 0,
-          data: {
+      if (standaloneConfig) {
+        app.get(`${publicRoot}bootstrap.hash.json`, (req, res) => {
+          res.json({
             navbar: getNavbar(env),
             storyboards: (mocked
               ? getStoryboardsByMicroApps(env, true, {
@@ -167,52 +161,73 @@ module.exports = (env, app) => {
             ),
             brickPackages: getBrickPackages(env),
             templatePackages: getTemplatePackages(env),
-            settings: getSettings(env),
-          },
+          });
         });
+      } else {
+        app.get(`${baseHref}api/auth(/v2)?/bootstrap`, (req, res) => {
+          res.json({
+            code: 0,
+            data: {
+              navbar: getNavbar(env),
+              storyboards: (mocked
+                ? getStoryboardsByMicroApps(env, true, {
+                    brief: req.query.brief === "true",
+                  })
+                : []
+              ).concat(
+                getStoryboardsByMicroApps(env, false, {
+                  brief: req.query.brief === "true",
+                })
+              ),
+              brickPackages: getBrickPackages(env),
+              templatePackages: getTemplatePackages(env),
+              settings: getSettings(env),
+            },
+          });
+        });
+
+        app.get(`${baseHref}api/auth(/v2)?/bootstrap/:appId`, (req, res) => {
+          res.json({
+            code: 0,
+            data: getSingleStoryboard(
+              env,
+              req.params.appId,
+              mockedMicroApps.includes(req.params.appId)
+            ),
+          });
+        });
+      }
+
+      // 直接返回构件库 js 文件。
+      app.get(`${publicRoot}bricks/*`, (req, res) => {
+        tryServeFiles(
+          [
+            path.join(brickPackagesDir, req.params[0]),
+            path.join(alternativeBrickPackagesDir, req.params[0]),
+          ],
+          req,
+          res
+        );
       });
 
-      app.get(`${baseHref}api/auth(/v2)?/bootstrap/:appId`, (req, res) => {
-        res.json({
-          code: 0,
-          data: getSingleStoryboard(
-            env,
-            req.params.appId,
-            mockedMicroApps.includes(req.params.appId)
-          ),
-        });
+      // 直接返回小产品相关文件。
+      app.get(`${publicRoot}micro-apps/*`, (req, res) => {
+        tryServeFiles(
+          [
+            ...(mocked ? [path.join(mockedMicroAppsDir, req.params[0])] : []),
+            path.join(microAppsDir, req.params[0]),
+          ],
+          req,
+          res
+        );
+      });
+
+      // 直接返回模板库 js 文件。
+      app.get(`${publicRoot}templates/*`, (req, res) => {
+        const filePath = path.join(templatePackagesDir, req.params[0]);
+        tryServeFiles(filePath, req, res);
       });
     }
-
-    // 直接返回构件库 js 文件。
-    app.get(`${publicRoot}bricks/*`, (req, res) => {
-      tryServeFiles(
-        [
-          path.join(brickPackagesDir, req.params[0]),
-          path.join(alternativeBrickPackagesDir, req.params[0]),
-        ],
-        req,
-        res
-      );
-    });
-
-    // 直接返回小产品相关文件。
-    app.get(`${publicRoot}micro-apps/*`, (req, res) => {
-      tryServeFiles(
-        [
-          ...(mocked ? [path.join(mockedMicroAppsDir, req.params[0])] : []),
-          path.join(microAppsDir, req.params[0]),
-        ],
-        req,
-        res
-      );
-    });
-
-    // 直接返回模板库 js 文件。
-    app.get(`${publicRoot}templates/*`, (req, res) => {
-      const filePath = path.join(templatePackagesDir, req.params[0]);
-      tryServeFiles(filePath, req, res);
-    });
   }
 
   if (useOffline) {

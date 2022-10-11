@@ -1,12 +1,10 @@
-import { locationsAreEqual, createPath, Action, Location } from "history";
-import { findLastIndex, uniqueId } from "lodash";
+import { locationsAreEqual, Action, Location } from "history";
+import { uniqueId } from "lodash";
 import type {
-  BaseRouteConf,
   LayoutType,
   PluginHistoryState,
   PluginLocation,
   PluginRuntimeContext,
-  RouteConf,
   RuntimeMisc,
 } from "@next-core/brick-types";
 import {
@@ -52,9 +50,22 @@ import { registerStoryboardFunctions } from "./StoryboardFunctions";
 import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
 import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
-import { collectContract } from "./CollectContracts";
+import {
+  clearCollectWidgetContract,
+  collectContract,
+} from "./CollectContracts";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import { Media, mediaEventTarget } from "../internal/mediaQuery";
+import {
+  getStandaloneInstalledApps,
+  preFetchStandaloneInstalledApps,
+} from "../internal/getStandaloneInstalledApps";
+import { mergePreviewRoutes } from "../internal/mergePreviewRoutes";
+import { imagesFactory } from "../internal/images";
+import { computeRealValue } from "../internal/setProperties";
+import { abortController } from "../abortController";
+import { isHttpAbortError } from "../internal/isHttpAbortError";
+import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 
 export class Router {
   private defaultCollapsed = false;
@@ -161,11 +172,24 @@ export class Router {
         this.prevLocation = location;
         return;
       }
-
+      abortController.abortPendingRequest();
       this.locationChangeNotify(this.prevLocation.pathname, location.pathname);
       this.prevLocation = location;
       this.locationContext.handlePageLeave();
       this.locationContext.messageDispatcher.reset();
+
+      if (action === "POP") {
+        const storyboard = matchStoryboard(
+          this.kernel.bootstrapData.storyboards,
+          location.pathname
+        );
+        // When a browser action of goBack or goForward is performing,
+        // force reload when the target page is a page of an outside app.
+        if (isOutsideApp(storyboard)) {
+          window.location.reload();
+        }
+      }
+
       if (this.rendering) {
         this.nextLocation = location;
       } else {
@@ -201,6 +225,7 @@ export class Router {
 
     resetAllInjected();
     clearPollTimeout();
+    clearCollectWidgetContract();
 
     if (this.locationContext) {
       this.locationContext.resolver.resetRefreshQueue();
@@ -233,6 +258,14 @@ export class Router {
         await preCheckPermissions(storyboard);
       }
 
+      // Standalone App 需要额外读取 Installed App 信息
+      if (window.STANDALONE_MICRO_APPS && !window.NO_AUTH_GUARD) {
+        // TODO: get standalone apps when NO_AUTH_GUARD, maybe from conf.yaml
+        await preFetchStandaloneInstalledApps(storyboard);
+        this.kernel.bootstrapData.offSiteStandaloneApps =
+          getStandaloneInstalledApps();
+      }
+
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
       const subStoryboard =
         this.locationContext.getSubStoryboardByRoute(storyboard);
@@ -259,6 +292,24 @@ export class Router {
     const legacy = currentApp ? currentApp.legacy : undefined;
     this.kernel.nextApp = currentApp;
     let layoutType: LayoutType = currentApp?.layoutType || "console";
+
+    const faviconElement: HTMLLinkElement = document.querySelector(
+      "link[rel='shortcut icon']"
+    );
+    const customFaviconHref = (
+      currentApp?.config?._easyops_app_favicon as Record<string, string>
+    )?.default;
+    if (faviconElement) {
+      if (customFaviconHref) {
+        faviconElement.href = /^(?:https?|data):|^\//.test(customFaviconHref)
+          ? customFaviconHref
+          : imagesFactory(currentApp.id, currentApp.isBuildPush).get(
+              customFaviconHref
+            );
+      } else {
+        faviconElement.href = this.kernel.getOriginFaviconHref();
+      }
+    }
 
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
@@ -292,6 +343,8 @@ export class Router {
           [
             "base-layout.tpl-base-page-module",
             "base-layout.tpl-homepage-base-module",
+            "base-layout.tpl-homepage-base-module-cmdb",
+            "base-layout.tpl-base-page-module-cmdb",
           ].includes(brick)
         ) &&
         layoutType === "business" &&
@@ -307,7 +360,13 @@ export class Router {
         appBar: {
           breadcrumb: [],
           documentId: null,
-          noCurrentApp: currentApp.breadcrumb?.noCurrentApp ?? false,
+          noCurrentApp:
+            typeof currentApp.breadcrumb?.noCurrentApp === "string"
+              ? (computeRealValue(
+                  currentApp.breadcrumb?.noCurrentApp,
+                  this.locationContext.getCurrentContext()
+                ) as boolean)
+              : currentApp.breadcrumb?.noCurrentApp ?? false,
         },
         flags: {
           redirect: undefined,
@@ -316,7 +375,7 @@ export class Router {
         },
       };
       try {
-        const mergedRoutes = this.MergePreviewRouter(storyboard.routes);
+        const mergedRoutes = mergePreviewRoutes(storyboard.routes);
         await locationContext.mountRoutes(
           mergedRoutes,
           undefined,
@@ -329,6 +388,8 @@ export class Router {
         // Redirect to login page if not logged in.
         if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
           mountRoutesResult.flags.unauthenticated = true;
+        } else if (isHttpAbortError(error)) {
+          return;
         } else {
           await this.kernel.layoutBootstrap(layoutType);
           const brickPageError = this.kernel.presetBricks.pageError;
@@ -379,14 +440,8 @@ export class Router {
         this.kernel.currentApp = currentApp;
         this.kernel.previousApp = previousApp;
       }
-      this.kernel.currentUrl = createPath(location);
       this.kernel.currentRoute = route;
-      await Promise.all([
-        ...(window.STANDALONE_MICRO_APPS
-          ? []
-          : [this.kernel.updateWorkspaceStack()]),
-        this.kernel.layoutBootstrap(layoutType),
-      ]);
+      await this.kernel.layoutBootstrap(layoutType);
 
       this.state = "ready-to-mount";
 
@@ -467,7 +522,9 @@ export class Router {
         appendBrick(brick, mountPoints.portal as MountableElement);
       });
 
-      if (main.length > 0 || portal.length > 0) {
+      // When we have a matched route other than an abstract route,
+      // we say *page found*, otherwise, *page not found*.
+      if ((route && route.type !== "routes") || failed) {
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
@@ -496,7 +553,11 @@ export class Router {
           this.mediaEventTargetHandler as EventListener
         );
 
-        pageTracker?.(locationContext.getCurrentMatch().path);
+        pageTracker?.({
+          path: locationContext.getCurrentMatch().path,
+          username: getAuth().username,
+          pageTitle: document.title,
+        });
 
         // analytics page_view event
         userAnalytics.event("page_view", {
@@ -516,9 +577,9 @@ export class Router {
             this.kernel.prefetchDepsOfStoryboard(storyboard);
           });
         } else {
-          Promise.resolve().then(() => {
+          setTimeout(() => {
             this.kernel.prefetchDepsOfStoryboard(storyboard);
-          });
+          }, 0);
         }
         return;
       }
@@ -564,57 +625,6 @@ export class Router {
     };
   }
 
-  MergePreviewRouter(router: RouteConf[]): RouteConf[] {
-    let mergedRoutes = router;
-    const specificTemplatePreviewIndex = findLastIndex(mergedRoutes, (route) =>
-      route.path.startsWith("${APP.homepage}/_dev_only_/template-preview/")
-    );
-    if (specificTemplatePreviewIndex > -1) {
-      mergedRoutes = [
-        ...mergedRoutes.slice(0, specificTemplatePreviewIndex + 1),
-        {
-          path: "${APP.homepage}/_dev_only_/template-preview/:templateId",
-          bricks: [{ brick: "span" }],
-          menu: false,
-          exact: true,
-        } as RouteConf,
-        ...mergedRoutes.slice(specificTemplatePreviewIndex + 1),
-      ];
-    }
-
-    const specificSnippetPreviewIndex = findLastIndex(mergedRoutes, (route) =>
-      route.path.startsWith("${APP.homepage}/_dev_only_/snippet-preview/")
-    );
-    if (specificSnippetPreviewIndex > -1) {
-      mergedRoutes = [
-        ...mergedRoutes.slice(0, specificSnippetPreviewIndex + 1),
-        {
-          path: "${APP.homepage}/_dev_only_/snippet-preview/:snippetId",
-          bricks: [{ brick: "span" }],
-          menu: false,
-          exact: true,
-        } as RouteConf,
-        ...mergedRoutes.slice(specificSnippetPreviewIndex + 1),
-      ];
-    }
-
-    const specificFormPreviewIndex = findLastIndex(mergedRoutes, (route) =>
-      route.path.startsWith("${APP.homepage}/_dev_only_/form-preview/")
-    );
-    if (specificFormPreviewIndex > -1) {
-      mergedRoutes = [
-        ...mergedRoutes.slice(0, specificFormPreviewIndex + 1),
-        {
-          path: "${APP.homepage}/_dev_only_/form-preview/:FormId",
-          bricks: [{ brick: "span" }],
-          menu: false,
-          exact: true,
-        } as RouteConf,
-        ...mergedRoutes.slice(specificFormPreviewIndex + 1),
-      ];
-    }
-    return mergedRoutes;
-  }
   /* istanbul ignore next */
   getNavConfig(): NavConfig {
     return this.navConfig;

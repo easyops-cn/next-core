@@ -1567,6 +1567,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-003", "B-002", "B-004", "B-005", "B-006"],
       nodeUids: [4, 3, 5, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1592,6 +1593,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-002", "B-004", "B-003", "B-005", "B-006"],
       nodeUids: [3, 5, 4, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1637,6 +1639,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-002", "B-004", "B-003", "B-005", "B-006"],
       nodeUids: [3, 5, 4, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1662,6 +1665,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-003", "B-002", "B-004", "B-005", "B-006"],
       nodeUids: [4, 3, 5, 6, 7],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1707,6 +1711,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-005", "B-006", "B-002", "B-003", "B-004"],
       nodeUids: [6, 7, 3, 4, 5],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1752,6 +1757,7 @@ describe("move node or mount point", () => {
       nodeIds: ["B-005", "B-006", "B-002", "B-003", "B-004"],
       nodeUids: [6, 7, 3, 4, 5],
       parentUid: 2,
+      objectId: "STORYBOARD_BRICK",
     });
   });
 
@@ -1842,6 +1848,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
               {
                 id: "B-005",
                 type: "brick",
+                instanceId: "brick-c",
                 brick: "basic-bricks.general-button",
                 sort: 1,
                 mountPoint: "content",
@@ -2026,6 +2033,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             ],
             "$$normalized": Object {
               "brick": "basic-bricks.general-button",
+              "iid": "brick-c",
             },
             "$$parsedEvents": Object {},
             "$$parsedLifeCycle": Object {},
@@ -2034,6 +2042,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "alias": "general-button",
             "brick": "basic-bricks.general-button",
             "id": "B-005",
+            "instanceId": "brick-c",
             "sort": 1,
             "type": "brick",
           },
@@ -2098,6 +2107,44 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
   });
 
   describe("workbenchTreeNodeMove should work", () => {
+    it("move event should work", () => {
+      const mockOnWorkbenchTreeNodeMove = jest.fn();
+      manager.onWorkbenchTreeNodeMove(mockOnWorkbenchTreeNodeMove);
+      const node: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 3,
+        dragParentNodeUid: 2,
+        dragStatus: "top",
+      };
+      manager.workbenchTreeNodeMove(node);
+      expect(mockOnWorkbenchTreeNodeMove).toBeCalled();
+      expect(mockOnWorkbenchTreeNodeMove.mock.calls[0][0].detail).toEqual({
+        nodeData: {
+          mountPoint: "",
+          parent: "abc",
+        },
+        nodeIds: ["B-003", "B-007", "B-005"],
+        nodeInstanceId: "brick-b",
+        nodeUid: 5,
+        objectId: "STORYBOARD_BRICK",
+      });
+
+      const node2: WorkbenchTreeNodeMoveProps = {
+        dragNodeUid: 5,
+        dragOverNodeUid: 3,
+        dragParentNodeUid: 2,
+        dragStatus: "inside",
+      };
+      manager.workbenchTreeNodeMove(node2);
+      expect(mockOnWorkbenchTreeNodeMove.mock.calls[1][0].detail).toEqual({
+        nodeData: { mountPoint: "content", parent: undefined },
+        nodeIds: ["B-008", "B-003"],
+        nodeInstanceId: "brick-b",
+        nodeUid: 5,
+        objectId: "STORYBOARD_BRICK",
+      });
+    });
+
     it("move the node inside the other node", () => {
       const node: WorkbenchTreeNodeMoveProps = {
         dragNodeUid: 5,
@@ -2337,12 +2384,12 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     it("insert a node", () => {
       const node = {
         dragOverInstanceId: "abc",
-        parentInstanceId: "route-a",
+        parent: "route-a",
         mountPoint: "content",
         nodeData: {
           brick: "butotn",
-          instanceId: null,
-          id: null,
+          instanceId: "mock_iid",
+          id: "mock_id",
           type: "brick",
         },
         dragStatus: "inside",
@@ -2404,12 +2451,18 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
           sort: 1,
         },
       ]);
+
+      expect(node.sortData).toEqual({
+        nodeIds: ["B-002", "mock_id"],
+        nodeInstanceIds: ["abc", "mock_iid"],
+        nodeUids: [2],
+      });
     });
 
     it("insert a node after micro-view", () => {
       const node = {
         dragOverInstanceId: "brick-b",
-        parentInstanceId: "abc",
+        parent: "abc",
         mountPoint: "content",
         nodeData: {
           brick: "div",
@@ -2481,7 +2534,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     it("insert a node into root", () => {
       const node = {
         dragOverInstanceId: "route-a",
-        parentInstanceId: "route-a",
+        parent: "route-a",
         mountPoint: "bricks",
         nodeData: {
           brick: "root-button",
@@ -2555,7 +2608,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       manager.onSnippetApply(listenOnSnippetApply);
       const node = {
         dragOverInstanceId: "route-a",
-        parentInstanceId: "route-a",
+        parent: "route-a",
         mountPoint: "bricks",
         dragStatus: "inside",
         nodeData: {
@@ -2611,6 +2664,41 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
           "parentUid": 1,
         }
       `);
+    });
+    it("intert a snippet and data not update should work", () => {
+      const listenOnSnippetApply = jest.fn();
+
+      const originData = manager.getData().nodes;
+      manager.onSnippetApply(listenOnSnippetApply);
+      const node = {
+        dragOverInstanceId: "route-a",
+        parent: "route-a",
+        mountPoint: "bricks",
+        dragStatus: "inside",
+        nodeData: {
+          brick: "",
+          instanceId: null,
+          id: null,
+          type: "brick",
+          bricks: [
+            {
+              brick: "div",
+              properties: {},
+              lifeCycle: {
+                onPageLoad: [
+                  {
+                    useProvider: "a",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      } as WorkbenchNodeAdd;
+      manager.workbenchNodeAdd(node, false);
+
+      expect(listenOnSnippetApply).toBeCalledTimes(0);
+      expect(originData).toEqual(manager.getData().nodes);
     });
   });
 
@@ -2684,5 +2772,114 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     manager.snippetApply(node2);
 
     expect(node2.nodeDetails[0].nodeData.mountPoint).toBe("content");
+  });
+
+  it("updateNode should work", () => {
+    const listenOnNodeUpdate = jest.fn();
+    const unlistenOnNodeUpdate = manager.onNodeUpdate(listenOnNodeUpdate);
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(0);
+
+    manager.updateNode("brick-b", {
+      id: "B-003",
+      type: "brick",
+      brick: "basic-bricks.micro-view",
+      sort: 0,
+      properties: JSON.stringify({
+        pagetitle: "page-1",
+      }),
+      mountPoint: "test-change",
+      instanceId: "brick-b",
+    });
+
+    expect(
+      manager.getData().nodes.find((item) => item.instanceId === "brick-b")
+    ).toEqual({
+      $$isTemplateInternalNode: undefined,
+      $$matchedSelectors: ["basic-bricks\\.micro-view"],
+      $$normalized: { brick: "basic-bricks.micro-view", iid: "brick-b" },
+      $$parsedEvents: {},
+      $$parsedLifeCycle: {},
+      $$parsedProperties: {},
+      $$uid: 5,
+      alias: "micro-view",
+      brick: "basic-bricks.micro-view",
+      id: "B-003",
+      instanceId: "brick-b",
+      mountPoint: "test-change",
+      properties: '{"pagetitle":"page-1"}',
+      sort: 0,
+      type: "brick",
+    });
+
+    expect(manager.getData().edges.find((item) => item.child === 5)).toEqual({
+      $$isTemplateDelegated: true,
+      $$isTemplateInternal: undefined,
+      child: 5,
+      mountPoint: "test-change",
+      parent: 2,
+      sort: 0,
+    });
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(1);
+
+    manager.updateNode("brick-b", {
+      id: "B-003",
+      type: "brick",
+      brick: "basic-bricks.micro-view",
+      sort: 0,
+      properties: JSON.stringify({
+        pagetitle: "page-1",
+      }),
+      mountPoint: undefined,
+      instanceId: "brick-b",
+    });
+
+    expect(manager.getData().edges.find((item) => item.child === 5)).toEqual({
+      $$isTemplateDelegated: true,
+      $$isTemplateInternal: undefined,
+      child: 5,
+      mountPoint: "test-change",
+      parent: 2,
+      sort: 0,
+    });
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(2);
+
+    manager.updateNode("brick-b", {
+      id: "B-003",
+      type: "brick",
+      brick: "basic-bricks.micro-view",
+      sort: 1,
+      properties: JSON.stringify({
+        pagetitle: "page-2",
+      }),
+      mountPoint: "content",
+      instanceId: "brick-b",
+    });
+
+    expect(
+      manager.getData().nodes.find((item) => item.instanceId === "brick-b")
+    ).toEqual({
+      $$isTemplateInternalNode: undefined,
+      $$matchedSelectors: ["basic-bricks\\.micro-view"],
+      $$normalized: { brick: "basic-bricks.micro-view", iid: "brick-b" },
+      $$parsedEvents: {},
+      $$parsedLifeCycle: {},
+      $$parsedProperties: {},
+      $$uid: 5,
+      alias: "micro-view",
+      brick: "basic-bricks.micro-view",
+      id: "B-003",
+      instanceId: "brick-b",
+      mountPoint: "content",
+      properties: '{"pagetitle":"page-2"}',
+      sort: 1,
+      type: "brick",
+    });
+
+    expect(listenOnNodeUpdate).toBeCalledTimes(3);
+
+    unlistenOnNodeUpdate();
   });
 });

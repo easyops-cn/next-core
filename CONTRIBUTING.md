@@ -82,6 +82,31 @@ LOCAL_BRICKS=abc yarn start
 yarn serve --local-bricks=abc
 ```
 
+### 独立打包调试
+
+使用本地框架调试远端的独立打包：
+
+在本项目根目录创建一个文件 `dev.config.js`：
+
+```js
+exports.standaloneAppsConfig = [
+  {
+    // 将相关参数替换成调试目标上对应的数据。
+    appDir: "agile-task/",
+    appRoot: "/sa-static/agile-task/versions/1.0.6/webroot/",
+    bootstrapHash: "8d14a6be80273699",
+  },
+  // 可以列出多个应用目录。
+  // 没有出现在该配置列表中的应用将自动使用非独立模式。
+];
+```
+
+然后运行：
+
+```shell
+yarn serve --subdir --server=https://admin.easyops.local
+```
+
 ## 常见问题 FAQ
 
 - CI 错误：

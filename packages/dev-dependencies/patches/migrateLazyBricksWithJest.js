@@ -18,8 +18,8 @@ function migrateLazyBricksWithJest() {
         "index.spec.ts"
       );
 
-      const indexSpecFile = fs.readFileSync(indexSpecPath, "utf-8");
-      if (indexSpecFile) {
+      if (fs.existsSync(indexSpecPath)) {
+        const indexSpecFile = fs.readFileSync(indexSpecPath, "utf-8");
         fs.outputFileSync(
           indexSpecPath,
           indexSpecFile.replace(`jest.mock("./lazy-bricks", () => void 0);`, "")

@@ -23,11 +23,13 @@ const apiAnalyzer = {
   },
 };
 
-export interface ApiAnalyse {
-  _ver?: Date;
+export interface ApiMetric {
+  // Date
+  _ver?: number;
   uid?: string;
   username?: string;
-  time?: Date;
+  // Date
+  time?: number;
   type?: "api";
   st: number;
   et: number;
@@ -44,17 +46,38 @@ export interface ApiAnalyse {
   route?: string;
 }
 
+export type PageMetric = Pick<
+  ApiMetric,
+  | "lt"
+  | "page"
+  | "pageId"
+  | "route"
+  | "_ver"
+  | "st"
+  | "et"
+  | "username"
+  | "time"
+  | "size"
+> & {
+  apiCount: number;
+  maxApiTimeCost: number;
+  type: "page";
+  pageTitle: string;
+};
+export type MixMetric = ApiMetric | PageMetric;
+
 interface ApiAnalysisServiceProps {
   api: string;
 }
 class ApiAnalysisService {
   readonly api: string;
-  public logs: ApiAnalyse[] = [];
-  public apiQueue: ApiAnalyse[] = [];
+  public logs: MixMetric[] = [];
+  public queue: ApiMetric[] = [];
+  private initialized = false;
 
   constructor(props: ApiAnalysisServiceProps) {
     this.api = props.api;
-
+    this.initialized = true;
     window.addEventListener("beforeunload", this.upload.bind(this), false);
   }
   private upload(): void {
@@ -82,6 +105,10 @@ class ApiAnalysisService {
         "status",
         "pageId",
         "route",
+        "apiCount",
+        "maxApiTimeCost",
+        "apiSizeCost",
+        "pageTitle",
       ],
       data: this.logs,
     };
@@ -101,7 +128,7 @@ class ApiAnalysisService {
           log = this.gatherResponse(response as HttpResponse);
         }
 
-        this.apiQueue.push(log);
+        this.queue.push(log);
         // this.logs.push(log);
       } catch (e) /* istanbul ignore next */ {
         // eslint-disable-next-line no-console
@@ -113,15 +140,28 @@ class ApiAnalysisService {
   // Ref https://medium.com/teads-engineering/generating-uuids-at-scale-on-the-web-2877f529d2a2
   private genUUID(): string {
     const url = URL.createObjectURL(new Blob([]));
-    const uuid = url.substring(url.lastIndexOf("/") + 1);
+    let uuid = url.substring(url.lastIndexOf("/") + 1);
     URL.revokeObjectURL(url);
+    // 第一次渲染加上特殊标记
+    if (this.initialized) {
+      uuid = "88-" + uuid;
+      this.initialized = false;
+    }
     return uuid;
   }
 
-  pageTracker(): (path: string) => void {
+  pageTracker(): ({
+    path,
+    pageTitle,
+    username,
+  }: {
+    path: string;
+    pageTitle: string;
+    username: string;
+  }) => void {
     const startTime = Date.now();
-    this.apiQueue = [];
-    return (path: string) => {
+    this.queue = [];
+    return ({ path, pageTitle, username }) => {
       const endTime = Date.now();
       // page load time
       const lt = endTime - startTime;
@@ -131,12 +171,32 @@ class ApiAnalysisService {
         pageId: this.genUUID(),
       };
 
-      const queuedApiList = this.apiQueue.map((api) => ({ ...api, ...extra }));
+      const pageMetric: PageMetric = {
+        type: "page",
+        apiCount: this.queue.length,
+        page: location.href,
+        time: Math.round(startTime / 1000),
+        _ver: startTime,
+        maxApiTimeCost: this.queue.length
+          ? Math.max(...this.queue.map((api) => api.duration))
+          : 0,
+        st: startTime,
+        et: endTime,
+        size: this.queue
+          .map((v) => v.size)
+          .filter(Number)
+          .reduce((a, b) => a + b, 0),
+        pageTitle,
+        username,
+        ...extra,
+      };
+      this.logs.push(pageMetric);
+      const queuedApiList = this.queue.map((api) => ({ ...api, ...extra }));
       this.logs.push(...queuedApiList);
     };
   }
 
-  private gatherResponse(response: HttpResponse): ApiAnalyse {
+  private gatherResponse(response: HttpResponse): ApiMetric {
     const { config, headers, status, data = {} } = response;
     const et = Date.now();
     const duration = et - response.config.meta.st;
@@ -168,7 +228,7 @@ class ApiAnalysisService {
     };
   }
 
-  private gatherErrorResponse(error: HttpError): ApiAnalyse {
+  private gatherErrorResponse(error: HttpError): ApiMetric {
     const { config, error: err } = error;
     const et = Date.now();
     const duration = et - config.meta.st;

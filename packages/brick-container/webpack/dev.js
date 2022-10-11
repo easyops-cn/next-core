@@ -1,7 +1,11 @@
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 const devServerOptions = require("../dev-server");
 
-const servePublicPath = process.env.SUBDIR === "true" ? "/next/" : "/";
+const servePublicPath = process.env.SET_SUBDIR
+  ? `/${process.env.SET_SUBDIR.replace(/^\/|\/$/, "")}/`
+  : process.env.SUBDIR === "true"
+  ? "/next/"
+  : "/";
 
 module.exports = () => ({
   mode: "development",

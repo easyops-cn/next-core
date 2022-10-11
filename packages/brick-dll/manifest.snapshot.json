@@ -3505,6 +3505,7 @@
           "PrecookVisitor",
           "asyncProcessBrick",
           "asyncProcessStoryboard",
+          "collectBricksByCustomTemplates",
           "computeRealRoutePath",
           "convertValueByPrecision",
           "cook",
@@ -3528,6 +3529,7 @@
           "isSnippetNode",
           "lint",
           "loadScript",
+          "makeThrottledAggregation",
           "mapCustomApisToNameAndNamespace",
           "matchPath",
           "normalizeBuilderNode",
@@ -3546,6 +3548,7 @@
           "scanCustomApisInStoryboard",
           "scanI18NInAny",
           "scanI18NInStoryboard",
+          "scanInstalledAppsInStoryboard",
           "scanPermissionActionsInAny",
           "scanPermissionActionsInStoryboard",
           "scanProcessorsInAny",
@@ -3561,6 +3564,8 @@
           "tokTypes",
           "trackContext",
           "trackState",
+          "trackUsedContext",
+          "trackUsedState",
           "transform",
           "transformAndInject",
           "visitStoryboardExpressions",
@@ -7321,11 +7326,13 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
+          "HttpAbortError",
           "HttpFetchError",
           "HttpParseError",
           "HttpResponseError",
           "fetch",
-          "http"
+          "http",
+          "isHttpAbortError"
         ]
       }
     },
@@ -18519,6 +18526,7 @@
           "SingleBrickAsComponent",
           "StoryboardFunctionRegistryFactory",
           "UpdatingElement",
+          "abortController",
           "authenticate",
           "batchSetAppsLocalTheme",
           "checkIf",
@@ -18534,6 +18542,7 @@
           "getHistory",
           "getMockInfo",
           "getRuntime",
+          "getRuntimeMisc",
           "handleHttpError",
           "httpErrorToString",
           "i18nText",
