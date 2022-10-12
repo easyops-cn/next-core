@@ -159,16 +159,17 @@ function historyOverridden(
         pathname = path.pathname;
       }
 
-      // When history.push or history.replace is performing with a non-empty pathname,
+      // When history.push or history.replace is performing with an absolute pathname,
       // force load the target page when it is a page of an outside app.
       if (
-        pathname !== "" &&
+        typeof pathname === "string" &&
+        pathname.startsWith("/") &&
         isOutsideApp(_internalApiMatchStoryboard(pathname))
       ) {
         // Going to outside apps.
         return location[method === "push" ? "assign" : "replace"](
           pathIsString
-            ? getBasePath() + path.replace(/^\//, "")
+            ? getBasePath() + path.substring(1)
             : browserHistory.createHref(
                 path as LocationDescriptorObject<PluginHistoryState>
               )

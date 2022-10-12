@@ -7,11 +7,15 @@
       }
     }
   },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"]
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": [
-        "{projectRoot}/**/*",
+        "default",
+        "^default",
         "{workspaceRoot}/package.json",
         "{workspaceRoot}/yarn.lock",
         "{workspaceRoot}/babel.config.js",
