@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.47.27](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.47.26...@next-core/editor-bricks-helper@0.47.27) (2022-10-12)
+
+
+### Bug Fixes
+
+* ignore alias which equals to brick name ([0954d37](https://github.com/easyops-cn/next-core/commit/0954d3785cd9bacfa59191cd49f67cce7a6049cd))
+
+
+
+
+
 ## [0.47.26](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.47.25...@next-core/editor-bricks-helper@0.47.26) (2022-10-12)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
