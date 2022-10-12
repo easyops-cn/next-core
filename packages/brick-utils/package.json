@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@next-core/pipes": "^1.0.8",
+    "@next-core/rollup-config-factory": "^2.6.1",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"

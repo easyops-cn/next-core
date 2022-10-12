@@ -33,6 +33,7 @@
     "@next-core/brick-types": "^2.79.1"
   },
   "devDependencies": {
+    "@next-core/build-next-libs": "^0.2.14",
     "@next-core/supply": "^1.0.68",
     "lodash": "^4.17.21"
   }

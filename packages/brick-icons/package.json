@@ -9,6 +9,16 @@
   "files": [
     "dist"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/generated"
+        ]
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -29,6 +39,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@next-core/brick-utils": "^2.43.2",
+    "@next-core/rollup-config-factory": "^2.6.1",
     "@svgr/rollup": "^5.5.0",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",

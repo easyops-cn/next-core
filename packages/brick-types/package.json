@@ -11,6 +11,16 @@
     "dist",
     ".schema"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.schema"
+        ]
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -33,6 +43,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@next-core/rollup-config-factory": "^2.6.1",
     "typescript-json-schema": "^0.54.0"
   },
   "peerDependencies": {
