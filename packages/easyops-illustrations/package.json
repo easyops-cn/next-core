@@ -10,6 +10,17 @@
   "files": [
     "dist"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/categories.ts",
+          "{projectRoot}/src/illustrationsByCategory.ts"
+        ]
+      }
+    }
+  },
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
