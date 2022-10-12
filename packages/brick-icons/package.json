@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-icons",
-  "version": "2.28.0",
+  "version": "2.28.1",
   "description": "Self designed icons",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-icons",
   "license": "GPL-3.0",
@@ -38,7 +38,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/brick-utils": "^2.43.2",
+    "@next-core/brick-utils": "^2.43.3",
     "@next-core/rollup-config-factory": "^2.6.1",
     "@svgr/rollup": "^5.5.0",
     "change-case": "^4.1.2",

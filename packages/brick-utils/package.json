@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-utils",
-  "version": "2.43.2",
+  "version": "2.43.3",
   "description": "Pure utility functions for kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-utils",
   "license": "GPL-3.0",
@@ -29,13 +29,13 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.79.1",
-    "@next-core/cook": "^1.6.58",
+    "@next-core/brick-types": "^2.79.2",
+    "@next-core/cook": "^1.6.59",
     "file-saver": "^2.0.5",
     "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
-    "@next-core/pipes": "^1.0.8",
+    "@next-core/pipes": "^1.0.9",
     "@next-core/rollup-config-factory": "^2.6.1",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
