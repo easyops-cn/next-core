@@ -30,5 +30,8 @@
   "sideEffects": false,
   "dependencies": {
     "@ant-design/colors": "^6.0.0"
+  },
+  "devDependencies": {
+    "@next-core/build-next-libs": "^0.2.14"
   }
 }

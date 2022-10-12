@@ -29,6 +29,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@next-core/rollup-config-factory": "^2.6.1",
     "whatwg-fetch": "^3.6.2"
   }
 }

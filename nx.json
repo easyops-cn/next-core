@@ -9,10 +9,15 @@
   },
   "targetDefaults": {
     "build": {
+      "dependsOn": ["^build"],
       "inputs": [
         "{projectRoot}/**/*",
         "{workspaceRoot}/package.json",
-        "{workspaceRoot}/yarn.lock"
+        "{workspaceRoot}/yarn.lock",
+        "{workspaceRoot}/babel.config.js",
+        "{workspaceRoot}/tsconfig.json",
+        "{workspaceRoot}/packages/babel-preset-next/**/*",
+        "{workspaceRoot}/packages/browserslist-config-next/**/*"
       ]
     }
   }
