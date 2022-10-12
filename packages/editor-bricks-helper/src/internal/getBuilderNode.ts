@@ -55,18 +55,19 @@ export function getBuilderNode(
     }
   }
 
+  const isBrick = isBrickNode(nodeData);
+  const brickName = isBrick ? nodeData.brick.split(".").pop() : null;
+
   return Object.fromEntries(
     Object.entries(nodeData)
       .filter((entry) => !nodeIgnoreFields.includes(entry[0]))
       .concat([
         [
           "alias",
-          nodeData.alias ||
-            (isBrickNode(nodeData)
-              ? nodeData.ref ||
-                parsedTestId ||
-                parsedId ||
-                nodeData.brick.split(".").pop()
+          // Ignore alias which equals to brick name.
+          (!(isBrick && nodeData.alias === brickName) && nodeData.alias) ||
+            (isBrick
+              ? nodeData.ref || parsedTestId || parsedId || brickName
               : undefined),
         ],
         ["$$uid", nodeUid],
