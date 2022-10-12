@@ -32,6 +32,12 @@ export async function ExpandCustomForm(
         item.value = brickConf.properties[item.name];
       }
     });
+    if (brickConf.properties.condition) {
+      formData.context.push({
+        name: "condition",
+        value: brickConf.properties.condition,
+      });
+    }
     await formContext.formState.define(
       formData.context,
       { ...context, formContextId: formContext.id },
