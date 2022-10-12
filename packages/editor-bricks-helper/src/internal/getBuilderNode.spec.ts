@@ -227,6 +227,7 @@ describe("getBuilderNode", () => {
         {
           type: "brick",
           brick: "my.any-brick",
+          alias: "any-brick",
           id: "B-001",
           parent: [],
           children: [],
