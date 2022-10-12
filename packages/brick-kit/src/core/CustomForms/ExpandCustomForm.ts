@@ -1,4 +1,9 @@
-import { BrickConf, BrickEventsMap, ResolveConf } from "@next-core/brick-types";
+import {
+  BrickConf,
+  BrickEventHandler,
+  BrickEventsMap,
+  ResolveConf,
+} from "@next-core/brick-types";
 import _ from "lodash";
 import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
@@ -22,6 +27,11 @@ export async function ExpandCustomForm(
   };
   const formContext = new CustomFormContext();
   if (Array.isArray(formData.context)) {
+    formData.context.forEach((item) => {
+      if (brickConf.properties[item.name]) {
+        item.value = brickConf.properties[item.name];
+      }
+    });
     await formContext.formState.define(
       formData.context,
       { ...context, formContextId: formContext.id },
@@ -40,6 +50,22 @@ export async function ExpandCustomForm(
       ? errorBrick
       : formStoryboard[0];
 
+    if (formStoryboard[0].brick === "forms.general-form" && brickConf.events) {
+      const brickConfEvents = brickConf.events;
+      const events = formStoryboard[0].events ?? {};
+      Object.keys(brickConfEvents).forEach((item) => {
+        const newEvents = (
+          Array.isArray(events[item]) ? events[item] : [events[item]]
+        ) as BrickEventHandler[];
+        const itemEvents = (
+          Array.isArray(brickConfEvents[item])
+            ? brickConfEvents[item]
+            : [brickConfEvents[item]]
+        ) as BrickEventHandler[];
+        events[item] = _.compact([...newEvents, ...itemEvents]);
+      });
+      formStoryboard[0].events = events;
+    }
     return {
       ...brickConf,
       brick: "div",
