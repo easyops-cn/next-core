@@ -67,7 +67,7 @@ const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
-(getAuth as jest.Mock).mockReturnValue({});
+(getAuth as jest.Mock).mockReturnValue({ license: { validDaysLeft: 15 } });
 const spyOnMediaEventTargetAddEventListener = jest.spyOn(
   mediaEventTarget,
   "addEventListener"
