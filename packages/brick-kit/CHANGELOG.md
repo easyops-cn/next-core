@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.150.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.149.1...@next-core/brick-kit@2.150.0) (2022-10-13)
+
+
+### Features
+
+* support license tip ([19ee28a](https://github.com/easyops-cn/next-core/commit/19ee28a7e50459c9a9fd8f8d609e1b581ac2b21f))
+
+
+
+
+
 ## [2.149.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.149.0...@next-core/brick-kit@2.149.1) (2022-10-12)
 
 
