@@ -247,6 +247,7 @@ export interface AuthInfo {
   accessRule?: string;
   isAdmin?: boolean;
   csrfToken?: string;
+  license?: Record<string, any>;
 }
 
 /** @internal */

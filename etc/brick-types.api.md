@@ -74,6 +74,8 @@ export interface AuthInfo {
     // (undocumented)
     isAdmin?: boolean;
     // (undocumented)
+    license?: Record<string, any>;
+    // (undocumented)
     loginFrom?: string;
     // (undocumented)
     org?: number;
@@ -1482,14 +1484,20 @@ export interface NavbarConf {
 // @public (undocumented)
 export interface NavTip {
     // (undocumented)
-    closeable?: boolean;
+    backgroundColor?: string;
+    // (undocumented)
+    closable?: boolean;
     // (undocumented)
     info?: {
         url: string;
         label: string;
     };
     // (undocumented)
+    isCenter?: boolean;
+    // (undocumented)
     text: string;
+    // (undocumented)
+    tipKey: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
