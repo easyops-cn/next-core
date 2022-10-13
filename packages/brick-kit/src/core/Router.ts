@@ -561,33 +561,54 @@ export class Router {
           pageTitle: document.title,
         });
 
+        // show app bar tips
+        const tipsDetail: NavTip[] = [];
+        const getUnionKey = (key: string) => {
+          const { org } = getAuth();
+          return `${key}:${org}`;
+        };
+
         const renderTime = performance.now() - renderStartTime;
         const { loadTime = 0, loadInfoPage } =
           this.kernel.bootstrapData.settings?.misc ?? {};
         if (currentApp.isBuildPush && loadTime > 0 && renderTime > loadTime) {
           const getSecond = (time: number): number =>
             Math.floor(time * 100) / 100;
+          tipsDetail.push({
+            text: `您的页面存在性能问题, 当前页面渲染时间 ${getSecond(
+              renderTime / 1000
+            )} 秒, 规定阈值为: ${getSecond(
+              (loadTime as number) / 1000
+            )} 秒, 您已超过。请您针对该页面进行性能优化!`,
+            closable: false,
+            isCenter: true,
+            tipKey: getUnionKey("render"),
+            backgroundColor: "#F3E27D",
+            ...(loadInfoPage
+              ? {
+                  info: {
+                    label: "建议解决思路",
+                    url: loadInfoPage as string,
+                  },
+                }
+              : {}),
+          });
+        }
+
+        const validDaysLeft: number = getAuth().license.validDaysLeft ?? 10;
+        if (validDaysLeft && validDaysLeft <= 15 && getAuth().isAdmin) {
+          tipsDetail.push({
+            text: `离License过期还有${validDaysLeft}天`,
+            tipKey: getUnionKey("license"),
+            closable: true,
+            isCenter: true,
+            backgroundColor: "#89B5F9",
+          });
+        }
+
+        if (tipsDetail.length !== 0) {
           window.dispatchEvent(
-            new CustomEvent<NavTip[]>("app.bar.tips", {
-              detail: [
-                {
-                  text: `您的页面存在性能问题, 当前页面渲染时间为: ${getSecond(
-                    renderTime / 1000
-                  )} 秒, 规定阈值为: ${getSecond(
-                    (loadTime as number) / 1000
-                  )} 秒; 您已超过, 请您针对该页面进行性能优化!`,
-                  closeable: false,
-                  ...(loadInfoPage
-                    ? {
-                        info: {
-                          label: "查看详情",
-                          url: loadInfoPage as string,
-                        },
-                      }
-                    : {}),
-                },
-              ],
-            })
+            new CustomEvent<NavTip[]>("app.bar.tips", { detail: tipsDetail })
           );
         }
 

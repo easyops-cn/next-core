@@ -14,6 +14,7 @@ export function authenticate(newAuth: AuthInfo): void {
     accessRule: newAuth.accessRule,
     isAdmin: newAuth.isAdmin,
     csrfToken: newAuth.csrfToken,
+    license: newAuth.license,
   });
 
   // re-init analytics to set user_id
