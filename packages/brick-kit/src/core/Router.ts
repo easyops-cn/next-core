@@ -595,7 +595,7 @@ export class Router {
           });
         }
 
-        const validDaysLeft: number = getAuth().license.validDaysLeft ?? 10;
+        const validDaysLeft: number = getAuth().license.validDaysLeft;
         if (validDaysLeft && validDaysLeft <= 15 && getAuth().isAdmin) {
           tipsDetail.push({
             text: `离License过期还有${validDaysLeft}天`,
