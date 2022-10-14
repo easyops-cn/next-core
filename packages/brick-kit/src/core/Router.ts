@@ -583,7 +583,7 @@ export class Router {
             closable: false,
             isCenter: true,
             tipKey: getUnionKey("render"),
-            backgroundColor: "#F3E27D",
+            backgroundColor: "var(--color-warning-bg)",
             ...(loadInfoPage
               ? {
                   info: {
@@ -598,11 +598,11 @@ export class Router {
         const validDaysLeft: number = getAuth().license?.validDaysLeft;
         if (validDaysLeft && validDaysLeft <= 15 && getAuth().isAdmin) {
           tipsDetail.push({
-            text: `离License过期还有${validDaysLeft}天`,
+            text: `离License过期还有 ${validDaysLeft} 天`,
             tipKey: getUnionKey("license"),
             closable: true,
             isCenter: true,
-            backgroundColor: "#89B5F9",
+            backgroundColor: "var(--color-info-bg)",
           });
         }
 
