@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.151.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.150.0...@next-core/brick-kit@2.151.0) (2022-10-14)
+
+
+### Features
+
+* support external usage of getRealValue ([55cbb8f](https://github.com/easyops-cn/next-core/commit/55cbb8f551e947d659f2cbad77f7110f5b94c493))
+
+
+
+
+
 # [2.150.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.149.1...@next-core/brick-kit@2.150.0) (2022-10-13)
 
 

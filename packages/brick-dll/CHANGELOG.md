@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.37.6...@next-core/brick-dll@2.38.0) (2022-10-14)
+
+
+### Features
+
+* support external usage of getRealValue ([55cbb8f](https://github.com/easyops-cn/next-core/commit/55cbb8f551e947d659f2cbad77f7110f5b94c493))
+
+
+
+
+
 ## [2.37.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.37.5...@next-core/brick-dll@2.37.6) (2022-10-13)
 
 **Note:** Version bump only for package @next-core/brick-dll

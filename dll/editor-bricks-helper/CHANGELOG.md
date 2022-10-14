@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.31.7...@next-dll/editor-bricks-helper@0.32.0) (2022-10-14)
+
+
+### Features
+
+* support external usage of getRealValue ([55cbb8f](https://github.com/easyops-cn/next-core/commit/55cbb8f551e947d659f2cbad77f7110f5b94c493))
+
+
+
+
+
 ## [0.31.7](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.31.6...@next-dll/editor-bricks-helper@0.31.7) (2022-10-13)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
