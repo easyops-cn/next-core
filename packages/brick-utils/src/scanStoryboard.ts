@@ -43,7 +43,7 @@ export function scanStoryboard(
   const collection: string[] = [];
   collectBricksInRouteConfs(storyboard.routes, collection);
 
-  const selfDefined = new Set<string>();
+  const selfDefined = new Set<string>(["form-renderer.form-renderer"]);
 
   if (ignoreBricksInUnusedCustomTemplates) {
     // Only collect bricks in used custom templates.
