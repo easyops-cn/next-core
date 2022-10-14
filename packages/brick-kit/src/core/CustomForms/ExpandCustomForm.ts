@@ -28,7 +28,7 @@ export async function ExpandCustomForm(
   const formContext = new CustomFormContext();
   if (Array.isArray(formData.context)) {
     formData.context.forEach((item) => {
-      if (brickConf.properties[item.name]) {
+      if (brickConf.properties[item.name] != undefined) {
         item.value = brickConf.properties[item.name];
       }
     });
