@@ -200,6 +200,7 @@
           "getCurrentTheme",
           "getHistory",
           "getMockInfo",
+          "getRealValue",
           "getRuntime",
           "getRuntimeMisc",
           "handleHttpError",

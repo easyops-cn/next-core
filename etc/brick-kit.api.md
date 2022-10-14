@@ -348,6 +348,9 @@ export const getMockInfo: (requestUrl: string, method: string) => {
 } | undefined;
 
 // @public
+export function getRealValue(value: unknown): unknown;
+
+// @public
 export function getRuntime(): Runtime;
 
 // @public (undocumented)
