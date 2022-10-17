@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-dll",
-  "version": "2.38.2",
+  "version": "2.38.3",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-dll",
   "license": "GPL-3.0",
@@ -44,7 +44,7 @@
     "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
-    "@next-core/webpack-config-factory": "^2.18.1",
+    "@next-core/webpack-config-factory": "^2.19.0",
     "source-map-loader": "^1.1.3"
   }
 }
