@@ -221,7 +221,7 @@ describe("parseInjectableString", () => {
     (raw) => {
       expect(() => {
         parseInjectableString(raw, "$");
-      }).toThrowError();
+      }).toThrowErrorMatchingSnapshot();
     }
   );
 });

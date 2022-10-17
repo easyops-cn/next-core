@@ -87,13 +87,19 @@ describe("transform", () => {
   it("should throw if a placeholder is invalid", () => {
     expect(() => {
       transform("q=@{", {});
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Expected a placeholder end '}' at the end"`
+    );
     expect(() => {
       transform("q=@{quality=[}", {});
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Failed to match a JSON value at index 12 near: \\"[}\\""`
+    );
     expect(() => {
       transform("q=@{quality|map:[}", {});
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Failed to match a JSON value at index 16 near: \\"[}\\""`
+    );
   });
 });
 
@@ -162,13 +168,19 @@ describe("inject", () => {
   it("should throw if a placeholder is invalid", () => {
     expect(() => {
       inject("q=${", context);
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Expected a placeholder end '}' at the end"`
+    );
     expect(() => {
       inject("q=${quality=[}", context);
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Failed to match a JSON value at index 12 near: \\"[}\\""`
+    );
     expect(() => {
       inject("q=${quality|map:[}", context);
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Failed to match a JSON value at index 16 near: \\"[}\\""`
+    );
   });
 });
 
@@ -213,12 +225,18 @@ describe("transformAndInject", () => {
   it("should throw if a placeholder is invalid", () => {
     expect(() => {
       transformAndInject("q=@{", {}, context);
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Expected a placeholder end '}' at the end"`
+    );
     expect(() => {
       transformAndInject("q=@{quality=[}", {}, context);
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Failed to match a JSON value at index 12 near: \\"[}\\""`
+    );
     expect(() => {
       transformAndInject("q=${quality|map:[}", {}, context);
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Failed to match a JSON value at index 16 near: \\"[}\\""`
+    );
   });
 });
