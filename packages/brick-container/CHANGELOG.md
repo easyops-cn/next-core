@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.76.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.12...@next-core/brick-container@2.76.13) (2022-10-17)
+
+
+### Bug Fixes
+
+* support debugging with standalone v2 ([6f0b17c](https://github.com/easyops-cn/next-core/commit/6f0b17c64500f5cdcb663ade1a029323502776d9))
+
+
+
+
+
 ## [2.76.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.11...@next-core/brick-container@2.76.12) (2022-10-17)
 
 **Note:** Version bump only for package @next-core/brick-container

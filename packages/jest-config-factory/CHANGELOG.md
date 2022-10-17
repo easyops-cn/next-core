@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.5...@next-core/jest-config-factory@0.4.6) (2022-10-17)
+
+
+### Bug Fixes
+
+* transform libs entry points ([eb93ac2](https://github.com/easyops-cn/next-core/commit/eb93ac234a7e8b888bf5210645ed3dd92995419f))
+
+
+
+
+
 ## [0.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.4...@next-core/jest-config-factory@0.4.5) (2022-10-11)
 
 
