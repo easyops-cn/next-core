@@ -119,7 +119,15 @@ describe("tokenize", () => {
 
   it("should throw", () => {
     expect(() => {
-      tokenize("${", "$");
-    }).toThrowError();
+      tokenize("${QUERY", "$");
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Expected a placeholder end '}' at the end"`
+    );
+
+    expect(() => {
+      tokenize("${QUERY|}", "$");
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Expected a pipe identifier at index 8 near: \\"}\\""`
+    );
   });
 });

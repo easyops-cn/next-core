@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseInjectableString should throw when parsing "\${a=[{}}{]}" 1`] = `"Unexpected token } in JSON at position 3"`;
+
+exports[`parseInjectableString should throw when parsing "\${a=[}" 1`] = `"Failed to match a JSON value at index 4 near: \\"[}\\""`;
+
+exports[`parseInjectableString should throw when parsing "\${a|0}" 1`] = `"Expected a pipe identifier at index 4 near: \\"0}\\""`;
+
+exports[`parseInjectableString should throw when parsing "\${a|b=c}" 1`] = `"Expected a placeholder end '}' at index 5 near: \\"=c}\\""`;
