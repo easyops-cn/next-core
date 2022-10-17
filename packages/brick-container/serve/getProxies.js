@@ -56,15 +56,22 @@ module.exports = (env) => {
   };
   if (useRemote) {
     for (const standaloneConfig of allAppsConfig) {
-      const assetRoot = standaloneConfig ? `${standaloneConfig.appRoot}-/` : "";
+      const assetRoot = standaloneConfig
+        ? standaloneConfig.standaloneVersion === 2
+          ? standaloneConfig.publicPrefix
+          : `${standaloneConfig.appRoot}-/`
+        : "";
       if (standaloneConfig) {
         // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
         proxyPaths.push(assetRoot);
         proxyPaths.push(`${standaloneConfig.appRoot}conf.yaml`);
+        if (standaloneConfig.standaloneVersion === 2) {
+          proxyPaths.push(`${standaloneConfig.appRoot}`);
+        }
+      } else {
+        const assetPaths = ["bricks", "micro-apps", "templates"];
+        proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
       }
-
-      const assetPaths = ["bricks", "micro-apps", "templates"];
-      proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
     }
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
@@ -72,27 +79,35 @@ module.exports = (env) => {
         return;
       }
       // 设定透传远端请求时，可以指定特定的 brick-packages, micro-apps, templates 使用本地文件。
-      const isStandaloneBootstrap =
-        hasStandaloneApps &&
-        new RegExp(
-          `^${escapeRegExp(
-            // 匹配 `/next/your-app/-/bootstrap.[hash].json`
-            `${standaloneAppsConfig
-              .map((standaloneConfig) => escapeRegExp(standaloneConfig.appRoot))
-              .join("|")}-/bootstrap.`
-          )}[^.]+\\.json$`
-        ).test(req.path);
-      if (
+
+      let reqIsBootstrap =
         req.path === "/next/api/auth/bootstrap" ||
-        req.path === "/next/api/auth/v2/bootstrap" ||
-        isStandaloneBootstrap
-      ) {
+        req.path === "/next/api/auth/v2/bootstrap";
+      let matchedStandaloneConfig;
+      if (!reqIsBootstrap && hasStandaloneApps) {
+        for (const standaloneConfig of standaloneAppsConfig) {
+          const regex = new RegExp(
+            `^${escapeRegExp(
+              `${standaloneConfig.appRoot}${
+                standaloneConfig.standaloneVersion === 2 ? "" : "-/"
+              }`
+            )}bootstrap\\.[^.]+\\.json$`
+          );
+          if (regex.test(req.path)) {
+            reqIsBootstrap = true;
+            matchedStandaloneConfig = standaloneConfig;
+          }
+        }
+      }
+
+      if (reqIsBootstrap) {
+        console.log("Modified bootstrap:", req.path);
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
           }
           const result = JSON.parse(raw);
-          const data = isStandaloneBootstrap ? result : result.data;
+          const data = matchedStandaloneConfig ? result : result.data;
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
               .map((id) =>
@@ -134,7 +149,14 @@ module.exports = (env) => {
           );
           if (combinedLocalBrickPackages.length > 0) {
             data.brickPackages = combinedLocalBrickPackages
-              .map((id) => getSingleBrickPackage(env, id, data.brickPackages))
+              .map((id) =>
+                getSingleBrickPackage(
+                  env,
+                  id,
+                  data.brickPackages,
+                  matchedStandaloneConfig
+                )
+              )
               .filter(Boolean)
               .concat(
                 data.brickPackages.filter(
@@ -379,7 +401,7 @@ module.exports = (env) => {
             secure: false,
             changeOrigin: true,
             pathRewrite: pathRewriteFactory(seg),
-            ...(seg === "api" || seg.endsWith("/-")
+            ...(seg === "api" || seg.endsWith("/-/")
               ? apiProxyOptions
               : seg === ""
               ? rootProxyOptions

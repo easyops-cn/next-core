@@ -73,9 +73,11 @@ function getSingleStoryboard(env, microAppName, mocked, options = {}) {
   return storyboard;
 }
 
-function getBrickPackages(env) {
+function getBrickPackages(env, standaloneConfig) {
   return getNamesOfBrickPackages(env)
-    .map((name) => getSingleBrickPackage(env, name))
+    .map((name) =>
+      getSingleBrickPackage(env, name, undefined, standaloneConfig)
+    )
     .filter(Boolean);
 }
 
@@ -91,7 +93,12 @@ function getNamesOfBrickPackages(env) {
   );
 }
 
-function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
+function getSingleBrickPackage(
+  env,
+  brickPackageName,
+  remoteBrickPackages,
+  standaloneConfig
+) {
   const {
     brickPackagesDir,
     alternativeBrickPackagesDir,
@@ -121,10 +128,17 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
   ]);
   if (fs.existsSync(distDir)) {
     if (!remoteBrickPackages || localBrickPackages.includes(brickPackageName)) {
+      let versionPart = "";
+      if (standaloneConfig && standaloneConfig.standaloneVersion === 2) {
+        const packageJson = JSON.parse(
+          fs.readFileSync(path.resolve(distDir, "../package.json"))
+        );
+        versionPart = `${packageJson.version}/`;
+      }
       let filePath, bricksJson;
       for (const file of fs.readdirSync(distDir)) {
         if (file.endsWith(".js")) {
-          filePath = `bricks/${brickPackageName}/dist/${file}`;
+          filePath = `bricks/${brickPackageName}/${versionPart}dist/${file}`;
         } else if (file === "bricks.json") {
           bricksJson = JSON.parse(
             fs.readFileSync(path.join(distDir, "bricks.json"), "utf8")
@@ -140,8 +154,8 @@ function getSingleBrickPackage(env, brickPackageName, remoteBrickPackages) {
           filePath,
         },
         !remoteBrickPackages || localEditorPackages.includes(brickPackageName)
-          ? bricksJson
-          : omit(bricksJson, ["editors", "editorsJsFilePath"])
+          ? omit(bricksJson, ["filePath"])
+          : omit(bricksJson, ["filePath", "editors", "editorsJsFilePath"])
       );
     }
     if (
