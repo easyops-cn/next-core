@@ -75,15 +75,16 @@ module.exports =
   } = {}) => {
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
-    const pkgRelativeRoot = path.relative(appRoot, cwdDirname);
-    const distPublicPath = pkgRelativeRoot
-      .split(path.sep)
-      .concat(isForEditors ? "dist/editors/" : "dist/")
-      .join("/");
     const imageLoaderOptions = getImageLoaderOptions();
 
     const packageJson = require(path.join(cwdDirname, "package.json"));
     const packageName = packageJson.name.split("/")[1];
+    const packageVersion = packageJson.version;
+    const distPublicPath = `${scope}/${packageName}/dist${
+      isForEditors ? "/editors" : ""
+    }/`;
+    const distPublicPathWithVersion = `${scope}/${packageName}/${packageVersion}/dist/`;
+
     const dll = isForEditors
       ? ["@next-dll/editor-bricks-helper"]
       : Object.keys(packageJson.peerDependencies || {}).filter((name) =>
@@ -352,7 +353,15 @@ module.exports =
                     )
                   : ""`
               : 'window.PUBLIC_ROOT ?? ""'
-          }}${distPublicPath}\`;`,
+          }}${
+            isForEditors
+              ? distPublicPath
+              : `\${
+              window.PUBLIC_ROOT_WITH_VERSION
+                ? "${distPublicPathWithVersion}"
+                : "${distPublicPath}"
+            }`
+          }\`;`,
         }),
         isForEditors
           ? new ScanEditorBricksPlugin(packageName)
