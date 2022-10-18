@@ -51,7 +51,7 @@ const expected = {
 
 describe("fetch", () => {
   beforeEach((): void => {
-    fakeFetch.mockResponseOnce(JSON.stringify(expected));
+    fakeFetch.mockResponse(JSON.stringify(expected));
 
     jest.useFakeTimers();
     jest.setTimeout(8000);
@@ -62,7 +62,7 @@ describe("fetch", () => {
   });
 
   it("should resolve normal  provider", async () => {
-    const result = await fetch("any-provider", ["abc"]);
+    const result = await fetch("any-provider", true, ["abc"]);
 
     expect(result).toBe("resolved");
   });
@@ -70,7 +70,7 @@ describe("fetch", () => {
   it("should throw error ", async () => {
     expect.assertions(1);
     try {
-      await fetch("error-provider", ["abc"]);
+      await fetch("error-provider", true, ["abc"]);
     } catch (e) {
       expect(e.message).toBe("oops");
     }
@@ -79,22 +79,85 @@ describe("fetch", () => {
   it("should throw error when not defined provider", async () => {
     expect.assertions(1);
     try {
-      await fetch("undefined-provider", ["abc"]);
+      await fetch("undefined-provider", true, ["abc"]);
     } catch (e) {
       expect(e.message).toContain('Provider not defined: "undefined-provider"');
     }
   });
 
   it("should resolve flow api provider", async () => {
-    const result = await fetch("easyops.custom_api@test", ["abc"]);
+    const result = await fetch("easyops.custom_api@test", false, [
+      "abc",
+      { a: "a", c: "c", b: "b" },
+    ]);
 
     expect(result).toEqual(expected);
     expect(fakeFetch).toHaveBeenCalledTimes(1);
 
-    const result2 = await fetch("easyops.custom_api@test", ["abc"]);
+    const result2 = await fetch("easyops.custom_api@test", false, [
+      "abc",
+      { a: "a", c: "c", b: "b" },
+    ]);
 
-    // cached response data
+    expect(result2).toEqual(expected);
+    expect(fakeFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it("should resolve flow api provider by cache", async () => {
+    const result = await fetch("easyops.custom_api@test", true, [
+      {
+        url: "api/gateway/easyops.api.cmdb.cmdb_object.ListObjectBasic@1.1.0/object_basic",
+        originalUri: "/object_basic",
+        method: "get",
+        responseWrapper: true,
+        isFileType: false,
+      },
+      {
+        a: "a",
+        c: "c",
+        b: "b",
+      },
+    ]);
+
+    expect(result).toEqual(expected);
+    expect(fakeFetch).toHaveBeenCalledTimes(1);
+
+    const result2 = await fetch("easyops.custom_api@test", true, [
+      {
+        isFileType: false,
+        responseWrapper: true,
+        url: "api/gateway/easyops.api.cmdb.cmdb_object.ListObjectBasic@1.1.0/object_basic",
+        originalUri: "/object_basic",
+        method: "get",
+      },
+      {
+        c: "c",
+        b: "b",
+        a: "a",
+      },
+    ]);
+
+    // use cached response data
     expect(result2).toEqual(expected);
     expect(fakeFetch).toHaveBeenCalledTimes(1);
+
+    const result3 = await fetch("easyops.custom_api@test", false, [
+      {
+        isFileType: false,
+        responseWrapper: true,
+        url: "api/gateway/easyops.api.cmdb.cmdb_object.ListObjectBasic@1.1.0/object_basic",
+        originalUri: "/object_basic",
+        method: "get",
+      },
+      {
+        c: "c",
+        b: "b",
+        a: "a",
+      },
+    ]);
+
+    // clear cache data with same request and refetch
+    expect(result3).toEqual(expected);
+    expect(fakeFetch).toHaveBeenCalledTimes(2);
   });
 });

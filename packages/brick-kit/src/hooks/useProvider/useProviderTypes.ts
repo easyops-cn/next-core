@@ -20,6 +20,7 @@ export interface UseProviderCustomOptions<TData = any> {
   transform: (currData: TData, newData: TData) => any;
   suspense: boolean;
   data: TData;
+  cache: boolean;
 }
 
 export type UseProviderArgsReturn = {
