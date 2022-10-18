@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.153.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.152.1...@next-core/brick-kit@2.153.0) (2022-10-18)
+
+
+### Features
+
+*  refine useProvider hook ([3b16454](https://github.com/easyops-cn/next-core/commit/3b16454c45acb753897acc626d3e05243413b52e))
+
+
+
+
+
 ## [2.152.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.152.0...@next-core/brick-kit@2.152.1) (2022-10-17)
 
 **Note:** Version bump only for package @next-core/brick-kit
