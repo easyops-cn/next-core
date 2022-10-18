@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.76.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.17...@next-core/brick-container@2.76.18) (2022-10-18)
+
+
+### Bug Fixes
+
+* batch set csrftoken with XMLHttpRequest ([c085396](https://github.com/easyops-cn/next-core/commit/c085396585442b42dc695c87f80b81908b74b0a2))
+
+
+
+
+
 ## [2.76.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.16...@next-core/brick-container@2.76.17) (2022-10-18)
 
 **Note:** Version bump only for package @next-core/brick-container
