@@ -1,11 +1,10 @@
-import { rollupFactory } from "@next-core/rollup-config-factory";
-import url from "@rollup/plugin-url";
+import { rollupFactory, rollupPlugins } from "@next-core/rollup-config-factory";
 import path from "path";
 
 export default rollupFactory({
   umdName: "EasyopsIllustrations",
   plugins: [
-    url({
+    rollupPlugins.url({
       include: ["**/*.png", "**/*.gif"],
       fileName: "[dirname][name].[hash][extname]",
       destDir: "dist/illustrations",
