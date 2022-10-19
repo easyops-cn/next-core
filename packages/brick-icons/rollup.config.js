@@ -1,6 +1,5 @@
-import { rollupFactory } from "@next-core/rollup-config-factory";
+import { rollupFactory, rollupPlugins } from "@next-core/rollup-config-factory";
 import svgr from "@svgr/rollup";
-import copy from "rollup-plugin-copy";
 
 export default rollupFactory({
   disableUmd: true,
@@ -40,7 +39,7 @@ export default rollupFactory({
         ],
       },
     }),
-    copy({
+    rollupPlugins.copy({
       targets: [
         {
           src: "src/styles",
