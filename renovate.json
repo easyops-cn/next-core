@@ -51,7 +51,8 @@
         "schema-utils",
         "terser-webpack-plugin",
         "svgr",
-        "globby"
+        "globby",
+        "rollup"
       ],
       "matchPackagePatterns": ["react", "^@fortawesome/"],
       "matchUpdateTypes": ["major"],
