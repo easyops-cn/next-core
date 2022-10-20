@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-types",
-  "version": "2.79.3",
+  "version": "2.79.4",
   "description": "Pure types for kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "GPL-3.0",
@@ -43,7 +43,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/rollup-config-factory": "^2.6.1",
+    "@next-core/rollup-config-factory": "^2.6.2",
     "typescript-json-schema": "^0.54.0"
   },
   "peerDependencies": {
