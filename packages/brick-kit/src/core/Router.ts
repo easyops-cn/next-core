@@ -623,16 +623,18 @@ export class Router {
 
         devtoolsHookEmit("rendered");
 
-        // Try to prefetch during a browser's idle periods.
-        // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
-        if (typeof window.requestIdleCallback === "function") {
-          window.requestIdleCallback(() => {
-            this.kernel.prefetchDepsOfStoryboard(storyboard);
-          });
-        } else {
-          setTimeout(() => {
-            this.kernel.prefetchDepsOfStoryboard(storyboard);
-          }, 0);
+        if (!this.featureFlags["disable-prefetch-scripts"]) {
+          // Try to prefetch during a browser's idle periods.
+          // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
+          if (typeof window.requestIdleCallback === "function") {
+            window.requestIdleCallback(() => {
+              this.kernel.prefetchDepsOfStoryboard(storyboard);
+            });
+          } else {
+            setTimeout(() => {
+              this.kernel.prefetchDepsOfStoryboard(storyboard);
+            }, 0);
+          }
         }
         return;
       }
