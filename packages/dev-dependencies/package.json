@@ -14,7 +14,7 @@
     "dev-dependencies-extract": "./cli-extract.js"
   },
   "dependencies": {
-    "@babel/core": "^7.19.3",
+    "@babel/core": "^7.19.6",
     "@next-core/babel-preset-next": "^0.9.13",
     "@next-core/babel-preset-prismjs": "^1.0.17",
     "@next-core/brick-container": "^2.76.4",
