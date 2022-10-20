@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.153.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.1...@next-core/brick-kit@2.153.2) (2022-10-20)
+
+
+### Bug Fixes
+
+* handle test env for brick packages ([8fa58bb](https://github.com/easyops-cn/next-core/commit/8fa58bb0b040ecd8bf55ed511ead530fa4045d5d))
+
+
+
+
+
 ## [2.153.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.0...@next-core/brick-kit@2.153.1) (2022-10-20)
 
 
