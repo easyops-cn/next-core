@@ -1845,6 +1845,8 @@ export interface RuntimeMisc {
 // @internal (undocumented)
 export interface RuntimeStoryboard extends Storyboard {
     // (undocumented)
+    $$deadConditionsRemoved?: boolean;
+    // (undocumented)
     $$depsProcessed?: boolean;
     // (undocumented)
     $$fulfilled?: boolean;

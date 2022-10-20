@@ -295,6 +295,7 @@ export interface RuntimeStoryboard extends Storyboard {
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
   $$i18nFulfilled?: boolean;
+  $$deadConditionsRemoved?: boolean;
 }
 
 export function isRouteConfOfBricks(

@@ -13,6 +13,7 @@ import {
   ResolveConf,
   MessageConf,
   UseBackendConf,
+  ScrollIntoViewConf,
 } from "@next-core/brick-types";
 import { uniq } from "lodash";
 import { isObject } from "./isObject";
@@ -110,6 +111,10 @@ export function collectBricksInBrickConf(
       onAnchorUnload,
       onMessage,
       onMessageClose,
+      onBeforePageLoad,
+      onBeforePageLeave,
+      onMediaChange,
+      onScrollIntoView,
     } = brickConf.lifeCycle;
     if (Array.isArray(useResolves)) {
       useResolves.forEach((useResolve) => {
@@ -120,8 +125,8 @@ export function collectBricksInBrickConf(
       });
     }
 
-    const messageLifeCycleHandlers = ([] as MessageConf[])
-      .concat(onMessage)
+    const specialHandlers = ([] as (MessageConf | ScrollIntoViewConf)[])
+      .concat(onMessage, onScrollIntoView)
       .filter(Boolean)
       .reduce(
         (previousValue, currentValue) =>
@@ -136,7 +141,10 @@ export function collectBricksInBrickConf(
         onAnchorLoad,
         onAnchorUnload,
         onMessageClose,
-        onMessage: messageLifeCycleHandlers,
+        onBeforePageLoad,
+        onBeforePageLeave,
+        onMediaChange,
+        specialHandlers,
       },
       collection
     );

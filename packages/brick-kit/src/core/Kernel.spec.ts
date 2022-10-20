@@ -277,7 +277,8 @@ describe("Kernel", () => {
         proxy: {},
         bricks: [],
       },
-      "app-a"
+      "app-a",
+      true
     );
 
     spyOnLoadScript.mockClear();

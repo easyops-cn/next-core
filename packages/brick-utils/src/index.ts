@@ -31,3 +31,4 @@ export * from "./visitStoryboard";
 export * from "./debounceByAnimationFrame";
 export * from "./scanInstalledAppsInStoryboard";
 export * from "./makeThrottledAggregation";
+export * from "./removeDeadConditions";

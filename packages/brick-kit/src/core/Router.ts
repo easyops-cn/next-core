@@ -13,7 +13,9 @@ import {
   scanStoryboard,
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
+  removeDeadConditions,
 } from "@next-core/brick-utils";
+import { HttpResponseError } from "@next-core/brick-http";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
@@ -48,7 +50,6 @@ import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
-import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
 import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
 import {
@@ -251,6 +252,11 @@ export class Router {
 
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
+
+      removeDeadConditions(storyboard, {
+        constantFeatureFlags: true,
+        featureFlags: this.featureFlags,
+      });
 
       // 将动态解析后的模板还原，以便重新动态解析。
       restoreDynamicTemplates(storyboard);
