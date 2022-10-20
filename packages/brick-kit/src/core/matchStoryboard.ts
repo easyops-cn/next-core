@@ -37,6 +37,9 @@ export function matchStoryboard(
  * Note: when current app is standalone mode, other apps will not be found.
  */
 export function isOutsideApp(storyboard: RuntimeStoryboard): boolean {
+  if (process.env.NODE_ENV === "test") {
+    return false;
+  }
   return (
     !storyboard ||
     (!window.STANDALONE_MICRO_APPS && storyboard.app.standaloneMode)
