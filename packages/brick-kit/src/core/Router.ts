@@ -13,7 +13,9 @@ import {
   scanStoryboard,
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
+  removeDeadConditions,
 } from "@next-core/brick-utils";
+import { HttpResponseError } from "@next-core/brick-http";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
@@ -48,7 +50,6 @@ import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
-import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
 import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
 import {
@@ -252,21 +253,34 @@ export class Router {
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
+      removeDeadConditions(storyboard, {
+        constantFeatureFlags: true,
+        featureFlags: this.featureFlags,
+      });
+
       // 将动态解析后的模板还原，以便重新动态解析。
       restoreDynamicTemplates(storyboard);
 
+      const parallelRequests: Promise<unknown>[] = [];
+
       // 预加载权限信息
       if (isLoggedIn() && !getAuth().isAdmin) {
-        await preCheckPermissions(storyboard);
+        parallelRequests.push(preCheckPermissions(storyboard));
       }
 
       // Standalone App 需要额外读取 Installed App 信息
       if (window.STANDALONE_MICRO_APPS && !window.NO_AUTH_GUARD) {
         // TODO: get standalone apps when NO_AUTH_GUARD, maybe from conf.yaml
-        await preFetchStandaloneInstalledApps(storyboard);
-        this.kernel.bootstrapData.offSiteStandaloneApps =
-          getStandaloneInstalledApps();
+        parallelRequests.push(
+          preFetchStandaloneInstalledApps(storyboard).then(() => {
+            this.kernel.bootstrapData.offSiteStandaloneApps =
+              getStandaloneInstalledApps();
+          })
+        );
       }
+
+      // `loadDepsOfStoryboard()` may requires these data.
+      await Promise.all(parallelRequests);
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
       const subStoryboard =

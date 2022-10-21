@@ -32,7 +32,10 @@ jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("../internal/checkPermissions");
-jest.mock("../internal/getStandaloneInstalledApps");
+jest.mock("../internal/getStandaloneInstalledApps", () => ({
+  getStandaloneInstalledApps: jest.fn().mockReturnValue([]),
+  preFetchStandaloneInstalledApps: jest.fn().mockResolvedValue(undefined),
+}));
 jest.mock("@next-core/easyops-analytics", () => ({
   apiAnalyzer: {
     create: () => jest.mock,
