@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.128](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.127...@next-core/dev-dependencies@1.14.128) (2022-10-21)
+
+
+### Bug Fixes
+
+* downgrade typescript to 4.7.x ([b49429a](https://github.com/easyops-cn/next-core/commit/b49429a315d6d978c3692f302d5c88f1d887f98e))
+
+
+
+
+
 ## [1.14.127](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.126...@next-core/dev-dependencies@1.14.127) (2022-10-20)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
