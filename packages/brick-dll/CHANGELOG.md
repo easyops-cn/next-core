@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.38.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.38.9...@next-core/brick-dll@2.38.10) (2022-10-21)
+
+
+### Bug Fixes
+
+* remove dead conditions in storyboard ([a9831d6](https://github.com/easyops-cn/next-core/commit/a9831d654143ab58b8af187d5480d54ac21cd54c))
+
+
+
+
+
 ## [2.38.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.38.8...@next-core/brick-dll@2.38.9) (2022-10-20)
 
 **Note:** Version bump only for package @next-core/brick-dll

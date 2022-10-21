@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.153.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.2...@next-core/brick-kit@2.153.3) (2022-10-21)
+
+
+### Bug Fixes
+
+* make parallel requests if possible ([b2f64bd](https://github.com/easyops-cn/next-core/commit/b2f64bda88302dccb780e79b654c41ca93f261c2))
+* remove dead conditions in storyboard ([a9831d6](https://github.com/easyops-cn/next-core/commit/a9831d654143ab58b8af187d5480d54ac21cd54c))
+
+
+
+
+
 ## [2.153.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.1...@next-core/brick-kit@2.153.2) (2022-10-20)
 
 
