@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.153.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.3...@next-core/brick-kit@2.153.4) (2022-10-22)
+
+
+### Bug Fixes
+
+* **useProvider:**  compatibility with string of cachekey ([5fa1a10](https://github.com/easyops-cn/next-core/commit/5fa1a10ca192bcc46f18c07ae6f4b584b44c30d2))
+
+
+
+
+
 ## [2.153.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.2...@next-core/brick-kit@2.153.3) (2022-10-21)
 
 
