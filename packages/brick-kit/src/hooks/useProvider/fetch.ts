@@ -10,7 +10,10 @@ function isObj(v: any): boolean {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
 
-function buildSortedCacheKey(provider: string, args: any): string {
+function isString(v: any): v is string {
+  return typeof v === "string";
+}
+function buildSortedCacheKey(provider: string, ...args: any): string {
   const sortObj = (obj: Record<string, any>) =>
     Object.keys(obj)
       .sort()
@@ -18,7 +21,9 @@ function buildSortedCacheKey(provider: string, args: any): string {
   try {
     const sortedArgs = isObj(args)
       ? sortObj(args)
-      : (args as Record<string, any>[]).map((arg) => sortObj(arg));
+      : (args as Record<string, any>[]).map((arg) =>
+          isString(arg) ? arg : sortObj(arg)
+        );
 
     return JSON.stringify({
       provider,
