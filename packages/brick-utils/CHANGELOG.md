@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.8...@next-core/brick-utils@2.44.0) (2022-10-24)
+
+
+### Bug Fixes
+
+* fix detecting dead code with no flags ([ceaa555](https://github.com/easyops-cn/next-core/commit/ceaa555988de2e5c7000f9472572ad6397e86ae3))
+
+
+### Features
+
+* mark unreachable builder nodes ([6dfb548](https://github.com/easyops-cn/next-core/commit/6dfb548aa0930435dc0398c7428010883567967c))
+
+
+
+
+
 ## [2.43.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.7...@next-core/brick-utils@2.43.8) (2022-10-21)
 
 
