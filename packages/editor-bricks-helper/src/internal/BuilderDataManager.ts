@@ -6,7 +6,7 @@ import {
   Story,
   BuilderCustomTemplateNode,
 } from "@next-core/brick-types";
-import { JsonStorage } from "@next-core/brick-utils";
+import { computeConstantCondition, JsonStorage } from "@next-core/brick-utils";
 import {
   BuilderCanvasData,
   BuilderContextMenuStatus,
@@ -38,6 +38,7 @@ import { getAppendingNodesAndEdges } from "./getAppendingNodesAndEdges";
 import { isParentExpandableTemplate } from "./isParentExpandableTemplate";
 import { getSnippetNodeDetail } from "../DropZone/getSnippetNodeDetail";
 import { getObjectIdByNode } from "./getObjectIdByNode";
+import { isBrickNode, isRouteNode } from "../assertions";
 
 enum BuilderInternalEventType {
   NODE_ADD = "builder.node.add",
@@ -258,9 +259,22 @@ export class BuilderDataManager {
     const updateNode = nodes.find((item) => item.instanceId === instanceId);
     const newNodes = nodes.map((item) => {
       if (item.instanceId === instanceId) {
+        let unreachable = false;
+        const normalized = detail.$$normalized;
+        if (
+          normalized?.if !== undefined &&
+          (isBrickNode(item) || isRouteNode(item))
+        ) {
+          const check = { if: normalized.if };
+          computeConstantCondition(check);
+          if (check.if === false) {
+            unreachable = true;
+          }
+        }
         return {
           ...item,
           ...detail,
+          $$unreachable: unreachable,
         };
       }
       return item;
