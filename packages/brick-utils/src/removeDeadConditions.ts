@@ -268,14 +268,18 @@ export function computeConstantCondition(
         const { expression, attemptToVisitGlobals, source } = preevaluate(
           ifContainer.if
         );
-        let hasOtherThanFlags = false;
+        const { constantFeatureFlags, featureFlags } = options;
+        let hasDynamicVariables = false;
         for (const item of attemptToVisitGlobals) {
-          if (item !== "undefined" && item !== "FLAGS") {
-            hasOtherThanFlags = true;
+          if (
+            item !== "undefined" &&
+            (!constantFeatureFlags || item !== "FLAGS")
+          ) {
+            hasDynamicVariables = true;
             break;
           }
         }
-        if (hasOtherThanFlags) {
+        if (hasDynamicVariables) {
           if (isConstantLogical(expression, false, options)) {
             if (process.env.NODE_ENV === "development") {
               // eslint-disable-next-line no-console
@@ -285,22 +289,20 @@ export function computeConstantCondition(
           }
           return;
         }
-        const { constantFeatureFlags, featureFlags } = options;
+        const originalIf = ifContainer.if;
+        const globalVariables: Record<string, unknown> = {
+          undefined: undefined,
+        };
         if (constantFeatureFlags) {
-          const originalIf = ifContainer.if;
-          ifContainer.if = !!cook(expression, source, {
-            globalVariables: {
-              undefined: undefined,
-              FLAGS: featureFlags,
-            },
-          });
-          if (
-            process.env.NODE_ENV === "development" &&
-            ifContainer.if === false
-          ) {
-            // eslint-disable-next-line no-console
-            console.warn("[removed dead if]:", originalIf, ifContainer);
-          }
+          globalVariables.FLAGS = featureFlags;
+        }
+        ifContainer.if = !!cook(expression, source, { globalVariables });
+        if (
+          process.env.NODE_ENV === "development" &&
+          ifContainer.if === false
+        ) {
+          // eslint-disable-next-line no-console
+          console.warn("[removed dead if]:", originalIf, ifContainer);
         }
       } catch (error) {
         // eslint-disable-next-line no-console
