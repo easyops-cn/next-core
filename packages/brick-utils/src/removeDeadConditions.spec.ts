@@ -319,6 +319,25 @@ describe("removeDeadConditions", () => {
     });
   });
 
+  it.each<[Partial<BrickConf>, Partial<BrickConf>]>([
+    [{ brick: "a", if: "<% false %>" }, null],
+    [
+      { brick: "a", if: '<% FLAGS["unknown"] %>' },
+      { brick: "a", if: '<% FLAGS["unknown"] %>' },
+    ],
+  ])("should work for bricks", (input, output) => {
+    const storyboard = {
+      routes: [{ bricks: [input] }],
+    } as RuntimeStoryboard;
+
+    removeDeadConditions(storyboard);
+
+    expect(storyboard).toEqual({
+      $$deadConditionsRemoved: true,
+      routes: [{ bricks: [output].filter(Boolean) }],
+    });
+  });
+
   it("should work for routes", () => {
     const storyboard = {
       routes: [

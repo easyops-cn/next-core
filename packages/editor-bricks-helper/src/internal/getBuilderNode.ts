@@ -1,8 +1,11 @@
 import { cloneDeep, upperFirst } from "lodash";
-import { normalizeBuilderNode } from "@next-core/brick-utils";
+import {
+  computeConstantCondition,
+  normalizeBuilderNode,
+} from "@next-core/brick-utils";
 import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
-import { isBrickNode } from "../assertions";
+import { isBrickNode, isRouteNode } from "../assertions";
 
 const nodeIgnoreFields = ["parent", "children", "graphInfo", "mountPoint"];
 
@@ -58,6 +61,15 @@ export function getBuilderNode(
   const isBrick = isBrickNode(nodeData);
   const brickName = isBrick ? nodeData.brick.split(".").pop() : null;
 
+  let unreachable = false;
+  if (normalized?.if !== undefined && (isBrick || isRouteNode(nodeData))) {
+    const check = { if: normalized.if };
+    computeConstantCondition(check);
+    if (check.if === false) {
+      unreachable = true;
+    }
+  }
+
   return Object.fromEntries(
     Object.entries(nodeData)
       .filter((entry) => !nodeIgnoreFields.includes(entry[0]))
@@ -74,6 +86,7 @@ export function getBuilderNode(
         ["$$matchedSelectors", matchedSelectors],
         ["$$isTemplateInternalNode", isTemplateInternalNode],
         ["$$normalized", normalized],
+        ["$$unreachable", unreachable],
       ])
       .concat(parsedFields)
   ) as BuilderRuntimeNode;
