@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.48.0...@next-core/editor-bricks-helper@0.48.1) (2022-10-24)
+
+
+### Bug Fixes
+
+* update node with unreachable ([479f366](https://github.com/easyops-cn/next-core/commit/479f366ebba6709c04ffd767915fa54585632725))
+
+
+
+
+
 # [0.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.47.38...@next-core/editor-bricks-helper@0.48.0) (2022-10-24)
 
 
