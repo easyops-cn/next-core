@@ -2815,6 +2815,11 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       }),
       mountPoint: "test-change",
       instanceId: "brick-b",
+      $$normalized: {
+        brick: "basic-bricks.micro-view",
+        iid: "brick-b",
+        if: "<% false %>",
+      },
     });
 
     expect(
@@ -2822,12 +2827,16 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     ).toEqual({
       $$isTemplateInternalNode: undefined,
       $$matchedSelectors: ["basic-bricks\\.micro-view"],
-      $$normalized: { brick: "basic-bricks.micro-view", iid: "brick-b" },
+      $$normalized: {
+        brick: "basic-bricks.micro-view",
+        iid: "brick-b",
+        if: "<% false %>",
+      },
       $$parsedEvents: {},
       $$parsedLifeCycle: {},
       $$parsedProperties: {},
       $$uid: 5,
-      $$unreachable: false,
+      $$unreachable: true,
       alias: "micro-view",
       brick: "basic-bricks.micro-view",
       id: "B-003",
@@ -2882,6 +2891,11 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       }),
       mountPoint: "content",
       instanceId: "brick-b",
+      $$normalized: {
+        brick: "basic-bricks.micro-view",
+        iid: "brick-b",
+        if: undefined,
+      },
     });
 
     expect(
@@ -2889,7 +2903,11 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
     ).toEqual({
       $$isTemplateInternalNode: undefined,
       $$matchedSelectors: ["basic-bricks\\.micro-view"],
-      $$normalized: { brick: "basic-bricks.micro-view", iid: "brick-b" },
+      $$normalized: {
+        brick: "basic-bricks.micro-view",
+        iid: "brick-b",
+        if: undefined,
+      },
       $$parsedEvents: {},
       $$parsedLifeCycle: {},
       $$parsedProperties: {},
