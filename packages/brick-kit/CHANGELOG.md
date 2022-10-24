@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.153.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.4...@next-core/brick-kit@2.153.5) (2022-10-24)
+
+
+### Bug Fixes
+
+* use self i18n when injecting dynamic menu items ([fe86e97](https://github.com/easyops-cn/next-core/commit/fe86e97061d0b9e046f6e73c70eb6db38e8e5bed))
+
+
+
+
+
 ## [2.153.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.3...@next-core/brick-kit@2.153.4) (2022-10-22)
 
 
