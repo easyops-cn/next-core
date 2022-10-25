@@ -14,14 +14,15 @@ export const widgetFunctions = new Proxy(Object.freeze({}), {
 
 export function registerWidgetFunctions(
   widgetId: string,
-  functions: StoryboardFunction[]
+  functions: StoryboardFunction[],
+  widgetVersion?: string
 ): void {
   if (widgetFunctionRegistry.has(widgetId)) {
     // eslint-disable-next-line no-console
     throw new Error(`Widget functions of "${widgetId}" already registered`);
   }
   const { storyboardFunctions, registerStoryboardFunctions } =
-    StoryboardFunctionRegistryFactory({ widgetId });
+    StoryboardFunctionRegistryFactory({ widgetId, widgetVersion });
   widgetFunctionRegistry.set(widgetId, storyboardFunctions);
   registerStoryboardFunctions(functions);
 }

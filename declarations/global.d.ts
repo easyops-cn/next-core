@@ -56,6 +56,9 @@ interface Window {
   /** The public root, E.g. "hello-world/-/" */
   PUBLIC_ROOT?: string;
 
+  /** Whether the public root includes package version. */
+  PUBLIC_ROOT_WITH_VERSION?: boolean;
+
   /** The core root, E.g. "hello-world/-/core/" */
   CORE_ROOT?: string;
 

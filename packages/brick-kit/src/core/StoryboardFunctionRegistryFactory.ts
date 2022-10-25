@@ -60,9 +60,11 @@ export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
 /** @internal */
 export function StoryboardFunctionRegistryFactory({
   widgetId,
+  widgetVersion,
   collectCoverage,
 }: {
   widgetId?: string;
+  widgetVersion?: string;
   collectCoverage?: FunctionCoverageSettings;
 } = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
@@ -121,6 +123,7 @@ export function StoryboardFunctionRegistryFactory({
         getGeneralGlobals(precooked.attemptToVisitGlobals, {
           collectCoverage,
           widgetId,
+          widgetVersion,
           app: currentApp,
           storyboardFunctions,
           isStoryboardFunction: true,

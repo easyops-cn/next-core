@@ -1,5 +1,7 @@
 import { imagesFactory, widgetImagesFactory } from "./images";
 
+window.PUBLIC_ROOT_WITH_VERSION = true;
+
 describe("imagesFactory", () => {
   it.each<
     [
@@ -51,6 +53,7 @@ describe("widgetImagesFactory", () => {
     [
       {
         widgetId: string;
+        widgetVersion?: string;
         publicRoot?: string;
       },
       string,
@@ -67,13 +70,14 @@ describe("widgetImagesFactory", () => {
     [
       {
         widgetId: "my-widget",
+        widgetVersion: "1.2.3",
         publicRoot: "-/",
       },
       "test.png",
-      "-/bricks/my-widget/dist/assets/test.png",
+      "-/bricks/my-widget/1.2.3/dist/assets/test.png",
     ],
-  ])("should work", ({ widgetId, publicRoot }, img, src) => {
+  ])("should work", ({ widgetId, widgetVersion, publicRoot }, img, src) => {
     window.PUBLIC_ROOT = publicRoot;
-    expect(widgetImagesFactory(widgetId).get(img)).toBe(src);
+    expect(widgetImagesFactory(widgetId, widgetVersion).get(img)).toBe(src);
   });
 });
