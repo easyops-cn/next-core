@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.77.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.27...@next-core/brick-container@2.77.0) (2022-10-25)
+
+
+### Features
+
+* 上报脚本增加从story解析snippet并上报的逻辑 ([f47ef74](https://github.com/easyops-cn/next-core/commit/f47ef74bf348d6986793d86b2f3bd99e7d895f9a))
+
+
+
+
+
 ## [2.76.27](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.76.26...@next-core/brick-container@2.76.27) (2022-10-25)
 
 **Note:** Version bump only for package @next-core/brick-container

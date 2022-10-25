@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.81.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.80.0...@next-core/brick-types@2.81.0) (2022-10-25)
+
+
+### Features
+
+* update interface SnippetConf ([df83a62](https://github.com/easyops-cn/next-core/commit/df83a62c99ca078c6a7fc5b73aaa697809f64284))
+
+
+
+
+
 # [2.80.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.5...@next-core/brick-types@2.80.0) (2022-10-25)
 
 
