@@ -1438,6 +1438,11 @@ export interface MicroApp {
     userConfig?: Record<string, unknown>;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "mixConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type mixConf = StoryConf | SnippetConf;
+
 // @public
 export interface MockRule {
     method?: string;
@@ -2027,6 +2032,22 @@ export interface SlotsConfOfBricks {
 // @internal (undocumented)
 export type SlotType = "bricks" | "routes";
 
+// Warning: (ae-internal-missing-underscore) The name "SnippetConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SnippetConf {
+    // (undocumented)
+    bricks: StoryConf;
+    // (undocumented)
+    message: SnippetMessage;
+    // (undocumented)
+    snippetId: string;
+    // (undocumented)
+    thumbnail: MenuIcon | SrcIcon;
+    // (undocumented)
+    title: SnippetTitle;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
@@ -2047,6 +2068,26 @@ export interface SnippetDefinition {
     text?: I18nData;
     // (undocumented)
     thumbnail?: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "SnippetMessage" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SnippetMessage {
+    // (undocumented)
+    en: string;
+    // (undocumented)
+    zh: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "SnippetTitle" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SnippetTitle {
+    // (undocumented)
+    en: string;
+    // (undocumented)
+    zh: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "SrcIcon" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2087,7 +2128,7 @@ export interface Story {
     // (undocumented)
     category: string;
     // (undocumented)
-    conf: StoryConf | StoryConf[];
+    conf: StoryConf | StoryConf[] | mixConf[];
     // (undocumented)
     deprecated?: boolean;
     // (undocumented)
