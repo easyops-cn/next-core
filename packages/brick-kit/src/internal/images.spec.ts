@@ -5,7 +5,7 @@ describe("imagesFactory", () => {
     [
       {
         app: { id: string; isBuildPush?: boolean };
-        publicRoot?: string;
+        appRoot?: string;
       },
       string,
       string
@@ -35,13 +35,13 @@ describe("imagesFactory", () => {
         app: {
           id: "my-app",
         },
-        publicRoot: "-/",
+        appRoot: "/sa-static/",
       },
       "test.png",
-      "-/micro-apps/my-app/images/test.png",
+      "/sa-static/-/micro-apps/my-app/images/test.png",
     ],
-  ])("should work", ({ app, publicRoot }, img, src) => {
-    window.PUBLIC_ROOT = publicRoot;
+  ])("should work", ({ app, appRoot }, img, src) => {
+    window.APP_ROOT = appRoot;
     expect(imagesFactory(app.id, app.isBuildPush).get(img)).toBe(src);
   });
 });

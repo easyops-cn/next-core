@@ -10,7 +10,9 @@ export function imagesFactory(
     get(name) {
       return isBuildPush
         ? `api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
-        : `${window.PUBLIC_ROOT ?? ""}micro-apps/${appId}/images/${name}`;
+        : `${
+            window.APP_ROOT ? `${window.APP_ROOT}-/` : ""
+          }micro-apps/${appId}/images/${name}`;
     },
   };
 }

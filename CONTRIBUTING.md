@@ -97,7 +97,7 @@ exports.standaloneAppsConfig = [
     // 那么可以访问同一路径的资源，以提升缓存命中率。
     standaloneVersion: 2,
     appDir: "message-subscribe/",
-    appRoot: "/sa-static/message-subscribe/versions/2.4.16/webroot/-/",
+    appRoot: "/sa-static/message-subscribe/versions/2.4.16/webroot/",
     bootstrapHash: "4c732a2e3488e65d",
     // v2 相对于 v1 多了下面两个配置项：
     publicPrefix: "/sa-static/-/",

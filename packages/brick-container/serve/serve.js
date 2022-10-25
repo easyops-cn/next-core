@@ -49,7 +49,7 @@ module.exports = function serve(runtimeFlags) {
         `${env.publicCdn ?? ""}${
           standaloneConfig
             ? standaloneConfig.standaloneVersion === 2
-              ? `${standaloneConfig.appRoot}core/${standaloneConfig.coreVersion}/`
+              ? `${standaloneConfig.publicPrefix}core/${standaloneConfig.coreVersion}/`
               : `${standaloneConfig.appRoot}-/core/`
             : ""
         }`
@@ -83,7 +83,7 @@ module.exports = function serve(runtimeFlags) {
                 `var d=${JSON.stringify(standaloneConfig.publicPrefix)}`,
                 'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
                 `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/"`,
-                `w.BOOTSTRAP_FILE=a+"bootstrap.${standaloneConfig.bootstrapHash}.json"`,
+                `w.BOOTSTRAP_FILE=a+"-/bootstrap.${standaloneConfig.bootstrapHash}.json"`,
               ]
             : [
                 'var d=a+"-/"',
@@ -156,9 +156,7 @@ module.exports = function serve(runtimeFlags) {
       // Serve static files.
       const staticRoot = standaloneConfig
         ? standaloneConfig.standaloneVersion === 2
-          ? `${standaloneConfig.appRoot || serveRoot}core/${
-              standaloneConfig.coreVersion
-            }/`
+          ? `${standaloneConfig.publicPrefix}core/${standaloneConfig.coreVersion}/`
           : `${standaloneConfig.appRoot || serveRoot}-/core/`
         : serveRoot;
       app.use(staticRoot, express.static(distDir));
