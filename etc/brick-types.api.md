@@ -2037,7 +2037,7 @@ export type SlotType = "bricks" | "routes";
 // @internal (undocumented)
 export interface SnippetConf {
     // (undocumented)
-    bricks: StoryConf | StoryConf[];
+    bricks: BrickConf | BrickConf[];
     // (undocumented)
     message?: I18nData;
     // (undocumented)
