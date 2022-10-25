@@ -7,6 +7,8 @@ import ens_api
 import requests
 import simplejson
 
+from copy import deepcopy
+
 logger = logging.getLogger("report_installed_brick_next_package")
 logging.basicConfig(level=logging.DEBUG, filename="./report_installed_brick_next_package.log")
 
@@ -17,6 +19,27 @@ logging.basicConfig(level=logging.DEBUG, filename="./report_installed_brick_next
 # 4. 调用接口，发送文件内容
 class NameServiceError(Exception):
   pass
+
+def get_snippets_from_stories(stories_content):
+  ret_snippets = []
+  for story in stories_content:
+      story_category = story.get("category", "other")
+      story_conf = story.get("conf")  # 获取示例数据
+      if isinstance(story_conf, list) and len(story_conf) > 0:
+        for conf in story_conf:
+          if conf.get("snippetId"):  # 有snippetId的示例，需要上报到snippet
+            snippet_tmp = deepcopy(conf)
+            snippet_tmp["id"] = snippet_tmp["snippetId"]
+            del snippet_tmp["snippetId"]
+            snippet_tmp["category"] = story_category
+            if "title" in snippet_tmp:
+              snippet_tmp["text"] = snippet_tmp["title"]
+              del snippet_tmp["title"]
+            if "description" in snippet_tmp:
+              snippet_tmp["description"] = snippet_tmp["message"]
+              del snippet_tmp["message"]
+            ret_snippets.append(snippet_tmp)
+  return ret_snippets
 
 
 def collect(install_path):
@@ -36,11 +59,13 @@ def collect(install_path):
   if os.path.exists(stories_path):
     with open(stories_path) as stories_file:
       stories_content = simplejson.load(stories_file)
+  snippets_from_stories = get_snippets_from_stories(stories_content)
   snippets_path = os.path.join(install_path, "dist", "snippets.json")
   snippets_content = {"snippets": []}
   if os.path.exists(snippets_path):
     with open(snippets_path) as snippets_file:
       snippets_content = simplejson.load(snippets_file)
+  snippets_content["snippets"].extend(snippets_from_stories)
   contract_path = os.path.join(install_path, "dist", "contracts.json")
   contract_content = {}
   if os.path.exists(contract_path):
