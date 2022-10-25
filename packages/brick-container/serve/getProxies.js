@@ -66,7 +66,7 @@ module.exports = (env) => {
         proxyPaths.push(assetRoot);
         proxyPaths.push(`${standaloneConfig.appRoot}conf.yaml`);
         if (standaloneConfig.standaloneVersion === 2) {
-          proxyPaths.push(`${standaloneConfig.appRoot}`);
+          proxyPaths.push(`${standaloneConfig.appRoot}-/`);
         }
       } else {
         const assetPaths = ["bricks", "micro-apps", "templates"];
@@ -88,10 +88,8 @@ module.exports = (env) => {
         for (const standaloneConfig of standaloneAppsConfig) {
           const regex = new RegExp(
             `^${escapeRegExp(
-              `${standaloneConfig.appRoot}${
-                standaloneConfig.standaloneVersion === 2 ? "" : "-/"
-              }`
-            )}bootstrap\\.[^.]+\\.json$`
+              standaloneConfig.appRoot
+            )}-/bootstrap\\.[^.]+\\.json$`
           );
           if (regex.test(req.path)) {
             reqIsBootstrap = true;
