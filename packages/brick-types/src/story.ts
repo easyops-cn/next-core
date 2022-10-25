@@ -34,13 +34,37 @@ export interface SrcIcon {
 }
 
 /** @internal */
+export interface SnippetTitle {
+  en: string;
+  zh: string;
+}
+
+/** @internal */
+export interface SnippetMessage {
+  en: string;
+  zh: string;
+}
+
+/** @internal */
+export interface SnippetConf {
+  bricks: StoryConf;
+  snippetId: string;
+  title: SnippetTitle;
+  message: SnippetMessage;
+  thumbnail: MenuIcon | SrcIcon;
+}
+
+/** @internal */
+export type mixConf = StoryConf | SnippetConf;
+
+/** @internal */
 export interface Story {
   category: string;
   storyId: string;
   deprecated?: boolean;
   type: "brick" | "template";
   text: I18nData;
-  conf: StoryConf | StoryConf[];
+  conf: StoryConf | StoryConf[] | mixConf[];
   description?: I18nData;
   tags?: I18nData[];
   doc?: string | StoryDoc;
