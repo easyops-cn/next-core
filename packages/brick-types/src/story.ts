@@ -47,7 +47,7 @@ export interface SnippetMessage {
 
 /** @internal */
 export interface SnippetConf {
-  bricks: StoryConf;
+  bricks: StoryConf | StoryConf[];
   snippetId: string;
   title: SnippetTitle;
   message: SnippetMessage;
