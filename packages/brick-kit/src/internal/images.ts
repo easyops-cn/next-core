@@ -17,12 +17,17 @@ export function imagesFactory(
   };
 }
 
-export function widgetImagesFactory(widgetId: string): ImagesFactory {
+export function widgetImagesFactory(
+  widgetId: string,
+  widgetVersion?: string
+): ImagesFactory {
   return {
     get(name) {
-      return `${
-        window.PUBLIC_ROOT ?? ""
-      }bricks/${widgetId}/dist/assets/${name}`;
+      return `${window.PUBLIC_ROOT ?? ""}bricks/${widgetId}/${
+        window.PUBLIC_ROOT_WITH_VERSION && widgetVersion
+          ? `${widgetVersion}/`
+          : ""
+      }dist/assets/${name}`;
     },
   };
 }

@@ -506,8 +506,9 @@ export interface StoryboardFunctionRegistry {
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function StoryboardFunctionRegistryFactory({ widgetId, collectCoverage, }?: {
+export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, collectCoverage, }?: {
     widgetId?: string;
+    widgetVersion?: string;
     collectCoverage?: FunctionCoverageSettings;
 }): StoryboardFunctionRegistry;
 
