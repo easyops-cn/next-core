@@ -2039,11 +2039,11 @@ export interface SnippetConf {
     // (undocumented)
     bricks: StoryConf | StoryConf[];
     // (undocumented)
-    message: I18nData;
+    message?: I18nData;
     // (undocumented)
-    snippetId: string;
+    snippetId?: string;
     // (undocumented)
-    thumbnail: MenuIcon | SrcIcon;
+    thumbnail?: MenuIcon | SrcIcon;
     // (undocumented)
     title: I18nData;
 }
