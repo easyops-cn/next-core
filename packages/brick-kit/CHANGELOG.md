@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.154.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.9...@next-core/brick-kit@2.154.0) (2022-10-25)
+
+
+### Features
+
+* support widget images in standalone apps ([3fb4e9f](https://github.com/easyops-cn/next-core/commit/3fb4e9f100d7580d9d3998be8251e25904ed58a4))
+
+
+
+
+
 ## [2.153.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.8...@next-core/brick-kit@2.153.9) (2022-10-25)
 
 
