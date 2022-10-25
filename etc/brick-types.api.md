@@ -2039,13 +2039,13 @@ export interface SnippetConf {
     // (undocumented)
     bricks: StoryConf | StoryConf[];
     // (undocumented)
-    message: SnippetMessage;
+    message: I18nData;
     // (undocumented)
     snippetId: string;
     // (undocumented)
     thumbnail: MenuIcon | SrcIcon;
     // (undocumented)
-    title: SnippetTitle;
+    title: I18nData;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2068,26 +2068,6 @@ export interface SnippetDefinition {
     text?: I18nData;
     // (undocumented)
     thumbnail?: string;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "SnippetMessage" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface SnippetMessage {
-    // (undocumented)
-    en: string;
-    // (undocumented)
-    zh: string;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "SnippetTitle" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface SnippetTitle {
-    // (undocumented)
-    en: string;
-    // (undocumented)
-    zh: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "SrcIcon" should be prefixed with an underscore because the declaration is marked as @internal
