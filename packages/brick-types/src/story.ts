@@ -34,23 +34,11 @@ export interface SrcIcon {
 }
 
 /** @internal */
-export interface SnippetTitle {
-  en: string;
-  zh: string;
-}
-
-/** @internal */
-export interface SnippetMessage {
-  en: string;
-  zh: string;
-}
-
-/** @internal */
 export interface SnippetConf {
   bricks: StoryConf | StoryConf[];
   snippetId: string;
-  title: SnippetTitle;
-  message: SnippetMessage;
+  title: I18nData;
+  message: I18nData;
   thumbnail: MenuIcon | SrcIcon;
 }
 
