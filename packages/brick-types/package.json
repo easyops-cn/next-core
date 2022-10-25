@@ -1,7 +1,7 @@
 {
   "name": "@next-core/brick-types",
   "version": "2.81.3",
-  "description": "Pure types for kernel",
+  "description": "Pure types for Brick Next",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "GPL-3.0",
   "main": "dist/index.bundle.js",
