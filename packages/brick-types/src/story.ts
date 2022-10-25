@@ -35,7 +35,7 @@ export interface SrcIcon {
 
 /** @internal */
 export interface SnippetConf {
-  bricks: StoryConf | StoryConf[];
+  bricks: BrickConf | BrickConf[];
   snippetId?: string;
   title: I18nData;
   message?: I18nData;
