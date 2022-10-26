@@ -40,6 +40,7 @@ export interface SnippetConf {
   title: I18nData;
   message?: I18nData;
   thumbnail?: MenuIcon | SrcIcon;
+  actions?: Action[];
 }
 
 /** @internal */
