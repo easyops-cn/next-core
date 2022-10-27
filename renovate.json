@@ -52,7 +52,8 @@
         "terser-webpack-plugin",
         "svgr",
         "globby",
-        "rollup"
+        "rollup",
+        "babel-loader"
       ],
       "matchPackagePatterns": ["react", "^@fortawesome/"],
       "matchUpdateTypes": ["major"],
