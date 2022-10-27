@@ -51,16 +51,11 @@ export function getAppendingNodesAndEdges(
 
     if (
       isBrickNode(builderNode) &&
-      ((!builderNode.brick.includes(".") &&
-        builderNode.brick.startsWith("tpl-") &&
-        !processedTemplateSet.has(builderNode.brick) &&
-        (templateSource = templateSourceMap?.get(builderNode.brick)) &&
-        templateSource.children?.length > 0) ||
-        (builderNode.brick.includes(".tpl-") &&
-          (templateSource = storyList?.find(
-            (item) => item.storyId === builderNode.brick
-          )?.originData) &&
-          templateSource.children?.length > 0))
+      !builderNode.brick.includes(".") &&
+      builderNode.brick.startsWith("tpl-") &&
+      !processedTemplateSet.has(builderNode.brick) &&
+      (templateSource = templateSourceMap?.get(builderNode.brick)) &&
+      templateSource.children?.length > 0
     ) {
       if (templateSource.layoutType === "wrapper") {
         builderNode.layoutType = "wrapper";
