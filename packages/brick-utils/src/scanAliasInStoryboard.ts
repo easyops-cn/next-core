@@ -1,52 +1,15 @@
-import {
-  Storyboard,
-  BrickConf,
-  RouteConf,
-  RouteConfOfBricks,
-  RouteAliasMap,
-} from "@next-core/brick-types";
+import type { Storyboard, RouteAliasMap } from "@next-core/brick-types";
+import { parseRoutes, traverse } from "@next-core/storyboard";
 
 export function scanRouteAliasInStoryboard(
   storyboard: Storyboard
 ): RouteAliasMap {
   const collection: RouteAliasMap = new Map();
-  collectRouteAliasInRouteConfs(storyboard.routes, collection);
-  return collection;
-}
+  const routes = parseRoutes(storyboard.routes, { routesOnly: true });
 
-function collectRouteAliasInBrickConf(
-  brickConf: BrickConf,
-  collection: RouteAliasMap
-): void {
-  if (brickConf.slots) {
-    Object.values(brickConf.slots).forEach((slotConf) => {
-      if (slotConf.type === "bricks") {
-        collectRouteAliasInBrickConfs(slotConf.bricks, collection);
-      } else {
-        collectRouteAliasInRouteConfs(slotConf.routes, collection);
-      }
-    });
-  }
-}
-
-function collectRouteAliasInBrickConfs(
-  bricks: BrickConf[],
-  collection: RouteAliasMap
-): void {
-  if (Array.isArray(bricks)) {
-    bricks.forEach((brickConf) => {
-      collectRouteAliasInBrickConf(brickConf, collection);
-    });
-  }
-}
-
-function collectRouteAliasInRouteConfs(
-  routes: RouteConf[],
-  collection: RouteAliasMap
-): void {
-  if (Array.isArray(routes)) {
-    routes.forEach((routeConf) => {
-      const alias = routeConf.alias;
+  traverse(routes, (node) => {
+    if (node.type === "Route") {
+      const alias = node.raw.alias;
       if (alias) {
         if (collection.has(alias)) {
           // eslint-disable-next-line no-console
@@ -54,17 +17,11 @@ function collectRouteAliasInRouteConfs(
         }
         collection.set(alias, {
           alias,
-          path: routeConf.path,
+          path: node.raw.path,
         });
       }
-      if (routeConf.type === "routes") {
-        collectRouteAliasInRouteConfs(routeConf.routes, collection);
-      } else {
-        collectRouteAliasInBrickConfs(
-          (routeConf as RouteConfOfBricks).bricks,
-          collection
-        );
-      }
-    });
-  }
+    }
+  });
+
+  return collection;
 }

@@ -31,6 +31,7 @@
   "dependencies": {
     "@next-core/brick-types": "^2.81.5",
     "@next-core/cook": "^1.6.69",
+    "@next-core/storyboard": "^0.0.0",
     "file-saver": "^2.0.5",
     "path-to-regexp": "^6.2.1"
   },
