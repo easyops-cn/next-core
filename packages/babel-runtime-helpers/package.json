@@ -10,6 +10,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/runtime": "^7.19.4"
+    "@babel/runtime": "^7.20.0"
   }
 }
