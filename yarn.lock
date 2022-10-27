@@ -3567,10 +3567,10 @@
   resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.0.tgz#69a23a3ad29caf0097f06eda59b361ee2f0639f6"
   integrity sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
 
-"@types/node@*", "@types/node@^16.18.0", "@types/node@^16.9.2":
-  version "16.18.0"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.0.tgz#34982c6d5b5734c900f4ee69e1b87d212db6c60f"
-  integrity sha512-LqYqYzYvnbCaQfLAwRt0zboqnsViwhZm+vjaMSqcfN36vulAg7Pt0T83q4WZO2YOBw3XdyHi8cQ88H22zmULOA==
+"@types/node@*", "@types/node@^16.18.2", "@types/node@^16.9.2":
+  version "16.18.2"
+  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.2.tgz#77878acc68c5f6241454008beedd39513bd8e851"
+  integrity sha512-KIGQJyya+opDCFvDSZMNNS899ov5jlNdtN7PypgHWeb8e+5vWISdwTRo/ClsNVlmDihzOGqFyNBDamUs7TQQCA==
 
 "@types/node@10.17.13":
   version "10.17.13"
@@ -3622,10 +3622,10 @@
   dependencies:
     "@types/react" "^17"
 
-"@types/react-dom@^16.9.16":
-  version "16.9.16"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.16.tgz#c591f2ed1c6f32e9759dfa6eb4abfd8041f29e39"
-  integrity sha512-Oqc0RY4fggGA3ltEgyPLc3IV9T73IGoWjkONbsyJ3ZBn+UPPCYpU2ec0i3cEbJuEdZtkqcCF2l1zf2pBdgUGSg==
+"@types/react-dom@^16.9.17":
+  version "16.9.17"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.17.tgz#29100cbcc422d7b7dba7de24bb906de56680dd34"
+  integrity sha512-qSRyxEsrm5btPXnowDOs5jSkgT8ldAA0j6Qp+otHUh+xHzy3sXmgNfyhucZjAjkgpdAUw9rJe0QRtX/l+yaS4g==
   dependencies:
     "@types/react" "^16"
 
@@ -3643,10 +3643,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=16.9.0", "@types/react@^16", "@types/react@^16.14.33", "@types/react@^17":
-  version "16.14.33"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.33.tgz#eec5863d4d7814da37bc43b039a9ff9561e33f1b"
-  integrity sha512-JO6dkVjLvlAJi7wnGDgqlBdaePNSmUgyw5sS7HLy4B5F1+4Drztbx3SS8klecRvfp5y25YLYv/zq6O27FDh8gQ==
+"@types/react@*", "@types/react@>=16.9.0", "@types/react@^16", "@types/react@^16.14.34", "@types/react@^17":
+  version "16.14.34"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.34.tgz#d129324ffda312044e1c47aab18696e4ed493282"
+  integrity sha512-b99nWeGGReLh6aKBppghVqp93dFJtgtDOzc8NXM6hewD8PQ2zZG5kBLgbx+VJr7Q7WBMjHxaIl3dwpwwPIUgyA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
