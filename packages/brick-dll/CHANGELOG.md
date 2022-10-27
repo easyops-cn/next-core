@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.38.22...@next-core/brick-dll@2.39.0) (2022-10-27)
+
+
+### Features
+
+* support parse storyboard as AST ([a7954e4](https://github.com/easyops-cn/next-core/commit/a7954e462c7ffeabf49e1f121b6b1702375c23bb))
+
+
+
+
+
 ## [2.38.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.38.21...@next-core/brick-dll@2.38.22) (2022-10-26)
 
 **Note:** Version bump only for package @next-core/brick-dll

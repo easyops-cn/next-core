@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.5...@next-core/brick-types@2.81.6) (2022-10-27)
+
+
+### Bug Fixes
+
+* fix types of tpl state ([d695a0f](https://github.com/easyops-cn/next-core/commit/d695a0f34af7ec56c59e7a15aae4088edf737857))
+
+
+
+
+
 ## [2.81.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.4...@next-core/brick-types@2.81.5) (2022-10-26)
 
 
