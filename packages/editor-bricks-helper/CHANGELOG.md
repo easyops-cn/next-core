@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.48.10...@next-core/editor-bricks-helper@0.49.0) (2022-10-27)
+
+
+### Features
+
+* unsupport render widget editor ([e330802](https://github.com/easyops-cn/next-core/commit/e33080269d0407eb7e19333e60b884ae7f738dbf))
+
+
+
+
+
 ## [0.48.10](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.48.9...@next-core/editor-bricks-helper@0.48.10) (2022-10-26)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
