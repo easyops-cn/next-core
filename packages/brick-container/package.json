@@ -54,7 +54,7 @@
     "@next-dll/echarts": "^2.0.69",
     "@next-dll/editor-bricks-helper": "^0.31.3",
     "@next-dll/react-dnd": "^0.1.424",
-    "babel-loader": "^8.2.5",
+    "babel-loader": "^9.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.25.5",
