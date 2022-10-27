@@ -1627,7 +1627,7 @@ export interface CustomTemplate {
 /** 自定义模板状态数据配置。 */
 export type CustomTemplateState = Pick<
   ContextConf,
-  "name" | "value" | "if" | "resolve" | "track"
+  "name" | "value" | "if" | "resolve" | "track" | "onChange"
 >;
 
 /**

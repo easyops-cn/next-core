@@ -1,5 +1,6 @@
 import type {
   BrickConf,
+  ContextConf,
   CustomTemplate,
   CustomTemplateConstructor,
   RuntimeStoryboard,
@@ -179,19 +180,21 @@ describe("removeDeadConditions", () => {
             action: "console.log",
             if: '<% FLAGS["disabled"] %>',
           },
-          onMessage: {
-            channel: "any",
-            handlers: [
-              {
-                action: "console.log",
-                if: '<% FLAGS["disabled"] %>',
-              },
-              {
-                action: "console.warn",
-                if: '<% FLAGS["enabled"] %>',
-              },
-            ],
-          },
+          onMessage: [
+            {
+              channel: "any",
+              handlers: [
+                {
+                  action: "console.log",
+                  if: '<% FLAGS["disabled"] %>',
+                },
+                {
+                  action: "console.warn",
+                  if: '<% FLAGS["enabled"] %>',
+                },
+              ],
+            },
+          ],
         },
       },
       {
@@ -209,15 +212,17 @@ describe("removeDeadConditions", () => {
               if: true,
             },
           ],
-          onMessage: {
-            channel: "any",
-            handlers: [
-              {
-                action: "console.warn",
-                if: true,
-              },
-            ],
-          },
+          onMessage: [
+            {
+              channel: "any",
+              handlers: [
+                {
+                  action: "console.warn",
+                  if: true,
+                },
+              ],
+            },
+          ],
         },
       },
     ],
@@ -301,7 +306,7 @@ describe("removeDeadConditions", () => {
         },
       },
     ],
-  ])("should work for bricks", (input, output) => {
+  ])("should work for bricks: %j", (input, output) => {
     const storyboard = {
       routes: [{ bricks: [].concat(input) }],
     } as RuntimeStoryboard;
@@ -335,6 +340,25 @@ describe("removeDeadConditions", () => {
     expect(storyboard).toEqual({
       $$deadConditionsRemoved: true,
       routes: [{ bricks: [output].filter(Boolean) }],
+    });
+  });
+
+  it.each<[Partial<ContextConf>, Partial<ContextConf>]>([
+    [{ name: "a", if: false }, null],
+    [
+      { name: "a", if: "<% CTX.any %>" },
+      { name: "a", if: "<% CTX.any %>" },
+    ],
+  ])("should work for context", (input, output) => {
+    const storyboard = {
+      routes: [{ context: [input] }],
+    } as RuntimeStoryboard;
+
+    removeDeadConditions(storyboard);
+
+    expect(storyboard).toEqual({
+      $$deadConditionsRemoved: true,
+      routes: [{ context: [output].filter(Boolean) }],
     });
   });
 
@@ -419,6 +443,20 @@ describe("removeDeadConditions", () => {
       name: "tpl-test",
       bricks: [{ brick: "b", if: true }],
       proxy: {},
+    });
+  });
+
+  it("should work for custom templates", () => {
+    const tplConstructor = {
+      bricks: [{ brick: "a", if: false }],
+      state: [{ name: "b", if: "<% false %>" }],
+    } as CustomTemplateConstructor;
+
+    removeDeadConditionsInTpl(tplConstructor);
+
+    expect(tplConstructor).toEqual({
+      bricks: [],
+      state: [],
     });
   });
 

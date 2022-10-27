@@ -1074,7 +1074,7 @@ export interface CustomTemplateProxyWithExtra {
 }
 
 // @public
-export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve" | "track">;
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve" | "track" | "onChange">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {

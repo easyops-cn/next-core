@@ -1,22 +1,19 @@
-import {
+import type {
   Storyboard,
   BrickConf,
-  RouteConf,
-  ProviderConf,
-  RouteConfOfBricks,
   CustomTemplate,
-  UseSingleBrickConf,
   UseProviderResolveConf,
   UseProviderEventHandler,
-  BrickEventsMap,
-  ContextConf,
-  ResolveConf,
-  MessageConf,
-  UseBackendConf,
-  ScrollIntoViewConf,
 } from "@next-core/brick-types";
-import { uniq } from "lodash";
 import { isObject } from "./isObject";
+import {
+  type StoryboardNode,
+  parseBrick,
+  parseStoryboard,
+  parseTemplates,
+  traverse,
+} from "@next-core/storyboard";
+import { StoryboardNodeRoot } from ".";
 
 export interface ScanBricksOptions {
   keepDuplicates?: boolean;
@@ -33,6 +30,20 @@ export function scanStoryboard(
   storyboard: Storyboard,
   options: boolean | ScanBricksOptions = true
 ): { bricks: string[]; customApis: string[] } {
+  const ast = parseStoryboard(storyboard);
+  return scanStoryboardAst(ast, options);
+}
+
+/**
+ * Scan bricks and custom apis in storyboard.
+ *
+ * @param storyboard - Storyboard.
+ * @param options - If options is a boolean, it means `isUniq` or `de-duplicate`.
+ */
+export function scanStoryboardAst(
+  ast: StoryboardNodeRoot,
+  options: boolean | ScanBricksOptions = true
+): { bricks: string[]; customApis: string[] } {
   const { keepDuplicates, ignoreBricksInUnusedCustomTemplates } = isObject(
     options
   )
@@ -41,299 +52,127 @@ export function scanStoryboard(
         keepDuplicates: !options,
       } as ScanBricksOptions);
 
-  const collection: string[] = [];
-  collectBricksInRouteConfs(storyboard.routes, collection);
-
   const selfDefined = new Set<string>(["form-renderer.form-renderer"]);
+  let collection: Set<string> | string[];
 
   if (ignoreBricksInUnusedCustomTemplates) {
-    // Only collect bricks in used custom templates.
-    const collectionByTpl = collectBricksByCustomTemplates(
-      storyboard.meta?.customTemplates
-    );
-    for (const item of collection) {
-      if (collectionByTpl.has(item) && !selfDefined.has(item)) {
-        selfDefined.add(item);
-        collection.push(...collectionByTpl.get(item));
+    collection = collect(ast.routes, keepDuplicates);
+    if (Array.isArray(ast.templates)) {
+      const tplMap = new Map<string, StoryboardNode>();
+      for (const tpl of ast.templates) {
+        tplMap.set((tpl.raw as CustomTemplate).name, tpl);
+      }
+      for (const item of collection) {
+        if (tplMap.has(item) && !selfDefined.has(item)) {
+          selfDefined.add(item);
+          const collectionByTpl = collect(tplMap.get(item));
+          if (keepDuplicates) {
+            (collection as string[]).push(item);
+            (collection as string[]).push(...collectionByTpl);
+          } else {
+            (collection as Set<string>).add(item);
+            for (const i of collectionByTpl) {
+              (collection as Set<string>).add(i);
+            }
+          }
+        }
       }
     }
   } else {
-    collectBricksInCustomTemplates(
-      storyboard.meta?.customTemplates,
-      collection,
-      selfDefined
-    );
+    collection = collect(ast, keepDuplicates, selfDefined);
   }
-  const bricks: string[] = [];
-  const customApis: string[] = [];
-  collection.forEach((item) => {
-    if (item.includes("@")) {
-      customApis.push(item);
-    } else {
-      if (item.includes("-") && !selfDefined.has(item)) {
-        bricks.push(item);
+
+  if (keepDuplicates) {
+    const bricks: string[] = [];
+    const customApis: string[] = [];
+    for (const item of collection) {
+      if (item.includes("@")) {
+        customApis.push(item);
+      } else {
+        if (item.includes("-") && !selfDefined.has(item)) {
+          bricks.push(item);
+        }
       }
+    }
+    return { bricks, customApis };
+  } else {
+    const bricks = new Set<string>();
+    const customApis = new Set<string>();
+    for (const item of collection) {
+      if (item.includes("@")) {
+        customApis.add(item);
+      } else {
+        if (item.includes("-") && !selfDefined.has(item)) {
+          bricks.add(item);
+        }
+      }
+    }
+    return { bricks: [...bricks], customApis: [...customApis] };
+  }
+}
+
+function collect(
+  nodeOrNodes: StoryboardNode | StoryboardNode[],
+  keepDuplicates?: boolean,
+  definedTemplates?: Set<string>
+): Set<string> | string[] {
+  let collection: Set<string> | string[];
+  let add: (item: string) => void;
+  if (keepDuplicates) {
+    collection = [];
+    add = (item) => {
+      (collection as string[]).push(item);
+    };
+  } else {
+    collection = new Set();
+    add = (item) => {
+      (collection as Set<string>).add(item);
+    };
+  }
+
+  traverse(nodeOrNodes, (node) => {
+    switch (node.type) {
+      case "Brick":
+        if (node.raw.brick) {
+          add(node.raw.brick);
+        }
+        break;
+      case "Resolvable": {
+        const useProvider = (node.raw as UseProviderResolveConf)?.useProvider;
+        if (useProvider) {
+          add(useProvider);
+        }
+        break;
+      }
+      case "EventHandler": {
+        const useProvider = (node.raw as UseProviderEventHandler)?.useProvider;
+        if (useProvider) {
+          add(useProvider);
+        }
+        break;
+      }
+      case "Template":
+        definedTemplates?.add((node.raw as CustomTemplate).name);
+        break;
     }
   });
-  return {
-    bricks: keepDuplicates ? bricks : uniq(bricks),
-    customApis: keepDuplicates ? customApis : uniq(customApis),
-  };
+
+  return collection;
 }
 
-export function collectBricksInBrickConf(
-  brickConf: BrickConf,
-  collection: string[]
-): void {
-  if (brickConf.brick) {
-    collection.push(brickConf.brick);
-  }
-  if (brickConf.slots) {
-    Object.values(brickConf.slots).forEach((slotConf) => {
-      if (slotConf.type === "routes") {
-        collectBricksInRouteConfs(slotConf.routes, collection);
-      } else {
-        collectBricksInBrickConfs(slotConf.bricks, collection);
-      }
-    });
-  }
-  if (Array.isArray(brickConf.internalUsedBricks)) {
-    brickConf.internalUsedBricks.forEach((brick) => {
-      collection.push(brick);
-    });
-  }
-  if (brickConf.lifeCycle) {
-    const {
-      useResolves,
-      onPageLoad,
-      onPageLeave,
-      onAnchorLoad,
-      onAnchorUnload,
-      onMessage,
-      onMessageClose,
-      onBeforePageLoad,
-      onBeforePageLeave,
-      onMediaChange,
-      onScrollIntoView,
-    } = brickConf.lifeCycle;
-    if (Array.isArray(useResolves)) {
-      useResolves.forEach((useResolve) => {
-        const useProvider = (useResolve as UseProviderResolveConf).useProvider;
-        if (useProvider) {
-          collection.push(useProvider);
-        }
-      });
-    }
-
-    const specialHandlers = ([] as (MessageConf | ScrollIntoViewConf)[])
-      .concat(onMessage, onScrollIntoView)
-      .filter(Boolean)
-      .reduce(
-        (previousValue, currentValue) =>
-          previousValue.concat(currentValue.handlers),
-        []
-      );
-
-    collectUsedBricksInEventHandlers(
-      {
-        onPageLoad,
-        onPageLeave,
-        onAnchorLoad,
-        onAnchorUnload,
-        onMessageClose,
-        onBeforePageLoad,
-        onBeforePageLeave,
-        onMediaChange,
-        specialHandlers,
-      },
-      collection
-    );
-  }
-  collectUsedBricksInEventHandlers(brickConf.events, collection);
-  collectBricksInResolvable(brickConf.if as ResolveConf, collection);
-  collectBricksInContext(brickConf.context, collection);
-  collectUsedBricksInProperties(brickConf.properties, collection);
-}
-
-function collectBricksInResolvable(
-  resolvable: ResolveConf,
-  collection: string[]
-): void {
-  if (
-    isObject(resolvable) &&
-    (resolvable as UseProviderResolveConf).useProvider
-  ) {
-    collection.push((resolvable as UseProviderResolveConf).useProvider);
-  }
-}
-
-function collectBricksInContext(
-  context: ContextConf[],
-  collection: string[]
-): void {
-  if (Array.isArray(context)) {
-    for (const ctx of context) {
-      collectBricksInResolvable(ctx.resolve, collection);
-
-      if (ctx.onChange) {
-        collectUsedBricksInEventHandlers(
-          { onChange: ctx.onChange } as BrickEventsMap,
-          collection
-        );
-      }
-    }
-  }
-}
-
-function collectUsedBricksInEventHandlers(
-  events: BrickEventsMap,
-  collection: string[]
-): void {
-  if (isObject(events)) {
-    Object.values(events)
-      .filter(Boolean)
-      .forEach((handlers) => {
-        [].concat(handlers).forEach((handler: UseProviderEventHandler) => {
-          if (handler.useProvider) {
-            collection.push(handler.useProvider);
-          }
-          if (handler.callback) {
-            collectUsedBricksInEventHandlers(
-              handler.callback as BrickEventsMap,
-              collection
-            );
-          }
-        });
-      });
-  }
-}
-
-function collectUsedBricksInProperties(value: any, collection: string[]): void {
-  if (Array.isArray(value)) {
-    value.forEach((item) => {
-      collectUsedBricksInProperties(item, collection);
-    });
-  } else if (isObject(value)) {
-    if (value.useBrick || value.useBackend) {
-      if (value.useBrick) {
-        []
-          .concat(value.useBrick)
-          .forEach((useBrickConf: UseSingleBrickConf) => {
-            if (typeof useBrickConf?.brick === "string") {
-              collection.push(useBrickConf.brick);
-              collectUsedBricksInProperties(
-                useBrickConf.properties,
-                collection
-              );
-              collectUsedBricksInEventHandlers(useBrickConf.events, collection);
-
-              if (useBrickConf.slots) {
-                Object.values(useBrickConf.slots).forEach((slotConf) => {
-                  collectBricksInBrickConfs(
-                    slotConf.bricks as BrickConf[],
-                    collection
-                  );
-                });
-              }
-            }
-          });
-      }
-
-      if (value.useBackend as UseBackendConf) {
-        if (typeof value.useBackend?.provider === "string") {
-          collection.push(value.useBackend?.provider);
-        }
-      }
-    } else {
-      Object.values(value).forEach((item) => {
-        collectUsedBricksInProperties(item, collection);
-      });
-    }
-  }
-}
-
-function collectBricksInBrickConfs(
-  bricks: BrickConf[],
-  collection: string[]
-): void {
-  if (Array.isArray(bricks)) {
-    bricks.forEach((brickConf) => {
-      collectBricksInBrickConf(brickConf, collection);
-    });
-  }
-}
-
-function scanBricksInProviderConfs(
-  providers: ProviderConf[],
-  collection: string[]
-): void {
-  if (Array.isArray(providers)) {
-    providers.forEach((providerConf) => {
-      collection.push(
-        typeof providerConf === "string" ? providerConf : providerConf.brick
-      );
-    });
-  }
-}
-
-function collectBricksInRouteConfs(
-  routes: RouteConf[],
-  collection: string[]
-): void {
-  if (Array.isArray(routes)) {
-    routes.forEach((routeConf) => {
-      scanBricksInProviderConfs(routeConf.providers, collection);
-      collectBricksInContext(routeConf.context, collection);
-      collectBricksInResolvable(routeConf.redirect as ResolveConf, collection);
-      if (Array.isArray(routeConf.defineResolves)) {
-        for (const def of routeConf.defineResolves) {
-          collectBricksInResolvable(def, collection);
-        }
-      }
-      if (routeConf.type === "routes") {
-        collectBricksInRouteConfs(routeConf.routes, collection);
-      } else {
-        collectBricksInBrickConfs(
-          (routeConf as RouteConfOfBricks).bricks,
-          collection
-        );
-      }
-      if (routeConf.menu) {
-        if (routeConf.menu.type === "brick" && routeConf.menu.brick) {
-          collection.push(routeConf.menu.brick);
-        } else if (routeConf.menu.type === "resolve") {
-          collectBricksInResolvable(routeConf.menu.resolve, collection);
-        }
-      }
-    });
-  }
-}
-
-function collectBricksInCustomTemplates(
-  customTemplates: CustomTemplate[],
-  collection: string[],
-  selfDefined: Set<string>
-): void {
-  if (Array.isArray(customTemplates)) {
-    customTemplates.forEach((tpl) => {
-      selfDefined.add(tpl.name);
-      collectBricksInBrickConfs(tpl.bricks, collection);
-      collectBricksInContext(tpl.state, collection);
-    });
-  }
+export function collectBricksInBrickConf(brickConf: BrickConf): string[] {
+  const node = parseBrick(brickConf);
+  return [...collect(node)];
 }
 
 export function collectBricksByCustomTemplates(
   customTemplates: CustomTemplate[]
 ): Map<string, string[]> {
   const collectionByTpl = new Map<string, string[]>();
-  if (Array.isArray(customTemplates)) {
-    customTemplates.forEach((tpl) => {
-      const collection = [] as string[];
-      collectionByTpl.set(tpl.name, collection);
-      collectBricksInBrickConfs(tpl.bricks, collection);
-      collectBricksInContext(tpl.state, collection);
-    });
+  const templates = parseTemplates(customTemplates);
+  for (const tpl of templates) {
+    const collection = collect(tpl, false);
+    collectionByTpl.set((tpl.raw as CustomTemplate).name, [...collection]);
   }
   return collectionByTpl;
 }

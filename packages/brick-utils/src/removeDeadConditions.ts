@@ -1,18 +1,7 @@
 import type {
-  BrickConf,
-  BrickEventHandler,
-  BrickEventsMap,
-  BrickLifeCycle,
-  ContextConf,
   CustomTemplateConstructor,
   FeatureFlags,
-  MessageConf,
-  RouteConf,
-  RouteConfOfBricks,
   RuntimeStoryboard,
-  ScrollIntoViewConf,
-  UseProviderEventHandler,
-  UseSingleBrickConf,
 } from "@next-core/brick-types";
 import {
   cook,
@@ -21,13 +10,24 @@ import {
   isEvaluable,
   preevaluate,
 } from "@next-core/cook";
-import { pull } from "lodash";
+import { remove } from "lodash";
 import { hasOwnProperty } from "./hasOwnProperty";
-import { isObject } from "./isObject";
+import {
+  parseStoryboard,
+  parseTemplate,
+  traverse,
+  type StoryboardNode,
+} from "@next-core/storyboard";
 
 export interface RemoveDeadConditionsOptions {
   constantFeatureFlags?: boolean;
   featureFlags?: FeatureFlags;
+}
+
+interface ConditionalStoryboardNode {
+  raw: {
+    if?: string | boolean;
+  };
 }
 
 /**
@@ -41,14 +41,128 @@ export function removeDeadConditions(
   if (storyboard.$$deadConditionsRemoved) {
     return;
   }
-  removeDeadConditionsInRoutes(storyboard.routes, options);
-  const { customTemplates } = storyboard.meta ?? {};
-  if (Array.isArray(customTemplates)) {
-    for (const tpl of customTemplates) {
-      removeDeadConditionsInTpl(tpl, options);
+  const ast = parseStoryboard(storyboard);
+  removeDeadConditionsByAst(ast, options);
+  storyboard.$$deadConditionsRemoved = true;
+}
+
+function removeDeadConditionsByAst(
+  ast: StoryboardNode,
+  options: RemoveDeadConditionsOptions
+): void {
+  // First, we mark constant conditions.
+  traverse(ast, (node) => {
+    switch (node.type) {
+      case "Route":
+      case "Brick":
+      case "EventHandler":
+      case "Context":
+        computeConstantCondition(node.raw, options);
+        break;
+      case "Resolvable":
+        if (node.isConditional) {
+          computeConstantCondition(node.raw, options);
+        }
+        break;
+    }
+  });
+
+  // Then, we remove dead conditions accordingly.
+  traverse(ast, (node) => {
+    let rawContainer: any;
+    let conditionalNodes: ConditionalStoryboardNode[];
+    let rawKey: string;
+    let deleteEmptyArray = false;
+
+    switch (node.type) {
+      case "Root":
+        conditionalNodes = node.routes;
+        rawContainer = node.raw;
+        rawKey = "routes";
+        break;
+      case "Template":
+        conditionalNodes = node.bricks as ConditionalStoryboardNode[];
+        rawContainer = node.raw;
+        rawKey = "bricks";
+        break;
+      case "Route":
+      case "Slot":
+        conditionalNodes = node.children as ConditionalStoryboardNode[];
+        rawContainer = node.raw;
+        rawKey = node.raw.type === "routes" ? "routes" : "bricks";
+        break;
+      case "Event":
+      case "EventCallback":
+      case "SimpleLifeCycle":
+      case "ConditionalEvent":
+        conditionalNodes = node.handlers;
+        rawContainer = node.rawContainer;
+        rawKey = node.rawKey;
+        deleteEmptyArray = true;
+        break;
+      case "ResolveLifeCycle":
+        conditionalNodes = node.resolves;
+        rawContainer = node.rawContainer;
+        rawKey = node.rawKey;
+        deleteEmptyArray = true;
+        break;
+      case "UseBrickEntry":
+        conditionalNodes = node.children as ConditionalStoryboardNode[];
+        rawContainer = node.rawContainer;
+        rawKey = node.rawKey;
+        break;
+    }
+
+    shakeConditionalNodes(
+      node,
+      rawContainer,
+      conditionalNodes,
+      rawKey,
+      deleteEmptyArray
+    );
+
+    // Remove unreachable context/state.
+    deleteEmptyArray = false;
+    switch (node.type) {
+      case "Route":
+      case "Brick":
+      case "Template":
+        rawContainer = node.raw;
+        rawKey = node.type === "Template" ? "state" : "context";
+        conditionalNodes = node.context;
+        break;
+    }
+
+    shakeConditionalNodes(
+      node,
+      rawContainer,
+      conditionalNodes,
+      rawKey,
+      deleteEmptyArray
+    );
+  });
+}
+
+function shakeConditionalNodes(
+  node: StoryboardNode,
+  rawContainer: any,
+  conditionalNodes: ConditionalStoryboardNode[],
+  rawKey: string,
+  deleteEmptyArray?: boolean
+): void {
+  const removedNodes = remove(
+    conditionalNodes,
+    (node) => node.raw.if === false
+  );
+  if (removedNodes.length > 0) {
+    if (node.type === "UseBrickEntry" && !Array.isArray(rawContainer[rawKey])) {
+      rawContainer[rawKey] = { brick: "div", if: false };
+    } else if (deleteEmptyArray && conditionalNodes.length === 0) {
+      delete rawContainer[rawKey];
+    } else {
+      rawContainer[rawKey] = conditionalNodes.map((node) => node.raw);
     }
   }
-  storyboard.$$deadConditionsRemoved = true;
 }
 
 /**
@@ -58,200 +172,8 @@ export function removeDeadConditionsInTpl(
   tplConstructor: CustomTemplateConstructor,
   options?: RemoveDeadConditionsOptions
 ): void {
-  removeDeadConditionsInBricks(tplConstructor.bricks, options);
-}
-
-function removeDeadConditionsInRoutes(
-  routes: RouteConf[],
-  options: RemoveDeadConditionsOptions
-): void {
-  removeDeadConditionsInArray(routes, options, (route) => {
-    removeDeadConditionsInContext(route.context, options);
-    if (route.type === "routes") {
-      removeDeadConditionsInRoutes(route.routes, options);
-    } else {
-      removeDeadConditionsInBricks(
-        (route as RouteConfOfBricks).bricks,
-        options
-      );
-    }
-  });
-}
-
-function removeDeadConditionsInBricks(
-  bricks: BrickConf[],
-  options: RemoveDeadConditionsOptions
-): void {
-  removeDeadConditionsInArray(bricks, options, (brick) => {
-    if (brick.slots) {
-      for (const slot of Object.values(brick.slots)) {
-        if (slot.type === "routes") {
-          removeDeadConditionsInRoutes(slot.routes, options);
-        } else {
-          removeDeadConditionsInBricks(slot.bricks, options);
-        }
-      }
-    }
-    removeDeadConditionsInLifeCycle(brick.lifeCycle, options);
-    removeDeadConditionsInEvents(brick.events, options);
-    removeDeadConditionsInContext(brick.context, options);
-    removeDeadConditionsInProperties(brick.properties, options);
-  });
-}
-
-function removeDeadConditionsInProperties(
-  value: unknown,
-  options: RemoveDeadConditionsOptions
-): void {
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      removeDeadConditionsInProperties(item, options);
-    }
-  } else if (isObject(value)) {
-    if (value.useBrick) {
-      if (Array.isArray(value.useBrick)) {
-        // For useBrick as array, just remove dead items.
-        removeDeadConditionsInArray(value.useBrick, options, (useBrick) => {
-          removeDeadConditionsInUseBrick(
-            useBrick as UseSingleBrickConf,
-            options
-          );
-        });
-      } else {
-        // For useBrick as single one, we have to keep it,
-        // and we change it to an empty <div>.
-        computeConstantCondition(value.useBrick, options);
-        if (value.useBrick.if === false) {
-          value.useBrick = {
-            brick: "div",
-            if: false,
-          };
-        } else {
-          removeDeadConditionsInUseBrick(
-            value.useBrick as UseSingleBrickConf,
-            options
-          );
-        }
-      }
-    } else {
-      for (const item of Object.values(value)) {
-        removeDeadConditionsInProperties(item, options);
-      }
-    }
-  }
-}
-
-function removeDeadConditionsInUseBrick(
-  useBrick: UseSingleBrickConf,
-  options: RemoveDeadConditionsOptions
-): void {
-  removeDeadConditionsInProperties(useBrick.properties, options);
-  removeDeadConditionsInEvents(useBrick.events, options);
-  if (useBrick.slots) {
-    for (const slot of Object.values(useBrick.slots)) {
-      removeDeadConditionsInBricks(slot.bricks as BrickConf[], options);
-    }
-  }
-}
-
-function removeDeadConditionsInEvents(
-  events: BrickEventsMap,
-  options: RemoveDeadConditionsOptions
-): void {
-  if (isObject(events)) {
-    for (const eventType of Object.keys(events)) {
-      removeDeadConditionsInEvent(events, eventType, options);
-    }
-  }
-}
-
-function removeDeadConditionsInEvent<
-  T extends string,
-  P extends Partial<Record<T, BrickEventHandler | BrickEventHandler[]>>
->(events: P, eventType: T, options: RemoveDeadConditionsOptions): void {
-  const handlers = events[eventType];
-  if (!handlers) {
-    return;
-  }
-  if (Array.isArray(handlers)) {
-    removeDeadConditionsInArray(handlers, options, (handler) => {
-      if ((handler as UseProviderEventHandler).callback) {
-        removeDeadConditionsInEvents(
-          (handler as UseProviderEventHandler).callback as BrickEventsMap,
-          options
-        );
-      }
-    });
-  } else {
-    computeConstantCondition(handlers, options);
-    if (handlers.if === false) {
-      delete events[eventType];
-      return;
-    }
-    if ((handlers as UseProviderEventHandler).callback) {
-      removeDeadConditionsInEvents(
-        (handlers as UseProviderEventHandler).callback as BrickEventsMap,
-        options
-      );
-    }
-  }
-}
-
-function removeDeadConditionsInContext(
-  context: ContextConf[],
-  options: RemoveDeadConditionsOptions
-): void {
-  removeDeadConditionsInArray(context, options);
-}
-
-function removeDeadConditionsInArray<T extends IfContainer>(
-  list: T[],
-  options: RemoveDeadConditionsOptions,
-  callback?: (item: T) => void
-): void {
-  if (Array.isArray(list)) {
-    const removes: T[] = [];
-    for (const item of list) {
-      computeConstantCondition(item, options);
-      if (item.if === false) {
-        removes.push(item);
-        continue;
-      }
-      callback?.(item);
-    }
-    pull(list, ...removes);
-  }
-}
-
-function removeDeadConditionsInLifeCycle(
-  lifeCycle: BrickLifeCycle,
-  options: RemoveDeadConditionsOptions
-): void {
-  if (lifeCycle) {
-    removeDeadConditionsInArray(lifeCycle.useResolves, options);
-
-    for (const key of [
-      "onPageLoad",
-      "onPageLeave",
-      "onAnchorLoad",
-      "onAnchorUnload",
-      "onMessageClose",
-      "onBeforePageLoad",
-      "onBeforePageLeave",
-      "onMediaChange",
-    ] as const) {
-      removeDeadConditionsInEvent(lifeCycle, key, options);
-    }
-    for (const key of ["onMessage", "onScrollIntoView"] as const) {
-      for (const withHandlers of (
-        [] as (MessageConf | ScrollIntoViewConf)[]
-      ).concat(lifeCycle[key])) {
-        if (withHandlers) {
-          removeDeadConditionsInEvent(withHandlers, "handlers", options);
-        }
-      }
-    }
-  }
+  const ast = parseTemplate(tplConstructor);
+  removeDeadConditionsByAst(ast, options);
 }
 
 export interface IfContainer {

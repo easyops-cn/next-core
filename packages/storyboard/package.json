@@ -1,0 +1,37 @@
+{
+  "name": "@next-core/storyboard",
+  "version": "0.0.0",
+  "description": "Parse storyboard as AST",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/storyboard",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "concurrently -k -n types,main \"npm run start:types\" \"npm run start:main\"",
+    "start:main": "cross-env NODE_ENV=development build-next-libs --watch",
+    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "prebuild": "npm run clean",
+    "build": "npm run build:types && npm run build:main",
+    "build:main": "cross-env NODE_ENV=production build-next-libs",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "test": "cross-env NODE_ENV='test' jest",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@next-core/brick-types": "^2.81.5"
+  },
+  "devDependencies": {
+    "@next-core/build-next-libs": "^0.2.14"
+  }
+}
