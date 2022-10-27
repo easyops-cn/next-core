@@ -26,6 +26,16 @@ export async function ExpandCustomForm(
     },
   };
   const formContext = new CustomFormContext();
+  if (
+    isPreview &&
+    formData.formSchema &&
+    formData.formSchema.brick === "forms.general-form"
+  ) {
+    brickConf["properties"] = {
+      ...brickConf.properties,
+      ...(formData.formSchema.properties?.previewConf as object),
+    };
+  }
   if (Array.isArray(formData.context)) {
     formData.context.forEach((item) => {
       if (brickConf.properties[item.name] !== undefined) {
