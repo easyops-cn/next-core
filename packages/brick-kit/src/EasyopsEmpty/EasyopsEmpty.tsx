@@ -10,6 +10,7 @@ export interface EasyopsEmptyProps {
   imageStyle?: React.CSSProperties;
   illustration?: IllustrationProps;
   useBigEmptyImage?: boolean;
+  noImage?: boolean;
 }
 
 /**
@@ -31,7 +32,7 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
 
   return (
     <Empty
-      image={image}
+      image={props.noImage ? null : image}
       imageStyle={imageStyle}
       description={props.description}
       style={{ color: "var(--text-color-secondary)" }}
