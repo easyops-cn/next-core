@@ -10,7 +10,7 @@ export interface EasyopsEmptyProps {
   imageStyle?: React.CSSProperties;
   illustration?: IllustrationProps;
   useBigEmptyImage?: boolean;
-  noImage?: boolean;
+  noImage?: boolean; //控制不显示图片
 }
 
 /**
