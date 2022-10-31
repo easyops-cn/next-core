@@ -26,6 +26,7 @@ const {
   enableNextLibsRenovate,
   removeRenovateLegacyBaseBranches,
   migrateLazyBricksWithJest,
+  onlyAutoMergePatchVersions,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -187,6 +188,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.14.91")) {
     updateBuildNextLibs();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.14.125")) {
+    onlyAutoMergePatchVersions();
   }
 
   updateDevDependenciesVersion();

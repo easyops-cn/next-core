@@ -17,7 +17,7 @@ export interface IfContainer {
    *
    * ```yaml
    * - brick: your.any-brick
-   *   if: '<% FLAGS['your-feature-flag'] %>'
+   *   if: '<% FLAGS["your-feature-flag"] %>'
    * ```
    */
   if?: unknown;

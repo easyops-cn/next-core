@@ -64,7 +64,7 @@ export function tokenize(raw: string, symbols: string | string[]): Token[] {
     }
   }
   if (context.status !== LexicalStatus.Initial) {
-    throw new Error(`Unexpected final status: ${context.status}`);
+    throw new Error("Expected a placeholder end '}' at the end");
   }
   return context.tokens;
 }
@@ -85,7 +85,7 @@ function eatOptionalRawAndOptionalPlaceholderBegin(
     if (subCursor > 0) {
       context.tokens.push({
         type: TokenType.Raw,
-        value: subRaw.substr(0, subCursor),
+        value: subRaw.substring(0, subCursor),
       });
     }
     context.tokens.push({
@@ -94,7 +94,7 @@ function eatOptionalRawAndOptionalPlaceholderBegin(
         start: nextCursor,
         end: nextCursor + matchedPlaceholder.length,
       },
-      value: matchedPlaceholder.substr(0, matchedPlaceholder.length - 1),
+      value: matchedPlaceholder.substring(0, matchedPlaceholder.length - 1),
     });
     context.cursor += subCursor + matchedPlaceholder.length;
     context.status = LexicalStatus.ExpectField;
@@ -156,7 +156,7 @@ function eatPipeIdentifier(context: LexicalContext): void {
     throw new Error(
       `Expected a pipe identifier at index ${
         context.cursor
-      } near: ${JSON.stringify(context.raw.substr(context.cursor))}`
+      } near: ${JSON.stringify(context.raw.substring(context.cursor))}`
     );
   }
   const value = matches[0];
@@ -202,7 +202,7 @@ function eatPlaceholderEnd(context: LexicalContext): void {
     throw new Error(
       `Expected a placeholder end '}' at index ${
         context.cursor
-      } near: ${JSON.stringify(context.raw.substr(context.cursor))}`
+      } near: ${JSON.stringify(context.raw.substring(context.cursor))}`
     );
   }
 }
@@ -218,7 +218,10 @@ function eatJsonValueOrLiteralString(
   nextStatus: LexicalStatus
 ): void {
   const subRaw = getSubRaw(context);
-  if (/[0-9[{"]/.test(subRaw.charAt(0)) || /-[0-9]/.test(subRaw.substr(0, 2))) {
+  if (
+    /[0-9[{"]/.test(subRaw.charAt(0)) ||
+    /-[0-9]/.test(subRaw.substring(0, 2))
+  ) {
     eatJsonValue(context, nextStatus);
   } else {
     // Accept any characters except controls and whitespace.
@@ -326,18 +329,18 @@ function eatJsonValue(
     throw new Error(
       `Failed to match a JSON value at index ${
         context.cursor
-      } near: ${JSON.stringify(context.raw.substr(context.cursor))}`
+      } near: ${JSON.stringify(context.raw.substring(context.cursor))}`
     );
   }
 
   context.tokens.push({
     type: TokenType.JsonValue,
-    value: JSON.parse(subRaw.substr(0, subCursor)),
+    value: JSON.parse(subRaw.substring(0, subCursor)),
   });
   context.cursor += subCursor;
   context.status = nextStatus;
 }
 
 function getSubRaw(context: LexicalContext): string {
-  return context.raw.substr(context.cursor);
+  return context.raw.substring(context.cursor);
 }

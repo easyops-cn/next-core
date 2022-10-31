@@ -10,17 +10,24 @@ export function imagesFactory(
     get(name) {
       return isBuildPush
         ? `api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
-        : `${window.PUBLIC_ROOT ?? ""}micro-apps/${appId}/images/${name}`;
+        : `${
+            window.APP_ROOT ? `${window.APP_ROOT}-/` : ""
+          }micro-apps/${appId}/images/${name}`;
     },
   };
 }
 
-export function widgetImagesFactory(widgetId: string): ImagesFactory {
+export function widgetImagesFactory(
+  widgetId: string,
+  widgetVersion?: string
+): ImagesFactory {
   return {
     get(name) {
-      return `${
-        window.PUBLIC_ROOT ?? ""
-      }bricks/${widgetId}/dist/assets/${name}`;
+      return `${window.PUBLIC_ROOT ?? ""}bricks/${widgetId}/${
+        window.PUBLIC_ROOT_WITH_VERSION && widgetVersion
+          ? `${widgetVersion}/`
+          : ""
+      }dist/assets/${name}`;
     },
   };
 }

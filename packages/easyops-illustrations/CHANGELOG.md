@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.12](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.11...@next-core/illustrations@0.10.12) (2022-10-27)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.11](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.10...@next-core/illustrations@0.10.11) (2022-10-26)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.10](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.9...@next-core/illustrations@0.10.10) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.9](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.8...@next-core/illustrations@0.10.9) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.8](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.7...@next-core/illustrations@0.10.8) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.7](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.6...@next-core/illustrations@0.10.7) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.6](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.5...@next-core/illustrations@0.10.6) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.4...@next-core/illustrations@0.10.5) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.4](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.3...@next-core/illustrations@0.10.4) (2022-10-21)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.3](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.2...@next-core/illustrations@0.10.3) (2022-10-20)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.1...@next-core/illustrations@0.10.2) (2022-10-13)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+## [0.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.0...@next-core/illustrations@0.10.1) (2022-10-12)
+
+**Note:** Version bump only for package @next-core/illustrations
+
+# [0.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.20...@next-core/illustrations@0.10.0) (2022-10-11)
+
+### Features
+
+- 收集非 pageLoad 的 api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
 ## [0.9.20](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.9.19...@next-core/illustrations@0.9.20) (2022-10-11)
 
 **Note:** Version bump only for package @next-core/illustrations

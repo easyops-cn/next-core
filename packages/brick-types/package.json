@@ -1,7 +1,7 @@
 {
   "name": "@next-core/brick-types",
-  "version": "2.79.0",
-  "description": "Pure types for kernel",
+  "version": "2.81.6",
+  "description": "Pure types for Brick Next",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "GPL-3.0",
   "main": "dist/index.bundle.js",
@@ -11,6 +11,16 @@
     "dist",
     ".schema"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.schema"
+        ]
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -33,6 +43,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@next-core/rollup-config-factory": "^2.6.2",
     "typescript-json-schema": "^0.54.0"
   },
   "peerDependencies": {

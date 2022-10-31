@@ -1,5 +1,4 @@
 import { Storyboard, BrickConf } from "@next-core/brick-types";
-import { uniq } from "lodash";
 import { scanStoryboard, collectBricksInBrickConf } from "./scanStoryboard";
 
 export interface ScanBricksOptions {
@@ -21,14 +20,10 @@ export function scanBricksInStoryboard(
   return scanStoryboard(storyboard, options).bricks;
 }
 
-export function scanBricksInBrickConf(
-  brickConf: BrickConf,
-  isUniq = true
-): string[] {
-  const collection: string[] = [];
-  collectBricksInBrickConf(brickConf, collection);
+export function scanBricksInBrickConf(brickConf: BrickConf): string[] {
+  const collection = collectBricksInBrickConf(brickConf);
   const result = collection.filter(
     (item) => !item.includes("@") && item.includes("-")
   );
-  return isUniq ? uniq(result) : result;
+  return result;
 }

@@ -641,7 +641,8 @@ export class Kernel {
               proxy: tpl.proxy,
               state: tpl.state,
             },
-            storyboard.app?.id
+            storyboard.app?.id,
+            true
           );
         }
       }

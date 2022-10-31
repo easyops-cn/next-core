@@ -1,6 +1,6 @@
 {
   "name": "@next-core/eslint-config-next",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "Eslint recommended config for brick-next related packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/eslint-config-next",
   "license": "GPL-3.0",

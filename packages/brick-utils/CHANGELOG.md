@@ -3,6 +3,82 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.7...@next-core/brick-utils@2.45.0) (2022-10-27)
+
+### Features
+
+- support parse storyboard as AST ([a7954e4](https://github.com/easyops-cn/next-core/commit/a7954e462c7ffeabf49e1f121b6b1702375c23bb))
+
+## [2.44.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.6...@next-core/brick-utils@2.44.7) (2022-10-26)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.44.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.5...@next-core/brick-utils@2.44.6) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.44.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.4...@next-core/brick-utils@2.44.5) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.44.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.3...@next-core/brick-utils@2.44.4) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.44.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.2...@next-core/brick-utils@2.44.3) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.1...@next-core/brick-utils@2.44.2) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.44.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.44.0...@next-core/brick-utils@2.44.1) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+# [2.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.8...@next-core/brick-utils@2.44.0) (2022-10-24)
+
+### Bug Fixes
+
+- fix detecting dead code with no flags ([ceaa555](https://github.com/easyops-cn/next-core/commit/ceaa555988de2e5c7000f9472572ad6397e86ae3))
+
+### Features
+
+- mark unreachable builder nodes ([6dfb548](https://github.com/easyops-cn/next-core/commit/6dfb548aa0930435dc0398c7428010883567967c))
+
+## [2.43.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.7...@next-core/brick-utils@2.43.8) (2022-10-21)
+
+### Bug Fixes
+
+- remove dead conditions in storyboard ([a9831d6](https://github.com/easyops-cn/next-core/commit/a9831d654143ab58b8af187d5480d54ac21cd54c))
+
+## [2.43.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.6...@next-core/brick-utils@2.43.7) (2022-10-20)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.43.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.5...@next-core/brick-utils@2.43.6) (2022-10-17)
+
+### Bug Fixes
+
+- refine inject error handling ([7c0834a](https://github.com/easyops-cn/next-core/commit/7c0834ae0310cdf09ab024499fe8886400fa8d9e))
+
+## [2.43.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.4...@next-core/brick-utils@2.43.5) (2022-10-14)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.43.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.3...@next-core/brick-utils@2.43.4) (2022-10-13)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.43.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.2...@next-core/brick-utils@2.43.3) (2022-10-12)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
+## [2.43.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.1...@next-core/brick-utils@2.43.2) (2022-10-11)
+
+**Note:** Version bump only for package @next-core/brick-utils
+
 ## [2.43.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.43.0...@next-core/brick-utils@2.43.1) (2022-10-11)
 
 **Note:** Version bump only for package @next-core/brick-utils

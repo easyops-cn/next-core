@@ -247,6 +247,7 @@ export interface AuthInfo {
   accessRule?: string;
   isAdmin?: boolean;
   csrfToken?: string;
+  license?: Record<string, any>;
 }
 
 /** @internal */
@@ -294,6 +295,7 @@ export interface RuntimeStoryboard extends Storyboard {
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
   $$i18nFulfilled?: boolean;
+  $$deadConditionsRemoved?: boolean;
 }
 
 export function isRouteConfOfBricks(
@@ -1625,7 +1627,7 @@ export interface CustomTemplate {
 /** 自定义模板状态数据配置。 */
 export type CustomTemplateState = Pick<
   ContextConf,
-  "name" | "value" | "if" | "resolve" | "track"
+  "name" | "value" | "if" | "resolve" | "track" | "onChange"
 >;
 
 /**

@@ -233,6 +233,11 @@ module.exports = (runtimeFlags) => {
     (!_standalone && devConfig && devConfig.nextRepoDir) || rootDir;
   const standaloneAppsConfig =
     (devConfig && devConfig.standaloneAppsConfig) || [];
+  for (const standaloneConfig of standaloneAppsConfig) {
+    if (!standaloneConfig.standaloneVersion) {
+      standaloneConfig.standaloneVersion = 2;
+    }
+  }
   const appConfig = (devConfig && devConfig.appConfig) || {};
 
   const { usePublicScope, standalone: confStandalone } =

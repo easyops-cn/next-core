@@ -124,6 +124,7 @@ describe("scanBricksInStoryboard", () => {
                 bricks: [
                   {
                     brick: "b-c",
+                    // `internalUsedBricks` will not be counted from now on.
                     internalUsedBricks: ["b-e"],
                   },
                 ],
@@ -266,7 +267,7 @@ describe("scanBricksInStoryboard", () => {
       "b-b",
       "b-c",
       "b-d",
-      "b-e",
+      // "b-e",
       "b-f",
       "b-o",
       "b-p",
@@ -310,7 +311,7 @@ describe("scanBricksInStoryboard", () => {
       "b-b",
       "b-c",
       "b-d",
-      "b-e",
+      // "b-e",
       "b-f",
       "b-o",
       "b-p",
@@ -390,7 +391,7 @@ describe("scanBricksInBrickConf", () => {
     expect(scanBricksInBrickConf(brickConf).sort()).toEqual([
       "b-b",
       "b-c",
-      "b-e",
+      // "b-e",
       "b-f",
       "b-g",
     ]);

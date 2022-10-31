@@ -42,3 +42,4 @@ export { getMockInfo } from "./core/MockRegistry";
 export * from "./hooks";
 export * from "./internal/misc";
 export * from "./abortController";
+export * from "./getRealValue";

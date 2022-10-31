@@ -4,6 +4,14 @@ exports[`ExpandCustomForm is work ExpandCustomForm is work 1`] = `
 Object {
   "bg": false,
   "brick": "div",
+  "events": Object {
+    "validate.success": Object {
+      "action": "console.log",
+      "args": Array [
+        "外部事件触发",
+      ],
+    },
+  },
   "iid": "5e27819b1e711",
   "injectDeep": true,
   "portal": false,
@@ -12,6 +20,7 @@ Object {
       "testid": "test",
     },
     "formData": "<% CTX.formData %>",
+    "name": "new_chestnut",
   },
   "slots": Object {
     "": Object {
@@ -170,6 +179,12 @@ Object {
                         "args": Array [
                           "validate.success",
                           "<% EVENT.detail %>",
+                        ],
+                      },
+                      Object {
+                        "action": "console.log",
+                        "args": Array [
+                          "外部事件触发",
                         ],
                       },
                     ],

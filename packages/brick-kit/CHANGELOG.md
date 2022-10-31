@@ -3,6 +3,133 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.5...@next-core/brick-kit@2.154.6) (2022-10-27)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.4...@next-core/brick-kit@2.154.5) (2022-10-26)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.3...@next-core/brick-kit@2.154.4) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.2...@next-core/brick-kit@2.154.3) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.1...@next-core/brick-kit@2.154.2) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.0...@next-core/brick-kit@2.154.1) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.154.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.9...@next-core/brick-kit@2.154.0) (2022-10-25)
+
+### Features
+
+- support widget images in standalone apps ([3fb4e9f](https://github.com/easyops-cn/next-core/commit/3fb4e9f100d7580d9d3998be8251e25904ed58a4))
+
+## [2.153.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.8...@next-core/brick-kit@2.153.9) (2022-10-25)
+
+### Bug Fixes
+
+- fix standalone app root ([94e14be](https://github.com/easyops-cn/next-core/commit/94e14be631d78da250b0854933b2384acd775a0f))
+
+## [2.153.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.7...@next-core/brick-kit@2.153.8) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.153.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.6...@next-core/brick-kit@2.153.7) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.153.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.5...@next-core/brick-kit@2.153.6) (2022-10-24)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.153.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.4...@next-core/brick-kit@2.153.5) (2022-10-24)
+
+### Bug Fixes
+
+- use self i18n when injecting dynamic menu items ([fe86e97](https://github.com/easyops-cn/next-core/commit/fe86e97061d0b9e046f6e73c70eb6db38e8e5bed))
+
+## [2.153.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.3...@next-core/brick-kit@2.153.4) (2022-10-22)
+
+### Bug Fixes
+
+- **useProvider:** compatibility with string of cachekey ([5fa1a10](https://github.com/easyops-cn/next-core/commit/5fa1a10ca192bcc46f18c07ae6f4b584b44c30d2))
+
+## [2.153.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.2...@next-core/brick-kit@2.153.3) (2022-10-21)
+
+### Bug Fixes
+
+- make parallel requests if possible ([b2f64bd](https://github.com/easyops-cn/next-core/commit/b2f64bda88302dccb780e79b654c41ca93f261c2))
+- remove dead conditions in storyboard ([a9831d6](https://github.com/easyops-cn/next-core/commit/a9831d654143ab58b8af187d5480d54ac21cd54c))
+
+## [2.153.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.1...@next-core/brick-kit@2.153.2) (2022-10-20)
+
+### Bug Fixes
+
+- handle test env for brick packages ([8fa58bb](https://github.com/easyops-cn/next-core/commit/8fa58bb0b040ecd8bf55ed511ead530fa4045d5d))
+
+## [2.153.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.153.0...@next-core/brick-kit@2.153.1) (2022-10-20)
+
+### Bug Fixes
+
+- allow to disable prefetch scripts ([c1ca228](https://github.com/easyops-cn/next-core/commit/c1ca228130308dd9c0662e0bdf042095c525445f))
+
+# [2.153.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.152.1...@next-core/brick-kit@2.153.0) (2022-10-18)
+
+### Features
+
+- refine useProvider hook ([3b16454](https://github.com/easyops-cn/next-core/commit/3b16454c45acb753897acc626d3e05243413b52e))
+
+## [2.152.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.152.0...@next-core/brick-kit@2.152.1) (2022-10-17)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.152.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.151.1...@next-core/brick-kit@2.152.0) (2022-10-14)
+
+### Features
+
+- update appBarTip style ([56db4cc](https://github.com/easyops-cn/next-core/commit/56db4cc881f85cf63f3a553145ae6b0b7719071f))
+
+## [2.151.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.151.0...@next-core/brick-kit@2.151.1) (2022-10-14)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.151.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.150.0...@next-core/brick-kit@2.151.0) (2022-10-14)
+
+### Features
+
+- support external usage of getRealValue ([55cbb8f](https://github.com/easyops-cn/next-core/commit/55cbb8f551e947d659f2cbad77f7110f5b94c493))
+
+# [2.150.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.149.1...@next-core/brick-kit@2.150.0) (2022-10-13)
+
+### Features
+
+- support license tip ([19ee28a](https://github.com/easyops-cn/next-core/commit/19ee28a7e50459c9a9fd8f8d609e1b581ac2b21f))
+
+## [2.149.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.149.0...@next-core/brick-kit@2.149.1) (2022-10-12)
+
+### Bug Fixes
+
+- fix history.push with relative paths ([336c1be](https://github.com/easyops-cn/next-core/commit/336c1bed467f3d3ba4d68eb8834a60942ffc183d))
+
+# [2.149.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.148.0...@next-core/brick-kit@2.149.0) (2022-10-11)
+
+### Bug Fixes
+
+- fix compare-versions usage ([ec35359](https://github.com/easyops-cn/next-core/commit/ec35359f2cffe78c34031fa1e21a8da7d82e370b))
+
+### Features
+
+- 收集非 pageLoad 的 api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
 # [2.148.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.147.2...@next-core/brick-kit@2.148.0) (2022-10-11)
 
 ### Features

@@ -13,6 +13,7 @@ import { getReadOnlyProxy } from "./proxyFactories";
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
   widgetId?: string;
+  widgetVersion?: string;
   app?: PartialMicroApp;
   appendI18nNamespace?: string;
   storyboardFunctions?: unknown;
@@ -42,6 +43,7 @@ function getIndividualGlobal(
   {
     collectCoverage,
     widgetId,
+    widgetVersion,
     app,
     appendI18nNamespace,
     storyboardFunctions,
@@ -57,7 +59,7 @@ function getIndividualGlobal(
       return collectCoverage
         ? fakeImageFactory()
         : widgetId
-        ? widgetImagesFactory(widgetId)
+        ? widgetImagesFactory(widgetId, widgetVersion)
         : imagesFactory(app.id, app.isBuildPush);
     case "I18N":
       return collectCoverage

@@ -434,6 +434,9 @@ export function _internalApiGetCurrentContext(): PluginRuntimeContext {
 export function _internalApiMatchStoryboard(
   pathname: string
 ): RuntimeStoryboard {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
 }
 

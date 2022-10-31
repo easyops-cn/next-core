@@ -74,6 +74,8 @@ export interface AuthInfo {
     // (undocumented)
     isAdmin?: boolean;
     // (undocumented)
+    license?: Record<string, any>;
+    // (undocumented)
     loginFrom?: string;
     // (undocumented)
     org?: number;
@@ -1072,7 +1074,7 @@ export interface CustomTemplateProxyWithExtra {
 }
 
 // @public
-export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve" | "track">;
+export type CustomTemplateState = Pick<ContextConf, "name" | "value" | "if" | "resolve" | "track" | "onChange">;
 
 // @public
 export type DefineResolveConf = (Omit<UseProviderResolveConf, "name" | "onReject"> | Omit<SelectorProviderResolveConf, "name" | "onReject">) & {
@@ -1436,6 +1438,11 @@ export interface MicroApp {
     userConfig?: Record<string, unknown>;
 }
 
+// Warning: (ae-internal-missing-underscore) The name "mixConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type mixConf = StoryConf | SnippetConf;
+
 // @public
 export interface MockRule {
     method?: string;
@@ -1482,14 +1489,20 @@ export interface NavbarConf {
 // @public (undocumented)
 export interface NavTip {
     // (undocumented)
-    closeable?: boolean;
+    backgroundColor?: string;
+    // (undocumented)
+    closable?: boolean;
     // (undocumented)
     info?: {
         url: string;
         label: string;
     };
     // (undocumented)
+    isCenter?: boolean;
+    // (undocumented)
     text: string;
+    // (undocumented)
+    tipKey: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "OmitListener" should be prefixed with an underscore because the declaration is marked as @internal
@@ -1837,6 +1850,8 @@ export interface RuntimeMisc {
 // @internal (undocumented)
 export interface RuntimeStoryboard extends Storyboard {
     // (undocumented)
+    $$deadConditionsRemoved?: boolean;
+    // (undocumented)
     $$depsProcessed?: boolean;
     // (undocumented)
     $$fulfilled?: boolean;
@@ -2017,6 +2032,24 @@ export interface SlotsConfOfBricks {
 // @internal (undocumented)
 export type SlotType = "bricks" | "routes";
 
+// Warning: (ae-internal-missing-underscore) The name "SnippetConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SnippetConf {
+    // (undocumented)
+    actions?: Action[];
+    // (undocumented)
+    bricks: BrickConf | BrickConf[];
+    // (undocumented)
+    message?: I18nData;
+    // (undocumented)
+    snippetId?: string;
+    // (undocumented)
+    thumbnail?: MenuIcon | SrcIcon;
+    // (undocumented)
+    title: I18nData;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
@@ -2077,7 +2110,7 @@ export interface Story {
     // (undocumented)
     category: string;
     // (undocumented)
-    conf: StoryConf | StoryConf[];
+    conf: StoryConf | StoryConf[] | mixConf[];
     // (undocumented)
     deprecated?: boolean;
     // (undocumented)

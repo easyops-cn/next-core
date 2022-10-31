@@ -32,12 +32,15 @@ jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("../internal/checkPermissions");
-jest.mock("../internal/getStandaloneInstalledApps");
+jest.mock("../internal/getStandaloneInstalledApps", () => ({
+  getStandaloneInstalledApps: jest.fn().mockReturnValue([]),
+  preFetchStandaloneInstalledApps: jest.fn().mockResolvedValue(undefined),
+}));
 jest.mock("@next-core/easyops-analytics", () => ({
   apiAnalyzer: {
     create: () => jest.mock,
     getInstance: () => ({
-      pageTracker: jest.fn,
+      tracePage: jest.fn,
     }),
   },
   userAnalytics: {
@@ -67,7 +70,7 @@ const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
 const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
-(getAuth as jest.Mock).mockReturnValue({});
+(getAuth as jest.Mock).mockReturnValue({ license: { validDaysLeft: 15 } });
 const spyOnMediaEventTargetAddEventListener = jest.spyOn(
   mediaEventTarget,
   "addEventListener"

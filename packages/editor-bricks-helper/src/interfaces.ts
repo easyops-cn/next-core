@@ -3,7 +3,6 @@ import {
   BuilderRouteOrBrickNode,
   CustomTemplateProxy,
   ContextConf,
-  BuilderRouteNode,
   BrickLifeCycle,
   BrickConf,
   RouteConf,
@@ -33,6 +32,7 @@ export type BuilderRuntimeNode<P = Record<string, unknown>> =
     $$templateRefToUid?: Map<string, number>;
     $$delegatedSlots?: Map<string, TemplateDelegatedContext[]>;
     $$normalized?: BrickConf | RouteConf | null;
+    $$unreachable?: boolean;
   };
 
 export interface BuilderRuntimeEdge {

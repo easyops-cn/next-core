@@ -6,5 +6,23 @@
         "cacheableOperations": ["build"]
       }
     }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/yarn.lock",
+        "{workspaceRoot}/babel.config.js",
+        "{workspaceRoot}/tsconfig.json",
+        "{workspaceRoot}/packages/babel-preset-next/**/*",
+        "{workspaceRoot}/packages/browserslist-config-next/**/*"
+      ]
+    }
   }
 }

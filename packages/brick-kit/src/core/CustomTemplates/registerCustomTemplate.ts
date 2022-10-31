@@ -1,10 +1,13 @@
 import { CustomTemplateConstructor } from "@next-core/brick-types";
+import { removeDeadConditionsInTpl } from "@next-core/brick-utils";
+import { getRuntime } from "../../runtime";
 import { appRegistered, customTemplateRegistry } from "./constants";
 
 export function registerCustomTemplate(
   tplName: string,
   tplConstructor: CustomTemplateConstructor,
-  appId?: string
+  appId?: string,
+  deadCOnditionsRemoved?: boolean
 ): void {
   let tagName = tplName;
   // When a template is registered by an app, its namespace maybe missed.
@@ -28,6 +31,12 @@ export function registerCustomTemplate(
         `Custom template of "${tagName}" already defined by customElements.`
       );
     }
+  }
+  if (!deadCOnditionsRemoved && process.env.NODE_ENV !== "test") {
+    removeDeadConditionsInTpl(tplConstructor, {
+      constantFeatureFlags: true,
+      featureFlags: getRuntime().getFeatureFlags(),
+    });
   }
   // Now we allow re-register custom template
   customTemplateRegistry.set(tagName, {

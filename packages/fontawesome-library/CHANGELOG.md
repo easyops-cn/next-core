@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.33](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.32...@next-core/fontawesome-library@1.1.33) (2022-10-20)
+
+**Note:** Version bump only for package @next-core/fontawesome-library
+
+## [1.1.32](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.31...@next-core/fontawesome-library@1.1.32) (2022-10-12)
+
+**Note:** Version bump only for package @next-core/fontawesome-library
+
+## [1.1.31](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.30...@next-core/fontawesome-library@1.1.31) (2022-10-11)
+
+**Note:** Version bump only for package @next-core/fontawesome-library
+
 ## [1.1.30](https://github.com/easyops-cn/next-core/compare/@next-core/fontawesome-library@1.1.29...@next-core/fontawesome-library@1.1.30) (2022-07-20)
 
 **Note:** Version bump only for package @next-core/fontawesome-library

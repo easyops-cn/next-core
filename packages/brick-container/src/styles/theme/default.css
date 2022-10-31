@@ -49,13 +49,13 @@
   --color-success: var(--palette-green-6);
   --color-success-hover: var(--palette-green-4);
   --color-success-active: var(--palette-green-8);
-  --color-success-bg: var(--palette-green-1);
+  --color-success-bg: rgba(var(--palette-green-2-channel), 0.45);
   --color-success-outline: var(--palette-green-3);
 
   --color-info: var(--palette-blue-6);
   --color-info-hover: var(--palette-blue-4);
   --color-info-active: var(--palette-blue-8);
-  --color-info-bg: var(--palette-blue-1);
+  --color-info-bg: rgba(var(--palette-blue-2-channel), 0.45);
   --color-info-icon-bg: var(--palette-blue-1);
   --color-info-outline: var(--palette-blue-3);
 
@@ -65,13 +65,13 @@
   --color-warning: var(--palette-amber-6);
   --color-warning-hover: var(--palette-amber-4);
   --color-warning-active: var(--palette-amber-8);
-  --color-warning-bg: var(--palette-amber-1);
+  --color-warning-bg: rgba(var(--palette-amber-2-channel), 0.45);
   --color-warning-outline: var(--palette-amber-3);
 
   --color-error: var(--palette-red-6);
   --color-error-hover: var(--palette-red-4);
   --color-error-active: var(--palette-red-8);
-  --color-error-bg: var(--palette-red-1);
+  --color-error-bg: rgba(var(--palette-red-2-channel), 0.45);
   --color-error-outline: var(--palette-red-3);
   --color-white: #fff;
 

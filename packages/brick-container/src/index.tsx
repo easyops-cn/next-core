@@ -24,6 +24,7 @@ import {
 } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
+import "./XMLHttpRequest";
 import "./antd";
 import "./styles/theme/index.css";
 import "./styles/variables.css";

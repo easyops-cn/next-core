@@ -15,6 +15,7 @@ exports.rollupPlugins = {
   nodeResolve,
   commonjs,
   json,
+  url,
   image,
   copy,
 };

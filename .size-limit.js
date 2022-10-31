@@ -21,7 +21,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.*.js",
-    limit: "1.41 MB",
+    limit: "1.42 MB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -53,7 +53,7 @@ module.exports = [
   },
   {
     path: "packages/brick-utils/dist/index.esm.js",
-    limit: "136 KB",
+    limit: "139 KB",
   },
   {
     path: "packages/editor-bricks-helper/dist/index.esm.js",

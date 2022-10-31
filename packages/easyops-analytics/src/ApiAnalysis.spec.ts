@@ -31,7 +31,7 @@ describe("ApiAnalysis", () => {
     Date.now = jest.fn(() => 1603109440807);
     Math.random = jest.fn(() => 0.2);
     process.env.NODE_ENV = "production";
-    pageTracker = analyzer.pageTracker();
+    pageTracker = analyzer.tracePage();
   });
 
   afterEach(() => {
@@ -75,8 +75,44 @@ describe("ApiAnalysis", () => {
         },
       },
     };
+
+    const response2 = {
+      config: {
+        url: "api/auth/login2",
+        method: "GET",
+        meta: {
+          st: 1603109440805,
+          time: 1603109440807,
+          type: "api",
+          page: "http://localhost:8081/developers/brick-book?category=",
+          org: 8888,
+          username: "mock-user",
+          uid: "abc",
+        },
+      },
+      status: 200,
+      statusText: "OK",
+      headers: new Headers({
+        "x-b3-traceid": "fake-trace-id2",
+        "content-length": "28",
+      }),
+      data: {
+        code: 0,
+        error: "",
+        message: "",
+        data: {
+          loggedIn: true,
+          username: "easyops",
+          org: 8888,
+          location: "",
+          userInstanceId: "5c6bbc5010976",
+          loginFrom: "easyops",
+        },
+      },
+    };
     analyzer.analyses(response as any);
     pageTracker(params);
+    analyzer.analyses(response2);
     const data = {
       model: "easyops.FRONTEND_STAT",
       columns: [
@@ -142,6 +178,26 @@ describe("ApiAnalysis", () => {
         time: 1603109440807,
         traceId: "fake-trace-id",
         type: "api",
+        uid: "abc",
+        username: "mock-user",
+        route: "/developers/:id",
+      },
+      {
+        api: "api/auth/login2",
+        code: 0,
+        duration: 2,
+        et: 1603109440807,
+        lt: 0,
+        msg: "",
+        page: "http://localhost/",
+        pageId: "88-" + uuid,
+        size: 28,
+        st: 1603109440805,
+        _ver: 1603109440805,
+        status: 200,
+        time: 1603109440807,
+        traceId: "fake-trace-id2",
+        type: "apiRequest",
         uid: "abc",
         username: "mock-user",
         route: "/developers/:id",
@@ -238,6 +294,26 @@ describe("ApiAnalysis", () => {
         username: "mock-user",
         route: "/developers/:id",
       },
+      {
+        api: "api/auth/login2",
+        code: 0,
+        duration: 2,
+        et: 1603109440807,
+        lt: 0,
+        msg: "",
+        page: "http://localhost/",
+        pageId: "88-" + uuid,
+        size: 28,
+        st: 1603109440805,
+        _ver: 1603109440805,
+        status: 200,
+        time: 1603109440807,
+        traceId: "fake-trace-id2",
+        type: "apiRequest",
+        uid: "abc",
+        username: "mock-user",
+        route: "/developers/:id",
+      },
     ]);
   });
 
@@ -322,6 +398,26 @@ describe("ApiAnalysis", () => {
         time: 1603109440807,
         traceId: "fake-trace-id",
         type: "api",
+        uid: "abc",
+        username: "mock-user",
+        route: "/developers/:id",
+      },
+      {
+        api: "api/auth/login2",
+        code: 0,
+        duration: 2,
+        et: 1603109440807,
+        lt: 0,
+        msg: "",
+        page: "http://localhost/",
+        pageId: "88-" + uuid,
+        size: 28,
+        st: 1603109440805,
+        _ver: 1603109440805,
+        status: 200,
+        time: 1603109440807,
+        traceId: "fake-trace-id2",
+        type: "apiRequest",
         uid: "abc",
         username: "mock-user",
         route: "/developers/:id",

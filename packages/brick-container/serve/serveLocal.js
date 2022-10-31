@@ -34,7 +34,9 @@ module.exports = (env, app) => {
 
   for (const standaloneConfig of allAppsConfig) {
     const publicRoot = standaloneConfig
-      ? `${standaloneConfig.appRoot}-/`
+      ? standaloneConfig.standaloneVersion === 2
+        ? standaloneConfig.publicPrefix
+        : `${standaloneConfig.appRoot}-/`
       : baseHref;
 
     // 开发时默认拦截 bootstrap 请求。
@@ -73,7 +75,7 @@ module.exports = (env, app) => {
           new RegExp(
             `^${escapeRegExp(
               `${publicRoot}bricks/${pkgId}/`
-            )}(?!dist\\/editors\\/)(.+)`
+            )}(?:\\d+(?:\\.\\d+)*/)?(?!dist/editors/)(.+)`
           ),
           (req, res) => {
             tryServeFiles(
@@ -159,7 +161,7 @@ module.exports = (env, app) => {
                 brief: req.query.brief === "true",
               })
             ),
-            brickPackages: getBrickPackages(env),
+            brickPackages: getBrickPackages(env, standaloneConfig),
             templatePackages: getTemplatePackages(env),
           });
         });

@@ -3,6 +3,84 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.30.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.10...@next-core/brick-icons@2.30.11) (2022-10-27)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.9...@next-core/brick-icons@2.30.10) (2022-10-26)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.8...@next-core/brick-icons@2.30.9) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.7...@next-core/brick-icons@2.30.8) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.6...@next-core/brick-icons@2.30.7) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.5...@next-core/brick-icons@2.30.6) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.4...@next-core/brick-icons@2.30.5) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.3...@next-core/brick-icons@2.30.4) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.2...@next-core/brick-icons@2.30.3) (2022-10-24)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.1...@next-core/brick-icons@2.30.2) (2022-10-21)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.30.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.0...@next-core/brick-icons@2.30.1) (2022-10-20)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+# [2.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.29.0...@next-core/brick-icons@2.30.0) (2022-10-18)
+
+### Features
+
+- add icon ([b0fd21a](https://github.com/easyops-cn/next-core/commit/b0fd21a098adeea774359c57e484b40398f3fe1d))
+
+# [2.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.28.4...@next-core/brick-icons@2.29.0) (2022-10-17)
+
+### Features
+
+- add icon ([8c5b94f](https://github.com/easyops-cn/next-core/commit/8c5b94f7fcb20efd8528ba461d8bc48b8d4ce377))
+
+## [2.28.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.28.3...@next-core/brick-icons@2.28.4) (2022-10-17)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.28.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.28.2...@next-core/brick-icons@2.28.3) (2022-10-14)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.28.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.28.1...@next-core/brick-icons@2.28.2) (2022-10-13)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.28.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.28.0...@next-core/brick-icons@2.28.1) (2022-10-12)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+# [2.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.27.14...@next-core/brick-icons@2.28.0) (2022-10-11)
+
+### Features
+
+- 收集非 pageLoad 的 api ([9a5cb5c](https://github.com/easyops-cn/next-core/commit/9a5cb5c21024060f3a7d3e25b163a299dcfddf25))
+
 ## [2.27.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.27.13...@next-core/brick-icons@2.27.14) (2022-10-11)
 
 **Note:** Version bump only for package @next-core/brick-icons

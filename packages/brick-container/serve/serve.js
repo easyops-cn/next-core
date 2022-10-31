@@ -43,18 +43,15 @@ module.exports = function serve(runtimeFlags) {
       )
       .replace(
         new RegExp(
-          escapeRegExp("<!--# echo var='app_root' default='' -->"),
-          "g"
-        ),
-        standaloneConfig ? standaloneConfig.appRoot : ""
-      )
-      .replace(
-        new RegExp(
           escapeRegExp("<!--# echo var='core_root' default='' -->"),
           "g"
         ),
         `${env.publicCdn ?? ""}${
-          standaloneConfig ? `${standaloneConfig.appRoot}-/core/` : ""
+          standaloneConfig
+            ? standaloneConfig.standaloneVersion === 2
+              ? `${standaloneConfig.publicPrefix}core/${standaloneConfig.coreVersion}/`
+              : `${standaloneConfig.appRoot}-/core/`
+            : ""
         }`
       )
       .replace(
@@ -78,14 +75,23 @@ module.exports = function serve(runtimeFlags) {
         [
           "<script>",
           "((w)=>{",
-          [
-            "w.STANDALONE_MICRO_APPS=!0",
-            `var a=w.APP_ROOT=${JSON.stringify(standaloneConfig.appRoot)}`,
-            `var d=a+"-/"`,
-            'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
-            'w.CORE_ROOT=p+"core/"',
-            `w.BOOTSTRAP_FILE=d+"bootstrap.${standaloneConfig.bootstrapHash}.json"`,
-          ]
+          "w.STANDALONE_MICRO_APPS=!0;",
+          `var a=w.APP_ROOT=${JSON.stringify(standaloneConfig.appRoot)};`,
+          (standaloneConfig.standaloneVersion === 2
+            ? [
+                "w.PUBLIC_ROOT_WITH_VERSION=!0",
+                `var d=${JSON.stringify(standaloneConfig.publicPrefix)}`,
+                'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
+                `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/"`,
+                `w.BOOTSTRAP_FILE=a+"-/bootstrap.${standaloneConfig.bootstrapHash}.json"`,
+              ]
+            : [
+                'var d=a+"-/"',
+                'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
+                'w.CORE_ROOT=p+"core/"',
+                `w.BOOTSTRAP_FILE=d+"bootstrap.${standaloneConfig.bootstrapHash}.json"`,
+              ]
+          )
             .filter(Boolean)
             .join(";"),
           "})(window)",
@@ -149,7 +155,9 @@ module.exports = function serve(runtimeFlags) {
 
       // Serve static files.
       const staticRoot = standaloneConfig
-        ? `${standaloneConfig.appRoot || serveRoot}-/core/`
+        ? standaloneConfig.standaloneVersion === 2
+          ? `${standaloneConfig.publicPrefix}core/${standaloneConfig.coreVersion}/`
+          : `${standaloneConfig.appRoot || serveRoot}-/core/`
         : serveRoot;
       app.use(staticRoot, express.static(distDir));
     }

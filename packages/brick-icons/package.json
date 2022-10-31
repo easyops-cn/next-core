@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-icons",
-  "version": "2.27.14",
+  "version": "2.30.11",
   "description": "Self designed icons",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-icons",
   "license": "GPL-3.0",
@@ -9,6 +9,16 @@
   "files": [
     "dist"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/generated"
+        ]
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -28,15 +38,15 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/brick-utils": "^2.43.1",
+    "@next-core/brick-utils": "^2.45.0",
+    "@next-core/rollup-config-factory": "^2.6.2",
     "@svgr/rollup": "^5.5.0",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",
     "klaw-sync": "^6.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.7.1",
-    "react": "^16.14.0",
-    "rollup-plugin-copy": "^3.4.0"
+    "react": "^16.14.0"
   },
   "peerDependencies": {
     "@next-core/brick-utils": "*",

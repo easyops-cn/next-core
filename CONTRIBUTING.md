@@ -92,6 +92,26 @@ yarn serve --local-bricks=abc
 exports.standaloneAppsConfig = [
   {
     // 将相关参数替换成调试目标上对应的数据。
+    // 该应用使用 v2 配置，当前默认为 v2。
+    // 在 v2 版本中，框架和构件包被拎了出来，这样不同的微应用之间，如果使用了相同版本的框架或构件包，
+    // 那么可以访问同一路径的资源，以提升缓存命中率。
+    standaloneVersion: 2,
+    appDir: "message-subscribe/",
+    appRoot: "/sa-static/message-subscribe/versions/2.4.16/webroot/",
+    bootstrapHash: "4c732a2e3488e65d",
+    // v2 相对于 v1 多了下面两个配置项：
+    publicPrefix: "/sa-static/-/",
+    coreVersion: "2.76.7",
+  },
+  {
+    // 该应用使用 v1 配置。
+    standaloneVersion: 1,
+    appDir: "auth/",
+    appRoot: "/next/auth/",
+    bootstrapHash: "9467de8737bcfadf",
+  },
+  {
+    standaloneVersion: 1,
     appDir: "agile-task/",
     appRoot: "/sa-static/agile-task/versions/1.0.6/webroot/",
     bootstrapHash: "8d14a6be80273699",

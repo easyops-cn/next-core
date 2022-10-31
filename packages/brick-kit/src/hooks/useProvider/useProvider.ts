@@ -26,7 +26,7 @@ export function useProvider<TData = any>(
 ): UseProvider<TData> {
   const { provider, customOptions, dependencies, requestInit } =
     useProviderArgs(...args);
-  const { onError, transform, suspense, ...defaults } = customOptions;
+  const { onError, transform, suspense, cache, ...defaults } = customOptions;
 
   const [loading, setLoading] = useState(defaults.loading);
   const suspenseStatus = useRef<"pending" | "error" | "success">("pending");
@@ -42,11 +42,12 @@ export function useProvider<TData = any>(
       try {
         error.current = undefined;
         if (!suspense) setLoading(true);
-        const newRes = (await fetch(provider, ...args)) as TData;
+        const newRes = (await fetch(provider, cache, ...args)) as TData;
         response.current = newRes;
         data.current = transform(data.current, newRes);
       } catch (e) {
         error.current = e;
+        data.current = undefined;
       }
       if (!suspense) setLoading(false);
       if (error.current) onError(error.current);
@@ -61,6 +62,7 @@ export function useProvider<TData = any>(
       transform,
       defaults.data,
       onError,
+      cache,
     ]
   );
 

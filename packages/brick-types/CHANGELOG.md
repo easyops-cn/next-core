@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.5...@next-core/brick-types@2.81.6) (2022-10-27)
+
+### Bug Fixes
+
+- fix types of tpl state ([d695a0f](https://github.com/easyops-cn/next-core/commit/d695a0f34af7ec56c59e7a15aae4088edf737857))
+
+## [2.81.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.4...@next-core/brick-types@2.81.5) (2022-10-26)
+
+### Bug Fixes
+
+- add actions to SnippetConf ([f3d67e9](https://github.com/easyops-cn/next-core/commit/f3d67e95de50418463a622aae5a20cb141b7c907))
+
+## [2.81.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.3...@next-core/brick-types@2.81.4) (2022-10-25)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+## [2.81.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.2...@next-core/brick-types@2.81.3) (2022-10-25)
+
+### Bug Fixes
+
+- update interface SnippetConf ([869dd67](https://github.com/easyops-cn/next-core/commit/869dd6741d68e9432f68d75b4c5fd69bfca15d7a))
+
+## [2.81.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.1...@next-core/brick-types@2.81.2) (2022-10-25)
+
+### Bug Fixes
+
+- update interface SnippetConf ([e790893](https://github.com/easyops-cn/next-core/commit/e790893455c6d3285c8bf67bd17086622cc53d06))
+
+## [2.81.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.0...@next-core/brick-types@2.81.1) (2022-10-25)
+
+### Bug Fixes
+
+- update type snippetConf ([88c6a53](https://github.com/easyops-cn/next-core/commit/88c6a5372c2da6fb50f6f7efcd7d999280fa081e))
+
+# [2.81.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.80.0...@next-core/brick-types@2.81.0) (2022-10-25)
+
+### Features
+
+- update interface SnippetConf ([df83a62](https://github.com/easyops-cn/next-core/commit/df83a62c99ca078c6a7fc5b73aaa697809f64284))
+
+# [2.80.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.5...@next-core/brick-types@2.80.0) (2022-10-25)
+
+### Features
+
+- add new brick types ([c284f86](https://github.com/easyops-cn/next-core/commit/c284f86964186b562391a61f0c07b71eae4bdb8e))
+
+## [2.79.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.4...@next-core/brick-types@2.79.5) (2022-10-21)
+
+### Bug Fixes
+
+- remove dead conditions in storyboard ([a9831d6](https://github.com/easyops-cn/next-core/commit/a9831d654143ab58b8af187d5480d54ac21cd54c))
+
+## [2.79.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.3...@next-core/brick-types@2.79.4) (2022-10-20)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+## [2.79.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.2...@next-core/brick-types@2.79.3) (2022-10-13)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+## [2.79.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.1...@next-core/brick-types@2.79.2) (2022-10-12)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+## [2.79.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.79.0...@next-core/brick-types@2.79.1) (2022-10-11)
+
+**Note:** Version bump only for package @next-core/brick-types
+
 # [2.79.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.78.0...@next-core/brick-types@2.79.0) (2022-10-11)
 
 ### Features

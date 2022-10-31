@@ -322,12 +322,15 @@ export interface UserInfo {
 }
 
 export interface NavTip {
+  tipKey: string;
   text: string;
-  closeable?: boolean;
+  closable?: boolean;
   info?: {
     url: string;
     label: string;
   };
+  isCenter?: boolean;
+  backgroundColor?: string;
 }
 
 /** @internal */

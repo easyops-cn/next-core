@@ -13,7 +13,9 @@ import {
   scanStoryboard,
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
+  removeDeadConditions,
 } from "@next-core/brick-utils";
+import { HttpResponseError } from "@next-core/brick-http";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
@@ -48,7 +50,6 @@ import { preCheckPermissions } from "../internal/checkPermissions";
 import { clearPollTimeout } from "../internal/poll";
 import { shouldBeDefaultCollapsed } from "../internal/shouldBeDefaultCollapsed";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
-import { HttpResponseError } from "@next-core/brick-http";
 import { registerMock } from "./MockRegistry";
 import { registerFormRenderer } from "./CustomForms/registerFormRenderer";
 import {
@@ -238,7 +239,7 @@ export class Router {
     const renderStartTime = performance.now();
     // Create the page tracker before page load.
     // And the API Analyzer maybe disabled.
-    const pageTracker = apiAnalyzer.getInstance()?.pageTracker();
+    const tracePageEnd = apiAnalyzer.getInstance()?.tracePage();
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
@@ -252,21 +253,34 @@ export class Router {
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
+      removeDeadConditions(storyboard, {
+        constantFeatureFlags: true,
+        featureFlags: this.featureFlags,
+      });
+
       // 将动态解析后的模板还原，以便重新动态解析。
       restoreDynamicTemplates(storyboard);
 
+      const parallelRequests: Promise<unknown>[] = [];
+
       // 预加载权限信息
       if (isLoggedIn() && !getAuth().isAdmin) {
-        await preCheckPermissions(storyboard);
+        parallelRequests.push(preCheckPermissions(storyboard));
       }
 
       // Standalone App 需要额外读取 Installed App 信息
       if (window.STANDALONE_MICRO_APPS && !window.NO_AUTH_GUARD) {
         // TODO: get standalone apps when NO_AUTH_GUARD, maybe from conf.yaml
-        await preFetchStandaloneInstalledApps(storyboard);
-        this.kernel.bootstrapData.offSiteStandaloneApps =
-          getStandaloneInstalledApps();
+        parallelRequests.push(
+          preFetchStandaloneInstalledApps(storyboard).then(() => {
+            this.kernel.bootstrapData.offSiteStandaloneApps =
+              getStandaloneInstalledApps();
+          })
+        );
       }
+
+      // `loadDepsOfStoryboard()` may requires these data.
+      await Promise.all(parallelRequests);
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
       const subStoryboard =
@@ -555,11 +569,18 @@ export class Router {
           this.mediaEventTargetHandler as EventListener
         );
 
-        pageTracker?.({
+        tracePageEnd?.({
           path: locationContext.getCurrentMatch().path,
           username: getAuth().username,
           pageTitle: document.title,
         });
+
+        // show app bar tips
+        const tipsDetail: NavTip[] = [];
+        const getUnionKey = (key: string) => {
+          const { org } = getAuth();
+          return `${key}:${org}`;
+        };
 
         const renderTime = performance.now() - renderStartTime;
         const { loadTime = 0, loadInfoPage } =
@@ -567,27 +588,41 @@ export class Router {
         if (currentApp.isBuildPush && loadTime > 0 && renderTime > loadTime) {
           const getSecond = (time: number): number =>
             Math.floor(time * 100) / 100;
+          tipsDetail.push({
+            text: `您的页面存在性能问题, 当前页面渲染时间 ${getSecond(
+              renderTime / 1000
+            )} 秒, 规定阈值为: ${getSecond(
+              (loadTime as number) / 1000
+            )} 秒, 您已超过。请您针对该页面进行性能优化!`,
+            closable: false,
+            isCenter: true,
+            tipKey: getUnionKey("render"),
+            backgroundColor: "var(--color-warning-bg)",
+            ...(loadInfoPage
+              ? {
+                  info: {
+                    label: "建议解决思路",
+                    url: loadInfoPage as string,
+                  },
+                }
+              : {}),
+          });
+        }
+
+        const validDaysLeft: number = getAuth().license?.validDaysLeft;
+        if (validDaysLeft && validDaysLeft <= 15 && getAuth().isAdmin) {
+          tipsDetail.push({
+            text: `离License过期还有 ${validDaysLeft} 天`,
+            tipKey: getUnionKey("license"),
+            closable: true,
+            isCenter: true,
+            backgroundColor: "var(--color-info-bg)",
+          });
+        }
+
+        if (tipsDetail.length !== 0) {
           window.dispatchEvent(
-            new CustomEvent<NavTip[]>("app.bar.tips", {
-              detail: [
-                {
-                  text: `您的页面存在性能问题, 当前页面渲染时间为: ${getSecond(
-                    renderTime / 1000
-                  )} 秒, 规定阈值为: ${getSecond(
-                    (loadTime as number) / 1000
-                  )} 秒; 您已超过, 请您针对该页面进行性能优化!`,
-                  closeable: false,
-                  ...(loadInfoPage
-                    ? {
-                        info: {
-                          label: "查看详情",
-                          url: loadInfoPage as string,
-                        },
-                      }
-                    : {}),
-                },
-              ],
-            })
+            new CustomEvent<NavTip[]>("app.bar.tips", { detail: tipsDetail })
           );
         }
 
@@ -602,16 +637,18 @@ export class Router {
 
         devtoolsHookEmit("rendered");
 
-        // Try to prefetch during a browser's idle periods.
-        // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
-        if (typeof window.requestIdleCallback === "function") {
-          window.requestIdleCallback(() => {
-            this.kernel.prefetchDepsOfStoryboard(storyboard);
-          });
-        } else {
-          setTimeout(() => {
-            this.kernel.prefetchDepsOfStoryboard(storyboard);
-          }, 0);
+        if (!this.featureFlags["disable-prefetch-scripts"]) {
+          // Try to prefetch during a browser's idle periods.
+          // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
+          if (typeof window.requestIdleCallback === "function") {
+            window.requestIdleCallback(() => {
+              this.kernel.prefetchDepsOfStoryboard(storyboard);
+            });
+          } else {
+            setTimeout(() => {
+              this.kernel.prefetchDepsOfStoryboard(storyboard);
+            }, 0);
+          }
         }
         return;
       }

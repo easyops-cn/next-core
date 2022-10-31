@@ -10,6 +10,7 @@ export const useProviderArgsDefaults: UseProviderArgsDefaults = {
     data: undefined,
     loading: false,
     suspense: false,
+    cache: true,
   },
   dependencies: undefined,
 };

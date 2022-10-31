@@ -31,6 +31,7 @@ describe("getBuilderNode", () => {
       $$normalized: {
         brick: "my.any-brick",
       },
+      $$unreachable: false,
     });
   });
 
@@ -64,6 +65,7 @@ describe("getBuilderNode", () => {
       $$normalized: {
         brick: "my.any-brick",
       },
+      $$unreachable: false,
     });
   });
 
@@ -111,6 +113,7 @@ describe("getBuilderNode", () => {
           },
         },
       },
+      $$unreachable: false,
     });
     expect(result.$$parsedProperties).not.toBe(
       (result.$$normalized as BrickConf).properties
@@ -148,6 +151,7 @@ describe("getBuilderNode", () => {
       $$normalized: {
         brick: "my.any-brick",
       },
+      $$unreachable: false,
     });
   });
 
@@ -190,6 +194,7 @@ describe("getBuilderNode", () => {
           },
         },
       },
+      $$unreachable: false,
     });
   });
 
@@ -218,6 +223,7 @@ describe("getBuilderNode", () => {
       $$parsedLifeCycle: {},
       $$matchedSelectors: [],
       $$normalized: null,
+      $$unreachable: false,
     });
   });
 
@@ -227,6 +233,7 @@ describe("getBuilderNode", () => {
         {
           type: "brick",
           brick: "my.any-brick",
+          alias: "any-brick",
           id: "B-001",
           parent: [],
           children: [],
@@ -255,6 +262,7 @@ describe("getBuilderNode", () => {
           id: "myBrick",
         },
       },
+      $$unreachable: false,
     });
   });
 
@@ -298,6 +306,7 @@ describe("getBuilderNode", () => {
           },
         },
       },
+      $$unreachable: false,
     });
   });
 
@@ -335,6 +344,7 @@ describe("getBuilderNode", () => {
           id: "<% QUERY.x %>",
         },
       },
+      $$unreachable: false,
     });
   });
 
@@ -345,6 +355,7 @@ describe("getBuilderNode", () => {
           type: "brick",
           brick: "my.any-brick",
           id: "B-001",
+          if: "false",
           parent: [],
           children: [],
           graphInfo: {},
@@ -358,6 +369,7 @@ describe("getBuilderNode", () => {
       brick: "my.any-brick",
       id: "B-001",
       alias: "any-brick",
+      if: "false",
       $$uid: 1,
       properties: '{"dataset":{"testid":"${QUERY.any}"}}',
       $$parsedProperties: {
@@ -375,7 +387,9 @@ describe("getBuilderNode", () => {
             testid: "${QUERY.any}",
           },
         },
+        if: false,
       },
+      $$unreachable: true,
     });
   });
 
@@ -386,6 +400,7 @@ describe("getBuilderNode", () => {
           type: "bricks",
           path: "/",
           id: "B-001",
+          if: "false",
           parent: [],
           children: [],
           graphInfo: {},
@@ -397,6 +412,7 @@ describe("getBuilderNode", () => {
       type: "bricks",
       path: "/",
       id: "B-001",
+      if: "false",
       $$uid: 1,
       $$parsedProperties: {},
       $$parsedEvents: {},
@@ -405,7 +421,9 @@ describe("getBuilderNode", () => {
       $$normalized: {
         type: "bricks",
         path: "/",
+        if: false,
       },
+      $$unreachable: true,
     });
   });
 });

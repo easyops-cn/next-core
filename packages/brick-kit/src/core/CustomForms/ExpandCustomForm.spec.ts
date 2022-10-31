@@ -530,6 +530,12 @@ describe("ExpandCustomForm is work", () => {
           ],
         },
       ],
+      events: {
+        "validate.success": {
+          action: "console.log",
+          args: ["内部事件触发"],
+        },
+      },
     },
     fields: [
       {
@@ -652,6 +658,10 @@ describe("ExpandCustomForm is work", () => {
           },
         ],
       },
+      {
+        name: "name",
+        value: "chestnut",
+      },
     ],
   };
   const _formData = {};
@@ -666,6 +676,13 @@ describe("ExpandCustomForm is work", () => {
         testid: "test",
       },
       formData: "<% CTX.formData %>",
+      name: "new_chestnut",
+    },
+    events: {
+      "validate.success": {
+        action: "console.log",
+        args: ["外部事件触发"],
+      },
     },
   };
   it("ExpandCustomForm is work", async () => {

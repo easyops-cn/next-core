@@ -21,6 +21,7 @@ export * from "./scanCustomApisInStoryboard";
 export * from "./smartDisplayForEvaluableString";
 export {
   scanStoryboard,
+  scanStoryboardAst,
   collectBricksByCustomTemplates,
 } from "./scanStoryboard";
 export * from "./JsonStorage";
@@ -31,3 +32,5 @@ export * from "./visitStoryboard";
 export * from "./debounceByAnimationFrame";
 export * from "./scanInstalledAppsInStoryboard";
 export * from "./makeThrottledAggregation";
+export * from "./removeDeadConditions";
+export * from "@next-core/storyboard";

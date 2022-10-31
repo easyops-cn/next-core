@@ -30,7 +30,7 @@ export interface ApiMetric {
   username?: string;
   // Date
   time?: number;
-  type?: "api";
+  type?: "api" | "apiRequest";
   st: number;
   et: number;
   duration: number;
@@ -65,6 +65,7 @@ export type PageMetric = Pick<
   pageTitle: string;
 };
 export type MixMetric = ApiMetric | PageMetric;
+type PageBasicInfo = Pick<PageMetric, "lt" | "route" | "pageId">;
 
 interface ApiAnalysisServiceProps {
   api: string;
@@ -74,7 +75,8 @@ class ApiAnalysisService {
   public logs: MixMetric[] = [];
   public queue: ApiMetric[] = [];
   private initialized = false;
-
+  private pageBasicInfo: PageBasicInfo = null;
+  private tracePageState: "start" | "end" = "start";
   constructor(props: ApiAnalysisServiceProps) {
     this.api = props.api;
     this.initialized = true;
@@ -128,7 +130,9 @@ class ApiAnalysisService {
           log = this.gatherResponse(response as HttpResponse);
         }
 
-        this.queue.push(log);
+        this.tracePageState === "start"
+          ? this.queue.push(log)
+          : this.traceApi(log);
         // this.logs.push(log);
       } catch (e) /* istanbul ignore next */ {
         // eslint-disable-next-line no-console
@@ -149,8 +153,10 @@ class ApiAnalysisService {
     }
     return uuid;
   }
-
-  pageTracker(): ({
+  traceApi(api: ApiMetric): void {
+    this.logs.push({ ...api, type: "apiRequest", ...this.pageBasicInfo });
+  }
+  tracePage(): ({
     path,
     pageTitle,
     username,
@@ -161,11 +167,13 @@ class ApiAnalysisService {
   }) => void {
     const startTime = Date.now();
     this.queue = [];
+    this.pageBasicInfo = null;
+    this.tracePageState = "start";
     return ({ path, pageTitle, username }) => {
       const endTime = Date.now();
       // page load time
       const lt = endTime - startTime;
-      const extra = {
+      this.pageBasicInfo = {
         lt,
         route: path,
         pageId: this.genUUID(),
@@ -188,11 +196,15 @@ class ApiAnalysisService {
           .reduce((a, b) => a + b, 0),
         pageTitle,
         username,
-        ...extra,
+        ...this.pageBasicInfo,
       };
       this.logs.push(pageMetric);
-      const queuedApiList = this.queue.map((api) => ({ ...api, ...extra }));
+      const queuedApiList = this.queue.map((api) => ({
+        ...api,
+        ...this.pageBasicInfo,
+      }));
       this.logs.push(...queuedApiList);
+      this.tracePageState = "end";
     };
   }
 

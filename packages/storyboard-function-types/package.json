@@ -1,6 +1,6 @@
 {
   "name": "@next-core/storyboard-function-types",
-  "version": "0.2.9",
+  "version": "0.2.11",
   "description": "Types for storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/storyboard-function-types",
   "license": "GPL-3.0",
@@ -14,6 +14,16 @@
   "files": [
     "dist"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/generated"
+        ]
+      }
+    }
+  },
   "scripts": {
     "clean": "rimraf dist src/generated",
     "prestart": "npm run clean",
@@ -30,6 +40,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@easyops-cn/brick-next-pipes": "^0.3.17",
+    "@next-core/build-next-libs": "^0.2.14",
     "fs-extra": "^10.1.0"
   }
 }

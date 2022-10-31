@@ -1,5 +1,8 @@
 import { Storyboard } from "@next-core/brick-types";
-import { scanStoryboard } from "./scanStoryboard";
+import {
+  collectBricksByCustomTemplates,
+  scanStoryboard,
+} from "./scanStoryboard";
 
 describe("scanStoryboard", () => {
   const customApiA = "easyops.custom_api@awesomeApiA";
@@ -32,6 +35,12 @@ describe("scanStoryboard", () => {
     },
     routes: [
       {
+        providers: [
+          "ct-b",
+          {
+            brick: "b-a",
+          },
+        ],
         defineResolves: [
           {
             useProvider: "u-q",
@@ -59,6 +68,7 @@ describe("scanStoryboard", () => {
                 bricks: [
                   {
                     brick: "b-c",
+                    // `internalUsedBricks` will not be counted from now on.
                     internalUsedBricks: ["b-e"],
                   },
                 ],
@@ -105,22 +115,71 @@ describe("scanStoryboard", () => {
   } as any;
 
   it("should work", () => {
-    expect(scanStoryboard(storyboard)).toEqual({
-      bricks: [
-        "u-n",
-        "u-o",
-        "u-m",
-        "u-q",
-        "b-a",
-        "b-b",
-        "b-c",
-        "b-e",
-        "b-d",
-        "b-f",
-        "b-x",
-        "b-y",
-      ],
-      customApis: [customApiA, customApiB, customApiD, customApiC],
+    const { bricks, customApis } = scanStoryboard(storyboard, {
+      ignoreBricksInUnusedCustomTemplates: true,
     });
+    bricks.sort();
+    customApis.sort();
+    expect(bricks).toEqual([
+      "b-a",
+      "b-b",
+      "b-c",
+      "b-d",
+      "b-f",
+      "b-y",
+      "u-m",
+      "u-n",
+      "u-o",
+      "u-q",
+    ]);
+    expect(customApis).toEqual([
+      customApiA,
+      customApiB,
+      customApiC,
+      customApiD,
+    ]);
+  });
+
+  it("should work for ignoreBricksInUnusedCustomTemplates", () => {
+    const { bricks, customApis } = scanStoryboard(storyboard, false);
+    bricks.sort();
+    customApis.sort();
+    expect(bricks).toEqual([
+      "b-a",
+      "b-a",
+      "b-b",
+      "b-c",
+      "b-d",
+      "b-f",
+      "b-x",
+      "b-y",
+      "u-m",
+      "u-n",
+      "u-o",
+      "u-q",
+    ]);
+    expect(customApis).toEqual([
+      customApiA,
+      customApiB,
+      customApiC,
+      customApiD,
+    ]);
+  });
+
+  it("should collectBricksByCustomTemplates", () => {
+    const result = collectBricksByCustomTemplates(
+      storyboard.meta.customTemplates
+    );
+    expect(result).toMatchInlineSnapshot(`
+      Map {
+        "ct-a" => Array [
+          "b-x",
+        ],
+        "ct-b" => Array [
+          "b-y",
+          "span",
+        ],
+      }
+    `);
   });
 });

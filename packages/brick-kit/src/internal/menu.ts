@@ -119,8 +119,7 @@ export async function fetchMenuById(
           },
         })
       ).list as MenuRawData[]);
-  await Promise.all(menuList.map(loadDynamicMenuItems));
-  const menuData = mergeMenu(menuList);
+  const menuData = await mergeMenu(menuList, kernel);
   if (!menuData) {
     throw new Error(`Menu not found: ${menuId}`);
   }
@@ -129,7 +128,10 @@ export async function fetchMenuById(
   return menuData;
 }
 
-function mergeMenu(menuList: MenuRawData[]): RuntimeMenuRawData {
+async function mergeMenu(
+  menuList: MenuRawData[],
+  kernel: Kernel
+): Promise<RuntimeMenuRawData> {
   const mainMenu = menuList.find((menu) => menu.type !== "inject");
   if (!mainMenu) {
     return undefined;
@@ -151,6 +153,13 @@ function mergeMenu(menuList: MenuRawData[]): RuntimeMenuRawData {
       });
       menuWithI18n.set(menu, menuI18nNamespace);
     }
+  }
+
+  await Promise.all(
+    menuList.map((menu) => loadDynamicMenuItems(menu, kernel, menuWithI18n))
+  );
+
+  for (const menu of menuList) {
     if (menu.items?.length > 0) {
       if (menu.type === "inject" && menu.injectMenuGroupId) {
         let injectingMenus = injectWithMenus.get(menu.injectMenuGroupId);
@@ -164,6 +173,7 @@ function mergeMenu(menuList: MenuRawData[]): RuntimeMenuRawData {
       }
     }
   }
+
   return {
     ...mainMenu,
     items: validMenuList.flatMap((menu) =>
@@ -213,9 +223,29 @@ function processGroupInject(
   });
 }
 
-async function loadDynamicMenuItems(menu: MenuRawData): Promise<void> {
+async function loadDynamicMenuItems(
+  menu: MenuRawData,
+  kernel: Kernel,
+  menuWithI18n: WeakMap<MenuRawData, string>
+): Promise<void> {
   if (menu.dynamicItems && menu.itemsResolve) {
     const itemsConf: Partial<{ items: MenuItemRawData[] }> = {};
+    const overrideAppId = menu.app[0].appId;
+    const context = _internalApiGetCurrentContext();
+    let newContext = context;
+    if (
+      overrideAppId !== context.app.id &&
+      attemptToVisit(menu.itemsResolve, ["APP", "I18N"])
+    ) {
+      const storyboard = kernel.bootstrapData.storyboards.find(
+        (story) => story.app.id === overrideAppId
+      );
+      newContext = {
+        ...context,
+        overrideApp: storyboard?.app,
+        appendI18nNamespace: menuWithI18n.get(menu),
+      };
+    }
     await _internalApiGetResolver().resolveOne(
       "reference",
       {
@@ -225,7 +255,7 @@ async function loadDynamicMenuItems(menu: MenuRawData): Promise<void> {
       },
       itemsConf,
       null,
-      _internalApiGetCurrentContext()
+      newContext
     );
     menu.items = itemsConf.items;
   }
