@@ -21,7 +21,7 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
     () => props.illustration && getIllustration(props.illustration),
     [props.illustration]
   );
-  const image = props.illustration ? (
+  const image = props.noImage ? null : props.illustration ? (
     illustration
   ) : (
     <EmptySvg isBig={props.useBigEmptyImage}></EmptySvg>
@@ -32,7 +32,7 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
 
   return (
     <Empty
-      image={props.noImage ? null : image}
+      image={image}
       imageStyle={imageStyle}
       description={props.description}
       style={{ color: "var(--text-color-secondary)" }}
