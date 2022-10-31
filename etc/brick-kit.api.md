@@ -269,6 +269,8 @@ export interface EasyopsEmptyProps {
     // (undocumented)
     imageStyle?: React_2.CSSProperties;
     // (undocumented)
+    noImage?: boolean;
+    // (undocumented)
     useBigEmptyImage?: boolean;
 }
 
