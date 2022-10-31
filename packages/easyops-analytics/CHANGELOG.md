@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.10.2...@next-core/easyops-analytics@0.10.3) (2022-10-31)
+
+
+### Bug Fixes
+
+* **useProvider:** fix status filed as null problem ([46e7f78](https://github.com/easyops-cn/next-core/commit/46e7f78f5dff36fe8a322719a7e6ab6f60c69aa1))
+
+
+
+
+
 ## [0.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.10.1...@next-core/easyops-analytics@0.10.2) (2022-10-20)
 
 **Note:** Version bump only for package @next-core/easyops-analytics
