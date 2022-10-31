@@ -281,7 +281,7 @@ class ApiAnalysisService {
       api: config.url,
       code,
       msg,
-      status,
+      status: status || -1,
       traceId,
       size,
     };
