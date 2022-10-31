@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.6...@next-core/brick-kit@2.154.7) (2022-10-31)
+
+
+### Bug Fixes
+
+*  add new properties for easyopsEmpty ([7a38f2c](https://github.com/easyops-cn/next-core/commit/7a38f2c3a8724319ac65453e30de56d5e7379a9a))
+* 优化给easyopsEmpty增加noImage的方式 ([44d07ff](https://github.com/easyops-cn/next-core/commit/44d07ff6ba9c7e6b471d87704ab0b3518bac3371))
+
+
+
+
+
 ## [2.154.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.5...@next-core/brick-kit@2.154.6) (2022-10-27)
 
 **Note:** Version bump only for package @next-core/brick-kit
