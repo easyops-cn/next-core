@@ -2045,7 +2045,7 @@ export interface SnippetConf {
     // (undocumented)
     snippetId?: string;
     // (undocumented)
-    thumbnail?: MenuIcon | SrcIcon;
+    thumbnail?: string;
     // (undocumented)
     title: I18nData;
 }
