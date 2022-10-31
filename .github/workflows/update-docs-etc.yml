@@ -69,6 +69,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
+    - run: yarn install --frozen-lockfile
+
     - name: Build and update docs etc
       run: >-
         lerna run build --scope @next-core/brick-types --include-dependencies
