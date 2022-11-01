@@ -37,7 +37,7 @@ const jsonFieldsInBrick = [
 const yamlFieldsInBrick = ["permissionsPreCheck", "transformFrom"];
 
 // Fields started with `_` will be removed by default.
-const baseFieldsToRemove = [
+const fieldsToRemoveInRoute = [
   "appId",
   "children",
   "creator",
@@ -61,9 +61,7 @@ const baseFieldsToRemove = [
   "updateAuthorizers",
 ];
 
-const fieldsToRemoveInRoute = baseFieldsToRemove.concat("instanceId");
-
-const fieldsToRemoveInBrick = baseFieldsToRemove.concat("type", "alias");
+const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type", "alias");
 
 // Those fields can be disposed if value is null.
 const disposableNullFields = [
