@@ -1,13 +1,16 @@
 import type { StoryboardNode, StoryboardNodeRoot } from "./interfaces";
 
-export type TraverseCallback = (node: StoryboardNode) => void;
+export type TraverseCallback = (
+  node: StoryboardNode,
+  path: StoryboardNode[]
+) => void;
 
 /** Traverse a storyboard AST. */
 export function traverseStoryboard(
   ast: StoryboardNodeRoot,
   callback: TraverseCallback
 ): void {
-  traverseNode(ast, callback);
+  traverseNode(ast, callback, []);
 }
 
 /** Traverse any node(s) in storyboard AST. */
@@ -16,85 +19,91 @@ export function traverse(
   callback: TraverseCallback
 ): void {
   if (Array.isArray(nodeOrNodes)) {
-    traverseNodes(nodeOrNodes, callback);
+    traverseNodes(nodeOrNodes, callback, []);
   } else {
-    traverseNode(nodeOrNodes, callback);
+    traverseNode(nodeOrNodes, callback, []);
   }
 }
 
 function traverseNodes(
   nodes: StoryboardNode[],
-  callback: TraverseCallback
+  callback: TraverseCallback,
+  path: StoryboardNode[]
 ): void {
   if (!nodes) {
     return;
   }
   for (const node of nodes) {
-    traverseNode(node, callback);
+    traverseNode(node, callback, path);
   }
 }
 
-function traverseNode(node: StoryboardNode, callback: TraverseCallback): void {
+function traverseNode(
+  node: StoryboardNode,
+  callback: TraverseCallback,
+  path: StoryboardNode[]
+): void {
   if (!node) {
     return;
   }
-  callback(node);
+  callback(node, path);
+  const childPath = path.concat(node);
   switch (node.type) {
     case "Root":
-      traverseNodes(node.routes, callback);
-      traverseNodes(node.templates, callback);
+      traverseNodes(node.routes, callback, childPath);
+      traverseNodes(node.templates, callback, childPath);
       break;
     case "Route":
-      traverseNodes(node.context, callback);
-      traverseNode(node.redirect, callback);
-      traverseNode(node.menu, callback);
-      traverseNodes(node.providers, callback);
-      traverseNodes(node.defineResolves, callback);
-      traverseNodes(node.children, callback);
+      traverseNodes(node.context, callback, childPath);
+      traverseNode(node.redirect, callback, childPath);
+      traverseNode(node.menu, callback, childPath);
+      traverseNodes(node.providers, callback, childPath);
+      traverseNodes(node.defineResolves, callback, childPath);
+      traverseNodes(node.children, callback, childPath);
       break;
     case "Template":
-      traverseNodes(node.bricks, callback);
-      traverseNodes(node.context, callback);
+      traverseNodes(node.bricks, callback, childPath);
+      traverseNodes(node.context, callback, childPath);
       break;
     case "Brick":
-      traverseNode(node.if, callback);
-      traverseNodes(node.events, callback);
-      traverseNodes(node.lifeCycle, callback);
-      traverseNodes(node.useBrick, callback);
-      traverseNodes(node.useBackend, callback);
-      traverseNodes(node.context, callback);
-      traverseNodes(node.children, callback);
+      traverseNode(node.if, callback, childPath);
+      traverseNodes(node.events, callback, childPath);
+      traverseNodes(node.lifeCycle, callback, childPath);
+      traverseNodes(node.useBrick, callback, childPath);
+      traverseNodes(node.useBackend, callback, childPath);
+      traverseNodes(node.context, callback, childPath);
+      traverseNodes(node.children, callback, childPath);
       break;
     case "Slot":
     case "UseBrickEntry":
     case "UseBackendEntry":
-      traverseNodes(node.children, callback);
+      traverseNodes(node.children, callback, childPath);
       break;
     case "Context":
-      traverseNode(node.resolve, callback);
-      traverseNodes(node.onChange, callback);
+      traverseNode(node.resolve, callback, childPath);
+      traverseNodes(node.onChange, callback, childPath);
       break;
     case "ResolvableCondition":
     case "ResolvableMenu":
-      traverseNode(node.resolve, callback);
+      traverseNode(node.resolve, callback, childPath);
       break;
     case "ResolveLifeCycle":
-      traverseNodes(node.resolves, callback);
+      traverseNodes(node.resolves, callback, childPath);
       break;
     case "Event":
     case "EventCallback":
     case "SimpleLifeCycle":
     case "ConditionalEvent":
-      traverseNodes(node.handlers, callback);
+      traverseNodes(node.handlers, callback, childPath);
       break;
     case "EventHandler":
-      traverseNodes(node.callback, callback);
+      traverseNodes(node.callback, callback, childPath);
       break;
     case "ConditionalLifeCycle":
-      traverseNodes(node.events, callback);
+      traverseNodes(node.events, callback, childPath);
       break;
     case "BrickMenu":
-      traverseNode(node.brick, callback);
+      traverseNode(node.brick, callback, childPath);
       break;
     case "Resolvable":
     case "FalseMenu":
