@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.9...@next-core/brick-kit@2.154.10) (2022-11-01)
+
+
+### Bug Fixes
+
+* allow duplicated tpl state names ([7ff633f](https://github.com/easyops-cn/next-core/commit/7ff633f1d6e6a7bae8328da540a6958017a2a725))
+
+
+
+
+
 ## [2.154.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.8...@next-core/brick-kit@2.154.9) (2022-10-31)
 
 **Note:** Version bump only for package @next-core/brick-kit
