@@ -44,6 +44,7 @@ describe("normalizeBuilderNode", () => {
       {
         alias: "route-a",
         path: "/a",
+        iid: "instance-r01",
         providers: ["p1"],
         segues: {
           goHiking: {
@@ -75,6 +76,7 @@ describe("normalizeBuilderNode", () => {
         permissionsPreCheck: ["<% `cmdb:${QUERY.objectId}_instance_create` %>"],
         path: "/b",
         type: "routes",
+        iid: "instance-r02",
         exact: null,
       },
       0,
@@ -114,6 +116,7 @@ describe("normalizeBuilderNode", () => {
         permissionsPreCheck: undefined,
         path: "/b",
         type: "routes",
+        iid: "instance-r02",
       },
       1,
     ],
@@ -130,6 +133,7 @@ describe("normalizeBuilderNode", () => {
         providers: undefined,
         path: "/b",
         type: "routes",
+        iid: "instance-r02",
       } as RouteConf,
       1,
     ],

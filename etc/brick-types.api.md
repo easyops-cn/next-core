@@ -117,6 +117,7 @@ export interface BaseRouteConf {
     exact?: boolean;
     hybrid?: boolean;
     if?: string | boolean;
+    iid?: string;
     menu?: MenuConf;
     path: string;
     permissionsPreCheck?: string[];
@@ -962,6 +963,7 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
 export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
     contracts?: Contract[];
+    iid?: string;
     name: string;
     proxy?: CustomTemplateProxy;
     state?: CustomTemplateState[];

@@ -426,6 +426,9 @@ export interface BaseRouteConf {
    * 关联的文档 ID。
    */
   documentId?: string;
+
+  /** 构件编排 ID */
+  iid?: string;
 }
 
 /**
@@ -1622,6 +1625,9 @@ export interface CustomTemplate {
 
   /** 契约的定义，只有 widget 才有该字段 */
   contracts?: Contract[];
+
+  /** 构件编排 ID */
+  iid?: string;
 }
 
 /** 自定义模板状态数据配置。 */
