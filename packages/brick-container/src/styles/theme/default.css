@@ -778,7 +778,7 @@
   --dropdown-select-shape-type-disable-bg: #e5e5e5;
 
   /*** page-title ***/
-  --page-title-font-size: 18px;
+  --page-title-font-size: var(--title-font-size-larger);
   --page-title-font-weight: var(--font-weight-400);
 
   /*** monitor-alert custom css variables ***/
