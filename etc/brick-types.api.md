@@ -1387,6 +1387,8 @@ export interface MenuRawData {
     // (undocumented)
     menuId: string;
     // (undocumented)
+    overrideApp?: MicroApp;
+    // (undocumented)
     title: string;
     // Warning: (ae-forgotten-export) The symbol "TitleDataSource" needs to be exported by the entry point index.d.ts
     //
