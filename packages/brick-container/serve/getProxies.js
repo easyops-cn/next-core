@@ -13,6 +13,7 @@ const {
   getDevSettings,
   appendLiveReloadScript,
   tryFiles,
+  removeCacheHeaders,
 } = require("./utils");
 
 module.exports = (env) => {
@@ -99,7 +100,10 @@ module.exports = (env) => {
       }
 
       if (reqIsBootstrap) {
-        console.log("Modified bootstrap:", req.path);
+        if (matchedStandaloneConfig && res.statusCode === 200) {
+          // Disable cache for standalone bootstrap for development.
+          removeCacheHeaders(proxyRes);
+        }
         modifyResponse(res, proxyRes, (raw) => {
           if (res.statusCode !== 200) {
             return raw;
@@ -194,7 +198,6 @@ module.exports = (env) => {
           if (res.statusCode !== 200) {
             return raw;
           }
-
           const result = JSON.parse(raw);
           const { data } = result;
           if (useDarkThemeApps.includes(data.app.id)) {
@@ -325,6 +328,33 @@ module.exports = (env) => {
             }
           );
         }
+      } else if (
+        req.path === "/next/api/v1/runtime_standalone" ||
+        req.path === "/api/v1/runtime_standalone"
+      ) {
+        if (res.statusCode === 200) {
+          // Disable cache for standalone runtime for development.
+          removeCacheHeaders(proxyRes);
+        }
+        modifyResponse(res, proxyRes, (raw) => {
+          if (res.statusCode !== 200) {
+            return raw;
+          }
+          const result = JSON.parse(raw);
+          const { data } = result;
+          if (useLocalSettings) {
+            data.settings = getSettings(env);
+          } else {
+            data.settings = mergeSettings(data.settings, getDevSettings());
+            if (useMergeSettings) {
+              data.settings = mergeSettings(
+                data.settings,
+                getUserSettings(env)
+              );
+            }
+          }
+          return JSON.stringify(result);
+        });
       }
     };
   }
