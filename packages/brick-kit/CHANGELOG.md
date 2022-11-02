@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.11...@next-core/brick-kit@2.154.12) (2022-11-02)
+
+
+### Bug Fixes
+
+* 修复standalone模式下, APP.homepage 异常的问题 ([365e744](https://github.com/easyops-cn/next-core/commit/365e744f3629ce256c7964666875c336c18e6aa1))
+
+
+
+
+
 ## [2.154.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.10...@next-core/brick-kit@2.154.11) (2022-11-01)
 
 **Note:** Version bump only for package @next-core/brick-kit
