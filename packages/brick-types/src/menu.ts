@@ -1,7 +1,7 @@
 import { LocationDescriptor } from "history";
 import { ThemeType } from "@ant-design/compatible/lib/icon";
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
-import { MetaI18n, ResolveConf } from "./manifest";
+import { MetaI18n, ResolveConf, MicroApp } from "./manifest";
 
 /**
  * 侧边栏菜单配置。
@@ -165,6 +165,7 @@ export interface MenuRawData {
   dynamicItems?: boolean;
   itemsResolve?: ResolveConf;
   i18n?: MetaI18n;
+  overrideApp?: MicroApp;
 }
 
 /** 原始菜单项数据。 */

@@ -5,6 +5,7 @@ import {
   SidebarMenu,
   MenuRawData,
   MenuItemRawData,
+  MicroApp,
 } from "@next-core/brick-types";
 import { isEvaluable, isObject, preevaluate } from "@next-core/brick-utils";
 import {
@@ -24,14 +25,17 @@ import i18next from "i18next";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
+const symbolOverrideApp = Symbol("overriceApp");
 
 interface RuntimeMenuItemRawData extends MenuItemRawData {
   [symbolAppId]?: string;
   [symbolMenuI18nNamespace]?: string;
+  [symbolOverrideApp]?: MicroApp;
 }
 
 interface RuntimeMenuRawData extends MenuRawData {
   [symbolMenuI18nNamespace]?: string;
+  [symbolOverrideApp]?: MicroApp;
 }
 
 // Caching menu requests to avoid flicker.
@@ -219,6 +223,7 @@ function processGroupInject(
       ),
       [symbolAppId]: menu.app[0].appId,
       [symbolMenuI18nNamespace]: menuWithI18n.get(menu),
+      [symbolOverrideApp]: menu.overrideApp,
     };
   });
 }
@@ -237,14 +242,22 @@ async function loadDynamicMenuItems(
       overrideAppId !== context.app.id &&
       attemptToVisit(menu.itemsResolve, ["APP", "I18N"])
     ) {
-      const storyboard = kernel.bootstrapData.storyboards.find(
-        (story) => story.app.id === overrideAppId
-      );
-      newContext = {
-        ...context,
-        overrideApp: storyboard?.app,
-        appendI18nNamespace: menuWithI18n.get(menu),
-      };
+      if (window.STANDALONE_MICRO_APPS) {
+        newContext = {
+          ...context,
+          overrideApp: menu.overrideApp,
+          appendI18nNamespace: menuWithI18n.get(menu),
+        };
+      } else {
+        const storyboard = kernel.bootstrapData.storyboards.find(
+          (story) => story.app.id === overrideAppId
+        );
+        newContext = {
+          ...context,
+          overrideApp: storyboard?.app,
+          appendI18nNamespace: menuWithI18n.get(menu),
+        };
+      }
     }
     await _internalApiGetResolver().resolveOne(
       "reference",
@@ -459,14 +472,22 @@ function computeRealValueWithOverrideApp<
     overrideAppId !== context.app.id &&
     attemptToVisit(data, ["APP", "I18N"])
   ) {
-    const storyboard = kernel.bootstrapData.storyboards.find(
-      (story) => story.app.id === overrideAppId
-    );
-    newContext = {
-      ...context,
-      overrideApp: storyboard?.app,
-      appendI18nNamespace: data[symbolMenuI18nNamespace],
-    };
+    if (window.STANDALONE_MICRO_APPS) {
+      newContext = {
+        ...context,
+        overrideApp: data[symbolOverrideApp],
+        appendI18nNamespace: data[symbolMenuI18nNamespace],
+      };
+    } else {
+      const storyboard = kernel.bootstrapData.storyboards.find(
+        (story) => story.app.id === overrideAppId
+      );
+      newContext = {
+        ...context,
+        overrideApp: storyboard?.app,
+        appendI18nNamespace: data[symbolMenuI18nNamespace],
+      };
+    }
   }
   return computeRealValue(data, newContext, true, {
     ignoreSymbols: true,
