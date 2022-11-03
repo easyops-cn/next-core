@@ -13,9 +13,6 @@
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
-  "scripts": {
-    "build": "echo 'nothing to build but lerna need this to build deps'"
-  },
   "sideEffects": false,
   "dependencies": {
     "@next-core/brick-utils": "^2.45.3",
