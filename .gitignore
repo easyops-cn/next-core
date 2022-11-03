@@ -6,6 +6,7 @@ node_modules
 .idea
 .DS_Store
 .schema
+.cache
 *.log
 report.*.json
 

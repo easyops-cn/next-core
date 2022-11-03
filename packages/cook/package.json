@@ -24,8 +24,8 @@
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "sideEffects": false,
   "dependencies": {

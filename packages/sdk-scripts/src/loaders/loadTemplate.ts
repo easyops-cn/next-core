@@ -13,7 +13,15 @@ const packageJson = JSON.parse(
 );
 
 const workspacePackageJson = JSON.parse(
-  fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8")
+  fs.readFileSync(
+    path.join(
+      process.env.NODE_ENV === "test"
+        ? path.join(__dirname, "../../../..")
+        : process.cwd(),
+      "package.json"
+    ),
+    "utf8"
+  )
 );
 
 const workspaceHomepage = workspacePackageJson.homepage;

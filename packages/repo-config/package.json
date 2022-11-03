@@ -9,5 +9,9 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "scripts": {
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   }
 }

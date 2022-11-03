@@ -39,13 +39,18 @@ jobs:
     - name: Cache node modules
       uses: actions/cache@v3
       with:
-        path: |
-          ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          node_modules
-          */*/node_modules
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
+
+    - name: Cache nx cache
+      uses: actions/cache@v3
+      with:
+        path: .cache
+        key: ${{ runner.os }}-nx
+        restore-keys: |
+          ${{ runner.os }}-nx
 
     - name: Cache npx packages
       uses: actions/cache@v3
@@ -88,12 +93,11 @@ jobs:
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
+    - name: Codecov
+      uses: codecov/codecov-action@v3
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./.coverage/lcov.info
-      continue-on-error: true
+        files: >-
+          ./packages/brick-http/.coverage/cobertura-coverage.xml,./packages/brick-icons/.coverage/cobertura-coverage.xml,./packages/brick-kit/.coverage/cobertura-coverage.xml,./packages/brick-scripts/.coverage/cobertura-coverage.xml,./packages/brick-utils/.coverage/cobertura-coverage.xml,./packages/color-theme/.coverage/cobertura-coverage.xml,./packages/cook/.coverage/cobertura-coverage.xml,./packages/create-next-repo/.coverage/cobertura-coverage.xml,./packages/dev-dependencies/.coverage/cobertura-coverage.xml,./packages/easyops-analytics/.coverage/cobertura-coverage.xml,./packages/easyops-illustrations/.coverage/cobertura-coverage.xml,./packages/editor-bricks-helper/.coverage/cobertura-coverage.xml,./packages/less-plugin-css-variables/.coverage/cobertura-coverage.xml,./packages/pipes/.coverage/cobertura-coverage.xml,./packages/repo-config/.coverage/cobertura-coverage.xml,./packages/sdk-scripts/.coverage/cobertura-coverage.xml
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master
