@@ -1,6 +1,6 @@
 {
   "name": "@next-core/editor-bricks-helper",
-  "version": "0.49.1",
+  "version": "0.49.7",
   "description": "Editor bricks helper",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/editor-bricks-helper",
   "license": "GPL-3.0",
@@ -20,18 +20,18 @@
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "cross-env NODE_ENV='production' rollup --config rollup.config.js",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.81.6",
+    "@next-core/brick-types": "^2.81.9",
     "@ungap/event-target": "^0.2.3",
     "classnames": "^2.3.1"
   },
   "devDependencies": {
-    "@next-core/brick-kit": "^2.154.6",
-    "@next-core/brick-utils": "^2.45.0",
+    "@next-core/brick-kit": "^2.154.12",
+    "@next-core/brick-utils": "^2.45.3",
     "@next-core/rollup-config-factory": "^2.6.2",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",

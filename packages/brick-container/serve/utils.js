@@ -390,6 +390,13 @@ function appendLiveReloadScript(raw, env) {
   );
 }
 
+function removeCacheHeaders(proxyRes) {
+  delete proxyRes.headers["cache-control"];
+  delete proxyRes.headers["expires"];
+  delete proxyRes.headers["etag"];
+  delete proxyRes.headers["last-modified"];
+}
+
 exports.getNavbar = getNavbar;
 exports.getStoryboardsByMicroApps = getStoryboardsByMicroApps;
 exports.getSingleStoryboard = getSingleStoryboard;
@@ -409,3 +416,4 @@ exports.checkLocalPackages = checkLocalPackages;
 exports.tryFiles = tryFiles;
 exports.tryServeFiles = tryServeFiles;
 exports.appendLiveReloadScript = appendLiveReloadScript;
+exports.removeCacheHeaders = removeCacheHeaders;

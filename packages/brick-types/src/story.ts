@@ -39,7 +39,7 @@ export interface SnippetConf {
   snippetId?: string;
   title: I18nData;
   message?: I18nData;
-  thumbnail?: MenuIcon | SrcIcon;
+  thumbnail?: string;
   actions?: Action[];
 }
 

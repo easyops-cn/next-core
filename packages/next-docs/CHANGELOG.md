@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.377](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.376...@next-core/next-docs@1.2.377) (2022-11-02)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.376](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.375...@next-core/next-docs@1.2.376) (2022-11-01)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.375](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.374...@next-core/next-docs@1.2.375) (2022-11-01)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.374](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.373...@next-core/next-docs@1.2.374) (2022-10-31)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.373](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.372...@next-core/next-docs@1.2.373) (2022-10-31)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+## [1.2.372](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.371...@next-core/next-docs@1.2.372) (2022-10-31)
+
+**Note:** Version bump only for package @next-core/next-docs
+
 ## [1.2.371](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.370...@next-core/next-docs@1.2.371) (2022-10-27)
 
 **Note:** Version bump only for package @next-core/next-docs

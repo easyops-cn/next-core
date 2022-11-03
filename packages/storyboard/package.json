@@ -1,6 +1,6 @@
 {
   "name": "@next-core/storyboard",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Parse storyboard as AST",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/storyboard",
   "license": "GPL-3.0",
@@ -24,12 +24,12 @@
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.81.6"
+    "@next-core/brick-types": "^2.81.9"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.14"

@@ -183,6 +183,10 @@ const mockMenuList: any[] = [
         appId: "hola",
       },
     ],
+    overrideApp: {
+      id: "hola",
+      homepage: "/hola",
+    },
   },
   {
     menuId: "menu-g",
@@ -405,6 +409,7 @@ describe("constructMenu", () => {
     clearMenuTitleCache();
     clearMenuCache();
     jest.clearAllMocks();
+    window.STANDALONE_MICRO_APPS = false;
   });
 
   const context = {
@@ -515,6 +520,54 @@ describe("constructMenu", () => {
       },
       fulfilStoryboardI18n: jest.fn(),
     } as unknown as Kernel;
+    await constructMenu(menuBar, context, fakeKernel);
+    expect(menuBar).toEqual({
+      menuId: "menu-f",
+      menu: {
+        title: "Hello",
+        icon: undefined,
+        defaultCollapsed: false,
+        menuItems: [
+          {
+            text: "Menu item",
+            to: "/hello",
+            children: [],
+            sort: 1,
+          },
+          {
+            text: "Opción del menú",
+            to: "/hola/1",
+            children: [],
+            sort: 2,
+          },
+          {
+            if: true,
+            text: "Fixed item",
+            activeIncludes: ["/any"],
+            sort: 3,
+            to: "/hola/2",
+            children: [],
+          },
+        ],
+      },
+      subMenu: null,
+    });
+    expect(fakeKernel.fulfilStoryboardI18n).toBeCalledWith(["hola"]);
+  });
+
+  it("should construct menu with override app in standalone mode", async () => {
+    const menuBar = {
+      menuId: "menu-f",
+    };
+    const fakeKernel = {
+      fulfilStoryboardI18n: jest.fn(),
+      getStandaloneMenus: jest.fn((menuId, isPrefetch) => {
+        return Promise.resolve(
+          mockMenuList.filter((item) => item.menuId === menuId)
+        );
+      }),
+    } as unknown as Kernel;
+    window.STANDALONE_MICRO_APPS = true;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
       menuId: "menu-f",

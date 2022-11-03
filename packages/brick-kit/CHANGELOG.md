@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.11...@next-core/brick-kit@2.154.12) (2022-11-02)
+
+### Bug Fixes
+
+- 修复 standalone 模式下, APP.homepage 异常的问题 ([365e744](https://github.com/easyops-cn/next-core/commit/365e744f3629ce256c7964666875c336c18e6aa1))
+
+## [2.154.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.10...@next-core/brick-kit@2.154.11) (2022-11-01)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.9...@next-core/brick-kit@2.154.10) (2022-11-01)
+
+### Bug Fixes
+
+- allow duplicated tpl state names ([7ff633f](https://github.com/easyops-cn/next-core/commit/7ff633f1d6e6a7bae8328da540a6958017a2a725))
+
+## [2.154.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.8...@next-core/brick-kit@2.154.9) (2022-10-31)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.7...@next-core/brick-kit@2.154.8) (2022-10-31)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.154.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.6...@next-core/brick-kit@2.154.7) (2022-10-31)
+
+### Bug Fixes
+
+- add new properties for easyopsEmpty ([7a38f2c](https://github.com/easyops-cn/next-core/commit/7a38f2c3a8724319ac65453e30de56d5e7379a9a))
+- 优化给 easyopsEmpty 增加 noImage 的方式 ([44d07ff](https://github.com/easyops-cn/next-core/commit/44d07ff6ba9c7e6b471d87704ab0b3518bac3371))
+
 ## [2.154.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.5...@next-core/brick-kit@2.154.6) (2022-10-27)
 
 **Note:** Version bump only for package @next-core/brick-kit

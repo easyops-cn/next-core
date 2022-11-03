@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-icons",
-  "version": "2.30.11",
+  "version": "2.30.14",
   "description": "Self designed icons",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-icons",
   "license": "GPL-3.0",
@@ -33,12 +33,12 @@
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "cross-env NODE_ENV='production' rollup --config rollup.config.js",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/brick-utils": "^2.45.0",
+    "@next-core/brick-utils": "^2.45.3",
     "@next-core/rollup-config-factory": "^2.6.2",
     "@svgr/rollup": "^5.5.0",
     "change-case": "^4.1.2",

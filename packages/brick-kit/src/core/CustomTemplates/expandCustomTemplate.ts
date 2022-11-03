@@ -1,3 +1,4 @@
+import { uniq } from "lodash";
 import {
   BrickConfInTemplate,
   CustomTemplateProxySlot,
@@ -108,7 +109,10 @@ function lowLevelExpandCustomTemplate(
   };
   proxyBrick.proxy = proxyCopy;
   proxyBrick.proxyRefs = new Map();
-  proxyBrick.stateNames = state?.map((item) => item.name);
+  // Allow duplicated state names which maybe mutually exclusive.
+  proxyBrick.stateNames = state
+    ? uniq(state.map((item) => item.name))
+    : undefined;
 
   const refToBrickConf = collectRefsInTemplate(template);
 

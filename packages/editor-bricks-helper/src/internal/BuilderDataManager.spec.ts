@@ -1935,6 +1935,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
             "$$isTemplateInternalNode": undefined,
             "$$matchedSelectors": Array [],
             "$$normalized": Object {
+              "iid": "route-a",
               "path": "/home",
               "type": "bricks",
             },

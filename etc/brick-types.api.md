@@ -117,6 +117,7 @@ export interface BaseRouteConf {
     exact?: boolean;
     hybrid?: boolean;
     if?: string | boolean;
+    iid?: string;
     menu?: MenuConf;
     path: string;
     permissionsPreCheck?: string[];
@@ -962,6 +963,7 @@ export interface CustomDisplay<T = any, O = Record<string, any>> {
 export interface CustomTemplate {
     bricks: BrickConfInTemplate[];
     contracts?: Contract[];
+    iid?: string;
     name: string;
     proxy?: CustomTemplateProxy;
     state?: CustomTemplateState[];
@@ -1384,6 +1386,8 @@ export interface MenuRawData {
     link?: string;
     // (undocumented)
     menuId: string;
+    // (undocumented)
+    overrideApp?: MicroApp;
     // (undocumented)
     title: string;
     // Warning: (ae-forgotten-export) The symbol "TitleDataSource" needs to be exported by the entry point index.d.ts
@@ -2045,7 +2049,7 @@ export interface SnippetConf {
     // (undocumented)
     snippetId?: string;
     // (undocumented)
-    thumbnail?: MenuIcon | SrcIcon;
+    thumbnail?: string;
     // (undocumented)
     title: I18nData;
 }

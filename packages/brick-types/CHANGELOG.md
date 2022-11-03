@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.8...@next-core/brick-types@2.81.9) (2022-11-02)
+
+### Bug Fixes
+
+- 修复 standalone 模式下, APP.homepage 异常的问题 ([365e744](https://github.com/easyops-cn/next-core/commit/365e744f3629ce256c7964666875c336c18e6aa1))
+
+## [2.81.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.7...@next-core/brick-types@2.81.8) (2022-11-01)
+
+### Bug Fixes
+
+- keep route iid ([f541800](https://github.com/easyops-cn/next-core/commit/f541800fd4ba180385b78d99324fda572987b248))
+
+## [2.81.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.6...@next-core/brick-types@2.81.7) (2022-10-31)
+
+### Bug Fixes
+
+- fix snippetConf.thumbnail type ([8d55f3a](https://github.com/easyops-cn/next-core/commit/8d55f3a31443e4d92ba726a4e1134e9cf981b4aa))
+
 ## [2.81.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.5...@next-core/brick-types@2.81.6) (2022-10-27)
 
 ### Bug Fixes

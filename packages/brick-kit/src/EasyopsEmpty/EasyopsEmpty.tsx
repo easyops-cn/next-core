@@ -10,6 +10,7 @@ export interface EasyopsEmptyProps {
   imageStyle?: React.CSSProperties;
   illustration?: IllustrationProps;
   useBigEmptyImage?: boolean;
+  noImage?: boolean;
 }
 
 /**
@@ -20,7 +21,7 @@ export function EasyopsEmpty(props: EasyopsEmptyProps): React.ReactElement {
     () => props.illustration && getIllustration(props.illustration),
     [props.illustration]
   );
-  const image = props.illustration ? (
+  const image = props.noImage ? null : props.illustration ? (
     illustration
   ) : (
     <EmptySvg isBig={props.useBigEmptyImage}></EmptySvg>
