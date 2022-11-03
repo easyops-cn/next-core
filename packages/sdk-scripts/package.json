@@ -23,7 +23,9 @@
     "prestart": "npm run clean",
     "start": "tsc -w",
     "prebuild": "npm run clean",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
     "@next-core/public-scoped-sdk": "^0.2.10",

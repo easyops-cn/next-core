@@ -3,26 +3,36 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build"]
+        "cacheableOperations": ["build", "test", "test:ci"],
+        "cacheDirectory": ".cache"
       }
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*"]
+    "default": ["{projectRoot}/**/*"],
+    "prod": ["!{projectRoot}/**/*.spec.*"],
+    "global": [
+      "{workspaceRoot}/package.json",
+      "{workspaceRoot}/yarn.lock",
+      "{workspaceRoot}/babel.config.js",
+      "{workspaceRoot}/tsconfig.json",
+      "{workspaceRoot}/packages/babel-preset-next/**/*",
+      "{workspaceRoot}/packages/browserslist-config-next/**/*"
+    ],
+    "jest": ["{workspaceRoot}/packages/jest-config-factory/**/*"]
   },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": [
-        "default",
-        "^default",
-        "{workspaceRoot}/package.json",
-        "{workspaceRoot}/yarn.lock",
-        "{workspaceRoot}/babel.config.js",
-        "{workspaceRoot}/tsconfig.json",
-        "{workspaceRoot}/packages/babel-preset-next/**/*",
-        "{workspaceRoot}/packages/browserslist-config-next/**/*"
-      ]
+      "inputs": ["prod", "^prod", "global"]
+    },
+    "test": {
+      "inputs": ["default", "^prod", "global", "jest"],
+      "outputs": ["{projectRoot}/.coverage"]
+    },
+    "test:ci": {
+      "inputs": ["default", "^prod", "global", "jest"],
+      "outputs": ["{projectRoot}/.coverage"]
     }
   }
 }

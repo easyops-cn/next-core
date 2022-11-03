@@ -34,8 +34,8 @@
     "start": "cross-env NODE_ENV='development' webpack serve --config webpack.dev.js",
     "prebuild": "node scripts/pre-build.js",
     "build": "cross-env NODE_ENV='production' webpack --config webpack.prod.js",
-    "test": "cross-env NODE_ENV='test' jest",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest"
+    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
     "@next-core/repo-config": "^0.2.1",

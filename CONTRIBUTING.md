@@ -38,7 +38,7 @@ exports.nextRepoDir = path.join(__dirname, "../next-basics");
 
 `yarn test`
 
-测试单个文件使用 `yarn test` 加上文件路径即可，例如 `yarn test ./path/to/your.spec.ts`。
+测试单个文件需要指定所属 scope，请使用类似： `npx lerna run test --scope @next-core/sdk-scripts -- packages/sdk-scripts/src/loaders/loadTemplate.spec.ts`。
 
 ## 文件结构
 
