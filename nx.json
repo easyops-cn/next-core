@@ -4,7 +4,8 @@
       "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": ["build", "test", "test:ci"],
-        "cacheDirectory": ".cache"
+        "cacheDirectory": ".cache",
+        "useDaemonProcess": false
       }
     }
   },

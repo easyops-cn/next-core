@@ -4,14 +4,6 @@ exports.jestConfigFactory = ({
   transformModulePatterns = [],
   moduleNameMapper,
   standalone,
-  coverageThreshold = {
-    global: {
-      statements: 80,
-      branches: 50,
-      functions: 80,
-      lines: 80,
-    },
-  },
   testPathIgnorePatterns = [],
 } = {}) => {
   const rootDir = `<rootDir>${standalone ? "/../.." : ""}`;
@@ -21,7 +13,16 @@ exports.jestConfigFactory = ({
           roots: ["<rootDir>", rootDir],
           testMatch: ["<rootDir>/**/?(*.)+(spec|test).[jt]s?(x)"],
         }
-      : {}),
+      : {
+          coverageThreshold: {
+            global: {
+              statements: 80,
+              branches: 50,
+              functions: 80,
+              lines: 80,
+            },
+          },
+        }),
     testEnvironment: "jsdom",
     setupFilesAfterEnv: [`${rootDir}/__jest__/setup.ts`],
     snapshotSerializers: ["enzyme-to-json/serializer"],
@@ -34,7 +35,6 @@ exports.jestConfigFactory = ({
       "/micro-apps/",
     ],
     collectCoverage: true,
-    coverageThreshold,
     coverageDirectory: "<rootDir>/.coverage",
     coverageReporters: ["text-summary", "cobertura"],
     transform: {
