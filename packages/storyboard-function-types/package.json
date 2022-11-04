@@ -1,6 +1,6 @@
 {
   "name": "@next-core/storyboard-function-types",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Types for storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/storyboard-function-types",
   "license": "GPL-3.0",

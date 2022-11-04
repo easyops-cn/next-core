@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-types",
-  "version": "2.81.9",
+  "version": "2.81.10",
   "description": "Pure types for Brick Next",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "GPL-3.0",
@@ -41,7 +41,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/rollup-config-factory": "^2.6.2",
+    "@next-core/rollup-config-factory": "^2.6.3",
     "typescript-json-schema": "^0.54.0"
   },
   "peerDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/illustrations",
-  "version": "0.10.15",
+  "version": "0.10.16",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/easyops-illustrations",
   "license": "GPL-3.0",
@@ -36,13 +36,13 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/rollup-config-factory": "^2.6.2",
+    "@next-core/rollup-config-factory": "^2.6.3",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",
     "klaw-sync": "^6.0.0",
     "prettier": "^2.7.1"
   },
   "dependencies": {
-    "@next-core/brick-types": "^2.81.9"
+    "@next-core/brick-types": "^2.81.10"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/create-next-repo",
-  "version": "1.4.13",
+  "version": "1.4.14",
   "description": "Create new brick-next repositories",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-next-repo",
   "license": "GPL-3.0",
