@@ -3,37 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.7.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.3...@next-core/brick-http@2.7.4) (2022-11-04)
+## [2.7.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.4...@next-core/brick-http@2.7.5) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-http
 
+## [2.7.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.3...@next-core/brick-http@2.7.4) (2022-11-04)
 
-
-
+**Note:** Version bump only for package @next-core/brick-http
 
 ## [2.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.2...@next-core/brick-http@2.7.3) (2022-10-20)
 
 **Note:** Version bump only for package @next-core/brick-http
 
-
-
-
-
 ## [2.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.1...@next-core/brick-http@2.7.2) (2022-10-12)
 
 **Note:** Version bump only for package @next-core/brick-http
 
-
-
-
-
 ## [2.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.0...@next-core/brick-http@2.7.1) (2022-10-11)
 
 **Note:** Version bump only for package @next-core/brick-http
-
-
-
-
 
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.6.0...@next-core/brick-http@2.7.0) (2022-10-08)
 

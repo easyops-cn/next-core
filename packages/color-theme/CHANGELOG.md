@@ -3,40 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.4...@next-core/color-theme@0.4.5) (2022-11-04)
+## [0.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.5...@next-core/color-theme@0.4.6) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/color-theme
 
+## [0.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.4...@next-core/color-theme@0.4.5) (2022-11-04)
 
-
-
+**Note:** Version bump only for package @next-core/color-theme
 
 ## [0.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.3...@next-core/color-theme@0.4.4) (2022-10-12)
 
 **Note:** Version bump only for package @next-core/color-theme
 
-
-
-
-
 ## [0.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.2...@next-core/color-theme@0.4.3) (2022-03-04)
-
 
 ### Bug Fixes
 
-* color palette ([9d28804](https://github.com/easyops-cn/next-core/commit/9d2880444868961d5c0653aed2e12babf59fcc73))
-
-
-
-
+- color palette ([9d28804](https://github.com/easyops-cn/next-core/commit/9d2880444868961d5c0653aed2e12babf59fcc73))
 
 ## [0.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.1...@next-core/color-theme@0.4.2) (2022-02-28)
 
 **Note:** Version bump only for package @next-core/color-theme
-
-
-
-
 
 ## [0.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/color-theme@0.4.0...@next-core/color-theme@0.4.1) (2022-01-28)
 

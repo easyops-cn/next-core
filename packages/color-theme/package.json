@@ -1,6 +1,6 @@
 {
   "name": "@next-core/color-theme",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Color theme utilities",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/color-theme",
   "license": "GPL-3.0",
@@ -32,6 +32,6 @@
     "@ant-design/colors": "^6.0.0"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.14"
+    "@next-core/build-next-libs": "^0.2.15"
   }
 }

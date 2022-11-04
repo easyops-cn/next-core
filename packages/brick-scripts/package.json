@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-scripts",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
   "homepage": "$repo-org-url$/next-core/tree/master/packages/brick-scripts",
   "license": "GPL-3.0",
@@ -28,7 +28,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
-    "@next-core/repo-config": "^0.2.2",
+    "@next-core/repo-config": "^0.2.3",
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",
     "execa": "^5.1.1",

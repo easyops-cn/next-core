@@ -1,6 +1,6 @@
 {
   "name": "@next-core/pipes",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Pipes for expressions and storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/pipes",
   "license": "GPL-3.0",
@@ -32,7 +32,7 @@
     "@easyops-cn/brick-next-pipes": "^0.3.17"
   },
   "devDependencies": {
-    "@next-core/rollup-config-factory": "^2.6.3",
+    "@next-core/rollup-config-factory": "^2.6.4",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
