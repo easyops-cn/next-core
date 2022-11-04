@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.5...@next-core/brick-utils@2.45.6) (2022-11-04)
+
+
+### Bug Fixes
+
+* InstalledApp should check menus ([a96f4f7](https://github.com/easyops-cn/next-core/commit/a96f4f7456b90c926307c76b90fc3dc678bcb140))
+
+
+
+
+
 ## [2.45.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.4...@next-core/brick-utils@2.45.5) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-utils
