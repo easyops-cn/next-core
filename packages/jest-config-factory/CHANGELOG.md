@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.8...@next-core/jest-config-factory@0.4.9) (2022-11-04)
+
+### Bug Fixes
+
+- no coverage threshold for standalone testing ([2ce029c](https://github.com/easyops-cn/next-core/commit/2ce029c94f522b629a1aa3e87036e3a6099e1ea1))
+
 ## [0.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.7...@next-core/jest-config-factory@0.4.8) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/jest-config-factory
