@@ -50,11 +50,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-wait-on--start-serve-and-test
 
+    - name: Get cypress version
+      id: cypress-version
+      run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
+
     - name: Cache Cypress binary
       uses: actions/cache@v3
       with:
         path: ~/.cache/Cypress
-        key: cypress-${{ runner.os }}-cypress-${{ hashFiles('package.json') }}
+        key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
         restore-keys: |
           cypress-${{ runner.os }}-cypress-
 
