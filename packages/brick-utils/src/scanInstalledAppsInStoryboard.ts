@@ -14,9 +14,9 @@ export function scanInstalledAppsInStoryboard(
 ): string[] {
   const collection = new Set<string>();
   const beforeVisitInstalledApps = beforeVisitInstalledAppsFactory(collection);
-  const { customTemplates, functions } = storyboard.meta ?? {};
+  const { customTemplates, functions, menus } = storyboard.meta ?? {};
   visitStoryboardExpressions(
-    [storyboard.routes, customTemplates],
+    [storyboard.routes, customTemplates, menus],
     beforeVisitInstalledApps,
     INSTALLED_APPS
   );
