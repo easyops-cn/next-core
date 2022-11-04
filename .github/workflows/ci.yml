@@ -44,7 +44,7 @@ jobs:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: node-cache-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
         restore-keys: |
-          ${{ runner.os }}-yarn-
+          node-cache-${{ runner.os }}-yarn-
       if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
 
     - name: Get week number
@@ -56,9 +56,9 @@ jobs:
       id: yarn-cache-next
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: node-${{ runner.os }}-yarn-${{ steps.week-number.outputs.num }}
+        key: node-cache-${{ runner.os }}-yarn-${{ steps.week-number.outputs.num }}
         restore-keys: |
-          ${{ runner.os }}-yarn-
+          node-cache-${{ runner.os }}-yarn-
       if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
 
     - name: Cache nx cache
