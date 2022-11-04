@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.459](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.458...@next-dll/react-dnd@0.1.459) (2022-11-04)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
+## [0.1.458](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.457...@next-dll/react-dnd@0.1.458) (2022-11-04)
+
+**Note:** Version bump only for package @next-dll/react-dnd
+
 ## [0.1.457](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.456...@next-dll/react-dnd@0.1.457) (2022-11-02)
 
 **Note:** Version bump only for package @next-dll/react-dnd

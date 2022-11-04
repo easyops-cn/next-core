@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.10...@next-core/brick-types@2.81.11) (2022-11-04)
+
+**Note:** Version bump only for package @next-core/brick-types
+
+## [2.81.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.9...@next-core/brick-types@2.81.10) (2022-11-04)
+
+**Note:** Version bump only for package @next-core/brick-types
+
 ## [2.81.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.8...@next-core/brick-types@2.81.9) (2022-11-02)
 
 ### Bug Fixes

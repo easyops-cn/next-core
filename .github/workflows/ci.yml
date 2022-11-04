@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - next
   pull_request:
     branches:
     - master
@@ -39,9 +38,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx
+        key: ${{ runner.os }}-nx-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx
+          ${{ runner.os }}-nx-
 
     - name: Cache npx packages
       uses: actions/cache@v3

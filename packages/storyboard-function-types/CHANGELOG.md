@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard-function-types@0.2.12...@next-core/storyboard-function-types@0.2.13) (2022-11-04)
+
+**Note:** Version bump only for package @next-core/storyboard-function-types
+
+## [0.2.12](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard-function-types@0.2.11...@next-core/storyboard-function-types@0.2.12) (2022-11-04)
+
+**Note:** Version bump only for package @next-core/storyboard-function-types
+
 ## [0.2.11](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard-function-types@0.2.10...@next-core/storyboard-function-types@0.2.11) (2022-10-12)
 
 **Note:** Version bump only for package @next-core/storyboard-function-types

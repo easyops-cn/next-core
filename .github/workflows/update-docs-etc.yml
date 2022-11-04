@@ -53,26 +53,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://registry.npmjs.org'
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - uses: actions/cache@v3
-      id: yarn-cache
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+        cache: yarn
 
     - name: Cache nx cache
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx
+        key: ${{ runner.os }}-nx-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx
+          ${{ runner.os }}-nx-
 
     - run: yarn install --frozen-lockfile
 

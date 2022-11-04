@@ -1,6 +1,6 @@
 {
   "name": "@next-core/sdk-scripts",
-  "version": "2.7.13",
+  "version": "2.7.15",
   "description": "Generate new brick-packages or new bricks in existed packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/sdk-scripts",
   "license": "GPL-3.0",
@@ -28,8 +28,8 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
-    "@next-core/public-scoped-sdk": "^0.2.10",
-    "@next-core/repo-config": "^0.2.1",
+    "@next-core/public-scoped-sdk": "^0.2.11",
+    "@next-core/repo-config": "^0.2.3",
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/easyops-analytics",
-  "version": "0.10.3",
+  "version": "0.10.5",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/easyops-analytics",
   "license": "GPL-3.0",
@@ -25,8 +25,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/brick-http": "^2.7.3",
-    "@next-core/rollup-config-factory": "^2.6.2"
+    "@next-core/brick-http": "^2.7.5",
+    "@next-core/rollup-config-factory": "^2.6.4"
   },
   "peerDependencies": {
     "@next-core/brick-http": "*"
