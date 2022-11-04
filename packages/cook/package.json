@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.20.1",
+    "@babel/parser": "^7.20.2",
     "@next-core/brick-types": "^2.81.11"
   },
   "devDependencies": {
