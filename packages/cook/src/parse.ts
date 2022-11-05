@@ -1,10 +1,6 @@
-import {
-  parse,
-  parseExpression,
-  ParseResult,
-  ParserPlugin,
-} from "@babel/parser";
-import { Expression, File, FunctionDeclaration, Statement } from "@babel/types";
+import { parse, parseExpression, type ParserPlugin } from "@babel/parser";
+import type { Expression, FunctionDeclaration, Statement } from "@babel/types";
+import type { ParseResultOfFile } from "./interfaces";
 
 export function parseAsEstreeExpression(source: string): Expression {
   return parseExpression(source, {
@@ -63,7 +59,7 @@ export interface AnalysisOptions {
 export function parseForAnalysis(
   source: string,
   { typescript, tokens }: AnalysisOptions = {}
-): ParseResult<File> {
+): ParseResultOfFile {
   try {
     return parse(source, {
       plugins: ["estree", typescript && "typescript"].filter(

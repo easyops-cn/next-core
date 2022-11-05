@@ -1,3 +1,4 @@
+import { parse } from "@babel/parser";
 import {
   Expression,
   FunctionDeclaration,
@@ -63,3 +64,5 @@ export type EstreeVisitorFn = (node: any) => void;
 export interface CookRules {
   noVar?: boolean;
 }
+
+export type ParseResultOfFile = ReturnType<typeof parse>;
