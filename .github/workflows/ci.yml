@@ -38,7 +38,8 @@ jobs:
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - uses: actions/cache@v3
+    - name: Cache for yarn
+      uses: actions/cache@v3
       id: yarn-cache
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -52,16 +53,18 @@ jobs:
       run: echo "::set-output name=num::$(date +'%U')"
       if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
 
-    - uses: actions/cache@v3
+    - name: Cache for yarn (next)
+      uses: actions/cache@v3
       id: yarn-cache-next
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: node-cache-${{ runner.os }}-yarn-${{ steps.week-number.outputs.num }}
+        key: node-cache-${{ runner.os }}-yarn-next-${{ steps.week-number.outputs.num }}
         restore-keys: |
+          node-cache-${{ runner.os }}-yarn-next-
           node-cache-${{ runner.os }}-yarn-
       if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
 
-    - name: Cache nx cache
+    - name: Cache for nx
       uses: actions/cache@v3
       with:
         path: .cache
@@ -69,7 +72,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nx-
 
-    - name: Cache npx packages
+    - name: Cache for npx
       uses: actions/cache@v3
       with:
         path: ~/.npm
@@ -81,7 +84,7 @@ jobs:
       id: cypress-version
       run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
 
-    - name: Cache Cypress binary
+    - name: Cache for cypress
       uses: actions/cache@v3
       with:
         path: ~/.cache/Cypress
