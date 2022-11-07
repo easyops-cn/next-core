@@ -262,16 +262,22 @@ export function evaluate(
         return getDynamicReadOnlyProxy({
           get(target, key: string) {
             const pkg = customProcessorRegistry.get(key);
-            return pkg
-              ? getDynamicReadOnlyProxy({
-                  get(t, k: string) {
-                    return pkg.get(k);
-                  },
-                  ownKeys() {
-                    return Array.from(pkg.keys());
-                  },
-                })
-              : pkg;
+            if (!pkg) {
+              throw new Error(
+                `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package of '${key.replace(
+                  /[A-Z]/g,
+                  (m) => `-${m.toLowerCase()}`
+                )}-NB'?`
+              );
+            }
+            return getDynamicReadOnlyProxy({
+              get(t, k: string) {
+                return pkg.get(k);
+              },
+              ownKeys() {
+                return Array.from(pkg.keys());
+              },
+            });
           },
           ownKeys() {
             return Array.from(customProcessorRegistry.keys());
