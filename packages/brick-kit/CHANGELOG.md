@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.15...@next-core/brick-kit@2.154.16) (2022-11-07)
+
+
+### Bug Fixes
+
+* allow circular templates while detect stack overflow ([9de014b](https://github.com/easyops-cn/next-core/commit/9de014b58b778b6127bb93c05a078393d614a277))
+
+
+
+
+
 ## [2.154.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.14...@next-core/brick-kit@2.154.15) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
