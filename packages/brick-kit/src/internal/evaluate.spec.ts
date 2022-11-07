@@ -459,6 +459,14 @@ describe("evaluate", () => {
     ).toEqual("/hello:Hi");
   });
 
+  it("should work when including `query` in runtime context", () => {
+    expect(
+      evaluate("<% `${APP.homepage}:${QUERY.quality}` %>", {
+        query: new URLSearchParams("quality=good"),
+      })
+    ).toEqual("/hello:good");
+  });
+
   it("should work when set lazy", () => {
     const preEvaluated = evaluate(
       "<% DATA %>",
