@@ -469,7 +469,7 @@ export class LocationContext {
     match: MatchResult,
     slotId: string,
     mountRoutesResult: MountRoutesResult,
-    tplStack?: string[]
+    tplStack?: Map<string, number>
   ): Promise<void> {
     for (const brickConf of bricks) {
       try {
@@ -478,7 +478,7 @@ export class LocationContext {
           match,
           slotId,
           mountRoutesResult,
-          tplStack?.slice()
+          tplStack && new Map(tplStack)
         );
       } catch (error) {
         if (error instanceof ResolveRequestError) {
@@ -551,7 +551,7 @@ export class LocationContext {
     match: MatchResult,
     slotId: string,
     mountRoutesResult: MountRoutesResult,
-    tplStack: string[] = []
+    tplStack = new Map<string, number>()
   ): Promise<void> {
     const tplContextId = (brickConf as RuntimeBrickConfWithTplSymbols)[
       symbolForTplContextId
@@ -590,10 +590,13 @@ export class LocationContext {
     );
 
     if (tplTagName) {
-      if (tplStack.includes(tplTagName)) {
-        throw new Error(`Circular custom template: "${tplTagName}"`);
+      const tplCount = tplStack.get(tplTagName) ?? 0;
+      if (tplCount >= 10) {
+        throw new Error(
+          `Maximum custom template stack overflowed: "${tplTagName}"`
+        );
       }
-      tplStack.push(tplTagName);
+      tplStack.set(tplTagName, tplCount + 1);
     }
 
     if (brickConf.brick === formRenderer) {
