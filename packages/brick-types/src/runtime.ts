@@ -174,7 +174,7 @@ export interface PluginHistoryState {
  */
 export interface PluginRuntimeContext {
   /** 当前的 query 参数。 */
-  query: URLSearchParams;
+  query?: URLSearchParams;
 
   /**
    * @internal
@@ -204,9 +204,6 @@ export interface PluginRuntimeContext {
 
   /** 当前的 pathname 参数 */
   pathname?: string;
-
-  /** 当前的 anchor 参数（hash 除去开头的 `#`） */
-  anchor?: string;
 
   /** {@inheritDoc SystemInfo} */
   sys?: SystemInfo;

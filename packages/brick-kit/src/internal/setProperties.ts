@@ -6,6 +6,7 @@ import {
   isEvaluable,
   trackContext,
   trackState,
+  hasOwnProperty,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -47,16 +48,28 @@ export const computeRealValue = (
     let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
-      const keys = [
-        "event",
-        "tplContextId",
-        "overrideApp",
-        "appendI18nNamespace",
-        "formContextId",
-      ] as const;
-      for (const key of keys) {
-        if (context?.[key]) {
-          runtimeContext[key as "event"] = context[key as "event"];
+      if (context) {
+        const keys = [
+          "event",
+          "tplContextId",
+          "overrideApp",
+          "appendI18nNamespace",
+          "formContextId",
+          "query",
+          "match",
+          "app",
+          "segues",
+        ] as const;
+        for (const key of keys) {
+          if (context[key]) {
+            runtimeContext[key as "event"] = context[key as "event"];
+          }
+        }
+        const simpleKeys = ["hash", "pathname"] as const;
+        for (const key of simpleKeys) {
+          if (hasOwnProperty(context, key)) {
+            runtimeContext[key as "event"] = context[key as "event"];
+          }
         }
       }
       // The current runtime context is memoized even if the evaluation maybe lazy.
