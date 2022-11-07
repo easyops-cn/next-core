@@ -24,6 +24,64 @@ export function scanInstalledAppsInStoryboard(
   return Array.from(collection);
 }
 
+function visitInstalledAppsArguments(collection: Set<string>, node: any): void {
+  const visitLogicalExpression = (node: any): void => {
+    if (node.type === "LogicalExpression" && node.operator) {
+      if (node.left.type === "Literal" && typeof node.left.value === "string") {
+        collection.add(node.left.value);
+      }
+      if (
+        node.right.type === "Literal" &&
+        typeof node.right.value === "string"
+      ) {
+        collection.add(node.right.value);
+      }
+      if (node.left.type === "LogicalExpression") {
+        visitInstalledAppsArguments(collection, node.left);
+      }
+      if (node.right.type === "LogicalExpression") {
+        visitInstalledAppsArguments(collection, node.right);
+      }
+      if (node.left.type === "ConditionalExpression") {
+        visitInstalledAppsArguments(collection, node.left);
+      }
+      if (node.right.type === "ConditionalExpression") {
+        visitInstalledAppsArguments(collection, node.right);
+      }
+    }
+  };
+  const visitConditionalExpression = (node: any): void => {
+    if (node.type === "ConditionalExpression") {
+      if (
+        node.alternate?.type === "Literal" &&
+        typeof node.alternate?.value === "string"
+      ) {
+        collection.add(node.alternate.value);
+      }
+      if (
+        node.consequent?.type === "Literal" &&
+        typeof node.consequent?.value === "string"
+      ) {
+        collection.add(node.consequent.value);
+      }
+      if (node.alternate.type === "ConditionalExpression") {
+        visitInstalledAppsArguments(collection, node.alternate);
+      }
+      if (node.consequent?.type === "ConditionalExpression") {
+        visitInstalledAppsArguments(collection, node.consequent);
+      }
+      if (node.alternate.type === "LogicalExpression") {
+        visitLogicalExpression(node.alternate);
+      }
+      if (node.consequent.type === "LogicalExpression") {
+        visitLogicalExpression(node.consequent);
+      }
+    }
+  };
+  visitConditionalExpression(node);
+  visitLogicalExpression(node);
+}
+
 function beforeVisitInstalledAppsFactory(
   collection: Set<string>
 ): PrecookHooks["beforeVisitGlobal"] {
@@ -47,6 +105,9 @@ function beforeVisitInstalledAppsFactory(
           typeof args[0].value === "string"
         ) {
           collection.add(args[0].value);
+        }
+        if (args.length > 0) {
+          visitInstalledAppsArguments(collection, args[0]);
         }
       }
     }
