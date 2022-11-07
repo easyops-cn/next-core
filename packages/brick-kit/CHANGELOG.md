@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.16...@next-core/brick-kit@2.154.17) (2022-11-07)
+
+
+### Bug Fixes
+
+* **brick-kit:** useProviderType中的RequestInit类型移除HttpOptions中重复存在的cache定义 ([ebe8502](https://github.com/easyops-cn/next-core/commit/ebe8502829e5d55b99fe66fd0ff0bb6f8f56ef26))
+
+
+
+
+
 ## [2.154.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.15...@next-core/brick-kit@2.154.16) (2022-11-07)
 
 
