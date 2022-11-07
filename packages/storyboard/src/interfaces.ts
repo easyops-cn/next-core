@@ -187,6 +187,8 @@ export interface StoryboardNodeSimpleLifeCycle {
     | "onMessageClose"
     | "onBeforePageLoad"
     | "onBeforePageLeave"
+    | "onMount"
+    | "onUnmount"
     | "onMediaChange";
   rawContainer: BrickLifeCycle;
   rawKey: string;

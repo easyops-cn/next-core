@@ -1,5 +1,12 @@
 import { set } from "lodash";
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
 import { isObject } from "@next-core/brick-utils";
 import {
   UseBrickConf,
@@ -10,8 +17,13 @@ import {
   BrickConf,
   RuntimeBrickConf,
   SlotsConf,
+  BrickEventHandler,
 } from "@next-core/brick-types";
-import { bindListeners, unbindListeners } from "./internal/bindListeners";
+import {
+  bindListeners,
+  listenerFactory,
+  unbindListeners,
+} from "./internal/bindListeners";
 import { setRealProperties } from "./internal/setProperties";
 import {
   RuntimeBrick,
@@ -150,6 +162,9 @@ export const SingleBrickAsComponent = React.memo(
     refCallback,
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
+    const firstRunRef = useRef(true);
+    const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
+    const elementRef = useRef<HTMLElement>();
     const templateRef = useRef<RuntimeBrickConf>();
     const tplTagName = getTagNameOfCustomTemplate(
       useBrick.brick,
@@ -242,11 +257,67 @@ export const SingleBrickAsComponent = React.memo(
       }
 
       return brick;
-    }, [useBrick, data, isBrickAvailable]);
+    }, [useBrick, data, isBrickAvailable, tplTagName]);
 
-    const innerRefCallback = React.useCallback(
-      async (element: HTMLElement) => {
-        immediatelyRefCallback?.(element);
+    const dispatchLifeCycleEvent = async (
+      event: CustomEvent,
+      handlers: BrickEventHandler | BrickEventHandler[],
+      brick: RuntimeBrick
+    ): Promise<void> => {
+      for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
+        listenerFactory(
+          handler,
+          {
+            ..._internalApiGetCurrentContext(),
+            tplContextId: (useBrick as RuntimeBrickConfWithTplSymbols)[
+              symbolForTplContextId
+            ],
+          },
+          brick
+        )(event);
+      }
+    };
+
+    const updateBrick = useCallback(
+      (brick: RuntimeBrick, element: HTMLElement): void => {
+        brick.element = element;
+
+        const { [symbolForTplContextId]: tplContextId } =
+          useBrick as RuntimeBrickConfWithTplSymbols;
+
+        if (useBrick.iid) {
+          element.dataset.iid = useBrick.iid;
+        }
+        setRealProperties(element, brick.properties);
+        unbindListeners(element);
+        if (brick.events) {
+          bindListeners(element, transformEvents(data, brick.events), {
+            ..._internalApiGetCurrentContext(),
+            tplContextId,
+          });
+        }
+        // 设置proxyEvent
+        handleProxyOfCustomTemplate(brick);
+
+        if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
+          if (!useBrick.brick.includes("-")) {
+            (element as RuntimeBrickElement).$$typeof = "native";
+          } else if (!customElements.get(useBrick.brick)) {
+            (element as RuntimeBrickElement).$$typeof = "invalid";
+          }
+        }
+      },
+      [data, useBrick]
+    );
+
+    useEffect(() => {
+      if (firstRunRef.current) {
+        firstRunRef.current = false;
+        return;
+      }
+
+      (async () => {
+        const element = elementRef.current;
         if (element) {
           let brick: RuntimeBrick;
           try {
@@ -258,37 +329,59 @@ export const SingleBrickAsComponent = React.memo(
           if (!brick) {
             return;
           }
-          brick.element = element;
 
-          const { [symbolForTplContextId]: tplContextId } =
-            useBrick as RuntimeBrickConfWithTplSymbols;
+          updateBrick(brick, element);
+        }
+      })();
+    }, [runtimeBrick, updateBrick]);
 
-          if (useBrick.iid) {
-            element.dataset.iid = useBrick.iid;
+    innerRefCallbackRef.current = async (element: HTMLElement) => {
+      immediatelyRefCallback?.(element);
+      elementRef.current = element;
+
+      let brick: RuntimeBrick;
+      try {
+        brick = await runtimeBrick;
+      } catch (e) {
+        handleHttpError(e);
+      }
+      // sub-brick rendering is ignored.
+      if (brick) {
+        if (element) {
+          updateBrick(brick, element);
+
+          if (useBrick.lifeCycle?.onMount) {
+            dispatchLifeCycleEvent(
+              new CustomEvent("mount"),
+              useBrick.lifeCycle.onMount,
+              brick
+            );
           }
-          setRealProperties(element, brick.properties);
-          unbindListeners(element);
-          if (brick.events) {
-            bindListeners(element, transformEvents(data, brick.events), {
-              ..._internalApiGetCurrentContext(),
-              tplContextId,
-            });
-          }
-          // 设置proxyEvent
-          handleProxyOfCustomTemplate(brick);
-
-          if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
-            if (!useBrick.brick.includes("-")) {
-              (element as RuntimeBrickElement).$$typeof = "native";
-            } else if (!customElements.get(useBrick.brick)) {
-              (element as RuntimeBrickElement).$$typeof = "invalid";
-            }
+        } else {
+          if (useBrick.lifeCycle?.onUnmount) {
+            dispatchLifeCycleEvent(
+              new CustomEvent("unmount"),
+              useBrick.lifeCycle.onUnmount,
+              brick
+            );
           }
         }
+      }
 
-        refCallback?.(element);
-      },
-      [runtimeBrick, useBrick, data, refCallback, immediatelyRefCallback]
+      refCallback?.(element);
+    };
+
+    // ref https://reactjs.org/docs/refs-and-the-dom.html#caveats-with-callback-refs
+    const innerRefCallback = React.useCallback((element: HTMLElement) => {
+      innerRefCallbackRef.current(element);
+    }, []);
+
+    const childConfs = useMemo(
+      () =>
+        slotsToChildren(
+          (templateRef.current ?? useBrick).slots as UseBrickSlotsConf
+        ),
+      [templateRef.current, useBrick]
     );
 
     if (!isBrickAvailable) {
@@ -300,9 +393,7 @@ export const SingleBrickAsComponent = React.memo(
       {
         ref: innerRefCallback,
       },
-      ...slotsToChildren(
-        (templateRef.current ?? useBrick).slots as UseBrickSlotsConf
-      ).map((item: UseSingleBrickConf, index: number) => (
+      ...childConfs.map((item: UseSingleBrickConf, index: number) => (
         <SingleBrickAsComponent key={index} useBrick={item} data={data} />
       ))
     );
@@ -379,7 +470,9 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       { useBrick, data, refCallback }: SingleBrickAsComponentProps,
       ref
     ): React.ReactElement {
-      const brickRef = useRef<HTMLElement>();
+      const firstRunRef = useRef(true);
+      const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
+      const elementRef = useRef<HTMLElement>();
       const templateRef = useRef<RuntimeBrickConf>();
       const tplTagName = getTagNameOfCustomTemplate(
         useBrick.brick,
@@ -409,7 +502,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
 
       /* istanbul ignore next (never reach in test) */
       useImperativeHandle(ref, () => {
-        return brickRef.current;
+        return elementRef.current;
       });
 
       const runtimeBrick = React.useMemo(async () => {
@@ -479,12 +572,67 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
 
         return brick;
-      }, [useBrick, data, isBrickAvailable]);
+      }, [useBrick, data, isBrickAvailable, tplTagName]);
 
-      const innerRefCallback = React.useCallback(
-        async (element: HTMLElement) => {
-          brickRef.current = element;
+      const dispatchLifeCycleEvent = async (
+        event: CustomEvent,
+        handlers: BrickEventHandler | BrickEventHandler[],
+        brick: RuntimeBrick
+      ): Promise<void> => {
+        for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
+          listenerFactory(
+            handler,
+            {
+              ..._internalApiGetCurrentContext(),
+              tplContextId: (useBrick as RuntimeBrickConfWithTplSymbols)[
+                symbolForTplContextId
+              ],
+            },
+            brick
+          )(event);
+        }
+      };
 
+      const updateBrick = useCallback(
+        (brick: RuntimeBrick, element: HTMLElement): void => {
+          brick.element = element;
+
+          const { [symbolForTplContextId]: tplContextId } =
+            useBrick as RuntimeBrickConfWithTplSymbols;
+
+          if (useBrick.iid) {
+            element.dataset.iid = useBrick.iid;
+          }
+          setRealProperties(element, brick.properties);
+          unbindListeners(element);
+          if (useBrick.events) {
+            bindListeners(element, transformEvents(data, useBrick.events), {
+              ..._internalApiGetCurrentContext(),
+              tplContextId,
+            });
+          }
+          // 设置proxyEvent
+          handleProxyOfCustomTemplate(brick);
+
+          if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
+            if (!useBrick.brick.includes("-")) {
+              (element as RuntimeBrickElement).$$typeof = "native";
+            } else if (!customElements.get(useBrick.brick)) {
+              (element as RuntimeBrickElement).$$typeof = "invalid";
+            }
+          }
+        },
+        [data, useBrick]
+      );
+
+      useEffect(() => {
+        if (firstRunRef.current) {
+          firstRunRef.current = false;
+          return;
+        }
+
+        (async () => {
+          const element = elementRef.current;
           if (element) {
             let brick: RuntimeBrick;
             try {
@@ -496,38 +644,58 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
             if (!brick) {
               return;
             }
-            brick.element = element;
 
-            const { [symbolForTplContextId]: tplContextId } =
-              useBrick as RuntimeBrickConfWithTplSymbols;
+            updateBrick(brick, element);
+          }
+        })();
+      }, [runtimeBrick, updateBrick]);
 
-            if (useBrick.iid) {
-              element.dataset.iid = useBrick.iid;
+      innerRefCallbackRef.current = async (element: HTMLElement) => {
+        elementRef.current = element;
+
+        let brick: RuntimeBrick;
+        try {
+          brick = await runtimeBrick;
+        } catch (e) {
+          handleHttpError(e);
+        }
+        // sub-brick rendering is ignored.
+        if (brick) {
+          if (element) {
+            updateBrick(brick, element);
+
+            if (useBrick.lifeCycle?.onMount) {
+              dispatchLifeCycleEvent(
+                new CustomEvent("mount"),
+                useBrick.lifeCycle.onMount,
+                brick
+              );
             }
-            setRealProperties(element, brick.properties);
-            unbindListeners(element);
-            if (useBrick.events) {
-              bindListeners(element, transformEvents(data, useBrick.events), {
-                ..._internalApiGetCurrentContext(),
-                tplContextId,
-              });
-            }
-            // 设置proxyEvent
-            handleProxyOfCustomTemplate(brick);
-
-            if (
-              (element as RuntimeBrickElement).$$typeof !== "custom-template"
-            ) {
-              if (!useBrick.brick.includes("-")) {
-                (element as RuntimeBrickElement).$$typeof = "native";
-              } else if (!customElements.get(useBrick.brick)) {
-                (element as RuntimeBrickElement).$$typeof = "invalid";
-              }
+          } else {
+            if (useBrick.lifeCycle?.onUnmount) {
+              dispatchLifeCycleEvent(
+                new CustomEvent("unmount"),
+                useBrick.lifeCycle.onUnmount,
+                brick
+              );
             }
           }
-          refCallback?.(element);
-        },
-        [runtimeBrick, useBrick, data, refCallback]
+        }
+
+        refCallback?.(element);
+      };
+
+      // ref https://reactjs.org/docs/refs-and-the-dom.html#caveats-with-callback-refs
+      const innerRefCallback = React.useCallback((element: HTMLElement) => {
+        innerRefCallbackRef.current(element);
+      }, []);
+
+      const childConfs = useMemo(
+        () =>
+          slotsToChildren(
+            (templateRef.current ?? useBrick).slots as UseBrickSlotsConf
+          ),
+        [templateRef.current, useBrick]
       );
 
       if (!isBrickAvailable) {
@@ -539,9 +707,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         {
           ref: innerRefCallback,
         },
-        ...slotsToChildren(
-          (templateRef.current ?? useBrick).slots as UseBrickSlotsConf
-        ).map((item: UseSingleBrickConf, index: number) => (
+        ...childConfs.map((item: UseSingleBrickConf, index: number) => (
           <SingleBrickAsComponent key={index} useBrick={item} data={data} />
         ))
       );
