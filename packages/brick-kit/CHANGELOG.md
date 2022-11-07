@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.154.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.17...@next-core/brick-kit@2.154.18) (2022-11-07)
+
+
+### Bug Fixes
+
+* throw when processors not found ([4a2259b](https://github.com/easyops-cn/next-core/commit/4a2259b29198721fc13df2eea543c661c677ffd6))
+
+
+
+
+
 ## [2.154.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.16...@next-core/brick-kit@2.154.17) (2022-11-07)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/webpack-config-factory",
-  "version": "2.19.2",
+  "version": "2.19.3",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/webpack-config-factory",
   "license": "GPL-3.0",
@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/less-plugin-css-variables": "^0.2.6",
+    "@next-core/less-plugin-css-variables": "^0.2.7",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.5",
     "change-case": "^4.1.2",
