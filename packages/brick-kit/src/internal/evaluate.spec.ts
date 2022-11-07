@@ -261,7 +261,6 @@ describe("evaluate", () => {
       "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
       [["quality", "good"]],
     ],
-    ["<% PROCESSORS.notExist %>", undefined],
     ["<% PERMISSIONS.check('my:action-a') %>", true],
     ["<% PERMISSIONS.check('my:action-b') %>", false],
     ["<% LOCAL_STORAGE.getItem('visit-history') %>", { id: "mockId" }],
@@ -294,6 +293,7 @@ describe("evaluate", () => {
     // Mock devtools.
     (getDevHook as jest.Mock).mockReturnValue({});
     expect(evaluate(raw)).toEqual(result);
+    (getDevHook as jest.Mock).mockReturnValue(undefined);
   });
 
   it("should throw while override CTX", () => {
@@ -302,7 +302,15 @@ describe("evaluate", () => {
     expect(() => {
       ctx.override = "any";
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Can't modify read-only proxy object"`
+      `"Cannot define property override, object is not extensible"`
+    );
+  });
+
+  it("should throw if process package is not found", () => {
+    expect(() => {
+      evaluate("<% PROCESSORS.notExist %>");
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"'PROCESSORS.notExist' is not registered! Have you installed the relevant brick package of 'not-exist-NB'?, in \\"<% PROCESSORS.notExist %>\\""`
     );
   });
 
