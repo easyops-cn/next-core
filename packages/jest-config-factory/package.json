@@ -5,8 +5,12 @@
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/jest-config-factory",
   "license": "GPL-3.0",
   "main": "src/index.js",
+  "bin": {
+    "next-jest": "./bin/next-jest.js"
+  },
   "files": [
-    "src"
+    "src",
+    "bin"
   ],
   "repository": {
     "type": "git",
