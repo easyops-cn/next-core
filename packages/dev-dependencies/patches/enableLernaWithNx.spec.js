@@ -50,6 +50,7 @@ const mockReadJsonSync = jest.fn((filePath) => {
 });
 const mockWriteJsonSync = jest.fn();
 const mockOutputFileSync = jest.fn();
+const mockAppendFileSync = jest.fn();
 const mockRemoveSync = jest.fn();
 
 jest.mock("fs-extra", () => ({
@@ -58,6 +59,7 @@ jest.mock("fs-extra", () => ({
   readJsonSync: mockReadJsonSync,
   writeJsonSync: mockWriteJsonSync,
   outputFileSync: mockOutputFileSync,
+  appendFileSync: mockAppendFileSync,
   removeSync: mockRemoveSync,
 }));
 
@@ -116,5 +118,8 @@ module.exports = jestConfigFactory({
 });
 `
     );
+
+    expect(mockAppendFileSync).toBeCalledWith("/tmp/.gitignore", "\n.cache");
+    expect(mockRemoveSync).toBeCalledWith("/tmp/jest.config.js");
   });
 });
