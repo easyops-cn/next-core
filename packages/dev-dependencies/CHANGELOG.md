@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.2...@next-core/dev-dependencies@1.15.3) (2022-11-08)
+
+
+### Bug Fixes
+
+* add missing git ignore of .cache ([94f2b71](https://github.com/easyops-cn/next-core/commit/94f2b71989d204a10cf2401874f2458e78bfadd1))
+
+
+
+
+
 ## [1.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.1...@next-core/dev-dependencies@1.15.2) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
