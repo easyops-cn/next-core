@@ -14,6 +14,8 @@ import {
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
   EvaluateRuntimeContext,
+  PreEvaluated,
+  getPreEvaluatedRaw,
 } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
 import { devtoolsHookEmit } from "./internal/devtools";
@@ -136,9 +138,14 @@ export function doTransform(
     // Get both string and symbol keys.
     Object.entries(to)
       .map(([k, v]) => {
-        if (Array.isArray(options?.trackingContextList) && isEvaluable(v)) {
-          const contextNames = trackContext(v);
-          const stateNames = trackState(v);
+        if (
+          Array.isArray(options?.trackingContextList) &&
+          (typeof v === "string" ? isEvaluable(v) : isPreEvaluated(v))
+        ) {
+          const raw =
+            typeof v === "string" ? v : getPreEvaluatedRaw(v as PreEvaluated);
+          const contextNames = trackContext(raw);
+          const stateNames = trackState(raw);
           if (contextNames || stateNames) {
             options.trackingContextList.push({
               contextNames,

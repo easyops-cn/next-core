@@ -9,6 +9,7 @@ import * as runtime from "./core/Runtime";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 import { symbolForTplContextId } from "./core/CustomTemplates/constants";
 import { CustomTemplateContext } from "./core/CustomTemplates/CustomTemplateContext";
+import { evaluate } from "./internal/evaluate";
 
 jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
   storyboardContext: new Map([
@@ -639,6 +640,15 @@ describe("doTransform", () => {
       {
         title: "<% 'track context', CTX.hello + CTX.world %>",
         message: "<% 'track state', STATE.hola %>",
+        lazyProp: evaluate(
+          "<% 'track state', STATE.lazyState %>",
+          {
+            hash: "#oops",
+          },
+          {
+            lazy: true,
+          }
+        ),
         extra: "<% CTX.any %>",
         nesting: {
           // This should ignored since it is not at first level.
@@ -661,6 +671,18 @@ describe("doTransform", () => {
         stateNames: ["hola"],
         propName: "message",
         propValue: "<% 'track state', STATE.hola %>",
+      },
+      {
+        contextNames: false,
+        stateNames: ["lazyState"],
+        propName: "lazyProp",
+        propValue: {
+          [Symbol.for("pre.evaluated.raw")]:
+            "<% 'track state', STATE.lazyState %>",
+          [Symbol.for("pre.evaluated.context")]: {
+            hash: "#oops",
+          },
+        },
       },
     ]);
   });
