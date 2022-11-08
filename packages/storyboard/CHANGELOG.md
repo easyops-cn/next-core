@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.2.4...@next-core/storyboard@0.3.0) (2022-11-08)
+
+
+### Features
+
+* **BrickAsComponent:** Add onMount and onUnmount life cycle. ([5ad42ca](https://github.com/easyops-cn/next-core/commit/5ad42ca71cb2b6c758715178eac9ec6eb6672a4d))
+
+
+
+
+
 ## [0.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.2.3...@next-core/storyboard@0.2.4) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/storyboard
