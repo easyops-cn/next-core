@@ -195,7 +195,7 @@ module.exports = async function patch() {
     onlyAutoMergePatchVersions();
   }
 
-  if (semver.lt(currentRenewVersion, "1.15.0")) {
+  if (semver.lt(currentRenewVersion, "1.15.3")) {
     enableLernaWithNx();
   }
 

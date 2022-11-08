@@ -87,6 +87,9 @@ module.exports = jestConfigFactory({
     }
   }
 
+  const gitignorePath = path.resolve(".gitignore");
+  fs.appendFileSync(gitignorePath, "\n.cache");
+
   fs.removeSync(path.resolve("jest.config.js"));
 }
 
