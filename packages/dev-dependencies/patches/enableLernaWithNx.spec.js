@@ -79,20 +79,31 @@ describe("enableLernaWithNx", () => {
       "/tmp/nx.json",
       expect.objectContaining({
         tasksRunnerOptions: expect.anything(),
-      })
+      }),
+      { spaces: 2 }
     );
-    expect(mockWriteJsonSync).toHaveBeenNthCalledWith(2, "/tmp/lerna.json", {
-      useWorkspaces: true,
-      useNx: true,
-    });
-    expect(mockWriteJsonSync).toHaveBeenNthCalledWith(3, "/tmp/package.json", {
-      name: "my-bricks",
-      scripts: {
-        build: "tsc",
-        test: "next-jest",
-        "test:ci": "lerna run test:ci --",
+    expect(mockWriteJsonSync).toHaveBeenNthCalledWith(
+      2,
+      "/tmp/lerna.json",
+      {
+        useWorkspaces: true,
+        useNx: true,
       },
-    });
+      { spaces: 2 }
+    );
+    expect(mockWriteJsonSync).toHaveBeenNthCalledWith(
+      3,
+      "/tmp/package.json",
+      {
+        name: "my-bricks",
+        scripts: {
+          build: "tsc",
+          test: "next-jest",
+          "test:ci": "lerna run test:ci --",
+        },
+      },
+      { spaces: 2 }
+    );
 
     expect(mockOutputFileSync).toHaveBeenNthCalledWith(
       1,

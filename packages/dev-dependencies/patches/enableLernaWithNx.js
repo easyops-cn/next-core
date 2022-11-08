@@ -7,59 +7,63 @@ function enableLernaWithNx() {
     return;
   }
 
-  fs.writeJsonSync(nxJsonPath, {
-    tasksRunnerOptions: {
-      default: {
-        runner: "nx/tasks-runners/default",
-        options: {
-          cacheableOperations: ["build", "test", "test:ci"],
-          cacheDirectory: ".cache",
-          useDaemonProcess: false,
+  fs.writeJsonSync(
+    nxJsonPath,
+    {
+      tasksRunnerOptions: {
+        default: {
+          runner: "nx/tasks-runners/default",
+          options: {
+            cacheableOperations: ["build", "test", "test:ci"],
+            cacheDirectory: ".cache",
+            useDaemonProcess: false,
+          },
+        },
+      },
+      namedInputs: {
+        default: ["{projectRoot}/**/*"],
+        prod: ["!{projectRoot}/**/*.spec.*"],
+        global: [
+          "{workspaceRoot}/package.json",
+          "{workspaceRoot}/yarn.lock",
+          "{workspaceRoot}/babel.config.js",
+          "{workspaceRoot}/tsconfig.json",
+        ],
+      },
+      targetDefaults: {
+        build: {
+          dependsOn: ["^build"],
+          inputs: ["prod", "^prod", "global"],
+          outputs: [
+            "{projectRoot}/dist",
+            "{projectRoot}/deploy",
+            "{projectRoot}/.pkgbuild",
+            "{projectRoot}/src/lazy-bricks",
+          ],
+        },
+        test: {
+          inputs: ["default", "^prod", "global"],
+          outputs: ["{projectRoot}/.coverage"],
+        },
+        "test:ci": {
+          inputs: ["default", "^prod", "global"],
+          outputs: ["{projectRoot}/.coverage"],
         },
       },
     },
-    namedInputs: {
-      default: ["{projectRoot}/**/*"],
-      prod: ["!{projectRoot}/**/*.spec.*"],
-      global: [
-        "{workspaceRoot}/package.json",
-        "{workspaceRoot}/yarn.lock",
-        "{workspaceRoot}/babel.config.js",
-        "{workspaceRoot}/tsconfig.json",
-      ],
-    },
-    targetDefaults: {
-      build: {
-        dependsOn: ["^build"],
-        inputs: ["prod", "^prod", "global"],
-        outputs: [
-          "{projectRoot}/dist",
-          "{projectRoot}/deploy",
-          "{projectRoot}/.pkgbuild",
-          "{projectRoot}/src/lazy-bricks",
-        ],
-      },
-      test: {
-        inputs: ["default", "^prod", "global"],
-        outputs: ["{projectRoot}/.coverage"],
-      },
-      "test:ci": {
-        inputs: ["default", "^prod", "global"],
-        outputs: ["{projectRoot}/.coverage"],
-      },
-    },
-  });
+    { spaces: 2 }
+  );
 
   const lernaJsonPath = path.resolve("lerna.json");
   const lernaJson = fs.readJsonSync(lernaJsonPath);
   lernaJson.useNx = true;
-  fs.writeJsonSync(lernaJsonPath, lernaJson);
+  fs.writeJsonSync(lernaJsonPath, lernaJson, { spaces: 2 });
 
   const rootPackageJsonPath = path.resolve("package.json");
   const rootPackageJson = fs.readJsonSync(rootPackageJsonPath);
   rootPackageJson.scripts.test = "next-jest";
   rootPackageJson.scripts["test:ci"] = "lerna run test:ci --";
-  fs.writeJsonSync(rootPackageJsonPath, rootPackageJson);
+  fs.writeJsonSync(rootPackageJsonPath, rootPackageJson, { spaces: 2 });
 
   const types = ["bricks", "libs", "templates"];
   for (const type of types) {
