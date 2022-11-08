@@ -20,3 +20,4 @@ exports.enableNextLibsRenovate = require("./enableNextLibsRenovate");
 exports.removeRenovateLegacyBaseBranches = require("./removeRenovateLegacyBaseBranches");
 exports.migrateLazyBricksWithJest = require("./migrateLazyBricksWithJest");
 exports.onlyAutoMergePatchVersions = require("./onlyAutoMergePatchVersions");
+exports.enableLernaWithNx = require("./enableLernaWithNx");
