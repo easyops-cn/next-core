@@ -36,7 +36,12 @@ const jsonMap = {
 };
 
 const mockExistsSync = jest.fn((dir) => !!tree[dir]);
-const mockReaddirSync = jest.fn((dir) => tree[dir] || []);
+const mockReaddirSync = jest.fn((dir) => {
+  if (tree[dir]) {
+    return tree[dir];
+  }
+  throw new Error(`File not found: ${dir}`);
+});
 const mockReadJsonSync = jest.fn((filePath) => {
   if (jsonMap[filePath]) {
     return jsonMap[filePath];
