@@ -11,7 +11,9 @@ import {
 import {
   evaluate,
   EvaluateRuntimeContext,
+  getPreEvaluatedRaw,
   isPreEvaluated,
+  PreEvaluated,
   shouldDismissRecursiveMarkingInjected,
 } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
@@ -191,9 +193,18 @@ export function computeRealProperties(
           result[propName] = realValue;
         }
       }
-      if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
-        const contextNames = trackContext(propValue);
-        const stateNames = trackState(propValue);
+      if (
+        Array.isArray(trackingContextList) &&
+        (typeof propValue === "string"
+          ? isEvaluable(propValue)
+          : isPreEvaluated(propValue))
+      ) {
+        const raw =
+          typeof propValue === "string"
+            ? propValue
+            : getPreEvaluatedRaw(propValue as PreEvaluated);
+        const contextNames = trackContext(raw);
+        const stateNames = trackState(raw);
         if (contextNames || stateNames) {
           trackingContextList.push({
             contextNames,
