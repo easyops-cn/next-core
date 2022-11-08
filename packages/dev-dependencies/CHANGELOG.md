@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.163...@next-core/dev-dependencies@1.15.0) (2022-11-08)
+
+
+### Features
+
+* enable lerna with nx ([04af9aa](https://github.com/easyops-cn/next-core/commit/04af9aa2896399cab87cdcf704aca76e3812d0f5))
+
+
+
+
+
 ## [1.14.163](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.162...@next-core/dev-dependencies@1.14.163) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
