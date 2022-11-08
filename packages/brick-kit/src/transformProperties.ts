@@ -16,6 +16,7 @@ import {
   EvaluateRuntimeContext,
   PreEvaluated,
   getPreEvaluatedRaw,
+  addDataToPreEvaluated,
 } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
 import { devtoolsHookEmit } from "./internal/devtools";
@@ -142,8 +143,13 @@ export function doTransform(
           Array.isArray(options?.trackingContextList) &&
           (typeof v === "string" ? isEvaluable(v) : isPreEvaluated(v))
         ) {
-          const raw =
-            typeof v === "string" ? v : getPreEvaluatedRaw(v as PreEvaluated);
+          let raw: string;
+          if (typeof v === "string") {
+            raw = v;
+          } else {
+            raw = getPreEvaluatedRaw(v as PreEvaluated);
+            addDataToPreEvaluated(v, data);
+          }
           const contextNames = trackContext(raw);
           const stateNames = trackState(raw);
           if (contextNames || stateNames) {
