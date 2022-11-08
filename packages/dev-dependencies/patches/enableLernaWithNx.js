@@ -64,6 +64,9 @@ function enableLernaWithNx() {
   const types = ["bricks", "libs", "templates"];
   for (const type of types) {
     const pkgDir = path.resolve(type);
+    if (!fs.existsSync(pkgDir)) {
+      continue;
+    }
     for (const item of fs.readdirSync(pkgDir, { withFileTypes: true })) {
       if (item.isDirectory()) {
         fs.outputFileSync(
