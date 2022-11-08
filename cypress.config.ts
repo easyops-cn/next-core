@@ -5,6 +5,7 @@ export default defineConfig({
   videoUploadOnPasses: false,
   env: {
     ports: [8081, 8082, 8083, 9001],
+    mainPort: [8081],
   },
   e2e: {
     // We've imported your old cypress plugins here.
