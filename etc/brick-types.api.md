@@ -2571,7 +2571,10 @@ export interface UseSingleBrickConf {
     events?: BrickEventsMap;
     if?: string | boolean | ResolveConf;
     iid?: string;
-    lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
+    lifeCycle?: Pick<BrickLifeCycle, "useResolves"> & {
+        onMount?: BrickEventHandler | BrickEventHandler[];
+        onUnmount?: BrickEventHandler | BrickEventHandler[];
+    };
     properties?: Record<string, unknown>;
     ref?: string;
     slots?: UseBrickSlotsConf;

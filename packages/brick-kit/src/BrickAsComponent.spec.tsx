@@ -1,7 +1,11 @@
 import React from "react";
 import { mount } from "enzyme";
 import ReactDOM from "react-dom";
-import { BrickConf, RuntimeBrickElement } from "@next-core/brick-types";
+import {
+  BrickConf,
+  BrickEventHandler,
+  RuntimeBrickElement,
+} from "@next-core/brick-types";
 import * as listenerUtils from "./internal/bindListeners";
 import {
   BrickAsComponent,
@@ -12,6 +16,9 @@ import * as transformProperties from "./transformProperties";
 import { registerCustomTemplate } from "./core/exports";
 
 const bindListeners = jest.spyOn(listenerUtils, "bindListeners");
+const spiedListenerFactory = jest
+  .spyOn(listenerUtils, "listenerFactory")
+  .mockImplementation(() => jest.fn());
 const spyOnResolve = jest.fn(
   (_brickConf: BrickConf, brick: any, context: any) => {
     brick.properties.title = "resolved";
@@ -28,12 +35,15 @@ const consoleLog = jest.spyOn(console, "log").mockImplementation(() => void 0);
 jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
   resolve: spyOnResolve,
 } as any);
-jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+const currentContext = {
   hash: "#test",
   app: {
     id: "steve-test",
   },
-} as any);
+};
+jest
+  .spyOn(runtime, "_internalApiGetCurrentContext")
+  .mockReturnValue(currentContext as any);
 const _internalApiLoadDynamicBricksInBrickConf = jest
   .spyOn(runtime, "_internalApiLoadDynamicBricksInBrickConf")
   .mockReturnValue(Promise.resolve());
@@ -557,12 +567,7 @@ describe("BrickAsComponent", () => {
         },
       },
     });
-    expect(spyOnResolve.mock.calls[0][2]).toEqual({
-      hash: "#test",
-      app: {
-        id: "steve-test",
-      },
-    });
+    expect(spyOnResolve.mock.calls[0][2]).toEqual(currentContext);
     const div = wrapper.find("div").getDOMNode() as HTMLDivElement;
     expect(div.id).toBe("hello");
     expect(div.title).toBe("resolved");
@@ -692,8 +697,7 @@ describe("BrickAsComponent", () => {
     );
     await (global as any).flushPromises();
     expect(spyOnResolve.mock.calls[0][2]).toEqual({
-      app: { id: "steve-test" },
-      hash: "#test",
+      ...currentContext,
       tplContextId: "tpl-ctx-1",
     });
     expect(wrapper.html()).toBe(
@@ -749,5 +753,55 @@ describe("BrickAsComponent", () => {
     );
     expect(consoleLog).toHaveBeenCalledTimes(4);
     expect(consoleLog).toHaveBeenNthCalledWith(4, "tplOutsideSlotClick");
+  });
+
+  it("should work with onMount/onUnmount life cycle", async () => {
+    const onMountHandlers: BrickEventHandler[] = [
+      {
+        action: "console.log",
+        args: ["mount"],
+      },
+    ];
+    const onUnmountHandlers: BrickEventHandler[] = [
+      {
+        action: "console.log",
+        args: ["unmount"],
+      },
+    ];
+    const useBrick = {
+      brick: "div",
+      lifeCycle: { onMount: onMountHandlers, onUnmount: onUnmountHandlers },
+    };
+    const wrapper = mount(<BrickAsComponent useBrick={useBrick} />);
+
+    await (global as any).flushPromises();
+    onMountHandlers.map((handler) => {
+      expect(spiedListenerFactory).toBeCalledWith(
+        handler,
+        currentContext,
+        expect.objectContaining(useBrick)
+      );
+      const mockListener = spiedListenerFactory.mock.results[0].value;
+      expect(mockListener).toBeCalledWith(
+        expect.objectContaining({ type: "mount" })
+      );
+      expect(mockListener).not.toBeCalledWith(
+        expect.objectContaining({ type: "unmount" })
+      );
+    });
+
+    wrapper.unmount();
+    await (global as any).flushPromises();
+    onUnmountHandlers.map((handler) => {
+      expect(spiedListenerFactory).toBeCalledWith(
+        handler,
+        currentContext,
+        expect.objectContaining(useBrick)
+      );
+      const mockListener = spiedListenerFactory.mock.results[1].value;
+      expect(mockListener).toBeCalledWith(
+        expect.objectContaining({ type: "unmount" })
+      );
+    });
   });
 });

@@ -1438,9 +1438,18 @@ export interface UseSingleBrickConf {
   events?: BrickEventsMap;
 
   /**
-   * 构件生命周期配置。在 `useBrick` 中仅支持 `useResolves`。
+   * 构件生命周期配置。在 `useBrick` 中仅支持 `useResolves`、`onMount` 和 `onUnmount`。
    */
-  lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
+  lifeCycle?: Pick<BrickLifeCycle, "useResolves"> & {
+    /**
+     * 定义 useBrick 里的构件在挂载时的动作。
+     */
+    onMount?: BrickEventHandler | BrickEventHandler[];
+    /**
+     * 定义 useBrick 里的构件在卸载时的动作。
+     */
+    onUnmount?: BrickEventHandler | BrickEventHandler[];
+  };
 
   /** {@inheritDoc BaseEntityResolveConf.transformFrom} */
   transformFrom?: string | string[];
