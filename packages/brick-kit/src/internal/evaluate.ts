@@ -56,6 +56,10 @@ export function getPreEvaluatedRaw(pre: PreEvaluated): string {
   return pre[symbolForRaw];
 }
 
+export function addDataToPreEvaluated(pre: PreEvaluated, data: unknown): void {
+  pre[symbolForContext].data = data;
+}
+
 export function shouldDismissRecursiveMarkingInjected(
   raw: string | PreEvaluated
 ): boolean {

@@ -636,7 +636,9 @@ describe("doTransform", () => {
   it("should collect tracking context list", () => {
     const trackingContextList: TrackingContextItem[] = [];
     doTransform(
-      {},
+      {
+        quality: "good",
+      },
       {
         title: "<% 'track context', CTX.hello + CTX.world %>",
         message: "<% 'track state', STATE.hola %>",
@@ -681,6 +683,9 @@ describe("doTransform", () => {
             "<% 'track state', STATE.lazyState %>",
           [Symbol.for("pre.evaluated.context")]: {
             hash: "#oops",
+            data: {
+              quality: "good",
+            },
           },
         },
       },
