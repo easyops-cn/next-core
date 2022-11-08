@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.155.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.1...@next-core/brick-kit@2.155.2) (2022-11-08)
+
+
+### Bug Fixes
+
+* memoize data when tracking context in useBrick ([44275b8](https://github.com/easyops-cn/next-core/commit/44275b83c475d25478069cf0da21fc3032304d20))
+
+
+
+
+
 ## [2.155.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.0...@next-core/brick-kit@2.155.1) (2022-11-08)
 
 
