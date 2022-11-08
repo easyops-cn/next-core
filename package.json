@@ -102,7 +102,7 @@
     "dll/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.20.2",
+    "@babel/parser": "^7.20.3",
     "@babel/runtime": "^7.20.1",
     "@types/react": "^16.14.34",
     "lodash": "^4.17.21",
