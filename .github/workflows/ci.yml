@@ -89,8 +89,6 @@ jobs:
       with:
         path: ~/.cache/Cypress
         key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
-        restore-keys: |
-          cypress-${{ runner.os }}-cypress-
 
     # Fix `yarn install --frozen-lockfile` not working in monorepo.
     # https://github.com/yarnpkg/yarn/issues/5840#issuecomment-468782288
