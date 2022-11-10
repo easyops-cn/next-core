@@ -128,10 +128,10 @@ export class Kernel {
 
     initAnalytics();
 
+    await this.router.bootstrap();
     this.originFaviconHref = (
       document.querySelector("link[rel='shortcut icon']") as HTMLLinkElement
     )?.href;
-    await this.router.bootstrap();
     if (!window.STANDALONE_MICRO_APPS) {
       this.legacyAuthGuard();
     }
