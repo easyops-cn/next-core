@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.155.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.2...@next-core/brick-kit@2.155.3) (2022-11-10)
+
+
+### Bug Fixes
+
+* fix favicon error ([b31b5a3](https://github.com/easyops-cn/next-core/commit/b31b5a35e56136b8991d531bd635f662dff1ee95))
+
+
+
+
+
 ## [2.155.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.1...@next-core/brick-kit@2.155.2) (2022-11-08)
 
 
