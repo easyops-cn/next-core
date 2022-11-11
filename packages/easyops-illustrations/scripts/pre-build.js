@@ -11,7 +11,10 @@ const imagesDir = path.join(process.cwd(), "src/images");
 const flattenImages = klawSync(imagesDir, {
   depthLimit: 2,
   nodir: true,
-  filter: (item) => item.path.endsWith(".png") || item.path.endsWith(".gif"),
+  filter: (item) =>
+    item.path.endsWith(".png") ||
+    item.path.endsWith(".gif") ||
+    item.path.endsWith(".svg"),
   traverseAll: true,
 }).map((item) => {
   const relativePath = path
