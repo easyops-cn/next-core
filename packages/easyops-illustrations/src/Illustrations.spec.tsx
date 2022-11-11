@@ -12,7 +12,7 @@ describe("Illustration", () => {
       category: "feedback",
     });
 
-    expect(result).toBe("assets/illustrations/mockFile");
+    expect(result).toBe("assets/illustrations/svgr-url");
   });
 
   it("should work with default category", () => {
@@ -21,7 +21,7 @@ describe("Illustration", () => {
       name: "no-content",
     });
 
-    expect(result).toBe("-/core/assets/illustrations/mockFile");
+    expect(result).toBe("-/core/assets/illustrations/svgr-url");
   });
 
   it("should work with default theme", () => {
@@ -30,7 +30,7 @@ describe("Illustration", () => {
       name: "no-content",
     });
 
-    expect(result).toBe("-/core/assets/illustrations/mockFile");
+    expect(result).toBe("-/core/assets/illustrations/svgr-url");
   });
 
   it("should work with dark theme", () => {
