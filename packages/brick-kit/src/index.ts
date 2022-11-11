@@ -43,3 +43,4 @@ export * from "./hooks";
 export * from "./internal/misc";
 export * from "./abortController";
 export * from "./getRealValue";
+export * from "./constructEventListener";
