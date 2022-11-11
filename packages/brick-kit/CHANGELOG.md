@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.155.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.4...@next-core/brick-kit@2.155.5) (2022-11-11)
+
+
+### Bug Fixes
+
+* 修复standalone模式下, 额外查询的菜单信息缺少overrideApp的问题 ([c2d5a00](https://github.com/easyops-cn/next-core/commit/c2d5a005114970eeff147493cd26ef30e0c23087))
+
+
+
+
+
 ## [2.155.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.3...@next-core/brick-kit@2.155.4) (2022-11-11)
 
 **Note:** Version bump only for package @next-core/brick-kit
