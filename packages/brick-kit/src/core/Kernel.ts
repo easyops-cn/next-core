@@ -914,6 +914,7 @@ export class Kernel {
               itemsResolve: true,
               items: true,
               i18n: true,
+              overrideApp: true,
               "items.children": true,
               "app.appId": true,
             },
