@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.19...@next-core/illustrations@0.11.0) (2022-11-11)
+
+
+### Features
+
+* update illustrations resource ([f39d511](https://github.com/easyops-cn/next-core/commit/f39d511af3a5b6d7946c9defd99f9af4ac6d9813))
+* 更换插画库资源为svg文件 ([07808d1](https://github.com/easyops-cn/next-core/commit/07808d10a0da5d55f0ffa121fc775e0f15f9668a))
+
+
+
+
+
 ## [0.10.19](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.18...@next-core/illustrations@0.10.19) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/illustrations
