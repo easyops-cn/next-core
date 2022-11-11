@@ -201,6 +201,7 @@
           "batchSetAppsLocalTheme",
           "checkIf",
           "checkIfByTransform",
+          "constructEventListener",
           "createHistory",
           "createRuntime",
           "developHelper",

@@ -11,6 +11,7 @@ import { BaseColors } from '@next-core/color-theme';
 import { BrandColor } from '@next-core/color-theme';
 import { BreadcrumbItemConf } from '@next-core/brick-types';
 import { BrickConf } from '@next-core/brick-types';
+import { BrickEventHandler } from '@next-core/brick-types';
 import { BrickEventHandlerCallback } from '@next-core/brick-types';
 import { BrickEventsMap } from '@next-core/brick-types';
 import { BrickLifeCycle } from '@next-core/brick-types';
@@ -136,6 +137,9 @@ export function checkIf(rawIf: string | boolean, context: PluginRuntimeContext):
 //
 // @internal @deprecated (undocumented)
 export function checkIfByTransform(rawIf: string | boolean, data: unknown): boolean;
+
+// @public (undocumented)
+export function constructEventListener(handler: BrickEventHandler): EventListener;
 
 // Warning: (ae-internal-missing-underscore) The name "createHistory" should be prefixed with an underscore because the declaration is marked as @internal
 //
