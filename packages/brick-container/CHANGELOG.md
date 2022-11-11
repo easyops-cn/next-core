@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.29...@next-core/brick-container@2.77.30) (2022-11-11)
+
+
+### Bug Fixes
+
+* respect nextRepoDir in offline mode ([b417fe7](https://github.com/easyops-cn/next-core/commit/b417fe79e5126fa3c7d077f7a4e9e06955c08ae4))
+
+
+
+
+
 ## [2.77.29](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.28...@next-core/brick-container@2.77.29) (2022-11-11)
 
 **Note:** Version bump only for package @next-core/brick-container

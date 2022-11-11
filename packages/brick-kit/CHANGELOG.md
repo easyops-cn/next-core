@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.156.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.5...@next-core/brick-kit@2.156.0) (2022-11-11)
+
+
+### Features
+
+* expose event listener constructor ([adbca90](https://github.com/easyops-cn/next-core/commit/adbca90b9ff4b624bfce97ceec23b203485c8ae8))
+
+
+
+
+
 ## [2.155.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.4...@next-core/brick-kit@2.155.5) (2022-11-11)
 
 

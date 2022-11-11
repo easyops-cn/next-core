@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.33.19...@next-dll/editor-bricks-helper@0.34.0) (2022-11-11)
+
+
+### Features
+
+* expose event listener constructor ([adbca90](https://github.com/easyops-cn/next-core/commit/adbca90b9ff4b624bfce97ceec23b203485c8ae8))
+
+
+
+
+
 ## [0.33.19](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.33.18...@next-dll/editor-bricks-helper@0.33.19) (2022-11-11)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
