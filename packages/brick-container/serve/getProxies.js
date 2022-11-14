@@ -301,6 +301,8 @@ module.exports = (env) => {
       ) {
         const secureCookieFlags = ["SameSite=None", "Secure"];
         if (env.cookieSameSiteNone) {
+          // Note: it seems that now Chrome (v107) requires `SameSite=None` even for localhost.
+          // However, `Secure` can use used with non-http for localhost.
           proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
             (cookie) => {
               const separator = "; ";
