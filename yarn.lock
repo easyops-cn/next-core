@@ -3486,10 +3486,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@*", "@types/jest@^29.2.2":
-  version "29.2.2"
-  resolved "https://registry.npmjs.org/@types/jest/-/jest-29.2.2.tgz#874e7dc6702fa6a3fe6107792aa98636dcc480b4"
-  integrity sha512-og1wAmdxKoS71K2ZwSVqWPX6OVn3ihZ6ZT2qvZvZQm90lJVDyXIjYcu4Khx2CNIeaFv12rOU/YObOsI3VOkzog==
+"@types/jest@*", "@types/jest@^29.2.3":
+  version "29.2.3"
+  resolved "https://registry.npmjs.org/@types/jest/-/jest-29.2.3.tgz#f5fd88e43e5a9e4221ca361e23790d48fcf0a211"
+  integrity sha512-6XwoEbmatfyoCjWRX7z0fKMmgYKe9+/HrviJ5k0X/tjJWHGAezZOfYaxqQKuzG/TvQyr+ktjm4jgbk0s4/oF2w==
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
@@ -3525,10 +3525,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.188":
-  version "4.14.188"
-  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.188.tgz#e4990c4c81f7c9b00c5ff8eae389c10f27980da5"
-  integrity sha512-zmEmF5OIM3rb7SbLCFYoQhO4dGt2FRM9AMkxvA3LaADOF1n8in/zGJlWji9fmafLoNyz+FoL6FE0SLtGIArD7w==
+"@types/lodash@^4.14.189":
+  version "4.14.189"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.189.tgz#975ff8c38da5ae58b751127b19ad5e44b5b7f6d2"
+  integrity sha512-kb9/98N6X8gyME9Cf7YaqIMvYGnBSWqEci6tiettE6iJWH1XdJz/PO8LB0GtLCG7x8dU3KWhZT+lA1a35127tA==
 
 "@types/lolex@^5.1.2":
   version "5.1.2"
