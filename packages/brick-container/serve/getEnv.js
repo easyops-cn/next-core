@@ -96,7 +96,7 @@ module.exports = (runtimeFlags) => {
       },
       cookieSameSiteNone: {
         type: "boolean",
-        default: false,
+        default: true,
       },
       server: {
         type: "string",
