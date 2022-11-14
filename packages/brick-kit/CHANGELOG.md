@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.0...@next-core/brick-kit@2.156.1) (2022-11-14)
+
+
+### Bug Fixes
+
+* fix web socket events in tpl ([ea5c85e](https://github.com/easyops-cn/next-core/commit/ea5c85eceb64497cd6850eb459e83b75e2b82682))
+
+
+
+
+
 # [2.156.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.5...@next-core/brick-kit@2.156.0) (2022-11-11)
 
 
