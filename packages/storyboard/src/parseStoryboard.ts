@@ -223,6 +223,8 @@ function parseLifeCycles(lifeCycle: BrickLifeCycle): StoryboardNodeLifeCycle[] {
           case "onMessageClose":
           case "onBeforePageLoad":
           case "onBeforePageLeave":
+          case "onMount":
+          case "onUnmount":
           case "onMediaChange":
             return {
               type: "SimpleLifeCycle",

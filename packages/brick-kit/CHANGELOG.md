@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.156.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.5...@next-core/brick-kit@2.156.0) (2022-11-11)
+
+### Features
+
+- expose event listener constructor ([adbca90](https://github.com/easyops-cn/next-core/commit/adbca90b9ff4b624bfce97ceec23b203485c8ae8))
+
+## [2.155.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.4...@next-core/brick-kit@2.155.5) (2022-11-11)
+
+### Bug Fixes
+
+- 修复 standalone 模式下, 额外查询的菜单信息缺少 overrideApp 的问题 ([c2d5a00](https://github.com/easyops-cn/next-core/commit/c2d5a005114970eeff147493cd26ef30e0c23087))
+
+## [2.155.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.3...@next-core/brick-kit@2.155.4) (2022-11-11)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.155.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.2...@next-core/brick-kit@2.155.3) (2022-11-10)
+
+### Bug Fixes
+
+- fix favicon error ([b31b5a3](https://github.com/easyops-cn/next-core/commit/b31b5a35e56136b8991d531bd635f662dff1ee95))
+
+## [2.155.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.1...@next-core/brick-kit@2.155.2) (2022-11-08)
+
+### Bug Fixes
+
+- memoize data when tracking context in useBrick ([44275b8](https://github.com/easyops-cn/next-core/commit/44275b83c475d25478069cf0da21fc3032304d20))
+
+## [2.155.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.0...@next-core/brick-kit@2.155.1) (2022-11-08)
+
+### Bug Fixes
+
+- fix tracking context in useBrick ([f437cc6](https://github.com/easyops-cn/next-core/commit/f437cc63bca97c26477227f487324bbd8602443f))
+
+# [2.155.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.18...@next-core/brick-kit@2.155.0) (2022-11-08)
+
+### Bug Fixes
+
+- fix ctx evaluations after history.push ([80e50a9](https://github.com/easyops-cn/next-core/commit/80e50a9854103385b31c1b9e5483a7f5b91c4c40))
+
+### Features
+
+- **BrickAsComponent:** Add onMount and onUnmount life cycle. ([5ad42ca](https://github.com/easyops-cn/next-core/commit/5ad42ca71cb2b6c758715178eac9ec6eb6672a4d))
+
+## [2.154.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.17...@next-core/brick-kit@2.154.18) (2022-11-07)
+
+### Bug Fixes
+
+- throw when processors not found ([4a2259b](https://github.com/easyops-cn/next-core/commit/4a2259b29198721fc13df2eea543c661c677ffd6))
+
+## [2.154.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.16...@next-core/brick-kit@2.154.17) (2022-11-07)
+
+### Bug Fixes
+
+- **brick-kit:** useProviderType 中的 RequestInit 类型移除 HttpOptions 中重复存在的 cache 定义 ([ebe8502](https://github.com/easyops-cn/next-core/commit/ebe8502829e5d55b99fe66fd0ff0bb6f8f56ef26))
+
+## [2.154.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.15...@next-core/brick-kit@2.154.16) (2022-11-07)
+
+### Bug Fixes
+
+- allow circular templates while detect stack overflow ([9de014b](https://github.com/easyops-cn/next-core/commit/9de014b58b778b6127bb93c05a078393d614a277))
+
+## [2.154.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.14...@next-core/brick-kit@2.154.15) (2022-11-04)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
 ## [2.154.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.13...@next-core/brick-kit@2.154.14) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-kit

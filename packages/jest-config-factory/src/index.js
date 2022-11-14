@@ -1,10 +1,11 @@
-const path = require("path");
+const findFileUpward = require("./findFileUpward");
 
 exports.jestConfigFactory = ({
   transformModulePatterns = [],
   moduleNameMapper,
   standalone,
   testPathIgnorePatterns = [],
+  cwd,
 } = {}) => {
   const rootDir = `<rootDir>${standalone ? "/../.." : ""}`;
   return {
@@ -42,7 +43,10 @@ exports.jestConfigFactory = ({
         ? [
             "babel-jest",
             {
-              configFile: path.resolve(process.cwd(), "../../babel.config.js"),
+              configFile: findFileUpward(
+                cwd || process.cwd(),
+                "babel.config.js"
+              ),
             },
           ]
         : "babel-jest",
@@ -81,7 +85,7 @@ exports.jestConfigFactory = ({
     },
     // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
     // Todo(steve): remove next line when issue fixed.
-    modulePathIgnorePatterns: [`${rootDir}/.*/__mocks__`],
+    modulePathIgnorePatterns: [`${cwd || rootDir}/.*/__mocks__`],
     // Use jsdom >= 14 which supports `MutationObserver`
     // Use jsdom >= 16.2 which supports `CustomElements`
     fakeTimers: {

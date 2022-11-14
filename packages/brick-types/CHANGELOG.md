@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.82.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.11...@next-core/brick-types@2.82.0) (2022-11-08)
+
+### Bug Fixes
+
+- fix ctx evaluations after history.push ([80e50a9](https://github.com/easyops-cn/next-core/commit/80e50a9854103385b31c1b9e5483a7f5b91c4c40))
+
+### Features
+
+- **BrickAsComponent:** Add onMount and onUnmount life cycle. ([5ad42ca](https://github.com/easyops-cn/next-core/commit/5ad42ca71cb2b6c758715178eac9ec6eb6672a4d))
+
 ## [2.81.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.10...@next-core/brick-types@2.81.11) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-types

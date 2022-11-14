@@ -6,11 +6,14 @@ import {
   isEvaluable,
   trackContext,
   trackState,
+  hasOwnProperty,
 } from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateRuntimeContext,
+  getPreEvaluatedRaw,
   isPreEvaluated,
+  PreEvaluated,
   shouldDismissRecursiveMarkingInjected,
 } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
@@ -47,16 +50,28 @@ export const computeRealValue = (
     let dismissRecursiveMarkingInjected = lazy;
     if (preEvaluated || isEvaluable(value as string)) {
       const runtimeContext: EvaluateRuntimeContext = {};
-      const keys = [
-        "event",
-        "tplContextId",
-        "overrideApp",
-        "appendI18nNamespace",
-        "formContextId",
-      ] as const;
-      for (const key of keys) {
-        if (context?.[key]) {
-          runtimeContext[key as "event"] = context[key as "event"];
+      if (context) {
+        const keys = [
+          "event",
+          "tplContextId",
+          "overrideApp",
+          "appendI18nNamespace",
+          "formContextId",
+          "query",
+          "match",
+          "app",
+          "segues",
+        ] as const;
+        for (const key of keys) {
+          if (context[key]) {
+            runtimeContext[key as "event"] = context[key as "event"];
+          }
+        }
+        const simpleKeys = ["hash", "pathname"] as const;
+        for (const key of simpleKeys) {
+          if (hasOwnProperty(context, key)) {
+            runtimeContext[key as "event"] = context[key as "event"];
+          }
         }
       }
       // The current runtime context is memoized even if the evaluation maybe lazy.
@@ -178,9 +193,18 @@ export function computeRealProperties(
           result[propName] = realValue;
         }
       }
-      if (Array.isArray(trackingContextList) && isEvaluable(propValue)) {
-        const contextNames = trackContext(propValue);
-        const stateNames = trackState(propValue);
+      if (
+        Array.isArray(trackingContextList) &&
+        (typeof propValue === "string"
+          ? isEvaluable(propValue)
+          : isPreEvaluated(propValue))
+      ) {
+        const raw =
+          typeof propValue === "string"
+            ? propValue
+            : getPreEvaluatedRaw(propValue as PreEvaluated);
+        const contextNames = trackContext(raw);
+        const stateNames = trackState(raw);
         if (contextNames || stateNames) {
           trackingContextList.push({
             contextNames,

@@ -8,7 +8,7 @@ import {
   shouldAllowRecursiveEvaluations,
 } from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
-import { MicroApp } from "@next-core/brick-types";
+import type { PluginRuntimeContext } from "@next-core/brick-types";
 import { _internalApiGetCurrentContext } from "../core/Runtime";
 import { getUrlBySegueFactory } from "./segue";
 import { getUrlByAliasFactory } from "./alias";
@@ -41,17 +41,23 @@ export interface EvaluateOptions {
   evaluationId?: number;
 }
 
-export interface EvaluateRuntimeContext {
-  event?: CustomEvent;
+export type EvaluateRuntimeContext = Omit<
+  PluginRuntimeContext,
+  "sys" | "flags" | "storyboardContext"
+> & {
   data?: unknown;
-  tplContextId?: string;
-  formContextId?: string;
-  overrideApp?: MicroApp;
-  appendI18nNamespace?: string;
-}
+};
 
 export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
+}
+
+export function getPreEvaluatedRaw(pre: PreEvaluated): string {
+  return pre[symbolForRaw];
+}
+
+export function addDataToPreEvaluated(pre: PreEvaluated, data: unknown): void {
+  pre[symbolForContext].data = data;
 }
 
 export function shouldDismissRecursiveMarkingInjected(
@@ -196,17 +202,34 @@ export function evaluate(
     });
   }
 
+  const internalContext = _internalApiGetCurrentContext();
+  const mergedContext: PluginRuntimeContext = {};
+
+  // Use runtime context over internal context.
+  // Internal context such as `match`, maybe change after `history.push`.
+  // So we prefer memoized runtime context.
+  for (const key of [
+    "query",
+    "match",
+    "hash",
+    "pathname",
+    "app",
+    "segues",
+  ] as const) {
+    mergedContext[key as "query"] = (
+      hasOwnProperty(runtimeContext, key) ? runtimeContext : internalContext
+    )[key as "query"];
+  }
+
   const {
     app: currentApp,
     query,
     match,
-    sys,
-    flags,
     hash,
     pathname,
     segues,
-    storyboardContext,
-  } = _internalApiGetCurrentContext();
+  } = mergedContext;
+  const { sys, flags, storyboardContext } = internalContext;
 
   const app = runtimeContext.overrideApp ?? currentApp;
 
@@ -262,16 +285,22 @@ export function evaluate(
         return getDynamicReadOnlyProxy({
           get(target, key: string) {
             const pkg = customProcessorRegistry.get(key);
-            return pkg
-              ? getDynamicReadOnlyProxy({
-                  get(t, k: string) {
-                    return pkg.get(k);
-                  },
-                  ownKeys() {
-                    return Array.from(pkg.keys());
-                  },
-                })
-              : pkg;
+            if (!pkg) {
+              throw new Error(
+                `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package of '${key.replace(
+                  /[A-Z]/g,
+                  (m) => `-${m.toLowerCase()}`
+                )}-NB'?`
+              );
+            }
+            return getDynamicReadOnlyProxy({
+              get(t, k: string) {
+                return pkg.get(k);
+              },
+              ownKeys() {
+                return Array.from(pkg.keys());
+              },
+            });
           },
           ownKeys() {
             return Array.from(customProcessorRegistry.keys());

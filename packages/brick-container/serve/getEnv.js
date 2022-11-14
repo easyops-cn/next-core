@@ -229,8 +229,7 @@ module.exports = (runtimeFlags) => {
   }
 
   const devConfig = getDevConfig();
-  const nextRepoDir =
-    (!_standalone && devConfig && devConfig.nextRepoDir) || rootDir;
+  const nextRepoDir = (devConfig && devConfig.nextRepoDir) || rootDir;
   const standaloneAppsConfig =
     (devConfig && devConfig.standaloneAppsConfig) || [];
   for (const standaloneConfig of standaloneAppsConfig) {

@@ -1536,7 +1536,6 @@ export type PluginLocation = Location_2<PluginHistoryState>;
 
 // @public
 export interface PluginRuntimeContext {
-    anchor?: string;
     app?: MicroApp;
     appendI18nNamespace?: string;
     event?: CustomEvent;
@@ -1548,7 +1547,7 @@ export interface PluginRuntimeContext {
     match?: MatchResult;
     overrideApp?: MicroApp;
     pathname?: string;
-    query: URLSearchParams;
+    query?: URLSearchParams;
     segues?: SeguesConf;
     // @internal (undocumented)
     storyboardContext?: StoryboardContext;
@@ -2572,7 +2571,10 @@ export interface UseSingleBrickConf {
     events?: BrickEventsMap;
     if?: string | boolean | ResolveConf;
     iid?: string;
-    lifeCycle?: Pick<BrickLifeCycle, "useResolves">;
+    lifeCycle?: Pick<BrickLifeCycle, "useResolves"> & {
+        onMount?: BrickEventHandler | BrickEventHandler[];
+        onUnmount?: BrickEventHandler | BrickEventHandler[];
+    };
     properties?: Record<string, unknown>;
     ref?: string;
     slots?: UseBrickSlotsConf;

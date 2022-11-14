@@ -17,7 +17,7 @@
     "docs:dev": "lerna run docs:dev",
     "postbuild": "npm run size-limit",
     "size-limit": "size-limit",
-    "test": "lerna run test --",
+    "test": "next-jest",
     "test:ci": "lerna run test:ci --",
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",

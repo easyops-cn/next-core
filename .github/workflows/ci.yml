@@ -118,8 +118,7 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v3
       with:
-        files: >-
-          ./packages/brick-http/.coverage/cobertura-coverage.xml,./packages/brick-icons/.coverage/cobertura-coverage.xml,./packages/brick-kit/.coverage/cobertura-coverage.xml,./packages/brick-scripts/.coverage/cobertura-coverage.xml,./packages/brick-utils/.coverage/cobertura-coverage.xml,./packages/color-theme/.coverage/cobertura-coverage.xml,./packages/cook/.coverage/cobertura-coverage.xml,./packages/create-next-repo/.coverage/cobertura-coverage.xml,./packages/dev-dependencies/.coverage/cobertura-coverage.xml,./packages/easyops-analytics/.coverage/cobertura-coverage.xml,./packages/easyops-illustrations/.coverage/cobertura-coverage.xml,./packages/editor-bricks-helper/.coverage/cobertura-coverage.xml,./packages/less-plugin-css-variables/.coverage/cobertura-coverage.xml,./packages/pipes/.coverage/cobertura-coverage.xml,./packages/repo-config/.coverage/cobertura-coverage.xml,./packages/sdk-scripts/.coverage/cobertura-coverage.xml
+        directory: packages
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master

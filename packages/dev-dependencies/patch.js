@@ -2,7 +2,7 @@ const path = require("path");
 const os = require("os");
 const fs = require("fs-extra");
 const semver = require("semver");
-const { chain, pull, escapeRegExp, isEqual } = require("lodash");
+const { chain, pull, escapeRegExp } = require("lodash");
 const { writeJsonFile, readJson, readSelfJson } = require("./utils");
 const {
   majorBrickNext,
@@ -27,6 +27,7 @@ const {
   removeRenovateLegacyBaseBranches,
   migrateLazyBricksWithJest,
   onlyAutoMergePatchVersions,
+  enableLernaWithNx,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -192,6 +193,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.14.125")) {
     onlyAutoMergePatchVersions();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.15.3")) {
+    enableLernaWithNx();
   }
 
   updateDevDependenciesVersion();

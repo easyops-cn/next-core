@@ -48,7 +48,7 @@ export interface ReqBase<TData> {
 
 export type FetchArgs = Parameters<typeof CustomApi> | unknown[];
 
-export type RequestInit = Partial<Omit<HttpOptions, "body">> & {
+export type RequestInit = Partial<Omit<HttpOptions, "body" | "cache">> & {
   args?: unknown[];
 };
 

@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.533](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.532...@next-dll/ace@2.0.533) (2022-11-11)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.532](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.531...@next-dll/ace@2.0.532) (2022-11-11)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.531](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.530...@next-dll/ace@2.0.531) (2022-11-11)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.530](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.529...@next-dll/ace@2.0.530) (2022-11-10)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.529](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.528...@next-dll/ace@2.0.529) (2022-11-08)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.528](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.527...@next-dll/ace@2.0.528) (2022-11-08)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.527](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.526...@next-dll/ace@2.0.527) (2022-11-08)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.526](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.525...@next-dll/ace@2.0.526) (2022-11-07)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.525](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.524...@next-dll/ace@2.0.525) (2022-11-07)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.524](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.523...@next-dll/ace@2.0.524) (2022-11-07)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.523](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.522...@next-dll/ace@2.0.523) (2022-11-07)
+
+**Note:** Version bump only for package @next-dll/ace
+
+## [2.0.522](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.521...@next-dll/ace@2.0.522) (2022-11-04)
+
+**Note:** Version bump only for package @next-dll/ace
+
 ## [2.0.521](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.520...@next-dll/ace@2.0.521) (2022-11-04)
 
 **Note:** Version bump only for package @next-dll/ace

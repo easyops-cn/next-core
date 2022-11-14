@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.7](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.6...@next-core/dev-dependencies@1.15.7) (2022-11-11)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.6](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.5...@next-core/dev-dependencies@1.15.6) (2022-11-11)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.5](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.4...@next-core/dev-dependencies@1.15.5) (2022-11-11)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.4](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.3...@next-core/dev-dependencies@1.15.4) (2022-11-10)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.2...@next-core/dev-dependencies@1.15.3) (2022-11-08)
+
+### Bug Fixes
+
+- add missing git ignore of .cache ([94f2b71](https://github.com/easyops-cn/next-core/commit/94f2b71989d204a10cf2401874f2458e78bfadd1))
+
+## [1.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.1...@next-core/dev-dependencies@1.15.2) (2022-11-08)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.0...@next-core/dev-dependencies@1.15.1) (2022-11-08)
+
+### Bug Fixes
+
+- checking dir exists ([2d410ef](https://github.com/easyops-cn/next-core/commit/2d410efba756585697365d4dcdd5da9d4af752de))
+
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.163...@next-core/dev-dependencies@1.15.0) (2022-11-08)
+
+### Features
+
+- enable lerna with nx ([04af9aa](https://github.com/easyops-cn/next-core/commit/04af9aa2896399cab87cdcf704aca76e3812d0f5))
+
+## [1.14.163](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.162...@next-core/dev-dependencies@1.14.163) (2022-11-08)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.162](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.161...@next-core/dev-dependencies@1.14.162) (2022-11-08)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.161](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.160...@next-core/dev-dependencies@1.14.161) (2022-11-08)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.160](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.159...@next-core/dev-dependencies@1.14.160) (2022-11-07)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.159](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.158...@next-core/dev-dependencies@1.14.159) (2022-11-07)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.158](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.157...@next-core/dev-dependencies@1.14.158) (2022-11-07)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.157](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.156...@next-core/dev-dependencies@1.14.157) (2022-11-07)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.14.156](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.155...@next-core/dev-dependencies@1.14.156) (2022-11-04)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
 ## [1.14.155](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.14.154...@next-core/dev-dependencies@1.14.155) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

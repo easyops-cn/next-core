@@ -505,7 +505,7 @@ describe("computeRealProperties", () => {
   });
 
   it("should work for lazy events in useBrick", () => {
-    const { event, ...contextWithoutEvent } = context;
+    const { event, app, ...contextWithoutEvent } = context;
     const result = computeRealProperties(
       {
         shouldBeComputed: "<% APP.name %>",
@@ -595,7 +595,7 @@ describe("computeRealProperties", () => {
   });
 
   it("should work for lazy events in useBrick slots", () => {
-    const { event, ...contextWithoutEvent } = context;
+    const { event, app, ...contextWithoutEvent } = context;
     const result = computeRealProperties(
       {
         shouldBeComputed: "<% APP.name %>",

@@ -33,6 +33,16 @@ describe("scanInstalledAppsInStoryboard", () => {
             typescript: true,
           },
         ],
+        menus: [
+          {
+            menuId: "test-menu-id",
+            items: [
+              {
+                if: "<% INSTALLED_APPS.has('my-app-in-menus') %>",
+              },
+            ],
+          },
+        ],
       },
       routes: [
         {
@@ -59,6 +69,7 @@ describe("scanInstalledAppsInStoryboard", () => {
     } as any;
     expect(scanInstalledAppsInStoryboard(storyboard).sort()).toEqual([
       "my-app-in-functions",
+      "my-app-in-menus",
       "my-app-in-routes",
       "my-app-in-templates",
     ]);

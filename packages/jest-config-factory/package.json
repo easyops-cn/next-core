@@ -1,12 +1,16 @@
 {
   "name": "@next-core/jest-config-factory",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "Jest config factory for brick-next related packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/jest-config-factory",
   "license": "GPL-3.0",
   "main": "src/index.js",
+  "bin": {
+    "next-jest": "./bin/next-jest.js"
+  },
   "files": [
-    "src"
+    "src",
+    "bin"
   ],
   "repository": {
     "type": "git",

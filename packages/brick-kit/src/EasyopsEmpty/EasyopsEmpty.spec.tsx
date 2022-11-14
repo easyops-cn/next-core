@@ -25,7 +25,7 @@ describe("Empty", () => {
     };
     const wrapper = mount(<EasyopsEmpty {...props} />);
     expect(wrapper.find(EasyopsEmpty).length).toBe(1);
-    expect((wrapper.find(Empty).prop("image") as string).endsWith(".png")).toBe(
+    expect((wrapper.find(Empty).prop("image") as string).endsWith(".svg")).toBe(
       true
     );
     expect(wrapper.find(Empty).prop("description")).toBe("No content");
