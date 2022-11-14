@@ -71,6 +71,7 @@ jobs:
         key: ${{ runner.os }}-nx-${{ hashFiles('**/package.json') }}
         restore-keys: |
           ${{ runner.os }}-nx-
+      if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
 
     - name: Cache for npx
       uses: actions/cache@v3
