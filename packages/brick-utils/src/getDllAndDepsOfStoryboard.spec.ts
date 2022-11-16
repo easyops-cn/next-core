@@ -95,7 +95,7 @@ describe("getDllAndDepsOfBricks", () => {
     });
 
     expect(spyConsoleError.mock.calls[0][0]).toEqual(
-      "the name of brick is `invalid.brick-z` and it don't match any brick package"
+      "Brick `invalid.brick-z` does not match any brick package"
     );
   });
 
@@ -172,18 +172,18 @@ describe("getDllAndDepsByResource", () => {
     );
 
     expect(spyConsoleError.mock.calls[0][0]).toEqual(
-      "the file path of brick is `invalid/file/path` and it is non-standard package path"
+      'Unexpected brick package file path: "invalid/file/path"'
     );
     expect(spyConsoleError.mock.calls[1][0]).toEqual(
-      "the name of brick is `invalid.form-bricks` and it don't match any package"
+      "Brick `invalid.form-bricks` does not match any brick package"
     );
 
     expect(spyConsoleError.mock.calls[2][0]).toEqual(
-      "the name of processor is `inValidProcessor.covert` and it don't match any package"
+      "Processor `inValidProcessor.covert` does not match any brick package"
     );
 
     expect(spyConsoleError.mock.calls[3][0]).toEqual(
-      "the name of editor is `invalid.form--editor` and it don't match any editor package"
+      "Editor `invalid.form--editor` does not match any brick package"
     );
   });
 
