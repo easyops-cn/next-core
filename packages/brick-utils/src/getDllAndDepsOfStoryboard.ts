@@ -47,9 +47,7 @@ function getBrickToPackageMap(
       m.set(namespace, item);
     } else {
       // eslint-disable-next-line no-console
-      console.error(
-        `the file path of brick is \`${item.filePath}\` and it is non-standard package path`
-      );
+      console.error(`Unexpected brick package file path: "${item.filePath}"`);
     }
 
     return m;
@@ -79,9 +77,7 @@ export function getDllAndDepsOfBricks(
           }
         } else {
           // eslint-disable-next-line no-console
-          console.error(
-            `the name of brick is \`${brick}\` and it don't match any brick package`
-          );
+          console.error(`Brick \`${brick}\` does not match any brick package`);
         }
       }
     });
@@ -136,9 +132,9 @@ export function getDllAndDepsByResource(
         } else {
           // eslint-disable-next-line no-console
           console.error(
-            `the name of ${
-              isProcessor ? "processor" : "brick"
-            } is \`${name}\` and it don't match any package`
+            `${
+              isProcessor ? "Processor" : "Brick"
+            } \`${name}\` does not match any brick package`
           );
         }
       }
@@ -159,7 +155,7 @@ export function getDllAndDepsByResource(
         } else {
           // eslint-disable-next-line no-console
           console.error(
-            `the name of editor is \`${editor}\` and it don't match any editor package`
+            `Editor \`${editor}\` does not match any brick package`
           );
         }
       }
