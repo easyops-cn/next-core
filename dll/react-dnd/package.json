@@ -1,6 +1,6 @@
 {
   "name": "@next-dll/react-dnd",
-  "version": "0.1.472",
+  "version": "0.1.473",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/react-dnd",
   "license": "GPL-3.0",
@@ -19,6 +19,6 @@
     "react-dnd-html5-backend": "^11.1.3"
   },
   "devDependencies": {
-    "@next-core/brick-dll": "^2.40.1"
+    "@next-core/brick-dll": "^2.40.2"
   }
 }
