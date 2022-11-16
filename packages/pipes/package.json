@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@easyops-cn/brick-next-pipes": "^0.3.17"
+    "@easyops-cn/brick-next-pipes": "^0.4.0"
   },
   "devDependencies": {
     "@next-core/rollup-config-factory": "^2.6.4",
