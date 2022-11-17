@@ -24,6 +24,10 @@
       "enabled": false
     },
     {
+      "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
+      "baseBranches": ["master"]
+    },
+    {
       "groupName": "size-limit packages",
       "matchPackageNames": ["size-limit"],
       "matchPackagePatterns": ["^@size-limit/"]
