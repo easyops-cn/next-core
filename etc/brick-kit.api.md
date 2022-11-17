@@ -18,6 +18,7 @@ import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
 import { ContextConf } from '@next-core/brick-types';
+import { Contract } from '@next-core/brick-types';
 import { ContractRequest } from '@next-core/brick-types';
 import { ContractResponse } from '@next-core/brick-types';
 import { CustomApiInfo } from '@next-core/brick-utils';
@@ -137,6 +138,9 @@ export function checkIf(rawIf: string | boolean, context: PluginRuntimeContext):
 //
 // @internal @deprecated (undocumented)
 export function checkIfByTransform(rawIf: string | boolean, data: unknown): boolean;
+
+// @public (undocumented)
+export function collectContract(contracts: Contract[]): void;
 
 // @public (undocumented)
 export function constructEventListener(handler: BrickEventHandler): EventListener;

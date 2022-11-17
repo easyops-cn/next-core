@@ -44,3 +44,4 @@ export * from "./internal/misc";
 export * from "./abortController";
 export * from "./getRealValue";
 export * from "./constructEventListener";
+export { collectContract } from "./core/CollectContracts";

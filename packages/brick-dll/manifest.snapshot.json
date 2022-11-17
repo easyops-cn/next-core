@@ -18542,6 +18542,7 @@
           "batchSetAppsLocalTheme",
           "checkIf",
           "checkIfByTransform",
+          "collectContract",
           "constructEventListener",
           "createHistory",
           "createRuntime",
