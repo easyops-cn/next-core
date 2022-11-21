@@ -132,7 +132,7 @@ export async function CustomApi(
 
   if (isSimpleRequest) {
     const noParams =
-      originalUri && request
+      originalUri && request?.type === "object"
         ? (originalUri.match(/:([^/]+)/g)?.length ?? 0) ===
           (request.fields?.length ?? 0)
         : false;
