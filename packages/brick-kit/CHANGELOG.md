@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.3...@next-core/brick-kit@2.156.4) (2022-11-21)
+
+
+### Bug Fixes
+
+* 修复当 request 是 model 类型时，被当作是无参数的情况 ([4f14975](https://github.com/easyops-cn/next-core/commit/4f14975e9d336453296b36aa648cb88e3c0296d6))
+
+
+
+
+
 ## [2.156.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.2...@next-core/brick-kit@2.156.3) (2022-11-17)
 
 **Note:** Version bump only for package @next-core/brick-kit
