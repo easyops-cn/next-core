@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { formRenderer } from "./constants";
 import {
+  AsyncExpandCustomForm,
   ExpandCustomForm,
   getDefaultProperties,
   getStoryboard,
@@ -411,7 +412,7 @@ describe("getDefaultProperties is work", () => {
   });
 });
 
-describe("ExpandCustomForm is work", () => {
+describe("AsyncExpandCustomForm is work", () => {
   const formData = {
     formSchema: {
       brick: "forms.general-form",
@@ -685,6 +686,13 @@ describe("ExpandCustomForm is work", () => {
       },
     },
   };
+  it("AsyncExpandCustomForm is work", async () => {
+    expect(
+      await AsyncExpandCustomForm(formData, brickConf, true)
+    ).toMatchSnapshot();
+    expect(await AsyncExpandCustomForm(_formData, brickConf)).toMatchSnapshot();
+  });
+
   it("ExpandCustomForm is work", async () => {
     expect(await ExpandCustomForm(formData, brickConf, true)).toMatchSnapshot();
     expect(await ExpandCustomForm(_formData, brickConf)).toMatchSnapshot();

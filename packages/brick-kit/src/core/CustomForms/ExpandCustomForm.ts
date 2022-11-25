@@ -8,109 +8,41 @@ import _ from "lodash";
 import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
 
-export async function ExpandCustomForm(
+export function ExpandCustomForm(
   formData: formDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
-  context: any
-): Promise<BrickConf> {
-  const errorBrick = {
-    brick: "presentational-bricks.brick-illustration",
-    properties: {
-      category: "default",
-      header: {
-        title: "参数错误",
-      },
-      mode: "guide",
-      name: "search-empty",
-    },
-  };
+  context?: any
+): BrickConf {
   const formContext = new CustomFormContext();
-  if (
-    isPreview &&
-    formData.formSchema &&
-    formData.formSchema.brick === "forms.general-form"
-  ) {
-    brickConf["properties"] = {
-      ...brickConf.properties,
-      ...(formData.formSchema.properties?.previewConf as object),
-    };
-  }
+  formData = initFormContext(formData, brickConf, isPreview);
   if (Array.isArray(formData.context)) {
-    formData.context.forEach((item) => {
-      if (brickConf.properties[item.name] !== undefined) {
-        item.value = brickConf.properties[item.name];
-      }
-    });
-    if (brickConf.properties.condition) {
-      formData.context.push({
-        name: "condition",
-        value: brickConf.properties.condition,
-      });
-    }
+    formContext.formState.syncDefine(
+      formData.context,
+      { ...context, formContextId: formContext.id },
+      {}
+    );
+  }
+
+  return getFinalStoryBoard(formData, brickConf, isPreview, formContext);
+}
+
+export async function AsyncExpandCustomForm(
+  formData: formDataProperties,
+  brickConf: BrickConf,
+  isPreview: boolean | undefined,
+  context?: any
+): Promise<BrickConf> {
+  const formContext = new CustomFormContext();
+  formData = initFormContext(formData, brickConf, isPreview);
+  if (Array.isArray(formData.context)) {
     await formContext.formState.define(
       formData.context,
       { ...context, formContextId: formContext.id },
       {}
     );
   }
-  try {
-    const formStoryboard = getStoryboard(
-      [formData.formSchema],
-      [],
-      formData.fields,
-      isPreview,
-      formContext.id
-    );
-    formStoryboard[0] = _.isEmpty(formStoryboard[0])
-      ? errorBrick
-      : formStoryboard[0];
-
-    if (formStoryboard[0].brick === "forms.general-form" && brickConf.events) {
-      const brickConfEvents = brickConf.events;
-      const events = formStoryboard[0].events ?? {};
-      Object.keys(brickConfEvents).forEach((item) => {
-        const newEvents = (
-          Array.isArray(events[item]) ? events[item] : [events[item]]
-        ) as BrickEventHandler[];
-        const itemEvents = (
-          Array.isArray(brickConfEvents[item])
-            ? brickConfEvents[item]
-            : [brickConfEvents[item]]
-        ) as BrickEventHandler[];
-        events[item] = _.compact([...newEvents, ...itemEvents]);
-      });
-      formStoryboard[0].events = events;
-    }
-    return {
-      ...brickConf,
-      brick: "div",
-      slots: {
-        "": {
-          bricks: [
-            {
-              brick: "basic-bricks.micro-view",
-              properties: { style: { padding: "12px" } },
-              slots: { content: { bricks: formStoryboard, type: "bricks" } },
-            },
-          ],
-          type: "bricks",
-        },
-      },
-    };
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(error.message);
-    return {
-      brick: "div",
-      slots: {
-        "": {
-          bricks: [errorBrick],
-          type: "bricks",
-        },
-      },
-    };
-  }
+  return getFinalStoryBoard(formData, brickConf, isPreview, formContext);
 }
 export interface formDataProperties {
   formSchema?: formSchemaProperties;
@@ -418,4 +350,113 @@ export function getStoryboard(
     result[i] = resultItem;
   }
   return result;
+}
+
+export function initFormContext(
+  formData: formDataProperties,
+  brickConf: BrickConf,
+  isPreview: boolean | undefined
+): formDataProperties {
+  if (
+    isPreview &&
+    formData.formSchema &&
+    formData.formSchema.brick === "forms.general-form"
+  ) {
+    brickConf["properties"] = {
+      ...brickConf.properties,
+      ...(formData.formSchema.properties?.previewConf as object),
+    };
+  }
+  if (Array.isArray(formData.context)) {
+    formData.context.forEach((item) => {
+      if (brickConf.properties[item.name] !== undefined) {
+        item.value = brickConf.properties[item.name];
+      }
+    });
+    if (brickConf.properties.condition) {
+      formData.context.push({
+        name: "condition",
+        value: brickConf.properties.condition,
+      });
+    }
+  }
+  return formData;
+}
+
+export function getFinalStoryBoard(
+  formData: formDataProperties,
+  brickConf: BrickConf,
+  isPreview: boolean | undefined,
+  formContext: CustomFormContext
+): BrickConf {
+  let result = null;
+  const errorBrick = {
+    brick: "presentational-bricks.brick-illustration",
+    properties: {
+      category: "default",
+      header: {
+        title: "参数错误",
+      },
+      mode: "guide",
+      name: "search-empty",
+    },
+  };
+  try {
+    const formStoryboard = getStoryboard(
+      [formData.formSchema],
+      [],
+      formData.fields,
+      isPreview,
+      formContext.id
+    );
+    formStoryboard[0] = _.isEmpty(formStoryboard[0])
+      ? errorBrick
+      : formStoryboard[0];
+
+    if (formStoryboard[0].brick === "forms.general-form" && brickConf.events) {
+      const brickConfEvents = brickConf.events;
+      const events = formStoryboard[0].events ?? {};
+      Object.keys(brickConfEvents).forEach((item) => {
+        const newEvents = (
+          Array.isArray(events[item]) ? events[item] : [events[item]]
+        ) as BrickEventHandler[];
+        const itemEvents = (
+          Array.isArray(brickConfEvents[item])
+            ? brickConfEvents[item]
+            : [brickConfEvents[item]]
+        ) as BrickEventHandler[];
+        events[item] = _.compact([...newEvents, ...itemEvents]);
+      });
+      formStoryboard[0].events = events;
+    }
+    result = {
+      ...brickConf,
+      brick: "div",
+      slots: {
+        "": {
+          bricks: [
+            {
+              brick: "basic-bricks.micro-view",
+              properties: { style: { padding: "12px" } },
+              slots: { content: { bricks: formStoryboard, type: "bricks" } },
+            },
+          ],
+          type: "bricks",
+        },
+      },
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn(error.message);
+    result = {
+      brick: "div",
+      slots: {
+        "": {
+          bricks: [errorBrick],
+          type: "bricks",
+        },
+      },
+    };
+  }
+  return result as BrickConf;
 }

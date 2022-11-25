@@ -73,7 +73,7 @@ import { Media } from "../internal/mediaQuery";
 import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
 import {
-  ExpandCustomForm,
+  AsyncExpandCustomForm,
   formDataProperties,
 } from "./CustomForms/ExpandCustomForm";
 import {
@@ -709,7 +709,7 @@ export class LocationContext {
       const formData: formDataProperties = JSON.parse(
         brick.properties.formData
       );
-      expandedBrickConf = await ExpandCustomForm(
+      expandedBrickConf = await AsyncExpandCustomForm(
         formData,
         brickConf,
         brick.properties.isPreview,
