@@ -8,6 +8,7 @@ const {
   getSettings,
   getTemplatePackages,
   getSingleStoryboard,
+  tryFiles,
   tryServeFiles,
 } = require("./utils");
 
@@ -21,9 +22,12 @@ module.exports = (env, app) => {
     localMicroApps,
     localTemplates,
     microAppsDir,
+    alternativeMicroAppsDir,
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    primitiveBrickPackagesDir,
     templatePackagesDir,
+    alternativeTemplatePackagesDir,
     mocked,
     mockedMicroAppsDir,
     mockedMicroApps,
@@ -62,6 +66,18 @@ module.exports = (env, app) => {
                 "dist/editors",
                 req.params[0]
               ),
+              path.join(
+                primitiveBrickPackagesDir,
+                pkgId,
+                "dist-editors",
+                req.params[0]
+              ),
+              path.join(
+                primitiveBrickPackagesDir,
+                pkgId,
+                "dist/editors",
+                req.params[0]
+              ),
             ],
             req,
             res
@@ -82,6 +98,7 @@ module.exports = (env, app) => {
               [
                 path.join(brickPackagesDir, pkgId, req.params[0]),
                 path.join(alternativeBrickPackagesDir, pkgId, req.params[0]),
+                path.join(primitiveBrickPackagesDir, pkgId, req.params[0]),
               ],
               req,
               res
@@ -94,15 +111,27 @@ module.exports = (env, app) => {
         localMicroApps.forEach((appId) => {
           // 直接返回本地小产品相关文件。
           app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
-            const filePath = path.join(microAppsDir, appId, req.params[0]);
-            tryServeFiles(filePath, req, res);
+            tryServeFiles(
+              [
+                path.join(microAppsDir, appId, req.params[0]),
+                path.join(alternativeMicroAppsDir, appId, req.params[0]),
+              ],
+              req,
+              res
+            );
           });
         });
       localTemplates.forEach((pkgId) => {
         // 直接返回本地模板相关文件。
         app.get(`${publicRoot}templates/${pkgId}/*`, (req, res) => {
-          const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
-          tryServeFiles(filePath, req, res);
+          tryServeFiles(
+            [
+              path.join(templatePackagesDir, pkgId, req.params[0]),
+              path.join(alternativeTemplatePackagesDir, pkgId, req.params[0]),
+            ],
+            req,
+            res
+          );
         });
       });
 
@@ -206,6 +235,7 @@ module.exports = (env, app) => {
           [
             path.join(brickPackagesDir, req.params[0]),
             path.join(alternativeBrickPackagesDir, req.params[0]),
+            path.join(primitiveBrickPackagesDir, req.params[0]),
           ],
           req,
           res
@@ -218,6 +248,7 @@ module.exports = (env, app) => {
           [
             ...(mocked ? [path.join(mockedMicroAppsDir, req.params[0])] : []),
             path.join(microAppsDir, req.params[0]),
+            path.join(alternativeMicroAppsDir, req.params[0]),
           ],
           req,
           res
@@ -226,8 +257,14 @@ module.exports = (env, app) => {
 
       // 直接返回模板库 js 文件。
       app.get(`${publicRoot}templates/*`, (req, res) => {
-        const filePath = path.join(templatePackagesDir, req.params[0]);
-        tryServeFiles(filePath, req, res);
+        tryServeFiles(
+          [
+            path.join(templatePackagesDir, req.params[0]),
+            path.join(alternativeTemplatePackagesDir, req.params[0]),
+          ],
+          req,
+          res
+        );
       });
     }
   }
