@@ -879,7 +879,7 @@ describe("BrickAsComponent", () => {
           name: "c1",
           fieldType: "STRING",
           description: "",
-          limit: [],
+          limit: ["READONLY"],
           defaultValue: "",
         },
         {
@@ -901,7 +901,12 @@ describe("BrickAsComponent", () => {
           defaultValue: "",
         },
       ],
-      context: [],
+      context: [
+        {
+          name: "options",
+          value: ["APP", "n"],
+        },
+      ],
     };
     const wrapper = mount(
       <BrickAsComponent
