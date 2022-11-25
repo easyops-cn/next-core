@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.7](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.34.6...@next-dll/editor-bricks-helper@0.34.7) (2022-11-25)
+
+**Note:** Version bump only for package @next-dll/editor-bricks-helper
+
+
+
+
+
 ## [0.34.6](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.34.5...@next-dll/editor-bricks-helper@0.34.6) (2022-11-25)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
