@@ -311,6 +311,8 @@ module.exports = (runtimeFlags) => {
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
   );
+  const alternativeMicroAppsDir = path.join(nextRepoDir, "micro-apps");
+
   const brickPackagesDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-bricks" : "@bricks"}`
@@ -319,10 +321,14 @@ module.exports = (runtimeFlags) => {
     nextRepoDir,
     `node_modules/${usePublicScope ? "@bricks" : "@next-bricks"}`
   );
+  const primitiveBrickPackagesDir = path.join(nextRepoDir, "bricks");
+
   const templatePackagesDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-legacy-templates" : "@templates"}`
   );
+  const alternativeTemplatePackagesDir = path.join(nextRepoDir, "templates");
+
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
@@ -354,9 +360,12 @@ module.exports = (runtimeFlags) => {
     useMergeSettings,
     nextRepoDir,
     microAppsDir,
+    alternativeMicroAppsDir,
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    primitiveBrickPackagesDir,
     templatePackagesDir,
+    alternativeTemplatePackagesDir,
     navbarJsonPath,
     hasStandaloneApps: standaloneAppsConfig.length > 0,
     standaloneAppsConfig,
