@@ -21,6 +21,7 @@ export interface BuilderCanvasSettings {
 
 export type BuilderRuntimeNode<P = Record<string, unknown>> =
   BuilderRouteOrBrickNode & {
+    displayName?: string;
     $$uid?: number;
     $$parsedProperties?: P;
     $$parsedEvents?: BrickEventsMap;

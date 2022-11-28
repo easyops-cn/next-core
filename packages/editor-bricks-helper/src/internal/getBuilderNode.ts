@@ -75,7 +75,7 @@ export function getBuilderNode(
       .filter((entry) => !nodeIgnoreFields.includes(entry[0]))
       .concat([
         [
-          "alias",
+          "displayName",
           // Ignore alias which equals to brick name.
           (!(isBrick && nodeData.alias === brickName) && nodeData.alias) ||
             (isBrick
