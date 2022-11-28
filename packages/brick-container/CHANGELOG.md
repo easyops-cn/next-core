@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.78.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.38...@next-core/brick-container@2.78.0) (2022-11-28)
+
+
+### Features
+
+* devServer支持查找仓库中的package原始路径 ([d1a5a93](https://github.com/easyops-cn/next-core/commit/d1a5a9313c17a91f22fb975382a28bf4fd12cb8e))
+
+
+
+
+
 ## [2.77.38](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.37...@next-core/brick-container@2.77.38) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/brick-container

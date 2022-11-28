@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.49.27](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.49.26...@next-core/editor-bricks-helper@0.49.27) (2022-11-28)
+
+
+### Bug Fixes
+
+* set displayName instead of alias ([98e514f](https://github.com/easyops-cn/next-core/commit/98e514fee60ff17c08a2130e7002c06d7fdb5348))
+
+
+
+
+
 ## [0.49.26](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.49.25...@next-core/editor-bricks-helper@0.49.26) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
