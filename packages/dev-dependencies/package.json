@@ -18,7 +18,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
+    "@babel/core": "^7.20.5",
     "@next-core/babel-preset-next": "^0.9.15",
     "@next-core/babel-preset-prismjs": "^1.0.19",
     "@next-core/brick-container": "^2.77.30",
