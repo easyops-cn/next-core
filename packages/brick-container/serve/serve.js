@@ -11,101 +11,23 @@ const yaml = require("js-yaml");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
-const { getPatternsToWatch, appendLiveReloadScript } = require("./utils");
+const { getPatternsToWatch } = require("./utils");
+const { getIndexHtml, distDir } = require("./getIndexHtml");
 
 module.exports = function serve(runtimeFlags) {
   const env = getEnv(runtimeFlags);
 
   const app = express();
 
-  const distDir = path.dirname(
-    require.resolve("@next-core/brick-container/dist/index.html")
-  );
-
   serveLocal(env, app);
 
   const serveIndexHtmlFactory = (standaloneConfig) => (_req, res) => {
-    const indexHtml = path.join(distDir, "index.html");
-    let content = fs.readFileSync(indexHtml, "utf8");
-
-    if (env.liveReload) {
-      content = appendLiveReloadScript(content, env);
-    }
-
-    // Replace nginx ssi placeholders.
-    content = content
-      .replace(
-        new RegExp(
-          escapeRegExp("<!--# echo var='base_href' default='/' -->"),
-          "g"
-        ),
-        env.baseHref
-      )
-      .replace(
-        new RegExp(
-          escapeRegExp("<!--# echo var='core_root' default='' -->"),
-          "g"
-        ),
-        `${env.publicCdn ?? ""}${
-          standaloneConfig
-            ? standaloneConfig.standaloneVersion === 2
-              ? `${standaloneConfig.publicPrefix}core/${standaloneConfig.coreVersion}/`
-              : `${standaloneConfig.appRoot}-/core/`
-            : ""
-        }`
-      )
-      .replace(
-        new RegExp(
-          escapeRegExp("<!--# echo var='mock_date' default='' -->"),
-          "g"
-        ),
-        env.mockDate ?? ""
-      )
-      .replace(
-        new RegExp(
-          escapeRegExp("<!--# echo var='public_cdn' default='' -->"),
-          "g"
-        ),
-        env.publicCdn ?? ""
-      );
-
-    if (standaloneConfig) {
-      content = content.replace(
-        "</head>",
-        [
-          "<script>",
-          "((w)=>{",
-          "w.STANDALONE_MICRO_APPS=!0;",
-          `var a=w.APP_ROOT=${JSON.stringify(standaloneConfig.appRoot)};`,
-          (standaloneConfig.standaloneVersion === 2
-            ? [
-                "w.PUBLIC_ROOT_WITH_VERSION=!0",
-                `var d=${JSON.stringify(standaloneConfig.publicPrefix)}`,
-                'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
-                `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/"`,
-                `w.BOOTSTRAP_FILE=a+"-/bootstrap.${standaloneConfig.bootstrapHash}.json"`,
-              ]
-            : [
-                'var d=a+"-/"',
-                'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
-                'w.CORE_ROOT=p+"core/"',
-                `w.BOOTSTRAP_FILE=d+"bootstrap.${standaloneConfig.bootstrapHash}.json"`,
-              ]
-          )
-            .filter(Boolean)
-            .join(";"),
-          "})(window)",
-          "</script></head>",
-        ].join("")
-      );
-    }
-
-    res.send(content);
+    res.send(getIndexHtml(standaloneConfig, env));
   };
 
   if (!env.useRemote) {
     let fakeAuthHandled = false;
-    for (const standaloneConfig of env.standaloneAppsConfig) {
+    for (const standaloneConfig of env.legacyStandaloneAppsConfig) {
       // Return a fake `conf.yaml` for standalone micro-apps.
       app.get(`${standaloneConfig.appRoot}conf.yaml`, (req, res) => {
         res.setHeader("content-type", "text/plain");
@@ -132,7 +54,7 @@ module.exports = function serve(runtimeFlags) {
 
   if (env.useLocalContainer) {
     const browseHappyHtml = "browse-happy.html";
-    for (const standaloneConfig of env.allAppsConfig) {
+    for (const standaloneConfig of env.legacyAllAppsConfig) {
       const serveRoot = `${env.baseHref}${
         standaloneConfig ? standaloneConfig.appDir : ""
       }`;
@@ -145,7 +67,7 @@ module.exports = function serve(runtimeFlags) {
         });
       } else {
         // Serve index.html.
-        app.get(serveRoot, serveIndexHtmlFactory(standaloneConfig));
+        app.get(serveRoot, serveIndexHtmlFactory(standaloneConfig, env));
 
         // Serve browse-happy.html.
         app.get(`${env.baseHref}${browseHappyHtml}`, (req, res) => {
@@ -155,12 +77,13 @@ module.exports = function serve(runtimeFlags) {
 
       // Serve static files.
       const staticRoot = standaloneConfig
-        ? standaloneConfig.standaloneVersion === 2
-          ? `${standaloneConfig.publicPrefix}core/${standaloneConfig.coreVersion}/`
-          : `${standaloneConfig.appRoot || serveRoot}-/core/`
+        ? `${standaloneConfig.appRoot || serveRoot}-/core/`
         : serveRoot;
       app.use(staticRoot, express.static(distDir));
     }
+
+    // Serve static files in next-core for new standalone apps.
+    app.use(`${env.saStaticRoot}-/core/:coreVersion/`, express.static(distDir));
   }
 
   // Using proxies.
@@ -221,11 +144,11 @@ module.exports = function serve(runtimeFlags) {
   }
 
   if (env.useLocalContainer && !env.asCdn) {
-    for (const standaloneConfig of env.allAppsConfig) {
+    for (const standaloneConfig of env.legacyAllAppsConfig) {
       const serveRoot = `${env.baseHref}${
         standaloneConfig ? standaloneConfig.appDir : ""
       }`;
-      app.use(serveRoot, serveIndexHtmlFactory(standaloneConfig));
+      app.use(serveRoot, serveIndexHtmlFactory(standaloneConfig, env));
     }
 
     // Return a fake 404 page for not-existed apps.

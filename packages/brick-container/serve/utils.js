@@ -9,6 +9,7 @@ function getNavbar(env) {
 }
 
 function getStoryboardsByMicroApps(env, mocked, options = {}) {
+  // Used only in non-remote mode.
   return getNamesOfMicroApps(env, mocked)
     .map((name) => getSingleStoryboard(env, name, mocked, options))
     .filter(Boolean);
@@ -30,7 +31,9 @@ function getNamesOfMicroApps(env, mocked) {
     .map((dirent) => dirent.name);
   // Ignore `auth` for fully standalone micro-apps.
   return mocked &&
-    env.standaloneAppsConfig.some((standaloneConfig) => standaloneConfig.appDir)
+    env.legacyStandaloneAppsConfig.some(
+      (standaloneConfig) => standaloneConfig.appDir
+    )
     ? apps.filter((name) => name !== "auth")
     : apps;
 }
@@ -83,10 +86,10 @@ function getSingleStoryboard(env, microAppName, mocked, options = {}) {
   return storyboard;
 }
 
-function getBrickPackages(env, standaloneConfig) {
+function getBrickPackages(env, publicRootWithVersion) {
   return getNamesOfBrickPackages(env)
     .map((name) =>
-      getSingleBrickPackage(env, name, undefined, standaloneConfig)
+      getSingleBrickPackage(env, name, undefined, publicRootWithVersion)
     )
     .filter(Boolean);
 }
@@ -110,7 +113,7 @@ function getSingleBrickPackage(
   env,
   brickPackageName,
   remoteBrickPackages,
-  standaloneConfig
+  publicRootWithVersion
 ) {
   const {
     brickPackagesDir,
@@ -144,7 +147,7 @@ function getSingleBrickPackage(
   if (fs.existsSync(distDir)) {
     if (!remoteBrickPackages || localBrickPackages.includes(brickPackageName)) {
       let versionPart = "";
-      if (standaloneConfig && standaloneConfig.standaloneVersion === 2) {
+      if (publicRootWithVersion) {
         const packageJson = JSON.parse(
           fs.readFileSync(path.resolve(distDir, "../package.json"))
         );

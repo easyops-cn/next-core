@@ -237,7 +237,12 @@ module.exports = (runtimeFlags) => {
       standaloneConfig.standaloneVersion = 2;
     }
   }
+  const legacyStandaloneAppsConfig = standaloneAppsConfig.filter(
+    (conf) => conf.standaloneVersion !== 2
+  );
   const appConfig = (devConfig && devConfig.appConfig) || {};
+  const saStaticRoot =
+    (devConfig && devConfig.saStaticRoot) || "(/next)?/sa-static/";
 
   const { usePublicScope, standalone: confStandalone } =
     getEasyopsConfig(nextRepoDir);
@@ -333,7 +338,7 @@ module.exports = (runtimeFlags) => {
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
   if (flags.standaloneMicroApps) {
-    standaloneAppsConfig.push({
+    legacyStandaloneAppsConfig.push({
       appDir: flags.standaloneAppDir,
       appRoot:
         flags.standaloneAppRoot || `${baseHref}${flags.standaloneAppDir}`,
@@ -367,10 +372,9 @@ module.exports = (runtimeFlags) => {
     templatePackagesDir,
     alternativeTemplatePackagesDir,
     navbarJsonPath,
-    hasStandaloneApps: standaloneAppsConfig.length > 0,
-    standaloneAppsConfig,
-    allAppsConfig: standaloneAppsConfig.concat(null),
     bootstrapHash: flags.bootstrapHash,
+    legacyStandaloneAppsConfig,
+    legacyAllAppsConfig: legacyStandaloneAppsConfig.concat(null),
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
@@ -391,6 +395,7 @@ module.exports = (runtimeFlags) => {
     mockDate: flags.mockDate,
     publicCdn: flags.publicCdn,
     asCdn: flags.asCdn,
+    saStaticRoot,
   };
 
   checkLocalPackages(env);
@@ -471,8 +476,11 @@ module.exports = (runtimeFlags) => {
       : chalk.bgWhite("local")
   );
 
-  if (env.hasStandaloneApps) {
-    console.log(chalk.bold.cyan("standalone apps:"), env.standaloneAppsConfig);
+  if (env.legacyStandaloneAppsConfig.length > 0) {
+    console.log(
+      chalk.bold.cyan("legacy standalone apps:"),
+      env.legacyStandaloneAppsConfig
+    );
   }
 
   console.log(
