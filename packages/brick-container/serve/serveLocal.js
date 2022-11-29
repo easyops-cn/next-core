@@ -8,7 +8,6 @@ const {
   getSettings,
   getTemplatePackages,
   getSingleStoryboard,
-  tryFiles,
   tryServeFiles,
 } = require("./utils");
 
@@ -31,18 +30,33 @@ module.exports = (env, app) => {
     mocked,
     mockedMicroAppsDir,
     mockedMicroApps,
-    allAppsConfig,
     asCdn,
+    legacyStandaloneAppsConfig,
+    saStaticRoot,
   } = env;
   let username;
 
-  for (const standaloneConfig of allAppsConfig) {
-    const publicRoot = standaloneConfig
-      ? standaloneConfig.standaloneVersion === 2
-        ? standaloneConfig.publicPrefix
-        : `${standaloneConfig.appRoot}-/`
-      : baseHref;
+  const serveLocalConfigs = legacyStandaloneAppsConfig
+    .map((standaloneConfig) => ({
+      publicRoot: `${standaloneConfig.appRoot}-/`,
+      isStandalone: true,
+    }))
+    .concat(
+      {
+        publicRoot: `${saStaticRoot}-/`,
+        isStandalone: true,
+        publicRootWithVersion: true,
+      },
+      {
+        publicRoot: baseHref,
+      }
+    );
 
+  for (const {
+    publicRoot,
+    isStandalone,
+    publicRootWithVersion,
+  } of serveLocalConfigs) {
     // 开发时默认拦截 bootstrap 请求。
     // 如果设定 `REMOTE=true`，则透传远端请求。
     if (useRemote) {
@@ -107,7 +121,7 @@ module.exports = (env, app) => {
         );
       });
 
-      standaloneConfig ||
+      isStandalone ||
         localMicroApps.forEach((appId) => {
           // 直接返回本地小产品相关文件。
           app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
@@ -135,7 +149,7 @@ module.exports = (env, app) => {
         });
       });
 
-      standaloneConfig ||
+      isStandalone ||
         mockedMicroApps.forEach((appId) => {
           // 直接返回本地小产品相关文件。
           app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
@@ -159,7 +173,7 @@ module.exports = (env, app) => {
         });
       // API to fulfil the active storyboard.
       asCdn ||
-        standaloneConfig ||
+        isStandalone ||
         localMicroApps.concat(mockedMicroApps).forEach((appId) => {
           app.get(
             `${baseHref}api/auth(/v2)?/bootstrap/${appId}`,
@@ -176,7 +190,7 @@ module.exports = (env, app) => {
           );
         });
     } else {
-      if (standaloneConfig) {
+      if (isStandalone) {
         app.get(`${publicRoot}bootstrap.hash.json`, (req, res) => {
           res.json({
             navbar: getNavbar(env),
@@ -190,7 +204,7 @@ module.exports = (env, app) => {
                 brief: req.query.brief === "true",
               })
             ),
-            brickPackages: getBrickPackages(env, standaloneConfig),
+            brickPackages: getBrickPackages(env, publicRootWithVersion),
             templatePackages: getTemplatePackages(env),
           });
         });

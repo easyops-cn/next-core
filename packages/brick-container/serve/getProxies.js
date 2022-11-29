@@ -15,6 +15,7 @@ const {
   tryFiles,
   removeCacheHeaders,
 } = require("./utils");
+const { getIndexHtml } = require("./getIndexHtml");
 
 module.exports = (env) => {
   const {
@@ -35,9 +36,10 @@ module.exports = (env) => {
     brickPackagesDir,
     alternativeBrickPackagesDir,
     useLegacyBootstrap,
-    hasStandaloneApps,
-    standaloneAppsConfig,
-    allAppsConfig,
+    legacyStandaloneAppsConfig,
+    legacyAllAppsConfig,
+    saStaticRoot,
+    useLocalContainer,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -56,24 +58,23 @@ module.exports = (env) => {
     },
   };
   if (useRemote) {
-    for (const standaloneConfig of allAppsConfig) {
-      const assetRoot = standaloneConfig
-        ? standaloneConfig.standaloneVersion === 2
-          ? standaloneConfig.publicPrefix
-          : `${standaloneConfig.appRoot}-/`
-        : "";
+    for (const standaloneConfig of legacyAllAppsConfig) {
+      const assetRoot = standaloneConfig ? `${standaloneConfig.appRoot}-/` : "";
       if (standaloneConfig) {
         // 在「独立应用」模式中，静态资源路径在 `your-app/-/` 目录下。
         proxyPaths.push(assetRoot);
         proxyPaths.push(`${standaloneConfig.appRoot}conf.yaml`);
-        if (standaloneConfig.standaloneVersion === 2) {
-          proxyPaths.push(`${standaloneConfig.appRoot}-/`);
-        }
       } else {
         const assetPaths = ["bricks", "micro-apps", "templates"];
         proxyPaths.push(...assetPaths.map((p) => `${assetRoot}${p}`));
       }
     }
+
+    proxyPaths.push(
+      `${saStaticRoot}-/`,
+      `${saStaticRoot}:appId/versions/:appVersion/conf.yaml`,
+      `${saStaticRoot}:appId/versions/:appVersion/webroot/-/`
+    );
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (env.asCdn) {
@@ -84,23 +85,33 @@ module.exports = (env) => {
       let reqIsBootstrap =
         req.path === "/next/api/auth/bootstrap" ||
         req.path === "/next/api/auth/v2/bootstrap";
-      let matchedStandaloneConfig;
-      if (!reqIsBootstrap && hasStandaloneApps) {
-        for (const standaloneConfig of standaloneAppsConfig) {
-          const regex = new RegExp(
-            `^${escapeRegExp(
-              standaloneConfig.appRoot
-            )}-/bootstrap\\.[^.]+\\.json$`
-          );
-          if (regex.test(req.path)) {
-            reqIsBootstrap = true;
-            matchedStandaloneConfig = standaloneConfig;
+      let isStandalone = false;
+      let publicRootWithVersion = false;
+      if (!reqIsBootstrap) {
+        const regex =
+          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap\.[^.]+\.json$/;
+        if (regex.test(req.path)) {
+          reqIsBootstrap = true;
+          isStandalone = true;
+          publicRootWithVersion = true;
+        }
+        if (!reqIsBootstrap) {
+          for (const standaloneConfig of legacyStandaloneAppsConfig) {
+            const regex = new RegExp(
+              `^${escapeRegExp(
+                standaloneConfig.appRoot
+              )}-/bootstrap\\.[^.]+\\.json$`
+            );
+            if (regex.test(req.path)) {
+              reqIsBootstrap = true;
+              isStandalone = true;
+            }
           }
         }
       }
 
       if (reqIsBootstrap) {
-        if (matchedStandaloneConfig && res.statusCode === 200) {
+        if (res.statusCode === 200) {
           // Disable cache for standalone bootstrap for development.
           removeCacheHeaders(proxyRes);
         }
@@ -109,7 +120,7 @@ module.exports = (env) => {
             return raw;
           }
           const result = JSON.parse(raw);
-          const data = matchedStandaloneConfig ? result : result.data;
+          const data = isStandalone ? result : result.data;
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
               .map((id) =>
@@ -156,7 +167,7 @@ module.exports = (env) => {
                   env,
                   id,
                   data.brickPackages,
-                  matchedStandaloneConfig
+                  publicRootWithVersion
                 )
               )
               .filter(Boolean)
@@ -362,22 +373,105 @@ module.exports = (env) => {
   }
 
   const rootProxyOptions = {};
-  if (!env.useLocalContainer && !env.asCdn) {
+  if (useRemote && !env.asCdn) {
     proxyPaths.push("");
     rootProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (
         req.method === "GET" &&
         (req.get("accept") || "").includes("text/html")
       ) {
+        if (res.statusCode === 200) {
+          // Disable cache for standalone runtime for development.
+          removeCacheHeaders(proxyRes);
+        }
         modifyResponse(res, proxyRes, (raw) => {
           if (
             !(
               res.statusCode === 200 &&
-              res.get("content-type") === "text/html" &&
-              raw.includes(`/next/browse-happy.html`)
+              (res.get("content-type") || "").includes("text/html") &&
+              raw.includes(`/browse-happy.html`)
             )
           ) {
             return raw;
+          }
+          if (useLocalContainer) {
+            const pathname = useSubdir
+              ? req.path.replace(/^\/next\//, "/")
+              : req.path;
+            const standalone = /\bSTANDALONE_MICRO_APPS\s*=\s*(?:!0|true)/.test(
+              raw
+            );
+            if (standalone) {
+              const appDir = pathname
+                .split("/")
+                .slice(1, pathname.startsWith("/legacy/") ? 3 : 2)
+                .concat("")
+                .join("/");
+
+              const appRootMatches = raw.match(/\bAPP_ROOT\s*=\s*("[^"]+")/);
+              if (!appRootMatches) {
+                const message = "Unexpected: APP_ROOT is not found";
+                console.log(message, raw);
+                throw new Error(message);
+              }
+              const appRoot = JSON.parse(appRootMatches[1]);
+
+              const bootstrapHashMatches = raw.match(
+                /\bbootstrap\.([^."]+)\.json\b/
+              );
+              if (!bootstrapHashMatches) {
+                const message = "Unexpected: bootstrapHash is not found";
+                console.log(message, raw);
+                throw new Error(message);
+              }
+              const bootstrapHash = bootstrapHashMatches[1];
+
+              const noAuthGuard = /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(raw);
+
+              const publicRootWithVersion =
+                /\bPUBLIC_ROOT_WITH_VERSION\s*=\s*(?:!0|true)/.test(raw);
+
+              if (publicRootWithVersion) {
+                const publicPrefixMatches = raw.match(
+                  /\bvar\s+d\s*=\s*("[^"]+")/
+                );
+                if (!publicPrefixMatches) {
+                  const message =
+                    "Unexpected: PUBLIC_ROOT_WITH_VERSION is true while public-prefix is not found";
+                  console.log(message, raw);
+                  throw new Error(message);
+                }
+                const publicPrefix = JSON.parse(publicPrefixMatches[1]);
+
+                // const coreVersionMatches = raw.match(/"core\/(?:[^/]+)\/"/);
+                // const coreVersion = JSON.parse(coreVersionMatches[0]).split("/")[1];
+                const coreVersion = "0.0.0";
+
+                return getIndexHtml(
+                  {
+                    appDir,
+                    appRoot,
+                    publicPrefix,
+                    bootstrapHash,
+                    coreVersion,
+                    noAuthGuard,
+                    standaloneVersion: 2,
+                  },
+                  env
+                );
+              }
+              return getIndexHtml(
+                {
+                  appDir,
+                  appRoot,
+                  bootstrapHash,
+                  noAuthGuard,
+                  standaloneVersion: 1,
+                },
+                env
+              );
+            }
+            return getIndexHtml(null, env);
           }
           const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
           return env.liveReload
@@ -426,7 +520,11 @@ module.exports = (env) => {
             }
           : {}),
         ...proxyPaths.reduce((acc, seg) => {
-          acc[seg.startsWith("/") ? seg : `${baseHref}${seg}`] = {
+          acc[
+            seg.startsWith("/") || seg.startsWith("(/")
+              ? seg
+              : `${baseHref}${seg}`
+          ] = {
             target: server,
             secure: false,
             changeOrigin: true,
