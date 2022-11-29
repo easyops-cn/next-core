@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.6...@next-core/brick-kit@2.156.7) (2022-11-29)
+
+
+### Bug Fixes
+
+* fix an issue causes setting favicon to undefined ([717a9fe](https://github.com/easyops-cn/next-core/commit/717a9fe9e91bae7774562ff9c83abaa247b597d9))
+
+
+
+
+
 ## [2.156.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.5...@next-core/brick-kit@2.156.6) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/brick-kit

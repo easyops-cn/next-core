@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.78.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.0...@next-core/brick-container@2.78.1) (2022-11-29)
+
+
+### Bug Fixes
+
+* auto detect remote standalone apps ([55e554a](https://github.com/easyops-cn/next-core/commit/55e554a8147a1d5f8635368526da26c66f888951))
+
+
+
+
+
 # [2.78.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.38...@next-core/brick-container@2.78.0) (2022-11-28)
 
 

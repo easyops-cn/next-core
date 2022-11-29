@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.397](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.396...@next-core/next-docs@1.2.397) (2022-11-29)
+
+**Note:** Version bump only for package @next-core/next-docs
+
+
+
+
+
 ## [1.2.396](https://github.com/easyops-cn/next-core/compare/@next-core/next-docs@1.2.395...@next-core/next-docs@1.2.396) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/next-docs
