@@ -32,7 +32,6 @@ module.exports = (env, app) => {
     mockedMicroApps,
     asCdn,
     legacyStandaloneAppsConfig,
-    saStaticRoot,
   } = env;
   let username;
 
@@ -43,7 +42,8 @@ module.exports = (env, app) => {
     }))
     .concat(
       {
-        publicRoot: `${saStaticRoot}-/`,
+        publicRoot: "(/next)?/sa-static/-/",
+        publicRootAsRegExpRaw: "(?:/next)?/sa-static/-/",
         isStandalone: true,
         publicRootWithVersion: true,
       },
@@ -54,6 +54,7 @@ module.exports = (env, app) => {
 
   for (const {
     publicRoot,
+    publicRootAsRegExpRaw,
     isStandalone,
     publicRootWithVersion,
   } of serveLocalConfigs) {
@@ -103,8 +104,10 @@ module.exports = (env, app) => {
         // 直接返回本地构件库相关文件（但排除编辑器相关文件）。
         app.get(
           new RegExp(
-            `^${escapeRegExp(
-              `${publicRoot}bricks/${pkgId}/`
+            `^${
+              publicRootAsRegExpRaw || escapeRegExp(publicRoot)
+            }${escapeRegExp(
+              `bricks/${pkgId}/`
             )}(?:\\d+(?:\\.\\d+)*/)?(?!dist/editors/)(.+)`
           ),
           (req, res) => {
