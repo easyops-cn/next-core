@@ -344,7 +344,11 @@ export class Runtime implements AbstractRuntime {
   }
 
   getMiscSettings(): Record<string, unknown> {
-    return Object.assign({}, kernel.bootstrapData.settings?.misc);
+    return Object.assign(
+      {},
+      kernel.bootstrapData.settings?.misc,
+      (kernel.nextApp?.config?.settings as any)?.misc
+    );
   }
 
   registerBrickTemplate = registerBrickTemplate;
