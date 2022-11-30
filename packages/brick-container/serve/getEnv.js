@@ -241,8 +241,6 @@ module.exports = (runtimeFlags) => {
     (conf) => conf.standaloneVersion !== 2
   );
   const appConfig = (devConfig && devConfig.appConfig) || {};
-  const saStaticRoot =
-    (devConfig && devConfig.saStaticRoot) || "(/next)?/sa-static/";
 
   const { usePublicScope, standalone: confStandalone } =
     getEasyopsConfig(nextRepoDir);
@@ -395,7 +393,6 @@ module.exports = (runtimeFlags) => {
     mockDate: flags.mockDate,
     publicCdn: flags.publicCdn,
     asCdn: flags.asCdn,
-    saStaticRoot,
   };
 
   checkLocalPackages(env);

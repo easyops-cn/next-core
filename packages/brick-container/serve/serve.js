@@ -83,7 +83,9 @@ module.exports = function serve(runtimeFlags) {
     }
 
     // Serve static files in next-core for new standalone apps.
-    app.use(`${env.saStaticRoot}-/core/:coreVersion/`, express.static(distDir));
+    app.use("(/next)?/sa-static/-/core/:coreVersion/", express.static(distDir));
+    // For legacy standalone apps.
+    app.use(`${env.baseHref}:appId/-/core/`, express.static(distDir));
   }
 
   // Using proxies.

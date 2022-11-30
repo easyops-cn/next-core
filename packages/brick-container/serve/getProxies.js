@@ -38,12 +38,11 @@ module.exports = (env) => {
     useLegacyBootstrap,
     legacyStandaloneAppsConfig,
     legacyAllAppsConfig,
-    saStaticRoot,
     useLocalContainer,
   } = env;
 
   const pathRewriteFactory = (seg) =>
-    useSubdir
+    useSubdir || seg.includes("/sa-static/")
       ? undefined
       : {
           [`^/${seg}`]: `/next/${seg}`,
@@ -71,9 +70,8 @@ module.exports = (env) => {
     }
 
     proxyPaths.push(
-      `${saStaticRoot}-/`,
-      `${saStaticRoot}:appId/versions/:appVersion/conf.yaml`,
-      `${saStaticRoot}:appId/versions/:appVersion/webroot/-/`
+      "(/next)?/sa-static/:appId/versions/:appVersion/webroot/-/",
+      "/sa-static/"
     );
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
