@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.7...@next-core/brick-kit@2.156.8) (2022-12-01)
+
+
+### Bug Fixes
+
+* 小产品可以配置 featureFlags 和 misc ([13adfbf](https://github.com/easyops-cn/next-core/commit/13adfbfd4424beb65401cd2897bb740ba1751029))
+* 支持在user_config配置feature_flags和mic配置 ([1b4bbe7](https://github.com/easyops-cn/next-core/commit/1b4bbe76a4cfbd55a2648c7ef19a19d647f68cee))
+
+
+
+
+
 ## [2.156.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.6...@next-core/brick-kit@2.156.7) (2022-11-29)
 
 
