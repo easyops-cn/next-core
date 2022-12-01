@@ -29,7 +29,7 @@ export interface ScanBricksOptions {
 export function scanStoryboard(
   storyboard: Storyboard,
   options: boolean | ScanBricksOptions = true
-): { bricks: string[]; customApis: string[] } {
+): ReturnType<typeof scanStoryboardAst> {
   const ast = parseStoryboard(storyboard);
   return scanStoryboardAst(ast, options);
 }
@@ -43,7 +43,7 @@ export function scanStoryboard(
 export function scanStoryboardAst(
   ast: StoryboardNodeRoot,
   options: boolean | ScanBricksOptions = true
-): { bricks: string[]; customApis: string[] } {
+): { bricks: string[]; customApis: string[]; usedTemplates: string[] } {
   const { keepDuplicates, ignoreBricksInUnusedCustomTemplates } = isObject(
     options
   )
@@ -63,9 +63,10 @@ export function scanStoryboardAst(
         tplMap.set((tpl.raw as CustomTemplate).name, tpl);
       }
       for (const item of collection) {
-        if (tplMap.has(item) && !selfDefined.has(item)) {
+        const tpl = tplMap.get(item);
+        if (tpl && !selfDefined.has(item)) {
           selfDefined.add(item);
-          const collectionByTpl = collect(tplMap.get(item));
+          const collectionByTpl = collect(tpl);
           if (keepDuplicates) {
             (collection as string[]).push(item);
             (collection as string[]).push(...collectionByTpl);
@@ -85,29 +86,35 @@ export function scanStoryboardAst(
   if (keepDuplicates) {
     const bricks: string[] = [];
     const customApis: string[] = [];
+    const usedTemplates: string[] = [];
     for (const item of collection) {
       if (item.includes("@")) {
         customApis.push(item);
       } else {
-        if (item.includes("-") && !selfDefined.has(item)) {
-          bricks.push(item);
+        if (item.includes("-")) {
+          (selfDefined.has(item) ? usedTemplates : bricks).push(item);
         }
       }
     }
-    return { bricks, customApis };
+    return { bricks, customApis, usedTemplates };
   } else {
     const bricks = new Set<string>();
     const customApis = new Set<string>();
+    const usedTemplates = new Set<string>();
     for (const item of collection) {
       if (item.includes("@")) {
         customApis.add(item);
       } else {
-        if (item.includes("-") && !selfDefined.has(item)) {
-          bricks.add(item);
+        if (item.includes("-")) {
+          (selfDefined.has(item) ? usedTemplates : bricks).add(item);
         }
       }
     }
-    return { bricks: [...bricks], customApis: [...customApis] };
+    return {
+      bricks: [...bricks],
+      customApis: [...customApis],
+      usedTemplates: [...usedTemplates],
+    };
   }
 }
 

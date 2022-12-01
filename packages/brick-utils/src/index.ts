@@ -20,6 +20,7 @@ export * from "./resolveContextConcurrently";
 export * from "./scanCustomApisInStoryboard";
 export * from "./smartDisplayForEvaluableString";
 export {
+  type ScanBricksOptions,
   scanStoryboard,
   scanStoryboardAst,
   collectBricksByCustomTemplates,
