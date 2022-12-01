@@ -373,6 +373,20 @@ module.exports = (env) => {
   const rootProxyOptions = {};
   if (useRemote && !env.asCdn) {
     proxyPaths.push("");
+    if (process.env.WEBPACK_SERVE) {
+      // For webpack-dev-server, bypass initial browser html requests.
+      // On the other hand, we manually serve static assets for other use cases.
+      rootProxyOptions.bypass = (req) => {
+        if (
+          req.method === "GET" &&
+          (req.get("accept") || "").includes("text/html")
+        ) {
+          return req.path === `${env.baseHref}browse-happy.html`
+            ? "/browse-happy.html"
+            : "/index.html";
+        }
+      };
+    }
     rootProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (
         req.method === "GET" &&
