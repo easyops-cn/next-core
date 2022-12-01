@@ -868,7 +868,11 @@ export class Kernel {
   }
 
   getFeatureFlags(): FeatureFlags {
-    return Object.assign({}, this.bootstrapData?.settings?.featureFlags);
+    return Object.assign(
+      {},
+      this.bootstrapData?.settings?.featureFlags,
+      (this.nextApp?.config?.settings as any)?.featureFlags
+    );
   }
 
   async getStandaloneMenus(

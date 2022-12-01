@@ -77,13 +77,10 @@ export class Router {
   private prevLocation: PluginLocation;
   private state: RouterState = "initial";
   private renderId: string;
-  private readonly featureFlags: Record<string, boolean>;
   private navConfig: NavConfig;
   private mediaEventTargetHandler: (event: CustomEvent<Media>) => void;
 
   constructor(private kernel: Kernel) {
-    this.featureFlags = this.kernel.getFeatureFlags();
-
     const history = getHistory();
     window.addEventListener("beforeunload", (event) => {
       const message = this.getBlockMessageBeforePageLave({});
@@ -121,7 +118,7 @@ export class Router {
   }
 
   private locationChangeNotify(from: string, to: string): void {
-    if (this.featureFlags["log-location-change"]) {
+    if (this.kernel.getFeatureFlags()["log-location-change"]) {
       const username = getAuth().username;
       const params = new URLSearchParams();
       params.append("u", username);
@@ -253,9 +250,11 @@ export class Router {
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
+      this.kernel.nextApp = storyboard.app;
+
       removeDeadConditions(storyboard, {
         constantFeatureFlags: true,
-        featureFlags: this.featureFlags,
+        featureFlags: this.kernel.getFeatureFlags(),
       });
 
       // 将动态解析后的模板还原，以便重新动态解析。
@@ -306,7 +305,6 @@ export class Router {
         ? previousApp.id !== currentApp.id
         : previousApp !== currentApp;
     const legacy = currentApp ? currentApp.legacy : undefined;
-    this.kernel.nextApp = currentApp;
     let layoutType: LayoutType = currentApp?.layoutType || "console";
 
     const faviconElement: HTMLLinkElement = document.querySelector(
@@ -338,7 +336,9 @@ export class Router {
 
     const redirectToLogin = (): void => {
       history.replace(
-        this.featureFlags["sso-enabled"] ? "/sso-auth/login" : "/auth/login",
+        this.kernel.getFeatureFlags()["sso-enabled"]
+          ? "/sso-auth/login"
+          : "/auth/login",
         {
           from: location,
         }
@@ -364,7 +364,7 @@ export class Router {
           ].includes(brick)
         ) &&
         layoutType === "business" &&
-        !this.featureFlags["support-ui-8.0-base-layout"]
+        !this.kernel.getFeatureFlags()["support-ui-8.0-base-layout"]
           ? "console"
           : layoutType;
 
@@ -637,7 +637,7 @@ export class Router {
 
         devtoolsHookEmit("rendered");
 
-        if (!this.featureFlags["disable-prefetch-scripts"]) {
+        if (!this.kernel.getFeatureFlags()["disable-prefetch-scripts"]) {
           // Try to prefetch during a browser's idle periods.
           // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
           if (typeof window.requestIdleCallback === "function") {
