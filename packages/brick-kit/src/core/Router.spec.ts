@@ -130,7 +130,9 @@ const spyOnHistory = {
 };
 spyOnGetHistory.mockReturnValue(spyOnHistory);
 
-const mockFeature = jest.fn().mockReturnValue({});
+const mockFeature = jest.fn().mockReturnValue({
+  "prefetch-scripts": true,
+});
 
 describe("Router", () => {
   let router: Router;

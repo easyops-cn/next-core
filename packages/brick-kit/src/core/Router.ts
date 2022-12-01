@@ -637,7 +637,7 @@ export class Router {
 
         devtoolsHookEmit("rendered");
 
-        if (!this.kernel.getFeatureFlags()["disable-prefetch-scripts"]) {
+        if (this.kernel.getFeatureFlags()["prefetch-scripts"]) {
           // Try to prefetch during a browser's idle periods.
           // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
           if (typeof window.requestIdleCallback === "function") {
