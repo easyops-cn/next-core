@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.10...@next-core/brick-utils@2.45.11) (2022-12-01)
+
+
+### Bug Fixes
+
+* ignore processors in unused tpl ([76b9723](https://github.com/easyops-cn/next-core/commit/76b972323c5706bce6782629d9ec8035dbb9bacf))
+
+
+
+
+
 ## [2.45.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.9...@next-core/brick-utils@2.45.10) (2022-11-17)
 
 **Note:** Version bump only for package @next-core/brick-utils

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.8...@next-core/brick-kit@2.156.9) (2022-12-01)
+
+
+### Bug Fixes
+
+* disable prefetch-scripts by default ([8d0e5fa](https://github.com/easyops-cn/next-core/commit/8d0e5fa2578cd5ce1bc9ad0b6da4613558e05db7))
+
+
+
+
+
 ## [2.156.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.7...@next-core/brick-kit@2.156.8) (2022-12-01)
 
 
