@@ -4,18 +4,6 @@ import {
   getDllAndDepsOfBricks,
   getDllAndDepsByResource,
 } from "./getDllAndDepsOfStoryboard";
-import { scanBricksInStoryboard } from "./scanBricksInStoryboard";
-import { scanProcessorsInStoryboard } from "./scanProcessorsInStoryboard";
-
-jest.mock("./scanBricksInStoryboard");
-jest.mock("./scanProcessorsInStoryboard");
-
-(scanBricksInStoryboard as jest.Mock).mockReturnValue([
-  "a.brick-a",
-  "c.brick-c",
-]);
-
-(scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["d.doGood"]);
 
 window.DLL_PATH = {
   d3: "dll-of-d3.123.js",
@@ -67,11 +55,94 @@ afterEach(() => {
 
 describe("getDllAndDepsOfStoryboard", () => {
   it("should work", () => {
-    const storyboard: Storyboard = {} as any;
+    const storyboard: Storyboard = {
+      routes: [
+        {
+          bricks: [
+            {
+              brick: "a.brick-a",
+            },
+            {
+              brick: "c.brick-c",
+              properties: {
+                any: "<% PROCESSORS.d.doGood() %>",
+              },
+            },
+          ],
+        },
+      ],
+    } as any;
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.123.js"],
       deps: ["bricks/a/dist/a.js", "bricks/c/dist/c.js", "bricks/d/dist/d.js"],
       bricks: ["a.brick-a", "c.brick-c"],
+    });
+  });
+
+  it("should ignore bricks and processors in unused templates", () => {
+    const storyboard: Storyboard = {
+      routes: [
+        {
+          type: "bricks",
+          bricks: [
+            {
+              brick: "tpl-abc",
+              properties: {
+                any: "<% PROCESSORS.a.doGood() %>",
+              },
+            },
+          ],
+        },
+      ],
+      meta: {
+        customTemplates: [
+          {
+            name: "tpl-abc",
+            bricks: [
+              {
+                brick: "tpl-inner-used",
+              },
+              {
+                brick: "div",
+                properties: {
+                  any: "<% PROCESSORS.b.doGood() %>",
+                },
+              },
+            ],
+          },
+          {
+            name: "tpl-inner-used",
+            bricks: [
+              {
+                brick: "any-brick",
+                properties: {
+                  any: "<% PROCESSORS.c.doGood() %>",
+                },
+              },
+            ],
+          },
+          {
+            name: "tpl-unused",
+            bricks: [
+              {
+                brick: "any",
+                properties: {
+                  any: "<% PROCESSORS.d.doGood() %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    } as any;
+    expect(
+      getDllAndDepsOfStoryboard(storyboard, brickPackages, {
+        ignoreBricksInUnusedCustomTemplates: true,
+      })
+    ).toEqual({
+      dll: ["dll-of-d3.123.js"],
+      deps: ["bricks/a/dist/a.js", "bricks/b/dist/b.js", "bricks/c/dist/c.js"],
+      bricks: ["any-brick"],
     });
   });
 });

@@ -115,7 +115,7 @@ describe("scanStoryboard", () => {
   } as any;
 
   it("should work", () => {
-    const { bricks, customApis } = scanStoryboard(storyboard, {
+    const { bricks, customApis, usedTemplates } = scanStoryboard(storyboard, {
       ignoreBricksInUnusedCustomTemplates: true,
     });
     bricks.sort();
@@ -138,10 +138,14 @@ describe("scanStoryboard", () => {
       customApiC,
       customApiD,
     ]);
+    expect(usedTemplates).toEqual(["ct-b"]);
   });
 
   it("should work for ignoreBricksInUnusedCustomTemplates", () => {
-    const { bricks, customApis } = scanStoryboard(storyboard, false);
+    const { bricks, customApis, usedTemplates } = scanStoryboard(
+      storyboard,
+      false
+    );
     bricks.sort();
     customApis.sort();
     expect(bricks).toEqual([
@@ -164,6 +168,7 @@ describe("scanStoryboard", () => {
       customApiC,
       customApiD,
     ]);
+    expect(usedTemplates).toEqual(["ct-b"]);
   });
 
   it("should collectBricksByCustomTemplates", () => {

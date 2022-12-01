@@ -1,10 +1,9 @@
 import { Storyboard, BrickConf } from "@next-core/brick-types";
-import { scanStoryboard, collectBricksInBrickConf } from "./scanStoryboard";
-
-export interface ScanBricksOptions {
-  keepDuplicates?: boolean;
-  ignoreBricksInUnusedCustomTemplates?: boolean;
-}
+import {
+  scanStoryboard,
+  collectBricksInBrickConf,
+  ScanBricksOptions,
+} from "./scanStoryboard";
 
 /**
  * Scan bricks in storyboard.

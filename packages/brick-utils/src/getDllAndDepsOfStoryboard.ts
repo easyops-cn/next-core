@@ -1,11 +1,8 @@
 import { Storyboard, BrickPackage } from "@next-core/brick-types";
 import { isEmpty } from "lodash";
 import * as changeCase from "change-case";
-import {
-  scanBricksInStoryboard,
-  ScanBricksOptions,
-} from "./scanBricksInStoryboard";
-import { scanProcessorsInStoryboard } from "./scanProcessorsInStoryboard";
+import { scanProcessorsInAny } from "./scanProcessorsInStoryboard";
+import { scanStoryboard, ScanBricksOptions } from "./scanStoryboard";
 
 interface DllAndDeps {
   dll: string[];
@@ -21,12 +18,18 @@ export function getDllAndDepsOfStoryboard(
   brickPackages: BrickPackage[],
   options?: ScanBricksOptions
 ): DllAndDepsAndBricks {
-  const bricks = scanBricksInStoryboard(storyboard, options);
+  const { bricks, usedTemplates } = scanStoryboard(storyboard, options);
+  const customTemplates = storyboard.meta?.customTemplates;
   return {
     ...getDllAndDepsByResource(
       {
         bricks,
-        processors: scanProcessorsInStoryboard(storyboard),
+        processors: scanProcessorsInAny([
+          storyboard.routes,
+          options?.ignoreBricksInUnusedCustomTemplates
+            ? customTemplates?.filter((tpl) => usedTemplates.includes(tpl.name))
+            : customTemplates,
+        ]),
       },
       brickPackages
     ),
