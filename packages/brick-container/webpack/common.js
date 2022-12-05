@@ -87,6 +87,17 @@ module.exports = () => {
             rootMode: "upward",
           },
         },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg)$/,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                name: "assets/[name].[hash:8].[ext]",
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: [
