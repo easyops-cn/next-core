@@ -55,7 +55,7 @@
     "@next-core/rollup-config-factory": "^2.6.4",
     "antd": "~4.12.3",
     "history": "^4.10.1",
-    "i18next": "^22.0.6",
+    "i18next": "^22.0.7",
     "jest-websocket-mock": "^2.4.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
