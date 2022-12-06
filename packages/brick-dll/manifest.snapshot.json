@@ -12415,9 +12415,9 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": [
-          "default",
           "changeLanguage",
           "createInstance",
+          "default",
           "exists",
           "getFixedT",
           "hasLoadedNamespace",
