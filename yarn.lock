@@ -3564,10 +3564,10 @@
   resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.0.tgz#69a23a3ad29caf0097f06eda59b361ee2f0639f6"
   integrity sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
 
-"@types/node@*", "@types/node@^16.18.6", "@types/node@^16.9.2":
-  version "16.18.6"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.6.tgz#87846192fd51b693368fad3e99123169225621d4"
-  integrity sha512-vmYJF0REqDyyU0gviezF/KHq/fYaUbFhkcNbQCuPGFQj6VTbXuHZoxs/Y7mutWe73C8AC6l9fFu8mSYiBAqkGA==
+"@types/node@*", "@types/node@^16.18.7", "@types/node@^16.9.2":
+  version "16.18.7"
+  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.7.tgz#9e34404dba546a6f0851439ebba142680ae56fe0"
+  integrity sha512-SghuoXv8ghvkrKjTyvhRTeNzivPzGQ8pe09PPGdyqsExiKvBYV/6E3imvjsaJuW8ca61qQN2+SoSzyEHS9r2LA==
 
 "@types/node@10.17.13":
   version "10.17.13"
