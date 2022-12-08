@@ -146,6 +146,7 @@ const mockMenuList: any[] = [
   },
   {
     menuId: "menu-f",
+    link: "<% APP.homepage %>",
     title: "<% I18N('HELLO') %>",
     items: [
       {
@@ -527,6 +528,7 @@ describe("constructMenu", () => {
         title: "Hello",
         icon: undefined,
         defaultCollapsed: false,
+        link: "/hello",
         menuItems: [
           {
             text: "Menu item",
@@ -575,6 +577,7 @@ describe("constructMenu", () => {
         title: "Hello",
         icon: undefined,
         defaultCollapsed: false,
+        link: "/hello",
         menuItems: [
           {
             text: "Menu item",
