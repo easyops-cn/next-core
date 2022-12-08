@@ -12418,6 +12418,7 @@
           "changeLanguage",
           "createInstance",
           "default",
+          "dir",
           "exists",
           "getFixedT",
           "hasLoadedNamespace",
