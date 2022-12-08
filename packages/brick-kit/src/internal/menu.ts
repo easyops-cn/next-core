@@ -25,7 +25,7 @@ import i18next from "i18next";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
-const symbolOverrideApp = Symbol("overriceApp");
+const symbolOverrideApp = Symbol("overrideApp");
 
 interface RuntimeMenuItemRawData extends MenuItemRawData {
   [symbolAppId]?: string;
@@ -184,6 +184,7 @@ async function mergeMenu(
       processGroupInject(menu.items, menu, injectWithMenus, menuWithI18n)
     ),
     [symbolMenuI18nNamespace]: menuWithI18n.get(mainMenu),
+    [symbolOverrideApp]: mainMenu.overrideApp,
   };
 }
 
