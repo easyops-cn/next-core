@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.9...@next-core/brick-kit@2.156.10) (2022-12-08)
+
+
+### Bug Fixes
+
+* 菜单未正常使用overrideApp数据进行渲染 ([7796145](https://github.com/easyops-cn/next-core/commit/7796145cca245ae2efa6baaed6e8ad011b7c4eb4))
+
+
+
+
+
 ## [2.156.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.8...@next-core/brick-kit@2.156.9) (2022-12-01)
 
 
