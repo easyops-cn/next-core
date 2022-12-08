@@ -1,6 +1,6 @@
 {
   "name": "@next-dll/editor-bricks-helper",
-  "version": "0.34.13",
+  "version": "0.34.14",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/editor-bricks-helper",
   "license": "GPL-3.0",
@@ -18,8 +18,8 @@
     "@next-core/editor-bricks-helper": "^0.49.30"
   },
   "devDependencies": {
-    "@next-core/brick-dll": "^2.40.12",
+    "@next-core/brick-dll": "^2.40.13",
     "@next-core/webpack-config-factory": "^2.19.3",
-    "@next-dll/react-dnd": "^0.1.483"
+    "@next-dll/react-dnd": "^0.1.484"
   }
 }
