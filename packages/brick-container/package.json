@@ -73,6 +73,7 @@
     "html-webpack-plugin": "^4.5.2",
     "html-webpack-tags-plugin": "^2.0.17",
     "i18next-browser-languagedetector": "^6.1.8",
+    "jest-fetch-mock": "^3.0.3",
     "less": "^3.13.1",
     "less-loader": "^7.3.0",
     "mini-css-extract-plugin": "^1.6.2",
