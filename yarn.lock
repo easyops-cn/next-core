@@ -2925,19 +2925,19 @@
     npmlog "^6.0.2"
     write-file-atomic "^4.0.1"
 
-"@next-core/less-plugin-css-variables@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.npmjs.org/@next-core/less-plugin-css-variables/-/less-plugin-css-variables-0.2.7.tgz#ba5574e83be36d541e21ce15bf2d95ecd594423c"
-  integrity sha512-vJqzt8YKTCa/kOy0Q/ya532Fu5EVVMAIoHgiBOkrVuebNCG4s3AyCqBAPUYwr7CI+OUIC91y/pJmtg7S2Gw4HA==
+"@next-core/less-plugin-css-variables@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.npmjs.org/@next-core/less-plugin-css-variables/-/less-plugin-css-variables-0.2.8.tgz#58ab26e5c9231b8071fe6c4d79ac0df91db58898"
+  integrity sha512-JAy1XgmockHEpG78SDnKP2y0I8fMEHR4r1A+oweYPBNjBM4CzCSS52UsxsuTfdFgUQG/7SUo5AaMQTARxEsgyw==
 
-"@next-core/webpack-config-factory@^2.19.3":
-  version "2.19.3"
-  resolved "https://registry.npmjs.org/@next-core/webpack-config-factory/-/webpack-config-factory-2.19.3.tgz#3fe5673ced0efb8ad32f5945edb36915d794bedb"
-  integrity sha512-Q5TQh5o47YsbaD/Sme7CzMeyHtBBKvjVjLIW2fCzrJUm2VL6ffwCgJ6kRnXjBANSfZwbeefNn53DjLMXuwYUeg==
+"@next-core/webpack-config-factory@^2.19.4":
+  version "2.19.4"
+  resolved "https://registry.npmjs.org/@next-core/webpack-config-factory/-/webpack-config-factory-2.19.4.tgz#12942bb65e672a758732913fb67c7132e606338f"
+  integrity sha512-xrEA/xxTZCJDj6oHTTCExqvL2oODEo/PLcPQCYvZIy57KBWEz4sJ3TI3DhAmODd1gv+rI/C6OzPFBqAvOPr9YA==
   dependencies:
-    "@next-core/less-plugin-css-variables" "^0.2.7"
+    "@next-core/less-plugin-css-variables" "^0.2.8"
     "@svgr/webpack" "^5.5.0"
-    babel-loader "^8.2.5"
+    babel-loader "^8.3.0"
     change-case "^4.1.2"
     clean-webpack-plugin "^4.0.0"
     copy-webpack-plugin "^6.4.1"
@@ -2950,10 +2950,10 @@
     modify-source-webpack-plugin "^3.0.0"
     neo-async "^2.6.2"
     null-loader "^4.0.1"
-    postcss "^8.4.17"
+    postcss "^8.4.19"
     postcss-loader "^4.3.0"
     postcss-nested "^5.0.6"
-    postcss-preset-env "^7.8.2"
+    postcss-preset-env "^7.8.3"
     prismjs "^1.29.0"
     raw-loader "^4.0.2"
     schema-utils "^1.0.0"
@@ -2967,7 +2967,7 @@
     webpack-cli "^4.9.2"
     webpack-merge "^5.8.0"
     webpack-sources "^3.2.3"
-    webpack-virtual-modules "^0.4.5"
+    webpack-virtual-modules "^0.4.6"
     worker-loader "^3.0.8"
 
 "@next-sdk/api-gateway-sdk@^2.3.0":
@@ -3651,7 +3651,7 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react-hooks@^8.0.0":
+"@testing-library/react-hooks@^8.0.1":
   version "8.0.1"
   resolved "https://registry.npmjs.org/@testing-library/react-hooks/-/react-hooks-8.0.1.tgz#0924bbd5b55e0c0c0502d1754657ada66947ca12"
   integrity sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==
@@ -5078,7 +5078,7 @@ babel-jest@^29.3.1:
     graceful-fs "^4.2.9"
     slash "^3.0.0"
 
-babel-loader@^8.2.5:
+babel-loader@^8.3.0:
   version "8.3.0"
   resolved "https://registry.npmjs.org/babel-loader/-/babel-loader-8.3.0.tgz#124936e841ba4fe8176786d6ff28add1f134d6a8"
   integrity sha512-H8SvsMF+m9t15HNLMipppzkC+Y2Yq+v3SonZyU70RBL/h1gxPkH08Ot8pEE9Z4Kd+czyWJClmFS8qzIP9OZ04Q==
@@ -12678,7 +12678,7 @@ postcss-place@^7.0.5:
   dependencies:
     postcss-value-parser "^4.2.0"
 
-postcss-preset-env@^7.8.2, postcss-preset-env@^7.8.3:
+postcss-preset-env@^7.8.3:
   version "7.8.3"
   resolved "https://registry.npmjs.org/postcss-preset-env/-/postcss-preset-env-7.8.3.tgz#2a50f5e612c3149cc7af75634e202a5b2ad4f1e2"
   integrity sha512-T1LgRm5uEVFSEF83vHZJV2z19lHg4yJuZ6gXZZkqVsqv63nlr6zabMH3l4Pc01FQCyfWVrh2GaUeCVy9Po+Aag==
@@ -12797,7 +12797,7 @@ postcss-value-parser@^4.0.2, postcss-value-parser@^4.1.0, postcss-value-parser@^
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.2.15, postcss@^8.4.17, postcss@^8.4.18, postcss@^8.4.19:
+postcss@^8.2.15, postcss@^8.4.18, postcss@^8.4.19:
   version "8.4.19"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.19.tgz#61178e2add236b17351897c8bcc0b4c8ecab56fc"
   integrity sha512-h+pbPsyhlYj6N2ozBmHhHrs9DzGmbaarbLvWipMRO7RLS+v4onj26MPFXA5OBYFxyqYhUJK456SwDcY9H2/zsA==
@@ -15590,7 +15590,7 @@ webpack-sources@^3.2.3:
   resolved "https://registry.npmjs.org/webpack-sources/-/webpack-sources-3.2.3.tgz#2d4daab8451fd4b240cc27055ff6a0c2ccea0cde"
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
-webpack-virtual-modules@^0.4.5:
+webpack-virtual-modules@^0.4.6:
   version "0.4.6"
   resolved "https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.4.6.tgz#3e4008230731f1db078d9cb6f68baf8571182b45"
   integrity sha512-5tyDlKLqPfMqjT3Q9TAqf2YqjwmnUleZwzJi1A5qXnlBCdj2AtOJ6wAWdglTIDOPgOiOrXeBeFcsQ8+aGQ6QbA==

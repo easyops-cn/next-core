@@ -42,7 +42,7 @@
     "@babel/types": "^7.20.5",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@size-limit/file": "^8.1.0",
-    "@testing-library/react-hooks": "^8.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/file-saver": "^2.0.5",
     "@types/fs-extra": "^9.0.13",
     "@types/history": "^4.7.11",
