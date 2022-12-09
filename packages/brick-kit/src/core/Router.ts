@@ -68,6 +68,7 @@ import { computeRealValue } from "../internal/setProperties";
 import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
+import { httpCacheRecord } from "./HttpCache";
 
 export class Router {
   private defaultCollapsed = false;
@@ -234,6 +235,7 @@ export class Router {
     history.unblock();
 
     const renderStartTime = performance.now();
+    httpCacheRecord.start();
     // Create the page tracker before page load.
     // And the API Analyzer maybe disabled.
     const tracePageEnd = apiAnalyzer.getInstance()?.tracePage();
@@ -574,6 +576,7 @@ export class Router {
           username: getAuth().username,
           pageTitle: document.title,
         });
+        httpCacheRecord.end();
 
         // show app bar tips
         const tipsDetail: NavTip[] = [];
