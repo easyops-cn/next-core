@@ -71,6 +71,7 @@ const mockBrickAndMessages = [
         ],
       } as MessageConf,
     ],
+    tplContextId: "tpl-ctx-1",
   },
   {
     brick: {
@@ -179,7 +180,10 @@ describe("MessageDispatcher", () => {
 
       expect(spyOnListenerFactory).toHaveBeenCalledWith(
         { action: "console.warn" },
-        context,
+        {
+          ...context,
+          tplContextId: "tpl-ctx-1",
+        },
         expect.objectContaining({
           element: mockElement,
         })

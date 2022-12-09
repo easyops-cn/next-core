@@ -9,13 +9,19 @@ function getNavbar(env) {
 }
 
 function getStoryboardsByMicroApps(env, mocked, options = {}) {
+  // Used only in non-remote mode.
   return getNamesOfMicroApps(env, mocked)
     .map((name) => getSingleStoryboard(env, name, mocked, options))
     .filter(Boolean);
 }
 
 function getNamesOfMicroApps(env, mocked) {
-  const dir = mocked ? env.mockedMicroAppsDir : env.microAppsDir;
+  const dir = mocked
+    ? env.mockedMicroAppsDir
+    : tryFiles([
+        path.resolve(env.microAppsDir),
+        path.resolve(env.alternativeMicroAppsDir),
+      ]);
   if (!fs.existsSync(dir)) {
     return [];
   }
@@ -25,14 +31,21 @@ function getNamesOfMicroApps(env, mocked) {
     .map((dirent) => dirent.name);
   // Ignore `auth` for fully standalone micro-apps.
   return mocked &&
-    env.standaloneAppsConfig.some((standaloneConfig) => standaloneConfig.appDir)
+    env.legacyStandaloneAppsConfig.some(
+      (standaloneConfig) => standaloneConfig.appDir
+    )
     ? apps.filter((name) => name !== "auth")
     : apps;
 }
 
 function getSingleStoryboard(env, microAppName, mocked, options = {}) {
   const appDir = path.join(
-    mocked ? env.mockedMicroAppsDir : env.microAppsDir,
+    mocked
+      ? env.mockedMicroAppsDir
+      : tryFiles([
+          path.resolve(env.microAppsDir),
+          path.resolve(env.alternativeMicroAppsDir),
+        ]),
     microAppName
   );
   const storyboardYamlFile = path.join(appDir, "storyboard.yaml");
@@ -73,23 +86,26 @@ function getSingleStoryboard(env, microAppName, mocked, options = {}) {
   return storyboard;
 }
 
-function getBrickPackages(env, standaloneConfig) {
+function getBrickPackages(env, publicRootWithVersion) {
   return getNamesOfBrickPackages(env)
     .map((name) =>
-      getSingleBrickPackage(env, name, undefined, standaloneConfig)
+      getSingleBrickPackage(env, name, undefined, publicRootWithVersion)
     )
     .filter(Boolean);
 }
 
 function getNamesOfBrickPackages(env) {
-  return [env.brickPackagesDir, env.alternativeBrickPackagesDir].flatMap(
-    (dir) =>
-      fs.existsSync(dir)
-        ? fs
-            .readdirSync(dir, { withFileTypes: true })
-            .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
-            .map((dirent) => dirent.name)
-        : []
+  return [
+    env.brickPackagesDir,
+    env.alternativeBrickPackagesDir,
+    env.primitiveBrickPackagesDir,
+  ].flatMap((dir) =>
+    fs.existsSync(dir)
+      ? fs
+          .readdirSync(dir, { withFileTypes: true })
+          .filter((dirent) => dirent.isDirectory() || dirent.isSymbolicLink())
+          .map((dirent) => dirent.name)
+      : []
   );
 }
 
@@ -97,11 +113,12 @@ function getSingleBrickPackage(
   env,
   brickPackageName,
   remoteBrickPackages,
-  standaloneConfig
+  publicRootWithVersion
 ) {
   const {
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    primitiveBrickPackagesDir,
     localBrickPackages,
     localEditorPackages,
   } = env;
@@ -125,11 +142,12 @@ function getSingleBrickPackage(
   const distDir = tryFiles([
     path.join(brickPackagesDir, brickPackageName, "dist"),
     path.join(alternativeBrickPackagesDir, brickPackageName, "dist"),
+    path.join(primitiveBrickPackagesDir, brickPackageName, "dist"),
   ]);
   if (fs.existsSync(distDir)) {
     if (!remoteBrickPackages || localBrickPackages.includes(brickPackageName)) {
       let versionPart = "";
-      if (standaloneConfig && standaloneConfig.standaloneVersion === 2) {
+      if (publicRootWithVersion) {
         const packageJson = JSON.parse(
           fs.readFileSync(path.resolve(distDir, "../package.json"))
         );
@@ -179,7 +197,11 @@ function getTemplatePackages(env) {
 }
 
 function getNamesOfTemplatePackages(env) {
-  if (!fs.existsSync(env.templatePackagesDir)) {
+  const templatePackagesDir = tryFiles([
+    path.join(env.templatePackagesDir),
+    path.join(env.alternativeTemplatePackagesDir),
+  ]);
+  if (!templatePackagesDir) {
     return [];
   }
   return fs
@@ -290,16 +312,17 @@ function getPatternsToWatch(env) {
   return [
     ...listRealpathOfSubdir(env.brickPackagesDir)
       .concat(listRealpathOfSubdir(env.alternativeBrickPackagesDir))
+      .concat(listRealpathOfSubdir(env.primitiveBrickPackagesDir))
       .flatMap((dir) => [
         path.join(dir, "dist/*.js"),
         path.join(dir, "dist-editors/*.js"),
       ]),
-    ...listRealpathOfSubdir(env.microAppsDir).map((dir) =>
-      path.join(dir, "storyboard.*")
-    ),
-    ...listRealpathOfSubdir(env.templatePackagesDir).map((dir) =>
-      path.join(dir, "dist/*.js")
-    ),
+    ...listRealpathOfSubdir(env.microAppsDir)
+      .concat(listRealpathOfSubdir(env.alternativeMicroAppsDir))
+      .map((dir) => path.join(dir, "storyboard.*")),
+    ...listRealpathOfSubdir(env.templatePackagesDir)
+      .concat(listRealpathOfSubdir(env.alternativeTemplatePackagesDir))
+      .map((dir) => path.join(dir, "dist/*.js")),
     ...(env.mocked
       ? [path.join(env.mockedMicroAppsDir, "*/storyboard.*")]
       : []),
@@ -308,15 +331,17 @@ function getPatternsToWatch(env) {
 
 function checkLocalPackages(env) {
   for (const item of env.localMicroApps) {
-    if (!fs.existsSync(path.join(env.microAppsDir, item))) {
+    const itemDir = tryFiles([
+      path.join(env.microAppsDir, item),
+      path.join(env.alternativeMicroAppsDir, item),
+    ]);
+    if (!itemDir) {
       console.log(chalk.red(`Error: Local micro-apps not found: ${item}`));
-    } else if (
-      !fs.existsSync(path.join(env.microAppsDir, item, "package.json"))
-    ) {
+    } else if (!fs.existsSync(path.join(itemDir, "package.json"))) {
       console.log(chalk.red(`Error: Local micro-apps are empty: ${item}`));
     } else if (
-      !fs.existsSync(path.join(env.microAppsDir, item, "storyboard.yaml")) &&
-      !fs.existsSync(path.join(env.microAppsDir, item, "storyboard.json"))
+      !fs.existsSync(path.join(itemDir, "storyboard.yaml")) &&
+      !fs.existsSync(path.join(itemDir, "storyboard.json"))
     ) {
       console.log(
         chalk.yellow(`Warning: Local micro-apps are not built yet: ${item}`)
@@ -327,6 +352,7 @@ function checkLocalPackages(env) {
     const itemDir = tryFiles([
       path.join(env.brickPackagesDir, item),
       path.join(env.alternativeBrickPackagesDir, item),
+      path.join(env.primitiveBrickPackagesDir, item),
     ]);
     if (!itemDir) {
       console.log(chalk.red(`Error: Local bricks not found: ${item}`));
@@ -339,17 +365,15 @@ function checkLocalPackages(env) {
     }
   }
   for (const item of env.localTemplates) {
-    if (!fs.existsSync(path.join(env.templatePackagesDir, item))) {
+    const itemDir = tryFiles([
+      path.join(env.templatePackagesDir, item),
+      path.join(env.alternativeTemplatePackagesDir, item),
+    ]);
+    if (!itemDir) {
       console.log(chalk.red(`Error: Local templates not found: ${item}`));
-    } else if (
-      !fs.existsSync(path.join(env.templatePackagesDir, item, "package.json"))
-    ) {
+    } else if (!fs.existsSync(path.join(itemDir, "package.json"))) {
       console.log(chalk.red(`Error: Local templates are empty: ${item}`));
-    } else if (
-      !fs.existsSync(
-        path.join(env.templatePackagesDir, item, "dist/templates.json")
-      )
-    ) {
+    } else if (!fs.existsSync(path.join(itemDir, "dist/templates.json"))) {
       console.log(
         chalk.yellow(`Warning: Local templates are not built yet: ${item}`)
       );

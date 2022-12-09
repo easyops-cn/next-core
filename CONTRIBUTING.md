@@ -84,6 +84,10 @@ yarn serve --local-bricks=abc
 
 ### 独立打包调试
 
+现在无需再 `dev.config.js` 配置 `standaloneAppsConfig` 即可调试独立打包的微应用。
+
+<details>
+<summary>点击查看已废弃的 <code>standaloneAppsConfig</code> 配置</summary>
 使用本地框架调试远端的独立打包：
 
 在本项目根目录创建一个文件 `dev.config.js`：
@@ -121,7 +125,9 @@ exports.standaloneAppsConfig = [
 ];
 ```
 
-然后运行：
+</details>
+
+运行：
 
 ```shell
 yarn serve --subdir --server=https://admin.easyops.local

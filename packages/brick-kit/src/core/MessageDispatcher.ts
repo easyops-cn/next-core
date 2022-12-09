@@ -52,10 +52,10 @@ export class MessageDispatcher {
     context: PluginRuntimeContext
   ): void {
     if (Array.isArray(brickAndMessages)) {
-      for (const { brick, match, message } of brickAndMessages) {
+      for (const { brick, match, message, tplContextId } of brickAndMessages) {
         ([] as MessageConf[]).concat(message).forEach((massageConf) => {
           const channel = massageConf.channel;
-          const handler = { brick, match, message };
+          const handler = { brick, match, message, tplContextId };
           if (this.messages.has(channel)) {
             this.messages.set(channel, [
               ...this.messages.get(channel),
@@ -278,7 +278,10 @@ export class MessageDispatcher {
         this.dispatch(
           event,
           brickAndMessage.brick,
-          this.context,
+          {
+            ...this.context,
+            tplContextId: brickAndMessage.tplContextId,
+          },
           ([] as MessageConf[])
             .concat(brickAndMessage.message)
             .reduce((prev, curr) => prev.concat(curr?.handlers), [])

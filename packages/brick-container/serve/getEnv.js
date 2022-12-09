@@ -96,7 +96,7 @@ module.exports = (runtimeFlags) => {
       },
       cookieSameSiteNone: {
         type: "boolean",
-        default: false,
+        default: true,
       },
       server: {
         type: "string",
@@ -237,6 +237,9 @@ module.exports = (runtimeFlags) => {
       standaloneConfig.standaloneVersion = 2;
     }
   }
+  const legacyStandaloneAppsConfig = standaloneAppsConfig.filter(
+    (conf) => conf.standaloneVersion !== 2
+  );
   const appConfig = (devConfig && devConfig.appConfig) || {};
 
   const { usePublicScope, standalone: confStandalone } =
@@ -311,6 +314,8 @@ module.exports = (runtimeFlags) => {
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
   );
+  const alternativeMicroAppsDir = path.join(nextRepoDir, "micro-apps");
+
   const brickPackagesDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-bricks" : "@bricks"}`
@@ -319,15 +324,19 @@ module.exports = (runtimeFlags) => {
     nextRepoDir,
     `node_modules/${usePublicScope ? "@bricks" : "@next-bricks"}`
   );
+  const primitiveBrickPackagesDir = path.join(nextRepoDir, "bricks");
+
   const templatePackagesDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-legacy-templates" : "@templates"}`
   );
+  const alternativeTemplatePackagesDir = path.join(nextRepoDir, "templates");
+
   const navbarJsonPath = path.join(__dirname, "../conf/navbar.json");
   const mockedMicroAppsDir = path.join(nextRepoDir, "mock-micro-apps");
 
   if (flags.standaloneMicroApps) {
-    standaloneAppsConfig.push({
+    legacyStandaloneAppsConfig.push({
       appDir: flags.standaloneAppDir,
       appRoot:
         flags.standaloneAppRoot || `${baseHref}${flags.standaloneAppDir}`,
@@ -354,14 +363,16 @@ module.exports = (runtimeFlags) => {
     useMergeSettings,
     nextRepoDir,
     microAppsDir,
+    alternativeMicroAppsDir,
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    primitiveBrickPackagesDir,
     templatePackagesDir,
+    alternativeTemplatePackagesDir,
     navbarJsonPath,
-    hasStandaloneApps: standaloneAppsConfig.length > 0,
-    standaloneAppsConfig,
-    allAppsConfig: standaloneAppsConfig.concat(null),
     bootstrapHash: flags.bootstrapHash,
+    legacyStandaloneAppsConfig,
+    legacyAllAppsConfig: legacyStandaloneAppsConfig.concat(null),
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
@@ -462,8 +473,11 @@ module.exports = (runtimeFlags) => {
       : chalk.bgWhite("local")
   );
 
-  if (env.hasStandaloneApps) {
-    console.log(chalk.bold.cyan("standalone apps:"), env.standaloneAppsConfig);
+  if (env.legacyStandaloneAppsConfig.length > 0) {
+    console.log(
+      chalk.bold.cyan("legacy standalone apps:"),
+      env.legacyStandaloneAppsConfig
+    );
   }
 
   console.log(

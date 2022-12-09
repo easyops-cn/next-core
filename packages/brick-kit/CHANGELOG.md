@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.156.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.9...@next-core/brick-kit@2.156.10) (2022-12-08)
+
+### Bug Fixes
+
+- 菜单未正常使用 overrideApp 数据进行渲染 ([7796145](https://github.com/easyops-cn/next-core/commit/7796145cca245ae2efa6baaed6e8ad011b7c4eb4))
+
+## [2.156.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.8...@next-core/brick-kit@2.156.9) (2022-12-01)
+
+### Bug Fixes
+
+- disable prefetch-scripts by default ([8d0e5fa](https://github.com/easyops-cn/next-core/commit/8d0e5fa2578cd5ce1bc9ad0b6da4613558e05db7))
+
+## [2.156.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.7...@next-core/brick-kit@2.156.8) (2022-12-01)
+
+### Bug Fixes
+
+- 小产品可以配置 featureFlags 和 misc ([13adfbf](https://github.com/easyops-cn/next-core/commit/13adfbfd4424beb65401cd2897bb740ba1751029))
+- 支持在 user_config 配置 feature_flags 和 mic 配置 ([1b4bbe7](https://github.com/easyops-cn/next-core/commit/1b4bbe76a4cfbd55a2648c7ef19a19d647f68cee))
+
+## [2.156.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.6...@next-core/brick-kit@2.156.7) (2022-11-29)
+
+### Bug Fixes
+
+- fix an issue causes setting favicon to undefined ([717a9fe](https://github.com/easyops-cn/next-core/commit/717a9fe9e91bae7774562ff9c83abaa247b597d9))
+
+## [2.156.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.5...@next-core/brick-kit@2.156.6) (2022-11-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.156.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.4...@next-core/brick-kit@2.156.5) (2022-11-25)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.156.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.3...@next-core/brick-kit@2.156.4) (2022-11-21)
+
+### Bug Fixes
+
+- 修复当 request 是 model 类型时，被当作是无参数的情况 ([4f14975](https://github.com/easyops-cn/next-core/commit/4f14975e9d336453296b36aa648cb88e3c0296d6))
+
+## [2.156.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.2...@next-core/brick-kit@2.156.3) (2022-11-17)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.156.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.1...@next-core/brick-kit@2.156.2) (2022-11-16)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.156.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.0...@next-core/brick-kit@2.156.1) (2022-11-14)
+
+### Bug Fixes
+
+- fix web socket events in tpl ([ea5c85e](https://github.com/easyops-cn/next-core/commit/ea5c85eceb64497cd6850eb459e83b75e2b82682))
+
 # [2.156.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.5...@next-core/brick-kit@2.156.0) (2022-11-11)
 
 ### Features

@@ -21,24 +21,43 @@ module.exports = (env, app) => {
     localMicroApps,
     localTemplates,
     microAppsDir,
+    alternativeMicroAppsDir,
     brickPackagesDir,
     alternativeBrickPackagesDir,
+    primitiveBrickPackagesDir,
     templatePackagesDir,
+    alternativeTemplatePackagesDir,
     mocked,
     mockedMicroAppsDir,
     mockedMicroApps,
-    allAppsConfig,
     asCdn,
+    legacyStandaloneAppsConfig,
   } = env;
   let username;
 
-  for (const standaloneConfig of allAppsConfig) {
-    const publicRoot = standaloneConfig
-      ? standaloneConfig.standaloneVersion === 2
-        ? standaloneConfig.publicPrefix
-        : `${standaloneConfig.appRoot}-/`
-      : baseHref;
+  const serveLocalConfigs = legacyStandaloneAppsConfig
+    .map((standaloneConfig) => ({
+      publicRoot: `${standaloneConfig.appRoot}-/`,
+      isStandalone: true,
+    }))
+    .concat(
+      {
+        publicRoot: "(/next)?/sa-static/-/",
+        publicRootAsRegExpRaw: "(?:/next)?/sa-static/-/",
+        isStandalone: true,
+        publicRootWithVersion: true,
+      },
+      {
+        publicRoot: baseHref,
+      }
+    );
 
+  for (const {
+    publicRoot,
+    publicRootAsRegExpRaw,
+    isStandalone,
+    publicRootWithVersion,
+  } of serveLocalConfigs) {
     // 开发时默认拦截 bootstrap 请求。
     // 如果设定 `REMOTE=true`，则透传远端请求。
     if (useRemote) {
@@ -62,6 +81,18 @@ module.exports = (env, app) => {
                 "dist/editors",
                 req.params[0]
               ),
+              path.join(
+                primitiveBrickPackagesDir,
+                pkgId,
+                "dist-editors",
+                req.params[0]
+              ),
+              path.join(
+                primitiveBrickPackagesDir,
+                pkgId,
+                "dist/editors",
+                req.params[0]
+              ),
             ],
             req,
             res
@@ -73,8 +104,10 @@ module.exports = (env, app) => {
         // 直接返回本地构件库相关文件（但排除编辑器相关文件）。
         app.get(
           new RegExp(
-            `^${escapeRegExp(
-              `${publicRoot}bricks/${pkgId}/`
+            `^${
+              publicRootAsRegExpRaw || escapeRegExp(publicRoot)
+            }${escapeRegExp(
+              `bricks/${pkgId}/`
             )}(?:\\d+(?:\\.\\d+)*/)?(?!dist/editors/)(.+)`
           ),
           (req, res) => {
@@ -82,6 +115,7 @@ module.exports = (env, app) => {
               [
                 path.join(brickPackagesDir, pkgId, req.params[0]),
                 path.join(alternativeBrickPackagesDir, pkgId, req.params[0]),
+                path.join(primitiveBrickPackagesDir, pkgId, req.params[0]),
               ],
               req,
               res
@@ -90,23 +124,35 @@ module.exports = (env, app) => {
         );
       });
 
-      standaloneConfig ||
+      isStandalone ||
         localMicroApps.forEach((appId) => {
           // 直接返回本地小产品相关文件。
           app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
-            const filePath = path.join(microAppsDir, appId, req.params[0]);
-            tryServeFiles(filePath, req, res);
+            tryServeFiles(
+              [
+                path.join(microAppsDir, appId, req.params[0]),
+                path.join(alternativeMicroAppsDir, appId, req.params[0]),
+              ],
+              req,
+              res
+            );
           });
         });
       localTemplates.forEach((pkgId) => {
         // 直接返回本地模板相关文件。
         app.get(`${publicRoot}templates/${pkgId}/*`, (req, res) => {
-          const filePath = path.join(templatePackagesDir, pkgId, req.params[0]);
-          tryServeFiles(filePath, req, res);
+          tryServeFiles(
+            [
+              path.join(templatePackagesDir, pkgId, req.params[0]),
+              path.join(alternativeTemplatePackagesDir, pkgId, req.params[0]),
+            ],
+            req,
+            res
+          );
         });
       });
 
-      standaloneConfig ||
+      isStandalone ||
         mockedMicroApps.forEach((appId) => {
           // 直接返回本地小产品相关文件。
           app.get(`${baseHref}micro-apps/${appId}/*`, (req, res) => {
@@ -130,7 +176,7 @@ module.exports = (env, app) => {
         });
       // API to fulfil the active storyboard.
       asCdn ||
-        standaloneConfig ||
+        isStandalone ||
         localMicroApps.concat(mockedMicroApps).forEach((appId) => {
           app.get(
             `${baseHref}api/auth(/v2)?/bootstrap/${appId}`,
@@ -147,7 +193,7 @@ module.exports = (env, app) => {
           );
         });
     } else {
-      if (standaloneConfig) {
+      if (isStandalone) {
         app.get(`${publicRoot}bootstrap.hash.json`, (req, res) => {
           res.json({
             navbar: getNavbar(env),
@@ -161,7 +207,7 @@ module.exports = (env, app) => {
                 brief: req.query.brief === "true",
               })
             ),
-            brickPackages: getBrickPackages(env, standaloneConfig),
+            brickPackages: getBrickPackages(env, publicRootWithVersion),
             templatePackages: getTemplatePackages(env),
           });
         });
@@ -206,6 +252,7 @@ module.exports = (env, app) => {
           [
             path.join(brickPackagesDir, req.params[0]),
             path.join(alternativeBrickPackagesDir, req.params[0]),
+            path.join(primitiveBrickPackagesDir, req.params[0]),
           ],
           req,
           res
@@ -218,6 +265,7 @@ module.exports = (env, app) => {
           [
             ...(mocked ? [path.join(mockedMicroAppsDir, req.params[0])] : []),
             path.join(microAppsDir, req.params[0]),
+            path.join(alternativeMicroAppsDir, req.params[0]),
           ],
           req,
           res
@@ -226,8 +274,14 @@ module.exports = (env, app) => {
 
       // 直接返回模板库 js 文件。
       app.get(`${publicRoot}templates/*`, (req, res) => {
-        const filePath = path.join(templatePackagesDir, req.params[0]);
-        tryServeFiles(filePath, req, res);
+        tryServeFiles(
+          [
+            path.join(templatePackagesDir, req.params[0]),
+            path.join(alternativeTemplatePackagesDir, req.params[0]),
+          ],
+          req,
+          res
+        );
       });
     }
   }

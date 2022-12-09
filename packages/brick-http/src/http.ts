@@ -332,7 +332,7 @@ class Http {
 
   private fetch(config: HttpRequestConfig): Promise<any> {
     const chain: any[] = [];
-    let key;
+    let key: string;
     if (this.isEnableCache) {
       try {
         key = `${config.method}.${config.url}.${
@@ -372,6 +372,10 @@ class Http {
       // 遇到 clearCacheIgnoreList 缓存列表外的，需要清除缓存
       if (shouldCache) {
         this.requestCache.set(key, promise);
+        // 当请求发生异常，主动清理该缓存。
+        promise.catch(() => {
+          this.requestCache.delete(key);
+        });
       } else {
         this.requestCache.clear();
       }

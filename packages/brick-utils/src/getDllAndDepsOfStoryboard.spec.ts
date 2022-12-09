@@ -4,18 +4,6 @@ import {
   getDllAndDepsOfBricks,
   getDllAndDepsByResource,
 } from "./getDllAndDepsOfStoryboard";
-import { scanBricksInStoryboard } from "./scanBricksInStoryboard";
-import { scanProcessorsInStoryboard } from "./scanProcessorsInStoryboard";
-
-jest.mock("./scanBricksInStoryboard");
-jest.mock("./scanProcessorsInStoryboard");
-
-(scanBricksInStoryboard as jest.Mock).mockReturnValue([
-  "a.brick-a",
-  "c.brick-c",
-]);
-
-(scanProcessorsInStoryboard as jest.Mock).mockReturnValue(["d.doGood"]);
 
 window.DLL_PATH = {
   d3: "dll-of-d3.123.js",
@@ -67,11 +55,94 @@ afterEach(() => {
 
 describe("getDllAndDepsOfStoryboard", () => {
   it("should work", () => {
-    const storyboard: Storyboard = {} as any;
+    const storyboard: Storyboard = {
+      routes: [
+        {
+          bricks: [
+            {
+              brick: "a.brick-a",
+            },
+            {
+              brick: "c.brick-c",
+              properties: {
+                any: "<% PROCESSORS.d.doGood() %>",
+              },
+            },
+          ],
+        },
+      ],
+    } as any;
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.123.js"],
       deps: ["bricks/a/dist/a.js", "bricks/c/dist/c.js", "bricks/d/dist/d.js"],
       bricks: ["a.brick-a", "c.brick-c"],
+    });
+  });
+
+  it("should ignore bricks and processors in unused templates", () => {
+    const storyboard: Storyboard = {
+      routes: [
+        {
+          type: "bricks",
+          bricks: [
+            {
+              brick: "tpl-abc",
+              properties: {
+                any: "<% PROCESSORS.a.doGood() %>",
+              },
+            },
+          ],
+        },
+      ],
+      meta: {
+        customTemplates: [
+          {
+            name: "tpl-abc",
+            bricks: [
+              {
+                brick: "tpl-inner-used",
+              },
+              {
+                brick: "div",
+                properties: {
+                  any: "<% PROCESSORS.b.doGood() %>",
+                },
+              },
+            ],
+          },
+          {
+            name: "tpl-inner-used",
+            bricks: [
+              {
+                brick: "any-brick",
+                properties: {
+                  any: "<% PROCESSORS.c.doGood() %>",
+                },
+              },
+            ],
+          },
+          {
+            name: "tpl-unused",
+            bricks: [
+              {
+                brick: "any",
+                properties: {
+                  any: "<% PROCESSORS.d.doGood() %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    } as any;
+    expect(
+      getDllAndDepsOfStoryboard(storyboard, brickPackages, {
+        ignoreBricksInUnusedCustomTemplates: true,
+      })
+    ).toEqual({
+      dll: ["dll-of-d3.123.js"],
+      deps: ["bricks/a/dist/a.js", "bricks/b/dist/b.js", "bricks/c/dist/c.js"],
+      bricks: ["any-brick"],
     });
   });
 });
@@ -95,7 +166,7 @@ describe("getDllAndDepsOfBricks", () => {
     });
 
     expect(spyConsoleError.mock.calls[0][0]).toEqual(
-      "the name of brick is `invalid.brick-z` and it don't match any brick package"
+      "Brick `invalid.brick-z` does not match any brick package"
     );
   });
 
@@ -172,18 +243,18 @@ describe("getDllAndDepsByResource", () => {
     );
 
     expect(spyConsoleError.mock.calls[0][0]).toEqual(
-      "the file path of brick is `invalid/file/path` and it is non-standard package path"
+      'Unexpected brick package file path: "invalid/file/path"'
     );
     expect(spyConsoleError.mock.calls[1][0]).toEqual(
-      "the name of brick is `invalid.form-bricks` and it don't match any package"
+      "Brick `invalid.form-bricks` does not match any brick package"
     );
 
     expect(spyConsoleError.mock.calls[2][0]).toEqual(
-      "the name of processor is `inValidProcessor.covert` and it don't match any package"
+      "Processor `inValidProcessor.covert` does not match any brick package"
     );
 
     expect(spyConsoleError.mock.calls[3][0]).toEqual(
-      "the name of editor is `invalid.form--editor` and it don't match any editor package"
+      "Editor `invalid.form--editor` does not match any brick package"
     );
   });
 

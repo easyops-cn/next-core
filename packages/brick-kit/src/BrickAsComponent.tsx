@@ -52,6 +52,8 @@ import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
+import { ExpandCustomForm } from "./core/CustomForms/ExpandCustomForm";
+import { formRenderer } from "./core/CustomForms/constants";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -166,11 +168,11 @@ export const SingleBrickAsComponent = React.memo(
     const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
     const elementRef = useRef<HTMLElement>();
     const templateRef = useRef<RuntimeBrickConf>();
+    const formRef = useRef<BrickConf>();
     const tplTagName = getTagNameOfCustomTemplate(
       useBrick.brick,
       _internalApiGetCurrentContext().app?.id
     );
-
     const isBrickAvailable = React.useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
         // eslint-disable-next-line
@@ -211,7 +213,13 @@ export const SingleBrickAsComponent = React.memo(
         tplTagName,
         brick
       );
-
+      if (useBrick.brick === formRenderer) {
+        formRef.current = ExpandCustomForm(
+          useBrick.properties?.formData,
+          useBrick as BrickConf,
+          false
+        );
+      }
       // Let `transform` works still.
       transformProperties(
         brick.properties,
@@ -299,7 +307,11 @@ export const SingleBrickAsComponent = React.memo(
         // 设置proxyEvent
         handleProxyOfCustomTemplate(brick);
 
-        if ((element as RuntimeBrickElement).$$typeof !== "custom-template") {
+        if (
+          !["formRenderer", "custom-template"].includes(
+            (element as RuntimeBrickElement).$$typeof
+          )
+        ) {
           if (!useBrick.brick.includes("-")) {
             (element as RuntimeBrickElement).$$typeof = "native";
           } else if (!customElements.get(useBrick.brick)) {
@@ -379,9 +391,10 @@ export const SingleBrickAsComponent = React.memo(
     const childConfs = useMemo(
       () =>
         slotsToChildren(
-          (templateRef.current ?? useBrick).slots as UseBrickSlotsConf
+          (templateRef.current ?? formRef.current ?? useBrick)
+            .slots as UseBrickSlotsConf
         ),
-      [templateRef.current, useBrick]
+      [templateRef.current, formRef.current, useBrick]
     );
 
     if (!isBrickAvailable) {
@@ -478,7 +491,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         useBrick.brick,
         _internalApiGetCurrentContext().app?.id
       );
-
+      const formRef = useRef<BrickConf>();
       const isBrickAvailable = React.useMemo(() => {
         if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
           // eslint-disable-next-line
@@ -526,6 +539,13 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           tplTagName,
           brick
         );
+        if (useBrick.brick === formRenderer) {
+          formRef.current = ExpandCustomForm(
+            useBrick.properties?.formData,
+            useBrick as BrickConf,
+            false
+          );
+        }
 
         // Let `transform` works still.
         transformProperties(
@@ -693,9 +713,10 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       const childConfs = useMemo(
         () =>
           slotsToChildren(
-            (templateRef.current ?? useBrick).slots as UseBrickSlotsConf
+            (templateRef.current ?? formRef.current ?? useBrick)
+              .slots as UseBrickSlotsConf
           ),
-        [templateRef.current, useBrick]
+        [templateRef.current, formRef.current, useBrick]
       );
 
       if (!isBrickAvailable) {
