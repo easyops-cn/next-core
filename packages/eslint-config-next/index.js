@@ -84,5 +84,11 @@ module.exports = {
         "react/prop-types": "off",
       },
     },
+    {
+      files: ["bnb.config.js"],
+      rules: {
+        "@typescript-eslint/no-var-requires": "error",
+      },
+    },
   ],
 };

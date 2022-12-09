@@ -1,10 +1,16 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const packageDir = process.cwd();
 
-module.exports = {
+/** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig} */
+export default {
   type: "container",
+  entry: {
+    main: "./src/index",
+    polyfill: "./src/polyfill",
+  },
+  extractCss: true,
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
