@@ -1,5 +1,7 @@
 {
-  "packages": ["packages/*", "dll/*"],
+  "packages": [
+    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs)/**"
+  ],
   "version": "independent",
   "npmClient": "yarn",
   "stream": true,

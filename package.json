@@ -38,19 +38,11 @@
     ]
   },
   "devDependencies": {
-    "@ant-design/compatible": "^1.0.8",
-    "@ant-design/icons": "^4.5.0",
     "@babel/core": "^7.20.5",
     "@babel/types": "^7.20.5",
     "@cypress/browserify-preprocessor": "^3.0.2",
-    "@easyops-cn/api-documenter": "^7.9.3",
-    "@microsoft/api-extractor": "^7.13.1",
-    "@next-bricks/basic-bricks": "^1.171.0",
-    "@next-bricks/basic-providers": "^1.4.0",
     "@size-limit/file": "^8.1.0",
-    "@testing-library/react-hooks": "^7.0.2",
-    "@types/enzyme": "^3.10.12",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@testing-library/react-hooks": "^8.0.0",
     "@types/file-saver": "^2.0.5",
     "@types/fs-extra": "^9.0.13",
     "@types/history": "^4.7.11",
@@ -62,23 +54,13 @@
     "@types/meow": "^5.0.0",
     "@types/node": "^16.18.7",
     "@types/prettier": "^2.7.1",
-    "@types/react": "^16.14.34",
-    "@types/react-dom": "^16.9.17",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
-    "antd": "~4.12.3",
     "babel-jest": "^29.3.1",
     "buffer": "^4.9.2",
     "cross-env": "^7.0.3",
     "cypress": "^12.0.2",
-    "d3-drag": "^2.0.0",
-    "d3-force": "^2.1.1",
-    "d3-hierarchy": "^2.0.0",
-    "d3-selection": "^2.0.0",
-    "d3-shape": "^2.1.0",
-    "d3-zoom": "^2.0.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.7",
-    "enzyme-to-json": "^3.6.2",
     "eslint": "^8.29.0",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -87,7 +69,7 @@
     "jest-environment-jsdom": "^29.3.1",
     "jest-fetch-mock": "^3.0.3",
     "jest-websocket-mock": "^2.4.0",
-    "lerna": "^5.6.2",
+    "lerna": "^6.0.0",
     "lint-staged": "^13.1.0",
     "mock-socket": "^9.1.5",
     "null-loader": "^4.0.1",
@@ -95,21 +77,16 @@
     "react-test-renderer": "^16.14.0",
     "rimraf": "^3.0.2",
     "timers-browserify": "^2.0.12",
-    "typescript": "~4.7.4"
+    "typescript": "~4.9.4"
   },
   "workspaces": [
-    "packages/*",
-    "dll/*"
+    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs)/**"
   ],
   "resolutions": {
     "@babel/parser": "^7.20.5",
     "@babel/runtime": "^7.20.6",
-    "@types/react": "^16.14.34",
+    "@types/react": "^18.0.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4",
-    "rc-tabs": "~11.7.3",
-    "rc-textarea": "~0.3.5",
-    "rc-virtual-list": "^3.2.6",
-    "ua-parser-js": "0.7.19"
+    "moment": "^2.29.4"
   }
 }

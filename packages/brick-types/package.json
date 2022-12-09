@@ -45,8 +45,6 @@
     "typescript-json-schema": "^0.54.0"
   },
   "peerDependencies": {
-    "@fortawesome/fontawesome-svg-core": "*",
-    "antd": "*",
     "history": "*",
     "path-to-regexp": "*"
   }

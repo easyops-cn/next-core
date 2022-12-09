@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     # Only if it contains a certain label.
     if: "contains( github.event.pull_request.labels.*.name, 'eve: update docs etc')"

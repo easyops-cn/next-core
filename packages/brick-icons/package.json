@@ -40,13 +40,13 @@
   "devDependencies": {
     "@next-core/brick-utils": "^2.45.11",
     "@next-core/rollup-config-factory": "^2.6.4",
-    "@svgr/rollup": "^5.5.0",
+    "@svgr/rollup": "^6.5.1",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",
     "klaw-sync": "^6.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.1",
-    "react": "^16.14.0"
+    "react": "^18.0.0"
   },
   "peerDependencies": {
     "@next-core/brick-utils": "*",
