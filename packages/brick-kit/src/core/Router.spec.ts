@@ -218,7 +218,10 @@ describe("Router", () => {
     await router.bootstrap();
     expect(router.getState()).toBe("mounted");
     expect(spyOnHistory.listen).toBeCalled();
-    const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
+    const dispatchedHttpEvent = spyOnDispatchEvent.mock
+      .calls[0][0] as CustomEvent;
+    expect(dispatchedHttpEvent.type).toBe("http:cache.start");
+    const dispatchedEvent = spyOnDispatchEvent.mock.calls[1][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);
@@ -284,7 +287,10 @@ describe("Router", () => {
     await router.bootstrap();
     expect(router.getState()).toBe("mounted");
     expect(spyOnHistory.listen).toBeCalled();
-    const dispatchedEvent = spyOnDispatchEvent.mock.calls[0][0] as CustomEvent;
+    const dispatchedHttpEvent = spyOnDispatchEvent.mock
+      .calls[0][0] as CustomEvent;
+    expect(dispatchedHttpEvent.type).toBe("http:cache.start");
+    const dispatchedEvent = spyOnDispatchEvent.mock.calls[1][0] as CustomEvent;
     expect(dispatchedEvent.type).toBe("app.change");
     expect(spyOnMountTree.mock.calls[0][0]).toEqual([{ type: "p" }]);
     expect(spyOnMountStaticNode.mock.calls[0][0]).toBe(kernel.menuBar.element);

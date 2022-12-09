@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.16](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.15...@next-core/babel-preset-next@0.9.16) (2022-12-09)
+
+### Bug Fixes
+
+- use corejs 3.26 ([c92be29](https://github.com/easyops-cn/next-core/commit/c92be29c14ecb32b5fb71c6db5753660cf6a37ab))
+
 ## [0.9.15](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.14...@next-core/babel-preset-next@0.9.15) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/babel-preset-next

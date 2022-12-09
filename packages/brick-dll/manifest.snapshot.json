@@ -7345,7 +7345,10 @@
           "HttpFetchError",
           "HttpParseError",
           "HttpResponseError",
+          "createHttpInstance",
+          "defaultAdapter",
           "fetch",
+          "getUrlWithParams",
           "http",
           "isHttpAbortError"
         ]

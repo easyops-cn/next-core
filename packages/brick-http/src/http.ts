@@ -1,9 +1,9 @@
 import { fetch } from "./fetch";
 import {
-  HttpFetchError,
-  HttpResponseError,
-  HttpParseError,
   HttpAbortError,
+  HttpFetchError,
+  HttpParseError,
+  HttpResponseError,
 } from "./errors";
 import InterceptorManager from "./InterceptorManager";
 
@@ -12,6 +12,7 @@ export interface HttpRequestConfig {
   method?: string;
   data?: any;
   meta?: Record<string, any>;
+  adapter?: Adapter;
   options?: HttpOptions;
 }
 export interface ClearRequestCacheListConfig {
@@ -32,6 +33,10 @@ export interface HttpError {
   error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError;
 }
 
+export interface Adapter {
+  (config: HttpRequestConfig): Promise<HttpResponse<any>>;
+}
+
 function isNil(value: any): boolean {
   return value === undefined || value === null;
 }
@@ -50,6 +55,7 @@ export interface RequestCustomOptions {
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
   interceptorParams?: any;
   noAbortOnRouteChange?: boolean;
+  useCache?: boolean;
 }
 
 export type HttpCustomOptions = RequestCustomOptions & {
@@ -143,7 +149,7 @@ const request = async <T>(
   });
 };
 
-const getUrlWithParams = (url: string, params?: HttpParams): string => {
+export const getUrlWithParams = (url: string, params?: HttpParams): string => {
   if (params) {
     const parsedUrl = new URL(url, fullBaseHref);
     if (params instanceof URLSearchParams) {
@@ -238,6 +244,18 @@ const requestWithBody = <T = any>(
   );
 };
 
+const defaultAdapter: Adapter = <T>(config: HttpRequestConfig) => {
+  const { url, method, data, options = {} } = config;
+
+  // "DELETE", "GET", "HEAD" methods.
+  if (["DELETE", "GET", "HEAD"].includes(config.method)) {
+    return simpleRequest<T>(method, url, config);
+  }
+
+  // "POST", "PUT" , "PATCH" methods.
+  return requestWithBody<T>(method, url, data, config);
+};
+
 class Http {
   private listener: Record<string, any> = {};
   private requestCache = new Map<string, Promise<any>>();
@@ -279,11 +297,13 @@ class Http {
 
   public defaults = {};
 
-  constructor() {
+  constructor(config?: { adapter?: Adapter }) {
     this.interceptors = {
       request: new InterceptorManager(),
       response: new InterceptorManager(),
     };
+
+    this.defaults = { ...config };
   }
 
   request = async <T>(
@@ -319,15 +339,8 @@ class Http {
   };
 
   private dispatchRequest<T>(config: HttpRequestConfig): any {
-    const { url, method, data, options = {} } = config;
-
-    // "DELETE", "GET", "HEAD" methods.
-    if (["DELETE", "GET", "HEAD"].includes(config.method)) {
-      return simpleRequest<T>(method, url, config);
-    }
-
-    // "POST", "PUT" , "PATCH" methods.
-    return requestWithBody<T>(method, url, data, config);
+    const adapter = config?.adapter || defaultAdapter;
+    return adapter(config);
   }
 
   private fetch(config: HttpRequestConfig): Promise<any> {
@@ -425,4 +438,8 @@ class Http {
   }
 }
 
-export const http = new Http();
+let http = new Http();
+function createHttpInstance(config: HttpRequestConfig): void {
+  http = new Http(config);
+}
+export { http, createHttpInstance, defaultAdapter };

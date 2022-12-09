@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.157.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.10...@next-core/brick-kit@2.157.0) (2022-12-09)
+
+### Features
+
+- cache http request by cacheAdapter ([aced70a](https://github.com/easyops-cn/next-core/commit/aced70a16444c1042158803a61c61e17cfa58266))
+
 ## [2.156.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.9...@next-core/brick-kit@2.156.10) (2022-12-08)
 
 ### Bug Fixes

@@ -21,6 +21,8 @@ import {
   HttpResponse,
   HttpError,
   ClearRequestCacheListConfig,
+  createHttpInstance,
+  defaultAdapter,
 } from "@next-core/brick-http";
 // import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
@@ -35,7 +37,8 @@ import "./styles/editor-bricks-variables.css";
 import "./styles/default.css";
 import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
-// import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
+import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
+import { httpCacheAdapter } from "./httpCacheAdapter";
 
 // initializeLibrary();
 
@@ -63,6 +66,10 @@ const mountPoints = {
 const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
 const analyzer = apiAnalyzer.create({
   api,
+});
+
+createHttpInstance({
+  adapter: httpCacheAdapter(defaultAdapter),
 });
 
 http.interceptors.request.use(function (config: HttpRequestConfig) {
