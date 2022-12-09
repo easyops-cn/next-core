@@ -1,6 +1,6 @@
 import { LocationDescriptor } from "history";
-import { ThemeType } from "@ant-design/compatible/lib/icon";
-import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
+// import { ThemeType } from "@ant-design/compatible/lib/icon";
+// import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 import { MetaI18n, ResolveConf, MicroApp } from "./manifest";
 
 /**
@@ -117,7 +117,7 @@ export type AntdIcon = RefinedAntdIcon | LegacyAntdIcon;
 export interface RefinedAntdIcon {
   lib: "antd";
   icon: string;
-  theme?: ThemeType;
+  theme?: string;
   color?: string | GradientColor;
 }
 
@@ -125,15 +125,15 @@ export interface RefinedAntdIcon {
 export interface LegacyAntdIcon {
   lib: "antd";
   type: string;
-  theme?: ThemeType;
+  theme?: string;
   color?: string | GradientColor;
 }
 
 /** FontAwesome 图标配置。 */
 export interface FaIcon {
   lib: "fa";
-  icon: IconName;
-  prefix?: IconPrefix;
+  icon: string;
+  prefix?: "fas" | "fab";
   color?: string | GradientColor;
 }
 

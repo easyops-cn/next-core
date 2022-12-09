@@ -35,7 +35,7 @@
     "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "cross-env NODE_ENV='production' rollup --config rollup.config.js",
     "build:types": "tsc --project tsconfig.types.json",
-    "postbuild": "node scripts/post-build.js && npm run docs:build",
+    "postbuild": "node scripts/post-build.js",
     "docs:build": "api-extractor run",
     "docs:dev": "api-extractor run --local --verbose"
   },

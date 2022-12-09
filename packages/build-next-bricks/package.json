@@ -1,0 +1,29 @@
+{
+  "name": "@next-core/build-next-bricks",
+  "version": "0.0.0",
+  "description": "Build next bricks",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-next-bricks",
+  "license": "GPL-3.0",
+  "type": "module",
+  "bin": {
+    "build-next-bricks": "./bin/build-next-bricks.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "webpack": "^5.75.0",
+    "rimraf": "^3.0.2",
+    "babel-loader": "^9.1.0",
+    "html-webpack-plugin": "^5.5.0"
+  }
+}

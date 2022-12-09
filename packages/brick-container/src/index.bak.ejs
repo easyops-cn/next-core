@@ -4,7 +4,15 @@
     <meta charset="utf-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <base href="<%= htmlWebpackPlugin.options.baseHref %>">
+    <link rel="shortcut icon" type="image/png" href="<%= htmlWebpackPlugin.options.faviconPath %>"/>
     <script>(!("documentMode" in document)&&CSS.supports("display","grid")&&window.customElements)||(location.href="<%= htmlWebpackPlugin.options.baseHref %>browse-happy.html")</script>
+    <script>window.MOCK_DATE="<%= htmlWebpackPlugin.options.mockDate %>";window.PUBLIC_ROOT=window.CORE_ROOT=window.PUBLIC_CDN="<%= htmlWebpackPlugin.options.publicCdn %>";</script>
+    <%= htmlWebpackPlugin
+      .tags
+      .headTags
+      .map(htmlWebpackPlugin.options.customizeTag)
+      .join('')
+    %>
   </head>
   <body>
     <div id="root-layout">
@@ -18,5 +26,11 @@
     </div>
     <div id="bg-mount-point"></div>
     <div id="portal-mount-point"></div>
+    <%= htmlWebpackPlugin
+      .tags
+      .bodyTags
+      .map(htmlWebpackPlugin.options.customizeTag)
+      .join('')
+    %>
   </body>
 </html>

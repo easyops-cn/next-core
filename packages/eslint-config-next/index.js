@@ -37,6 +37,14 @@ module.exports = {
         allowSingleExtends: true,
       },
     ],
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        types: {
+          Function: false,
+        },
+      },
+    ],
     "prefer-const": ["error", { destructuring: "all" }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",

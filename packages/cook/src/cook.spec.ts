@@ -1,4 +1,4 @@
-import { install, InstalledClock } from "lolex";
+// import { install, InstalledClock } from "lolex";
 import { SimpleFunction } from "@next-core/brick-types";
 import { supply } from "@next-core/supply";
 import { cloneDeep } from "lodash";
@@ -115,12 +115,11 @@ const equivalentFunc = (
 const containsExperimental = (source: string): boolean => source.includes("|>");
 
 describe("evaluate", () => {
-  let clock: InstalledClock;
-  beforeEach(() => {
-    clock = install({ now: +new Date("2020-03-25 17:37:00") });
+  beforeAll(() => {
+    jest.setSystemTime(new Date("2020-03-25 17:37:00"));
   });
-  afterEach(() => {
-    clock.uninstall();
+  afterAll(() => {
+    jest.setSystemTime();
   });
 
   it.each<NormalizedCase>(positiveCases)("%s", (desc, { source, cases }) => {

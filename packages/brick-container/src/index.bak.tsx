@@ -1,8 +1,8 @@
 import "moment";
 import "moment/locale/zh-cn";
-import React from "react";
-import ReactDOM from "react-dom";
-import { Result } from "antd";
+// import React from "react";
+// import ReactDOM from "react-dom";
+// import { Result } from "antd";
 import {
   createRuntime,
   getAuth,
@@ -22,7 +22,7 @@ import {
   HttpError,
   ClearRequestCacheListConfig,
 } from "@next-core/brick-http";
-import { initializeLibrary } from "@next-core/fontawesome-library";
+// import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
 import "./XMLHttpRequest";
 import "./antd";
@@ -30,19 +30,16 @@ import "./styles/theme/index.css";
 import "./styles/variables.css";
 import "./styles/business-variables.css";
 import "./styles/editor-bricks-variables.css";
-import "./styles/antd.less";
-import "./styles/antd-compatible.less";
+// import "./styles/antd.less";
+// import "./styles/antd-compatible.less";
 import "./styles/default.css";
 import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
-import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
+// import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
 
-initializeLibrary();
+// initializeLibrary();
 
 // These constants bellow are defined by `webpack.DefinePlugin`.
-// eslint-disable-next-line
-// @ts-ignore
-window.DLL_PATH = DLL_PATH;
 // eslint-disable-next-line
 // @ts-ignore
 window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;
@@ -257,14 +254,15 @@ async function bootstrap(): Promise<void> {
     // `.bootstrap-error` makes loading-bar invisible.
     document.body.classList.add("bootstrap-error", "bars-hidden");
 
-    ReactDOM.render(
-      <Result
-        status="error"
-        title={i18n.t(`${NS_BRICK_CONTAINER}:${K.BOOTSTRAP_ERROR}`)}
-        subTitle={httpErrorToString(e)}
-      />,
-      mountPoints.main
-    );
+    // ReactDOM.render(
+    //   <Result
+    //     status="error"
+    //     title={i18n.t(`${NS_BRICK_CONTAINER}:${K.BOOTSTRAP_ERROR}`)}
+    //     subTitle={httpErrorToString(e)}
+    //   />,
+    //   mountPoints.main
+    // );
+    mountPoints.main.textContent = httpErrorToString(e);
   }
 
   startPreview();
@@ -280,17 +278,17 @@ type CypressContainer = Window &
     __test_only_getFeatureFlags?(): FeatureFlags;
   };
 
-export interface PreviewHelperBrick {
+interface PreviewHelperBrick {
   start(previewFromOrigin: string, options?: PreviewStartOptions): void;
 }
 
-export interface PreviewMessageContainerStartPreview {
+interface PreviewMessageContainerStartPreview {
   sender: "preview-container";
   type: "start-preview";
   options?: PreviewStartOptions;
 }
 
-export interface PreviewStartOptions {
+interface PreviewStartOptions {
   appId: string;
   templateId: string;
   settings?: {

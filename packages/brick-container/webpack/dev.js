@@ -1,4 +1,4 @@
-const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
+// const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 const devServerOptions = require("../dev-server");
 
 const servePublicPath = process.env.SET_SUBDIR
@@ -32,24 +32,24 @@ module.exports = () => ({
   },
   module: {
     rules: [
-      {
-        test: /\.less$/,
-        sideEffects: true,
-        use: [
-          "style-loader",
-          "css-loader",
-          {
-            loader: "less-loader",
-            options: {
-              lessOptions: {
-                sourceMap: true,
-                javascriptEnabled: true,
-                plugins: [lessReplacePlugin],
-              },
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.less$/,
+      //   sideEffects: true,
+      //   use: [
+      //     "style-loader",
+      //     "css-loader",
+      //     {
+      //       loader: "less-loader",
+      //       options: {
+      //         lessOptions: {
+      //           sourceMap: true,
+      //           javascriptEnabled: true,
+      //           plugins: [lessReplacePlugin],
+      //         },
+      //       },
+      //     },
+      //   ],
+      // },
       {
         test: /\.css$/,
         sideEffects: true,

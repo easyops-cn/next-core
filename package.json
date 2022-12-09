@@ -80,6 +80,7 @@
     "typescript": "~4.9.4"
   },
   "workspaces": [
+    "bricks/*",
     "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs)/**"
   ],
   "resolutions": {

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "sourceMap": true,
+    "importHelpers": true,
+    "target": "ESNext",
+    "module": "Node16",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node16",
+    "skipLibCheck": true,
+    "strict": true,
+    "jsx": "preserve"
+  },
+  "exclude": ["node_modules", "dist/", "**/*.spec.ts", "**/__mocks__/"]
+}
