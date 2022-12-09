@@ -5,22 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.7.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.6...@next-core/brick-http@2.7.7) (2022-11-25)
 
-
 ### Bug Fixes
 
-* clear cache if the request is failed ([d1455d0](https://github.com/easyops-cn/next-core/commit/d1455d0eecbe3440931b4297fa4ff3253634ac89))
-
-
-
-
+- clear cache if the request is failed ([d1455d0](https://github.com/easyops-cn/next-core/commit/d1455d0eecbe3440931b4297fa4ff3253634ac89))
 
 ## [2.7.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.5...@next-core/brick-http@2.7.6) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/brick-http
-
-
-
-
 
 ## [2.7.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-http@2.7.4...@next-core/brick-http@2.7.5) (2022-11-04)
 

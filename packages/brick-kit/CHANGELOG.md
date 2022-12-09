@@ -5,222 +5,122 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.156.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.9...@next-core/brick-kit@2.156.10) (2022-12-08)
 
-
 ### Bug Fixes
 
-* 菜单未正常使用overrideApp数据进行渲染 ([7796145](https://github.com/easyops-cn/next-core/commit/7796145cca245ae2efa6baaed6e8ad011b7c4eb4))
-
-
-
-
+- 菜单未正常使用 overrideApp 数据进行渲染 ([7796145](https://github.com/easyops-cn/next-core/commit/7796145cca245ae2efa6baaed6e8ad011b7c4eb4))
 
 ## [2.156.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.8...@next-core/brick-kit@2.156.9) (2022-12-01)
 
-
 ### Bug Fixes
 
-* disable prefetch-scripts by default ([8d0e5fa](https://github.com/easyops-cn/next-core/commit/8d0e5fa2578cd5ce1bc9ad0b6da4613558e05db7))
-
-
-
-
+- disable prefetch-scripts by default ([8d0e5fa](https://github.com/easyops-cn/next-core/commit/8d0e5fa2578cd5ce1bc9ad0b6da4613558e05db7))
 
 ## [2.156.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.7...@next-core/brick-kit@2.156.8) (2022-12-01)
 
-
 ### Bug Fixes
 
-* 小产品可以配置 featureFlags 和 misc ([13adfbf](https://github.com/easyops-cn/next-core/commit/13adfbfd4424beb65401cd2897bb740ba1751029))
-* 支持在user_config配置feature_flags和mic配置 ([1b4bbe7](https://github.com/easyops-cn/next-core/commit/1b4bbe76a4cfbd55a2648c7ef19a19d647f68cee))
-
-
-
-
+- 小产品可以配置 featureFlags 和 misc ([13adfbf](https://github.com/easyops-cn/next-core/commit/13adfbfd4424beb65401cd2897bb740ba1751029))
+- 支持在 user_config 配置 feature_flags 和 mic 配置 ([1b4bbe7](https://github.com/easyops-cn/next-core/commit/1b4bbe76a4cfbd55a2648c7ef19a19d647f68cee))
 
 ## [2.156.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.6...@next-core/brick-kit@2.156.7) (2022-11-29)
 
-
 ### Bug Fixes
 
-* fix an issue causes setting favicon to undefined ([717a9fe](https://github.com/easyops-cn/next-core/commit/717a9fe9e91bae7774562ff9c83abaa247b597d9))
-
-
-
-
+- fix an issue causes setting favicon to undefined ([717a9fe](https://github.com/easyops-cn/next-core/commit/717a9fe9e91bae7774562ff9c83abaa247b597d9))
 
 ## [2.156.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.5...@next-core/brick-kit@2.156.6) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.156.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.4...@next-core/brick-kit@2.156.5) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.156.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.3...@next-core/brick-kit@2.156.4) (2022-11-21)
-
 
 ### Bug Fixes
 
-* 修复当 request 是 model 类型时，被当作是无参数的情况 ([4f14975](https://github.com/easyops-cn/next-core/commit/4f14975e9d336453296b36aa648cb88e3c0296d6))
-
-
-
-
+- 修复当 request 是 model 类型时，被当作是无参数的情况 ([4f14975](https://github.com/easyops-cn/next-core/commit/4f14975e9d336453296b36aa648cb88e3c0296d6))
 
 ## [2.156.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.2...@next-core/brick-kit@2.156.3) (2022-11-17)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.156.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.1...@next-core/brick-kit@2.156.2) (2022-11-16)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.156.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.0...@next-core/brick-kit@2.156.1) (2022-11-14)
-
 
 ### Bug Fixes
 
-* fix web socket events in tpl ([ea5c85e](https://github.com/easyops-cn/next-core/commit/ea5c85eceb64497cd6850eb459e83b75e2b82682))
-
-
-
-
+- fix web socket events in tpl ([ea5c85e](https://github.com/easyops-cn/next-core/commit/ea5c85eceb64497cd6850eb459e83b75e2b82682))
 
 # [2.156.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.5...@next-core/brick-kit@2.156.0) (2022-11-11)
 
-
 ### Features
 
-* expose event listener constructor ([adbca90](https://github.com/easyops-cn/next-core/commit/adbca90b9ff4b624bfce97ceec23b203485c8ae8))
-
-
-
-
+- expose event listener constructor ([adbca90](https://github.com/easyops-cn/next-core/commit/adbca90b9ff4b624bfce97ceec23b203485c8ae8))
 
 ## [2.155.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.4...@next-core/brick-kit@2.155.5) (2022-11-11)
 
-
 ### Bug Fixes
 
-* 修复standalone模式下, 额外查询的菜单信息缺少overrideApp的问题 ([c2d5a00](https://github.com/easyops-cn/next-core/commit/c2d5a005114970eeff147493cd26ef30e0c23087))
-
-
-
-
+- 修复 standalone 模式下, 额外查询的菜单信息缺少 overrideApp 的问题 ([c2d5a00](https://github.com/easyops-cn/next-core/commit/c2d5a005114970eeff147493cd26ef30e0c23087))
 
 ## [2.155.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.3...@next-core/brick-kit@2.155.4) (2022-11-11)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.155.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.2...@next-core/brick-kit@2.155.3) (2022-11-10)
-
 
 ### Bug Fixes
 
-* fix favicon error ([b31b5a3](https://github.com/easyops-cn/next-core/commit/b31b5a35e56136b8991d531bd635f662dff1ee95))
-
-
-
-
+- fix favicon error ([b31b5a3](https://github.com/easyops-cn/next-core/commit/b31b5a35e56136b8991d531bd635f662dff1ee95))
 
 ## [2.155.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.1...@next-core/brick-kit@2.155.2) (2022-11-08)
 
-
 ### Bug Fixes
 
-* memoize data when tracking context in useBrick ([44275b8](https://github.com/easyops-cn/next-core/commit/44275b83c475d25478069cf0da21fc3032304d20))
-
-
-
-
+- memoize data when tracking context in useBrick ([44275b8](https://github.com/easyops-cn/next-core/commit/44275b83c475d25478069cf0da21fc3032304d20))
 
 ## [2.155.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.155.0...@next-core/brick-kit@2.155.1) (2022-11-08)
 
-
 ### Bug Fixes
 
-* fix tracking context in useBrick ([f437cc6](https://github.com/easyops-cn/next-core/commit/f437cc63bca97c26477227f487324bbd8602443f))
-
-
-
-
+- fix tracking context in useBrick ([f437cc6](https://github.com/easyops-cn/next-core/commit/f437cc63bca97c26477227f487324bbd8602443f))
 
 # [2.155.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.18...@next-core/brick-kit@2.155.0) (2022-11-08)
 
-
 ### Bug Fixes
 
-* fix ctx evaluations after history.push ([80e50a9](https://github.com/easyops-cn/next-core/commit/80e50a9854103385b31c1b9e5483a7f5b91c4c40))
-
+- fix ctx evaluations after history.push ([80e50a9](https://github.com/easyops-cn/next-core/commit/80e50a9854103385b31c1b9e5483a7f5b91c4c40))
 
 ### Features
 
-* **BrickAsComponent:** Add onMount and onUnmount life cycle. ([5ad42ca](https://github.com/easyops-cn/next-core/commit/5ad42ca71cb2b6c758715178eac9ec6eb6672a4d))
-
-
-
-
+- **BrickAsComponent:** Add onMount and onUnmount life cycle. ([5ad42ca](https://github.com/easyops-cn/next-core/commit/5ad42ca71cb2b6c758715178eac9ec6eb6672a4d))
 
 ## [2.154.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.17...@next-core/brick-kit@2.154.18) (2022-11-07)
 
-
 ### Bug Fixes
 
-* throw when processors not found ([4a2259b](https://github.com/easyops-cn/next-core/commit/4a2259b29198721fc13df2eea543c661c677ffd6))
-
-
-
-
+- throw when processors not found ([4a2259b](https://github.com/easyops-cn/next-core/commit/4a2259b29198721fc13df2eea543c661c677ffd6))
 
 ## [2.154.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.16...@next-core/brick-kit@2.154.17) (2022-11-07)
 
-
 ### Bug Fixes
 
-* **brick-kit:** useProviderType中的RequestInit类型移除HttpOptions中重复存在的cache定义 ([ebe8502](https://github.com/easyops-cn/next-core/commit/ebe8502829e5d55b99fe66fd0ff0bb6f8f56ef26))
-
-
-
-
+- **brick-kit:** useProviderType 中的 RequestInit 类型移除 HttpOptions 中重复存在的 cache 定义 ([ebe8502](https://github.com/easyops-cn/next-core/commit/ebe8502829e5d55b99fe66fd0ff0bb6f8f56ef26))
 
 ## [2.154.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.15...@next-core/brick-kit@2.154.16) (2022-11-07)
 
-
 ### Bug Fixes
 
-* allow circular templates while detect stack overflow ([9de014b](https://github.com/easyops-cn/next-core/commit/9de014b58b778b6127bb93c05a078393d614a277))
-
-
-
-
+- allow circular templates while detect stack overflow ([9de014b](https://github.com/easyops-cn/next-core/commit/9de014b58b778b6127bb93c05a078393d614a277))
 
 ## [2.154.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.14...@next-core/brick-kit@2.154.15) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.154.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.154.13...@next-core/brick-kit@2.154.14) (2022-11-04)
 

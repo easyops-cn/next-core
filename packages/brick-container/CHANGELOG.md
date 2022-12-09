@@ -7,248 +7,127 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.78.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.6...@next-core/brick-container@2.78.7) (2022-12-08)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.78.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.5...@next-core/brick-container@2.78.6) (2022-12-01)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.78.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.4...@next-core/brick-container@2.78.5) (2022-12-01)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.78.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.3...@next-core/brick-container@2.78.4) (2022-12-01)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.78.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.2...@next-core/brick-container@2.78.3) (2022-12-01)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.78.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.1...@next-core/brick-container@2.78.2) (2022-11-30)
-
 
 ### Bug Fixes
 
-* fix serve with remote standalone apps ([8cbc009](https://github.com/easyops-cn/next-core/commit/8cbc00942969c3babcb6ac11c98f5bbcd4d89864))
-
-
-
-
+- fix serve with remote standalone apps ([8cbc009](https://github.com/easyops-cn/next-core/commit/8cbc00942969c3babcb6ac11c98f5bbcd4d89864))
 
 ## [2.78.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.78.0...@next-core/brick-container@2.78.1) (2022-11-29)
 
-
 ### Bug Fixes
 
-* auto detect remote standalone apps ([55e554a](https://github.com/easyops-cn/next-core/commit/55e554a8147a1d5f8635368526da26c66f888951))
-
-
-
-
+- auto detect remote standalone apps ([55e554a](https://github.com/easyops-cn/next-core/commit/55e554a8147a1d5f8635368526da26c66f888951))
 
 # [2.78.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.38...@next-core/brick-container@2.78.0) (2022-11-28)
 
-
 ### Features
 
-* devServer支持查找仓库中的package原始路径 ([d1a5a93](https://github.com/easyops-cn/next-core/commit/d1a5a9313c17a91f22fb975382a28bf4fd12cb8e))
-
-
-
-
+- devServer 支持查找仓库中的 package 原始路径 ([d1a5a93](https://github.com/easyops-cn/next-core/commit/d1a5a9313c17a91f22fb975382a28bf4fd12cb8e))
 
 ## [2.77.38](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.37...@next-core/brick-container@2.77.38) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.37](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.36...@next-core/brick-container@2.77.37) (2022-11-25)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.36](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.35...@next-core/brick-container@2.77.36) (2022-11-24)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.35](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.34...@next-core/brick-container@2.77.35) (2022-11-21)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.33...@next-core/brick-container@2.77.34) (2022-11-17)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.32...@next-core/brick-container@2.77.33) (2022-11-16)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.31...@next-core/brick-container@2.77.32) (2022-11-14)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.30...@next-core/brick-container@2.77.31) (2022-11-14)
-
 
 ### Bug Fixes
 
-* enable cookie-same-site-none by default ([8c26832](https://github.com/easyops-cn/next-core/commit/8c26832b206009c525adb6c504186aa1c2e600eb))
-
-
-
-
+- enable cookie-same-site-none by default ([8c26832](https://github.com/easyops-cn/next-core/commit/8c26832b206009c525adb6c504186aa1c2e600eb))
 
 ## [2.77.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.29...@next-core/brick-container@2.77.30) (2022-11-11)
 
-
 ### Bug Fixes
 
-* respect nextRepoDir in offline mode ([b417fe7](https://github.com/easyops-cn/next-core/commit/b417fe79e5126fa3c7d077f7a4e9e06955c08ae4))
-
-
-
-
+- respect nextRepoDir in offline mode ([b417fe7](https://github.com/easyops-cn/next-core/commit/b417fe79e5126fa3c7d077f7a4e9e06955c08ae4))
 
 ## [2.77.29](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.28...@next-core/brick-container@2.77.29) (2022-11-11)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.28](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.27...@next-core/brick-container@2.77.28) (2022-11-11)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.27](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.26...@next-core/brick-container@2.77.27) (2022-11-10)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.25...@next-core/brick-container@2.77.26) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.24...@next-core/brick-container@2.77.25) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.24](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.23...@next-core/brick-container@2.77.24) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.22...@next-core/brick-container@2.77.23) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.21...@next-core/brick-container@2.77.22) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.20...@next-core/brick-container@2.77.21) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.19...@next-core/brick-container@2.77.20) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/brick-container
 
-
-
-
-
 ## [2.77.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.18...@next-core/brick-container@2.77.19) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/brick-container
-
-
-
-
 
 ## [2.77.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.77.17...@next-core/brick-container@2.77.18) (2022-11-04)
 

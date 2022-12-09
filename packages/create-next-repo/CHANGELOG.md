@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/create-next-repo
 
-
-
-
-
 ## [1.4.15](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.14...@next-core/create-next-repo@1.4.15) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/create-next-repo

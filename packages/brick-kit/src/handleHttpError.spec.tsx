@@ -26,7 +26,7 @@ const spyOnModalError = jest.spyOn(Modal, "error");
 const spyOnModalConfirm = jest.spyOn(Modal, "confirm");
 
 const spyOnGetRuntime = getRuntime as jest.Mock;
-jest.spyOn(i18next, "t").mockImplementation((k) => k);
+jest.spyOn(i18next, "t").mockImplementation((k) => k as string);
 const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
 (getHistory as jest.Mock).mockReturnValue({

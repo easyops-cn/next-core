@@ -5,60 +5,33 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.45.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.10...@next-core/brick-utils@2.45.11) (2022-12-01)
 
-
 ### Bug Fixes
 
-* ignore processors in unused tpl ([76b9723](https://github.com/easyops-cn/next-core/commit/76b972323c5706bce6782629d9ec8035dbb9bacf))
-
-
-
-
+- ignore processors in unused tpl ([76b9723](https://github.com/easyops-cn/next-core/commit/76b972323c5706bce6782629d9ec8035dbb9bacf))
 
 ## [2.45.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.9...@next-core/brick-utils@2.45.10) (2022-11-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.45.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.8...@next-core/brick-utils@2.45.9) (2022-11-16)
-
 
 ### Bug Fixes
 
-* refine error message ([34a0f94](https://github.com/easyops-cn/next-core/commit/34a0f94390e3efa4032de76a41f64ccf601fd394))
-
-
-
-
+- refine error message ([34a0f94](https://github.com/easyops-cn/next-core/commit/34a0f94390e3efa4032de76a41f64ccf601fd394))
 
 ## [2.45.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.7...@next-core/brick-utils@2.45.8) (2022-11-08)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.45.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.6...@next-core/brick-utils@2.45.7) (2022-11-07)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.45.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.5...@next-core/brick-utils@2.45.6) (2022-11-04)
-
 
 ### Bug Fixes
 
-* InstalledApp should check menus ([a96f4f7](https://github.com/easyops-cn/next-core/commit/a96f4f7456b90c926307c76b90fc3dc678bcb140))
-
-
-
-
+- InstalledApp should check menus ([a96f4f7](https://github.com/easyops-cn/next-core/commit/a96f4f7456b90c926307c76b90fc3dc678bcb140))
 
 ## [2.45.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.4...@next-core/brick-utils@2.45.5) (2022-11-04)
 

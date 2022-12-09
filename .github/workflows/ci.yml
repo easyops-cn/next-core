@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - next
   pull_request:
     branches:
     - master
@@ -32,17 +33,47 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://registry.npmjs.org'
-        cache: yarn
 
-    - name: Cache nx cache
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Cache for yarn
+      uses: actions/cache@v3
+      id: yarn-cache
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: node-cache-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          node-cache-${{ runner.os }}-yarn-
+      if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
+
+    - name: Get week number
+      id: week-number
+      run: echo "::set-output name=num::$(date +'%U')"
+      if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
+
+    - name: Cache for yarn (next)
+      uses: actions/cache@v3
+      id: yarn-cache-next
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: node-cache-${{ runner.os }}-yarn-next-${{ steps.week-number.outputs.num }}
+        restore-keys: |
+          node-cache-${{ runner.os }}-yarn-next-
+          node-cache-${{ runner.os }}-yarn-
+      if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
+
+    - name: Cache for nx
       uses: actions/cache@v3
       with:
         path: .cache
         key: ${{ runner.os }}-nx-${{ hashFiles('**/package.json') }}
         restore-keys: |
           ${{ runner.os }}-nx-
+      if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
 
-    - name: Cache npx packages
+    - name: Cache for npx
       uses: actions/cache@v3
       with:
         path: ~/.npm
@@ -54,13 +85,11 @@ jobs:
       id: cypress-version
       run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
 
-    - name: Cache Cypress binary
+    - name: Cache for cypress
       uses: actions/cache@v3
       with:
         path: ~/.cache/Cypress
         key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
-        restore-keys: |
-          cypress-${{ runner.os }}-cypress-
 
     # Fix `yarn install --frozen-lockfile` not working in monorepo.
     # https://github.com/yarnpkg/yarn/issues/5840#issuecomment-468782288
@@ -96,8 +125,8 @@ jobs:
       uses: easyops-cn/actions-next-publish-from-tags@master
       with:
         npm-token: ${{ secrets.NPM_TOKEN }}
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' && github.ref_name != 'next'
 
     - name: Sync taobao npm mirror
       run: npx lerna exec -- curl -sLX PUT 'https://npm.taobao.org/sync/$LERNA_PACKAGE_NAME?sync_upstream=true'
-      if: github.event_name == 'push' && steps.next-publish-from-tags.outputs.has-tags
+      if: github.event_name == 'push' && github.ref_name != 'next' && steps.next-publish-from-tags.outputs.has-tags

@@ -21,7 +21,7 @@
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
-    "@babel/runtime": "^7.19.4",
+    "@babel/runtime": "^7.20.6",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@next-core/babel-runtime-helpers": "^1.0.26",
     "@next-core/brick-http": "^2.7.7",
@@ -34,7 +34,7 @@
     "@next-core/pipes": "^1.0.14",
     "antd": "~4.12.3",
     "history": "^4.10.1",
-    "i18next": "^21.10.0",
+    "i18next": "^22.1.4",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

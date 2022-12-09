@@ -1,11 +1,9 @@
-import { ParseResult } from "@babel/parser";
 import {
-  File,
-  FunctionDeclaration,
+  type FunctionDeclaration,
   SourceLocation,
   Statement,
 } from "@babel/types";
-import { CookRules } from "./interfaces";
+import type { CookRules, ParseResultOfFile } from "./interfaces";
 import { parseForAnalysis } from "./parse";
 import { precook } from "./precook";
 
@@ -22,7 +20,7 @@ export interface LintError {
 
 /** For next-core internal or devtools usage only. */
 export function lint(
-  source: string | ParseResult<File>,
+  source: string | ParseResultOfFile,
   { typescript, rules }: LintOptions = {}
 ): LintError[] {
   const errors: LintError[] = [];
