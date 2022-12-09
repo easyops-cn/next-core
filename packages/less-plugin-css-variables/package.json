@@ -1,6 +1,6 @@
 {
   "name": "@next-core/less-plugin-css-variables",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "main": "src/index.js",
   "scripts": {
     "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
