@@ -14,7 +14,7 @@ export async function preFetchStandaloneInstalledApps(
   await fetchStandaloneApps(saIds);
 }
 
-export async function fetchStandaloneApps(saIds: string[]): Promise<void> {
+async function fetchStandaloneApps(saIds: string[]): Promise<void> {
   // ignore apps which are already searched
   const searchIds = difference(saIds, Array.from(appIdSet));
   if (searchIds.length === 0) {

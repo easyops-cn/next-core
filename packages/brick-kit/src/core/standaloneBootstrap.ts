@@ -1,9 +1,16 @@
 import yaml from "js-yaml";
 import { http } from "@next-core/brick-http";
-import { BootstrapStandaloneApi_runtimeStandalone } from "@next-sdk/api-gateway-sdk";
+import {
+  BootstrapStandaloneApi_runtimeStandalone,
+  BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
+} from "@next-sdk/api-gateway-sdk";
 import { BootstrapData, Settings } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import { isEmpty } from "lodash";
+import {
+  RuntimeApi_runtimeMicroAppStandalone,
+  RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
+} from "@next-sdk/micro-app-standalone-sdk";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -23,12 +30,17 @@ interface StandaloneSettings extends Omit<Settings, "featureFlags"> {
 }
 
 export async function standaloneBootstrap(): Promise<BootstrapData> {
-  const [bootstrapResult, confString, runtimeData] = await Promise.all([
+  const requests: [
+    Promise<BootstrapData>,
+    Promise<string>,
+    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>,
+    Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void>?
+  ] = [
     http.get<BootstrapData>(window.BOOTSTRAP_FILE),
     http.get<string>(`${window.APP_ROOT}conf.yaml`, {
       responseType: "text",
     }),
-    await BootstrapStandaloneApi_runtimeStandalone().catch(function (error) {
+    BootstrapStandaloneApi_runtimeStandalone().catch(function (error) {
       // make it not crash when the backend service is not updated.
       // eslint-disable-next-line no-console
       console.warn(
@@ -36,9 +48,27 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
         error,
         ", something might went wrong running standalone micro app"
       );
-      return undefined;
+      return;
     }),
-  ]);
+  ];
+  if (!window.NO_AUTH_GUARD) {
+    let matches: string[] | null;
+    const appId =
+      window.APP_ID ||
+      (window.APP_ROOT &&
+      (matches = window.APP_ROOT.match(
+        /^(?:\/next)?\/sa-static\/([^/]+)\/versions\//
+      ))
+        ? matches[1]
+        : null);
+    if (appId) {
+      // No need to wait.
+      safeGetRuntimeMicroAppStandalone(appId);
+    }
+  }
+  const [bootstrapResult, confString, runtimeData] = await Promise.all(
+    requests
+  );
   let conf: StandaloneConf;
   try {
     conf = confString
@@ -73,21 +103,21 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
     }
   }
   if (runtimeData) {
-    const runtimeSetings = runtimeData.settings as Settings;
-    if (!isEmpty(runtimeSetings)) {
+    const runtimeSettings = runtimeData.settings as Settings;
+    if (!isEmpty(runtimeSettings)) {
       // Merge Feature Flags
       if (!settings) {
-        settings = runtimeSetings;
+        settings = runtimeSettings;
       } else {
         // Merge Feature Flags & Misc
-        const { featureFlags, misc, ...rest } = runtimeSetings;
+        const { featureFlags, misc, ...rest } = runtimeSettings;
         settings.featureFlags = {
           ...settings.featureFlags,
-          ...runtimeSetings.featureFlags,
+          ...runtimeSettings.featureFlags,
         };
         settings.misc = {
           ...settings.misc,
-          ...runtimeSetings.misc,
+          ...runtimeSettings.misc,
         };
         settings = Object.assign(settings, rest);
       }
@@ -97,4 +127,29 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
     ...bootstrapResult,
     settings,
   };
+}
+
+const appRuntimeDataMap = new Map<
+  string,
+  Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void>
+>();
+
+export async function safeGetRuntimeMicroAppStandalone(
+  appId: string
+): Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void> {
+  if (appRuntimeDataMap.has(appId)) {
+    return appRuntimeDataMap.get(appId);
+  }
+  const promise = RuntimeApi_runtimeMicroAppStandalone(appId).catch(function (
+    error
+  ) {
+    // make it not crash when the backend service is not updated.
+    // eslint-disable-next-line no-console
+    console.warn(
+      "request standalone runtime api from micro-app-standalone failed: ",
+      error,
+      ", something might went wrong running standalone micro app"
+    );
+  });
+  appRuntimeDataMap.set(appId, promise);
 }
