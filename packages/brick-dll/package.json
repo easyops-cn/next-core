@@ -45,6 +45,6 @@
   },
   "devDependencies": {
     "@next-core/webpack-config-factory": "^2.19.4",
-    "source-map-loader": "^1.1.3"
+    "source-map-loader": "^4.0.1"
   }
 }
