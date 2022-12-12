@@ -69,7 +69,7 @@
     "jest-environment-jsdom": "^29.3.1",
     "jest-fetch-mock": "^3.0.3",
     "jest-websocket-mock": "^2.4.0",
-    "lerna": "^6.0.0",
+    "lerna": "^6.1.0",
     "lint-staged": "^13.1.0",
     "mock-socket": "^9.1.5",
     "null-loader": "^4.0.1",
