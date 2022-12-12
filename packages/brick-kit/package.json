@@ -52,7 +52,7 @@
     "@next-core/illustrations": "^0.11.1",
     "@next-core/pipes": "^1.0.15",
     "@next-core/rollup-config-factory": "^2.6.5",
-    "history": "^4.10.1",
+    "history": "^5.3.0",
     "i18next": "^22.4.1",
     "jest-websocket-mock": "^2.4.0",
     "js-yaml": "^3.14.1",
