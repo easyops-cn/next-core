@@ -19,7 +19,7 @@
     "postbuild": "dll-differ"
   },
   "dependencies": {
-    "react-ace": "^7.0.5"
+    "react-ace": "^10.1.0"
   },
   "devDependencies": {
     "@next-core/brick-dll": "^2.41.0",
