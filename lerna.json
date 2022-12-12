@@ -12,7 +12,7 @@
   "command": {
     "publish": {
       "npmClient": "npm",
-      "allowBranch": ["master", "legacy/**"],
+      "allowBranch": ["master", "v3"],
       "verifyAccess": false,
       "message": "chore(release): publish",
       "registry": "https://registry.npmjs.org"

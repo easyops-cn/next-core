@@ -1,6 +1,6 @@
 import WebpackDevServer from "webpack-dev-server";
 import { build } from "@next-core/build-next-bricks";
-import config from "./bnb.config.js";
+import config from "../bnb.config.js";
 
 const compiler = await build(config);
 const devServerOptions = { open: true };
