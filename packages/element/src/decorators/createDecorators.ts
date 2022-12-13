@@ -3,6 +3,8 @@ import type {
   AttributeConverter,
   ClassDecoratorContext,
   ClassFieldDecoratorContext,
+  ClassMethodDecoratorContext,
+  EventDeclaration,
   HasChanged,
   PropertyDeclaration,
 } from "./interfaces.js";
@@ -50,11 +52,10 @@ interface UpdatingElementConstructor {
 }
 
 export function createDecorators() {
-  const attributes = new Set<string>();
-  // const propertyMap = new Map<string, {
-  //   kind: "field";
-  //   options: Required<PropertyDeclaration>;
-  // }>();
+  const observedAttributes = new Set<string>();
+  const definedProperties = new Set<string>();
+  const definedMethods = new Set<string>();
+  const definedEvents = new Set<string>();
 
   function defineElement(name: string): any {
     return (
@@ -64,61 +65,55 @@ export function createDecorators() {
       if (kind === "class") {
         addInitializer(function (this: UpdatingElementConstructor) {
           const superClass = Object.getPrototypeOf(this);
-          const observedAttributes = new Set<string>(
-            superClass.observedAttributes ?? []
+
+          const mergedAttributes = mergeIterables(
+            superClass.observedAttributes ?? [],
+            observedAttributes
           );
-          for (const attr of attributes) {
-            observedAttributes.add(attr);
-          }
-
-          // for (const [prop, { kind, options }] of propertyMap.entries()) {
-          //   const attr = attributeNameForProperty(prop, options);
-          //   if (attr === undefined) {
-          //     throw new Error("Must reflect to an attribute now");
-          //   }
-          //   observedAttributes.add(attr);
-          //   console.log("this.prototype === UpdatingElement:", this.prototype === UpdatingElement);
-          //   Object.defineProperty(
-          //     this.prototype,
-          //     prop,
-          //     {
-          //       get(this: HTMLElement) {
-          //         return options.converter.fromAttribute(
-          //           this.getAttribute(attr),
-          //           options.type
-          //         );
-          //       },
-          //       set(this: HTMLElement, value: unknown) {
-          //         const oldValue = (this as any)[prop];
-          //         if (options.hasChanged(value, oldValue)) {
-          //           const attrValue = options.converter.toAttribute(value, options.type);
-          //           if (attrValue === undefined) {
-          //             return;
-          //           }
-          //           if (attrValue === null) {
-          //             this.removeAttribute(attr);
-          //           } else {
-          //             this.setAttribute(attr, attrValue as string);
-          //           }
-          //         }
-          //       },
-          //       enumerable: true,
-          //       configurable: true,
-          //     }
-          //   )
-          // }
-
           Object.defineProperty(this, "observedAttributes", {
             get() {
-              return [...observedAttributes];
+              return mergedAttributes;
+            },
+            configurable: true,
+          });
+
+          const mergedProperties = mergeIterables(
+            superClass._dev_only_definedProperties ?? [],
+            definedProperties
+          );
+
+          Object.defineProperty(this, "_dev_only_definedProperties", {
+            get() {
+              return mergedProperties;
+            },
+            configurable: true,
+          });
+
+          const mergedMethods = mergeIterables(
+            superClass._dev_only_definedMethods ?? [],
+            definedMethods
+          );
+
+          Object.defineProperty(this, "_dev_only_definedMethods", {
+            get() {
+              return mergedMethods;
+            },
+            configurable: true,
+          });
+
+          const mergedEvents = mergeIterables(
+            superClass._dev_only_definedEvents ?? [],
+            definedEvents
+          );
+
+          Object.defineProperty(this, "_dev_only_definedEvents", {
+            get() {
+              return mergedEvents;
             },
             configurable: true,
           });
 
           customElements.define(name, this);
-
-          // eslint-disable-next-line no-console
-          console.log(name, "attributes:", [...observedAttributes].join(","));
         });
       }
     };
@@ -126,22 +121,17 @@ export function createDecorators() {
 
   function property(_options?: PropertyDeclaration): any {
     return function (
-      initialValue: unknown,
+      value: unknown,
       { kind, name }: ClassFieldDecoratorContext
     ) {
       const options = Object.assign({}, defaultPropertyDeclaration, _options);
-      /* if (kind === "field") {
-        propertyMap.set(name as string, {
-          kind,
-          options: Object.assign({}, defaultPropertyDeclaration, options)
-        });
-        return initialValue;
-      } else */ if (kind === "accessor") {
+      if (kind === "accessor" && typeof name === "string") {
+        definedProperties.add(name);
         const attr = attributeNameForProperty(name, options);
         if (attr === undefined) {
           throw new Error("Must reflect to an attribute now");
         }
-        attributes.add(attr);
+        observedAttributes.add(attr);
         return {
           get(this: HTMLElement) {
             return options.converter.fromAttribute(
@@ -169,17 +159,50 @@ export function createDecorators() {
           init(this: any, initialValue: unknown) {
             // eslint-disable-next-line no-console
             console.log("init:", name, initialValue);
-            this[name] = initialValue;
+            return initialValue;
           },
         };
       }
     };
   }
 
+  function method(): any {
+    return function (
+      value: unknown,
+      { kind, name }: ClassMethodDecoratorContext
+    ) {
+      if (kind === "method" && typeof name === "string") {
+        definedMethods.add(name);
+      }
+    };
+  }
+
+  function createEventEmitter<T = void>(
+    options: EventDeclaration,
+    thisArg: HTMLElement
+  ) {
+    const { type, ...eventInit } = options;
+    definedEvents.add(type);
+    return Object.freeze({
+      emit: (detail: T): boolean =>
+        thisArg.dispatchEvent(new CustomEvent(type, { ...eventInit, detail })),
+    });
+  }
+
   return {
     defineElement,
     property,
+    method,
+    createEventEmitter,
   };
+}
+
+function mergeIterables<T>(list1: Iterable<T>, list2: Iterable<T>): T[] {
+  const newList = new Set(list1);
+  for (const item of list2) {
+    newList.add(item);
+  }
+  return [...newList];
 }
 
 function attributeNameForProperty(

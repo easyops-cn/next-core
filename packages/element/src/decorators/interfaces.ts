@@ -4,9 +4,18 @@ export type ClassFieldDecorator = (
 ) => (initialValue: unknown) => unknown | void;
 
 export interface ClassFieldDecoratorContext {
-  kind: "field" | "accessor";
+  kind: "field" | "accessor" | "getter" | "setter";
   name: string | symbol;
   access: { get(): unknown; set(value: unknown): void };
+  static: boolean;
+  private: boolean;
+  addInitializer(initializer: () => void): void;
+}
+
+export interface ClassMethodDecoratorContext {
+  kind: "method";
+  name: string | symbol;
+  access: { get(): unknown };
   static: boolean;
   private: boolean;
   addInitializer(initializer: () => void): void;
@@ -21,6 +30,16 @@ export interface ClassDecoratorContext {
   kind: "class";
   name: string | undefined;
   addInitializer(initializer: () => void): void;
+}
+
+/**
+ * 构件事件的选项。
+ */
+export interface EventDeclaration extends EventInit {
+  /**
+   * 事件类型名。
+   */
+  type: string;
 }
 
 export type AllowedTypeHint = typeof String | typeof Number | typeof Boolean;
