@@ -5,6 +5,7 @@ import webpack from "webpack";
 import rimraf from "rimraf";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import postcssPresetEnv from "postcss-preset-env";
+import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
 // import postcssNested from 'postcss-nested';
 
 const require = createRequire(import.meta.url);
@@ -12,10 +13,10 @@ const require = createRequire(import.meta.url);
 const { SourceMapDevToolPlugin } = webpack;
 const { ModuleFederationPlugin } = webpack.container;
 
-export async function build(
-  /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig} */
-  config
-) {
+/**
+ * @param {import("@next-core/build-next-bricks").BuildNextBricksConfig} config
+ */
+export default async function build(config) {
   const packageDir = process.cwd();
   const isContainer = config.type === "container";
   const mode = config.mode || process.env.NODE_ENV;
@@ -67,9 +68,11 @@ export async function build(
     });
   });
 
+  const chunksDir = isContainer ? "" : "chunks/";
+
   return webpack({
     entry: config.entry || {
-      index: "./src/index",
+      main: "./src/index",
     },
     mode,
     devServer: {
@@ -81,10 +84,16 @@ export async function build(
     output: {
       path: outputPath,
       filename:
-        mode === "development" ? "[name].bundle.js" : "[name].[contenthash].js",
+        mode === "development"
+          ? `${chunksDir}[name].bundle.js`
+          : `${chunksDir}[name].[contenthash].js`,
       // filename: "[name].bundle.js",
       publicPath: "auto",
       hashDigestLength: 8,
+      chunkFilename:
+        mode === "development"
+          ? `${chunksDir}[name].js`
+          : `${chunksDir}[name].[contenthash].js`,
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -148,43 +157,34 @@ export async function build(
           ? null
           : {
               library: { type: "window", name: libName },
-              filename: "remoteEntry.js",
-              exposes:
-                libName === "bricks/basic"
-                  ? {
-                      "./x-button": {
-                        import: "./src/x-button",
-                        name: "x-button",
-                      },
-                      "./y-button": {
-                        import: "./src/y-button",
-                        name: "y-button",
-                      },
-                    }
-                  : {
-                      "./f-input": {
-                        import: "./src/f-input",
-                        name: "f-input",
-                      },
-                      "./f-select": {
-                        import: "./src/f-select",
-                        name: "f-select",
-                      },
-                      "./all": {
-                        import: "./src/bootstrap",
-                        name: "all",
-                      },
-                    },
+              filename:
+                mode === "development"
+                  ? "index.bundle.js"
+                  : "index.[contenthash].js",
+              exposes: config.exposes,
             }),
       }),
       ...(config.extractCss
         ? [
             new MiniCssExtractPlugin({
-              filename: "[name].[contenthash].css",
+              filename:
+                mode === "development"
+                  ? "[name].bundle.css"
+                  : "[name].[contenthash].css",
               // chunkFilename: "[id].css",
             }),
           ]
         : []),
+      ...(isContainer
+        ? []
+        : [
+            new EmitBricksJsonPlugin({
+              packageName,
+              bricks: Object.values(config.exposes).map(
+                (expose) => expose.name
+              ),
+            }),
+          ]),
       ...(config.plugins || []),
     ],
   });

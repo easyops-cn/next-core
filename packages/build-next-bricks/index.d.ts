@@ -1,4 +1,4 @@
-import type { Compiler, Configuration, RuleSetRule } from "webpack";
+import { Compiler, Configuration, RuleSetRule, container } from "webpack";
 
 export const build: (config: BuildNextBricksConfig) => Compiler;
 
@@ -9,4 +9,5 @@ export interface BuildNextBricksConfig {
   extractCss?: boolean;
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule;
+  exposes?: ConstructorParameters<typeof container.ModuleFederationPlugin>;
 }

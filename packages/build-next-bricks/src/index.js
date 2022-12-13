@@ -1,1 +1,3 @@
-export * from "./build.js";
+import build from "./build.js";
+
+export default build;

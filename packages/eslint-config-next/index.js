@@ -85,7 +85,7 @@ module.exports = {
       },
     },
     {
-      files: ["bnb.config.js"],
+      files: ["bricks.config.js"],
       rules: {
         "@typescript-eslint/no-var-requires": "error",
       },

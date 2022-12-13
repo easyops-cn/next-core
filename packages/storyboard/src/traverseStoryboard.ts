@@ -57,8 +57,8 @@ function traverseNode(
       traverseNodes(node.context, callback, childPath);
       traverseNode(node.redirect, callback, childPath);
       traverseNode(node.menu, callback, childPath);
-      traverseNodes(node.providers, callback, childPath);
-      traverseNodes(node.defineResolves, callback, childPath);
+      // traverseNodes(node.providers, callback, childPath);
+      // traverseNodes(node.defineResolves, callback, childPath);
       traverseNodes(node.children, callback, childPath);
       break;
     case "Template":
@@ -71,7 +71,7 @@ function traverseNode(
       traverseNodes(node.lifeCycle, callback, childPath);
       traverseNodes(node.useBrick, callback, childPath);
       traverseNodes(node.useBackend, callback, childPath);
-      traverseNodes(node.context, callback, childPath);
+      // traverseNodes(node.context, callback, childPath);
       traverseNodes(node.children, callback, childPath);
       break;
     case "Slot":
@@ -102,9 +102,9 @@ function traverseNode(
     case "ConditionalLifeCycle":
       traverseNodes(node.events, callback, childPath);
       break;
-    case "BrickMenu":
-      traverseNode(node.brick, callback, childPath);
-      break;
+    // case "BrickMenu":
+    //   traverseNode(node.brick, callback, childPath);
+    //   break;
     case "Resolvable":
     case "FalseMenu":
     case "StaticMenu":

@@ -56,7 +56,9 @@ export interface StoryboardNodeRoute {
   context?: StoryboardNodeContext[];
   redirect?: StoryboardNodeResolvable;
   menu?: StoryboardNodeMenu;
+  /** @deprecated */
   providers?: StoryboardNodeBrick[];
+  /** @deprecated */
   defineResolves?: StoryboardNodeResolvable[];
   children: StoryboardNodeRoute[] | StoryboardNodeBrick[];
 }
@@ -74,6 +76,7 @@ export interface StoryboardNodeBrickBase {
   lifeCycle?: StoryboardNodeLifeCycle[];
   useBrick?: StoryboardNodeUseBrickEntry[];
   useBackend?: StoryboardNodeUseBackendEntry[];
+  /** @deprecated */
   context?: StoryboardNodeContext[];
   children: StoryboardNodeSlot[];
 }
@@ -142,7 +145,7 @@ export interface StoryboardNodeResolvable {
 export type StoryboardNodeMenu =
   | StoryboardNodeFalseMenu
   | StoryboardNodeStaticMenu
-  | StoryboardNodeBrickMenu
+  // | StoryboardNodeBrickMenu
   | StoryboardNodeResolvableMenu;
 
 export interface StoryboardNodeFalseMenu {
@@ -153,6 +156,7 @@ export interface StoryboardNodeStaticMenu {
   type: "StaticMenu";
 }
 
+/** @deprecated */
 export interface StoryboardNodeBrickMenu {
   type: "BrickMenu";
   raw: BrickMenuConf;

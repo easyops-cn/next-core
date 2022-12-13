@@ -10,7 +10,7 @@ import type {
   CustomTemplateState,
   MenuConf,
   MessageConf,
-  ProviderConf,
+  // ProviderConf,
   ResolveConf,
   RouteConf,
   RouteConfOfBricks,
@@ -69,12 +69,12 @@ export function parseRoutes(
             context: parseContext(route.context),
             redirect: parseResolvable(route.redirect as ResolveConf),
             menu: parseMenu(route.menu),
-            providers: parseRouteProviders(route.providers),
-            defineResolves: Array.isArray(route.defineResolves)
-              ? route.defineResolves
-                  .map((item) => parseResolvable(item))
-                  .filter(Boolean)
-              : undefined,
+            // providers: parseRouteProviders(route.providers),
+            // defineResolves: Array.isArray(route.defineResolves)
+            //   ? route.defineResolves
+            //       .map((item) => parseResolvable(item))
+            //       .filter(Boolean)
+            //   : undefined,
           }),
       children:
         route.type === "routes"
@@ -309,12 +309,12 @@ function parseMenu(menu: MenuConf): StoryboardNodeMenu {
     return;
   }
   switch (menu.type) {
-    case "brick":
-      return {
-        type: "BrickMenu",
-        raw: menu,
-        brick: parseBrick(menu),
-      };
+    // case "brick":
+    //   return {
+    //     type: "BrickMenu",
+    //     raw: menu,
+    //     brick: parseBrick(menu),
+    //   };
     case "resolve":
       return {
         type: "ResolvableMenu",
@@ -370,15 +370,15 @@ function parseEventCallback(
   }
 }
 
-function parseRouteProviders(
-  providers?: ProviderConf[]
-): StoryboardNodeBrick[] {
-  if (Array.isArray(providers)) {
-    return providers.map<StoryboardNodeBrick>((provider) =>
-      parseBrick(typeof provider === "string" ? { brick: provider } : provider)
-    );
-  }
-}
+// function parseRouteProviders(
+//   providers?: ProviderConf[]
+// ): StoryboardNodeBrick[] {
+//   if (Array.isArray(providers)) {
+//     return providers.map<StoryboardNodeBrick>((provider) =>
+//       parseBrick(typeof provider === "string" ? { brick: provider } : provider)
+//     );
+//   }
+// }
 
 // Ref https://github.com/lodash/lodash/blob/4.17.11/lodash.js#L11744
 function isObject(value: unknown): value is Record<string, any> {

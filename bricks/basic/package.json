@@ -4,8 +4,8 @@
   "type": "module",
   "sideEffects": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production build-next-bricks",
-    "build:dev": "cross-env NODE_ENV=development build-next-bricks"
+    "start": "cross-env NODE_ENV=development build-next-bricks --watch",
+    "build": "cross-env NODE_ENV=production build-next-bricks"
   },
   "dependencies": {
     "@next-core/element": "^0.0.0",

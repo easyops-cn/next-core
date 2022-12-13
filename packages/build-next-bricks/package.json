@@ -14,7 +14,13 @@
     "src",
     "index.d.ts"
   ],
-  "exports": "./src/index.js",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -24,11 +30,13 @@
     "node": ">=16"
   },
   "dependencies": {
+    "@babel/parser": "^7.20.5",
+    "@babel/traverse": "^7.20.5",
     "babel-loader": "^9.1.0",
+    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.2",
     "postcss": "^8.4.20",
     "postcss-loader": "^7.0.2",
-    "postcss-nested": "^6.0.0",
     "postcss-preset-env": "^7.8.3",
     "rimraf": "^3.0.2",
     "webpack": "^5.75.0"
