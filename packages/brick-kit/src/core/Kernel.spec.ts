@@ -32,10 +32,12 @@ import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
-import { standaloneBootstrap } from "./standaloneBootstrap";
+import {
+  standaloneBootstrap,
+  safeGetRuntimeMicroAppStandalone,
+} from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
 import { formRenderer } from "./CustomForms/constants";
-import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
 
 i18next.init({
   fallbackLng: "en",
@@ -83,8 +85,8 @@ const spyOnGetAppStoryboard = (
     },
   },
 });
-const spyOnRuntimeMicroAppStandalone =
-  RuntimeApi_runtimeMicroAppStandalone as jest.Mock;
+const mockSafeGetRuntimeMicroAppStandalone =
+  safeGetRuntimeMicroAppStandalone as jest.Mock;
 const spyOnAuthenticate = authenticate as jest.Mock;
 const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
 const spyApplyColorTheme = applyColorTheme as jest.Mock;
@@ -458,7 +460,7 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboardI18n(["hello"]);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
-    expect(spyOnRuntimeMicroAppStandalone).not.toBeCalled();
+    expect(mockSafeGetRuntimeMicroAppStandalone).not.toBeCalled();
   });
 
   it("should bootstrap for standalone micro-apps", async () => {
@@ -513,7 +515,7 @@ describe("Kernel", () => {
     mockStandaloneBootstrap.mockResolvedValueOnce({
       storyboards: [appHello],
     });
-    spyOnRuntimeMicroAppStandalone.mockResolvedValueOnce({
+    mockSafeGetRuntimeMicroAppStandalone.mockResolvedValueOnce({
       injectMenus: [
         {
           menuId: "menu-1",
@@ -538,7 +540,7 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
-    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+    expect(mockSafeGetRuntimeMicroAppStandalone).toBeCalledTimes(1);
 
     expect(kernel.bootstrapData.storyboards[0].app.userConfig).toEqual({
       configA: { key2: "value2" },
@@ -569,7 +571,7 @@ describe("Kernel", () => {
     mockStandaloneBootstrap.mockResolvedValueOnce({
       storyboards: [appHello],
     });
-    spyOnRuntimeMicroAppStandalone.mockRejectedValueOnce("oops");
+    mockSafeGetRuntimeMicroAppStandalone.mockRejectedValueOnce("oops");
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
     });
@@ -583,7 +585,7 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
-    expect(spyOnRuntimeMicroAppStandalone).toBeCalledTimes(1);
+    expect(mockSafeGetRuntimeMicroAppStandalone).toBeCalledTimes(1);
 
     expect(mockConsoleWarn).toBeCalledWith(
       "request standalone runtime api from micro-app-standalone failed: ",

@@ -63,7 +63,10 @@ import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
-import { standaloneBootstrap } from "./standaloneBootstrap";
+import {
+  safeGetRuntimeMicroAppStandalone,
+  standaloneBootstrap,
+} from "./standaloneBootstrap";
 import { getI18nNamespace } from "../i18n";
 import {
   applyColorTheme,
@@ -266,9 +269,10 @@ export class Kernel {
         $$fulfilling: null,
       });
       if (!window.NO_AUTH_GUARD) {
-        let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody;
+        let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void;
         try {
-          appRuntimeData = await RuntimeApi_runtimeMicroAppStandalone(
+          // Note: the request maybe have fired already during bootstrap.
+          appRuntimeData = await safeGetRuntimeMicroAppStandalone(
             storyboard.app.id
           );
         } catch (error) {

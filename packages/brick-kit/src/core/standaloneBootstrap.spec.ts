@@ -1,24 +1,40 @@
 import { http } from "@next-core/brick-http";
 import { BootstrapData } from "@next-core/brick-types";
-import { standaloneBootstrap } from "./standaloneBootstrap";
+import {
+  safeGetRuntimeMicroAppStandalone,
+  standaloneBootstrap,
+} from "./standaloneBootstrap";
 import {
   BootstrapStandaloneApi_runtimeStandalone,
   BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
 } from "@next-sdk/api-gateway-sdk";
+import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
 
 const mockHttpGet = jest.spyOn(http, "get");
 
 jest.mock("@next-sdk/api-gateway-sdk");
+jest.mock("@next-sdk/micro-app-standalone-sdk");
 
 window.BOOTSTRAP_FILE = "-/bootstrap.json";
-window.APP_ROOT = "";
+const consoleWarn = jest.spyOn(console, "warn").mockImplementation();
 
 const mockRuntimeStandalone =
   BootstrapStandaloneApi_runtimeStandalone as jest.MockedFunction<
     typeof BootstrapStandaloneApi_runtimeStandalone
   >;
+const mockRuntimeMicroAppStandalone =
+  RuntimeApi_runtimeMicroAppStandalone as jest.MockedFunction<
+    typeof RuntimeApi_runtimeMicroAppStandalone
+  >;
 
 describe("standaloneBootstrap", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    window.APP_ID = undefined;
+    window.APP_ROOT = "";
+    window.NO_AUTH_GUARD = false;
+  });
+
   it.each<
     [
       desc: string,
@@ -343,6 +359,43 @@ describe("standaloneBootstrap", () => {
       return Promise.resolve(rawBootstrap);
     });
     expect(await standaloneBootstrap()).toEqual(result);
+    expect(consoleWarn).toBeCalledTimes(runtimeApiReturn === "oops" ? 1 : 0);
+    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(0);
+  });
+
+  it("should fire a request of RuntimeApi_runtimeMicroAppStandalone", async () => {
+    window.APP_ID = "my-app";
+    mockRuntimeStandalone.mockRejectedValueOnce("oops");
+    mockRuntimeMicroAppStandalone.mockRejectedValueOnce("nope");
+    const promise = standaloneBootstrap();
+    mockHttpGet.mockResolvedValueOnce("");
+    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("my-app");
+    await promise;
+  });
+
+  it("should fire a request of RuntimeApi_runtimeMicroAppStandalone by APP_ROOT", async () => {
+    window.APP_ROOT = "/next/sa-static/another-app/versions/1.2.3/webroot/";
+    mockRuntimeStandalone.mockResolvedValueOnce({});
+    mockRuntimeMicroAppStandalone.mockResolvedValueOnce({});
+    const promise = standaloneBootstrap();
+    mockHttpGet.mockResolvedValueOnce("");
+    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("another-app");
+
+    // No call more than once.
+    safeGetRuntimeMicroAppStandalone("another-app");
+    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(1);
+    await promise;
+  });
+
+  it("should not fire a request of RuntimeApi_runtimeMicroAppStandalone with NO_AUTH_GUARD", async () => {
+    window.NO_AUTH_GUARD = true;
+    window.APP_ID = "x-app";
+    mockRuntimeStandalone.mockRejectedValueOnce("oops");
+    mockRuntimeMicroAppStandalone.mockRejectedValueOnce("nope");
+    const promise = standaloneBootstrap();
+    // mockHttpGet.mockResolvedValueOnce("");
+    expect(RuntimeApi_runtimeMicroAppStandalone).not.toBeCalled();
+    await promise;
   });
 
   it("should throw error", async () => {

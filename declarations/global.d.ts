@@ -47,6 +47,9 @@ interface Window {
   /** The app needs no auth guard.  */
   NO_AUTH_GUARD?: boolean;
 
+  /** The current app ID. */
+  APP_ID?: string;
+
   /** The app root, E.g. "hello-world/" */
   APP_ROOT?: string;
 
