@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.157.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.0...@next-core/brick-kit@2.157.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* make parallel requests for runtime api ([5d455d9](https://github.com/easyops-cn/next-core/commit/5d455d9be67fcdbf40794b978cfef09bf2807018))
+
+
+
+
+
 # [2.157.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.10...@next-core/brick-kit@2.157.0) (2022-12-09)
 
 
