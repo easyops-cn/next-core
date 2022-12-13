@@ -32,14 +32,23 @@ export default async function scanBricks(packageDir) {
     const dirname = path.dirname(filePath);
     const extname = path.extname(filePath);
     const content = await readFile(filePath, "utf-8");
-    const ast = parse(content, {
-      sourceType: "module",
-      plugins: [
-        (extname === ".ts" || extname === ".tsx") && "typescript",
-        (extname === ".jsx" || extname === ".tsx") && "jsx",
-        "decorators",
-      ].filter(Boolean),
-    });
+
+    /** @type {ReturnType<typeof import("@babel/parser").parse>} */
+    let ast;
+    try {
+      ast = parse(content, {
+        sourceType: "module",
+        plugins: [
+          (extname === ".ts" || extname === ".tsx") && "typescript",
+          (extname === ".jsx" || extname === ".tsx") && "jsx",
+          "decorators",
+          "decoratorAutoAccessors",
+        ].filter(Boolean),
+      });
+    } catch (e) {
+      console.error("Babel parse failed:", filePath);
+      console.error(e);
+    }
 
     /** @type {Map<string, Set<string>} */
     const importPaths = new Map();

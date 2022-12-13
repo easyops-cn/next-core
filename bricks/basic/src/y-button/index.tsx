@@ -5,6 +5,6 @@ const { defineElement, property } = createDecorators();
 
 @defineElement("y-button")
 class YButton extends XButton {
-  @property()
-  test3: string;
+  // @property() accessor suffix: string | undefined;
+  // @property() accessor suffix
 }

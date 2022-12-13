@@ -8,19 +8,11 @@ const { defineElement, property } = createDecorators();
 class XButton extends UpdatingElement {
   _root: Root;
 
-  @property()
-  test: string;
+  // Track https://github.com/babel/babel/issues/15205
+  // @property() accessor label: string | undefined;
+  @property() accessor label;
 
-  @property()
-  test2: string;
-
-  get prefix() {
-    return this.getAttribute("prefix");
-  }
-
-  set prefix(value) {
-    this.setAttribute("prefix", value);
-  }
+  @property() accessor suffix = "!!";
 
   constructor() {
     super();
@@ -29,16 +21,25 @@ class XButton extends UpdatingElement {
   }
 
   connectedCallback() {
-    this._root.render(
-      <button>
-        {this.prefix}
-        <slot />
-      </button>
-    );
+    this._render();
   }
 
   disconnectedCallback() {
     this._root.unmount();
+  }
+
+  protected _render() {
+    if (!this.isConnected) {
+      return;
+    }
+    // console.log("rendered", this.label, this.suffix);
+    this._root.render(
+      <button>
+        {this.label}
+        <slot />
+        {this.suffix}
+      </button>
+    );
   }
 }
 

@@ -42,7 +42,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@next-core/rollup-config-factory": "^2.6.5",
-    "typescript-json-schema": "^0.54.0"
+    "typescript-json-schema": "^0.55.0"
   },
   "peerDependencies": {
     "history": "*",
