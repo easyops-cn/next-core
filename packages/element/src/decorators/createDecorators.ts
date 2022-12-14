@@ -8,7 +8,7 @@ import type {
   HasChanged,
   PropertyDeclaration,
 } from "./interfaces.js";
-import type { UpdatingElement } from "./UpdatingElement.js";
+import type { NextElement } from "./NextElement.js";
 
 const defaultConverter: AttributeConverter = {
   toAttribute(value: unknown, type?: AllowedTypeHint): unknown {
@@ -48,7 +48,7 @@ const defaultPropertyDeclaration: Required<PropertyDeclaration> = {
 };
 
 interface UpdatingElementConstructor {
-  new (...params: any[]): UpdatingElement;
+  new (...params: any[]): NextElement;
 }
 
 export function createDecorators() {
@@ -57,7 +57,12 @@ export function createDecorators() {
   const definedMethods = new Set<string>();
   const definedEvents = new Set<string>();
 
-  function defineElement(name: string): any {
+  function defineElement(
+    name: string,
+    options?: {
+      styleTexts?: string[];
+    }
+  ): any {
     return (
       value: unknown,
       { kind, addInitializer }: ClassDecoratorContext
@@ -76,6 +81,15 @@ export function createDecorators() {
             },
             configurable: true,
           });
+
+          if (options?.styleTexts) {
+            Object.defineProperty(this, "styleTexts", {
+              get() {
+                return options?.styleTexts;
+              },
+              configurable: true,
+            });
+          }
 
           const mergedProperties = mergeIterables(
             superClass._dev_only_definedProperties ?? [],

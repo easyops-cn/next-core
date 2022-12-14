@@ -1,14 +1,14 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
-import { ReactUpdatingElement } from "@next-core/react-element";
+import { ReactNextElement } from "@next-core/react-element";
 
 const { defineElement, property } = createDecorators();
 
 @defineElement("form.f-input")
-class FInput extends ReactUpdatingElement {
+class FInput extends ReactNextElement {
   @property() accessor label;
 
-  protected _renderReact() {
+  protected render() {
     return (
       <div>
         <label>

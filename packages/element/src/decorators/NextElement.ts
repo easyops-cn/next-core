@@ -1,4 +1,6 @@
-export abstract class UpdatingElement extends HTMLElement {
+export abstract class NextElement extends HTMLElement {
+  static readonly styleTexts: string[] | undefined;
+
   private _hasRequestedRender = false;
 
   /** @internal */

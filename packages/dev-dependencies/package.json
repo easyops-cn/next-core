@@ -24,7 +24,6 @@
     "@next-core/brick-container": "^2.79.1",
     "@next-core/brick-scripts": "^3.0.6",
     "@next-core/browserslist-config-next": "^0.1.4",
-    "@next-core/build-config-factory": "^2.23.60",
     "@next-core/build-next-libs": "^0.2.16",
     "@next-core/eslint-config-next": "^1.0.40",
     "@next-core/jest-config-factory": "^0.4.11",

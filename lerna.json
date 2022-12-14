@@ -1,7 +1,7 @@
 {
   "packages": [
     "bricks/*",
-    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory)/**"
+    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory)/**"
   ],
   "version": "independent",
   "npmClient": "yarn",

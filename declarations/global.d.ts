@@ -3,6 +3,11 @@ declare module "*.module.css" {
   export default classes;
 }
 
+declare module "*.sheet.css" {
+  const styleSheet: CSSStyleSheet;
+  export default styleSheet;
+}
+
 declare module "*.css" {
   const css: string;
   export default css;

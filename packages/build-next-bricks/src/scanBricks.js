@@ -108,7 +108,7 @@ export default async function scanBricks(packageDir) {
           expression.type === "CallExpression" &&
           expression.callee.type === "Identifier" &&
           expression.callee.name === "defineElement" &&
-          expression.arguments.length === 1
+          expression.arguments.length > 0
         ) {
           if (expression.arguments[0].type !== "StringLiteral") {
             throw new Error(

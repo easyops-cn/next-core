@@ -5,14 +5,45 @@ import webpack from "webpack";
 import rimraf from "rimraf";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import postcssPresetEnv from "postcss-preset-env";
+import cssnano from "cssnano";
+import cssnanoPresetLite from "cssnano-preset-lite";
 import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
 import getCamelPackageName from "./getCamelPackageName.js";
-// import postcssNested from 'postcss-nested';
 
 const require = createRequire(import.meta.url);
 
 const { SourceMapDevToolPlugin } = webpack;
 const { ModuleFederationPlugin } = webpack.container;
+
+const getCssLoaders = (cssOptions) => [
+  {
+    loader: "css-loader",
+    options: {
+      sourceMap: false,
+      ...cssOptions,
+    },
+  },
+  {
+    loader: "postcss-loader",
+    options: {
+      sourceMap: false,
+      postcssOptions: {
+        plugins: [
+          postcssPresetEnv({
+            stage: 3,
+          }),
+          cssnano({
+            preset: cssnanoPresetLite({
+              discardComments: {
+                removeAll: true,
+              },
+            }),
+          }),
+        ],
+      },
+    },
+  },
+];
 
 /**
  * @param {import("@next-core/build-next-bricks").BuildNextBricksConfig} config
@@ -126,27 +157,20 @@ export default async function build(config) {
       rules: [
         {
           test: /\.css$/,
+          exclude: /\.(module|shadow|lazy)\.css$/,
           sideEffects: true,
           use: [
             config.extractCss ? MiniCssExtractPlugin.loader : "style-loader",
-            {
-              loader: "css-loader",
-              options: {
-                sourceMap: false,
-              },
-            },
-            {
-              loader: "postcss-loader",
-              options: {
-                sourceMap: false,
-                postcssOptions: {
-                  plugins: [
-                    // postcssNested(),
-                    postcssPresetEnv(),
-                  ],
-                },
-              },
-            },
+            ...getCssLoaders(),
+          ],
+        },
+        {
+          test: /\.shadow\.css$/,
+          sideEffects: true,
+          use: [
+            ...getCssLoaders({
+              exportType: "string",
+            }),
           ],
         },
         {

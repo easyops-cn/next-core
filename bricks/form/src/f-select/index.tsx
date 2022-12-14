@@ -1,11 +1,11 @@
 // import React from "react";
 // import { createRoot, type Root } from "react-dom/client";
-import { createDecorators, UpdatingElement } from "@next-core/element";
+import { createDecorators, NextElement } from "@next-core/element";
 
 const { defineElement, property } = createDecorators();
 
 @defineElement("form.f-select")
-class FSelect extends UpdatingElement {
+class FSelect extends NextElement {
   // _root: Root;
 
   @property() accessor label;
