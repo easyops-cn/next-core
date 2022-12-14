@@ -29,7 +29,12 @@ export default async function build(config) {
   const packageName = packageJson.name.split("/").pop();
   const libName = `bricks/${packageName}`;
 
-  const sharedPackages = ["react", "react-dom", "@next-core/element"];
+  const sharedPackages = [
+    "react",
+    "react-dom",
+    "@next-core/element",
+    "@next-core/react-element",
+  ];
 
   const shared = Object.fromEntries(
     await Promise.all(
@@ -146,8 +151,8 @@ export default async function build(config) {
         // Do not generate source map for these vendors:
         exclude: [
           "polyfill",
-          "316", // ReactDOM
-          "784", // React
+          // No source maps for React and ReactDOM
+          /^chunks\/(?:784|316)(?:\.[0-9a-f]+)?\.js$/,
         ],
       }),
       new ModuleFederationPlugin({

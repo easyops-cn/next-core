@@ -31,9 +31,10 @@
     "url": "git@github.com:easyops-cn/next-core.git"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV='development' node scripts/server.js",
+    "start": "cross-env NODE_ENV='development' node scripts/start.js",
     "_prebuild": "node scripts/pre-build.js",
     "build": "cross-env NODE_ENV='production' build-next-bricks",
+    "serve": "node scripts/serve.js",
     "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
@@ -54,13 +55,14 @@
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
     "clean-webpack-plugin": "^4.0.0",
+    "compression": "^1.7.4",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.26.1",
+    "express": "^4.18.2",
     "fs-extra": "^10.1.0",
     "html-webpack-plugin": "^5.5.0",
     "i18next-browser-languagedetector": "^6.1.8",
     "regenerator-runtime": "^0.13.11",
-    "webpack": "^5.75.0",
     "webpack-dev-server": "^4.11.1"
   }
 }

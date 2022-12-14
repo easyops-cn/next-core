@@ -1,29 +1,15 @@
 import React from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { createDecorators, UpdatingElement } from "@next-core/element";
+import { createDecorators } from "@next-core/element";
+import { ReactUpdatingElement } from "@next-core/react-element";
 
 const { defineElement, property } = createDecorators();
 
 @defineElement("f-input")
-class FInput extends UpdatingElement {
-  _root: Root;
+class FInput extends ReactUpdatingElement {
+  @property() accessor label;
 
-  get label() {
-    return this.getAttribute("label");
-  }
-
-  set label(value) {
-    this.setAttribute("label", value);
-  }
-
-  constructor() {
-    super();
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    this._root = createRoot(shadowRoot);
-  }
-
-  connectedCallback() {
-    this._root.render(
+  protected _renderReact() {
+    return (
       <div>
         <label>
           <span>{this.label}: </span>
@@ -31,9 +17,5 @@ class FInput extends UpdatingElement {
         </label>
       </div>
     );
-  }
-
-  disconnectedCallback() {
-    this._root.unmount();
   }
 }

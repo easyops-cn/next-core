@@ -1,14 +1,16 @@
 import React from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { createDecorators, UpdatingElement } from "@next-core/element";
+import { createDecorators } from "@next-core/element";
+import { ReactUpdatingElement } from "@next-core/react-element";
 
 const { defineElement, property, method, createEventEmitter } =
   createDecorators();
 
 @defineElement("x-button")
-class XButton extends UpdatingElement {
+class XButton extends ReactUpdatingElement {
   // Track https://github.com/babel/babel/issues/15205
   // @property() accessor label: string | undefined;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   @property() accessor label;
 
   @property() accessor suffix = "!!";
@@ -22,30 +24,8 @@ class XButton extends UpdatingElement {
     this.#clickEvent.emit("ok");
   }
 
-  #root: Root | undefined;
-
-  #createRoot(): void {
-    if (!this.#root) {
-      const shadowRoot = this.attachShadow({ mode: "open" });
-      this.#root = createRoot(shadowRoot);
-    }
-  }
-
-  connectedCallback() {
-    this.#createRoot();
-    this._render();
-  }
-
-  disconnectedCallback() {
-    this.#root?.render(null);
-  }
-
-  protected _render() {
-    if (!this.isConnected) {
-      return;
-    }
-    // console.log("rendered", this.label, this.suffix);
-    this.#root?.render(
+  protected _renderReact() {
+    return (
       <button>
         {this.label}
         <slot />

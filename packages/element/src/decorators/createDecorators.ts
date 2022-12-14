@@ -8,7 +8,7 @@ import type {
   HasChanged,
   PropertyDeclaration,
 } from "./interfaces.js";
-import { UpdatingElement } from "./UpdatingElement.js";
+import type { UpdatingElement } from "./UpdatingElement.js";
 
 const defaultConverter: AttributeConverter = {
   toAttribute(value: unknown, type?: AllowedTypeHint): unknown {

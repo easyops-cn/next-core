@@ -9,20 +9,23 @@ try {
 
   const packageDir = process.cwd();
   const configJs = path.join(packageDir, "bricks.config.js");
+  /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig} */
   let config = {};
   if (existsSync(configJs)) {
     config = (await import(configJs)).default;
   }
 
-  const scanBricksStartAt = performance.now();
-  config.exposes = await scanBricks(packageDir);
-  const scanBricksCost = Math.round(performance.now() - scanBricksStartAt);
-  console.log(
-    "Scan bricks done in",
-    scanBricksCost < 1000
-      ? `${scanBricksCost}ms`
-      : `${(scanBricksCost / 1000).toFixed(2)}s`
-  );
+  if (config.type !== "container") {
+    const scanBricksStartAt = performance.now();
+    config.exposes = await scanBricks(packageDir);
+    const scanBricksCost = Math.round(performance.now() - scanBricksStartAt);
+    console.log(
+      "Scan bricks done in",
+      scanBricksCost < 1000
+        ? `${scanBricksCost}ms`
+        : `${(scanBricksCost / 1000).toFixed(2)}s`
+    );
+  }
 
   const compiler = await build(config);
 

@@ -8,13 +8,7 @@ const { defineElement, property } = createDecorators();
 class FSelect extends UpdatingElement {
   // _root: Root;
 
-  get label() {
-    return this.getAttribute("label");
-  }
-
-  set label(value) {
-    this.setAttribute("label", value);
-  }
+  @property() accessor label;
 
   constructor() {
     super();
@@ -23,6 +17,15 @@ class FSelect extends UpdatingElement {
   }
 
   connectedCallback() {
+    this._render();
+  }
+
+  disconnectedCallback() {
+    this.shadowRoot.innerHTML = "";
+    // this._root.unmount();
+  }
+
+  _render() {
     this.shadowRoot.innerHTML = `
       <div>
         <label>
@@ -45,10 +48,5 @@ class FSelect extends UpdatingElement {
     //     </label>
     //   </div>
     // );
-  }
-
-  disconnectedCallback() {
-    this.shadowRoot.innerHTML = "";
-    // this._root.unmount();
   }
 }
