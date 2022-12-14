@@ -1,8 +1,14 @@
 const cache = new Map<string, Promise<string>>();
 
-export function loadScript(src: string, prefix?: string): Promise<string>;
-export function loadScript(src: string[], prefix?: string): Promise<string[]>;
-export function loadScript(
+export default function loadScript(
+  src: string,
+  prefix?: string
+): Promise<string>;
+export default function loadScript(
+  src: string[],
+  prefix?: string
+): Promise<string[]>;
+export default function loadScript(
   src: string | string[],
   prefix?: string
 ): Promise<string | string[]> {

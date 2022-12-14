@@ -1,29 +1,31 @@
-import { loadBrick } from "./loadBrick.js";
-import { loadScript } from "./loadScript.js";
+import loadScript from "@next-core/loader/loadScript";
+import loadSharedModule from "@next-core/loader/loadSharedModule";
 import "./styles/default.css";
 
 Promise.all([
   loadScript("/bricks/basic/dist/index.bundle.js").then(() =>
     Promise.all([
-      loadBrick("bricks/basic", "./x-button"),
-      loadBrick("bricks/basic", "./y-button"),
+      // loadSharedModule("bricks/basic", "./x-button"),
+      loadSharedModule("bricks/basic", "./y-button"),
     ])
   ),
   loadScript("/bricks/form/dist/index.bundle.js").then(() =>
     Promise.all([
-      loadBrick("bricks/form", "./f-input"),
-      loadBrick("bricks/form", "./f-select"),
+      loadSharedModule("bricks/form", "./f-input"),
+      loadSharedModule("bricks/form", "./f-select"),
     ])
   ),
 ]).then(
   () => {
     const main = document.querySelector("#main-mount-point") as HTMLElement;
     main.innerHTML = `
-      <x-button label="hello:">world</x-button>
-      <y-button label="你好:">世界</y-button>
-      <f-input label="Name:"></f-input>
-      <f-select label="Gender:"></f-select>
+      <basic.x-button label="hello:">world</basic.x-button>
+      <basic.y-button label="你好:">世界</basic.y-button>
+      <form.f-input label="Name:"></form.f-input>
+      <form.f-select label="Gender:"></form.f-select>
     `;
+
+    loadSharedModule("bricks/basic", "./processors/sayHello");
   },
   (err) => {
     // eslint-disable-next-line no-console

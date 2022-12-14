@@ -4,9 +4,14 @@ import { readdir, readFile } from "node:fs/promises";
 import { parse } from "@babel/parser";
 import babelTraverse from "@babel/traverse";
 import _ from "lodash";
+import getCamelPackageName from "./getCamelPackageName.js";
 
 const { default: traverse } = babelTraverse;
 const { escapeRegExp } = _;
+
+const validBrickName =
+  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 
 /**
  * Scan defined bricks by AST.
@@ -19,6 +24,15 @@ export default async function scanBricks(packageDir) {
   const exposes = new Map();
   /** @type {Set<string>} */
   const processedFiles = new Set();
+
+  const packageJsonFile = await readFile(
+    path.join(packageDir, "package.json"),
+    { encoding: "utf-8" }
+  );
+  const packageJson = JSON.parse(packageJsonFile);
+  /** @type {string} */
+  const packageName = packageJson.name.split("/").pop();
+  const camelPackageName = getCamelPackageName(packageName);
 
   /**
    *
@@ -53,25 +67,81 @@ export default async function scanBricks(packageDir) {
     /** @type {Map<string, Set<string>} */
     const importPaths = new Map();
     traverse(ast, {
+      CallExpression({ node: { callee, arguments: args } }) {
+        // Match `getRuntime().registerCustomProcessor(...)`
+        if (
+          callee.type === "MemberExpression" &&
+          callee.property.name === "registerCustomProcessor" &&
+          args.length === 2
+        ) {
+          const { type, value: fullName } = args[0];
+          if (type === "StringLiteral") {
+            const [processorNamespace, processorName] = fullName.split(".");
+            if (processorNamespace !== camelPackageName) {
+              throw new Error(
+                `Invalid custom processor: "${fullName}", expecting prefixed with the camelCase package name: "${camelPackageName}"`
+              );
+            }
+
+            if (!validProcessorName.test(fullName)) {
+              throw new Error(
+                `Invalid custom processor: "${fullName}", expecting format of "camelPackageName.camelProcessorName"`
+              );
+            }
+            exposes.set(`./processors/${processorName}`, {
+              import: `./${path
+                .relative(packageDir, filePath)
+                .replace(/\.[^.]+$/, "")
+                .replace(/\/index$/, "")}`,
+              name: processorName,
+            });
+          } else {
+            throw new Error(
+              "Please call `getRuntime().registerCustomProcessor()` only with literal string"
+            );
+          }
+        }
+      },
       Decorator({ node: { expression } }) {
+        // Match `@defineElement(...)`
         if (
           expression.type === "CallExpression" &&
           expression.callee.type === "Identifier" &&
           expression.callee.name === "defineElement" &&
-          expression.arguments.length === 1 &&
-          expression.arguments[0].type === "StringLiteral"
+          expression.arguments.length === 1
         ) {
-          const brick = expression.arguments[0].value;
-          exposes.set(`./${brick}`, {
+          if (expression.arguments[0].type !== "StringLiteral") {
+            throw new Error(
+              "Please call `@defineElement()` only with literal string"
+            );
+          }
+
+          const fullName = expression.arguments[0].value;
+          const [brickNamespace, brickName] = fullName.split(".");
+
+          if (brickNamespace !== packageName) {
+            throw new Error(
+              `Invalid brick: "${fullName}", expecting prefixed with the package name: "${packageName}"`
+            );
+          }
+
+          if (!validBrickName.test(fullName)) {
+            throw new Error(
+              `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+            );
+          }
+
+          exposes.set(`./${brickName}`, {
             import: `./${path
               .relative(packageDir, filePath)
               .replace(/\.[^.]+$/, "")
               .replace(/\/index$/, "")}`,
-            name: brick,
+            name: brickName,
           });
         }
       },
       ImportDeclaration({ node: { source } }) {
+        // Match `import "..."`
         if (
           source.type === "StringLiteral" &&
           source.value.startsWith("./") &&

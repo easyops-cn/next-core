@@ -4,11 +4,12 @@ const pluginName = "EmitBricksJsonPlugin";
 
 export default class EmitBricksJsonPlugin {
   /**
-   * @param {{ packageName: string; bricks: string[] }} options
+   * @param {{ packageName: string; bricks: string[]; processors: string[] }} options
    */
   constructor(options) {
     this.packageName = options.packageName;
     this.bricks = options.bricks;
+    this.processors = options.processors;
   }
 
   /**
@@ -33,6 +34,7 @@ export default class EmitBricksJsonPlugin {
           const bricksJson = JSON.stringify(
             {
               bricks: this.bricks,
+              processors: this.processors,
               filePath: jsFilePath,
             },
             null,
@@ -45,6 +47,7 @@ export default class EmitBricksJsonPlugin {
           );
 
           console.log("Defined bricks:", this.bricks);
+          console.log("Defined processors:", this.processors);
           callback();
         }
       );

@@ -5,7 +5,7 @@ import { ReactUpdatingElement } from "@next-core/react-element";
 const { defineElement, property, method, createEventEmitter } =
   createDecorators();
 
-@defineElement("x-button")
+@defineElement("basic.x-button")
 class XButton extends ReactUpdatingElement {
   // Track https://github.com/babel/babel/issues/15205
   // @property() accessor label: string | undefined;

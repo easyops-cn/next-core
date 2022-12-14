@@ -6,6 +6,7 @@ import rimraf from "rimraf";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import postcssPresetEnv from "postcss-preset-env";
 import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
+import getCamelPackageName from "./getCamelPackageName.js";
 // import postcssNested from 'postcss-nested';
 
 const require = createRequire(import.meta.url);
@@ -27,7 +28,8 @@ export default async function build(config) {
   );
   const packageJson = JSON.parse(packageJsonFile);
   const packageName = packageJson.name.split("/").pop();
-  const libName = `bricks/${packageName}`;
+  const camelPackageName = getCamelPackageName(packageName);
+  const libName = isContainer ? "container" : `bricks/${packageName}`;
 
   const sharedPackages = [
     "react",
@@ -74,6 +76,20 @@ export default async function build(config) {
   });
 
   const chunksDir = isContainer ? "" : "chunks/";
+
+  /** @type {string[]} */
+  const bricks = [];
+  /** @type {string[]} */
+  const processors = [];
+  if (!isContainer) {
+    for (const [key, expose] of Object.entries(config.exposes)) {
+      if (key.startsWith("./processors/")) {
+        processors.push(`${camelPackageName}.${expose.name}`);
+      } else {
+        bricks.push(`${packageName}.${expose.name}`);
+      }
+    }
+  }
 
   return webpack({
     entry: config.entry || {
@@ -176,7 +192,10 @@ export default async function build(config) {
                 mode === "development"
                   ? "[name].bundle.css"
                   : "[name].[contenthash].css",
-              // chunkFilename: "[id].css",
+              chunkFilename:
+                mode === "development"
+                  ? `${chunksDir}[name].css`
+                  : `${chunksDir}[name].[contenthash].css`,
             }),
           ]
         : []),
@@ -185,9 +204,8 @@ export default async function build(config) {
         : [
             new EmitBricksJsonPlugin({
               packageName,
-              bricks: Object.values(config.exposes).map(
-                (expose) => expose.name
-              ),
+              bricks,
+              processors,
             }),
           ]),
       ...(config.plugins || []),
