@@ -3,6 +3,11 @@ export type ClassFieldDecorator = (
   context: ClassFieldDecoratorContext
 ) => (initialValue: unknown) => unknown | void;
 
+export type DecoratorContext =
+  | ClassDecoratorContext
+  | ClassFieldDecoratorContext
+  | ClassMethodDecoratorContext;
+
 export interface ClassFieldDecoratorContext {
   kind: "field" | "accessor" | "getter" | "setter";
   name: string | symbol;

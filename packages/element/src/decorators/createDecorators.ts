@@ -1,9 +1,9 @@
 import type {
   AllowedTypeHint,
   AttributeConverter,
-  ClassDecoratorContext,
   ClassFieldDecoratorContext,
   ClassMethodDecoratorContext,
+  DecoratorContext,
   EventDeclaration,
   HasChanged,
   PropertyDeclaration,
@@ -63,131 +63,172 @@ export function createDecorators() {
       styleTexts?: string[];
     }
   ): any {
-    return (
-      value: unknown,
-      { kind, addInitializer }: ClassDecoratorContext
-    ) => {
-      if (kind === "class") {
-        addInitializer(function (this: UpdatingElementConstructor) {
-          const superClass = Object.getPrototypeOf(this);
-
-          const mergedAttributes = mergeIterables(
-            superClass.observedAttributes ?? [],
-            observedAttributes
-          );
-          Object.defineProperty(this, "observedAttributes", {
-            get() {
-              return mergedAttributes;
-            },
-            configurable: true,
-          });
-
-          if (options?.styleTexts) {
-            Object.defineProperty(this, "styleTexts", {
-              get() {
-                return options?.styleTexts;
-              },
-              configurable: true,
-            });
-          }
-
-          const mergedProperties = mergeIterables(
-            superClass._dev_only_definedProperties ?? [],
-            definedProperties
-          );
-
-          Object.defineProperty(this, "_dev_only_definedProperties", {
-            get() {
-              return mergedProperties;
-            },
-            configurable: true,
-          });
-
-          const mergedMethods = mergeIterables(
-            superClass._dev_only_definedMethods ?? [],
-            definedMethods
-          );
-
-          Object.defineProperty(this, "_dev_only_definedMethods", {
-            get() {
-              return mergedMethods;
-            },
-            configurable: true,
-          });
-
-          const mergedEvents = mergeIterables(
-            superClass._dev_only_definedEvents ?? [],
-            definedEvents
-          );
-
-          Object.defineProperty(this, "_dev_only_definedEvents", {
-            get() {
-              return mergedEvents;
-            },
-            configurable: true,
-          });
-
-          customElements.define(name, this);
-        });
+    return (value: unknown, { kind, addInitializer }: DecoratorContext) => {
+      if (process.env.NODE_ENV === "development" && kind !== "class") {
+        throw new Error(`Invalid usage of \`@defineElement()\` on a ${kind}`);
       }
+      addInitializer(function (this: UpdatingElementConstructor) {
+        const superClass = Object.getPrototypeOf(this);
+
+        const mergedAttributes = mergeIterables(
+          superClass.observedAttributes ?? [],
+          observedAttributes
+        );
+        Object.defineProperty(this, "observedAttributes", {
+          get() {
+            return mergedAttributes;
+          },
+          configurable: true,
+        });
+
+        const styleTexts = options?.styleTexts;
+        Object.defineProperty(this, "styleTexts", {
+          get() {
+            return styleTexts;
+          },
+          configurable: true,
+        });
+
+        const mergedProperties = mergeIterables(
+          superClass._dev_only_definedProperties ?? [],
+          definedProperties
+        );
+
+        Object.defineProperty(this, "_dev_only_definedProperties", {
+          get() {
+            return mergedProperties;
+          },
+          configurable: true,
+        });
+
+        const mergedMethods = mergeIterables(
+          superClass._dev_only_definedMethods ?? [],
+          definedMethods
+        );
+
+        Object.defineProperty(this, "_dev_only_definedMethods", {
+          get() {
+            return mergedMethods;
+          },
+          configurable: true,
+        });
+
+        const mergedEvents = mergeIterables(
+          superClass._dev_only_definedEvents ?? [],
+          definedEvents
+        );
+
+        Object.defineProperty(this, "_dev_only_definedEvents", {
+          get() {
+            return mergedEvents;
+          },
+          configurable: true,
+        });
+
+        customElements.define(name, this);
+      });
     };
   }
 
   function property(_options?: PropertyDeclaration): any {
     return function (
       value: unknown,
-      { kind, name }: ClassFieldDecoratorContext
+      {
+        kind,
+        name,
+        static: isStatic,
+        private: isPrivate,
+      }: ClassFieldDecoratorContext
     ) {
-      const options = Object.assign({}, defaultPropertyDeclaration, _options);
-      if (kind === "accessor" && typeof name === "string") {
-        definedProperties.add(name);
-        const attr = attributeNameForProperty(name, options);
-        if (attr === undefined) {
-          throw new Error("Must reflect to an attribute now");
+      if (process.env.NODE_ENV === "development") {
+        if (kind !== "accessor") {
+          throw new Error(`Invalid usage of \`@property()\` on a ${kind}`);
         }
-        observedAttributes.add(attr);
-        return {
-          get(this: HTMLElement) {
-            return options.converter.fromAttribute(
-              this.getAttribute(attr),
+        if (typeof name !== "string") {
+          throw new Error(
+            `Invalid usage of \`@property()\` on a ${kind} of ${typeof name}`
+          );
+        }
+        if (isStatic) {
+          throw new Error(
+            `Invalid usage of \`@property()\` on a static ${kind}`
+          );
+        }
+        if (isPrivate) {
+          throw new Error(
+            `Invalid usage of \`@property()\` on a private ${kind}`
+          );
+        }
+      }
+      const options = Object.assign({}, defaultPropertyDeclaration, _options);
+      definedProperties.add(name as string);
+      const attr = attributeNameForProperty(name as string, options);
+      if (attr === undefined) {
+        throw new Error("Must reflect to an attribute right now");
+      }
+      observedAttributes.add(attr);
+      return {
+        get(this: HTMLElement) {
+          return options.converter.fromAttribute(
+            this.getAttribute(attr),
+            options.type
+          );
+        },
+        set(this: HTMLElement, value: unknown) {
+          const oldValue = (this as any)[name as string];
+          if (options.hasChanged(value, oldValue)) {
+            const attrValue = options.converter.toAttribute(
+              value,
               options.type
             );
-          },
-          set(this: HTMLElement, value: unknown) {
-            const oldValue = (this as any)[name];
-            if (options.hasChanged(value, oldValue)) {
-              const attrValue = options.converter.toAttribute(
-                value,
-                options.type
-              );
-              if (attrValue === undefined) {
-                return;
-              }
-              if (attrValue === null) {
-                this.removeAttribute(attr);
-              } else {
-                this.setAttribute(attr, attrValue as string);
-              }
+            if (attrValue === undefined) {
+              return;
             }
-          },
-          init(this: any, initialValue: unknown) {
-            // eslint-disable-next-line no-console
-            console.log("init:", name, initialValue);
-            return initialValue;
-          },
-        };
-      }
+            if (attrValue === null) {
+              this.removeAttribute(attr);
+            } else {
+              this.setAttribute(attr, attrValue as string);
+            }
+          }
+        },
+        init(this: any, initialValue: unknown) {
+          // eslint-disable-next-line no-console
+          console.log("init:", name, initialValue);
+          return initialValue;
+        },
+      };
     };
   }
 
   function method(): any {
     return function (
       value: unknown,
-      { kind, name }: ClassMethodDecoratorContext
+      {
+        kind,
+        name,
+        static: isStatic,
+        private: isPrivate,
+      }: ClassMethodDecoratorContext
     ) {
-      if (kind === "method" && typeof name === "string") {
-        definedMethods.add(name);
+      if (process.env.NODE_ENV === "development") {
+        if (kind !== "method") {
+          throw new Error(`Invalid usage of \`@method()\` on a ${kind}`);
+        }
+        if (typeof name !== "string") {
+          throw new Error(
+            `Invalid usage of \`@method()\` on a ${kind} of ${typeof name}`
+          );
+        }
+        if (isStatic) {
+          throw new Error(`Invalid usage of \`@method()\` on a static ${kind}`);
+        }
+        if (isPrivate) {
+          throw new Error(
+            `Invalid usage of \`@method()\` on a private ${kind}`
+          );
+        }
       }
+      definedMethods.add(name as string);
     };
   }
 

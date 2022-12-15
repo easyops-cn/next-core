@@ -24,6 +24,8 @@ class XButton extends ReactNextElement {
     this.#clickEvent.emit("ok");
   }
 
+  @method() abc = 1;
+
   render() {
     return (
       <button>
