@@ -53,7 +53,7 @@
     "@next-core/pipes": "^1.0.15",
     "@next-core/rollup-config-factory": "^2.6.5",
     "history": "^4.10.1",
-    "i18next": "^22.4.3",
+    "i18next": "^22.4.5",
     "jest-websocket-mock": "^2.4.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
