@@ -1,10 +1,8 @@
 import type {
   AllowedTypeHint,
   AttributeConverter,
-  ClassFieldDecoratorContext,
-  ClassMethodDecoratorContext,
-  DecoratorContext,
   EventDeclaration,
+  EventEmitter,
   HasChanged,
   PropertyDeclaration,
 } from "./interfaces.js";
@@ -57,15 +55,22 @@ export function createDecorators() {
   const definedMethods = new Set<string>();
   const definedEvents = new Set<string>();
 
+  // TODO(steve): TypeScript only supports legacy decorator proposal right now.
+
   function defineElement(
     name: string,
     options?: {
       styleTexts?: string[];
     }
   ): any {
-    return (value: unknown, { kind, addInitializer }: DecoratorContext) => {
+    return (
+      value: Function,
+      { kind, name: className, addInitializer }: ClassDecoratorContext
+    ) => {
       if (process.env.NODE_ENV === "development" && kind !== "class") {
-        throw new Error(`Invalid usage of \`@defineElement()\` on a ${kind}`);
+        throw new Error(
+          `Invalid usage of \`@defineElement()\` on a ${kind}: "${className}"`
+        );
       }
       addInitializer(function (this: UpdatingElementConstructor) {
         const superClass = Object.getPrototypeOf(this);
@@ -130,19 +135,26 @@ export function createDecorators() {
     };
   }
 
-  function property(_options?: PropertyDeclaration): any {
+  function property(options?: PropertyDeclaration): any {
     return function (
-      value: unknown,
+      value: AutoAccessor,
       {
         kind,
         name,
         static: isStatic,
         private: isPrivate,
-      }: ClassFieldDecoratorContext
+      }: ClassMemberDecoratorContext & {
+        kind: "accessor";
+        name: string;
+        static: false;
+        private: false;
+      }
     ) {
       if (process.env.NODE_ENV === "development") {
         if (kind !== "accessor") {
-          throw new Error(`Invalid usage of \`@property()\` on a ${kind}`);
+          throw new Error(
+            `Invalid usage of \`@property()\` on a ${kind}: "${String(name)}"`
+          );
         }
         if (typeof name !== "string") {
           throw new Error(
@@ -151,35 +163,35 @@ export function createDecorators() {
         }
         if (isStatic) {
           throw new Error(
-            `Invalid usage of \`@property()\` on a static ${kind}`
+            `Invalid usage of \`@property()\` on a static ${kind}: "${name}"`
           );
         }
         if (isPrivate) {
           throw new Error(
-            `Invalid usage of \`@property()\` on a private ${kind}`
+            `Invalid usage of \`@property()\` on a private ${kind}: "${name}"`
           );
         }
       }
-      const options = Object.assign({}, defaultPropertyDeclaration, _options);
       definedProperties.add(name as string);
-      const attr = attributeNameForProperty(name as string, options);
+      const _options = Object.assign({}, defaultPropertyDeclaration, options);
+      const attr = attributeNameForProperty(name as string, _options);
       if (attr === undefined) {
         throw new Error("Must reflect to an attribute right now");
       }
       observedAttributes.add(attr);
       return {
         get(this: HTMLElement) {
-          return options.converter.fromAttribute(
+          return _options.converter.fromAttribute(
             this.getAttribute(attr),
-            options.type
+            _options.type
           );
         },
         set(this: HTMLElement, value: unknown) {
           const oldValue = (this as any)[name as string];
-          if (options.hasChanged(value, oldValue)) {
-            const attrValue = options.converter.toAttribute(
+          if (_options.hasChanged(value, oldValue)) {
+            const attrValue = _options.converter.toAttribute(
               value,
-              options.type
+              _options.type
             );
             if (attrValue === undefined) {
               return;
@@ -191,7 +203,7 @@ export function createDecorators() {
             }
           }
         },
-        init(this: any, initialValue: unknown) {
+        init(this: HTMLElement, initialValue: unknown) {
           // eslint-disable-next-line no-console
           console.log("init:", name, initialValue);
           return initialValue;
@@ -202,17 +214,24 @@ export function createDecorators() {
 
   function method(): any {
     return function (
-      value: unknown,
+      value: Function,
       {
         kind,
         name,
         static: isStatic,
         private: isPrivate,
-      }: ClassMethodDecoratorContext
+      }: ClassMemberDecoratorContext & {
+        kind: "method";
+        name: string;
+        static: false;
+        private: false;
+      }
     ) {
       if (process.env.NODE_ENV === "development") {
         if (kind !== "method") {
-          throw new Error(`Invalid usage of \`@method()\` on a ${kind}`);
+          throw new Error(
+            `Invalid usage of \`@method()\` on a ${kind}: "${String(name)}"`
+          );
         }
         if (typeof name !== "string") {
           throw new Error(
@@ -220,11 +239,13 @@ export function createDecorators() {
           );
         }
         if (isStatic) {
-          throw new Error(`Invalid usage of \`@method()\` on a static ${kind}`);
+          throw new Error(
+            `Invalid usage of \`@method()\` on a static ${kind}: "${name}"`
+          );
         }
         if (isPrivate) {
           throw new Error(
-            `Invalid usage of \`@method()\` on a private ${kind}`
+            `Invalid usage of \`@method()\` on a private ${kind}: "${name}"`
           );
         }
       }
@@ -232,23 +253,90 @@ export function createDecorators() {
     };
   }
 
-  function createEventEmitter<T = void>(
-    options: EventDeclaration,
-    thisArg: HTMLElement
-  ) {
-    const { type, ...eventInit } = options;
-    definedEvents.add(type);
-    return Object.freeze({
-      emit: (detail: T): boolean =>
-        thisArg.dispatchEvent(new CustomEvent(type, { ...eventInit, detail })),
-    });
+  function event(options: EventDeclaration): any {
+    return function (
+      value: AutoAccessor,
+      {
+        kind,
+        name,
+        static: isStatic,
+      }: // private: isPrivate,
+      ClassMemberDecoratorContext & {
+        kind: "accessor";
+        name: string;
+        static: false;
+      }
+    ) {
+      if (process.env.NODE_ENV === "development") {
+        if (kind !== "accessor") {
+          throw new Error(
+            `Invalid usage of \`@event()\` on a ${kind}: "${String(name)}"`
+          );
+        }
+        if (typeof name !== "string") {
+          throw new Error(
+            `Invalid usage of \`@event()\` on a ${kind} of ${typeof name}`
+          );
+        }
+        if (isStatic) {
+          throw new Error(
+            `Invalid usage of \`@event()\` on a static ${kind}: "${name}"`
+          );
+        }
+        // TODO(steve): disallow non-private `@event()` target after TypeScript
+        // supports decorating on class private fields:
+        // https://github.com/microsoft/TypeScript/pull/50820
+        // if (!isPrivate) {
+        //   throw new Error(
+        //     `Invalid usage of \`@event()\` on a non-private ${kind}: "${String(name)}"`
+        //   );
+        // }
+        if (!name.startsWith("_")) {
+          throw new Error(
+            `Decorated event field expects to start with "_", received "${name}"`
+          );
+        }
+      }
+      const { type, ...eventInit } = options;
+      definedEvents.add(type);
+      const emitterMap = new WeakMap<HTMLElement, EventEmitter<unknown>>();
+      return {
+        get(this: HTMLElement) {
+          return emitterMap.get(this);
+        },
+        set() {
+          throw new Error("Decorated events are readonly");
+        },
+        init(this: HTMLElement, initialValue: unknown) {
+          if (
+            process.env.NODE_ENV === "development" &&
+            initialValue !== undefined
+          ) {
+            throw new Error(
+              `Do not set an initial value for a decorated event: "${String(
+                name
+              )}"`
+            );
+          }
+          emitterMap.set(
+            this,
+            Object.freeze({
+              emit: (detail: unknown): boolean =>
+                this.dispatchEvent(
+                  new CustomEvent(type, { ...eventInit, detail })
+                ),
+            })
+          );
+        },
+      };
+    };
   }
 
   return {
     defineElement,
     property,
     method,
-    createEventEmitter,
+    event,
   };
 }
 
@@ -273,3 +361,35 @@ function attributeNameForProperty(
     ? name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`)
     : undefined;
 }
+
+type DecoratorContext = ClassDecoratorContext | ClassMemberDecoratorContext;
+
+interface ClassMemberDecoratorContext {
+  kind: "field" | "accessor" | "getter" | "setter" | "method";
+  name: string | symbol;
+  access: { get(): unknown; set(value: unknown): void };
+  static: boolean;
+  private: boolean;
+  addInitializer(initializer: () => void): void;
+}
+
+interface ClassDecoratorContext {
+  kind: "class";
+  name: string | undefined;
+  addInitializer(initializer: () => void): void;
+}
+
+interface AutoAccessor {
+  get(): unknown;
+  set(value: unknown): void;
+}
+
+type ClassDecorator = (
+  value: Function,
+  context: ClassDecoratorContext
+) => Function | void;
+
+type ClassMemberDecorator = (
+  value: undefined,
+  context: ClassMemberDecoratorContext
+) => (initialValue: unknown) => unknown | void;

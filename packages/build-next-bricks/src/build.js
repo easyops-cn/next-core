@@ -51,6 +51,7 @@ const getCssLoaders = (cssOptions) => [
 export default async function build(config) {
   const packageDir = process.cwd();
   const isContainer = config.type === "container";
+  const isBricks = !config.type || config.type === "bricks";
   const mode = config.mode || process.env.NODE_ENV;
 
   const packageJsonFile = await readFile(
@@ -60,7 +61,7 @@ export default async function build(config) {
   const packageJson = JSON.parse(packageJsonFile);
   const packageName = packageJson.name.split("/").pop();
   const camelPackageName = getCamelPackageName(packageName);
-  const libName = isContainer ? "container" : `bricks/${packageName}`;
+  const libName = isBricks ? `bricks/${packageName}` : config.type;
 
   const sharedPackages = [
     "react",
@@ -112,7 +113,7 @@ export default async function build(config) {
   const bricks = [];
   /** @type {string[]} */
   const processors = [];
-  if (!isContainer) {
+  if (isBricks) {
     for (const [key, expose] of Object.entries(config.exposes)) {
       if (key.startsWith("./processors/")) {
         processors.push(`${camelPackageName}.${expose.name}`);
@@ -190,7 +191,7 @@ export default async function build(config) {
         filename: "[file].map",
         // Do not generate source map for these vendors:
         exclude: [
-          "polyfill",
+          // "polyfill",
           // No source maps for React and ReactDOM
           /^chunks\/(?:784|316)(?:\.[0-9a-f]+)?\.js$/,
         ],

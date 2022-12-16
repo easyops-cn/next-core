@@ -39,8 +39,8 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
-    "@next-core/loader": "^0.0.0",
     "@next-core/repo-config": "^0.2.5",
+    "@next-core/runtime": "^0.0.0",
     "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",

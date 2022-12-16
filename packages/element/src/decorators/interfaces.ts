@@ -1,42 +1,3 @@
-export type ClassFieldDecorator = (
-  value: undefined,
-  context: ClassFieldDecoratorContext
-) => (initialValue: unknown) => unknown | void;
-
-export type DecoratorContext =
-  | ClassDecoratorContext
-  | ClassFieldDecoratorContext
-  | ClassMethodDecoratorContext;
-
-export interface ClassFieldDecoratorContext {
-  kind: "field" | "accessor" | "getter" | "setter";
-  name: string | symbol;
-  access: { get(): unknown; set(value: unknown): void };
-  static: boolean;
-  private: boolean;
-  addInitializer(initializer: () => void): void;
-}
-
-export interface ClassMethodDecoratorContext {
-  kind: "method";
-  name: string | symbol;
-  access: { get(): unknown };
-  static: boolean;
-  private: boolean;
-  addInitializer(initializer: () => void): void;
-}
-
-export type ClassDecorator = (
-  value: Function,
-  context: ClassDecoratorContext
-) => Function | void;
-
-export interface ClassDecoratorContext {
-  kind: "class";
-  name: string | undefined;
-  addInitializer(initializer: () => void): void;
-}
-
 /**
  * 构件事件的选项。
  */
@@ -134,4 +95,8 @@ export interface AttributeConverter<Type = unknown, TypeHint = unknown> {
 
 export interface HasChanged<Type = unknown> {
   (value: Type, old: Type): boolean;
+}
+
+export interface EventEmitter<T> {
+  readonly emit: (detail: T) => boolean;
 }

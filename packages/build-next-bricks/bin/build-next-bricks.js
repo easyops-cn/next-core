@@ -15,7 +15,7 @@ try {
     config = (await import(configJs)).default;
   }
 
-  if (config.type !== "container") {
+  if (!config.type || config.type === "bricks") {
     const scanBricksStartAt = performance.now();
     config.exposes = await scanBricks(packageDir);
     const scanBricksCost = Math.round(performance.now() - scanBricksStartAt);

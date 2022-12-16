@@ -5,7 +5,7 @@ import { PluginHistoryState } from "./runtime";
 /** @internal */
 export interface BootstrapData {
   brickPackages: BrickPackage[];
-  templatePackages: TemplatePackage[];
+  // templatePackages: TemplatePackage[];
   navbar: NavbarConf;
   storyboards: Storyboard[];
   settings: Settings;
@@ -223,20 +223,21 @@ export type RouteAliasConf = Pick<RouteConf, "path" | "alias">;
 
 /** @internal */
 export interface BrickPackage {
+  id: string;
   filePath: string;
-  bricks?: string[];
-  editors?: string[];
-  editorsJsFilePath?: string;
-  processors?: string[];
-  providers?: string[];
-  dll?: string[];
+  bricks: string[];
+  // editors?: string[];
+  // editorsJsFilePath?: string;
+  processors: string[];
+  // providers?: string[];
+  // dll?: string[];
 }
 
 /** @internal */
-export interface TemplatePackage {
-  templates?: string[];
-  filePath: string;
-}
+// export interface TemplatePackage {
+//   templates?: string[];
+//   filePath: string;
+// }
 
 /** @internal */
 export interface AuthInfo {
@@ -271,18 +272,18 @@ export interface Storyboard {
   app: MicroApp;
 
   /** @internal */
-  imports?: string[];
+  // imports?: string[];
 
   /**
    * 路由配置列表。
    */
-  routes?: RouteConf[];
+  routes: RouteConf[];
 
   /**
    * @deprecated 不再推荐使用。
    * @internal
    */
-  dependsAll?: boolean;
+  // dependsAll?: boolean;
 
   /** {@inheritDoc StoryboardMeta} */
   meta?: StoryboardMeta;
@@ -301,7 +302,7 @@ export interface RuntimeStoryboard extends Storyboard {
 export function isRouteConfOfBricks(
   conf: RouteConf
 ): conf is RouteConfOfBricks {
-  return conf.type !== "routes" && !!(conf as RouteConfOfBricks).bricks;
+  return conf.type === "bricks" || !conf.type;
 }
 
 export function isRouteConfOfRoutes(
@@ -345,7 +346,7 @@ export interface RouteConfOfRoutes extends BaseRouteConf {
  * 使用重定向的路由配置。
  */
 export interface RouteConfOfRedirect extends BaseRouteConf {
-  type?: "redirect";
+  type: "redirect";
 
   /** 重定向的目标地址或异步数据处理配置。 */
   redirect: string | ResolveConf;
@@ -387,24 +388,24 @@ export interface BaseRouteConf {
    * 其中 `hybrid: true` 的路由将使用普通模式渲染页面；而对于其它应用，其中 `hybrid: true`
    * 的路由将使用 iframe 模式渲染页面。
    */
-  hybrid?: boolean;
+  // hybrid?: boolean;
 
   /**
    * 提前声明可供路由内使用的 Provider 列表。
    *
    * @remarks 推荐优先使用 `useProvider` 而无须提前声明 `providers`。
    */
-  providers?: ProviderConf[];
+  // providers?: ProviderConf[];
 
   /**
    * 预定义的异步数据处理配置列表。
    */
-  defineResolves?: DefineResolveConf[];
+  // defineResolves?: DefineResolveConf[];
 
   /**
    * 要重定向的地址或异步处理配置。
    */
-  redirect?: string | ResolveConf;
+  // redirect?: string | ResolveConf;
 
   /** {@inheritDoc SeguesConf} */
   segues?: SeguesConf;
@@ -497,7 +498,7 @@ export interface ContextConf {
   /**
    * 要绑定的构件属性名。
    */
-  property?: string;
+  // property?: string;
 
   /**
    * 条件配置，根据 `if` 的计算结果来决定是否启用该上下文。不适用于绑定构件属性的数据。
@@ -574,7 +575,7 @@ export interface BrickConf {
    * @deprecated 系统默认 `injectDeep: true`。
    * @internal
    */
-  injectDeep?: boolean;
+  // injectDeep?: boolean;
 
   /**
    * 构件属性。
@@ -613,14 +614,14 @@ export interface BrickConf {
    *
    * @deprecated 建议使用{@link CustomTemplate | 自定义模板}代替。
    */
-  template?: string;
+  // template?: string;
 
   /**
    * （老）模板的参数表。
    *
    * @deprecated 建议使用{@link CustomTemplate | 自定义模板}代替。
    */
-  params?: Record<string, unknown>;
+  // params?: Record<string, unknown>;
 
   /**
    * 条件渲染配置，根据 `if` 的计算结果来决定是否渲染该构件。
@@ -638,7 +639,7 @@ export interface BrickConf {
   /**
    * {@inheritDoc BaseRouteConf.context}
    */
-  context?: ContextConf[];
+  // context?: ContextConf[];
 
   /**
    * {@inheritDoc BaseRouteConf.permissionsPreCheck}
@@ -651,7 +652,7 @@ export interface BrickConf {
    * @deprecated 请使用 `context` 并指定 `property` 来声明一个上下文变量绑定到构件属性。
    * @internal
    */
-  exports?: Record<string, string>;
+  // exports?: Record<string, string>;
 
   /** 构件编排 ID */
   iid?: string;
@@ -665,14 +666,14 @@ export type ProviderConf =
   | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
 
 /** @internal */
-export interface RuntimeBrickConf extends BrickConf {
-  $$dynamic?: boolean;
-  $$resolved?: boolean;
-  $$template?: string;
-  $$params?: Record<string, unknown>;
-  $$lifeCycle?: BrickLifeCycle;
-  $$if?: string | boolean | ResolveConf;
-}
+// export interface RuntimeBrickConf extends BrickConf {
+//   $$dynamic?: boolean;
+//   $$resolved?: boolean;
+//   $$template?: string;
+//   $$params?: Record<string, unknown>;
+//   $$lifeCycle?: BrickLifeCycle;
+//   $$if?: string | boolean | ResolveConf;
+// }
 
 /** @internal */
 export interface MessageConf {
@@ -911,7 +912,10 @@ export interface TransformItem {
 /**
  * 菜单配置。
  */
-export type MenuConf = false | StaticMenuConf | BrickMenuConf | ResolveMenuConf;
+export type MenuConf =
+  | false
+  | StaticMenuConf /* | BrickMenuConf */
+  | ResolveMenuConf;
 
 /**
  * 静态菜单配置。
@@ -1023,27 +1027,27 @@ export interface BreadcrumbItemConf {
 /**
  * 使用构件做数据代理的菜单配置。
  */
-export interface BrickMenuConf {
-  type: "brick";
+// export interface BrickMenuConf {
+//   type: "brick";
 
-  /** 构件名。 */
-  brick: string;
+//   /** 构件名。 */
+//   brick: string;
 
-  /**
-   * @deprecated 系统默认 `injectDeep: true`。
-   * @internal
-   */
-  injectDeep?: boolean;
+//   /**
+//    * @deprecated 系统默认 `injectDeep: true`。
+//    * @internal
+//    */
+//   injectDeep?: boolean;
 
-  /** {@inheritDoc BrickConf.properties} */
-  properties?: Record<string, unknown>;
+//   /** {@inheritDoc BrickConf.properties} */
+//   properties?: Record<string, unknown>;
 
-  /** {@inheritDoc BrickEventsMap} */
-  events?: BrickEventsMap;
+//   /** {@inheritDoc BrickEventsMap} */
+//   events?: BrickEventsMap;
 
-  /** {@inheritDoc BrickLifeCycle} */
-  lifeCycle?: BrickLifeCycle;
-}
+//   /** {@inheritDoc BrickLifeCycle} */
+//   lifeCycle?: BrickLifeCycle;
+// }
 
 /**
  * 使用异步数据处理的菜单配置。
@@ -1653,7 +1657,7 @@ export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
 /** 自定义模板渲染的构件配置。 */
 export type BrickConfInTemplate = Omit<
   BrickConf,
-  "brick" | "slots" | "template" | "params"
+  "brick" | "slots" /* | "template" | "params" */
 > & {
   /** 构件名。 */
   brick: string;

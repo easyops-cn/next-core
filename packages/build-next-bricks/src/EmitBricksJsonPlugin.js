@@ -33,6 +33,7 @@ export default class EmitBricksJsonPlugin {
 
           const bricksJson = JSON.stringify(
             {
+              id: `bricks/${this.packageName}`,
               bricks: this.bricks,
               processors: this.processors,
               filePath: jsFilePath,

@@ -3,7 +3,7 @@ import { Compiler, Configuration, RuleSetRule, container } from "webpack";
 export const build: (config: BuildNextBricksConfig) => Compiler;
 
 export interface BuildNextBricksConfig {
-  type?: "container" | "bricks";
+  type?: "bricks" | "container";
   mode?: "development" | "production";
   entry?: Record<string, string>;
   extractCss?: boolean;

@@ -1,0 +1,13 @@
+{
+  "storyboards": [
+    {
+      "app": {
+        "name": "Test",
+        "id": "test",
+        "homepage": "/test",
+        "noAuthGuard": true
+      },
+      "routes": []
+    }
+  ]
+}

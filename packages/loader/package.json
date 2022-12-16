@@ -21,16 +21,6 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
-    "./loadScript": {
-      "types": "./dist/types/loadScript.d.ts",
-      "import": "./dist/esm/loadScript.js",
-      "require": "./dist/cjs/loadScript.js"
-    },
-    "./loadSharedModule": {
-      "types": "./dist/types/loadSharedModule.d.ts",
-      "import": "./dist/esm/loadSharedModule.js",
-      "require": "./dist/cjs/loadSharedModule.js"
-    },
     "./package.json": "./package.json"
   },
   "scripts": {

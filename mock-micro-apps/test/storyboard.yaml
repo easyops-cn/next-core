@@ -1,0 +1,11 @@
+app:
+  name: Test
+  id: test
+  homepage: /test
+  noAuthGuard: true
+routes:
+- path: ${APP.homepage}
+  bricks:
+    - brick: div
+      properties:
+        textContent: Hello World

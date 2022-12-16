@@ -1,11 +1,10 @@
 import React from "react";
-import { createDecorators } from "@next-core/element";
+import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 
 import styleText from "./x-button.shadow.css";
 
-const { defineElement, property, method, createEventEmitter } =
-  createDecorators();
+const { defineElement, property, method, event } = createDecorators();
 
 @defineElement("basic.x-button", {
   styleTexts: [styleText],
@@ -17,14 +16,16 @@ class XButton extends ReactNextElement {
   // @ts-ignore
   @property() accessor label;
 
-  #clickEvent = createEventEmitter<string>({ type: "oops" }, this);
+  // https://github.com/microsoft/TypeScript/pull/50820
+  @event({ type: "oops" }) // accessor _clickEvent: EventEmitter<string> | undefined;
+  accessor // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  _clickEvent;
 
   @method()
   click() {
-    this.#clickEvent.emit("ok");
+    this._clickEvent.emit("ok");
   }
-
-  @method() abc = 1;
 
   render() {
     return (
