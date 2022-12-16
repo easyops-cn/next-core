@@ -11,7 +11,7 @@ const { defineElement, property } = createDecorators();
   styleTexts: [...(XButton.styleTexts as string[]), styleText],
 })
 class YButton extends XButton {
-  // @property() accessor suffix: string | undefined;
+  // @property() accessor suffix: string;
   @property() accessor suffix = "!!";
 
   protected render() {

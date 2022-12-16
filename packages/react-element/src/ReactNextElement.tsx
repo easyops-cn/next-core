@@ -22,6 +22,7 @@ export abstract class ReactNextElement extends NextElement {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.#createRoot();
     this._render();
   }
@@ -34,12 +35,13 @@ export abstract class ReactNextElement extends NextElement {
     if (!this.isConnected) {
       return;
     }
+    // console.log("render");
     let styleTexts: string[] | undefined;
     this.#root?.render(
       supportsAdoptingStyleSheets ||
-        !((styleTexts = (this.constructor as typeof ReactNextElement)
+        ((styleTexts = (this.constructor as typeof ReactNextElement)
           .styleTexts),
-        styleTexts?.length) ? (
+        !styleTexts?.length) ? (
         this.render()
       ) : (
         <>

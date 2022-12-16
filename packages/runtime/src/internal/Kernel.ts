@@ -71,14 +71,16 @@ export class Kernel {
     Promise.all(pkgPromises).then(
       () => {
         const main = document.querySelector("#main-mount-point") as HTMLElement;
-        main.innerHTML = `
-          <basic.x-button label="hello:">world</basic.x-button>
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <!--basic.x-button label="hello:">world</basic.x-button-->
           <basic.y-button label="你好:">世界</basic.y-button>
-          <form.f-input label="Name:"></form.f-input>
-          <form.f-select label="Gender:"></form.f-select>
+          <!--form.f-input label="Name:"></form.f-input>
+          <form.f-select label="Gender:"></form.f-select-->
         `;
+        main.appendChild(div);
 
-        loadSharedModule("bricks/basic", "./processors/sayHello");
+        // loadSharedModule("bricks/basic", "./processors/sayHello");
       },
       (err) => {
         // eslint-disable-next-line no-console

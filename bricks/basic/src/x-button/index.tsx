@@ -11,13 +11,14 @@ const { defineElement, property, method, event } = createDecorators();
 })
 class XButton extends ReactNextElement {
   // Track https://github.com/babel/babel/issues/15205
-  // @property() accessor label: string | undefined;
+  // @property() accessor label: string;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   @property() accessor label;
 
   // https://github.com/microsoft/TypeScript/pull/50820
-  @event({ type: "oops" }) // accessor _clickEvent: EventEmitter<string> | undefined;
+  // accessor _clickEvent: EventEmitter<string>;
+  @event({ type: "oops" })
   accessor // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   _clickEvent;
