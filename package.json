@@ -61,7 +61,7 @@
     "buffer": "^6.0.3",
     "cross-env": "^7.0.3",
     "cypress": "^12.1.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.30.0",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.2",
