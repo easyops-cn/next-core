@@ -35,6 +35,10 @@ export function trackState(raw: string): string[] | false {
   return track(raw, "track state", "STATE");
 }
 
+export function trackFormState(raw: string): string[] | false {
+  return track(raw, "track formstate", "FORM_STATE");
+}
+
 export function trackUsedContext(data: unknown): string[] {
   return trackUsed(data, "CTX");
 }

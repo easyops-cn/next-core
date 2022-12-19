@@ -6,16 +6,22 @@ import {
 } from "./listenOnTrackingContext";
 import * as runtime from "../core/Runtime";
 import { CustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import { CustomFormContext } from "../core/CustomForms/CustomFormContext";
 
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 const tplContext = new CustomTemplateContext({});
+const formContext = new CustomFormContext();
 const eventTargetOfHola = new EventTarget();
 tplContext.state.set("hola", {
   type: "free-variable",
   value: "Hola",
   eventTarget: eventTargetOfHola,
 });
-
+formContext.formState.set("hello", {
+  type: "free-variable",
+  value: "hello",
+  eventTarget: eventTargetOfHola,
+});
 describe("listenOnTrackingContext", () => {
   const eventTargetOfHello = new EventTarget();
   const context: PluginRuntimeContext = {
@@ -37,19 +43,29 @@ describe("listenOnTrackingContext", () => {
       ],
     ]),
     tplContextId: tplContext.id,
+    formContextId: formContext.id,
   } as PluginRuntimeContext;
   const trackingContextList: TrackingContextItem[] = [
     {
       contextNames: ["hello", "world"],
       stateNames: false,
       propName: "title",
+      formStateNames: false,
       propValue: "<% 'track context', CTX.hello + CTX.world %>",
     },
     {
       contextNames: false,
       stateNames: ["hola"],
+      formStateNames: false,
       propName: "textContent",
       propValue: "<% 'track state', STATE.hola %>",
+    },
+    {
+      contextNames: false,
+      stateNames: false,
+      formStateNames: ["hello"],
+      propName: "textContent",
+      propValue: "<% 'track formstate', FORM_STATE.hello %>",
     },
   ];
 
@@ -75,10 +91,22 @@ describe("listenOnTrackingContext", () => {
     expect(brick.element.textContent).toBe("Hola");
   });
 
+  it("should update brick properties when form state changed", () => {
+    const brick: RuntimeBrick = {
+      element: document.createElement("div"),
+    };
+    listenOnTrackingContext(brick, trackingContextList, context);
+    eventTargetOfHola.dispatchEvent(new CustomEvent("formstate.change"));
+    expect(brick.element.textContent).toBe("hello");
+  });
+
   it("should do nothing if brick has no element when context changed", () => {
-    const brick: RuntimeBrick = {};
+    const brick: RuntimeBrick = {
+      element: document.createElement("div"),
+    };
     listenOnTrackingContext(brick, trackingContextList, context);
     eventTargetOfHello.dispatchEvent(new CustomEvent("context.change"));
     expect(brick).toEqual({});
   });
+  const brick: RuntimeBrick = {};
 });
