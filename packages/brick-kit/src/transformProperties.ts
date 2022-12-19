@@ -7,6 +7,7 @@ import {
   trackContext,
   transformAndInject,
   trackState,
+  trackFormState,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -152,10 +153,12 @@ export function doTransform(
           }
           const contextNames = trackContext(raw);
           const stateNames = trackState(raw);
-          if (contextNames || stateNames) {
+          const formStateNames = trackFormState(raw);
+          if (contextNames || stateNames || formStateNames) {
             options.trackingContextList.push({
               contextNames,
               stateNames,
+              formStateNames,
               propName: k,
               propValue: v,
             });

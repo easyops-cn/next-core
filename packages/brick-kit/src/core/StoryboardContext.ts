@@ -29,9 +29,11 @@ import { handleHttpError } from "../handleHttpError";
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
   readonly tplContextId: string;
+  readonly formContextId: string;
 
-  constructor(tplContextId?: string) {
+  constructor(tplContextId?: string, formContextId?: string) {
     this.tplContextId = tplContextId;
+    this.formContextId = formContextId;
   }
 
   set(name: string, item: StoryboardContextItem): void {
@@ -113,7 +115,11 @@ export class StoryboardContextWrapper {
             item.value = val;
             item.eventTarget?.dispatchEvent(
               new CustomEvent(
-                this.tplContextId ? "state.change" : "context.change",
+                this.formContextId
+                  ? "formstate.change"
+                  : this.tplContextId
+                  ? "state.change"
+                  : "context.change",
                 {
                   detail: item.value,
                 }
@@ -168,9 +174,16 @@ export class StoryboardContextWrapper {
     }
 
     item.eventTarget?.dispatchEvent(
-      new CustomEvent(this.tplContextId ? "state.change" : "context.change", {
-        detail: item.value,
-      })
+      new CustomEvent(
+        this.formContextId
+          ? "formstate.change"
+          : this.tplContextId
+          ? "state.change"
+          : "context.change",
+        {
+          detail: item.value,
+        }
+      )
     );
   }
 
@@ -376,7 +389,9 @@ function resolveFreeVariableValue(
       contextConf.onChange
     )) {
       newContext.eventTarget.addEventListener(
-        storyboardContextWrapper.tplContextId
+        storyboardContextWrapper.formContextId
+          ? "formstate.change"
+          : storyboardContextWrapper.tplContextId
           ? "state.change"
           : "context.change",
         listenerFactory(handler, mergedContext, brick)
@@ -393,7 +408,11 @@ function resolveFreeVariableValue(
     for (const dep of deps) {
       const ctx = storyboardContextWrapper.get().get(dep);
       (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
-        isTemplateState ? "state.change" : "context.change",
+        storyboardContextWrapper.formContextId
+          ? "formstate.change"
+          : isTemplateState
+          ? "state.change"
+          : "context.change",
         () => {
           if (load) {
             storyboardContextWrapper.updateValue(

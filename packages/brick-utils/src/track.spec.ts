@@ -1,5 +1,6 @@
 import {
   trackContext,
+  trackFormState,
   trackState,
   trackUsedContext,
   trackUsedState,
@@ -43,6 +44,37 @@ describe("trackState", () => {
     expect(
       trackState(
         "<% 'track state', STATE.good1(STATE['good2'], () => STATE.good3, DATA.bad1, STATE[bad2], (STATE) => STATE.bad3, STATE) %>"
+      )
+    ).toEqual(["good1", "good2", "good3"]);
+  });
+
+  it("should return false for non-track-formstate mode", () => {
+    expect(trackFormState("<% FORM_STATE.bad %>")).toBe(false);
+    expect(
+      trackFormState("<% 'oops', 'track formstate', FORM_STATE.bad %>")
+    ).toBe(false);
+    expect(trackFormState("<% track.FORM_STATE, FORM_STATE.bad %>")).toBe(
+      false
+    );
+  });
+
+  it("should return false if no FORM_STATE usage were found", () => {
+    expect(trackFormState("<% 'track formstate', () => DATA.bad %>")).toBe(
+      false
+    );
+    expect(consoleWarn).toBeCalled();
+  });
+});
+
+describe("trackFormState", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should return tracking form states", () => {
+    expect(
+      trackFormState(
+        "<% 'track formstate', FORM_STATE.good1(FORM_STATE['good2'], () => FORM_STATE.good3, DATA.bad1, FORM_STATE[bad2], (FORM_STATE) => FORM_STATE.bad3, FORM_STATE) %>"
       )
     ).toEqual(["good1", "good2", "good3"]);
   });

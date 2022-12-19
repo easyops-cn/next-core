@@ -10,7 +10,7 @@ export class CustomFormContext {
 
   constructor() {
     FormContextMap.set(this.id, this);
-    this.formState = new StoryboardContextWrapper();
+    this.formState = new StoryboardContextWrapper("", this.id);
   }
 }
 
