@@ -4,7 +4,8 @@
   "description": "Jest config factory for brick-next related packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/jest-config-factory",
   "license": "GPL-3.0",
-  "main": "src/index.js",
+  "type": "module",
+  "typings": "./index.d.ts",
   "bin": {
     "next-jest": "./bin/next-jest.js"
   },
@@ -12,6 +13,13 @@
     "src",
     "bin"
   ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"

@@ -17,7 +17,7 @@
     "docs:dev": "lerna run docs:dev",
     "postbuild": "npm run size-limit",
     "size-limit": "size-limit",
-    "test": "next-jest",
+    "test": "test-next",
     "test:ci": "lerna run test:ci --",
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
@@ -76,6 +76,7 @@
     "prettier": "^2.8.1",
     "rimraf": "^3.0.2",
     "timers-browserify": "^2.0.12",
+    "ts-jest-resolver": "^2.0.0",
     "typescript": "~4.9.4"
   },
   "workspaces": [

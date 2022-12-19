@@ -204,8 +204,15 @@ export function createDecorators() {
           }
         },
         init(this: HTMLElement, initialValue: unknown) {
-          // eslint-disable-next-line no-console
-          console.log("init:", name, initialValue);
+          if (_options.hasChanged(initialValue, undefined)) {
+            const attrValue = _options.converter.toAttribute(
+              initialValue,
+              _options.type
+            );
+            if (attrValue != null) {
+              this.setAttribute(attr, attrValue as string);
+            }
+          }
           return initialValue;
         },
       };

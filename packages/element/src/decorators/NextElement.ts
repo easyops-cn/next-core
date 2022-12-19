@@ -1,7 +1,12 @@
 export abstract class NextElement extends HTMLElement {
   static readonly styleTexts: string[] | undefined;
 
-  private _hasRequestedRender = false;
+  #hasRequestedRender = false;
+  #connectedCallbackCalled = false;
+
+  connectedCallback() {
+    this.#connectedCallbackCalled = true;
+  }
 
   /** @internal */
   attributeChangedCallback(
@@ -10,20 +15,22 @@ export abstract class NextElement extends HTMLElement {
     value: string | null
   ): void {
     if (old !== value) {
-      this._enqueueRender();
+      this.#enqueueRender();
     }
   }
 
   // Enure multiple property settings will trigger rendering only once.
-  private _enqueueRender(): void {
+  #enqueueRender(): void {
     // If the element is not connected,
     // let `connectedCallback()` do the job of rendering.
-    if (this.isConnected && !this._hasRequestedRender) {
-      this._hasRequestedRender = true;
-      // console.log("_enqueueRender");
+    if (
+      this.isConnected &&
+      this.#connectedCallbackCalled &&
+      !this.#hasRequestedRender
+    ) {
+      this.#hasRequestedRender = true;
       Promise.resolve().then(() => {
-        this._hasRequestedRender = false;
-        // console.log("_enqueueRender callback");
+        this.#hasRequestedRender = false;
         this._render();
       });
     }
