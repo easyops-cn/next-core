@@ -91,6 +91,13 @@ describe("listenOnTrackingContext", () => {
     expect(brick.element.textContent).toBe("Hola");
   });
 
+  it("should do nothing if brick has no element when context changed", () => {
+    const brick: RuntimeBrick = {};
+    listenOnTrackingContext(brick, trackingContextList, context);
+    eventTargetOfHello.dispatchEvent(new CustomEvent("context.change"));
+    expect(brick).toEqual({});
+  });
+
   it("should update brick properties when form state changed", () => {
     const brick: RuntimeBrick = {
       element: document.createElement("div"),
@@ -99,14 +106,4 @@ describe("listenOnTrackingContext", () => {
     eventTargetOfHola.dispatchEvent(new CustomEvent("formstate.change"));
     expect(brick.element.textContent).toBe("hello");
   });
-
-  it("should do nothing if brick has no element when context changed", () => {
-    const brick: RuntimeBrick = {
-      element: document.createElement("div"),
-    };
-    listenOnTrackingContext(brick, trackingContextList, context);
-    eventTargetOfHello.dispatchEvent(new CustomEvent("context.change"));
-    expect(brick).toEqual({});
-  });
-  const brick: RuntimeBrick = {};
 });
