@@ -389,8 +389,9 @@ function resolveFreeVariableValue(
       contextConf.onChange
     )) {
       newContext.eventTarget.addEventListener(
-        // storyboardContextWrapper.formContextId?"formstate.change":
-        storyboardContextWrapper.tplContextId
+        storyboardContextWrapper.formContextId
+          ? "formstate.change"
+          : storyboardContextWrapper.tplContextId
           ? "state.change"
           : "context.change",
         listenerFactory(handler, mergedContext, brick)
@@ -407,7 +408,11 @@ function resolveFreeVariableValue(
     for (const dep of deps) {
       const ctx = storyboardContextWrapper.get().get(dep);
       (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
-        isTemplateState ? "state.change" : "context.change",
+        storyboardContextWrapper.formContextId
+          ? "formstate.change"
+          : isTemplateState
+          ? "state.change"
+          : "context.change",
         () => {
           if (load) {
             storyboardContextWrapper.updateValue(
