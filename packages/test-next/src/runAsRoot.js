@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import path from "node:path";
 import findFileUpward from "./findFileUpward.js";
 
 const args = process.argv.slice(2);
@@ -14,15 +15,14 @@ if (!target) {
   console.log("Target not found, use lerna instead.");
   runByLerna();
 } else {
-  const configFile = findFileUpward(target, "jest.config.js");
-  if (!configFile) {
-    console.log(
-      `Relevant jest config file not found for target '${target}', use lerna instead.`
-    );
-    runByLerna();
-  } else {
-    spawn("npx", ["jest", ...args, "--config", configFile], {
-      stdio: "inherit",
-    });
-  }
+  const packageJsonFile = findFileUpward(target, "package.json");
+  const packageDir = path.dirname(packageJsonFile);
+  spawn("npx", ["test-next-bricks", ...args], {
+    cwd: packageDir,
+    stdio: "inherit",
+    env: {
+      NODE_ENV: "test",
+      ...process.env,
+    },
+  });
 }

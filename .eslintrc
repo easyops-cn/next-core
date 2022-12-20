@@ -23,7 +23,8 @@
         "packages/repo-config/**/*.js",
         "packages/jest-config-factory/**/*.js",
         "packages/build-next-libs/**/*.js",
-        "packages/build-next-bricks/**/*.js"
+        "packages/build-next-bricks/**/*.js",
+        "packages/test-next/**/*.js"
       ],
       "extends": "@next-core/eslint-config-next/node"
     },

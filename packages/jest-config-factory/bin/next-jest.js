@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require("../src/next-jest.js");
+import "../src/next-jest.js";

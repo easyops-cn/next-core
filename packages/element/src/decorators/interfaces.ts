@@ -15,7 +15,7 @@ export type AllowedTypeHint = typeof String | typeof Number | typeof Boolean;
  */
 export interface PropertyDeclaration<
   Type = unknown,
-  TypeHint extends AllowedTypeHint = typeof String
+  TypeHint = AllowedTypeHint
 > {
   /**
    * When set to `true`, indicates the property is internal private state. The
@@ -73,6 +73,12 @@ export interface PropertyDeclaration<
   hasChanged?: HasChanged<Type>;
 }
 
+export type AttributeReflection = Required<
+  Omit<PropertyDeclaration, "attribute">
+> & {
+  property: string;
+};
+
 /**
  * Converts property values to and from attribute values.
  */
@@ -99,4 +105,8 @@ export interface HasChanged<Type = unknown> {
 
 export interface EventEmitter<T> {
   readonly emit: (detail: T) => boolean;
+}
+
+export interface Constructable<T> {
+  new (): T;
 }

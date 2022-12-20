@@ -1,7 +1,26 @@
+import type { AttributeReflection } from "./interfaces.js";
+
 export abstract class NextElement extends HTMLElement {
   static readonly styleTexts: string[] | undefined;
+  static readonly __attributeReflections: Map<string, AttributeReflection>;
 
-  private _hasRequestedRender = false;
+  #hasRequestedRender = false;
+  #connectedCallbackCalled = false;
+  #attributeChangedCallbackStopped = false;
+  #attributesBeenSet = new Set<string>();
+
+  connectedCallback() {
+    this.#connectedCallbackCalled = true;
+  }
+
+  __attributeHasBeenSet(name: string): boolean {
+    return this.#attributesBeenSet.has(name);
+  }
+
+  /** Whether to stop reflecting attribute back to property. */
+  __stopAttributeChangedCallback(value: boolean): void {
+    this.#attributeChangedCallbackStopped = value;
+  }
 
   /** @internal */
   attributeChangedCallback(
@@ -9,25 +28,45 @@ export abstract class NextElement extends HTMLElement {
     old: string | null,
     value: string | null
   ): void {
-    if (old !== value) {
-      this._enqueueRender();
+    this.#attributesBeenSet.add(name);
+    if (!this.#attributeChangedCallbackStopped && old !== value) {
+      const attrRef = (
+        this.constructor as typeof NextElement
+      ).__attributeReflections.get(name);
+      assertAttributeIsReflected(attrRef, name);
+      const oldProp = (this as any)[attrRef.property];
+      const newProp = attrRef.converter.fromAttribute(value, attrRef.type);
+      if (attrRef.hasChanged(newProp, oldProp)) {
+        (this as any)[attrRef.property] = newProp;
+      }
     }
   }
 
-  // Enure multiple property settings will trigger rendering only once.
-  private _enqueueRender(): void {
+  // Ensure multiple property updates will trigger rendering only once.
+  _requestRender(): void {
     // If the element is not connected,
-    // let `connectedCallback()` do the job of rendering.
-    if (this.isConnected && !this._hasRequestedRender) {
-      this._hasRequestedRender = true;
-      // console.log("_enqueueRender");
+    // let `connectedCallback()` do the job of calling _render.
+    if (
+      this.isConnected &&
+      this.#connectedCallbackCalled &&
+      !this.#hasRequestedRender
+    ) {
+      this.#hasRequestedRender = true;
       Promise.resolve().then(() => {
-        this._hasRequestedRender = false;
-        // console.log("_enqueueRender callback");
+        this.#hasRequestedRender = false;
         this._render();
       });
     }
   }
 
   protected abstract _render(): void;
+}
+
+function assertAttributeIsReflected(
+  attrRef: AttributeReflection | undefined,
+  name: string
+): asserts attrRef is AttributeReflection {
+  if (process.env.NODE_ENV === "development" && !attrRef) {
+    throw new Error(`Attribute [${name}] is not reflected`);
+  }
 }

@@ -8,7 +8,7 @@ try {
   const startTime = Date.now();
 
   const packageDir = process.cwd();
-  const configJs = path.join(packageDir, "bricks.config.js");
+  const configJs = path.join(packageDir, "build.config.js");
   /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig} */
   let config = {};
   if (existsSync(configJs)) {
