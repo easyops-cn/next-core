@@ -53,7 +53,7 @@
     "@types/lodash": "^4.14.191",
     "@types/meow": "^5.0.0",
     "@types/node": "^16.18.10",
-    "@types/prettier": "^2.7.1",
+    "@types/prettier": "^2.7.2",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
