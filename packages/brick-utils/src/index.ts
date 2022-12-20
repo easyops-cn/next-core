@@ -34,4 +34,6 @@ export * from "./debounceByAnimationFrame";
 export * from "./scanInstalledAppsInStoryboard";
 export * from "./makeThrottledAggregation";
 export * from "./removeDeadConditions";
+export * from "./scanCompleteBricksInStoryboard";
+export * from "./scanContextInStoryboard";
 export * from "@next-core/storyboard";
