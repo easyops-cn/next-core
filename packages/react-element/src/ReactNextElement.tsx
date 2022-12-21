@@ -8,7 +8,7 @@ export abstract class ReactNextElement extends NextElement {
   #createRoot(): void {
     if (!this.#root) {
       const shadowRoot = this.attachShadow({ mode: "open" });
-      if (supportsAdoptingStyleSheets) {
+      if (supportsAdoptingStyleSheets()) {
         const styleTexts = (this.constructor as typeof ReactNextElement)
           .styleTexts;
         if (styleTexts?.length) {
@@ -22,6 +22,7 @@ export abstract class ReactNextElement extends NextElement {
   }
 
   connectedCallback() {
+    super._markConnectedCallbackCalled();
     this.#createRoot();
     this._render();
   }
@@ -36,10 +37,10 @@ export abstract class ReactNextElement extends NextElement {
     }
     let styleTexts: string[] | undefined;
     this.#root?.render(
-      supportsAdoptingStyleSheets ||
-        !((styleTexts = (this.constructor as typeof ReactNextElement)
+      supportsAdoptingStyleSheets() ||
+        ((styleTexts = (this.constructor as typeof ReactNextElement)
           .styleTexts),
-        styleTexts?.length) ? (
+        !styleTexts?.length) ? (
         this.render()
       ) : (
         <>

@@ -1,0 +1,45 @@
+{
+  "name": "@next-core/test-next",
+  "version": "0.0.0",
+  "description": "Test next packages",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/test-next",
+  "license": "GPL-3.0",
+  "type": "module",
+  "typings": "./index.d.ts",
+  "bin": {
+    "test-next": "./bin/test-next.js",
+    "test-next-project": "./bin/test-next-project.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "index.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "@babel/core": "^7.20.5",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "babel-jest": "^29.3.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
+    "pascal-case": "^3.1.2",
+    "ts-jest-resolver": "^2.0.0",
+    "typescript": "~4.9.4"
+  }
+}

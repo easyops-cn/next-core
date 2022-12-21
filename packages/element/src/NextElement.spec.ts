@@ -1,0 +1,369 @@
+import { describe, test, jest, expect } from "@jest/globals";
+import { NextElement } from "./NextElement.js";
+import { createDecorators } from "./createDecorators.js";
+
+const waitForAnimationFrame = () =>
+  new Promise((resolve) => requestAnimationFrame(resolve));
+
+describe("NextElement", () => {
+  test("string property", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-str")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property() accessor stringAttr;
+
+      _render() {
+        render(this.stringAttr);
+      }
+    }
+
+    const element = document.createElement("my-element-str") as MyElement;
+    expect(render).toBeCalledTimes(0);
+    document.body.appendChild(element);
+    expect(render).toHaveBeenNthCalledWith(1, undefined);
+    expect(element.getAttribute("string-attr")).toBe(null);
+
+    element.stringAttr = "hi";
+    expect(element.getAttribute("string-attr")).toBe("hi");
+    expect(render).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(2, "hi");
+
+    element.setAttribute("string-attr", "Hi");
+    expect(render).toBeCalledTimes(2);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(3, "Hi");
+
+    element.setAttribute("string-attr", "Hi");
+    expect(render).toBeCalledTimes(3);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(3);
+  });
+
+  test("string property with default value", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-str-2")
+    class MyElement extends NextElement {
+      @property() accessor stringAttr = "initial";
+
+      _render() {
+        render(this.stringAttr);
+      }
+    }
+
+    const element = document.createElement("my-element-str-2") as MyElement;
+    expect(render).toBeCalledTimes(0);
+    document.body.appendChild(element);
+    expect(render).toHaveBeenNthCalledWith(1, "initial");
+
+    // The default prop has not been reflected to the attribute yet.
+    expect(element.getAttribute("string-attr")).toBe(null);
+
+    element.stringAttr = "updated";
+    expect(element.getAttribute("string-attr")).toBe("updated");
+    expect(render).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(2, "updated");
+
+    expect(element.getAttribute("string-attr")).toBe("updated");
+    await waitForAnimationFrame();
+    // Ensure the default prop will not override an attribute that has already
+    // been set manually.
+    expect(element.getAttribute("string-attr")).toBe("updated");
+  });
+
+  test("string property with default value that will not change", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-str-3")
+    class MyElement extends NextElement {
+      @property() accessor stringAttr = "initial";
+
+      _render() {
+        render(this.stringAttr);
+      }
+    }
+
+    const element = document.createElement("my-element-str-3") as MyElement;
+
+    // The default prop has not been reflected to the attribute yet.
+    expect(element.getAttribute("string-attr")).toBe(null);
+    await waitForAnimationFrame();
+    // The default prop will be reflected to the attribute by an animation frame
+    expect(element.getAttribute("string-attr")).toBe("initial");
+  });
+
+  test("boolean property", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-bool")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property({ type: Boolean }) accessor booleanAttr;
+
+      _render() {
+        render(this.booleanAttr);
+      }
+    }
+
+    const element = document.createElement("my-element-bool") as MyElement;
+    expect(render).toBeCalledTimes(0);
+    document.body.appendChild(element);
+    expect(render).toHaveBeenNthCalledWith(1, undefined);
+    expect(element.getAttribute("boolean-attr")).toBe(null);
+
+    element.booleanAttr = true;
+    expect(element.getAttribute("boolean-attr")).toBe("");
+    expect(render).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(2, true);
+
+    element.booleanAttr = false;
+    expect(element.getAttribute("boolean-attr")).toBe(null);
+    expect(render).toBeCalledTimes(2);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(3, false);
+
+    element.booleanAttr = undefined;
+    expect(element.getAttribute("boolean-attr")).toBe(null);
+    expect(render).toBeCalledTimes(3);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(4, false);
+
+    element.booleanAttr = 0;
+    expect(element.getAttribute("boolean-attr")).toBe(null);
+    expect(render).toBeCalledTimes(4);
+    await (global as any).flushPromises();
+    expect(render).toHaveBeenNthCalledWith(5, false);
+  });
+
+  test("number property", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-num")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property({ type: Number }) accessor numberAttr;
+
+      _render() {
+        render(this.numberAttr);
+      }
+    }
+
+    const element = document.createElement("my-element-num") as MyElement;
+    expect(render).toBeCalledTimes(0);
+    document.body.appendChild(element);
+    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenNthCalledWith(1, undefined);
+    expect(element.getAttribute("number-attr")).toBe(null);
+
+    element.numberAttr = 42;
+    expect(element.getAttribute("number-attr")).toBe("42");
+    expect(render).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenNthCalledWith(2, 42);
+
+    element.numberAttr = "7";
+    expect(element.getAttribute("number-attr")).toBe("7");
+    expect(render).toBeCalledTimes(2);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(3);
+    // expect(render).toHaveBeenNthCalledWith(3, "7");
+    expect(render).toHaveBeenNthCalledWith(3, 7);
+
+    element.numberAttr = undefined;
+    expect(element.getAttribute("number-attr")).toBe(null);
+    expect(render).toBeCalledTimes(3);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(4);
+    // expect(render).toHaveBeenNthCalledWith(4, undefined);
+    expect(render).toHaveBeenNthCalledWith(4, null);
+  });
+
+  test("complex property", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-obj")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property({ attribute: false }) accessor complexAttr;
+
+      _render() {
+        render(this.complexAttr);
+      }
+    }
+
+    const element = document.createElement("my-element-obj") as MyElement;
+    expect(render).toBeCalledTimes(0);
+    document.body.appendChild(element);
+    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenNthCalledWith(1, undefined);
+    expect(element.getAttribute("string-attr")).toBe(null);
+
+    element.complexAttr = { quality: "good" };
+    expect(element.getAttribute("complex-attr")).toBe(null);
+    expect(render).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenNthCalledWith(2, { quality: "good" });
+  });
+
+  test("Inheritance", async () => {
+    const { defineElement: defineBaseElement, property: baseProperty } =
+      createDecorators();
+    const baseRender = jest.fn();
+    @defineBaseElement("my-base-element")
+    class MyBaseElement extends NextElement {
+      // @ts-ignore
+      @baseProperty() accessor baseAttr;
+      // @ts-ignore
+      @baseProperty() accessor baseFinalAttr;
+
+      _render() {
+        baseRender({
+          baseAttr: this.baseAttr,
+          baseFinalAttr: this.baseFinalAttr,
+        });
+      }
+    }
+
+    const { defineElement: superDefineElement, property: superProperty } =
+      createDecorators();
+    const superRender = jest.fn();
+    @superDefineElement("my-super-element")
+    class MySuperElement extends MyBaseElement {
+      // @ts-ignore
+      @superProperty() accessor baseAttr = "overridden";
+      // @ts-ignore
+      @superProperty() accessor superAttr;
+
+      _render() {
+        superRender({
+          baseAttr: this.baseAttr,
+          baseFinalAttr: this.baseFinalAttr,
+          superAttr: this.superAttr,
+        });
+      }
+    }
+
+    const baseElement = document.createElement(
+      "my-base-element"
+    ) as MyBaseElement;
+    const superElement = document.createElement(
+      "my-super-element"
+    ) as MyBaseElement;
+    expect(
+      (baseElement.constructor as any)._dev_only_definedProperties
+    ).toEqual(["baseAttr", "baseFinalAttr"]);
+    expect(
+      (superElement.constructor as any)._dev_only_definedProperties
+    ).toEqual(["baseAttr", "baseFinalAttr", "superAttr"]);
+
+    expect(baseElement.baseAttr).toBe(undefined);
+    expect(superElement.baseAttr).toBe("overridden");
+
+    document.body.appendChild(baseElement);
+    expect(baseRender).toBeCalledTimes(1);
+    expect(baseRender).toHaveBeenNthCalledWith(1, {
+      baseAttr: undefined,
+      baseFinalAttr: undefined,
+    });
+
+    document.body.appendChild(superElement);
+    expect(superRender).toBeCalledTimes(1);
+    expect(superRender).toHaveBeenNthCalledWith(1, {
+      baseAttr: "overridden",
+      baseFinalAttr: undefined,
+      superAttr: undefined,
+    });
+
+    baseElement.baseAttr = "updated";
+    expect(baseElement.baseAttr).toBe("updated");
+    expect(superElement.baseAttr).toBe("overridden");
+    expect(baseRender).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(baseRender).toHaveBeenNthCalledWith(2, {
+      baseAttr: "updated",
+      baseFinalAttr: undefined,
+    });
+
+    superElement.baseAttr = "updated-again";
+    expect(baseElement.baseAttr).toBe("updated");
+    expect(superElement.baseAttr).toBe("updated-again");
+    expect(superRender).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(superRender).toHaveBeenNthCalledWith(2, {
+      baseAttr: "updated-again",
+      baseFinalAttr: undefined,
+      superAttr: undefined,
+    });
+  });
+
+  test("Render as parsed DOM", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-parsed")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property() accessor stringAttr;
+
+      _render() {
+        render(this.stringAttr);
+      }
+    }
+
+    const container = document.createElement("div");
+    container.innerHTML =
+      '<my-element-parsed string-attr="Hi"></my-element-parsed>';
+    expect(render).toBeCalledTimes(0);
+
+    document.body.appendChild(container);
+    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenNthCalledWith(1, "Hi");
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(1);
+  });
+
+  test("methods and events", async () => {
+    const { defineElement, property, method, event } = createDecorators();
+    @defineElement("my-element-event")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property() accessor stringAttr;
+      // @ts-ignore
+      @event({ type: "change" }) accessor _changeEvent;
+
+      @method()
+      triggerChange(value: string) {
+        this._changeEvent.emit(value);
+      }
+
+      _render() {
+        // Do nothing
+      }
+    }
+
+    const element = document.createElement("my-element-event") as MyElement;
+    expect((element.constructor as any)._dev_only_definedMethods).toEqual([
+      "triggerChange",
+    ]);
+    expect((element.constructor as any)._dev_only_definedEvents).toEqual([
+      "change",
+    ]);
+
+    const listener = jest.fn();
+    element.addEventListener("change", listener);
+    element.triggerChange("updated");
+    expect(listener).toBeCalledTimes(1);
+    expect(listener).toBeCalledWith(
+      expect.objectContaining({
+        type: "change",
+        detail: "updated",
+      })
+    );
+  });
+});

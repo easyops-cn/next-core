@@ -1,6 +1,6 @@
-import { Compiler, Configuration, RuleSetRule, container } from "webpack";
+import type { Compiler, Configuration, RuleSetRule, container } from "webpack";
 
-export const build: (config: BuildNextBricksConfig) => Compiler;
+export declare function build(config: BuildNextBricksConfig): Compiler;
 
 export interface BuildNextBricksConfig {
   type?: "bricks" | "container";

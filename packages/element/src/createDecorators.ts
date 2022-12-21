@@ -1,12 +1,17 @@
 import type {
   AllowedTypeHint,
   AttributeConverter,
+  AttributeReflection,
   EventDeclaration,
   EventEmitter,
   HasChanged,
   PropertyDeclaration,
 } from "./interfaces.js";
-import type { NextElement } from "./NextElement.js";
+import { NextElement } from "./NextElement.js";
+import {
+  symbolOfAttributeHasBeenSet,
+  symbolOfStopAttributeChangedCallback,
+} from "./internal/symbols.js";
 
 const defaultConverter: AttributeConverter = {
   toAttribute(value: unknown, type?: AllowedTypeHint): unknown {
@@ -45,12 +50,12 @@ const defaultPropertyDeclaration: Required<PropertyDeclaration> = {
   hasChanged: notEqual,
 };
 
-interface UpdatingElementConstructor {
-  new (...params: any[]): NextElement;
+interface NextElementConstructor {
+  new (): NextElement;
 }
 
 export function createDecorators() {
-  const observedAttributes = new Set<string>();
+  const attributeReflections = new Map<string, AttributeReflection>();
   const definedProperties = new Set<string>();
   const definedMethods = new Set<string>();
   const definedEvents = new Set<string>();
@@ -67,68 +72,54 @@ export function createDecorators() {
       value: Function,
       { kind, name: className, addInitializer }: ClassDecoratorContext
     ) => {
+      // istanbul ignore next
       if (process.env.NODE_ENV === "development" && kind !== "class") {
         throw new Error(
           `Invalid usage of \`@defineElement()\` on a ${kind}: "${className}"`
         );
       }
-      addInitializer(function (this: UpdatingElementConstructor) {
+      addInitializer(function (this: NextElementConstructor) {
         const superClass = Object.getPrototypeOf(this);
 
         const mergedAttributes = mergeIterables(
           superClass.observedAttributes ?? [],
-          observedAttributes
+          attributeReflections.keys()
         );
-        Object.defineProperty(this, "observedAttributes", {
-          get() {
-            return mergedAttributes;
-          },
-          configurable: true,
-        });
+        defineReadonlyProperty(this, "observedAttributes", mergedAttributes);
 
-        const styleTexts = options?.styleTexts;
-        Object.defineProperty(this, "styleTexts", {
-          get() {
-            return styleTexts;
-          },
-          configurable: true,
-        });
+        const mergedAttributeReflections = new Map([
+          ...(superClass.__attributeReflections ?? []),
+          ...attributeReflections,
+        ]);
+        defineReadonlyProperty(
+          this,
+          "__attributeReflections",
+          mergedAttributeReflections
+        );
+
+        defineReadonlyProperty(this, "styleTexts", options?.styleTexts);
 
         const mergedProperties = mergeIterables(
           superClass._dev_only_definedProperties ?? [],
           definedProperties
         );
-
-        Object.defineProperty(this, "_dev_only_definedProperties", {
-          get() {
-            return mergedProperties;
-          },
-          configurable: true,
-        });
+        defineReadonlyProperty(
+          this,
+          "_dev_only_definedProperties",
+          mergedProperties
+        );
 
         const mergedMethods = mergeIterables(
           superClass._dev_only_definedMethods ?? [],
           definedMethods
         );
-
-        Object.defineProperty(this, "_dev_only_definedMethods", {
-          get() {
-            return mergedMethods;
-          },
-          configurable: true,
-        });
+        defineReadonlyProperty(this, "_dev_only_definedMethods", mergedMethods);
 
         const mergedEvents = mergeIterables(
           superClass._dev_only_definedEvents ?? [],
           definedEvents
         );
-
-        Object.defineProperty(this, "_dev_only_definedEvents", {
-          get() {
-            return mergedEvents;
-          },
-          configurable: true,
-        });
+        defineReadonlyProperty(this, "_dev_only_definedEvents", mergedEvents);
 
         customElements.define(name, this);
       });
@@ -137,7 +128,7 @@ export function createDecorators() {
 
   function property(options?: PropertyDeclaration): any {
     return function (
-      value: AutoAccessor,
+      { get, set }: AutoAccessor,
       {
         kind,
         name,
@@ -150,6 +141,7 @@ export function createDecorators() {
         private: false;
       }
     ) {
+      // istanbul ignore next
       if (process.env.NODE_ENV === "development") {
         if (kind !== "accessor") {
           throw new Error(
@@ -174,38 +166,71 @@ export function createDecorators() {
       }
       definedProperties.add(name as string);
       const _options = Object.assign({}, defaultPropertyDeclaration, options);
-      const attr = attributeNameForProperty(name as string, _options);
-      if (attr === undefined) {
-        throw new Error("Must reflect to an attribute right now");
+      const attrName = attributeNameForProperty(name as string, _options);
+      if (attrName !== undefined) {
+        attributeReflections.set(attrName, {
+          ..._options,
+          property: name,
+        });
       }
-      observedAttributes.add(attr);
       return {
-        get(this: HTMLElement) {
-          return _options.converter.fromAttribute(
-            this.getAttribute(attr),
-            _options.type
-          );
-        },
-        set(this: HTMLElement, value: unknown) {
-          const oldValue = (this as any)[name as string];
-          if (_options.hasChanged(value, oldValue)) {
-            const attrValue = _options.converter.toAttribute(
-              value,
+        get(this: NextElement) {
+          // If the attribute has been set (not by initialization), returns the
+          // value converted by the attribute. Otherwise returns the prop value.
+          // This works as a type conversion when reading a prop value.
+          if (
+            attrName !== undefined &&
+            this[symbolOfAttributeHasBeenSet](attrName)
+          ) {
+            return _options.converter.fromAttribute(
+              this.getAttribute(attrName),
               _options.type
             );
-            if (attrValue === undefined) {
-              return;
+          }
+          return get.call(this);
+        },
+        set(this: NextElement, value: unknown) {
+          const oldValue = get.call(this);
+          set.call(this, value);
+          if (_options.hasChanged(value, oldValue)) {
+            if (attrName !== undefined) {
+              const attrValue = _options.converter.toAttribute(
+                value,
+                _options.type
+              );
+              this[symbolOfStopAttributeChangedCallback](true);
+              if (attrValue == null) {
+                this.removeAttribute(attrName);
+              } else {
+                this.setAttribute(attrName, attrValue as string);
+              }
+              this[symbolOfStopAttributeChangedCallback](false);
             }
-            if (attrValue === null) {
-              this.removeAttribute(attr);
-            } else {
-              this.setAttribute(attr, attrValue as string);
-            }
+            this._requestRender();
           }
         },
-        init(this: HTMLElement, initialValue: unknown) {
-          // eslint-disable-next-line no-console
-          console.log("init:", name, initialValue);
+        init(this: NextElement, initialValue: unknown) {
+          if (
+            attrName !== undefined &&
+            _options.hasChanged(initialValue, undefined)
+          ) {
+            const attrValue = _options.converter.toAttribute(
+              initialValue,
+              _options.type
+            );
+            if (attrValue != null) {
+              // No attributes should be created during constructing custom elements.
+              // This is true even if the work is done inside a constructor-initiated microtask.
+              // https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element-conformance
+              requestAnimationFrame(() => {
+                if (!this[symbolOfAttributeHasBeenSet](attrName)) {
+                  this[symbolOfStopAttributeChangedCallback](true);
+                  this.setAttribute(attrName, attrValue as string);
+                  this[symbolOfStopAttributeChangedCallback](false);
+                }
+              });
+            }
+          }
           return initialValue;
         },
       };
@@ -227,6 +252,7 @@ export function createDecorators() {
         private: false;
       }
     ) {
+      // istanbul ignore next
       if (process.env.NODE_ENV === "development") {
         if (kind !== "method") {
           throw new Error(
@@ -255,7 +281,7 @@ export function createDecorators() {
 
   function event(options: EventDeclaration): any {
     return function (
-      value: AutoAccessor,
+      { get }: AutoAccessor,
       {
         kind,
         name,
@@ -267,15 +293,11 @@ export function createDecorators() {
         static: false;
       }
     ) {
+      // istanbul ignore next
       if (process.env.NODE_ENV === "development") {
         if (kind !== "accessor") {
           throw new Error(
             `Invalid usage of \`@event()\` on a ${kind}: "${String(name)}"`
-          );
-        }
-        if (typeof name !== "string") {
-          throw new Error(
-            `Invalid usage of \`@event()\` on a ${kind} of ${typeof name}`
           );
         }
         if (isStatic) {
@@ -291,23 +313,23 @@ export function createDecorators() {
         //     `Invalid usage of \`@event()\` on a non-private ${kind}: "${String(name)}"`
         //   );
         // }
-        if (!name.startsWith("_")) {
+        if (typeof name === "string" && !name.startsWith("_")) {
           throw new Error(
-            `Decorated event field expects to start with "_", received "${name}"`
+            `Decorated event field expects to be a symbol or a string starts with "_", received "${name}"`
           );
         }
       }
       const { type, ...eventInit } = options;
       definedEvents.add(type);
-      const emitterMap = new WeakMap<HTMLElement, EventEmitter<unknown>>();
       return {
         get(this: HTMLElement) {
-          return emitterMap.get(this);
+          return get.call(this);
         },
         set() {
           throw new Error("Decorated events are readonly");
         },
-        init(this: HTMLElement, initialValue: unknown) {
+        init(this: HTMLElement, initialValue: unknown): EventEmitter<unknown> {
+          // istanbul ignore next
           if (
             process.env.NODE_ENV === "development" &&
             initialValue !== undefined
@@ -318,15 +340,12 @@ export function createDecorators() {
               )}"`
             );
           }
-          emitterMap.set(
-            this,
-            Object.freeze({
-              emit: (detail: unknown): boolean =>
-                this.dispatchEvent(
-                  new CustomEvent(type, { ...eventInit, detail })
-                ),
-            })
-          );
+          return Object.freeze({
+            emit: (detail: unknown): boolean =>
+              this.dispatchEvent(
+                new CustomEvent(type, { ...eventInit, detail })
+              ),
+          });
         },
       };
     };
@@ -338,6 +357,19 @@ export function createDecorators() {
     method,
     event,
   };
+}
+
+function defineReadonlyProperty(
+  target: unknown,
+  propName: string,
+  propValue: unknown
+): void {
+  Object.defineProperty(target, propName, {
+    get() {
+      return propValue;
+    },
+    configurable: true,
+  });
 }
 
 function mergeIterables<T>(list1: Iterable<T>, list2: Iterable<T>): T[] {

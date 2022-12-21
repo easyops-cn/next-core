@@ -11,6 +11,5 @@
     "skipLibCheck": true,
     "strict": true,
     "jsx": "preserve"
-  },
-  "exclude": ["node_modules", "dist/", "**/*.spec.ts", "**/__mocks__/"]
+  }
 }

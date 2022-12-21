@@ -15,6 +15,5 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false
-  },
-  "exclude": ["node_modules", "dist/", "**/__mocks__/", "**/__fixtures__/"]
+  }
 }

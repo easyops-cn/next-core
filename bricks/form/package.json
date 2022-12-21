@@ -5,7 +5,9 @@
   "sideEffects": true,
   "scripts": {
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
-    "build": "cross-env NODE_ENV=production build-next-bricks"
+    "build": "cross-env NODE_ENV=production build-next-bricks",
+    "test": "cross-env NODE_ENV='test' test-next-bricks",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next-bricks"
   },
   "dependencies": {
     "@next-core/element": "^0.0.0",
@@ -14,6 +16,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^0.0.0"
+    "@next-core/build-next-bricks": "^0.0.0",
+    "@next-core/test-next": "^0.0.0"
   }
 }
