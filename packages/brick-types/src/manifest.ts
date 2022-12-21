@@ -1222,7 +1222,10 @@ export interface BuiltinBrickEventHandler {
     | "preview.debug"
 
     // Analytics
-    | "analytics.event";
+    | "analytics.event"
+
+    // Update form state
+    | "formstate.update";
 
   /** 传递的参数列表 */
   args?: unknown[];

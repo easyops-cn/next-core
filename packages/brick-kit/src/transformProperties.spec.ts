@@ -665,18 +665,21 @@ describe("doTransform", () => {
       {
         contextNames: ["hello", "world"],
         stateNames: false,
+        formStateNames: false,
         propName: "title",
         propValue: "<% 'track context', CTX.hello + CTX.world %>",
       },
       {
         contextNames: false,
         stateNames: ["hola"],
+        formStateNames: false,
         propName: "message",
         propValue: "<% 'track state', STATE.hola %>",
       },
       {
         contextNames: false,
         stateNames: ["lazyState"],
+        formStateNames: false,
         propName: "lazyProp",
         propValue: {
           [Symbol.for("pre.evaluated.raw")]:

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.15...@next-core/custom-antd-styles@1.25.0) (2022-12-19)
+
+### Bug Fixes
+
+- 去掉!important ([af1eafa](https://github.com/easyops-cn/next-core/commit/af1eafa61144dd482a3876faac3679eb4e1b52f7))
+
+### Features
+
+- 修改 table.less ([93ef5ce](https://github.com/easyops-cn/next-core/commit/93ef5ced7a05d5c6f4defd6a06e7f8a8f5cf4479))
+- 修改表格自带的过滤样式 ([28c1b35](https://github.com/easyops-cn/next-core/commit/28c1b35674ea4360e87163adcaa7695d9d444350))
+
 ## [1.24.15](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.24.14...@next-core/custom-antd-styles@1.24.15) (2022-11-04)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles

@@ -2,6 +2,7 @@ import { ResolveOptions, RuntimeBrickElement } from "@next-core/brick-types";
 import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import * as runtime from "./Runtime";
+import { CustomFormContext } from "./CustomForms/CustomFormContext";
 
 const consoleWarn = jest.spyOn(console, "warn").mockImplementation();
 const consoleInfo = jest.spyOn(console, "info").mockImplementation();
@@ -385,4 +386,29 @@ describe("StoryboardContextWrapper", () => {
       ctx.updateValue("notExisted", "oops", "replace");
     }).toThrowErrorMatchingInlineSnapshot(`"State not found: notExisted"`);
   });
+});
+
+it("formstate should change", () => {
+  const brick = {
+    properties: {},
+  };
+  const formContext = new CustomFormContext();
+  formContext.formState.define(
+    [
+      {
+        name: "quality",
+        value: "good",
+        onChange: {
+          targetRef: "any",
+          properties: {
+            title: "updated",
+          },
+        },
+      },
+    ],
+    {} as any,
+    brick
+  );
+  formContext.formState.updateValue("quality", "better", "replace");
+  expect(formContext.formState.getValue("quality")).toBe("better");
 });

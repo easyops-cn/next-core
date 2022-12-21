@@ -6,6 +6,7 @@ import {
   isEvaluable,
   trackContext,
   trackState,
+  trackFormState,
   hasOwnProperty,
 } from "@next-core/brick-utils";
 import {
@@ -205,10 +206,12 @@ export function computeRealProperties(
             : getPreEvaluatedRaw(propValue as PreEvaluated);
         const contextNames = trackContext(raw);
         const stateNames = trackState(raw);
-        if (contextNames || stateNames) {
+        const formStateNames = trackFormState(raw);
+        if (contextNames || stateNames || formStateNames) {
           trackingContextList.push({
             contextNames,
             stateNames,
+            formStateNames,
             propName,
             propValue,
           });

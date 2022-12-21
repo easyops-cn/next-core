@@ -5,10 +5,12 @@ import {
 import { setProperties } from "./setProperties";
 import { RuntimeBrick } from "../core/BrickNode";
 import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
+import { getCustomFormContext } from "../core/CustomForms/CustomFormContext";
 
 export interface TrackingContextItem {
   contextNames: string[] | false;
   stateNames: string[] | false;
+  formStateNames: string[] | false;
   propName: string;
   propValue: string;
 }
@@ -44,6 +46,15 @@ export function listenOnTrackingContext(
         (
           ctx as StoryboardContextItemFreeVariable
         )?.eventTarget?.addEventListener("state.change", listener);
+      }
+    }
+    if (track.formStateNames) {
+      const formContext = getCustomFormContext(context.formContextId);
+      for (const stateName of track.formStateNames) {
+        const ctx = formContext.formState.get().get(stateName);
+        (
+          ctx as StoryboardContextItemFreeVariable
+        )?.eventTarget?.addEventListener("formstate.change", listener);
       }
     }
   }

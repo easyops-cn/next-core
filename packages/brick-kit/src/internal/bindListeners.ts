@@ -41,6 +41,10 @@ import {
 } from "../core/CustomTemplates/CustomTemplateContext";
 import { isPreEvaluated } from "./evaluate";
 import { isEvaluable } from "@next-core/brick-utils";
+import {
+  CustomFormContext,
+  getCustomFormContext,
+} from "../core/CustomForms/CustomFormContext";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -240,6 +244,14 @@ export function listenerFactory(
           handler.callback,
           context
         );
+      case "formstate.update":
+        return builtinFormStateListenerFactory(
+          method,
+          handler.args,
+          handler,
+          handler.callback,
+          context
+        );
       case "tpl.dispatchEvent":
         return builtinTplDispatchEventFactory(handler.args, handler, context);
       case "message.subscribe":
@@ -347,6 +359,14 @@ function getTplContext(tplContextId: string): CustomTemplateContext {
   return getCustomTemplateContext(tplContextId);
 }
 
+function getFormContext(formContextId: string): CustomFormContext {
+  // istanbul ignore if
+  if (!formContextId) {
+    throw new Error("Calling tpl but no formContextId was found in context!");
+  }
+  return getCustomFormContext(formContextId);
+}
+
 function builtinTplDispatchEventFactory(
   args: unknown[],
   ifContainer: IfContainer,
@@ -396,6 +416,28 @@ function builtinStateListenerFactory(
     const tplContext = getTplContext(context.tplContextId);
     const [name, value] = argsFactory(args, context, event);
     tplContext.state.updateValue(
+      name as string,
+      value,
+      method === "update" ? "replace" : method,
+      callback
+    );
+  } as EventListener;
+}
+
+function builtinFormStateListenerFactory(
+  method: "update" | "refresh" | "load",
+  args: unknown[],
+  ifContainer: IfContainer,
+  callback: BrickEventHandlerCallback,
+  context: PluginRuntimeContext
+): EventListener {
+  return function (event: CustomEvent): void {
+    if (!looseCheckIf(ifContainer, { ...context, event })) {
+      return;
+    }
+    const formContext = getFormContext(context.formContextId);
+    const [name, value] = argsFactory(args, context, event);
+    formContext.formState.updateValue(
       name as string,
       value,
       method === "update" ? "replace" : method,
