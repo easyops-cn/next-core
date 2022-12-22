@@ -15,7 +15,7 @@ class YButton extends XButton {
   @property() accessor suffix = "!!";
   // @property() accessor suffix;
 
-  protected render() {
+  render() {
     return (
       <button>
         {this.label}

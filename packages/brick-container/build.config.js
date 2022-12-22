@@ -1,3 +1,4 @@
+// @ts-check
 import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 

@@ -8,7 +8,7 @@ module.exports = {
     "prettier",
   ],
   env: {
-    es6: true,
+    es2022: true,
     browser: true,
     node: false,
   },
@@ -54,9 +54,9 @@ module.exports = {
         "**/__mocks__/**/*.{js,ts,jsx,tsx}",
         "*.spec.{js,ts,jsx,tsx}",
       ],
-      env: {
-        jest: true,
-      },
+      // env: {
+      //   jest: true,
+      // },
       rules: {
         "@typescript-eslint/ban-ts-comment": [
           "warn",
@@ -82,7 +82,7 @@ module.exports = {
       },
     },
     {
-      files: ["build.config.js"],
+      files: ["build.config.js", "test.config.js"],
       rules: {
         "@typescript-eslint/no-var-requires": "error",
       },

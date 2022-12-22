@@ -17,7 +17,7 @@ const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Record<string, { import: string; name: string; }>}
+ * @returns {Promise<Record<string, { import: string; name: string; }>>}
  */
 export default async function scanBricks(packageDir) {
   /** @type {Map<string, { import: string; name: string; }>} */

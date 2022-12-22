@@ -1,3 +1,4 @@
+// @ts-check
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import findFileUpward from "./findFileUpward.js";
@@ -5,7 +6,7 @@ import findFileUpward from "./findFileUpward.js";
 const __filename = fileURLToPath(import.meta.url);
 
 /**
- * @param {import("@next-core/test-next").TestNextConfig} options
+ * @param {import("@next-core/test-next").TestNextConfig & { cwd: string }} options
  * @returns {import('jest').Config}
  */
 export function createJestConfig({
@@ -13,7 +14,7 @@ export function createJestConfig({
   transformModulePatterns = [],
   moduleNameMapper,
   testPathIgnorePatterns = [],
-} = {}) {
+}) {
   const projectRoot = "<rootDir>/../..";
   return {
     // roots: ["<rootDir>", rootDir],

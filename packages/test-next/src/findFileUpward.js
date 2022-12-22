@@ -1,6 +1,11 @@
+// @ts-check
 import fs from "node:fs";
 import path from "node:path";
 
+/**
+ * @param {string} dirname
+ * @param {string} filename
+ */
 export default function findFileUpward(dirname, filename) {
   const dir = path.resolve(dirname).split(path.sep);
   while (dir.length > 0) {

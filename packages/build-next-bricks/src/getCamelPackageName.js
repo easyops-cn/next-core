@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * @param {string} packageName
  * @returns string

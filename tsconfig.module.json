@@ -3,13 +3,13 @@
     "declaration": false,
     "sourceMap": true,
     "importHelpers": true,
-    "target": "ESNext",
-    "module": "Node16",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
     "moduleResolution": "Node16",
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "module": "ESNext",
     "skipLibCheck": true,
     "strict": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "experimentalDecorators": true
   }
 }

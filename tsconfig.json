@@ -12,7 +12,6 @@
     "strict": true,
     "strictNullChecks": false,
     "jsx": "preserve",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false
   }
