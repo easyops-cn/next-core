@@ -14,7 +14,7 @@ export abstract class NextElement extends HTMLElement {
   #attributesBeenSet = new Set<string>();
 
   /**
-   * When render a custom element as parsed DOM, is is already connected in the
+   * When render a custom element as parsed DOM, it is already connected in the
    * first place. The attributes are set while isConnected is true, which will
    * trigger a render request, and then before the next micro-task, the
    * `connectedCallback` will be called, which will trigger an immediate render.

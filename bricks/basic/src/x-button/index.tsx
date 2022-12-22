@@ -10,17 +10,10 @@ const { defineElement, property, method, event } = createDecorators();
   styleTexts: [styleText],
 })
 class XButton extends ReactNextElement {
-  // Track https://github.com/babel/babel/issues/15205
-  // @property() accessor label: string;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  @property() accessor label;
+  @property() accessor label: string;
 
   // https://github.com/microsoft/TypeScript/pull/50820
-  // accessor _clickEvent: EventEmitter<string>;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  @event({ type: "oops" }) accessor _clickEvent;
+  @event({ type: "oops" }) accessor _clickEvent: EventEmitter<string>;
 
   @method()
   click() {

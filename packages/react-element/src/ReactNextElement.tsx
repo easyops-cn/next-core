@@ -6,19 +6,20 @@ export abstract class ReactNextElement extends NextElement {
   #root: Root | undefined;
 
   #createRoot(): void {
-    if (!this.#root) {
-      const shadowRoot = this.attachShadow({ mode: "open" });
-      if (supportsAdoptingStyleSheets()) {
-        const styleTexts = (this.constructor as typeof ReactNextElement)
-          .styleTexts;
-        if (styleTexts?.length) {
-          const styleSheet = new CSSStyleSheet();
-          styleSheet.replaceSync(styleTexts.join(""));
-          shadowRoot.adoptedStyleSheets = [styleSheet];
-        }
-      }
-      this.#root = createRoot(shadowRoot);
+    if (this.#root) {
+      return;
     }
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    if (supportsAdoptingStyleSheets()) {
+      const styleTexts = (this.constructor as typeof ReactNextElement)
+        .styleTexts;
+      if (styleTexts?.length) {
+        const styleSheet = new CSSStyleSheet();
+        styleSheet.replaceSync(styleTexts.join(""));
+        shadowRoot.adoptedStyleSheets = [styleSheet];
+      }
+    }
+    this.#root = createRoot(shadowRoot);
   }
 
   connectedCallback() {
