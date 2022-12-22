@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@next-core/test-next": "^0.0.0",
-    "@babel/core": "^7.20.5",
-    "@babel/types": "^7.20.5",
+    "@babel/core": "^7.20.7",
+    "@babel/types": "^7.20.7",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@size-limit/file": "^8.1.0",
     "@testing-library/react-hooks": "^8.0.1",
@@ -85,8 +85,8 @@
     "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory)/**"
   ],
   "resolutions": {
-    "@babel/parser": "^7.20.5",
-    "@babel/runtime": "^7.20.6",
+    "@babel/parser": "^7.20.7",
+    "@babel/runtime": "^7.20.7",
     "@types/react": "^18.0.26",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
