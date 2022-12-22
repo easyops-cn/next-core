@@ -140,6 +140,57 @@ describe("NextElement", () => {
     expect(render).toHaveBeenNthCalledWith(5, false);
   });
 
+  test("boolean property with default true", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-bool-true")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property({ type: Boolean }) accessor booleanAttr = true;
+
+      _render() {
+        render(this.booleanAttr);
+      }
+    }
+
+    const container = document.createElement("div");
+    container.innerHTML = "<my-element-bool-true></my-element-bool-true>";
+    expect(render).toBeCalledTimes(0);
+    expect((container.firstElementChild as MyElement).booleanAttr).toBe(true);
+
+    document.body.appendChild(container);
+    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenNthCalledWith(1, true);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(1);
+  });
+
+  test("boolean property with default true but reset to false", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-bool-true-to-false")
+    class MyElement extends NextElement {
+      // @ts-ignore
+      @property({ type: Boolean }) accessor booleanAttr = true;
+
+      _render() {
+        render(this.booleanAttr);
+      }
+    }
+
+    const container = document.createElement("div");
+    container.innerHTML =
+      '<my-element-bool-true-to-false boolean-attr="false"></my-element-bool-true-to-false>';
+    expect(render).toBeCalledTimes(0);
+    expect((container.firstElementChild as MyElement).booleanAttr).toBe(false);
+
+    document.body.appendChild(container);
+    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenNthCalledWith(1, false);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(1);
+  });
+
   test("number property", async () => {
     const { defineElement, property } = createDecorators();
     const render = jest.fn();
@@ -311,19 +362,33 @@ describe("NextElement", () => {
       // @ts-ignore
       @property() accessor stringAttr;
 
+      // @ts-ignore
+      @property({ type: Boolean }) accessor booleanAttr;
+
+      // @ts-ignore
+      @property({ type: Number }) accessor numberAttr;
+
       _render() {
-        render(this.stringAttr);
+        render({
+          stringAttr: this.stringAttr,
+          booleanAttr: this.booleanAttr,
+          numberAttr: this.numberAttr,
+        });
       }
     }
 
     const container = document.createElement("div");
     container.innerHTML =
-      '<my-element-parsed string-attr="Hi"></my-element-parsed>';
+      '<my-element-parsed string-attr="Hi" boolean-attr number-attr="42"></my-element-parsed>';
     expect(render).toBeCalledTimes(0);
 
     document.body.appendChild(container);
     expect(render).toBeCalledTimes(1);
-    expect(render).toHaveBeenNthCalledWith(1, "Hi");
+    expect(render).toHaveBeenNthCalledWith(1, {
+      stringAttr: "Hi",
+      booleanAttr: true,
+      numberAttr: 42,
+    });
     await (global as any).flushPromises();
     expect(render).toBeCalledTimes(1);
   });

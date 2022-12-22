@@ -13,6 +13,10 @@ import {
   symbolOfStopAttributeChangedCallback,
 } from "./internal/symbols.js";
 
+interface Constructable<T> {
+  new (): T;
+}
+
 const defaultConverter: AttributeConverter = {
   toAttribute(value: unknown, type?: AllowedTypeHint): unknown {
     switch (type) {
@@ -25,7 +29,7 @@ const defaultConverter: AttributeConverter = {
   fromAttribute(value: string | null, type?: AllowedTypeHint) {
     switch (type) {
       case Boolean:
-        return value !== null;
+        return value !== null && value !== "false";
       case Number:
         return value === null ? null : Number(value);
     }
@@ -49,10 +53,6 @@ const defaultPropertyDeclaration: Required<PropertyDeclaration> = {
   reflect: true,
   hasChanged: notEqual,
 };
-
-interface NextElementConstructor {
-  new (): NextElement;
-}
 
 export function createDecorators() {
   const attributeReflections = new Map<string, AttributeReflection>();
@@ -78,7 +78,7 @@ export function createDecorators() {
           `Invalid usage of \`@defineElement()\` on a ${kind}: "${className}"`
         );
       }
-      addInitializer(function (this: NextElementConstructor) {
+      addInitializer(function (this: Constructable<NextElement>) {
         const superClass = Object.getPrototypeOf(this);
 
         const mergedAttributes = mergeIterables(

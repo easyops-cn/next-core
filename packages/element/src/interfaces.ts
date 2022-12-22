@@ -106,7 +106,3 @@ export interface HasChanged<Type = unknown> {
 export interface EventEmitter<T> {
   readonly emit: (detail: T) => boolean;
 }
-
-export interface Constructable<T> {
-  new (): T;
-}
