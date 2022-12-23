@@ -13,8 +13,6 @@ jest.mock("@next-core/element", () => {
   return {
     __esModule: true,
     ...originalModule,
-    // default: jest.fn(() => 'mocked baz'),
-    // foo: 'mocked foo',
     supportsAdoptingStyleSheets: jest.fn(),
   };
 });
@@ -27,8 +25,7 @@ describe("ReactNextElement", () => {
     const { defineElement, property } = createDecorators();
     @defineElement("my-element")
     class MyElement extends ReactNextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       render() {
         return <span>{this.stringAttr}</span>;
@@ -68,8 +65,7 @@ describe("ReactNextElement", () => {
     const { defineElement, property, method, event } = createDecorators();
     @defineElement("my-element-parsed")
     class MyElement extends ReactNextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       render() {
         return <span>{this.stringAttr}</span>;
@@ -103,8 +99,7 @@ describe("ReactNextElement", () => {
       styleTexts: [":host{display:none}"],
     })
     class MyElement extends ReactNextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       render() {
         return <span>{this.stringAttr}</span>;
@@ -152,8 +147,7 @@ describe("ReactNextElement", () => {
       styleTexts: [":host{display:none}"],
     })
     class MyElement extends ReactNextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       render() {
         return <span>{this.stringAttr}</span>;
@@ -198,8 +192,7 @@ describe("ReactNextElement", () => {
     const { defineElement, property } = createDecorators();
     @defineElement("my-element-with-empty-adopted-style")
     class MyElement extends ReactNextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       render() {
         return <span>{this.stringAttr}</span>;
@@ -226,8 +219,7 @@ describe("ReactNextElement", () => {
     const { defineElement, property } = createDecorators();
     @defineElement("my-element-lazy-connect")
     class MyElement extends ReactNextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       render() {
         return <span>{this.stringAttr}</span>;

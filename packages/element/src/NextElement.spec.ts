@@ -1,6 +1,7 @@
 import { describe, test, jest, expect } from "@jest/globals";
 import { NextElement } from "./NextElement.js";
 import { createDecorators } from "./createDecorators.js";
+import { EventEmitter } from "./interfaces.js";
 
 const waitForAnimationFrame = () =>
   new Promise((resolve) => requestAnimationFrame(resolve));
@@ -11,8 +12,7 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-str")
     class MyElement extends NextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
+      @property() accessor stringAttr: string | undefined;
 
       _render() {
         render(this.stringAttr);
@@ -101,8 +101,7 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-bool")
     class MyElement extends NextElement {
-      // @ts-ignore
-      @property({ type: Boolean }) accessor booleanAttr;
+      @property({ type: Boolean }) accessor booleanAttr: boolean | undefined;
 
       _render() {
         render(this.booleanAttr);
@@ -133,7 +132,7 @@ describe("NextElement", () => {
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(4, false);
 
-    element.booleanAttr = 0;
+    (element as any).booleanAttr = 0;
     expect(element.getAttribute("boolean-attr")).toBe(null);
     expect(render).toBeCalledTimes(4);
     await (global as any).flushPromises();
@@ -145,7 +144,6 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-bool-true")
     class MyElement extends NextElement {
-      // @ts-ignore
       @property({ type: Boolean }) accessor booleanAttr = true;
 
       _render() {
@@ -170,7 +168,6 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-bool-true-to-false")
     class MyElement extends NextElement {
-      // @ts-ignore
       @property({ type: Boolean }) accessor booleanAttr = true;
 
       _render() {
@@ -196,8 +193,7 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-num")
     class MyElement extends NextElement {
-      // @ts-ignore
-      @property({ type: Number }) accessor numberAttr;
+      @property({ type: Number }) accessor numberAttr: number | undefined;
 
       _render() {
         render(this.numberAttr);
@@ -218,7 +214,7 @@ describe("NextElement", () => {
     expect(render).toBeCalledTimes(2);
     expect(render).toHaveBeenNthCalledWith(2, 42);
 
-    element.numberAttr = "7";
+    (element as any).numberAttr = "7";
     expect(element.getAttribute("number-attr")).toBe("7");
     expect(render).toBeCalledTimes(2);
     await (global as any).flushPromises();
@@ -240,8 +236,7 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-obj")
     class MyElement extends NextElement {
-      // @ts-ignore
-      @property({ attribute: false }) accessor complexAttr;
+      @property({ attribute: false }) accessor complexAttr: unknown;
 
       _render() {
         render(this.complexAttr);
@@ -269,10 +264,8 @@ describe("NextElement", () => {
     const baseRender = jest.fn();
     @defineBaseElement("my-base-element")
     class MyBaseElement extends NextElement {
-      // @ts-ignore
-      @baseProperty() accessor baseAttr;
-      // @ts-ignore
-      @baseProperty() accessor baseFinalAttr;
+      @baseProperty() accessor baseAttr: string | undefined;
+      @baseProperty() accessor baseFinalAttr: string | undefined;
 
       _render() {
         baseRender({
@@ -287,10 +280,8 @@ describe("NextElement", () => {
     const superRender = jest.fn();
     @superDefineElement("my-super-element")
     class MySuperElement extends MyBaseElement {
-      // @ts-ignore
       @superProperty() accessor baseAttr = "overridden";
-      // @ts-ignore
-      @superProperty() accessor superAttr;
+      @superProperty() accessor superAttr: string | undefined;
 
       _render() {
         superRender({
@@ -306,7 +297,7 @@ describe("NextElement", () => {
     ) as MyBaseElement;
     const superElement = document.createElement(
       "my-super-element"
-    ) as MyBaseElement;
+    ) as MySuperElement;
     expect(
       (baseElement.constructor as any)._dev_only_definedProperties
     ).toEqual(["baseAttr", "baseFinalAttr"]);
@@ -359,14 +350,9 @@ describe("NextElement", () => {
     const render = jest.fn();
     @defineElement("my-element-parsed")
     class MyElement extends NextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
-
-      // @ts-ignore
-      @property({ type: Boolean }) accessor booleanAttr;
-
-      // @ts-ignore
-      @property({ type: Number }) accessor numberAttr;
+      @property() accessor stringAttr: string | undefined;
+      @property({ type: Boolean }) accessor booleanAttr: boolean | undefined;
+      @property({ type: Number }) accessor numberAttr: number | undefined;
 
       _render() {
         render({
@@ -397,14 +383,14 @@ describe("NextElement", () => {
     const { defineElement, property, method, event } = createDecorators();
     @defineElement("my-element-event")
     class MyElement extends NextElement {
-      // @ts-ignore
-      @property() accessor stringAttr;
-      // @ts-ignore
-      @event({ type: "change" }) accessor _changeEvent;
+      @property() accessor stringAttr: string | undefined;
+      @event({ type: "change" }) accessor _changeEvent:
+        | EventEmitter<string>
+        | undefined;
 
       @method()
       triggerChange(value: string) {
-        this._changeEvent.emit(value);
+        this._changeEvent?.emit(value);
       }
 
       _render() {

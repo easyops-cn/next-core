@@ -8,15 +8,12 @@ const { defineElement, property } = createDecorators();
 class FSelect extends NextElement {
   // _root: Root;
 
-  @property() accessor label;
-
-  constructor() {
-    super();
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    // this._root = createRoot(shadowRoot);
-  }
+  @property() accessor label: string;
 
   connectedCallback() {
+    if (!this.shadowRoot) {
+      this.attachShadow({ mode: "open" });
+    }
     this._render();
   }
 

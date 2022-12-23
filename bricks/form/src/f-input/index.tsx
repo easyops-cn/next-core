@@ -6,9 +6,9 @@ const { defineElement, property } = createDecorators();
 
 @defineElement("form.f-input")
 class FInput extends ReactNextElement {
-  @property() accessor label;
+  @property() accessor label: string;
 
-  protected render() {
+  render() {
     return (
       <div>
         <label>
