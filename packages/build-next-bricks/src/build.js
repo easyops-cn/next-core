@@ -50,7 +50,7 @@ const getCssLoaders = (cssOptions) => [
  */
 export default async function build(config) {
   const packageDir = process.cwd();
-  const isContainer = config.type === "container";
+  // const isContainer = config.type === "container";
   const isBricks = !config.type || config.type === "bricks";
   const mode = config.mode || process.env.NODE_ENV;
 
@@ -107,7 +107,7 @@ export default async function build(config) {
     });
   });
 
-  const chunksDir = isContainer ? "" : "chunks/";
+  const chunksDir = isBricks ? "chunks/" : "";
 
   /** @type {string[]} */
   const bricks = [];
@@ -199,16 +199,16 @@ export default async function build(config) {
       new ModuleFederationPlugin({
         name: libName,
         shared,
-        ...(isContainer
-          ? null
-          : {
+        ...(isBricks
+          ? {
               library: { type: "window", name: libName },
               filename:
                 mode === "development"
                   ? "index.bundle.js"
                   : "index.[contenthash].js",
               exposes: config.exposes,
-            }),
+            }
+          : null),
       }),
       ...(config.extractCss
         ? [
@@ -224,15 +224,15 @@ export default async function build(config) {
             }),
           ]
         : []),
-      ...(isContainer
-        ? []
-        : [
+      ...(isBricks
+        ? [
             new EmitBricksJsonPlugin({
               packageName,
               bricks,
               processors,
             }),
-          ]),
+          ]
+        : []),
       ...(config.plugins || []),
     ],
   });

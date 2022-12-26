@@ -1,0 +1,42 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.brick-playground {
+  display: flex;
+  height: 100vh;
+}
+
+.brick-playground-form,
+.brick-playground-preview {
+  flex: 1;
+  overflow: hidden;
+}
+
+.brick-playground-divider {
+  min-width: 0;
+  flex: 0 0 1px;
+  background-color: gray;
+}
+
+.brick-playground-form > textarea,
+.brick-playground-preview > iframe {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.brick-playground-form > textarea {
+  padding: 5px;
+}
