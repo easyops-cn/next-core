@@ -22,6 +22,7 @@ const propertyDocComments = [
   "deprecated",
   "description",
   "group",
+  "enums",
 ];
 const baseDocComments = [
   "id",
@@ -64,6 +65,11 @@ function convertTagsToMapByFields(tags, fields) {
       // 由于在typedoc中@type为关键字，在注释中以@kind替代，所以在这里会将kind，转换回type
       if (curr.tag === "kind") {
         prev["type"] = curr.text;
+        return prev;
+      }
+
+      if (curr.tag === "enums") {
+        prev["enums"] = curr.text;
         return prev;
       }
 
