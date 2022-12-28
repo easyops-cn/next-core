@@ -301,6 +301,7 @@ export function getStoryboard(
         className: "form-preview",
       };
       dataItem.events = {
+        ...dataItem.events,
         "validate.error": [
           {
             action: "preview.debug",
