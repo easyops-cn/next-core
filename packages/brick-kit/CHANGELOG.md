@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.157.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.2...@next-core/brick-kit@2.157.3) (2022-12-28)
+
+
+### Bug Fixes
+
+* 修复预览状态下，除表单校验外，其他表单事件无法生效问题 ([adfabb9](https://github.com/easyops-cn/next-core/commit/adfabb911522707bee9daeb08ad461e6cdbd5fde))
+
+
+
+
+
 ## [2.157.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.1...@next-core/brick-kit@2.157.2) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/brick-kit
