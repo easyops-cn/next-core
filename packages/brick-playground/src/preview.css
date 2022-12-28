@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+
+:root,
+body,
+#preview-root {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#preview-root {
+  padding: 10px;
+  overflow: auto;
+}
