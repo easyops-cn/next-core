@@ -179,7 +179,7 @@
   --v8-top-menu-item-selected-bg: var(--palette-blue-1);
   --v8-left-menu-bg: rgba(255, 255, 255, 0.3);
   --v8-left-menu-hover-bg: rgba(255, 255, 255, 0.8);
-  --v8-left-sidebar-item-hover: rgba(--palette-gray-3);
+  --v8-left-sidebar-item-hover: var(--palette-gray-3);
   --v8-left-sidebar-border-right: linear-gradient(
     152deg,
     rgba(255, 255, 255, 0) 0%,
