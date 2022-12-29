@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.2...@next-core/brick-icons@2.31.3) (2022-12-29)
+
+
+### Bug Fixes
+
+* 更换资源池icon close DEVOPS_MANAGEMENT-748 ([7416e85](https://github.com/easyops-cn/next-core/commit/7416e8581fb5de41f1d873950b2a9153e7baa9cf))
+
+
+
+
+
 ## [2.31.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.1...@next-core/brick-icons@2.31.2) (2022-12-29)
 
 
