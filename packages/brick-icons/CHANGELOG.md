@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.0...@next-core/brick-icons@2.31.1) (2022-12-29)
+
+
+### Bug Fixes
+
+* 给blueprint增加icons ([5e35c50](https://github.com/easyops-cn/next-core/commit/5e35c50f73b77705c85a7077ac29f0a28db85f56))
+
+
+
+
+
 # [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.30...@next-core/brick-icons@2.31.0) (2022-12-28)
 
 
