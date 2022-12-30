@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.2...@next-core/brick-icons@2.31.3) (2022-12-29)
+
+### Bug Fixes
+
+- 更换资源池 icon close DEVOPS_MANAGEMENT-748 ([7416e85](https://github.com/easyops-cn/next-core/commit/7416e8581fb5de41f1d873950b2a9153e7baa9cf))
+
+## [2.31.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.1...@next-core/brick-icons@2.31.2) (2022-12-29)
+
+### Bug Fixes
+
+- 删除多余的 icon close DEVOPS_MANAGEMENT-748 ([752aa96](https://github.com/easyops-cn/next-core/commit/752aa967e19bd22fb9a6fd8b7bc08dc079a94676))
+
+## [2.31.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.0...@next-core/brick-icons@2.31.1) (2022-12-29)
+
+### Bug Fixes
+
+- 给 blueprint 增加 icons ([5e35c50](https://github.com/easyops-cn/next-core/commit/5e35c50f73b77705c85a7077ac29f0a28db85f56))
+
+# [2.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.30...@next-core/brick-icons@2.31.0) (2022-12-28)
+
+### Features
+
+- add new icons ([6bfea4d](https://github.com/easyops-cn/next-core/commit/6bfea4d16cc3e1dbad9d6dbbbcc039ed3d8a996e))
+
 ## [2.30.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.30.29...@next-core/brick-icons@2.30.30) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/brick-icons

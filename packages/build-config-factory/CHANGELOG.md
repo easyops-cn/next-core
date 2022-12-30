@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.61...@next-core/build-config-factory@2.24.0) (2022-12-27)
+
+### Features
+
+- brick-docs add enums field ([67c63ed](https://github.com/easyops-cn/next-core/commit/67c63ed7d79c09cf07018215bd5439d7f9299a4b))
+
 ## [2.23.61](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.23.60...@next-core/build-config-factory@2.23.61) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/build-config-factory

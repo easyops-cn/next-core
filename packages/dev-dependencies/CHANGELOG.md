@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.36](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.35...@next-core/dev-dependencies@1.15.36) (2022-12-29)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.35](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.34...@next-core/dev-dependencies@1.15.35) (2022-12-29)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.34](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.33...@next-core/dev-dependencies@1.15.34) (2022-12-29)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.33](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.32...@next-core/dev-dependencies@1.15.33) (2022-12-29)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.32](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.31...@next-core/dev-dependencies@1.15.32) (2022-12-29)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.31](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.30...@next-core/dev-dependencies@1.15.31) (2022-12-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.30](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.29...@next-core/dev-dependencies@1.15.30) (2022-12-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.15.29](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.28...@next-core/dev-dependencies@1.15.29) (2022-12-27)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
 ## [1.15.28](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.15.27...@next-core/dev-dependencies@1.15.28) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
