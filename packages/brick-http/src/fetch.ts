@@ -6,7 +6,7 @@ export const fetch = (
   // Ref https://github.com/whatwg/fetch/pull/585
   const req = new Request(
     input,
-    Object.assign<RequestInit, RequestInit>(
+    Object.assign<RequestInit, RequestInit | undefined>(
       {
         credentials: "same-origin",
       },

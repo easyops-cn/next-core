@@ -1,5 +1,5 @@
 // @ts-ignore mocked
-import { fetch, __setReturnValue } from "./fetch";
+import { fetch, __setReturnValue } from "./fetch.js";
 import {
   http,
   HttpOptions,
@@ -7,7 +7,7 @@ import {
   HttpParseError,
   HttpResponseError,
   HttpAbortError,
-} from "./";
+} from "./index.js";
 
 jest.mock("./fetch");
 
@@ -26,28 +26,7 @@ type TestItem =
 };
 
 describe("http", () => {
-  http.interceptors.request.use(
-    (config) => {
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  http.interceptors.response.use(
-    (response) => {
-      return response.config.options?.observe === "response"
-        ? response
-        : response.data;
-    },
-    (error) => {
-      return Promise.reject(error.error);
-    }
-  );
-
   afterEach(() => {
-    http.enableCache(false);
     spyOnFetch.mockClear();
   });
 
@@ -150,134 +129,6 @@ describe("http", () => {
     expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
   });
 
-  it("preview was true and http request should use cache", async () => {
-    const mockListen = jest.fn();
-    http.on("match-api-cache", mockListen);
-    http.enableCache(true);
-    http.setClearCacheIgnoreList([
-      {
-        method: "GET",
-      },
-      {
-        method: "POST",
-        uri: "http://example.com",
-      },
-    ]);
-    // get
-    await http.get("http://example.com");
-    expect(spyOnFetch).toBeCalledTimes(1);
-
-    await http.get("http://example.com");
-    expect(spyOnFetch).toBeCalledTimes(1);
-
-    await http.get("http://example.com?v=1");
-    expect(spyOnFetch).toBeCalledTimes(2);
-
-    await http.get("http://example.com");
-    expect(spyOnFetch).toBeCalledTimes(2);
-
-    // post
-    await http.post("http://example.com");
-    expect(spyOnFetch).toBeCalledTimes(3);
-
-    await http.post("http://example.com", {
-      v: 1,
-    });
-    expect(spyOnFetch).toBeCalledTimes(4);
-
-    await http.post("http://example.com", {
-      v: 1,
-    });
-    expect(spyOnFetch).toBeCalledTimes(4);
-
-    await http.post("http://example.com", {
-      v: 2,
-    });
-    expect(spyOnFetch).toBeCalledTimes(5);
-
-    await http.get("http://example.com", {
-      params: {
-        v: 3,
-      },
-    });
-    expect(spyOnFetch).toBeCalledTimes(6);
-
-    await http.get("http://example.com", {
-      params: {
-        v: 3,
-      },
-    });
-    expect(spyOnFetch).toBeCalledTimes(6);
-
-    await http.get("http://example.com", {
-      params: {
-        v: 4,
-      },
-    });
-    expect(spyOnFetch).toBeCalledTimes(7);
-
-    expect(mockListen).toHaveBeenLastCalledWith(6);
-  });
-
-  it("preview was true and http request should use clearCacheIgnoreList", async () => {
-    const mockListen = jest.fn();
-    http.on("match-api-cache", mockListen);
-    http.enableCache(true);
-    http.setClearCacheIgnoreList([
-      {
-        method: "GET",
-      },
-      {
-        method: "POST",
-        uri: ".*cmdb.instance.PostSearch.*",
-      },
-      {
-        method: "POST",
-        uri: "api/gateway/data_exchange.olap.Query/api/v1/data_exchange/olap",
-      },
-    ]);
-    // get
-    await http.get(
-      "api/gateway/cmdb.instance.GetDetail/object/HOST/instance/58fe908324229"
-    );
-    expect(spyOnFetch).toBeCalledTimes(1);
-    await http.post(
-      "api/gateway/cmdb.instance.PostSearch/object/HOST/instance/_search",
-      {
-        fields: { ip: 1 },
-      }
-    );
-    expect(spyOnFetch).toBeCalledTimes(2);
-    await http.post(
-      "api/gateway/data_exchange.olap.Query/api/v1/data_exchange/olap",
-      {
-        test: 1,
-      }
-    );
-    expect(spyOnFetch).toBeCalledTimes(3);
-
-    await http.get(
-      "api/gateway/cmdb.instance.GetDetail/object/HOST/instance/58fe908324229"
-    );
-    expect(spyOnFetch).toBeCalledTimes(3);
-    await http.post(
-      "api/gateway/cmdb.instance.PostSearch/object/HOST/instance/_search",
-      {
-        fields: { ip: 1 },
-      }
-    );
-    expect(spyOnFetch).toBeCalledTimes(3);
-    // 在 clearCacheIgnoreList 名单外，清除缓存
-    await http.post(
-      "api/gateway/data_exchange.olap.Query/api/v2/data_exchange/olap",
-      {
-        test: 1,
-      }
-    );
-    expect(spyOnFetch).toBeCalledTimes(4);
-    expect(mockListen).toHaveBeenLastCalledWith(10);
-  });
-
   it("should work with getUrlWithParams", () => {
     const result = http.getUrlWithParams("http://example.com/for-good", {
       name: "monkey",
@@ -348,7 +199,7 @@ describe("http", () => {
     expect.assertions(2);
     try {
       await http.post("http://example.com");
-    } catch (e) {
+    } catch (e: any) {
       expect(e).toBeInstanceOf(HttpResponseError);
       expect(e.responseJson).toEqual({
         error: "oops",

@@ -1,26 +1,21 @@
-import { fetch } from "./fetch";
+import { fetch } from "./fetch.js";
 import {
   HttpAbortError,
   HttpFetchError,
   HttpParseError,
   HttpResponseError,
-} from "./errors";
-import InterceptorManager from "./InterceptorManager";
+} from "./errors.js";
+import InterceptorManager from "./InterceptorManager.js";
 
 export interface HttpRequestConfig {
-  url?: string;
-  method?: string;
-  data?: any;
-  meta?: Record<string, any>;
-  adapter?: Adapter;
+  url: string;
+  method: string;
+  data?: unknown;
+  meta?: unknown;
   options?: HttpOptions;
 }
-export interface ClearRequestCacheListConfig {
-  uri?: string;
-  method?: string;
-}
 
-export interface HttpResponse<T = any> {
+export interface HttpResponse<T = unknown> {
   data: T;
   status: number;
   statusText: string;
@@ -33,11 +28,17 @@ export interface HttpError {
   error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError;
 }
 
-export interface Adapter {
-  (config: HttpRequestConfig): Promise<HttpResponse<any>>;
+export interface HttpAdapter {
+  (config: HttpRequestConfig): Promise<HttpResponse<unknown>>;
 }
 
-function isNil(value: any): boolean {
+export interface HttpConstructorOptions {
+  adapter?: HttpAdapter;
+}
+
+// type NotNil<T> = T extends null ? never : T;
+
+function isNil(value: unknown): value is null | undefined {
   return value === undefined || value === null;
 }
 
@@ -47,13 +48,15 @@ const fullBaseHref = base ? base.href : location.origin + "/";
 export type HttpParams =
   | URLSearchParams
   | {
-      [key: string]: any;
+      [key: string]: string | string[] | null | undefined;
     };
 
 export interface RequestCustomOptions {
   observe?: "data" | "response";
   responseType?: "json" | "blob" | "arrayBuffer" | "text";
-  interceptorParams?: any;
+  interceptorParams?: {
+    ignoreLoadingBar?: boolean;
+  };
   noAbortOnRouteChange?: boolean;
   useCache?: boolean;
 }
@@ -80,8 +83,8 @@ const createError = (
 
 const request = async <T>(
   url: string,
-  init?: RequestInit,
-  config?: HttpRequestConfig
+  init: RequestInit,
+  config: HttpRequestConfig
 ): Promise<HttpResponse<T>> => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
@@ -97,7 +100,7 @@ const request = async <T>(
 
     try {
       response = await fetch(url, init);
-    } catch (e) {
+    } catch (e: any) {
       reject(
         createError(
           isHttpAbortError(e)
@@ -125,7 +128,7 @@ const request = async <T>(
     let data: T;
     try {
       data = await response[responseType]();
-    } catch (e) {
+    } catch (e: any) {
       reject(
         createError(
           isHttpAbortError(e)
@@ -177,15 +180,15 @@ export const getUrlWithParams = (url: string, params?: HttpParams): string => {
 };
 
 const getBodyAndHeaders = (
-  data: any,
-  headers: HeadersInit
+  data: unknown,
+  headers?: HeadersInit
 ): { body?: BodyInit; headers?: HeadersInit } => {
   if (data !== undefined) {
     // `new Headers(undefined)` will throw a TypeError in older browsers (chrome 58).
     // https://bugs.chromium.org/p/chromium/issues/detail?id=335871
     const parsedHeaders = new Headers(headers || {});
     const contentTypeHeader = "Content-Type";
-    let body = data;
+    let body = data as BodyInit | undefined;
     // If `Content-Type` already provided, ignore detecting content type.
     if (!parsedHeaders.has(contentTypeHeader)) {
       if (typeof data === "string") {
@@ -208,13 +211,20 @@ const getBodyAndHeaders = (
   return { headers };
 };
 
-const simpleRequest = <T = any>(
+const simpleRequest = <T = unknown>(
   method: string,
   url: string,
   config: HttpRequestConfig
 ): Promise<HttpResponse<T>> => {
-  const { params, responseType, interceptorParams, ...requestInit } =
-    config.options || {};
+  const {
+    params,
+    responseType,
+    interceptorParams,
+    observe,
+    noAbortOnRouteChange,
+    useCache,
+    ...requestInit
+  } = config.options || {};
   return request<T>(
     getUrlWithParams(url, params),
     {
@@ -225,14 +235,22 @@ const simpleRequest = <T = any>(
   );
 };
 
-const requestWithBody = <T = any>(
+const requestWithBody = <T = unknown>(
   method: string,
   url: string,
-  data?: any,
-  config?: HttpRequestConfig
+  data: unknown,
+  config: HttpRequestConfig
 ): Promise<HttpResponse<T>> => {
-  const { params, responseType, interceptorParams, headers, ...requestInit } =
-    config.options || {};
+  const {
+    params,
+    responseType,
+    interceptorParams,
+    observe,
+    noAbortOnRouteChange,
+    useCache,
+    headers,
+    ...requestInit
+  } = config.options || {};
   return request<T>(
     getUrlWithParams(url, params),
     {
@@ -244,8 +262,8 @@ const requestWithBody = <T = any>(
   );
 };
 
-const defaultAdapter: Adapter = <T>(config: HttpRequestConfig) => {
-  const { url, method, data, options = {} } = config;
+const defaultAdapter: HttpAdapter = <T>(config: HttpRequestConfig) => {
+  const { url, method, data } = config;
 
   // "DELETE", "GET", "HEAD" methods.
   if (["DELETE", "GET", "HEAD"].includes(config.method)) {
@@ -257,142 +275,84 @@ const defaultAdapter: Adapter = <T>(config: HttpRequestConfig) => {
 };
 
 class Http {
-  private listener: Record<string, any> = {};
-  private requestCache = new Map<string, Promise<any>>();
-
-  private isEnableCache: boolean;
-  private clearCacheIgnoreList: ClearRequestCacheListConfig[] = [];
-
-  public enableCache = (enable: boolean): void => {
-    this.isEnableCache = enable;
-  };
-  public setClearCacheIgnoreList = (
-    list: ClearRequestCacheListConfig[]
-  ): void => {
-    this.clearCacheIgnoreList = list;
-  };
-
-  public on(action: string, fn: any): void {
-    if (this.listener[action]) {
-      this.listener[action].push(fn);
-    } else {
-      this.listener[action] = [fn];
-    }
-  }
-
-  private emit(action: string, args: any): void {
-    const listenList = this.listener[action];
-    if (listenList) {
-      let len = listenList.length;
-      while (len--) {
-        listenList[len](args);
-      }
-    }
-  }
-
-  public interceptors: {
+  public readonly interceptors: {
     request: InterceptorManager<HttpRequestConfig>;
     response: InterceptorManager<HttpResponse>;
   };
 
-  public defaults = {};
+  #adapter: HttpAdapter = defaultAdapter;
 
-  constructor(config?: { adapter?: Adapter }) {
+  constructor(config?: HttpConstructorOptions) {
     this.interceptors = {
       request: new InterceptorManager(),
       response: new InterceptorManager(),
     };
 
-    this.defaults = { ...config };
+    if (config?.adapter) {
+      this.#adapter = config.adapter;
+    }
   }
 
-  request = async <T>(
+  request = async <T = unknown>(
     url: string,
     init?: RequestInit,
     options?: RequestCustomOptions
   ): Promise<T> => {
     const { body, method, ...requestInit } = init || {};
-    return this.fetch({
-      ...this.defaults,
+    return this.#fetch<T>({
       url,
       data: body,
-      method,
+      method: method || "GET",
       options: { ...(options || {}), ...requestInit },
     });
   };
 
-  simpleRequest = <T = any>(
+  simpleRequest = <T = unknown>(
     method: string,
     url: string,
     options: HttpOptions = {}
   ): Promise<T> => {
-    return this.fetch({ ...this.defaults, url, method, options });
+    return this.#fetch<T>({ url, method, options });
   };
 
-  requestWithBody = <T = any>(
+  requestWithBody = <T = unknown>(
     method: string,
     url: string,
-    data?: any,
+    data?: unknown,
     options: HttpOptions = {}
   ): Promise<T> => {
-    return this.fetch({ ...this.defaults, url, method, data, options });
+    return this.#fetch<T>({ url, method, data, options });
   };
 
-  private dispatchRequest<T>(config: HttpRequestConfig): any {
-    const adapter = config?.adapter || defaultAdapter;
-    return adapter(config);
-  }
-
-  private fetch(config: HttpRequestConfig): Promise<any> {
+  #fetch<T>(config: HttpRequestConfig): Promise<T> {
     const chain: any[] = [];
-    let key: string;
-    if (this.isEnableCache) {
-      try {
-        key = `${config.method}.${config.url}.${
-          config.data || config.options?.params
-            ? JSON.stringify(config.data || config.options?.params)
-            : ""
-        }`;
-      } catch {
-        key = config.url;
-      }
-      if (this.requestCache.has(key)) {
-        this.emit("match-api-cache", this.requestCache.size);
-        return this.requestCache.get(key);
-      }
-    }
-    let promise = Promise.resolve(config);
+    let promise: Promise<any> = Promise.resolve(config);
 
     this.interceptors.request.forEach((interceptor) => {
       chain.push(interceptor.fulfilled, interceptor.rejected);
     });
 
-    chain.push(this.dispatchRequest, undefined);
+    chain.push((config: HttpRequestConfig) => this.#adapter(config), undefined);
 
     this.interceptors.response.forEach((interceptor) => {
       chain.push(interceptor.fulfilled, interceptor.rejected);
     });
 
+    chain.push(
+      (response: HttpResponse) => {
+        return response.config.options?.observe === "response"
+          ? response
+          : response.data;
+      },
+      (error: HttpError) => {
+        return Promise.reject(error.error);
+      }
+    );
+
     while (chain.length) {
       promise = promise.then(chain.shift(), chain.shift());
     }
-    if (this.isEnableCache) {
-      const shouldCache = this.clearCacheIgnoreList.some(
-        (req) =>
-          req.method === config.method &&
-          (!req.uri || new RegExp(req.uri).test(config.url))
-      );
-      // 遇到 clearCacheIgnoreList 缓存列表外的，需要清除缓存
-      if (shouldCache) {
-        this.requestCache.set(key, promise);
-        // 当请求发生异常，主动清理该缓存。
-        promise.catch(() => {
-          this.requestCache.delete(key);
-        });
-      } else {
-        this.requestCache.clear();
-      }
-    }
+
     return promise;
   }
 
@@ -401,35 +361,34 @@ class Http {
   }
 
   getBodyAndHeaders(
-    data: any,
+    data: unknown,
     headers: HeadersInit
   ): { body?: BodyInit; headers?: HeadersInit } {
     return getBodyAndHeaders(data, headers);
   }
 
   get<T>(url: string, options?: HttpOptions): Promise<T> {
-    return this.fetch({ ...this.defaults, url, method: "GET", options });
+    return this.#fetch({ url, method: "GET", options });
   }
 
   delete<T>(url: string, options?: HttpOptions): Promise<T> {
-    return this.fetch({ ...this.defaults, url, method: "DELETE", options });
+    return this.#fetch({ url, method: "DELETE", options });
   }
 
   head<T>(url: string, options?: HttpOptions): Promise<T> {
-    return this.fetch({ ...this.defaults, url, method: "HEAD", options });
+    return this.#fetch({ url, method: "HEAD", options });
   }
 
-  post<T>(url: string, data?: any, options?: HttpOptions): Promise<T> {
-    return this.fetch({ ...this.defaults, url, method: "POST", data, options });
+  post<T>(url: string, data?: unknown, options?: HttpOptions): Promise<T> {
+    return this.#fetch({ url, method: "POST", data, options });
   }
 
-  put<T>(url: string, data?: any, options?: HttpOptions): Promise<T> {
-    return this.fetch({ ...this.defaults, url, method: "PUT", data, options });
+  put<T>(url: string, data?: unknown, options?: HttpOptions): Promise<T> {
+    return this.#fetch({ url, method: "PUT", data, options });
   }
 
-  patch<T>(url: string, data?: any, options?: HttpOptions): Promise<T> {
-    return this.fetch({
-      ...this.defaults,
+  patch<T>(url: string, data?: unknown, options?: HttpOptions): Promise<T> {
+    return this.#fetch({
       url,
       method: "PATCH",
       data,
@@ -439,7 +398,7 @@ class Http {
 }
 
 let http = new Http();
-function createHttpInstance(config: HttpRequestConfig): void {
+function createHttpInstance(config?: HttpConstructorOptions): void {
   http = new Http(config);
 }
 export { http, createHttpInstance, defaultAdapter };

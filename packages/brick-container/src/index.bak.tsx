@@ -20,7 +20,7 @@ import {
   HttpRequestConfig,
   HttpResponse,
   HttpError,
-  ClearRequestCacheListConfig,
+  // ClearRequestCacheListConfig,
   createHttpInstance,
   defaultAdapter,
 } from "@next-core/brick-http";
@@ -36,9 +36,9 @@ import "./styles/editor-bricks-variables.css";
 // import "./styles/antd-compatible.less";
 import "./styles/default.css";
 import "@next-core/brick-icons/dist/styles/index.css";
-import i18n from "./i18n";
-import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
-import { httpCacheAdapter } from "./httpCacheAdapter";
+import i18n from "./i18n/index.js";
+import { K, NS_BRICK_CONTAINER } from "./i18n/constants.js";
+import { httpCacheAdapter } from "./httpCacheAdapter.js";
 
 // initializeLibrary();
 
@@ -136,16 +136,14 @@ http.interceptors.response.use(
     curWindow.dispatchEvent(new CustomEvent("request.end"));
     (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
       analyzer?.analyses(response);
-    return response.config.options?.observe === "response"
-      ? response
-      : response.data;
+    return response;
   },
   function (error: HttpError) {
     (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
       analyzer?.analyses(error);
     const curWindow = isInSpecialFrame() ? window.parent : window;
     curWindow.dispatchEvent(new CustomEvent("request.end"));
-    return Promise.reject(error.error);
+    return error;
   }
 );
 
@@ -210,22 +208,22 @@ if (window.parent) {
     ) {
       window.removeEventListener("message", listener);
       previewFromOrigin = origin;
-      previewOptions = data.options;
-      http.enableCache(true);
-      http.on("match-api-cache", (num: number) => {
-        window.parent.postMessage(
-          {
-            type: "match-api-cache",
-            sender: "previewer",
-            forwardedFor: "builder",
-            num,
-          },
-          origin
-        );
-      });
-      http.setClearCacheIgnoreList(
-        previewOptions.clearPreviewRequestCacheIgnoreList || []
-      );
+      // previewOptions = data.options;
+      // http.enableCache(true);
+      // http.on("match-api-cache", (num: number) => {
+      //   window.parent.postMessage(
+      //     {
+      //       type: "match-api-cache",
+      //       sender: "previewer",
+      //       forwardedFor: "builder",
+      //       num,
+      //     },
+      //     origin
+      //   );
+      // });
+      // http.setClearCacheIgnoreList(
+      //   previewOptions.clearPreviewRequestCacheIgnoreList || []
+      // );
       startPreview();
     }
   };
@@ -301,5 +299,5 @@ interface PreviewStartOptions {
   settings?: {
     properties?: Record<string, unknown>;
   };
-  clearPreviewRequestCacheIgnoreList?: ClearRequestCacheListConfig[];
+  // clearPreviewRequestCacheIgnoreList?: ClearRequestCacheListConfig[];
 }

@@ -37,6 +37,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "dependencies": {
+    "@next-core/brick-http": "^2.8.0",
     "@next-core/brick-types": "^2.82.1",
     "@next-core/loader": "^0.0.0"
   },

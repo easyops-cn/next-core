@@ -1,5 +1,5 @@
-import InterceptorManager from "./InterceptorManager";
-import { HttpRequestConfig } from "./http";
+import InterceptorManager from "./InterceptorManager.js";
+import { HttpRequestConfig } from "./http.js";
 
 describe("InterceptorManager", () => {
   it("should work", async () => {

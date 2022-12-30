@@ -1,6 +1,4 @@
 export class HttpFetchError extends Error {
-  response: Response;
-
   constructor(message: string) {
     // Pass remaining arguments (including vendor specific ones) to parent constructor
     super(message);

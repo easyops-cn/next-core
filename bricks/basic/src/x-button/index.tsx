@@ -1,6 +1,7 @@
 import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
+import { http } from "@next-core/brick-http";
 
 import styleText from "./x-button.shadow.css";
 
@@ -18,6 +19,16 @@ class XButton extends ReactNextElement {
   @method()
   click() {
     this._clickEvent.emit("ok");
+    http.get("/favicon.png").then(
+      (res) => {
+        // eslint-disable-next-line no-console
+        console.log("res:", res);
+      },
+      (err) => {
+        // eslint-disable-next-line no-console
+        console.log("err:", err);
+      }
+    );
   }
 
   render() {

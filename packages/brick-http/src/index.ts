@@ -1,3 +1,3 @@
-export * from "./fetch";
-export * from "./http";
-export * from "./errors";
+export * from "./fetch.js";
+export * from "./http.js";
+export * from "./errors.js";

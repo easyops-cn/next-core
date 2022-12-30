@@ -1,5 +1,5 @@
 import "whatwg-fetch";
-import { fetch } from "./fetch";
+import { fetch } from "./fetch.js";
 
 const spyOnFetch = (window.fetch = jest.fn());
 

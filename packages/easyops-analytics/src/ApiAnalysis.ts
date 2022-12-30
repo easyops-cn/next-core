@@ -23,6 +23,13 @@ const apiAnalyzer = {
   },
 };
 
+interface ApiAnalysisMeta {
+  st: number;
+  time: number;
+  uid?: string;
+  username?: string;
+}
+
 export interface ApiMetric {
   // Date
   _ver?: number;
@@ -208,10 +215,12 @@ class ApiAnalysisService {
     };
   }
 
-  private gatherResponse(response: HttpResponse): ApiMetric {
+  private gatherResponse(
+    response: HttpResponse<{ code?: number; message?: string }>
+  ): ApiMetric {
     const { config, headers, status, data = {} } = response;
     const et = Date.now();
-    const duration = et - response.config.meta.st;
+    const duration = et - (response.config.meta as ApiAnalysisMeta).st;
     const page = location.href;
     const { code = -1, message: msg = "" } = data;
     let traceId = "";
@@ -220,7 +229,7 @@ class ApiAnalysisService {
       traceId = headers.get("x-b3-traceid");
       size = Number(response.headers.get("content-length")) || -1;
     }
-    const { st, uid, username, time } = config.meta || {};
+    const { st, uid, username, time } = (config.meta || {}) as ApiAnalysisMeta;
     return {
       st,
       _ver: st,
@@ -243,7 +252,7 @@ class ApiAnalysisService {
   private gatherErrorResponse(error: HttpError): ApiMetric {
     const { config, error: err } = error;
     const et = Date.now();
-    const duration = et - config.meta.st;
+    const duration = et - (config.meta as ApiAnalysisMeta).st;
     const code = -1 as any;
     const msg = "";
     let status = "" as any;
@@ -266,7 +275,7 @@ class ApiAnalysisService {
       }
     }
     const page = location.href;
-    const { st, uid, username, time } = config.meta || {};
+    const { st, uid, username, time } = (config.meta || {}) as ApiAnalysisMeta;
 
     return {
       st,

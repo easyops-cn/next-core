@@ -68,6 +68,8 @@ export default async function build(config) {
     "react-dom",
     "@next-core/element",
     "@next-core/react-element",
+    "@next-core/runtime",
+    "@next-core/brick-http",
   ];
 
   const shared = Object.fromEntries(

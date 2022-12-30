@@ -1,6 +1,6 @@
 import "whatwg-fetch";
 
-let returnValue;
+let returnValue: any;
 
 export const fetch = jest.fn(
   () => returnValue || Promise.resolve(new Response("{}"))

@@ -1,12 +1,12 @@
-import { HttpError, HttpRequestConfig, HttpResponse } from "./http";
+import type { HttpError } from "./http.js";
 
 export interface InterceptorHandlers<T> {
-  fulfilled: (config: T) => void;
-  rejected: (error: HttpError) => void;
+  fulfilled?: (config: T) => void;
+  rejected?: (error: HttpError) => void;
 }
 
 export default class InterceptorManager<T> {
-  handlers: InterceptorHandlers<T>[] = [];
+  handlers: (InterceptorHandlers<T> | null)[] = [];
 
   use(
     onFulfilled?: (value: T) => T | Promise<T>,
@@ -27,7 +27,7 @@ export default class InterceptorManager<T> {
     }
   }
 
-  forEach(fn: (...args: any[]) => void): void {
+  forEach(fn: (h: InterceptorHandlers<T>) => void): void {
     this.handlers.forEach((handler) => {
       // istanbul ignore else
       if (handler !== null) {
