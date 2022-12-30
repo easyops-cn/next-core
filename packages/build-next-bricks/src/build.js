@@ -73,25 +73,34 @@ export default async function build(config) {
   ];
 
   const shared = Object.fromEntries(
-    await Promise.all(
-      sharedPackages.map(async (dep) => {
-        const depPackageJsonPath = require.resolve(`${dep}/package.json`, {
-          paths: [packageDir],
-        });
-        const depPackageJsonFile = await readFile(depPackageJsonPath, {
-          encoding: "utf-8",
-        });
-        const depPackageJson = JSON.parse(depPackageJsonFile);
-        return [
-          dep,
-          {
-            singleton: true,
-            version: depPackageJson.version,
-            requiredVersion: packageJson.dependencies?.[dep],
-          },
-        ];
-      })
-    )
+    (
+      await Promise.all(
+        sharedPackages.map(async (dep) => {
+          /** @type {string} */
+          let depPackageJsonPath;
+          try {
+            depPackageJsonPath = require.resolve(`${dep}/package.json`, {
+              paths: [packageDir],
+            });
+          } catch (e) {
+            console.error(`Shared package not found: "${dep}"`);
+            return;
+          }
+          const depPackageJsonFile = await readFile(depPackageJsonPath, {
+            encoding: "utf-8",
+          });
+          const depPackageJson = JSON.parse(depPackageJsonFile);
+          return [
+            dep,
+            {
+              singleton: true,
+              version: depPackageJson.version,
+              requiredVersion: packageJson.dependencies?.[dep],
+            },
+          ];
+        })
+      )
+    ).filter(Boolean)
   );
 
   // console.log(packageName, "shared:", shared);
