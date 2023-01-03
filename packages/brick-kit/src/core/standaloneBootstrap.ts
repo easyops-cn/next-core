@@ -33,8 +33,7 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
   const requests: [
     Promise<BootstrapData>,
     Promise<string>,
-    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>,
-    Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void>?
+    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>
   ] = [
     http.get<BootstrapData>(window.BOOTSTRAP_FILE),
     http.get<string>(`${window.APP_ROOT}conf.yaml`, {
@@ -57,7 +56,7 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       window.APP_ID ||
       (window.APP_ROOT &&
       (matches = window.APP_ROOT.match(
-        /^(?:\/next)?\/sa-static\/([^/]+)\/versions\//
+        /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\//
       ))
         ? matches[1]
         : null);
@@ -152,4 +151,5 @@ export async function safeGetRuntimeMicroAppStandalone(
     );
   });
   appRuntimeDataMap.set(appId, promise);
+  return promise;
 }
