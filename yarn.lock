@@ -11662,14 +11662,6 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-dom@^0.0.0-experimental-de7d1c907-20221223:
-  version "0.0.0-experimental-de7d1c907-20221223"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-0.0.0-experimental-de7d1c907-20221223.tgz#03973ec295f3741134a85c55a5c5166bb84d2a1a"
-  integrity sha512-cvVWGpLxoH+KavY4X0eWe/oeeQ/Tx8F71duSs1cnvLB9jMrUiH0oBnf8cnCWaHbkTOqcYe5is/VWr3epk3Q10w==
-  dependencies:
-    loose-envify "^1.1.0"
-    scheduler "0.0.0-experimental-de7d1c907-20221223"
-
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -11707,13 +11699,6 @@ react-is@^18.0.0:
   version "18.1.0"
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.1.0.tgz#61aaed3096d30eacf2a2127118b5b41387d32a67"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
-
-react@^0.0.0-experimental-de7d1c907-20221223:
-  version "0.0.0-experimental-de7d1c907-20221223"
-  resolved "https://registry.yarnpkg.com/react/-/react-0.0.0-experimental-de7d1c907-20221223.tgz#98bbbf81479dbc1fb36ec967071139ac07afe399"
-  integrity sha512-xSX9X5uWBvgwnbnMIVgj7gdioEBbkCe+T/k79dkA6PZS9EVReot7hEUPODf/ZZZzOCLELLcRQre4IrfZ/0s04g==
-  dependencies:
-    loose-envify "^1.1.0"
 
 react@^18.2.0:
   version "18.2.0"
@@ -12185,13 +12170,6 @@ saxes@^6.0.0:
   integrity sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==
   dependencies:
     xmlchars "^2.2.0"
-
-scheduler@0.0.0-experimental-de7d1c907-20221223:
-  version "0.0.0-experimental-de7d1c907-20221223"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.0.0-experimental-de7d1c907-20221223.tgz#ac62f28fcb99e576c28db3a66bdf54eca5f8f4f7"
-  integrity sha512-4vjcKj84s6zPuzXz1p48YyznLQxQYE6KgpDJ+kOvEURE9f1zm8yq0yC3M96HR1/iZqABacydnTKF5d5Lmgrqag==
-  dependencies:
-    loose-envify "^1.1.0"
 
 scheduler@^0.23.0:
   version "0.23.0"
