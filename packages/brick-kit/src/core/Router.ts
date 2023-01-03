@@ -662,9 +662,25 @@ export class Router {
       return;
     }
 
-    await this.kernel.layoutBootstrap(layoutType);
+    await this.kernel.layoutBootstrap(storyboard ? layoutType : "business");
     const brickPageNotFound = this.kernel.presetBricks.pageNotFound;
     await this.kernel.loadDynamicBricks([brickPageNotFound]);
+
+    const notFoundAppConfig = {
+      illustrationsConfig: {
+        name: "no-permission",
+        category: "easyops2",
+      },
+      customTitle: "请求的微应用无法找到，URL错误或者无权限访问",
+    };
+
+    const notFoundPageConfig = {
+      illustrationsConfig: {
+        name: "http-404",
+        category: "exception",
+      },
+      customTitle: "请求的页面未找到，确认URL是否正确",
+    };
 
     this.state = "ready-to-mount";
 
@@ -673,7 +689,16 @@ export class Router {
         {
           type: brickPageNotFound,
           properties: {
-            url: history.createHref(location),
+            status: "illustrations",
+            useNewIllustration: true,
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translateY(-100px)",
+              height: "calc(100vh - var(--app-bar-height))",
+            },
+            ...(storyboard ? notFoundPageConfig : notFoundAppConfig),
           },
           events: {},
         },

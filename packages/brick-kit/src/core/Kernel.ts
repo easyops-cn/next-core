@@ -153,12 +153,12 @@ export class Kernel {
       layout === "business"
         ? {
             loadingBar: "business-website.loading-bar",
-            pageNotFound: "business-website.page-not-found",
+            pageNotFound: "presentational-bricks.brick-result",
             pageError: "business-website.page-error",
           }
         : {
             ...this.bootstrapData.navbar,
-            pageNotFound: "basic-bricks.page-not-found",
+            pageNotFound: "presentational-bricks.brick-result",
             pageError: "basic-bricks.page-error",
           };
 

@@ -166,7 +166,7 @@ describe("Router", () => {
     layoutBootstrap: jest.fn(),
     getOriginFaviconHref: jest.fn(),
     presetBricks: {
-      pageNotFound: "basic-bricks.page-not-found",
+      pageNotFound: "presentational-bricks.brick-result",
       pageError: "basic-bricks.page-error",
     },
     currentLayout: "console",
@@ -491,16 +491,29 @@ describe("Router", () => {
     );
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-not-found",
+      "presentational-bricks.brick-result",
     ]);
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-not-found",
+        type: "presentational-bricks.brick-result",
         properties: {
-          url: "/oops",
+          illustrationsConfig: {
+            name: "http-404",
+            category: "exception",
+          },
+          customTitle: "请求的页面未找到，确认URL是否正确",
+          status: "illustrations",
+          useNewIllustration: true,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+            height: "calc(100vh - var(--app-bar-height))",
+          },
         },
       },
     ]);
@@ -509,14 +522,27 @@ describe("Router", () => {
   it("should handle when page not found", async () => {
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-not-found",
+      "presentational-bricks.brick-result",
     ]);
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-not-found",
+        type: "presentational-bricks.brick-result",
         properties: {
-          url: "/oops",
+          illustrationsConfig: {
+            name: "no-permission",
+            category: "easyops2",
+          },
+          customTitle: "请求的微应用无法找到，URL错误或者无权限访问",
+          status: "illustrations",
+          useNewIllustration: true,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+            height: "calc(100vh - var(--app-bar-height))",
+          },
         },
       },
     ]);
@@ -544,14 +570,27 @@ describe("Router", () => {
     );
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-not-found",
+      "presentational-bricks.brick-result",
     ]);
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-not-found",
+        type: "presentational-bricks.brick-result",
         properties: {
-          url: "/oops",
+          illustrationsConfig: {
+            name: "http-404",
+            category: "exception",
+          },
+          customTitle: "请求的页面未找到，确认URL是否正确",
+          status: "illustrations",
+          useNewIllustration: true,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+            height: "calc(100vh - var(--app-bar-height))",
+          },
         },
       },
     ]);
