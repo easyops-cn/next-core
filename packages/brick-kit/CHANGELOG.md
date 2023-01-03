@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.157.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.3...@next-core/brick-kit@2.157.4) (2023-01-03)
+
+
+### Bug Fixes
+
+* fix standalone bootstrap failed to inject menus ([d48bde9](https://github.com/easyops-cn/next-core/commit/d48bde9c75737856eb5c4c9675407d9e830d0206))
+
+
+
+
+
 ## [2.157.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.2...@next-core/brick-kit@2.157.3) (2022-12-28)
 
 
