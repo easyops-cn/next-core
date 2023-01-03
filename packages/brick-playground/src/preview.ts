@@ -1,4 +1,7 @@
-import { stableLoadBricks } from "@next-core/loader";
+import {
+  enqueueStableLoadBricks,
+  flushStableLoadBricks,
+} from "@next-core/loader";
 import "./preview.css";
 
 const previewRoot = document.querySelector("#preview-root");
@@ -26,12 +29,12 @@ const bootstrap = fetch("/bootstrap.hash.json", {
   const dom = parser.parseFromString(html, "text/html");
   // const dom = document.createRange().createContextualFragment(html);
   const nodes = dom.querySelectorAll("*");
-  const usedCustomElements = new Set<string>();
+  // const usedCustomElements = new Set<string>();
   const bricks = new Set<string>();
   for (const node of nodes) {
     if (node.tagName.includes("-")) {
       const lowerTagName = node.tagName.toLowerCase();
-      usedCustomElements.add(lowerTagName);
+      // usedCustomElements.add(lowerTagName);
       if (lowerTagName.includes(".")) {
         bricks.add(lowerTagName);
       }
@@ -41,7 +44,8 @@ const bootstrap = fetch("/bootstrap.hash.json", {
   await bootstrap;
 
   try {
-    await stableLoadBricks(bricks, brickPackages);
+    await enqueueStableLoadBricks(bricks, brickPackages);
+    flushStableLoadBricks();
     previewRoot.innerHTML = "";
     previewRoot.append(...dom.body.childNodes);
     // previewRoot.append(dom);

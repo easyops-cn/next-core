@@ -1,4 +1,5 @@
 import { Location } from "history";
+import { flushStableLoadBricks } from "@next-core/loader";
 import { getHistory } from "./history.js";
 import type { Kernel } from "./Kernel.js";
 import { transpileRoutes } from "./Transpiler.js";
@@ -47,8 +48,19 @@ export class Router {
     const storyboard = this.#kernel.bootstrapData!.storyboards[0];
     // TODO: matchStoryboard()
     if (storyboard) {
-      const output = await transpileRoutes(storyboard.routes, storyboard.app);
-      // console.log("output:", output);
+      const output = await transpileRoutes(
+        storyboard.routes,
+        storyboard.app,
+        this.#kernel.bootstrapData!.brickPackages
+      );
+      flushStableLoadBricks();
+      await Promise.all(output.pendingPromises);
+      const main = document.querySelector("#main-mount-point") as HTMLElement;
+      for (const item of output.main) {
+        const element = document.createElement(item.type as string);
+        Object.assign(element, item.properties);
+        main.appendChild(element);
+      }
       // TODO: fulfilStoryboard()
       // TODO: getSubStoryboard()
       // TODO: loadDepsOfStoryboard()

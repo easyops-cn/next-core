@@ -1,5 +1,13 @@
 import loadScript from "./loadScript.js";
 import loadSharedModule from "./loadSharedModule.js";
-import stableLoadBricks from "./stableLoadBricks.js";
+import {
+  enqueueStableLoadBricks,
+  flushStableLoadBricks,
+} from "./stableLoadBricks.js";
 
-export { loadScript, loadSharedModule, stableLoadBricks };
+export {
+  loadScript,
+  loadSharedModule,
+  enqueueStableLoadBricks,
+  flushStableLoadBricks,
+};

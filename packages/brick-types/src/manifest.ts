@@ -5,7 +5,6 @@ import { PluginHistoryState } from "./runtime";
 /** @internal */
 export interface BootstrapData {
   brickPackages: BrickPackage[];
-  // templatePackages: TemplatePackage[];
   navbar: NavbarConf;
   storyboards: Storyboard[];
   settings: Settings;
@@ -118,11 +117,6 @@ export interface MicroApp {
   status?: "developing" | "enabled" | "disabled";
 
   /**
-   * 应用是否是 iframe 嵌套老 console 的模式。
-   */
-  legacy?: "iframe";
-
-  /**
    * 应用在菜单中显示的图标。
    */
   menuIcon?: MenuIcon;
@@ -189,7 +183,7 @@ export interface MicroApp {
 /**
  * 页面整体布局类型。
  */
-export type LayoutType = "console" | "business";
+export type LayoutType = "business";
 
 /**
  * 应用的基本信息的本地化配置。
@@ -226,18 +220,8 @@ export interface BrickPackage {
   id: string;
   filePath: string;
   bricks: string[];
-  // editors?: string[];
-  // editorsJsFilePath?: string;
   processors: string[];
-  // providers?: string[];
-  // dll?: string[];
 }
-
-/** @internal */
-// export interface TemplatePackage {
-//   templates?: string[];
-//   filePath: string;
-// }
 
 /** @internal */
 export interface AuthInfo {
@@ -248,7 +232,7 @@ export interface AuthInfo {
   accessRule?: string;
   isAdmin?: boolean;
   csrfToken?: string;
-  license?: Record<string, any>;
+  license?: Record<string, unknown>;
 }
 
 /** @internal */
@@ -271,19 +255,10 @@ export interface Storyboard {
   /** {@inheritDoc MicroApp} */
   app: MicroApp;
 
-  /** @internal */
-  // imports?: string[];
-
   /**
    * 路由配置列表。
    */
   routes: RouteConf[];
-
-  /**
-   * @deprecated 不再推荐使用。
-   * @internal
-   */
-  // dependsAll?: boolean;
 
   /** {@inheritDoc StoryboardMeta} */
   meta?: StoryboardMeta;
@@ -360,6 +335,7 @@ export interface BaseRouteConf {
    * 条件配置，根据 `if` 的计算结果来决定是否展示路由
    */
   if?: string | boolean;
+
   /**
    * 路由地址，通常应使用 `${APP.homepage}` 开头。
    */
@@ -382,30 +358,6 @@ export interface BaseRouteConf {
 
   /** {@inheritDoc MenuConf} */
   menu?: MenuConf;
-
-  /**
-   * 标记为混合的路由，将转换 `legacy: iframe` 模式。例如对于标记了 `legacy: iframe` 的应用，
-   * 其中 `hybrid: true` 的路由将使用普通模式渲染页面；而对于其它应用，其中 `hybrid: true`
-   * 的路由将使用 iframe 模式渲染页面。
-   */
-  // hybrid?: boolean;
-
-  /**
-   * 提前声明可供路由内使用的 Provider 列表。
-   *
-   * @remarks 推荐优先使用 `useProvider` 而无须提前声明 `providers`。
-   */
-  // providers?: ProviderConf[];
-
-  /**
-   * 预定义的异步数据处理配置列表。
-   */
-  // defineResolves?: DefineResolveConf[];
-
-  /**
-   * 要重定向的地址或异步处理配置。
-   */
-  // redirect?: string | ResolveConf;
 
   /** {@inheritDoc SeguesConf} */
   segues?: SeguesConf;
@@ -572,12 +524,6 @@ export interface BrickConf {
   slots?: SlotsConf;
 
   /**
-   * @deprecated 系统默认 `injectDeep: true`。
-   * @internal
-   */
-  // injectDeep?: boolean;
-
-  /**
    * 构件属性。
    */
   properties?: Record<string, unknown>;
@@ -598,32 +544,6 @@ export interface BrickConf {
   lifeCycle?: BrickLifeCycle;
 
   /**
-   * @deprecated 系统现在会自动扫描内部使用的构件。
-   * @internal
-   */
-  internalUsedBricks?: string[];
-
-  /**
-   * @deprecated 系统现在会自动扫描内部使用的（老）模板。
-   * @internal
-   */
-  internalUsedTemplates?: string[];
-
-  /**
-   * （老）模板。
-   *
-   * @deprecated 建议使用{@link CustomTemplate | 自定义模板}代替。
-   */
-  // template?: string;
-
-  /**
-   * （老）模板的参数表。
-   *
-   * @deprecated 建议使用{@link CustomTemplate | 自定义模板}代替。
-   */
-  // params?: Record<string, unknown>;
-
-  /**
    * 条件渲染配置，根据 `if` 的计算结果来决定是否渲染该构件。
    *
    * @injectable
@@ -637,43 +557,13 @@ export interface BrickConf {
   portal?: boolean;
 
   /**
-   * {@inheritDoc BaseRouteConf.context}
-   */
-  // context?: ContextConf[];
-
-  /**
    * {@inheritDoc BaseRouteConf.permissionsPreCheck}
    */
   permissionsPreCheck?: string[];
 
-  /**
-   * 将构件的属性导出到上下文。
-   *
-   * @deprecated 请使用 `context` 并指定 `property` 来声明一个上下文变量绑定到构件属性。
-   * @internal
-   */
-  // exports?: Record<string, string>;
-
   /** 构件编排 ID */
   iid?: string;
 }
-
-/**
- * Provider 配置。
- */
-export type ProviderConf =
-  | string
-  | Pick<BrickConf, "brick" | "properties" | "events" | "lifeCycle">;
-
-/** @internal */
-// export interface RuntimeBrickConf extends BrickConf {
-//   $$dynamic?: boolean;
-//   $$resolved?: boolean;
-//   $$template?: string;
-//   $$params?: Record<string, unknown>;
-//   $$lifeCycle?: BrickLifeCycle;
-//   $$if?: string | boolean | ResolveConf;
-// }
 
 /** @internal */
 export interface MessageConf {
@@ -767,14 +657,12 @@ export interface BrickLifeCycle {
 /**
  * 异步数据处理配置。
  */
-export type ResolveConf = EntityResolveConf | RefResolveConf;
+export type ResolveConf = EntityResolveConf;
 
 /**
  * 实体类的异步数据处理配置。
  */
-export type EntityResolveConf =
-  | UseProviderResolveConf
-  | SelectorProviderResolveConf;
+export type EntityResolveConf = UseProviderResolveConf;
 
 /**
  * 使用 `useProvider` 的异步数据处理配置。
@@ -782,14 +670,6 @@ export type EntityResolveConf =
 export interface UseProviderResolveConf extends BaseEntityResolveConf {
   /** 指定要使用的构件名。 */
   useProvider: string;
-}
-
-/**
- * 使用 CSS selector 指定 Provider 的异步数据处理配置。
- */
-export interface SelectorProviderResolveConf extends BaseEntityResolveConf {
-  /** Provider 构件的 CSS selector。 */
-  provider: string;
 }
 
 /**
@@ -840,35 +720,6 @@ export interface BaseEntityResolveConf {
   if?: string | boolean;
 }
 
-/**
- * 预定义的异步数据处理配置。
- */
-export type DefineResolveConf = (
-  | Omit<UseProviderResolveConf, "name" | "onReject">
-  | Omit<SelectorProviderResolveConf, "name" | "onReject">
-) & {
-  /**
-   * 预定义的异步处理 ID。
-   */
-  id: string;
-};
-
-/**
- * 引用类的异步数据处理配置。
- */
-export type RefResolveConf = Pick<
-  BaseEntityResolveConf,
-  | "name"
-  | "transformFrom"
-  | "transformMapArray"
-  | "transform"
-  | "onReject"
-  | "if"
-> & {
-  /** 设置要引用的预定义的异步数据处理 ID */
-  ref: string;
-};
-
 /** {@inheritDoc HandleRejectByTransform} */
 export type HandleReject = HandleRejectByTransform | HandleRejectByCatch;
 
@@ -912,10 +763,7 @@ export interface TransformItem {
 /**
  * 菜单配置。
  */
-export type MenuConf =
-  | false
-  | StaticMenuConf /* | BrickMenuConf */
-  | ResolveMenuConf;
+export type MenuConf = false | StaticMenuConf | ResolveMenuConf;
 
 /**
  * 静态菜单配置。
@@ -942,14 +790,6 @@ export interface StaticMenuProps {
 
   /** {@inheritDoc BreadcrumbConf} */
   breadcrumb?: BreadcrumbConf;
-
-  /**
-   * 是否对 `pageTitle`, `sidebarMenu`, `breadcrumb` 进行深层递归的参数注入。
-   *
-   * @internal
-   * @deprecated 系统现在默认 `injectDeep: true`
-   */
-  injectDeep?: boolean;
 }
 
 /**
@@ -1023,31 +863,6 @@ export interface BreadcrumbItemConf {
   /** 面包屑对应的链接。 */
   to?: LocationDescriptor<PluginHistoryState>;
 }
-
-/**
- * 使用构件做数据代理的菜单配置。
- */
-// export interface BrickMenuConf {
-//   type: "brick";
-
-//   /** 构件名。 */
-//   brick: string;
-
-//   /**
-//    * @deprecated 系统默认 `injectDeep: true`。
-//    * @internal
-//    */
-//   injectDeep?: boolean;
-
-//   /** {@inheritDoc BrickConf.properties} */
-//   properties?: Record<string, unknown>;
-
-//   /** {@inheritDoc BrickEventsMap} */
-//   events?: BrickEventsMap;
-
-//   /** {@inheritDoc BrickLifeCycle} */
-//   lifeCycle?: BrickLifeCycle;
-// }
 
 /**
  * 使用异步数据处理的菜单配置。
@@ -1371,12 +1186,6 @@ export interface SetPropsCustomBrickEventHandler
    * 要设置的属性表。
    */
   properties: Record<string, unknown>;
-
-  /**
-   * @deprecated 系统默认 `injectDeep: true`。
-   * @internal
-   */
-  injectDeep?: boolean;
 }
 
 /** 使用指定构件进行事件处理的配置。 */
@@ -1490,8 +1299,8 @@ export interface UseBrickSlotConf {
 /** 在 `useBackend` 中使用provider的配置  **/
 export interface UseBackendConf {
   provider: string;
-  args: any[] | ((...args: any[]) => any[]);
-  transform?: (data: any) => void;
+  args: unknown[] | ((...args: unknown[]) => unknown[]);
+  transform?: (data: unknown) => void;
 }
 
 /**
@@ -1560,7 +1369,7 @@ export interface ContractResponse {
   wrapper?: boolean;
   type?: "file" | "object";
   required?: string[];
-  default?: Record<string, any>;
+  default?: Record<string, unknown>;
   fields?: ContractField[];
   description?: string;
 }
