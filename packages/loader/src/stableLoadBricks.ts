@@ -6,6 +6,18 @@ interface BrickPackage {
   filePath: string;
 }
 
+let resolveBasicPkg: () => void;
+let basicPkgWillBeResolved = false;
+const waitBasicPkg = new Promise<void>((resolve) => {
+  resolveBasicPkg = resolve;
+});
+
+export function flushStableLoadBricks(): void {
+  if (!basicPkgWillBeResolved) {
+    resolveBasicPkg();
+  }
+}
+
 /**
  * When loading bundles with webpack module federation concurrently, if
  * these bundles share some modules, webpack will load a singleton module
@@ -18,7 +30,7 @@ interface BrickPackage {
  * precedence over others. We will always load the shared modules from the
  * basic package bundle if it contains the shared modules.
  */
-export default async function stableLoadBricks(
+export async function enqueueStableLoadBricks(
   bricks: Iterable<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
@@ -45,13 +57,16 @@ export default async function stableLoadBricks(
       }
     }
   }
-  let waitBasicPkg: Promise<unknown> | undefined;
+
   let basicPkgPromise: Promise<unknown> | undefined;
   const basicPkg = foundBasicPkg;
   if (basicPkg) {
     const tempPromise = loadScript(basicPkg.filePath);
     // Packages other than BASIC will wait for an extra micro-task tick.
-    waitBasicPkg = tempPromise.then(() => Promise.resolve());
+    if (!basicPkgWillBeResolved) {
+      basicPkgWillBeResolved = true;
+      tempPromise.then(() => Promise.resolve()).then(resolveBasicPkg);
+    }
     basicPkgPromise = tempPromise.then(() =>
       Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -65,9 +80,7 @@ export default async function stableLoadBricks(
   const pkgPromises = [basicPkgPromise].concat(
     restPackages.map(async (pkg) => {
       await loadScript(pkg.filePath);
-      if (waitBasicPkg) {
-        await waitBasicPkg;
-      }
+      await waitBasicPkg;
       return Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         bricksByPkg
