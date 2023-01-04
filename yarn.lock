@@ -2362,6 +2362,11 @@
   resolved "https://registry.npmjs.org/@next-bricks/basic-providers/-/basic-providers-1.4.0.tgz#58b73aaf0a64dd6948f322cb44fa270459353cd1"
   integrity sha512-UkIOLJFSv3U9m6ZldX8JQDk++i3TgOngG6QtC0QjaMtAWRAd1WYijBLKREQK0ACGCY/jbBbaCdvhFRRtu6Ds2w==
 
+"@next-bricks/presentational-bricks@^1.278.0":
+  version "1.278.0"
+  resolved "https://registry.npmjs.org/@next-bricks/presentational-bricks/-/presentational-bricks-1.278.0.tgz#1d5e2a3d70983c46bd1b2678a738f06861741916"
+  integrity sha512-EOd1hJqQFOTSov5VVP0EWHIBgBc16h+F8b6Bb6wS07meaIpy9iG0JAjp+OHw+JYo3hUG7fY4yvxtC03g0NH7FQ==
+
 "@next-sdk/api-gateway-sdk@^2.3.0":
   version "2.3.0"
   resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.3.0.tgz#7eafaf998356bc55bf1ba38f5c675f80af898f9b"
@@ -6436,10 +6441,10 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.npmjs.org/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
-cypress@^12.0.2:
-  version "12.0.2"
-  resolved "https://registry.npmjs.org/cypress/-/cypress-12.0.2.tgz#0437abf9d97ad4a972ab554968d58211b0ce4ae5"
-  integrity sha512-WnLx1DpnbF1vbpDBkgP14rK5yS3U+Gvxrv2fsB4Owma26oIyENj7DDRnsJbSZuTfG4mcuUJxAkRHJR2wBqBfMA==
+cypress@^12.2.0:
+  version "12.2.0"
+  resolved "https://registry.npmjs.org/cypress/-/cypress-12.2.0.tgz#86ddc1ecfffadf57a8689e211cfb4437735f4e92"
+  integrity sha512-kvl95ri95KK8mAy++tEU/wUgzAOMiIciZSL97LQvnOinb532m7dGvwN0mDSIGbOd71RREtmT9o4h088RjK5pKw==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"

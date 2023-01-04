@@ -69,6 +69,8 @@ import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 import { httpCacheRecord } from "./HttpCache";
+import i18next from "i18next";
+import { K, NS_BRICK_KIT } from "../i18n/constants";
 
 export class Router {
   private defaultCollapsed = false;
@@ -671,7 +673,7 @@ export class Router {
         name: "no-permission",
         category: "easyops2",
       },
-      customTitle: "请求的微应用无法找到，URL错误或者无权限访问",
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.APP_NOT_FOUND}`),
     };
 
     const notFoundPageConfig = {
@@ -679,7 +681,7 @@ export class Router {
         name: "http-404",
         category: "exception",
       },
-      customTitle: "请求的页面未找到，确认URL是否正确",
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.PAGE_NOT_FOUND}`),
     };
 
     this.state = "ready-to-mount";

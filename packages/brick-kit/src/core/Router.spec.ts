@@ -24,6 +24,7 @@ import {
   preFetchStandaloneInstalledApps,
 } from "../internal/getStandaloneInstalledApps";
 import { mediaEventTarget } from "../internal/mediaQuery";
+import i18next from "i18next";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -48,6 +49,7 @@ jest.mock("@next-core/easyops-analytics", () => ({
   },
 }));
 jest.mock("@next-core/brick-utils");
+jest.spyOn(i18next, "t").mockImplementation((k) => k as string);
 
 const mockConsoleError = jest
   .spyOn(console, "error")
@@ -504,7 +506,7 @@ describe("Router", () => {
             name: "http-404",
             category: "exception",
           },
-          customTitle: "请求的页面未找到，确认URL是否正确",
+          customTitle: "brick-kit:PAGE_NOT_FOUND",
           status: "illustrations",
           useNewIllustration: true,
           style: {
@@ -533,7 +535,7 @@ describe("Router", () => {
             name: "no-permission",
             category: "easyops2",
           },
-          customTitle: "请求的微应用无法找到，URL错误或者无权限访问",
+          customTitle: "brick-kit:APP_NOT_FOUND",
           status: "illustrations",
           useNewIllustration: true,
           style: {
@@ -581,7 +583,7 @@ describe("Router", () => {
             name: "http-404",
             category: "exception",
           },
-          customTitle: "请求的页面未找到，确认URL是否正确",
+          customTitle: "brick-kit:PAGE_NOT_FOUND",
           status: "illustrations",
           useNewIllustration: true,
           style: {

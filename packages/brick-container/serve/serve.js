@@ -156,9 +156,7 @@ module.exports = function serve(runtimeFlags) {
     // Return a fake 404 page for not-existed apps.
     app.use(env.baseHref, (req, res) => {
       res.send(
-        `<basic-bricks.page-not-found>${env.baseHref.replace(/\/$/, "")}${
-          req.path
-        } is not found</basic-bricks.page-not-found>`
+        `<presentational-bricks.brick-result custom-title="Page Not Found" status="404" style="display: flex; align-items: center; justify-content: center; transform: translateY(-100px); height: 100vh;"></presentational-bricks.brick-result>`
       );
     });
   }
