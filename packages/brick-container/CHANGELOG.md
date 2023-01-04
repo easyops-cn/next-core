@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.80.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.79.13...@next-core/brick-container@2.80.0) (2023-01-04)
+
+
+### Features
+
+* update pageNotFound page style ([#2570](https://github.com/easyops-cn/next-core/issues/2570)) ([35c8d14](https://github.com/easyops-cn/next-core/commit/35c8d1418d1b23317004e6af4c5b6d5ed22e2083))
+
+
+
+
+
 ## [2.79.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.79.12...@next-core/brick-container@2.79.13) (2023-01-03)
 
 **Note:** Version bump only for package @next-core/brick-container
