@@ -7,6 +7,8 @@ const locale: Locale = {
   [K.SOMETHING_WENT_WRONG]: "出现了一些问题！",
   [K.LOGIN_TIMEOUT_MESSAGE]: "您还未登录或登录信息已过期，现在重新登录？",
   [K.NETWORK_ERROR]: "网络错误，请检查您的网络连接。",
+  [K.PAGE_NOT_FOUND]: "请求的页面未找到，请确认 URL 是否正确",
+  [K.APP_NOT_FOUND]: "请求的微应用无法找到, 可能是 URL 错误或者无权限访问",
 };
 
 export default locale;

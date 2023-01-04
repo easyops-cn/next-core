@@ -24,6 +24,7 @@ import {
   preFetchStandaloneInstalledApps,
 } from "../internal/getStandaloneInstalledApps";
 import { mediaEventTarget } from "../internal/mediaQuery";
+import i18next from "i18next";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -48,6 +49,7 @@ jest.mock("@next-core/easyops-analytics", () => ({
   },
 }));
 jest.mock("@next-core/brick-utils");
+jest.spyOn(i18next, "t").mockImplementation((k) => k as string);
 
 const mockConsoleError = jest
   .spyOn(console, "error")
@@ -166,7 +168,7 @@ describe("Router", () => {
     layoutBootstrap: jest.fn(),
     getOriginFaviconHref: jest.fn(),
     presetBricks: {
-      pageNotFound: "basic-bricks.page-not-found",
+      pageNotFound: "presentational-bricks.brick-result",
       pageError: "basic-bricks.page-error",
     },
     currentLayout: "console",
@@ -491,16 +493,29 @@ describe("Router", () => {
     );
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-not-found",
+      "presentational-bricks.brick-result",
     ]);
     expect(kernel.toggleBars).toBeCalledWith(false);
     expect(spyOnMountStaticNode).not.toBeCalled();
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-not-found",
+        type: "presentational-bricks.brick-result",
         properties: {
-          url: "/oops",
+          illustrationsConfig: {
+            name: "http-404",
+            category: "exception",
+          },
+          customTitle: "brick-kit:PAGE_NOT_FOUND",
+          status: "illustrations",
+          useNewIllustration: true,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+            height: "calc(100vh - var(--app-bar-height))",
+          },
         },
       },
     ]);
@@ -509,14 +524,27 @@ describe("Router", () => {
   it("should handle when page not found", async () => {
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-not-found",
+      "presentational-bricks.brick-result",
     ]);
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-not-found",
+        type: "presentational-bricks.brick-result",
         properties: {
-          url: "/oops",
+          illustrationsConfig: {
+            name: "no-permission",
+            category: "easyops2",
+          },
+          customTitle: "brick-kit:APP_NOT_FOUND",
+          status: "illustrations",
+          useNewIllustration: true,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+            height: "calc(100vh - var(--app-bar-height))",
+          },
         },
       },
     ]);
@@ -544,14 +572,27 @@ describe("Router", () => {
     );
     await router.bootstrap();
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-not-found",
+      "presentational-bricks.brick-result",
     ]);
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-not-found",
+        type: "presentational-bricks.brick-result",
         properties: {
-          url: "/oops",
+          illustrationsConfig: {
+            name: "http-404",
+            category: "exception",
+          },
+          customTitle: "brick-kit:PAGE_NOT_FOUND",
+          status: "illustrations",
+          useNewIllustration: true,
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+            height: "calc(100vh - var(--app-bar-height))",
+          },
         },
       },
     ]);

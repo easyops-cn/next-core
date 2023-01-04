@@ -635,8 +635,8 @@ describe("Kernel", () => {
     await kernel.layoutBootstrap("console");
     expect(kernel.currentLayout).toBe("console");
     expect(kernel.presetBricks).toMatchObject({
-      pageNotFound: "basic-bricks.page-not-found",
       pageError: "basic-bricks.page-error",
+      pageNotFound: "presentational-bricks.brick-result",
     });
     expect(document.body.classList.contains("layout-console")).toBe(true);
     expect(document.body.classList.contains("layout-business")).toBe(false);
@@ -662,8 +662,8 @@ describe("Kernel", () => {
     await kernel.layoutBootstrap("business");
     expect(kernel.currentLayout).toBe("business");
     expect(kernel.presetBricks).toMatchObject({
-      pageNotFound: "business-website.page-not-found",
       pageError: "business-website.page-error",
+      pageNotFound: "presentational-bricks.brick-result",
     });
     expect(document.body.classList.contains("layout-business")).toBe(true);
     expect(document.body.classList.contains("layout-console")).toBe(false);

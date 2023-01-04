@@ -69,6 +69,8 @@ import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 import { httpCacheRecord } from "./HttpCache";
+import i18next from "i18next";
+import { K, NS_BRICK_KIT } from "../i18n/constants";
 
 export class Router {
   private defaultCollapsed = false;
@@ -662,9 +664,25 @@ export class Router {
       return;
     }
 
-    await this.kernel.layoutBootstrap(layoutType);
+    await this.kernel.layoutBootstrap(storyboard ? layoutType : "business");
     const brickPageNotFound = this.kernel.presetBricks.pageNotFound;
     await this.kernel.loadDynamicBricks([brickPageNotFound]);
+
+    const notFoundAppConfig = {
+      illustrationsConfig: {
+        name: "no-permission",
+        category: "easyops2",
+      },
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.APP_NOT_FOUND}`),
+    };
+
+    const notFoundPageConfig = {
+      illustrationsConfig: {
+        name: "http-404",
+        category: "exception",
+      },
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.PAGE_NOT_FOUND}`),
+    };
 
     this.state = "ready-to-mount";
 
@@ -673,7 +691,16 @@ export class Router {
         {
           type: brickPageNotFound,
           properties: {
-            url: history.createHref(location),
+            status: "illustrations",
+            useNewIllustration: true,
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translateY(-100px)",
+              height: "calc(100vh - var(--app-bar-height))",
+            },
+            ...(storyboard ? notFoundPageConfig : notFoundAppConfig),
           },
           events: {},
         },
