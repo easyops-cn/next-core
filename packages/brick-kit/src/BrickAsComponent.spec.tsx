@@ -920,12 +920,12 @@ describe("BrickAsComponent", () => {
     );
     await (global as any).flushPromises();
     expect(wrapper.html()).toBe(
-      "<form-renderer.form-renderer>" +
+      "<div>" +
         '<basic-bricks.micro-view style="padding: 12px;" slot="">' +
         '<forms.general-form data-iid="5e95351dd8a41" id="form_233" slot="content">' +
         '<forms.general-switch data-iid="5e95351dd87e9" id="c1" data-testid="c1" slot="items"></forms.general-switch>' +
         '<forms.general-select data-iid="5e95351dd884d" id="c2" data-testid="c2" slot="items"></forms.general-select>' +
-        "</forms.general-form></basic-bricks.micro-view></form-renderer.form-renderer>"
+        "</forms.general-form></basic-bricks.micro-view></div>"
     );
   });
 });
