@@ -599,7 +599,10 @@ export class LocationContext {
       tplStack.set(tplTagName, tplCount + 1);
     }
 
-    if (brickConf.brick === formRenderer) {
+    if (
+      brickConf.brick === formRenderer &&
+      typeof brickConf.properties.formData === "object"
+    ) {
       brickConf.properties.formData = JSON.stringify(
         brickConf.properties.formData
       );
@@ -706,9 +709,10 @@ export class LocationContext {
     }
 
     if (brick.type === formRenderer) {
-      const formData: formDataProperties = JSON.parse(
-        brick.properties.formData
-      );
+      const formData: formDataProperties =
+        typeof brick.properties.formData === "string"
+          ? JSON.parse(brick.properties.formData)
+          : brick.properties.formData;
       expandedBrickConf = await AsyncExpandCustomForm(
         formData,
         brickConf,
