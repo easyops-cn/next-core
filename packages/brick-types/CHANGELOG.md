@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.82.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.2...@next-core/brick-types@2.82.3) (2023-01-05)
+
+
+### Bug Fixes
+
+* 增加AuthInfo接口userShowValue字段 refs USER-4 ([10f4189](https://github.com/easyops-cn/next-core/commit/10f418976b8108229bcb74c5b3b0a8c2c60bf0b8))
+* 增加AuthInfo接口字段 refs USER-4 ([23d7b2a](https://github.com/easyops-cn/next-core/commit/23d7b2ab02b217cafc84eccf319f335da6ee62fc))
+
+
+
+
+
 ## [2.82.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.1...@next-core/brick-types@2.82.2) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/brick-types
