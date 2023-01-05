@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.158.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.1...@next-core/brick-kit@2.158.2) (2023-01-05)
+
+
+### Bug Fixes
+
+* 修复formRender中properties的表达式无法解析 ([df4a0ed](https://github.com/easyops-cn/next-core/commit/df4a0ed5c93f6f1b14cb2caa4367202c6d79545f))
+
+
+
+
+
 ## [2.158.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.0...@next-core/brick-kit@2.158.1) (2023-01-05)
 
 **Note:** Version bump only for package @next-core/brick-kit
