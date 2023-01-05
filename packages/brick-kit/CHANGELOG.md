@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.159.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.2...@next-core/brick-kit@2.159.0) (2023-01-05)
+
+
+### Features
+
+* support useBrick with tpl resolve state ([0ce2e22](https://github.com/easyops-cn/next-core/commit/0ce2e228e2c19200c2e68ba960743c5ded2dd82f))
+
+
+
+
+
 ## [2.158.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.1...@next-core/brick-kit@2.158.2) (2023-01-05)
 
 
