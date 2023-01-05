@@ -83,6 +83,8 @@ export interface AuthInfo {
     userInstanceId?: string;
     // (undocumented)
     username?: string;
+    // (undocumented)
+    userShowValue?: string[];
 }
 
 // @public
