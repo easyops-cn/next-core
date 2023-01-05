@@ -80,11 +80,11 @@ export interface AuthInfo {
     // (undocumented)
     org?: number;
     // (undocumented)
-    showValue?: string[];
-    // (undocumented)
     userInstanceId?: string;
     // (undocumented)
     username?: string;
+    // (undocumented)
+    userShowValue?: string[];
 }
 
 // @public
