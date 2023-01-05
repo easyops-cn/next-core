@@ -74,7 +74,7 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
-import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
 import { customTemplateRegistry } from "./CustomTemplates";
 import { getRuntimeMisc } from "../internal/misc";
@@ -526,7 +526,7 @@ export class Kernel {
   _dev_only_updateFormPreviewSettings(
     appId: string,
     formId: string,
-    formData: formDataProperties
+    formData: FormDataProperties
   ): void {
     const { routes } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId

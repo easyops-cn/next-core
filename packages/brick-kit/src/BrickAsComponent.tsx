@@ -6,6 +6,7 @@ import React, {
   useImperativeHandle,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { isObject } from "@next-core/brick-utils";
 import {
@@ -15,9 +16,9 @@ import {
   BrickEventsMap,
   UseBrickSlotsConf,
   BrickConf,
-  RuntimeBrickConf,
   SlotsConf,
   BrickEventHandler,
+  ContextConf,
 } from "@next-core/brick-types";
 import {
   bindListeners,
@@ -38,6 +39,8 @@ import {
   expandCustomTemplate,
   getTagNameOfCustomTemplate,
   handleProxyOfCustomTemplate,
+  asyncExpandCustomTemplate,
+  customTemplateRegistry,
 } from "./core/exports";
 import { handleHttpError } from "./handleHttpError";
 import {
@@ -52,7 +55,11 @@ import {
   listenOnTrackingContext,
   TrackingContextItem,
 } from "./internal/listenOnTrackingContext";
-import { ExpandCustomForm } from "./core/CustomForms/ExpandCustomForm";
+import {
+  AsyncExpandCustomForm,
+  ExpandCustomForm,
+  FormDataProperties,
+} from "./core/CustomForms/ExpandCustomForm";
 import { formRenderer } from "./core/CustomForms/constants";
 
 interface BrickAsComponentProps {
@@ -70,23 +77,24 @@ interface SingleBrickAsComponentProps extends BrickAsComponentProps {
   immediatelyRefCallback?: (element: HTMLElement) => void;
 }
 
-const expandTemplateInUseBrick = (
+function expandTemplateInUseBrick(
   useBrick: UseSingleBrickConf,
   tplTagName: string | false,
-  brick: RuntimeBrick
-): RuntimeBrickConf => {
-  let template: RuntimeBrickConf;
+  brick: RuntimeBrick,
+  requireSuspense: boolean
+): BrickConf | Promise<BrickConf> {
   if (tplTagName) {
     // 如果是模板, 需要展开解析模板, 并遍历模板中的slots, 再给slots的brick绑定值给自身
     // 为后续ProxyRefs获取brick做值缓存
-    const tplConf: RuntimeBrickConf = {
+    const tplConf: BrickConf = {
       brick: tplTagName,
       properties: brick.properties,
       events: useBrick.events,
       lifeCycle: useBrick.lifeCycle,
       slots: useBrick.slots as SlotsConf,
     };
-    template = expandCustomTemplate(
+
+    return (requireSuspense ? asyncExpandCustomTemplate : expandCustomTemplate)(
       tplConf,
       brick,
       _internalApiGetCurrentContext()
@@ -97,8 +105,7 @@ const expandTemplateInUseBrick = (
     (useBrick as RuntimeBrickConfWithTplSymbols)[symbolForRefForProxy].brick =
       brick;
   }
-  return template;
-};
+}
 
 const getCurrentRunTimeBrick = (
   useBrick: UseSingleBrickConf,
@@ -167,13 +174,13 @@ export const SingleBrickAsComponent = React.memo(
     const firstRunRef = useRef(true);
     const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
     const elementRef = useRef<HTMLElement>();
-    const templateRef = useRef<RuntimeBrickConf>();
-    const formRef = useRef<BrickConf>();
+    const expandedBrickConfRef = useRef<BrickConf>();
+    const [expandedBrickConf, setExpandedBrickConf] = useState<BrickConf>(null);
     const tplTagName = getTagNameOfCustomTemplate(
       useBrick.brick,
       _internalApiGetCurrentContext().app?.id
     );
-    const isBrickAvailable = React.useMemo(() => {
+    const isBrickAvailable = useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
         // eslint-disable-next-line
         console.warn("Currently resolvable-if in `useBrick` is not supported.");
@@ -192,7 +199,18 @@ export const SingleBrickAsComponent = React.memo(
       return true;
     }, [useBrick, data]);
 
-    const runtimeBrick = React.useMemo(async () => {
+    const requireSuspense = useMemo(() => {
+      let context: ContextConf[];
+      if (useBrick.brick === formRenderer) {
+        context = (useBrick.properties.formData as FormDataProperties).context;
+      } else if (tplTagName) {
+        context = customTemplateRegistry.get(tplTagName).state;
+      }
+      return Array.isArray(context) && context.some((ctx) => !!ctx.resolve);
+    }, [tplTagName, useBrick]);
+    const [suspenseReady, setSuspenseReady] = useState(false);
+
+    const runtimeBrick = useMemo(async () => {
       if (!isBrickAvailable) {
         return null;
       }
@@ -208,18 +226,26 @@ export const SingleBrickAsComponent = React.memo(
 
       const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
 
-      templateRef.current = expandTemplateInUseBrick(
-        useBrick,
-        tplTagName,
-        brick
-      );
-      if (useBrick.brick === formRenderer) {
-        formRef.current = ExpandCustomForm(
-          useBrick.properties?.formData,
-          useBrick as BrickConf,
-          false
-        );
+      const expanded =
+        useBrick.brick === formRenderer
+          ? (requireSuspense ? AsyncExpandCustomForm : ExpandCustomForm)(
+              useBrick.properties.formData,
+              useBrick as BrickConf,
+              false
+            )
+          : expandTemplateInUseBrick(
+              useBrick,
+              tplTagName,
+              brick,
+              requireSuspense
+            );
+      if (requireSuspense) {
+        setExpandedBrickConf(await expanded);
+        setSuspenseReady(true);
+      } else {
+        expandedBrickConfRef.current = expanded as BrickConf;
       }
+
       // Let `transform` works still.
       transformProperties(
         brick.properties,
@@ -265,7 +291,7 @@ export const SingleBrickAsComponent = React.memo(
       }
 
       return brick;
-    }, [useBrick, data, isBrickAvailable, tplTagName]);
+    }, [useBrick, data, isBrickAvailable, tplTagName, requireSuspense]);
 
     const dispatchLifeCycleEvent = async (
       event: CustomEvent,
@@ -391,18 +417,28 @@ export const SingleBrickAsComponent = React.memo(
     const childConfs = useMemo(
       () =>
         slotsToChildren(
-          (templateRef.current ?? formRef.current ?? useBrick)
-            .slots as UseBrickSlotsConf
+          (
+            (requireSuspense
+              ? expandedBrickConf
+              : expandedBrickConfRef.current) ?? useBrick
+          ).slots as UseBrickSlotsConf
         ),
-      [templateRef.current, formRef.current, useBrick]
+      [
+        expandedBrickConf,
+        expandedBrickConfRef.current,
+        useBrick,
+        requireSuspense,
+      ]
     );
 
-    if (!isBrickAvailable) {
+    if (!isBrickAvailable || (requireSuspense && !suspenseReady)) {
       return null;
     }
 
     return React.createElement(
-      templateRef.current?.brick ?? (tplTagName || useBrick.brick),
+      (requireSuspense ? expandedBrickConf : expandedBrickConfRef.current)
+        ?.brick ??
+        (tplTagName || useBrick.brick),
       {
         ref: innerRefCallback,
       },
@@ -486,12 +522,13 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       const firstRunRef = useRef(true);
       const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
       const elementRef = useRef<HTMLElement>();
-      const templateRef = useRef<RuntimeBrickConf>();
+      const expandedBrickConfRef = useRef<BrickConf>();
+      const [expandedBrickConf, setExpandedBrickConf] =
+        useState<BrickConf>(null);
       const tplTagName = getTagNameOfCustomTemplate(
         useBrick.brick,
         _internalApiGetCurrentContext().app?.id
       );
-      const formRef = useRef<BrickConf>();
       const isBrickAvailable = React.useMemo(() => {
         if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
           // eslint-disable-next-line
@@ -512,6 +549,18 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
 
         return true;
       }, [useBrick, data]);
+
+      const requireSuspense = useMemo(() => {
+        let context: ContextConf[];
+        if (useBrick.brick === formRenderer) {
+          context = (useBrick.properties.formData as FormDataProperties)
+            .context;
+        } else if (tplTagName) {
+          context = customTemplateRegistry.get(tplTagName).state;
+        }
+        return Array.isArray(context) && context.some((ctx) => !!ctx.resolve);
+      }, [tplTagName, useBrick]);
+      const [suspenseReady, setSuspenseReady] = useState(false);
 
       /* istanbul ignore next (never reach in test) */
       useImperativeHandle(ref, () => {
@@ -534,17 +583,24 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
 
         const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
 
-        templateRef.current = expandTemplateInUseBrick(
-          useBrick,
-          tplTagName,
-          brick
-        );
-        if (useBrick.brick === formRenderer) {
-          formRef.current = ExpandCustomForm(
-            useBrick.properties?.formData,
-            useBrick as BrickConf,
-            false
-          );
+        const expanded =
+          useBrick.brick === formRenderer
+            ? (requireSuspense ? AsyncExpandCustomForm : ExpandCustomForm)(
+                useBrick.properties.formData,
+                useBrick as BrickConf,
+                false
+              )
+            : expandTemplateInUseBrick(
+                useBrick,
+                tplTagName,
+                brick,
+                requireSuspense
+              );
+        if (requireSuspense) {
+          setExpandedBrickConf(await expanded);
+          setSuspenseReady(true);
+        } else {
+          expandedBrickConfRef.current = expanded as BrickConf;
         }
 
         // Let `transform` works still.
@@ -592,7 +648,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
 
         return brick;
-      }, [useBrick, data, isBrickAvailable, tplTagName]);
+      }, [useBrick, data, isBrickAvailable, tplTagName, requireSuspense]);
 
       const dispatchLifeCycleEvent = async (
         event: CustomEvent,
@@ -713,18 +769,28 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       const childConfs = useMemo(
         () =>
           slotsToChildren(
-            (templateRef.current ?? formRef.current ?? useBrick)
-              .slots as UseBrickSlotsConf
+            (
+              (requireSuspense
+                ? expandedBrickConf
+                : expandedBrickConfRef.current) ?? useBrick
+            ).slots as UseBrickSlotsConf
           ),
-        [templateRef.current, formRef.current, useBrick]
+        [
+          expandedBrickConf,
+          expandedBrickConfRef.current,
+          useBrick,
+          requireSuspense,
+        ]
       );
 
-      if (!isBrickAvailable) {
+      if (!isBrickAvailable || (requireSuspense && !suspenseReady)) {
         return null;
       }
 
       return React.createElement(
-        templateRef.current?.brick ?? (tplTagName || useBrick.brick),
+        (requireSuspense ? expandedBrickConf : expandedBrickConfRef.current)
+          ?.brick ??
+          (tplTagName || useBrick.brick),
         {
           ref: innerRefCallback,
         },

@@ -74,7 +74,7 @@ import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
 import {
   AsyncExpandCustomForm,
-  formDataProperties,
+  FormDataProperties,
 } from "./CustomForms/ExpandCustomForm";
 import {
   formRenderer,
@@ -709,7 +709,7 @@ export class LocationContext {
     }
 
     if (brick.type === formRenderer) {
-      const formData: formDataProperties =
+      const formData: FormDataProperties =
         typeof brick.properties.formData === "string"
           ? JSON.parse(brick.properties.formData)
           : brick.properties.formData;

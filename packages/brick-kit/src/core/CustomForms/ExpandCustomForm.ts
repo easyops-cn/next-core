@@ -2,6 +2,7 @@ import {
   BrickConf,
   BrickEventHandler,
   BrickEventsMap,
+  ContextConf,
   ResolveConf,
 } from "@next-core/brick-types";
 import _ from "lodash";
@@ -9,7 +10,7 @@ import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
 
 export function ExpandCustomForm(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
   context?: any
@@ -28,7 +29,7 @@ export function ExpandCustomForm(
 }
 
 export async function AsyncExpandCustomForm(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
   context?: any
@@ -44,12 +45,13 @@ export async function AsyncExpandCustomForm(
   }
   return getFinalStoryBoard(formData, brickConf, isPreview, formContext);
 }
-export interface formDataProperties {
-  formSchema?: formSchemaProperties;
-  fields?: fieldProperties[];
+export interface FormDataProperties {
+  formSchema?: FormSchemaProperties;
+  fields?: FieldProperties[];
+  context?: ContextConf[];
   [key: string]: any;
 }
-export interface formSchemaProperties {
+export interface FormSchemaProperties {
   id?: string;
   brick?: string;
   sort?: number;
@@ -59,7 +61,7 @@ export interface formSchemaProperties {
   if?: string | boolean | ResolveConf;
   [key: string]: any;
 }
-export interface fieldProperties {
+export interface FieldProperties {
   defaultValue?: string;
   description?: string;
   fieldId: string;
@@ -69,20 +71,20 @@ export interface fieldProperties {
   [key: string]: any;
 }
 
-export interface defaultFieldProperties {
+export interface DefaultFieldProperties {
   brick: string;
   properties: { [key: string]: any };
 }
 export function getDefaultProperties(
   _name: string,
-  fields: fieldProperties[]
-): defaultFieldProperties | { [key: string]: any } {
-  const field: fieldProperties = fields.filter(
-    (item: fieldProperties) => item.fieldId === _name
+  fields: FieldProperties[]
+): DefaultFieldProperties | { [key: string]: any } {
+  const field: FieldProperties = fields.filter(
+    (item: FieldProperties) => item.fieldId === _name
   )[0];
 
   if (field) {
-    let defaultValue: defaultFieldProperties = {
+    let defaultValue: DefaultFieldProperties = {
       brick: "forms.general-input",
       properties: {
         id: field.fieldId,
@@ -284,14 +286,14 @@ export function getDefaultProperties(
 }
 
 export function getStoryboard(
-  datasource: formSchemaProperties[],
+  dataSource: FormSchemaProperties[],
   result: any[],
-  fields: fieldProperties[],
+  fields: FieldProperties[],
   isPreview: boolean | undefined,
   formContextId: string
 ): BrickConf[] {
-  for (let i = 0; i < datasource.length; i++) {
-    const dataItem = datasource[i];
+  for (let i = 0; i < dataSource.length; i++) {
+    const dataItem = dataSource[i];
     let resultItem: { [key: string]: any } = {};
     //数据初始化：根据id,字段类型获取默认属性
     const defaultProperties: any = getDefaultProperties(dataItem.id, fields);
@@ -354,10 +356,10 @@ export function getStoryboard(
 }
 
 export function initFormContext(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined
-): formDataProperties {
+): FormDataProperties {
   if (
     isPreview &&
     formData.formSchema &&
@@ -385,7 +387,7 @@ export function initFormContext(
 }
 
 export function getFinalStoryBoard(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
   formContext: CustomFormContext
