@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.1...@next-core/custom-antd-styles@1.25.2) (2023-01-05)
+
+
+### Bug Fixes
+
+* **table-less:** 复原filter图标位置样式 ([130cdca](https://github.com/easyops-cn/next-core/commit/130cdca06ba47a2b1f17b04ca2d90119c5276430))
+
+
+
+
+
 ## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.0...@next-core/custom-antd-styles@1.25.1) (2022-12-27)
 
 
