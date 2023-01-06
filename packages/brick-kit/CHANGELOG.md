@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.159.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.0...@next-core/brick-kit@2.159.1) (2023-01-06)
+
+
+### Bug Fixes
+
+* fix menu with PERMISSIONS.check ([16a1717](https://github.com/easyops-cn/next-core/commit/16a1717594f6fcde11ba006758655daf00853f5c))
+
+
+
+
+
 # [2.159.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.2...@next-core/brick-kit@2.159.0) (2023-01-05)
 
 
