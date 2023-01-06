@@ -307,6 +307,9 @@ html[data-theme="dark-v2"],
   --antd-btn-special-icon-type-disabled-color: var(--color-disabled-text);
   --antd-btn-special-icon-type-disabled-bg: var(--color-fill-bg-base-1);
 
+  --color-info-Button: #3f75dd;
+  --color-error-button: #d2593f;
+
   --antd-btn-primary-color: var(--color-normal-text);
   --antd-btn-primary-bg: var(--antd-primary-color);
   --antd-btn-primary-bg-image: linear-gradient(

@@ -375,6 +375,9 @@
   --antd-btn-text-hover-color: var(--bg-color-button-link-hover);
   --antd-btn-text-active-color: var(--bg-color-button-link-pressed);
 
+  --color-info-Button: #1a7aff;
+  --color-error-button: #f24c25;
+
   /*** breadcrumb ***/
   --antd-breadcrumb-link-color-hover: var(--antd-link-hover-color);
 
