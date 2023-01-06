@@ -10,7 +10,13 @@
     <%= htmlWebpackPlugin
       .tags
       .headTags
-      .map(htmlWebpackPlugin.options.customizeTag)
+      .concat(
+        htmlWebpackPlugin
+          .tags
+          .bodyTags
+      )
+      .map(htmlWebpackPlugin.options.customizeLinkTag)
+      .filter(Boolean)
       .join('')
     %>
   </head>
@@ -28,8 +34,14 @@
     <div id="portal-mount-point"></div>
     <%= htmlWebpackPlugin
       .tags
-      .bodyTags
-      .map(htmlWebpackPlugin.options.customizeTag)
+      .headTags
+      .concat(
+        htmlWebpackPlugin
+          .tags
+          .bodyTags
+      )
+      .map(htmlWebpackPlugin.options.customizeScriptTag)
+      .filter(Boolean)
       .join('')
     %>
   </body>

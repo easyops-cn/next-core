@@ -166,7 +166,8 @@ module.exports = () => {
         inject: false,
         mockDate,
         publicCdn,
-        customizeTag(tag) {
+        scriptLoading: "defer",
+        customizeLinkTag(tag) {
           if (tag.tagName === "link" && tag.attributes.rel === "stylesheet") {
             return {
               ...tag,
@@ -176,6 +177,8 @@ module.exports = () => {
               },
             };
           }
+        },
+        customizeScriptTag(tag) {
           if (tag.tagName === "script") {
             return {
               ...tag,
