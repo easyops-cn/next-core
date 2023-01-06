@@ -7,7 +7,12 @@ import {
   MenuItemRawData,
   MicroApp,
 } from "@next-core/brick-types";
-import { isEvaluable, isObject, preevaluate } from "@next-core/brick-utils";
+import {
+  isEvaluable,
+  isObject,
+  preevaluate,
+  scanPermissionActionsInAny,
+} from "@next-core/brick-utils";
 import {
   InstanceApi_postSearch,
   InstanceApi_getDetail,
@@ -22,6 +27,7 @@ import {
 } from "../core/exports";
 import { getI18nNamespace } from "../i18n";
 import i18next from "i18next";
+import { validatePermissions } from "./checkPermissions";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
@@ -287,6 +293,8 @@ export async function processMenu(
     kernel,
     isPreFetch
   );
+  const usedActions = scanPermissionActionsInAny([items, restMenuData]);
+  await validatePermissions(usedActions);
 
   const appsRequireI18nFulfilled = new Set<string>();
   const rootAppId = app[0].appId;

@@ -12,10 +12,17 @@ import {
   processMenuTitle,
   clearMenuTitleCache,
   clearMenuCache,
+  processMenu,
 } from "./menu";
 import * as runtime from "../core/Runtime";
+import { validatePermissions } from "./checkPermissions";
 
 jest.mock("@next-sdk/cmdb-sdk");
+
+jest.mock("./checkPermissions", () => ({
+  validatePermissions: jest.fn(() => Promise.resolve()),
+  checkPermissions: () => true,
+}));
 
 i18next.init({
   fallbackLng: "en",
@@ -249,6 +256,23 @@ const mockMenuList: any[] = [
     app: [
       {
         appId: "bonjour",
+      },
+    ],
+  },
+  {
+    menuId: "menu-h",
+    type: "main",
+    title: "Menu with Permissions",
+    items: [
+      {
+        text: "Menu item with permissions",
+        to: "${APP.homepage}/4",
+        if: "<% PERMISSIONS.check('abc') %>",
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
       },
     ],
   },
@@ -675,5 +699,35 @@ describe("constructMenu", () => {
     await preConstructMenus(["menu-c", "menu-d"], context, fakeKernel);
 
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("processMenu", () => {
+  beforeEach(() => {
+    clearMenuTitleCache();
+    clearMenuCache();
+    jest.clearAllMocks();
+  });
+
+  it("should work", async () => {
+    const context = {
+      app: currentApp,
+    } as unknown as PluginRuntimeContext;
+    const fakeKernel = {
+      fulfilStoryboardI18n: jest.fn(),
+    } as unknown as Kernel;
+    const menu = await processMenu("menu-h", context, fakeKernel);
+    expect(menu).toEqual({
+      title: "Menu with Permissions",
+      menuItems: [
+        {
+          if: true,
+          text: "Menu item with permissions",
+          to: "/hello/4",
+          children: [],
+        },
+      ],
+    });
+    expect(validatePermissions).toBeCalledWith(["abc"]);
   });
 });
