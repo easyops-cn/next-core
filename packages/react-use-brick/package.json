@@ -1,7 +1,7 @@
 {
-  "name": "@next-core/react-element",
+  "name": "@next-core/react-use-brick",
   "version": "0.0.0",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/react-element",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/react-use-brick",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/element": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
     "react": "^0.0.0-experimental-de7d1c907-20221223",
     "react-dom": "^0.0.0-experimental-de7d1c907-20221223"
   },

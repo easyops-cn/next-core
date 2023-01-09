@@ -40,12 +40,12 @@
     "docs:dev": "api-extractor run --local --verbose"
   },
   "sideEffects": false,
+  "dependencies": {
+    "history": "^4.10.1",
+    "path-to-regexp": "^6.2.1"
+  },
   "devDependencies": {
     "@next-core/rollup-config-factory": "^2.6.5",
     "typescript-json-schema": "^0.55.0"
-  },
-  "peerDependencies": {
-    "history": "*",
-    "path-to-regexp": "*"
   }
 }

@@ -68,6 +68,7 @@ export default async function build(config) {
     "react-dom",
     "@next-core/element",
     "@next-core/react-element",
+    "@next-core/react-use-brick",
     "@next-core/runtime",
     "@next-core/brick-http",
   ];

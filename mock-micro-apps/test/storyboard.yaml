@@ -6,6 +6,20 @@ app:
 routes:
 - path: ${APP.homepage}
   bricks:
-    - brick: div
+    - brick: basic.y-button
       properties:
-        textContent: Hello World
+        label: "Hello:"
+        textContent: world
+    # - brick: basic.y-button
+    #   properties:
+    #     label: "你好:"
+    #     textContent: 世界
+    - brick: basic.button-group
+    - brick: form.f-input
+      properties:
+        label: "Name:"
+    - brick: form.f-select
+      properties:
+        label: "Gender:"
+    - brick: basic.have-fun
+    - brick: basic.have-more-fun
