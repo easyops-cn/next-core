@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.3...@next-core/custom-antd-styles@1.25.4) (2023-01-09)
+
+
+### Bug Fixes
+
+* 把button的border-raidus值改成变量 ([bbda7c1](https://github.com/easyops-cn/next-core/commit/bbda7c1b63167b427121e35e15d14f4945c9f8ee))
+* 更改构件圆角 ([56b6d02](https://github.com/easyops-cn/next-core/commit/56b6d020525427ac971dfe7e9f6f31d95e6d797c))
+
+
+
+
+
 ## [1.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.2...@next-core/custom-antd-styles@1.25.3) (2023-01-09)
 
 
