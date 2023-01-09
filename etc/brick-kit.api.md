@@ -110,6 +110,9 @@ export interface AbstractRuntime {
     registerLazyBricks(bricks: string | string[], factory: LazyBrickImportFunction): void;
 }
 
+// @public (undocumented)
+export function AsyncExpandCustomForm(formData: FormDataProperties, brickConf: BrickConf, isPreview: boolean | undefined, context?: any): Promise<BrickConf>;
+
 // Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -200,6 +203,16 @@ export interface CustomApiProfile {
     uri: string;
     // (undocumented)
     version?: string;
+}
+
+// @public (undocumented)
+export interface DefaultFieldProperties {
+    // (undocumented)
+    brick: string;
+    // (undocumented)
+    properties: {
+        [key: string]: any;
+    };
 }
 
 // Warning: (ae-internal-missing-underscore) The name "developHelper" should be prefixed with an underscore because the declaration is marked as @internal
@@ -300,7 +313,60 @@ export interface EventEmitter<T = unknown> {
 }
 
 // @public (undocumented)
+export function ExpandCustomForm(formData: FormDataProperties, brickConf: BrickConf, isPreview: boolean | undefined, context?: any): BrickConf;
+
+// @public (undocumented)
 export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
+
+// @public (undocumented)
+export interface FieldProperties {
+    // (undocumented)
+    [key: string]: any;
+    // (undocumented)
+    defaultValue?: string;
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    fieldId: string;
+    // (undocumented)
+    fieldType: string;
+    // (undocumented)
+    limit?: string[];
+    // (undocumented)
+    name: string;
+}
+
+// @public (undocumented)
+export interface FormDataProperties {
+    // (undocumented)
+    [key: string]: any;
+    // (undocumented)
+    context?: ContextConf[];
+    // (undocumented)
+    fields?: FieldProperties[];
+    // (undocumented)
+    formSchema?: FormSchemaProperties;
+}
+
+// @public (undocumented)
+export interface FormSchemaProperties {
+    // (undocumented)
+    [key: string]: any;
+    // (undocumented)
+    brick?: string;
+    // (undocumented)
+    events?: BrickEventsMap;
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    if?: string | boolean | ResolveConf;
+    // (undocumented)
+    mountPoint?: string;
+    // (undocumented)
+    properties?: Record<string, unknown>;
+    // (undocumented)
+    sort?: number;
+}
 
 // Warning: (ae-forgotten-export) The symbol "SingleBrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
@@ -338,6 +404,16 @@ export function getCssPropertyValue(name: string, el?: HTMLElement): string;
 // @public (undocumented)
 export function getCurrentTheme(): SiteTheme;
 
+// @public (undocumented)
+export function getDefaultProperties(_name: string, fields: FieldProperties[]): DefaultFieldProperties | {
+    [key: string]: any;
+};
+
+// Warning: (ae-forgotten-export) The symbol "CustomFormContext" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function getFinalStoryBoard(formData: FormDataProperties, brickConf: BrickConf, isPreview: boolean | undefined, formContext: CustomFormContext): BrickConf;
+
 // @public
 export function getHistory(): PluginHistory;
 
@@ -362,6 +438,9 @@ export function getRuntime(): Runtime;
 // @public (undocumented)
 export function getRuntimeMisc(): RuntimeMisc;
 
+// @public (undocumented)
+export function getStoryboard(dataSource: FormSchemaProperties[], result: any[], fields: FieldProperties[], isPreview: boolean | undefined, formContextId: string): BrickConf[];
+
 // @public
 export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError): ReturnType<ModalFunc>;
 
@@ -375,6 +454,9 @@ export function i18nText(data: I18nData): string;
 export interface IfContainer {
     if?: unknown;
 }
+
+// @public (undocumented)
+export function initFormContext(formData: FormDataProperties, brickConf: BrickConf, isPreview: boolean | undefined): FormDataProperties;
 
 // Warning: (ae-internal-missing-underscore) The name "initI18n" should be prefixed with an underscore because the declaration is marked as @internal
 //
