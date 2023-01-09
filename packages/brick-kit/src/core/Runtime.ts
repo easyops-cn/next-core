@@ -329,7 +329,10 @@ export class Runtime implements AbstractRuntime {
   getBrandSettings(): Record<string, string> {
     return Object.assign(
       { base_title: "DevOps 管理专家" },
-      kernel.bootstrapData.settings?.brand
+      kernel.bootstrapData.settings?.brand,
+      kernel.getOriginFaviconHref()
+        ? { favicon: kernel.getOriginFaviconHref() }
+        : {}
     );
   }
 

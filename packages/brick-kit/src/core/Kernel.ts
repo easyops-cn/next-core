@@ -942,6 +942,10 @@ export class Kernel {
     return filterMenus as MenuRawData[];
   }
 
+  setOriginFaviconHref(href: string): void {
+    this.originFaviconHref = href;
+  }
+
   getOriginFaviconHref(): string {
     return this.originFaviconHref;
   }

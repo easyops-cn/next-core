@@ -327,6 +327,7 @@ export class Router {
       } else {
         faviconElement.href = this.kernel.getOriginFaviconHref();
       }
+      this.kernel.setOriginFaviconHref(faviconElement.href);
     }
 
     setTheme(
