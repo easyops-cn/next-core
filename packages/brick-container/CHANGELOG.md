@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.80.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.6...@next-core/brick-container@2.80.7) (2023-01-09)
+
+
+### Bug Fixes
+
+* 更改button样式 更改info和danger的颜色 size为sm的尺寸 ([92046d0](https://github.com/easyops-cn/next-core/commit/92046d00ee3a4711326125cc05cf58788e51b565))
+* 更改button颜色 ([96eb897](https://github.com/easyops-cn/next-core/commit/96eb8976412d087d5cd72700c1cfac094ac0cfb3))
+
+
+
+
+
 ## [2.80.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.5...@next-core/brick-container@2.80.6) (2023-01-09)
 
 **Note:** Version bump only for package @next-core/brick-container

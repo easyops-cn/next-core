@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.2...@next-core/custom-antd-styles@1.25.3) (2023-01-09)
+
+
+### Bug Fixes
+
+* 更改button样式 更改info和danger的颜色 size为sm的尺寸 ([92046d0](https://github.com/easyops-cn/next-core/commit/92046d00ee3a4711326125cc05cf58788e51b565))
+
+
+
+
+
 ## [1.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.1...@next-core/custom-antd-styles@1.25.2) (2023-01-05)
 
 
