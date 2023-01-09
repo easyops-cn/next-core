@@ -159,7 +159,7 @@ describe("Router", () => {
     firstRendered: jest.fn(),
     toggleLegacyIframe: jest.fn(),
     getRecentApps: jest.fn(),
-    loadDepsOfStoryboard: jest.fn(),
+    loadDepsOfStoryboard: jest.fn(() => Promise.resolve({ pendingTask: null })),
     registerCustomTemplatesInStoryboard: jest.fn(),
     fulfilStoryboard: jest.fn(),
     loadMicroAppApiOrchestrationAsync: jest.fn(),

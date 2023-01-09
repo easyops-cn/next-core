@@ -558,18 +558,22 @@ export class Kernel {
 
   private _loadDepsOfStoryboard = async (
     storyboard: RuntimeStoryboard
-  ): Promise<void> => {
+  ): Promise<{ pendingTask: Promise<void> }> => {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (storyboard.dependsAll) {
       const dllPath = window.DLL_PATH || {};
-      await loadScriptOfDll(Object.values(dllPath));
-      await loadScriptOfBricksOrTemplates(
-        brickPackages
-          .map((item) => item.filePath)
-          .concat(templatePackages.map((item) => item.filePath))
-      );
-      await loadAllLazyBricks();
+      return {
+        pendingTask: loadScriptOfDll(Object.values(dllPath))
+          .then(() =>
+            loadScriptOfBricksOrTemplates(
+              brickPackages
+                .map((item) => item.filePath)
+                .concat(templatePackages.map((item) => item.filePath))
+            )
+          )
+          .then(() => loadAllLazyBricks()),
+      };
     } else {
       // 先加载模板
       const templateDeps = getTemplateDepsOfStoryboard(
@@ -589,29 +593,35 @@ export class Kernel {
           ignoreBricksInUnusedCustomTemplates: true,
         }
       );
-      await loadScriptOfDll(dll);
-      await loadScriptOfBricksOrTemplates(deps);
-      await loadLazyBricks(bricks);
+      // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
+      // 挂载构件可能包括：Provider 构件实时挂载、路由准备完成后的统一挂载等。
+      return {
+        pendingTask: loadScriptOfDll(dll)
+          .then(() => loadScriptOfBricksOrTemplates(deps))
+          .then(() => loadLazyBricks(bricks)),
+      };
     }
   };
 
-  loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+  loadDepsOfStoryboard(
+    storyboard: RuntimeStoryboard
+  ): Promise<{ pendingTask: Promise<void> }> {
     return this.gracefullyLoadDeps(this._loadDepsOfStoryboard, storyboard);
   }
 
-  private async gracefullyLoadDeps<P extends unknown[]>(
-    fn: SimpleFunction<P, Promise<void>>,
+  private async gracefullyLoadDeps<P extends unknown[], R>(
+    fn: SimpleFunction<P, Promise<R>>,
     ...args: P
-  ): Promise<void> {
+  ): Promise<R> {
     try {
-      await fn(...args);
+      return await fn(...args);
     } catch (e) {
       if (e instanceof Event && e.target instanceof HTMLScriptElement) {
         // The scripts maybe stale when a user stays in page while upgrades been applied.
         // So we force reloading again automatically.
         // NOTE: reload only once to avoid a infinite loop.
         await this.reloadMicroApps();
-        await fn(...args);
+        return await fn(...args);
       } else {
         throw e;
       }
