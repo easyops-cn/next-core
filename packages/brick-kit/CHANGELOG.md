@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.159.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.3...@next-core/brick-kit@2.159.4) (2023-01-09)
+
+
+### Bug Fixes
+
+* concurrently load bricks and business apis ([efd45af](https://github.com/easyops-cn/next-core/commit/efd45af0144713758d775777f47dc9070e4cc0b3))
+
+
+
+
+
 ## [2.159.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.2...@next-core/brick-kit@2.159.3) (2023-01-09)
 
 
