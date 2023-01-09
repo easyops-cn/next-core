@@ -133,7 +133,7 @@
   --card-default-background: var(--antd-card-background);
   --card-transition: all 0.1s;
 
-  --card-inner-border-radius: 4px;
+  --card-inner-border-radius: 6px;
   --card-inner-border: 1px solid #d9d9d9;
 
   --card-hover-border-color: transparent;
