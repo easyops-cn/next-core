@@ -309,11 +309,7 @@ html[data-theme="dark-v2"],
 
   --antd-btn-primary-color: var(--color-normal-text);
   --antd-btn-primary-bg: var(--antd-primary-color);
-  --antd-btn-primary-bg-image: linear-gradient(
-    225deg,
-    #6597e8 0%,
-    #3f75dd 100%
-  );
+  --antd-btn-primary-bg-image: var(--palette-blue-6);
   --antd-btn-primary-hover-bg: var(--color-info-hover);
   --antd-btn-primary-hover-color: var(--color-normal-text);
   --antd-btn-primary-active-bg: var(--color-info-active);
@@ -327,7 +323,7 @@ html[data-theme="dark-v2"],
   --antd-btn-default-hover-color: var(--color-brand-hover);
   --antd-btn-default-hover-border-color: var(--color-brand-hover);
 
-  --antd-btn-danger-bg-image: linear-gradient(225deg, #e86d4c 0%, #d24525 100%);
+  --antd-btn-danger-bg-image: var(--palette-red-6);
   --antd-btn-danger-color: var(--color-normal-text);
   --antd-btn-danger-hover-bg: var(--color-error-hover);
   --antd-btn-danger-hover-color: var(--antd-btn-danger-color);
