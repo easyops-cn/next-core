@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.159.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.2...@next-core/brick-kit@2.159.3) (2023-01-09)
+
+
+### Bug Fixes
+
+* 增加userShowValue字段 refs USER-4 ([7a7192c](https://github.com/easyops-cn/next-core/commit/7a7192c5f2114941e7fe158fe7d8215c1f12dd79))
+
+
+
+
+
 ## [2.159.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.1...@next-core/brick-kit@2.159.2) (2023-01-09)
 
 
