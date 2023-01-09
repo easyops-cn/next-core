@@ -125,11 +125,14 @@ export default async function build(config) {
   /** @type {string[]} */
   const processors = [];
   if (isBricks) {
-    for (const [key, expose] of Object.entries(config.exposes)) {
-      if (key.startsWith("./processors/")) {
-        processors.push(`${camelPackageName}.${expose.name}`);
+    for (const key of Object.keys(config.exposes)) {
+      const segments = key.split("/");
+      const name = segments.pop();
+      const namespace = segments.pop();
+      if (namespace === "processors") {
+        processors.push(`${camelPackageName}.${name}`);
       } else {
-        bricks.push(`${packageName}.${expose.name}`);
+        bricks.push(`${packageName}.${name}`);
       }
     }
   }
@@ -147,17 +150,15 @@ export default async function build(config) {
     },
     output: {
       path: outputPath,
-      filename:
-        mode === "development"
-          ? `${chunksDir}[name].bundle.js`
-          : `${chunksDir}[name].[contenthash].js`,
+      filename: `${chunksDir}[name].${
+        mode === "development" ? "bundle" : "[contenthash]"
+      }.js`,
       // filename: "[name].bundle.js",
       publicPath: "auto",
       hashDigestLength: 8,
-      chunkFilename:
-        mode === "development"
-          ? `${chunksDir}[name].js`
-          : `${chunksDir}[name].[contenthash].js`,
+      chunkFilename: `${chunksDir}[name]${
+        mode === "development" ? "" : ".[contenthash]"
+      }.js`,
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -205,6 +206,7 @@ export default async function build(config) {
           // "polyfill",
           // No source maps for React and ReactDOM
           /^chunks\/(?:784|316)(?:\.[0-9a-f]+)?\.js$/,
+          /^chunks\/(?:vendors-)?node_modules_/,
         ],
       }),
       new ModuleFederationPlugin({

@@ -12,6 +12,7 @@ const { escapeRegExp } = _;
 const validBrickName =
   /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
+const validExposeName = /^[-\w]+$/;
 
 /**
  * Scan defined bricks by AST.
@@ -37,8 +38,9 @@ export default async function scanBricks(packageDir) {
   /**
    *
    * @param {string} filePath
+   * @param {string | undefined} overrideImport
    */
-  async function scanByFile(filePath) {
+  async function scanByFile(filePath, overrideImport) {
     if (processedFiles.has(filePath)) {
       return;
     }
@@ -64,13 +66,41 @@ export default async function scanBricks(packageDir) {
       console.error(e);
     }
 
+    /** @type {string | undefined} */
+    let nextOverrideImport = overrideImport;
+    if (content.startsWith("// Merge bricks")) {
+      nextOverrideImport = filePath;
+    }
+
+    /**
+     *
+     * @param {string} originalName
+     * @returns {string}
+     */
+    function getExposeName(originalName) {
+      if (overrideImport) {
+        const exposeName = path.basename(
+          overrideImport.replace(/\.[^.]+$/, "").replace(/\/index$/, "")
+        );
+        if (!validExposeName.test(exposeName)) {
+          throw new Error(
+            `Invalid filename for merging bricks: "${exposeName}", only alphabets/digits/hyphens/underscores are allowed`
+          );
+        }
+        return exposeName;
+      }
+      return originalName;
+    }
+
     /** @type {Map<string, Set<string>} */
     const importPaths = new Map();
     traverse(ast, {
       CallExpression({ node: { callee, arguments: args } }) {
         // Match `getRuntime().registerCustomProcessor(...)`
+        // Match `customElements.define(...)`
         if (
           callee.type === "MemberExpression" &&
+          !callee.property.computed &&
           callee.property.name === "registerCustomProcessor" &&
           args.length === 2
         ) {
@@ -88,17 +118,49 @@ export default async function scanBricks(packageDir) {
                 `Invalid custom processor: "${fullName}", expecting format of "camelPackageName.camelProcessorName"`
               );
             }
+
             exposes.set(`./processors/${processorName}`, {
               import: `./${path
-                .relative(packageDir, filePath)
+                .relative(packageDir, overrideImport || filePath)
                 .replace(/\.[^.]+$/, "")
                 .replace(/\/index$/, "")}`,
-              name: processorName,
+              name: getExposeName(processorName),
             });
           } else {
             throw new Error(
               "Please call `getRuntime().registerCustomProcessor()` only with literal string"
             );
+          }
+        } else if (
+          callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier" &&
+          callee.object.name === "customElements" &&
+          !callee.property.computed &&
+          callee.property.name === "define" &&
+          args.length === 2
+        ) {
+          const { type, value: fullName } = args[0];
+          if (type === "StringLiteral") {
+            const [brickNamespace, brickName] = fullName.split(".");
+            if (brickNamespace !== packageName) {
+              throw new Error(
+                `Invalid brick: "${fullName}", expecting prefixed with the package name: "${packageName}"`
+              );
+            }
+
+            if (!validBrickName.test(fullName)) {
+              throw new Error(
+                `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+              );
+            }
+
+            exposes.set(`./${brickName}`, {
+              import: `./${path
+                .relative(packageDir, overrideImport || filePath)
+                .replace(/\.[^.]+$/, "")
+                .replace(/\/index$/, "")}`,
+              name: getExposeName(brickName),
+            });
           }
         }
       },
@@ -133,10 +195,10 @@ export default async function scanBricks(packageDir) {
 
           exposes.set(`./${brickName}`, {
             import: `./${path
-              .relative(packageDir, filePath)
+              .relative(packageDir, overrideImport || filePath)
               .replace(/\.[^.]+$/, "")
               .replace(/\/index$/, "")}`,
-            name: brickName,
+            name: getExposeName(brickName),
           });
         }
       },
@@ -160,14 +222,19 @@ export default async function scanBricks(packageDir) {
       },
     });
 
-    await Promise.all([...importPaths.entries()].map(scanByImport));
+    await Promise.all(
+      [...importPaths.entries()].map((item) =>
+        scanByImport(item, nextOverrideImport)
+      )
+    );
   }
 
   /**
    *
    * @param {[string, Set<string>]} importEntry
+   * @param {string | undefined} overrideImport
    */
-  async function scanByImport([dirname, files]) {
+  async function scanByImport([dirname, files], overrideImport) {
     const dirents = await readdir(dirname, { withFileTypes: true });
     const possibleFilenames = [...files].map(
       (filename) => new RegExp(`${escapeRegExp(filename)}\\.[tj]sx?`)
@@ -179,7 +246,7 @@ export default async function scanBricks(packageDir) {
           possibleFilenames.some((regex) => regex.test(dirent.name))
         ) {
           const filePath = path.resolve(dirname, dirent.name);
-          return scanByFile(filePath);
+          return scanByFile(filePath, overrideImport);
         }
       })
     );
@@ -191,6 +258,8 @@ export default async function scanBricks(packageDir) {
   }
 
   await scanByFile(bootstrapTsPath);
+
+  // console.log("exposes:", exposes);
 
   return Object.fromEntries([...exposes.entries()]);
 }
