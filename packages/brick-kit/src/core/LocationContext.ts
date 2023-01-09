@@ -1,4 +1,4 @@
-import { omit, orderBy, set } from "lodash";
+import { omit, set } from "lodash";
 import {
   PluginLocation,
   MatchResult,
@@ -737,6 +737,7 @@ export class LocationContext {
     if (expandedBrickConf.bg) {
       // A bg brick has no slotId.
       brick.slotId = undefined;
+      await this.kernel.loadDynamicBricks([brick.type]);
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
       if (expandedBrickConf.portal) {

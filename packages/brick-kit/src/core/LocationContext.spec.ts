@@ -125,6 +125,7 @@ describe("LocationContext", () => {
     toggleBars: jest.fn(),
     getFeatureFlags: mockFeature,
     loadDynamicBricksInBrickConf: jest.fn(),
+    loadDynamicBricks: jest.fn(),
   } as any;
 
   const getInitialMountResult = (): MountRoutesResult => ({

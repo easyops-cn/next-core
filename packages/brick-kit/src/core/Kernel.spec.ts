@@ -251,7 +251,7 @@ describe("Kernel", () => {
         ],
       },
     } as Partial<Storyboard> as Storyboard;
-    await kernel.loadDepsOfStoryboard(storyboard);
+    const { pendingTask } = await kernel.loadDepsOfStoryboard(storyboard);
     await kernel.registerCustomTemplatesInStoryboard(storyboard);
     expect(spyOnLoadScript).toBeCalledTimes(4);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
@@ -270,9 +270,7 @@ describe("Kernel", () => {
       undefined
     );
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(4, ["dep.js"], undefined);
-    expect(loadLazyBricks).toBeCalledTimes(1);
-    expect(loadLazyBricks).toBeCalledWith(["my-brick"]);
-    expect(loadAllLazyBricks).not.toBeCalled();
+    expect(loadLazyBricks).toBeCalledTimes(0);
     expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
       "tpl-a",
       {
@@ -283,6 +281,11 @@ describe("Kernel", () => {
       true
     );
 
+    await pendingTask;
+    expect(loadLazyBricks).toBeCalledTimes(1);
+    expect(loadLazyBricks).toBeCalledWith(["my-brick"]);
+    expect(loadAllLazyBricks).not.toBeCalled();
+
     spyOnLoadScript.mockClear();
     (loadLazyBricks as jest.Mock).mockClear();
 
@@ -292,8 +295,10 @@ describe("Kernel", () => {
       bricks: [],
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
-    await kernel.loadDepsOfStoryboard({ dependsAll: true } as any);
-    expect(spyOnLoadScript).toBeCalledTimes(3);
+    const { pendingTask: pendingTask2 } = await kernel.loadDepsOfStoryboard({
+      dependsAll: true,
+    } as any);
+    expect(spyOnLoadScript).toBeCalledTimes(2);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       1,
       "dll-of-react-dnd.789.js",
@@ -308,6 +313,10 @@ describe("Kernel", () => {
       ],
       undefined
     );
+    expect(loadAllLazyBricks).not.toBeCalled();
+
+    await pendingTask2;
+    expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       3,
       ["all.js", "layout.js"],

@@ -251,6 +251,8 @@ export class Router {
       this.kernel.bootstrapData.storyboards
     );
 
+    /** Pending task for loading bricks */
+    let pendingTask: Promise<void>;
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
@@ -288,7 +290,7 @@ export class Router {
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
       const subStoryboard =
         this.locationContext.getSubStoryboardByRoute(storyboard);
-      await this.kernel.loadDepsOfStoryboard(subStoryboard);
+      ({ pendingTask } = await this.kernel.loadDepsOfStoryboard(subStoryboard));
 
       // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
@@ -539,13 +541,17 @@ export class Router {
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
-      menuInBg.forEach((brick) => {
-        appendBrick(brick, mountPoints.portal as MountableElement);
-      });
+      await Promise.all(
+        menuInBg.map(async (brick) => {
+          await this.kernel.loadDynamicBricks([brick.type]);
+          appendBrick(brick, mountPoints.portal as MountableElement);
+        })
+      );
 
       // When we have a matched route other than an abstract route,
       // we say *page found*, otherwise, *page not found*.
       if ((route && route.type !== "routes") || failed) {
+        await pendingTask;
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
