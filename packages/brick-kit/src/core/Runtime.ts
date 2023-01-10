@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+import { asyncProcessBrick } from "@next-core/brick-utils";
 import {
   MountPoints,
   MicroApp,
@@ -16,6 +18,8 @@ import {
   RouteConf,
   CustomTemplate,
   RuntimeStoryboard,
+  StoryConf,
+  RuntimeBrickConf,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {
@@ -26,7 +30,14 @@ import {
   registerCustomTemplate,
   registerCustomProcessor,
   NavConfig,
+  mountTree,
+  afterMountTree,
+  unmountTree,
+  MountableElement,
 } from "./exports";
+import { httpErrorToString } from "../handleHttpError";
+import { brickTemplateRegistry } from "./TemplateRegistries";
+import { createRuntime, getRuntime } from "../runtime";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import {
   RouterState,
@@ -159,6 +170,67 @@ export function _dev_only_updateFormPreviewSettings(
   settings: formDataProperties
 ): void {
   kernel._dev_only_updateFormPreviewSettings(appId, formId, settings);
+}
+
+export async function _dev_only_render(
+  mountPoints: MountPoints,
+  conf: StoryConf
+): Promise<void> {
+  unmountTree(mountPoints.bg as MountableElement);
+
+  if (!getRuntime()) {
+    const runtime = createRuntime();
+    await runtime.bootstrap(mountPoints);
+  }
+
+  if (kernel.router?.getResolver()) {
+    kernel.router.getResolver().resetRefreshQueue();
+  }
+
+  const mountRoutesResult: any = {
+    main: [],
+    portal: [],
+    failed: false,
+  };
+
+  try {
+    const mutableConf = cloneDeep(conf) as RuntimeBrickConf;
+    await asyncProcessBrick(
+      mutableConf,
+      brickTemplateRegistry,
+      kernel.bootstrapData.templatePackages
+    );
+    await kernel.loadDynamicBricksInBrickConf(mutableConf);
+    await kernel.router.getMountBrick(mutableConf, null, "", mountRoutesResult);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+
+    mountRoutesResult.failed = true;
+    mountRoutesResult.main = [
+      {
+        type: "basic-bricks.page-error",
+        properties: {
+          error: httpErrorToString(error),
+        },
+        events: {},
+      },
+    ];
+    mountRoutesResult.portal = [];
+  }
+
+  const { main, failed, portal } = mountRoutesResult;
+
+  mountTree(main, mountPoints.main as MountableElement);
+  mountTree(portal, mountPoints.portal as MountableElement);
+
+  afterMountTree(main);
+  afterMountTree(portal);
+
+  if (!failed) {
+    kernel.router.getHandlePageLoad();
+    kernel.router.getResolver().scheduleRefreshing();
+  }
 }
 
 export class Runtime implements AbstractRuntime {

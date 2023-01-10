@@ -67,6 +67,7 @@ module.exports = () => {
     entry: {
       polyfill: path.join(packageRoot, "src", "polyfill"),
       main: path.join(packageRoot, "src", "index"),
+      preview: path.join(packageRoot, "src", "preview"),
     },
     output: {
       path: path.join(__dirname, "../dist"),
@@ -166,6 +167,7 @@ module.exports = () => {
         inject: false,
         mockDate,
         publicCdn,
+        excludeChunks: ["preview"],
         customizeTag(tag) {
           if (tag.tagName === "link" && tag.attributes.rel === "stylesheet") {
             return {
@@ -195,8 +197,15 @@ module.exports = () => {
         faviconPath,
         chunks: [],
       }),
+      new HtmlWebpackPlugin({
+        filename: "preview.html",
+        title: "DevOps 管理专家",
+        baseHref,
+        template: path.join(packageRoot, "src", "preview.ejs"),
+        chunks: ["polyfill", "preview"],
+      }),
       new HtmlWebpackTagsPlugin({
-        files: ["index.html"],
+        files: ["index.html", "preview.html"],
         scripts: [
           {
             path: brickDllJsName,

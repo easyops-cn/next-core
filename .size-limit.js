@@ -25,7 +25,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/main.*.js",
-    limit: "6 KB",
+    limit: "7 KB",
   },
   {
     path: "packages/brick-container/dist/icons--*.js",
