@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@next-core/test-next": "^0.0.0",
-    "@babel/core": "^7.20.7",
+    "@babel/core": "^7.20.12",
     "@babel/types": "^7.20.7",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@size-limit/file": "^8.1.0",
