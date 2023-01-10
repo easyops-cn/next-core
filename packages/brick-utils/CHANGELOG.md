@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.14...@next-core/brick-utils@2.45.15) (2023-01-10)
+
+
+### Bug Fixes
+
+* fix concurrently load bricks and business apis ([04759bb](https://github.com/easyops-cn/next-core/commit/04759bb926b40d3828b651f1448a1d5c9a0e1520))
+
+
+
+
+
 ## [2.45.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.13...@next-core/brick-utils@2.45.14) (2023-01-05)
 
 **Note:** Version bump only for package @next-core/brick-utils
