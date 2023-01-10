@@ -11,6 +11,7 @@ interface DllAndDeps {
 
 interface DllAndDepsAndBricks extends DllAndDeps {
   bricks: string[];
+  byProcessors: DllAndDeps;
 }
 
 export function getDllAndDepsOfStoryboard(
@@ -20,19 +21,21 @@ export function getDllAndDepsOfStoryboard(
 ): DllAndDepsAndBricks {
   const { bricks, usedTemplates } = scanStoryboard(storyboard, options);
   const customTemplates = storyboard.meta?.customTemplates;
+  const processors = scanProcessorsInAny([
+    storyboard.routes,
+    options?.ignoreBricksInUnusedCustomTemplates
+      ? customTemplates?.filter((tpl) => usedTemplates.includes(tpl.name))
+      : customTemplates,
+  ]);
   return {
     ...getDllAndDepsByResource(
       {
         bricks,
-        processors: scanProcessorsInAny([
-          storyboard.routes,
-          options?.ignoreBricksInUnusedCustomTemplates
-            ? customTemplates?.filter((tpl) => usedTemplates.includes(tpl.name))
-            : customTemplates,
-        ]),
+        processors,
       },
       brickPackages
     ),
+    byProcessors: getDllAndDepsByResource({ processors }, brickPackages),
     bricks,
   };
 }

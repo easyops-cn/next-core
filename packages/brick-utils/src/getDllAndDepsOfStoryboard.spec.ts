@@ -76,6 +76,10 @@ describe("getDllAndDepsOfStoryboard", () => {
       dll: ["dll-of-d3.123.js"],
       deps: ["bricks/a/dist/a.js", "bricks/c/dist/c.js", "bricks/d/dist/d.js"],
       bricks: ["a.brick-a", "c.brick-c"],
+      byProcessors: {
+        dll: [],
+        deps: ["bricks/d/dist/d.js"],
+      },
     });
   });
 
@@ -143,6 +147,14 @@ describe("getDllAndDepsOfStoryboard", () => {
       dll: ["dll-of-d3.123.js"],
       deps: ["bricks/a/dist/a.js", "bricks/b/dist/b.js", "bricks/c/dist/c.js"],
       bricks: ["any-brick"],
+      byProcessors: {
+        dll: ["dll-of-d3.123.js"],
+        deps: [
+          "bricks/a/dist/a.js",
+          "bricks/b/dist/b.js",
+          "bricks/c/dist/c.js",
+        ],
+      },
     });
   });
 });
