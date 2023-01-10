@@ -235,6 +235,10 @@ describe("Kernel", () => {
       dll: ["d3.js", "dll-of-editor-bricks-helper.abc.js"],
       deps: ["dep.js"],
       bricks: ["my-brick"],
+      byProcessors: {
+        dll: ["ace.js"],
+        deps: ["processors.js"],
+      },
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
     const storyboard = {
@@ -253,23 +257,29 @@ describe("Kernel", () => {
     } as Partial<Storyboard> as Storyboard;
     const { pendingTask } = await kernel.loadDepsOfStoryboard(storyboard);
     await kernel.registerCustomTemplatesInStoryboard(storyboard);
-    expect(spyOnLoadScript).toBeCalledTimes(4);
+    expect(spyOnLoadScript).toBeCalledTimes(6);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       1,
       ["layout.js"],
       undefined
     );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(2, ["ace.js"], undefined);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
-      2,
+      3,
+      ["processors.js"],
+      undefined
+    );
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(
+      4,
       "dll-of-react-dnd.789.js",
       undefined
     );
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
-      3,
+      5,
       ["d3.js", "dll-of-editor-bricks-helper.abc.js"],
       undefined
     );
-    expect(spyOnLoadScript).toHaveBeenNthCalledWith(4, ["dep.js"], undefined);
+    expect(spyOnLoadScript).toHaveBeenNthCalledWith(6, ["dep.js"], undefined);
     expect(loadLazyBricks).toBeCalledTimes(0);
     expect(registerCustomTemplate as jest.Mock).toBeCalledWith(
       "tpl-a",
@@ -293,12 +303,16 @@ describe("Kernel", () => {
       dll: [],
       deps: [],
       bricks: [],
+      byProcessors: {
+        dll: [],
+        deps: [],
+      },
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce([]);
     const { pendingTask: pendingTask2 } = await kernel.loadDepsOfStoryboard({
       dependsAll: true,
     } as any);
-    expect(spyOnLoadScript).toBeCalledTimes(2);
+    expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       1,
       "dll-of-react-dnd.789.js",
@@ -313,17 +327,16 @@ describe("Kernel", () => {
       ],
       undefined
     );
-    expect(loadAllLazyBricks).not.toBeCalled();
-
-    await pendingTask2;
-    expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(spyOnLoadScript).toHaveBeenNthCalledWith(
       3,
       ["all.js", "layout.js"],
       undefined
     );
+    expect(loadAllLazyBricks).toBeCalledTimes(1);
+
+    await pendingTask2;
+    expect(spyOnLoadScript).toBeCalledTimes(3);
     expect(loadLazyBricks).not.toBeCalled();
-    expect(loadAllLazyBricks).toBeCalled();
 
     const fakeStoryboard = {
       app: {
@@ -887,6 +900,10 @@ describe("Kernel", () => {
       dll: ["d3.js"],
       deps: ["dep.js"],
       bricks: [],
+      byProcessors: {
+        dll: [],
+        deps: [],
+      },
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
 

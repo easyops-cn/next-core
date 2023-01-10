@@ -563,16 +563,15 @@ export class Kernel {
 
     if (storyboard.dependsAll) {
       const dllPath = window.DLL_PATH || {};
+      await loadScriptOfDll(Object.values(dllPath));
+      await loadScriptOfBricksOrTemplates(
+        brickPackages
+          .map((item) => item.filePath)
+          .concat(templatePackages.map((item) => item.filePath))
+      );
+      await loadAllLazyBricks();
       return {
-        pendingTask: loadScriptOfDll(Object.values(dllPath))
-          .then(() =>
-            loadScriptOfBricksOrTemplates(
-              brickPackages
-                .map((item) => item.filePath)
-                .concat(templatePackages.map((item) => item.filePath))
-            )
-          )
-          .then(() => loadAllLazyBricks()),
+        pendingTask: Promise.resolve(),
       };
     } else {
       // 先加载模板
@@ -582,7 +581,7 @@ export class Kernel {
       );
       await loadScriptOfBricksOrTemplates(templateDeps);
       // 加载模板后才能加工得到最终的构件表
-      const { dll, deps, bricks } = getDllAndDepsOfStoryboard(
+      const { dll, deps, bricks, byProcessors } = getDllAndDepsOfStoryboard(
         await asyncProcessStoryboard(
           storyboard,
           brickTemplateRegistry,
@@ -593,6 +592,9 @@ export class Kernel {
           ignoreBricksInUnusedCustomTemplates: true,
         }
       );
+      // 需要先阻塞加载 Custom Processors。
+      await loadScriptOfDll(byProcessors.dll);
+      await loadScriptOfBricksOrTemplates(byProcessors.deps);
       // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
       // 挂载构件可能包括：Provider 构件实时挂载、路由准备完成后的统一挂载等。
       return {
