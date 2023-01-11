@@ -66,7 +66,9 @@ describe("getSubStoryboardByRoute", () => {
   const matcherFactory =
     (url: string): SubStoryboardMatcher =>
     (routes) => {
-      return routes.filter((route) => url.startsWith(route.path));
+      return Promise.resolve(
+        routes.filter((route) => url.startsWith(route.path))
+      );
     };
 
   it.each<[string, Partial<Storyboard>]>([
@@ -192,9 +194,12 @@ describe("getSubStoryboardByRoute", () => {
         ],
       },
     ],
-  ])("getSubStoryboardByRoute(..., '%s') should work", (root, result) => {
+  ])("getSubStoryboardByRoute(..., '%s') should work", async (root, result) => {
     expect(
-      getSubStoryboardByRoute(storyboard as Storyboard, matcherFactory(root))
+      await getSubStoryboardByRoute(
+        storyboard as Storyboard,
+        matcherFactory(root)
+      )
     ).toEqual(result);
   });
 });

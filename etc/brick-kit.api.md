@@ -28,6 +28,7 @@ import { CustomTemplateProxyMergeableProperty } from '@next-core/brick-types';
 import { CustomTemplateProxyMergeablePropertyOfArray } from '@next-core/brick-types';
 import { CustomTemplateProxyMergeablePropertyOfObject } from '@next-core/brick-types';
 import { CustomTemplateProxyRefProperty } from '@next-core/brick-types';
+import { deferResolveContextConcurrently } from '@next-core/brick-utils';
 import { DefineResolveConf } from '@next-core/brick-types';
 import { DesktopData } from '@next-core/brick-types';
 import { EstreeNode } from '@next-core/brick-utils';

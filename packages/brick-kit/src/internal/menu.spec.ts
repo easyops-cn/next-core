@@ -457,7 +457,10 @@ describe("constructMenu", () => {
       },
     };
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -479,7 +482,10 @@ describe("constructMenu", () => {
       subMenuId: "sub-menu-e",
     };
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -543,7 +549,10 @@ describe("constructMenu", () => {
           },
         ],
       },
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -586,7 +595,10 @@ describe("constructMenu", () => {
       menuId: "menu-f",
     };
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
       getStandaloneMenus: jest.fn((menuId, isPrefetch) => {
         return Promise.resolve(
           mockMenuList.filter((item) => item.menuId === menuId)
@@ -651,7 +663,10 @@ describe("constructMenu", () => {
           },
         ],
       },
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -694,7 +709,10 @@ describe("constructMenu", () => {
 
   it("preConstructMenus should work", async () => {
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await preConstructMenus(["menu-c", "menu-d"], context, fakeKernel);
 
@@ -714,7 +732,10 @@ describe("processMenu", () => {
       app: currentApp,
     } as unknown as PluginRuntimeContext;
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     const menu = await processMenu("menu-h", context, fakeKernel);
     expect(menu).toEqual({

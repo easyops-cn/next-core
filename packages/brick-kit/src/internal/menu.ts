@@ -309,13 +309,13 @@ export async function processMenu(
   await kernel.fulfilStoryboardI18n([...appsRequireI18nFulfilled]);
 
   const menuData = {
-    ...computeRealValueWithOverrideApp(
+    ...(await computeRealValueWithOverrideApp(
       restMenuData,
       rootAppId,
       context,
       kernel
-    ),
-    items: computeMenuItemsWithOverrideApp(items, context, kernel),
+    )),
+    items: await computeMenuItemsWithOverrideApp(items, context, kernel),
   };
 
   return {
@@ -379,17 +379,22 @@ function computeMenuItemsWithOverrideApp(
   items: RuntimeMenuItemRawData[],
   context: PluginRuntimeContext,
   kernel: Kernel
-): RuntimeMenuItemRawData[] {
-  return items.map(({ children, ...rest }) => ({
-    ...computeRealValueWithOverrideApp(
-      rest,
-      rest[symbolAppId],
-      context,
-      kernel
-    ),
-    children:
-      children && computeMenuItemsWithOverrideApp(children, context, kernel),
-  }));
+): Promise<RuntimeMenuItemRawData[]> {
+  return Promise.all(
+    items.map(async ({ children, ...rest }) => {
+      return {
+        ...(await computeRealValueWithOverrideApp(
+          rest,
+          rest[symbolAppId],
+          context,
+          kernel
+        )),
+        children:
+          children &&
+          (await computeMenuItemsWithOverrideApp(children, context, kernel)),
+      };
+    })
+  );
 }
 
 export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
@@ -468,14 +473,14 @@ function attemptToVisit(
   return false;
 }
 
-function computeRealValueWithOverrideApp<
+async function computeRealValueWithOverrideApp<
   T extends RuntimeMenuRawData | RuntimeMenuItemRawData
 >(
   data: T,
   overrideAppId: string,
   context: PluginRuntimeContext,
   kernel: Kernel
-): T {
+): Promise<T> {
   let newContext = context;
   if (
     overrideAppId !== context.app.id &&
@@ -498,6 +503,7 @@ function computeRealValueWithOverrideApp<
       };
     }
   }
+  await kernel.router.waitForUsedContext(data);
   return computeRealValue(data, newContext, true, {
     ignoreSymbols: true,
   }) as T;

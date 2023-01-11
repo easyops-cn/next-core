@@ -21,10 +21,7 @@ import {
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
-import {
-  RuntimeApi_runtimeMicroAppStandalone,
-  RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
-} from "@next-sdk/micro-app-standalone-sdk";
+import { RuntimeApi_RuntimeMicroAppStandaloneResponseBody } from "@next-sdk/micro-app-standalone-sdk";
 import type {
   MountPoints,
   BootstrapData,

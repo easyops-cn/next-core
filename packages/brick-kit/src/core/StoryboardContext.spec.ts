@@ -4,35 +4,35 @@ import { StoryboardContextWrapper } from "./StoryboardContext";
 import * as runtime from "./Runtime";
 import { CustomFormContext } from "./CustomForms/CustomFormContext";
 
-const consoleWarn = jest.spyOn(console, "warn").mockImplementation();
-const consoleInfo = jest.spyOn(console, "info").mockImplementation();
-
-let resolveValue: string;
-let rejectReason: Error;
-const resolveOne = jest.fn(
-  async (
-    type: unknown,
-    resolveConf: unknown,
-    conf: Record<string, unknown>,
-    brick?: unknown,
-    context?: unknown,
-    options?: ResolveOptions
-  ) => {
-    if (rejectReason) {
-      throw rejectReason;
-    }
-    await Promise.resolve();
-    conf.value = `[cache:${options?.cache ?? "default"}] ${resolveValue}`;
-  }
-);
-jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
-  resolveOne,
-} as any);
-
 describe("StoryboardContextWrapper", () => {
+  const consoleWarn = jest.spyOn(console, "warn").mockImplementation();
+  const consoleInfo = jest.spyOn(console, "info").mockImplementation();
+
+  let resolveValue: string;
+  let rejectReason: Error;
+  const resolveOne = jest.fn(
+    async (
+      type: unknown,
+      resolveConf: unknown,
+      conf: Record<string, unknown>,
+      brick?: unknown,
+      context?: unknown,
+      options?: ResolveOptions
+    ) => {
+      if (rejectReason) {
+        throw rejectReason;
+      }
+      await Promise.resolve();
+      conf.value = `[cache:${options?.cache ?? "default"}] ${resolveValue}`;
+    }
+  );
+
   beforeEach(() => {
     resolveValue = "lazily updated";
     rejectReason = undefined;
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      resolveOne,
+    } as any);
     jest.clearAllMocks();
   });
 
@@ -353,14 +353,14 @@ describe("StoryboardContextWrapper", () => {
     });
   });
 
-  it("should listen on state.change", () => {
+  it("should listen on state.change", async () => {
     const brick = {
       element: document.createElement("div") as RuntimeBrickElement,
     };
     const refElement = document.createElement("span");
     brick.element.$$getElementByRef = () => refElement;
     const tplContext = new CustomTemplateContext(brick);
-    tplContext.state.define(
+    await tplContext.state.define(
       [
         {
           name: "quality",
@@ -386,29 +386,252 @@ describe("StoryboardContextWrapper", () => {
       ctx.updateValue("notExisted", "oops", "replace");
     }).toThrowErrorMatchingInlineSnapshot(`"State not found: notExisted"`);
   });
-});
 
-it("formstate should change", () => {
-  const brick = {
-    properties: {},
-  };
-  const formContext = new CustomFormContext();
-  formContext.formState.define(
-    [
-      {
-        name: "quality",
-        value: "good",
-        onChange: {
-          targetRef: "any",
-          properties: {
-            title: "updated",
+  it("formstate should change", async () => {
+    const brick = {
+      properties: {},
+    };
+    const formContext = new CustomFormContext();
+    await formContext.formState.define(
+      [
+        {
+          name: "quality",
+          value: "good",
+          onChange: {
+            targetRef: "any",
+            properties: {
+              title: "updated",
+            },
           },
         },
-      },
-    ],
-    {} as any,
-    brick
-  );
-  formContext.formState.updateValue("quality", "better", "replace");
-  expect(formContext.formState.getValue("quality")).toBe("better");
+      ],
+      {} as any,
+      brick
+    );
+    formContext.formState.updateValue("quality", "better", "replace");
+    expect(formContext.formState.getValue("quality")).toBe("better");
+  });
+});
+
+describe("deferDefine", () => {
+  const fnRequest = jest.fn();
+  let ctx: StoryboardContextWrapper;
+
+  beforeEach(() => {
+    ctx = new StoryboardContextWrapper();
+    const resolveOne = jest.fn(
+      async (
+        type: unknown,
+        resolveConf: any,
+        valueConf: { value: unknown }
+      ) => {
+        await ctx.waitForUsedContext(resolveConf);
+        fnRequest(resolveConf.useProvider);
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            valueConf.value = resolveConf.args[0];
+            resolve();
+          }, resolveConf.args[1]);
+        });
+      }
+    );
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      resolveOne,
+    } as any);
+    jest.clearAllMocks();
+  });
+
+  it("should work for nested deferDefine", async () => {
+    const getDataEntries = (): unknown =>
+      [...ctx.get().entries()].map(([k, v]) => [k, (v as any).value]);
+
+    ctx.deferDefine(
+      [
+        {
+          name: "a",
+          value: "result-a",
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: "my-provider-b",
+            args: ["result-b", 100, "<% CTX.c %>"],
+          },
+          value: "initial",
+        },
+        {
+          name: "c",
+          resolve: {
+            useProvider: "my-provider-c",
+            args: ["result-c", 50, "<% CTX.a %>"],
+          },
+        },
+      ],
+      {} as any
+    );
+
+    ctx.deferDefine(
+      [
+        {
+          name: "d",
+          resolve: {
+            useProvider: "my-provider-d",
+            args: ["result-d", 30, "<% CTX.c %>"],
+          },
+        },
+      ],
+      {} as any
+    );
+
+    expect(fnRequest).toBeCalledTimes(0);
+    expect(getDataEntries()).toEqual([]);
+
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([["a", "result-a"]]);
+
+    expect(fnRequest).toBeCalledTimes(1);
+    expect(fnRequest).toHaveBeenNthCalledWith(1, "my-provider-c");
+
+    jest.advanceTimersByTime(50);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+    ]);
+
+    expect(fnRequest).toBeCalledTimes(3);
+    expect(fnRequest).toHaveBeenNthCalledWith(2, "my-provider-d");
+    expect(fnRequest).toHaveBeenNthCalledWith(3, "my-provider-b");
+
+    jest.advanceTimersByTime(30);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+      ["d", "result-d"],
+    ]);
+
+    jest.advanceTimersByTime(70);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+      ["d", "result-d"],
+      ["b", "result-b"],
+    ]);
+  });
+
+  it("should wait for using computed context", async () => {
+    const getDataEntries = (): unknown =>
+      [...ctx.get().entries()].map(([k, v]) => [k, (v as any).value]);
+
+    ctx.deferDefine(
+      [
+        {
+          name: "a",
+          value: "result-a",
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: "my-provider-b",
+            args: ["result-b", 20, "<% CTX.c %>"],
+          },
+          value: "initial",
+        },
+        {
+          name: "c",
+          resolve: {
+            useProvider: "my-provider-c",
+            args: ["result-c", 50, "<% CTX.a %>"],
+          },
+        },
+      ],
+      {} as any
+    );
+
+    let done = false;
+    ctx.waitForUsedContext('<% CTX[false ? "c" : "a"] %>').then(() => {
+      done = true;
+    });
+
+    expect(getDataEntries()).toEqual([]);
+
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([["a", "result-a"]]);
+
+    jest.advanceTimersByTime(50);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+    ]);
+    expect(done).toBe(false);
+
+    jest.advanceTimersByTime(20);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+      ["b", "result-b"],
+    ]);
+    expect(done).toBe(true);
+  });
+
+  it("should wait for all context", async () => {
+    const getDataEntries = (): unknown =>
+      [...ctx.get().entries()].map(([k, v]) => [k, (v as any).value]);
+
+    ctx.deferDefine(
+      [
+        {
+          name: "a",
+          value: "result-a",
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: "my-provider-b",
+            args: ["result-b", 20, "<% CTX.c %>"],
+          },
+          value: "initial",
+        },
+        {
+          name: "c",
+          resolve: {
+            useProvider: "my-provider-c",
+            args: ["result-c", 50, "<% CTX.a %>"],
+          },
+        },
+      ],
+      {} as any
+    );
+
+    let done = false;
+    ctx.waitForAllContext().then(() => {
+      done = true;
+    });
+
+    expect(getDataEntries()).toEqual([]);
+
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([["a", "result-a"]]);
+
+    jest.advanceTimersByTime(50);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+    ]);
+    expect(done).toBe(false);
+
+    jest.advanceTimersByTime(20);
+    await (global as any).flushPromises();
+    expect(getDataEntries()).toEqual([
+      ["a", "result-a"],
+      ["c", "result-c"],
+      ["b", "result-b"],
+    ]);
+    expect(done).toBe(true);
+  });
 });

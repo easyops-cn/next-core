@@ -288,8 +288,9 @@ export class Router {
       await Promise.all(parallelRequests);
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
-      const subStoryboard =
-        this.locationContext.getSubStoryboardByRoute(storyboard);
+      const subStoryboard = await this.locationContext.getSubStoryboardByRoute(
+        storyboard
+      );
       ({ pendingTask } = await this.kernel.loadDepsOfStoryboard(subStoryboard));
 
       // 注册 Storyboard 中定义的自定义模板和函数。
@@ -404,6 +405,7 @@ export class Router {
           undefined,
           mountRoutesResult
         );
+        await locationContext.storyboardContextWrapper.waitForAllContext();
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
@@ -763,5 +765,11 @@ export class Router {
   /* istanbul ignore next */
   handleMessageClose(event: CloseEvent): void {
     return this.locationContext.handleMessageClose(event);
+  }
+
+  waitForUsedContext(data: unknown): Promise<void> {
+    return this.locationContext.storyboardContextWrapper.waitForUsedContext(
+      data
+    );
   }
 }

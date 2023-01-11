@@ -3,9 +3,11 @@ import {
   BrickEventHandler,
   BrickEventsMap,
   ContextConf,
+  PluginRuntimeContext,
   ResolveConf,
 } from "@next-core/brick-types";
 import _ from "lodash";
+import type { LocationContext } from "../LocationContext";
 import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
 
@@ -32,11 +34,18 @@ export async function AsyncExpandCustomForm(
   formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
-  context?: any
+  context?: PluginRuntimeContext,
+  locationContext?: LocationContext
 ): Promise<BrickConf> {
   const formContext = new CustomFormContext();
   formData = initFormContext(formData, brickConf, isPreview);
   if (Array.isArray(formData.context)) {
+    if (locationContext) {
+      // Handle use cases of using `CTX.*` in template states.
+      await locationContext.storyboardContextWrapper.waitForUsedContext(
+        formData.context.map((state) => [state.if, state.value, state.resolve])
+      );
+    }
     await formContext.formState.define(
       formData.context,
       { ...context, formContextId: formContext.id },
