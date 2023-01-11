@@ -15,9 +15,14 @@ export function deferResolveContextConcurrently(
   pendingContexts: Map<string, Promise<void>>;
 } {
   const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
-  const pendingDeps = new Set<string>(
-    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
-  );
+  // There maybe multiple context confs for a specific name, since there are conditional contexts.
+  // This is a map of how many pending context confs for each context name.
+  const pendingDeps = new Map<string, number>();
+  for (const contextName of Array.from(dependencyMap.keys()).map(
+    (contextConf) => contextConf.name
+  )) {
+    pendingDeps.set(contextName, (pendingDeps.get(contextName) ?? 0) + 1);
+  }
   const includesComputed = Array.from(dependencyMap.values()).some(
     (stats) => stats.includesComputed
   );
@@ -39,10 +44,20 @@ export function deferResolveContextConcurrently(
     processed.add(contextConf);
     const resolved = await resolveContext(contextConf);
     dependencyMap.delete(contextConf);
+    const left = pendingDeps.get(contextConf.name) ?? 0;
     if (resolved) {
       deferredContexts.get(contextConf.name).resolve();
-      if (!pendingDeps.delete(contextConf.name)) {
+      pendingDeps.delete(contextConf.name);
+      if (left === 0) {
         throw new Error(`Duplicated context defined: ${contextConf.name}`);
+      }
+    } else {
+      // Assert: left >= 1
+      if (left === 1) {
+        deferredContexts.get(contextConf.name).resolve();
+        pendingDeps.delete(contextConf.name);
+      } else {
+        pendingDeps.set(contextConf.name, left - 1);
       }
     }
     await scheduleNext();
@@ -95,9 +110,12 @@ export async function resolveContextConcurrently(
   keyword = "CTX"
 ): Promise<void> {
   const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
-  const pendingDeps = new Set<string>(
-    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
-  );
+  const pendingDeps = new Map<string, number>();
+  for (const contextName of Array.from(dependencyMap.keys()).map(
+    (contextConf) => contextConf.name
+  )) {
+    pendingDeps.set(contextName, (pendingDeps.get(contextName) ?? 0) + 1);
+  }
   const includesComputed = Array.from(dependencyMap.values()).some(
     (stats) => stats.includesComputed
   );
@@ -107,9 +125,18 @@ export async function resolveContextConcurrently(
     processed.add(contextConf);
     const resolved = await resolveContext(contextConf);
     dependencyMap.delete(contextConf);
+    const left = pendingDeps.get(contextConf.name) ?? 0;
     if (resolved) {
-      if (!pendingDeps.delete(contextConf.name)) {
+      pendingDeps.delete(contextConf.name);
+      if (left === 0) {
         throw new Error(`Duplicated context defined: ${contextConf.name}`);
+      }
+    } else {
+      // Assert: left >= 1
+      if (left === 1) {
+        pendingDeps.delete(contextConf.name);
+      } else {
+        pendingDeps.set(contextConf.name, left - 1);
       }
     }
     await scheduleNext();
@@ -147,9 +174,12 @@ export function syncResolveContextConcurrently(
   keyword = "CTX"
 ): void {
   const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
-  const pendingDeps = new Set<string>(
-    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
-  );
+  const pendingDeps = new Map<string, number>();
+  for (const contextName of Array.from(dependencyMap.keys()).map(
+    (contextConf) => contextConf.name
+  )) {
+    pendingDeps.set(contextName, (pendingDeps.get(contextName) ?? 0) + 1);
+  }
   const includesComputed = Array.from(dependencyMap.values()).some(
     (stats) => stats.includesComputed
   );
@@ -164,9 +194,18 @@ export function syncResolveContextConcurrently(
       const [contextConf] = dep;
       const resolved = resolveContext(contextConf);
       dependencyMap.delete(contextConf);
+      const left = pendingDeps.get(contextConf.name) ?? 0;
       if (resolved) {
-        if (!pendingDeps.delete(contextConf.name)) {
+        pendingDeps.delete(contextConf.name);
+        if (left === 0) {
           throw new Error(`Duplicated context defined: ${contextConf.name}`);
+        }
+      } else {
+        // Assert: left >= 1
+        if (left === 1) {
+          pendingDeps.delete(contextConf.name);
+        } else {
+          pendingDeps.set(contextConf.name, left - 1);
         }
       }
       scheduleNext();
@@ -190,7 +229,7 @@ export function syncResolveContextConcurrently(
 }
 
 function predicateNextResolveFactory(
-  pendingDeps: Set<string>,
+  pendingDeps: Map<string, number>,
   scheduleAsSerial: boolean
 ): (entry: [ContextConf, ContextUsage], index: number) => boolean {
   return (entry, index) =>

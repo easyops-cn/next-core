@@ -225,13 +225,15 @@ export class StoryboardContextWrapper {
     brick?: RuntimeBrick
   ): void {
     const { mergedContext, keyword } = this.getResolveOptions(coreContext);
-    const pending = deferResolveContextConcurrently(
-      Array.isArray(contextConfs) ? contextConfs : [],
-      (contextConf: ContextConf) =>
-        resolveStoryboardContext(contextConf, mergedContext, this, brick),
-      keyword
-    );
-    this.pendingStack.push(pending);
+    if (Array.isArray(contextConfs) && contextConfs.length > 0) {
+      const pending = deferResolveContextConcurrently(
+        contextConfs,
+        (contextConf: ContextConf) =>
+          resolveStoryboardContext(contextConf, mergedContext, this, brick),
+        keyword
+      );
+      this.pendingStack.push(pending);
+    }
   }
 
   async define(

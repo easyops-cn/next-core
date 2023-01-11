@@ -438,6 +438,9 @@ describe("deferDefine", () => {
     jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
       resolveOne,
     } as any);
+    jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+      storyboardContext: ctx.get(),
+    });
     jest.clearAllMocks();
   });
 
@@ -633,5 +636,34 @@ describe("deferDefine", () => {
       ["b", "result-b"],
     ]);
     expect(done).toBe(true);
+  });
+
+  it("should work for nested deferDefine with ignored deps", async () => {
+    ctx.deferDefine(
+      [
+        {
+          name: "a",
+          resolve: {
+            if: false,
+            useProvider: "my-provider-a",
+            args: ["result-a", 100],
+          },
+        },
+        {
+          name: "b",
+          value: "<% `a:${typeof CTX.a}` %>",
+        },
+      ],
+      {} as any
+    );
+
+    await (global as any).flushPromises();
+    await ctx.waitForAllContext();
+
+    expect(fnRequest).toBeCalledTimes(0);
+    expect(ctx.get().has("a")).toBe(false);
+    expect(ctx.get().get("b")).toMatchObject({
+      value: "a:undefined",
+    });
   });
 });
