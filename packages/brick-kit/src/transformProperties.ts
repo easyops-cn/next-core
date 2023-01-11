@@ -41,6 +41,7 @@ export interface DoTransformOptions {
   trackingContextList?: TrackingContextItem[];
   allowInject?: boolean;
   tplContextId?: string;
+  formContextId?: string;
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
 }
@@ -108,6 +109,8 @@ export function doTransform(
       };
       if (options?.tplContextId)
         runtimeContext.tplContextId = options.tplContextId;
+      if (options?.formContextId)
+        runtimeContext.formContextId = options.formContextId;
       result = evaluate(to as string, runtimeContext, options?.evaluateOptions);
       dismissRecursiveMarkingInjected = shouldDismissRecursiveMarkingInjected(
         to as string

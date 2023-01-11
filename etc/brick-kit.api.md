@@ -252,6 +252,8 @@ export interface DoTransformOptions {
     // (undocumented)
     evaluateOptions?: EvaluateOptions;
     // (undocumented)
+    formContextId?: string;
+    // (undocumented)
     tplContextId?: string;
     // Warning: (ae-forgotten-export) The symbol "TrackingContextItem" needs to be exported by the entry point index.d.ts
     //
