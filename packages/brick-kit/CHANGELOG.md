@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.160.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.5...@next-core/brick-kit@2.160.0) (2023-01-11)
+
+
+### Features
+
+* brickAsComponent支持form_state表达式解析，refs: ITSERVICE_NEXT-5450 ([255918d](https://github.com/easyops-cn/next-core/commit/255918da7e4bc779dfe003238dc46e4190f154d8))
+
+
+
+
+
 ## [2.159.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.4...@next-core/brick-kit@2.159.5) (2023-01-10)
 
 
