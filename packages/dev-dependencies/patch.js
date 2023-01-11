@@ -199,8 +199,25 @@ module.exports = async function patch() {
     enableLernaWithNx();
   }
 
+  if (semver.lt(currentRenewVersion, "1.16.0")) {
+    updateTestCI();
+  }
+
   updateDevDependenciesVersion();
 };
+
+function updateTestCI() {
+  const packageJsonPath = path.resolve("package.json");
+  const packageJsonContent = fs.readFileSync(packageJsonPath, "utf-8");
+  const oldTestCI = '"lerna run test:ci --"';
+  const newTestCI = '"lerna run test:ci -- --runInBand"';
+  if (packageJsonContent.includes(oldTestCI)) {
+    fs.writeFileSync(
+      packageJsonPath,
+      packageJsonContent.replace(oldTestCI, newTestCI)
+    );
+  }
+}
 
 function updateLintstagedrc() {
   const filePath = path.resolve(".lintstagedrc");
