@@ -18,7 +18,7 @@
     "postbuild": "npm run size-limit",
     "size-limit": "size-limit",
     "test": "next-jest",
-    "test:ci": "lerna run test:ci --",
+    "test:ci": "lerna run test:ci -- --runInBand",
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
     "cypress:open": "cypress open",
