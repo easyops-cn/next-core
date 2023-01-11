@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.160.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.1...@next-core/brick-kit@2.160.2) (2023-01-11)
+
+
+### Bug Fixes
+
+* fetch menu and subMenu in parallel ([a2133f3](https://github.com/easyops-cn/next-core/commit/a2133f3e12790ba4bd9e9f8ca65fcc01843dd27d))
+* fix parallel context for nested routes ([840bbe4](https://github.com/easyops-cn/next-core/commit/840bbe4c21bd7060f8a54e2a82edc114e41b862a))
+
+
+
+
+
 ## [2.160.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.0...@next-core/brick-kit@2.160.1) (2023-01-11)
 
 **Note:** Version bump only for package @next-core/brick-kit

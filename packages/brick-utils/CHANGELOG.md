@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.16...@next-core/brick-utils@2.45.17) (2023-01-11)
+
+
+### Bug Fixes
+
+* fix parallel context for nested routes ([840bbe4](https://github.com/easyops-cn/next-core/commit/840bbe4c21bd7060f8a54e2a82edc114e41b862a))
+
+
+
+
+
 ## [2.45.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.15...@next-core/brick-utils@2.45.16) (2023-01-11)
 
 **Note:** Version bump only for package @next-core/brick-utils
