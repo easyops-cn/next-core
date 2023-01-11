@@ -55,21 +55,32 @@ export async function constructMenu(
   kernel: Kernel
 ): Promise<void> {
   const hasSubMenu = !!menuBar.subMenuId;
-  if (menuBar.menuId) {
-    const defaultCollapsed = menuBar.menu?.defaultCollapsed;
-    const menu = await processMenu(menuBar.menuId, context, kernel, hasSubMenu);
+  await Promise.all([
+    (async () => {
+      if (menuBar.menuId) {
+        const defaultCollapsed = menuBar.menu?.defaultCollapsed;
+        const menu = await processMenu(
+          menuBar.menuId,
+          context,
+          kernel,
+          hasSubMenu
+        );
 
-    if (!isNil(defaultCollapsed)) {
-      menu.defaultCollapsed = defaultCollapsed;
-    }
+        if (!isNil(defaultCollapsed)) {
+          menu.defaultCollapsed = defaultCollapsed;
+        }
 
-    menuBar.menu = menu;
-  }
-  if (hasSubMenu) {
-    menuBar.subMenu = await processMenu(menuBar.subMenuId, context, kernel);
-  } else {
-    menuBar.subMenu = null;
-  }
+        menuBar.menu = menu;
+      }
+    })(),
+    (async () => {
+      if (hasSubMenu) {
+        menuBar.subMenu = await processMenu(menuBar.subMenuId, context, kernel);
+      } else {
+        menuBar.subMenu = null;
+      }
+    })(),
+  ]);
 }
 
 export async function preConstructMenus(
