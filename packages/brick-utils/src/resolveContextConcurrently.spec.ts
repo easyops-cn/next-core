@@ -4,6 +4,7 @@ import {
   getDependencyMapOfContext,
   syncResolveContextConcurrently,
   deferResolveContextConcurrently,
+  DeferredContext,
 } from "./resolveContextConcurrently";
 
 describe("resolveContextConcurrently", () => {
@@ -304,6 +305,9 @@ describe("deferResolveContextConcurrently", () => {
   const fnRequest = jest.fn();
   const asyncProcess = (contextConf: ContextConf): Promise<boolean> => {
     const contextResolve = contextConf.resolve as UseProviderResolveConf;
+    if (!contextResolve) {
+      return Promise.resolve(contextConf.if !== false);
+    }
     return new Promise((resolve) => {
       if (contextResolve.if !== false) {
         fnRequest(contextConf.name, contextResolve.useProvider);
@@ -609,6 +613,86 @@ describe("deferResolveContextConcurrently", () => {
     expect(getDoneTask()).toEqual(["_", "a", "b"]);
 
     expect(fnRequest).toBeCalledTimes(0);
+  });
+
+  it("should work when a related context is ignored", async () => {
+    const deferredPending: Partial<DeferredContext> = {};
+    const mockWaitForUsedContext = new Promise<void>((resolve, reject) => {
+      deferredPending.resolve = resolve;
+      deferredPending.reject = reject;
+    });
+    const deferredProcess = async (
+      contextConf: ContextConf
+    ): Promise<boolean> => {
+      const contextResolve = contextConf.resolve as UseProviderResolveConf;
+      if (!contextResolve) {
+        if (contextConf.if === false) {
+          return false;
+        }
+        await mockWaitForUsedContext;
+        return true;
+      }
+      return new Promise((resolve) => {
+        if (contextResolve.if !== false) {
+          fnRequest(contextConf.name, contextResolve.useProvider);
+          setTimeout(() => resolve(true), contextResolve.args[0] as number);
+        } else {
+          resolve(false);
+        }
+      });
+    };
+    const { pendingResult, pendingContexts } = deferResolveContextConcurrently(
+      [
+        {
+          name: "a",
+          resolve: {
+            if: false,
+            useProvider: "willBeUnresolved",
+            args: [100],
+          },
+        },
+        {
+          name: "b",
+          value: "<% CTX.a + 1 %>",
+        },
+      ],
+      deferredProcess
+    );
+
+    pendingContexts.get("a").then(
+      () => {
+        deferredPending.resolve();
+      },
+      (e) => {
+        deferredPending.reject(e);
+      }
+    );
+
+    const tasks = new Map<string, boolean>([["_", false]]);
+    pendingResult.then(() => {
+      tasks.set("_", true);
+    });
+    for (const [contextName, promise] of pendingContexts) {
+      tasks.set(contextName, false);
+      promise.then(() => {
+        tasks.set(contextName, true);
+      });
+    }
+    const getDoneTask = (): string[] =>
+      [...tasks].filter((entry) => entry[1]).map((entry) => entry[0]);
+
+    expect(tasks).toMatchInlineSnapshot(`
+      Map {
+        "_" => false,
+        "a" => false,
+        "b" => false,
+      }
+    `);
+
+    await (global as any).flushPromises();
+    expect(getDoneTask()).toEqual(["_", "a", "b"]);
+
+    await pendingResult;
   });
 
   it("should throw if circular CTX detected", async () => {
