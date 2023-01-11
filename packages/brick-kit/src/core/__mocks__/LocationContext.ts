@@ -39,6 +39,9 @@ export class LocationContext {
   handleMessage = jest.fn();
   getCurrentMatch = jest.fn(() => ({ path: "/developers" }));
   handleBrickBindObserver = jest.fn();
+  storyboardContextWrapper = {
+    waitForAllContext: jest.fn().mockResolvedValue(undefined),
+  };
 
   matchStoryboard(): RuntimeStoryboard {
     return _matchedStoryboard;

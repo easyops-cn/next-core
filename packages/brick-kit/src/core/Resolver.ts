@@ -17,7 +17,7 @@ import {
 } from "@next-core/brick-types";
 import { asyncProcessBrick } from "@next-core/brick-utils";
 import { computeRealValue } from "../internal/setProperties";
-import { Kernel, RuntimeBrick } from "./exports";
+import { Kernel, RuntimeBrick, type LocationContext } from "./exports";
 import {
   makeProviderRefreshable,
   RefreshableProvider,
@@ -38,7 +38,10 @@ export class Resolver {
   private readonly definedResolves: Map<string, DefineResolveConf> = new Map();
   private active = true;
 
-  constructor(private kernel: Kernel) {}
+  constructor(
+    private kernel: Kernel,
+    private locationContext: LocationContext
+  ) {}
 
   resetRefreshQueue(): void {
     if (this.refreshQueue.size > 0) {
@@ -69,11 +72,16 @@ export class Resolver {
     brick: RuntimeBrick,
     context?: PluginRuntimeContext
   ): Promise<void> {
-    const useResolves = (brickConf.lifeCycle?.useResolves ?? []).filter(
-      (r: ResolveConf) => {
-        return looseCheckIf(r, context);
-      }
-    );
+    const useResolves = (
+      await Promise.all(
+        (brickConf.lifeCycle?.useResolves ?? []).map(async (r) => {
+          await this.locationContext.storyboardContextWrapper.waitForUsedContext(
+            r.if
+          );
+          return r;
+        })
+      )
+    ).filter((r: ResolveConf) => looseCheckIf(r, context));
 
     await Promise.all(
       useResolves.map((resolveConf: ResolveConf) =>
@@ -218,7 +226,7 @@ export class Resolver {
       ? ref
         ? args // `args` are already computed for `defineResolves`
         : context
-        ? computeRealValue(args, context, true)
+        ? await this.locationContext.deferComputeRealValue(args, context, true)
         : args
       : providerBrick.args || [];
 
@@ -286,6 +294,9 @@ export class Resolver {
         await fetchData();
       } catch (error) {
         if (isHandleRejectByTransform(onReject)) {
+          await this.locationContext.storyboardContextWrapper.waitForUsedContext(
+            onReject.transform
+          );
           transformProperties(
             props,
             error,
@@ -309,6 +320,9 @@ export class Resolver {
     }
 
     if (ref) {
+      await this.locationContext.storyboardContextWrapper.waitForUsedContext(
+        transform
+      );
       data = transformIntermediateData(
         data,
         context
@@ -319,17 +333,17 @@ export class Resolver {
       );
     }
 
+    const transformTo = resolveConf.transform || resolveConf.name;
+    await this.locationContext.storyboardContextWrapper.waitForUsedContext(
+      transformTo
+    );
     transformProperties(
       props,
       data,
       // Also support legacy `name`
       context
-        ? (computeRealValue(
-            resolveConf.transform || resolveConf.name,
-            context,
-            true
-          ) as GeneralTransform)
-        : resolveConf.transform || resolveConf.name,
+        ? (computeRealValue(transformTo, context, true) as GeneralTransform)
+        : transformTo,
       resolveConf.transformFrom,
       resolveConf.transformMapArray
     );

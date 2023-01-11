@@ -3,6 +3,7 @@ import { RuntimeBrick } from "./BrickNode";
 import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import * as runtime from "../core/Runtime";
 import { registerStoryboardFunctions } from "./StoryboardFunctions";
+import { computeRealValue } from "../internal/setProperties";
 
 jest.mock("../handleHttpError");
 
@@ -80,10 +81,20 @@ describe("Resolver", () => {
         brick === "error-provider" ? errorProvider : anyProvider
       ),
   } as any;
+  const locationContext = {
+    storyboardContextWrapper: {
+      waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+    },
+    deferComputeRealValue(
+      ...args: Parameters<typeof computeRealValue>
+    ): Promise<unknown> {
+      return Promise.resolve(computeRealValue(...args));
+    },
+  } as any;
   let resolver: Resolver;
 
   beforeEach(() => {
-    resolver = new Resolver(kernel as any);
+    resolver = new Resolver(kernel, locationContext);
   });
 
   it("should do nothing if nothing to resolve", async () => {

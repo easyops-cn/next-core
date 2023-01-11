@@ -6,64 +6,68 @@ import {
 } from "@next-core/brick-types";
 import { isObject } from "@next-core/brick-utils";
 
-export type SubStoryboardMatcher = (routes: RouteConf[]) => RouteConf[];
+export type SubStoryboardMatcher = (
+  routes: RouteConf[]
+) => Promise<RouteConf[]>;
 
-export function getSubStoryboardByRoute(
+export async function getSubStoryboardByRoute(
   storyboard: Storyboard,
   matcher: SubStoryboardMatcher
-): Storyboard {
-  function getSubRoutes(routes: RouteConf[]): RouteConf[] {
-    return matcher(routes).map(getSubRoute);
+): Promise<Storyboard> {
+  async function getSubRoutes(routes: RouteConf[]): Promise<RouteConf[]> {
+    return Promise.all((await matcher(routes)).map(getSubRoute));
   }
 
-  function getSubRoute(route: RouteConf): RouteConf {
+  async function getSubRoute(route: RouteConf): Promise<RouteConf> {
     if (route.type === "routes") {
       return {
         ...route,
-        routes: getSubRoutes(route.routes),
+        routes: await getSubRoutes(route.routes),
       };
     }
     return {
       ...route,
-      bricks: getSubBricks((route as RouteConfOfBricks).bricks),
+      bricks: await getSubBricks((route as RouteConfOfBricks).bricks),
     } as RouteConfOfBricks;
   }
 
-  function getSubBricks(bricks: BrickConf[]): BrickConf[] {
+  async function getSubBricks(bricks: BrickConf[]): Promise<BrickConf[]> {
     if (Array.isArray(bricks)) {
-      return bricks.map((brickConf) => getSubBrick(brickConf));
+      return Promise.all(bricks.map((brickConf) => getSubBrick(brickConf)));
     }
     return bricks;
   }
 
-  function getSubBrick(brickConf: BrickConf): BrickConf {
+  async function getSubBrick(brickConf: BrickConf): Promise<BrickConf> {
     if (isObject(brickConf.slots)) {
       return {
         ...brickConf,
         slots: Object.fromEntries(
-          Object.entries(brickConf.slots).map(([slotId, slotConf]) => {
-            if (slotConf.type === "routes") {
-              return [
-                slotId,
-                {
-                  ...slotConf,
-                  routes: getSubRoutes(slotConf.routes),
-                },
-              ];
-            } /* istanbul ignore else: should never reach */ else if (
-              slotConf.type === "bricks"
-            ) {
-              return [
-                slotId,
-                {
-                  ...slotConf,
-                  bricks: getSubBricks(slotConf.bricks),
-                },
-              ];
-            }
-            /* istanbul ignore next: should never reach */
-            return [slotId, slotConf];
-          })
+          await Promise.all(
+            Object.entries(brickConf.slots).map(async ([slotId, slotConf]) => {
+              if (slotConf.type === "routes") {
+                return [
+                  slotId,
+                  {
+                    ...slotConf,
+                    routes: await getSubRoutes(slotConf.routes),
+                  },
+                ];
+              } /* istanbul ignore else: should never reach */ else if (
+                slotConf.type === "bricks"
+              ) {
+                return [
+                  slotId,
+                  {
+                    ...slotConf,
+                    bricks: await getSubBricks(slotConf.bricks),
+                  },
+                ];
+              }
+              /* istanbul ignore next: should never reach */
+              return [slotId, slotConf];
+            })
+          )
         ),
       };
     }
@@ -72,6 +76,6 @@ export function getSubStoryboardByRoute(
 
   return {
     ...storyboard,
-    routes: getSubRoutes(storyboard.routes),
+    routes: await getSubRoutes(storyboard.routes),
   };
 }
