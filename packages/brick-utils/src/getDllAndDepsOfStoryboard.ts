@@ -3,6 +3,7 @@ import { isEmpty } from "lodash";
 import * as changeCase from "change-case";
 import { scanProcessorsInAny } from "./scanProcessorsInStoryboard";
 import { scanStoryboard, ScanBricksOptions } from "./scanStoryboard";
+import { scanUseWidgetInAny } from "./scanUseWidgetInStoryboard";
 
 interface DllAndDeps {
   dll: string[];
@@ -27,11 +28,19 @@ export function getDllAndDepsOfStoryboard(
       ? customTemplates?.filter((tpl) => usedTemplates.includes(tpl.name))
       : customTemplates,
   ]);
+  const useWidget = scanUseWidgetInAny([
+    storyboard.routes,
+    options?.ignoreBricksInUnusedCustomTemplates
+      ? customTemplates?.filter((tpl) => usedTemplates.includes(tpl.name))
+      : customTemplates,
+  ]);
+
   return {
     ...getDllAndDepsByResource(
       {
         bricks,
         processors,
+        useWidget,
       },
       brickPackages
     ),
@@ -98,11 +107,12 @@ export function getDllAndDepsOfBricks(
 interface StoryboardResource {
   bricks?: string[];
   processors?: string[];
+  useWidget?: string[];
   editorBricks?: string[];
 }
 
 export function getDllAndDepsByResource(
-  { bricks, processors, editorBricks }: StoryboardResource,
+  { bricks, processors, useWidget, editorBricks }: StoryboardResource,
   brickPackages: BrickPackage[]
 ): DllAndDeps {
   const dll = new Set<string>();
@@ -111,7 +121,8 @@ export function getDllAndDepsByResource(
   if (
     bricks?.length > 0 ||
     processors?.length > 0 ||
-    editorBricks?.length > 0
+    editorBricks?.length > 0 ||
+    useWidget?.length > 0
   ) {
     const brickMap = getBrickToPackageMap(brickPackages);
 
@@ -163,6 +174,19 @@ export function getDllAndDepsByResource(
           console.error(
             `Editor \`${editor}\` does not match any brick package`
           );
+        }
+      }
+    });
+
+    useWidget?.forEach((widget) => {
+      const find = brickMap.get(widget);
+      if (find) {
+        deps.add(find.filePath);
+
+        if (find.dll) {
+          for (const dllName of find.dll) {
+            dll.add(dllName);
+          }
         }
       }
     });
