@@ -60,7 +60,12 @@ import {
   ExpandCustomForm,
   FormDataProperties,
 } from "./core/CustomForms/ExpandCustomForm";
-import { formRenderer } from "./core/CustomForms/constants";
+import {
+  formRenderer,
+  RuntimeBrickConfOfFormSymbols,
+  RuntimeBrickConfWithFormSymbols,
+  symbolForFormContextId,
+} from "./core/CustomForms/constants";
 
 interface BrickAsComponentProps {
   useBrick: UseBrickConf;
@@ -116,6 +121,9 @@ const getCurrentRunTimeBrick = (
   const tplContextId = (useBrick as RuntimeBrickConfWithTplSymbols)[
     symbolForTplContextId
   ];
+  const formContextId = (useBrick as RuntimeBrickConfOfFormSymbols)[
+    symbolForFormContextId
+  ];
   const transformOption: DoTransformOptions = {
     // Keep lazy fields inside `useBrick` inside the `properties`.
     // They will be transformed by their `BrickAsComponent` later.
@@ -123,6 +131,7 @@ const getCurrentRunTimeBrick = (
     trackingContextList,
     allowInject: true,
     tplContextId,
+    formContextId,
   };
 
   const properties = doTransform(
@@ -143,6 +152,7 @@ const getCurrentRunTimeBrick = (
   listenOnTrackingContext(brick, trackingContextList, {
     ...runtimeContext,
     tplContextId,
+    formContextId,
   });
 
   return brick;
@@ -202,7 +212,11 @@ export const SingleBrickAsComponent = React.memo(
     const requireSuspense = useMemo(() => {
       let context: ContextConf[];
       if (useBrick.brick === formRenderer) {
-        context = (useBrick.properties.formData as FormDataProperties).context;
+        const formData =
+          typeof useBrick.properties.formData === "string"
+            ? JSON.parse(useBrick.properties.formData)
+            : useBrick.properties.formData;
+        context = (formData as FormDataProperties).context;
       } else if (tplTagName) {
         context = customTemplateRegistry.get(tplTagName).state;
       }
@@ -225,11 +239,12 @@ export const SingleBrickAsComponent = React.memo(
       );
 
       const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
-
       const expanded =
         useBrick.brick === formRenderer
           ? (requireSuspense ? AsyncExpandCustomForm : ExpandCustomForm)(
-              useBrick.properties.formData,
+              typeof useBrick.properties.formData === "string"
+                ? JSON.parse(useBrick.properties.formData)
+                : useBrick.properties.formData,
               useBrick as BrickConf,
               false
             )
@@ -286,6 +301,9 @@ export const SingleBrickAsComponent = React.memo(
             tplContextId: (useBrick as RuntimeBrickConfWithTplSymbols)[
               symbolForTplContextId
             ],
+            formContextId: (useBrick as RuntimeBrickConfWithFormSymbols)[
+              symbolForFormContextId
+            ],
           }
         );
       }
@@ -306,6 +324,9 @@ export const SingleBrickAsComponent = React.memo(
             tplContextId: (useBrick as RuntimeBrickConfWithTplSymbols)[
               symbolForTplContextId
             ],
+            formContextId: (useBrick as RuntimeBrickConfWithFormSymbols)[
+              symbolForFormContextId
+            ],
           },
           brick
         )(event);
@@ -318,7 +339,8 @@ export const SingleBrickAsComponent = React.memo(
 
         const { [symbolForTplContextId]: tplContextId } =
           useBrick as RuntimeBrickConfWithTplSymbols;
-
+        const { [symbolForFormContextId]: formContextId } =
+          useBrick as RuntimeBrickConfWithFormSymbols;
         if (useBrick.iid) {
           element.dataset.iid = useBrick.iid;
         }
@@ -328,6 +350,7 @@ export const SingleBrickAsComponent = React.memo(
           bindListeners(element, transformEvents(data, brick.events), {
             ..._internalApiGetCurrentContext(),
             tplContextId,
+            formContextId,
           });
         }
         // 设置proxyEvent
@@ -553,8 +576,11 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       const requireSuspense = useMemo(() => {
         let context: ContextConf[];
         if (useBrick.brick === formRenderer) {
-          context = (useBrick.properties.formData as FormDataProperties)
-            .context;
+          const formData =
+            typeof useBrick.properties.formData === "string"
+              ? JSON.parse(useBrick.properties.formData)
+              : useBrick.properties.formData;
+          context = (formData as FormDataProperties).context;
         } else if (tplTagName) {
           context = customTemplateRegistry.get(tplTagName).state;
         }
@@ -582,11 +608,12 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         );
 
         const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
-
         const expanded =
           useBrick.brick === formRenderer
             ? (requireSuspense ? AsyncExpandCustomForm : ExpandCustomForm)(
-                useBrick.properties.formData,
+                typeof useBrick.properties.formData === "string"
+                  ? JSON.parse(useBrick.properties.formData)
+                  : useBrick.properties.formData,
                 useBrick as BrickConf,
                 false
               )
