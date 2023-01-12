@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.161.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.3...@next-core/brick-kit@2.161.0) (2023-01-12)
+
+
+### Features
+
+* support brick preview in iframe ([cc0e55e](https://github.com/easyops-cn/next-core/commit/cc0e55ed92f8bff0d8e151a133b259cd4ee15d74))
+
+
+
+
+
 ## [2.160.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.2...@next-core/brick-kit@2.160.3) (2023-01-12)
 
 
