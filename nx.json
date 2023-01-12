@@ -17,6 +17,7 @@
       "{workspaceRoot}/yarn.lock",
       "{workspaceRoot}/babel.config.js",
       "{workspaceRoot}/tsconfig.json",
+      "{workspaceRoot}/tsconfig.module.json",
       "{workspaceRoot}/packages/babel-preset-next/**/*",
       "{workspaceRoot}/packages/browserslist-config-next/**/*"
     ],
