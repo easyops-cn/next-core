@@ -404,7 +404,7 @@ export function getFinalStoryBoard(
   let result = null;
   const renderRoot =
     typeof brickConf.properties?.renderRoot === "boolean"
-      ? brickConf.renderRoot
+      ? brickConf.properties.renderRoot
       : true;
   const errorBrick = {
     brick: "presentational-bricks.brick-illustration",
