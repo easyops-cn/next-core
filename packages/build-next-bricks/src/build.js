@@ -91,12 +91,17 @@ export default async function build(config) {
             encoding: "utf-8",
           });
           const depPackageJson = JSON.parse(depPackageJsonFile);
+          const customized = config.moduleFederationShared?.[dep];
+          if (typeof customized === "string") {
+            return;
+          }
           return [
             dep,
             {
               singleton: true,
               version: depPackageJson.version,
               requiredVersion: packageJson.dependencies?.[dep],
+              ...customized,
             },
           ];
         })
@@ -212,7 +217,10 @@ export default async function build(config) {
       }),
       new ModuleFederationPlugin({
         name: libName,
-        shared,
+        shared: {
+          ...config.moduleFederationShared,
+          ...shared,
+        },
         ...(isBricks
           ? {
               library: { type: "window", name: libName },
