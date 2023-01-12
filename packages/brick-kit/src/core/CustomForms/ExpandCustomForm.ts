@@ -402,6 +402,10 @@ export function getFinalStoryBoard(
   formContext: CustomFormContext
 ): BrickConf {
   let result = null;
+  const renderRoot =
+    typeof brickConf.properties?.renderRoot === "boolean"
+      ? brickConf.renderRoot
+      : true;
   const errorBrick = {
     brick: "presentational-bricks.brick-illustration",
     properties: {
@@ -441,22 +445,35 @@ export function getFinalStoryBoard(
       });
       formStoryboard[0].events = events;
     }
-    result = {
-      ...brickConf,
-      brick: "div",
-      slots: {
-        "": {
-          bricks: [
-            {
-              brick: "basic-bricks.micro-view",
-              properties: { style: { padding: "12px" } },
-              slots: { content: { bricks: formStoryboard, type: "bricks" } },
+    result = renderRoot
+      ? {
+          ...brickConf,
+          brick: "div",
+          slots: {
+            "": {
+              bricks: [
+                {
+                  brick: "basic-bricks.micro-view",
+                  properties: { style: { padding: "12px" } },
+                  slots: {
+                    content: { bricks: formStoryboard, type: "bricks" },
+                  },
+                },
+              ],
+              type: "bricks",
             },
-          ],
-          type: "bricks",
-        },
-      },
-    };
+          },
+        }
+      : {
+          ...brickConf,
+          brick: "div",
+          slots: {
+            "": {
+              bricks: formStoryboard,
+              type: "bricks",
+            },
+          },
+        };
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error.message);
