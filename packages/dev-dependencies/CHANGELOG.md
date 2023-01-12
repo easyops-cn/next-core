@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.3](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.2...@next-core/dev-dependencies@1.16.3) (2023-01-12)
+
+
+### Bug Fixes
+
+* **test:ci:** disable runInBand ([b7c59b7](https://github.com/easyops-cn/next-core/commit/b7c59b70e27c37684b20fe42d165ddb7588e898f))
+
+
+
+
+
 ## [1.16.2](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.1...@next-core/dev-dependencies@1.16.2) (2023-01-12)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
