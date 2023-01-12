@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.162.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.161.0...@next-core/brick-kit@2.162.0) (2023-01-12)
+
+
+### Bug Fixes
+
+* 代码调整 ([ebce470](https://github.com/easyops-cn/next-core/commit/ebce470fd2237d1cb2224d2f7707893b007f141f))
+
+
+### Features
+
+* 支持formschema渲染不携带根容器，refs: ITSERVICE_NEXT-5472 ([88c8a93](https://github.com/easyops-cn/next-core/commit/88c8a938643198c16cdbae743203cd8f25ecbed8))
+
+
+
+
+
 # [2.161.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.3...@next-core/brick-kit@2.161.0) (2023-01-12)
 
 
