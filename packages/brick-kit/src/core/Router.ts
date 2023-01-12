@@ -7,6 +7,8 @@ import type {
   PluginRuntimeContext,
   RuntimeMisc,
   NavTip,
+  BrickConf,
+  MatchResult,
 } from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
@@ -246,6 +248,10 @@ export class Router {
       this.kernel,
       location
     ));
+
+    if ((window as any).DEVELOPER_PREVIEW) {
+      return;
+    }
 
     const storyboard = locationContext.matchStoryboard(
       this.kernel.bootstrapData.storyboards
@@ -741,6 +747,16 @@ export class Router {
   /* istanbul ignore next */
   getResolver(): Resolver {
     return this.locationContext.resolver;
+  }
+
+  getMountBrick(
+    ...args: [BrickConf, MatchResult, string, MountRoutesResult]
+  ): Promise<void> {
+    return this.locationContext.mountBrick(...args);
+  }
+
+  getHandlePageLoad(): void {
+    return this.locationContext.handlePageLoad();
   }
 
   getState(): RouterState {
