@@ -12,9 +12,17 @@
     background-color: var(--theme-blue-background);
   }
 
+  &-group.@{input-prefix-cls}-compact {
+    > *:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
   &-group-addon {
     color: var(--color-normal-text);
     background-color: var(--theme-gray-background);
+    border-radius: 3px;
 
     &:first-child {
       z-index: 1;

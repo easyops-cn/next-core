@@ -1,5 +1,6 @@
 .@{btn-prefix-cls} {
   transition: initial;
+  border-radius: var(--antd-button-border-radius);
   & {
     &:hover,
     &:focus {
@@ -22,7 +23,7 @@
     border-color: transparent;
     text-shadow: none;
     box-shadow: none;
-    border-radius: var(--antd-button-border-radius);
+    
 
     &[disabled] {
       background-image: none;
@@ -47,7 +48,6 @@
     background-image: var(--antd-btn-danger-bg-image);
     background-origin: border-box;
     border-color: transparent;
-    border-radius: var(--antd-button-border-radius);
 
     &[disabled] {
       background-image: none;
@@ -116,6 +116,14 @@
       background-color: transparent;
       border-color: transparent;
     }
+  }
+
+  &-circle {
+    border-radius: 50%;
+  }
+
+  &-round {
+    border-radius: 32px;
   }
 
   &-circle&-sm {
