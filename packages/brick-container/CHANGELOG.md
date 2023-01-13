@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.1...@next-core/brick-container@2.81.2) (2023-01-13)
+
+
+### Bug Fixes
+
+* 改变组件间距以及input和button的圆角 ([66955b4](https://github.com/easyops-cn/next-core/commit/66955b46bc292c462f7c73f67ea4b55ef8aa2038))
+
+
+
+
+
 ## [2.81.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.0...@next-core/brick-container@2.81.1) (2023-01-12)
 
 **Note:** Version bump only for package @next-core/brick-container

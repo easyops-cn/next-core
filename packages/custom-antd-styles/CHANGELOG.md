@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.5...@next-core/custom-antd-styles@1.25.6) (2023-01-13)
+
+
+### Bug Fixes
+
+* 改变组件间距以及input和button的圆角 ([66955b4](https://github.com/easyops-cn/next-core/commit/66955b46bc292c462f7c73f67ea4b55ef8aa2038))
+
+
+
+
+
 ## [1.25.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.4...@next-core/custom-antd-styles@1.25.5) (2023-01-11)
 
 
