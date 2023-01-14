@@ -235,7 +235,7 @@ describe("Kernel", () => {
       dll: ["d3.js", "dll-of-editor-bricks-helper.abc.js"],
       deps: ["dep.js"],
       bricks: ["my-brick"],
-      byProcessors: {
+      eager: {
         dll: ["ace.js"],
         deps: ["processors.js"],
       },
@@ -303,7 +303,7 @@ describe("Kernel", () => {
       dll: [],
       deps: [],
       bricks: [],
-      byProcessors: {
+      eager: {
         dll: [],
         deps: [],
       },
@@ -900,7 +900,7 @@ describe("Kernel", () => {
       dll: ["d3.js"],
       deps: ["dep.js"],
       bricks: [],
-      byProcessors: {
+      eager: {
         dll: [],
         deps: [],
       },
