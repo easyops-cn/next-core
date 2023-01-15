@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.17...@next-core/brick-utils@2.45.18) (2023-01-15)
+
+
+### Bug Fixes
+
+* fix loading widgets ([3807dec](https://github.com/easyops-cn/next-core/commit/3807dec8ed3b489ae970535ede60357adcee2e08))
+
+
+
+
+
 ## [2.45.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.16...@next-core/brick-utils@2.45.17) (2023-01-11)
 
 

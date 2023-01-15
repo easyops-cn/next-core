@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.162.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.0...@next-core/brick-kit@2.162.1) (2023-01-15)
+
+
+### Bug Fixes
+
+* fix loading widgets ([3807dec](https://github.com/easyops-cn/next-core/commit/3807dec8ed3b489ae970535ede60357adcee2e08))
+
+
+
+
+
 # [2.162.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.161.0...@next-core/brick-kit@2.162.0) (2023-01-12)
 
 
