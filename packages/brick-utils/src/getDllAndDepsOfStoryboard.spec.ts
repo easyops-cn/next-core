@@ -37,6 +37,9 @@ const brickPackages: BrickPackage[] = [
   {
     filePath: "bricks/a-test/dist/bbc.js",
   },
+  {
+    filePath: "bricks/test-widgets/dist/index.js",
+  },
 ];
 
 let spyConsoleError: jest.SpyInstance;
@@ -68,17 +71,25 @@ describe("getDllAndDepsOfStoryboard", () => {
                 any: "<% PROCESSORS.d.doGood() %>",
               },
             },
+            {
+              brick: "test-widgets.tpl-xyz",
+            },
           ],
         },
       ],
     } as any;
     expect(getDllAndDepsOfStoryboard(storyboard, brickPackages)).toEqual({
       dll: ["dll-of-d3.123.js"],
-      deps: ["bricks/a/dist/a.js", "bricks/c/dist/c.js", "bricks/d/dist/d.js"],
-      bricks: ["a.brick-a", "c.brick-c"],
-      byProcessors: {
+      deps: [
+        "bricks/a/dist/a.js",
+        "bricks/c/dist/c.js",
+        "bricks/test-widgets/dist/index.js",
+        "bricks/d/dist/d.js",
+      ],
+      bricks: ["a.brick-a", "c.brick-c", "test-widgets.tpl-xyz"],
+      eager: {
         dll: [],
-        deps: ["bricks/d/dist/d.js"],
+        deps: ["bricks/test-widgets/dist/index.js", "bricks/d/dist/d.js"],
       },
     });
   });
@@ -147,7 +158,7 @@ describe("getDllAndDepsOfStoryboard", () => {
       dll: ["dll-of-d3.123.js"],
       deps: ["bricks/a/dist/a.js", "bricks/b/dist/b.js", "bricks/c/dist/c.js"],
       bricks: ["any-brick"],
-      byProcessors: {
+      eager: {
         dll: ["dll-of-d3.123.js"],
         deps: [
           "bricks/a/dist/a.js",

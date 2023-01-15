@@ -11,8 +11,13 @@ interface DllAndDeps {
 
 interface DllAndDepsAndBricks extends DllAndDeps {
   bricks: string[];
-  byProcessors: DllAndDeps;
+  /**
+   * Some deps required eager loading, such as processors and widgets.
+   */
+  eager: DllAndDeps;
 }
+
+const widgetRegExp = /\.tpl-/;
 
 export function getDllAndDepsOfStoryboard(
   storyboard: Storyboard,
@@ -27,6 +32,7 @@ export function getDllAndDepsOfStoryboard(
       ? customTemplates?.filter((tpl) => usedTemplates.includes(tpl.name))
       : customTemplates,
   ]);
+  const widgets = bricks.filter((brick) => widgetRegExp.test(brick));
   return {
     ...getDllAndDepsByResource(
       {
@@ -35,7 +41,10 @@ export function getDllAndDepsOfStoryboard(
       },
       brickPackages
     ),
-    byProcessors: getDllAndDepsByResource({ processors }, brickPackages),
+    eager: getDllAndDepsByResource(
+      { bricks: widgets, processors },
+      brickPackages
+    ),
     bricks,
   };
 }
