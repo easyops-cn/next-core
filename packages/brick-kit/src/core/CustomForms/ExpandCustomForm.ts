@@ -385,10 +385,10 @@ export function initFormContext(
         item.value = brickConf.properties[item.name];
       }
     });
-    if (brickConf.properties.condition) {
+    if (brickConf.properties.params) {
       formData.context.push({
-        name: "condition",
-        value: brickConf.properties.condition,
+        name: "params",
+        value: brickConf.properties.params,
       });
     }
   }
