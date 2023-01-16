@@ -1,4 +1,4 @@
-import { isEmpty, isNil, sortBy } from "lodash";
+import { isEmpty, isNil, merge, sortBy } from "lodash";
 import {
   SidebarMenuSimpleItem,
   PluginRuntimeContext,
@@ -8,6 +8,7 @@ import {
   MicroApp,
 } from "@next-core/brick-types";
 import {
+  deepFreeze,
   isEvaluable,
   isObject,
   preevaluate,
@@ -261,6 +262,15 @@ async function loadDynamicMenuItems(
       attemptToVisit(menu.itemsResolve, ["APP", "I18N"])
     ) {
       if (window.STANDALONE_MICRO_APPS) {
+        if (menu.overrideApp) {
+          menu.overrideApp.config = deepFreeze(
+            merge(
+              {},
+              menu.overrideApp.defaultConfig,
+              menu.overrideApp.userConfig
+            )
+          );
+        }
         newContext = {
           ...context,
           overrideApp: menu.overrideApp,
@@ -498,6 +508,15 @@ async function computeRealValueWithOverrideApp<
     attemptToVisit(data, ["APP", "I18N"])
   ) {
     if (window.STANDALONE_MICRO_APPS) {
+      if (data[symbolOverrideApp]) {
+        data[symbolOverrideApp].config = deepFreeze(
+          merge(
+            {},
+            data[symbolOverrideApp].defaultConfig,
+            data[symbolOverrideApp].userConfig
+          )
+        );
+      }
       newContext = {
         ...context,
         overrideApp: data[symbolOverrideApp],

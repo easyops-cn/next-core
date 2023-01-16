@@ -174,6 +174,41 @@ const mockMenuList: any[] = [
     type: "inject",
     items: [
       {
+        text: "should show",
+        to: "${APP.homepage}/4",
+        sort: 4,
+        if: "<% APP.config.featureFlag %>",
+      },
+      {
+        if: "<% APP.config.count > 10 %>",
+        text: "should hide",
+        sort: 5,
+        to: "${APP.homepage}/5",
+      },
+    ],
+    app: [
+      {
+        appId: "test-config",
+      },
+    ],
+    overrideApp: {
+      id: "test-config",
+      homepage: "/test-config",
+      defaultConfig: {
+        featureFlag: false,
+        count: 0,
+      },
+      userConfig: {
+        featureFlag: true,
+      },
+    },
+  },
+  {
+    menuId: "menu-f",
+    title: "<% I18N('HELLO') %>",
+    type: "inject",
+    items: [
+      {
         text: "<% I18N('MENU_ITEM') %>",
         to: "${APP.homepage}/1",
         sort: 2,
@@ -547,6 +582,23 @@ describe("constructMenu", () => {
               homepage: "/hola",
             },
           },
+          {
+            app: {
+              id: "test-config",
+              homepage: "/test-config",
+              config: {
+                featureFlag: true,
+                count: 0,
+              },
+              defaultConfig: {
+                featureFlag: false,
+                count: 0,
+              },
+              userConfig: {
+                featureFlag: true,
+              },
+            },
+          },
         ],
       },
       fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
@@ -582,6 +634,13 @@ describe("constructMenu", () => {
             sort: 3,
             to: "/hola/2",
             children: [],
+          },
+          {
+            text: "should show",
+            to: "/test-config/4",
+            children: [],
+            sort: 4,
+            if: true,
           },
         ],
       },
@@ -633,6 +692,13 @@ describe("constructMenu", () => {
             activeIncludes: ["/any"],
             sort: 3,
             to: "/hola/2",
+            children: [],
+          },
+          {
+            text: "should show",
+            to: "/test-config/4",
+            sort: 4,
+            if: true,
             children: [],
           },
         ],
