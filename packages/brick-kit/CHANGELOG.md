@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.163.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.1...@next-core/brick-kit@2.163.0) (2023-01-16)
+
+
+### Bug Fixes
+
+* 修复overrideApp没有合并defaultConfig和userConfig的问题 ([47ab41c](https://github.com/easyops-cn/next-core/commit/47ab41cfefd6701cfe6075f123d2946fcce50a53))
+
+
+### Features
+
+* **FORMBUILDER:** 新增params内置formstate，废弃condition功能 ([5cab4f5](https://github.com/easyops-cn/next-core/commit/5cab4f5410c4db035f5cd46bf7b12b408d2b14eb))
+
+
+
+
+
 ## [2.162.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.0...@next-core/brick-kit@2.162.1) (2023-01-15)
 
 
