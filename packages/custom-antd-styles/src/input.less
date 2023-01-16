@@ -12,10 +12,19 @@
     background-color: var(--theme-blue-background);
   }
 
-  &-group.@{input-prefix-cls}-compact {
+  &-group&-compact {
     > *:last-child {
-      border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+  }
+  
+  &-group&-group-compact {
+    > .@{select-prefix-cls}:last-child {
+      > .@{select-prefix-cls}-selector {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
     }
   }
 
@@ -27,7 +36,7 @@
     &:first-child {
       z-index: 1;
       right: -1px;
-    }
+  }
 
     &:last-child {
       left: -1px;
