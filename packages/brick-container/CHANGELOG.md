@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.4...@next-core/brick-container@2.81.5) (2023-01-17)
+
+
+### Bug Fixes
+
+* 修改卡片间距 ([83df545](https://github.com/easyops-cn/next-core/commit/83df5456244d0e681c640a094b85603fd22dc4e2))
+
+
+
+
+
 ## [2.81.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.3...@next-core/brick-container@2.81.4) (2023-01-16)
 
 **Note:** Version bump only for package @next-core/brick-container

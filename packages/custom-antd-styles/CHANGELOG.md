@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.6...@next-core/custom-antd-styles@1.25.7) (2023-01-17)
+
+
+### Bug Fixes
+
+* 修改select及upload等组件的radius ([d82058b](https://github.com/easyops-cn/next-core/commit/d82058b1942a4dc04c0a122af1d259dbdcaee0e9))
+* 修改卡片间距 ([83df545](https://github.com/easyops-cn/next-core/commit/83df5456244d0e681c640a094b85603fd22dc4e2))
+
+
+
+
+
 ## [1.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.5...@next-core/custom-antd-styles@1.25.6) (2023-01-13)
 
 
