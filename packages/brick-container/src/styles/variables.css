@@ -126,7 +126,7 @@
   /* Sub menu in the main content. */
   --sub-menu-width: 240px;
 
-  --card-content-gap: 16px;
+  --card-content-gap: 12px;
 
   --card-default-border-radius: 6px;
   --card-default-border: none;
