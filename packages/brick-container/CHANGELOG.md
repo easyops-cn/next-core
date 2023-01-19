@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.5...@next-core/brick-container@2.81.6) (2023-01-19)
+
+
+### Bug Fixes
+
+* 修改构件圆角样式 ([3802b73](https://github.com/easyops-cn/next-core/commit/3802b73b291f635d028924e5a2a48e0b22e1682e))
+
+
+
+
+
 ## [2.81.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.4...@next-core/brick-container@2.81.5) (2023-01-17)
 
 
