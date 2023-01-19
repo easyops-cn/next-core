@@ -7,13 +7,16 @@
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "styles"
   ],
   "exports": {
     ".": {
@@ -21,7 +24,8 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./styles/default.css": "./styles/default.css"
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -34,12 +38,15 @@
     "build:main": "cross-env NODE_ENV=production build-next-libs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
     "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
+    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests",
+    "tsc": "tsc --outDir dist"
   },
   "dependencies": {
     "@next-core/brick-http": "^2.8.0",
     "@next-core/brick-types": "^2.82.1",
-    "@next-core/loader": "^0.0.0"
+    "@next-core/loader": "^0.0.0",
+    "i18next": "^22.4.9",
+    "react-i18next": "^12.1.4"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.15"

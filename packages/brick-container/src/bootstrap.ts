@@ -1,7 +1,6 @@
 import { createRuntime } from "@next-core/runtime";
 // import { http, HttpError, HttpResponse } from "@next-core/brick-http";
 // import { loadScript, loadSharedModule } from "@next-core/loader";
-import "./styles/default.css";
 
 // http.interceptors.response.use(
 //   function (response: HttpResponse) {

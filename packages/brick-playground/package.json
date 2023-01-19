@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@next-core/loader": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
     "compression": "^1.7.4",
     "express": "^4.18.2",
     "monaco-editor": "^0.34.1"
