@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.9...@next-core/custom-antd-styles@1.25.10) (2023-01-19)
+
+
+### Bug Fixes
+
+* fixBorderRadiusOfInputGroupfist-child ([2889ffa](https://github.com/easyops-cn/next-core/commit/2889ffa1b0c7b6c77992fdd72041e985f7900f7e))
+
+
+
+
+
 ## [1.25.9](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.8...@next-core/custom-antd-styles@1.25.9) (2023-01-19)
 
 
