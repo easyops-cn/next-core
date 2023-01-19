@@ -12,10 +12,14 @@
     background-color: var(--theme-blue-background);
   }
 
-  &-group&-compact {
+  &-group&-group-compact {
     > *:last-child {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
+    }
+    > *:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
     }
   }
   
@@ -75,6 +79,12 @@
 
   &-handler-down {
     border-top-color: transparent;
+  }
+}
+
+.@{ant-prefix}-input {
+  &-affix-wrapper {
+    border-radius: 3px;
   }
 }
 
