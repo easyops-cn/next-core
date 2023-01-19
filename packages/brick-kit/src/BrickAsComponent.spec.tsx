@@ -920,12 +920,131 @@ describe("BrickAsComponent", () => {
     );
     await (global as any).flushPromises();
     expect(wrapper.html()).toBe(
-      "<form-renderer.form-renderer>" +
+      "<div>" +
         '<basic-bricks.micro-view style="padding: 12px;" slot="">' +
         '<forms.general-form data-iid="5e95351dd8a41" id="form_233" slot="content">' +
         '<forms.general-switch data-iid="5e95351dd87e9" id="c1" data-testid="c1" slot="items"></forms.general-switch>' +
         '<forms.general-select data-iid="5e95351dd884d" id="c2" data-testid="c2" slot="items"></forms.general-select>' +
-        "</forms.general-form></basic-bricks.micro-view></form-renderer.form-renderer>"
+        "</forms.general-form></basic-bricks.micro-view></div>"
+    );
+  });
+
+  it("should work for custom-form with string formdata", async () => {
+    const formData = {
+      formSchema: {
+        instanceId: "5e95351dd8a41",
+        id: "form_233",
+        brick: "forms.general-form",
+        properties: {
+          valueTypes: {},
+          id: "form_233",
+          previewConf: "undefined",
+          values: {},
+        },
+        mountPoint: "",
+        events: {},
+        sort: 0,
+        if: true,
+        isRoot: true,
+        bricks: [
+          {
+            instanceId: "5e95351dd87e9",
+            id: "c1",
+            brick: "forms.general-switch",
+            properties: {
+              brickId: "fb-switch",
+              id: "c1",
+              label: "c1",
+              showIcon: false,
+            },
+            mountPoint: "items",
+            events: {},
+            sort: 1,
+            if: true,
+            isRoot: false,
+          },
+          {
+            instanceId: "5e95351dd884d",
+            id: "c2",
+            brick: "forms.general-select",
+            properties: {
+              mode: "multiple",
+              accordanceOption: false,
+              options: "<% FORM_STATE.options %>",
+              id: "c2",
+              required: false,
+              readOnly: false,
+              notRender: false,
+              label: "c2234",
+              inputBoxStyle: {
+                width: "100%",
+              },
+              message: {},
+              name: "c2",
+              brickId: "fb-multi-select",
+            },
+            mountPoint: "items",
+            events: {},
+            sort: 2,
+            if: true,
+            isRoot: false,
+          },
+        ],
+      },
+      fields: [
+        {
+          instanceId: "5e94f76340171",
+          fieldId: "c1",
+          name: "c1",
+          fieldType: "STRING",
+          description: "",
+          limit: ["READONLY"],
+          defaultValue: "",
+        },
+        {
+          instanceId: "5e94f798ec595",
+          fieldId: "c2",
+          name: "c2",
+          fieldType: "ENUMS",
+          description: "",
+          limit: [],
+          defaultValue: "",
+        },
+        {
+          instanceId: "5e94fb118c62e",
+          fieldId: "c6",
+          name: "c6",
+          fieldType: "STRING",
+          description: "",
+          limit: [],
+          defaultValue: "",
+        },
+      ],
+      context: [
+        {
+          name: "options",
+          value: ["APP", "n"],
+        },
+      ],
+    };
+    const wrapper = mount(
+      <BrickAsComponent
+        useBrick={{
+          brick: "form-renderer.form-renderer",
+          properties: {
+            formData: JSON.stringify(formData),
+          },
+        }}
+      />
+    );
+    await (global as any).flushPromises();
+    expect(wrapper.html()).toBe(
+      "<div>" +
+        '<basic-bricks.micro-view style="padding: 12px;" slot="">' +
+        '<forms.general-form data-iid="5e95351dd8a41" id="form_233" slot="content">' +
+        '<forms.general-switch data-iid="5e95351dd87e9" id="c1" data-testid="c1" slot="items"></forms.general-switch>' +
+        '<forms.general-select data-iid="5e95351dd884d" id="c2" data-testid="c2" slot="items"></forms.general-select>' +
+        "</forms.general-form></basic-bricks.micro-view></div>"
     );
   });
 });

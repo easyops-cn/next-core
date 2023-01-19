@@ -3,6 +3,134 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.7...@next-core/brick-container@2.81.8) (2023-01-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.81.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.6...@next-core/brick-container@2.81.7) (2023-01-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.81.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.5...@next-core/brick-container@2.81.6) (2023-01-19)
+
+### Bug Fixes
+
+- 修改构件圆角样式 ([3802b73](https://github.com/easyops-cn/next-core/commit/3802b73b291f635d028924e5a2a48e0b22e1682e))
+
+## [2.81.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.4...@next-core/brick-container@2.81.5) (2023-01-17)
+
+### Bug Fixes
+
+- 修改卡片间距 ([83df545](https://github.com/easyops-cn/next-core/commit/83df5456244d0e681c640a094b85603fd22dc4e2))
+
+## [2.81.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.3...@next-core/brick-container@2.81.4) (2023-01-16)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.81.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.2...@next-core/brick-container@2.81.3) (2023-01-15)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.81.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.1...@next-core/brick-container@2.81.2) (2023-01-13)
+
+### Bug Fixes
+
+- 改变组件间距以及 input 和 button 的圆角 ([66955b4](https://github.com/easyops-cn/next-core/commit/66955b46bc292c462f7c73f67ea4b55ef8aa2038))
+
+## [2.81.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.0...@next-core/brick-container@2.81.1) (2023-01-12)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+# [2.81.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.16...@next-core/brick-container@2.81.0) (2023-01-12)
+
+### Features
+
+- support brick preview in iframe ([cc0e55e](https://github.com/easyops-cn/next-core/commit/cc0e55ed92f8bff0d8e151a133b259cd4ee15d74))
+
+## [2.80.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.15...@next-core/brick-container@2.80.16) (2023-01-12)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.14...@next-core/brick-container@2.80.15) (2023-01-11)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.13...@next-core/brick-container@2.80.14) (2023-01-11)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.12...@next-core/brick-container@2.80.13) (2023-01-11)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.11...@next-core/brick-container@2.80.12) (2023-01-11)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.10...@next-core/brick-container@2.80.11) (2023-01-10)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.9...@next-core/brick-container@2.80.10) (2023-01-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.8...@next-core/brick-container@2.80.9) (2023-01-09)
+
+### Bug Fixes
+
+- 把 button 的 border-raidus 值改成变量 ([bbda7c1](https://github.com/easyops-cn/next-core/commit/bbda7c1b63167b427121e35e15d14f4945c9f8ee))
+- 更改构件圆角 ([56b6d02](https://github.com/easyops-cn/next-core/commit/56b6d020525427ac971dfe7e9f6f31d95e6d797c))
+
+## [2.80.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.7...@next-core/brick-container@2.80.8) (2023-01-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.6...@next-core/brick-container@2.80.7) (2023-01-09)
+
+### Bug Fixes
+
+- 更改 button 样式 更改 info 和 danger 的颜色 size 为 sm 的尺寸 ([92046d0](https://github.com/easyops-cn/next-core/commit/92046d00ee3a4711326125cc05cf58788e51b565))
+- 更改 button 颜色 ([96eb897](https://github.com/easyops-cn/next-core/commit/96eb8976412d087d5cd72700c1cfac094ac0cfb3))
+
+## [2.80.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.5...@next-core/brick-container@2.80.6) (2023-01-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.4...@next-core/brick-container@2.80.5) (2023-01-06)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.3...@next-core/brick-container@2.80.4) (2023-01-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.2...@next-core/brick-container@2.80.3) (2023-01-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.1...@next-core/brick-container@2.80.2) (2023-01-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.80.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.80.0...@next-core/brick-container@2.80.1) (2023-01-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+# [2.80.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.79.13...@next-core/brick-container@2.80.0) (2023-01-04)
+
+### Features
+
+- update pageNotFound page style ([#2570](https://github.com/easyops-cn/next-core/issues/2570)) ([35c8d14](https://github.com/easyops-cn/next-core/commit/35c8d1418d1b23317004e6af4c5b6d5ed22e2083))
+
+## [2.79.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.79.12...@next-core/brick-container@2.79.13) (2023-01-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.79.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.79.11...@next-core/brick-container@2.79.12) (2023-01-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
 ## [2.79.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.79.10...@next-core/brick-container@2.79.11) (2022-12-29)
 
 ### Bug Fixes

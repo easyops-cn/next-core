@@ -12,9 +12,11 @@ import {
   hasOwnProperty,
   isObject,
   resolveContextConcurrently,
+  deferResolveContextConcurrently,
   syncResolveContextConcurrently,
   trackUsedContext,
   trackUsedState,
+  collectContextUsage,
 } from "@next-core/brick-utils";
 import { looseCheckIf } from "../checkIf";
 import {
@@ -30,6 +32,9 @@ export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
   readonly tplContextId: string;
   readonly formContextId: string;
+  readonly pendingStack: Array<
+    ReturnType<typeof deferResolveContextConcurrently>
+  > = [];
 
   constructor(tplContextId?: string, formContextId?: string) {
     this.tplContextId = tplContextId;
@@ -187,6 +192,50 @@ export class StoryboardContextWrapper {
     );
   }
 
+  async waitForUsedContext(data: unknown): Promise<void> {
+    if (this.tplContextId || this.formContextId) {
+      return;
+    }
+    const usage = collectContextUsage(data, "CTX");
+    if (usage.includesComputed) {
+      for (const pending of this.pendingStack) {
+        await pending.pendingResult;
+      }
+    } else if (usage.usedContexts.length > 0) {
+      for (const { pendingContexts } of this.pendingStack) {
+        await Promise.all(
+          usage.usedContexts.map((ctx) => pendingContexts.get(ctx))
+        );
+      }
+    }
+  }
+
+  async waitForAllContext(): Promise<void> {
+    if (this.tplContextId || this.formContextId) {
+      return;
+    }
+    for (const pending of this.pendingStack) {
+      await pending.pendingResult;
+    }
+  }
+
+  deferDefine(
+    contextConfs: ContextConf[],
+    coreContext: PluginRuntimeContext,
+    brick?: RuntimeBrick
+  ): void {
+    const { mergedContext, keyword } = this.getResolveOptions(coreContext);
+    if (Array.isArray(contextConfs) && contextConfs.length > 0) {
+      const pending = deferResolveContextConcurrently(
+        contextConfs,
+        (contextConf: ContextConf) =>
+          resolveStoryboardContext(contextConf, mergedContext, this, brick),
+        keyword
+      );
+      this.pendingStack.push(pending);
+    }
+  }
+
   async define(
     contextConfs: ContextConf[],
     coreContext: PluginRuntimeContext,
@@ -270,6 +319,7 @@ async function resolveNormalStoryboardContext(
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick
 ): Promise<boolean> {
+  await storyboardContextWrapper.waitForUsedContext(contextConf.if);
   if (!looseCheckIf(contextConf, mergedContext)) {
     return false;
   }
@@ -279,6 +329,7 @@ async function resolveNormalStoryboardContext(
   let isLazyResolve = false;
   if (value === undefined) {
     if (contextConf.resolve) {
+      await storyboardContextWrapper.waitForUsedContext(contextConf.resolve.if);
       if (looseCheckIf(contextConf.resolve, mergedContext)) {
         load = async (options) => {
           const valueConf: Record<string, unknown> = {};
@@ -305,6 +356,7 @@ async function resolveNormalStoryboardContext(
       }
     }
     if ((!load || isLazyResolve) && contextConf.value !== undefined) {
+      await storyboardContextWrapper.waitForUsedContext(contextConf.value);
       // If the context has no resolve, just use its `value`.
       // Or if the resolve is ignored or lazy, use its `value` as a fallback.
       value = computeRealValue(contextConf.value, mergedContext, true);

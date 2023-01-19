@@ -1,6 +1,108 @@
 import { ContextConf } from "@next-core/brick-types";
-import { PrecookHooks } from "./cook";
-import { visitStoryboardExpressions } from "./visitStoryboard";
+import { collectContextUsage, ContextUsage } from "./track";
+
+export interface DeferredContext {
+  resolve(): void;
+  reject(e: unknown): void;
+}
+
+export function deferResolveContextConcurrently(
+  contextConfs: ContextConf[],
+  resolveContext: (contextConf: ContextConf) => Promise<boolean>,
+  keyword = "CTX"
+): {
+  pendingResult: Promise<void>;
+  pendingContexts: Map<string, Promise<void>>;
+} {
+  const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
+  // There maybe multiple context confs for a specific name, since there are conditional contexts.
+  // This is a map of how many pending context confs for each context name.
+  const pendingDeps = new Map<string, number>();
+  for (const contextName of Array.from(dependencyMap.keys()).map(
+    (contextConf) => contextConf.name
+  )) {
+    pendingDeps.set(contextName, (pendingDeps.get(contextName) ?? 0) + 1);
+  }
+  const includesComputed = Array.from(dependencyMap.values()).some(
+    (stats) => stats.includesComputed
+  );
+  const processed = new WeakSet<ContextConf>();
+
+  const deferredContexts = new Map<string, DeferredContext>();
+  const pendingContexts = new Map(
+    [...new Set(contextConfs.map((contextConf) => contextConf.name))].map(
+      (contextName) => [
+        contextName,
+        new Promise<void>((resolve, reject) => {
+          deferredContexts.set(contextName, { resolve, reject });
+        }),
+      ]
+    )
+  );
+
+  const wrapResolve = async (contextConf: ContextConf): Promise<void> => {
+    processed.add(contextConf);
+    const resolved = await resolveContext(contextConf);
+    dependencyMap.delete(contextConf);
+    const left = pendingDeps.get(contextConf.name) ?? 0;
+    if (resolved) {
+      deferredContexts.get(contextConf.name).resolve();
+      pendingDeps.delete(contextConf.name);
+      if (left === 0) {
+        throw new Error(`Duplicated context defined: ${contextConf.name}`);
+      }
+    } else {
+      // Assert: left >= 1
+      if (left === 1) {
+        deferredContexts.get(contextConf.name).resolve();
+        pendingDeps.delete(contextConf.name);
+      } else {
+        pendingDeps.set(contextConf.name, left - 1);
+      }
+    }
+    await scheduleNext();
+  };
+
+  let scheduleAsSerial = includesComputed;
+
+  async function scheduleNext(): Promise<void> {
+    const readyContexts = Array.from(dependencyMap.entries())
+      .filter(predicateNextResolveFactory(pendingDeps, scheduleAsSerial))
+      .map((entry) => entry[0])
+      .filter((contextConf) => !processed.has(contextConf));
+    await Promise.all(readyContexts.map(wrapResolve));
+  }
+
+  const pendingResult = scheduleNext()
+    .then(async () => {
+      // If there are still contexts left, it implies one of these situations:
+      //   - Circular contexts.
+      //     Such as: a depends on b, while b depends on a.
+      //   - Related contexts are all ignored.
+      //     Such as: a depends on b,
+      //     while both them are ignore by a falsy result of `if`.
+      if (dependencyMap.size > 0) {
+        // This will throw if circular contexts detected.
+        detectCircularContexts(dependencyMap, keyword);
+        scheduleAsSerial = true;
+        await scheduleNext();
+      }
+      // There maybe ignored contexts which are still not fulfilled.
+      // We treat them as RESOLVED.
+      for (const deferred of deferredContexts.values()) {
+        deferred.resolve();
+      }
+    })
+    .catch((error) => {
+      // There maybe contexts left not fulfilled, when an error occurred.
+      // We treat them as REJECTED.
+      for (const deferred of deferredContexts.values()) {
+        deferred.reject(error);
+      }
+      throw error;
+    });
+  return { pendingResult, pendingContexts };
+}
 
 export async function resolveContextConcurrently(
   contextConfs: ContextConf[],
@@ -8,9 +110,12 @@ export async function resolveContextConcurrently(
   keyword = "CTX"
 ): Promise<void> {
   const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
-  const pendingDeps = new Set<string>(
-    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
-  );
+  const pendingDeps = new Map<string, number>();
+  for (const contextName of Array.from(dependencyMap.keys()).map(
+    (contextConf) => contextConf.name
+  )) {
+    pendingDeps.set(contextName, (pendingDeps.get(contextName) ?? 0) + 1);
+  }
   const includesComputed = Array.from(dependencyMap.values()).some(
     (stats) => stats.includesComputed
   );
@@ -20,9 +125,18 @@ export async function resolveContextConcurrently(
     processed.add(contextConf);
     const resolved = await resolveContext(contextConf);
     dependencyMap.delete(contextConf);
+    const left = pendingDeps.get(contextConf.name) ?? 0;
     if (resolved) {
-      if (!pendingDeps.delete(contextConf.name)) {
+      pendingDeps.delete(contextConf.name);
+      if (left === 0) {
         throw new Error(`Duplicated context defined: ${contextConf.name}`);
+      }
+    } else {
+      // Assert: left >= 1
+      if (left === 1) {
+        pendingDeps.delete(contextConf.name);
+      } else {
+        pendingDeps.set(contextConf.name, left - 1);
       }
     }
     await scheduleNext();
@@ -60,9 +174,12 @@ export function syncResolveContextConcurrently(
   keyword = "CTX"
 ): void {
   const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
-  const pendingDeps = new Set<string>(
-    Array.from(dependencyMap.keys()).map((contextConf) => contextConf.name)
-  );
+  const pendingDeps = new Map<string, number>();
+  for (const contextName of Array.from(dependencyMap.keys()).map(
+    (contextConf) => contextConf.name
+  )) {
+    pendingDeps.set(contextName, (pendingDeps.get(contextName) ?? 0) + 1);
+  }
   const includesComputed = Array.from(dependencyMap.values()).some(
     (stats) => stats.includesComputed
   );
@@ -77,9 +194,18 @@ export function syncResolveContextConcurrently(
       const [contextConf] = dep;
       const resolved = resolveContext(contextConf);
       dependencyMap.delete(contextConf);
+      const left = pendingDeps.get(contextConf.name) ?? 0;
       if (resolved) {
-        if (!pendingDeps.delete(contextConf.name)) {
+        pendingDeps.delete(contextConf.name);
+        if (left === 0) {
           throw new Error(`Duplicated context defined: ${contextConf.name}`);
+        }
+      } else {
+        // Assert: left >= 1
+        if (left === 1) {
+          pendingDeps.delete(contextConf.name);
+        } else {
+          pendingDeps.set(contextConf.name, left - 1);
         }
       }
       scheduleNext();
@@ -103,79 +229,37 @@ export function syncResolveContextConcurrently(
 }
 
 function predicateNextResolveFactory(
-  pendingDeps: Set<string>,
+  pendingDeps: Map<string, number>,
   scheduleAsSerial: boolean
-): (entry: [ContextConf, ContextStatistics], index: number) => boolean {
+): (entry: [ContextConf, ContextUsage], index: number) => boolean {
   return (entry, index) =>
     // When contexts contain computed CTX accesses, it implies a dynamic dependency map.
     // So make them process sequentially, keep the same behavior as before.
     scheduleAsSerial
       ? index === 0
       : // A context is ready when it has no pending dependencies.
-        !entry[1].dependencies.some((dep) => pendingDeps.has(dep));
-}
-
-interface ContextStatistics {
-  dependencies: string[];
-  includesComputed: boolean;
+        !entry[1].usedContexts.some((dep) => pendingDeps.has(dep));
 }
 
 export function getDependencyMapOfContext(
   contextConfs: ContextConf[],
   keyword = "CTX"
-): Map<ContextConf, ContextStatistics> {
-  const depsMap = new Map<ContextConf, ContextStatistics>();
+): Map<ContextConf, ContextUsage> {
+  const depsMap = new Map<ContextConf, ContextUsage>();
   for (const contextConf of contextConfs) {
-    const stats: ContextStatistics = {
-      dependencies: [],
-      includesComputed: false,
-    };
-    if (!contextConf.property) {
-      visitStoryboardExpressions(
-        [contextConf.if, contextConf.value, contextConf.resolve],
-        beforeVisitContextFactory(stats, keyword),
-        keyword
-      );
-    }
+    const stats = collectContextUsage(
+      contextConf.property
+        ? null
+        : [contextConf.if, contextConf.value, contextConf.resolve],
+      keyword
+    );
     depsMap.set(contextConf, stats);
   }
   return depsMap;
 }
 
-function beforeVisitContextFactory(
-  stats: ContextStatistics,
-  keyword: string
-): PrecookHooks["beforeVisitGlobal"] {
-  return function beforeVisitContext(node, parent): void {
-    if (node.name === keyword) {
-      const memberParent = parent[parent.length - 1];
-      if (
-        memberParent?.node.type === "MemberExpression" &&
-        memberParent.key === "object"
-      ) {
-        const memberNode = memberParent.node;
-        let dep: string;
-        if (!memberNode.computed && memberNode.property.type === "Identifier") {
-          dep = memberNode.property.name;
-        } else if (
-          memberNode.computed &&
-          (memberNode.property as any).type === "Literal" &&
-          typeof (memberNode.property as any).value === "string"
-        ) {
-          dep = (memberNode.property as any).value;
-        } else {
-          stats.includesComputed = true;
-        }
-        if (dep !== undefined && !stats.dependencies.includes(dep)) {
-          stats.dependencies.push(dep);
-        }
-      }
-    }
-  };
-}
-
 function detectCircularContexts(
-  dependencyMap: Map<ContextConf, ContextStatistics>,
+  dependencyMap: Map<ContextConf, ContextUsage>,
   keyword: string
 ): void {
   const duplicatedMap = new Map(dependencyMap);
@@ -185,7 +269,7 @@ function detectCircularContexts(
   const next = (): void => {
     let processedAtLeastOne = false;
     for (const [contextConf, stats] of duplicatedMap.entries()) {
-      if (!stats.dependencies.some((dep) => pendingDeps.has(dep))) {
+      if (!stats.usedContexts.some((dep) => pendingDeps.has(dep))) {
         duplicatedMap.delete(contextConf);
         pendingDeps.delete(contextConf.name);
         processedAtLeastOne = true;

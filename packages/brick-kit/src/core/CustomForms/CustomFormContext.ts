@@ -1,5 +1,4 @@
 import { uniqueId } from "lodash";
-import { RuntimeBrick } from "../BrickNode";
 import { StoryboardContextWrapper } from "../StoryboardContext";
 
 const FormContextMap = new Map<string, CustomFormContext>();
@@ -10,7 +9,7 @@ export class CustomFormContext {
 
   constructor() {
     FormContextMap.set(this.id, this);
-    this.formState = new StoryboardContextWrapper("", this.id);
+    this.formState = new StoryboardContextWrapper(undefined, this.id);
   }
 }
 

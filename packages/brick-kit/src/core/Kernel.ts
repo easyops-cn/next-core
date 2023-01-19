@@ -21,10 +21,7 @@ import {
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
-import {
-  RuntimeApi_runtimeMicroAppStandalone,
-  RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
-} from "@next-sdk/micro-app-standalone-sdk";
+import { RuntimeApi_RuntimeMicroAppStandaloneResponseBody } from "@next-sdk/micro-app-standalone-sdk";
 import type {
   MountPoints,
   BootstrapData,
@@ -74,7 +71,7 @@ import {
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
-import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
 import { customTemplateRegistry } from "./CustomTemplates";
 import { getRuntimeMisc } from "../internal/misc";
@@ -153,12 +150,12 @@ export class Kernel {
       layout === "business"
         ? {
             loadingBar: "business-website.loading-bar",
-            pageNotFound: "business-website.page-not-found",
+            pageNotFound: "presentational-bricks.brick-result",
             pageError: "business-website.page-error",
           }
         : {
             ...this.bootstrapData.navbar,
-            pageNotFound: "basic-bricks.page-not-found",
+            pageNotFound: "presentational-bricks.brick-result",
             pageError: "basic-bricks.page-error",
           };
 
@@ -526,7 +523,7 @@ export class Kernel {
   _dev_only_updateFormPreviewSettings(
     appId: string,
     formId: string,
-    formData: formDataProperties
+    formData: FormDataProperties
   ): void {
     const { routes } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
@@ -558,7 +555,7 @@ export class Kernel {
 
   private _loadDepsOfStoryboard = async (
     storyboard: RuntimeStoryboard
-  ): Promise<void> => {
+  ): Promise<{ pendingTask: Promise<void> }> => {
     const { brickPackages, templatePackages } = this.bootstrapData;
 
     if (storyboard.dependsAll) {
@@ -570,6 +567,9 @@ export class Kernel {
           .concat(templatePackages.map((item) => item.filePath))
       );
       await loadAllLazyBricks();
+      return {
+        pendingTask: Promise.resolve(),
+      };
     } else {
       // 先加载模板
       const templateDeps = getTemplateDepsOfStoryboard(
@@ -578,7 +578,7 @@ export class Kernel {
       );
       await loadScriptOfBricksOrTemplates(templateDeps);
       // 加载模板后才能加工得到最终的构件表
-      const { dll, deps, bricks } = getDllAndDepsOfStoryboard(
+      const { dll, deps, bricks, eager } = getDllAndDepsOfStoryboard(
         await asyncProcessStoryboard(
           storyboard,
           brickTemplateRegistry,
@@ -589,29 +589,38 @@ export class Kernel {
           ignoreBricksInUnusedCustomTemplates: true,
         }
       );
-      await loadScriptOfDll(dll);
-      await loadScriptOfBricksOrTemplates(deps);
-      await loadLazyBricks(bricks);
+      // 需要先阻塞加载 Custom Processors 和 widgets。
+      await loadScriptOfDll(eager.dll);
+      await loadScriptOfBricksOrTemplates(eager.deps);
+      // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
+      // 挂载构件可能包括：Provider 构件实时挂载、路由准备完成后的统一挂载等。
+      return {
+        pendingTask: loadScriptOfDll(dll)
+          .then(() => loadScriptOfBricksOrTemplates(deps))
+          .then(() => loadLazyBricks(bricks)),
+      };
     }
   };
 
-  loadDepsOfStoryboard(storyboard: RuntimeStoryboard): Promise<void> {
+  loadDepsOfStoryboard(
+    storyboard: RuntimeStoryboard
+  ): Promise<{ pendingTask: Promise<void> }> {
     return this.gracefullyLoadDeps(this._loadDepsOfStoryboard, storyboard);
   }
 
-  private async gracefullyLoadDeps<P extends unknown[]>(
-    fn: SimpleFunction<P, Promise<void>>,
+  private async gracefullyLoadDeps<P extends unknown[], R>(
+    fn: SimpleFunction<P, Promise<R>>,
     ...args: P
-  ): Promise<void> {
+  ): Promise<R> {
     try {
-      await fn(...args);
+      return await fn(...args);
     } catch (e) {
       if (e instanceof Event && e.target instanceof HTMLScriptElement) {
         // The scripts maybe stale when a user stays in page while upgrades been applied.
         // So we force reloading again automatically.
         // NOTE: reload only once to avoid a infinite loop.
         await this.reloadMicroApps();
-        await fn(...args);
+        return await fn(...args);
       } else {
         throw e;
       }
@@ -940,6 +949,10 @@ export class Kernel {
     }
 
     return filterMenus as MenuRawData[];
+  }
+
+  setOriginFaviconHref(href: string): void {
+    this.originFaviconHref = href;
   }
 
   getOriginFaviconHref(): string {

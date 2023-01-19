@@ -25,6 +25,7 @@ import { CustomTemplateContext } from "./CustomTemplateContext";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate";
 import { setupTemplateProxy } from "./setupTemplateProxy";
 import { collectWidgetContract } from "../CollectContracts";
+import type { LocationContext } from "../LocationContext";
 
 export interface ProxyContext {
   reversedProxies: ReversedProxies;
@@ -69,7 +70,8 @@ export function expandCustomTemplate(
 export async function asyncExpandCustomTemplate(
   brickConf: RuntimeBrickConf,
   proxyBrick: RuntimeBrick,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  locationContext?: LocationContext
 ): Promise<RuntimeBrickConf> {
   const tplContext = new CustomTemplateContext(proxyBrick);
   const template = customTemplateRegistry.get(brickConf.brick);
@@ -77,6 +79,12 @@ export async function asyncExpandCustomTemplate(
     collectWidgetContract(template.contracts);
   }
   if (Array.isArray(template.state)) {
+    if (locationContext) {
+      // Handle use cases of using `CTX.*` in template states.
+      await locationContext.storyboardContextWrapper.waitForUsedContext(
+        template.state.map((state) => [state.if, state.value, state.resolve])
+      );
+    }
     await tplContext.state.define(template.state, context, proxyBrick);
   }
   return lowLevelExpandCustomTemplate(

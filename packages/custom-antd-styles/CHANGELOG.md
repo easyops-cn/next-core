@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.9...@next-core/custom-antd-styles@1.25.10) (2023-01-19)
+
+### Bug Fixes
+
+- fixBorderRadiusOfInputGroupfist-child ([2889ffa](https://github.com/easyops-cn/next-core/commit/2889ffa1b0c7b6c77992fdd72041e985f7900f7e))
+
+## [1.25.9](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.8...@next-core/custom-antd-styles@1.25.9) (2023-01-19)
+
+### Bug Fixes
+
+- changeBorderRadiusOfInputGroup ([ebecaf3](https://github.com/easyops-cn/next-core/commit/ebecaf38aaf55128d56d39be443da2c56523ded3))
+
+## [1.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.7...@next-core/custom-antd-styles@1.25.8) (2023-01-19)
+
+### Bug Fixes
+
+- 修改构件圆角样式 ([3802b73](https://github.com/easyops-cn/next-core/commit/3802b73b291f635d028924e5a2a48e0b22e1682e))
+
+## [1.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.6...@next-core/custom-antd-styles@1.25.7) (2023-01-17)
+
+### Bug Fixes
+
+- 修改 select 及 upload 等组件的 radius ([d82058b](https://github.com/easyops-cn/next-core/commit/d82058b1942a4dc04c0a122af1d259dbdcaee0e9))
+- 修改卡片间距 ([83df545](https://github.com/easyops-cn/next-core/commit/83df5456244d0e681c640a094b85603fd22dc4e2))
+
+## [1.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.5...@next-core/custom-antd-styles@1.25.6) (2023-01-13)
+
+### Bug Fixes
+
+- 改变组件间距以及 input 和 button 的圆角 ([66955b4](https://github.com/easyops-cn/next-core/commit/66955b46bc292c462f7c73f67ea4b55ef8aa2038))
+
+## [1.25.5](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.4...@next-core/custom-antd-styles@1.25.5) (2023-01-11)
+
+### Bug Fixes
+
+- 去掉 table.less 中的 filter 图标覆盖 ([4cb638c](https://github.com/easyops-cn/next-core/commit/4cb638c0a746b8fe53a05d7832d70731eeb60ed8))
+
+## [1.25.4](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.3...@next-core/custom-antd-styles@1.25.4) (2023-01-09)
+
+### Bug Fixes
+
+- 把 button 的 border-raidus 值改成变量 ([bbda7c1](https://github.com/easyops-cn/next-core/commit/bbda7c1b63167b427121e35e15d14f4945c9f8ee))
+- 更改构件圆角 ([56b6d02](https://github.com/easyops-cn/next-core/commit/56b6d020525427ac971dfe7e9f6f31d95e6d797c))
+
+## [1.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.2...@next-core/custom-antd-styles@1.25.3) (2023-01-09)
+
+### Bug Fixes
+
+- 更改 button 样式 更改 info 和 danger 的颜色 size 为 sm 的尺寸 ([92046d0](https://github.com/easyops-cn/next-core/commit/92046d00ee3a4711326125cc05cf58788e51b565))
+
+## [1.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.1...@next-core/custom-antd-styles@1.25.2) (2023-01-05)
+
+### Bug Fixes
+
+- **table-less:** 复原 filter 图标位置样式 ([130cdca](https://github.com/easyops-cn/next-core/commit/130cdca06ba47a2b1f17b04ca2d90119c5276430))
+
 ## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.0...@next-core/custom-antd-styles@1.25.1) (2022-12-27)
 
 ### Bug Fixes

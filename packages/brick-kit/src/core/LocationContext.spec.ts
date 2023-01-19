@@ -44,7 +44,9 @@ const spyOnIsLoggedIn = isLoggedIn as jest.Mock;
   isAdmin: false,
 });
 
-const mockFeature = jest.fn().mockReturnValue({ testing: true });
+const mockFeature = jest
+  .fn()
+  .mockReturnValue({ testing: true, "next-core-deferred-context": true });
 
 registerCustomTemplate("tpl-a", {
   bricks: [
@@ -125,6 +127,7 @@ describe("LocationContext", () => {
     toggleBars: jest.fn(),
     getFeatureFlags: mockFeature,
     loadDynamicBricksInBrickConf: jest.fn(),
+    loadDynamicBricks: jest.fn(),
   } as any;
 
   const getInitialMountResult = (): MountRoutesResult => ({
@@ -1354,7 +1357,7 @@ describe("LocationContext", () => {
     ]);
   });
 
-  it("getSubStoryboardByRoute should work", () => {
+  it("getSubStoryboardByRoute should work", async () => {
     const context = new LocationContext(kernel, {
       pathname: "/1/2",
       search: "",
@@ -1378,7 +1381,9 @@ describe("LocationContext", () => {
       ],
     } as Partial<Storyboard>;
     spyOnIsLoggedIn.mockReturnValue(true);
-    expect(context.getSubStoryboardByRoute(storyboard as Storyboard)).toEqual({
+    expect(
+      await context.getSubStoryboardByRoute(storyboard as Storyboard)
+    ).toEqual({
       app: {
         id: "a",
         homepage: "/1",

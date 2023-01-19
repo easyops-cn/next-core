@@ -342,11 +342,7 @@
 
   --antd-btn-primary-color: #fff;
   --antd-btn-primary-bg: var(--antd-primary-color);
-  --antd-btn-primary-bg-image: linear-gradient(
-    45deg,
-    rgba(0, 113, 235, 1) 0%,
-    rgba(101, 178, 255, 1) 100%
-  );
+  --antd-btn-primary-bg-image: var(--color-brand);
   --antd-btn-primary-hover-bg: var(--bg-color-button-primary-hover);
   --antd-btn-primary-hover-color: var(--antd-btn-primary-color);
   --antd-btn-primary-active-bg: var(--bg-color-button-primary-pressed);
@@ -360,7 +356,7 @@
   --antd-btn-default-hover-color: #53a7fb;
   --antd-btn-default-hover-border-color: #53a7fb;
 
-  --antd-btn-danger-bg-image: linear-gradient(45deg, #f0493c 0%, #fc796f 100%);
+  --antd-btn-danger-bg-image: var(--color-error);
   --antd-btn-danger-color: #fff;
   --antd-btn-danger-hover-bg: var(--bg-color-button-danger-hover);
   --antd-btn-danger-hover-color: var(--antd-btn-danger-color);
@@ -374,6 +370,8 @@
   --antd-btn-fade-text-color: #8c8c8c;
   --antd-btn-text-hover-color: var(--bg-color-button-link-hover);
   --antd-btn-text-active-color: var(--bg-color-button-link-pressed);
+
+  --antd-button-border-radius: 3px;
 
   /*** breadcrumb ***/
   --antd-breadcrumb-link-color-hover: var(--antd-link-hover-color);

@@ -40,11 +40,11 @@ export function trackFormState(raw: string): string[] | false {
 }
 
 export function trackUsedContext(data: unknown): string[] {
-  return trackUsed(data, "CTX");
+  return collectContextUsage(data, "CTX").usedContexts;
 }
 
 export function trackUsedState(data: unknown): string[] {
-  return trackUsed(data, "STATE");
+  return collectContextUsage(data, "STATE").usedContexts;
 }
 
 function track(
@@ -53,13 +53,18 @@ function track(
   variableName: string
 ): string[] | false {
   if (raw.includes(trackText)) {
-    const contexts = new Set<string>();
+    // const contexts = new Set<string>();
+    const usage: ContextUsage = {
+      usedContexts: [],
+      includesComputed: false,
+    };
     const { expression } = preevaluate(raw, {
       withParent: true,
       hooks: {
-        beforeVisitGlobal: beforeVisitContextFactory(contexts, variableName),
+        beforeVisitGlobal: beforeVisitContextFactory(usage, variableName),
       },
     });
+    // const contexts = usage
     let trackCtxExp: any;
     if (
       expression.type === "SequenceExpression" &&
@@ -67,8 +72,8 @@ function track(
       trackCtxExp.type === "Literal" &&
       trackCtxExp.value === trackText
     ) {
-      if (contexts.size > 0) {
-        return Array.from(contexts);
+      if (usage.usedContexts.length > 0) {
+        return usage.usedContexts;
       } else {
         // eslint-disable-next-line no-console
         console.warn(
@@ -82,18 +87,13 @@ function track(
   return false;
 }
 
-function trackUsed(data: unknown, variableName: string): string[] {
-  const contexts = new Set<string>();
-  visitStoryboardExpressions(
-    data,
-    beforeVisitContextFactory(contexts, variableName),
-    variableName
-  );
-  return Array.from(contexts);
+export interface ContextUsage {
+  usedContexts: string[];
+  includesComputed: boolean;
 }
 
 function beforeVisitContextFactory(
-  contexts: Set<string>,
+  usage: ContextUsage,
   variableName: string
 ): PrecookHooks["beforeVisitGlobal"] {
   return function beforeVisitContext(node, parent): void {
@@ -104,16 +104,38 @@ function beforeVisitContextFactory(
         memberParent.key === "object"
       ) {
         const memberNode = memberParent.node;
+        let used: string;
         if (!memberNode.computed && memberNode.property.type === "Identifier") {
-          contexts.add(memberNode.property.name);
+          used = memberNode.property.name;
         } else if (
           memberNode.computed &&
           (memberNode.property as any).type === "Literal" &&
           typeof (memberNode.property as any).value === "string"
         ) {
-          contexts.add((memberNode.property as any).value);
+          used = (memberNode.property as any).value;
+        } else {
+          usage.includesComputed = true;
+        }
+        if (used !== undefined && !usage.usedContexts.includes(used)) {
+          usage.usedContexts.push(used);
         }
       }
     }
   };
+}
+
+export function collectContextUsage(
+  data: unknown,
+  variableName: string
+): ContextUsage {
+  const usage: ContextUsage = {
+    usedContexts: [],
+    includesComputed: false,
+  };
+  visitStoryboardExpressions(
+    data,
+    beforeVisitContextFactory(usage, variableName),
+    variableName
+  );
+  return usage;
 }

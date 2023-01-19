@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+import { asyncProcessBrick } from "@next-core/brick-utils";
 import {
   MountPoints,
   MicroApp,
@@ -16,6 +18,8 @@ import {
   RouteConf,
   CustomTemplate,
   RuntimeStoryboard,
+  StoryConf,
+  RuntimeBrickConf,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {
@@ -26,7 +30,14 @@ import {
   registerCustomTemplate,
   registerCustomProcessor,
   NavConfig,
+  mountTree,
+  afterMountTree,
+  unmountTree,
+  MountableElement,
 } from "./exports";
+import { httpErrorToString } from "../handleHttpError";
+import { brickTemplateRegistry } from "./TemplateRegistries";
+import { createRuntime, getRuntime } from "../runtime";
 import { registerBrickTemplate } from "./TemplateRegistries";
 import {
   RouterState,
@@ -41,7 +52,7 @@ import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
-import { formDataProperties } from "./CustomForms/ExpandCustomForm";
+import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { matchStoryboard } from "./matchStoryboard";
 
 let kernel: Kernel;
@@ -93,6 +104,7 @@ export function _dev_only_getFakeKernel(
     getFeatureFlags: kernel.getFeatureFlags.bind(kernel),
     loadDynamicBricksInBrickConf:
       kernel.loadDynamicBricksInBrickConf.bind(kernel),
+    loadDynamicBricks: kernel.loadDynamicBricks.bind(kernel),
     getProviderBrick: kernel.getProviderBrick.bind(kernel),
     ...overrides,
   } as Kernel;
@@ -156,9 +168,70 @@ export function _dev_only_updateStoryboardBySnippet(
 export function _dev_only_updateFormPreviewSettings(
   appId: string,
   formId: string,
-  settings: formDataProperties
+  settings: FormDataProperties
 ): void {
   kernel._dev_only_updateFormPreviewSettings(appId, formId, settings);
+}
+
+export async function _dev_only_render(
+  mountPoints: MountPoints,
+  conf: StoryConf
+): Promise<void> {
+  unmountTree(mountPoints.bg as MountableElement);
+
+  if (!getRuntime()) {
+    const runtime = createRuntime();
+    await runtime.bootstrap(mountPoints);
+  }
+
+  if (kernel.router?.getResolver()) {
+    kernel.router.getResolver().resetRefreshQueue();
+  }
+
+  const mountRoutesResult: any = {
+    main: [],
+    portal: [],
+    failed: false,
+  };
+
+  try {
+    const mutableConf = cloneDeep(conf) as RuntimeBrickConf;
+    await asyncProcessBrick(
+      mutableConf,
+      brickTemplateRegistry,
+      kernel.bootstrapData.templatePackages
+    );
+    await kernel.loadDynamicBricksInBrickConf(mutableConf);
+    await kernel.router.getMountBrick(mutableConf, null, "", mountRoutesResult);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+
+    mountRoutesResult.failed = true;
+    mountRoutesResult.main = [
+      {
+        type: "basic-bricks.page-error",
+        properties: {
+          error: httpErrorToString(error),
+        },
+        events: {},
+      },
+    ];
+    mountRoutesResult.portal = [];
+  }
+
+  const { main, failed, portal } = mountRoutesResult;
+
+  mountTree(main, mountPoints.main as MountableElement);
+  mountTree(portal, mountPoints.portal as MountableElement);
+
+  afterMountTree(main);
+  afterMountTree(portal);
+
+  if (!failed) {
+    kernel.router.getHandlePageLoad();
+    kernel.router.getResolver().scheduleRefreshing();
+  }
 }
 
 export class Runtime implements AbstractRuntime {
@@ -329,7 +402,10 @@ export class Runtime implements AbstractRuntime {
   getBrandSettings(): Record<string, string> {
     return Object.assign(
       { base_title: "DevOps 管理专家" },
-      kernel.bootstrapData.settings?.brand
+      kernel.bootstrapData.settings?.brand,
+      kernel.getOriginFaviconHref()
+        ? { favicon: kernel.getOriginFaviconHref() }
+        : {}
     );
   }
 

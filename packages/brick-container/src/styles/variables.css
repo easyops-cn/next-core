@@ -43,13 +43,13 @@
   /* Sub menu along with the menu bar. */
   --sub-menu-bar-width: 220px;
 
-  --side-bar-width: 220px;
+  --side-bar-width: 208px;
   --side-bar-collapsed-width: 60px;
   --side-bar-collapse-transition-duration: 400ms;
   --side-bar-collapse-transition-timing-function: ease;
 
   /* ui-v5 use appBar, ui-v8 use navBar. */
-  --app-bar-height: 56px;
+  --app-bar-height: 54px;
   --nav-bar-height: 52px;
 
   --launchpad-backdrop-filter: blur(5px);
@@ -58,7 +58,7 @@
   --page-padding: 24px;
   --page-title-height: 32px;
   --page-card-gap: 20px;
-  --page-title-margin-top: 18px;
+  --page-title-margin-top: 16px;
   --page-title-margin-bottom: 18px;
   --toolbar-button-gap: 8px;
 
@@ -126,14 +126,14 @@
   /* Sub menu in the main content. */
   --sub-menu-width: 240px;
 
-  --card-content-gap: 15px;
+  --card-content-gap: 16px;
 
   --card-default-border-radius: 6px;
   --card-default-border: none;
   --card-default-background: var(--antd-card-background);
   --card-transition: all 0.1s;
 
-  --card-inner-border-radius: 4px;
+  --card-inner-border-radius: 6px;
   --card-inner-border: 1px solid #d9d9d9;
 
   --card-hover-border-color: transparent;

@@ -233,6 +233,7 @@ export interface AuthInfo {
   isAdmin?: boolean;
   csrfToken?: string;
   license?: Record<string, unknown>;
+  userShowValue?: string[];
 }
 
 /** @internal */

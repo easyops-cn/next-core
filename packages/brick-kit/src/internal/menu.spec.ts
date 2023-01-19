@@ -12,10 +12,17 @@ import {
   processMenuTitle,
   clearMenuTitleCache,
   clearMenuCache,
+  processMenu,
 } from "./menu";
 import * as runtime from "../core/Runtime";
+import { validatePermissions } from "./checkPermissions";
 
 jest.mock("@next-sdk/cmdb-sdk");
+
+jest.mock("./checkPermissions", () => ({
+  validatePermissions: jest.fn(() => Promise.resolve()),
+  checkPermissions: () => true,
+}));
 
 i18next.init({
   fallbackLng: "en",
@@ -167,6 +174,41 @@ const mockMenuList: any[] = [
     type: "inject",
     items: [
       {
+        text: "should show",
+        to: "${APP.homepage}/4",
+        sort: 4,
+        if: "<% APP.config.featureFlag %>",
+      },
+      {
+        if: "<% APP.config.count > 10 %>",
+        text: "should hide",
+        sort: 5,
+        to: "${APP.homepage}/5",
+      },
+    ],
+    app: [
+      {
+        appId: "test-config",
+      },
+    ],
+    overrideApp: {
+      id: "test-config",
+      homepage: "/test-config",
+      defaultConfig: {
+        featureFlag: false,
+        count: 0,
+      },
+      userConfig: {
+        featureFlag: true,
+      },
+    },
+  },
+  {
+    menuId: "menu-f",
+    title: "<% I18N('HELLO') %>",
+    type: "inject",
+    items: [
+      {
         text: "<% I18N('MENU_ITEM') %>",
         to: "${APP.homepage}/1",
         sort: 2,
@@ -249,6 +291,23 @@ const mockMenuList: any[] = [
     app: [
       {
         appId: "bonjour",
+      },
+    ],
+  },
+  {
+    menuId: "menu-h",
+    type: "main",
+    title: "Menu with Permissions",
+    items: [
+      {
+        text: "Menu item with permissions",
+        to: "${APP.homepage}/4",
+        if: "<% PERMISSIONS.check('abc') %>",
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
       },
     ],
   },
@@ -433,7 +492,10 @@ describe("constructMenu", () => {
       },
     };
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -455,7 +517,10 @@ describe("constructMenu", () => {
       subMenuId: "sub-menu-e",
     };
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -517,9 +582,29 @@ describe("constructMenu", () => {
               homepage: "/hola",
             },
           },
+          {
+            app: {
+              id: "test-config",
+              homepage: "/test-config",
+              config: {
+                featureFlag: true,
+                count: 0,
+              },
+              defaultConfig: {
+                featureFlag: false,
+                count: 0,
+              },
+              userConfig: {
+                featureFlag: true,
+              },
+            },
+          },
         ],
       },
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -550,6 +635,13 @@ describe("constructMenu", () => {
             to: "/hola/2",
             children: [],
           },
+          {
+            text: "should show",
+            to: "/test-config/4",
+            children: [],
+            sort: 4,
+            if: true,
+          },
         ],
       },
       subMenu: null,
@@ -562,7 +654,10 @@ describe("constructMenu", () => {
       menuId: "menu-f",
     };
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
       getStandaloneMenus: jest.fn((menuId, isPrefetch) => {
         return Promise.resolve(
           mockMenuList.filter((item) => item.menuId === menuId)
@@ -599,6 +694,13 @@ describe("constructMenu", () => {
             to: "/hola/2",
             children: [],
           },
+          {
+            text: "should show",
+            to: "/test-config/4",
+            sort: 4,
+            if: true,
+            children: [],
+          },
         ],
       },
       subMenu: null,
@@ -627,7 +729,10 @@ describe("constructMenu", () => {
           },
         ],
       },
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -670,10 +775,46 @@ describe("constructMenu", () => {
 
   it("preConstructMenus should work", async () => {
     const fakeKernel = {
-      fulfilStoryboardI18n: jest.fn(),
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
     } as unknown as Kernel;
     await preConstructMenus(["menu-c", "menu-d"], context, fakeKernel);
 
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("processMenu", () => {
+  beforeEach(() => {
+    clearMenuTitleCache();
+    clearMenuCache();
+    jest.clearAllMocks();
+  });
+
+  it("should work", async () => {
+    const context = {
+      app: currentApp,
+    } as unknown as PluginRuntimeContext;
+    const fakeKernel = {
+      fulfilStoryboardI18n: jest.fn().mockResolvedValue(undefined),
+      router: {
+        waitForUsedContext: jest.fn().mockResolvedValue(undefined),
+      },
+    } as unknown as Kernel;
+    const menu = await processMenu("menu-h", context, fakeKernel);
+    expect(menu).toEqual({
+      title: "Menu with Permissions",
+      menuItems: [
+        {
+          if: true,
+          text: "Menu item with permissions",
+          to: "/hello/4",
+          children: [],
+        },
+      ],
+    });
+    expect(validatePermissions).toBeCalledWith(["abc"]);
   });
 });

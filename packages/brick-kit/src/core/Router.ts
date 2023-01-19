@@ -7,6 +7,8 @@ import type {
   PluginRuntimeContext,
   RuntimeMisc,
   NavTip,
+  BrickConf,
+  MatchResult,
 } from "@next-core/brick-types";
 import {
   restoreDynamicTemplates,
@@ -69,6 +71,8 @@ import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 import { httpCacheRecord } from "./HttpCache";
+import i18next from "i18next";
+import { K, NS_BRICK_KIT } from "../i18n/constants";
 
 export class Router {
   private defaultCollapsed = false;
@@ -245,10 +249,16 @@ export class Router {
       location
     ));
 
+    if ((window as any).DEVELOPER_PREVIEW) {
+      return;
+    }
+
     const storyboard = locationContext.matchStoryboard(
       this.kernel.bootstrapData.storyboards
     );
 
+    /** Pending task for loading bricks */
+    let pendingTask: Promise<void>;
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
@@ -284,9 +294,10 @@ export class Router {
       await Promise.all(parallelRequests);
 
       // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
-      const subStoryboard =
-        this.locationContext.getSubStoryboardByRoute(storyboard);
-      await this.kernel.loadDepsOfStoryboard(subStoryboard);
+      const subStoryboard = await this.locationContext.getSubStoryboardByRoute(
+        storyboard
+      );
+      ({ pendingTask } = await this.kernel.loadDepsOfStoryboard(subStoryboard));
 
       // 注册 Storyboard 中定义的自定义模板和函数。
       this.kernel.registerCustomTemplatesInStoryboard(storyboard);
@@ -325,6 +336,7 @@ export class Router {
       } else {
         faviconElement.href = this.kernel.getOriginFaviconHref();
       }
+      this.kernel.setOriginFaviconHref(faviconElement.href);
     }
 
     setTheme(
@@ -399,6 +411,7 @@ export class Router {
           undefined,
           mountRoutesResult
         );
+        await locationContext.storyboardContextWrapper.waitForAllContext();
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
@@ -536,13 +549,17 @@ export class Router {
 
       this.kernel.toggleLegacyIframe(actualLegacy === "iframe");
 
-      menuInBg.forEach((brick) => {
-        appendBrick(brick, mountPoints.portal as MountableElement);
-      });
+      await Promise.all(
+        menuInBg.map(async (brick) => {
+          await this.kernel.loadDynamicBricks([brick.type]);
+          appendBrick(brick, mountPoints.portal as MountableElement);
+        })
+      );
 
       // When we have a matched route other than an abstract route,
       // we say *page found*, otherwise, *page not found*.
       if ((route && route.type !== "routes") || failed) {
+        await pendingTask;
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
@@ -662,9 +679,25 @@ export class Router {
       return;
     }
 
-    await this.kernel.layoutBootstrap(layoutType);
+    await this.kernel.layoutBootstrap(storyboard ? layoutType : "business");
     const brickPageNotFound = this.kernel.presetBricks.pageNotFound;
     await this.kernel.loadDynamicBricks([brickPageNotFound]);
+
+    const notFoundAppConfig = {
+      illustrationsConfig: {
+        name: "no-permission",
+        category: "easyops2",
+      },
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.APP_NOT_FOUND}`),
+    };
+
+    const notFoundPageConfig = {
+      illustrationsConfig: {
+        name: "http-404",
+        category: "exception",
+      },
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.PAGE_NOT_FOUND}`),
+    };
 
     this.state = "ready-to-mount";
 
@@ -673,7 +706,16 @@ export class Router {
         {
           type: brickPageNotFound,
           properties: {
-            url: history.createHref(location),
+            status: "illustrations",
+            useNewIllustration: true,
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "translateY(-100px)",
+              height: "calc(100vh - var(--app-bar-height))",
+            },
+            ...(storyboard ? notFoundPageConfig : notFoundAppConfig),
           },
           events: {},
         },
@@ -707,6 +749,16 @@ export class Router {
     return this.locationContext.resolver;
   }
 
+  getMountBrick(
+    ...args: [BrickConf, MatchResult, string, MountRoutesResult]
+  ): Promise<void> {
+    return this.locationContext.mountBrick(...args);
+  }
+
+  getHandlePageLoad(): void {
+    return this.locationContext.handlePageLoad();
+  }
+
   getState(): RouterState {
     return this.state;
   }
@@ -729,5 +781,11 @@ export class Router {
   /* istanbul ignore next */
   handleMessageClose(event: CloseEvent): void {
     return this.locationContext.handleMessageClose(event);
+  }
+
+  waitForUsedContext(data: unknown): Promise<void> {
+    return this.locationContext.storyboardContextWrapper.waitForUsedContext(
+      data
+    );
   }
 }

@@ -67,6 +67,7 @@ module.exports = () => {
     entry: {
       polyfill: path.join(packageRoot, "src", "polyfill"),
       main: path.join(packageRoot, "src", "index"),
+      preview: path.join(packageRoot, "src", "preview"),
     },
     output: {
       path: path.join(__dirname, "../dist"),
@@ -166,6 +167,7 @@ module.exports = () => {
         inject: false,
         mockDate,
         publicCdn,
+        excludeChunks: ["preview"],
         customizeTag(tag) {
           if (tag.tagName === "link" && tag.attributes.rel === "stylesheet") {
             return {

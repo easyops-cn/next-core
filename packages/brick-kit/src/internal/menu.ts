@@ -1,4 +1,4 @@
-import { isEmpty, isNil, sortBy } from "lodash";
+import { isEmpty, isNil, merge, sortBy } from "lodash";
 import {
   SidebarMenuSimpleItem,
   PluginRuntimeContext,
@@ -7,7 +7,13 @@ import {
   MenuItemRawData,
   MicroApp,
 } from "@next-core/brick-types";
-import { isEvaluable, isObject, preevaluate } from "@next-core/brick-utils";
+import {
+  deepFreeze,
+  isEvaluable,
+  isObject,
+  preevaluate,
+  scanPermissionActionsInAny,
+} from "@next-core/brick-utils";
 import {
   InstanceApi_postSearch,
   InstanceApi_getDetail,
@@ -22,6 +28,7 @@ import {
 } from "../core/exports";
 import { getI18nNamespace } from "../i18n";
 import i18next from "i18next";
+import { validatePermissions } from "./checkPermissions";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
@@ -49,21 +56,32 @@ export async function constructMenu(
   kernel: Kernel
 ): Promise<void> {
   const hasSubMenu = !!menuBar.subMenuId;
-  if (menuBar.menuId) {
-    const defaultCollapsed = menuBar.menu?.defaultCollapsed;
-    const menu = await processMenu(menuBar.menuId, context, kernel, hasSubMenu);
+  await Promise.all([
+    (async () => {
+      if (menuBar.menuId) {
+        const defaultCollapsed = menuBar.menu?.defaultCollapsed;
+        const menu = await processMenu(
+          menuBar.menuId,
+          context,
+          kernel,
+          hasSubMenu
+        );
 
-    if (!isNil(defaultCollapsed)) {
-      menu.defaultCollapsed = defaultCollapsed;
-    }
+        if (!isNil(defaultCollapsed)) {
+          menu.defaultCollapsed = defaultCollapsed;
+        }
 
-    menuBar.menu = menu;
-  }
-  if (hasSubMenu) {
-    menuBar.subMenu = await processMenu(menuBar.subMenuId, context, kernel);
-  } else {
-    menuBar.subMenu = null;
-  }
+        menuBar.menu = menu;
+      }
+    })(),
+    (async () => {
+      if (hasSubMenu) {
+        menuBar.subMenu = await processMenu(menuBar.subMenuId, context, kernel);
+      } else {
+        menuBar.subMenu = null;
+      }
+    })(),
+  ]);
 }
 
 export async function preConstructMenus(
@@ -244,6 +262,15 @@ async function loadDynamicMenuItems(
       attemptToVisit(menu.itemsResolve, ["APP", "I18N"])
     ) {
       if (window.STANDALONE_MICRO_APPS) {
+        if (menu.overrideApp) {
+          menu.overrideApp.config = deepFreeze(
+            merge(
+              {},
+              menu.overrideApp.defaultConfig,
+              menu.overrideApp.userConfig
+            )
+          );
+        }
         newContext = {
           ...context,
           overrideApp: menu.overrideApp,
@@ -287,6 +314,8 @@ export async function processMenu(
     kernel,
     isPreFetch
   );
+  const usedActions = scanPermissionActionsInAny([items, restMenuData]);
+  await validatePermissions(usedActions);
 
   const appsRequireI18nFulfilled = new Set<string>();
   const rootAppId = app[0].appId;
@@ -301,13 +330,13 @@ export async function processMenu(
   await kernel.fulfilStoryboardI18n([...appsRequireI18nFulfilled]);
 
   const menuData = {
-    ...computeRealValueWithOverrideApp(
+    ...(await computeRealValueWithOverrideApp(
       restMenuData,
       rootAppId,
       context,
       kernel
-    ),
-    items: computeMenuItemsWithOverrideApp(items, context, kernel),
+    )),
+    items: await computeMenuItemsWithOverrideApp(items, context, kernel),
   };
 
   return {
@@ -371,17 +400,22 @@ function computeMenuItemsWithOverrideApp(
   items: RuntimeMenuItemRawData[],
   context: PluginRuntimeContext,
   kernel: Kernel
-): RuntimeMenuItemRawData[] {
-  return items.map(({ children, ...rest }) => ({
-    ...computeRealValueWithOverrideApp(
-      rest,
-      rest[symbolAppId],
-      context,
-      kernel
-    ),
-    children:
-      children && computeMenuItemsWithOverrideApp(children, context, kernel),
-  }));
+): Promise<RuntimeMenuItemRawData[]> {
+  return Promise.all(
+    items.map(async ({ children, ...rest }) => {
+      return {
+        ...(await computeRealValueWithOverrideApp(
+          rest,
+          rest[symbolAppId],
+          context,
+          kernel
+        )),
+        children:
+          children &&
+          (await computeMenuItemsWithOverrideApp(children, context, kernel)),
+      };
+    })
+  );
 }
 
 export async function processMenuTitle(menuData: MenuRawData): Promise<string> {
@@ -460,20 +494,29 @@ function attemptToVisit(
   return false;
 }
 
-function computeRealValueWithOverrideApp<
+async function computeRealValueWithOverrideApp<
   T extends RuntimeMenuRawData | RuntimeMenuItemRawData
 >(
   data: T,
   overrideAppId: string,
   context: PluginRuntimeContext,
   kernel: Kernel
-): T {
+): Promise<T> {
   let newContext = context;
   if (
     overrideAppId !== context.app.id &&
     attemptToVisit(data, ["APP", "I18N"])
   ) {
     if (window.STANDALONE_MICRO_APPS) {
+      if (data[symbolOverrideApp]) {
+        data[symbolOverrideApp].config = deepFreeze(
+          merge(
+            {},
+            data[symbolOverrideApp].defaultConfig,
+            data[symbolOverrideApp].userConfig
+          )
+        );
+      }
       newContext = {
         ...context,
         overrideApp: data[symbolOverrideApp],
@@ -490,6 +533,7 @@ function computeRealValueWithOverrideApp<
       };
     }
   }
+  await kernel.router.waitForUsedContext(data);
   return computeRealValue(data, newContext, true, {
     ignoreSymbols: true,
   }) as T;

@@ -1,4 +1,4 @@
-import { omit, orderBy, set } from "lodash";
+import { omit, set } from "lodash";
 import {
   PluginLocation,
   MatchResult,
@@ -74,7 +74,7 @@ import { getReadOnlyProxy } from "../internal/proxyFactories";
 import { customTemplateRegistry } from "./CustomTemplates/constants";
 import {
   AsyncExpandCustomForm,
-  formDataProperties,
+  FormDataProperties,
 } from "./CustomForms/ExpandCustomForm";
 import {
   formRenderer,
@@ -167,7 +167,7 @@ export class LocationContext {
   private observersList: BrickIntersectionObserver[] = [];
 
   constructor(private kernel: Kernel, private location: PluginLocation) {
-    this.resolver = new Resolver(kernel);
+    this.resolver = new Resolver(kernel, this);
     this.query = new URLSearchParams(location.search);
     this.messageDispatcher = getMessageDispatcher();
   }
@@ -212,7 +212,17 @@ export class LocationContext {
     });
   }
 
-  private matchRoutes(routes: RouteConf[], app: MicroApp): MatchRoutesResult {
+  async deferComputeRealValue(
+    ...args: Parameters<typeof computeRealValue>
+  ): Promise<unknown> {
+    await this.storyboardContextWrapper.waitForUsedContext(args[0]);
+    return computeRealValue(...args);
+  }
+
+  private async matchRoutes(
+    routes: RouteConf[],
+    app: MicroApp
+  ): Promise<MatchRoutesResult> {
     for (const route of routes) {
       const computedPath = computeRealRoutePath(route.path, app);
       if ([].concat(computedPath).includes(undefined)) {
@@ -220,6 +230,7 @@ export class LocationContext {
         console.error("Invalid route with invalid path:", route);
         return "missed";
       }
+      await this.storyboardContextWrapper.waitForUsedContext(route.if);
       const match = matchPath(this.location.pathname, {
         path: computedPath,
         exact: route.exact,
@@ -241,9 +252,9 @@ export class LocationContext {
     return matchStoryboard(storyboards, this.location.pathname);
   }
 
-  getSubStoryboardByRoute(storyboard: Storyboard): Storyboard {
-    const matcher: SubStoryboardMatcher = (routes) => {
-      const matched = this.matchRoutes(routes, storyboard.app);
+  async getSubStoryboardByRoute(storyboard: Storyboard): Promise<Storyboard> {
+    const matcher: SubStoryboardMatcher = async (routes) => {
+      const matched = await this.matchRoutes(routes, storyboard.app);
       return isObject(matched) ? [matched.route] : [];
     };
     return getSubStoryboardByRoute(storyboard, matcher);
@@ -254,7 +265,7 @@ export class LocationContext {
     slotId?: string,
     mountRoutesResult?: MountRoutesResult
   ): Promise<MountRoutesResult> {
-    const matched = this.matchRoutes(routes, this.kernel.nextApp);
+    const matched = await this.matchRoutes(routes, this.kernel.nextApp);
     let redirect: string | ResolveConf;
     const redirectConf: RedirectConf = {};
     let context: PluginRuntimeContext;
@@ -274,6 +285,9 @@ export class LocationContext {
           mountRoutesResult.flags.hybrid = true;
         }
         context = this.getContext({ match: matched.match });
+        await this.storyboardContextWrapper.waitForUsedContext(
+          route.defineResolves
+        );
         this.resolver.defineResolves(route.defineResolves, context);
         await this.mountProviders(
           route.providers,
@@ -282,12 +296,19 @@ export class LocationContext {
           mountRoutesResult
         );
 
-        await this.storyboardContextWrapper.define(route.context, context);
+        // istanbul ignore else
+        if (this.kernel.getFeatureFlags()["next-core-deferred-context"]) {
+          this.storyboardContextWrapper.deferDefine(route.context, context);
+        } else {
+          await this.storyboardContextWrapper.define(route.context, context);
+        }
         await this.preCheckPermissions(route, context);
 
-        redirect = computeRealValue(route.redirect, context, true) as
-          | string
-          | ResolveConf;
+        redirect = (await this.deferComputeRealValue(
+          route.redirect,
+          context,
+          true
+        )) as string | ResolveConf;
 
         if (redirect) {
           if (typeof redirect === "string") {
@@ -328,11 +349,11 @@ export class LocationContext {
 
           // analytics data (page_view event)
           if (route.analyticsData) {
-            mountRoutesResult.analyticsData = computeRealValue(
+            mountRoutesResult.analyticsData = (await this.deferComputeRealValue(
               route.analyticsData,
               context,
               true
-            ) as Record<string, unknown>;
+            )) as Record<string, unknown>;
           }
         }
     }
@@ -366,6 +387,9 @@ export class LocationContext {
       // 那么可以将菜单配置指定为一个构件，这个构件会被装载到背景容器中（不会在界面中显示），
       // 应该在这个构件的 `connectedCallback` 中执行相关菜单设置，
       // 例如 `getRuntime().menuBar.setAppMenu(...)`。
+      await this.storyboardContextWrapper.waitForUsedContext(
+        menuConf.properties
+      );
       const brick: RuntimeBrick = {
         type: menuConf.brick,
         properties: computeRealProperties(
@@ -406,7 +430,7 @@ export class LocationContext {
     const otherMenuConf = omit(menuConf, ["injectDeep", "type"]);
     const injectedMenuConf =
       injectDeep !== false
-        ? computeRealValue(otherMenuConf, context, true)
+        ? await this.deferComputeRealValue(otherMenuConf, context, true)
         : otherMenuConf;
     const { sidebarMenu, pageTitle, breadcrumb, menuId, subMenuId } =
       injectedMenuConf as StaticMenuConf;
@@ -512,6 +536,7 @@ export class LocationContext {
     ifContainer: IfContainer,
     context: PluginRuntimeContext
   ): Promise<boolean> {
+    await this.storyboardContextWrapper.waitForUsedContext(ifContainer.if);
     if (isObject(ifContainer.if)) {
       const ifChecked = computeRealValue(ifContainer.if, context, true);
 
@@ -537,7 +562,7 @@ export class LocationContext {
       container.permissionsPreCheck &&
       Array.isArray(container.permissionsPreCheck)
     ) {
-      const usedActions = computeRealValue(
+      const usedActions = await this.deferComputeRealValue(
         container.permissionsPreCheck,
         context,
         true
@@ -599,21 +624,37 @@ export class LocationContext {
       tplStack.set(tplTagName, tplCount + 1);
     }
 
-    if (brickConf.brick === formRenderer) {
+    if (
+      brickConf.brick === formRenderer &&
+      typeof brickConf.properties.formData === "object"
+    ) {
       brickConf.properties.formData = JSON.stringify(
         brickConf.properties.formData
       );
     }
     const brick: RuntimeBrick = {};
 
-    await this.storyboardContextWrapper.define(
-      brickConf.context,
-      context,
-      brick
-    );
+    // istanbul ignore else
+    if (this.kernel.getFeatureFlags()["next-core-deferred-context"]) {
+      this.storyboardContextWrapper.deferDefine(
+        brickConf.context,
+        context,
+        brick
+      );
+    } else {
+      await this.storyboardContextWrapper.define(
+        brickConf.context,
+        context,
+        brick
+      );
+    }
     await this.preCheckPermissions(brickConf, context);
 
     const trackingContextList: TrackingContextItem[] = [];
+
+    await this.storyboardContextWrapper.waitForUsedContext(
+      brickConf.properties
+    );
 
     Object.assign(brick, {
       type: tplTagName || brickConf.brick,
@@ -698,7 +739,8 @@ export class LocationContext {
           properties: brick.properties,
         },
         brick,
-        context
+        context,
+        this
       );
 
       // Try to load deps for dynamic added bricks.
@@ -706,14 +748,16 @@ export class LocationContext {
     }
 
     if (brick.type === formRenderer) {
-      const formData: formDataProperties = JSON.parse(
-        brick.properties.formData
-      );
+      const formData: FormDataProperties =
+        typeof brick.properties.formData === "string"
+          ? JSON.parse(brick.properties.formData)
+          : brick.properties.formData;
       expandedBrickConf = await AsyncExpandCustomForm(
         formData,
         brickConf,
         brick.properties.isPreview,
-        context
+        context,
+        this
       );
       await this.kernel.loadDynamicBricksInBrickConf(expandedBrickConf);
     }
@@ -733,6 +777,7 @@ export class LocationContext {
     if (expandedBrickConf.bg) {
       // A bg brick has no slotId.
       brick.slotId = undefined;
+      await this.kernel.loadDynamicBricks([brick.type]);
       appendBrick(brick, this.kernel.mountPoints.bg as MountableElement);
     } else {
       if (expandedBrickConf.portal) {

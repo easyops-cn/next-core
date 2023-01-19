@@ -3,6 +3,7 @@
  * 蓝湖链接：https://lanhuapp.com/web/#/item/project/board/detail?pid=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&project_id=08ef7a67-b5e6-4aee-8b6d-6999377c4fdb&image_id=a0bee232-89c7-45d3-b3cf-7300c457ac9a
 */
 .@{input-prefix-cls} {
+  border-radius: 3px;
   &:focus {
     border-color: var(--antd-input-focus-border-color);
   }
@@ -11,14 +12,35 @@
     background-color: var(--theme-blue-background);
   }
 
+  &-group&-group-compact {
+    & > *:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+    & > *:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+  
+  &-group&-group-compact {
+    > .@{select-prefix-cls}:last-child {
+      > .@{select-prefix-cls}-selector {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+    }
+  }
+
   &-group-addon {
     color: var(--color-normal-text);
     background-color: var(--theme-gray-background);
+    border-radius: 3px;
 
     &:first-child {
       z-index: 1;
       right: -1px;
-    }
+  }
 
     &:last-child {
       left: -1px;
@@ -39,6 +61,7 @@
 }
 
 .@{input-number-prefix-cls} {
+  border-radius: 3px;
   &-handler-wrap {
     width: 20px;
     border-left-color: transparent;
@@ -56,6 +79,12 @@
 
   &-handler-down {
     border-top-color: transparent;
+  }
+}
+
+.@{ant-prefix}-input {
+  &-affix-wrapper {
+    border-radius: 3px;
   }
 }
 

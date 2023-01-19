@@ -2,14 +2,17 @@ import {
   BrickConf,
   BrickEventHandler,
   BrickEventsMap,
+  ContextConf,
+  PluginRuntimeContext,
   ResolveConf,
 } from "@next-core/brick-types";
 import _ from "lodash";
+import type { LocationContext } from "../LocationContext";
 import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
 
 export function ExpandCustomForm(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
   context?: any
@@ -28,14 +31,21 @@ export function ExpandCustomForm(
 }
 
 export async function AsyncExpandCustomForm(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
-  context?: any
+  context?: PluginRuntimeContext,
+  locationContext?: LocationContext
 ): Promise<BrickConf> {
   const formContext = new CustomFormContext();
   formData = initFormContext(formData, brickConf, isPreview);
   if (Array.isArray(formData.context)) {
+    if (locationContext) {
+      // Handle use cases of using `CTX.*` in template states.
+      await locationContext.storyboardContextWrapper.waitForUsedContext(
+        formData.context.map((state) => [state.if, state.value, state.resolve])
+      );
+    }
     await formContext.formState.define(
       formData.context,
       { ...context, formContextId: formContext.id },
@@ -44,12 +54,13 @@ export async function AsyncExpandCustomForm(
   }
   return getFinalStoryBoard(formData, brickConf, isPreview, formContext);
 }
-export interface formDataProperties {
-  formSchema?: formSchemaProperties;
-  fields?: fieldProperties[];
+export interface FormDataProperties {
+  formSchema?: FormSchemaProperties;
+  fields?: FieldProperties[];
+  context?: ContextConf[];
   [key: string]: any;
 }
-export interface formSchemaProperties {
+export interface FormSchemaProperties {
   id?: string;
   brick?: string;
   sort?: number;
@@ -59,7 +70,7 @@ export interface formSchemaProperties {
   if?: string | boolean | ResolveConf;
   [key: string]: any;
 }
-export interface fieldProperties {
+export interface FieldProperties {
   defaultValue?: string;
   description?: string;
   fieldId: string;
@@ -69,20 +80,20 @@ export interface fieldProperties {
   [key: string]: any;
 }
 
-export interface defaultFieldProperties {
+export interface DefaultFieldProperties {
   brick: string;
   properties: { [key: string]: any };
 }
 export function getDefaultProperties(
   _name: string,
-  fields: fieldProperties[]
-): defaultFieldProperties | { [key: string]: any } {
-  const field: fieldProperties = fields.filter(
-    (item: fieldProperties) => item.fieldId === _name
+  fields: FieldProperties[]
+): DefaultFieldProperties | { [key: string]: any } {
+  const field: FieldProperties = fields.filter(
+    (item: FieldProperties) => item.fieldId === _name
   )[0];
 
   if (field) {
-    let defaultValue: defaultFieldProperties = {
+    let defaultValue: DefaultFieldProperties = {
       brick: "forms.general-input",
       properties: {
         id: field.fieldId,
@@ -284,14 +295,14 @@ export function getDefaultProperties(
 }
 
 export function getStoryboard(
-  datasource: formSchemaProperties[],
+  dataSource: FormSchemaProperties[],
   result: any[],
-  fields: fieldProperties[],
+  fields: FieldProperties[],
   isPreview: boolean | undefined,
   formContextId: string
 ): BrickConf[] {
-  for (let i = 0; i < datasource.length; i++) {
-    const dataItem = datasource[i];
+  for (let i = 0; i < dataSource.length; i++) {
+    const dataItem = dataSource[i];
     let resultItem: { [key: string]: any } = {};
     //数据初始化：根据id,字段类型获取默认属性
     const defaultProperties: any = getDefaultProperties(dataItem.id, fields);
@@ -354,10 +365,10 @@ export function getStoryboard(
 }
 
 export function initFormContext(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined
-): formDataProperties {
+): FormDataProperties {
   if (
     isPreview &&
     formData.formSchema &&
@@ -374,10 +385,10 @@ export function initFormContext(
         item.value = brickConf.properties[item.name];
       }
     });
-    if (brickConf.properties.condition) {
+    if (brickConf.properties.params) {
       formData.context.push({
-        name: "condition",
-        value: brickConf.properties.condition,
+        name: "params",
+        value: brickConf.properties.params,
       });
     }
   }
@@ -385,12 +396,16 @@ export function initFormContext(
 }
 
 export function getFinalStoryBoard(
-  formData: formDataProperties,
+  formData: FormDataProperties,
   brickConf: BrickConf,
   isPreview: boolean | undefined,
   formContext: CustomFormContext
 ): BrickConf {
   let result = null;
+  const renderRoot =
+    typeof brickConf.properties?.renderRoot === "boolean"
+      ? brickConf.properties.renderRoot
+      : true;
   const errorBrick = {
     brick: "presentational-bricks.brick-illustration",
     properties: {
@@ -430,22 +445,35 @@ export function getFinalStoryBoard(
       });
       formStoryboard[0].events = events;
     }
-    result = {
-      ...brickConf,
-      brick: "div",
-      slots: {
-        "": {
-          bricks: [
-            {
-              brick: "basic-bricks.micro-view",
-              properties: { style: { padding: "12px" } },
-              slots: { content: { bricks: formStoryboard, type: "bricks" } },
+    result = renderRoot
+      ? {
+          ...brickConf,
+          brick: "div",
+          slots: {
+            "": {
+              bricks: [
+                {
+                  brick: "basic-bricks.micro-view",
+                  properties: { style: { padding: "12px" } },
+                  slots: {
+                    content: { bricks: formStoryboard, type: "bricks" },
+                  },
+                },
+              ],
+              type: "bricks",
             },
-          ],
-          type: "bricks",
-        },
-      },
-    };
+          },
+        }
+      : {
+          ...brickConf,
+          brick: "div",
+          slots: {
+            "": {
+              bricks: formStoryboard,
+              type: "bricks",
+            },
+          },
+        };
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error.message);

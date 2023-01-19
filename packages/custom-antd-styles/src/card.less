@@ -1,6 +1,7 @@
 .@{card-prefix-cls} {
   box-shadow: var(---antd-card-shadow);
   transition: var(--card-transition);
+  border-radius: 8px;
 
   // Consider all bordered card as inner card.
   &-bordered {
@@ -10,5 +11,8 @@
 
   &-head {
     border-bottom-color: var(--antd-card-head-border-bottom-color);
+  }
+  &-body {
+    padding: 16px;
   }
 }
