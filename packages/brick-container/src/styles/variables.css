@@ -58,7 +58,7 @@
   --page-padding: 24px;
   --page-title-height: 32px;
   --page-card-gap: 20px;
-  --page-title-margin-top: 18px;
+  --page-title-margin-top: 16px;
   --page-title-margin-bottom: 18px;
   --toolbar-button-gap: 8px;
 
@@ -126,7 +126,7 @@
   /* Sub menu in the main content. */
   --sub-menu-width: 240px;
 
-  --card-content-gap: 12px;
+  --card-content-gap: 16px;
 
   --card-default-border-radius: 6px;
   --card-default-border: none;
