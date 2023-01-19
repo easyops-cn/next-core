@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.9](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.8...@next-core/custom-antd-styles@1.25.9) (2023-01-19)
+
+
+### Bug Fixes
+
+* changeBorderRadiusOfInputGroup ([ebecaf3](https://github.com/easyops-cn/next-core/commit/ebecaf38aaf55128d56d39be443da2c56523ded3))
+
+
+
+
+
 ## [1.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.7...@next-core/custom-antd-styles@1.25.8) (2023-01-19)
 
 
