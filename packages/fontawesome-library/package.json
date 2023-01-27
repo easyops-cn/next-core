@@ -29,9 +29,9 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "~1.2.36",
-    "@fortawesome/free-brands-svg-icons": "^5.15.4",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4"
+    "@fortawesome/fontawesome-svg-core": "~6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1"
   },
   "devDependencies": {
     "@next-core/rollup-config-factory": "^2.6.5"
