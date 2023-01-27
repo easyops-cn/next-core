@@ -29,7 +29,7 @@
     "postcss": "^8.4.21",
     "postcss-loader": "^7.0.2",
     "postcss-nested": "^6.0.0",
-    "postcss-preset-env": "^7.8.3",
+    "postcss-preset-env": "^8.0.0",
     "prismjs": "^1.29.0",
     "raw-loader": "^4.0.2",
     "schema-utils": "^4.0.0",
