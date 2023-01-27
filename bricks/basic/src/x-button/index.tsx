@@ -2,8 +2,9 @@ import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import { http } from "@next-core/brick-http";
-
+import { useTranslation } from "react-i18next";
 import styleText from "./x-button.shadow.css";
+import "../i18n.js";
 
 const { defineElement, property, method, event } = createDecorators();
 
@@ -37,8 +38,10 @@ class XButton extends ReactNextElement {
 }
 
 export function XButtonComponent({ label }: { label?: string }) {
+  const { t } = useTranslation();
   return (
     <button>
+      {t("hello")}
       {label}
       <slot />
     </button>

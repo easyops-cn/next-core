@@ -12,8 +12,7 @@
   "dependencies": {
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",

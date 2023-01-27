@@ -1,4 +1,5 @@
 import path from "node:path";
+import fs from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import webpack from "webpack";
@@ -66,6 +67,9 @@ export default async function build(config) {
   const sharedPackages = [
     "react",
     "react-dom",
+    "history",
+    "i18next",
+    "react-i18next",
     "@next-core/element",
     "@next-core/react-element",
     "@next-core/react-use-brick",
@@ -73,6 +77,7 @@ export default async function build(config) {
     "@next-core/brick-http",
   ];
 
+  /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig["moduleFederationShared"]} */
   const shared = Object.fromEntries(
     (
       await Promise.all(
@@ -142,6 +147,16 @@ export default async function build(config) {
       }
     }
   }
+
+  /** @type {Record<string, { import: string; name: string; }>} */
+  const extraExposes = {};
+  // const initializeTsPath = path.join(packageDir, "src/initialize.ts");
+  // if (fs.existsSync(initializeTsPath)) {
+  //   extraExposes.initialize = {
+  //     import: `./${path.relative(packageDir, initializeTsPath)}`,
+  //     name: "initialize",
+  //   };
+  // }
 
   return webpack({
     entry: config.entry || {
@@ -228,7 +243,10 @@ export default async function build(config) {
                 mode === "development"
                   ? "index.bundle.js"
                   : "index.[contenthash].js",
-              exposes: config.exposes,
+              exposes: {
+                ...config.exposes,
+                ...extraExposes,
+              },
             }
           : null),
       }),

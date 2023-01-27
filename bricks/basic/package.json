@@ -14,8 +14,9 @@
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/react-use-brick": "^0.0.0",
+    "i18next": "^22.4.9",
     "react": "^0.0.0-experimental-de7d1c907-20221223",
-    "react-dom": "^0.0.0-experimental-de7d1c907-20221223"
+    "react-i18next": "^12.1.4"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
