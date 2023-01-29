@@ -1,9 +1,7 @@
-import i18next from "i18next";
+import i18n from "i18next";
 import { createHistory } from "./internal/history.js";
 import { initI18n } from "./internal/i18n.js";
 import { Kernel } from "./internal/Kernel.js";
-
-const i18n = i18next as unknown as typeof i18next.default;
 
 let kernel: Kernel;
 let runtime: Runtime;
