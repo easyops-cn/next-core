@@ -11198,10 +11198,10 @@ postcss-place@^8.0.0:
   dependencies:
     postcss-value-parser "^4.2.0"
 
-postcss-preset-env@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/postcss-preset-env/-/postcss-preset-env-8.0.0.tgz#17830b4a9f3317c47be092345c96e52317471c27"
-  integrity sha512-/kFWdq109OONR2Hl3T3nmo1dOdS7lHB6kF/nPaBn/2lGjQ99f/j5vGBYvupSmSni+F7T/0A0Xb0nfbJLnxwdjA==
+postcss-preset-env@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/postcss-preset-env/-/postcss-preset-env-8.0.1.tgz#d249c137febc037dd5dbb97e18f94dba4dd0cda8"
+  integrity sha512-IUbymw0JlUbyVG+I85963PNWgPp3KhnFa1sxU7M/2dGthxV8e297P0VV5W9XcyypoH4hirH2fp1c6fmqh6YnSg==
   dependencies:
     "@csstools/postcss-cascade-layers" "^3.0.0"
     "@csstools/postcss-color-function" "^2.0.0"
@@ -11575,13 +11575,13 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-dom@^0.0.0-experimental-de7d1c907-20221223:
-  version "0.0.0-experimental-de7d1c907-20221223"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-0.0.0-experimental-de7d1c907-20221223.tgz#03973ec295f3741134a85c55a5c5166bb84d2a1a"
-  integrity sha512-cvVWGpLxoH+KavY4X0eWe/oeeQ/Tx8F71duSs1cnvLB9jMrUiH0oBnf8cnCWaHbkTOqcYe5is/VWr3epk3Q10w==
+react-dom@0.0.0-experimental-ee8509801-20230117:
+  version "0.0.0-experimental-ee8509801-20230117"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-0.0.0-experimental-ee8509801-20230117.tgz#3007027b010ab154d1e98795ee359cae5f711161"
+  integrity sha512-mdtGQKFmP1uIRIp73EQL0axwudwsw79ry3bMq8FyJ5ZRL3iB1AjssEAsWUEVU7T1KKxp3PyG/OYfrTFnpTAz8g==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "0.0.0-experimental-de7d1c907-20221223"
+    scheduler "0.0.0-experimental-ee8509801-20230117"
 
 react-error-boundary@^3.1.0:
   version "3.1.4"
@@ -11613,10 +11613,10 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.1.0.tgz#61aaed3096d30eacf2a2127118b5b41387d32a67"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
 
-react@^0.0.0-experimental-de7d1c907-20221223:
-  version "0.0.0-experimental-de7d1c907-20221223"
-  resolved "https://registry.yarnpkg.com/react/-/react-0.0.0-experimental-de7d1c907-20221223.tgz#98bbbf81479dbc1fb36ec967071139ac07afe399"
-  integrity sha512-xSX9X5uWBvgwnbnMIVgj7gdioEBbkCe+T/k79dkA6PZS9EVReot7hEUPODf/ZZZzOCLELLcRQre4IrfZ/0s04g==
+react@0.0.0-experimental-ee8509801-20230117:
+  version "0.0.0-experimental-ee8509801-20230117"
+  resolved "https://registry.npmjs.org/react/-/react-0.0.0-experimental-ee8509801-20230117.tgz#07d19ce8c9f7f4288b1ca05eeb8b4b8016c081ed"
+  integrity sha512-RriS2Fco7EKsXFXi63e9RFEz9xPnDakzHVKGzQ5iwy0jaFwHpvZbYr4fSbPmmUyGUXjDFtr4BfzANERUju1byw==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -12097,10 +12097,10 @@ saxes@^6.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@0.0.0-experimental-de7d1c907-20221223:
-  version "0.0.0-experimental-de7d1c907-20221223"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.0.0-experimental-de7d1c907-20221223.tgz#ac62f28fcb99e576c28db3a66bdf54eca5f8f4f7"
-  integrity sha512-4vjcKj84s6zPuzXz1p48YyznLQxQYE6KgpDJ+kOvEURE9f1zm8yq0yC3M96HR1/iZqABacydnTKF5d5Lmgrqag==
+scheduler@0.0.0-experimental-ee8509801-20230117:
+  version "0.0.0-experimental-ee8509801-20230117"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.0.0-experimental-ee8509801-20230117.tgz#3f7ac0ff69d677ee543044e645109edf12a0542a"
+  integrity sha512-P7U/SCdj9TE3YciEfb6iwY8SskSFFJNttMoHwUrXllu0rGcb2Y8HQC2zN/+ldZufaQCxAqIoevua1QBQFPrXPw==
   dependencies:
     loose-envify "^1.1.0"
 
