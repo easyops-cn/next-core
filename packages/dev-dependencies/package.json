@@ -51,7 +51,7 @@
     "rimraf": "^3.0.2",
     "semver": "^7.3.8",
     "size-limit": "^8.1.2",
-    "typescript": "5.0.0-beta",
+    "typescript": "5.0.0-dev.20230128",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
