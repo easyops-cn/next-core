@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@next-core/runtime": "^0.0.0",
-    "react": "0.0.0-experimental-ee8509801-20230117",
-    "react-dom": "0.0.0-experimental-ee8509801-20230117"
+    "react": "0.14.10",
+    "react-dom": "0.14.10"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.15",
