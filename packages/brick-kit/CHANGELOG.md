@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.164.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.163.0...@next-core/brick-kit@2.164.0) (2023-01-30)
+
+
+### Features
+
+* support devloper brick preview ([9ad79ff](https://github.com/easyops-cn/next-core/commit/9ad79ffeebfb97b332f3640785cae19f249cf28f))
+
+
+
+
+
 # [2.163.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.1...@next-core/brick-kit@2.163.0) (2023-01-16)
 
 
