@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   type FunctionDeclaration,
   SourceLocation,
   Statement,
 } from "@babel/types";
-import type { CookRules, ParseResultOfFile } from "./interfaces";
-import { parseForAnalysis } from "./parse";
-import { precook } from "./precook";
+import type { CookRules, ParseResultOfFile } from "./interfaces.js";
+import { parseForAnalysis } from "./parseForAnalysis.js";
+import { precook } from "./precook.js";
 
 export interface LintOptions {
   typescript?: boolean;
@@ -20,7 +21,7 @@ export interface LintError {
 
 /** For next-core internal or devtools usage only. */
 export function lint(
-  source: string | ParseResultOfFile,
+  source: string | ParseResultOfFile | null,
   { typescript, rules }: LintOptions = {}
 ): LintError[] {
   const errors: LintError[] = [];
@@ -41,7 +42,7 @@ export function lint(
           errors.push({
             type: "SyntaxError",
             message: `Unsupported TypeScript syntax: \`${node.type}\``,
-            loc: node.loc,
+            loc: node.loc!,
           });
         }
       } else {
@@ -49,7 +50,7 @@ export function lint(
       }
     }
   }
-  let func: FunctionDeclaration;
+  let func: FunctionDeclaration | undefined;
   for (const node of jsNodes) {
     const isFunctionDeclaration = node.type === "FunctionDeclaration";
     if (isFunctionDeclaration && !func) {
@@ -60,7 +61,7 @@ export function lint(
         message: isFunctionDeclaration
           ? "Expect a single function declaration"
           : `\`${node.type}\` is not allowed in top level`,
-        loc: node.loc,
+        loc: node.loc!,
       });
     }
   }
@@ -87,7 +88,7 @@ export function lint(
                   message: `${
                     node.async ? "Async" : "Generator"
                   } function is not allowed`,
-                  loc: node.loc,
+                  loc: node.loc!,
                 });
               }
               break;
@@ -115,7 +116,7 @@ export function lint(
                     errors.push({
                       type: "SyntaxError",
                       message: "Unsupported object getter/setter property",
-                      loc: prop.loc,
+                      loc: prop.loc!,
                     });
                   } else if (
                     !prop.computed &&
@@ -125,7 +126,7 @@ export function lint(
                     errors.push({
                       type: "TypeError",
                       message: "Setting '__proto__' property is not allowed",
-                      loc: prop.key.loc,
+                      loc: prop.key.loc!,
                     });
                   }
                 }
@@ -138,11 +139,11 @@ export function lint(
                   message:
                     "Var declaration is not recommended, use `let` or `const` instead",
                   loc: {
-                    start: node.loc.start,
+                    start: node.loc!.start,
                     end: {
-                      line: node.loc.start.line,
+                      line: node.loc!.start.line,
                       // Only decorate the "var".
-                      column: node.loc.start.column + 3,
+                      column: node.loc!.start.column + 3,
                     },
                   },
                 });
@@ -155,7 +156,7 @@ export function lint(
             errors.push({
               type: "SyntaxError",
               message: "Use the rest parameters instead of 'arguments'",
-              loc: node.loc,
+              loc: node.loc!,
             });
           }
         },
@@ -163,7 +164,7 @@ export function lint(
           errors.push({
             type: "SyntaxError",
             message: `Unsupported syntax: \`${node.type}\``,
-            loc: node.loc,
+            loc: node.loc!,
           });
           return true;
         },

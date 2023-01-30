@@ -8,19 +8,19 @@ import {
 
 // https://tc39.es/ecma262/#sec-execution-contexts
 export class ExecutionContext {
-  VariableEnvironment: EnvironmentRecord;
-  LexicalEnvironment: EnvironmentRecord;
-  Function: FunctionObject;
+  VariableEnvironment?: EnvironmentRecord;
+  LexicalEnvironment?: EnvironmentRecord;
+  Function?: FunctionObject;
 }
 
 export type EnvironmentRecordType = "function" | "declarative";
 
 // https://tc39.es/ecma262/#sec-environment-records
 export class EnvironmentRecord {
-  readonly OuterEnv: EnvironmentRecord;
+  readonly OuterEnv: EnvironmentRecord | null | undefined;
   private readonly bindingMap = new Map<string, BindingState>();
 
-  constructor(outer: EnvironmentRecord) {
+  constructor(outer: EnvironmentRecord | null | undefined) {
     this.OuterEnv = outer;
   }
 
@@ -53,7 +53,7 @@ export class EnvironmentRecord {
   }
 
   InitializeBinding(name: string, value: unknown): CompletionRecord {
-    const binding = this.bindingMap.get(name);
+    const binding = this.bindingMap.get(name) as BindingState;
     // Assert: binding exists and uninitialized.
     Object.assign<BindingState, Partial<BindingState>>(binding, {
       initialized: true,
@@ -73,9 +73,9 @@ export class EnvironmentRecord {
   SetMutableBinding(
     name: string,
     value: unknown,
-    strict: boolean
+    strict?: boolean
   ): CompletionRecord {
-    const binding = this.bindingMap.get(name);
+    const binding = this.bindingMap.get(name) as BindingState;
     // Assert: binding exists.
     if (!binding.initialized) {
       throw new ReferenceError(`${name} is not initialized`);
@@ -87,8 +87,8 @@ export class EnvironmentRecord {
     return NormalCompletion(undefined);
   }
 
-  GetBindingValue(name: string, strict: boolean): unknown {
-    const binding = this.bindingMap.get(name);
+  GetBindingValue(name: string, strict?: boolean): unknown {
+    const binding = this.bindingMap.get(name) as BindingState;
     // Assert: binding exists.
     if (!binding.initialized) {
       throw new ReferenceError(`${name} is not initialized`);
@@ -137,11 +137,11 @@ export interface FunctionObject {
 
 // https://tc39.es/ecma262/#sec-reference-record-specification-type
 export class ReferenceRecord {
-  readonly Base?:
+  readonly Base:
     | Record<PropertyKey, unknown>
     | EnvironmentRecord
     | "unresolvable";
-  readonly ReferenceName?: PropertyKey;
+  readonly ReferenceName: PropertyKey;
   /** Whether the reference is in strict mode. */
   readonly Strict?: boolean;
 

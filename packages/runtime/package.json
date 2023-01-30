@@ -32,14 +32,13 @@
     "prestart": "npm run clean",
     "start": "concurrently -k -n types,main \"npm run start:types\" \"npm run start:main\"",
     "start:main": "cross-env NODE_ENV=development build-next-libs --watch",
-    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "start:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json --watch",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
-    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests",
-    "tsc": "tsc --outDir dist"
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
     "@next-core/brick-http": "^2.8.0",
@@ -49,6 +48,6 @@
     "i18next": "^22.4.9"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.15"
+    "@next-core/build-next-libs": "^0.2.16"
   }
 }

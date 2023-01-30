@@ -1,8 +1,6 @@
-export * from "./cook";
-export * from "./lint";
-export { parseForAnalysis } from "./parse";
-export * from "./precook";
-export * from "./precookFunction";
-export * from "./preevaluate";
-export * from "./interfaces";
-export { tokTypes } from "@babel/parser";
+export * from "./cook.js";
+export * from "./precook.js";
+export * from "./precookFunction.js";
+export * from "./preevaluate.js";
+export * from "./interfaces.js";
+// export { tokTypes } from "@babel/parser";

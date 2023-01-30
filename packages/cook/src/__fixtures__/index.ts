@@ -1,19 +1,19 @@
-import { casesOfBindings } from "./bindings";
-import { casesOfExpressions } from "./expressions";
-import { CasePair, MultipleCasePairs, NormalizedCase } from "./interfaces";
-import { casesOfIterationStatements } from "./iteration-statements";
-import { casesOfMigrated } from "./migrated";
+import { casesOfBindings } from "./bindings.js";
+import { casesOfExpressions } from "./expressions.js";
+import { CasePair, MultipleCasePairs, NormalizedCase } from "./interfaces.js";
+import { casesOfIterationStatements } from "./iteration-statements/index.js";
+import { casesOfMigrated } from "./migrated.js";
 import {
   negativeCasesOfExpression,
   selectiveNegativeCasesOfExpression,
-} from "./negative/expressions";
+} from "./negative/expressions.js";
 import {
   negativeCasesOfStatements,
   selectiveNegativeCasesOfStatements,
-} from "./negative/statements";
-import { casesOfPatterns } from "./patterns";
-import { casesOfSwitchStatements } from "./switch-statements";
-import { casesOfTryStatements } from "./try-statements";
+} from "./negative/statements.js";
+import { casesOfPatterns } from "./patterns.js";
+import { casesOfSwitchStatements } from "./switch-statements.js";
+import { casesOfTryStatements } from "./try-statements.js";
 
 export const positiveCases = [
   ...casesOfMigrated,

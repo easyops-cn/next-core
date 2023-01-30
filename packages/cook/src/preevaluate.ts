@@ -1,6 +1,6 @@
 import { Expression } from "@babel/types";
-import { parseAsEstreeExpression } from "./parse";
-import { precook, PrecookOptions } from "./precook";
+import { parseAsEstreeExpression } from "./parse.js";
+import { precook, PrecookOptions } from "./precook.js";
 
 export type PreevaluateOptions = Omit<PrecookOptions, "expressionOnly">;
 

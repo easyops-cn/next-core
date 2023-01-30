@@ -1,17 +1,17 @@
 import { FunctionDeclaration, VariableDeclaration } from "@babel/types";
-import { EstreeNode, NodeWithBoundNames } from "./interfaces";
+import { EstreeNode, NodeWithBoundNames } from "./interfaces.js";
 
 type InternalCollect<T = void, O = unknown> = (
-  node: EstreeNode | EstreeNode[],
+  node: EstreeNode | null | undefined | (EstreeNode | null)[],
   options?: O
 ) => T;
 type InternalCollectWithOptions<T = void, O = unknown> = (
-  node: EstreeNode | EstreeNode[],
+  node: EstreeNode | null | undefined | (EstreeNode | null)[],
   options: O
 ) => T;
 
 export function collectBoundNames(
-  root: NodeWithBoundNames | NodeWithBoundNames[]
+  root: NodeWithBoundNames | NodeWithBoundNames[] | null | undefined
 ): string[] {
   const names = new Set<string>();
   const collect: InternalCollect = (node) => {
@@ -48,8 +48,10 @@ export function collectBoundNames(
   return Array.from(names);
 }
 
-export function containsExpression(root: EstreeNode | EstreeNode[]): boolean {
-  const collect: InternalCollect<boolean> = (node) => {
+export function containsExpression(
+  root: EstreeNode | EstreeNode[]
+): boolean | undefined {
+  const collect: InternalCollect<boolean | undefined> = (node) => {
     if (Array.isArray(node)) {
       return node.some(collect);
     } else if (node) {

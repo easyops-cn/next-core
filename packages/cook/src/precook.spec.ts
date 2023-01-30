@@ -1,6 +1,6 @@
-import { precook } from "./precook";
-import { parseAsEstree, parseAsEstreeExpression } from "./parse";
-import { EstreeVisitors } from "./interfaces";
+import { precook } from "./precook.js";
+import { parseAsEstree, parseAsEstreeExpression } from "./parse.js";
+import { EstreeVisitors } from "./interfaces.js";
 
 const consoleWarn = jest
   .spyOn(console, "warn")

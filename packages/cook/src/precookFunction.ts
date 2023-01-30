@@ -1,6 +1,6 @@
 import { FunctionDeclaration } from "@babel/types";
-import { parseAsEstree } from "./parse";
-import { precook, PrecookOptions } from "./precook";
+import { parseAsEstree } from "./parse.js";
+import { precook, PrecookOptions } from "./precook.js";
 
 export interface PrecookFunctionOptions extends PrecookOptions {
   typescript?: boolean;

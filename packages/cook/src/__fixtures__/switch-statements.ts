@@ -1,4 +1,4 @@
-import { LooseCase } from "./interfaces";
+import { LooseCase } from "./interfaces.js";
 
 export const casesOfSwitchStatements: LooseCase[] = [
   [

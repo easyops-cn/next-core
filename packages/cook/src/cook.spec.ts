@@ -1,21 +1,19 @@
-// import { install, InstalledClock } from "lolex";
-import { SimpleFunction } from "@next-core/brick-types";
 import { supply } from "@next-core/supply";
 import { cloneDeep } from "lodash";
-import { cook } from "./cook";
-import { precookFunction } from "./precookFunction";
-import { preevaluate } from "./preevaluate";
+import { cook } from "./cook.js";
+import { precookFunction } from "./precookFunction.js";
+import { preevaluate } from "./preevaluate.js";
 import {
   positiveCases,
   negativeCases,
   selectiveNegativeCases,
-} from "./__fixtures__";
-import { NormalizedCase } from "./__fixtures__/interfaces";
-import { casesOfExpressionOnly } from "./__fixtures__/expressions";
+} from "./__fixtures__/index.js";
+import { NormalizedCase } from "./__fixtures__/interfaces.js";
+import { casesOfExpressionOnly } from "./__fixtures__/expressions.js";
 import {
   negativeCasesOfExpressionOnly,
   selectiveNegativeCasesOfExpressionOnly,
-} from "./__fixtures__/negative/expressions";
+} from "./__fixtures__/negative/expressions.js";
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
@@ -101,7 +99,7 @@ const equivalentFunc = (
   source: string,
   attemptToVisitGlobals: Set<string>,
   expressionOnly?: boolean
-): SimpleFunction => {
+): Function => {
   const globalVariables = supply(
     attemptToVisitGlobals,
     getExtraGlobalVariables()
@@ -116,10 +114,12 @@ const containsExperimental = (source: string): boolean => source.includes("|>");
 
 describe("evaluate", () => {
   beforeAll(() => {
+    jest.useFakeTimers();
     jest.setSystemTime(new Date("2020-03-25 17:37:00"));
   });
   afterAll(() => {
     jest.setSystemTime();
+    jest.useRealTimers();
   });
 
   it.each<NormalizedCase>(positiveCases)("%s", (desc, { source, cases }) => {
@@ -132,7 +132,7 @@ describe("evaluate", () => {
       attemptToVisitGlobals,
       getExtraGlobalVariables()
     );
-    const func = cook(funcAst, source, { globalVariables }) as SimpleFunction;
+    const func = cook(funcAst, source, { globalVariables }) as Function;
     for (const { args, result } of cases) {
       if (!typescript) {
         expect(
@@ -155,7 +155,7 @@ describe("evaluate", () => {
       );
       const received = cook(exprAst, source, {
         globalVariables,
-      }) as SimpleFunction;
+      }) as Function;
       if (!/\|>/.test(source)) {
         expect(equivalentFunc(source, attemptToVisitGlobals, true)).toEqual(
           result
@@ -168,7 +168,7 @@ describe("evaluate", () => {
   it("should work with no global variables", () => {
     const source = "1";
     const { expression: exprAst } = preevaluate(`<% ${source} %>`);
-    const received = cook(exprAst, source) as SimpleFunction;
+    const received = cook(exprAst, source) as Function;
     expect(received).toEqual(1);
   });
 
@@ -184,7 +184,7 @@ describe("evaluate", () => {
         attemptToVisitGlobals,
         getExtraGlobalVariables()
       );
-      const func = cook(funcAst, source, { globalVariables }) as SimpleFunction;
+      const func = cook(funcAst, source, { globalVariables }) as Function;
       for (const { args } of cases) {
         if (!typescript && !containsExperimental(source)) {
           expect(() =>
@@ -212,7 +212,7 @@ describe("evaluate", () => {
           );
           const func = cook(funcAst, source, {
             globalVariables,
-          }) as SimpleFunction;
+          }) as Function;
           func(...cloneDeep(args));
         }).toThrowErrorMatchingSnapshot();
       }
@@ -237,7 +237,7 @@ describe("evaluate", () => {
       const func = cook(funcAst, source, {
         globalVariables,
         rules: { noVar: true },
-      }) as SimpleFunction;
+      }) as Function;
       func();
     }).toThrowErrorMatchingSnapshot();
   });
@@ -308,7 +308,7 @@ describe("evaluate", () => {
         beforeCall,
         beforeBranch,
       },
-    }) as SimpleFunction;
+    }) as Function;
 
     func(1);
     expect(beforeEvaluate).toBeCalledTimes(12);

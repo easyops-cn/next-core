@@ -1,7 +1,6 @@
 import {
   ArrayPattern,
   ArrowFunctionExpression,
-  BlockStatement,
   CallExpression,
   CatchClause,
   DoWhileStatement,
@@ -23,7 +22,6 @@ import {
   VariableDeclaration,
   WhileStatement,
 } from "@babel/types";
-import { SimpleFunction } from "@next-core/brick-types";
 import {
   ApplyStringOrNumericAssignment,
   CreateListIteratorRecord,
@@ -41,7 +39,7 @@ import {
   GetIdentifierReference,
   ForDeclarationBindingInstantiation,
   CopyDataProperties,
-} from "./context-free";
+} from "./context-free.js";
 import {
   CompletionRecord,
   DeclarativeEnvironment,
@@ -58,7 +56,7 @@ import {
   OptionalChainRef,
   ReferenceRecord,
   SourceNode,
-} from "./ExecutionContext";
+} from "./ExecutionContext.js";
 import {
   EstreeLVal,
   EstreeNode,
@@ -66,13 +64,13 @@ import {
   EstreeObjectPattern,
   EstreeProperty,
   CookRules,
-} from "./interfaces";
-import { sanitize, isAllowedConstructor } from "./sanitize";
+} from "./interfaces.js";
+import { sanitize, isAllowedConstructor } from "./sanitize.js";
 import {
   collectBoundNames,
   collectScopedDeclarations,
   containsExpression,
-} from "./traverse";
+} from "./traverse.js";
 
 export interface CookOptions {
   rules?: CookRules;
@@ -114,7 +112,7 @@ export function cook(
       return memo;
     }
     const rawObj = templateLiteral.quasis.map((quasi) => quasi.value.raw);
-    const template = templateLiteral.quasis.map((quasi) => quasi.value.cooked);
+    const template = templateLiteral.quasis.map((quasi) => quasi.value.cooked!);
     Object.freeze(rawObj);
     Object.defineProperty(template, "raw", {
       value: rawObj,
@@ -168,8 +166,8 @@ export function cook(
           // and https://github.com/tc39/proposal-pipeline-operator
           if (typeof rightValue !== "function") {
             const funcName = codeSource.substring(
-              node.right.start,
-              node.right.end
+              node.right.start!,
+              node.right.end!
             );
             throw new TypeError(`${funcName} is not a function`);
           }
@@ -180,7 +178,7 @@ export function cook(
             }
           }
           return NormalCompletion(
-            (rightValue as unknown as SimpleFunction).call(thisValue, leftValue)
+            (rightValue as unknown as Function).call(thisValue, leftValue)
           );
         }
         // https://tc39.es/ecma262/#sec-additive-operators
@@ -195,12 +193,12 @@ export function cook(
         // https://tc39.es/ecma262/#sec-function-calls
         const ref = Evaluate(node.callee, optionalChainRef)
           .Value as ReferenceRecord;
-        const func = GetValue(ref) as SimpleFunction;
+        const func = GetValue(ref) as Function;
         if (
           (func === undefined || func === null) &&
           (node.optional || optionalChainRef?.skipped)
         ) {
-          optionalChainRef.skipped = true;
+          optionalChainRef!.skipped = true;
           return NormalCompletion(undefined);
         }
         sanitize(func);
@@ -274,7 +272,7 @@ export function cook(
           (baseValue === undefined || baseValue === null) &&
           (node.optional || optionalChainRef?.skipped)
         ) {
-          optionalChainRef.skipped = true;
+          optionalChainRef!.skipped = true;
           return NormalCompletion(undefined);
         }
         sanitize(baseValue);
@@ -322,27 +320,27 @@ export function cook(
       }
       case "SequenceExpression": {
         // https://tc39.es/ecma262/#sec-comma-operator
-        let result: CompletionRecord;
+        let result: CompletionRecord | undefined;
         for (const expr of node.expressions) {
           result = NormalCompletion(GetValue(Evaluate(expr)));
         }
-        return result;
+        return result!;
       }
       case "TemplateLiteral": {
         // https://tc39.es/ecma262/#sec-template-literals
-        const chunks: string[] = [node.quasis[0].value.cooked];
+        const chunks: string[] = [node.quasis[0].value.cooked!];
         let index = 0;
         for (const expr of node.expressions) {
           const val = GetValue(Evaluate(expr));
           chunks.push(String(val));
-          chunks.push(node.quasis[(index += 1)].value.cooked);
+          chunks.push(node.quasis[(index += 1)].value.cooked!);
         }
         return NormalCompletion(chunks.join(""));
       }
       case "TaggedTemplateExpression": {
         // https://tc39.es/ecma262/#sec-tagged-templates
         const tagRef = Evaluate(node.tag).Value as ReferenceRecord;
-        const tagFunc = GetValue(tagRef) as SimpleFunction;
+        const tagFunc = GetValue(tagRef) as Function;
         sanitize(tagFunc);
         return EvaluateCall(tagFunc, tagRef, node.quasi, node.tag);
       }
@@ -517,7 +515,7 @@ export function cook(
         }
         case "VariableDeclaration": {
           // https://tc39.es/ecma262/#sec-declarations-and-the-variable-statement
-          let result: CompletionRecord;
+          let result: CompletionRecord | undefined;
           for (const declarator of node.declarations) {
             if (!declarator.init) {
               // Assert: a declarator without init is always an identifier.
@@ -549,7 +547,7 @@ export function cook(
               );
             }
           }
-          return result;
+          return result!;
         }
         case "WhileStatement":
           // https://tc39.es/ecma262/#sec-while-statement
@@ -582,6 +580,9 @@ export function cook(
     node: CatchClause,
     thrownValue: unknown
   ): CompletionRecord {
+    if (!node.param) {
+      return Evaluate(node.body);
+    }
     const oldEnv = getRunningContext().LexicalEnvironment;
     const catchEnv = new DeclarativeEnvironment(oldEnv);
     for (const argName of collectBoundNames(node.param)) {
@@ -682,7 +683,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-caseclauseisselected
   function CaseClauseIsSelected(C: SwitchCase, input: unknown): boolean {
-    const clauseSelector = GetValue(Evaluate(C.test));
+    const clauseSelector = GetValue(Evaluate(C.test!));
     return input === clauseSelector;
   }
 
@@ -815,8 +816,8 @@ export function cook(
       if (done) {
         return NormalCompletion(V);
       }
-      let lhsRef: ReferenceRecord;
-      let iterationEnv: DeclarativeEnvironment;
+      let lhsRef: ReferenceRecord | undefined;
+      let iterationEnv: DeclarativeEnvironment | undefined;
       if (lhsKind === "lexicalBinding") {
         iterationEnv = new DeclarativeEnvironment(oldEnv);
         ForDeclarationBindingInstantiation(
@@ -838,8 +839,8 @@ export function cook(
           ? BindingInitialization(lhs, nextValue, undefined)
           : BindingInitialization(lhs, nextValue, iterationEnv)
         : lhsKind === "lexicalBinding"
-        ? InitializeReferencedBinding(lhsRef, nextValue)
-        : PutValue(lhsRef, nextValue);
+        ? InitializeReferencedBinding(lhsRef!, nextValue)
+        : PutValue(lhsRef!, nextValue);
 
       const result = Evaluate(stmt);
       getRunningContext().LexicalEnvironment = oldEnv;
@@ -918,8 +919,8 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-forbodyevaluation
   function ForBodyEvaluation(
-    test: Expression,
-    increment: Expression,
+    test: Expression | null | undefined,
+    increment: Expression | null | undefined,
     stmt: Statement,
     perIterationBindings: string[]
   ): CompletionRecord {
@@ -956,7 +957,7 @@ export function cook(
     if (perIterationBindings.length === 0) {
       return;
     }
-    const lastIterationEnv = getRunningContext().LexicalEnvironment;
+    const lastIterationEnv = getRunningContext().LexicalEnvironment!;
     const outer = lastIterationEnv.OuterEnv;
     const thisIterationEnv = new DeclarativeEnvironment(outer);
     for (const bn of perIterationBindings) {
@@ -1037,7 +1038,7 @@ export function cook(
     const isObjectOrArray =
       assignmentTarget.type === "ArrayPattern" ||
       assignmentTarget.type === "ObjectPattern";
-    let lref;
+    let lref: ReferenceRecord | undefined;
     if (!isObjectOrArray) {
       lref = Evaluate(assignmentTarget).Value as ReferenceRecord;
     }
@@ -1053,7 +1054,7 @@ export function cook(
     if (isObjectOrArray) {
       return DestructuringAssignmentEvaluation(assignmentTarget, rhsValue);
     }
-    return PutValue(lref, rhsValue);
+    return PutValue(lref!, rhsValue);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-restdestructuringassignmentevaluation
@@ -1069,7 +1070,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratordestructuringassignmentevaluation
   function IteratorDestructuringAssignmentEvaluation(
-    elements: (PatternLike | LVal)[],
+    elements: (PatternLike | LVal | null)[],
     iteratorRecord: Iterator<unknown>
   ): CompletionRecord {
     let status = NormalCompletion(Empty);
@@ -1088,7 +1089,7 @@ export function cook(
       const isObjectOrArray =
         assignmentTarget.type === "ArrayPattern" ||
         assignmentTarget.type === "ObjectPattern";
-      let lref: ReferenceRecord;
+      let lref: ReferenceRecord | undefined;
       if (!isObjectOrArray) {
         lref = Evaluate(assignmentTarget).Value as ReferenceRecord;
       }
@@ -1120,7 +1121,7 @@ export function cook(
       if (isObjectOrArray) {
         status = DestructuringAssignmentEvaluation(assignmentTarget, v);
       } else {
-        status = PutValue(lref, v);
+        status = PutValue(lref!, v);
       }
     }
     return status;
@@ -1180,7 +1181,7 @@ export function cook(
   // Function declarations and expressions.
   // https://tc39.es/ecma262/#sec-evaluatecall
   function EvaluateCall(
-    func: SimpleFunction,
+    func: Function,
     ref: ReferenceRecord,
     args: CallExpression["arguments"] | TemplateLiteral,
     callee: CallExpression["callee"]
@@ -1193,7 +1194,7 @@ export function cook(
     }
     const argList = ArgumentListEvaluation(args);
     if (typeof func !== "function") {
-      const funcName = codeSource.substring(callee.start, callee.end);
+      const funcName = codeSource.substring(callee.start!, callee.end!);
       throw new TypeError(`${funcName} is not a function`);
     }
     const result = func.apply(thisValue, argList);
@@ -1214,15 +1215,15 @@ export function cook(
       (constructor as unknown as FunctionObject)[IsConstructor] === false
     ) {
       const constructorName = codeSource.substring(
-        constructExpr.start,
-        constructExpr.end
+        constructExpr.start!,
+        constructExpr.end!
       );
       throw new TypeError(`${constructorName} is not a constructor`);
     }
     if (!isAllowedConstructor(constructor)) {
       const constructorName = codeSource.substring(
-        constructExpr.start,
-        constructExpr.end
+        constructExpr.start!,
+        constructExpr.end!
       );
       throw new TypeError(`${constructorName} is not an allowed constructor`);
     }
@@ -1348,7 +1349,7 @@ export function cook(
       }
     }
 
-    const env = calleeContext.LexicalEnvironment;
+    const env = calleeContext.LexicalEnvironment!;
     for (const paramName of parameterNames) {
       // In strict mode, it's guaranteed no duplicate params exist.
       env.CreateMutableBinding(paramName, false);
@@ -1424,7 +1425,7 @@ export function cook(
   function InstantiateOrdinaryFunctionExpression(
     functionExpression: FunctionExpression
   ): FunctionObject {
-    const scope = getRunningContext().LexicalEnvironment;
+    const scope = getRunningContext().LexicalEnvironment!;
     if (functionExpression.id) {
       const name = functionExpression.id.name;
       const funcEnv = new DeclarativeEnvironment(scope);
@@ -1442,7 +1443,7 @@ export function cook(
   function InstantiateArrowFunctionExpression(
     arrowFunction: ArrowFunctionExpression
   ): FunctionObject {
-    const scope = getRunningContext().LexicalEnvironment;
+    const scope = getRunningContext().LexicalEnvironment!;
     const closure = OrdinaryFunctionCreate(arrowFunction, scope, false);
     return closure;
   }
@@ -1488,8 +1489,8 @@ export function cook(
   function BindingInitialization(
     node: EstreeLVal,
     value: unknown,
-    environment: EnvironmentRecord
-  ): CompletionRecord {
+    environment?: EnvironmentRecord
+  ): CompletionRecord | undefined {
     switch (node.type) {
       case "Identifier":
         return InitializeBoundName(node.name, value, environment);
@@ -1517,7 +1518,7 @@ export function cook(
   function PropertyBindingInitialization(
     properties: (EstreeProperty | RestElement)[],
     value: unknown,
-    environment: EnvironmentRecord
+    environment?: EnvironmentRecord
   ): CompletionRecord {
     const excludedNames = new Set<PropertyKey>();
     for (const prop of properties) {
@@ -1561,7 +1562,7 @@ export function cook(
   function RestBindingInitialization(
     restProperty: RestElement,
     value: unknown,
-    environment: EnvironmentRecord,
+    environment: EnvironmentRecord | undefined,
     excludedNames: Set<PropertyKey>
   ): CompletionRecord {
     const lhs = ResolveBinding(
@@ -1577,10 +1578,10 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratorbindinginitialization
   function IteratorBindingInitialization(
-    elements: (PatternLike | LVal)[],
+    elements: (PatternLike | LVal | null)[],
     iteratorRecord: Iterator<unknown>,
-    environment: EnvironmentRecord
-  ): CompletionRecord {
+    environment?: EnvironmentRecord
+  ): CompletionRecord | undefined {
     if (elements.length === 0) {
       return NormalCompletion(Empty);
     }
@@ -1669,9 +1670,9 @@ export function cook(
   function KeyedBindingInitialization(
     node: EstreeLVal,
     value: unknown,
-    environment: EnvironmentRecord,
+    environment: EnvironmentRecord | undefined,
     propertyName: PropertyKey
-  ): CompletionRecord {
+  ): CompletionRecord | undefined {
     const isIdentifier =
       node.type === "Identifier" ||
       (node.type === "AssignmentPattern" && node.left.type === "Identifier");
@@ -1710,7 +1711,7 @@ export function cook(
     environment?: EnvironmentRecord
   ): CompletionRecord {
     // Assert: environment is always present.
-    environment.InitializeBinding(name, value);
+    environment!.InitializeBinding(name, value);
     return NormalCompletion(Empty);
   }
 

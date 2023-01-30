@@ -74,6 +74,6 @@ export function createJestConfig({
     //   escapeString: true,
     //   printBasicPrototype: true,
     // },
-    resetMocks: true,
+    clearMocks: true,
   };
 }

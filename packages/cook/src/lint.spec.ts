@@ -1,5 +1,5 @@
-import { parseForAnalysis } from "./parse";
-import { lint, LintError } from "./lint";
+import { parseForAnalysis } from "./parseForAnalysis.js";
+import { lint, LintError } from "./lint.js";
 
 describe("lint", () => {
   it.each<[desc: string, source: string, errors: LintError[]]>([

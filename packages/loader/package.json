@@ -37,6 +37,6 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.15"
+    "@next-core/build-next-libs": "^0.2.16"
   }
 }

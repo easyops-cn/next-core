@@ -20,7 +20,7 @@ exports[`evaluate should throw [selective]: expression: ({}).constructor.assign 
 
 exports[`evaluate should throw [selective]: expression: (Set => new Set())(function(){}) 1`] = `"Set is not an allowed constructor"`;
 
-exports[`evaluate should throw [selective]: expression: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
+exports[`evaluate should throw [selective]: expression: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\u{13}/u"`;
 
 exports[`evaluate should throw [selective]: expression: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
@@ -46,7 +46,7 @@ exports[`evaluate should throw [selective]: expression-only: ({}).constructor.as
 
 exports[`evaluate should throw [selective]: expression-only: (Set => new Set())(function(){}) 1`] = `"Unsupported node type \`FunctionExpression\`"`;
 
-exports[`evaluate should throw [selective]: expression-only: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\\\u{13}/u"`;
+exports[`evaluate should throw [selective]: expression-only: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\u{13}/u"`;
 
 exports[`evaluate should throw [selective]: expression-only: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
@@ -84,17 +84,17 @@ exports[`evaluate should throw: assign function expressions 1`] = `"Assignment t
 
 exports[`evaluate should throw: assign global functions 1`] = `"Assignment to constant variable"`;
 
-exports[`evaluate should throw: assign member of nil 1`] = `"Cannot set property 'b' of undefined"`;
+exports[`evaluate should throw: assign member of nil 1`] = `"Cannot set properties of undefined (setting 'b')"`;
 
 exports[`evaluate should throw: assign variables not defined 1`] = `"a is not defined"`;
 
-exports[`evaluate should throw: expression: (DATA.notExisted?.length).oops 1`] = `"Cannot read property 'oops' of undefined"`;
+exports[`evaluate should throw: expression: (DATA.notExisted?.length).oops 1`] = `"Cannot read properties of undefined (reading 'oops')"`;
 
 exports[`evaluate should throw: expression: (Set => new Set())(() => null) 1`] = `"Set is not a constructor"`;
 
 exports[`evaluate should throw: expression: (fn => fn(2,1)+fn())((a=b,b)=>a) 1`] = `"b is not initialized"`;
 
-exports[`evaluate should throw: expression: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
+exports[`evaluate should throw: expression: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\u{/u"`;
 
 exports[`evaluate should throw: expression: [...DATA] 1`] = `"Found non-callable @@iterator"`;
 
@@ -126,13 +126,13 @@ exports[`evaluate should throw: expression: DATA.number5() 1`] = `"DATA.number5 
 
 exports[`evaluate should throw: expression: DATA.number5.toFixed?.().oops() 1`] = `"DATA.number5.toFixed?.().oops is not a function"`;
 
-exports[`evaluate should throw: expression: DATA.number5?.toFixed.oo.ps 1`] = `"Cannot read property 'ps' of undefined"`;
+exports[`evaluate should throw: expression: DATA.number5?.toFixed.oo.ps 1`] = `"Cannot read properties of undefined (reading 'ps')"`;
 
 exports[`evaluate should throw: expression: DATA?.() 1`] = `"DATA is not a function"`;
 
 exports[`evaluate should throw: expression: DATA?.number5() 1`] = `"DATA?.number5 is not a function"`;
 
-exports[`evaluate should throw: expression: DATA?.number5.notExisted.oops 1`] = `"Cannot read property 'oops' of undefined"`;
+exports[`evaluate should throw: expression: DATA?.number5.notExisted.oops 1`] = `"Cannot read properties of undefined (reading 'oops')"`;
 
 exports[`evaluate should throw: expression: EVENT.detail 1`] = `"EVENT is not defined"`;
 
@@ -148,13 +148,13 @@ exports[`evaluate should throw: expression: this.bad 1`] = `"Unsupported node ty
 
 exports[`evaluate should throw: expression: typeof unknown.any 1`] = `"unknown is not defined"`;
 
-exports[`evaluate should throw: expression-only: (DATA.notExisted?.length).oops 1`] = `"Cannot read property 'oops' of undefined"`;
+exports[`evaluate should throw: expression-only: (DATA.notExisted?.length).oops 1`] = `"Cannot read properties of undefined (reading 'oops')"`;
 
 exports[`evaluate should throw: expression-only: (Set => new Set())(() => null) 1`] = `"Set is not a constructor"`;
 
 exports[`evaluate should throw: expression-only: (fn => fn(2,1)+fn())((a=b,b)=>a) 1`] = `"b is not initialized"`;
 
-exports[`evaluate should throw: expression-only: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\\\u{/u"`;
+exports[`evaluate should throw: expression-only: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\u{/u"`;
 
 exports[`evaluate should throw: expression-only: [...DATA] 1`] = `"Found non-callable @@iterator"`;
 
@@ -188,13 +188,13 @@ exports[`evaluate should throw: expression-only: DATA.number5() 1`] = `"DATA.num
 
 exports[`evaluate should throw: expression-only: DATA.number5.toFixed?.().oops() 1`] = `"DATA.number5.toFixed?.().oops is not a function"`;
 
-exports[`evaluate should throw: expression-only: DATA.number5?.toFixed.oo.ps 1`] = `"Cannot read property 'ps' of undefined"`;
+exports[`evaluate should throw: expression-only: DATA.number5?.toFixed.oo.ps 1`] = `"Cannot read properties of undefined (reading 'ps')"`;
 
 exports[`evaluate should throw: expression-only: DATA?.() 1`] = `"DATA is not a function"`;
 
 exports[`evaluate should throw: expression-only: DATA?.number5() 1`] = `"DATA?.number5 is not a function"`;
 
-exports[`evaluate should throw: expression-only: DATA?.number5.notExisted.oops 1`] = `"Cannot read property 'oops' of undefined"`;
+exports[`evaluate should throw: expression-only: DATA?.number5.notExisted.oops 1`] = `"Cannot read properties of undefined (reading 'oops')"`;
 
 exports[`evaluate should throw: expression-only: EVENT.detail 1`] = `"EVENT is not defined"`;
 

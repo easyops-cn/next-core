@@ -42,7 +42,7 @@
     "react-dom": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.15",
+    "@next-core/build-next-libs": "^0.2.16",
     "@next-core/test-next": "^0.0.0"
   }
 }

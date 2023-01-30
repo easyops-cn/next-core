@@ -37,7 +37,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.15",
+    "@next-core/build-next-libs": "^0.2.16",
     "@next-core/test-next": "^0.0.0"
   }
 }

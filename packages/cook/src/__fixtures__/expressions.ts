@@ -1,4 +1,4 @@
-import { LooseCase } from "./interfaces";
+import { LooseCase } from "./interfaces.js";
 
 const casesOfExpressionAny: [string, unknown][] = [
   ["'good'", "good"],

@@ -8,18 +8,22 @@ import {
   SwitchCase,
   VariableDeclaration,
 } from "@babel/types";
-import { hasOwnProperty } from "./hasOwnProperty";
+import { hasOwnProperty } from "./hasOwnProperty.js";
 import {
   AnalysisContext,
   AnalysisEnvironment,
   AnalysisFunctionObject,
-} from "./AnalysisContext";
-import { EstreeNode, EstreeVisitors, NodeWithBoundNames } from "./interfaces";
+} from "./AnalysisContext.js";
+import {
+  EstreeNode,
+  EstreeVisitors,
+  NodeWithBoundNames,
+} from "./interfaces.js";
 import {
   collectBoundNames,
   collectScopedDeclarations,
   containsExpression,
-} from "./traverse";
+} from "./traverse.js";
 
 export interface PrecookOptions {
   expressionOnly?: boolean;
@@ -68,7 +72,7 @@ export function precook(
   }
 
   function visit(node: EstreeNode): void {
-    if (hasOwnProperty(visitors, node.type)) {
+    if (visitors && hasOwnProperty(visitors, node.type)) {
       visitors[node.type](node);
     }
   }
@@ -105,7 +109,7 @@ export function precook(
     } else if (node) {
       // `node` maybe `null` in some cases.
       hooks.beforeVisit?.(node, parent);
-      visitors && visit(node);
+      visit(node);
       // Expressions:
       switch (node.type) {
         case "Identifier":
@@ -256,7 +260,7 @@ export function precook(
           }
           case "FunctionDeclaration": {
             const [fn] = collectBoundNames(node);
-            const env = getRunningContext().LexicalEnvironment;
+            const env = getRunningContext().LexicalEnvironment!;
             const fo = OrdinaryFunctionCreate(node, env);
             env.CreateBinding(fn);
             CallFunction(fo, parent);
@@ -312,7 +316,7 @@ export function precook(
   }
 
   function BoundNamesInstantiation(
-    declarations: NodeWithBoundNames | NodeWithBoundNames[],
+    declarations: NodeWithBoundNames | NodeWithBoundNames[] | null | undefined,
     env: AnalysisEnvironment
   ): void {
     for (const name of collectBoundNames(declarations)) {
@@ -326,7 +330,7 @@ export function precook(
   }
 
   function GetIdentifierReference(
-    env: AnalysisEnvironment,
+    env: AnalysisEnvironment | null | undefined,
     name: string
   ): boolean {
     return (
@@ -393,7 +397,7 @@ export function precook(
     });
     const varNames = collectBoundNames(varDeclarations);
 
-    const env = calleeContext.LexicalEnvironment;
+    const env = calleeContext.LexicalEnvironment!;
     BoundNamesInstantiation(formals, env);
 
     Evaluate(formals, parent?.concat({ node: func.Function, key: "params" }));
@@ -441,7 +445,7 @@ export function precook(
 
   function OrdinaryFunctionCreate(
     func: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
-    scope: AnalysisEnvironment
+    scope?: AnalysisEnvironment
   ): AnalysisFunctionObject {
     return {
       Function: func,

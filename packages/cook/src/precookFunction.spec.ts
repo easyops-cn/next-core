@@ -1,14 +1,11 @@
-import { precookFunction } from "./precookFunction";
+import { describe, it, jest, expect } from "@jest/globals";
+import { precookFunction } from "./precookFunction.js";
 
 const consoleWarn = jest
   .spyOn(console, "warn")
   .mockImplementation(() => void 0);
 
 describe("precookFunction", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it.each<[string, string, string[]]>([
     [
       "lexical variables in block statement",
@@ -281,7 +278,7 @@ describe("precookFunction", () => {
     expect(() => {
       precookFunction("function test() {} test()");
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Expect a single function declaration at top level, but received: \\"FunctionDeclaration\\", \\"ExpressionStatement\\""`
+      `"Expect a single function declaration at top level, but received: "FunctionDeclaration", "ExpressionStatement""`
     );
   });
 

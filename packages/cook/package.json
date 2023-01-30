@@ -8,29 +8,47 @@
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json",
+    "./lint": {
+      "types": "./dist/types/lint.d.ts",
+      "import": "./dist/esm/lint.js",
+      "require": "./dist/cjs/lint.js"
+    },
+    "./parseForAnalysis": {
+      "types": "./dist/types/parseForAnalysis.d.ts",
+      "import": "./dist/esm/parseForAnalysis.js",
+      "require": "./dist/cjs/parseForAnalysis.js"
+    }
+  },
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
     "start": "concurrently -k -n types,main \"npm run start:types\" \"npm run start:main\"",
     "start:main": "cross-env NODE_ENV=development build-next-libs --watch",
-    "start:types": "tsc --watch --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "start:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json --watch",
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
-    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.20.13",
-    "@next-core/brick-types": "^2.82.3"
+    "@babel/parser": "^7.20.13"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.16",

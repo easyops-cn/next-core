@@ -2,7 +2,7 @@ import {
   isEvaluable,
   preevaluate,
   shouldAllowRecursiveEvaluations,
-} from "./preevaluate";
+} from "./preevaluate.js";
 
 describe("isEvaluable", () => {
   it.each<[string, boolean]>([

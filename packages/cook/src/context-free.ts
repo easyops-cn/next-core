@@ -9,8 +9,8 @@ import {
   EnvironmentRecord,
   NormalCompletion,
   ReferenceRecord,
-} from "./ExecutionContext";
-import { collectBoundNames } from "./traverse";
+} from "./ExecutionContext.js";
+import { collectBoundNames } from "./traverse.js";
 
 // https://tc39.es/ecma262/#sec-ispropertyreference
 export function IsPropertyReference(V: ReferenceRecord): boolean {
@@ -144,7 +144,7 @@ export function RequireObjectCoercible(arg: unknown): void {
 
 // https://tc39.es/ecma262/#sec-getidentifierreference
 export function GetIdentifierReference(
-  env: EnvironmentRecord,
+  env: EnvironmentRecord | null | undefined,
   name: string,
   strict: boolean
 ): ReferenceRecord {
@@ -228,9 +228,9 @@ export function ApplyUnaryOperator(
     case "!":
       return !target;
     case "+":
-      return +target;
+      return +(target as string | number);
     case "-":
-      return -target;
+      return -(target as string | number);
     case "void":
       return undefined;
   }

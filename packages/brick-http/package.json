@@ -38,7 +38,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.15",
+    "@next-core/build-next-libs": "^0.2.16",
     "@next-core/test-next": "^0.0.0",
     "whatwg-fetch": "^3.6.2"
   }

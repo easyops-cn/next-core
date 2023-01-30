@@ -45,14 +45,14 @@ export async function transpileRoutes(
       break;
     default: {
       const route = (output.route = matched.route);
-      // defineStoryboardContext(route.context);
-      // preCheckPermissions(route);
+      // defineStoryboardContext(route.context, context);
+      // preCheckPermissions(route, context);
       switch (route.type) {
         case "routes": {
           break;
         }
         case "redirect": {
-          // const redirect = computeRealValue(route.redirect);
+          // const redirect = computeRealValue(route.redirect, context);
           break;
         }
         default: {
@@ -85,11 +85,11 @@ export async function transpileBricks(
     portal: [],
     pendingPromises: [],
   };
-  for (const brickConf of bricks) {
-    mergeTranspileOutput(
-      output,
-      await transpileBrick(brickConf, brickPackages)
-    );
+  const transpiled = await Promise.all(
+    bricks.map((brickConf) => transpileBrick(brickConf, brickPackages))
+  );
+  for (const item of transpiled) {
+    mergeTranspileOutput(output, item);
   }
   return output;
 }
@@ -103,6 +103,14 @@ export async function transpileBrick(
     portal: [],
     pendingPromises: [],
   };
+
+  // checkResolvableIf(brickConf, context);
+
+  // const tplTagName = getTagNameOfCustomTemplate(
+  //   brickConf.brick,
+  //   this.kernel.nextApp?.id
+  // );
+
   const brick: RuntimeBrick = {};
 
   Object.assign(brick, {

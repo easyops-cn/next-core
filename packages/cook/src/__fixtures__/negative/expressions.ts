@@ -1,4 +1,4 @@
-import { LooseCase } from "../interfaces";
+import { LooseCase } from "../interfaces.js";
 
 const negativeCasesOfExpressionAny: string[] = [
   // `_.reverse` is not supplied.
