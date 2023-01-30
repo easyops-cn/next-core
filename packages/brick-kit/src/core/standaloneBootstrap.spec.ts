@@ -7,6 +7,7 @@ import {
 import {
   BootstrapStandaloneApi_runtimeStandalone,
   BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
+  BootstrapV2Api_getBricksInfo,
 } from "@next-sdk/api-gateway-sdk";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
 
@@ -33,6 +34,7 @@ describe("standaloneBootstrap", () => {
     window.APP_ID = undefined;
     window.APP_ROOT = "";
     window.NO_AUTH_GUARD = false;
+    window.DEVELOPER_PREVIEW = false;
   });
 
   it.each<
@@ -396,6 +398,42 @@ describe("standaloneBootstrap", () => {
     // mockHttpGet.mockResolvedValueOnce("");
     expect(RuntimeApi_runtimeMicroAppStandalone).not.toBeCalled();
     await promise;
+  });
+
+  it("should work with DEVELOPER_PREVIEW model", async () => {
+    window.DEVELOPER_PREVIEW = true;
+    window.NO_AUTH_GUARD = false;
+    mockRuntimeStandalone.mockResolvedValueOnce({});
+    mockHttpGet.mockResolvedValueOnce({});
+    mockHttpGet.mockResolvedValueOnce("");
+    (BootstrapV2Api_getBricksInfo as jest.Mock).mockResolvedValueOnce({
+      bricksInfo: [
+        {
+          dll: ["d3", "react-dnd"],
+          filePath: "bricks/graph/dist/index.bda9bcc0.js",
+        },
+      ],
+      templatesInfo: [
+        {
+          filePath: "templates/general-list/dist/index.b0963230.js",
+        },
+      ],
+    });
+
+    expect(await standaloneBootstrap()).toEqual({
+      brickPackages: [
+        {
+          dll: ["d3", "react-dnd"],
+          filePath: "bricks/graph/dist/index.bda9bcc0.js",
+        },
+      ],
+      templatePackages: [
+        {
+          filePath: "templates/general-list/dist/index.b0963230.js",
+        },
+      ],
+      settings: undefined,
+    });
   });
 
   it("should throw error", async () => {

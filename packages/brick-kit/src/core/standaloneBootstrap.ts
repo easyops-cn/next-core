@@ -3,6 +3,8 @@ import { http } from "@next-core/brick-http";
 import {
   BootstrapStandaloneApi_runtimeStandalone,
   BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
+  BootstrapV2Api_getBricksInfo,
+  BootstrapV2Api_GetBricksInfoResponseBody,
 } from "@next-sdk/api-gateway-sdk";
 import { BootstrapData, Settings } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
@@ -33,7 +35,8 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
   const requests: [
     Promise<BootstrapData>,
     Promise<string>,
-    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>
+    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>,
+    Promise<BootstrapV2Api_GetBricksInfoResponseBody | void>
   ] = [
     http.get<BootstrapData>(window.BOOTSTRAP_FILE),
     http.get<string>(`${window.APP_ROOT}conf.yaml`, {
@@ -49,6 +52,7 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       );
       return;
     }),
+    window.DEVELOPER_PREVIEW ? BootstrapV2Api_getBricksInfo({}) : null,
   ];
   if (!window.NO_AUTH_GUARD) {
     let matches: string[] | null;
@@ -65,9 +69,8 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       safeGetRuntimeMicroAppStandalone(appId);
     }
   }
-  const [bootstrapResult, confString, runtimeData] = await Promise.all(
-    requests
-  );
+  const [bootstrapResult, confString, runtimeData, previewPackageData] =
+    await Promise.all(requests);
   let conf: StandaloneConf;
   try {
     conf = confString
@@ -122,6 +125,14 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       }
     }
   }
+
+  if (previewPackageData) {
+    Object.assign(bootstrapResult, {
+      brickPackages: previewPackageData.bricksInfo,
+      templatePackages: (previewPackageData as any).templatesInfo,
+    });
+  }
+
   return {
     ...bootstrapResult,
     settings,

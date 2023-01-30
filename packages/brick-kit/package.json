@@ -34,7 +34,7 @@
     "@next-core/brick-types": "^2.82.3",
     "@next-core/color-theme": "^0.4.8",
     "@next-core/supply": "^1.0.91",
-    "@next-sdk/api-gateway-sdk": "^2.3.0",
+    "@next-sdk/api-gateway-sdk": "^2.6.0",
     "@next-sdk/auth-sdk": "^1.0.0",
     "@next-sdk/cmdb-sdk": "^2.1.1",
     "@next-sdk/micro-app-sdk": "^2.5.0",
