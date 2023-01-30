@@ -17,9 +17,9 @@ export function createJestConfig({
 }) {
   const projectRoot = "<rootDir>/../..";
   return {
-    // roots: ["<rootDir>", rootDir],
-    roots: ["<rootDir>/src/"],
-    // testMatch: ["<rootDir>/**/?(*.)+(spec|test).[jt]s?(x)"],
+    // Mocking for node modules must live in one of `roots`.
+    // While jest also locates test and source files there.
+    roots: ["<rootDir>/src/", `${projectRoot}/jest`],
     testMatch: ["<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"],
     resolver: "ts-jest-resolver",
     testEnvironment: "jsdom",

@@ -5,7 +5,7 @@ import { render } from "@testing-library/react";
 import { XButtonComponent } from "./index.js";
 
 describe("basic.x-button", () => {
-  test("should create a custom element", () => {
+  test("basic usage", () => {
     const element = document.createElement("basic.x-button");
 
     expect(element.shadowRoot).toBeFalsy();
@@ -34,7 +34,7 @@ describe("basic.x-button", () => {
 });
 
 describe("XButtonComponent", () => {
-  test("", () => {
+  test("basic usage", () => {
     const { container } = render(<XButtonComponent label="Hello" />);
     expect(container.querySelector("button")).toBeTruthy();
     expect(container.querySelector("button").textContent).toContain("Hello");

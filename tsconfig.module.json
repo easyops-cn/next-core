@@ -6,7 +6,7 @@
     "moduleResolution": "Node16",
     "esModuleInterop": true,
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "Node16",
     "skipLibCheck": true,
     "strict": true,
     "jsx": "preserve",

@@ -3,7 +3,7 @@ import { act } from "react-dom/test-utils";
 import "./index.js";
 
 describe("basic.y-button", () => {
-  test("should create a custom element", () => {
+  test("basic usage", () => {
     // const container = document.createElement("div");
     // container.innerHTML = '<basic.y-button label="Hi:"></basic.y-button>';
     // const target = container;

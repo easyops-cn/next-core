@@ -2,6 +2,7 @@ import i18next from "i18next";
 // import { initReactI18next } from "react-i18next";
 import languageDetector from "i18next-browser-languagedetector";
 
+// TODO(steve): https://github.com/i18next/i18next/pull/1903
 const i18n = i18next as unknown as typeof i18next.default;
 const LanguageDetector =
   languageDetector as unknown as typeof languageDetector.default;
