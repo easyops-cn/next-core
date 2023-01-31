@@ -43,11 +43,15 @@
   "dependencies": {
     "@next-core/brick-http": "^2.8.0",
     "@next-core/brick-types": "^2.82.1",
+    "@next-core/cook": "^1.6.81",
     "@next-core/loader": "^0.0.0",
+    "@next-core/supply": "^1.0.91",
+    "@next-core/utils": "^0.0.0",
     "history": "^4.10.1",
     "i18next": "^22.4.9"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.16"
+    "@next-core/build-next-libs": "^0.2.16",
+    "@next-core/test-next": "^0.0.0"
   }
 }

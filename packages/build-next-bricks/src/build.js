@@ -75,6 +75,9 @@ export default async function build(config) {
     "@next-core/react-use-brick",
     "@next-core/runtime",
     "@next-core/brick-http",
+    "@next-core/cook",
+    "@next-core/utils/general",
+    "@next-core/utils/storyboard",
   ];
 
   /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig["moduleFederationShared"]} */
@@ -84,8 +87,12 @@ export default async function build(config) {
         sharedPackages.map(async (dep) => {
           /** @type {string} */
           let depPackageJsonPath;
+          const depPkgName = dep
+            .split("/")
+            .slice(0, dep.startsWith("@") ? 2 : 1)
+            .join("/");
           try {
-            depPackageJsonPath = require.resolve(`${dep}/package.json`, {
+            depPackageJsonPath = require.resolve(`${depPkgName}/package.json`, {
               paths: [packageDir],
             });
           } catch (e) {
@@ -105,7 +112,7 @@ export default async function build(config) {
             {
               singleton: true,
               version: depPackageJson.version,
-              requiredVersion: packageJson.dependencies?.[dep],
+              requiredVersion: packageJson.dependencies?.[depPkgName],
               ...customized,
             },
           ];
@@ -114,7 +121,7 @@ export default async function build(config) {
     ).filter(Boolean)
   );
 
-  // console.log(packageName, "shared:", shared);
+  console.log(packageName, "shared:", shared);
 
   const outputPath = path.join(packageDir, "dist");
 

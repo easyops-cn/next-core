@@ -20,6 +20,7 @@ routes:
         label: "Name:"
     - brick: form.f-select
       properties:
-        label: "Gender:"
+        label: |
+          <% "!Gender:" %>
     - brick: basic.have-fun
     - brick: basic.have-more-fun

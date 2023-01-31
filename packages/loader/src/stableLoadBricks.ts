@@ -30,26 +30,62 @@ export function flushStableLoadBricks(): void {
  * precedence over others. We will always load the shared modules from the
  * basic package bundle if it contains the shared modules.
  */
-export async function enqueueStableLoadBricks(
+export function enqueueStableLoadBricks(
   bricks: Iterable<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
-  const bricksByPkg = new Map<string, string[]>();
-  for (const brick of bricks) {
-    const [namespace, brickName] = brick.split(".");
-    const groupName = `bricks/${namespace}`;
-    let groupBricks = bricksByPkg.get(groupName);
-    if (!groupBricks) {
-      groupBricks = [];
-      bricksByPkg.set(groupName, groupBricks);
+  return enqueueStableLoad("bricks", bricks, brickPackages);
+}
+
+export function enqueueStableLoadProcessors(
+  processors: Iterable<string>,
+  brickPackages: BrickPackage[]
+): Promise<void> {
+  return enqueueStableLoad("processors", processors, brickPackages);
+}
+
+export function loadBricksImperatively(
+  bricks: Iterable<string>,
+  brickPackages: BrickPackage[]
+): Promise<void> {
+  const promise = enqueueStableLoad("bricks", bricks, brickPackages);
+  flushStableLoadBricks();
+  return promise;
+}
+
+export function loadProcessorsImperatively(
+  processors: Iterable<string>,
+  brickPackages: BrickPackage[]
+): Promise<void> {
+  const promise = enqueueStableLoad("processors", processors, brickPackages);
+  flushStableLoadBricks();
+  return promise;
+}
+
+async function enqueueStableLoad(
+  type: "bricks" | "processors",
+  list: Iterable<string>,
+  brickPackages: BrickPackage[]
+): Promise<void> {
+  const moduleDir = type === "processors" ? "./processors/" : "./";
+  const modulesByPkg = new Map<string, string[]>();
+  for (const item of list) {
+    const [namespace, itemName] = item.split(".");
+    const pkgId = `bricks/${
+      type === "processors" ? getProcessorPackageName(namespace) : namespace
+    }`;
+    let groupModules = modulesByPkg.get(pkgId);
+    if (!groupModules) {
+      groupModules = [];
+      modulesByPkg.set(pkgId, groupModules);
     }
-    groupBricks.push(brickName);
+    groupModules.push(`${moduleDir}${itemName}`);
   }
 
   let foundBasicPkg: BrickPackage | undefined;
   const restPackages: BrickPackage[] = [];
   for (const pkg of brickPackages) {
-    if (bricksByPkg.has(pkg.id)) {
+    if (modulesByPkg.has(pkg.id)) {
       if (pkg.id === "bricks/basic") {
         foundBasicPkg = pkg;
       } else {
@@ -70,9 +106,9 @@ export async function enqueueStableLoadBricks(
     basicPkgPromise = tempPromise.then(() =>
       Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        bricksByPkg
+        modulesByPkg
           .get(basicPkg.id)!
-          .map((brickName) => loadSharedModule(basicPkg.id, `./${brickName}`))
+          .map((moduleName) => loadSharedModule(basicPkg.id, moduleName))
       )
     );
   }
@@ -83,12 +119,18 @@ export async function enqueueStableLoadBricks(
       await waitBasicPkg;
       return Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        bricksByPkg
+        modulesByPkg
           .get(pkg.id)!
-          .map((brickName) => loadSharedModule(pkg.id, `./${brickName}`))
+          .map((moduleName) => loadSharedModule(pkg.id, moduleName))
       );
     })
   );
 
   await Promise.all(pkgPromises);
+}
+
+function getProcessorPackageName(camelPackageName: string): string {
+  return camelPackageName
+    .replace(/[A-Z]/g, (match) => `-${match[0].toLocaleLowerCase()}`)
+    .replace(/_[0-9]/g, (match) => `-${match[1]}`);
 }
