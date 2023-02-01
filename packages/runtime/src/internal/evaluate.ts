@@ -111,10 +111,10 @@ export async function evaluate(
     globalVariables.DATA = runtimeContext.data;
   }
 
-  const waitList: (() => Promise<unknown>)[] = [];
+  const blockingList: Promise<unknown>[] = [];
 
   // if (attemptToVisitState) {
-  //   waitList.push(() => {
+  //   blockingList.push(() => {
   //     const usedStates = strictCollectMemberUsage(raw, "STATE");
   //     let stateStore: any;
   //     return stateStore.waitFor(usedStates);
@@ -122,40 +122,44 @@ export async function evaluate(
   // }
 
   if (attemptToVisitGlobals.has("PROCESSORS")) {
-    waitList.push(async (): Promise<void> => {
-      const usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
-      await loadProcessorsImperatively(
-        usedProcessors,
-        runtimeContext.brickPackages
-      );
-      globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
-        get(target: unknown, key: string) {
-          const pkg = customProcessors.get(key);
-          if (!pkg) {
-            throw new Error(
-              `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
-            );
-          }
-          return new Proxy(Object.freeze({}), {
-            get(t: unknown, k: string) {
-              return pkg.get(k);
-            },
-          });
-        },
-      });
-    });
+    blockingList.push(
+      (async (): Promise<void> => {
+        const usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
+        await loadProcessorsImperatively(
+          usedProcessors,
+          runtimeContext.brickPackages
+        );
+        globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
+          get(target: unknown, key: string) {
+            const pkg = customProcessors.get(key);
+            if (!pkg) {
+              throw new Error(
+                `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
+              );
+            }
+            return new Proxy(Object.freeze({}), {
+              get(t: unknown, k: string) {
+                return pkg.get(k);
+              },
+            });
+          },
+        });
+      })()
+    );
   }
 
   if (attemptToVisitGlobals.has("CTX")) {
-    waitList.push(async (): Promise<void> => {
-      const usedCtx = strictCollectMemberUsage(raw, "CTX");
-      await runtimeContext.ctxStore.waitFor(usedCtx);
-      globalVariables.CTX = new Proxy(Object.freeze({}), {
-        get(target: unknown, key: string) {
-          return runtimeContext.ctxStore.getValue(key);
-        },
-      });
-    });
+    blockingList.push(
+      (async (): Promise<void> => {
+        const usedCtx = strictCollectMemberUsage(raw, "CTX");
+        await runtimeContext.ctxStore.waitFor(usedCtx);
+        globalVariables.CTX = new Proxy(Object.freeze({}), {
+          get(target: unknown, key: string) {
+            return runtimeContext.ctxStore.getValue(key);
+          },
+        });
+      })()
+    );
   }
 
   // if (attemptToVisitState && runtimeContext.tplContextId) {
@@ -184,7 +188,7 @@ export async function evaluate(
   //   });
   // }
 
-  await Promise.all(waitList.map((fn) => fn()));
+  await Promise.all(blockingList);
 
   try {
     const result = cook(precooked.expression, precooked.source, {

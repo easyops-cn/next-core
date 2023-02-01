@@ -1,5 +1,6 @@
 import type {
   BrickEventHandler,
+  BrickEventHandlerCallback,
   BrickEventsMap,
   BuiltinBrickEventHandler,
 } from "@next-core/brick-types";
@@ -8,13 +9,16 @@ import { computeRealValue } from "./compute/computeRealValue.js";
 import { RuntimeContext } from "./RuntimeContext.js";
 import { RuntimeBrick } from "./Transpiler.js";
 
-type Listener = (this: HTMLElement, event: Event) => unknown;
+type Listener = (event: Event) => unknown;
 
 export function bindListeners(
   brick: HTMLElement,
-  eventsMap: BrickEventsMap,
+  eventsMap: BrickEventsMap | undefined,
   runtimeContext: RuntimeContext
 ): void {
+  if (!eventsMap) {
+    return;
+  }
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     const listener = listenerFactory(handlers, runtimeContext, {
       element: brick,
@@ -33,11 +37,11 @@ export function isBuiltinHandler(
 export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
   runtimeContext: RuntimeContext,
-  runtimeBrick: Partial<RuntimeBrick>
+  runtimeBrick?: Partial<RuntimeBrick>
 ): Listener {
   return async function (event: Event): Promise<void> {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
-      const task = (async () => {
+      const task = async () => {
         if (!(await checkIf(handler, runtimeContext))) {
           return;
         }
@@ -45,13 +49,25 @@ export function listenerFactory(
           const method = handler.action.split(".")[1] as any;
           switch (handler.action) {
             case "console.log":
-              await handleConsoleAction(
+              return handleConsoleAction(
                 event,
                 method,
                 handler.args,
                 runtimeContext
               );
-              break;
+
+            case "context.assign":
+            case "context.replace":
+            case "context.refresh":
+            case "context.load":
+              return handleContextAction(
+                event,
+                method,
+                handler.args,
+                handler.callback,
+                runtimeContext
+              );
+
             default:
               // eslint-disable-next-line no-console
               console.error("unknown event listener action:", handler.action);
@@ -60,12 +76,30 @@ export function listenerFactory(
           // eslint-disable-next-line no-console
           console.error("unknown event handler:", handler);
         }
-      })();
+      };
+      const blocking = task();
       if (!handler.async) {
-        await task;
+        await blocking;
       }
     }
   };
+}
+
+async function handleContextAction(
+  event: Event,
+  method: "assign" | "replace" | "refresh" | "load",
+  args: unknown[] | undefined,
+  callback: BrickEventHandlerCallback | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const [name, value] = await argsFactory(args, runtimeContext, event);
+  runtimeContext.ctxStore.updateValue(
+    name as string,
+    value,
+    method,
+    runtimeContext,
+    callback
+  );
 }
 
 async function handleConsoleAction(
@@ -80,6 +114,36 @@ async function handleConsoleAction(
       useEventAsDefault: true,
     }))
   );
+}
+
+export function eventCallbackFactory(
+  callback: BrickEventHandlerCallback,
+  runtimeContext: RuntimeContext,
+  runtimeBrick?: RuntimeBrick
+) {
+  return function callbackFactory(
+    type: "success" | "error" | "finally" | "progress"
+  ) {
+    return function (result?: unknown) {
+      const handlers = callback?.[type];
+      if (handlers) {
+        try {
+          const event = new CustomEvent(`callback.${type}`, {
+            detail: result,
+          });
+          listenerFactory(handlers, runtimeContext, runtimeBrick)(event);
+        } catch (err) {
+          // Do not throw errors in `callback.success` or `callback.progress`,
+          // to avoid the following triggering of `callback.error`.
+          // eslint-disable-next-line
+          console.error(err);
+        }
+      } else if (type === "error") {
+        // eslint-disable-next-line
+        console.error("Unhandled callback error:", result);
+      }
+    };
+  };
 }
 
 interface ArgsFactoryOptions {

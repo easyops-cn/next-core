@@ -3,11 +3,14 @@ import type {
   BrickEventsMap,
   MicroApp,
   PluginHistoryState,
+  ResolveConf,
   RouteConf,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
 import { isObject } from "@next-core/utils/general";
+import { checkIf } from "./checkIf.js";
 import { computeRealProperties } from "./compute/computeRealProperties.js";
+import { resolveData } from "./resolveData.js";
 import { RuntimeContext } from "./RuntimeContext.js";
 
 export interface TranspileOutput {
@@ -24,12 +27,14 @@ export interface TranspileOutput {
 }
 
 export interface RuntimeBrick {
+  type: string;
   children: RuntimeBrick[];
-  type?: string;
   properties?: Record<string, unknown>;
   events?: BrickEventsMap;
   slotId?: string;
   element?: HTMLElement;
+  iid?: string;
+  runtimeContext: RuntimeContext;
 }
 
 export async function transpileRoutes(
@@ -120,10 +125,9 @@ export async function transpileBrick(
     pendingPromises: [],
   };
 
-  const brick: RuntimeBrick = {
-    children: [],
-    slotId,
-  };
+  if (!(await checkBrickIf(brickConf, runtimeContext))) {
+    return output;
+  }
 
   if (typeof brickConf.brick === "string" && brickConf.brick.includes(".")) {
     output.pendingPromises.push(
@@ -131,14 +135,24 @@ export async function transpileBrick(
     );
   }
 
-  Object.assign(brick, {
+  const brick: RuntimeBrick = {
     type: brickConf.brick,
-    properties: await computeRealProperties(
+    children: [],
+    slotId,
+    events: brickConf.events,
+    runtimeContext,
+  };
+
+  // 加载构件属性和加载子构件等任务，可以并行。
+  const blockingList: Promise<unknown>[] = [];
+
+  const loadProperties = async () => {
+    brick.properties = await computeRealProperties(
       brickConf.properties,
       runtimeContext
-    ),
-    events: brickConf.events,
-  });
+    );
+  };
+  blockingList.push(loadProperties());
 
   if (brickConf.portal) {
     // A portal brick has no slotId.
@@ -146,9 +160,14 @@ export async function transpileBrick(
     // Make parent portal bricks appear before child bricks.
     // This makes z-index of a child brick be higher than its parent.
     output.portal.push(brick);
+  } else {
+    output.main.push(brick);
   }
 
-  if (isObject(brickConf.slots)) {
+  const loadChildren = async () => {
+    if (!isObject(brickConf.slots)) {
+      return;
+    }
     const transpiled = await Promise.all(
       Object.entries(brickConf.slots).map(([childSlotId, slotConf]) => {
         if (slotConf.type === "bricks") {
@@ -170,11 +189,25 @@ export async function transpileBrick(
       ...childrenOutput,
       main: [],
     });
-  }
+  };
+  blockingList.push(loadChildren());
 
-  output.main.push(brick);
+  await Promise.all(blockingList);
 
   return output;
+}
+
+function checkBrickIf(
+  brickConf: BrickConf,
+  runtimeContext: RuntimeContext
+): Promise<boolean> {
+  if (isObject(brickConf.if)) {
+    return resolveData(
+      brickConf.if as ResolveConf,
+      runtimeContext
+    ) as Promise<boolean>;
+  }
+  return checkIf(brickConf, runtimeContext);
 }
 
 function matchRoutes(

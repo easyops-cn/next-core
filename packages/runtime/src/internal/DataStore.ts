@@ -5,6 +5,8 @@ import type {
   ResolveOptions,
 } from "@next-core/brick-types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
+import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
+import { eventCallbackFactory, listenerFactory } from "./bindListeners.js";
 import { checkIf } from "./checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
@@ -58,6 +60,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     name: string,
     value: unknown,
     method: "assign" | "replace" | "refresh" | "load",
+    runtimeContext: RuntimeContext,
     callback?: BrickEventHandlerCallback
   ): void {
     const item = this.data.get(name);
@@ -99,34 +102,28 @@ export class DataStore<T extends DataStoreType = "CTX"> {
             );
           },
           (err) => {
-            // Let users to override error handling.
+            // Let users override error handling.
             if (!callback?.error) {
-              // handleHttpError(err);
+              // Todo: handleHttpError(err);
             }
           }
         );
       }
 
-      // if (callback) {
-      //   const callbackFactory = eventCallbackFactory(
-      //     callback,
-      //     () =>
-      //       this.getResolveOptions(_internalApiGetCurrentContext())
-      //         .mergedContext,
-      //     null
-      //   );
+      if (callback) {
+        const callbackFactory = eventCallbackFactory(callback, runtimeContext);
 
-      //   promise.then(
-      //     (val) => {
-      //       callbackFactory("success")({ value: val });
-      //       callbackFactory("finally")();
-      //     },
-      //     (err) => {
-      //       callbackFactory("error")(err);
-      //       callbackFactory("finally")();
-      //     }
-      //   );
-      // }
+        promise.then(
+          (val) => {
+            callbackFactory("success")({ value: val });
+            callbackFactory("finally")();
+          },
+          (err) => {
+            callbackFactory("error")(err);
+            callbackFactory("finally")();
+          }
+        );
+      }
 
       return;
     }
@@ -228,20 +225,39 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       loaded: !isLazyResolve,
     };
 
-    // if (dataConf.onChange) {
-    //   for (const handler of ([] as BrickEventHandler[]).concat(
-    //     dataConf.onChange
-    //   )) {
-    //     newData.eventTarget.addEventListener(
-    //       this.changeEventType,
-    //       listenerFactory(handler, runtimeContext)
-    //     );
-    //   }
-    // }
+    if (dataConf.onChange) {
+      newData.eventTarget.addEventListener(
+        this.changeEventType,
+        listenerFactory(dataConf.onChange, runtimeContext)
+      );
+    }
 
-    // if (dataConf.track) {
-
-    // }
+    if (dataConf.track && this.type !== "FORM_STATE") {
+      const deps = strictCollectMemberUsage(
+        load ? dataConf.resolve : dataConf.value,
+        this.type
+      );
+      for (const dep of deps) {
+        const item = this.data.get(dep);
+        item?.eventTarget?.addEventListener(this.changeEventType, async () => {
+          if (load) {
+            this.updateValue(
+              dataConf.name,
+              { cache: "default" },
+              "refresh",
+              runtimeContext
+            );
+          } else {
+            this.updateValue(
+              dataConf.name,
+              await computeRealValue(dataConf.value, runtimeContext),
+              "replace",
+              runtimeContext
+            );
+          }
+        });
+      }
+    }
 
     this.setValue(dataConf.name, newData);
 

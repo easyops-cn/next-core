@@ -517,7 +517,7 @@ export interface BrickConf {
   /**
    * 构件名。
    */
-  brick?: string;
+  brick: string;
 
   /**
    * {@inheritDoc SlotsConf}

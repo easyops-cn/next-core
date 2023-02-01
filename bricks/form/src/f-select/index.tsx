@@ -26,7 +26,7 @@ class FSelect extends NextElement {
     this.shadowRoot.innerHTML = `
       <div>
         <label>
-          <span>${escapeHtml(this.label)}: </span>
+          <span>${escapeHtml(this.label ?? "")}: </span>
           <select>
             <option>Male</option>
             <option>Female</option>
@@ -49,7 +49,7 @@ class FSelect extends NextElement {
 }
 
 function escapeHtml(unsafe: string): string {
-  return unsafe
+  return String(unsafe)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

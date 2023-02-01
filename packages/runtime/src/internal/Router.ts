@@ -6,7 +6,7 @@ import { transpileRoutes } from "./Transpiler.js";
 import { RuntimeContext } from "./RuntimeContext.js";
 import { DataStore } from "./DataStore.js";
 import { clearResolveCache } from "./resolveData.js";
-import { bindListeners } from "./bindListeners.js";
+import { mountTree, unmountTree } from "./mount.js";
 
 export class Router {
   #rendering = false;
@@ -61,19 +61,18 @@ export class Router {
       const output = await transpileRoutes(storyboard.routes, runtimeContext);
       flushStableLoadBricks();
       await Promise.all(output.pendingPromises);
+
       const main = document.querySelector("#main-mount-point") as HTMLElement;
-      for (const item of output.main) {
-        const element = document.createElement(item.type as string);
-        Object.assign(element, item.properties);
-        bindListeners(element, item.events || {}, runtimeContext);
-        main.appendChild(element);
-      }
-      // TODO: fulfilStoryboard()
-      // TODO: getSubStoryboard()
-      // TODO: loadDepsOfStoryboard()
-      // TODO: registerCustomTemplates()
-      // TODO: registerStoryboardFunctions()
-      // TODO: mountRoutes()
+      const portal = document.querySelector(
+        "#portal-mount-point"
+      ) as HTMLElement;
+
+      // Unmount main tree to avoid app change fired before new routes mounted.
+      unmountTree(main);
+      unmountTree(portal);
+
+      mountTree(output.main, main);
+      mountTree(output.portal, portal);
     } else {
       alert("Storyboard not found");
     }
