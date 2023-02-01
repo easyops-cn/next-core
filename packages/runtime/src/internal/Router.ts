@@ -3,6 +3,10 @@ import { flushStableLoadBricks } from "@next-core/loader";
 import { getHistory } from "./history.js";
 import type { Kernel } from "./Kernel.js";
 import { transpileRoutes } from "./Transpiler.js";
+import { RuntimeContext } from "./RuntimeContext.js";
+import { DataStore } from "./DataStore.js";
+import { clearResolveCache } from "./resolveData.js";
+import { bindListeners } from "./bindListeners.js";
 
 export class Router {
   #rendering = false;
@@ -45,20 +49,23 @@ export class Router {
   }
 
   async #render(location: Location): Promise<void> {
+    clearResolveCache();
     const storyboard = this.#kernel.bootstrapData!.storyboards[0];
     // TODO: matchStoryboard()
     if (storyboard) {
-      const output = await transpileRoutes(
-        storyboard.routes,
-        storyboard.app,
-        this.#kernel.bootstrapData!.brickPackages
-      );
+      const runtimeContext: RuntimeContext = {
+        ctxStore: new DataStore("CTX"),
+        app: storyboard.app,
+        brickPackages: this.#kernel.bootstrapData!.brickPackages,
+      };
+      const output = await transpileRoutes(storyboard.routes, runtimeContext);
       flushStableLoadBricks();
       await Promise.all(output.pendingPromises);
       const main = document.querySelector("#main-mount-point") as HTMLElement;
       for (const item of output.main) {
         const element = document.createElement(item.type as string);
         Object.assign(element, item.properties);
+        bindListeners(element, item.events || {}, runtimeContext);
         main.appendChild(element);
       }
       // TODO: fulfilStoryboard()

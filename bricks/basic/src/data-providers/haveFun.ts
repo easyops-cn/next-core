@@ -1,25 +1,15 @@
-function createProviderClass<T extends unknown[], U>(api: (...args: T) => U) {
-  return class extends HTMLElement {
-    get $$typeof(): string {
-      return "provider";
-    }
-
-    static get _dev_only_definedProperties(): string[] {
-      return ["args"];
-    }
-
-    resolve(...args: T): U {
-      return api(...args);
-    }
-  };
-}
+import { createProviderClass } from "@next-core/utils/general";
 
 export function haveFun() {
   return "fun";
 }
 
-export function haveMoreFun() {
-  return `more-${haveFun()}`;
+export function haveMoreFun(about: string, timeout = 1000) {
+  return new Promise<string>((resolve) => {
+    setTimeout(() => {
+      resolve(`more-${haveFun()}:${about}`);
+    }, timeout);
+  });
 }
 
 customElements.define("basic.have-fun", createProviderClass(haveFun));

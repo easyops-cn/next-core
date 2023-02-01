@@ -1,7 +1,4 @@
-import {
-  enqueueStableLoadBricks,
-  flushStableLoadBricks,
-} from "@next-core/loader";
+import { loadBricksImperatively } from "@next-core/loader";
 import { createRuntime } from "@next-core/runtime";
 // import "./preview.css";
 
@@ -47,8 +44,7 @@ const bootstrap = fetch("/bootstrap.hash.json", {
   await bootstrap;
 
   try {
-    await enqueueStableLoadBricks(bricks, brickPackages);
-    flushStableLoadBricks();
+    await loadBricksImperatively(bricks, brickPackages);
     previewRoot.innerHTML = "";
     previewRoot.append(...dom.body.childNodes);
     // previewRoot.append(dom);

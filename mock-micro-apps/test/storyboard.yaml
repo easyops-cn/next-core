@@ -5,11 +5,44 @@ app:
   noAuthGuard: true
 routes:
 - path: ${APP.homepage}
+  context:
+  - name: a
+    value: 'a:b'
+  - name: x
+    resolve:
+      useProvider: basic.have-more-fun
+      args:
+      - '<% CTX.r %>'
+      - 5000
+      transform:
+        value: '<% `{{${DATA}}}` %>'
+  - name: x
+    if: '<% !CTX.r %>'
+    resolve:
+      useProvider: basic.have-more-fun
+      args:
+      - '<% CTX.r %>'
+      transform:
+        value: '<% `{${DATA}}` %>'
+  - name: r
+    resolve:
+      useProvider: basic.have-fun
   bricks:
     - brick: basic.y-button
       properties:
         label: "Hello:"
         textContent: world
+      events:
+        oops:
+        - action: console.log
+          args:
+          - '<% EVENT.detail %>'
+          - '<% CTX.x %>'
+          async: true
+        - action: console.log
+          args:
+          - '<% EVENT.detail %>'
+          - immediately
     # - brick: basic.y-button
     #   properties:
     #     label: "你好:"
@@ -20,6 +53,8 @@ routes:
         label: "Name:"
     - brick: form.f-select
       properties:
-        label: "Gender:"
-    - brick: basic.have-fun
-    - brick: basic.have-more-fun
+        label: |
+          <% `!Gender (${PROCESSORS.basic.sayHello()}) <${CTX.a}>` %>
+    # - brick: basic.have-fun
+    # - brick: basic.have-more-fun
+    # - brick: basic.have-no-fun

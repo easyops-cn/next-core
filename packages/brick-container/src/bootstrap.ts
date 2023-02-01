@@ -25,5 +25,13 @@ runtime.bootstrap().then(
   (error) => {
     // eslint-disable-next-line no-console
     console.error("bootstrap failed:", error);
+
+    // `.bootstrap-error` makes loading-bar invisible.
+    document.body.classList.add("bootstrap-error", "bars-hidden");
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    document.querySelector(
+      "#main-mount-point"
+    )!.textContent = `bootstrap failed: ${String(error)}`;
   }
 );

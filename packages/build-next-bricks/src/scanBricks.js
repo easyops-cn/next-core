@@ -96,12 +96,14 @@ export default async function scanBricks(packageDir) {
     const importPaths = new Map();
     traverse(ast, {
       CallExpression({ node: { callee, arguments: args } }) {
-        // Match `getRuntime().registerCustomProcessor(...)`
+        // Match `customProcessors.define(...)`
         // Match `customElements.define(...)`
         if (
           callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier" &&
+          callee.object.name === "customProcessors" &&
           !callee.property.computed &&
-          callee.property.name === "registerCustomProcessor" &&
+          callee.property.name === "define" &&
           args.length === 2
         ) {
           const { type, value: fullName } = args[0];
@@ -128,7 +130,7 @@ export default async function scanBricks(packageDir) {
             });
           } else {
             throw new Error(
-              "Please call `getRuntime().registerCustomProcessor()` only with literal string"
+              "Please call `customProcessors.define()` only with literal string"
             );
           }
         } else if (
@@ -161,6 +163,10 @@ export default async function scanBricks(packageDir) {
                 .replace(/\/index$/, "")}`,
               name: getExposeName(brickName),
             });
+          } else {
+            throw new Error(
+              "Please call `customElements.define()` only with literal string"
+            );
           }
         }
       },

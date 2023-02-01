@@ -1,13 +1,7 @@
-const runtime = {
-  registerCustomProcessor(...args: unknown[]): void {
-    // eslint-disable-next-line no-console
-    console.log("registerCustomProcessor:", ...args);
-  },
-};
+import { customProcessors } from "@next-core/runtime";
 
 export function sayHello() {
-  // eslint-disable-next-line no-console
-  console.log("Hello from processor");
+  return "Hello from processor";
 }
 
-runtime.registerCustomProcessor("basic.sayHello", sayHello);
+customProcessors.define("basic.sayHello", sayHello);

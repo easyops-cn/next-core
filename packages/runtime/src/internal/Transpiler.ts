@@ -1,11 +1,14 @@
 import type {
   BrickConf,
-  BrickPackage,
+  BrickEventsMap,
   MicroApp,
   PluginHistoryState,
   RouteConf,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
+import { isObject } from "@next-core/utils/general";
+import { computeRealProperties } from "./compute/computeRealProperties.js";
+import { RuntimeContext } from "./RuntimeContext.js";
 
 export interface TranspileOutput {
   main: RuntimeBrick[];
@@ -21,17 +24,20 @@ export interface TranspileOutput {
 }
 
 export interface RuntimeBrick {
+  children: RuntimeBrick[];
   type?: string;
-  children?: RuntimeBrick;
   properties?: Record<string, unknown>;
+  events?: BrickEventsMap;
+  slotId?: string;
+  element?: HTMLElement;
 }
 
 export async function transpileRoutes(
   routes: RouteConf[],
-  app: MicroApp,
-  brickPackages: BrickPackage[]
+  runtimeContext: RuntimeContext,
+  slotId?: string
 ): Promise<TranspileOutput> {
-  const matched = matchRoutes(routes, app);
+  const matched = matchRoutes(routes, runtimeContext.app);
   const output: TranspileOutput = {
     main: [],
     portal: [],
@@ -45,7 +51,7 @@ export async function transpileRoutes(
       break;
     default: {
       const route = (output.route = matched.route);
-      // defineStoryboardContext(route.context, context);
+      runtimeContext.ctxStore.define(route.context, runtimeContext);
       // preCheckPermissions(route, context);
       switch (route.type) {
         case "routes": {
@@ -56,7 +62,11 @@ export async function transpileRoutes(
           break;
         }
         default: {
-          const newOutput = await transpileBricks(route.bricks, brickPackages);
+          const newOutput = await transpileBricks(
+            route.bricks,
+            runtimeContext,
+            slotId
+          );
           mergeTranspileOutput(output, newOutput);
         }
       }
@@ -67,8 +77,11 @@ export async function transpileRoutes(
 
 export function mergeTranspileOutput(
   output: TranspileOutput,
-  newOutput: TranspileOutput
+  newOutput: TranspileOutput | undefined
 ): void {
+  if (!newOutput) {
+    return;
+  }
   const { main, portal, pendingPromises, ...rest } = newOutput;
   output.main.push(...main);
   output.portal.push(...portal);
@@ -78,15 +91,17 @@ export function mergeTranspileOutput(
 
 export async function transpileBricks(
   bricks: BrickConf[],
-  brickPackages: BrickPackage[]
+  runtimeContext: RuntimeContext,
+  slotId?: string
 ): Promise<TranspileOutput> {
   const output: TranspileOutput = {
     main: [],
     portal: [],
     pendingPromises: [],
   };
+  // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const transpiled = await Promise.all(
-    bricks.map((brickConf) => transpileBrick(brickConf, brickPackages))
+    bricks.map((brickConf) => transpileBrick(brickConf, runtimeContext, slotId))
   );
   for (const item of transpiled) {
     mergeTranspileOutput(output, item);
@@ -96,7 +111,8 @@ export async function transpileBricks(
 
 export async function transpileBrick(
   brickConf: BrickConf,
-  brickPackages: BrickPackage[]
+  runtimeContext: RuntimeContext,
+  slotId?: string
 ): Promise<TranspileOutput> {
   const output: TranspileOutput = {
     main: [],
@@ -104,24 +120,56 @@ export async function transpileBrick(
     pendingPromises: [],
   };
 
-  // checkResolvableIf(brickConf, context);
-
-  // const tplTagName = getTagNameOfCustomTemplate(
-  //   brickConf.brick,
-  //   this.kernel.nextApp?.id
-  // );
-
-  const brick: RuntimeBrick = {};
-
-  Object.assign(brick, {
-    type: brickConf.brick,
-    properties: brickConf.properties,
-  });
+  const brick: RuntimeBrick = {
+    children: [],
+    slotId,
+  };
 
   if (typeof brickConf.brick === "string" && brickConf.brick.includes(".")) {
     output.pendingPromises.push(
-      enqueueStableLoadBricks([brickConf.brick], brickPackages)
+      enqueueStableLoadBricks([brickConf.brick], runtimeContext.brickPackages)
     );
+  }
+
+  Object.assign(brick, {
+    type: brickConf.brick,
+    properties: await computeRealProperties(
+      brickConf.properties,
+      runtimeContext
+    ),
+    events: brickConf.events,
+  });
+
+  if (brickConf.portal) {
+    // A portal brick has no slotId.
+    brick.slotId = undefined;
+    // Make parent portal bricks appear before child bricks.
+    // This makes z-index of a child brick be higher than its parent.
+    output.portal.push(brick);
+  }
+
+  if (isObject(brickConf.slots)) {
+    const transpiled = await Promise.all(
+      Object.entries(brickConf.slots).map(([childSlotId, slotConf]) => {
+        if (slotConf.type === "bricks") {
+          return transpileBricks(slotConf.bricks, runtimeContext, childSlotId);
+        } else if (slotConf.type === "routes") {
+          return transpileRoutes(slotConf.routes, runtimeContext, childSlotId);
+        }
+      })
+    );
+
+    const childrenOutput: TranspileOutput = {
+      ...output,
+      main: brick.children,
+    };
+    for (const item of transpiled) {
+      mergeTranspileOutput(childrenOutput, item);
+    }
+    mergeTranspileOutput(output, {
+      ...childrenOutput,
+      main: [],
+    });
   }
 
   output.main.push(brick);
