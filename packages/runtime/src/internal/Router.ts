@@ -7,10 +7,11 @@ import { RuntimeContext } from "./RuntimeContext.js";
 import { DataStore } from "./DataStore.js";
 import { clearResolveCache } from "./resolveData.js";
 import { mountTree, unmountTree } from "./mount.js";
+import { matchStoryboard } from "./matchStoryboard.js";
 
 export class Router {
   #rendering = false;
-  #nextLocation: Location | null = null;
+  #nextLocation: Location | undefined;
 
   #kernel: Kernel;
 
@@ -42,7 +43,7 @@ export class Router {
       this.#rendering = false;
       if (this.#nextLocation) {
         const nextLocation = this.#nextLocation;
-        this.#nextLocation = null;
+        this.#nextLocation = undefined;
         await this.#queuedRender(nextLocation);
       }
     }
@@ -50,15 +51,25 @@ export class Router {
 
   async #render(location: Location): Promise<void> {
     clearResolveCache();
-    const storyboard = this.#kernel.bootstrapData!.storyboards[0];
-    // TODO: matchStoryboard()
+    const storyboard = matchStoryboard(
+      this.#kernel.bootstrapData.storyboards,
+      location.pathname
+    );
     if (storyboard) {
       const runtimeContext: RuntimeContext = {
-        ctxStore: new DataStore("CTX"),
         app: storyboard.app,
-        brickPackages: this.#kernel.bootstrapData!.brickPackages,
+        location,
+        query: new URLSearchParams(location.search),
+        ctxStore: new DataStore("CTX"),
+        brickPackages: this.#kernel.bootstrapData.brickPackages,
       };
       const output = await transpileRoutes(storyboard.routes, runtimeContext);
+
+      if (output.redirect) {
+        getHistory().replace(output.redirect.path, output.redirect.state);
+        return;
+      }
+
       flushStableLoadBricks();
       await Promise.all(output.pendingPromises);
 

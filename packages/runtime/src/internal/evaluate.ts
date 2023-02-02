@@ -162,6 +162,15 @@ export async function evaluate(
     );
   }
 
+  if (attemptToVisitGlobals.has("QUERY")) {
+    globalVariables.QUERY = Object.fromEntries(
+      Array.from(runtimeContext.query.keys()).map((key) => [
+        key,
+        runtimeContext.query.get(key),
+      ])
+    );
+  }
+
   // if (attemptToVisitState && runtimeContext.tplContextId) {
   //   const tplContext = getCustomTemplateContext(runtimeContext.tplContextId);
   //   if (attemptToVisitState) {

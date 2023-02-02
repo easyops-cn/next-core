@@ -1,4 +1,9 @@
-import type { ResolveConf, ResolveOptions } from "@next-core/brick-types";
+import type {
+  HandleReject,
+  HandleRejectByTransform,
+  ResolveConf,
+  ResolveOptions,
+} from "@next-core/brick-types";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 import { RuntimeContext } from "./RuntimeContext.js";
@@ -10,7 +15,7 @@ export async function resolveData(
   runtimeContext: RuntimeContext,
   options?: ResolveOptions
 ) {
-  const { useProvider, method = "resolve", args, transform } = resolveConf;
+  const { useProvider, method = "resolve", args, onReject } = resolveConf;
 
   const [provider, actualArgs] = await Promise.all([
     getProviderBrick(
@@ -54,7 +59,21 @@ export async function resolveData(
     cache.set(cacheKey, promise);
   }
 
-  const data = await promise;
+  let { transform } = resolveConf;
+  let data: unknown;
+
+  try {
+    data = await promise;
+    // The fetched data and its inner objects should never be *injected* again.
+    // recursiveMarkAsInjected(data);
+  } catch (error) {
+    if (isHandleRejectByTransform(onReject)) {
+      transform = onReject.transform;
+      data = error;
+    } else {
+      throw error;
+    }
+  }
 
   if (!transform) {
     return data;
@@ -70,4 +89,10 @@ export async function resolveData(
 
 export function clearResolveCache() {
   cache.clear();
+}
+
+function isHandleRejectByTransform(
+  onReject: HandleReject | undefined
+): onReject is HandleRejectByTransform {
+  return !!(onReject as HandleRejectByTransform).transform;
 }

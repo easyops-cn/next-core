@@ -4,9 +4,9 @@ import { loadBootstrapData } from "./loadBootstrapData.js";
 import { Router } from "./Router.js";
 
 export class Kernel {
-  public bootstrapData: BootstrapData | undefined;
+  public bootstrapData!: BootstrapData;
 
-  #router: Router | undefined;
+  #router!: Router;
 
   async bootstrap(): Promise<void> {
     const [, bootstrapData] = await Promise.all([

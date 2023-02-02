@@ -70,6 +70,7 @@ export default async function build(config) {
     "history",
     "i18next",
     "react-i18next",
+    "lodash",
     "@next-core/element",
     "@next-core/react-element",
     "@next-core/react-use-brick",

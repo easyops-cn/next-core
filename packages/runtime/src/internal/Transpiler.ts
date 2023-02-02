@@ -1,6 +1,7 @@
 import type {
   BrickConf,
   BrickEventsMap,
+  MatchResult,
   MicroApp,
   PluginHistoryState,
   ResolveConf,
@@ -12,6 +13,8 @@ import { checkIf } from "./checkIf.js";
 import { computeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./resolveData.js";
 import { RuntimeContext } from "./RuntimeContext.js";
+import { matchPath } from "./matchPath.js";
+import { computeRealValue } from "./compute/computeRealValue.js";
 
 export interface TranspileOutput {
   main: RuntimeBrick[];
@@ -42,7 +45,7 @@ export async function transpileRoutes(
   runtimeContext: RuntimeContext,
   slotId?: string
 ): Promise<TranspileOutput> {
-  const matched = matchRoutes(routes, runtimeContext.app);
+  const matched = await matchRoutes(routes, runtimeContext);
   const output: TranspileOutput = {
     main: [],
     portal: [],
@@ -59,11 +62,37 @@ export async function transpileRoutes(
       runtimeContext.ctxStore.define(route.context, runtimeContext);
       // preCheckPermissions(route, context);
       switch (route.type) {
-        case "routes": {
+        case "redirect": {
+          let redirectTo: unknown;
+          if (typeof route.redirect === "string") {
+            redirectTo = await computeRealValue(route.redirect, runtimeContext);
+          } else {
+            const resolved = (await resolveData(
+              {
+                transform: "redirect",
+                ...route.redirect,
+              },
+              runtimeContext
+            )) as { redirect?: unknown };
+            redirectTo = resolved.redirect;
+          }
+          if (typeof redirectTo !== "string") {
+            // eslint-disable-next-line no-console
+            console.error("Unexpected redirect result:", redirectTo);
+            throw new Error(
+              `Unexpected type of redirect result: ${typeof redirectTo}`
+            );
+          }
+          output.redirect = { path: redirectTo };
           break;
         }
-        case "redirect": {
-          // const redirect = computeRealValue(route.redirect, context);
+        case "routes": {
+          const newOutput = await transpileRoutes(
+            route.routes,
+            runtimeContext,
+            slotId
+          );
+          mergeTranspileOutput(output, newOutput);
           break;
         }
         default: {
@@ -210,16 +239,43 @@ function checkBrickIf(
   return checkIf(brickConf, runtimeContext);
 }
 
-function matchRoutes(
-  routes: RouteConf[],
-  app: MicroApp
-):
-  | "missed"
-  | "unauthenticated"
+type MatchRoutesResult =
   | {
+      match: MatchResult;
       route: RouteConf;
-    } {
-  return {
-    route: routes[0],
-  };
+    }
+  | "missed"
+  | "unauthenticated";
+
+async function matchRoutes(
+  routes: RouteConf[],
+  runtimeContext: RuntimeContext
+): Promise<MatchRoutesResult> {
+  for (const route of routes) {
+    if (typeof route.path !== "string") {
+      // eslint-disable-next-line no-console
+      console.error("Invalid route with invalid path:", route);
+      throw new Error(
+        `Invalid route with invalid type of path: ${typeof route.path}`
+      );
+    }
+    const routePath = route.path.replace(
+      /^\$\{APP.homepage\}/,
+      runtimeContext.app.homepage
+    );
+    const match = matchPath(runtimeContext.location.pathname, {
+      path: routePath,
+      exact: route.exact,
+    });
+    if (match && (await checkIf(route, runtimeContext))) {
+      if (
+        runtimeContext.app.noAuthGuard ||
+        route.public /* || isLoggedIn() */
+      ) {
+        return { match, route };
+      }
+      return "unauthenticated";
+    }
+  }
+  return "missed";
 }

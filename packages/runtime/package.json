@@ -48,7 +48,9 @@
     "@next-core/supply": "^1.0.91",
     "@next-core/utils": "^0.0.0",
     "history": "^4.10.1",
-    "i18next": "^22.4.9"
+    "i18next": "^22.4.9",
+    "lodash": "^4.17.21",
+    "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.16",

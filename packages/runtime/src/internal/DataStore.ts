@@ -1,5 +1,4 @@
 import type {
-  BrickEventHandler,
   BrickEventHandlerCallback,
   ContextConf,
   ResolveOptions,
