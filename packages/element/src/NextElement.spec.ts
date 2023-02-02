@@ -384,13 +384,11 @@ describe("NextElement", () => {
     @defineElement("my-element-event")
     class MyElement extends NextElement {
       @property() accessor stringAttr: string | undefined;
-      @event({ type: "change" }) accessor _changeEvent:
-        | EventEmitter<string>
-        | undefined;
+      @event({ type: "change" }) accessor #_changeEvent!: EventEmitter<string>;
 
       @method()
       triggerChange(value: string) {
-        this._changeEvent?.emit(value);
+        this.#_changeEvent.emit(value);
       }
 
       _render() {

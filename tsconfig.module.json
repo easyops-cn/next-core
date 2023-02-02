@@ -9,7 +9,6 @@
     "module": "Node16",
     "skipLibCheck": true,
     "strict": true,
-    "jsx": "preserve",
-    "experimentalDecorators": true
+    "jsx": "preserve"
   }
 }

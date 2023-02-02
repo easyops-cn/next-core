@@ -15,11 +15,11 @@ class XButton extends ReactNextElement {
   @property() accessor label: string;
 
   // https://github.com/microsoft/TypeScript/pull/50820
-  @event({ type: "oops" }) accessor _clickEvent: EventEmitter<string>;
+  @event({ type: "oops" }) accessor #clickEvent: EventEmitter<string>;
 
   @method()
   click() {
-    this._clickEvent.emit("ok");
+    this.#clickEvent.emit("ok");
     http.get("/favicon.png").then(
       (res) => {
         // eslint-disable-next-line no-console

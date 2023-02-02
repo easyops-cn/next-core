@@ -60,17 +60,19 @@ export function createDecorators() {
   const definedMethods = new Set<string>();
   const definedEvents = new Set<string>();
 
-  // TODO(steve): TypeScript only supports legacy decorator proposal right now.
-
   function defineElement(
     name: string,
     options?: {
       styleTexts?: string[];
     }
-  ): any {
+  ) {
     return (
       value: Function,
-      { kind, name: className, addInitializer }: ClassDecoratorContext
+      {
+        kind,
+        name: className,
+        addInitializer,
+      }: ClassDecoratorContext<Constructable<NextElement>>
     ) => {
       // istanbul ignore next
       if (process.env.NODE_ENV === "development" && kind !== "class") {
@@ -78,7 +80,7 @@ export function createDecorators() {
           `Invalid usage of \`@defineElement()\` on a ${kind}: "${className}"`
         );
       }
-      addInitializer(function (this: Constructable<NextElement>) {
+      addInitializer(function (this) {
         const superClass = Object.getPrototypeOf(this);
 
         const mergedAttributes = mergeIterables(
@@ -126,21 +128,16 @@ export function createDecorators() {
     };
   }
 
-  function property(options?: PropertyDeclaration): any {
+  function property<T>(options?: PropertyDeclaration) {
     return function (
-      { get, set }: AutoAccessor,
+      { get, set }: ClassAccessorDecoratorTarget<NextElement, T>,
       {
         kind,
         name,
         static: isStatic,
         private: isPrivate,
-      }: ClassMemberDecoratorContext & {
-        kind: "accessor";
-        name: string;
-        static: false;
-        private: false;
-      }
-    ) {
+      }: ClassAccessorDecoratorContext<NextElement, T>
+    ): ClassAccessorDecoratorResult<NextElement, T> {
       // istanbul ignore next
       if (process.env.NODE_ENV === "development") {
         if (kind !== "accessor") {
@@ -170,11 +167,11 @@ export function createDecorators() {
       if (attrName !== undefined) {
         attributeReflections.set(attrName, {
           ..._options,
-          property: name,
+          property: name as string,
         });
       }
       return {
-        get(this: NextElement) {
+        get(this) {
           // If the attribute has been set (not by initialization), returns the
           // value converted by the attribute. Otherwise returns the prop value.
           // This works as a type conversion when reading a prop value.
@@ -185,11 +182,11 @@ export function createDecorators() {
             return _options.converter.fromAttribute(
               this.getAttribute(attrName),
               _options.type
-            );
+            ) as T;
           }
           return get.call(this);
         },
-        set(this: NextElement, value: unknown) {
+        set(this, value) {
           const oldValue = get.call(this);
           set.call(this, value);
           if (_options.hasChanged(value, oldValue)) {
@@ -209,7 +206,7 @@ export function createDecorators() {
             this._requestRender();
           }
         },
-        init(this: NextElement, initialValue: unknown) {
+        init(this, initialValue) {
           if (
             attrName !== undefined &&
             _options.hasChanged(initialValue, undefined)
@@ -237,7 +234,7 @@ export function createDecorators() {
     };
   }
 
-  function method(): any {
+  function method() {
     return function (
       value: Function,
       {
@@ -245,12 +242,7 @@ export function createDecorators() {
         name,
         static: isStatic,
         private: isPrivate,
-      }: ClassMemberDecoratorContext & {
-        kind: "method";
-        name: string;
-        static: false;
-        private: false;
-      }
+      }: ClassMethodDecoratorContext
     ) {
       // istanbul ignore next
       if (process.env.NODE_ENV === "development") {
@@ -279,20 +271,16 @@ export function createDecorators() {
     };
   }
 
-  function event(options: EventDeclaration): any {
+  function event<T>(options: EventDeclaration) {
     return function (
-      { get }: AutoAccessor,
+      { get }: ClassAccessorDecoratorTarget<NextElement, EventEmitter<T>>,
       {
         kind,
         name,
         static: isStatic,
-      }: // private: isPrivate,
-      ClassMemberDecoratorContext & {
-        kind: "accessor";
-        name: string;
-        static: false;
-      }
-    ) {
+        private: isPrivate,
+      }: ClassAccessorDecoratorContext
+    ): ClassAccessorDecoratorResult<NextElement, EventEmitter<T>> {
       // istanbul ignore next
       if (process.env.NODE_ENV === "development") {
         if (kind !== "accessor") {
@@ -300,35 +288,31 @@ export function createDecorators() {
             `Invalid usage of \`@event()\` on a ${kind}: "${String(name)}"`
           );
         }
-        if (isStatic) {
+        if (!isPrivate) {
           throw new Error(
-            `Invalid usage of \`@event()\` on a static ${kind}: "${name}"`
+            `Invalid usage of \`@event()\` on a non-private ${kind}: "${String(
+              name
+            )}"`
           );
         }
-        // TODO(steve): disallow non-private `@event()` target after TypeScript
-        // supports decorating on class private fields:
-        // https://github.com/microsoft/TypeScript/pull/50820
-        // if (!isPrivate) {
-        //   throw new Error(
-        //     `Invalid usage of \`@event()\` on a non-private ${kind}: "${String(name)}"`
-        //   );
-        // }
-        if (typeof name === "string" && !name.startsWith("_")) {
+        if (isStatic) {
           throw new Error(
-            `Decorated event field expects to be a symbol or a string starts with "_", received "${name}"`
+            `Invalid usage of \`@event()\` on a static ${kind}: "${String(
+              name
+            )}"`
           );
         }
       }
       const { type, ...eventInit } = options;
       definedEvents.add(type);
       return {
-        get(this: HTMLElement) {
+        get(this) {
           return get.call(this);
         },
         set() {
           throw new Error("Decorated events are readonly");
         },
-        init(this: HTMLElement, initialValue: unknown): EventEmitter<unknown> {
+        init(this, initialValue) {
           // istanbul ignore next
           if (
             process.env.NODE_ENV === "development" &&
@@ -341,7 +325,7 @@ export function createDecorators() {
             );
           }
           return Object.freeze({
-            emit: (detail: unknown): boolean =>
+            emit: (detail: T): boolean =>
               this.dispatchEvent(
                 new CustomEvent(type, { ...eventInit, detail })
               ),
@@ -393,35 +377,3 @@ function attributeNameForProperty(
     ? name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`)
     : undefined;
 }
-
-type DecoratorContext = ClassDecoratorContext | ClassMemberDecoratorContext;
-
-interface ClassMemberDecoratorContext {
-  kind: "field" | "accessor" | "getter" | "setter" | "method";
-  name: string | symbol;
-  access: { get(): unknown; set(value: unknown): void };
-  static: boolean;
-  private: boolean;
-  addInitializer(initializer: () => void): void;
-}
-
-interface ClassDecoratorContext {
-  kind: "class";
-  name: string | undefined;
-  addInitializer(initializer: () => void): void;
-}
-
-interface AutoAccessor {
-  get(): unknown;
-  set(value: unknown): void;
-}
-
-type ClassDecorator = (
-  value: Function,
-  context: ClassDecoratorContext
-) => Function | void;
-
-type ClassMemberDecorator = (
-  value: undefined,
-  context: ClassMemberDecoratorContext
-) => (initialValue: unknown) => unknown | void;
