@@ -1,5 +1,5 @@
 {
-  "name": "@next-bricks/basic",
+  "name": "@next-bricks/demo-basic",
   "version": "0.0.0",
   "type": "module",
   "sideEffects": true,
@@ -10,6 +10,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
+    "@next-core/brick-http": "^2.8.0",
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/react-use-brick": "^0.0.0",

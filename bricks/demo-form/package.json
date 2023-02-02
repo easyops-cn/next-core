@@ -1,5 +1,5 @@
 {
-  "name": "@next-bricks/form",
+  "name": "@next-bricks/demo-form",
   "version": "0.0.0",
   "type": "module",
   "sideEffects": true,

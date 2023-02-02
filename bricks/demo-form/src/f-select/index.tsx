@@ -4,7 +4,7 @@ import { createDecorators, NextElement } from "@next-core/element";
 
 const { defineElement, property } = createDecorators();
 
-@defineElement("form.f-select")
+@defineElement("demo-form.f-select")
 class FSelect extends NextElement {
   // _root: Root;
 

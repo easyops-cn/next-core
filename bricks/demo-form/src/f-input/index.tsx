@@ -4,7 +4,7 @@ import { ReactNextElement } from "@next-core/react-element";
 
 const { defineElement, property } = createDecorators();
 
-@defineElement("form.f-input")
+@defineElement("demo-form.f-input")
 class FInput extends ReactNextElement {
   @property() accessor label: string;
 

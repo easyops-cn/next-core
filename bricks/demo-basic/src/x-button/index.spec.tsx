@@ -4,9 +4,9 @@ import { act } from "react-dom/test-utils";
 import { render } from "@testing-library/react";
 import { XButtonComponent } from "./index.js";
 
-describe("basic.x-button", () => {
+describe("demo-basic.x-button", () => {
   test("basic usage", () => {
-    const element = document.createElement("basic.x-button");
+    const element = document.createElement("demo-basic.x-button");
 
     expect(element.shadowRoot).toBeFalsy();
     act(() => {

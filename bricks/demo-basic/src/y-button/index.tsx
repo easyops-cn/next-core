@@ -7,7 +7,7 @@ import styleText from "./y-button.shadow.css";
 
 const { defineElement, property } = createDecorators();
 
-@defineElement("basic.y-button", {
+@defineElement("demo-basic.y-button", {
   styleTexts: [...(XButton.styleTexts as string[]), styleText],
 })
 class YButton extends XButton {

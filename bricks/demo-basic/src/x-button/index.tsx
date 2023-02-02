@@ -8,7 +8,7 @@ import "../i18n.js";
 
 const { defineElement, property, method, event } = createDecorators();
 
-@defineElement("basic.x-button", {
+@defineElement("demo-basic.x-button", {
   styleTexts: [styleText],
 })
 class XButton extends ReactNextElement {

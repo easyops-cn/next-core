@@ -10,26 +10,26 @@ routes:
     value: 'a:b'
   - name: x
     resolve:
-      useProvider: basic.have-more-fun
+      useProvider: demo-basic.have-more-fun
       args:
       - '<% CTX.r %>'
-      - 1000
+      - 0
       transform:
         value: '<% `{{${DATA}}}` %>'
   - name: x
     if: '<% !CTX.r %>'
     resolve:
-      useProvider: basic.have-more-fun
+      useProvider: demo-basic.have-more-fun
       args:
       - '<% CTX.r %>'
       transform:
         value: '<% `{${DATA}}` %>'
   - name: y
     resolve:
-      useProvider: basic.have-more-fun
+      useProvider: demo-basic.have-more-fun
       args:
       - '<% CTX.r %>'
-      - 1000
+      - 0
       transform:
         value: '<% `「${DATA}」` %>'
     onChange:
@@ -49,9 +49,19 @@ routes:
       - '<% EVENT.detail %>'
   - name: r
     resolve:
-      useProvider: basic.have-fun
+      useProvider: demo-basic.have-fun
   bricks:
-    - brick: basic.y-button
+    - brick: basic.demo-button
+      properties:
+        label: "Hi:"
+      slots:
+        "":
+          type: bricks
+          bricks:
+          - brick: span
+            properties:
+              textContent: OK
+    - brick: demo-basic.y-button
       properties:
         label: "Hello:"
         textContent: world
@@ -81,11 +91,11 @@ routes:
           args:
           - '<% EVENT.detail %>'
           - immediately
-    # - brick: basic.y-button
+    # - brick: demo-basic.y-button
     #   properties:
     #     label: "你好:"
     #     textContent: 世界
-    - brick: basic.button-group
+    - brick: demo-basic.button-group
     - brick: div
       properties:
         title: '<% CTX.y %>'
@@ -93,13 +103,13 @@ routes:
         "":
           type: bricks
           bricks:
-          - brick: form.f-input
+          - brick: demo-form.f-input
             properties:
               label: "Name:"
-          - brick: form.f-select
+          - brick: demo-form.f-select
             properties:
               label: |
-                <% `!Gender (${PROCESSORS.basic.sayHello()}) <${CTX.x}>` %>
-    # - brick: basic.have-fun
-    # - brick: basic.have-more-fun
-    # - brick: basic.have-no-fun
+                <% `!Gender (${PROCESSORS.demoBasic.sayHello()}) <${CTX.x}>` %>
+    # - brick: demo-basic.have-fun
+    # - brick: demo-basic.have-more-fun
+    # - brick: demo-basic.have-no-fun

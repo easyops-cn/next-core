@@ -14,6 +14,9 @@ export function haveMoreFun(about: string, timeout = 1000) {
   });
 }
 
-customElements.define("basic.have-fun", createProviderClass(haveFun));
+customElements.define("demo-basic.have-fun", createProviderClass(haveFun));
 
-customElements.define("basic.have-more-fun", createProviderClass(haveMoreFun));
+customElements.define(
+  "demo-basic.have-more-fun",
+  createProviderClass(haveMoreFun)
+);

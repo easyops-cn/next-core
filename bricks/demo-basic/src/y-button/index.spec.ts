@@ -2,13 +2,13 @@ import { describe, test, expect, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
 import "./index.js";
 
-describe("basic.y-button", () => {
+describe("demo-basic.y-button", () => {
   test("basic usage", () => {
     // const container = document.createElement("div");
     // container.innerHTML = '<basic.y-button label="Hi:"></basic.y-button>';
     // const target = container;
     // const element = container.firstElementChild as HTMLElement;
-    const element = document.createElement("basic.y-button");
+    const element = document.createElement("demo-basic.y-button");
     // (element as any).label = "Hi:";
     element.setAttribute("label", "Hi:");
     const target = element;

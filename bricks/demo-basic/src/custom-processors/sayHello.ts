@@ -4,4 +4,4 @@ export function sayHello() {
   return "Hello from processor";
 }
 
-customProcessors.define("basic.sayHello", sayHello);
+customProcessors.define("demoBasic.sayHello", sayHello);

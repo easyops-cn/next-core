@@ -7,7 +7,7 @@ import { ReactUseBrick } from "@next-core/react-use-brick";
 
 const { defineElement, property, method, event } = createDecorators();
 
-@defineElement("basic.button-group", {
+@defineElement("demo-basic.button-group", {
   // styleTexts: [styleText],
 })
 class ButtonGroup extends ReactNextElement {
@@ -21,7 +21,7 @@ export function ButtonGroupComponent() {
     <>
       <ReactUseBrick
         useBrick={{
-          brick: "basic.x-button",
+          brick: "demo-basic.x-button",
           properties: {
             label: "Save",
           },
@@ -29,7 +29,7 @@ export function ButtonGroupComponent() {
       />
       <ReactUseBrick
         useBrick={{
-          brick: "basic.x-button",
+          brick: "demo-basic.x-button",
           properties: {
             children: "Cancel",
           },
