@@ -13,7 +13,8 @@ import getCamelPackageName from "./getCamelPackageName.js";
 
 const require = createRequire(import.meta.url);
 
-const { SourceMapDevToolPlugin } = webpack;
+const { SourceMapDevToolPlugin, IgnorePlugin, ContextReplacementPlugin } =
+  webpack;
 const { ModuleFederationPlugin } = webpack.container;
 
 const getCssLoaders = (cssOptions) => [
@@ -238,6 +239,7 @@ export default async function build(config) {
           /^chunks\/(?:vendors-)?node_modules_/,
         ],
       }),
+
       new ModuleFederationPlugin({
         name: libName,
         shared: {
@@ -258,6 +260,7 @@ export default async function build(config) {
             }
           : null),
       }),
+
       ...(config.extractCss
         ? [
             new MiniCssExtractPlugin({
@@ -272,6 +275,7 @@ export default async function build(config) {
             }),
           ]
         : []),
+
       ...(isBricks
         ? [
             new EmitBricksJsonPlugin({
@@ -281,6 +285,15 @@ export default async function build(config) {
             }),
           ]
         : []),
+
+      new ContextReplacementPlugin(/moment[/\\]locale$/, /zh|en/),
+
+      new IgnorePlugin({
+        // - `esprima` and `buffer` are optional imported by `js-yaml`
+        // we don't need them.
+        resourceRegExp: /^(?:esprima)$/,
+      }),
+
       ...(config.plugins || []),
     ],
   });

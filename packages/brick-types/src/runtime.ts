@@ -7,8 +7,41 @@ import {
   FeatureFlags,
   SeguesConf,
   BrickEventHandler,
+  BrickEventHandlerCallback,
+  ContextConf,
+  ProbablyRuntimeBrick,
+  BrickPackage,
 } from "./manifest";
 import { SidebarMenu, SidebarSubMenu } from "./menu";
+
+export interface RuntimeContext {
+  app: MicroApp;
+  overrideApp?: MicroApp;
+  location: Location;
+  query: URLSearchParams;
+  brickPackages: BrickPackage[];
+  ctxStore: AbstractDataStore;
+  event?: Event;
+  data?: unknown;
+}
+
+export interface AbstractDataStore {
+  getValue(name: string): unknown;
+
+  updateValue(
+    name: string,
+    value: unknown,
+    method: "assign" | "replace" | "refresh" | "load",
+    runtimeContext: RuntimeContext,
+    callback?: BrickEventHandlerCallback
+  ): void;
+
+  define(
+    dataConfs: ContextConf[] | undefined,
+    runtimeContext: RuntimeContext,
+    brick?: ProbablyRuntimeBrick
+  ): void;
+}
 
 /** @internal */
 export interface CompileOptions {

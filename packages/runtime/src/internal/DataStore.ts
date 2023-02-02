@@ -24,10 +24,11 @@ export interface DataStoreItem {
 }
 
 export class DataStore<T extends DataStoreType = "CTX"> {
-  readonly type: T;
+  private readonly type: T;
   private readonly data = new Map<string, DataStoreItem>();
   private readonly changeEventType: string;
-  readonly pendingStack: Array<ReturnType<typeof resolveDataStore>> = [];
+  private readonly pendingStack: Array<ReturnType<typeof resolveDataStore>> =
+    [];
 
   constructor(type: T) {
     this.type = type;
@@ -39,20 +40,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         : "context.change";
   }
 
-  private setValue(name: string, item: DataStoreItem): void {
-    if (this.data.has(name)) {
-      throw new Error(`${this.type} '${name}' has already been declared`);
-    }
-    this.data.set(name, item);
-  }
-
-  /** Get value of free-variable only. */
   getValue(name: string): unknown {
     return this.data.get(name)?.value;
-  }
-
-  get(): Map<string, DataStoreItem> {
-    return this.data;
   }
 
   updateValue(
@@ -258,7 +247,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       }
     }
 
-    this.setValue(dataConf.name, newData);
+    if (this.data.has(dataConf.name)) {
+      throw new Error(
+        `${this.type} '${dataConf.name}' has already been declared`
+      );
+    }
+    this.data.set(dataConf.name, newData);
 
     return true;
   }

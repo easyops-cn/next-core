@@ -1,22 +1,18 @@
 {
-  "name": "@next-core/runtime",
+  "name": "@next-core/inject",
   "version": "0.0.0",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/runtime",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/inject",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
-  "sideEffects": [
-    "*.css"
-  ],
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
   "files": [
-    "dist",
-    "styles"
+    "dist"
   ],
   "exports": {
     ".": {
@@ -24,8 +20,7 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
-    "./package.json": "./package.json",
-    "./styles/default.css": "./styles/default.css"
+    "./package.json": "./package.json"
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -41,20 +36,11 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/brick-http": "^2.8.0",
     "@next-core/brick-types": "^2.82.1",
-    "@next-core/cook": "^1.6.81",
-    "@next-core/inject": "^0.0.0",
-    "@next-core/loader": "^0.0.0",
-    "@next-core/supply": "^1.0.91",
-    "@next-core/utils": "^0.0.0",
-    "history": "^4.10.1",
-    "i18next": "^22.4.9",
-    "lodash": "^4.17.21",
-    "path-to-regexp": "^6.2.1"
+    "@next-core/pipes": "^1.0.15",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.16",
-    "@next-core/test-next": "^0.0.0"
+    "@next-core/build-next-libs": "^0.2.16"
   }
 }

@@ -1,5 +1,6 @@
 import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
+import { transformAndInject } from "@next-core/inject";
 import { evaluate, isPreEvaluated } from "../evaluate.js";
 import { RuntimeContext } from "../RuntimeContext.js";
 
@@ -15,7 +16,7 @@ export async function computeRealValue(
     if (preEvaluated || isEvaluable(value as string)) {
       result = await evaluate(value, runtimeContext);
     } else {
-      result = value;
+      result = transformAndInject(value, runtimeContext);
     }
 
     return result;

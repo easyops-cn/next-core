@@ -5,7 +5,8 @@ app:
   noAuthGuard: true
 routes:
 - path: ${APP.homepage}
-  if: '<% !QUERY.redirect %>'
+  # if: '<% !QUERY.redirect %>'
+  if: '${QUERY.redirect|not}'
   type: redirect
   redirect: '<% "/?redirect=1" %>'
 - path: ${APP.homepage}
@@ -20,7 +21,8 @@ routes:
       - '<% CTX.r %>'
       - 0
       transform:
-        value: '<% `{{${DATA}}}` %>'
+        # value: '<% `{{${DATA}}}` %>'
+        value: '{{{@{|add:"!"}}}}'
   - name: x
     if: '<% !CTX.r %>'
     resolve:
