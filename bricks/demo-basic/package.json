@@ -18,7 +18,7 @@
     "@next-core/utils": "^0.0.0",
     "i18next": "^22.4.9",
     "react": "0.0.0-experimental-ee8509801-20230117",
-    "react-i18next": "^12.1.4"
+    "react-i18next": "^12.1.5"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
