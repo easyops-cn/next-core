@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.10...@next-core/custom-antd-styles@1.25.11) (2023-02-03)
+
+
+### Bug Fixes
+
+* 修改select-dropdown和pagination的border-radius ([dfdf85c](https://github.com/easyops-cn/next-core/commit/dfdf85c6920fc708c727d0973d668d4a5f637720))
+
+
+
+
+
 ## [1.25.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.9...@next-core/custom-antd-styles@1.25.10) (2023-01-19)
 
 
