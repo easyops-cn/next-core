@@ -37,6 +37,10 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "sideEffects": false,
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
+  },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.16",
     "@next-core/test-next": "^0.0.0"

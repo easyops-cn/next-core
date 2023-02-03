@@ -3,6 +3,21 @@ app:
   id: test
   homepage: /
   noAuthGuard: true
+meta:
+  functions:
+  - name: sayYes
+    source: |
+      function sayYes() {
+        console.log("sayYes() is called");
+        return "yes~";
+      }
+  - name: sayYesYes
+    typescript: true
+    source: |
+      function sayYesYes(): string {
+        console.log("sayYesYes() is called");
+        return `${FN.sayYes()} and ${FN.sayYes()}`;
+      }
 routes:
 - path: ${APP.homepage}
   # if: '<% !QUERY.redirect %>'
@@ -11,6 +26,9 @@ routes:
   redirect: '<% "/?redirect=1" %>'
 - path: ${APP.homepage}
   if: '<% QUERY.redirect %>'
+  permissionsPreCheck:
+  - abc
+  - def
   context:
   - name: a
     value: 'a:b'
@@ -114,9 +132,17 @@ routes:
             properties:
               label: "Name:"
           - brick: demo-form.f-select
+            permissionsPreCheck:
+            - xyz
             properties:
               label: |
-                <% `!Gender (${PROCESSORS.demoBasic.sayHello()}) <${CTX.x}>` %>
+                <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
+          - brick: span
+            properties:
+              textContent: |
+                <%
+                  PERMISSIONS.check("opq") ? "Yes" : "No"
+                %>
     # - brick: demo-basic.have-fun
     # - brick: demo-basic.have-more-fun
     # - brick: demo-basic.have-no-fun

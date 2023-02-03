@@ -2,19 +2,18 @@ import type {
   BrickConf,
   BrickEventsMap,
   MatchResult,
-  MicroApp,
   PluginHistoryState,
-  ResolveConf,
   RouteConf,
+  RuntimeContext,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
 import { isObject } from "@next-core/utils/general";
-import { checkIf } from "./checkIf.js";
+import { checkBrickIf, checkIf } from "./checkIf.js";
 import { computeRealProperties } from "./compute/computeRealProperties.js";
-import { resolveData } from "./resolveData.js";
-import { RuntimeContext } from "./RuntimeContext.js";
+import { resolveData } from "./data/resolveData.js";
 import { matchPath } from "./matchPath.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
+import { validatePermissions } from "./checkPermissions.js";
 
 export interface TranspileOutput {
   main: RuntimeBrick[];
@@ -26,7 +25,7 @@ export interface TranspileOutput {
   };
   failed?: boolean;
   route?: RouteConf;
-  pendingPromises: Promise<unknown>[];
+  blockingList: Promise<unknown>[];
 }
 
 export interface RuntimeBrick {
@@ -49,7 +48,7 @@ export async function transpileRoutes(
   const output: TranspileOutput = {
     main: [],
     portal: [],
-    pendingPromises: [],
+    blockingList: [],
   };
   switch (matched) {
     case "missed":
@@ -60,7 +59,9 @@ export async function transpileRoutes(
     default: {
       const route = (output.route = matched.route);
       runtimeContext.ctxStore.define(route.context, runtimeContext);
-      // preCheckPermissions(route, context);
+      runtimeContext.pendingPermissionsPreCheck.push(
+        preCheckPermissionsForBrickOrRoute(route, runtimeContext)
+      );
       switch (route.type) {
         case "redirect": {
           let redirectTo: unknown;
@@ -109,20 +110,6 @@ export async function transpileRoutes(
   return output;
 }
 
-export function mergeTranspileOutput(
-  output: TranspileOutput,
-  newOutput: TranspileOutput | undefined
-): void {
-  if (!newOutput) {
-    return;
-  }
-  const { main, portal, pendingPromises, ...rest } = newOutput;
-  output.main.push(...main);
-  output.portal.push(...portal);
-  output.pendingPromises.push(...pendingPromises);
-  Object.assign(output, rest);
-}
-
 export async function transpileBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
@@ -131,7 +118,7 @@ export async function transpileBricks(
   const output: TranspileOutput = {
     main: [],
     portal: [],
-    pendingPromises: [],
+    blockingList: [],
   };
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const transpiled = await Promise.all(
@@ -151,7 +138,7 @@ export async function transpileBrick(
   const output: TranspileOutput = {
     main: [],
     portal: [],
-    pendingPromises: [],
+    blockingList: [],
   };
 
   if (!(await checkBrickIf(brickConf, runtimeContext))) {
@@ -159,7 +146,7 @@ export async function transpileBrick(
   }
 
   if (typeof brickConf.brick === "string" && brickConf.brick.includes(".")) {
-    output.pendingPromises.push(
+    output.blockingList.push(
       enqueueStableLoadBricks([brickConf.brick], runtimeContext.brickPackages)
     );
   }
@@ -174,6 +161,10 @@ export async function transpileBrick(
 
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
+
+  runtimeContext.pendingPermissionsPreCheck.push(
+    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
+  );
 
   const loadProperties = async () => {
     brick.properties = await computeRealProperties(
@@ -226,17 +217,18 @@ export async function transpileBrick(
   return output;
 }
 
-function checkBrickIf(
-  brickConf: BrickConf,
-  runtimeContext: RuntimeContext
-): Promise<boolean> {
-  if (isObject(brickConf.if)) {
-    return resolveData(
-      brickConf.if as ResolveConf,
-      runtimeContext
-    ) as Promise<boolean>;
+export function mergeTranspileOutput(
+  output: TranspileOutput,
+  newOutput: TranspileOutput | undefined
+): void {
+  if (!newOutput) {
+    return;
   }
-  return checkIf(brickConf, runtimeContext);
+  const { main, portal, blockingList: pendingPromises, ...rest } = newOutput;
+  output.main.push(...main);
+  output.portal.push(...portal);
+  output.blockingList.push(...pendingPromises);
+  Object.assign(output, rest);
 }
 
 type MatchRoutesResult =
@@ -278,4 +270,21 @@ async function matchRoutes(
     }
   }
   return "missed";
+}
+
+async function preCheckPermissionsForBrickOrRoute(
+  container: BrickConf | RouteConf,
+  runtimeContext: RuntimeContext
+) {
+  if (
+    // isLoggedIn() &&
+    // !getAuth().isAdmin &&
+    Array.isArray(container.permissionsPreCheck)
+  ) {
+    const actions = (await computeRealValue(
+      container.permissionsPreCheck,
+      runtimeContext
+    )) as string[];
+    return validatePermissions(actions);
+  }
 }

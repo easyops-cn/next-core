@@ -1,8 +1,8 @@
 import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
 import { transformAndInject } from "@next-core/inject";
-import { evaluate, isPreEvaluated } from "../evaluate.js";
-import { RuntimeContext } from "../RuntimeContext.js";
+import { RuntimeContext } from "@next-core/brick-types";
+import { evaluate, isPreEvaluated } from "./evaluate.js";
 
 export async function computeRealValue(
   value: unknown,

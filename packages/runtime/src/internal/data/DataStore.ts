@@ -2,16 +2,16 @@ import type {
   BrickEventHandlerCallback,
   ContextConf,
   ResolveOptions,
+  RuntimeContext,
 } from "@next-core/brick-types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { eventCallbackFactory, listenerFactory } from "./bindListeners.js";
-import { checkIf } from "./checkIf.js";
-import { computeRealValue } from "./compute/computeRealValue.js";
+import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
+import { checkIf } from "../checkIf.js";
+import { computeRealValue } from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
-import { RuntimeContext } from "./RuntimeContext.js";
-import { RuntimeBrick } from "./Transpiler.js";
+import { RuntimeBrick } from "../Transpiler.js";
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 

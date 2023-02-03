@@ -3,8 +3,13 @@ import { loadProcessorsImperatively } from "@next-core/loader";
 import { supply } from "@next-core/supply";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { customProcessors } from "../CustomProcessors.js";
-import { RuntimeContext } from "./RuntimeContext.js";
+import { RuntimeContext } from "@next-core/brick-types";
+import { customProcessors } from "../../CustomProcessors.js";
+import {
+  checkPermissionsUsage,
+  storyboardFunctions,
+} from "./StoryboardFunctions.js";
+import { getGeneralGlobals } from "./getGeneralGlobals.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -113,53 +118,43 @@ export async function evaluate(
 
   const blockingList: Promise<unknown>[] = [];
 
-  // if (attemptToVisitState) {
-  //   blockingList.push(() => {
-  //     const usedStates = strictCollectMemberUsage(raw, "STATE");
-  //     let stateStore: any;
-  //     return stateStore.waitFor(usedStates);
-  //   });
-  // }
-
   if (attemptToVisitGlobals.has("PROCESSORS")) {
-    blockingList.push(
-      (async (): Promise<void> => {
-        const usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
-        await loadProcessorsImperatively(
-          usedProcessors,
-          runtimeContext.brickPackages
-        );
-        globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
-          get(target: unknown, key: string) {
-            const pkg = customProcessors.get(key);
-            if (!pkg) {
-              throw new Error(
-                `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
-              );
-            }
-            return new Proxy(Object.freeze({}), {
-              get(t: unknown, k: string) {
-                return pkg.get(k);
-              },
-            });
-          },
-        });
-      })()
-    );
+    const loadProcessors = async (): Promise<void> => {
+      const usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
+      await loadProcessorsImperatively(
+        usedProcessors,
+        runtimeContext.brickPackages
+      );
+      globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
+        get(target: unknown, key: string) {
+          const pkg = customProcessors.get(key);
+          if (!pkg) {
+            throw new Error(
+              `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
+            );
+          }
+          return new Proxy(Object.freeze({}), {
+            get(t: unknown, k: string) {
+              return pkg.get(k);
+            },
+          });
+        },
+      });
+    };
+    blockingList.push(loadProcessors());
   }
 
   if (attemptToVisitGlobals.has("CTX")) {
-    blockingList.push(
-      (async (): Promise<void> => {
-        const usedCtx = strictCollectMemberUsage(raw, "CTX");
-        await runtimeContext.ctxStore.waitFor(usedCtx);
-        globalVariables.CTX = new Proxy(Object.freeze({}), {
-          get(target: unknown, key: string) {
-            return runtimeContext.ctxStore.getValue(key);
-          },
-        });
-      })()
-    );
+    const loadContexts = async (): Promise<void> => {
+      const usedCtx = strictCollectMemberUsage(raw, "CTX");
+      await runtimeContext.ctxStore.waitFor(usedCtx);
+      globalVariables.CTX = new Proxy(Object.freeze({}), {
+        get(target: unknown, key: string) {
+          return runtimeContext.ctxStore.getValue(key);
+        },
+      });
+    };
+    blockingList.push(loadContexts());
   }
 
   if (attemptToVisitGlobals.has("QUERY")) {
@@ -169,6 +164,19 @@ export async function evaluate(
         runtimeContext.query.get(key),
       ])
     );
+  }
+
+  let attemptToCheckPermissions = attemptToVisitGlobals.has("PERMISSIONS");
+  if (attemptToVisitGlobals.has("FN")) {
+    // There maybe `PERMISSIONS.check()` usage in functions
+    if (!attemptToCheckPermissions) {
+      const usedFunctions = [...strictCollectMemberUsage(raw, "FN")];
+      attemptToCheckPermissions = checkPermissionsUsage(usedFunctions);
+    }
+  }
+
+  if (attemptToCheckPermissions) {
+    blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
   }
 
   // if (attemptToVisitState && runtimeContext.tplContextId) {
@@ -198,6 +206,15 @@ export async function evaluate(
   // }
 
   await Promise.all(blockingList);
+
+  Object.assign(
+    globalVariables,
+    getGeneralGlobals(precooked.attemptToVisitGlobals, {
+      storyboardFunctions,
+      app: runtimeContext.app,
+      // appendI18nNamespace: runtimeContext.appendI18nNamespace,
+    })
+  );
 
   try {
     const result = cook(precooked.expression, precooked.source, {

@@ -1,8 +1,11 @@
 import { describe, test, expect } from "@jest/globals";
-import { collectMemberUsage, MemberUsage } from "./collectMemberUsage.js";
+import {
+  MemberUsageInExpressions,
+  collectMemberUsage,
+} from "./collectMemberUsage.js";
 
 describe("collectMemberUsage", () => {
-  test.each<[string, MemberUsage]>([
+  test.each<[string, MemberUsageInExpressions]>([
     [
       "<% CTX.abc, CTX.def.xyz %>",
       {
@@ -21,28 +24,32 @@ describe("collectMemberUsage", () => {
       "<% CTX[abc], CTX.def %>",
       {
         usedProperties: new Set(["def"]),
-        hasNonStaticUsage: "<% CTX[abc], CTX.def %>",
+        hasNonStaticUsage: true,
+        nonStaticUsage: "<% CTX[abc], CTX.def %>",
       },
     ],
     [
       "<% CTX.abc, CTX %>",
       {
         usedProperties: new Set(["abc"]),
-        hasNonStaticUsage: "<% CTX.abc, CTX %>",
+        hasNonStaticUsage: true,
+        nonStaticUsage: "<% CTX.abc, CTX %>",
       },
     ],
     [
       "<% CTX[abc] %>",
       {
         usedProperties: new Set(),
-        hasNonStaticUsage: "<% CTX[abc] %>",
+        hasNonStaticUsage: true,
+        nonStaticUsage: "<% CTX[abc] %>",
       },
     ],
     [
       "<% CTX %>",
       {
         usedProperties: new Set(),
-        hasNonStaticUsage: "<% CTX %>",
+        hasNonStaticUsage: true,
+        nonStaticUsage: "<% CTX %>",
       },
     ],
     [
@@ -56,7 +63,7 @@ describe("collectMemberUsage", () => {
     expect(collectMemberUsage(input, "CTX")).toEqual(output);
   });
 
-  test.each<[string, MemberUsage]>([
+  test.each<[string, MemberUsageInExpressions]>([
     [
       "<% PROCESSORS.abc.def %>",
       {
@@ -68,7 +75,8 @@ describe("collectMemberUsage", () => {
       "<% PROCESSORS.abc %>",
       {
         usedProperties: new Set(),
-        hasNonStaticUsage: "<% PROCESSORS.abc %>",
+        hasNonStaticUsage: true,
+        nonStaticUsage: "<% PROCESSORS.abc %>",
       },
     ],
   ])("collect PROCESSORS usage for '%s'", (input, output) => {

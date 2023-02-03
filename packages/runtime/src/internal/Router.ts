@@ -3,11 +3,14 @@ import { flushStableLoadBricks } from "@next-core/loader";
 import { getHistory } from "./history.js";
 import type { Kernel } from "./Kernel.js";
 import { transpileRoutes } from "./Transpiler.js";
-import { RuntimeContext } from "./RuntimeContext.js";
-import { DataStore } from "./DataStore.js";
-import { clearResolveCache } from "./resolveData.js";
+import { DataStore } from "./data/DataStore.js";
+import { clearResolveCache } from "./data/resolveData.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { matchStoryboard } from "./matchStoryboard.js";
+import { customTemplates } from "../CustomTemplates.js";
+import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
+import { RuntimeContext } from "@next-core/brick-types";
+import { preCheckPermissions } from "./checkPermissions.js";
 
 export class Router {
   #rendering = false;
@@ -62,7 +65,24 @@ export class Router {
         query: new URLSearchParams(location.search),
         ctxStore: new DataStore("CTX"),
         brickPackages: this.#kernel.bootstrapData.brickPackages,
+        pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
       };
+
+      if (!storyboard.$$registerCustomTemplateProcessed) {
+        const templates = storyboard.meta?.customTemplates;
+        if (Array.isArray(templates)) {
+          for (const tpl of templates) {
+            const tagName = tpl.name.includes(".")
+              ? tpl.name
+              : `${storyboard.app.id}.${tpl.name}`;
+            customTemplates.define(tagName, tpl);
+          }
+        }
+        storyboard.$$registerCustomTemplateProcessed = true;
+      }
+
+      registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
+
       const output = await transpileRoutes(storyboard.routes, runtimeContext);
 
       if (output.redirect) {
@@ -71,7 +91,7 @@ export class Router {
       }
 
       flushStableLoadBricks();
-      await Promise.all(output.pendingPromises);
+      await Promise.all(output.blockingList);
 
       const main = document.querySelector("#main-mount-point") as HTMLElement;
       const portal = document.querySelector(

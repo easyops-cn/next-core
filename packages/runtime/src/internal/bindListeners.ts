@@ -3,10 +3,10 @@ import type {
   BrickEventHandlerCallback,
   BrickEventsMap,
   BuiltinBrickEventHandler,
+  RuntimeContext,
 } from "@next-core/brick-types";
 import { checkIf } from "./checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
-import { RuntimeContext } from "./RuntimeContext.js";
 import { RuntimeBrick } from "./Transpiler.js";
 
 type Listener = (event: Event) => unknown;

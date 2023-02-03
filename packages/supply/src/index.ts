@@ -1,7 +1,6 @@
-// import lodash from "lodash";
-// import moment from "moment";
-// import { SimpleFunction } from "@next-core/brick-types";
-// import { pipes } from "@next-core/pipes";
+import lodash from "lodash";
+import moment from "moment";
+import { pipes } from "@next-core/pipes";
 
 export function supply(
   attemptToVisitGlobals: Set<string>,
@@ -131,25 +130,25 @@ function supplyIndividual(variableName: string, mock?: boolean): unknown {
         "keys",
         "values",
       ]);
-    // case "_":
-    //   return Object.fromEntries(
-    //     Object.entries(lodash)
-    //       .filter((entry) => !shouldOmitInLodash.has(entry[0]))
-    //       .concat(
-    //         mock ? [["uniqueId", (prefix?: string) => `${prefix ?? ""}42`]] : []
-    //       )
-    //   );
-    // case "moment":
-    //   return Object.assign(
-    //     (...args: Parameters<typeof moment>) => moment(...args),
-    //     Object.fromEntries(
-    //       Object.entries(moment).filter(
-    //         (entry) => !shouldOmitInMoment.has(entry[0])
-    //       )
-    //     )
-    //   );
-    // case "PIPES":
-    //   return pipes;
+    case "_":
+      return Object.fromEntries(
+        Object.entries(lodash)
+          .filter((entry) => !shouldOmitInLodash.has(entry[0]))
+          .concat(
+            mock ? [["uniqueId", (prefix?: string) => `${prefix ?? ""}42`]] : []
+          )
+      );
+    case "moment":
+      return Object.assign(
+        (...args: Parameters<typeof moment>) => moment(...args),
+        Object.fromEntries(
+          Object.entries(moment).filter(
+            (entry) => !shouldOmitInMoment.has(entry[0])
+          )
+        )
+      );
+    case "PIPES":
+      return pipes;
     case "TAG_URL":
       return tagUrlFactory(true);
     case "SAFE_TAG_URL":

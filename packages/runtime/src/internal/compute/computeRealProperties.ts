@@ -1,6 +1,6 @@
 import { isObject } from "@next-core/utils/general";
-import { RuntimeContext } from "../RuntimeContext.js";
 import { computeRealValue } from "./computeRealValue.js";
+import { RuntimeContext } from "@next-core/brick-types";
 
 export async function computeRealProperties(
   properties: Record<string, unknown> | undefined,

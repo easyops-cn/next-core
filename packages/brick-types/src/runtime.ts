@@ -21,6 +21,7 @@ export interface RuntimeContext {
   query: URLSearchParams;
   brickPackages: BrickPackage[];
   ctxStore: AbstractDataStore;
+  pendingPermissionsPreCheck: Promise<unknown>[];
   event?: Event;
   data?: unknown;
 }
@@ -41,6 +42,8 @@ export interface AbstractDataStore {
     runtimeContext: RuntimeContext,
     brick?: ProbablyRuntimeBrick
   ): void;
+
+  waitFor(dataNames: Iterable<string>): Promise<void>;
 }
 
 /** @internal */
