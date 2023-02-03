@@ -94,3 +94,25 @@ src/bootstrap.ts
 ### 预览和调试
 
 参考前一章节启动 Brick Playground，然后可以启动构件的实时打包 `npx lerna run start --scope @next-bricks/basic`。
+
+## 框架核心能力
+
+- [x] Router
+- [x] Expressions (Partial)
+- [x] Placeholders (transform and inject)
+- [x] Context
+- [x] Storyboard Functions
+- [x] Brick Properties / Slots
+- [x] Brick Events (Partial)
+- [x] Custom Processors
+- [x] checkPermissions
+- [ ] Full Support for Expressions
+- [ ] Full Support for Brick Events
+- [ ] Custom Templates
+- [ ] Brick Life Cycle
+- [ ] UseBrick
+- [ ] Menu
+- [ ] Flow API
+- [ ] Icons
+- [ ] I18n
+- [ ] Form Renderer
