@@ -85,7 +85,7 @@
     "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory|brick-kit|brick-icons|brick-utils)/**"
   ],
   "resolutions": {
-    "@babel/parser": "^7.20.13",
+    "@babel/parser": "^7.20.15",
     "@babel/runtime": "^7.20.13",
     "@types/react": "^18.0.27",
     "lodash": "^4.17.21",
