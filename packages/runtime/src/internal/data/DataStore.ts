@@ -8,7 +8,10 @@ import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
 import { checkIf } from "../compute/checkIf.js";
-import { computeRealValue } from "../compute/computeRealValue.js";
+import {
+  computeRealValue,
+  syncComputeRealValue,
+} from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import { RuntimeBrick } from "../Transpiler.js";
@@ -165,6 +168,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
+  async waitForAll(): Promise<void> {
+    for (const { pendingResult } of this.pendingStack) {
+      await pendingResult;
+    }
+  }
+
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
@@ -233,7 +242,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       );
       for (const dep of deps) {
         const item = this.data.get(dep);
-        item?.eventTarget.addEventListener(this.changeEventType, async () => {
+        item?.eventTarget.addEventListener(this.changeEventType, () => {
           if (load) {
             this.updateValue(
               dataConf.name,
@@ -244,7 +253,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           } else {
             this.updateValue(
               dataConf.name,
-              await computeRealValue(dataConf.value, runtimeContext),
+              syncComputeRealValue(dataConf.value, runtimeContext),
               "replace",
               runtimeContext
             );

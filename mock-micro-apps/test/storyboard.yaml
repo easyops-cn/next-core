@@ -75,6 +75,13 @@ routes:
   - name: r
     resolve:
       useProvider: demo-basic.have-fun
+  - name: lazy
+    resolve:
+      useProvider: demo-basic.have-more-fun
+      args:
+      - '"lazy"'
+      - 2000
+      lazy: true
   bricks:
     - brick: basic.demo-button
       properties:
@@ -131,12 +138,12 @@ routes:
           - brick: demo-form.f-input
             properties:
               label: "Name:"
-          - brick: demo-form.f-select
-            permissionsPreCheck:
-            - xyz
-            properties:
-              label: |
-                <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
+          # - brick: demo-form.f-select
+          #   permissionsPreCheck:
+          #   - xyz
+          #   properties:
+          #     label: |
+          #       <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
           - brick: span
             properties:
               textContent: |
@@ -148,11 +155,14 @@ routes:
             lifeCycle:
               onBeforePageLeave:
               - action: history.block
+                if: |
+                  <% !PROCESSORS.demoBasic.sayHello() %>
                 args:
                 - Oops
               - action: console.log
                 args:
                 - 'onBeforePageLeave'
+                # - '<% PROCESSORS.demoBasic.sayHello() %>'
                 - '<% EVENT %>'
                 - '<% CTX.y %>'
                 - '<% CTX.z %>'

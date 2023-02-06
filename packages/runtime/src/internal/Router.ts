@@ -1,5 +1,8 @@
 import { Action, Location, locationsAreEqual } from "history";
-import { flushStableLoadBricks } from "@next-core/loader";
+import {
+  flushStableLoadBricks,
+  loadProcessorsImperatively,
+} from "@next-core/loader";
 import type {
   PluginHistoryState,
   PluginLocation,
@@ -16,6 +19,7 @@ import { customTemplates } from "../CustomTemplates.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RouterContext } from "./RouterContext.js";
+import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 
 export class Router {
   #kernel: Kernel;
@@ -243,7 +247,22 @@ export class Router {
         }
         // Reset redirect count if no redirect is set.
         this.#redirectCount = 0;
+
         flushStableLoadBricks();
+
+        output.blockingList.push(
+          runtimeContext.ctxStore.waitForAll(),
+          // Todo: load processors only when they would used in current rendering.
+          loadProcessorsImperatively(
+            strictCollectMemberUsage(
+              [storyboard.routes, storyboard.meta?.customTemplates],
+              "PROCESSORS",
+              2
+            ),
+            runtimeContext.brickPackages
+          ),
+          ...runtimeContext.pendingPermissionsPreCheck
+        );
         await Promise.all(output.blockingList);
       } catch (error) {
         // eslint-disable-next-line no-console

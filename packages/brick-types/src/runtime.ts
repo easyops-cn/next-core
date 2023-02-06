@@ -46,6 +46,8 @@ export interface AbstractDataStore {
 
   waitFor(dataNames: Iterable<string>): Promise<void>;
 
+  waitForAll(): Promise<void>;
+
   onChange(dataName: string, listener: EventListener): void;
 }
 
