@@ -72,9 +72,7 @@ export function syncComputeRealValue(
   }
 
   if (Array.isArray(value)) {
-    return Promise.all(
-      value.map((v) => syncComputeRealValue(v, runtimeContext))
-    );
+    return value.map((v) => syncComputeRealValue(v, runtimeContext));
   }
 
   return Object.fromEntries(

@@ -191,6 +191,10 @@ routes:
                 - '<% EVENT %>'
                 - '<% CTX.y %>'
                 - '<% CTX.z %>'
+          - brick: a
+            properties:
+              textContent: Go outside
+              href: '/oops'
 
     # - brick: demo-basic.have-fun
     # - brick: demo-basic.have-more-fun

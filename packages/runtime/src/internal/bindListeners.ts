@@ -5,8 +5,8 @@ import type {
   BuiltinBrickEventHandler,
   RuntimeContext,
 } from "@next-core/brick-types";
-import { checkIf } from "./compute/checkIf.js";
-import { computeRealValue } from "./compute/computeRealValue.js";
+import { syncCheckIf } from "./compute/checkIf.js";
+import { syncComputeRealValue } from "./compute/computeRealValue.js";
 import { RuntimeBrick } from "./Transpiler.js";
 import { getHistory } from "../history.js";
 
@@ -40,71 +40,65 @@ export function listenerFactory(
   runtimeContext: RuntimeContext,
   runtimeBrick?: Partial<RuntimeBrick>
 ): Listener {
-  return async function (event: Event): Promise<void> {
+  return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
-      const task = async () => {
-        if (!(await checkIf(handler, runtimeContext))) {
-          return;
+      if (!syncCheckIf(handler, runtimeContext)) {
+        return;
+      }
+      if (isBuiltinHandler(handler)) {
+        const method = handler.action.split(".")[1] as any;
+        switch (handler.action) {
+          case "history.push":
+          case "history.replace":
+          case "history.pushQuery":
+          case "history.replaceQuery":
+          case "history.pushAnchor":
+          case "history.block":
+          case "history.goBack":
+          case "history.goForward":
+          case "history.reload":
+          case "history.unblock":
+            return handleHistoryAction(
+              event,
+              method,
+              handler.args,
+              handler.callback,
+              runtimeContext
+            );
+
+          case "console.log":
+            return handleConsoleAction(
+              event,
+              method,
+              handler.args,
+              runtimeContext
+            );
+
+          case "context.assign":
+          case "context.replace":
+          case "context.refresh":
+          case "context.load":
+            return handleContextAction(
+              event,
+              method,
+              handler.args,
+              handler.callback,
+              runtimeContext
+            );
+
+          default:
+            // eslint-disable-next-line no-console
+            console.error("unknown event listener action:", handler.action);
         }
-        if (isBuiltinHandler(handler)) {
-          const method = handler.action.split(".")[1] as any;
-          switch (handler.action) {
-            case "history.push":
-            case "history.replace":
-            case "history.pushQuery":
-            case "history.replaceQuery":
-            case "history.pushAnchor":
-            case "history.block":
-            case "history.goBack":
-            case "history.goForward":
-            case "history.reload":
-            case "history.unblock":
-              return handleHistoryAction(
-                event,
-                method,
-                handler.args,
-                handler.callback,
-                runtimeContext
-              );
-
-            case "console.log":
-              return handleConsoleAction(
-                event,
-                method,
-                handler.args,
-                runtimeContext
-              );
-
-            case "context.assign":
-            case "context.replace":
-            case "context.refresh":
-            case "context.load":
-              return handleContextAction(
-                event,
-                method,
-                handler.args,
-                handler.callback,
-                runtimeContext
-              );
-
-            default:
-              // eslint-disable-next-line no-console
-              console.error("unknown event listener action:", handler.action);
-          }
-        } else {
-          // eslint-disable-next-line no-console
-          console.error("unknown event handler:", handler);
-        }
-      };
-      const blocking = task();
-      if (!handler.async) {
-        await blocking;
+      } else {
+        // eslint-disable-next-line no-console
+        console.error("unknown event handler:", handler);
       }
     }
   };
 }
 
-async function handleHistoryAction(
+function handleHistoryAction(
   event: Event,
   method:
     | "push"
@@ -143,7 +137,7 @@ async function handleHistoryAction(
   }
   let computedArgs: unknown[] = [];
   if (baseArgsLength > 0) {
-    computedArgs = await argsFactory(args, runtimeContext, event, {
+    computedArgs = argsFactory(args, runtimeContext, event, {
       useEventDetailAsDefault: true,
     });
     computedArgs.length = baseArgsLength;
@@ -164,14 +158,14 @@ async function handleHistoryAction(
   );
 }
 
-async function handleContextAction(
+function handleContextAction(
   event: Event,
   method: "assign" | "replace" | "refresh" | "load",
   args: unknown[] | undefined,
   callback: BrickEventHandlerCallback | undefined,
   runtimeContext: RuntimeContext
 ) {
-  const [name, value] = await argsFactory(args, runtimeContext, event);
+  const [name, value] = argsFactory(args, runtimeContext, event);
   runtimeContext.ctxStore.updateValue(
     name as string,
     value,
@@ -181,7 +175,7 @@ async function handleContextAction(
   );
 }
 
-async function handleConsoleAction(
+function handleConsoleAction(
   event: Event,
   method: "log" | "error" | "warn" | "info",
   args: unknown[] | undefined,
@@ -189,9 +183,9 @@ async function handleConsoleAction(
 ) {
   // eslint-disable-next-line no-console
   console[method](
-    ...(await argsFactory(args, runtimeContext, event, {
+    ...argsFactory(args, runtimeContext, event, {
       useEventAsDefault: true,
-    }))
+    })
   );
 }
 
@@ -235,12 +229,12 @@ function argsFactory(
   runtimeContext: RuntimeContext,
   event: Event,
   options: ArgsFactoryOptions = {}
-): Promise<unknown[]> | unknown[] {
+): unknown[] {
   return Array.isArray(args)
-    ? (computeRealValue(args, {
+    ? (syncComputeRealValue(args, {
         ...runtimeContext,
         event,
-      }) as Promise<unknown[]>)
+      }) as unknown[])
     : options.useEventAsDefault
     ? [event]
     : options.useEventDetailAsDefault

@@ -1053,9 +1053,6 @@ export interface BuiltinBrickEventHandler {
 
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
-
-  /** Set async as true to disable blocking for event handler list. */
-  async?: boolean;
 }
 
 /**
@@ -1078,9 +1075,6 @@ export interface UseProviderEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
-
-  /** {@inheritDoc BuiltinBrickEventHandler.async} */
-  async?: boolean;
 }
 
 /**
@@ -1137,9 +1131,6 @@ export interface BaseCustomBrickEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
-
-  /** {@inheritDoc BuiltinBrickEventHandler.async} */
-  async?: boolean;
 }
 
 /**

@@ -145,40 +145,20 @@ function lowLevelEvaluate(
   }
 
   if (attemptToVisitGlobals.has("PROCESSORS")) {
-    const loadProcessors = async (): Promise<void> => {
+    const loadProcessors = () => {
       const usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
-      await loadProcessorsImperatively(
+      return loadProcessorsImperatively(
         usedProcessors,
         runtimeContext.brickPackages
       );
-      globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
-        get(target: unknown, key: string) {
-          const pkg = customProcessors.get(key);
-          if (!pkg) {
-            throw new Error(
-              `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
-            );
-          }
-          return new Proxy(Object.freeze({}), {
-            get(t: unknown, k: string) {
-              return pkg.get(k);
-            },
-          });
-        },
-      });
     };
     blockingList.push(loadProcessors());
   }
 
   if (attemptToVisitGlobals.has("CTX")) {
-    const loadContexts = async (): Promise<void> => {
+    const loadContexts = () => {
       const usedCtx = strictCollectMemberUsage(raw, "CTX");
-      await runtimeContext.ctxStore.waitFor(usedCtx);
-      globalVariables.CTX = new Proxy(Object.freeze({}), {
-        get(target: unknown, key: string) {
-          return runtimeContext.ctxStore.getValue(key);
-        },
-      });
+      return runtimeContext.ctxStore.waitFor(usedCtx);
     };
     blockingList.push(loadContexts());
   }
@@ -236,6 +216,28 @@ function lowLevelEvaluate(
   return {
     blockingList,
     run() {
+      globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
+        get(target: unknown, key: string) {
+          const pkg = customProcessors.get(key);
+          if (!pkg) {
+            throw new Error(
+              `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
+            );
+          }
+          return new Proxy(Object.freeze({}), {
+            get(t: unknown, k: string) {
+              return pkg.get(k);
+            },
+          });
+        },
+      });
+
+      globalVariables.CTX = new Proxy(Object.freeze({}), {
+        get(target: unknown, key: string) {
+          return runtimeContext.ctxStore.getValue(key);
+        },
+      });
+
       Object.assign(
         globalVariables,
         getGeneralGlobals(precooked.attemptToVisitGlobals, {
