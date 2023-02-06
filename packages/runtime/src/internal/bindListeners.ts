@@ -5,9 +5,10 @@ import type {
   BuiltinBrickEventHandler,
   RuntimeContext,
 } from "@next-core/brick-types";
-import { checkIf } from "./checkIf.js";
+import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { RuntimeBrick } from "./Transpiler.js";
+import { getHistory } from "../history.js";
 
 type Listener = (event: Event) => unknown;
 
@@ -48,6 +49,24 @@ export function listenerFactory(
         if (isBuiltinHandler(handler)) {
           const method = handler.action.split(".")[1] as any;
           switch (handler.action) {
+            case "history.push":
+            case "history.replace":
+            case "history.pushQuery":
+            case "history.replaceQuery":
+            case "history.pushAnchor":
+            case "history.block":
+            case "history.goBack":
+            case "history.goForward":
+            case "history.reload":
+            case "history.unblock":
+              return handleHistoryAction(
+                event,
+                method,
+                handler.args,
+                handler.callback,
+                runtimeContext
+              );
+
             case "console.log":
               return handleConsoleAction(
                 event,
@@ -83,6 +102,66 @@ export function listenerFactory(
       }
     }
   };
+}
+
+async function handleHistoryAction(
+  event: Event,
+  method:
+    | "push"
+    | "replace"
+    | "pushQuery"
+    | "replaceQuery"
+    | "pushAnchor"
+    | "block"
+    | "goBack"
+    | "goForward"
+    | "reload"
+    | "unblock",
+  args: unknown[] | undefined,
+  callback: BrickEventHandlerCallback | undefined,
+  runtimeContext: RuntimeContext
+) {
+  let baseArgsLength = 0;
+  let hasCallback = false;
+  let overrideMethod = method as "setBlockMessage";
+  switch (method) {
+    case "push":
+    case "replace":
+    case "pushQuery":
+    case "replaceQuery":
+    case "pushAnchor":
+      baseArgsLength = 2;
+      hasCallback = true;
+      break;
+    case "reload":
+      hasCallback = true;
+      break;
+    case "block":
+      baseArgsLength = 1;
+      overrideMethod = "setBlockMessage";
+      break;
+  }
+  let computedArgs: unknown[] = [];
+  if (baseArgsLength > 0) {
+    computedArgs = await argsFactory(args, runtimeContext, event, {
+      useEventDetailAsDefault: true,
+    });
+    computedArgs.length = baseArgsLength;
+  }
+  if (hasCallback && callback) {
+    const callbackFactory = eventCallbackFactory(
+      callback,
+      runtimeContext,
+      undefined
+    );
+    computedArgs.push((blocked: boolean) => {
+      callbackFactory(blocked ? "error" : "success")({ blocked });
+      callbackFactory("finally")({ blocked });
+    });
+  }
+  (getHistory()[overrideMethod] as (...args: unknown[]) => unknown)(
+    ...computedArgs
+  );
 }
 
 async function handleContextAction(

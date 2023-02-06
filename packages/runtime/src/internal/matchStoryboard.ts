@@ -28,3 +28,22 @@ export function matchStoryboard(
     }
   }
 }
+
+/**
+ * We say it's an outside app when at least one of the below conditions are true:
+ *   - target app is not found.
+ *   - current app is non-standalone mode and target app is standalone mode.
+ *
+ * Note: when current app is standalone mode, other apps will not be found.
+ */
+export function isOutsideApp(
+  storyboard: RuntimeStoryboard | undefined
+): boolean | undefined {
+  if (process.env.NODE_ENV === "test") {
+    return false;
+  }
+  return (
+    !storyboard ||
+    (!window.STANDALONE_MICRO_APPS && storyboard.app.standaloneMode)
+  );
+}

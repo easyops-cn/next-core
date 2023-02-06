@@ -1,7 +1,9 @@
 import i18next from "i18next";
-import { createHistory } from "./internal/history.js";
-import { initI18n } from "./internal/i18n.js";
-import { Kernel } from "./internal/Kernel.js";
+import { createHistory } from "../history.js";
+import { initI18n } from "./i18n.js";
+import { Kernel } from "./Kernel.js";
+import { matchStoryboard } from "./matchStoryboard.js";
+import { RuntimeStoryboard } from "@next-core/brick-types";
 
 const i18n = i18next as unknown as typeof i18next.default;
 
@@ -29,4 +31,14 @@ export class Runtime {
     kernel = new Kernel();
     return kernel.bootstrap();
   }
+}
+
+/* istanbul ignore next */
+export function _internalApiMatchStoryboard(
+  pathname: string
+): RuntimeStoryboard | undefined {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
+  return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
 }

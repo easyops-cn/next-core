@@ -48,10 +48,29 @@ export function getCookErrorConstructor(error: any): ErrorConstructor {
 }
 
 export async function evaluate(
+  ...args: Parameters<typeof lowLevelEvaluate>
+): Promise<unknown> {
+  const { blockingList, run } = lowLevelEvaluate(...args);
+  await Promise.all(blockingList);
+  return run();
+}
+
+export function syncEvaluate(
+  ...args: Parameters<typeof lowLevelEvaluate>
+): Promise<unknown> {
+  const { run } = lowLevelEvaluate(...args);
+  return run();
+}
+
+function lowLevelEvaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
   runtimeContext: EvaluateRuntimeContext,
   options: EvaluateOptions = {}
-): Promise<unknown> {
+): {
+  blockingList: Promise<unknown>[];
+  run: Function;
+} {
+  const blockingList: Promise<unknown>[] = [];
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
     // Then fulfil the context, and restore the original `raw`.
@@ -108,19 +127,22 @@ export async function evaluate(
     (attemptToVisitState && !hasOwnProperty(runtimeContext, "tplContextId")) ||
     (attemptToVisitData && !hasOwnProperty(runtimeContext, "data"))
   ) {
-    return Object.keys(runtimeContext).length > 0
-      ? ({
-          [symbolForRaw]: raw,
-          [symbolForContext]: runtimeContext,
-        } as PreEvaluated)
-      : raw;
+    return {
+      blockingList,
+      run() {
+        return Object.keys(runtimeContext).length > 0
+          ? ({
+              [symbolForRaw]: raw,
+              [symbolForContext]: runtimeContext,
+            } as PreEvaluated)
+          : raw;
+      },
+    };
   }
 
   if (attemptToVisitData) {
     globalVariables.DATA = runtimeContext.data;
   }
-
-  const blockingList: Promise<unknown>[] = [];
 
   if (attemptToVisitGlobals.has("PROCESSORS")) {
     const loadProcessors = async (): Promise<void> => {
@@ -209,42 +231,50 @@ export async function evaluate(
   //   });
   // }
 
-  await Promise.all(blockingList);
+  // await Promise.all(blockingList);
 
-  Object.assign(
-    globalVariables,
-    getGeneralGlobals(precooked.attemptToVisitGlobals, {
-      storyboardFunctions,
-      app: runtimeContext.app,
-      // appendI18nNamespace: runtimeContext.appendI18nNamespace,
-    })
-  );
+  return {
+    blockingList,
+    run() {
+      Object.assign(
+        globalVariables,
+        getGeneralGlobals(precooked.attemptToVisitGlobals, {
+          storyboardFunctions,
+          app: runtimeContext.app,
+          // appendI18nNamespace: runtimeContext.appendI18nNamespace,
+        })
+      );
 
-  try {
-    const result = cook(precooked.expression, precooked.source, {
-      globalVariables: supply(precooked.attemptToVisitGlobals, globalVariables),
-    });
-    // const detail = { raw, context: globalVariables, result };
-    // if (options.isReEvaluation) {
-    //   devtoolsHookEmit("re-evaluation", {
-    //     id: options.evaluationId,
-    //     detail,
-    //   });
-    // } else {
-    //   devtoolsHookEmit("evaluation", detail);
-    // }
-    return result;
-  } catch (error: any) {
-    const message = `${error.message}, in "${raw}"`;
-    // if (options.isReEvaluation) {
-    //   devtoolsHookEmit("re-evaluation", {
-    //     id: options.evaluationId,
-    //     detail: { raw, context: globalVariables },
-    //     error: message,
-    //   });
-    // } else {
-    const errorConstructor = getCookErrorConstructor(error);
-    throw new errorConstructor(message);
-    // }
-  }
+      try {
+        const result = cook(precooked.expression, precooked.source, {
+          globalVariables: supply(
+            precooked.attemptToVisitGlobals,
+            globalVariables
+          ),
+        });
+        // const detail = { raw, context: globalVariables, result };
+        // if (options.isReEvaluation) {
+        //   devtoolsHookEmit("re-evaluation", {
+        //     id: options.evaluationId,
+        //     detail,
+        //   });
+        // } else {
+        //   devtoolsHookEmit("evaluation", detail);
+        // }
+        return result;
+      } catch (error: any) {
+        const message = `${error.message}, in "${raw}"`;
+        // if (options.isReEvaluation) {
+        //   devtoolsHookEmit("re-evaluation", {
+        //     id: options.evaluationId,
+        //     detail: { raw, context: globalVariables },
+        //     error: message,
+        //   });
+        // } else {
+        const errorConstructor = getCookErrorConstructor(error);
+        throw new errorConstructor(message);
+        // }
+      }
+    },
+  };
 }

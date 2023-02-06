@@ -7,7 +7,7 @@ import type {
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
-import { checkIf } from "../checkIf.js";
+import { checkIf } from "../compute/checkIf.js";
 import { computeRealValue } from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";

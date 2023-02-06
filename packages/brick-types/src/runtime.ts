@@ -19,6 +19,7 @@ export interface RuntimeContext {
   overrideApp?: MicroApp;
   location: Location;
   query: URLSearchParams;
+  match?: MatchResult;
   brickPackages: BrickPackage[];
   ctxStore: AbstractDataStore;
   pendingPermissionsPreCheck: Promise<unknown>[];
@@ -143,10 +144,10 @@ export interface ExtendedHistory {
   reload: (callback?: (blocked: boolean) => void) => void;
 
   /** @internal */
-  setBlockMessage: (message: string) => void;
+  setBlockMessage: (message: string | undefined) => void;
 
   /** @internal */
-  getBlockMessage: () => string;
+  getBlockMessage: () => string | undefined;
 
   /** 取消之前设置的阻止页面离开信息的设置。 */
   unblock: () => void;

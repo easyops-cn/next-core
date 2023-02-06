@@ -1,8 +1,12 @@
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
-import { computeRealValue } from "./compute/computeRealValue.js";
-import { isPreEvaluated } from "./compute/evaluate.js";
-import { BrickConf, ResolveConf, RuntimeContext } from "@next-core/brick-types";
-import { resolveData } from "./data/resolveData.js";
+import type {
+  BrickConf,
+  ResolveConf,
+  RuntimeContext,
+} from "@next-core/brick-types";
+import { computeRealValue, syncComputeRealValue } from "./computeRealValue.js";
+import { isPreEvaluated } from "./evaluate.js";
+import { resolveData } from "../data/resolveData.js";
 
 /**
  * 包含 `if` 条件判断的对象。
@@ -29,6 +33,18 @@ export async function checkIf(
     !hasOwnProperty(ifContainer, "if") ||
     !!(typeof ifContainer.if === "string" || isPreEvaluated(ifContainer.if)
       ? await computeRealValue(ifContainer.if, runtimeContext)
+      : ifContainer.if)
+  );
+}
+
+export function syncCheckIf(
+  ifContainer: IfContainer,
+  runtimeContext: RuntimeContext
+): boolean {
+  return (
+    !hasOwnProperty(ifContainer, "if") ||
+    !!(typeof ifContainer.if === "string" || isPreEvaluated(ifContainer.if)
+      ? syncComputeRealValue(ifContainer.if, runtimeContext)
       : ifContainer.if)
   );
 }

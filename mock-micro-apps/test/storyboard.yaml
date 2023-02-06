@@ -145,6 +145,53 @@ routes:
                   (PERMISSIONS.check("opq") ? "Yes" : "No"),
                   `y:${CTX.y},z:${CTX.z}`
                 %>
+            lifeCycle:
+              onBeforePageLeave:
+              - action: history.block
+                args:
+                - Oops
+              - action: console.log
+                args:
+                - 'onBeforePageLeave'
+                - '<% EVENT %>'
+                - '<% CTX.y %>'
+                - '<% CTX.z %>'
+              onBeforePageLoad:
+                action: console.log
+                args:
+                - 'onBeforePageLoad'
+                - '<% EVENT %>'
+                - '<% CTX.y %>'
+                - '<% CTX.z %>'
+              onPageLoad:
+                action: console.log
+                args:
+                - 'onPageLoad'
+                - '<% EVENT %>'
+                - '<% CTX.y %>'
+                - '<% CTX.z %>'
+              onAnchorLoad:
+                action: console.log
+                args:
+                - 'onAnchorLoad'
+                - '<% EVENT %>'
+                - '<% CTX.y %>'
+                - '<% CTX.z %>'
+              onAnchorUnload:
+                action: console.log
+                args:
+                - 'onAnchorUnload'
+                - '<% EVENT %>'
+                - '<% CTX.y %>'
+                - '<% CTX.z %>'
+              onPageLeave:
+                action: console.log
+                args:
+                - 'onPageLeave'
+                - '<% EVENT %>'
+                - '<% CTX.y %>'
+                - '<% CTX.z %>'
+
     # - brick: demo-basic.have-fun
     # - brick: demo-basic.have-more-fun
     # - brick: demo-basic.have-no-fun

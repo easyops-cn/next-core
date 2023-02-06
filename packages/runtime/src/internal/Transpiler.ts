@@ -1,17 +1,15 @@
 import type {
   BrickConf,
   BrickEventsMap,
-  MatchResult,
   PluginHistoryState,
   RouteConf,
   RuntimeContext,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
 import { isObject } from "@next-core/utils/general";
-import { checkBrickIf, checkIf } from "./checkIf.js";
+import { checkBrickIf } from "./compute/checkIf.js";
 import { computeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
-import { matchPath } from "./matchPath.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { validatePermissions } from "./checkPermissions.js";
 import { getTagNameOfCustomTemplate } from "../CustomTemplates.js";
@@ -19,6 +17,8 @@ import {
   TrackingContextItem,
   listenOnTrackingContext,
 } from "./compute/listenOnTrackingContext.js";
+import { RouterContext } from "./RouterContext.js";
+import { matchRoutes } from "./matchRoutes.js";
 
 export interface TranspileOutput {
   main: RuntimeBrick[];
@@ -28,7 +28,6 @@ export interface TranspileOutput {
     path: string;
     state?: PluginHistoryState;
   };
-  failed?: boolean;
   route?: RouteConf;
   blockingList: Promise<unknown>[];
 }
@@ -47,6 +46,7 @@ export interface RuntimeBrick {
 export async function transpileRoutes(
   routes: RouteConf[],
   runtimeContext: RuntimeContext,
+  routerContext: RouterContext,
   slotId?: string
 ): Promise<TranspileOutput> {
   const matched = await matchRoutes(routes, runtimeContext);
@@ -63,6 +63,7 @@ export async function transpileRoutes(
       break;
     default: {
       const route = (output.route = matched.route);
+      runtimeContext.match = matched.match;
       runtimeContext.ctxStore.define(route.context, runtimeContext);
       runtimeContext.pendingPermissionsPreCheck.push(
         preCheckPermissionsForBrickOrRoute(route, runtimeContext)
@@ -96,6 +97,7 @@ export async function transpileRoutes(
           const newOutput = await transpileRoutes(
             route.routes,
             runtimeContext,
+            routerContext,
             slotId
           );
           mergeTranspileOutput(output, newOutput);
@@ -105,6 +107,7 @@ export async function transpileRoutes(
           const newOutput = await transpileBricks(
             route.bricks,
             runtimeContext,
+            routerContext,
             slotId
           );
           mergeTranspileOutput(output, newOutput);
@@ -118,6 +121,7 @@ export async function transpileRoutes(
 export async function transpileBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
+  routerContext: RouterContext,
   slotId?: string,
   tplStack?: Map<string, number>
 ): Promise<TranspileOutput> {
@@ -132,6 +136,7 @@ export async function transpileBricks(
       transpileBrick(
         brickConf,
         runtimeContext,
+        routerContext,
         slotId,
         tplStack && new Map(tplStack)
       )
@@ -146,6 +151,7 @@ export async function transpileBricks(
 export async function transpileBrick(
   brickConf: BrickConf,
   runtimeContext: RuntimeContext,
+  routerContext: RouterContext,
   slotId?: string,
   tplStack = new Map<string, number>()
 ): Promise<TranspileOutput> {
@@ -210,6 +216,8 @@ export async function transpileBrick(
     listenOnTrackingContext(brick, trackingContextList, runtimeContext);
   });
 
+  routerContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
+
   if (brickConf.portal) {
     // A portal brick has no slotId.
     brick.slotId = undefined;
@@ -230,11 +238,17 @@ export async function transpileBrick(
           return transpileBricks(
             slotConf.bricks,
             runtimeContext,
+            routerContext,
             childSlotId,
             tplStack
           );
         } else if (slotConf.type === "routes") {
-          return transpileRoutes(slotConf.routes, runtimeContext, childSlotId);
+          return transpileRoutes(
+            slotConf.routes,
+            runtimeContext,
+            routerContext,
+            childSlotId
+          );
         }
       })
     );
@@ -270,47 +284,6 @@ export function mergeTranspileOutput(
   output.portal.push(...portal);
   output.blockingList.push(...pendingPromises);
   Object.assign(output, rest);
-}
-
-type MatchRoutesResult =
-  | {
-      match: MatchResult;
-      route: RouteConf;
-    }
-  | "missed"
-  | "unauthenticated";
-
-async function matchRoutes(
-  routes: RouteConf[],
-  runtimeContext: RuntimeContext
-): Promise<MatchRoutesResult> {
-  for (const route of routes) {
-    if (typeof route.path !== "string") {
-      // eslint-disable-next-line no-console
-      console.error("Invalid route with invalid path:", route);
-      throw new Error(
-        `Invalid route with invalid type of path: ${typeof route.path}`
-      );
-    }
-    const routePath = route.path.replace(
-      /^\$\{APP.homepage\}/,
-      runtimeContext.app.homepage
-    );
-    const match = matchPath(runtimeContext.location.pathname, {
-      path: routePath,
-      exact: route.exact,
-    });
-    if (match && (await checkIf(route, runtimeContext))) {
-      if (
-        runtimeContext.app.noAuthGuard ||
-        route.public /* || isLoggedIn() */
-      ) {
-        return { match, route };
-      }
-      return "unauthenticated";
-    }
-  }
-  return "missed";
 }
 
 async function preCheckPermissionsForBrickOrRoute(

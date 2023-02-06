@@ -78,7 +78,7 @@ function transformNodeFactory(data: unknown): CompileNode {
 function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
   return function injectNode(node: Placeholder): unknown {
     const matches = node.field.match(
-      /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS)\.)?(.+)$/
+      /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS|CTX)\.)?(.+)$/
     );
     if (!matches) {
       // Keep the original raw partial when meet a unknown namespace.
@@ -148,15 +148,21 @@ function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
         result = subField === "*" ? anchor : get(anchor, subField);
         break;
       }
-      case "CTX":
-        throw new Error("CTX is not supported in placeholder any more");
+      case "CTX": {
+        const original = raw.substring(node.loc.start, node.loc.end);
+        // eslint-disable-next-line no-console
+        console.error(
+          `CTX is not supported in placeholder any more: "${original}"`
+        );
+        return original;
+      }
       default:
-        // if (context.match) {
-        //   result = context.match.params[subField];
-        // } else {
-        // If the context is empty, return the original raw partial.
-        return raw.substring(node.loc.start, node.loc.end);
-      // }
+        if (context.match) {
+          result = context.match.params[subField];
+        } else {
+          // If the context is empty, return the original raw partial.
+          return raw.substring(node.loc.start, node.loc.end);
+        }
     }
 
     if (result === undefined) {
