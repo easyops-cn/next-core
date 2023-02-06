@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.11...@next-core/custom-antd-styles@1.25.12) (2023-02-06)
+
+
+### Bug Fixes
+
+* 下拉选项圆角调整 ([6838a18](https://github.com/easyops-cn/next-core/commit/6838a188359e10c995098d1d7a95d55b9dabd4af))
+
+
+
+
+
 ## [1.25.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.10...@next-core/custom-antd-styles@1.25.11) (2023-02-03)
 
 
