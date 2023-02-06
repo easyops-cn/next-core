@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>Size:</div>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="primary"
+      id="demo1"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="middle"
+      type="primary"
+      id="demo2"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="small"
+      type="primary"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="xs"
+      type="primary"
+    ></basic.general-button>
+
+    <div style="height: 25px"></div>
+
+    <div>Type:</div>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="primary"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="default"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="dashed"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="ghost"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="text"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="link"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="link"
+      href="www.baidu.com"
+    ></basic.general-button>
+
+    <div style="height: 25px"></div>
+
+    <div>Disabled:</div>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="primary"
+      disabled="{true}"
+    ></basic.general-button>
+
+    <div>Danger:</div>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="primary"
+      danger="true"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      danger="true"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="dashed"
+      danger="true"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="ghost"
+      danger="true"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="link"
+      danger="true"
+    ></basic.general-button>
+    <basic.general-button
+      label="Hello World"
+      size="large"
+      type="link"
+      danger="true"
+      href="www.baidu.com"
+    ></basic.general-button>
+
+    <div>TextContent:</div>
+    <basic.general-button size="large" type="primary" id="demo3">
+      Hello TextContent
+    </basic.general-button>
+
+    <script>
+      const btn1 = document.getElementById("demo1");
+      const btn2 = document.getElementById("demo2");
+      const btn3 = document.getElementById("demo3");
+
+      btn1.addEventListener("general.button.click", (e) => {
+        btn1.label = "abc";
+        btn2.danger = true;
+      });
+
+      btn2.dataSource = {
+        a: 1,
+        b: [1, 2, 3],
+      };
+
+      btn2.addEventListener("general.button.click", (e) => {
+        console.log(e);
+      });
+
+      btn3.addEventListener("general.button.click", (e) => {
+        btn3.textContent = "abc";
+      });
+    </script>
+  </body>
+</html>

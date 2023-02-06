@@ -15,6 +15,7 @@
     "@next-core/react-use-brick": "^0.0.0",
     "@next-core/runtime": "^0.0.0",
     "@next-core/utils": "^0.0.0",
+    "classnames": "^2.3.2",
     "i18next": "^22.4.9",
     "react": "0.0.0-experimental-ee8509801-20230117",
     "react-i18next": "^12.1.5"
