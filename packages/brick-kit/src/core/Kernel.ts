@@ -22,7 +22,7 @@ import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import { RuntimeApi_RuntimeMicroAppStandaloneResponseBody } from "@next-sdk/micro-app-standalone-sdk";
-import type {
+import {
   MountPoints,
   BootstrapData,
   RuntimeBootstrapData,
@@ -64,6 +64,7 @@ import {
   safeGetRuntimeMicroAppStandalone,
   standaloneBootstrap,
 } from "./standaloneBootstrap";
+import { getPreviewBootstrap } from "./previewBootstrap";
 import { getI18nNamespace } from "../i18n";
 import {
   applyColorTheme,
@@ -113,7 +114,10 @@ export class Kernel {
     }
 
     await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
-    if (this.bootstrapData.storyboards.length === 0) {
+    if (
+      this.bootstrapData.storyboards.length === 0 &&
+      !window.DEVELOPER_PREVIEW
+    ) {
       throw new Error("No storyboard were found.");
     }
 
@@ -207,6 +211,11 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
+    if (window.DEVELOPER_PREVIEW) {
+      this.bootstrapData = await getPreviewBootstrap();
+      return;
+    }
+
     const data = await (window.STANDALONE_MICRO_APPS
       ? standaloneBootstrap()
       : BootstrapV2Api_bootstrapV2(

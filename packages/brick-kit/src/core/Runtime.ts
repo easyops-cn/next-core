@@ -20,6 +20,7 @@ import {
   RuntimeStoryboard,
   StoryConf,
   RuntimeBrickConf,
+  SiteTheme,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {
@@ -46,7 +47,7 @@ import {
   AbstractRuntime,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
-import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
+import { getCurrentMode, getCurrentTheme, applyTheme } from "../themeAndMode";
 import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
@@ -232,6 +233,10 @@ export async function _dev_only_render(
     kernel.router.getHandlePageLoad();
     kernel.router.getResolver().scheduleRefreshing();
   }
+}
+
+export function _dev_only_applyTheme(theme: SiteTheme): void {
+  applyTheme(theme);
 }
 
 export class Runtime implements AbstractRuntime {

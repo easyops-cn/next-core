@@ -230,7 +230,10 @@ export const SingleBrickAsComponent = React.memo(
       }
 
       // If the router state is initial, ignore rendering the sub-brick.
-      if (_internalApiGetRouterState() === "initial") {
+      if (
+        _internalApiGetRouterState() === "initial" &&
+        !window.DEVELOPER_PREVIEW
+      ) {
         return;
       }
 
@@ -599,7 +602,10 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
 
         // If the router state is initial, ignore rendering the sub-brick.
-        if (_internalApiGetRouterState() === "initial") {
+        if (
+          _internalApiGetRouterState() === "initial" &&
+          !window.DEVELOPER_PREVIEW
+        ) {
           return;
         }
 
