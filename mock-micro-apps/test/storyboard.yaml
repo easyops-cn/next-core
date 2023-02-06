@@ -141,7 +141,9 @@ routes:
             properties:
               textContent: |
                 <%
-                  PERMISSIONS.check("opq") ? "Yes" : "No"
+                  "track context",
+                  (PERMISSIONS.check("opq") ? "Yes" : "No"),
+                  `y:${CTX.y},z:${CTX.z}`
                 %>
     # - brick: demo-basic.have-fun
     # - brick: demo-basic.have-more-fun

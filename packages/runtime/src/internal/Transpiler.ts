@@ -14,6 +14,11 @@ import { resolveData } from "./data/resolveData.js";
 import { matchPath } from "./matchPath.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { validatePermissions } from "./checkPermissions.js";
+import { getTagNameOfCustomTemplate } from "../CustomTemplates.js";
+import {
+  TrackingContextItem,
+  listenOnTrackingContext,
+} from "./compute/listenOnTrackingContext.js";
 
 export interface TranspileOutput {
   main: RuntimeBrick[];
@@ -113,7 +118,8 @@ export async function transpileRoutes(
 export async function transpileBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
-  slotId?: string
+  slotId?: string,
+  tplStack?: Map<string, number>
 ): Promise<TranspileOutput> {
   const output: TranspileOutput = {
     main: [],
@@ -122,7 +128,14 @@ export async function transpileBricks(
   };
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const transpiled = await Promise.all(
-    bricks.map((brickConf) => transpileBrick(brickConf, runtimeContext, slotId))
+    bricks.map((brickConf) =>
+      transpileBrick(
+        brickConf,
+        runtimeContext,
+        slotId,
+        tplStack && new Map(tplStack)
+      )
+    )
   );
   for (const item of transpiled) {
     mergeTranspileOutput(output, item);
@@ -133,7 +146,8 @@ export async function transpileBricks(
 export async function transpileBrick(
   brickConf: BrickConf,
   runtimeContext: RuntimeContext,
-  slotId?: string
+  slotId?: string,
+  tplStack = new Map<string, number>()
 ): Promise<TranspileOutput> {
   const output: TranspileOutput = {
     main: [],
@@ -144,6 +158,25 @@ export async function transpileBrick(
   if (!(await checkBrickIf(brickConf, runtimeContext))) {
     return output;
   }
+
+  const tplTagName = getTagNameOfCustomTemplate(
+    brickConf.brick,
+    runtimeContext.app.id
+  );
+
+  if (tplTagName) {
+    const tplCount = tplStack.get(tplTagName) ?? 0;
+    if (tplCount >= 10) {
+      throw new Error(
+        `Maximum custom template stack overflowed: "${tplTagName}"`
+      );
+    }
+    tplStack.set(tplTagName, tplCount + 1);
+  }
+
+  runtimeContext.pendingPermissionsPreCheck.push(
+    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
+  );
 
   if (typeof brickConf.brick === "string" && brickConf.brick.includes(".")) {
     output.blockingList.push(
@@ -162,17 +195,20 @@ export async function transpileBrick(
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
 
-  runtimeContext.pendingPermissionsPreCheck.push(
-    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
-  );
-
+  const trackingContextList: TrackingContextItem[] = [];
   const loadProperties = async () => {
     brick.properties = await computeRealProperties(
       brickConf.properties,
-      runtimeContext
+      runtimeContext,
+      trackingContextList
     );
   };
-  blockingList.push(loadProperties());
+  const propertiesReady = loadProperties();
+  blockingList.push(propertiesReady);
+
+  propertiesReady.then(() => {
+    listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+  });
 
   if (brickConf.portal) {
     // A portal brick has no slotId.
@@ -191,7 +227,12 @@ export async function transpileBrick(
     const transpiled = await Promise.all(
       Object.entries(brickConf.slots).map(([childSlotId, slotConf]) => {
         if (slotConf.type === "bricks") {
-          return transpileBricks(slotConf.bricks, runtimeContext, childSlotId);
+          return transpileBricks(
+            slotConf.bricks,
+            runtimeContext,
+            childSlotId,
+            tplStack
+          );
         } else if (slotConf.type === "routes") {
           return transpileRoutes(slotConf.routes, runtimeContext, childSlotId);
         }

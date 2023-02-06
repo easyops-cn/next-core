@@ -1,5 +1,5 @@
 import { bindListeners } from "./bindListeners.js";
-import { setRealProperties } from "./setRealProperties.js";
+import { setRealProperties } from "./compute/setRealProperties.js";
 import { RuntimeBrick } from "./Transpiler.js";
 // import { handleProxyOfCustomTemplate } from "./exports";
 

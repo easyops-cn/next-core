@@ -31,6 +31,10 @@ export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
 }
 
+export function getPreEvaluatedRaw(pre: PreEvaluated): string {
+  return pre[symbolForRaw];
+}
+
 const possibleErrorConstructs = new WeakSet<ErrorConstructor>([
   SyntaxError,
   TypeError,

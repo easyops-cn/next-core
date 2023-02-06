@@ -153,6 +153,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
+  onChange(dataName: string, listener: EventListener): void {
+    this.data
+      .get(dataName)
+      ?.eventTarget.addEventListener(this.changeEventType, listener);
+  }
+
   async waitFor(dataNames: Iterable<string>): Promise<void> {
     for (const { pendingContexts } of this.pendingStack) {
       await Promise.all([...dataNames].map((ctx) => pendingContexts.get(ctx)));
@@ -227,7 +233,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       );
       for (const dep of deps) {
         const item = this.data.get(dep);
-        item?.eventTarget?.addEventListener(this.changeEventType, async () => {
+        item?.eventTarget.addEventListener(this.changeEventType, async () => {
           if (load) {
             this.updateValue(
               dataConf.name,
