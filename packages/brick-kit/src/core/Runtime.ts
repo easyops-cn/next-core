@@ -235,6 +235,7 @@ export async function _dev_only_render(
   }
 }
 
+/* istanbul ignore next */
 export function _dev_only_applyTheme(theme: SiteTheme): void {
   applyTheme(theme);
 }

@@ -22,7 +22,7 @@ import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
 import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import { RuntimeApi_RuntimeMicroAppStandaloneResponseBody } from "@next-sdk/micro-app-standalone-sdk";
-import {
+import type {
   MountPoints,
   BootstrapData,
   RuntimeBootstrapData,
@@ -211,6 +211,7 @@ export class Kernel {
     params?: { check_login?: boolean },
     interceptorParams?: InterceptorParams
   ): Promise<void> {
+    // istanbul ignore if
     if (window.DEVELOPER_PREVIEW) {
       this.bootstrapData = await getPreviewBootstrap();
       return;
