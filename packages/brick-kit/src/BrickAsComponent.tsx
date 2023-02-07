@@ -184,7 +184,6 @@ export const SingleBrickAsComponent = React.memo(
     const firstRunRef = useRef(true);
     const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
     const elementRef = useRef<HTMLElement>();
-    const expandedBrickConfRef = useRef<BrickConf>();
     const [expandedBrickConf, setExpandedBrickConf] = useState<BrickConf>(null);
     const tplTagName = getTagNameOfCustomTemplate(
       useBrick.brick,
@@ -237,9 +236,16 @@ export const SingleBrickAsComponent = React.memo(
         return;
       }
 
-      _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
-        handleHttpError
-      );
+      const promise = _internalApiLoadDynamicBricksInBrickConf(
+        useBrick as BrickConf
+      ).catch(handleHttpError);
+
+      // 需要等待构件加载完成，因为构件可能包含属性初始化逻辑。
+      // 如果先创建构件，再完成构件加载，其属性默认初始化动作会覆盖用户定义的属性。
+      // 另一方面，避免额外的 MicroTask，因为 graph.general-graph 构件依赖固定的 useBrick 渲染时机。
+      if (useBrick.brick.includes("-") && !customElements.get(useBrick.brick)) {
+        await promise;
+      }
 
       const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
       const expanded =
@@ -259,10 +265,10 @@ export const SingleBrickAsComponent = React.memo(
             );
       if (requireSuspense) {
         setExpandedBrickConf(await expanded);
-        setSuspenseReady(true);
       } else {
-        expandedBrickConfRef.current = expanded as BrickConf;
+        setExpandedBrickConf(expanded as BrickConf);
       }
+      setSuspenseReady(true);
 
       // Let `transform` works still.
       transformProperties(
@@ -442,29 +448,22 @@ export const SingleBrickAsComponent = React.memo(
 
     const childConfs = useMemo(
       () =>
-        slotsToChildren(
-          (
-            (requireSuspense
-              ? expandedBrickConf
-              : expandedBrickConfRef.current) ?? useBrick
-          ).slots as UseBrickSlotsConf
-        ),
-      [
-        expandedBrickConf,
-        expandedBrickConfRef.current,
-        useBrick,
-        requireSuspense,
-      ]
+        isBrickAvailable && suspenseReady
+          ? slotsToChildren(
+              (expandedBrickConf ?? useBrick).slots as UseBrickSlotsConf
+            )
+          : [],
+      [isBrickAvailable, suspenseReady, expandedBrickConf, useBrick]
     );
 
-    if (!isBrickAvailable || (requireSuspense && !suspenseReady)) {
+    if (!isBrickAvailable || !suspenseReady) {
       return null;
     }
 
+    const tagName = expandedBrickConf?.brick ?? (tplTagName || useBrick.brick);
+
     return React.createElement(
-      (requireSuspense ? expandedBrickConf : expandedBrickConfRef.current)
-        ?.brick ??
-        (tplTagName || useBrick.brick),
+      tagName,
       {
         ref: innerRefCallback,
       },
@@ -548,7 +547,6 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
       const firstRunRef = useRef(true);
       const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
       const elementRef = useRef<HTMLElement>();
-      const expandedBrickConfRef = useRef<BrickConf>();
       const [expandedBrickConf, setExpandedBrickConf] =
         useState<BrickConf>(null);
       const tplTagName = getTagNameOfCustomTemplate(
@@ -609,9 +607,16 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
           return;
         }
 
-        _internalApiLoadDynamicBricksInBrickConf(useBrick as BrickConf).catch(
-          handleHttpError
-        );
+        const promise = _internalApiLoadDynamicBricksInBrickConf(
+          useBrick as BrickConf
+        ).catch(handleHttpError);
+
+        if (
+          useBrick.brick.includes("-") &&
+          !customElements.get(useBrick.brick)
+        ) {
+          await promise;
+        }
 
         const brick = getCurrentRunTimeBrick(useBrick, tplTagName, data);
         const expanded =
@@ -631,10 +636,10 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
               );
         if (requireSuspense) {
           setExpandedBrickConf(await expanded);
-          setSuspenseReady(true);
         } else {
-          expandedBrickConfRef.current = expanded as BrickConf;
+          setExpandedBrickConf(expanded as BrickConf);
         }
+        setSuspenseReady(true);
 
         // Let `transform` works still.
         transformProperties(
@@ -801,29 +806,23 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
 
       const childConfs = useMemo(
         () =>
-          slotsToChildren(
-            (
-              (requireSuspense
-                ? expandedBrickConf
-                : expandedBrickConfRef.current) ?? useBrick
-            ).slots as UseBrickSlotsConf
-          ),
-        [
-          expandedBrickConf,
-          expandedBrickConfRef.current,
-          useBrick,
-          requireSuspense,
-        ]
+          isBrickAvailable && suspenseReady
+            ? slotsToChildren(
+                (expandedBrickConf ?? useBrick).slots as UseBrickSlotsConf
+              )
+            : [],
+        [isBrickAvailable, suspenseReady, expandedBrickConf, useBrick]
       );
 
-      if (!isBrickAvailable || (requireSuspense && !suspenseReady)) {
+      if (!isBrickAvailable || !suspenseReady) {
         return null;
       }
 
+      const tagName =
+        expandedBrickConf?.brick ?? (tplTagName || useBrick.brick);
+
       return React.createElement(
-        (requireSuspense ? expandedBrickConf : expandedBrickConfRef.current)
-          ?.brick ??
-          (tplTagName || useBrick.brick),
+        tagName,
         {
           ref: innerRefCallback,
         },

@@ -1,6 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import ReactDOM from "react-dom";
+import { act } from "react-dom/test-utils";
 import {
   BrickConf,
   BrickEventHandler,
@@ -52,6 +53,16 @@ jest.spyOn(console, "warn").mockImplementation(() => void 0);
 // Mock a custom element of `custom-existed`.
 customElements.define(
   "custom-existed",
+  class Tmp extends HTMLElement {
+    get $$typeof(): string {
+      return "brick";
+    }
+  }
+);
+
+// Mock a custom element of `custom-existed`.
+customElements.define(
+  "basic-bricks.micro-view",
   class Tmp extends HTMLElement {
     get $$typeof(): string {
       return "brick";
@@ -218,7 +229,7 @@ beforeAll(() => {
                 },
               },
               {
-                brick: "tpl-use-brick-in-template",
+                brick: "steve-test.tpl-use-brick-in-template",
                 // TODO: miss ref ?
                 ref: "tpl-use-brick-in-template-ref",
                 properties: {
@@ -450,12 +461,14 @@ describe("BrickAsComponent", () => {
       />
     );
 
-    await (global as any).flushPromises();
+    await act(() => (global as any).flushPromises());
+    wrapper.update();
     const existed = wrapper
       .find("custom-existed")
       .getDOMNode() as HTMLDivElement;
     expect(existed.title).toBe("better");
     expect((existed as RuntimeBrickElement).$$typeof).toBe("brick");
+
     const notExisted = wrapper
       .find("custom-not-existed")
       .getDOMNode() as HTMLDivElement;
@@ -695,7 +708,8 @@ describe("BrickAsComponent", () => {
         }}
       />
     );
-    await (global as any).flushPromises();
+    await act(() => (global as any).flushPromises());
+    wrapper.update();
     expect(spyOnResolve.mock.calls[0][2]).toEqual({
       ...currentContext,
       tplContextId: "tpl-ctx-1",
@@ -918,7 +932,8 @@ describe("BrickAsComponent", () => {
         }}
       />
     );
-    await (global as any).flushPromises();
+    await act(() => (global as any).flushPromises());
+    wrapper.update();
     expect(wrapper.html()).toBe(
       "<div>" +
         '<basic-bricks.micro-view style="padding: 12px;" slot="">' +
@@ -1037,7 +1052,8 @@ describe("BrickAsComponent", () => {
         }}
       />
     );
-    await (global as any).flushPromises();
+    await act(() => (global as any).flushPromises());
+    wrapper.update();
     expect(wrapper.html()).toBe(
       "<div>" +
         '<basic-bricks.micro-view style="padding: 12px;" slot="">' +
