@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.81.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.12...@next-core/brick-container@2.81.13) (2023-02-07)
+
+
+### Bug Fixes
+
+* add icon style in preview mode ([4c794c9](https://github.com/easyops-cn/next-core/commit/4c794c96238d5da7aae19ffe4137778cfd18cbc7))
+* optimization ([7f638dc](https://github.com/easyops-cn/next-core/commit/7f638dc093e35f54694f046199bd34887a8a8879))
+* refactor brick preview ([cb93c9f](https://github.com/easyops-cn/next-core/commit/cb93c9fb33c45a00dcc97c0c1553813c7142bf2a))
+
+
+
+
+
 ## [2.81.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.11...@next-core/brick-container@2.81.12) (2023-02-06)
 
 **Note:** Version bump only for package @next-core/brick-container
