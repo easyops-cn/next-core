@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.164.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.1...@next-core/brick-kit@2.164.2) (2023-02-07)
+
+
+### Bug Fixes
+
+* **useBrick:** wait for brick being loaded before rendering ([9f43d88](https://github.com/easyops-cn/next-core/commit/9f43d88fe08e8048f8d0021572f824ab5888619f))
+
+
+
+
+
 ## [2.164.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.0...@next-core/brick-kit@2.164.1) (2023-02-07)
 
 
