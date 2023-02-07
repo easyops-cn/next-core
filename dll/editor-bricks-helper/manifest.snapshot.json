@@ -200,6 +200,7 @@
           "StoryboardFunctionRegistryFactory",
           "UpdatingElement",
           "abortController",
+          "applyTheme",
           "authenticate",
           "batchSetAppsLocalTheme",
           "checkIf",

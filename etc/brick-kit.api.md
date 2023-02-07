@@ -112,6 +112,9 @@ export interface AbstractRuntime {
     registerLazyBricks(bricks: string | string[], factory: LazyBrickImportFunction): void;
 }
 
+// @public (undocumented)
+export function applyTheme(value?: SiteTheme): void;
+
 // Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)

@@ -1,5 +1,6 @@
-import { StoryConf } from "@next-core/brick-types";
-import { developHelper } from "@next-core/brick-kit";
+import { SiteTheme, StoryConf } from "@next-core/brick-types";
+import { developHelper, applyTheme } from "@next-core/brick-kit";
+
 import { http, HttpResponse } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import "./i18n";
@@ -35,8 +36,11 @@ const portal = document.querySelector<HTMLElement>("#portal-mount-point");
 type BrickPreviewProps = StoryConf | StoryConf[];
 (window as any)._preview_render = async ({
   conf,
+  theme,
 }: {
   conf: BrickPreviewProps;
+  theme: SiteTheme;
 }) => {
+  applyTheme(theme);
   await developHelper.render({ main, bg, portal }, conf);
 };
