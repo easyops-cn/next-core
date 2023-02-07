@@ -34,6 +34,14 @@ export class Runtime {
 }
 
 /* istanbul ignore next */
+export function _internalApiGetRenderId(): string | undefined {
+  if (process.env.NODE_ENV === "test") {
+    return "render-id-1";
+  }
+  return kernel.getRenderId();
+}
+
+/* istanbul ignore next */
 export function _internalApiMatchStoryboard(
   pathname: string
 ): RuntimeStoryboard | undefined {

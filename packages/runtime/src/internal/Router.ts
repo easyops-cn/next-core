@@ -20,6 +20,7 @@ import { customTemplates } from "../CustomTemplates.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RouterContext } from "./RouterContext.js";
+import { uniqueId } from "lodash";
 
 export class Router {
   #kernel: Kernel;
@@ -29,6 +30,7 @@ export class Router {
   #runtimeContext: RuntimeContext | undefined;
   #routerContext: RouterContext | undefined;
   #redirectCount = 0;
+  #renderId: string | undefined;
 
   constructor(kernel: Kernel) {
     this.#kernel = kernel;
@@ -52,6 +54,10 @@ export class Router {
     history.block((location, action) =>
       this.#getBlockMessageBeforePageLave({ location, action })
     );
+  }
+
+  getRenderId() {
+    return this.#renderId;
   }
 
   #getBlockMessageBeforePageLave(detail: {
@@ -163,6 +169,7 @@ export class Router {
   }
 
   async #render(location: PluginLocation): Promise<void> {
+    this.#renderId = uniqueId("render-id-1");
     clearResolveCache();
 
     const history = getHistory();

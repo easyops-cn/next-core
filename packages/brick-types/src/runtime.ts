@@ -383,17 +383,22 @@ export interface MagicBrickConfig {
 }
 
 /** @internal */
-export type rememberedEventListener = [
+export type MetaInfoOfEventListener = [
   string,
-  EventListener,
-  // For compatibility of legacy api in @next-core/brick-utils,
-  // the third element is optional.
-  BrickEventHandler?
+  // For compatibility of devtools, leave the second argument there.
+  null | undefined,
+  BrickEventHandler
 ];
+
+export type RememberedEventListener = [string, EventListener];
 
 /** @internal */
 export interface RuntimeBrickElement extends HTMLElement {
   $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
-  $$eventListeners?: rememberedEventListener[];
+  /** Meta info of listeners, for devtools only */
+  $$eventListeners?: MetaInfoOfEventListener[];
+  /** Remembered listeners for unbinding */
+  $$listeners?: RememberedEventListener[];
+  /** Find element by ref in a custom template */
   $$getElementByRef?: (ref: string) => HTMLElement;
 }

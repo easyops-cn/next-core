@@ -3,17 +3,31 @@ import type {
   BrickEventHandlerCallback,
   BrickEventsMap,
   BuiltinBrickEventHandler,
+  CustomBrickEventHandler,
+  ExecuteCustomBrickEventHandler,
+  ProviderPollOptions,
+  RuntimeBrickElement,
   RuntimeContext,
+  SetPropsCustomBrickEventHandler,
+  UseProviderEventHandler,
 } from "@next-core/brick-types";
+import { isEvaluable } from "@next-core/cook";
 import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
-import { RuntimeBrick } from "./Transpiler.js";
 import { getHistory } from "../history.js";
+import { getProviderBrick } from "./data/getProviderBrick.js";
+import { PollableCallback, startPoll } from "./poll.js";
+import { isPreEvaluated } from "./compute/evaluate.js";
+import { setProperties } from "./compute/setProperties.js";
 
 type Listener = (event: Event) => unknown;
 
+export interface ElementHolder {
+  element?: HTMLElement;
+}
+
 export function bindListeners(
-  brick: HTMLElement,
+  brick: RuntimeBrickElement,
   eventsMap: BrickEventsMap | undefined,
   runtimeContext: RuntimeContext
 ): void {
@@ -25,8 +39,30 @@ export function bindListeners(
       element: brick,
     });
     brick.addEventListener(eventType, listener);
-    // rememberListeners(brick, eventType, listener, handlers);
+
+    // Remember added listeners for unbinding.
+    if (!brick.$$listeners) {
+      brick.$$listeners = [];
+    }
+    brick.$$listeners.push([eventType, listener]);
+
+    // Remember added listeners for devtools.
+    if (!brick.$$eventListeners) {
+      brick.$$eventListeners = [];
+    }
+    for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
+      brick.$$eventListeners.push([eventType, null, handler]);
+    }
   });
+}
+
+export function unbindListeners(brick: RuntimeBrickElement): void {
+  if (brick.$$listeners) {
+    for (const [eventType, listener] of brick.$$listeners) {
+      brick.removeEventListener(eventType, listener);
+    }
+    brick.$$listeners.length = 0;
+  }
 }
 
 export function isBuiltinHandler(
@@ -35,10 +71,39 @@ export function isBuiltinHandler(
   return typeof (handler as BuiltinBrickEventHandler).action === "string";
 }
 
+export function isUseProviderHandler(
+  handler: BrickEventHandler
+): handler is UseProviderEventHandler {
+  return typeof (handler as UseProviderEventHandler).useProvider === "string";
+}
+
+export function isCustomHandler(
+  handler: BrickEventHandler
+): handler is CustomBrickEventHandler {
+  return !!(
+    ((handler as CustomBrickEventHandler).target ||
+      (handler as CustomBrickEventHandler).targetRef) &&
+    ((handler as ExecuteCustomBrickEventHandler).method ||
+      (handler as SetPropsCustomBrickEventHandler).properties)
+  );
+}
+
+export function isExecuteCustomHandler(
+  handler: CustomBrickEventHandler
+): handler is ExecuteCustomBrickEventHandler {
+  return !!(handler as ExecuteCustomBrickEventHandler).method;
+}
+
+export function isSetPropsCustomHandler(
+  handler: CustomBrickEventHandler
+): handler is SetPropsCustomBrickEventHandler {
+  return !!(handler as SetPropsCustomBrickEventHandler).properties;
+}
+
 export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
   runtimeContext: RuntimeContext,
-  runtimeBrick?: Partial<RuntimeBrick>
+  runtimeBrick?: ElementHolder
 ): Listener {
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
@@ -46,7 +111,7 @@ export function listenerFactory(
         return;
       }
       if (isBuiltinHandler(handler)) {
-        const method = handler.action.split(".")[1] as any;
+        const [object, method] = handler.action.split(".") as any;
         switch (handler.action) {
           case "history.push":
           case "history.replace":
@@ -66,6 +131,39 @@ export function listenerFactory(
               runtimeContext
             );
 
+          // case "segue.push":
+          // case "segue.replace":
+          // case "alias.push":
+          // case "alias.replace":
+
+          case "window.open":
+            return handleWindowAction(event, handler.args, runtimeContext);
+
+          case "location.reload":
+          case "location.assign":
+            return handleLocationAction(
+              event,
+              method,
+              handler.args,
+              runtimeContext
+            );
+
+          case "localStorage.setItem":
+          case "localStorage.removeItem":
+          case "sessionStorage.setItem":
+          case "sessionStorage.removeItem":
+            return handleStorageAction(
+              event,
+              object,
+              method,
+              handler.args,
+              runtimeContext
+            );
+
+          case "event.preventDefault":
+            event.preventDefault();
+            return;
+
           case "console.log":
             return handleConsoleAction(
               event,
@@ -73,6 +171,13 @@ export function listenerFactory(
               handler.args,
               runtimeContext
             );
+
+          // case "message.success":
+          // case "message.error":
+          // case "message.info":
+          // case "message.warn":
+
+          // case "handleHttpError":
 
           case "context.assign":
           case "context.replace":
@@ -86,16 +191,232 @@ export function listenerFactory(
               runtimeContext
             );
 
+          // case "state.update":
+          // case "state.refresh":
+          // case "state.load":
+
+          // case "formstate.update":
+
+          // case "tpl.dispatchEvent":
+
+          // case "message.subscribe":
+          // case "message.unsubscribe":
+
+          // case "theme.setDarkTheme":
+          // case "theme.setLightTheme":
+          // case "theme.setTheme":
+          // case "mode.setDashboardMode":
+          // case "mode.setDefaultMode":
+
+          // case "menu.clearMenuTitleCache":
+          // case "menu.clearMenuCache":
+
+          // case "analytics.event":
+
+          // case "preview.debug":
+
           default:
             // eslint-disable-next-line no-console
             console.error("unknown event listener action:", handler.action);
         }
+      } else if (isUseProviderHandler(handler)) {
+        handleUseProviderAction(event, handler, runtimeContext, runtimeBrick);
+      } else if (isCustomHandler(handler)) {
+        handleCustomAction(event, handler, runtimeContext, runtimeBrick!);
       } else {
         // eslint-disable-next-line no-console
         console.error("unknown event handler:", handler);
       }
     }
   };
+}
+
+async function handleUseProviderAction(
+  event: Event,
+  handler: UseProviderEventHandler,
+  runtimeContext: RuntimeContext,
+  runtimeBrick?: ElementHolder
+) {
+  try {
+    const providerBrick = await getProviderBrick(
+      handler.useProvider,
+      runtimeContext.brickPackages
+    );
+    const method = handler.method !== "saveAs" ? "resolve" : "saveAs";
+    brickCallback(
+      event,
+      providerBrick,
+      handler,
+      method,
+      runtimeContext,
+      runtimeBrick
+    );
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    // console.error(httpErrorToString(error));
+  }
+}
+
+function handleCustomAction(
+  event: Event,
+  handler: CustomBrickEventHandler,
+  runtimeContext: RuntimeContext,
+  runtimeBrick: ElementHolder
+) {
+  let targets: HTMLElement[] = [];
+  const rawTarget = handler.target;
+  const rawTargetRef = handler.targetRef;
+  let computedTarget = rawTarget;
+  // Allow `target` to be set as evaluable string.
+  if (
+    typeof rawTarget === "string"
+      ? isEvaluable(rawTarget)
+      : isPreEvaluated(rawTarget)
+  ) {
+    computedTarget = computeRealValue(rawTarget, { ...runtimeContext, event });
+  }
+  if (typeof computedTarget === "string") {
+    if (computedTarget === "_self") {
+      targets.push(runtimeBrick.element!);
+    } else if (handler.multiple) {
+      targets = Array.from(document.querySelectorAll(computedTarget));
+    } else {
+      const found = document.querySelector(computedTarget) as HTMLElement;
+      if (found !== null) {
+        targets.push(found);
+      }
+    }
+  } else if (computedTarget) {
+    if (computedTarget instanceof HTMLElement) {
+      targets.push(computedTarget as HTMLElement);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("unexpected target:", computedTarget);
+    }
+  } else if (rawTargetRef) {
+    let computedTargetRef = rawTargetRef;
+    // Allow `targetRef` to be set as evaluable string.
+    if (
+      typeof rawTargetRef === "string"
+        ? isEvaluable(rawTargetRef)
+        : isPreEvaluated(rawTargetRef)
+    ) {
+      computedTargetRef = computeRealValue(rawTargetRef, {
+        ...runtimeContext,
+        event,
+      }) as string | string[];
+    }
+    // const tpl: RuntimeBrickElement = getTplContext(
+    //   runtimeContext.tplContextId
+    // ).getBrick().element;
+    // targets.push(
+    //   ...[]
+    //     .concat(computedTargetRef)
+    //     .map((ref) => tpl.$$getElementByRef?.(ref))
+    //     .filter(Boolean)
+    // );
+  }
+  if (targets.length === 0) {
+    // eslint-disable-next-line no-console
+    console.error("target not found:", rawTarget || rawTargetRef);
+    return;
+  }
+  if (isExecuteCustomHandler(handler)) {
+    targets.forEach((target) => {
+      brickCallback(
+        event,
+        target,
+        handler,
+        handler.method,
+        runtimeContext,
+        runtimeBrick,
+        {
+          useEventAsDefault: true,
+        }
+      );
+    });
+  } else if (isSetPropsCustomHandler(handler)) {
+    setProperties(targets, handler.properties, {
+      ...runtimeContext,
+      event,
+    });
+  }
+}
+
+async function brickCallback(
+  event: Event,
+  target: HTMLElement,
+  handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
+  method: string,
+  runtimeContext: RuntimeContext,
+  runtimeBrick?: ElementHolder,
+  options?: ArgsFactoryOptions
+): Promise<void> {
+  if (typeof (target as any)[method] !== "function") {
+    // eslint-disable-next-line no-console
+    console.error("target has no method:", {
+      target,
+      method: method,
+    });
+    return;
+  }
+
+  const task = async (): Promise<unknown> => {
+    const computedArgs = argsFactory(
+      handler.args,
+      runtimeContext,
+      event,
+      options
+    );
+    // if (isUseProviderHandler(handler)) {
+    //   computedArgs = await getArgsOfCustomApi(
+    //     handler.useProvider,
+    //     computedArgs,
+    //     method
+    //   );
+    // }
+    return (target as any)[method](...computedArgs);
+  };
+
+  if (!handler.callback) {
+    task();
+    return;
+  }
+
+  const callbackFactory = eventCallbackFactory(
+    handler.callback,
+    runtimeContext,
+    runtimeBrick
+  );
+
+  const pollableCallback: Required<PollableCallback> = {
+    progress: callbackFactory("progress"),
+    success: callbackFactory("success"),
+    error: callbackFactory("error"),
+    finally: callbackFactory("finally"),
+  };
+
+  let poll: ProviderPollOptions | undefined;
+  if (isUseProviderHandler(handler)) {
+    poll = computeRealValue(handler.poll, { ...runtimeContext, event }) as
+      | ProviderPollOptions
+      | undefined;
+  }
+
+  if (poll?.enabled) {
+    startPoll(task, pollableCallback, poll);
+  } else {
+    try {
+      // Try to catch synchronized tasks too.
+      const result = await task();
+      pollableCallback.success(result);
+    } catch (err) {
+      pollableCallback.error(err);
+    } finally {
+      pollableCallback["finally"]();
+    }
+  }
 }
 
 function handleHistoryAction(
@@ -158,6 +479,19 @@ function handleHistoryAction(
   );
 }
 
+function handleWindowAction(
+  event: Event,
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const [url, target, features] = argsFactory(args, runtimeContext, event) as [
+    string,
+    string,
+    string
+  ];
+  window.open(url, target || "_self", features);
+}
+
 function handleContextAction(
   event: Event,
   method: "assign" | "replace" | "refresh" | "load",
@@ -173,6 +507,38 @@ function handleContextAction(
     runtimeContext,
     callback
   );
+}
+
+function handleLocationAction(
+  event: Event,
+  method: "assign" | "reload",
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  if (method === "assign") {
+    const [url] = argsFactory(args, runtimeContext, event) as [string];
+    location.assign(url);
+  } else {
+    location[method]();
+  }
+}
+
+function handleStorageAction(
+  event: Event,
+  object: "localStorage" | "sessionStorage",
+  method: "setItem" | "removeItem",
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const storage = object === "localStorage" ? localStorage : sessionStorage;
+  const [name, value] = argsFactory(args, runtimeContext, event);
+  if (method === "setItem") {
+    if (value !== undefined) {
+      storage.setItem(name as string, JSON.stringify(value));
+    }
+  } else {
+    storage.removeItem(name as string);
+  }
 }
 
 function handleConsoleAction(
@@ -192,7 +558,7 @@ function handleConsoleAction(
 export function eventCallbackFactory(
   callback: BrickEventHandlerCallback,
   runtimeContext: RuntimeContext,
-  runtimeBrick?: RuntimeBrick
+  runtimeBrick?: ElementHolder
 ) {
   return function callbackFactory(
     type: "success" | "error" | "finally" | "progress"

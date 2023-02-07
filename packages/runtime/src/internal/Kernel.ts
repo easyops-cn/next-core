@@ -18,4 +18,8 @@ export class Kernel {
     await this.#router.bootstrap();
     document.body.classList.add("first-rendered");
   }
+
+  getRenderId() {
+    return this.#router.getRenderId();
+  }
 }
