@@ -19,10 +19,12 @@ export interface RuntimeContext {
   overrideApp?: MicroApp;
   location: Location;
   query: URLSearchParams;
-  match?: MatchResult;
+  /** {@inheritDoc FeatureFlags} */
+  flags: FeatureFlags;
   brickPackages: BrickPackage[];
   ctxStore: AbstractDataStore;
   pendingPermissionsPreCheck: Promise<unknown>[];
+  match?: MatchResult;
   event?: Event;
   data?: unknown;
 }

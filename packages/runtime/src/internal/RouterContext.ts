@@ -8,11 +8,8 @@ import type { Action, Location } from "history";
 import { RuntimeBrick } from "./Transpiler.js";
 import { listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
-
-interface BrickAndLifeCycleHandler {
-  brick: RuntimeBrick;
-  handler: BrickEventHandler | BrickEventHandler[] | undefined;
-}
+import { getReadOnlyProxy } from "./proxyFactories.js";
+import type { Media } from "./mediaQuery.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -22,7 +19,6 @@ type MemoizedLifeCycle<T> = {
 };
 
 export class RouterContext {
-  private pageLoadHandlers: BrickAndLifeCycleHandler[] = [];
   private memoizedLifeCycle: MemoizedLifeCycle<
     Required<
       Pick<
@@ -34,6 +30,7 @@ export class RouterContext {
         | "onAnchorLoad"
         | "onAnchorUnload"
         | "onMediaChange"
+        | "onScrollIntoView"
       >
     >
   > = {
@@ -44,7 +41,9 @@ export class RouterContext {
     onAnchorLoad: [],
     onAnchorUnload: [],
     onMediaChange: [],
+    onScrollIntoView: [],
   };
+  private observers: IntersectionObserver[] = [];
 
   registerBrickLifeCycle(
     brick: RuntimeBrick,
@@ -61,16 +60,27 @@ export class RouterContext {
       "onAnchorLoad",
       "onAnchorUnload",
       "onMediaChange",
+      "onScrollIntoView",
     ] as const;
     for (const key of lifeCycleTypes) {
       const handlers = lifeCycle[key];
       if (handlers) {
-        this.memoizedLifeCycle[key].push({
+        this.memoizedLifeCycle[key as "onPageLoad"].push({
           brick,
-          handlers,
+          handlers: handlers as BrickEventHandler | BrickEventHandler[],
         });
       }
     }
+  }
+
+  dispose(): void {
+    for (const list of Object.values(this.memoizedLifeCycle)) {
+      list.length = 0;
+    }
+    for (const observer of this.observers) {
+      observer.disconnect();
+    }
+    this.observers.length = 0;
   }
 
   private dispatchGeneralLifeCycle(
@@ -85,8 +95,8 @@ export class RouterContext {
     event: CustomEvent,
     runtimeContext: RuntimeContext
   ): void {
-    for (const item of this.memoizedLifeCycle[type] ?? []) {
-      listenerFactory(item.handlers, runtimeContext, item.brick)(event);
+    for (const { brick, handlers } of this.memoizedLifeCycle[type] ?? []) {
+      listenerFactory(handlers, runtimeContext, brick)(event);
     }
   }
 
@@ -149,13 +159,41 @@ export class RouterContext {
     }
   }
 
-  dispatchMediaChange(detail: unknown, runtimeContext: RuntimeContext): void {
+  dispatchMediaChange(detail: Media, runtimeContext: RuntimeContext): void {
     this.dispatchGeneralLifeCycle(
       "onMediaChange",
       new CustomEvent("media.change", {
-        detail,
+        detail: getReadOnlyProxy(detail),
       }),
       runtimeContext
     );
+  }
+
+  initializeScrollIntoView(runtimeContext: RuntimeContext): void {
+    for (const { brick, handlers: conf } of this.memoizedLifeCycle
+      .onScrollIntoView ?? []) {
+      const threshold = conf.threshold ?? 0.1;
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (entry.intersectionRatio >= threshold) {
+                listenerFactory(
+                  conf.handlers,
+                  runtimeContext,
+                  brick
+                )(new CustomEvent("scroll.into.view"));
+                observer.disconnect();
+              }
+            }
+          });
+        },
+        {
+          threshold,
+        }
+      );
+      observer.observe(brick.element!);
+      this.observers.push(observer);
+    }
   }
 }

@@ -48,6 +48,7 @@
     "@next-core/loader": "^0.0.0",
     "@next-core/supply": "^1.0.91",
     "@next-core/utils": "^0.0.0",
+    "@ungap/event-target": "^0.2.3",
     "history": "^4.10.1",
     "i18next": "^22.4.9",
     "lodash": "^4.17.21",

@@ -4,6 +4,7 @@ import {
   loadProcessorsImperatively,
 } from "@next-core/loader";
 import type {
+  FeatureFlags,
   PluginHistoryState,
   PluginLocation,
   RuntimeContext,
@@ -21,16 +22,18 @@ import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RouterContext } from "./RouterContext.js";
 import { uniqueId } from "lodash";
+import { type Media, mediaEventTarget } from "./mediaQuery.js";
 
 export class Router {
   #kernel: Kernel;
   #rendering = false;
   #prevLocation!: PluginLocation;
-  #nextLocation: PluginLocation | undefined;
-  #runtimeContext: RuntimeContext | undefined;
-  #routerContext: RouterContext | undefined;
+  #nextLocation?: PluginLocation;
+  #runtimeContext?: RuntimeContext;
+  #routerContext?: RouterContext;
   #redirectCount = 0;
-  #renderId: string | undefined;
+  #renderId?: string;
+  #mediaListener?: (event: CustomEvent<Media>) => void;
 
   constructor(kernel: Kernel) {
     this.#kernel = kernel;
@@ -196,23 +199,42 @@ export class Router {
     // setMode("default");
     // devtoolsHookEmit("rendering");
 
+    const flags = {
+      ...this.#kernel.bootstrapData.settings?.featureFlags,
+    };
+
     const redirectToLogin = (): void => {
-      const targetPath =
-        /* this.kernel.getFeatureFlags()["sso-enabled"]
-        ? "/sso-auth/login"
-        : */ "/auth/login";
-      this.#checkInfiniteRedirect(location, targetPath);
-      history.replace(targetPath, { from: location });
+      const to = flags["sso-enabled"] ? "/sso-auth/login" : "/auth/login";
+      this.#checkInfiniteRedirect(location, to);
+      history.replace(to, { from: location });
     };
 
     const main = document.querySelector("#main-mount-point") as HTMLElement;
     const portal = document.querySelector("#portal-mount-point") as HTMLElement;
 
+    const prevRouterContext = this.#routerContext;
+
+    const disposePreviousRender = (): void => {
+      prevRouterContext?.dispose();
+      if (this.#mediaListener) {
+        mediaEventTarget.removeEventListener("change", this.#mediaListener);
+        this.#mediaListener = undefined;
+      }
+      unmountTree(main);
+      unmountTree(portal);
+    };
+
     if (storyboard) {
+      Object.assign(
+        flags,
+        (storyboard.app.config?.settings as { featureFlags?: FeatureFlags })
+          ?.featureFlags
+      );
       const runtimeContext = (this.#runtimeContext = {
         app: storyboard.app,
         location,
         query: new URLSearchParams(location.search),
+        flags,
         ctxStore: new DataStore("CTX"),
         brickPackages: this.#kernel.bootstrapData.brickPackages,
         pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
@@ -292,8 +314,7 @@ export class Router {
       }
 
       // Unmount main tree to avoid app change fired before new routes mounted.
-      unmountTree(main);
-      unmountTree(portal);
+      disposePreviousRender();
 
       if ((output.route && output.route.type !== "routes") || failed) {
         // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
@@ -321,8 +342,14 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
+          routerContext.initializeScrollIntoView(runtimeContext);
           routerContext.dispatchPageLoad(runtimeContext);
           routerContext.dispatchAnchorLoad(runtimeContext);
+
+          this.#mediaListener = (event) => {
+            routerContext.dispatchMediaChange(event.detail, runtimeContext);
+          };
+          mediaEventTarget.addEventListener("change", this.#mediaListener);
         }
 
         return;
@@ -334,8 +361,7 @@ export class Router {
       return;
     }
 
-    unmountTree(main);
-    unmountTree(portal);
+    disposePreviousRender();
 
     mountTree(
       [

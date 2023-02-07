@@ -94,11 +94,10 @@ function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
     }
 
     let result: unknown;
-    // const SimpleContextMap: Record<string, "hash" | "sys" | "flags"> = {
-    //   HASH: "hash",
-    //   SYS: "sys",
-    //   FLAGS: "flags",
-    // };
+    const SimpleContextMap: Record<string, /* "sys" | */ "flags"> = {
+      // SYS: "sys",
+      FLAGS: "flags",
+    };
 
     switch (namespace) {
       case "QUERY":
@@ -135,12 +134,12 @@ function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
         result = context.location.hash;
         break;
       // case "SYS":
-      // case "FLAGS":
-      //   result =
-      //     subField === "*"
-      //       ? context[SimpleContextMap[namespace]]
-      //       : get(context[SimpleContextMap[namespace]], subField);
-      //   break;
+      case "FLAGS":
+        result =
+          subField === "*"
+            ? context[SimpleContextMap[namespace]]
+            : get(context[SimpleContextMap[namespace]], subField);
+        break;
       case "ANCHOR": {
         const anchor = context.location.hash
           ? context.location.hash.substr(1)

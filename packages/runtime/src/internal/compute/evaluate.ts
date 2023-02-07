@@ -16,6 +16,8 @@ import {
   getReadOnlyProxy,
 } from "../proxyFactories.js";
 import { getDevHook } from "../devtools.js";
+import { getMedia } from "../mediaQuery.js";
+import { getStorageItem } from "./getStorageItem.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -188,6 +190,7 @@ function lowLevelEvaluate(
         location,
         query,
         match,
+        flags,
         ctxStore,
         data,
         event,
@@ -213,14 +216,19 @@ function lowLevelEvaluate(
             return data;
           case "EVENT":
             return event;
-          // case "FLAGS":
+          case "FLAGS":
+            return getReadOnlyProxy(flags);
           case "HASH":
             return location.hash;
-          // case "MEDIA":
+          case "MEDIA":
+            return getReadOnlyProxy(getMedia());
           case "PATH_NAME":
             return location.pathname;
           // case "INSTALLED_APPS":
-          // case "LOCAL_STORAGE":
+          case "LOCAL_STORAGE":
+            return getReadOnlyProxy({
+              getItem: getStorageItem("local"),
+            });
           // case "MISC":
           case "PARAMS":
             return new URLSearchParams(query);
@@ -257,7 +265,10 @@ function lowLevelEvaluate(
               Array.from(query.keys()).map((key) => [key, query.getAll(key)])
             );
           // case "SEGUE":
-          // case "SESSION_STORAGE":
+          case "SESSION_STORAGE":
+            return getReadOnlyProxy({
+              getItem: getStorageItem("session"),
+            });
           // case "SYS":
           // case "__WIDGET_FN__":
           // case "__WIDGET_IMG__":
