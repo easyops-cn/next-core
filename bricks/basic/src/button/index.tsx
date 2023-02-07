@@ -7,31 +7,29 @@ import styleText from "./button.shadow.css";
 import "../style/index.css";
 
 interface ButtonProps {
-  label?: string;
   type?: ButtonType;
   size?: ComponentSize;
   danger?: boolean;
   disabled?: boolean;
   href?: string;
   target?: string;
-  onClick?: (e: React.MouseEvent) => void;
+  buttonStyle?: React.CSSProperties;
 }
 
-const { defineElement, property, event } = createDecorators();
+const { defineElement, property } = createDecorators();
 
+/**
+ * @id basic.general-button
+ * @name basic.general-button
+ * @docKind brick
+ * @description 通用按钮构件
+ * @author sailor
+ * @noInheritDoc
+ */
 @defineElement("basic.general-button", {
   styleTexts: [styleText],
 })
 class Button extends ReactNextElement {
-  /**
-   * @kind string
-   * @required false
-   * @default -
-   * @description 按钮名称
-   * @group basic
-   */
-  @property() accessor label: string | undefined;
-
   /**
    * @kind ButtonType
    * @required false
@@ -83,61 +81,46 @@ class Button extends ReactNextElement {
    * @kind Target
    * @required false
    * @default -
-   * @description 链接打开类型
+   * @description 链接类型
    * @enums
    * @group basic
    */
   @property() accessor target: string | undefined;
 
   /**
-   * @kind any
+   * @kind React.CSSProperties
    * @required false
-   * @default {}
-   * @description 暂存的数据在事件传出时使用
-   * @group advanced
+   * @default -
+   * @description 按钮样式
+   * @group other
    */
-  @property({
-    attribute: false,
-  })
-  accessor dataSource: unknown;
-
-  /**
-   * @detail `Record<string, any>`
-   * @description 按钮被点击时触发, detail 为 dataSource 数据
-   */
-  @event({ type: "general.button.click" }) accessor #clickEvent!: EventEmitter<
-    React.MouseEvent | unknown
-  >;
-
-  #handleClick = (e: React.MouseEvent) => {
-    this.#clickEvent.emit(this.dataSource ? this.dataSource : e);
-  };
+  @property({ attribute: false }) accessor buttonStyle:
+    | React.CSSProperties
+    | undefined;
 
   render() {
     return (
       <ButtonComponent
-        label={this.label}
         type={this.type}
         size={this.size}
         danger={this.danger}
         disabled={this.disabled}
         href={this.href}
         target={this.target}
-        onClick={this.#handleClick}
+        buttonStyle={this.buttonStyle}
       />
     );
   }
 }
 
 export function ButtonComponent({
-  label,
   type = "default",
   size = "middle",
   danger,
   disabled,
   href,
   target,
-  onClick,
+  buttonStyle,
 }: ButtonProps) {
   const link = useMemo(
     () => (
@@ -145,14 +128,14 @@ export function ButtonComponent({
         className={classNames(size, {
           danger: danger,
         })}
+        style={buttonStyle}
         href={href}
         target={target}
       >
-        {label}
         <slot />
       </a>
     ),
-    [danger, size, href]
+    [danger, size, href, buttonStyle]
   );
 
   const button = useMemo(
@@ -162,14 +145,13 @@ export function ButtonComponent({
           [type]: !disabled,
           danger: danger,
         })}
+        style={buttonStyle}
         disabled={disabled}
-        onClick={onClick}
       >
-        {label}
         <slot />
       </button>
     ),
-    [disabled, type, danger, size, label]
+    [disabled, type, danger, size, buttonStyle]
   );
 
   return type === "link" && href ? link : button;

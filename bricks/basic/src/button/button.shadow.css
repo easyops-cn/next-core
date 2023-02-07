@@ -58,6 +58,7 @@ button:disabled {
 a {
   text-decoration: none;
   color: var(--antd-btn-link-color);
+  background: none;
 }
 
 .link.danger,
