@@ -47,7 +47,7 @@ import {
   AbstractRuntime,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
-import { getCurrentMode, getCurrentTheme, applyTheme } from "../themeAndMode";
+import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
 import { processMenu } from "../internal/menu";
 import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
@@ -233,11 +233,6 @@ export async function _dev_only_render(
     kernel.router.getHandlePageLoad();
     kernel.router.getResolver().scheduleRefreshing();
   }
-}
-
-/* istanbul ignore next */
-export function _dev_only_applyTheme(theme: SiteTheme): void {
-  applyTheme(theme);
 }
 
 export class Runtime implements AbstractRuntime {

@@ -37,7 +37,7 @@ export async function getPreviewBootstrap(): Promise<RuntimeBootstrapData> {
   if (previewPackageData) {
     Object.assign(result, {
       brickPackages: previewPackageData.bricksInfo ?? [],
-      templatePackages: (previewPackageData as any).templatesInfo ?? [],
+      templatePackages: previewPackageData.templatesInfo ?? [],
     });
   }
 

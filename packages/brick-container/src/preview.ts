@@ -1,5 +1,6 @@
 import { SiteTheme, StoryConf } from "@next-core/brick-types";
-import { developHelper } from "@next-core/brick-kit";
+import { developHelper, applyTheme } from "@next-core/brick-kit";
+
 import { http, HttpResponse } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import "./i18n";
@@ -40,6 +41,6 @@ type BrickPreviewProps = StoryConf | StoryConf[];
   conf: BrickPreviewProps;
   theme: SiteTheme;
 }) => {
-  developHelper.applyTheme(theme);
+  applyTheme(theme);
   await developHelper.render({ main, bg, portal }, conf);
 };
