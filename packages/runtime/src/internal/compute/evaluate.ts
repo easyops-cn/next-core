@@ -4,12 +4,18 @@ import { supply } from "@next-core/supply";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { RuntimeContext } from "@next-core/brick-types";
+import { cloneDeep } from "lodash";
 import { customProcessors } from "../../CustomProcessors.js";
 import {
   checkPermissionsUsage,
   storyboardFunctions,
 } from "./StoryboardFunctions.js";
 import { getGeneralGlobals } from "./getGeneralGlobals.js";
+import {
+  getDynamicReadOnlyProxy,
+  getReadOnlyProxy,
+} from "../proxyFactories.js";
+import { getDevHook } from "../devtools.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -47,25 +53,35 @@ export function getCookErrorConstructor(error: any): ErrorConstructor {
     : TypeError;
 }
 
-export async function evaluate(
-  ...args: Parameters<typeof lowLevelEvaluate>
+export async function asyncEvaluate(
+  raw: string | PreEvaluated, // string or pre-evaluated object.
+  runtimeContext: EvaluateRuntimeContext,
+  options?: EvaluateOptions
 ): Promise<unknown> {
-  const { blockingList, run } = lowLevelEvaluate(...args);
+  const { blockingList, run } = lowLevelEvaluate(
+    raw,
+    runtimeContext,
+    options,
+    true
+  );
   await Promise.all(blockingList);
   return run();
 }
 
-export function syncEvaluate(
-  ...args: Parameters<typeof lowLevelEvaluate>
+export function evaluate(
+  raw: string | PreEvaluated, // string or pre-evaluated object.
+  runtimeContext: EvaluateRuntimeContext,
+  options?: EvaluateOptions
 ): Promise<unknown> {
-  const { run } = lowLevelEvaluate(...args);
+  const { run } = lowLevelEvaluate(raw, runtimeContext, options, false);
   return run();
 }
 
 function lowLevelEvaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
   runtimeContext: EvaluateRuntimeContext,
-  options: EvaluateOptions = {}
+  options: EvaluateOptions = {},
+  isAsync?: boolean
 ): {
   blockingList: Promise<unknown>[];
   run: Function;
@@ -108,22 +124,11 @@ function lowLevelEvaluate(
   const attemptToVisitState = attemptToVisitGlobals.has("STATE");
   const attemptToVisitFormState = attemptToVisitGlobals.has("FORM_STATE");
 
-  // Ignore evaluating if `event` is missing in context.
-  // Since it should be evaluated during events handling.
-  let missingEvent = options.lazy === true;
-  if (attemptToVisitEvent) {
-    if (hasOwnProperty(runtimeContext, "event")) {
-      globalVariables.EVENT = runtimeContext.event;
-    } else {
-      // Let's see if pre-evaluation is required (store the `data` in context).
-      missingEvent = true;
-    }
-  }
-
-  // Since `EVENT`, `DATA`, `STATE` and `FORM_STATE` are provided in different context,
-  // whenever missing one of them, memorize the current context for later consuming.
+  // Ignore evaluating if required `event/DATA/STATE/FORM_STATE` is missing in
+  // context. Since they are are provided in different context, whenever
+  // missing one of them, memorize the current context for later consuming.
   if (
-    missingEvent ||
+    (attemptToVisitEvent && !hasOwnProperty(runtimeContext, "event")) ||
     (attemptToVisitState && !hasOwnProperty(runtimeContext, "tplContextId")) ||
     (attemptToVisitData && !hasOwnProperty(runtimeContext, "data"))
   ) {
@@ -140,103 +145,132 @@ function lowLevelEvaluate(
     };
   }
 
-  if (attemptToVisitData) {
-    globalVariables.DATA = runtimeContext.data;
-  }
+  let usedCtx: Set<string>;
+  let usedProcessors: Set<string>;
 
-  if (attemptToVisitGlobals.has("PROCESSORS")) {
-    const loadProcessors = () => {
-      const usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
-      return loadProcessorsImperatively(
-        usedProcessors,
-        runtimeContext.brickPackages
-      );
-    };
-    blockingList.push(loadProcessors());
-  }
+  const devHook = getDevHook();
+  if (isAsync || devHook) {
+    if (attemptToVisitGlobals.has("CTX")) {
+      usedCtx = strictCollectMemberUsage(raw, "CTX");
+      isAsync && blockingList.push(runtimeContext.ctxStore.waitFor(usedCtx));
+    }
 
-  if (attemptToVisitGlobals.has("CTX")) {
-    const loadContexts = () => {
-      const usedCtx = strictCollectMemberUsage(raw, "CTX");
-      return runtimeContext.ctxStore.waitFor(usedCtx);
-    };
-    blockingList.push(loadContexts());
-  }
-
-  if (attemptToVisitGlobals.has("QUERY")) {
-    globalVariables.QUERY = Object.fromEntries(
-      Array.from(runtimeContext.query.keys()).map((key) => [
-        key,
-        runtimeContext.query.get(key),
-      ])
-    );
-  }
-
-  let attemptToCheckPermissions = attemptToVisitGlobals.has("PERMISSIONS");
-  if (attemptToVisitGlobals.has("FN")) {
-    // There maybe `PERMISSIONS.check()` usage in functions
-    if (!attemptToCheckPermissions) {
-      const usedFunctions = [...strictCollectMemberUsage(raw, "FN")];
-      attemptToCheckPermissions = checkPermissionsUsage(usedFunctions);
+    if (attemptToVisitGlobals.has("PROCESSORS")) {
+      usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
+      isAsync &&
+        blockingList.push(
+          loadProcessorsImperatively(
+            usedProcessors,
+            runtimeContext.brickPackages
+          )
+        );
     }
   }
 
-  if (attemptToCheckPermissions) {
-    blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
+  if (isAsync) {
+    let attemptToCheckPermissions = attemptToVisitGlobals.has("PERMISSIONS");
+    // There maybe `PERMISSIONS.check()` usage in functions
+    if (!attemptToCheckPermissions && attemptToVisitGlobals.has("FN")) {
+      const usedFunctions = [...strictCollectMemberUsage(raw, "FN")];
+      attemptToCheckPermissions = checkPermissionsUsage(usedFunctions);
+    }
+
+    if (attemptToCheckPermissions) {
+      blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
+    }
   }
-
-  // if (attemptToVisitState && runtimeContext.tplContextId) {
-  //   const tplContext = getCustomTemplateContext(runtimeContext.tplContextId);
-  //   if (attemptToVisitState) {
-  //     globalVariables.STATE = getDynamicReadOnlyProxy({
-  //       get(target, key: string) {
-  //         return tplContext.state.getValue(key);
-  //       },
-  //       ownKeys() {
-  //         return Array.from(tplContext.state.get().keys());
-  //       },
-  //     });
-  //   }
-  // }
-
-  // if (attemptToVisitFormState && runtimeContext.formContextId) {
-  //   const formContext = getCustomFormContext(runtimeContext.formContextId);
-  //   globalVariables.FORM_STATE = getDynamicReadOnlyProxy({
-  //     get(target, key: string) {
-  //       return formContext.formState.getValue(key);
-  //     },
-  //     ownKeys() {
-  //       return Array.from(formContext.formState.get().keys());
-  //     },
-  //   });
-  // }
-
-  // await Promise.all(blockingList);
 
   return {
     blockingList,
     run() {
-      globalVariables.PROCESSORS = new Proxy(Object.freeze({}), {
-        get(target: unknown, key: string) {
-          const pkg = customProcessors.get(key);
-          if (!pkg) {
-            throw new Error(
-              `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
-            );
-          }
-          return new Proxy(Object.freeze({}), {
-            get(t: unknown, k: string) {
-              return pkg.get(k);
-            },
-          });
-        },
-      });
+      const {
+        app: currentApp,
+        location,
+        query,
+        match,
+        ctxStore,
+        data,
+        event,
+      } = runtimeContext;
+      const app = runtimeContext.overrideApp ?? currentApp;
 
-      globalVariables.CTX = new Proxy(Object.freeze({}), {
-        get(target: unknown, key: string) {
-          return runtimeContext.ctxStore.getValue(key);
-        },
-      });
+      const getIndividualGlobal = (variableName: string): unknown => {
+        switch (variableName) {
+          case "ANCHOR":
+            return location.hash ? location.hash.substring(1) : null;
+          case "APP":
+            return cloneDeep(app);
+          case "CTX":
+            return getDynamicReadOnlyProxy({
+              get(target, key: string) {
+                return ctxStore.getValue(key);
+              },
+              ownKeys() {
+                return Array.from(usedCtx);
+              },
+            });
+          case "DATA":
+            return data;
+          case "EVENT":
+            return event;
+          // case "FLAGS":
+          case "HASH":
+            return location.hash;
+          // case "MEDIA":
+          case "PATH_NAME":
+            return location.pathname;
+          // case "INSTALLED_APPS":
+          // case "LOCAL_STORAGE":
+          // case "MISC":
+          case "PARAMS":
+            return new URLSearchParams(query);
+          case "PATH":
+            return getReadOnlyProxy(match!.params);
+          case "PROCESSORS":
+            return getDynamicReadOnlyProxy({
+              get(target, key: string) {
+                const pkg = customProcessors.get(key);
+                if (!pkg) {
+                  throw new Error(
+                    `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
+                  );
+                }
+                return getDynamicReadOnlyProxy({
+                  get(t, k: string) {
+                    return pkg.get(k);
+                  },
+                  ownKeys() {
+                    return Array.from(pkg.keys());
+                  },
+                });
+              },
+              ownKeys() {
+                return Array.from(usedProcessors);
+              },
+            });
+          case "QUERY":
+            return Object.fromEntries(
+              Array.from(query.keys()).map((key) => [key, query.get(key)])
+            );
+          case "QUERY_ARRAY":
+            return Object.fromEntries(
+              Array.from(query.keys()).map((key) => [key, query.getAll(key)])
+            );
+          // case "SEGUE":
+          // case "SESSION_STORAGE":
+          // case "SYS":
+          // case "__WIDGET_FN__":
+          // case "__WIDGET_IMG__":
+          // case "__WIDGET_I18N__":
+        }
+      };
+
+      for (const variableName of attemptToVisitGlobals) {
+        const variable = getIndividualGlobal(variableName);
+        if (variable !== undefined) {
+          globalVariables[variableName] = variable;
+        }
+      }
 
       Object.assign(
         globalVariables,

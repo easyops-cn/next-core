@@ -1,13 +1,16 @@
 import { RuntimeContext } from "@next-core/brick-types";
-import { computeRealProperties } from "./computeRealProperties.js";
+import { asyncComputeRealProperties } from "./computeRealProperties.js";
 import { setRealProperties } from "./setRealProperties.js";
 
-export async function setProperties(
+export async function asyncSetProperties(
   bricks: HTMLElement | HTMLElement[],
   properties: Record<string, unknown>,
   runtimeContext: RuntimeContext
 ): Promise<void> {
-  const realProps = await computeRealProperties(properties, runtimeContext);
+  const realProps = await asyncComputeRealProperties(
+    properties,
+    runtimeContext
+  );
   // if (context.tplContextId) {
   //   setupUseBrickInTemplate(realProps, {
   //     templateContextId: context.tplContextId,

@@ -1,6 +1,6 @@
 import type { RuntimeContext } from "@next-core/brick-types";
 import { RuntimeBrick } from "../Transpiler.js";
-import { setProperties } from "./setProperties.js";
+import { asyncSetProperties } from "./setProperties.js";
 // import { setProperties } from "./setProperties";
 // import { RuntimeBrick } from "../core/BrickNode";
 // import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplateContext";
@@ -22,7 +22,7 @@ export function listenOnTrackingContext(
   for (const track of trackingContextList) {
     const listener = (): void => {
       if (brick.element) {
-        setProperties(
+        asyncSetProperties(
           brick.element,
           { [track.propName]: track.propValue },
           runtimeContext

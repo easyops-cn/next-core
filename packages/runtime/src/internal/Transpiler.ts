@@ -8,9 +8,9 @@ import type {
 import { enqueueStableLoadBricks } from "@next-core/loader";
 import { isObject } from "@next-core/utils/general";
 import { checkBrickIf } from "./compute/checkIf.js";
-import { computeRealProperties } from "./compute/computeRealProperties.js";
+import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
-import { computeRealValue } from "./compute/computeRealValue.js";
+import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import { validatePermissions } from "./checkPermissions.js";
 import { getTagNameOfCustomTemplate } from "../CustomTemplates.js";
 import {
@@ -72,7 +72,10 @@ export async function transpileRoutes(
         case "redirect": {
           let redirectTo: unknown;
           if (typeof route.redirect === "string") {
-            redirectTo = await computeRealValue(route.redirect, runtimeContext);
+            redirectTo = await asyncComputeRealValue(
+              route.redirect,
+              runtimeContext
+            );
           } else {
             const resolved = (await resolveData(
               {
@@ -203,7 +206,7 @@ export async function transpileBrick(
 
   const trackingContextList: TrackingContextItem[] = [];
   const loadProperties = async () => {
-    brick.properties = await computeRealProperties(
+    brick.properties = await asyncComputeRealProperties(
       brickConf.properties,
       runtimeContext,
       trackingContextList
@@ -295,7 +298,7 @@ async function preCheckPermissionsForBrickOrRoute(
     // !getAuth().isAdmin &&
     Array.isArray(container.permissionsPreCheck)
   ) {
-    const actions = (await computeRealValue(
+    const actions = (await asyncComputeRealValue(
       container.permissionsPreCheck,
       runtimeContext
     )) as string[];

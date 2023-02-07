@@ -7,10 +7,10 @@ import type {
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
-import { checkIf } from "../compute/checkIf.js";
+import { asyncCheckIf } from "../compute/checkIf.js";
 import {
+  asyncComputeRealValue,
   computeRealValue,
-  syncComputeRealValue,
 } from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
@@ -179,7 +179,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     runtimeContext: RuntimeContext,
     brick?: RuntimeBrick
   ): Promise<boolean> {
-    if (!(await checkIf(dataConf, runtimeContext))) {
+    if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
     }
     let value: unknown;
@@ -198,7 +198,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           transform: "value",
           ...dataConf.resolve,
         };
-        if (await checkIf(dataConf.resolve, runtimeContext)) {
+        if (await asyncCheckIf(dataConf.resolve, runtimeContext)) {
           load = async (options) =>
             (
               (await resolveData(resolveConf, runtimeContext, options)) as {
@@ -216,7 +216,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       if ((!load || isLazyResolve) && dataConf.value !== undefined) {
         // If the context has no resolve, just use its `value`.
         // Or if the resolve is ignored or lazy, use its `value` as a fallback.
-        value = await computeRealValue(dataConf.value, runtimeContext);
+        value = await asyncComputeRealValue(dataConf.value, runtimeContext);
       }
     }
 
@@ -253,7 +253,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           } else {
             this.updateValue(
               dataConf.name,
-              syncComputeRealValue(dataConf.value, runtimeContext),
+              computeRealValue(dataConf.value, runtimeContext),
               "replace",
               runtimeContext
             );

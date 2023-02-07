@@ -4,7 +4,7 @@ import type {
   ResolveConf,
   RuntimeContext,
 } from "@next-core/brick-types";
-import { computeRealValue, syncComputeRealValue } from "./computeRealValue.js";
+import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
 import { isPreEvaluated } from "./evaluate.js";
 import { resolveData } from "../data/resolveData.js";
 
@@ -25,26 +25,26 @@ export interface IfContainer {
   if?: unknown;
 }
 
-export async function checkIf(
+export async function asyncCheckIf(
   ifContainer: IfContainer,
   runtimeContext: RuntimeContext
 ): Promise<boolean> {
   return (
     !hasOwnProperty(ifContainer, "if") ||
     !!(typeof ifContainer.if === "string" || isPreEvaluated(ifContainer.if)
-      ? await computeRealValue(ifContainer.if, runtimeContext)
+      ? await asyncComputeRealValue(ifContainer.if, runtimeContext)
       : ifContainer.if)
   );
 }
 
-export function syncCheckIf(
+export function checkIf(
   ifContainer: IfContainer,
   runtimeContext: RuntimeContext
 ): boolean {
   return (
     !hasOwnProperty(ifContainer, "if") ||
     !!(typeof ifContainer.if === "string" || isPreEvaluated(ifContainer.if)
-      ? syncComputeRealValue(ifContainer.if, runtimeContext)
+      ? computeRealValue(ifContainer.if, runtimeContext)
       : ifContainer.if)
   );
 }
@@ -64,5 +64,5 @@ export async function checkBrickIf(
     )) as { if?: unknown };
     return checkIfOfComputed(resolved);
   }
-  return checkIf(brickConf, runtimeContext);
+  return asyncCheckIf(brickConf, runtimeContext);
 }

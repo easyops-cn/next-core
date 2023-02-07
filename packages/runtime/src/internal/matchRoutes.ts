@@ -4,7 +4,7 @@ import type {
   RuntimeContext,
 } from "@next-core/brick-types";
 import { matchPath } from "./matchPath.js";
-import { checkIf } from "./compute/checkIf.js";
+import { asyncCheckIf } from "./compute/checkIf.js";
 
 type MatchRoutesResult =
   | {
@@ -34,7 +34,7 @@ export async function matchRoutes(
       path: routePath,
       exact: route.exact,
     });
-    if (match && (await checkIf(route, runtimeContext))) {
+    if (match && (await asyncCheckIf(route, runtimeContext))) {
       if (
         runtimeContext.app.noAuthGuard ||
         route.public /* || isLoggedIn() */

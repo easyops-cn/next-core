@@ -138,12 +138,12 @@ routes:
           - brick: demo-form.f-input
             properties:
               label: "Name:"
-          # - brick: demo-form.f-select
-          #   permissionsPreCheck:
-          #   - xyz
-          #   properties:
-          #     label: |
-          #       <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
+          - brick: demo-form.f-select
+            permissionsPreCheck:
+            - xyz
+            properties:
+              label: |
+                <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
           - brick: span
             properties:
               textContent: |
@@ -155,8 +155,9 @@ routes:
             lifeCycle:
               onBeforePageLeave:
               - action: history.block
-                if: |
-                  <% !PROCESSORS.demoBasic.sayHello() %>
+                # if: |
+                #   <% !PROCESSORS.demoBasic.sayHello() %>
+                if: false
                 args:
                 - Oops
               - action: console.log

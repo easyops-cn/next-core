@@ -8,6 +8,7 @@ import type {
   PluginLocation,
   RuntimeContext,
 } from "@next-core/brick-types";
+import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { getHistory } from "../history.js";
 import type { Kernel } from "./Kernel.js";
 import { TranspileOutput, transpileRoutes } from "./Transpiler.js";
@@ -19,7 +20,6 @@ import { customTemplates } from "../CustomTemplates.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RouterContext } from "./RouterContext.js";
-import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 
 export class Router {
   #kernel: Kernel;
@@ -253,14 +253,14 @@ export class Router {
         output.blockingList.push(
           runtimeContext.ctxStore.waitForAll(),
           // Todo: load processors only when they would used in current rendering.
-          loadProcessorsImperatively(
-            strictCollectMemberUsage(
-              [storyboard.routes, storyboard.meta?.customTemplates],
-              "PROCESSORS",
-              2
-            ),
-            runtimeContext.brickPackages
-          ),
+          // loadProcessorsImperatively(
+          //   strictCollectMemberUsage(
+          //     [storyboard.routes, storyboard.meta?.customTemplates],
+          //     "PROCESSORS",
+          //     2
+          //   ),
+          //   runtimeContext.brickPackages
+          // ),
           ...runtimeContext.pendingPermissionsPreCheck
         );
         await Promise.all(output.blockingList);

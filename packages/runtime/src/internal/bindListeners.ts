@@ -5,8 +5,8 @@ import type {
   BuiltinBrickEventHandler,
   RuntimeContext,
 } from "@next-core/brick-types";
-import { syncCheckIf } from "./compute/checkIf.js";
-import { syncComputeRealValue } from "./compute/computeRealValue.js";
+import { checkIf } from "./compute/checkIf.js";
+import { computeRealValue } from "./compute/computeRealValue.js";
 import { RuntimeBrick } from "./Transpiler.js";
 import { getHistory } from "../history.js";
 
@@ -42,7 +42,7 @@ export function listenerFactory(
 ): Listener {
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
-      if (!syncCheckIf(handler, runtimeContext)) {
+      if (!checkIf(handler, runtimeContext)) {
         return;
       }
       if (isBuiltinHandler(handler)) {
@@ -231,7 +231,7 @@ function argsFactory(
   options: ArgsFactoryOptions = {}
 ): unknown[] {
   return Array.isArray(args)
-    ? (syncComputeRealValue(args, {
+    ? (computeRealValue(args, {
         ...runtimeContext,
         event,
       }) as unknown[])

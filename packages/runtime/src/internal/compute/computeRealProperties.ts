@@ -2,7 +2,7 @@ import { isObject } from "@next-core/utils/general";
 import { RuntimeContext } from "@next-core/brick-types";
 import { isEvaluable } from "@next-core/cook";
 import { track } from "@next-core/utils/storyboard";
-import { computeRealValue } from "./computeRealValue.js";
+import { asyncComputeRealValue } from "./computeRealValue.js";
 import {
   PreEvaluated,
   getPreEvaluatedRaw,
@@ -10,7 +10,7 @@ import {
 } from "./evaluate.js";
 import { TrackingContextItem } from "./listenOnTrackingContext.js";
 
-export async function computeRealProperties(
+export async function asyncComputeRealProperties(
   properties: Record<string, unknown> | undefined,
   runtimeContext: RuntimeContext,
   trackingContextList?: TrackingContextItem[]
@@ -51,7 +51,10 @@ export async function computeRealProperties(
             }
             // Todo: lazyForUseBrick
             // Related: https://github.com/facebook/react/issues/11347
-            const realValue = await computeRealValue(propValue, runtimeContext);
+            const realValue = await asyncComputeRealValue(
+              propValue,
+              runtimeContext
+            );
             if (realValue !== undefined) {
               // For `style` and `dataset`, only object is acceptable.
               if (

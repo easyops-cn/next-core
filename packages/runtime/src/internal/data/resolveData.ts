@@ -5,7 +5,7 @@ import type {
   ResolveOptions,
   RuntimeContext,
 } from "@next-core/brick-types";
-import { computeRealValue } from "../compute/computeRealValue.js";
+import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 
 const cache = new Map<string, Promise<unknown>>();
@@ -22,7 +22,7 @@ export async function resolveData(
       useProvider,
       runtimeContext.brickPackages
     ) as unknown as Promise<Record<string, Function>>,
-    computeRealValue(args || [], runtimeContext) as Promise<unknown[]>,
+    asyncComputeRealValue(args || [], runtimeContext) as Promise<unknown[]>,
   ]);
 
   let cacheKey: string;
@@ -84,7 +84,7 @@ export async function resolveData(
     return { [transform]: data };
   }
 
-  return computeRealValue(transform, { ...runtimeContext, data });
+  return asyncComputeRealValue(transform, { ...runtimeContext, data });
 }
 
 export function clearResolveCache() {

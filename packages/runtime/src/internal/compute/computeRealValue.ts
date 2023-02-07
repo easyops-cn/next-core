@@ -2,9 +2,9 @@ import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
 import { transformAndInject } from "@next-core/inject";
 import { RuntimeContext } from "@next-core/brick-types";
-import { evaluate, isPreEvaluated, syncEvaluate } from "./evaluate.js";
+import { asyncEvaluate, isPreEvaluated, evaluate } from "./evaluate.js";
 
-export async function computeRealValue(
+export async function asyncComputeRealValue(
   value: unknown,
   runtimeContext: RuntimeContext
 ): Promise<unknown> {
@@ -14,7 +14,7 @@ export async function computeRealValue(
     let result: unknown;
 
     if (preEvaluated || isEvaluable(value as string)) {
-      result = await evaluate(value, runtimeContext);
+      result = await asyncEvaluate(value, runtimeContext);
     } else {
       result = transformAndInject(value, runtimeContext);
     }
@@ -27,7 +27,9 @@ export async function computeRealValue(
   }
 
   if (Array.isArray(value)) {
-    return Promise.all(value.map((v) => computeRealValue(v, runtimeContext)));
+    return Promise.all(
+      value.map((v) => asyncComputeRealValue(v, runtimeContext))
+    );
   }
 
   return Object.fromEntries(
@@ -35,8 +37,8 @@ export async function computeRealValue(
       await Promise.all(
         Object.entries(value).map(([k, v]) =>
           Promise.all([
-            computeRealValue(k, runtimeContext),
-            computeRealValue(v, runtimeContext),
+            asyncComputeRealValue(k, runtimeContext),
+            asyncComputeRealValue(v, runtimeContext),
           ])
         )
       )
@@ -49,7 +51,7 @@ export async function computeRealValue(
   );
 }
 
-export function syncComputeRealValue(
+export function computeRealValue(
   value: unknown,
   runtimeContext: RuntimeContext
 ): unknown {
@@ -59,7 +61,7 @@ export function syncComputeRealValue(
     let result: unknown;
 
     if (preEvaluated || isEvaluable(value as string)) {
-      result = syncEvaluate(value, runtimeContext);
+      result = evaluate(value, runtimeContext);
     } else {
       result = transformAndInject(value, runtimeContext);
     }
@@ -72,14 +74,14 @@ export function syncComputeRealValue(
   }
 
   if (Array.isArray(value)) {
-    return value.map((v) => syncComputeRealValue(v, runtimeContext));
+    return value.map((v) => computeRealValue(v, runtimeContext));
   }
 
   return Object.fromEntries(
     Object.entries(value)
       .map(([k, v]) => [
-        syncComputeRealValue(k, runtimeContext),
-        syncComputeRealValue(v, runtimeContext),
+        computeRealValue(k, runtimeContext),
+        computeRealValue(v, runtimeContext),
       ])
       .concat(
         Object.getOwnPropertySymbols(value).map((k) => [
