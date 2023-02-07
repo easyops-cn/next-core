@@ -1,0 +1,34 @@
+a {
+  text-decoration: none;
+  color: var(--antd-btn-link-color);
+  cursor: pointer;
+}
+
+:where(a:not(.disabled)):hover {
+  color: var(--antd-btn-link-hover-color);
+}
+
+:where(a:not(.disabled)):active {
+  color: var(--antd-btn-link-active-color);
+}
+
+.disabled {
+  cursor: not-allowed;
+  color: var(--color-disabled-text);
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.text {
+  color: var(--antd-btn-fade-text-color);
+}
+
+.text:hover {
+  color: var(--antd-btn-text-hover-color);
+}
+
+.text:active {
+  color: var(--antd-btn-text-active-color);
+}

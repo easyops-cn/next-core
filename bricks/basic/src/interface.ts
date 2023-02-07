@@ -17,3 +17,9 @@ export type ButtonType =
 export type ComponentSize = "large" | "middle" | "small" | "xs";
 
 /* ============== Button Type End ============== */
+
+/* ============== Link Type Start ============== */
+
+export type LinkType = "link" | "text";
+
+/* ============== Link Type Start ============== */
