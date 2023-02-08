@@ -8,7 +8,7 @@ import type { MicroApp } from "@next-core/brick-types";
 import { checkPermissions } from "../checkPermissions.js";
 import { getReadOnlyProxy } from "../proxyFactories.js";
 import { getTheme } from "../../themeAndMode.js";
-import { getBasePath } from "../getBasePath.js";
+import { getBasePath } from "../../getBasePath.js";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;

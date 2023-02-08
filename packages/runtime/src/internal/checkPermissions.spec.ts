@@ -5,12 +5,12 @@ import {
   checkPermissions as _checkPermissions,
   validatePermissions as _validatePermissions,
   resetPermissionPreChecks as _resetPermissionPreChecks,
-} from "./checkPermissions";
-import { getAuth } from "../auth";
+} from "./checkPermissions.js";
+import { getAuth } from "../auth.js";
 
 jest.mock("@next-core/brick-utils");
 jest.mock("@next-sdk/micro-app-sdk");
-jest.mock("../auth.ts");
+jest.mock("../auth.js");
 
 const mockGetAuth = (getAuth as jest.Mock).mockReturnValue({});
 

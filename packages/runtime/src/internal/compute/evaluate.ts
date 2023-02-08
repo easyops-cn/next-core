@@ -18,6 +18,7 @@ import {
 import { getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
+import { getRuntime } from "../Runtime.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -85,10 +86,10 @@ function lowLevelEvaluate(
   options: EvaluateOptions = {},
   isAsync?: boolean
 ): {
-  blockingList: Promise<unknown>[];
+  blockingList: (Promise<unknown> | undefined)[];
   run: Function;
 } {
-  const blockingList: Promise<unknown>[] = [];
+  const blockingList: (Promise<unknown> | undefined)[] = [];
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
     // Then fulfil the context, and restore the original `raw`.
@@ -191,6 +192,7 @@ function lowLevelEvaluate(
         query,
         match,
         flags,
+        sys,
         ctxStore,
         data,
         event,
@@ -199,6 +201,7 @@ function lowLevelEvaluate(
 
       const getIndividualGlobal = (variableName: string): unknown => {
         switch (variableName) {
+          // case "ALIAS":
           case "ANCHOR":
             return location.hash ? location.hash.substring(1) : null;
           case "APP":
@@ -220,20 +223,21 @@ function lowLevelEvaluate(
             return getReadOnlyProxy(flags);
           case "HASH":
             return location.hash;
-          case "MEDIA":
-            return getReadOnlyProxy(getMedia());
-          case "PATH_NAME":
-            return location.pathname;
           // case "INSTALLED_APPS":
           case "LOCAL_STORAGE":
             return getReadOnlyProxy({
               getItem: getStorageItem("local"),
             });
-          // case "MISC":
+          case "MEDIA":
+            return getReadOnlyProxy(getMedia());
+          case "MISC":
+            return getRuntime().getMiscSettings();
           case "PARAMS":
             return new URLSearchParams(query);
           case "PATH":
             return getReadOnlyProxy(match!.params);
+          case "PATH_NAME":
+            return location.pathname;
           case "PROCESSORS":
             return getDynamicReadOnlyProxy({
               get(target, key: string) {
@@ -269,7 +273,8 @@ function lowLevelEvaluate(
             return getReadOnlyProxy({
               getItem: getStorageItem("session"),
             });
-          // case "SYS":
+          case "SYS":
+            return getReadOnlyProxy(sys);
           // case "__WIDGET_FN__":
           // case "__WIDGET_IMG__":
           // case "__WIDGET_I18N__":

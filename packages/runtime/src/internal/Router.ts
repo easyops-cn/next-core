@@ -4,7 +4,7 @@ import {
   loadProcessorsImperatively,
 } from "@next-core/loader";
 import type {
-  FeatureFlags,
+  MicroApp,
   PluginHistoryState,
   PluginLocation,
   RuntimeContext,
@@ -30,6 +30,9 @@ import {
   setMode,
   setTheme,
 } from "../themeAndMode.js";
+import { getRuntime } from "./Runtime.js";
+import { getAuth } from "../auth.js";
+import { getPageInfo } from "../getPageInfo.js";
 
 export class Router {
   #kernel: Kernel;
@@ -41,6 +44,7 @@ export class Router {
   #redirectCount = 0;
   #renderId?: string;
   #mediaListener?: EventListener;
+  #currentApp?: MicroApp;
 
   constructor(kernel: Kernel) {
     this.#kernel = kernel;
@@ -68,6 +72,10 @@ export class Router {
 
   getRenderId() {
     return this.#renderId;
+  }
+
+  getCurrentApp() {
+    return this.#currentApp;
   }
 
   #getBlockMessageBeforePageLave(detail: {
@@ -191,7 +199,7 @@ export class Router {
     );
 
     const previousApp = this.#runtimeContext?.app;
-    const currentApp = storyboard?.app;
+    const currentApp = (this.#currentApp = storyboard?.app);
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.
     const appChanged =
@@ -201,9 +209,8 @@ export class Router {
 
     // TODO: handle favicon
 
-    const flags = {
-      ...this.#kernel.bootstrapData.settings?.featureFlags,
-    };
+    // Set `Router::#currentApp` before calling `getFeatureFlags()`
+    const flags = getRuntime().getFeatureFlags();
 
     const redirectToLogin = (): void => {
       const to = flags["sso-enabled"] ? "/sso-auth/login" : "/auth/login";
@@ -244,17 +251,16 @@ export class Router {
       }
     };
 
-    if (storyboard) {
-      Object.assign(
-        flags,
-        (storyboard.app.config?.settings as { featureFlags?: FeatureFlags })
-          ?.featureFlags
-      );
+    if (currentApp) {
       const runtimeContext = (this.#runtimeContext = {
-        app: storyboard.app,
+        app: currentApp,
         location,
         query: new URLSearchParams(location.search),
         flags,
+        sys: {
+          ...getAuth(),
+          ...getPageInfo(),
+        },
         ctxStore: new DataStore("CTX"),
         brickPackages: this.#kernel.bootstrapData.brickPackages,
         pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
@@ -268,14 +274,14 @@ export class Router {
           for (const tpl of templates) {
             const tagName = tpl.name.includes(".")
               ? tpl.name
-              : `${storyboard.app.id}.${tpl.name}`;
+              : `${currentApp.id}.${tpl.name}`;
             customTemplates.define(tagName, tpl);
           }
         }
         storyboard.$$registerCustomTemplateProcessed = true;
       }
 
-      registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
+      registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
 
       let failed = false;
       let output: TranspileOutput;

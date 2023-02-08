@@ -9,7 +9,7 @@ import {
   ExtendedHistory,
   UpdateQueryFunction,
 } from "@next-core/brick-types";
-import { getBasePath } from "./getBasePath.js";
+import { getBasePath } from "../getBasePath.js";
 import { _internalApiMatchStoryboard } from "./Runtime.js";
 import { isOutsideApp } from "./matchStoryboard.js";
 

@@ -6,7 +6,7 @@ import { Router } from "./Router.js";
 export class Kernel {
   public bootstrapData!: BootstrapData;
 
-  #router!: Router;
+  public readonly router = new Router(this);
 
   async bootstrap(): Promise<void> {
     const [, bootstrapData] = await Promise.all([
@@ -14,12 +14,7 @@ export class Kernel {
       loadBootstrapData(),
     ]);
     this.bootstrapData = bootstrapData;
-    this.#router = new Router(this);
-    await this.#router.bootstrap();
+    await this.router.bootstrap();
     document.body.classList.add("first-rendered");
-  }
-
-  getRenderId() {
-    return this.#router.getRenderId();
   }
 }

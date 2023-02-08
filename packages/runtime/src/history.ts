@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history";
 import type { PluginHistory, PluginHistoryState } from "@next-core/brick-types";
-import { getBasePath } from "./internal/getBasePath.js";
+import { getBasePath } from "./getBasePath.js";
 import {
   getUserConfirmation,
   historyExtended,

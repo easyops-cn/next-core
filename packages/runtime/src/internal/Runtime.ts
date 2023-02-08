@@ -1,9 +1,9 @@
 import i18next from "i18next";
+import type { RuntimeStoryboard, Settings } from "@next-core/brick-types";
 import { createHistory } from "../history.js";
 import { initI18n } from "./i18n.js";
 import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";
-import { RuntimeStoryboard } from "@next-core/brick-types";
 
 const i18n = i18next as unknown as typeof i18next.default;
 
@@ -31,6 +31,21 @@ export class Runtime {
     kernel = new Kernel();
     return kernel.bootstrap();
   }
+
+  getFeatureFlags() {
+    return {
+      ...kernel.bootstrapData.settings?.featureFlags,
+      ...(kernel.router.getCurrentApp()?.config?.settings as Settings)
+        ?.featureFlags,
+    };
+  }
+
+  getMiscSettings() {
+    return {
+      ...kernel.bootstrapData.settings?.misc,
+      ...(kernel.router.getCurrentApp()?.config?.settings as Settings)?.misc,
+    };
+  }
 }
 
 /* istanbul ignore next */
@@ -38,7 +53,7 @@ export function _internalApiGetRenderId(): string | undefined {
   if (process.env.NODE_ENV === "test") {
     return "render-id-1";
   }
-  return kernel.getRenderId();
+  return kernel.router.getRenderId();
 }
 
 /* istanbul ignore next */

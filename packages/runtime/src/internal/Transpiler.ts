@@ -19,6 +19,7 @@ import {
 } from "./compute/listenOnTrackingContext.js";
 import { RouterContext } from "./RouterContext.js";
 import { matchRoutes } from "./matchRoutes.js";
+import { getAuth, isLoggedIn } from "../auth.js";
 
 export interface TranspileOutput {
   main: RuntimeBrick[];
@@ -29,7 +30,7 @@ export interface TranspileOutput {
     state?: PluginHistoryState;
   };
   route?: RouteConf;
-  blockingList: Promise<unknown>[];
+  blockingList: (Promise<unknown> | undefined)[];
 }
 
 export interface RuntimeBrick {
@@ -294,8 +295,8 @@ async function preCheckPermissionsForBrickOrRoute(
   runtimeContext: RuntimeContext
 ) {
   if (
-    // isLoggedIn() &&
-    // !getAuth().isAdmin &&
+    isLoggedIn() &&
+    !getAuth().isAdmin &&
     Array.isArray(container.permissionsPreCheck)
   ) {
     const actions = (await asyncComputeRealValue(

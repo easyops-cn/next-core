@@ -21,9 +21,11 @@ export interface RuntimeContext {
   query: URLSearchParams;
   /** {@inheritDoc FeatureFlags} */
   flags: FeatureFlags;
+  /** 系统运行时信息，包括登录信息和页面信息。 */
+  sys: Record<string, unknown>;
   brickPackages: BrickPackage[];
   ctxStore: AbstractDataStore;
-  pendingPermissionsPreCheck: Promise<unknown>[];
+  pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
   match?: MatchResult;
   event?: Event;
   data?: unknown;
@@ -83,38 +85,6 @@ export interface MatchResult {
 /** @internal */
 export interface MatchParams {
   [key: string]: string;
-}
-
-/**
- * 系统会话信息。
- */
-export interface SystemInfo extends RuntimeMisc {
-  org: number;
-  username: string;
-  userInstanceId: string;
-  loginFrom?: string;
-  accessRule?: string;
-  isAdmin?: boolean;
-}
-
-/**
- * 运行时杂项信息。
- */
-export interface RuntimeMisc {
-  /** 当前是否处于 iframe 模式。 */
-  isInIframe: boolean;
-
-  /** 当前是否处于同域的 iframe 模式。 */
-  isInIframeOfSameSite: boolean;
-
-  /** 当前是否处于新框架下的 iframe 模式。 */
-  isInIframeOfNext: boolean;
-
-  /** 当前是否处于 Visual Builder 预览的 iframe 模式。 */
-  isInIframeOfVisualBuilder: boolean;
-
-  /** 当前是否处于老 console 下的 iframe 模式。 */
-  isInIframeOfLegacyConsole: boolean;
 }
 
 /**
@@ -249,7 +219,7 @@ export interface PluginRuntimeContext {
   pathname?: string;
 
   /** {@inheritDoc SystemInfo} */
-  sys?: SystemInfo;
+  // sys?: SystemInfo;
 
   /** {@inheritDoc FeatureFlags} */
   flags?: FeatureFlags;

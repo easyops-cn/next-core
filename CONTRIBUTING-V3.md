@@ -106,8 +106,8 @@ src/bootstrap.ts
 - [x] Brick Events (Partial)
 - [x] Custom Processors
 - [x] checkPermissions
-- [ ] Full Support for Expressions
-- [ ] Full Support for Brick Events
+- [x] Full Support for Expressions
+- [x] Full Support for Brick Events
 - [ ] Custom Templates
 - [x] Brick Life Cycle
 - [ ] UseBrick
@@ -119,3 +119,4 @@ src/bootstrap.ts
 - [ ] WebSocket Message API
 - [ ] Form Renderer
 - [ ] Chrome Devtools
+- [ ] EasyOps Analytics

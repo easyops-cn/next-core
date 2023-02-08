@@ -1,6 +1,7 @@
 import { difference } from "lodash";
 import { scanPermissionActionsInStoryboard } from "@next-core/utils/storyboard";
 import { Storyboard } from "@next-core/brick-types";
+import { getAuth, isLoggedIn } from "../auth.js";
 // import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
 // import { getAuth } from "../auth";
 
@@ -30,12 +31,13 @@ type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 const checkedPermissions: string[] = [];
 const permissionMap = new Map<string, PermissionStatus>();
 
-export function preCheckPermissions(storyboard: Storyboard): Promise<void> {
-  // if (getAuth().isAdmin) {
-  //   return;
-  // }
-  const usedActions = scanPermissionActionsInStoryboard(storyboard);
-  return validatePermissions(usedActions);
+export function preCheckPermissions(
+  storyboard: Storyboard
+): Promise<void> | undefined {
+  if (isLoggedIn() && !getAuth().isAdmin) {
+    const usedActions = scanPermissionActionsInStoryboard(storyboard);
+    return validatePermissions(usedActions);
+  }
 }
 
 export async function validatePermissions(
@@ -71,9 +73,13 @@ export async function validatePermissions(
  * @param actions - Required permission actions.
  */
 export function checkPermissions(...actions: string[]): boolean {
-  // if (getAuth().isAdmin) {
-  //   return true;
-  // }
+  if (!isLoggedIn()) {
+    return false;
+  }
+
+  if (getAuth().isAdmin) {
+    return true;
+  }
 
   for (const action of actions) {
     // Only **exclusively authorized** permissions are ok.

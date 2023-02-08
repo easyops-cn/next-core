@@ -94,8 +94,8 @@ function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
     }
 
     let result: unknown;
-    const SimpleContextMap: Record<string, /* "sys" | */ "flags"> = {
-      // SYS: "sys",
+    const SimpleContextMap: Record<string, "sys" | "flags"> = {
+      SYS: "sys",
       FLAGS: "flags",
     };
 
@@ -133,7 +133,7 @@ function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
       case "HASH":
         result = context.location.hash;
         break;
-      // case "SYS":
+      case "SYS":
       case "FLAGS":
         result =
           subField === "*"
