@@ -1,5 +1,5 @@
 import type { RuntimeContext } from "@next-core/brick-types";
-import { RuntimeBrick } from "../Transpiler.js";
+import { RuntimeBrick } from "../Renderer.js";
 import { setProperties } from "./setProperties.js";
 
 export interface TrackingContextItem {

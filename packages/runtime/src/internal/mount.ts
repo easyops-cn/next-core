@@ -1,5 +1,5 @@
 import { BrickNode } from "./BrickNode.js";
-import { RuntimeBrick } from "./Transpiler.js";
+import { RuntimeBrick } from "./Renderer.js";
 
 export interface MountableElement extends HTMLElement {
   $$rootBricks?: BrickNode[];

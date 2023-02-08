@@ -5,7 +5,7 @@ import type {
   RuntimeContext,
 } from "@next-core/brick-types";
 import type { Action, Location } from "history";
-import { RuntimeBrick } from "./Transpiler.js";
+import { RuntimeBrick } from "./Renderer.js";
 import { listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";

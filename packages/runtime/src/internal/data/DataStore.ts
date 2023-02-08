@@ -14,7 +14,7 @@ import {
 } from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
-import { RuntimeBrick } from "../Transpiler.js";
+import { RuntimeBrick } from "../Renderer.js";
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 

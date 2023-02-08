@@ -1,6 +1,6 @@
 import { bindListeners } from "./bindListeners.js";
 import { setRealProperties } from "./compute/setRealProperties.js";
-import { RuntimeBrick } from "./Transpiler.js";
+import { RuntimeBrick } from "./Renderer.js";
 // import { handleProxyOfCustomTemplate } from "./exports";
 
 export class BrickNode {

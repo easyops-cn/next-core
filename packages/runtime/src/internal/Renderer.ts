@@ -21,7 +21,7 @@ import { RouterContext } from "./RouterContext.js";
 import { matchRoutes } from "./matchRoutes.js";
 import { getAuth, isLoggedIn } from "../auth.js";
 
-export interface TranspileOutput {
+export interface RenderOutput {
   main: RuntimeBrick[];
   portal: RuntimeBrick[];
   unauthenticated?: boolean;
@@ -44,14 +44,14 @@ export interface RuntimeBrick {
   runtimeContext: RuntimeContext;
 }
 
-export async function transpileRoutes(
+export async function renderRoutes(
   routes: RouteConf[],
   runtimeContext: RuntimeContext,
   routerContext: RouterContext,
   slotId?: string
-): Promise<TranspileOutput> {
+): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, runtimeContext);
-  const output: TranspileOutput = {
+  const output: RenderOutput = {
     main: [],
     portal: [],
     blockingList: [],
@@ -98,23 +98,23 @@ export async function transpileRoutes(
           break;
         }
         case "routes": {
-          const newOutput = await transpileRoutes(
+          const newOutput = await renderRoutes(
             route.routes,
             runtimeContext,
             routerContext,
             slotId
           );
-          mergeTranspileOutput(output, newOutput);
+          mergeRenderOutput(output, newOutput);
           break;
         }
         default: {
-          const newOutput = await transpileBricks(
+          const newOutput = await renderBricks(
             route.bricks,
             runtimeContext,
             routerContext,
             slotId
           );
-          mergeTranspileOutput(output, newOutput);
+          mergeRenderOutput(output, newOutput);
         }
       }
     }
@@ -122,22 +122,22 @@ export async function transpileRoutes(
   return output;
 }
 
-export async function transpileBricks(
+export async function renderBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   routerContext: RouterContext,
   slotId?: string,
   tplStack?: Map<string, number>
-): Promise<TranspileOutput> {
-  const output: TranspileOutput = {
+): Promise<RenderOutput> {
+  const output: RenderOutput = {
     main: [],
     portal: [],
     blockingList: [],
   };
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
-  const transpiled = await Promise.all(
+  const rendered = await Promise.all(
     bricks.map((brickConf) =>
-      transpileBrick(
+      renderBrick(
         brickConf,
         runtimeContext,
         routerContext,
@@ -146,20 +146,20 @@ export async function transpileBricks(
       )
     )
   );
-  for (const item of transpiled) {
-    mergeTranspileOutput(output, item);
+  for (const item of rendered) {
+    mergeRenderOutput(output, item);
   }
   return output;
 }
 
-export async function transpileBrick(
+export async function renderBrick(
   brickConf: BrickConf,
   runtimeContext: RuntimeContext,
   routerContext: RouterContext,
   slotId?: string,
   tplStack = new Map<string, number>()
-): Promise<TranspileOutput> {
-  const output: TranspileOutput = {
+): Promise<RenderOutput> {
+  const output: RenderOutput = {
     main: [],
     portal: [],
     blockingList: [],
@@ -236,10 +236,10 @@ export async function transpileBrick(
     if (!isObject(brickConf.slots)) {
       return;
     }
-    const transpiled = await Promise.all(
+    const rendered = await Promise.all(
       Object.entries(brickConf.slots).map(([childSlotId, slotConf]) => {
         if (slotConf.type === "bricks") {
-          return transpileBricks(
+          return renderBricks(
             slotConf.bricks,
             runtimeContext,
             routerContext,
@@ -247,7 +247,7 @@ export async function transpileBrick(
             tplStack
           );
         } else if (slotConf.type === "routes") {
-          return transpileRoutes(
+          return renderRoutes(
             slotConf.routes,
             runtimeContext,
             routerContext,
@@ -257,14 +257,14 @@ export async function transpileBrick(
       })
     );
 
-    const childrenOutput: TranspileOutput = {
+    const childrenOutput: RenderOutput = {
       ...output,
       main: brick.children,
     };
-    for (const item of transpiled) {
-      mergeTranspileOutput(childrenOutput, item);
+    for (const item of rendered) {
+      mergeRenderOutput(childrenOutput, item);
     }
-    mergeTranspileOutput(output, {
+    mergeRenderOutput(output, {
       ...childrenOutput,
       main: [],
     });
@@ -276,9 +276,9 @@ export async function transpileBrick(
   return output;
 }
 
-export function mergeTranspileOutput(
-  output: TranspileOutput,
-  newOutput: TranspileOutput | undefined
+export function mergeRenderOutput(
+  output: RenderOutput,
+  newOutput: RenderOutput | undefined
 ): void {
   if (!newOutput) {
     return;

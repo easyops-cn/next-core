@@ -12,7 +12,7 @@ import type {
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { getHistory } from "../history.js";
 import type { Kernel } from "./Kernel.js";
-import { TranspileOutput, transpileRoutes } from "./Transpiler.js";
+import { RenderOutput, renderRoutes } from "./Renderer.js";
 import { DataStore } from "./data/DataStore.js";
 import { clearResolveCache } from "./data/resolveData.js";
 import { afterMountTree, mountTree, unmountTree } from "./mount.js";
@@ -284,9 +284,9 @@ export class Router {
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
 
       let failed = false;
-      let output: TranspileOutput;
+      let output: RenderOutput;
       try {
-        output = await transpileRoutes(
+        output = await renderRoutes(
           storyboard.routes,
           runtimeContext,
           routerContext
