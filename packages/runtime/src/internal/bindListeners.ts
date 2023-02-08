@@ -9,6 +9,7 @@ import type {
   RuntimeBrickElement,
   RuntimeContext,
   SetPropsCustomBrickEventHandler,
+  SiteTheme,
   UseProviderEventHandler,
 } from "@next-core/brick-types";
 import { isEvaluable } from "@next-core/cook";
@@ -19,6 +20,7 @@ import { getProviderBrick } from "./data/getProviderBrick.js";
 import { PollableCallback, startPoll } from "./poll.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { setProperties } from "./compute/setProperties.js";
+import { applyMode, applyTheme } from "../themeAndMode.js";
 
 type Listener = (event: Event) => unknown;
 
@@ -108,7 +110,7 @@ export function listenerFactory(
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, runtimeContext)) {
-        return;
+        continue;
       }
       if (isBuiltinHandler(handler)) {
         const [object, method] = handler.action.split(".") as any;
@@ -123,13 +125,14 @@ export function listenerFactory(
           case "history.goForward":
           case "history.reload":
           case "history.unblock":
-            return handleHistoryAction(
+            handleHistoryAction(
               event,
               method,
               handler.args,
               handler.callback,
               runtimeContext
             );
+            break;
 
           // case "segue.push":
           // case "segue.replace":
@@ -137,40 +140,34 @@ export function listenerFactory(
           // case "alias.replace":
 
           case "window.open":
-            return handleWindowAction(event, handler.args, runtimeContext);
+            handleWindowAction(event, handler.args, runtimeContext);
+            break;
 
           case "location.reload":
           case "location.assign":
-            return handleLocationAction(
-              event,
-              method,
-              handler.args,
-              runtimeContext
-            );
+            handleLocationAction(event, method, handler.args, runtimeContext);
+            break;
 
           case "localStorage.setItem":
           case "localStorage.removeItem":
           case "sessionStorage.setItem":
           case "sessionStorage.removeItem":
-            return handleStorageAction(
+            handleStorageAction(
               event,
               object,
               method,
               handler.args,
               runtimeContext
             );
+            break;
 
           case "event.preventDefault":
             event.preventDefault();
-            return;
+            break;
 
           case "console.log":
-            return handleConsoleAction(
-              event,
-              method,
-              handler.args,
-              runtimeContext
-            );
+            handleConsoleAction(event, method, handler.args, runtimeContext);
+            break;
 
           // case "message.success":
           // case "message.error":
@@ -183,30 +180,45 @@ export function listenerFactory(
           case "context.replace":
           case "context.refresh":
           case "context.load":
-            return handleContextAction(
+            handleContextAction(
               event,
               method,
               handler.args,
               handler.callback,
               runtimeContext
             );
+            break;
 
           // case "state.update":
           // case "state.refresh":
           // case "state.load":
 
-          // case "formstate.update":
-
           // case "tpl.dispatchEvent":
+
+          // case "formstate.update":
 
           // case "message.subscribe":
           // case "message.unsubscribe":
 
-          // case "theme.setDarkTheme":
-          // case "theme.setLightTheme":
-          // case "theme.setTheme":
-          // case "mode.setDashboardMode":
-          // case "mode.setDefaultMode":
+          case "theme.setDarkTheme":
+          case "theme.setLightTheme":
+            applyTheme(
+              handler.action === "theme.setDarkTheme" ? "dark" : "light"
+            );
+            break;
+          case "theme.setTheme": {
+            const [theme] = argsFactory(handler.args, runtimeContext, event);
+            applyTheme(theme as SiteTheme);
+            break;
+          }
+          case "mode.setDashboardMode":
+          case "mode.setDefaultMode":
+            applyMode(
+              handler.action === "mode.setDashboardMode"
+                ? "dashboard"
+                : "default"
+            );
+            break;
 
           // case "menu.clearMenuTitleCache":
           // case "menu.clearMenuCache":

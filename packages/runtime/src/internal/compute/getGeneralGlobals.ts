@@ -5,10 +5,10 @@ import type { MicroApp } from "@next-core/brick-types";
 // import { i18nText } from "../i18nText";
 // import { getI18nNamespace } from "../i18n";
 // import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
-// import { getBasePath } from "./getBasePath";
-// import { getTheme, getCssPropertyValue } from "../themeAndMode";
 import { checkPermissions } from "../checkPermissions.js";
 import { getReadOnlyProxy } from "../proxyFactories.js";
+import { getTheme } from "../../themeAndMode.js";
+import { getBasePath } from "../getBasePath.js";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
@@ -51,8 +51,8 @@ function getIndividualGlobal(
   }: GeneralGlobalsOptions
 ): unknown {
   switch (variableName) {
-    // case "BASE_URL":
-    //   return collectCoverage ? "/next" : getBasePath().replace(/\/$/, "");
+    case "BASE_URL":
+      return collectCoverage ? "/next" : getBasePath().replace(/\/$/, "");
     case "FN":
       return storyboardFunctions;
     // case "IMG":
@@ -78,11 +78,11 @@ function getIndividualGlobal(
       return getReadOnlyProxy({
         check: collectCoverage ? fakeCheckPermissions : checkPermissions,
       });
-    // case "THEME":
-    //   return {
-    //     getTheme: collectCoverage ? () => "light" : getTheme,
-    //     getCssPropertyValue: collectCoverage ? () => "" : getCssPropertyValue,
-    //   };
+    case "THEME":
+      return getReadOnlyProxy({
+        getTheme: collectCoverage ? () => "light" : getTheme,
+        // getCssPropertyValue: collectCoverage ? () => "" : getCssPropertyValue,
+      });
     case "console":
       return isStoryboardFunction ? getReadOnlyProxy(console) : undefined;
     case "location":

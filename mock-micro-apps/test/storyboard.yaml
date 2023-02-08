@@ -135,15 +135,15 @@ routes:
         "":
           type: bricks
           bricks:
-          - brick: demo-form.f-input
-            properties:
-              label: "Name:"
-          - brick: demo-form.f-select
-            permissionsPreCheck:
-            - xyz
-            properties:
-              label: |
-                <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
+          # - brick: demo-form.f-input
+          #   properties:
+          #     label: "Name:"
+          # - brick: demo-form.f-select
+          #   permissionsPreCheck:
+          #   - xyz
+          #   properties:
+          #     label: |
+          #       <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
           - brick: span
             properties:
               textContent: |
@@ -168,12 +168,15 @@ routes:
                 - '<% CTX.y %>'
                 - '<% CTX.z %>'
               onBeforePageLoad:
-                action: console.log
+              - action: console.log
                 args:
                 - 'onBeforePageLoad'
                 - '<% EVENT %>'
                 - '<% CTX.y %>'
                 - '<% CTX.z %>'
+              - action: theme.setTheme
+                args:
+                - dark-v2
               onPageLoad:
                 action: console.log
                 args:

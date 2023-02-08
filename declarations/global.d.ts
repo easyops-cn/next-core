@@ -31,6 +31,10 @@ declare module "*.png" {
   export = value;
 }
 
+declare module "@ungap/event-target" {
+  export default EventTarget;
+}
+
 interface Window {
   /** For Google Analytics. */
   dataLayer?: IArguments[];

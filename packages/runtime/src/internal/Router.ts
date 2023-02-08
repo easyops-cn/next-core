@@ -23,6 +23,13 @@ import { preCheckPermissions } from "./checkPermissions.js";
 import { RouterContext } from "./RouterContext.js";
 import { uniqueId } from "lodash";
 import { type Media, mediaEventTarget } from "./mediaQuery.js";
+import {
+  applyMode,
+  applyTheme,
+  getLocalAppsTheme,
+  setMode,
+  setTheme,
+} from "../themeAndMode.js";
 
 export class Router {
   #kernel: Kernel;
@@ -33,7 +40,7 @@ export class Router {
   #routerContext?: RouterContext;
   #redirectCount = 0;
   #renderId?: string;
-  #mediaListener?: (event: CustomEvent<Media>) => void;
+  #mediaListener?: EventListener;
 
   constructor(kernel: Kernel) {
     this.#kernel = kernel;
@@ -192,12 +199,7 @@ export class Router {
         ? previousApp.id !== currentApp.id
         : previousApp !== currentApp;
 
-    // TODO: handle favicon and below processes
-    // setTheme(
-    //   getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
-    // );
-    // setMode("default");
-    // devtoolsHookEmit("rendering");
+    // TODO: handle favicon
 
     const flags = {
       ...this.#kernel.bootstrapData.settings?.featureFlags,
@@ -214,7 +216,7 @@ export class Router {
 
     const prevRouterContext = this.#routerContext;
 
-    const disposePreviousRender = (): void => {
+    const cleanUpPreviousRender = (): void => {
       prevRouterContext?.dispose();
       if (this.#mediaListener) {
         mediaEventTarget.removeEventListener("change", this.#mediaListener);
@@ -222,6 +224,24 @@ export class Router {
       }
       unmountTree(main);
       unmountTree(portal);
+
+      setTheme(
+        (currentApp &&
+          (getLocalAppsTheme()[currentApp.id] || currentApp.theme)) ||
+          "light"
+      );
+      setMode("default");
+
+      if (appChanged) {
+        window.dispatchEvent(
+          new CustomEvent("app.change", {
+            detail: {
+              previousApp,
+              currentApp,
+            },
+          })
+        );
+      }
     };
 
     if (storyboard) {
@@ -295,7 +315,7 @@ export class Router {
         await Promise.all(output.blockingList);
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error);
+        console.error("Router failed:", error);
         failed = true;
         output = {
           main: [
@@ -313,23 +333,15 @@ export class Router {
         };
       }
 
-      // Unmount main tree to avoid app change fired before new routes mounted.
-      disposePreviousRender();
+      cleanUpPreviousRender();
 
       if ((output.route && output.route.type !== "routes") || failed) {
-        // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
-        routerContext.dispatchBeforePageLoad(runtimeContext);
-
-        if (appChanged) {
-          window.dispatchEvent(
-            new CustomEvent("app.change", {
-              detail: {
-                previousApp,
-                currentApp,
-              },
-            })
-          );
+        if (!failed) {
+          // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
+          routerContext.dispatchBeforePageLoad(runtimeContext);
         }
+        applyTheme();
+        applyMode();
 
         mountTree(output.main, main);
         mountTree(output.portal, portal);
@@ -347,7 +359,10 @@ export class Router {
           routerContext.dispatchAnchorLoad(runtimeContext);
 
           this.#mediaListener = (event) => {
-            routerContext.dispatchMediaChange(event.detail, runtimeContext);
+            routerContext.dispatchMediaChange(
+              (event as CustomEvent<Media>).detail,
+              runtimeContext
+            );
           };
           mediaEventTarget.addEventListener("change", this.#mediaListener);
         }
@@ -361,7 +376,9 @@ export class Router {
       return;
     }
 
-    disposePreviousRender();
+    cleanUpPreviousRender();
+    applyTheme();
+    applyMode();
 
     mountTree(
       [

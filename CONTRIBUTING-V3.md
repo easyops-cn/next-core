@@ -109,7 +109,7 @@ src/bootstrap.ts
 - [ ] Full Support for Expressions
 - [ ] Full Support for Brick Events
 - [ ] Custom Templates
-- [ ] Brick Life Cycle
+- [x] Brick Life Cycle
 - [ ] UseBrick
 - [ ] Menu
 - [ ] Flow API
