@@ -1,8 +1,11 @@
 import type {
   BrickConf,
   BrickEventsMap,
+  CustomTemplateProxy,
   PluginHistoryState,
+  RefForProxy,
   RouteConf,
+  RuntimeBrickElement,
   RuntimeContext,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
@@ -20,6 +23,12 @@ import {
 import { RouterContext } from "./RouterContext.js";
 import { matchRoutes } from "./matchRoutes.js";
 import { getAuth, isLoggedIn } from "../auth.js";
+import {
+  RuntimeBrickConfWithTplSymbols,
+  symbolForComputedPropsFromProxy,
+  symbolForRefForProxy,
+} from "./CustomTemplates/constants.js";
+import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
 
 export interface RenderOutput {
   main: RuntimeBrick[];
@@ -39,9 +48,11 @@ export interface RuntimeBrick {
   properties?: Record<string, unknown>;
   events?: BrickEventsMap;
   slotId?: string;
-  element?: HTMLElement;
+  element?: RuntimeBrickElement;
   iid?: string;
   runtimeContext: RuntimeContext;
+  internalBricksByRef?: Map<string, RefForProxy>;
+  proxy?: CustomTemplateProxy;
 }
 
 export async function renderRoutes(
@@ -153,7 +164,7 @@ export async function renderBricks(
 }
 
 export async function renderBrick(
-  brickConf: BrickConf,
+  brickConf: RuntimeBrickConfWithTplSymbols,
   runtimeContext: RuntimeContext,
   routerContext: RouterContext,
   slotId?: string,
@@ -195,12 +206,17 @@ export async function renderBrick(
   }
 
   const brick: RuntimeBrick = {
-    type: brickConf.brick,
+    type: tplTagName || brickConf.brick,
     children: [],
     slotId,
     events: brickConf.events,
     runtimeContext,
   };
+
+  const refForProxy = brickConf[symbolForRefForProxy];
+  if (refForProxy) {
+    refForProxy.brick = brick;
+  }
 
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
@@ -212,17 +228,37 @@ export async function renderBrick(
       runtimeContext,
       trackingContextList
     );
+    const computedPropsFromProxy = brickConf[symbolForComputedPropsFromProxy];
+    if (computedPropsFromProxy) {
+      brick.properties ??= {};
+      const computed = await computedPropsFromProxy;
+      for (const [propName, propValue] of Object.entries(computed)) {
+        brick.properties[propName] = propValue;
+      }
+    }
+    return brick.properties;
   };
-  const propertiesReady = loadProperties();
-  blockingList.push(propertiesReady);
+  const asyncProperties = loadProperties();
+  blockingList.push(asyncProperties);
 
-  propertiesReady.then(() => {
+  asyncProperties.then(() => {
     listenOnTrackingContext(brick, trackingContextList, runtimeContext);
   });
 
   routerContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
 
-  if (brickConf.portal) {
+  let expandedBrickConf = brickConf;
+  if (tplTagName) {
+    expandedBrickConf = expandCustomTemplate(
+      tplTagName,
+      brickConf,
+      asyncProperties,
+      brick,
+      runtimeContext
+    );
+  }
+
+  if (expandedBrickConf.portal) {
     // A portal brick has no slotId.
     brick.slotId = undefined;
     // Make parent portal bricks appear before child bricks.
@@ -233,11 +269,11 @@ export async function renderBrick(
   }
 
   const loadChildren = async () => {
-    if (!isObject(brickConf.slots)) {
+    if (!isObject(expandedBrickConf.slots)) {
       return;
     }
     const rendered = await Promise.all(
-      Object.entries(brickConf.slots).map(([childSlotId, slotConf]) => {
+      Object.entries(expandedBrickConf.slots).map(([childSlotId, slotConf]) => {
         if (slotConf.type === "bricks") {
           return renderBricks(
             slotConf.bricks,

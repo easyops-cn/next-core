@@ -18,6 +18,34 @@ meta:
         console.log("sayYesYes() is called");
         return `${FN.sayYes()} and ${FN.sayYes()}`;
       }
+  customTemplates:
+  - name: tpl-basic
+    proxy:
+      properties:
+        thing:
+          ref: thingSpan
+          refProperty: textContent
+        status:
+          ref: statusSpan
+          refProperty: textContent
+      slots:
+        "":
+          ref: container
+          refSlot: ""
+      events:
+        "yo":
+          ref: thingSpan
+          refEvent: click
+    bricks:
+    - brick: div
+      ref: container
+      slots:
+        "":
+          bricks:
+          - brick: span
+            ref: thingSpan
+          - brick: span
+            ref: statusSpan
 routes:
 - path: ${APP.homepage}
   # if: '<% !QUERY.redirect %>'
@@ -25,7 +53,7 @@ routes:
   type: redirect
   redirect: '<% "/?redirect=1" %>'
 - path: ${APP.homepage}
-  if: '<% QUERY.redirect %>'
+  if: '<% +QUERY.redirect === 1 %>'
   permissionsPreCheck:
   - abc
   - def
@@ -83,133 +111,150 @@ routes:
       - 2000
       lazy: true
   bricks:
-    - brick: basic.demo-button
-      properties:
-        label: "Hi:"
-      slots:
-        "":
-          type: bricks
-          bricks:
-          - brick: span
-            properties:
-              textContent: OK
-    - brick: demo-basic.y-button
-      properties:
-        label: "Hello:"
-        textContent: world
-      events:
-        oops:
-        # - action: context.replace
-        #   args:
-        #   - y
-        #   - '<% `clicked:${CTX.y}` %>'
-        - action: context.refresh
-          args:
-          - y
-          callback:
-            success:
-              action: console.log
+  - brick: basic.demo-button
+    properties:
+      label: "Hi:"
+    slots:
+      "":
+        type: bricks
+        bricks:
+        - brick: span
+          properties:
+            textContent: OK
+  - brick: demo-basic.y-button
+    properties:
+      label: "Hello:"
+      textContent: world
+    events:
+      oops:
+      # - action: context.replace
+      #   args:
+      #   - y
+      #   - '<% `clicked:${CTX.y}` %>'
+      - action: context.refresh
+        args:
+        - y
+        callback:
+          success:
+            action: console.log
+            args:
+            - context replaced
+            - '<% EVENT.detail %>'
+            - '<% CTX.y %>'
+            - '<% CTX.z %>'
+      - action: console.log
+        args:
+        - '<% EVENT.detail %>'
+        - '<% CTX.x %>'
+        async: true
+      - action: console.log
+        args:
+        - '<% EVENT.detail %>'
+        - immediately
+  # - brick: demo-basic.y-button
+  #   properties:
+  #     label: "你好:"
+  #     textContent: 世界
+  - brick: demo-basic.button-group
+  - brick: div
+    properties:
+      title: '<% CTX.y %>'
+    slots:
+      "":
+        type: bricks
+        bricks:
+        # - brick: demo-form.f-input
+        #   properties:
+        #     label: "Name:"
+        # - brick: demo-form.f-select
+        #   permissionsPreCheck:
+        #   - xyz
+        #   properties:
+        #     label: |
+        #       <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
+        - brick: span
+          properties:
+            textContent: |
+              <%
+                "track context",
+                (PERMISSIONS.check("opq") ? "Yes" : "No"),
+                `y:${CTX.y},z:${CTX.z}`
+              %>
+          lifeCycle:
+            onBeforePageLeave:
+            - action: history.block
+              # if: |
+              #   <% !PROCESSORS.demoBasic.sayHello() %>
+              if: false
               args:
-              - context replaced
-              - '<% EVENT.detail %>'
+              - Oops
+            - action: console.log
+              args:
+              - 'onBeforePageLeave'
+              # - '<% PROCESSORS.demoBasic.sayHello() %>'
+              - '<% EVENT %>'
               - '<% CTX.y %>'
               - '<% CTX.z %>'
-        - action: console.log
-          args:
-          - '<% EVENT.detail %>'
-          - '<% CTX.x %>'
-          async: true
-        - action: console.log
-          args:
-          - '<% EVENT.detail %>'
-          - immediately
-    # - brick: demo-basic.y-button
-    #   properties:
-    #     label: "你好:"
-    #     textContent: 世界
-    - brick: demo-basic.button-group
-    - brick: div
-      properties:
-        title: '<% CTX.y %>'
-      slots:
-        "":
-          type: bricks
-          bricks:
-          # - brick: demo-form.f-input
-          #   properties:
-          #     label: "Name:"
-          # - brick: demo-form.f-select
-          #   permissionsPreCheck:
-          #   - xyz
-          #   properties:
-          #     label: |
-          #       <% `!Gender (${PROCESSORS.demoBasic.sayHello()},${FN.sayYesYes()}) <${CTX.x}>` %>
-          - brick: span
-            properties:
-              textContent: |
-                <%
-                  "track context",
-                  (PERMISSIONS.check("opq") ? "Yes" : "No"),
-                  `y:${CTX.y},z:${CTX.z}`
-                %>
-            lifeCycle:
-              onBeforePageLeave:
-              - action: history.block
-                # if: |
-                #   <% !PROCESSORS.demoBasic.sayHello() %>
-                if: false
-                args:
-                - Oops
-              - action: console.log
-                args:
-                - 'onBeforePageLeave'
-                # - '<% PROCESSORS.demoBasic.sayHello() %>'
-                - '<% EVENT %>'
-                - '<% CTX.y %>'
-                - '<% CTX.z %>'
-              onBeforePageLoad:
-              - action: console.log
-                args:
-                - 'onBeforePageLoad'
-                - '<% EVENT %>'
-                - '<% CTX.y %>'
-                - '<% CTX.z %>'
-              - action: theme.setTheme
-                args:
-                - dark-v2
-              onPageLoad:
-                action: console.log
-                args:
-                - 'onPageLoad'
-                - '<% EVENT %>'
-                - '<% CTX.y %>'
-                - '<% CTX.z %>'
-              onAnchorLoad:
-                action: console.log
-                args:
-                - 'onAnchorLoad'
-                - '<% EVENT %>'
-                - '<% CTX.y %>'
-                - '<% CTX.z %>'
-              onAnchorUnload:
-                action: console.log
-                args:
-                - 'onAnchorUnload'
-                - '<% EVENT %>'
-                - '<% CTX.y %>'
-                - '<% CTX.z %>'
-              onPageLeave:
-                action: console.log
-                args:
-                - 'onPageLeave'
-                - '<% EVENT %>'
-                - '<% CTX.y %>'
-                - '<% CTX.z %>'
-          - brick: a
-            properties:
-              textContent: Go outside
-              href: '/oops'
+            onBeforePageLoad:
+            - action: console.log
+              args:
+              - 'onBeforePageLoad'
+              - '<% EVENT %>'
+              - '<% CTX.y %>'
+              - '<% CTX.z %>'
+            - action: theme.setTheme
+              args:
+              - dark-v2
+            onPageLoad:
+              action: console.log
+              args:
+              - 'onPageLoad'
+              - '<% EVENT %>'
+              - '<% CTX.y %>'
+              - '<% CTX.z %>'
+            onAnchorLoad:
+              action: console.log
+              args:
+              - 'onAnchorLoad'
+              - '<% EVENT %>'
+              - '<% CTX.y %>'
+              - '<% CTX.z %>'
+            onAnchorUnload:
+              action: console.log
+              args:
+              - 'onAnchorUnload'
+              - '<% EVENT %>'
+              - '<% CTX.y %>'
+              - '<% CTX.z %>'
+            onPageLeave:
+              action: console.log
+              args:
+              - 'onPageLeave'
+              - '<% EVENT %>'
+              - '<% CTX.y %>'
+              - '<% CTX.z %>'
+        - brick: a
+          properties:
+            textContent: Go outside
+            href: '/oops'
 
-    # - brick: demo-basic.have-fun
-    # - brick: demo-basic.have-more-fun
-    # - brick: demo-basic.have-no-fun
+  # - brick: demo-basic.have-fun
+  # - brick: demo-basic.have-more-fun
+  # - brick: demo-basic.have-no-fun
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 2 %>'
+  bricks:
+  - brick: tpl-basic
+    properties:
+      thing: Template
+      status: Works!
+    slots:
+      "":
+        type: bricks
+        bricks:
+        - brick: span
+          properties:
+            textContent: "~~"
+    events:
+      yo:
+        action: console.log

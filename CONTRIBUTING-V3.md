@@ -108,8 +108,8 @@ src/bootstrap.ts
 - [x] checkPermissions
 - [x] Full Support for Expressions
 - [x] Full Support for Brick Events
-- [ ] Custom Templates
 - [x] Brick Life Cycle
+- [ ] Custom Templates
 - [ ] UseBrick
 - [ ] Menu
 - [ ] Flow API

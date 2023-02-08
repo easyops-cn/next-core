@@ -1,19 +1,18 @@
 import { bindListeners } from "./bindListeners.js";
 import { setRealProperties } from "./compute/setRealProperties.js";
+import { handleProxyOfCustomTemplate } from "./CustomTemplates/handleProxyOfCustomTemplate.js";
 import { RuntimeBrick } from "./Renderer.js";
-// import { handleProxyOfCustomTemplate } from "./exports";
 
 export class BrickNode {
-  $$brick: RuntimeBrick;
-
+  private brick: RuntimeBrick;
   private children: BrickNode[] = [];
 
   constructor(brick: RuntimeBrick) {
-    this.$$brick = brick;
+    this.brick = brick;
   }
 
   mount(): HTMLElement {
-    const brick = this.$$brick;
+    const brick = this.brick;
     const tagName = brick.type;
 
     if (tagName.includes("-") && !customElements.get(tagName)) {
@@ -53,14 +52,16 @@ export class BrickNode {
   }
 
   unmount(): void {
+    this.brick = undefined!;
     this.children.forEach((child) => {
       child.unmount();
     });
+    this.children.length = 0;
   }
 
   // Handle proxies later after bricks in portal and main both mounted.
   afterMount(): void {
-    // handleProxyOfCustomTemplate(this.$$brick);
+    handleProxyOfCustomTemplate(this.brick);
     this.children.forEach((child) => {
       child.afterMount();
     });

@@ -1,4 +1,5 @@
 import type {
+  AsyncProperties,
   BrickEventHandlerCallback,
   ContextConf,
   ResolveOptions,
@@ -14,7 +15,6 @@ import {
 } from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
-import { RuntimeBrick } from "../Renderer.js";
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
@@ -143,13 +143,13 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   define(
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
-    brick?: RuntimeBrick
+    asyncHostProperties?: AsyncProperties
   ): void {
     if (Array.isArray(dataConfs) && dataConfs.length > 0) {
       const pending = resolveDataStore(
         dataConfs,
         (dataConf: ContextConf) =>
-          this.resolve(dataConf, runtimeContext, brick),
+          this.resolve(dataConf, runtimeContext, asyncHostProperties),
         this.type
       );
       this.pendingStack.push(pending);
@@ -177,18 +177,17 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
-    brick?: RuntimeBrick
+    asyncHostProperties?: AsyncProperties
   ): Promise<boolean> {
     if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
     }
     let value: unknown;
-    if (
-      this.type === "STATE" &&
-      brick!.properties &&
-      hasOwnProperty(brick!.properties, dataConf.name)
-    ) {
-      value = brick!.properties[dataConf.name];
+    if (this.type === "STATE" && asyncHostProperties) {
+      const hostProperties = await asyncHostProperties;
+      if (hasOwnProperty(hostProperties, dataConf.name)) {
+        value = hostProperties[dataConf.name];
+      }
     }
     let load: DataStoreItem["load"];
     let isLazyResolve: boolean | undefined = false;

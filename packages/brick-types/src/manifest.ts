@@ -1530,15 +1530,13 @@ export interface CustomTemplateProxyProperties {
 }
 
 /** 自定义模板的属性代理配置。 */
-export type CustomTemplateProxyProperty =
-  | CustomTemplateProxyRefProperty
-  | CustomTemplateProxyVariableProperty;
+export type CustomTemplateProxyProperty = CustomTemplateProxyRefProperty;
+// | CustomTemplateProxyVariableProperty;
 
 /** 自定义模板引用内部构件属性的属性代理配置 */
-export type CustomTemplateProxyRefProperty =
-  | CustomTemplateProxyBasicProperty
-  | CustomTemplateProxyTransformableProperty
-  | CustomTemplateProxyMergeableProperty;
+export type CustomTemplateProxyRefProperty = CustomTemplateProxyBasicProperty;
+// | CustomTemplateProxyTransformableProperty
+// | CustomTemplateProxyMergeableProperty;
 
 /** 自定义模板的基本属性代理配置。 */
 export interface CustomTemplateProxyBasicProperty
@@ -1594,7 +1592,7 @@ export interface CustomTemplateProxyWithExtra {
   ref: string;
 
   /** {@inheritDoc CustomTemplateProxyExtraOneWayRef} */
-  extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
+  // extraOneWayRefs?: CustomTemplateProxyExtraOneWayRef[];
 }
 
 /** 额外的单向（由模板传输给内部构件）属性代理配置。 */

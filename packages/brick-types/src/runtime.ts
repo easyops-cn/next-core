@@ -9,7 +9,6 @@ import {
   BrickEventHandler,
   BrickEventHandlerCallback,
   ContextConf,
-  ProbablyRuntimeBrick,
   BrickPackage,
 } from "./manifest";
 import { SidebarMenu, SidebarSubMenu } from "./menu";
@@ -31,6 +30,8 @@ export interface RuntimeContext {
   data?: unknown;
 }
 
+export type AsyncProperties = Promise<Record<string, unknown>>;
+
 export interface AbstractDataStore {
   getValue(name: string): unknown;
 
@@ -45,7 +46,7 @@ export interface AbstractDataStore {
   define(
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
-    brick?: ProbablyRuntimeBrick
+    asyncHostProperties?: AsyncProperties
   ): void;
 
   waitFor(dataNames: Iterable<string>): Promise<void>;
