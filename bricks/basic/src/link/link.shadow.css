@@ -4,11 +4,11 @@ a {
   cursor: pointer;
 }
 
-:where(a:not(.disabled)):hover {
+a:not(.disabled):hover {
   color: var(--antd-btn-link-hover-color);
 }
 
-:where(a:not(.disabled)):active {
+a:not(.disabled):active {
   color: var(--antd-btn-link-active-color);
 }
 
