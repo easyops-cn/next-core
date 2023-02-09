@@ -29,6 +29,7 @@ meta:
           <% `I'm lazy (${STATE.hello})` %>
         - 1000
         lazy: true
+      track: true
       onChange:
         action: console.log
         args:
@@ -38,6 +39,14 @@ meta:
         - '<% 0, STATE.lazyHello %>'
     - name: hello
       value: Hello World
+      onChange:
+        action: console.log
+        args:
+        - state onChange
+        - hello
+        - '<% EVENT.detail %>'
+        - '<% 0, STATE.hello %>'
+      expose: true
     - name: asyncHello
       if: false
       resolve:
@@ -297,6 +306,7 @@ routes:
     properties:
       thing: Template
       status: Works!
+      hello: 你好
     slots:
       "":
         type: bricks

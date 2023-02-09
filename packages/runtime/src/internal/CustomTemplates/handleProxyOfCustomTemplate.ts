@@ -1,54 +1,60 @@
 import type { RuntimeBrickElement } from "@next-core/brick-types";
 import type { RuntimeBrick } from "../interfaces.js";
+import { getTplStateStore } from "./utils.js";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
   const {
-    element: node,
-    internalBricksByRef,
-    proxy,
+    element: tplHostElement,
+    runtimeContext,
+    tplHostMetadata,
   } = brick as RuntimeBrick & { element: RuntimeBrickElement };
 
-  // Ignore non-tpl bricks.
-  if (!internalBricksByRef) {
+  // Ignore non-tpl host bricks.
+  if (!tplHostMetadata) {
     return;
   }
 
-  function getElementByRef(ref: string): HTMLElement | undefined {
-    return internalBricksByRef!.get(ref)?.brick?.element;
-  }
+  // For usages of `targetRef: "..."`.
+  // `tplHostElement.$$getElementByRef(ref)` will return the ref element inside a custom template.
+  const getElementByRef = function (ref: string): HTMLElement | undefined {
+    return tplHostMetadata.internalBricksByRef.get(ref)?.brick?.element;
+  };
 
-  const firstRun = !node.$$getElementByRef;
+  const firstRun = !tplHostElement.$$getElementByRef;
 
   if (firstRun) {
-    // For usages of `targetRef: "..."`.
-    // `tpl.$$getElementByRef(ref)` will return the ref element inside a custom template.
-    Object.defineProperty(node, "$$getElementByRef", {
+    Object.defineProperty(tplHostElement, "$$getElementByRef", {
       value: getElementByRef,
     });
 
-    // if (brick.stateNames) {
-    //   // Define properties from state for tpl.
-    //   const getState = (): StoryboardContextWrapper =>
-    //     getCustomTemplateContext(brick.tplContextId).state;
-    //   for (const propName of brick.stateNames) {
-    //     Object.defineProperty(node, propName, {
-    //       get: function () {
-    //         return getState().getValue(propName);
-    //       },
-    //       set: function (value: unknown) {
-    //         getState().updateValue(propName, value, "replace");
-    //       },
-    //       enumerable: true,
-    //     });
-    //   }
-    // }
+    if (tplHostMetadata.exposedStates.length > 0) {
+      // Define properties from state for tpl.
+      const store = getTplStateStore(
+        {
+          tplStateStoreId: tplHostMetadata.tplStateStoreId,
+          tplStateStoreMap: runtimeContext.tplStateStoreMap,
+        },
+        "STATE"
+      );
+      for (const propName of tplHostMetadata.exposedStates) {
+        Object.defineProperty(tplHostElement, propName, {
+          get: function () {
+            return store.getValue(propName);
+          },
+          set: function (value: unknown) {
+            store.updateValue(propName, value, "replace");
+          },
+          enumerable: true,
+        });
+      }
+    }
   }
 
-  if (!proxy) {
+  if (!tplHostMetadata.proxy) {
     return;
   }
 
-  const { properties, events, methods } = proxy;
+  const { properties, events, methods } = tplHostMetadata.proxy;
 
   if (properties) {
     for (const [from, to] of Object.entries(properties)) {
@@ -59,7 +65,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
       >;
       // istanbul ignore else
       if (refElement) {
-        Object.defineProperty(node, from, {
+        Object.defineProperty(tplHostElement, from, {
           get() {
             return refElement[to.refProperty];
           },
@@ -82,7 +88,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
           if (e.bubbles) {
             e.stopPropagation();
           }
-          node.dispatchEvent(
+          tplHostElement.dispatchEvent(
             new CustomEvent(from, {
               detail: (e as CustomEvent).detail,
               bubbles: e.bubbles,
@@ -126,7 +132,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
       >;
       // istanbul ignore else
       if (refElement) {
-        Object.defineProperty(node, from, {
+        Object.defineProperty(tplHostElement, from, {
           value(...args: unknown[]) {
             return refElement[to.refMethod](...args);
           },

@@ -1,11 +1,9 @@
 import type {
   BrickConf,
   BrickConfInTemplate,
-  CustomTemplateProxyBasicProperty,
-  CustomTemplateProxySlot,
   SlotsConfOfBricks,
 } from "@next-core/brick-types";
-import { uniqueId } from "lodash";
+import { uniq, uniqueId } from "lodash";
 import { customTemplates } from "../../CustomTemplates.js";
 import { DataStore } from "../data/DataStore.js";
 import { RuntimeBrickConfWithTplSymbols } from "./constants.js";
@@ -14,36 +12,15 @@ import type {
   AsyncProperties,
   RuntimeBrick,
   RuntimeContext,
+  TemplateHostBrick,
+  TemplateHostContext,
 } from "../interfaces.js";
-
-export interface ProxyContext {
-  reversedProxies: ReversedProxies;
-  asyncTemplateProperties?: AsyncProperties;
-  externalSlots?: SlotsConfOfBricks;
-  tplStateStoreId: string;
-  proxyBrick: RuntimeBrick;
-}
-
-interface ReversedProxies {
-  properties: Map<string, ReversedPropertyProxy[]>;
-  slots: Map<string, ReversedSlotProxy[]>;
-}
-
-interface ReversedPropertyProxy {
-  from: string;
-  to: CustomTemplateProxyBasicProperty;
-}
-
-interface ReversedSlotProxy {
-  from: string;
-  to: CustomTemplateProxySlot;
-}
 
 export function expandCustomTemplate(
   tplTagName: string,
   brickConf: BrickConf,
   asyncTemplateProperties: AsyncProperties,
-  proxyBrick: RuntimeBrick,
+  hostBrick: RuntimeBrick,
   _runtimeContext: RuntimeContext
 ): BrickConf {
   const tplStateStoreId = uniqueId("tpl-state-");
@@ -51,7 +28,7 @@ export function expandCustomTemplate(
     ..._runtimeContext,
     tplStateStoreId,
   };
-  const tplStateStore = new DataStore("STATE", proxyBrick);
+  const tplStateStore = new DataStore("STATE", hostBrick);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
 
   const { bricks, proxy, state } = customTemplates.get(tplTagName)!;
@@ -66,11 +43,18 @@ export function expandCustomTemplate(
     properties: undefined,
   };
 
-  proxyBrick.internalBricksByRef = new Map();
-  proxyBrick.proxy = proxy;
+  hostBrick.tplHostMetadata = {
+    internalBricksByRef: new Map(),
+    tplStateStoreId,
+    proxy,
+    // Allow duplicated state names which maybe mutually exclusive.
+    exposedStates: state
+      ? uniq(state.filter((item) => item.expose).map((item) => item.name))
+      : [],
+  };
 
   // Reversed proxies are used for expand storyboard before rendering page.
-  const reversedProxies: ReversedProxies = {
+  const reversedProxies: TemplateHostContext["reversedProxies"] = {
     properties: new Map(),
     slots: new Map(),
     // mergeBases: new Map(),
@@ -104,18 +88,18 @@ export function expandCustomTemplate(
     }
   }
 
-  const proxyContext: ProxyContext = {
+  const hostContext: TemplateHostContext = {
     reversedProxies,
     asyncTemplateProperties,
     externalSlots: externalSlots as SlotsConfOfBricks | undefined,
     tplStateStoreId,
-    proxyBrick,
+    hostBrick: hostBrick as TemplateHostBrick,
   };
 
   newBrickConf.slots = {
     "": {
       type: "bricks",
-      bricks: bricks.map((item) => expandBrickInTemplate(item, proxyContext)),
+      bricks: bricks.map((item) => expandBrickInTemplate(item, hostContext)),
     },
   };
 
@@ -124,7 +108,7 @@ export function expandCustomTemplate(
 
 function expandBrickInTemplate(
   brickConfInTemplate: BrickConfInTemplate,
-  proxyContext: ProxyContext
+  hostContext: TemplateHostContext
 ): RuntimeBrickConfWithTplSymbols {
   // Ignore `if: null` to make `looseCheckIf` working.
   if (brickConfInTemplate.if === null) {
@@ -142,17 +126,17 @@ function expandBrickInTemplate(
       {
         type: "bricks",
         bricks: (slotConf.bricks ?? []).map((item) =>
-          expandBrickInTemplate(item, proxyContext)
+          expandBrickInTemplate(item, hostContext)
         ),
       },
     ])
   );
 
-  // setupUseBrickInTemplate(brickConfInTemplate.properties, proxyContext);
+  // setupUseBrickInTemplate(brickConfInTemplate.properties, hostContext);
 
   return {
     ...restBrickConfInTemplate,
     slots,
-    ...setupTemplateProxy(proxyContext, ref, slots),
+    ...setupTemplateProxy(hostContext, ref, slots),
   };
 }

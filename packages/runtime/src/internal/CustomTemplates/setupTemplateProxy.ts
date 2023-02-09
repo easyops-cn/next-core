@@ -1,16 +1,19 @@
 import type { BrickConf, SlotsConfOfBricks } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
-import type { ProxyContext } from "./expandCustomTemplate.js";
 import {
   symbolForComputedPropsFromProxy,
   symbolForBrickHolder,
   symbolForTplStateStoreId,
 } from "./constants.js";
-import type { AsyncProperties, BrickHolder } from "../interfaces.js";
+import type {
+  AsyncProperties,
+  BrickHolder,
+  TemplateHostContext,
+} from "../interfaces.js";
 
 export function setupTemplateProxy(
-  proxyContext: ProxyContext,
+  hostContext: TemplateHostContext,
   ref: string | undefined,
   slots: SlotsConfOfBricks
 ) {
@@ -19,15 +22,15 @@ export function setupTemplateProxy(
     asyncTemplateProperties,
     externalSlots,
     tplStateStoreId,
-    proxyBrick,
-  } = proxyContext;
+    hostBrick: hostBrick,
+  } = hostContext;
 
   let computedPropsFromProxy: AsyncProperties | undefined;
   let brickHolder: BrickHolder | undefined;
 
   if (ref && reversedProxies) {
     brickHolder = {};
-    proxyBrick.internalBricksByRef!.set(ref, brickHolder);
+    hostBrick.tplHostMetadata.internalBricksByRef.set(ref, brickHolder);
 
     const propertyProxies = reversedProxies.properties.get(ref);
     if (propertyProxies && asyncTemplateProperties) {

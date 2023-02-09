@@ -3,8 +3,13 @@ import type { DataStore } from "../data/DataStore.js";
 import type { RuntimeContext } from "../interfaces.js";
 import { customTemplates } from "../../CustomTemplates.js";
 
+type MinimalTplStateStoreContext = Pick<
+  RuntimeContext,
+  "tplStateStoreId" | "tplStateStoreMap"
+>;
+
 export function getTplStateStore(
-  { tplStateStoreId, tplStateStoreMap }: RuntimeContext,
+  { tplStateStoreId, tplStateStoreMap }: MinimalTplStateStoreContext,
   using: string,
   extraInfo?: string
 ): DataStore<"STATE"> {
@@ -25,7 +30,7 @@ export function getTplStateStore(
 }
 
 export function getTplHostElement(
-  runtimeContext: RuntimeContext,
+  runtimeContext: MinimalTplStateStoreContext,
   using: string,
   extraInfo?: string
 ): RuntimeBrickElement {

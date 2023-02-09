@@ -21,7 +21,10 @@ import { isPreEvaluated } from "./compute/evaluate.js";
 import { setProperties } from "./compute/setProperties.js";
 import { applyMode, applyTheme } from "../themeAndMode.js";
 import type { ElementHolder, RuntimeContext } from "./interfaces.js";
-import { getTplHostElement } from "./CustomTemplates/utils.js";
+import {
+  getTplHostElement,
+  getTplStateStore,
+} from "./CustomTemplates/utils.js";
 
 type Listener = (event: Event) => unknown;
 
@@ -536,8 +539,8 @@ function handleContextAction(
     name as string,
     value,
     method,
-    runtimeContext,
-    callback
+    callback,
+    runtimeContext
   );
 }
 
@@ -548,16 +551,18 @@ function handleTplStateAction(
   callback: BrickEventHandlerCallback | undefined,
   runtimeContext: RuntimeContext
 ) {
-  const tplStateStore = runtimeContext.tplStateStoreMap.get(
-    runtimeContext.tplStateStoreId!
-  )!;
   const [name, value] = argsFactory(args, runtimeContext, event);
+  const tplStateStore = getTplStateStore(
+    runtimeContext,
+    `state.${method}`,
+    `: ${name}`
+  );
   tplStateStore.updateValue(
     name as string,
     value,
     method === "update" ? "replace" : method,
-    runtimeContext,
-    callback
+    callback,
+    runtimeContext
   );
 }
 

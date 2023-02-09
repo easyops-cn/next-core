@@ -56,8 +56,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     name: string,
     value: unknown,
     method: "assign" | "replace" | "refresh" | "load",
-    runtimeContext: RuntimeContext,
-    callback?: BrickEventHandlerCallback
+    callback?: BrickEventHandlerCallback,
+    callbackRuntimeContext?: RuntimeContext
   ): void {
     const item = this.data.get(name);
     if (!item) {
@@ -107,7 +107,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       }
 
       if (callback) {
-        const callbackFactory = eventCallbackFactory(callback, runtimeContext);
+        const callbackFactory = eventCallbackFactory(
+          callback,
+          callbackRuntimeContext!
+        );
 
         promise.then(
           (val) => {
@@ -188,7 +191,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       return false;
     }
     let value: unknown;
-    if (this.type === "STATE" && asyncHostProperties) {
+    if (this.type === "STATE" && asyncHostProperties && dataConf.expose) {
       const hostProperties = await asyncHostProperties;
       if (hasOwnProperty(hostProperties, dataConf.name)) {
         value = hostProperties[dataConf.name];
@@ -248,18 +251,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         const item = this.data.get(dep);
         item?.eventTarget.addEventListener(this.changeEventType, () => {
           if (load) {
-            this.updateValue(
-              dataConf.name,
-              { cache: "default" },
-              "refresh",
-              runtimeContext
-            );
+            this.updateValue(dataConf.name, { cache: "default" }, "refresh");
           } else {
             this.updateValue(
               dataConf.name,
               computeRealValue(dataConf.value, runtimeContext),
-              "replace",
-              runtimeContext
+              "replace"
             );
           }
         });
