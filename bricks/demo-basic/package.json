@@ -13,7 +13,7 @@
     "@next-core/brick-http": "^2.8.0",
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
-    "@next-core/react-use-brick": "^0.0.0",
+    "@next-core/react-runtime": "^0.0.0",
     "@next-core/runtime": "^0.0.0",
     "@next-core/utils": "^0.0.0",
     "i18next": "^22.4.9",

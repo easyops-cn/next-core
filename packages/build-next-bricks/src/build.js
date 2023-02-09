@@ -74,7 +74,7 @@ export default async function build(config) {
     "lodash",
     "@next-core/element",
     "@next-core/react-element",
-    "@next-core/react-use-brick",
+    "@next-core/react-runtime",
     "@next-core/runtime",
     "@next-core/brick-http",
     "@next-core/cook",

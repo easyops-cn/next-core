@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@next-core/brick-http": "^2.8.0",
-    "@next-core/brick-types": "^2.82.1",
+    "@next-core/brick-types": "^2.82.3",
     "@next-core/cook": "^1.6.81",
     "@next-core/inject": "^0.0.0",
     "@next-core/loader": "^0.0.0",

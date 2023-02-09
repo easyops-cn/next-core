@@ -65,3 +65,11 @@ export function _internalApiMatchStoryboard(
   }
   return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
 }
+
+export function _internalApiGetRuntimeContext() {
+  return kernel.router.getRuntimeContext();
+}
+
+export function _internalApiGetBrickPackages() {
+  return kernel.bootstrapData.brickPackages;
+}

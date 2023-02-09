@@ -26,8 +26,6 @@ import {
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
 
-type Listener = (event: Event) => unknown;
-
 export function bindListeners(
   brick: RuntimeBrickElement,
   eventsMap: BrickEventsMap | undefined,
@@ -106,7 +104,7 @@ export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
   runtimeContext: RuntimeContext,
   runtimeBrick?: ElementHolder
-): Listener {
+) {
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, runtimeContext)) {

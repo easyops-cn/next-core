@@ -36,7 +36,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/brick-types": "^2.82.1",
+    "@next-core/brick-types": "^2.82.3",
     "@next-core/pipes": "^1.0.15",
     "lodash": "^4.17.21"
   },

@@ -12,7 +12,6 @@
   "dependencies": {
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
-    "@next-core/react-use-brick": "^0.0.0",
     "@next-core/runtime": "^0.0.0",
     "@next-core/utils": "^0.0.0",
     "@next-core/theme": "^0.0.0",

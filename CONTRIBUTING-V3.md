@@ -109,8 +109,9 @@ src/bootstrap.ts
 - [x] Full Support for Expressions
 - [x] Full Support for Brick Events
 - [x] Brick Life Cycle
-- [ ] Custom Templates
-- [ ] UseBrick
+- [x] Custom Templates
+- [x] UseBrick
+- [ ] UseBrick with Custom Templates
 - [ ] Menu
 - [ ] Flow API
 - [ ] Icons

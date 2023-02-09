@@ -78,6 +78,10 @@ export class Router {
     return this.#currentApp;
   }
 
+  getRuntimeContext() {
+    return this.#runtimeContext;
+  }
+
   #getBlockMessageBeforePageLave(detail: {
     location?: Location<PluginHistoryState>;
     action?: Action;
