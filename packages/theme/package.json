@@ -1,0 +1,7 @@
+{
+  "name": "@next-core/theme",
+  "version": "0.0.0",
+  "license": "GPL-3.0",
+  "description": "> TODO: description",
+  "main": "./src/index.css"
+}

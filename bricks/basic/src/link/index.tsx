@@ -4,6 +4,7 @@ import { ReactNextElement } from "@next-core/react-element";
 import type { LinkType, Target } from "../interface.js";
 import styleText from "./link.shadow.css";
 import classNames from "classnames";
+import "@next-core/theme";
 
 interface LinkProps {
   type?: LinkType;
@@ -60,7 +61,7 @@ class Link extends ReactNextElement {
    * @kind Target
    * @required false
    * @default -
-   * @description 链接类型
+   * @description 链接跳转类型
    * @enums
    * @group basic
    */
