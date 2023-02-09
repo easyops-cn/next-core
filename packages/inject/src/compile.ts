@@ -1,21 +1,46 @@
 import { get } from "lodash";
-import type { RuntimeContext } from "@next-core/brick-types";
+import type { Location } from "history";
+import type {
+  FeatureFlags,
+  MatchResult,
+  MicroApp,
+} from "@next-core/brick-types";
 import { processPipes } from "@next-core/pipes";
 import { parseInjectableString } from "./syntax.js";
 import type { Placeholder } from "./interfaces.js";
 import { getRegExpOfPlaceholder } from "./lexical.js";
 
-export function transform(raw: string, context: RuntimeContext): unknown {
+export interface LegacyCompatibleRuntimeContext {
+  app: MicroApp;
+  overrideApp?: MicroApp;
+  location: Location;
+  query: URLSearchParams;
+  /** {@inheritDoc FeatureFlags} */
+  flags: FeatureFlags;
+  /** 系统运行时信息，包括登录信息和页面信息。 */
+  sys: Record<string, unknown>;
+  match?: MatchResult;
+  event?: Event;
+  data?: unknown;
+}
+
+export function transform(
+  raw: string,
+  context: LegacyCompatibleRuntimeContext
+): unknown {
   return compile(raw, "@", context);
 }
 
-export function inject(raw: string, context: RuntimeContext): unknown {
+export function inject(
+  raw: string,
+  context: LegacyCompatibleRuntimeContext
+): unknown {
   return compile(raw, "$", context);
 }
 
 export function transformAndInject(
   raw: string,
-  context: RuntimeContext
+  context: LegacyCompatibleRuntimeContext
 ): unknown {
   return compile(raw, ["@", "$"], context);
 }
@@ -25,7 +50,7 @@ type CompileNode = (node: Placeholder) => unknown;
 function compile(
   raw: string,
   symbols: string | string[],
-  context: RuntimeContext
+  context: LegacyCompatibleRuntimeContext
 ): unknown {
   // const symbols = ["@", "$"];
   if (!isInjectable(raw, symbols)) {
@@ -75,7 +100,10 @@ function transformNodeFactory(data: unknown): CompileNode {
   };
 }
 
-function injectNodeFactory(context: RuntimeContext, raw: string): CompileNode {
+function injectNodeFactory(
+  context: LegacyCompatibleRuntimeContext,
+  raw: string
+): CompileNode {
   return function injectNode(node: Placeholder): unknown {
     const matches = node.field.match(
       /^(?:(QUERY(?:_ARRAY)?|EVENT|query|event|APP|HASH|ANCHOR|SYS|FLAGS|CTX)\.)?(.+)$/

@@ -1,16 +1,13 @@
-import type {
-  AsyncProperties,
-  BrickConf,
-  RefForProxy,
-  SlotsConfOfBricks,
-} from "@next-core/brick-types";
+import type { BrickConf, SlotsConfOfBricks } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
 import type { ProxyContext } from "./expandCustomTemplate.js";
 import {
   symbolForComputedPropsFromProxy,
-  symbolForRefForProxy,
+  symbolForBrickHolder,
+  symbolForTplStateStoreId,
 } from "./constants.js";
+import type { AsyncProperties, BrickHolder } from "../interfaces.js";
 
 export function setupTemplateProxy(
   proxyContext: ProxyContext,
@@ -21,16 +18,16 @@ export function setupTemplateProxy(
     reversedProxies,
     asyncTemplateProperties,
     externalSlots,
-    // templateContextId,
+    tplStateStoreId,
     proxyBrick,
   } = proxyContext;
 
   let computedPropsFromProxy: AsyncProperties | undefined;
-  let refForProxy: RefForProxy | undefined;
+  let brickHolder: BrickHolder | undefined;
 
   if (ref && reversedProxies) {
-    refForProxy = {};
-    proxyBrick.internalBricksByRef!.set(ref, refForProxy);
+    brickHolder = {};
+    proxyBrick.internalBricksByRef!.set(ref, brickHolder);
 
     const propertyProxies = reversedProxies.properties.get(ref);
     if (propertyProxies && asyncTemplateProperties) {
@@ -105,7 +102,7 @@ export function setupTemplateProxy(
 
   return {
     [symbolForComputedPropsFromProxy]: computedPropsFromProxy,
-    [symbolForRefForProxy]: refForProxy,
-    // [symbolForTplContextId]: templateContextId,
+    [symbolForBrickHolder]: brickHolder,
+    [symbolForTplStateStoreId]: tplStateStoreId,
   };
 }

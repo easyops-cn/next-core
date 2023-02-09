@@ -1,6 +1,6 @@
-import { RuntimeContext } from "@next-core/brick-types";
 import { computeRealProperties } from "./computeRealProperties.js";
 import { setRealProperties } from "./setRealProperties.js";
+import type { RuntimeContext } from "../interfaces.js";
 
 export function setProperties(
   bricks: HTMLElement | HTMLElement[],

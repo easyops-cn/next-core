@@ -1,1 +1,6 @@
-export { inject, transform, transformAndInject } from "./compile.js";
+export {
+  inject,
+  transform,
+  transformAndInject,
+  type LegacyCompatibleRuntimeContext,
+} from "./compile.js";

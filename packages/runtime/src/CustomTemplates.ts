@@ -80,20 +80,3 @@ function getPropsOfCustomTemplate(tagName: string): string[] {
     Object.keys(proxy?.properties ?? {})
   );
 }
-
-export function getTagNameOfCustomTemplate(
-  brick: string,
-  appId?: string
-): false | string {
-  // When a template is registered by an app, it's namespace maybe missed.
-  if (!brick.includes(".") && appId) {
-    const tagName = `${appId}.${brick}`;
-    if (customTemplates.get(tagName)) {
-      return tagName;
-    }
-  }
-  if (customTemplates.get(brick)) {
-    return brick;
-  }
-  return false;
-}

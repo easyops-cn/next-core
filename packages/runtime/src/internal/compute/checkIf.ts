@@ -1,12 +1,9 @@
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
-import type {
-  BrickConf,
-  ResolveConf,
-  RuntimeContext,
-} from "@next-core/brick-types";
+import type { BrickConf, ResolveConf } from "@next-core/brick-types";
 import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
 import { isPreEvaluated } from "./evaluate.js";
 import { resolveData } from "../data/resolveData.js";
+import type { RuntimeContext } from "../interfaces.js";
 
 /**
  * 包含 `if` 条件判断的对象。

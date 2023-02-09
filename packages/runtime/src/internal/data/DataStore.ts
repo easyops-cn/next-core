@@ -1,9 +1,7 @@
 import type {
-  AsyncProperties,
   BrickEventHandlerCallback,
   ContextConf,
   ResolveOptions,
-  RuntimeContext,
 } from "@next-core/brick-types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
@@ -15,6 +13,11 @@ import {
 } from "../compute/computeRealValue.js";
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
+import type {
+  AsyncProperties,
+  RuntimeBrick,
+  RuntimeContext,
+} from "../interfaces.js";
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
@@ -32,8 +35,9 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private readonly changeEventType: string;
   private readonly pendingStack: Array<ReturnType<typeof resolveDataStore>> =
     [];
+  public readonly hostBrick?: RuntimeBrick;
 
-  constructor(type: T) {
+  constructor(type: T, hostBrick?: RuntimeBrick) {
     this.type = type;
     this.changeEventType =
       this.type === "FORM_STATE"
@@ -41,6 +45,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         : this.type === "STATE"
         ? "state.change"
         : "context.change";
+    this.hostBrick = hostBrick;
   }
 
   getValue(name: string): unknown {

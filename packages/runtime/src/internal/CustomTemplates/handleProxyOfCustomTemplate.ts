@@ -1,5 +1,5 @@
-import { RuntimeBrickElement } from "@next-core/brick-types";
-import { RuntimeBrick } from "../Renderer.js";
+import type { RuntimeBrickElement } from "@next-core/brick-types";
+import type { RuntimeBrick } from "../interfaces.js";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
   const {

@@ -7,7 +7,6 @@ import type {
   ExecuteCustomBrickEventHandler,
   ProviderPollOptions,
   RuntimeBrickElement,
-  RuntimeContext,
   SetPropsCustomBrickEventHandler,
   SiteTheme,
   UseProviderEventHandler,
@@ -21,12 +20,10 @@ import { PollableCallback, startPoll } from "./poll.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { setProperties } from "./compute/setProperties.js";
 import { applyMode, applyTheme } from "../themeAndMode.js";
+import type { ElementHolder, RuntimeContext } from "./interfaces.js";
+import { getTplHostElement } from "./CustomTemplates/utils.js";
 
 type Listener = (event: Event) => unknown;
-
-export interface ElementHolder {
-  element?: HTMLElement;
-}
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -189,11 +186,32 @@ export function listenerFactory(
             );
             break;
 
-          // case "state.update":
-          // case "state.refresh":
-          // case "state.load":
+          case "state.update":
+          case "state.refresh":
+          case "state.load":
+            handleTplStateAction(
+              event,
+              method,
+              handler.args,
+              handler.callback,
+              runtimeContext
+            );
+            break;
 
-          // case "tpl.dispatchEvent":
+          case "tpl.dispatchEvent": {
+            const [type, init] = argsFactory(
+              handler.args,
+              runtimeContext,
+              event
+            ) as [string, CustomEventInit];
+            const tplHostElement = getTplHostElement(
+              runtimeContext,
+              handler.action,
+              `: ${type}`
+            );
+            tplHostElement.dispatchEvent(new CustomEvent(type, init));
+            break;
+          }
 
           // case "formstate.update":
 
@@ -319,15 +337,17 @@ function handleCustomAction(
         event,
       }) as string | string[];
     }
-    // const tpl: RuntimeBrickElement = getTplContext(
-    //   runtimeContext.tplContextId
-    // ).getBrick().element;
-    // targets.push(
-    //   ...[]
-    //     .concat(computedTargetRef)
-    //     .map((ref) => tpl.$$getElementByRef?.(ref))
-    //     .filter(Boolean)
-    // );
+    const targetRefs = ([] as string[]).concat(computedTargetRef);
+    const tplHostElement = getTplHostElement(
+      runtimeContext,
+      "targetRef",
+      `: ${targetRefs.join(", ")}`
+    );
+    targets.push(
+      ...(targetRefs
+        .map((ref) => tplHostElement.$$getElementByRef?.(ref))
+        .filter(Boolean) as HTMLElement[])
+    );
   }
   if (targets.length === 0) {
     // eslint-disable-next-line no-console
@@ -516,6 +536,26 @@ function handleContextAction(
     name as string,
     value,
     method,
+    runtimeContext,
+    callback
+  );
+}
+
+function handleTplStateAction(
+  event: Event,
+  method: "update" | "refresh" | "load",
+  args: unknown[] | undefined,
+  callback: BrickEventHandlerCallback | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const tplStateStore = runtimeContext.tplStateStoreMap.get(
+    runtimeContext.tplStateStoreId!
+  )!;
+  const [name, value] = argsFactory(args, runtimeContext, event);
+  tplStateStore.updateValue(
+    name as string,
+    value,
+    method === "update" ? "replace" : method,
     runtimeContext,
     callback
   );

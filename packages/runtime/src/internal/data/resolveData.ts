@@ -3,10 +3,10 @@ import type {
   HandleRejectByTransform,
   ResolveConf,
   ResolveOptions,
-  RuntimeContext,
 } from "@next-core/brick-types";
 import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
+import type { RuntimeContext } from "../interfaces.js";
 
 const cache = new Map<string, Promise<unknown>>();
 

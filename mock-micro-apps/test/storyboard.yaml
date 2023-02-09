@@ -20,6 +20,31 @@ meta:
       }
   customTemplates:
   - name: tpl-basic
+    state:
+    - name: lazyHello
+      resolve:
+        useProvider: demo-basic.have-more-fun
+        args:
+        - |
+          <% `I'm lazy (${STATE.hello})` %>
+        - 1000
+        lazy: true
+      onChange:
+        action: console.log
+        args:
+        - state onChange
+        - lazyHello
+        - '<% EVENT.detail %>'
+        - '<% 0, STATE.lazyHello %>'
+    - name: hello
+      value: Hello World
+    - name: asyncHello
+      if: false
+      resolve:
+        useProvider: demo-basic.have-more-fun
+        args:
+        - I'm async
+        - 1000
     proxy:
       properties:
         thing:
@@ -46,6 +71,30 @@ meta:
             ref: thingSpan
           - brick: span
             ref: statusSpan
+            lifeCycle:
+              onPageLoad:
+                action: tpl.dispatchEvent
+                args:
+                - oops
+                - detail: yaks
+          - brick: span
+            properties:
+              textContent: "<% 'track state', STATE.lazyHello %>"
+            lifeCycle:
+              onPageLoad:
+              - action: console.log
+                args:
+                - "STATE.asyncHello"
+                - "<% STATE.asyncHello %>"
+              - action: state.load
+                args:
+                - lazyHello
+                callback:
+                  success:
+                    action: console.log
+                    args:
+                    - lazyHello
+                    - "<% 1, STATE.lazyHello %>"
 routes:
 - path: ${APP.homepage}
   # if: '<% !QUERY.redirect %>'
@@ -255,6 +304,21 @@ routes:
         - brick: span
           properties:
             textContent: "~~"
+            # textContent: "<% 0, STATE.hello %>"
+    #       lifeCycle:
+    #         onPageLoad:
+    #           action: console.log
+    #           args:
+    #           - "1. STATE.hello"
+    #           - "<% 1, STATE.hello %>"
+    # lifeCycle:
+    #   onPageLoad:
+    #     action: console.log
+    #     args:
+    #     - "2. STATE.hello"
+    #     - "<% 2, STATE.hello %>"
     events:
       yo:
+        action: console.log
+      oops:
         action: console.log

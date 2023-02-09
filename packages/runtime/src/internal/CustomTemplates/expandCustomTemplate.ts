@@ -1,23 +1,26 @@
 import type {
-  AsyncProperties,
   BrickConf,
   BrickConfInTemplate,
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
-  RuntimeContext,
   SlotsConfOfBricks,
 } from "@next-core/brick-types";
-import type { RuntimeBrick } from "../Renderer.js";
+import { uniqueId } from "lodash";
 import { customTemplates } from "../../CustomTemplates.js";
 import { DataStore } from "../data/DataStore.js";
 import { RuntimeBrickConfWithTplSymbols } from "./constants.js";
 import { setupTemplateProxy } from "./setupTemplateProxy.js";
+import type {
+  AsyncProperties,
+  RuntimeBrick,
+  RuntimeContext,
+} from "../interfaces.js";
 
 export interface ProxyContext {
   reversedProxies: ReversedProxies;
   asyncTemplateProperties?: AsyncProperties;
   externalSlots?: SlotsConfOfBricks;
-  // templateContextId: string;
+  tplStateStoreId: string;
   proxyBrick: RuntimeBrick;
 }
 
@@ -41,12 +44,19 @@ export function expandCustomTemplate(
   brickConf: BrickConf,
   asyncTemplateProperties: AsyncProperties,
   proxyBrick: RuntimeBrick,
-  runtimeContext: RuntimeContext
+  _runtimeContext: RuntimeContext
 ): BrickConf {
-  const tplStore = new DataStore("STATE");
+  const tplStateStoreId = uniqueId("tpl-state-");
+  const runtimeContext = {
+    ..._runtimeContext,
+    tplStateStoreId,
+  };
+  const tplStateStore = new DataStore("STATE", proxyBrick);
+  runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
+
   const { bricks, proxy, state } = customTemplates.get(tplTagName)!;
   // collectWidgetContract(template.contracts);
-  tplStore.define(state, runtimeContext, asyncTemplateProperties);
+  tplStateStore.define(state, runtimeContext, asyncTemplateProperties);
 
   const { slots: externalSlots, ...restBrickConf } = brickConf;
 
@@ -98,7 +108,7 @@ export function expandCustomTemplate(
     reversedProxies,
     asyncTemplateProperties,
     externalSlots: externalSlots as SlotsConfOfBricks | undefined,
-    // templateContextId: tplContext.id,
+    tplStateStoreId,
     proxyBrick,
   };
 

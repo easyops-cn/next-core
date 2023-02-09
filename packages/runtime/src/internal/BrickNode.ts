@@ -1,7 +1,7 @@
 import { bindListeners } from "./bindListeners.js";
 import { setRealProperties } from "./compute/setRealProperties.js";
 import { handleProxyOfCustomTemplate } from "./CustomTemplates/handleProxyOfCustomTemplate.js";
-import { RuntimeBrick } from "./Renderer.js";
+import type { RuntimeBrick } from "./interfaces.js";
 
 export class BrickNode {
   private brick: RuntimeBrick;

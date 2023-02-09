@@ -3,7 +3,7 @@ import { loadProcessorsImperatively } from "@next-core/loader";
 import { supply } from "@next-core/supply";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { RuntimeContext } from "@next-core/brick-types";
+import type { RuntimeContext } from "../interfaces.js";
 import { cloneDeep } from "lodash";
 import { customProcessors } from "../../CustomProcessors.js";
 import {
@@ -19,6 +19,8 @@ import { getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
 import { getRuntime } from "../Runtime.js";
+import type { DataStore } from "../data/DataStore.js";
+import { getTplStateStore } from "../CustomTemplates/utils.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -124,15 +126,15 @@ function lowLevelEvaluate(
 
   const attemptToVisitEvent = attemptToVisitGlobals.has("EVENT");
   const attemptToVisitData = attemptToVisitGlobals.has("DATA");
-  const attemptToVisitState = attemptToVisitGlobals.has("STATE");
-  const attemptToVisitFormState = attemptToVisitGlobals.has("FORM_STATE");
+  // const attemptToVisitState = attemptToVisitGlobals.has("STATE");
+  // const attemptToVisitFormState = attemptToVisitGlobals.has("FORM_STATE");
 
-  // Ignore evaluating if required `event/DATA/STATE/FORM_STATE` is missing in
+  // Ignore evaluating if required `event/DATA` is missing in
   // context. Since they are are provided in different context, whenever
   // missing one of them, memorize the current context for later consuming.
   if (
     (attemptToVisitEvent && !hasOwnProperty(runtimeContext, "event")) ||
-    (attemptToVisitState && !hasOwnProperty(runtimeContext, "tplContextId")) ||
+    // (attemptToVisitState && !hasOwnProperty(runtimeContext, "tplStateStoreId")) ||
     (attemptToVisitData && !hasOwnProperty(runtimeContext, "data"))
   ) {
     return {
@@ -150,12 +152,23 @@ function lowLevelEvaluate(
 
   let usedCtx: Set<string>;
   let usedProcessors: Set<string>;
+  let usedStates: Set<string>;
+  let tplStateStore: DataStore<"STATE"> | undefined;
+
+  if (attemptToVisitGlobals.has("STATE")) {
+    tplStateStore = getTplStateStore(runtimeContext, "STATE", `: "${raw}"`);
+  }
 
   const devHook = getDevHook();
   if (isAsync || devHook) {
     if (attemptToVisitGlobals.has("CTX")) {
       usedCtx = strictCollectMemberUsage(raw, "CTX");
       isAsync && blockingList.push(runtimeContext.ctxStore.waitFor(usedCtx));
+    }
+
+    if (tplStateStore) {
+      usedStates = strictCollectMemberUsage(raw, "STATE");
+      isAsync && blockingList.push(tplStateStore.waitFor(usedStates));
     }
 
     if (attemptToVisitGlobals.has("PROCESSORS")) {
@@ -213,6 +226,15 @@ function lowLevelEvaluate(
               },
               ownKeys() {
                 return Array.from(usedCtx);
+              },
+            });
+          case "STATE":
+            return getDynamicReadOnlyProxy({
+              get(target, key: string) {
+                return tplStateStore!.getValue(key);
+              },
+              ownKeys() {
+                return Array.from(usedStates);
               },
             });
           case "DATA":

@@ -7,54 +7,8 @@ import {
   FeatureFlags,
   SeguesConf,
   BrickEventHandler,
-  BrickEventHandlerCallback,
-  ContextConf,
-  BrickPackage,
 } from "./manifest";
 import { SidebarMenu, SidebarSubMenu } from "./menu";
-
-export interface RuntimeContext {
-  app: MicroApp;
-  overrideApp?: MicroApp;
-  location: Location;
-  query: URLSearchParams;
-  /** {@inheritDoc FeatureFlags} */
-  flags: FeatureFlags;
-  /** 系统运行时信息，包括登录信息和页面信息。 */
-  sys: Record<string, unknown>;
-  brickPackages: BrickPackage[];
-  ctxStore: AbstractDataStore;
-  pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
-  match?: MatchResult;
-  event?: Event;
-  data?: unknown;
-}
-
-export type AsyncProperties = Promise<Record<string, unknown>>;
-
-export interface AbstractDataStore {
-  getValue(name: string): unknown;
-
-  updateValue(
-    name: string,
-    value: unknown,
-    method: "assign" | "replace" | "refresh" | "load",
-    runtimeContext: RuntimeContext,
-    callback?: BrickEventHandlerCallback
-  ): void;
-
-  define(
-    dataConfs: ContextConf[] | undefined,
-    runtimeContext: RuntimeContext,
-    asyncHostProperties?: AsyncProperties
-  ): void;
-
-  waitFor(dataNames: Iterable<string>): Promise<void>;
-
-  waitForAll(): Promise<void>;
-
-  onChange(dataName: string, listener: EventListener): void;
-}
 
 /** @internal */
 export interface CompileOptions {

@@ -7,7 +7,6 @@ import type {
   MicroApp,
   PluginHistoryState,
   PluginLocation,
-  RuntimeContext,
 } from "@next-core/brick-types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { getHistory } from "../history.js";
@@ -33,6 +32,7 @@ import {
 import { getRuntime } from "./Runtime.js";
 import { getAuth } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
+import type { RuntimeContext } from "./interfaces.js";
 
 export class Router {
   #kernel: Kernel;
@@ -84,7 +84,7 @@ export class Router {
   }): string | undefined {
     const history = getHistory();
     const previousMessage = history.getBlockMessage();
-    this.#routerContext?.dispatchBeforePageLeave(detail, this.#runtimeContext!);
+    this.#routerContext?.dispatchBeforePageLeave(detail);
     const message = history.getBlockMessage();
     if (!previousMessage && message) {
       // Auto unblock only if new block was introduced by `onBeforePageLeave`.
@@ -141,7 +141,7 @@ export class Router {
       }
       // abortController.abortPendingRequest();
       this.#prevLocation = location;
-      this.#routerContext?.dispatchPageLeave(this.#runtimeContext!);
+      this.#routerContext?.dispatchPageLeave();
       // this.locationContext.messageDispatcher.reset();
 
       if (action === "POP") {
@@ -252,7 +252,7 @@ export class Router {
     };
 
     if (currentApp) {
-      const runtimeContext = (this.#runtimeContext = {
+      const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,
         query: new URLSearchParams(location.search),
@@ -264,6 +264,7 @@ export class Router {
         ctxStore: new DataStore("CTX"),
         brickPackages: this.#kernel.bootstrapData.brickPackages,
         pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
+        tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
       });
 
       const routerContext = (this.#routerContext = new RouterContext());
@@ -307,6 +308,9 @@ export class Router {
 
         output.blockingList.push(
           runtimeContext.ctxStore.waitForAll(),
+          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+            store.waitForAll()
+          ),
           // Todo: load processors only when they would used in current rendering.
           // loadProcessorsImperatively(
           //   strictCollectMemberUsage(
@@ -344,7 +348,7 @@ export class Router {
       if ((output.route && output.route.type !== "routes") || failed) {
         if (!failed) {
           // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
-          routerContext.dispatchBeforePageLoad(runtimeContext);
+          routerContext.dispatchBeforePageLoad();
         }
         applyTheme();
         applyMode();
@@ -360,14 +364,13 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
-          routerContext.initializeScrollIntoView(runtimeContext);
-          routerContext.dispatchPageLoad(runtimeContext);
-          routerContext.dispatchAnchorLoad(runtimeContext);
+          routerContext.initializeScrollIntoView();
+          routerContext.dispatchPageLoad();
+          routerContext.dispatchAnchorLoad();
 
           this.#mediaListener = (event) => {
             routerContext.dispatchMediaChange(
-              (event as CustomEvent<Media>).detail,
-              runtimeContext
+              (event as CustomEvent<Media>).detail
             );
           };
           mediaEventTarget.addEventListener("change", this.#mediaListener);

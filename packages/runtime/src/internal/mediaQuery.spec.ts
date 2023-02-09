@@ -2,7 +2,7 @@ import {
   getMedia,
   mediaEventTarget,
   mediaBreakpointMinWidthMap,
-} from "./mediaQuery";
+} from "./mediaQuery.js";
 
 const matchMediaMockResults = (window.matchMedia as jest.Mock).mock.results;
 const offset = matchMediaMockResults.length - mediaBreakpointMinWidthMap.size;

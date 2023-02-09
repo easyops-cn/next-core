@@ -1,11 +1,8 @@
-import type {
-  MatchResult,
-  RouteConf,
-  RuntimeContext,
-} from "@next-core/brick-types";
+import type { MatchResult, RouteConf } from "@next-core/brick-types";
 import { matchPath } from "./matchPath.js";
 import { asyncCheckIf } from "./compute/checkIf.js";
 import { isLoggedIn } from "../auth.js";
+import type { RuntimeContext } from "./interfaces.js";
 
 type MatchRoutesResult =
   | {

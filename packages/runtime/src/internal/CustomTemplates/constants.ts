@@ -1,20 +1,17 @@
-import type {
-  RefForProxy,
-  BrickConf,
-  AsyncProperties,
-} from "@next-core/brick-types";
+import type { BrickConf } from "@next-core/brick-types";
+import type { AsyncProperties, BrickHolder } from "../interfaces.js";
 
 export const symbolForComputedPropsFromProxy = Symbol.for(
   "tpl.computedPropsFromProxy"
 );
-export const symbolForRefForProxy = Symbol.for("tpl.refForProxy");
-export const symbolForTplContextId = Symbol.for("tpl.contextId");
+export const symbolForBrickHolder = Symbol.for("tpl.brickHolder");
+export const symbolForTplStateStoreId = Symbol.for("tpl.stateStoreId");
 
 export type RuntimeBrickConfWithTplSymbols = BrickConf &
   RuntimeBrickConfOfTplSymbols;
 
 export interface RuntimeBrickConfOfTplSymbols {
   [symbolForComputedPropsFromProxy]?: AsyncProperties;
-  [symbolForRefForProxy]?: RefForProxy;
-  [symbolForTplContextId]?: string;
+  [symbolForBrickHolder]?: BrickHolder;
+  [symbolForTplStateStoreId]?: string;
 }

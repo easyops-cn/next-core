@@ -1,5 +1,4 @@
 import { isObject } from "@next-core/utils/general";
-import { RuntimeContext } from "@next-core/brick-types";
 import { isEvaluable } from "@next-core/cook";
 import { track } from "@next-core/utils/storyboard";
 import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
@@ -9,6 +8,7 @@ import {
   isPreEvaluated,
 } from "./evaluate.js";
 import { TrackingContextItem } from "./listenOnTrackingContext.js";
+import type { RuntimeContext } from "../interfaces.js";
 
 export async function asyncComputeRealProperties(
   properties: Record<string, unknown> | undefined,

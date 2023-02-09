@@ -1,12 +1,7 @@
 import type {
   BrickConf,
-  BrickEventsMap,
-  CustomTemplateProxy,
   PluginHistoryState,
-  RefForProxy,
   RouteConf,
-  RuntimeBrickElement,
-  RuntimeContext,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
 import { isObject } from "@next-core/utils/general";
@@ -15,7 +10,6 @@ import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import { validatePermissions } from "./checkPermissions.js";
-import { getTagNameOfCustomTemplate } from "../CustomTemplates.js";
 import {
   TrackingContextItem,
   listenOnTrackingContext,
@@ -26,9 +20,12 @@ import { getAuth, isLoggedIn } from "../auth.js";
 import {
   RuntimeBrickConfWithTplSymbols,
   symbolForComputedPropsFromProxy,
-  symbolForRefForProxy,
+  symbolForBrickHolder,
+  symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
+import type { RuntimeBrick, RuntimeContext } from "./interfaces.js";
+import { getTagNameOfCustomTemplate } from "./CustomTemplates/utils.js";
 
 export interface RenderOutput {
   main: RuntimeBrick[];
@@ -41,27 +38,13 @@ export interface RenderOutput {
   route?: RouteConf;
   blockingList: (Promise<unknown> | undefined)[];
 }
-
-export interface RuntimeBrick {
-  type: string;
-  children: RuntimeBrick[];
-  properties?: Record<string, unknown>;
-  events?: BrickEventsMap;
-  slotId?: string;
-  element?: RuntimeBrickElement;
-  iid?: string;
-  runtimeContext: RuntimeContext;
-  internalBricksByRef?: Map<string, RefForProxy>;
-  proxy?: CustomTemplateProxy;
-}
-
 export async function renderRoutes(
   routes: RouteConf[],
-  runtimeContext: RuntimeContext,
+  _runtimeContext: RuntimeContext,
   routerContext: RouterContext,
   slotId?: string
 ): Promise<RenderOutput> {
-  const matched = await matchRoutes(routes, runtimeContext);
+  const matched = await matchRoutes(routes, _runtimeContext);
   const output: RenderOutput = {
     main: [],
     portal: [],
@@ -75,7 +58,10 @@ export async function renderRoutes(
       break;
     default: {
       const route = (output.route = matched.route);
-      runtimeContext.match = matched.match;
+      const runtimeContext = {
+        ..._runtimeContext,
+        match: matched.match,
+      };
       runtimeContext.ctxStore.define(route.context, runtimeContext);
       runtimeContext.pendingPermissionsPreCheck.push(
         preCheckPermissionsForBrickOrRoute(route, runtimeContext)
@@ -165,7 +151,7 @@ export async function renderBricks(
 
 export async function renderBrick(
   brickConf: RuntimeBrickConfWithTplSymbols,
-  runtimeContext: RuntimeContext,
+  _runtimeContext: RuntimeContext,
   routerContext: RouterContext,
   slotId?: string,
   tplStack = new Map<string, number>()
@@ -174,6 +160,12 @@ export async function renderBrick(
     main: [],
     portal: [],
     blockingList: [],
+  };
+
+  const tplStateStoreId = brickConf[symbolForTplStateStoreId];
+  const runtimeContext = {
+    ..._runtimeContext,
+    tplStateStoreId,
   };
 
   if (!(await checkBrickIf(brickConf, runtimeContext))) {
@@ -213,9 +205,9 @@ export async function renderBrick(
     runtimeContext,
   };
 
-  const refForProxy = brickConf[symbolForRefForProxy];
-  if (refForProxy) {
-    refForProxy.brick = brick;
+  const brickHolder = brickConf[symbolForBrickHolder];
+  if (brickHolder) {
+    brickHolder.brick = brick;
   }
 
   // 加载构件属性和加载子构件等任务，可以并行。
@@ -242,7 +234,7 @@ export async function renderBrick(
   blockingList.push(asyncProperties);
 
   asyncProperties.then(() => {
-    listenOnTrackingContext(brick, trackingContextList, runtimeContext);
+    listenOnTrackingContext(brick, trackingContextList);
   });
 
   routerContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);

@@ -2,14 +2,13 @@ import type {
   BrickEventHandler,
   BrickLifeCycle,
   PluginHistoryState,
-  RuntimeContext,
 } from "@next-core/brick-types";
 import type { Action, Location } from "history";
-import { RuntimeBrick } from "./Renderer.js";
 import { listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import type { Media } from "./mediaQuery.js";
+import type { RuntimeBrick } from "./interfaces.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -92,52 +91,42 @@ export class RouterContext {
       | "onAnchorLoad"
       | "onAnchorUnload"
       | "onMediaChange",
-    event: CustomEvent,
-    runtimeContext: RuntimeContext
+    event: CustomEvent
   ): void {
     for (const { brick, handlers } of this.memoizedLifeCycle[type] ?? []) {
-      listenerFactory(handlers, runtimeContext, brick)(event);
+      listenerFactory(handlers, brick.runtimeContext, brick)(event);
     }
   }
 
-  dispatchBeforePageLoad(runtimeContext: RuntimeContext): void {
+  dispatchBeforePageLoad(): void {
     this.dispatchGeneralLifeCycle(
       "onBeforePageLoad",
-      new CustomEvent("page.beforeLoad"),
-      runtimeContext
+      new CustomEvent("page.beforeLoad")
     );
   }
 
-  dispatchPageLoad(runtimeContext: RuntimeContext): void {
+  dispatchPageLoad(): void {
     const event = new CustomEvent("page.load");
-    this.dispatchGeneralLifeCycle("onPageLoad", event, runtimeContext);
+    this.dispatchGeneralLifeCycle("onPageLoad", event);
     // Currently only for e2e testing
     window.dispatchEvent(event);
   }
 
-  dispatchBeforePageLeave(
-    detail: {
-      location?: Location<PluginHistoryState>;
-      action?: Action;
-    },
-    runtimeContext: RuntimeContext
-  ): void {
+  dispatchBeforePageLeave(detail: {
+    location?: Location<PluginHistoryState>;
+    action?: Action;
+  }): void {
     this.dispatchGeneralLifeCycle(
       "onBeforePageLeave",
-      new CustomEvent("page.beforeLeave", { detail }),
-      runtimeContext
+      new CustomEvent("page.beforeLeave", { detail })
     );
   }
 
-  dispatchPageLeave(runtimeContext: RuntimeContext): void {
-    this.dispatchGeneralLifeCycle(
-      "onPageLeave",
-      new CustomEvent("page.leave"),
-      runtimeContext
-    );
+  dispatchPageLeave(): void {
+    this.dispatchGeneralLifeCycle("onPageLeave", new CustomEvent("page.leave"));
   }
 
-  dispatchAnchorLoad(runtimeContext: RuntimeContext): void {
+  dispatchAnchorLoad(): void {
     const { hash } = getHistory().location;
     if (hash && hash !== "#") {
       this.dispatchGeneralLifeCycle(
@@ -147,29 +136,26 @@ export class RouterContext {
             hash,
             anchor: hash.substring(1),
           },
-        }),
-        runtimeContext
+        })
       );
     } else {
       this.dispatchGeneralLifeCycle(
         "onAnchorUnload",
-        new CustomEvent("anchor.unload"),
-        runtimeContext
+        new CustomEvent("anchor.unload")
       );
     }
   }
 
-  dispatchMediaChange(detail: Media, runtimeContext: RuntimeContext): void {
+  dispatchMediaChange(detail: Media): void {
     this.dispatchGeneralLifeCycle(
       "onMediaChange",
       new CustomEvent("media.change", {
         detail: getReadOnlyProxy(detail),
-      }),
-      runtimeContext
+      })
     );
   }
 
-  initializeScrollIntoView(runtimeContext: RuntimeContext): void {
+  initializeScrollIntoView(): void {
     for (const { brick, handlers: conf } of this.memoizedLifeCycle
       .onScrollIntoView ?? []) {
       const threshold = conf.threshold ?? 0.1;
@@ -180,7 +166,7 @@ export class RouterContext {
               if (entry.intersectionRatio >= threshold) {
                 listenerFactory(
                   conf.handlers,
-                  runtimeContext,
+                  brick.runtimeContext,
                   brick
                 )(new CustomEvent("scroll.into.view"));
                 observer.disconnect();
