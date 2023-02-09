@@ -80,6 +80,7 @@ export default async function build(config) {
     "@next-core/cook",
     "@next-core/utils/general",
     "@next-core/utils/storyboard",
+    "@next-core/theme",
   ];
 
   /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig["moduleFederationShared"]} */
@@ -264,6 +265,7 @@ export default async function build(config) {
       ...(config.extractCss
         ? [
             new MiniCssExtractPlugin({
+              insert: "head",
               filename:
                 mode === "development"
                   ? "[name].bundle.css"

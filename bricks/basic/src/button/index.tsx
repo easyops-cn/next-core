@@ -4,7 +4,7 @@ import { ReactNextElement } from "@next-core/react-element";
 import type { ButtonType, ComponentSize } from "../interface.js";
 import classNames from "classnames";
 import styleText from "./button.shadow.css";
-import "../style/index.css";
+import "@next-core/theme";
 
 interface ButtonProps {
   type?: ButtonType;
