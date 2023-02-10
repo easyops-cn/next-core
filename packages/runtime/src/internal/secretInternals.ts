@@ -1,4 +1,5 @@
 import type { BrickEventHandler } from "@next-core/brick-types";
+import { loadBricksImperatively } from "@next-core/loader";
 import type { ElementHolder } from "./interfaces.js";
 import { listenerFactory } from "./bindListeners.js";
 import {
@@ -7,7 +8,6 @@ import {
 } from "./Runtime.js";
 import { computeRealProperties } from "./compute/computeRealProperties.js";
 import { checkIf, IfContainer } from "./compute/checkIf.js";
-import { loadBricksImperatively } from "@next-core/loader";
 
 export interface UseBrickContext {
   data: unknown;
@@ -49,6 +49,6 @@ export function checkIfForUseBrick(
   });
 }
 
-export function loadBricksForUseBrick(brick: string) {
-  return loadBricksImperatively([brick], _internalApiGetBrickPackages());
+export function loadBricks(bricks: Iterable<string>) {
+  return loadBricksImperatively(bricks, _internalApiGetBrickPackages());
 }

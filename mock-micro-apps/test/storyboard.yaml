@@ -302,9 +302,13 @@ routes:
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 2 %>'
   bricks:
+  - brick: demo-basic.x-button
+    properties:
+      label: X
   - brick: demo-basic.button-group
     properties:
       useBrick:
+        if: '<% DATA === "b" %>'
         brick: demo-basic.x-button
         properties:
           label: '<% `Label for "${DATA}"` %>'

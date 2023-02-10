@@ -9,13 +9,17 @@ export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
   data?: unknown;
 }
-
 export function ReactUseBrick(
   props: ReactUseBrickProps
 ): React.ReactElement | null {
+  const useBrickContext = { data: props.data };
+  if (!__secret_internals.checkIfForUseBrick(props.useBrick, useBrickContext)) {
+    return null;
+  }
+
   const LazyWebComponent = lazy(async () => {
     if (props.useBrick.brick.includes("-")) {
-      await __secret_internals.loadBricksForUseBrick(props.useBrick.brick);
+      await __secret_internals.loadBricks([props.useBrick.brick]);
     }
     return { default: LegacyReactUseBrick };
   });
@@ -35,13 +39,10 @@ function LegacyReactUseBrick({
   const elementHolder = useMemo<{ element?: any }>(() => ({}), []);
   const useBrickContext = { data };
 
-  if (!__secret_internals.checkIfForUseBrick(useBrick, useBrickContext)) {
-    return null;
-  }
-
   const {
     ref: _ref,
     key: _key,
+    children: _children,
     textContent,
     dataset,
     ...properties
@@ -99,4 +100,25 @@ function slotsToChildren(
         }))
       : []
   );
+}
+
+export interface ReactUseMultipleBricksProps {
+  useBrick: UseSingleBrickConf | UseSingleBrickConf[];
+  data?: unknown;
+}
+
+export function ReactUseMultipleBricks({
+  useBrick,
+  data,
+}: ReactUseMultipleBricksProps): React.ReactElement | null {
+  if (Array.isArray(useBrick)) {
+    return (
+      <>
+        {useBrick.map((item, index) => (
+          <ReactUseBrick key={index} useBrick={item} data={data} />
+        ))}
+      </>
+    );
+  }
+  return <ReactUseBrick useBrick={useBrick} data={data} />;
 }

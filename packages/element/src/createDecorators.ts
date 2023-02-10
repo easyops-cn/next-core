@@ -101,6 +101,8 @@ export function createDecorators() {
 
         defineReadonlyProperty(this, "styleTexts", options?.styleTexts);
 
+        defineReadonlyProperty(this, "__tagName", name);
+
         const mergedProperties = mergeIterables(
           superClass._dev_only_definedProperties ?? [],
           definedProperties

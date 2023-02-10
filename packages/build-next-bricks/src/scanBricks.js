@@ -42,6 +42,10 @@ export default async function scanBricks(packageDir) {
    */
   async function scanByFile(filePath, overrideImport) {
     if (processedFiles.has(filePath)) {
+      console.warn(
+        "[scan-bricks] warn: the file has already been scanned:",
+        filePath
+      );
       return;
     }
     processedFiles.add(filePath);
@@ -208,12 +212,16 @@ export default async function scanBricks(packageDir) {
           });
         }
       },
-      ImportDeclaration({ node: { source } }) {
+      ImportDeclaration({ node: { source, importKind, specifiers } }) {
         // Match `import "..."`
         if (
           source.type === "StringLiteral" &&
-          source.value.startsWith("./") &&
-          source.value.endsWith(".js")
+          (source.value.startsWith("./") || source.value.startsWith("../")) &&
+          source.value.endsWith(".js") &&
+          // Ignore `import type {...} from "..."`
+          importKind === "value" &&
+          // Ignore `import { ... } from "..."`
+          specifiers.length === 0
         ) {
           const importPath = path.resolve(dirname, source.value);
           const importDir = path.dirname(importPath);

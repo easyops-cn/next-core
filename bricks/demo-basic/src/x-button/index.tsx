@@ -1,6 +1,6 @@
 import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
-import { ReactNextElement } from "@next-core/react-element";
+import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
 import { http } from "@next-core/brick-http";
 import { useTranslation } from "react-i18next";
 import styleText from "./x-button.shadow.css";
@@ -8,10 +8,14 @@ import "../i18n.js";
 
 const { defineElement, property, method, event } = createDecorators();
 
+export interface XButtonInterface {
+  label?: string;
+}
+
 @defineElement("demo-basic.x-button", {
   styleTexts: [styleText],
 })
-class XButton extends ReactNextElement {
+class XButton extends ReactNextElement implements XButtonInterface {
   @property() accessor label: string;
 
   // https://github.com/microsoft/TypeScript/pull/50820
@@ -49,3 +53,7 @@ export function XButtonComponent({ label }: { label?: string }) {
 }
 
 export { XButton };
+
+export const WrappedXButton = wrapLocalBrick<XButtonInterface, XButton>(
+  XButton
+);

@@ -1,9 +1,14 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
-import { XButton } from "../x-button/index.js";
+import { wrapLocalBrick } from "@next-core/react-element";
+import { XButton, XButtonInterface } from "../x-button/index.js";
 // import "./y-button.css";
 
 import styleText from "./y-button.shadow.css";
+
+export interface YButtonInterface extends XButtonInterface {
+  suffix?: string;
+}
 
 const { defineElement, property } = createDecorators();
 
@@ -23,3 +28,7 @@ class YButton extends XButton {
     );
   }
 }
+
+export const WrappedYButton = wrapLocalBrick<YButtonInterface, YButton>(
+  YButton
+);
