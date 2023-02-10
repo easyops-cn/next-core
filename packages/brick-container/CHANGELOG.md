@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.82.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.0...@next-core/brick-container@2.82.1) (2023-02-10)
+
+
+### Bug Fixes
+
+* **report_nb:** next-core的report_brick_next_package.py修改， 上报nb的时候需要的版本信息通过读取version.ini获取 ([f867e3e](https://github.com/easyops-cn/next-core/commit/f867e3ef3fcc5510eef4fb6ae0a54a351fcb1146))
+
+
+
+
+
 # [2.82.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.81.14...@next-core/brick-container@2.82.0) (2023-02-10)
 
 
