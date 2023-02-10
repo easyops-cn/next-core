@@ -36,7 +36,7 @@ class FlexLayout extends ReactNextElement {
     };
 
     Object.entries(flexProps).forEach(([key, value]) => {
-      if (value) {
+      if (value != null) {
         this.style[key] = value;
       }
     });
