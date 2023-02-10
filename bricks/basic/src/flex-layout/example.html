@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <basic.flex-layout
+      id="flex-demo-1"
+      style="width: 900px; background: pink; margin-bottom: 20px"
+    >
+      <div style="background: yellow">第一个 div</div>
+      <div style="background: orange">第二个 div</div>
+    </basic.flex-layout>
+
+    <basic.flex-layout
+      id="flex-demo-2"
+      style="width: 155px; background: pink; border: 1px solid black"
+    >
+      <div style="background: yellow">NO.1</div>
+      <div style="background: orange">NO.2</div>
+      <div style="background: DeepSkyBlue">NO.3</div>
+      <div style="background: Chartreuse">NO.4</div>
+      <div style="background: Aquamarine">NO.5</div>
+      <div style="background: YellowGreen">NO.6</div>
+    </basic.flex-layout>
+
+    <script>
+      const flex = document.querySelector("#flex-demo-1");
+
+      flex.alignItems = "center";
+
+      flex.justifyContent = "space-between";
+
+      const flex2 = document.querySelector("#flex-demo-2");
+
+      flex2.flexWrap = "wrap";
+      flex2.gap = "20px";
+    </script>
+  </body>
+</html>
