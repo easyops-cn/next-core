@@ -2,6 +2,7 @@ import type {
   BrickConf,
   BrickConfInTemplate,
   SlotsConfOfBricks,
+  UseSingleBrickConf,
 } from "@next-core/brick-types";
 import { uniq, uniqueId } from "lodash";
 import { customTemplates } from "../../CustomTemplates.js";
@@ -9,23 +10,23 @@ import { DataStore } from "../data/DataStore.js";
 import { RuntimeBrickConfWithTplSymbols } from "./constants.js";
 import { setupTemplateProxy } from "./setupTemplateProxy.js";
 import type {
-  AsyncProperties,
+  MaybeAsyncProperties,
   RuntimeBrick,
-  RuntimeContext,
   TemplateHostBrick,
   TemplateHostContext,
 } from "../interfaces.js";
+import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 
-export function expandCustomTemplate(
+export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
-  brickConf: BrickConf,
-  asyncTemplateProperties: AsyncProperties,
+  brickConf: T,
   hostBrick: RuntimeBrick,
-  _runtimeContext: RuntimeContext
-): BrickConf {
+  hostProperties: MaybeAsyncProperties | undefined,
+  hostPropertiesAreAsync?: boolean
+): T {
   const tplStateStoreId = uniqueId("tpl-state-");
   const runtimeContext = {
-    ..._runtimeContext,
+    ...hostBrick.runtimeContext,
     tplStateStoreId,
   };
   const tplStateStore = new DataStore("STATE", hostBrick);
@@ -33,15 +34,19 @@ export function expandCustomTemplate(
 
   const { bricks, proxy, state } = customTemplates.get(tplTagName)!;
   // collectWidgetContract(template.contracts);
-  tplStateStore.define(state, runtimeContext, asyncTemplateProperties);
+  tplStateStore.define(
+    state,
+    runtimeContext,
+    hostProperties,
+    hostPropertiesAreAsync
+  );
 
   const { slots: externalSlots, ...restBrickConf } = brickConf;
 
-  const newBrickConf: BrickConf = {
+  const newBrickConf = {
     ...restBrickConf,
     brick: tplTagName,
-    properties: undefined,
-  };
+  } as T;
 
   hostBrick.tplHostMetadata = {
     internalBricksByRef: new Map(),
@@ -90,7 +95,8 @@ export function expandCustomTemplate(
 
   const hostContext: TemplateHostContext = {
     reversedProxies,
-    asyncTemplateProperties,
+    hostProperties,
+    hostPropertiesAreAsync,
     externalSlots: externalSlots as SlotsConfOfBricks | undefined,
     tplStateStoreId,
     hostBrick: hostBrick as TemplateHostBrick,
@@ -132,7 +138,7 @@ function expandBrickInTemplate(
     ])
   );
 
-  // setupUseBrickInTemplate(brickConfInTemplate.properties, hostContext);
+  setupUseBrickInTemplate(brickConfInTemplate.properties, hostContext);
 
   return {
     ...restBrickConfInTemplate,

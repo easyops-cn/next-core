@@ -20,6 +20,8 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
 
 export type AsyncProperties = Promise<Record<string, unknown>>;
 
+export type MaybeAsyncProperties = AsyncProperties | Record<string, unknown>;
+
 export interface ElementHolder {
   element?: HTMLElement;
 }
@@ -53,7 +55,8 @@ export type TemplateHostBrick = RuntimeBrick & {
 
 export interface TemplateHostContext {
   reversedProxies: ReversedProxies;
-  asyncTemplateProperties?: AsyncProperties;
+  hostProperties?: MaybeAsyncProperties;
+  hostPropertiesAreAsync?: boolean;
   externalSlots?: SlotsConfOfBricks;
   tplStateStoreId: string;
   hostBrick: TemplateHostBrick;

@@ -86,6 +86,16 @@ meta:
                 args:
                 - oops
                 - detail: yaks
+            events:
+              click:
+              - action: console.log
+                args:
+                - status click
+                - '<% EVENT.detail %>'
+              - action: tpl.dispatchEvent
+                args:
+                - oops
+                - detail: yaks
           - brick: span
             properties:
               textContent: "<% 'track state', STATE.lazyHello %>"
@@ -307,22 +317,29 @@ routes:
       label: X
   - brick: demo-basic.button-group
     properties:
+      # useBrick:
+      #   if: '<% DATA === "b" %>'
+      #   brick: demo-basic.x-button
+      #   properties:
+      #     label: '<% `Label for "${DATA}"` %>'
+      #     dataset:
+      #       iid: 1
+      #   slots:
+      #     "":
+      #       bricks:
+      #       - brick: span
+      #         properties:
+      #           textContent: '<% `Content for "${DATA}"` %>'
+      #           dataset:
+      #             iid: 2
       useBrick:
-        if: '<% DATA === "b" %>'
-        brick: demo-basic.x-button
+        brick: tpl-basic
         properties:
-          label: '<% `Label for "${DATA}"` %>'
-          dataset:
-            iid: 1
-        slots:
-          "":
-            bricks:
-            - brick: span
-              properties:
-                textContent: '<% `Content for "${DATA}"` %>'
-                dataset:
-                  iid: 2
+          thing: '<% `Thing for "${DATA}"` %>'
+          status: '<% `Status for "${DATA}"` %>'
+          hello: '<% `Hello for "${DATA}"` %>'
   - brick: tpl-basic
+    if: false
     properties:
       thing: Template
       status: Works!

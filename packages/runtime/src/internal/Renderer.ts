@@ -19,7 +19,7 @@ import { matchRoutes } from "./matchRoutes.js";
 import { getAuth, isLoggedIn } from "../auth.js";
 import {
   RuntimeBrickConfWithTplSymbols,
-  symbolForComputedPropsFromProxy,
+  symbolForAsyncComputedProps,
   symbolForBrickHolder,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
@@ -220,7 +220,7 @@ export async function renderBrick(
       runtimeContext,
       trackingContextList
     );
-    const computedPropsFromProxy = brickConf[symbolForComputedPropsFromProxy];
+    const computedPropsFromProxy = brickConf[symbolForAsyncComputedProps];
     if (computedPropsFromProxy) {
       brick.properties ??= {};
       const computed = await computedPropsFromProxy;
@@ -244,9 +244,9 @@ export async function renderBrick(
     expandedBrickConf = expandCustomTemplate(
       tplTagName,
       brickConf,
-      asyncProperties,
       brick,
-      runtimeContext
+      asyncProperties,
+      true
     );
   }
 

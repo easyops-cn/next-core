@@ -29,7 +29,7 @@ export function ButtonGroupComponent({
 }) {
   return (
     <>
-      <WrappedXButton
+      {/* <WrappedXButton
         label="I am label X,"
         ref={(element) => {
           // eslint-disable-next-line no-console
@@ -47,9 +47,9 @@ export function ButtonGroupComponent({
         }}
       >
         I am content Y.
-      </WrappedYButton>
+      </WrappedYButton> */}
       {useBrick && <ReactUseBrick useBrick={useBrick} data="a" />}
-      {useBrick && <ReactUseBrick useBrick={useBrick} data="b" />}
+      {/* {useBrick && <ReactUseBrick useBrick={useBrick} data="b" />} */}
     </>
   );
 }

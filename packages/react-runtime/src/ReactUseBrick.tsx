@@ -1,4 +1,4 @@
-import React, { useMemo, Suspense, lazy, PropsWithChildren } from "react";
+import React, { Suspense, lazy, PropsWithChildren, useCallback } from "react";
 import type {
   UseBrickSlotsConf,
   UseSingleBrickConf,
@@ -9,24 +9,40 @@ export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
   data?: unknown;
 }
-export function ReactUseBrick(
-  props: ReactUseBrickProps
-): React.ReactElement | null {
-  const useBrickContext = { data: props.data };
-  if (!__secret_internals.checkIfForUseBrick(props.useBrick, useBrickContext)) {
+export function ReactUseBrick({
+  useBrick,
+  data,
+}: ReactUseBrickProps): React.ReactElement | null {
+  const useBrickContext = __secret_internals.getUseBrickContext(useBrick, data);
+  if (!__secret_internals.checkIfForUseBrick(useBrick, useBrickContext)) {
     return null;
   }
 
+  const tplTagName = __secret_internals.getTplTagName(useBrick.brick);
+  const tagName = tplTagName || useBrick.brick;
+
+  if (!tagName.includes("-")) {
+    return (
+      <LegacyReactUseBrick
+        useBrick={useBrick}
+        data={data}
+        tplTagName={tplTagName}
+      />
+    );
+  }
+
   const LazyWebComponent = lazy(async () => {
-    if (props.useBrick.brick.includes("-")) {
-      await __secret_internals.loadBricks([props.useBrick.brick]);
-    }
+    await __secret_internals.loadBricks([tagName]);
     return { default: LegacyReactUseBrick };
   });
 
   return (
     <Suspense>
-      <LazyWebComponent {...props} />
+      <LazyWebComponent
+        useBrick={useBrick}
+        data={data}
+        tplTagName={tplTagName}
+      />
     </Suspense>
   );
 }
@@ -34,10 +50,19 @@ export function ReactUseBrick(
 function LegacyReactUseBrick({
   useBrick,
   data,
-}: PropsWithChildren<ReactUseBrickProps>): React.ReactElement | null {
+  tplTagName,
+}: PropsWithChildren<ReactUseBrickProps> & {
+  tplTagName?: string | false;
+}): React.ReactElement | null {
   const WebComponent = useBrick.brick as any;
-  const elementHolder = useMemo<{ element?: any }>(() => ({}), []);
-  const useBrickContext = { data };
+  const useBrickContext = __secret_internals.getUseBrickContext(useBrick, data);
+
+  const { expandedUseBrick, runtimeBrick } =
+    __secret_internals.expandCustomTemplateForUseBrick(
+      tplTagName,
+      useBrick,
+      useBrickContext
+    );
 
   const {
     ref: _ref,
@@ -45,15 +70,14 @@ function LegacyReactUseBrick({
     children: _children,
     textContent,
     dataset,
+    slot,
     ...properties
-  } = __secret_internals.computeRealPropertiesForUseBrick(
-    useBrick.properties,
-    useBrickContext
-  ) as {
+  } = expandedUseBrick.properties ??
+  ({} as {
     ref?: unknown;
     textContent?: string;
     [key: string]: unknown;
-  };
+  });
 
   if (dataset) {
     for (const [key, value] of Object.entries(dataset)) {
@@ -61,22 +85,29 @@ function LegacyReactUseBrick({
     }
   }
 
+  if (slot) {
+    properties.slot = slot;
+  }
+
+  const refCallback = useCallback(
+    (element: HTMLElement) => {
+      runtimeBrick.element = element;
+      if (element) {
+        __secret_internals.bindListenersForUseBrick(
+          element,
+          expandedUseBrick.events,
+          useBrickContext
+        );
+        __secret_internals.handleProxyOfCustomTemplate(runtimeBrick);
+      }
+    },
+    [expandedUseBrick.events, runtimeBrick, useBrickContext]
+  );
+
   return (
-    <WebComponent
-      {...properties}
-      {...Object.fromEntries(
-        Object.entries(useBrick.events ?? {}).map(([eventType, handlers]) => [
-          `on${eventType}`,
-          __secret_internals.listenerFactoryForUseBrick(
-            handlers,
-            useBrickContext,
-            elementHolder
-          ),
-        ])
-      )}
-    >
+    <WebComponent ref={refCallback} {...properties}>
       {textContent ||
-        slotsToChildren(useBrick.slots).map((item, index) => (
+        slotsToChildren(expandedUseBrick.slots).map((item, index) => (
           <ReactUseBrick key={index} useBrick={item} data={data} />
         ))}
     </WebComponent>
