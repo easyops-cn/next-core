@@ -126,19 +126,24 @@ if __name__ == "__main__":
   if len(sys.argv) == 2:
     sys.exit(0)
 
-  if len(sys.argv) != 4:
-    print("Usage: ./report_installed_brick_next_package.py $org $install_path $version")
+  if len(sys.argv) != 3:
+    print("Usage: ./report_installed_brick_next_package.py $org $install_path")
     sys.exit(1)
 
   org = sys.argv[1]
   install_path = sys.argv[2]
-  package_version = sys.argv[3]
 
   if install_path.endswith(os.sep):
     install_path = install_path[:-1]
 
   if not install_path.endswith("-NB"):
     sys.exit(0)
+
+  # 读取版本信息
+  version_file = os.path.join(install_path, "version.ini")
+  with open(version_file, "r") as f:
+    lines = f.readlines()
+    package_version = str.strip(lines[1])
 
   package_name, bricks_content, stories_content, snippets_content, contract_content = collect(install_path)
   if package_name and bricks_content and snippets_content:
