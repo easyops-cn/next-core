@@ -2,9 +2,9 @@ import type { BrickConf, SlotsConfOfBricks } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
 import {
-  symbolForAsyncComputedProps,
+  symbolForAsyncComputedPropsFromHost,
   symbolForBrickHolder,
-  symbolForComputedProps,
+  symbolForComputedPropsFromHost,
   symbolForTplStateStoreId,
 } from "./constants.js";
 import type {
@@ -114,8 +114,8 @@ export function setupTemplateProxy(
   }
 
   return {
-    [symbolForAsyncComputedProps]: asyncComputedProps,
-    [symbolForComputedProps]: computedProps,
+    [symbolForAsyncComputedPropsFromHost]: asyncComputedProps,
+    [symbolForComputedPropsFromHost]: computedProps,
     [symbolForBrickHolder]: brickHolder,
     [symbolForTplStateStoreId]: tplStateStoreId,
   };

@@ -69,7 +69,3 @@ export function _internalApiMatchStoryboard(
 export function _internalApiGetRuntimeContext() {
   return kernel.router.getRuntimeContext();
 }
-
-export function _internalApiGetBrickPackages() {
-  return kernel.bootstrapData.brickPackages;
-}

@@ -6,9 +6,12 @@ import type { RuntimeBrick } from "./interfaces.js";
 export class BrickNode {
   private brick: RuntimeBrick;
   private children: BrickNode[] = [];
+  public readonly hasInitialElement: boolean;
 
-  constructor(brick: RuntimeBrick) {
+  constructor(brick: RuntimeBrick, initialElement?: HTMLElement) {
     this.brick = brick;
+    brick.element = initialElement;
+    this.hasInitialElement = !!initialElement;
   }
 
   mount(): HTMLElement {
@@ -28,35 +31,47 @@ export class BrickNode {
       );
     }
 
-    const node = document.createElement(tagName);
-    brick.element = node;
+    let element: HTMLElement;
+    if (this.hasInitialElement) {
+      element = brick.element!;
+    } else {
+      element = document.createElement(tagName);
+      brick.element = element;
+    }
 
     if (brick.slotId) {
-      node.setAttribute("slot", brick.slotId);
+      element.setAttribute("slot", brick.slotId);
     }
     if (brick.iid) {
-      node.dataset.iid = brick.iid;
+      element.dataset.iid = brick.iid;
     }
-    setRealProperties(node, brick.properties);
-    bindListeners(node, brick.events, brick.runtimeContext);
+    setRealProperties(element, brick.properties);
+    bindListeners(element, brick.events, brick.runtimeContext);
 
     if (Array.isArray(brick.children)) {
       this.children = brick.children.map((child) => new BrickNode(child));
       const childNodes = this.children.map((child) => child.mount());
-      childNodes.forEach((child) => node.appendChild(child));
+      childNodes.forEach((child) => element.appendChild(child));
     } else {
       this.children = [];
     }
 
-    return node;
+    return element;
   }
 
   unmount(): void {
-    this.brick = undefined!;
+    const element = this.brick.element;
+    // for (const key of Object.keys(this.brick)) {
+    //   delete this.brick[key as "element"];
+    // }
+    // this.brick = undefined!;
     this.children.forEach((child) => {
       child.unmount();
     });
     this.children.length = 0;
+    if (this.hasInitialElement && element) {
+      element.innerHTML = "";
+    }
   }
 
   // Handle proxies later after bricks in portal and main both mounted.

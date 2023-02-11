@@ -17,15 +17,20 @@ class ButtonGroup extends ReactNextElement {
   @property({ attribute: false })
   accessor useBrick: UseSingleBrickConf;
 
+  @property({ attribute: false })
+  accessor datum: unknown;
+
   render() {
-    return <ButtonGroupComponent useBrick={this.useBrick} />;
+    return <ButtonGroupComponent useBrick={this.useBrick} data={this.datum} />;
   }
 }
 
 export function ButtonGroupComponent({
   useBrick,
+  data,
 }: {
   useBrick: UseSingleBrickConf;
+  data: unknown;
 }) {
   return (
     <>
@@ -48,7 +53,7 @@ export function ButtonGroupComponent({
       >
         I am content Y.
       </WrappedYButton> */}
-      {useBrick && <ReactUseBrick useBrick={useBrick} data="a" />}
+      {useBrick && <ReactUseBrick useBrick={useBrick} data={data} />}
       {/* {useBrick && <ReactUseBrick useBrick={useBrick} data="b" />} */}
     </>
   );

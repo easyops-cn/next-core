@@ -23,7 +23,7 @@ export type AsyncProperties = Promise<Record<string, unknown>>;
 export type MaybeAsyncProperties = AsyncProperties | Record<string, unknown>;
 
 export interface ElementHolder {
-  element?: HTMLElement;
+  element?: HTMLElement | null;
 }
 
 export interface BrickHolder {
@@ -36,7 +36,7 @@ export interface RuntimeBrick {
   properties?: Record<string, unknown>;
   events?: BrickEventsMap;
   slotId?: string;
-  element?: RuntimeBrickElement;
+  element?: RuntimeBrickElement | null;
   iid?: string;
   runtimeContext: RuntimeContext;
   tplHostMetadata?: TemplateHostMetadata;
