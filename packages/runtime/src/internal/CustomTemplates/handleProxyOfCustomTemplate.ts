@@ -1,6 +1,7 @@
 import type { RuntimeBrickElement } from "@next-core/brick-types";
 import type { RuntimeBrick } from "../interfaces.js";
 import { getTplStateStore } from "./utils.js";
+import { rememberEventListeners } from "../bindListeners.js";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
   const {
@@ -16,7 +17,9 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
 
   // For usages of `targetRef: "..."`.
   // `tplHostElement.$$getElementByRef(ref)` will return the ref element inside a custom template.
-  const getElementByRef = function (ref: string): HTMLElement | undefined {
+  const getElementByRef = function (
+    ref: string
+  ): HTMLElement | null | undefined {
     return tplHostMetadata.internalBricksByRef.get(ref)?.brick?.element;
   };
 
@@ -97,28 +100,8 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
             })
           );
         };
-        /**
-         * useBrick 重新渲染会导致事件重复绑定发生
-         * 为了防止代理事件重复绑定, 增加$$proxyEvents
-         * 每次设置代理属性方法, 提前判断之前是否已经绑定, 如若有, 则解绑并删除
-         */
-        // if (refElement.$$proxyEvents) {
-        //   refElement.$$proxyEvents = (
-        //     refElement.$$proxyEvents as Array<
-        //       [string, string, (e: Event) => void]
-        //     >
-        //   ).filter(([proxyEvent, event, listener]) => {
-        //     if (proxyEvent === eventType) {
-        //       refElement.removeEventListener(event, listener);
-        //       return false;
-        //     }
-        //     return true;
-        //   });
-        // } else {
-        //   refElement.$$proxyEvents = [];
-        // }
-        // refElement.$$proxyEvents.push([eventType, eventRef.refEvent, listener]);
         refElement.addEventListener(to.refEvent, listener);
+        // rememberEventListeners(refElement, to.refEvent, listener);
       }
     }
   }

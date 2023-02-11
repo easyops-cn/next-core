@@ -2,8 +2,9 @@ import type { BrickConf, SlotsConfOfBricks } from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
 import {
-  symbolForComputedPropsFromProxy,
+  symbolForAsyncComputedPropsFromHost,
   symbolForBrickHolder,
+  symbolForComputedPropsFromHost,
   symbolForTplStateStoreId,
 } from "./constants.js";
 import type {
@@ -19,13 +20,15 @@ export function setupTemplateProxy(
 ) {
   const {
     reversedProxies,
-    asyncTemplateProperties,
+    hostProperties,
+    hostPropertiesAreAsync,
     externalSlots,
     tplStateStoreId,
     hostBrick: hostBrick,
   } = hostContext;
 
-  let computedPropsFromProxy: AsyncProperties | undefined;
+  let asyncComputedProps: AsyncProperties | undefined;
+  let computedProps: Record<string, unknown> | undefined;
   let brickHolder: BrickHolder | undefined;
 
   if (ref && reversedProxies) {
@@ -33,19 +36,26 @@ export function setupTemplateProxy(
     hostBrick.tplHostMetadata.internalBricksByRef.set(ref, brickHolder);
 
     const propertyProxies = reversedProxies.properties.get(ref);
-    if (propertyProxies && asyncTemplateProperties) {
-      computedPropsFromProxy = asyncTemplateProperties.then(
-        (templateProperties) => {
-          const computedProps: Record<string, unknown> = {};
-          for (const { from, to } of propertyProxies) {
-            const propValue = templateProperties[from];
-            if (propValue !== undefined && to.refProperty) {
-              computedProps[to.refProperty] = propValue;
-            }
+    if (propertyProxies) {
+      const getComputedProps = (hostProps: Record<string, unknown>) => {
+        const props: Record<string, unknown> = {};
+        for (const { from, to } of propertyProxies) {
+          const propValue = hostProps[from];
+          if (propValue !== undefined && to.refProperty) {
+            props[to.refProperty] = propValue;
           }
-          return computedProps;
         }
-      );
+        return props;
+      };
+      if (hostPropertiesAreAsync) {
+        asyncComputedProps = (hostProperties as AsyncProperties).then(
+          getComputedProps
+        );
+      } else {
+        computedProps = getComputedProps(
+          hostProperties as Record<string, unknown>
+        );
+      }
     }
 
     const slotProxies = reversedProxies.slots.get(ref);
@@ -104,7 +114,8 @@ export function setupTemplateProxy(
   }
 
   return {
-    [symbolForComputedPropsFromProxy]: computedPropsFromProxy,
+    [symbolForAsyncComputedPropsFromHost]: asyncComputedProps,
+    [symbolForComputedPropsFromHost]: computedProps,
     [symbolForBrickHolder]: brickHolder,
     [symbolForTplStateStoreId]: tplStateStoreId,
   };

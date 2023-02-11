@@ -17,19 +17,24 @@ class ButtonGroup extends ReactNextElement {
   @property({ attribute: false })
   accessor useBrick: UseSingleBrickConf;
 
+  @property({ attribute: false })
+  accessor datum: unknown;
+
   render() {
-    return <ButtonGroupComponent useBrick={this.useBrick} />;
+    return <ButtonGroupComponent useBrick={this.useBrick} data={this.datum} />;
   }
 }
 
 export function ButtonGroupComponent({
   useBrick,
+  data,
 }: {
   useBrick: UseSingleBrickConf;
+  data: unknown;
 }) {
   return (
     <>
-      <WrappedXButton
+      {/* <WrappedXButton
         label="I am label X,"
         ref={(element) => {
           // eslint-disable-next-line no-console
@@ -47,9 +52,9 @@ export function ButtonGroupComponent({
         }}
       >
         I am content Y.
-      </WrappedYButton>
-      {useBrick && <ReactUseBrick useBrick={useBrick} data="a" />}
-      {useBrick && <ReactUseBrick useBrick={useBrick} data="b" />}
+      </WrappedYButton> */}
+      {useBrick && <ReactUseBrick useBrick={useBrick} data={data} />}
+      {/* {useBrick && <ReactUseBrick useBrick={useBrick} data="b" />} */}
     </>
   );
 }

@@ -112,6 +112,7 @@ src/bootstrap.ts
 - [x] Custom Templates
 - [x] UseBrick
 - [ ] UseBrick with Custom Templates
+- [ ] Widgets
 - [ ] Menu
 - [ ] Flow API
 - [ ] Icons

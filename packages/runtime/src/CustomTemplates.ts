@@ -44,26 +44,45 @@ class CustomTemplateRegistry {
       return;
     }
 
-    customElements.define(
-      tagName,
-      class TplElement extends HTMLElement {
-        get $$typeof(): string {
-          return "custom-template";
-        }
+    class TplElement extends HTMLElement {
+      get $$typeof(): string {
+        return "custom-template";
+      }
 
-        static get _dev_only_definedProperties(): string[] {
-          return getPropsOfCustomTemplate(tagName);
-        }
+      static get _dev_only_definedProperties(): string[] {
+        return getPropsOfCustomTemplate(tagName);
+      }
 
-        connectedCallback(): void {
-          // Don't override user's style settings.
-          // istanbul ignore else
-          if (!this.style.display) {
-            this.style.display = "block";
-          }
+      connectedCallback() {
+        if (this.shadowRoot) {
+          return;
+        }
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        const fragment = document.createDocumentFragment();
+        const style = document.createElement("style");
+        style.textContent = ":host{display:block}:host([hidden]){display:none}";
+        const slot = document.createElement("slot");
+        fragment.appendChild(style);
+        fragment.appendChild(slot);
+        shadowRoot.appendChild(fragment);
+      }
+
+      disconnectedCallback() {
+        if (this.shadowRoot) {
+          this.shadowRoot.textContent = "";
         }
       }
-    );
+    }
+
+    for (const prop of props) {
+      Object.defineProperty(TplElement.prototype, prop, {
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
+    }
+
+    customElements.define(tagName, TplElement);
   }
 
   get(tagName: string) {
@@ -76,7 +95,7 @@ export const customTemplates = new CustomTemplateRegistry();
 function getPropsOfCustomTemplate(tagName: string): string[] {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { state, proxy } = customTemplates.get(tagName)!;
-  return (state?.map((item) => item.name) ?? []).concat(
-    Object.keys(proxy?.properties ?? {})
-  );
+  return (
+    state?.filter((item) => item.expose).map((item) => item.name) ?? []
+  ).concat(Object.keys(proxy?.properties ?? {}));
 }

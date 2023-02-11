@@ -19,7 +19,7 @@ import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
-import { RouterContext } from "./RouterContext.js";
+import { RendererContext } from "./RendererContext.js";
 import { uniqueId } from "lodash";
 import { type Media, mediaEventTarget } from "./mediaQuery.js";
 import {
@@ -40,7 +40,7 @@ export class Router {
   #prevLocation!: PluginLocation;
   #nextLocation?: PluginLocation;
   #runtimeContext?: RuntimeContext;
-  #routerContext?: RouterContext;
+  #rendererContext?: RendererContext;
   #redirectCount = 0;
   #renderId?: string;
   #mediaListener?: EventListener;
@@ -88,7 +88,7 @@ export class Router {
   }): string | undefined {
     const history = getHistory();
     const previousMessage = history.getBlockMessage();
-    this.#routerContext?.dispatchBeforePageLeave(detail);
+    this.#rendererContext?.dispatchBeforePageLeave(detail);
     const message = history.getBlockMessage();
     if (!previousMessage && message) {
       // Auto unblock only if new block was introduced by `onBeforePageLeave`.
@@ -145,7 +145,7 @@ export class Router {
       }
       // abortController.abortPendingRequest();
       this.#prevLocation = location;
-      this.#routerContext?.dispatchPageLeave();
+      this.#rendererContext?.dispatchPageLeave();
       // this.locationContext.messageDispatcher.reset();
 
       if (action === "POP") {
@@ -225,10 +225,10 @@ export class Router {
     const main = document.querySelector("#main-mount-point") as HTMLElement;
     const portal = document.querySelector("#portal-mount-point") as HTMLElement;
 
-    const prevRouterContext = this.#routerContext;
+    const prevRendererContext = this.#rendererContext;
 
     const cleanUpPreviousRender = (): void => {
-      prevRouterContext?.dispose();
+      prevRendererContext?.dispose();
       if (this.#mediaListener) {
         mediaEventTarget.removeEventListener("change", this.#mediaListener);
         this.#mediaListener = undefined;
@@ -271,7 +271,9 @@ export class Router {
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
       });
 
-      const routerContext = (this.#routerContext = new RouterContext());
+      const rendererContext = (this.#rendererContext = new RendererContext(
+        "router"
+      ));
 
       if (!storyboard.$$registerCustomTemplateProcessed) {
         const templates = storyboard.meta?.customTemplates;
@@ -294,7 +296,7 @@ export class Router {
         output = await renderRoutes(
           storyboard.routes,
           runtimeContext,
-          routerContext
+          rendererContext
         );
         if (output.unauthenticated) {
           redirectToLogin();
@@ -352,7 +354,7 @@ export class Router {
       if ((output.route && output.route.type !== "routes") || failed) {
         if (!failed) {
           // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
-          routerContext.dispatchBeforePageLoad();
+          rendererContext.dispatchBeforePageLoad();
         }
         applyTheme();
         applyMode();
@@ -368,12 +370,12 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
-          routerContext.initializeScrollIntoView();
-          routerContext.dispatchPageLoad();
-          routerContext.dispatchAnchorLoad();
+          rendererContext.initializeScrollIntoView();
+          rendererContext.dispatchPageLoad();
+          rendererContext.dispatchAnchorLoad();
 
           this.#mediaListener = (event) => {
-            routerContext.dispatchMediaChange(
+            rendererContext.dispatchMediaChange(
               (event as CustomEvent<Media>).detail
             );
           };

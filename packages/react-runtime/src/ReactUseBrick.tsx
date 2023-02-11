@@ -1,105 +1,82 @@
-import React, { useMemo, Suspense, lazy, PropsWithChildren } from "react";
-import type {
-  UseBrickSlotsConf,
-  UseSingleBrickConf,
-} from "@next-core/brick-types";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import type { UseSingleBrickConf } from "@next-core/brick-types";
 import { __secret_internals } from "@next-core/runtime";
 
 export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
   data?: unknown;
 }
-export function ReactUseBrick(
-  props: ReactUseBrickProps
-): React.ReactElement | null {
-  const useBrickContext = { data: props.data };
-  if (!__secret_internals.checkIfForUseBrick(props.useBrick, useBrickContext)) {
-    return null;
-  }
 
-  const LazyWebComponent = lazy(async () => {
-    if (props.useBrick.brick.includes("-")) {
-      await __secret_internals.loadBricks([props.useBrick.brick]);
-    }
-    return { default: LegacyReactUseBrick };
-  });
-
-  return (
-    <Suspense>
-      <LazyWebComponent {...props} />
-    </Suspense>
-  );
-}
-
-function LegacyReactUseBrick({
+export function ReactUseBrick({
   useBrick,
   data,
-}: PropsWithChildren<ReactUseBrickProps>): React.ReactElement | null {
-  const WebComponent = useBrick.brick as any;
-  const elementHolder = useMemo<{ element?: any }>(() => ({}), []);
-  const useBrickContext = { data };
+}: ReactUseBrickProps): React.ReactElement | null {
+  const [output, setOutput] = useState<Awaited<
+    ReturnType<typeof __secret_internals.renderUseBrick>
+  > | null>(null);
+  const mountResult = useRef<__secret_internals.MountUseBrickResult>();
+  const [renderKey, setRenderKey] = useState<number>();
+  const elementRef = useRef<HTMLElement | null>();
+  const IdCounterRef = useRef(0);
 
-  const {
-    ref: _ref,
-    key: _key,
-    children: _children,
-    textContent,
-    dataset,
-    ...properties
-  } = __secret_internals.computeRealPropertiesForUseBrick(
-    useBrick.properties,
-    useBrickContext
-  ) as {
-    ref?: unknown;
-    textContent?: string;
-    [key: string]: unknown;
-  };
-
-  if (dataset) {
-    for (const [key, value] of Object.entries(dataset)) {
-      properties[`data-${key}`] = value;
+  useEffect(() => {
+    async function init() {
+      try {
+        setOutput(await __secret_internals.renderUseBrick(useBrick, data));
+        setRenderKey(getUniqueId(IdCounterRef));
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error("Render useBrick failed:", useBrick, "with data:", data);
+      }
     }
+    // setOutput(null);
+    init();
+  }, [data, useBrick]);
+
+  if (!output) {
+    // Fallback when loading/
+    return null;
+    // return <span>🌀 Loading...</span>;
   }
 
-  return (
-    <WebComponent
-      {...properties}
-      {...Object.fromEntries(
-        Object.entries(useBrick.events ?? {}).map(([eventType, handlers]) => [
-          `on${eventType}`,
-          __secret_internals.listenerFactoryForUseBrick(
-            handlers,
-            useBrickContext,
-            elementHolder
-          ),
-        ])
-      )}
-    >
-      {textContent ||
-        slotsToChildren(useBrick.slots).map((item, index) => (
-          <ReactUseBrick key={index} useBrick={item} data={data} />
-        ))}
-    </WebComponent>
+  const mainBrick = output.main[0];
+  if (mainBrick) {
+    const WebComponent = mainBrick.type as any;
+    return (
+      <WebComponent
+        key={renderKey}
+        ref={(element: HTMLElement) => {
+          if (element) {
+            if (elementRef.current === element) {
+              return;
+            }
+            elementRef.current = element;
+            mountResult.current = __secret_internals.mountUseBrick(
+              mainBrick,
+              element,
+              output.portal,
+              mountResult.current
+            );
+          } else {
+            __secret_internals.unmountUseBrick(mountResult.current);
+          }
+        }}
+      />
+    );
+  }
+
+  mountResult.current = __secret_internals.mountUseBrick(
+    null,
+    null,
+    output.portal,
+    mountResult.current
   );
+
+  return null;
 }
 
-function slotsToChildren(
-  slots: UseBrickSlotsConf | undefined
-): UseSingleBrickConf[] {
-  if (!slots) {
-    return [];
-  }
-  return Object.entries(slots).flatMap(([slot, slotConf]) =>
-    Array.isArray(slotConf.bricks)
-      ? slotConf.bricks.map((child) => ({
-          ...child,
-          properties: {
-            ...child.properties,
-            slot,
-          },
-        }))
-      : []
-  );
+function getUniqueId(ref: MutableRefObject<number>): number {
+  return ++ref.current;
 }
 
 export interface ReactUseMultipleBricksProps {

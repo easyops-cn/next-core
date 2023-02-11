@@ -19,6 +19,14 @@ meta:
         return `${FN.sayYes()} and ${FN.sayYes()}`;
       }
   customTemplates:
+  - name: tpl-inner
+    state:
+    - name: innerHello
+      expose: true
+    bricks:
+    - brick: span
+      properties:
+        textContent: '<% "track state", `Inner says ${STATE.innerHello}` %>'
   - name: tpl-basic
     state:
     - name: lazyHello
@@ -48,12 +56,13 @@ meta:
         - '<% 0, STATE.hello %>'
       expose: true
     - name: asyncHello
-      if: false
+      # if: false
       resolve:
         useProvider: demo-basic.have-more-fun
         args:
         - I'm async
-        - 1000
+        - 500
+        - '<% Math.random() %>'
     proxy:
       properties:
         thing:
@@ -86,24 +95,40 @@ meta:
                 args:
                 - oops
                 - detail: yaks
-          - brick: span
-            properties:
-              textContent: "<% 'track state', STATE.lazyHello %>"
-            lifeCycle:
-              onPageLoad:
+            events:
+              click:
               - action: console.log
                 args:
-                - "STATE.asyncHello"
-                - "<% STATE.asyncHello %>"
-              - action: state.load
+                - status click
+                - '<% EVENT.detail %>'
+              - action: tpl.dispatchEvent
                 args:
-                - lazyHello
-                callback:
-                  success:
-                    action: console.log
-                    args:
-                    - lazyHello
-                    - "<% 1, STATE.lazyHello %>"
+                - oops
+                - detail: yaks
+          - brick: demo-basic.button-group
+            properties:
+              useBrick:
+                brick: tpl-inner
+                properties:
+                  innerHello: '<% `"I say ${DATA} and ${STATE.asyncHello}"` %>'
+          # - brick: span
+          #   properties:
+          #     textContent: "<% 'track state', STATE.asyncHello %>"
+          #   lifeCycle:
+          #     onPageLoad:
+          #     - action: console.log
+          #       args:
+          #       - "STATE.asyncHello"
+          #       - "<% STATE.asyncHello %>"
+          #     - action: state.load
+          #       args:
+          #       - lazyHello
+          #       callback:
+          #         success:
+          #           action: console.log
+          #           args:
+          #           - lazyHello
+          #           - "<% 1, STATE.lazyHello %>"
 routes:
 - path: ${APP.homepage}
   # if: '<% !QUERY.redirect %>'
@@ -301,28 +326,51 @@ routes:
   # - brick: demo-basic.have-no-fun
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 2 %>'
+  context:
+  - name: datum
+    value: a
   bricks:
   - brick: demo-basic.x-button
     properties:
       label: X
+    events:
+      click:
+        action: context.replace
+        args:
+        - datum
+        - b
   - brick: demo-basic.button-group
     properties:
+      datum: '<% "track context", CTX.datum %>'
+      # useBrick:
+      #   if: '<% DATA === "b" %>'
+      #   brick: demo-basic.x-button
+      #   properties:
+      #     label: '<% `Label for "${DATA}"` %>'
+      #     dataset:
+      #       iid: 1
+      #   slots:
+      #     "":
+      #       bricks:
+      #       - brick: span
+      #         properties:
+      #           textContent: '<% `Content for "${DATA}"` %>'
+      #           dataset:
+      #             iid: 2
       useBrick:
-        if: '<% DATA === "b" %>'
-        brick: demo-basic.x-button
+        brick: tpl-basic
         properties:
-          label: '<% `Label for "${DATA}"` %>'
-          dataset:
-            iid: 1
-        slots:
-          "":
-            bricks:
-            - brick: span
-              properties:
-                textContent: '<% `Content for "${DATA}"` %>'
-                dataset:
-                  iid: 2
+          thing: '<% `Thing for "${DATA}"` %>'
+          status: '<% `Status for "${DATA}"` %>'
+          hello: '<% `Hello for "${DATA}"` %>'
+        events:
+          yo:
+            action: console.log
+            args:
+            - yo
+            - '<% EVENT %>'
   - brick: tpl-basic
+    if: false
     properties:
       thing: Template
       status: Works!

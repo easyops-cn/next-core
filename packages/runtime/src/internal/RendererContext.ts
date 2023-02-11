@@ -17,7 +17,13 @@ type MemoizedLifeCycle<T> = {
   }[];
 };
 
-export class RouterContext {
+export class RendererContext {
+  public readonly type: "router" | "useBrick";
+
+  constructor(type: "router" | "useBrick") {
+    this.type = type;
+  }
+
   private memoizedLifeCycle: MemoizedLifeCycle<
     Required<
       Pick<

@@ -2,6 +2,7 @@ import type {
   BrickConf,
   PluginHistoryState,
   RouteConf,
+  SlotConfOfBricks,
 } from "@next-core/brick-types";
 import { enqueueStableLoadBricks } from "@next-core/loader";
 import { isObject } from "@next-core/utils/general";
@@ -14,12 +15,12 @@ import {
   TrackingContextItem,
   listenOnTrackingContext,
 } from "./compute/listenOnTrackingContext.js";
-import { RouterContext } from "./RouterContext.js";
+import { RendererContext } from "./RendererContext.js";
 import { matchRoutes } from "./matchRoutes.js";
 import { getAuth, isLoggedIn } from "../auth.js";
 import {
   RuntimeBrickConfWithTplSymbols,
-  symbolForComputedPropsFromProxy,
+  symbolForAsyncComputedPropsFromHost,
   symbolForBrickHolder,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
@@ -41,7 +42,7 @@ export interface RenderOutput {
 export async function renderRoutes(
   routes: RouteConf[],
   _runtimeContext: RuntimeContext,
-  routerContext: RouterContext,
+  rendererContext: RendererContext,
   slotId?: string
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
@@ -98,7 +99,7 @@ export async function renderRoutes(
           const newOutput = await renderRoutes(
             route.routes,
             runtimeContext,
-            routerContext,
+            rendererContext,
             slotId
           );
           mergeRenderOutput(output, newOutput);
@@ -108,7 +109,7 @@ export async function renderRoutes(
           const newOutput = await renderBricks(
             route.bricks,
             runtimeContext,
-            routerContext,
+            rendererContext,
             slotId
           );
           mergeRenderOutput(output, newOutput);
@@ -122,7 +123,7 @@ export async function renderRoutes(
 export async function renderBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
-  routerContext: RouterContext,
+  rendererContext: RendererContext,
   slotId?: string,
   tplStack?: Map<string, number>
 ): Promise<RenderOutput> {
@@ -137,7 +138,7 @@ export async function renderBricks(
       renderBrick(
         brickConf,
         runtimeContext,
-        routerContext,
+        rendererContext,
         slotId,
         tplStack && new Map(tplStack)
       )
@@ -152,7 +153,7 @@ export async function renderBricks(
 export async function renderBrick(
   brickConf: RuntimeBrickConfWithTplSymbols,
   _runtimeContext: RuntimeContext,
-  routerContext: RouterContext,
+  rendererContext: RendererContext,
   slotId?: string,
   tplStack = new Map<string, number>()
 ): Promise<RenderOutput> {
@@ -220,10 +221,11 @@ export async function renderBrick(
       runtimeContext,
       trackingContextList
     );
-    const computedPropsFromProxy = brickConf[symbolForComputedPropsFromProxy];
-    if (computedPropsFromProxy) {
+    const computedPropsFromHost =
+      brickConf[symbolForAsyncComputedPropsFromHost];
+    if (computedPropsFromHost) {
       brick.properties ??= {};
-      const computed = await computedPropsFromProxy;
+      const computed = await computedPropsFromHost;
       for (const [propName, propValue] of Object.entries(computed)) {
         brick.properties[propName] = propValue;
       }
@@ -237,16 +239,16 @@ export async function renderBrick(
     listenOnTrackingContext(brick, trackingContextList);
   });
 
-  routerContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
+  rendererContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
 
   let expandedBrickConf = brickConf;
   if (tplTagName) {
     expandedBrickConf = expandCustomTemplate(
       tplTagName,
       brickConf,
-      asyncProperties,
       brick,
-      runtimeContext
+      asyncProperties,
+      true
     );
   }
 
@@ -266,11 +268,11 @@ export async function renderBrick(
     }
     const rendered = await Promise.all(
       Object.entries(expandedBrickConf.slots).map(([childSlotId, slotConf]) => {
-        if (slotConf.type === "bricks") {
+        if (slotConf.type === "bricks" || rendererContext.type === "router") {
           return renderBricks(
-            slotConf.bricks,
+            (slotConf as SlotConfOfBricks).bricks,
             runtimeContext,
-            routerContext,
+            rendererContext,
             childSlotId,
             tplStack
           );
@@ -278,7 +280,7 @@ export async function renderBrick(
           return renderRoutes(
             slotConf.routes,
             runtimeContext,
-            routerContext,
+            rendererContext,
             childSlotId
           );
         }

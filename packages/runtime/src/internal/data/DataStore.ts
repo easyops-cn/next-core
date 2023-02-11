@@ -14,7 +14,7 @@ import {
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import type {
-  AsyncProperties,
+  MaybeAsyncProperties,
   RuntimeBrick,
   RuntimeContext,
 } from "../interfaces.js";
@@ -151,13 +151,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   define(
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
-    asyncHostProperties?: AsyncProperties
+    hostProperties?: MaybeAsyncProperties,
+    hostPropertiesAreAsync?: boolean
   ): void {
     if (Array.isArray(dataConfs) && dataConfs.length > 0) {
       const pending = resolveDataStore(
         dataConfs,
         (dataConf: ContextConf) =>
-          this.resolve(dataConf, runtimeContext, asyncHostProperties),
+          this.resolve(
+            dataConf,
+            runtimeContext,
+            hostProperties,
+            hostPropertiesAreAsync
+          ),
         this.type
       );
       this.pendingStack.push(pending);
@@ -185,16 +191,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
-    asyncHostProperties?: AsyncProperties
+    hostProperties?: MaybeAsyncProperties,
+    hostPropertiesAreAsync?: boolean
   ): Promise<boolean> {
     if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
     }
     let value: unknown;
-    if (this.type === "STATE" && asyncHostProperties && dataConf.expose) {
-      const hostProperties = await asyncHostProperties;
-      if (hasOwnProperty(hostProperties, dataConf.name)) {
-        value = hostProperties[dataConf.name];
+    if (this.type === "STATE" && hostProperties && dataConf.expose) {
+      const hostProps = hostPropertiesAreAsync
+        ? await hostProperties
+        : (hostProperties as Record<string, unknown>);
+      if (hasOwnProperty(hostProps, dataConf.name)) {
+        value = hostProps[dataConf.name];
       }
     }
     let load: DataStoreItem["load"];
