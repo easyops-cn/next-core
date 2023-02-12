@@ -54,10 +54,10 @@ class CustomTemplateRegistry {
       }
 
       connectedCallback() {
-        if (this.shadowRoot) {
-          return;
+        let shadowRoot = this.shadowRoot;
+        if (!shadowRoot) {
+          shadowRoot = this.attachShadow({ mode: "open" });
         }
-        const shadowRoot = this.attachShadow({ mode: "open" });
         const fragment = document.createDocumentFragment();
         const style = document.createElement("style");
         style.textContent = ":host{display:block}:host([hidden]){display:none}";

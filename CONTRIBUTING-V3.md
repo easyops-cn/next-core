@@ -111,7 +111,7 @@ src/bootstrap.ts
 - [x] Brick Life Cycle
 - [x] Custom Templates
 - [x] UseBrick
-- [ ] UseBrick with Custom Templates
+- [x] UseBrick with Custom Templates
 - [ ] Widgets
 - [ ] Menu
 - [ ] Flow API

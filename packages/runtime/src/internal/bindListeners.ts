@@ -41,7 +41,10 @@ export function bindListeners(
     brick.addEventListener(eventType, listener);
 
     // Remember added listeners for unbinding.
-    rememberEventListeners(brick, eventType, listener);
+    if (!brick.$$listeners) {
+      brick.$$listeners = [];
+    }
+    brick.$$listeners.push([eventType, listener]);
 
     // Remember added listeners for devtools.
     if (!brick.$$eventListeners) {
@@ -51,17 +54,6 @@ export function bindListeners(
       brick.$$eventListeners.push([eventType, null, handler]);
     }
   });
-}
-
-export function rememberEventListeners(
-  brick: RuntimeBrickElement,
-  eventType: string,
-  listener: EventListener
-) {
-  if (!brick.$$listeners) {
-    brick.$$listeners = [];
-  }
-  brick.$$listeners.push([eventType, listener]);
 }
 
 export function unbindListeners(brick: RuntimeBrickElement): void {

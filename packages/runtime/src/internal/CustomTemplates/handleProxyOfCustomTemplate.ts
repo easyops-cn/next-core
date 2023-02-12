@@ -1,7 +1,6 @@
 import type { RuntimeBrickElement } from "@next-core/brick-types";
 import type { RuntimeBrick } from "../interfaces.js";
 import { getTplStateStore } from "./utils.js";
-import { rememberEventListeners } from "../bindListeners.js";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
   const {
@@ -101,7 +100,6 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
           );
         };
         refElement.addEventListener(to.refEvent, listener);
-        // rememberEventListeners(refElement, to.refEvent, listener);
       }
     }
   }
