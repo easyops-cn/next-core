@@ -57,7 +57,7 @@ export function ReactUseBrick({
               output.portal,
               mountResult.current
             );
-          } else {
+          } else if (mountResult.current) {
             __secret_internals.unmountUseBrick(mountResult.current);
           }
         }}

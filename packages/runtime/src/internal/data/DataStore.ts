@@ -14,7 +14,7 @@ import {
 import { resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import type {
-  MaybeAsyncProperties,
+  AsyncProperties,
   RuntimeBrick,
   RuntimeContext,
 } from "../interfaces.js";
@@ -151,19 +151,13 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   define(
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
-    hostProperties?: MaybeAsyncProperties,
-    hostPropertiesAreAsync?: boolean
+    asyncHostProperties?: AsyncProperties
   ): void {
     if (Array.isArray(dataConfs) && dataConfs.length > 0) {
       const pending = resolveDataStore(
         dataConfs,
         (dataConf: ContextConf) =>
-          this.resolve(
-            dataConf,
-            runtimeContext,
-            hostProperties,
-            hostPropertiesAreAsync
-          ),
+          this.resolve(dataConf, runtimeContext, asyncHostProperties),
         this.type
       );
       this.pendingStack.push(pending);
@@ -191,17 +185,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
-    hostProperties?: MaybeAsyncProperties,
-    hostPropertiesAreAsync?: boolean
+    asyncHostProperties?: AsyncProperties
   ): Promise<boolean> {
     if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
     }
     let value: unknown;
-    if (this.type === "STATE" && hostProperties && dataConf.expose) {
-      const hostProps = hostPropertiesAreAsync
-        ? await hostProperties
-        : (hostProperties as Record<string, unknown>);
+    if (this.type === "STATE" && asyncHostProperties && dataConf.expose) {
+      const hostProps = await asyncHostProperties;
       if (hasOwnProperty(hostProps, dataConf.name)) {
         value = hostProps[dataConf.name];
       }

@@ -1,4 +1,9 @@
-import { cook, preevaluate, PreevaluateResult } from "@next-core/cook";
+import {
+  cook,
+  preevaluate,
+  PreevaluateResult,
+  shouldAllowRecursiveEvaluations,
+} from "@next-core/cook";
 import { loadProcessorsImperatively } from "@next-core/loader";
 import { supply } from "@next-core/supply";
 import { hasOwnProperty } from "@next-core/utils/general";
@@ -44,6 +49,15 @@ export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
 
 export function getPreEvaluatedRaw(pre: PreEvaluated): string {
   return pre[symbolForRaw];
+}
+
+export function shouldDismissMarkingComputed(
+  raw: string | PreEvaluated
+): boolean {
+  if (typeof raw === "string") {
+    return shouldAllowRecursiveEvaluations(raw);
+  }
+  return shouldAllowRecursiveEvaluations(raw[symbolForRaw]);
 }
 
 const possibleErrorConstructs = new WeakSet<ErrorConstructor>([
@@ -95,9 +109,16 @@ function lowLevelEvaluate(
   if (typeof raw !== "string") {
     // If the `raw` is not a string, it must be a pre-evaluated object.
     // Then fulfil the context, and restore the original `raw`.
+
+    const {
+      pendingPermissionsPreCheck: _1,
+      tplStateStoreMap: _2,
+      ...passByRuntimeContext
+    } = runtimeContext;
+
     runtimeContext = {
       ...raw[symbolForContext],
-      ...runtimeContext,
+      ...passByRuntimeContext,
     };
     raw = raw[symbolForRaw];
   }
@@ -124,18 +145,15 @@ function lowLevelEvaluate(
   const globalVariables: Record<string, unknown> = {};
   const { attemptToVisitGlobals } = precooked;
 
-  const attemptToVisitEvent = attemptToVisitGlobals.has("EVENT");
-  const attemptToVisitData = attemptToVisitGlobals.has("DATA");
-  // const attemptToVisitState = attemptToVisitGlobals.has("STATE");
-  // const attemptToVisitFormState = attemptToVisitGlobals.has("FORM_STATE");
-
   // Ignore evaluating if required `event/DATA` is missing in
   // context. Since they are are provided in different context, whenever
   // missing one of them, memorize the current context for later consuming.
   if (
-    (attemptToVisitEvent && !hasOwnProperty(runtimeContext, "event")) ||
-    // (attemptToVisitState && !hasOwnProperty(runtimeContext, "tplStateStoreId")) ||
-    (attemptToVisitData && !hasOwnProperty(runtimeContext, "data"))
+    options.lazy ||
+    (attemptToVisitGlobals.has("EVENT") &&
+      !hasOwnProperty(runtimeContext, "event")) ||
+    (attemptToVisitGlobals.has("DATA") &&
+      !hasOwnProperty(runtimeContext, "data"))
   ) {
     return {
       blockingList,
@@ -212,15 +230,19 @@ function lowLevelEvaluate(
       } = runtimeContext;
       const app = runtimeContext.overrideApp ?? currentApp;
 
-      const getIndividualGlobal = (variableName: string): unknown => {
+      for (const variableName of attemptToVisitGlobals) {
         switch (variableName) {
           // case "ALIAS":
           case "ANCHOR":
-            return location.hash ? location.hash.substring(1) : null;
+            globalVariables[variableName] = location.hash
+              ? location.hash.substring(1)
+              : null;
+            break;
           case "APP":
-            return cloneDeep(app);
+            globalVariables[variableName] = cloneDeep(app);
+            break;
           case "CTX":
-            return getDynamicReadOnlyProxy({
+            globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(target, key: string) {
                 return ctxStore.getValue(key);
               },
@@ -228,40 +250,42 @@ function lowLevelEvaluate(
                 return Array.from(usedCtx);
               },
             });
-          case "STATE":
-            return getDynamicReadOnlyProxy({
-              get(target, key: string) {
-                return tplStateStore!.getValue(key);
-              },
-              ownKeys() {
-                return Array.from(usedStates);
-              },
-            });
+            break;
           case "DATA":
-            return data;
+            globalVariables[variableName] = data;
+            break;
           case "EVENT":
-            return event;
+            globalVariables[variableName] = event;
+            break;
           case "FLAGS":
-            return getReadOnlyProxy(flags);
+            globalVariables[variableName] = getReadOnlyProxy(flags);
+            break;
           case "HASH":
-            return location.hash;
+            globalVariables[variableName] = location.hash;
+            break;
           // case "INSTALLED_APPS":
           case "LOCAL_STORAGE":
-            return getReadOnlyProxy({
+            globalVariables[variableName] = getReadOnlyProxy({
               getItem: getStorageItem("local"),
             });
+            break;
           case "MEDIA":
-            return getReadOnlyProxy(getMedia());
+            globalVariables[variableName] = getReadOnlyProxy(getMedia());
+            break;
           case "MISC":
-            return getRuntime().getMiscSettings();
+            globalVariables[variableName] = getRuntime().getMiscSettings();
+            break;
           case "PARAMS":
-            return new URLSearchParams(query);
+            globalVariables[variableName] = new URLSearchParams(query);
+            break;
           case "PATH":
-            return getReadOnlyProxy(match!.params);
+            globalVariables[variableName] = getReadOnlyProxy(match!.params);
+            break;
           case "PATH_NAME":
-            return location.pathname;
+            globalVariables[variableName] = location.pathname;
+            break;
           case "PROCESSORS":
-            return getDynamicReadOnlyProxy({
+            globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(target, key: string) {
                 const pkg = customProcessors.get(key);
                 if (!pkg) {
@@ -282,31 +306,38 @@ function lowLevelEvaluate(
                 return Array.from(usedProcessors);
               },
             });
+            break;
           case "QUERY":
-            return Object.fromEntries(
+            globalVariables[variableName] = Object.fromEntries(
               Array.from(query.keys()).map((key) => [key, query.get(key)])
             );
+            break;
           case "QUERY_ARRAY":
-            return Object.fromEntries(
+            globalVariables[variableName] = Object.fromEntries(
               Array.from(query.keys()).map((key) => [key, query.getAll(key)])
             );
-          // case "SEGUE":
+            // case "SEGUE":
+            break;
           case "SESSION_STORAGE":
-            return getReadOnlyProxy({
+            globalVariables[variableName] = getReadOnlyProxy({
               getItem: getStorageItem("session"),
             });
+            break;
+          case "STATE":
+            globalVariables[variableName] = getDynamicReadOnlyProxy({
+              get(target, key: string) {
+                return tplStateStore!.getValue(key);
+              },
+              ownKeys() {
+                return Array.from(usedStates);
+              },
+            });
+            break;
           case "SYS":
-            return getReadOnlyProxy(sys);
+            globalVariables[variableName] = getReadOnlyProxy(sys);
           // case "__WIDGET_FN__":
           // case "__WIDGET_IMG__":
           // case "__WIDGET_I18N__":
-        }
-      };
-
-      for (const variableName of attemptToVisitGlobals) {
-        const variable = getIndividualGlobal(variableName);
-        if (variable !== undefined) {
-          globalVariables[variableName] = variable;
         }
       }
 

@@ -8,11 +8,6 @@ export function setProperties(
   runtimeContext: RuntimeContext
 ): void {
   const realProps = computeRealProperties(properties, runtimeContext);
-  // if (context.tplContextId) {
-  //   setupUseBrickInTemplate(realProps, {
-  //     templateContextId: context.tplContextId,
-  //   });
-  // }
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
   }

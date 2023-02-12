@@ -50,12 +50,14 @@ export function mountUseBrick(
   portalBricks: RuntimeBrick[],
   prevMountResult?: MountUseBrickResult
 ): MountUseBrickResult;
+
 export function mountUseBrick(
   mainBrick: null,
   element: null,
   portalBricks: RuntimeBrick[],
   prevMountResult?: MountUseBrickResult
 ): MountUseBrickResult;
+
 export function mountUseBrick(
   mainBrick: RuntimeBrick | null,
   element: HTMLElement | null,
@@ -93,16 +95,11 @@ export function mountUseBrick(
   };
 }
 
-export function unmountUseBrick(
-  prevMountResult: MountUseBrickResult | undefined
-): void {
-  if (!prevMountResult) {
-    return;
+export function unmountUseBrick(mountResult: MountUseBrickResult): void {
+  if (mountResult.mainBrickNode) {
+    mountResult.mainBrickNode.unmount();
   }
-  if (prevMountResult.mainBrickNode) {
-    prevMountResult.mainBrickNode.unmount();
-  }
-  if (prevMountResult.portalMountPoint) {
-    unmountTree(prevMountResult.portalMountPoint);
+  if (mountResult.portalMountPoint) {
+    unmountTree(mountResult.portalMountPoint);
   }
 }

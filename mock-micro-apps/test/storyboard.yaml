@@ -87,6 +87,11 @@ meta:
           bricks:
           - brick: span
             ref: thingSpan
+            events:
+              click:
+                targetRef: inner
+                properties:
+                  innerHello: 'I say thing clicked'
           - brick: span
             ref: statusSpan
             lifeCycle:
@@ -105,10 +110,16 @@ meta:
                 args:
                 - oops
                 - detail: yaks
+              - targetRef: buttons
+                properties:
+                  datum: d
           - brick: demo-basic.button-group
+            ref: buttons
             properties:
+              datum: c
               useBrick:
                 brick: tpl-inner
+                ref: inner
                 properties:
                   innerHello: '<% `"I say ${DATA} and ${STATE.asyncHello}"` %>'
           # - brick: span
@@ -368,6 +379,8 @@ routes:
             action: console.log
             args:
             - yo
+            - '<% CTX.datum %>'
+            - '<% DATA %>'
             - '<% EVENT %>'
   - brick: tpl-basic
     if: false

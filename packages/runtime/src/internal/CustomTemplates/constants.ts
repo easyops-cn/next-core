@@ -1,9 +1,6 @@
 import type { BrickConf } from "@next-core/brick-types";
 import type { AsyncProperties, BrickHolder } from "../interfaces.js";
 
-export const symbolForComputedPropsFromHost = Symbol.for(
-  "tpl.computedPropsFromHost"
-);
 export const symbolForAsyncComputedPropsFromHost = Symbol.for(
   "tpl.asyncComputedPropsFromHost"
 );
@@ -15,7 +12,6 @@ export type RuntimeBrickConfWithTplSymbols = BrickConf &
 
 export interface RuntimeBrickConfOfTplSymbols {
   [symbolForAsyncComputedPropsFromHost]?: AsyncProperties;
-  [symbolForComputedPropsFromHost]?: Record<string, unknown>;
   [symbolForBrickHolder]?: BrickHolder;
   [symbolForTplStateStoreId]?: string;
 }

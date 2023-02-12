@@ -33,6 +33,7 @@ import { getRuntime } from "./Runtime.js";
 import { getAuth } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RuntimeContext } from "./interfaces.js";
+import { resetAllComputed } from "./compute/markAsComputed.js";
 
 export class Router {
   #kernel: Kernel;
@@ -192,6 +193,8 @@ export class Router {
 
   async #render(location: PluginLocation): Promise<void> {
     this.#renderId = uniqueId("render-id-1");
+
+    resetAllComputed();
     clearResolveCache();
 
     const history = getHistory();

@@ -4,7 +4,6 @@ import { clamp } from "lodash";
 import {
   symbolForAsyncComputedPropsFromHost,
   symbolForBrickHolder,
-  symbolForComputedPropsFromHost,
   symbolForTplStateStoreId,
 } from "./constants.js";
 import type {
@@ -20,15 +19,13 @@ export function setupTemplateProxy(
 ) {
   const {
     reversedProxies,
-    hostProperties,
-    hostPropertiesAreAsync,
+    asyncHostProperties,
     externalSlots,
     tplStateStoreId,
     hostBrick: hostBrick,
   } = hostContext;
 
   let asyncComputedProps: AsyncProperties | undefined;
-  let computedProps: Record<string, unknown> | undefined;
   let brickHolder: BrickHolder | undefined;
 
   if (ref && reversedProxies) {
@@ -47,15 +44,10 @@ export function setupTemplateProxy(
         }
         return props;
       };
-      if (hostPropertiesAreAsync) {
-        asyncComputedProps = (hostProperties as AsyncProperties).then(
-          getComputedProps
-        );
-      } else {
-        computedProps = getComputedProps(
-          hostProperties as Record<string, unknown>
-        );
-      }
+
+      asyncComputedProps = (asyncHostProperties as AsyncProperties).then(
+        getComputedProps
+      );
     }
 
     const slotProxies = reversedProxies.slots.get(ref);
@@ -115,7 +107,6 @@ export function setupTemplateProxy(
 
   return {
     [symbolForAsyncComputedPropsFromHost]: asyncComputedProps,
-    [symbolForComputedPropsFromHost]: computedProps,
     [symbolForBrickHolder]: brickHolder,
     [symbolForTplStateStoreId]: tplStateStoreId,
   };

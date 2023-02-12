@@ -9,6 +9,7 @@ import {
 } from "./evaluate.js";
 import { TrackingContextItem } from "./listenOnTrackingContext.js";
 import type { RuntimeContext } from "../interfaces.js";
+import { StateOfUseBrick } from "./getNextStateOfUseBrick.js";
 
 export async function asyncComputeRealProperties(
   properties: Record<string, unknown> | undefined,
@@ -49,11 +50,17 @@ export async function asyncComputeRealProperties(
                 });
               }
             }
-            // Todo: lazyForUseBrick
             // Related: https://github.com/facebook/react/issues/11347
             const realValue = await asyncComputeRealValue(
               propValue,
-              runtimeContext
+              runtimeContext,
+              {
+                $$lazyForUseBrick: true,
+                $$stateOfUseBrick:
+                  propName === "useBrick"
+                    ? StateOfUseBrick.USE_BRICK
+                    : StateOfUseBrick.INITIAL,
+              }
             );
             if (realValue !== undefined) {
               // For `style` and `dataset`, only object is acceptable.
@@ -105,9 +112,14 @@ export function computeRealProperties(
               });
             }
           }
-          // Todo: lazyForUseBrick
           // Related: https://github.com/facebook/react/issues/11347
-          const realValue = computeRealValue(propValue, runtimeContext);
+          const realValue = computeRealValue(propValue, runtimeContext, {
+            $$lazyForUseBrick: true,
+            $$stateOfUseBrick:
+              propName === "useBrick"
+                ? StateOfUseBrick.USE_BRICK
+                : StateOfUseBrick.INITIAL,
+          });
           if (realValue !== undefined) {
             // For `style` and `dataset`, only object is acceptable.
             if (

@@ -247,8 +247,7 @@ export async function renderBrick(
       tplTagName,
       brickConf,
       brick,
-      asyncProperties,
-      true
+      asyncProperties
     );
   }
 
