@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import { createDecorators, type EventEmitter } from "@next-core/element";
-import { ReactNextElement } from "@next-core/react-element";
+import { createDecorators } from "@next-core/element";
+import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
 import type { ButtonType, ComponentSize } from "../interface.js";
 import classNames from "classnames";
 import styleText from "./button.shadow.css";
@@ -57,7 +57,10 @@ class Button extends ReactNextElement {
    * @description 是否开启危险状态
    * @group basic
    */
-  @property() accessor danger: boolean | undefined;
+  @property({
+    type: Boolean,
+  })
+  accessor danger: boolean | undefined;
 
   /**
    * @kind boolean
@@ -66,7 +69,10 @@ class Button extends ReactNextElement {
    * @description 是否禁用
    * @group basic
    */
-  @property() accessor disabled: boolean | undefined;
+  @property({
+    type: Boolean,
+  })
+  accessor disabled: boolean | undefined;
 
   /**
    * @kind string
@@ -135,7 +141,7 @@ export function ButtonComponent({
         <slot />
       </a>
     ),
-    [danger, size, href, buttonStyle]
+    [size, danger, buttonStyle, href, target]
   );
 
   const button = useMemo(
@@ -151,8 +157,17 @@ export function ButtonComponent({
         <slot />
       </button>
     ),
-    [disabled, type, danger, size, buttonStyle]
+    [size, type, disabled, danger, buttonStyle]
   );
 
   return type === "link" && href ? link : button;
 }
+
+export { Button };
+
+export const WrappedButton = wrapLocalBrick<
+  ButtonProps & {
+    onClick?: () => void;
+  },
+  Button
+>(Button);

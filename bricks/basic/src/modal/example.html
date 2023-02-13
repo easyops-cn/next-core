@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <basic.general-modal
+      id="modal1"
+      confirm-disabled="false"
+      auto-close-when-confirm="true"
+      modal-title="模态框-1"
+      mask-closable="true"
+    >
+      这是一个模态框-1
+      <basic.general-button id="btn2">打开模态框-2</basic.general-button>
+      <basic.general-modal
+        id="modal2"
+        confirm-disabled="true"
+        width="300px"
+        modal-title="模态框-2"
+        mask-closable="false"
+      >
+        这是一个模态框-2
+      </basic.general-modal>
+    </basic.general-modal>
+    <basic.general-button id="btn1">打开模态框-1</basic.general-button>
+  </body>
+  <script>
+    var modal = document.getElementById("modal1");
+    var btn1 = document.getElementById("btn1");
+    var btn2 = document.getElementById("btn2");
+
+    btn1.addEventListener("click", () => {
+      modal.open();
+    });
+
+    modal1.addEventListener("confirm", () => {
+      console.log("modal confirm");
+    });
+
+    modal1.addEventListener("cancel", () => {
+      console.log("modal cancel");
+    });
+
+    modal1.addEventListener("open", () => {
+      console.log("modal open");
+    });
+
+    modal1.addEventListener("close", () => {
+      console.log("modal close");
+    });
+
+    btn2.addEventListener("click", () => {
+      document.getElementById("modal2").open();
+    });
+  </script>
+</html>
