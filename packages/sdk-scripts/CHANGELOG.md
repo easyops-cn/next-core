@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.17...@next-core/sdk-scripts@2.7.18) (2023-02-13)
+
+
+### Bug Fixes
+
+* **loadService:** ignore non-yaml files ([b1e5131](https://github.com/easyops-cn/next-core/commit/b1e5131cdc6a13330fc2e82605df7d1065bd8b1a))
+
+
+
+
+
 ## [2.7.17](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.16...@next-core/sdk-scripts@2.7.17) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
