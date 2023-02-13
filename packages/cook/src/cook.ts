@@ -1,7 +1,6 @@
 import {
   ArrayPattern,
   ArrowFunctionExpression,
-  BlockStatement,
   CallExpression,
   CatchClause,
   DoWhileStatement,
@@ -44,6 +43,11 @@ import {
 } from "./context-free";
 import {
   CompletionRecord,
+  CreateDeclarativeEnvironment,
+  CreateFunctionEnvironment,
+  CreateImmutableBinding,
+  CreateMutableBinding,
+  CreateReferenceRecord,
   DeclarativeEnvironment,
   ECMAScriptCode,
   Empty,
@@ -51,12 +55,17 @@ import {
   EnvironmentRecord,
   ExecutionContext,
   FormalParameters,
-  FunctionEnvironment,
   FunctionObject,
+  GetBindingValue,
+  InitializeBinding,
   IsConstructor,
+  IsReferenceRecord,
+  Memoized,
   NormalCompletion,
   OptionalChainRef,
+  OtherCompletion,
   ReferenceRecord,
+  SetMutableBinding,
   SourceNode,
 } from "./ExecutionContext";
 import {
@@ -93,16 +102,25 @@ export function cook(
   { rules, globalVariables = {}, hooks = {} }: CookOptions = {}
 ): unknown {
   const expressionOnly = rootAst.type !== "FunctionDeclaration";
+  const costs = {
+    CallFunction: 0,
+    FunctionDeclarationInstantiation: 0,
+    EvaluateStatementList: 0,
+  };
 
-  const rootEnv = new DeclarativeEnvironment(null);
-  const rootContext = new ExecutionContext();
-  rootContext.VariableEnvironment = rootEnv;
-  rootContext.LexicalEnvironment = rootEnv;
+  const rootEnv = CreateDeclarativeEnvironment(null);
+  // const rootContext = new ExecutionContext();
+  // rootContext.VariableEnvironment = rootEnv;
+  // rootContext.LexicalEnvironment = rootEnv;
+  const rootContext = {
+    VariableEnvironment: rootEnv,
+    LexicalEnvironment: rootEnv,
+  } as ExecutionContext;
   const executionContextStack = [rootContext];
 
   for (const [key, value] of Object.entries(globalVariables)) {
-    rootEnv.CreateImmutableBinding(key, true);
-    rootEnv.InitializeBinding(key, value);
+    CreateImmutableBinding(rootEnv, key, true);
+    InitializeBinding(rootEnv, key, value);
   }
 
   const TemplateMap = new WeakMap<TemplateLiteral, string[]>();
@@ -174,7 +192,8 @@ export function cook(
             throw new TypeError(`${funcName} is not a function`);
           }
           let thisValue;
-          if (rightRef instanceof ReferenceRecord) {
+          // if (rightRef instanceof ReferenceRecord) {
+          if (IsReferenceRecord(rightRef)) {
             if (IsPropertyReference(rightRef)) {
               thisValue = rightRef.Base;
             }
@@ -351,7 +370,8 @@ export function cook(
         const ref = Evaluate(node.argument).Value as ReferenceRecord;
         if (!expressionOnly && node.operator === "delete") {
           // Delete operator is supported only in function mode.
-          if (!(ref instanceof ReferenceRecord)) {
+          // if (!(ref instanceof ReferenceRecord)) {
+          if (!IsReferenceRecord(ref)) {
             return NormalCompletion(true);
           }
           // istanbul ignore else
@@ -364,7 +384,7 @@ export function cook(
           // Should never reach here in strict mode.
         }
         if (node.operator === "typeof") {
-          if (ref instanceof ReferenceRecord && ref.Base === "unresolvable") {
+          if (IsReferenceRecord(ref) && ref.Base === "unresolvable") {
             return NormalCompletion("undefined");
           }
           return NormalCompletion(typeof GetValue(ref));
@@ -414,7 +434,7 @@ export function cook(
             return NormalCompletion(Empty);
           }
           const oldEnv = getRunningContext().LexicalEnvironment;
-          const blockEnv = new DeclarativeEnvironment(oldEnv);
+          const blockEnv = CreateDeclarativeEnvironment(oldEnv);
           BlockDeclarationInstantiation(node.body, blockEnv);
           getRunningContext().LexicalEnvironment = blockEnv;
           const blockValue = EvaluateStatementList(node.body);
@@ -423,10 +443,10 @@ export function cook(
         }
         case "BreakStatement":
           // https://tc39.es/ecma262/#sec-break-statement
-          return new CompletionRecord("break", Empty);
+          return OtherCompletion("break", Empty);
         case "ContinueStatement":
           // https://tc39.es/ecma262/#sec-continue-statement
-          return new CompletionRecord("continue", Empty);
+          return OtherCompletion("continue", Empty);
         case "EmptyStatement":
           // https://tc39.es/ecma262/#sec-empty-statement
           return NormalCompletion(Empty);
@@ -466,7 +486,7 @@ export function cook(
             const exprRef = Evaluate(node.argument);
             v = GetValue(exprRef);
           }
-          return new CompletionRecord("return", v);
+          return OtherCompletion("return", v);
         }
         case "ThrowStatement":
           // https://tc39.es/ecma262/#sec-throw-statement
@@ -486,7 +506,7 @@ export function cook(
           const exprRef = Evaluate(node.discriminant);
           const switchValue = GetValue(exprRef);
           const oldEnv = getRunningContext().LexicalEnvironment;
-          const blockEnv = new DeclarativeEnvironment(oldEnv);
+          const blockEnv = CreateDeclarativeEnvironment(oldEnv);
           BlockDeclarationInstantiation(node.cases, blockEnv);
           getRunningContext().LexicalEnvironment = blockEnv;
           const R = CaseBlockEvaluation(node.cases, switchValue);
@@ -583,9 +603,9 @@ export function cook(
     thrownValue: unknown
   ): CompletionRecord {
     const oldEnv = getRunningContext().LexicalEnvironment;
-    const catchEnv = new DeclarativeEnvironment(oldEnv);
+    const catchEnv = CreateDeclarativeEnvironment(oldEnv);
     for (const argName of collectBoundNames(node.param)) {
-      catchEnv.CreateMutableBinding(argName, false);
+      CreateMutableBinding(catchEnv, argName, false);
     }
     getRunningContext().LexicalEnvironment = catchEnv;
     BindingInitialization(node.param, thrownValue, catchEnv);
@@ -769,9 +789,9 @@ export function cook(
     const runningContext = getRunningContext();
     const oldEnv = runningContext.LexicalEnvironment;
     if (uninitializedBoundNames.length > 0) {
-      const newEnv = new DeclarativeEnvironment(oldEnv);
+      const newEnv = CreateDeclarativeEnvironment(oldEnv);
       for (const name of uninitializedBoundNames) {
-        newEnv.CreateMutableBinding(name, false);
+        CreateMutableBinding(newEnv, name, false);
       }
       runningContext.LexicalEnvironment = newEnv;
     }
@@ -780,7 +800,7 @@ export function cook(
     const exprValue = GetValue(exprRef);
     if (iterationKind === "enumerate") {
       if (exprValue === null || exprValue === undefined) {
-        return new CompletionRecord("break", Empty);
+        return OtherCompletion("break", Empty);
       }
       const iterator = EnumerateObjectProperties(exprValue);
       return NormalCompletion(iterator);
@@ -818,7 +838,7 @@ export function cook(
       let lhsRef: ReferenceRecord;
       let iterationEnv: DeclarativeEnvironment;
       if (lhsKind === "lexicalBinding") {
-        iterationEnv = new DeclarativeEnvironment(oldEnv);
+        iterationEnv = CreateDeclarativeEnvironment(oldEnv);
         ForDeclarationBindingInstantiation(
           node as VariableDeclaration,
           iterationEnv
@@ -886,14 +906,14 @@ export function cook(
       }
       // `for (let/const … ; … ; … ) …`
       const oldEnv = getRunningContext().LexicalEnvironment;
-      const loopEnv = new DeclarativeEnvironment(oldEnv);
+      const loopEnv = CreateDeclarativeEnvironment(oldEnv);
       const isConst = node.init.kind === "const";
       const boundNames = collectBoundNames(node.init);
       for (const dn of boundNames) {
         if (isConst) {
-          loopEnv.CreateImmutableBinding(dn, true);
+          CreateImmutableBinding(loopEnv, dn, true);
         } else {
-          loopEnv.CreateMutableBinding(dn, false);
+          CreateMutableBinding(loopEnv, dn, false);
         }
       }
       getRunningContext().LexicalEnvironment = loopEnv;
@@ -958,11 +978,11 @@ export function cook(
     }
     const lastIterationEnv = getRunningContext().LexicalEnvironment;
     const outer = lastIterationEnv.OuterEnv;
-    const thisIterationEnv = new DeclarativeEnvironment(outer);
+    const thisIterationEnv = CreateDeclarativeEnvironment(outer);
     for (const bn of perIterationBindings) {
-      thisIterationEnv.CreateMutableBinding(bn, false);
-      const lastValue = lastIterationEnv.GetBindingValue(bn, false);
-      thisIterationEnv.InitializeBinding(bn, lastValue);
+      CreateMutableBinding(thisIterationEnv, bn, false);
+      const lastValue = GetBindingValue(lastIterationEnv, bn, false);
+      InitializeBinding(thisIterationEnv, bn, lastValue);
     }
     getRunningContext().LexicalEnvironment = thisIterationEnv;
   }
@@ -1136,7 +1156,7 @@ export function cook(
     const propertyNameReference = Evaluate(expression);
     const propertyNameValue = GetValue(propertyNameReference);
     const propertyKey = ToPropertyKey(propertyNameValue);
-    return new ReferenceRecord(baseValue, propertyKey, strict);
+    return CreateReferenceRecord(baseValue, propertyKey, strict);
   }
 
   // https://tc39.es/ecma262/#sec-evaluate-property-access-with-identifier-key
@@ -1146,7 +1166,7 @@ export function cook(
     strict: boolean
   ): ReferenceRecord {
     const propertyNameString = identifier.name;
-    return new ReferenceRecord(baseValue, propertyNameString, strict);
+    return CreateReferenceRecord(baseValue, propertyNameString, strict);
   }
 
   // Block statements.
@@ -1164,15 +1184,15 @@ export function cook(
         d.type === "VariableDeclaration" && d.kind === "const";
       for (const dn of collectBoundNames(d)) {
         if (IsConstantDeclaration) {
-          env.CreateImmutableBinding(dn, true);
+          CreateImmutableBinding(env, dn, true);
         } else {
-          env.CreateMutableBinding(dn, false);
+          CreateMutableBinding(env, dn, false);
         }
       }
       if (d.type === "FunctionDeclaration") {
         const [fn] = collectBoundNames(d);
         const fo = InstantiateFunctionObject(d, env);
-        env.InitializeBinding(fn, fo);
+        InitializeBinding(env, fn, fo);
       }
     }
   }
@@ -1186,7 +1206,7 @@ export function cook(
     callee: CallExpression["callee"]
   ): CompletionRecord {
     let thisValue;
-    if (ref instanceof ReferenceRecord) {
+    if (IsReferenceRecord(ref)) {
       if (IsPropertyReference(ref)) {
         thisValue = ref.Base;
       }
@@ -1259,7 +1279,26 @@ export function cook(
   ): unknown {
     hooks.beforeCall?.(closure[SourceNode]);
     PrepareForOrdinaryCall(closure);
-    const result = OrdinaryCallEvaluateBody(closure, args);
+    // const result = OrdinaryCallEvaluateBody(closure, args);
+
+    const start = performance.now();
+    FunctionDeclarationInstantiation(closure, args);
+    costs.FunctionDeclarationInstantiation += performance.now() - start;
+
+    const body = closure[ECMAScriptCode];
+    let result: CompletionRecord;
+    const start2 = performance.now();
+    if (Array.isArray(body)) {
+      result = EvaluateStatementList(body);
+    } else {
+      result = OtherCompletion("return", GetValue(Evaluate(body)));
+      // result = {
+      //   Type: "return",
+      //   Value: GetValue(Evaluate(body)),
+      // };
+    }
+    costs.EvaluateStatementList += performance.now() - start2;
+
     executionContextStack.pop();
     if (result.Type === "return") {
       return result.Value;
@@ -1269,9 +1308,12 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-prepareforordinarycall
   function PrepareForOrdinaryCall(F: FunctionObject): ExecutionContext {
-    const calleeContext = new ExecutionContext();
-    calleeContext.Function = F;
-    const localEnv = new FunctionEnvironment(F[Environment]);
+    // const calleeContext = new ExecutionContext();
+    // calleeContext.Function = F;
+    const calleeContext = {
+      Function: F,
+    } as ExecutionContext;
+    const localEnv = CreateFunctionEnvironment(F[Environment]);
     calleeContext.VariableEnvironment = localEnv;
     calleeContext.LexicalEnvironment = localEnv;
     executionContextStack.push(calleeContext);
@@ -1296,7 +1338,7 @@ export function cook(
     if (Array.isArray(body)) {
       return EvaluateStatementList(body);
     }
-    return new CompletionRecord("return", GetValue(Evaluate(body)));
+    return OtherCompletion("return", GetValue(Evaluate(body)));
   }
 
   // https://tc39.es/ecma262/#sec-block-runtime-semantics-evaluation
@@ -1320,38 +1362,57 @@ export function cook(
     const calleeContext = getRunningContext();
     const code = func[ECMAScriptCode];
     const formals = func[FormalParameters] as FunctionDeclaration["params"];
-    const parameterNames = collectBoundNames(formals);
-    const hasParameterExpressions = containsExpression(formals);
-    const varDeclarations = collectScopedDeclarations(code, {
-      var: true,
-      topLevel: true,
-    });
-    const varNames = collectBoundNames(varDeclarations);
 
-    // `functionNames` ∈ `varNames`
-    // `functionsToInitialize` ≈ `functionNames`
-    const functionNames: string[] = [];
-    const functionsToInitialize: FunctionDeclaration[] = [];
-    for (let i = varDeclarations.length - 1; i >= 0; i--) {
-      const d = varDeclarations[i];
-      if (d.type === "FunctionDeclaration") {
-        ThrowIfFunctionIsInvalid(d);
-        const [fn] = collectBoundNames(d);
-        if (!functionNames.includes(fn)) {
-          functionNames.unshift(fn);
-          functionsToInitialize.unshift(d);
+    let memoized = func[Memoized];
+    if (!memoized) {
+      const parameterNames = collectBoundNames(formals);
+      const hasParameterExpressions = containsExpression(formals);
+      const varDeclarations = collectScopedDeclarations(code, {
+        var: true,
+        topLevel: true,
+      });
+      const varNames = collectBoundNames(varDeclarations);
+
+      // `functionNames` ∈ `varNames`
+      // `functionsToInitialize` ≈ `functionNames`
+      const functionNames: string[] = [];
+      const functionsToInitialize: FunctionDeclaration[] = [];
+      for (let i = varDeclarations.length - 1; i >= 0; i--) {
+        const d = varDeclarations[i];
+        if (d.type === "FunctionDeclaration") {
+          ThrowIfFunctionIsInvalid(d);
+          const [fn] = collectBoundNames(d);
+          if (!functionNames.includes(fn)) {
+            functionNames.unshift(fn);
+            functionsToInitialize.unshift(d);
+          }
+        } else if (rules?.noVar) {
+          throw new SyntaxError(
+            "Var declaration is not recommended, use `let` or `const` instead"
+          );
         }
-      } else if (rules?.noVar) {
-        throw new SyntaxError(
-          "Var declaration is not recommended, use `let` or `const` instead"
-        );
       }
+      func[Memoized] = memoized = {
+        parameterNames,
+        hasParameterExpressions,
+        varNames,
+        functionNames,
+        functionsToInitialize,
+      };
     }
+
+    const {
+      parameterNames,
+      hasParameterExpressions,
+      varNames,
+      functionNames,
+      functionsToInitialize,
+    } = memoized;
 
     const env = calleeContext.LexicalEnvironment;
     for (const paramName of parameterNames) {
       // In strict mode, it's guaranteed no duplicate params exist.
-      env.CreateMutableBinding(paramName, false);
+      CreateMutableBinding(env, paramName, false);
     }
 
     const iteratorRecord = CreateListIteratorRecord(args);
@@ -1364,8 +1425,8 @@ export function cook(
       // `varNames` are unique.
       for (const n of varNames) {
         if (!parameterNames.includes(n)) {
-          env.CreateMutableBinding(n, false);
-          env.InitializeBinding(n, undefined);
+          CreateMutableBinding(env, n, false);
+          InitializeBinding(env, n, undefined);
         }
       }
       varEnv = env;
@@ -1373,16 +1434,16 @@ export function cook(
       // NOTE: A separate Environment Record is needed to ensure that closures
       // created by expressions in the formal parameter list do not have
       // visibility of declarations in the function body.
-      varEnv = new DeclarativeEnvironment(env);
+      varEnv = CreateDeclarativeEnvironment(env);
       calleeContext.VariableEnvironment = varEnv;
       // `varNames` are unique.
       for (const n of varNames) {
-        varEnv.CreateMutableBinding(n, false);
+        CreateMutableBinding(varEnv, n, false);
         let initialValue: unknown;
         if (parameterNames.includes(n) && !functionNames.includes(n)) {
-          initialValue = env.GetBindingValue(n, false);
+          initialValue = GetBindingValue(env, n, false);
         }
-        varEnv.InitializeBinding(n, initialValue);
+        InitializeBinding(varEnv, n, initialValue);
         // NOTE: A var with the same name as a formal parameter initially has
         // the same value as the corresponding initialized parameter.
       }
@@ -1398,9 +1459,9 @@ export function cook(
       for (const dn of collectBoundNames(d)) {
         // Only lexical VariableDeclaration here in top-level.
         if ((d as VariableDeclaration).kind === "const") {
-          lexEnv.CreateImmutableBinding(dn, true);
+          CreateImmutableBinding(lexEnv, dn, true);
         } else {
-          lexEnv.CreateMutableBinding(dn, false);
+          CreateMutableBinding(lexEnv, dn, false);
         }
       }
     }
@@ -1408,7 +1469,7 @@ export function cook(
     for (const f of functionsToInitialize) {
       const [fn] = collectBoundNames(f);
       const fo = InstantiateFunctionObject(f, lexEnv);
-      varEnv.SetMutableBinding(fn, fo, false);
+      SetMutableBinding(varEnv, fn, fo, false);
     }
   }
 
@@ -1427,10 +1488,10 @@ export function cook(
     const scope = getRunningContext().LexicalEnvironment;
     if (functionExpression.id) {
       const name = functionExpression.id.name;
-      const funcEnv = new DeclarativeEnvironment(scope);
-      funcEnv.CreateImmutableBinding(name, false);
+      const funcEnv = CreateDeclarativeEnvironment(scope);
+      CreateImmutableBinding(funcEnv, name, false);
       const closure = OrdinaryFunctionCreate(functionExpression, funcEnv, true);
-      funcEnv.InitializeBinding(name, closure);
+      InitializeBinding(funcEnv, name, closure);
       return closure;
     } else {
       const closure = OrdinaryFunctionCreate(functionExpression, scope, true);
@@ -1457,8 +1518,11 @@ export function cook(
     isConstructor: boolean
   ): FunctionObject {
     const F = function () {
+      const start = performance.now();
       // eslint-disable-next-line prefer-rest-params
-      return CallFunction(F, arguments);
+      const result = CallFunction(F, arguments);
+      costs.CallFunction += performance.now() - start;
+      return result;
     } as FunctionObject;
     Object.defineProperties(F, {
       [SourceNode]: {
@@ -1710,7 +1774,7 @@ export function cook(
     environment?: EnvironmentRecord
   ): CompletionRecord {
     // Assert: environment is always present.
-    environment.InitializeBinding(name, value);
+    InitializeBinding(environment, name, value);
     return NormalCompletion(Empty);
   }
 
@@ -1730,15 +1794,17 @@ export function cook(
   }
 
   if (expressionOnly) {
-    return GetValue(Evaluate(rootAst));
+    const result = GetValue(Evaluate(rootAst));
+    return result;
   }
 
   hooks.beforeEvaluate?.(rootAst);
   ThrowIfFunctionIsInvalid(rootAst);
   const [fn] = collectBoundNames(rootAst);
   // Create an immutable binding for the root function.
-  rootEnv.CreateImmutableBinding(fn, true);
+  CreateImmutableBinding(rootEnv, fn, true);
   const fo = InstantiateFunctionObject(rootAst, rootEnv);
-  rootEnv.InitializeBinding(fn, fo);
+  InitializeBinding(rootEnv, fn, fo);
+
   return fo;
 }

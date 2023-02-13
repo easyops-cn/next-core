@@ -249,6 +249,9 @@ export function evaluate(
       case "CTX":
         return getDynamicReadOnlyProxy({
           get(target, key: string) {
+            if (typeof key !== "string") {
+              return undefined;
+            }
             const item = storyboardContext.get(key);
             return !item
               ? item
@@ -284,6 +287,9 @@ export function evaluate(
       case "PROCESSORS":
         return getDynamicReadOnlyProxy({
           get(target, key: string) {
+            if (typeof key !== "string") {
+              return undefined;
+            }
             const pkg = customProcessorRegistry.get(key);
             if (!pkg) {
               throw new Error(
@@ -352,9 +358,17 @@ export function evaluate(
   );
 
   try {
+    const start = performance.now();
     const result = cook(precooked.expression, precooked.source, {
       globalVariables: supply(precooked.attemptToVisitGlobals, globalVariables),
     });
+    const cost = Math.round(performance.now() - start);
+
+    if (cost > 1e3) {
+      // eslint-disable-next-line no-console
+      console.error("Low expressions: %s, cost: %d", precooked.source, cost);
+    }
+
     const detail = { raw, context: globalVariables, result };
     if (options.isReEvaluation) {
       devtoolsHookEmit("re-evaluation", {

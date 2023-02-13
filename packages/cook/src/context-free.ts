@@ -5,16 +5,27 @@ import {
 } from "@babel/types";
 import {
   CompletionRecord,
+  CreateImmutableBinding,
+  CreateMutableBinding,
+  CreateReferenceRecord,
   Empty,
   EnvironmentRecord,
+  GetBindingValue,
+  HasBinding,
+  InitializeBinding,
+  IsEnvironmentRecord,
+  IsReferenceRecord,
   NormalCompletion,
+  OtherCompletion,
   ReferenceRecord,
+  SetMutableBinding,
+  SymbolOfCompletionRecord,
 } from "./ExecutionContext";
 import { collectBoundNames } from "./traverse";
 
 // https://tc39.es/ecma262/#sec-ispropertyreference
 export function IsPropertyReference(V: ReferenceRecord): boolean {
-  return V.Base !== "unresolvable" && !(V.Base instanceof EnvironmentRecord);
+  return V.Base !== "unresolvable" && !IsEnvironmentRecord(V.Base);
 }
 
 // https://tc39.es/ecma262/#sec-initializereferencedbinding
@@ -23,7 +34,7 @@ export function InitializeReferencedBinding(
   W: unknown
 ): CompletionRecord {
   const base = V.Base as EnvironmentRecord;
-  return base.InitializeBinding(V.ReferenceName as string, W);
+  return InitializeBinding(base, V.ReferenceName as string, W);
 }
 
 // https://tc39.es/ecma262/#sec-copydataproperties
@@ -57,9 +68,9 @@ export function ForDeclarationBindingInstantiation(
   const isConst = forDeclaration.kind === "const";
   for (const name of collectBoundNames(forDeclaration)) {
     if (isConst) {
-      env.CreateImmutableBinding(name, true);
+      CreateImmutableBinding(env, name, true);
     } else {
-      env.CreateMutableBinding(name, false);
+      CreateMutableBinding(env, name, false);
     }
   }
 }
@@ -77,24 +88,24 @@ export function UpdateEmpty(
   if (completion.Value !== Empty) {
     return completion;
   }
-  return new CompletionRecord(completion.Type, value);
+  return OtherCompletion(completion.Type, value);
 }
 
 // https://tc39.es/ecma262/#sec-getvalue
 export function GetValue(V: unknown): unknown {
-  if (V instanceof CompletionRecord) {
+  if (V && (V as CompletionRecord)[SymbolOfCompletionRecord]) {
     // Assert: V.Type is normal.
-    V = V.Value;
+    V = (V as CompletionRecord).Value;
   }
-  if (!(V instanceof ReferenceRecord)) {
+  if (!IsReferenceRecord(V)) {
     return V;
   }
   if (V.Base === "unresolvable") {
     throw new ReferenceError(`${V.ReferenceName as string} is not defined`);
   }
-  if (V.Base instanceof EnvironmentRecord) {
+  if (IsEnvironmentRecord(V.Base)) {
     const base = V.Base as EnvironmentRecord;
-    return base.GetBindingValue(V.ReferenceName as string, V.Strict);
+    return GetBindingValue(base, V.ReferenceName as string, V.Strict);
   }
   return V.Base[V.ReferenceName];
 }
@@ -118,8 +129,8 @@ export function PutValue(V: ReferenceRecord, W: unknown): CompletionRecord {
   if (V.Base === "unresolvable") {
     throw new ReferenceError(`${V.ReferenceName as string} is not defined`);
   }
-  if (V.Base instanceof EnvironmentRecord) {
-    return V.Base.SetMutableBinding(V.ReferenceName as string, W, V.Strict);
+  if (IsEnvironmentRecord(V.Base)) {
+    return SetMutableBinding(V.Base, V.ReferenceName as string, W, V.Strict);
   }
   V.Base[V.ReferenceName] = W;
   return NormalCompletion(undefined);
@@ -149,10 +160,10 @@ export function GetIdentifierReference(
   strict: boolean
 ): ReferenceRecord {
   if (!env) {
-    return new ReferenceRecord("unresolvable", name, strict);
+    return CreateReferenceRecord("unresolvable", name, strict);
   }
-  if (env.HasBinding(name)) {
-    return new ReferenceRecord(env, name, strict);
+  if (HasBinding(env, name)) {
+    return CreateReferenceRecord(env, name, strict);
   }
   return GetIdentifierReference(env.OuterEnv, name, strict);
 }

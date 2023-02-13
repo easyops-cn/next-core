@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { install, InstalledClock } from "lolex";
 import { SimpleFunction } from "@next-core/brick-types";
 import { supply } from "@next-core/supply";
@@ -16,10 +17,26 @@ import {
   negativeCasesOfExpressionOnly,
   selectiveNegativeCasesOfExpressionOnly,
 } from "./__fixtures__/negative/expressions";
+import appListTableData from "./__fixtures__/appListTableData.json";
+import appConfigData from "./__fixtures__/appConfigData.json";
+import oops from "./__fixtures__/oops";
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
 const getExtraGlobalVariables = (): Record<string, unknown> => ({
+  // oops: {
+  //   appListTableData: appListTableData.slice(0, 100),
+  //   appConfigData,
+  // },
+  oops: new Proxy(Object.freeze({}), {
+    get(target, key) {
+      if (key === "appListTableData") {
+        return appListTableData.slice(0, 200);
+      } else if (key === "appConfigData") {
+        return appConfigData;
+      }
+    },
+  }),
   DATA: {
     for: "good",
     null: null,
@@ -114,7 +131,55 @@ const equivalentFunc = (
 
 const containsExperimental = (source: string): boolean => source.includes("|>");
 
+describe("oops", () => {
+  beforeAll(() => {
+    jest.useRealTimers();
+  });
+
+  test("yaks", () => {
+    const source = oops;
+    const { expression: exprAst, attemptToVisitGlobals } = preevaluate(source);
+
+    const start1 = performance.now();
+    const result1 = equivalentFunc(source, attemptToVisitGlobals, true);
+    const cost1 = Math.round(performance.now() - start1);
+    console.log("cost1:", cost1);
+    // console.log("result1:", result1);
+
+    const globalVariables = supply(
+      attemptToVisitGlobals,
+      getExtraGlobalVariables()
+    );
+    const start2 = performance.now();
+    const result2 = cook(exprAst, source, {
+      globalVariables,
+    }) as SimpleFunction;
+    const cost2 = Math.round(performance.now() - start2);
+    console.log("cost2:", cost2);
+    // // console.log("result2:", result2);
+
+    expect(result2).toEqual(result1);
+
+    // class a {
+    //   // return Math.random();
+    //   readonly a: unknown;
+    //   // map = new Map();
+    //   ma() {
+    //     //
+    //   }
+    // }
+    // const start3 = performance.now();
+    // for (let i = 0; i < 8040400; i++) {
+    //   // new a();
+    //   new Map();
+    // }
+    // const cost3 = Math.round(performance.now() - start3);
+    // console.log("cost3:", cost3);
+  });
+});
+
 describe("evaluate", () => {
+  return;
   let clock: InstalledClock;
   beforeEach(() => {
     clock = install({ now: +new Date("2020-03-25 17:37:00") });

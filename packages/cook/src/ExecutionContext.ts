@@ -7,99 +7,133 @@ import {
 } from "@babel/types";
 
 // https://tc39.es/ecma262/#sec-execution-contexts
-export class ExecutionContext {
+export interface ExecutionContext {
   VariableEnvironment: EnvironmentRecord;
   LexicalEnvironment: EnvironmentRecord;
   Function: FunctionObject;
 }
 
-export type EnvironmentRecordType = "function" | "declarative";
+export const symbolOfEnvironmentRecord = Symbol("EnvironmentRecord");
 
 // https://tc39.es/ecma262/#sec-environment-records
-export class EnvironmentRecord {
-  readonly OuterEnv: EnvironmentRecord;
-  private readonly bindingMap = new Map<string, BindingState>();
-
-  constructor(outer: EnvironmentRecord) {
-    this.OuterEnv = outer;
-  }
-
-  HasBinding(name: string): boolean {
-    return this.bindingMap.has(name);
-  }
-
-  CreateMutableBinding(name: string, deletable: boolean): CompletionRecord {
-    // Assert: binding does not exist.
-    this.bindingMap.set(name, {
-      mutable: true,
-      deletable,
-    });
-    return NormalCompletion(undefined);
-  }
-
-  /**
-   * Create an immutable binding.
-   *
-   * @param name - The binding name.
-   * @param strict - For named function expressions, strict is false, otherwise it's true.
-   * @returns CompletionRecord.
-   */
-  CreateImmutableBinding(name: string, strict: boolean): CompletionRecord {
-    // Assert: binding does not exist.
-    this.bindingMap.set(name, {
-      strict,
-    });
-    return NormalCompletion(undefined);
-  }
-
-  InitializeBinding(name: string, value: unknown): CompletionRecord {
-    const binding = this.bindingMap.get(name);
-    // Assert: binding exists and uninitialized.
-    Object.assign<BindingState, Partial<BindingState>>(binding, {
-      initialized: true,
-      value,
-    });
-    return NormalCompletion(undefined);
-  }
-
-  /**
-   * Update a mutable binding value, including function declarations.
-   *
-   * @param name - The binding name.
-   * @param value - The binding value.
-   * @param strict - For functions, strict is always false, otherwise it depends on strict-mode.
-   * @returns
-   */
-  SetMutableBinding(
-    name: string,
-    value: unknown,
-    strict: boolean
-  ): CompletionRecord {
-    const binding = this.bindingMap.get(name);
-    // Assert: binding exists.
-    if (!binding.initialized) {
-      throw new ReferenceError(`${name} is not initialized`);
-    } else if (binding.mutable) {
-      binding.value = value;
-    } else {
-      throw new TypeError(`Assignment to constant variable`);
-    }
-    return NormalCompletion(undefined);
-  }
-
-  GetBindingValue(name: string, strict: boolean): unknown {
-    const binding = this.bindingMap.get(name);
-    // Assert: binding exists.
-    if (!binding.initialized) {
-      throw new ReferenceError(`${name} is not initialized`);
-    }
-    return binding.value;
-  }
+export interface EnvironmentRecord {
+  [symbolOfEnvironmentRecord]: true;
+  readonly OuterEnv: EnvironmentRecord | null;
+  bindingMap: Map<string, BindingState>;
 }
 
-export class DeclarativeEnvironment extends EnvironmentRecord {}
+export function CreateEnvironmentRecord(
+  OuterEnv: EnvironmentRecord
+): EnvironmentRecord {
+  return {
+    [symbolOfEnvironmentRecord]: true,
+    OuterEnv,
+    bindingMap: new Map(),
+  };
+}
 
-export class FunctionEnvironment extends EnvironmentRecord {}
+export function IsEnvironmentRecord(V: unknown): V is EnvironmentRecord {
+  // try {
+  return V && (V as EnvironmentRecord)[symbolOfEnvironmentRecord];
+  // } catch (error) {
+  //   console.error("IsEnvironmentRecord failed for:", typeof V, V);
+  //   return false;
+  // }
+}
+
+export function HasBinding(This: EnvironmentRecord, name: string): boolean {
+  return This.bindingMap.has(name);
+}
+
+export function CreateMutableBinding(
+  This: EnvironmentRecord,
+  name: string,
+  deletable: boolean
+): CompletionRecord {
+  // Assert: binding does not exist.
+  This.bindingMap.set(name, {
+    mutable: true,
+    deletable,
+  });
+  return NormalCompletion(undefined);
+}
+
+/**
+ * Create an immutable binding.
+ *
+ * @param name - The binding name.
+ * @param strict - For named function expressions, strict is false, otherwise it's true.
+ * @returns CompletionRecord.
+ */
+export function CreateImmutableBinding(
+  This: EnvironmentRecord,
+  name: string,
+  strict: boolean
+): CompletionRecord {
+  // Assert: binding does not exist.
+  This.bindingMap.set(name, {
+    strict,
+  });
+  return NormalCompletion(undefined);
+}
+
+export function InitializeBinding(
+  This: EnvironmentRecord,
+  name: string,
+  value: unknown
+): CompletionRecord {
+  const binding = This.bindingMap.get(name);
+  // Assert: binding exists and uninitialized.
+  Object.assign<BindingState, Partial<BindingState>>(binding, {
+    initialized: true,
+    value,
+  });
+  return NormalCompletion(undefined);
+}
+
+/**
+ * Update a mutable binding value, including function declarations.
+ *
+ * @param name - The binding name.
+ * @param value - The binding value.
+ * @param strict - For functions, strict is always false, otherwise it depends on strict-mode.
+ * @returns
+ */
+export function SetMutableBinding(
+  This: EnvironmentRecord,
+  name: string,
+  value: unknown,
+  strict: boolean
+): CompletionRecord {
+  const binding = This.bindingMap.get(name);
+  // Assert: binding exists.
+  if (!binding.initialized) {
+    throw new ReferenceError(`${name} is not initialized`);
+  } else if (binding.mutable) {
+    binding.value = value;
+  } else {
+    throw new TypeError(`Assignment to constant variable`);
+  }
+  return NormalCompletion(undefined);
+}
+
+export function GetBindingValue(
+  This: EnvironmentRecord,
+  name: string,
+  strict: boolean
+): unknown {
+  const binding = This.bindingMap.get(name);
+  // Assert: binding exists.
+  if (!binding.initialized) {
+    throw new ReferenceError(`${name} is not initialized`);
+  }
+  return binding.value;
+}
+
+export const CreateDeclarativeEnvironment = CreateEnvironmentRecord;
+export const CreateFunctionEnvironment = CreateEnvironmentRecord;
+export type DeclarativeEnvironment = EnvironmentRecord;
+export type FunctionEnvironment = EnvironmentRecord;
 
 export interface BindingState {
   initialized?: boolean;
@@ -122,6 +156,7 @@ export const FormalParameters = Symbol.for("FormalParameters");
 export const ECMAScriptCode = Symbol.for("ECMAScriptCode");
 export const Environment = Symbol.for("Environment");
 export const IsConstructor = Symbol.for("IsConstructor");
+export const Memoized = Symbol.for("Memoized");
 
 export interface FunctionObject {
   (...args: unknown[]): unknown;
@@ -133,10 +168,40 @@ export interface FunctionObject {
   [ECMAScriptCode]: Statement[] | Expression;
   [Environment]: EnvironmentRecord;
   [IsConstructor]: boolean;
+  [Memoized]?: {
+    parameterNames: string[];
+    hasParameterExpressions: boolean;
+    varNames: string[];
+    functionNames: string[];
+    functionsToInitialize: FunctionDeclaration[];
+  };
 }
 
 // https://tc39.es/ecma262/#sec-reference-record-specification-type
-export class ReferenceRecord {
+// export class ReferenceRecord {
+//   readonly Base?:
+//     | Record<PropertyKey, unknown>
+//     | EnvironmentRecord
+//     | "unresolvable";
+//   readonly ReferenceName?: PropertyKey;
+//   /** Whether the reference is in strict mode. */
+//   readonly Strict?: boolean;
+
+//   constructor(
+//     base: Record<PropertyKey, unknown> | EnvironmentRecord | "unresolvable",
+//     referenceName: PropertyKey,
+//     strict: boolean
+//   ) {
+//     this.Base = base;
+//     this.ReferenceName = referenceName;
+//     this.Strict = strict;
+//   }
+// }
+
+export const SymbolOfReferenceRecord = Symbol("ReferenceRecord");
+
+export interface ReferenceRecord {
+  readonly [SymbolOfReferenceRecord]: true;
   readonly Base?:
     | Record<PropertyKey, unknown>
     | EnvironmentRecord
@@ -144,27 +209,42 @@ export class ReferenceRecord {
   readonly ReferenceName?: PropertyKey;
   /** Whether the reference is in strict mode. */
   readonly Strict?: boolean;
+}
 
-  constructor(
-    base: Record<PropertyKey, unknown> | EnvironmentRecord | "unresolvable",
-    referenceName: PropertyKey,
-    strict: boolean
-  ) {
-    this.Base = base;
-    this.ReferenceName = referenceName;
-    this.Strict = strict;
-  }
+export function CreateReferenceRecord(
+  base: Record<PropertyKey, unknown> | EnvironmentRecord | "unresolvable",
+  referenceName: PropertyKey,
+  strict: boolean
+): ReferenceRecord {
+  return {
+    [SymbolOfReferenceRecord]: true,
+    Base: base,
+    ReferenceName: referenceName,
+    Strict: strict,
+  };
+}
+
+export function IsReferenceRecord(V: unknown): V is ReferenceRecord {
+  return V && (V as ReferenceRecord)[SymbolOfReferenceRecord];
 }
 
 // https://tc39.es/ecma262/#sec-completion-record-specification-type
-export class CompletionRecord {
+// export class CompletionRecord {
+//   readonly Type: CompletionRecordType;
+//   readonly Value: unknown;
+
+//   constructor(type: CompletionRecordType, value: unknown) {
+//     this.Type = type;
+//     this.Value = value;
+//   }
+// }
+
+export const SymbolOfCompletionRecord = Symbol("CompletionRecord");
+
+export interface CompletionRecord {
+  readonly [SymbolOfCompletionRecord]: true;
   readonly Type: CompletionRecordType;
   readonly Value: unknown;
-
-  constructor(type: CompletionRecordType, value: unknown) {
-    this.Type = type;
-    this.Value = value;
-  }
 }
 
 export type CompletionRecordType =
@@ -176,7 +256,24 @@ export type CompletionRecordType =
 
 // https://tc39.es/ecma262/#sec-normalcompletion
 export function NormalCompletion(value: unknown): CompletionRecord {
-  return new CompletionRecord("normal", value);
+  // return new CompletionRecord("normal", value);
+  return {
+    [SymbolOfCompletionRecord]: true,
+    Type: "normal",
+    Value: value,
+  };
+}
+
+// https://tc39.es/ecma262/#sec-normalcompletion
+export function OtherCompletion(
+  type: CompletionRecordType,
+  value: unknown
+): CompletionRecord {
+  return {
+    [SymbolOfCompletionRecord]: true,
+    Type: type,
+    Value: value,
+  };
 }
 
 export const Empty = Symbol("empty completion");
