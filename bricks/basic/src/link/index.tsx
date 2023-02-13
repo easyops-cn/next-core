@@ -1,6 +1,6 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
-import { ReactNextElement } from "@next-core/react-element";
+import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
 import type { LinkType, Target } from "../interface.js";
 import styleText from "./link.shadow.css";
 import classNames from "classnames";
@@ -133,3 +133,7 @@ export function LinkComponent({
     </a>
   );
 }
+
+export { Link };
+
+export const WrappedXButton = wrapLocalBrick<LinkProps, Link>(Link);
