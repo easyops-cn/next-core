@@ -21,7 +21,6 @@ import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RendererContext } from "./RendererContext.js";
 import { uniqueId } from "lodash";
-import { type Media, mediaEventTarget } from "./mediaQuery.js";
 import {
   applyMode,
   applyTheme,
@@ -44,7 +43,6 @@ export class Router {
   #rendererContext?: RendererContext;
   #redirectCount = 0;
   #renderId?: string;
-  #mediaListener?: EventListener;
   #currentApp?: MicroApp;
 
   constructor(kernel: Kernel) {
@@ -232,10 +230,6 @@ export class Router {
 
     const cleanUpPreviousRender = (): void => {
       prevRendererContext?.dispose();
-      if (this.#mediaListener) {
-        mediaEventTarget.removeEventListener("change", this.#mediaListener);
-        this.#mediaListener = undefined;
-      }
       unmountTree(main);
       unmountTree(portal);
 
@@ -373,16 +367,10 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
-          rendererContext.initializeScrollIntoView();
           rendererContext.dispatchPageLoad();
           rendererContext.dispatchAnchorLoad();
-
-          this.#mediaListener = (event) => {
-            rendererContext.dispatchMediaChange(
-              (event as CustomEvent<Media>).detail
-            );
-          };
-          mediaEventTarget.addEventListener("change", this.#mediaListener);
+          rendererContext.initializeScrollIntoView();
+          rendererContext.initializeMediaChange();
         }
 
         return;

@@ -2,12 +2,14 @@ import type {
   BrickEventHandler,
   BrickLifeCycle,
   PluginHistoryState,
+  UseBrickLifeCycle,
+  UseSingleBrickConf,
 } from "@next-core/brick-types";
 import type { Action, Location } from "history";
 import { listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
-import type { Media } from "./mediaQuery.js";
+import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type { RuntimeBrick } from "./interfaces.js";
 
 type MemoizedLifeCycle<T> = {
@@ -36,7 +38,8 @@ export class RendererContext {
         | "onAnchorUnload"
         | "onMediaChange"
         | "onScrollIntoView"
-      >
+      > &
+        UseBrickLifeCycle
     >
   > = {
     onBeforePageLoad: [],
@@ -47,28 +50,34 @@ export class RendererContext {
     onAnchorUnload: [],
     onMediaChange: [],
     onScrollIntoView: [],
+    onMount: [],
+    onUnmount: [],
   };
   private observers: IntersectionObserver[] = [];
+  private mediaListener: EventListener | undefined;
 
   registerBrickLifeCycle(
     brick: RuntimeBrick,
-    lifeCycle: BrickLifeCycle | undefined
+    lifeCycle: BrickLifeCycle | UseSingleBrickConf["lifeCycle"] | undefined
   ): void {
     if (!lifeCycle) {
       return;
     }
-    const lifeCycleTypes = [
-      "onBeforePageLoad",
-      "onPageLoad",
-      "onPageLeave",
-      "onBeforePageLeave",
-      "onAnchorLoad",
-      "onAnchorUnload",
-      "onMediaChange",
-      "onScrollIntoView",
-    ] as const;
+    const lifeCycleTypes =
+      this.type === "useBrick"
+        ? (["onMount", "onUnmount"] as const)
+        : ([
+            "onBeforePageLoad",
+            "onPageLoad",
+            "onPageLeave",
+            "onBeforePageLeave",
+            "onAnchorLoad",
+            "onAnchorUnload",
+            "onMediaChange",
+            "onScrollIntoView",
+          ] as const);
     for (const key of lifeCycleTypes) {
-      const handlers = lifeCycle[key];
+      const handlers = (lifeCycle as BrickLifeCycle)[key as "onPageLoad"];
       if (handlers) {
         this.memoizedLifeCycle[key as "onPageLoad"].push({
           brick,
@@ -86,6 +95,10 @@ export class RendererContext {
       observer.disconnect();
     }
     this.observers.length = 0;
+    if (this.mediaListener) {
+      mediaEventTarget.removeEventListener("change", this.mediaListener);
+      this.mediaListener = undefined;
+    }
   }
 
   private dispatchGeneralLifeCycle(
@@ -96,9 +109,22 @@ export class RendererContext {
       | "onBeforePageLeave"
       | "onAnchorLoad"
       | "onAnchorUnload"
-      | "onMediaChange",
+      | "onMediaChange"
+      | "onMount"
+      | "onUnmount",
     event: CustomEvent
   ): void {
+    if (process.env.NODE_ENV === "development") {
+      if (
+        type === "onMount" || type === "onUnmount"
+          ? this.type !== "useBrick"
+          : this.type === "useBrick" && type !== "onMediaChange"
+      ) {
+        throw new Error(
+          `\`lifeCycle.${type}\` cannot be used in ${this.type}.\nThis is a bug of Brick Next, please report it.`
+        );
+      }
+    }
     for (const { brick, handlers } of this.memoizedLifeCycle[type] ?? []) {
       listenerFactory(handlers, brick.runtimeContext, brick)(event);
     }
@@ -152,15 +178,6 @@ export class RendererContext {
     }
   }
 
-  dispatchMediaChange(detail: Media): void {
-    this.dispatchGeneralLifeCycle(
-      "onMediaChange",
-      new CustomEvent("media.change", {
-        detail: getReadOnlyProxy(detail),
-      })
-    );
-  }
-
   initializeScrollIntoView(): void {
     for (const { brick, handlers: conf } of this.memoizedLifeCycle
       .onScrollIntoView ?? []) {
@@ -187,5 +204,25 @@ export class RendererContext {
       observer.observe(brick.element!);
       this.observers.push(observer);
     }
+  }
+
+  initializeMediaChange(): void {
+    this.mediaListener = (event) => {
+      this.dispatchGeneralLifeCycle(
+        "onMediaChange",
+        new CustomEvent("media.change", {
+          detail: getReadOnlyProxy((event as CustomEvent<Media>).detail),
+        })
+      );
+    };
+    mediaEventTarget.addEventListener("change", this.mediaListener);
+  }
+
+  dispatchOnMount(): void {
+    this.dispatchGeneralLifeCycle("onMount", new CustomEvent("mount"));
+  }
+
+  dispatchOnUnmount(): void {
+    this.dispatchGeneralLifeCycle("onUnmount", new CustomEvent("unmount"));
   }
 }

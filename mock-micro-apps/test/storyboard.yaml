@@ -370,6 +370,7 @@ routes:
       #             iid: 2
       useBrick:
         brick: tpl-basic
+        # portal: true
         properties:
           thing: '<% `Thing for "${DATA}"` %>'
           status: '<% `Status for "${DATA}"` %>'
@@ -382,6 +383,19 @@ routes:
             - '<% CTX.datum %>'
             - '<% DATA %>'
             - '<% EVENT %>'
+        lifeCycle:
+          onMount:
+            action: console.log
+            args:
+            - onMount outer tpl-basic
+            - '<% EVENT %>'
+            - '<% DATA %>'
+          onUnmount:
+            action: console.log
+            args:
+            - onUnmount outer tpl-basic
+            - '<% EVENT %>'
+            - '<% DATA %>'
   - brick: tpl-basic
     if: false
     properties:

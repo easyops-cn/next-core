@@ -1257,19 +1257,8 @@ export interface UseSingleBrickConf {
   /** {@inheritDoc BrickConf.events} */
   events?: BrickEventsMap;
 
-  /**
-   * 构件生命周期配置。在 `useBrick` 中仅支持 `onMount` 和 `onUnmount`。
-   */
-  lifeCycle?: {
-    /**
-     * 定义 useBrick 里的构件在挂载时的动作。
-     */
-    onMount?: BrickEventHandler | BrickEventHandler[];
-    /**
-     * 定义 useBrick 里的构件在卸载时的动作。
-     */
-    onUnmount?: BrickEventHandler | BrickEventHandler[];
-  };
+  /** {@inheritDoc UseBrickLifeCycle} */
+  lifeCycle?: UseBrickLifeCycle;
 
   /** {@inheritDoc BaseEntityResolveConf.transformFrom} */
   // transformFrom?: string | string[];
@@ -1299,6 +1288,23 @@ export interface UseBrickSlotConf {
   /** 子构件列表。 */
   bricks: UseSingleBrickConf[];
 }
+
+/**
+ * `useBrick` 的构件生命周期配置。
+ */
+export type UseBrickLifeCycle = Pick<
+  BrickLifeCycle,
+  "onScrollIntoView" | "onMediaChange"
+> & {
+  /**
+   * 定义 useBrick 里的构件在挂载时的动作。
+   */
+  onMount?: BrickEventHandler | BrickEventHandler[];
+  /**
+   * 定义 useBrick 里的构件在卸载时的动作。
+   */
+  onUnmount?: BrickEventHandler | BrickEventHandler[];
+};
 
 /** 在 `useBackend` 中使用provider的配置  **/
 export interface UseBackendConf {

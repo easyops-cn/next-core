@@ -19,10 +19,11 @@ export async function renderUseBrick(
     tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
   };
 
+  const rendererContext = new RendererContext("useBrick");
   const output = await renderBrick(
     useBrick as BrickConf,
     runtimeContext,
-    new RendererContext("useBrick")
+    rendererContext
   );
 
   output.blockingList.push(
@@ -36,7 +37,11 @@ export async function renderUseBrick(
 
   await Promise.all(output.blockingList);
 
-  return output;
+  if (output.main.length === 0 && output.portal.length > 0) {
+    throw new Error("The root brick of useBrick cannot be a portal brick");
+  }
+
+  return { output, rendererContext };
 }
 
 export interface MountUseBrickResult {

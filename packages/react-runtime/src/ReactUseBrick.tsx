@@ -11,7 +11,7 @@ export function ReactUseBrick({
   useBrick,
   data,
 }: ReactUseBrickProps): React.ReactElement | null {
-  const [output, setOutput] = useState<Awaited<
+  const [renderResult, setRenderResult] = useState<Awaited<
     ReturnType<typeof __secret_internals.renderUseBrick>
   > | null>(null);
   const mountResult = useRef<__secret_internals.MountUseBrickResult>();
@@ -22,57 +22,64 @@ export function ReactUseBrick({
   useEffect(() => {
     async function init() {
       try {
-        setOutput(await __secret_internals.renderUseBrick(useBrick, data));
+        setRenderResult(
+          await __secret_internals.renderUseBrick(useBrick, data)
+        );
         setRenderKey(getUniqueId(IdCounterRef));
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Render useBrick failed:", useBrick, "with data:", data);
+        // eslint-disable-next-line no-console
+        console.error(error);
       }
     }
     // setOutput(null);
     init();
   }, [data, useBrick]);
 
-  if (!output) {
+  if (!renderResult) {
     // Fallback when loading/
     return null;
     // return <span>🌀 Loading...</span>;
   }
 
+  const { output, rendererContext } = renderResult;
+
   const mainBrick = output.main[0];
-  if (mainBrick) {
-    const WebComponent = mainBrick.type as any;
-    return (
-      <WebComponent
-        key={renderKey}
-        ref={(element: HTMLElement) => {
-          if (element) {
-            if (elementRef.current === element) {
-              return;
-            }
-            elementRef.current = element;
-            mountResult.current = __secret_internals.mountUseBrick(
-              mainBrick,
-              element,
-              output.portal,
-              mountResult.current
-            );
-          } else if (mountResult.current) {
-            __secret_internals.unmountUseBrick(mountResult.current);
-          }
-        }}
-      />
-    );
+
+  if (!mainBrick) {
+    return null;
   }
 
-  mountResult.current = __secret_internals.mountUseBrick(
-    null,
-    null,
-    output.portal,
-    mountResult.current
-  );
+  const WebComponent = mainBrick.type as any;
+  return (
+    <WebComponent
+      key={renderKey}
+      ref={(element: HTMLElement) => {
+        if (element) {
+          if (elementRef.current === element) {
+            return;
+          }
+          elementRef.current = element;
+          mountResult.current = __secret_internals.mountUseBrick(
+            mainBrick,
+            element,
+            output.portal,
+            mountResult.current
+          );
 
-  return null;
+          rendererContext.dispatchOnMount();
+          rendererContext.initializeScrollIntoView();
+          rendererContext.initializeMediaChange();
+        } else if (mountResult.current) {
+          __secret_internals.unmountUseBrick(mountResult.current);
+          mountResult.current = undefined;
+          rendererContext.dispatchOnUnmount();
+          rendererContext.dispose();
+        }
+      }}
+    />
+  );
 }
 
 function getUniqueId(ref: MutableRefObject<number>): number {
