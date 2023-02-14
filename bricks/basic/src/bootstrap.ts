@@ -4,3 +4,4 @@ import "./link/index.js";
 import "./flex-layout/index.js";
 import "./modal/index.js";
 import "./input/index.js";
+import "./textarea/index.js";
