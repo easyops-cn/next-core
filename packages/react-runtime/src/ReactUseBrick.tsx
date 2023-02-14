@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import type { UseSingleBrickConf } from "@next-core/brick-types";
-import { __secret_internals } from "@next-core/runtime";
+import { __secret_internals, handleHttpError } from "@next-core/runtime";
 
 export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
@@ -29,8 +29,7 @@ export function ReactUseBrick({
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Render useBrick failed:", useBrick, "with data:", data);
-        // eslint-disable-next-line no-console
-        console.error(error);
+        handleHttpError(error);
       }
     }
     // setOutput(null);

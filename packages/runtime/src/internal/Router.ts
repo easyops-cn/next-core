@@ -9,6 +9,8 @@ import type {
   PluginLocation,
 } from "@next-core/brick-types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
+import { isHttpAbortError } from "@next-core/brick-http";
+import { uniqueId } from "lodash";
 import { getHistory } from "../history.js";
 import type { Kernel } from "./Kernel.js";
 import { RenderOutput, renderRoutes } from "./Renderer.js";
@@ -20,7 +22,6 @@ import { customTemplates } from "../CustomTemplates.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RendererContext } from "./RendererContext.js";
-import { uniqueId } from "lodash";
 import {
   applyMode,
   applyTheme,
@@ -33,6 +34,11 @@ import { getAuth } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { resetAllComputed } from "./compute/markAsComputed.js";
+import {
+  handleHttpError,
+  httpErrorToString,
+  isUnauthenticatedError,
+} from "../handleHttpError.js";
 
 export class Router {
   #kernel: Kernel;
@@ -164,12 +170,7 @@ export class Router {
         this.#nextLocation = location;
       } else {
         // devtoolsHookEmit("locationChange");
-        this.#queuedRender(location).catch((e) => {
-          // eslint-disable-next-line no-console
-          console.error("Route failed:");
-          // Todo: handleHttpError
-          throw e;
-        });
+        this.#queuedRender(location).catch(handleHttpError);
       }
     });
     return this.#queuedRender(history.location);
@@ -216,17 +217,21 @@ export class Router {
 
     // Set `Router::#currentApp` before calling `getFeatureFlags()`
     const flags = getRuntime().getFeatureFlags();
+    const prevRendererContext = this.#rendererContext;
+
+    const redirectTo = (to: string, state?: PluginHistoryState): void => {
+      prevRendererContext?.dispose();
+      this.#checkInfiniteRedirect(location, to);
+      history.replace(to, state);
+    };
 
     const redirectToLogin = (): void => {
       const to = flags["sso-enabled"] ? "/sso-auth/login" : "/auth/login";
-      this.#checkInfiniteRedirect(location, to);
-      history.replace(to, { from: location });
+      redirectTo(to, { from: location });
     };
 
     const main = document.querySelector("#main-mount-point") as HTMLElement;
     const portal = document.querySelector("#portal-mount-point") as HTMLElement;
-
-    const prevRendererContext = this.#rendererContext;
 
     const cleanUpPreviousRender = (): void => {
       prevRendererContext?.dispose();
@@ -300,8 +305,7 @@ export class Router {
           return;
         }
         if (output.redirect) {
-          this.#checkInfiniteRedirect(location, output.redirect.path);
-          getHistory().replace(output.redirect.path, output.redirect.state);
+          redirectTo(output.redirect.path, output.redirect.state);
           return;
         }
         // Reset redirect count if no redirect is set.
@@ -329,21 +333,30 @@ export class Router {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
-        failed = true;
-        output = {
-          main: [
-            {
-              type: "div",
-              properties: {
-                textContent: String(error),
+
+        if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
+          redirectToLogin();
+          return;
+        } else if (isHttpAbortError(error)) {
+          prevRendererContext?.dispose();
+          return;
+        } else {
+          failed = true;
+          output = {
+            main: [
+              {
+                type: "div",
+                properties: {
+                  textContent: httpErrorToString(error),
+                },
+                children: [],
+                runtimeContext: null!,
               },
-              children: [],
-              runtimeContext: null!,
-            },
-          ],
-          portal: [],
-          blockingList: [],
-        };
+            ],
+            portal: [],
+            blockingList: [],
+          };
+        }
       }
 
       cleanUpPreviousRender();
@@ -380,9 +393,10 @@ export class Router {
       // Redirect to login if no storyboard is matched.
       redirectToLogin();
       return;
+    } else {
+      cleanUpPreviousRender();
     }
 
-    cleanUpPreviousRender();
     applyTheme();
     applyMode();
 

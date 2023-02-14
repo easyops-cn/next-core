@@ -18,6 +18,7 @@ import type {
   RuntimeBrick,
   RuntimeContext,
 } from "../interfaces.js";
+import { handleHttpError } from "../../handleHttpError.js";
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
@@ -100,7 +101,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           (err) => {
             // Let users override error handling.
             if (!callback?.error) {
-              // Todo: handleHttpError(err);
+              handleHttpError(err);
             }
           }
         );

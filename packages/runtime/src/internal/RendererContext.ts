@@ -26,7 +26,7 @@ export class RendererContext {
     this.type = type;
   }
 
-  private memoizedLifeCycle: MemoizedLifeCycle<
+  #memoizedLifeCycle: MemoizedLifeCycle<
     Required<
       Pick<
         BrickLifeCycle,
@@ -38,6 +38,9 @@ export class RendererContext {
         | "onAnchorUnload"
         | "onMediaChange"
         | "onScrollIntoView"
+        // Omitted:
+        // "onMessage"
+        // "onMessageClose"
       > &
         UseBrickLifeCycle
     >
@@ -53,8 +56,8 @@ export class RendererContext {
     onMount: [],
     onUnmount: [],
   };
-  private observers: IntersectionObserver[] = [];
-  private mediaListener: EventListener | undefined;
+  #observers: IntersectionObserver[] = [];
+  #mediaListener: EventListener | undefined;
 
   registerBrickLifeCycle(
     brick: RuntimeBrick,
@@ -79,7 +82,7 @@ export class RendererContext {
     for (const key of lifeCycleTypes) {
       const handlers = (lifeCycle as BrickLifeCycle)[key as "onPageLoad"];
       if (handlers) {
-        this.memoizedLifeCycle[key as "onPageLoad"].push({
+        this.#memoizedLifeCycle[key as "onPageLoad"].push({
           brick,
           handlers: handlers as BrickEventHandler | BrickEventHandler[],
         });
@@ -88,20 +91,20 @@ export class RendererContext {
   }
 
   dispose(): void {
-    for (const list of Object.values(this.memoizedLifeCycle)) {
+    for (const list of Object.values(this.#memoizedLifeCycle)) {
       list.length = 0;
     }
-    for (const observer of this.observers) {
+    for (const observer of this.#observers) {
       observer.disconnect();
     }
-    this.observers.length = 0;
-    if (this.mediaListener) {
-      mediaEventTarget.removeEventListener("change", this.mediaListener);
-      this.mediaListener = undefined;
+    this.#observers.length = 0;
+    if (this.#mediaListener) {
+      mediaEventTarget.removeEventListener("change", this.#mediaListener);
+      this.#mediaListener = undefined;
     }
   }
 
-  private dispatchGeneralLifeCycle(
+  #dispatchGeneralLifeCycle(
     type:
       | "onBeforePageLoad"
       | "onPageLoad"
@@ -125,13 +128,13 @@ export class RendererContext {
         );
       }
     }
-    for (const { brick, handlers } of this.memoizedLifeCycle[type] ?? []) {
+    for (const { brick, handlers } of this.#memoizedLifeCycle[type] ?? []) {
       listenerFactory(handlers, brick.runtimeContext, brick)(event);
     }
   }
 
   dispatchBeforePageLoad(): void {
-    this.dispatchGeneralLifeCycle(
+    this.#dispatchGeneralLifeCycle(
       "onBeforePageLoad",
       new CustomEvent("page.beforeLoad")
     );
@@ -139,7 +142,7 @@ export class RendererContext {
 
   dispatchPageLoad(): void {
     const event = new CustomEvent("page.load");
-    this.dispatchGeneralLifeCycle("onPageLoad", event);
+    this.#dispatchGeneralLifeCycle("onPageLoad", event);
     // Currently only for e2e testing
     window.dispatchEvent(event);
   }
@@ -148,20 +151,23 @@ export class RendererContext {
     location?: Location<PluginHistoryState>;
     action?: Action;
   }): void {
-    this.dispatchGeneralLifeCycle(
+    this.#dispatchGeneralLifeCycle(
       "onBeforePageLeave",
       new CustomEvent("page.beforeLeave", { detail })
     );
   }
 
   dispatchPageLeave(): void {
-    this.dispatchGeneralLifeCycle("onPageLeave", new CustomEvent("page.leave"));
+    this.#dispatchGeneralLifeCycle(
+      "onPageLeave",
+      new CustomEvent("page.leave")
+    );
   }
 
   dispatchAnchorLoad(): void {
     const { hash } = getHistory().location;
     if (hash && hash !== "#") {
-      this.dispatchGeneralLifeCycle(
+      this.#dispatchGeneralLifeCycle(
         "onAnchorLoad",
         new CustomEvent("anchor.load", {
           detail: {
@@ -171,7 +177,7 @@ export class RendererContext {
         })
       );
     } else {
-      this.dispatchGeneralLifeCycle(
+      this.#dispatchGeneralLifeCycle(
         "onAnchorUnload",
         new CustomEvent("anchor.unload")
       );
@@ -179,7 +185,7 @@ export class RendererContext {
   }
 
   initializeScrollIntoView(): void {
-    for (const { brick, handlers: conf } of this.memoizedLifeCycle
+    for (const { brick, handlers: conf } of this.#memoizedLifeCycle
       .onScrollIntoView ?? []) {
       const threshold = conf.threshold ?? 0.1;
       const observer = new IntersectionObserver(
@@ -202,27 +208,27 @@ export class RendererContext {
         }
       );
       observer.observe(brick.element!);
-      this.observers.push(observer);
+      this.#observers.push(observer);
     }
   }
 
   initializeMediaChange(): void {
-    this.mediaListener = (event) => {
-      this.dispatchGeneralLifeCycle(
+    this.#mediaListener = (event) => {
+      this.#dispatchGeneralLifeCycle(
         "onMediaChange",
         new CustomEvent("media.change", {
           detail: getReadOnlyProxy((event as CustomEvent<Media>).detail),
         })
       );
     };
-    mediaEventTarget.addEventListener("change", this.mediaListener);
+    mediaEventTarget.addEventListener("change", this.#mediaListener);
   }
 
   dispatchOnMount(): void {
-    this.dispatchGeneralLifeCycle("onMount", new CustomEvent("mount"));
+    this.#dispatchGeneralLifeCycle("onMount", new CustomEvent("mount"));
   }
 
   dispatchOnUnmount(): void {
-    this.dispatchGeneralLifeCycle("onUnmount", new CustomEvent("unmount"));
+    this.#dispatchGeneralLifeCycle("onUnmount", new CustomEvent("unmount"));
   }
 }

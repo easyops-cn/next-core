@@ -243,7 +243,10 @@ function lowLevelEvaluate(
             break;
           case "CTX":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key: string) {
+              get(target, key) {
+                if (typeof key !== "string") {
+                  return;
+                }
                 return ctxStore.getValue(key);
               },
               ownKeys() {
@@ -286,7 +289,10 @@ function lowLevelEvaluate(
             break;
           case "PROCESSORS":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key: string) {
+              get(target, key) {
+                if (typeof key !== "string") {
+                  return;
+                }
                 const pkg = customProcessors.get(key);
                 if (!pkg) {
                   throw new Error(
@@ -294,7 +300,10 @@ function lowLevelEvaluate(
                   );
                 }
                 return getDynamicReadOnlyProxy({
-                  get(t, k: string) {
+                  get(t, k) {
+                    if (typeof k !== "string") {
+                      return;
+                    }
                     return pkg.get(k);
                   },
                   ownKeys() {
@@ -325,7 +334,10 @@ function lowLevelEvaluate(
             break;
           case "STATE":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key: string) {
+              get(target, key) {
+                if (typeof key !== "string") {
+                  return;
+                }
                 return tplStateStore!.getValue(key);
               },
               ownKeys() {

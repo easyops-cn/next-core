@@ -612,7 +612,7 @@ export interface BrickLifeCycle {
   /**
    * 定义在构件装载前需要进行的异步数据处理，计算结果将作为属性表赋值给构件。
    */
-  useResolves?: ResolveConf[];
+  // useResolves?: ResolveConf[];
 
   /**
    * 定义构件在页面加载前要执行的动作。

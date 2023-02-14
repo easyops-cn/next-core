@@ -25,6 +25,7 @@ import {
   getTplHostElement,
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
+import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -167,12 +168,16 @@ export function listenerFactory(
             handleConsoleAction(event, method, handler.args, runtimeContext);
             break;
 
-          // case "message.success":
-          // case "message.error":
-          // case "message.info":
-          // case "message.warn":
+          case "message.success":
+          case "message.error":
+          case "message.info":
+          case "message.warn":
+            handleMessageAction(event, method, handler.args, runtimeContext);
+            break;
 
-          // case "handleHttpError":
+          case "handleHttpError":
+            handleHttpError((event as CustomEvent).detail);
+            break;
 
           case "context.assign":
           case "context.replace":
@@ -284,8 +289,7 @@ async function handleUseProviderAction(
     );
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
-    // console.error(httpErrorToString(error));
+    console.error(httpErrorToString(error));
   }
 }
 
@@ -604,6 +608,19 @@ function handleConsoleAction(
 ) {
   // eslint-disable-next-line no-console
   console[method](
+    ...argsFactory(args, runtimeContext, event, {
+      useEventAsDefault: true,
+    })
+  );
+}
+
+function handleMessageAction(
+  event: Event,
+  method: "success" | "error" | "info" | "warn",
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  alert(
     ...argsFactory(args, runtimeContext, event, {
       useEventAsDefault: true,
     })

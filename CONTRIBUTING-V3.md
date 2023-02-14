@@ -117,7 +117,7 @@ src/bootstrap.ts
 - [ ] Flow API
 - [ ] Icons
 - [ ] I18n
-- [ ] Builtin Message and Error Displaying
+- [x] Builtin Message and Error Displaying
 - [ ] WebSocket Message API
 - [ ] Form Renderer
 - [ ] Chrome Devtools
