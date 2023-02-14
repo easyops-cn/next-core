@@ -109,11 +109,17 @@ def report_provider_into_contract(org, package_name, contract_content):
 
 def mk_nb_tar_gz(output_filename, source_dir):
   try:
-    with tarfile.open(output_filename, "w:gz") as tar:
-      tar.add(source_dir, arcname=os.path.basename(source_dir))
+    tar = tarfile.open(output_filename, "w:gz")
+    for root, dirs, files in os.walk(source_dir):
+        root_ = os.path.relpath(root,start=source_dir)
+        for file in files:
+            if not file.endswith(".log"):
+                file_path = os.path.join(root, file)
+                tar.add(file_path, arcname=os.path.join(root_, file))
+    tar.close()
     return True
   except Exception as e:
-    logger.info(e)
+    logger.error(e)
     return False
 
 
@@ -148,7 +154,7 @@ if __name__ == "__main__":
   package_name, bricks_content, stories_content, snippets_content, contract_content = collect(install_path)
   if package_name and bricks_content and snippets_content:
     targz_name = package_name + ".tar.gz"
-    nb_targz_path = os.path.join(os.path.dirname(install_path), targz_name)
+    nb_targz_path = os.path.join(install_path, targz_name)
     if not mk_nb_tar_gz(nb_targz_path, install_path):
       logger.error("mkdir tar.gz of nb err")
       sys.exit(1)
