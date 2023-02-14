@@ -341,6 +341,13 @@ routes:
   - name: datum
     value: a
   bricks:
+  - brick: basic.fa-icon
+    properties:
+      prefix: solid
+      icon: user
+  - brick: span
+    properties:
+      class: "fa-solid fa-user"
   - brick: demo-basic.x-button
     properties:
       label: X
