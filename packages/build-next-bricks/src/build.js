@@ -1,5 +1,4 @@
 import path from "node:path";
-import fs from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import webpack from "webpack";
@@ -292,7 +291,7 @@ export default async function build(config) {
       new IgnorePlugin({
         // - `esprima` and `buffer` are optional imported by `js-yaml`
         // we don't need them.
-        resourceRegExp: /^(?:esprima)$/,
+        resourceRegExp: /^(?:esprima|buffer)$/,
       }),
 
       ...(config.plugins || []),
