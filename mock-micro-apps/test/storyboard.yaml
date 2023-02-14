@@ -396,6 +396,19 @@ routes:
             - onUnmount outer tpl-basic
             - '<% EVENT %>'
             - '<% DATA %>'
+          onMediaChange:
+            action: console.log
+            args:
+            - onMediaChange
+            - '<% EVENT.detail.breakpoint %>'
+            - '<% DATA %>'
+          onScrollIntoView:
+            handlers:
+            - action: console.log
+              args:
+              - onScrollIntoView
+              - '<% EVENT %>'
+              - '<% DATA %>'
   - brick: tpl-basic
     if: false
     properties:

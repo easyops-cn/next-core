@@ -24,7 +24,7 @@ V3 废弃了一些核心包，包括但不限于：
 - loader             # 构件资源文件加载器
 - element            # 构件基础库，包括自定义元素基类和属性事件装饰器等
 - react-element      # 基于 React 的构件基础库
-- react-use-brick    # 基于 React 的 UseBrick 实现
+- react-runtime      # 基于 React 的运行时，包括 UseBrick 等的实现
 - brick-playground   # 用于开发调试构件（脱离核心框架）
 - build-next-bricks  # 打包器，用于构件包、brick-container 和 brick-playground
 ```

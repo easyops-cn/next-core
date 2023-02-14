@@ -68,7 +68,12 @@ export class RendererContext {
     }
     const lifeCycleTypes =
       this.type === "useBrick"
-        ? (["onMount", "onUnmount"] as const)
+        ? ([
+            "onMount",
+            "onUnmount",
+            "onMediaChange",
+            "onScrollIntoView",
+          ] as const)
         : ([
             "onBeforePageLoad",
             "onPageLoad",
