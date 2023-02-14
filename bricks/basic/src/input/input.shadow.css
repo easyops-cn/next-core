@@ -1,0 +1,42 @@
+input {
+  padding: 0px 11px;
+  color: var(--antd-input-color);
+  background: var(--antd-input-bg);
+  border-radius: 6px;
+  border: 1px solid var(--antd-input-border-color);
+  box-shadow: 0 0 0 50px var(--antd-input-bg) inset;
+}
+
+input:not(:disabled):hover {
+  border: 1px solid var(--antd-input-hover-border-color);
+}
+
+input:not(:disabled):focus {
+  border: 1px solid var(--antd-input-focus-border-color);
+  outline: 0;
+  box-shadow: 0 0 0 2px rgb(0 113 235 / 20%);
+}
+
+input:disabled {
+  cursor: not-allowed;
+  background: var(--antd-input-disabled-color);
+}
+
+::placeholder {
+  color: var(--antd-input-placeholder-color);
+}
+
+.large {
+  height: 38px;
+  line-height: 38px;
+}
+
+.middle {
+  height: 30px;
+  line-height: 30px;
+}
+
+.small {
+  height: 22px;
+  line-height: 22px;
+}
