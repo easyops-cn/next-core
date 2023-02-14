@@ -1,8 +1,17 @@
 {
   "name": "@next-bricks/demo-basic",
   "version": "0.0.0",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/demo-basic",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "license": "GPL-3.0",
   "type": "module",
   "sideEffects": true,
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
     "build": "cross-env NODE_ENV=production build-next-bricks",

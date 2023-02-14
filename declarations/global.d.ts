@@ -3,12 +3,12 @@ declare module "*.module.css" {
   export default classes;
 }
 
-declare module "*.sheet.css" {
-  const styleSheet: CSSStyleSheet;
-  export default styleSheet;
+declare module "*.css" {
+  const css: string;
+  export default css;
 }
 
-declare module "*.css" {
+declare module "*.css?shadow" {
   const css: string;
   export default css;
 }
@@ -19,7 +19,7 @@ declare module "*.less" {
 }
 
 interface SvgrComponent
-  extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
+  extends React.FunctionComponent<React.SVGAttributes<SVGElement>> {}
 
 declare module "*.svg" {
   const svgValue: SvgrComponent;
