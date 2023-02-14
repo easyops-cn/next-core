@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.82.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.1...@next-core/brick-container@2.82.2) (2023-02-14)
+
+
+### Bug Fixes
+
+* **report_nb:** nb上报脚本修改\n Ref: NEXT_BUILDER-2621 ([d786ed7](https://github.com/easyops-cn/next-core/commit/d786ed7baf4c4685278a863bb4bbd4d4fe3122be))
+
+
+
+
+
 ## [2.82.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.0...@next-core/brick-container@2.82.1) (2023-02-10)
 
 
