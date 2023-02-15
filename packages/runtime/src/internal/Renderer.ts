@@ -175,7 +175,7 @@ export async function renderBrick(
 
   const tplTagName = getTagNameOfCustomTemplate(
     brickConf.brick,
-    runtimeContext.app.id
+    runtimeContext.app?.id
   );
 
   if (tplTagName) {

@@ -112,12 +112,13 @@ src/bootstrap.ts
 - [x] Custom Templates
 - [x] UseBrick
 - [x] UseBrick with Custom Templates
-- [ ] Widgets
+- [x] Icons
+- [x] Builtin Message and Error Displaying
+- [ ] API SDK
 - [ ] Menu
 - [ ] Flow API
-- [ ] Icons
+- [ ] Widgets
 - [ ] I18n
-- [x] Builtin Message and Error Displaying
 - [ ] WebSocket Message API
 - [ ] Form Renderer
 - [ ] Chrome Devtools

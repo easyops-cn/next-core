@@ -66,6 +66,7 @@ export function _internalApiMatchStoryboard(
   return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
 }
 
+/* istanbul ignore next */
 export function _internalApiGetRuntimeContext() {
-  return kernel.router.getRuntimeContext();
+  return kernel?.router.getRuntimeContext();
 }

@@ -28,7 +28,7 @@ export default {
       chunks: ["preview"],
     }),
     new MonacoWebpackPlugin({
-      languages: ["javascript", "typescript", "html", "css"],
+      languages: ["javascript", "typescript", "html", "css", "yaml"],
       features: [
         "!accessibilityHelp",
         "!codelens",

@@ -14,6 +14,10 @@ body {
   margin: 0;
 }
 
+body[data-loading] {
+  display: none;
+}
+
 .brick-playground,
 .brick-playground-column {
   display: flex;
@@ -52,4 +56,13 @@ body {
   height: 32px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.brick-playground-column.yaml > [data-mode="html"] {
+  display: none;
+}
+
+.brick-playground-column.html > [data-mode="yaml"] {
+  display: none;
 }

@@ -1,10 +1,11 @@
 import { loadBricksImperatively } from "@next-core/loader";
-import { createRuntime } from "@next-core/runtime";
-// import "./preview.css";
+import { __secret_internals } from "@next-core/runtime";
+import { safeLoad, JSON_SCHEMA } from "js-yaml";
 
-createRuntime();
-
-const previewRoot = document.querySelector("#preview-root");
+const mountPoints = {
+  main: document.querySelector("#preview-root") as HTMLElement,
+  portal: document.querySelector("#preview-portal") as HTMLElement,
+};
 
 let brickPackages: any[];
 const bootstrap = fetch("/bootstrap.hash.json", {
@@ -15,46 +16,73 @@ const bootstrap = fetch("/bootstrap.hash.json", {
     brickPackages = data.brickPackages;
   });
 
-(window as any)._preview_only_render = async ({
-  html,
-  javascript,
-}: {
-  html: string;
-  javascript: string;
-}): Promise<void> => {
-  // Note: if use DOMParser, script tags will not be executed, while using
-  // createContextualFragment they will.
+(window as any)._preview_only_render = async (
+  type: "html" | "yaml",
+  {
+    yaml,
+    html,
+    javascript,
+  }: {
+    yaml: string;
+    html: string;
+    javascript: string;
+  }
+): Promise<void> => {
+  if (type === "html") {
+    // Note: if use DOMParser, script tags will not be executed, while using
+    // createContextualFragment they will.
 
-  const parser = new DOMParser();
-  const dom = parser.parseFromString(html, "text/html");
-  // const dom = document.createRange().createContextualFragment(html);
-  const nodes = dom.querySelectorAll("*");
-  // const usedCustomElements = new Set<string>();
-  const bricks = new Set<string>();
-  for (const node of nodes) {
-    if (node.tagName.includes("-")) {
-      const lowerTagName = node.tagName.toLowerCase();
-      // usedCustomElements.add(lowerTagName);
-      if (lowerTagName.includes(".")) {
-        bricks.add(lowerTagName);
+    const parser = new DOMParser();
+    const dom = parser.parseFromString(html, "text/html");
+    // const dom = document.createRange().createContextualFragment(html);
+    const nodes = dom.querySelectorAll("*");
+    // const usedCustomElements = new Set<string>();
+    const bricks = new Set<string>();
+    for (const node of nodes) {
+      if (node.tagName.includes("-")) {
+        const lowerTagName = node.tagName.toLowerCase();
+        // usedCustomElements.add(lowerTagName);
+        if (lowerTagName.includes(".")) {
+          bricks.add(lowerTagName);
+        }
       }
     }
-  }
 
-  await bootstrap;
+    await bootstrap;
 
-  try {
-    await loadBricksImperatively(bricks, brickPackages);
-    previewRoot.innerHTML = "";
-    previewRoot.append(...dom.body.childNodes);
-    // previewRoot.append(dom);
-    const scriptTag = document.createElement("script");
-    scriptTag.text = javascript;
-    scriptTag.type = "module";
-    previewRoot.appendChild(scriptTag);
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
-    previewRoot.innerHTML = "failed";
+    try {
+      await loadBricksImperatively(bricks, brickPackages);
+      mountPoints.main.innerHTML = "";
+      mountPoints.portal.innerHTML = "";
+      mountPoints.main.append(...dom.body.childNodes);
+      // mountPoints.main.append(dom);
+      const scriptTag = document.createElement("script");
+      scriptTag.text = javascript;
+      scriptTag.type = "module";
+      mountPoints.main.appendChild(scriptTag);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      mountPoints.main.innerHTML = "failed";
+    }
+  } else {
+    const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true });
+
+    await bootstrap;
+
+    try {
+      const bricks = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
+      await __secret_internals.renderPreviewBricks(
+        bricks,
+        brickPackages,
+        mountPoints
+      );
+      // console.log("output:", output);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      mountPoints.portal.innerHTML = "";
+      mountPoints.main.innerHTML = "failed";
+    }
   }
 };
