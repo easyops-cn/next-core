@@ -480,3 +480,9 @@ routes:
   # - brick: span
   #   properties:
   #     class: "fa-solid fa-user"
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 4 %>'
+  bricks:
+  - brick: demo-widgets.tpl-first-template
+  - brick: demo-widgets.tpl-second-template

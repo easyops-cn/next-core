@@ -162,6 +162,12 @@ export default async function scanBricks(packageDir) {
               );
             }
 
+            if (brickName.startsWith("tpl-")) {
+              throw new Error(
+                `Invalid brick: "${fullName}", the brick name cannot be started with "tpl-"`
+              );
+            }
+
             exposes.set(`./${brickName}`, {
               import: `./${path
                 .relative(packageDir, overrideImport || filePath)
@@ -172,6 +178,47 @@ export default async function scanBricks(packageDir) {
           } else {
             throw new Error(
               "Please call `customElements.define()` only with literal string"
+            );
+          }
+        } else if (
+          callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier" &&
+          callee.object.name === "customTemplates" &&
+          !callee.property.computed &&
+          callee.property.name === "define" &&
+          args.length === 2
+        ) {
+          const { type, value: fullName } = args[0];
+          if (type === "StringLiteral") {
+            const [brickNamespace, brickName] = fullName.split(".");
+            if (brickNamespace !== packageName) {
+              throw new Error(
+                `Invalid custom template: "${fullName}", expecting prefixed with the package name: "${packageName}"`
+              );
+            }
+
+            if (!validBrickName.test(fullName)) {
+              throw new Error(
+                `Invalid custom template: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+              );
+            }
+
+            if (!brickName.startsWith("tpl-")) {
+              throw new Error(
+                `Invalid custom template: "${fullName}", the custom template name must be started with "tpl-"`
+              );
+            }
+
+            exposes.set(`./${brickName}`, {
+              import: `./${path
+                .relative(packageDir, overrideImport || filePath)
+                .replace(/\.[^.]+$/, "")
+                .replace(/\/index$/, "")}`,
+              name: getExposeName(brickName),
+            });
+          } else {
+            throw new Error(
+              "Please call `customTemplates.define()` only with literal string"
             );
           }
         }
@@ -202,6 +249,12 @@ export default async function scanBricks(packageDir) {
           if (!validBrickName.test(fullName)) {
             throw new Error(
               `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+            );
+          }
+
+          if (brickName.startsWith("tpl-")) {
+            throw new Error(
+              `Invalid brick: "${fullName}", the brick name cannot be started with "tpl-"`
             );
           }
 
