@@ -444,6 +444,7 @@ routes:
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 3 %>'
   bricks:
+  - brick: demo-basic.button-with-icon
   - brick: icons.easyops-icon
     properties:
       # icon: account
@@ -454,9 +455,9 @@ routes:
         fontSize: 2em
   - brick: icons.fa-icon
     properties:
-      prefix: regular
+      iconPrefix: regular
       icon: smile
-      beat: true
+      spin: true
       style:
         color: green
   - brick: icons.antd-icon
@@ -465,6 +466,13 @@ routes:
       icon: aim
       style:
         color: blue
+  - brick: icons.general-icon
+    properties:
+      lib: antd
+      icon: branches
+    events:
+      click:
+        action: console.log
   # - brick: basic.fa-icon
   #   properties:
   #     prefix: solid

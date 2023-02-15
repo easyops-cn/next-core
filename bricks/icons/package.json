@@ -10,24 +10,35 @@
   "type": "module",
   "sideEffects": true,
   "files": [
-    "dist"
+    "dist",
+    "dist-types"
   ],
   "nx": {
     "targets": {
       "build": {
         "outputs": [
           "{projectRoot}/dist",
+          "{projectRoot}/dist-types",
+          "{projectRoot}/src/antd-icon/generated",
           "{projectRoot}/src/easyops-icon/generated",
           "{projectRoot}/src/fa-icon/generated"
         ]
       }
     }
   },
+  "exports": {
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist-types/*/index.d.ts"
+    }
+  },
   "scripts": {
     "prestart": "node ./scripts/pre-build.js",
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
     "prebuild": "node ./scripts/pre-build.js",
-    "build": "cross-env NODE_ENV=production build-next-bricks",
+    "build": "npm run build:main && npm run build:types",
+    "build:main": "cross-env NODE_ENV=production build-next-bricks",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json",
     "test": "cross-env NODE_ENV='test' test-next",
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },

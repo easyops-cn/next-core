@@ -4,22 +4,25 @@ import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
 
 const { defineElement, property } = createDecorators();
 
-export interface AntdIconInterface {
-  theme: string;
-  icon: string;
+export interface AntdIconProps {
+  /** Defaults to "outlined" */
+  theme?: string;
+  icon?: string;
 }
 
 @defineElement("icons.antd-icon")
-class AntdIcon extends ReactNextElement implements AntdIconInterface {
-  @property() accessor theme!: string;
-  @property() accessor icon!: string;
+class AntdIcon extends ReactNextElement implements AntdIconProps {
+  @property() accessor theme: string | undefined;
+  @property() accessor icon: string | undefined;
 
   render() {
     return <AntdIconComponent theme={this.theme} icon={this.icon} />;
   }
 }
 
-function AntdIconComponent({ theme, icon }: AntdIconInterface) {
+function AntdIconComponent({ theme: _theme, icon }: AntdIconProps) {
+  const theme = _theme ?? "outlined";
+
   if (!icon) {
     return null;
   }
@@ -39,6 +42,10 @@ function AntdIconComponent({ theme, icon }: AntdIconInterface) {
   );
 }
 
-export const WrappedAntdIcon = wrapLocalBrick<AntdIconInterface, AntdIcon>(
+export const WrappedAntdIcon = wrapLocalBrick<AntdIcon, AntdIconProps>(
   AntdIcon
 );
+
+// Prettier reports error if place `export` before decorators.
+// https://github.com/prettier/prettier/issues/14240
+export { AntdIcon };

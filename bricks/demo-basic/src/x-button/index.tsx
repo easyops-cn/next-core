@@ -8,14 +8,14 @@ import "../i18n.js";
 
 const { defineElement, property, method, event } = createDecorators();
 
-export interface XButtonInterface {
+export interface XButtonProps {
   label?: string;
 }
 
 @defineElement("demo-basic.x-button", {
   styleTexts: [styleText],
 })
-class XButton extends ReactNextElement implements XButtonInterface {
+class XButton extends ReactNextElement implements XButtonProps {
   @property() accessor label: string;
 
   // https://github.com/microsoft/TypeScript/pull/50820
@@ -54,6 +54,4 @@ export function XButtonComponent({ label }: { label?: string }) {
 
 export { XButton };
 
-export const WrappedXButton = wrapLocalBrick<XButtonInterface, XButton>(
-  XButton
-);
+export const WrappedXButton = wrapLocalBrick<XButton, XButtonProps>(XButton);
