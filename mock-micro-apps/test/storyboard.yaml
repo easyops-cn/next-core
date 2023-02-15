@@ -459,10 +459,10 @@ routes:
       beat: true
       style:
         color: green
-  - brick: icons.fa-icon
+  - brick: icons.antd-icon
     properties:
-      prefix: regular
-      icon: bell
+      theme: outlined
+      icon: aim
       style:
         color: blue
   # - brick: basic.fa-icon
