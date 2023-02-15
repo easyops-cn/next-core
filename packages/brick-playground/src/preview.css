@@ -17,3 +17,9 @@ body {
   padding: 10px;
   overflow: auto;
 }
+
+#preview-portal {
+  height: 0;
+  width: 0;
+  position: absolute;
+}

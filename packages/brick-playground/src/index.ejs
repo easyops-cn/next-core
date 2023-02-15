@@ -4,19 +4,25 @@
     <meta charset="utf-8">
     <title>Brick Playground</title>
   </head>
-  <body>
+  <body data-loading>
     <div class="brick-playground">
-      <div class="brick-playground-column">
-        <div class="brick-playground-editor-title">HTML</div>
-        <div class="brick-playground-editor" id="brick-playground-html-editor"></div>
-        <div class="brick-playground-editor-title">JavaScript</div>
-        <div class="brick-playground-editor" id="brick-playground-javascript-editor"></div>
+      <div class="brick-playground-column html" id="brick-playground-editor-column">
+        <div class="brick-playground-editor-title" data-mode="html">HTML</div>
+        <div class="brick-playground-editor" data-mode="html" id="brick-playground-html-editor"></div>
+        <div class="brick-playground-editor-title" data-mode="html">JavaScript</div>
+        <div class="brick-playground-editor" data-mode="html" id="brick-playground-javascript-editor"></div>
+        <div class="brick-playground-editor-title" data-mode="yaml">YAML</div>
+        <div class="brick-playground-editor" data-mode="yaml" id="brick-playground-yaml-editor"></div>
       </div>
       <div class="brick-playground-divider"></div>
       <div class="brick-playground-column">
         <div class="brick-playground-toolbar">
           Preview
           <button id="brick-playground-button-run">Run</button>
+          <select id="brick-playground-select-type">
+            <option checked>HTML</option>
+            <option>YAML</option>
+          </select>
         </div>
         <div class="brick-playground-preview" id="brick-playground-preview"></div>
       </div>
