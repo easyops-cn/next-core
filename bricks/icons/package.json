@@ -1,7 +1,7 @@
 {
-  "name": "@next-bricks/basic",
+  "name": "@next-bricks/icons",
   "version": "0.0.0",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/basic",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/icons",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -12,19 +12,34 @@
   "files": [
     "dist"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/easyops-icon/generated",
+          "{projectRoot}/src/fa-icon/generated"
+        ]
+      }
+    }
+  },
   "scripts": {
-    "_prestart": "node ./scripts/pre-build.js",
+    "prestart": "node ./scripts/pre-build.js",
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
-    "_prebuild": "node ./scripts/pre-build.js",
+    "prebuild": "node ./scripts/pre-build.js",
     "build": "cross-env NODE_ENV=production build-next-bricks",
     "test": "cross-env NODE_ENV='test' test-next",
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.3.0",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-brands-svg-icons": "^6.3.0",
+    "@fortawesome/free-regular-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
-    "@next-core/theme": "^0.0.0",
+    "@next-core/utils": "^0.0.0",
     "classnames": "^2.3.2",
     "react": "0.0.0-experimental-ee8509801-20230117"
   },

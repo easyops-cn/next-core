@@ -341,13 +341,6 @@ routes:
   - name: datum
     value: a
   bricks:
-  - brick: basic.fa-icon
-    properties:
-      prefix: solid
-      icon: user
-  - brick: span
-    properties:
-      class: "fa-solid fa-user"
   - brick: demo-basic.x-button
     properties:
       label: X
@@ -447,3 +440,35 @@ routes:
         action: console.log
       oops:
         action: console.log
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 3 %>'
+  bricks:
+  - brick: icons.easyops-icon
+    properties:
+      # icon: account
+      category: default
+      icon: account
+      style:
+        color: red
+        fontSize: 2em
+  - brick: icons.fa-icon
+    properties:
+      prefix: regular
+      icon: smile
+      beat: true
+      style:
+        color: green
+  - brick: icons.fa-icon
+    properties:
+      prefix: regular
+      icon: bell
+      style:
+        color: blue
+  # - brick: basic.fa-icon
+  #   properties:
+  #     prefix: solid
+  #     icon: user
+  # - brick: span
+  #   properties:
+  #     class: "fa-solid fa-user"

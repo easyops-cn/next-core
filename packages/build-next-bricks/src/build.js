@@ -2,7 +2,6 @@ import path from "node:path";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import webpack from "webpack";
-import rimraf from "rimraf";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import postcssPresetEnv from "postcss-preset-env";
 import cssnano from "cssnano";
@@ -125,21 +124,6 @@ export default async function build(config) {
 
   // console.log(packageName, "shared:", shared);
 
-  const outputPath = path.join(packageDir, "dist");
-
-  await new Promise((resolve, reject) => {
-    rimraf(outputPath, (err) => {
-      if (err) {
-        console.error("Failed to clean dist:");
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-
-  const chunksDir = isBricks ? "chunks/" : "";
-
   /** @type {string[]} */
   const bricks = [];
   /** @type {string[]} */
@@ -167,6 +151,9 @@ export default async function build(config) {
   //   };
   // }
 
+  const outputPath = path.join(packageDir, "dist");
+  const chunksDir = isBricks ? "chunks/" : "";
+
   return webpack({
     entry: config.entry || {
       main: "./src/index",
@@ -189,6 +176,7 @@ export default async function build(config) {
       chunkFilename: `${chunksDir}[name]${
         mode === "development" ? "" : ".[contenthash]"
       }.js`,
+      clean: true,
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -201,6 +189,9 @@ export default async function build(config) {
         {
           test: /\.css$/,
           exclude: /\.(module|shadow|lazy)\.css$/,
+          // resourceQuery: {
+          //   not: /shadow/
+          // },
           sideEffects: true,
           use: [
             config.extractCss ? MiniCssExtractPlugin.loader : "style-loader",
@@ -215,6 +206,15 @@ export default async function build(config) {
             }),
           ],
         },
+        // {
+        //   test: /\.css$/,
+        //   resourceQuery: /shadow/,
+        //   use: [
+        //     ...getCssLoaders({
+        //       exportType: "string",
+        //     }),
+        //   ],
+        // },
         {
           test: /\.[tj]sx?$/,
           loader: "babel-loader",
@@ -222,6 +222,44 @@ export default async function build(config) {
           options: {
             rootMode: "upward",
           },
+        },
+        {
+          test: /\.svg$/i,
+          issuer(input) {
+            // The issuer is null (or an empty string) for dynamic import
+            return !input || /\.[jt]sx?$/.test(input);
+          },
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                rootMode: "upward",
+              },
+            },
+            {
+              loader: "@svgr/webpack",
+              options: {
+                babel: false,
+                icon: true,
+                svgoConfig: {
+                  plugins: [
+                    {
+                      name: "preset-default",
+                      params: {
+                        overrides: {
+                          // Keep `viewbox`
+                          removeViewBox: false,
+                          convertColors: {
+                            currentColor: true,
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
         },
         ...(config.moduleRules || []),
       ],
@@ -235,8 +273,9 @@ export default async function build(config) {
         exclude: [
           // "polyfill",
           // No source maps for React and ReactDOM
-          /^chunks\/(?:784|316)(?:\.[0-9a-f]+)?\.js$/,
+          /^chunks\/(?:784|316|2784|8316)(?:\.[0-9a-f]+)?\.js$/,
           /^chunks\/(?:vendors-)?node_modules_/,
+          /^chunks\/(?:easyops|fa)-icons\//,
         ],
       }),
 
