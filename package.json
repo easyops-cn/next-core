@@ -78,7 +78,7 @@
     "rimraf": "^3.0.2",
     "timers-browserify": "^2.0.12",
     "ts-jest-resolver": "^2.0.0",
-    "typescript": "5.0.0-beta"
+    "typescript": "5.0.0-dev.20230215"
   },
   "workspaces": [
     "bricks/*",

@@ -13350,10 +13350,10 @@ typescript-json-schema@^0.55.0:
     typescript "~4.8.2"
     yargs "^17.1.1"
 
-typescript@5.0.0-beta:
-  version "5.0.0-beta"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.0-beta.tgz#791fa95411d6ff64ee77d677ed1e6f32a2eaabaf"
-  integrity sha512-+SSabbSXG5mtF+QGdV9uXXt9Saq1cSyI6hSG7znhaLoquleJpnmfkwSxFngK9c2fWWi1W/263TuzXQOsIcdjjA==
+typescript@5.0.0-dev.20230215:
+  version "5.0.0-dev.20230215"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.0-dev.20230215.tgz#dd07b5d766e625052d92cdcc50703e33ecfdcd53"
+  integrity sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==
 
 "typescript@^3 || ^4":
   version "4.9.5"
