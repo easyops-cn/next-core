@@ -165,9 +165,4 @@ export function ButtonComponent({
 
 export { Button };
 
-export const WrappedButton = wrapLocalBrick<
-  ButtonProps & {
-    onClick?: () => void;
-  },
-  Button
->(Button);
+export const WrappedButton = wrapLocalBrick<Button, ButtonProps>(Button);

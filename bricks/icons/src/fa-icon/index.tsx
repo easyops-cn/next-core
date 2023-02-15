@@ -11,28 +11,33 @@ config.autoAddCss = false;
 
 const { defineElement, property } = createDecorators();
 
-export interface FaIconInterface {
-  prefix: string;
-  icon: string;
-  beat?: boolean;
+export interface FaIconProps {
+  iconPrefix?: string;
+  icon?: string;
+  spin?: boolean;
 }
 
 @defineElement("icons.fa-icon", {
   styleTexts: [styleText],
 })
-class FaIcon extends ReactNextElement implements FaIconInterface {
-  @property() accessor prefix!: string;
-  @property() accessor icon!: string;
-  @property({ type: Boolean }) accessor beat: boolean | undefined;
+class FaIcon extends ReactNextElement implements FaIconProps {
+  @property() accessor iconPrefix: string | undefined;
+  @property() accessor icon: string | undefined;
+  @property({ type: Boolean }) accessor spin: boolean | undefined;
 
   render() {
     return (
-      <FaIconComponent prefix={this.prefix} icon={this.icon} beat={this.beat} />
+      <FaIconComponent
+        iconPrefix={this.iconPrefix}
+        icon={this.icon}
+        spin={this.spin}
+      />
     );
   }
 }
 
-function FaIconComponent({ prefix, icon, beat }: FaIconInterface) {
+function FaIconComponent({ iconPrefix, icon, spin }: FaIconProps) {
+  const prefix = iconPrefix ?? "solid";
   const [iconDefinition, setIconDefinition] = useState<IconDefinition | null>(
     null
   );
@@ -40,7 +45,7 @@ function FaIconComponent({ prefix, icon, beat }: FaIconInterface) {
   useEffect(() => {
     async function init() {
       try {
-        if (prefix && icon) {
+        if (icon) {
           const actualIcon =
             hasOwnProperty(alias, prefix) &&
             hasOwnProperty((alias as Alias)[prefix], icon)
@@ -69,7 +74,7 @@ function FaIconComponent({ prefix, icon, beat }: FaIconInterface) {
     return null;
   }
 
-  return <FontAwesomeIcon icon={iconDefinition} beat={beat} />;
+  return <FontAwesomeIcon icon={iconDefinition} spin={spin} />;
 }
 
 interface Alias {
@@ -78,4 +83,8 @@ interface Alias {
   };
 }
 
-export const WrappedFaIcon = wrapLocalBrick<FaIconInterface, FaIcon>(FaIcon);
+export const WrappedFaIcon = wrapLocalBrick<FaIcon, FaIconProps>(FaIcon);
+
+// Prettier reports error if place `export` before decorators.
+// https://github.com/prettier/prettier/issues/14240
+export { FaIcon };

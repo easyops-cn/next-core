@@ -1,12 +1,12 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
 import { wrapLocalBrick } from "@next-core/react-element";
-import { XButton, XButtonInterface } from "../x-button/index.js";
+import { XButton, XButtonProps } from "../x-button/index.js";
 // import "./y-button.css";
 
 import styleText from "./y-button.shadow.css";
 
-export interface YButtonInterface extends XButtonInterface {
+export interface YButtonProps extends XButtonProps {
   suffix?: string;
 }
 
@@ -29,6 +29,4 @@ class YButton extends XButton {
   }
 }
 
-export const WrappedYButton = wrapLocalBrick<YButtonInterface, YButton>(
-  YButton
-);
+export const WrappedYButton = wrapLocalBrick<YButton, YButtonProps>(YButton);

@@ -64,6 +64,7 @@ export function createDecorators() {
     name: string,
     options?: {
       styleTexts?: string[];
+      dependencies?: string[];
     }
   ) {
     return (

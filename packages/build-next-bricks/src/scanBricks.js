@@ -18,11 +18,13 @@ const validExposeName = /^[-\w]+$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Promise<Record<string, { import: string; name: string; }>>}
+ * @returns {Promise<{exposes: Record<string, { import: string; name: string; }; dependencies: Record<string, string[]>}>>}
  */
 export default async function scanBricks(packageDir) {
   /** @type {Map<string, { import: string; name: string; }>} */
   const exposes = new Map();
+  /** @type {Record<string, string[]>} */
+  const dependencies = {};
   /** @type {Set<string>} */
   const processedFiles = new Set();
 
@@ -203,6 +205,39 @@ export default async function scanBricks(packageDir) {
             );
           }
 
+          const defineOptions = expression.arguments[1];
+          const deps = [];
+          if (defineOptions && defineOptions.type === "ObjectExpression") {
+            /** @type {import("@babel/types").ObjectProperty} */
+            const brickDeps = defineOptions.properties.find(
+              (prop) =>
+                prop.type === "ObjectProperty" &&
+                prop.key.type === "Identifier" &&
+                prop.key.name === "dependencies" &&
+                !prop.computed
+            );
+            if (brickDeps) {
+              if (brickDeps.value.type === "ArrayExpression") {
+                for (const item of brickDeps.value.elements) {
+                  if (item.type === "StringLiteral") {
+                    deps.push(item.value);
+                  } else {
+                    throw new Error(
+                      `Invalid item in brick dependencies: ${item.type} of brick: "${fullName}", expecting only StringLiteral`
+                    );
+                  }
+                }
+              } else {
+                throw new Error(
+                  `Invalid brick dependencies: ${brickDeps.value.type} of brick: "${fullName}", expecting only ArrayExpression`
+                );
+              }
+            }
+          }
+          if (deps.length > 0) {
+            dependencies[brickName] = deps;
+          }
+
           exposes.set(`./${brickName}`, {
             import: `./${path
               .relative(packageDir, overrideImport || filePath)
@@ -275,5 +310,8 @@ export default async function scanBricks(packageDir) {
 
   // console.log("exposes:", exposes);
 
-  return Object.fromEntries([...exposes.entries()]);
+  return {
+    exposes: Object.fromEntries([...exposes.entries()]),
+    dependencies,
+  };
 }

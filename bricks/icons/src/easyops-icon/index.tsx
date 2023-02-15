@@ -4,25 +4,22 @@ import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
 
 const { defineElement, property } = createDecorators();
 
-export interface EasyOpsIconInterface {
+export interface EasyOpsIconProps {
   category?: string;
-  icon: string;
+  icon?: string;
 }
 
 @defineElement("icons.easyops-icon")
-class EasyOpsIcon extends ReactNextElement implements EasyOpsIconInterface {
+class EasyOpsIcon extends ReactNextElement implements EasyOpsIconProps {
   @property() accessor category: string | undefined;
-  @property() accessor icon!: string;
+  @property() accessor icon: string | undefined;
 
   render() {
     return <EasyOpsIconComponent category={this.category} icon={this.icon} />;
   }
 }
 
-function EasyOpsIconComponent({
-  category: _category,
-  icon,
-}: EasyOpsIconInterface) {
+function EasyOpsIconComponent({ category: _category, icon }: EasyOpsIconProps) {
   const category = _category ?? "default";
 
   if (!icon) {
@@ -44,7 +41,10 @@ function EasyOpsIconComponent({
   );
 }
 
-export const WrappedEasyOpsIcon = wrapLocalBrick<
-  EasyOpsIconInterface,
+export const WrappedEasyOpsIcon = wrapLocalBrick<EasyOpsIcon, EasyOpsIconProps>(
   EasyOpsIcon
->(EasyOpsIcon);
+);
+
+// Prettier reports error if place `export` before decorators.
+// https://github.com/prettier/prettier/issues/14240
+export { EasyOpsIcon };

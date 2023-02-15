@@ -136,4 +136,4 @@ export function LinkComponent({
 
 export { Link };
 
-export const WrappedXButton = wrapLocalBrick<LinkProps, Link>(Link);
+export const WrappedXButton = wrapLocalBrick<Link, LinkProps>(Link);

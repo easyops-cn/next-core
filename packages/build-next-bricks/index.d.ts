@@ -69,6 +69,7 @@ export interface BuildNextBricksConfig {
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];
   exposes?: ConstructorParameters<typeof container.ModuleFederationPlugin>;
+  dependencies?: Record<string, string[]>;
   optimization?: Configuration["optimization"];
   moduleFederationShared?: SharedObject;
 }

@@ -1,2 +1,2 @@
 export * from "./ReactNextElement.js";
-export * from "./wrapLocalBrick.js";
+export * from "./wrapBrick.js";

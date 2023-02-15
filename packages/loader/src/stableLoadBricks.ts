@@ -4,6 +4,7 @@ import loadSharedModule from "./loadSharedModule.js";
 interface BrickPackage {
   id: string;
   filePath: string;
+  dependencies?: Record<string, string[]>;
 }
 
 let resolveBasicPkg: () => void;
@@ -69,17 +70,36 @@ async function enqueueStableLoad(
 ): Promise<void> {
   const moduleDir = type === "processors" ? "./processors/" : "./";
   const modulesByPkg = new Map<string, string[]>();
-  for (const item of list) {
+
+  const listToLoad = new Set<string>();
+  const add = (item: string) => {
+    if (listToLoad.has(item)) {
+      return;
+    }
+    listToLoad.add(item);
     const [namespace, itemName] = item.split(".");
     const pkgId = `bricks/${
       type === "processors" ? getProcessorPackageName(namespace) : namespace
     }`;
+
     let groupModules = modulesByPkg.get(pkgId);
     if (!groupModules) {
       groupModules = [];
       modulesByPkg.set(pkgId, groupModules);
     }
     groupModules.push(`${moduleDir}${itemName}`);
+
+    // Load their dependencies too
+    const pkg = brickPackages.find((p) => p.id === pkgId);
+    const deps = pkg?.dependencies?.[item];
+    if (deps) {
+      for (const dep of deps) {
+        add(dep);
+      }
+    }
+  };
+  for (const item of list) {
+    add(item);
   }
 
   let foundBasicPkg: BrickPackage | undefined;

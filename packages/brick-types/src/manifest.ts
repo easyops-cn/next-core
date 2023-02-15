@@ -221,6 +221,7 @@ export interface BrickPackage {
   filePath: string;
   bricks: string[];
   processors: string[];
+  dependencies: Record<string, string[]>;
 }
 
 /** @internal */

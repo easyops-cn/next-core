@@ -1,6 +1,3 @@
-import loadScript from "./loadScript.js";
-import loadSharedModule from "./loadSharedModule.js";
-
-export { loadScript, loadSharedModule };
-
+export { default as loadScript } from "./loadScript.js";
+export { default as loadSharedModule } from "./loadSharedModule.js";
 export * from "./stableLoadBricks.js";
