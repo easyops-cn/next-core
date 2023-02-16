@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.12...@next-core/custom-antd-styles@1.25.13) (2023-02-16)
+
+
+### Bug Fixes
+
+* BRICK_STORE-3251 【表格组件】表头筛选图标颜色需替换为 [#8](https://github.com/easyops-cn/next-core/issues/8)c8c8c ，位置应紧跟表头文字，间隔是8px ([485055f](https://github.com/easyops-cn/next-core/commit/485055f4b89079fbf158a85563b944b89e2ff587)), closes [#8c8c8](https://github.com/easyops-cn/next-core/issues/8c8c8)
+
+
+
+
+
 ## [1.25.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.11...@next-core/custom-antd-styles@1.25.12) (2023-02-06)
 
 
