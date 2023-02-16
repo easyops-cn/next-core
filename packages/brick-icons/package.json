@@ -45,7 +45,7 @@
     "fs-extra": "^10.1.0",
     "klaw-sync": "^6.0.0",
     "lodash": "^4.17.21",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "react": "^18.2.0"
   },
   "peerDependencies": {
