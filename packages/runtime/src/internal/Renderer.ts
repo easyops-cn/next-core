@@ -192,11 +192,13 @@ export async function renderBrick(
   );
 
   if (brickConf.brick.startsWith(":")) {
+    // First, get the `dataSource`
     const dataSource = await computeRealValue(
       brickConf.dataSource,
       runtimeContext
     );
 
+    // Then, get the matched slot.
     const slot =
       brickConf.brick === ":forEach"
         ? ""
@@ -206,10 +208,11 @@ export async function renderBrick(
         ? ""
         : "else";
 
+    // Then, get the bricks in that matched slot.
     const bricks =
       brickConf.slots &&
       hasOwnProperty(brickConf.slots, slot) &&
-      (brickConf.slots[""] as SlotConfOfBricks)?.bricks;
+      (brickConf.slots[slot] as SlotConfOfBricks)?.bricks;
 
     if (!Array.isArray(bricks)) {
       return output;
