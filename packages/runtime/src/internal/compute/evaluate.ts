@@ -267,6 +267,19 @@ function lowLevelEvaluate(
             globalVariables[variableName] = location.hash;
             break;
           // case "INSTALLED_APPS":
+          case "ITEM":
+            if (!hasOwnProperty(runtimeContext, "forEachItem")) {
+              if (process.env.NODE_ENV === "development") {
+                globalVariables[variableName] = undefined;
+              }
+              // eslint-disable-next-line no-console
+              console.error(
+                `Using \`ITEM\` but no \`:forEach\` is found, check your expression: "${raw}"`
+              );
+            } else {
+              globalVariables[variableName] = runtimeContext.forEachItem;
+            }
+            break;
           case "LOCAL_STORAGE":
             globalVariables[variableName] = getReadOnlyProxy({
               getItem: getStorageItem("local"),

@@ -140,6 +140,49 @@ meta:
           #           args:
           #           - lazyHello
           #           - "<% 1, STATE.lazyHello %>"
+  - name: tpl-isolated
+    proxy:
+      slots:
+        "":
+          ref: content
+          refSlot: ""
+    state:
+    - name: input
+      value: '<% "input",JSON.stringify(ITEM) %>'
+    bricks:
+    - brick: ":forEach"
+      dataSource:
+      - Good
+      - Better
+      slots:
+        "":
+          bricks:
+          - brick: span
+            properties:
+              textContent: 'ITEM should show: '
+          - brick: span
+            properties:
+              textContent: '<% JSON.stringify(ITEM) %>'
+              style:
+                color: green
+    - brick: span
+      properties:
+        textContent: 'ITEM should NOT show: '
+    - brick: span
+      properties:
+        textContent: '<% JSON.stringify(ITEM) %>'
+        style:
+          color: red
+    - brick: span
+      properties:
+        textContent: 'ITEM should NOT show: '
+    - brick: span
+      properties:
+        textContent: '<% STATE.input %>'
+        style:
+          color: red
+    - brick: div
+      ref: content
 routes:
 - path: ${APP.homepage}
   # if: '<% !QUERY.redirect %>'
@@ -486,3 +529,86 @@ routes:
   bricks:
   - brick: demo-widgets.tpl-first-template
   - brick: demo-widgets.tpl-second-template
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 5 %>'
+
+  bricks:
+  # 控制节点一：循环遍历
+  - brick: ":forEach"
+    if: false
+    dataSource:
+    - title: A
+      content: Hello
+      list:
+      - u
+      - v
+    - title: B
+      content: World
+      list:
+      - x
+      - y
+    slots:
+      # 保留插槽结构，以便兼容现有 Visual Builder 构件树的展示风格。
+      # 同时以支持 if/else 和 switch 以及未来可能的其他控制节点的扩展。
+      "":
+        bricks:
+        - brick: div
+          properties:
+            # 表达式提供一个 `ITEM` 的变量
+            textContent: "<% ITEM.title %>"
+        - brick: :forEach
+          dataSource: "<% ITEM.list %>"
+          slots:
+            "":
+              bricks:
+              - brick: span
+                properties:
+                  textContent: "<% ITEM %>"
+              - brick: tpl-isolated
+        - brick: div
+          properties:
+            textContent: "<% ITEM.content %>"
+        - brick: tpl-isolated
+          slots:
+            "":
+              bricks:
+              - brick: span
+                properties:
+                  textContent: 'ITEM should show <external of tpl>: '
+              - brick: span
+                iid: 'iid'
+                properties:
+                  textContent: '<% `Got: ${JSON.stringify(ITEM)}` %>'
+                  style:
+                    color: green
+
+  # 控制节点二：条件判断
+  - brick: ":if"
+    if: false
+    dataSource: "<% false %>"
+    slots:
+      "":
+        bricks:
+        - brick: input
+        - brick: textarea
+      "else":
+        bricks:
+        - brick: button
+        - brick: hr
+
+  # # 控制节点三：条件选择
+  - brick: ":switch"
+    dataSource: |
+      <%
+        "b"
+      %>
+    slots:
+      "a":
+        bricks:
+        - brick: input
+        - brick: textarea
+      "b":
+        bricks:
+        - brick: button
+        - brick: hr
