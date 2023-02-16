@@ -1,4 +1,4 @@
-import { StoryboardFunction } from "@next-core/brick-types";
+import type { StoryboardFunction } from "@next-core/types";
 import { precookFunction } from "@next-core/cook";
 import { BeforeVisitGlobal } from "../index.js";
 

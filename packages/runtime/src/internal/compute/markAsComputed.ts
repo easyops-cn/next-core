@@ -25,6 +25,6 @@ export function hasBeenComputed(object: unknown): boolean {
   return computed.has(object as object);
 }
 
-export function resetAllComputed(): void {
+export function resetAllComputedMarks(): void {
   computed = new WeakSet();
 }

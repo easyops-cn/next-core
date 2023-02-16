@@ -1,17 +1,13 @@
-import { Action, Location, locationsAreEqual } from "history";
+import { Action, locationsAreEqual } from "history";
 import {
   flushStableLoadBricks,
   loadProcessorsImperatively,
 } from "@next-core/loader";
-import type {
-  MicroApp,
-  PluginHistoryState,
-  PluginLocation,
-} from "@next-core/brick-types";
+import type { MicroApp } from "@next-core/types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { isHttpAbortError } from "@next-core/brick-http";
 import { uniqueId } from "lodash";
-import { getHistory } from "../history.js";
+import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import type { Kernel } from "./Kernel.js";
 import { RenderOutput, renderRoutes } from "./Renderer.js";
 import { DataStore } from "./data/DataStore.js";
@@ -33,7 +29,7 @@ import { getRuntime } from "./Runtime.js";
 import { getAuth } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RuntimeContext } from "./interfaces.js";
-import { resetAllComputed } from "./compute/markAsComputed.js";
+import { resetAllComputedMarks } from "./compute/markAsComputed.js";
 import {
   handleHttpError,
   httpErrorToString,
@@ -43,8 +39,8 @@ import {
 export class Router {
   #kernel: Kernel;
   #rendering = false;
-  #prevLocation!: PluginLocation;
-  #nextLocation?: PluginLocation;
+  #prevLocation!: NextLocation;
+  #nextLocation?: NextLocation;
   #runtimeContext?: RuntimeContext;
   #rendererContext?: RendererContext;
   #rendererContextTrashCan = new Set<RendererContext | undefined>();
@@ -89,7 +85,7 @@ export class Router {
   }
 
   #getBlockMessageBeforePageLave(detail: {
-    location?: Location<PluginHistoryState>;
+    location?: NextLocation;
     action?: Action;
   }): string | undefined {
     const history = getHistory();
@@ -103,7 +99,7 @@ export class Router {
     return message;
   }
 
-  #checkInfiniteRedirect(from: PluginLocation, to: string): void {
+  #checkInfiniteRedirect(from: NextLocation, to: string): void {
     if (this.#redirectCount++ > 10) {
       throw new Error(
         `Infinite redirect detected: from "${from.pathname}${from.search}${from.hash}" to "${to}"`
@@ -116,7 +112,7 @@ export class Router {
     this.#prevLocation = history.location;
     history.listen((location, action) => {
       let ignoreRendering = false;
-      const omittedLocationProps: Partial<PluginLocation> = {
+      const omittedLocationProps: Partial<NextLocation> = {
         hash: undefined,
         state: undefined,
       };
@@ -177,7 +173,7 @@ export class Router {
     return this.#queuedRender(history.location);
   }
 
-  async #queuedRender(location: PluginLocation): Promise<void> {
+  async #queuedRender(location: NextLocation): Promise<void> {
     this.#rendering = true;
     try {
       await this.#render(location);
@@ -191,10 +187,10 @@ export class Router {
     }
   }
 
-  async #render(location: PluginLocation): Promise<void> {
+  async #render(location: NextLocation): Promise<void> {
     this.#renderId = uniqueId("render-id-1");
 
-    resetAllComputed();
+    resetAllComputedMarks();
     clearResolveCache();
 
     const history = getHistory();
@@ -220,7 +216,7 @@ export class Router {
     const flags = getRuntime().getFeatureFlags();
     const prevRendererContext = this.#rendererContext;
 
-    const redirectTo = (to: string, state?: PluginHistoryState): void => {
+    const redirectTo = (to: string, state?: NextHistoryState): void => {
       this.#rendererContextTrashCan.add(prevRendererContext);
       this.#checkInfiniteRedirect(location, to);
       history.replace(to, state);

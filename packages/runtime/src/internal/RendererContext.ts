@@ -1,12 +1,11 @@
 import type {
   BrickEventHandler,
   BrickLifeCycle,
-  PluginHistoryState,
   UseBrickLifeCycle,
-} from "@next-core/brick-types";
-import type { Action, Location } from "history";
+} from "@next-core/types";
+import type { Action } from "history";
 import { listenerFactory } from "./bindListeners.js";
-import { getHistory } from "../history.js";
+import { NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type { RuntimeBrick } from "./interfaces.js";
@@ -154,7 +153,7 @@ export class RendererContext {
   }
 
   dispatchBeforePageLeave(detail: {
-    location?: Location<PluginHistoryState>;
+    location?: NextLocation;
     action?: Action;
   }): void {
     this.#dispatchGeneralLifeCycle(

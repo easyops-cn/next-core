@@ -1,6 +1,6 @@
 import { difference } from "lodash";
 import { scanPermissionActionsInStoryboard } from "@next-core/utils/storyboard";
-import { Storyboard } from "@next-core/brick-types";
+import { Storyboard } from "@next-core/types";
 import { getAuth, isLoggedIn } from "../auth.js";
 // import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
 // import { getAuth } from "../auth";

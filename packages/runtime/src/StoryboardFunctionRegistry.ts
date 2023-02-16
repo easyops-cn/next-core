@@ -1,4 +1,4 @@
-import type { MicroApp, StoryboardFunction } from "@next-core/brick-types";
+import type { MicroApp, StoryboardFunction } from "@next-core/types";
 import { cook, precookFunction, EstreeNode } from "@next-core/cook";
 import { supply } from "@next-core/supply";
 import { strictCollectMemberUsageInFunction } from "@next-core/utils/storyboard";

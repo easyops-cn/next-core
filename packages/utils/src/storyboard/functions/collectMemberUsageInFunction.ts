@@ -1,9 +1,9 @@
+import type { StoryboardFunction } from "@next-core/types";
 import {
   MemberUsage,
   beforeVisitGlobalMember,
 } from "../expressions/beforeVisitGlobalMember.js";
 import { traverseStoryboardFunction } from "./traverse.js";
-import { StoryboardFunction } from "@next-core/brick-types";
 
 export function strictCollectMemberUsageInFunction(
   fn: StoryboardFunction,

@@ -1,5 +1,5 @@
 import { http } from "@next-core/brick-http";
-import { BootstrapData } from "@next-core/brick-types";
+import { BootstrapData } from "@next-core/types";
 
 export async function loadBootstrapData(): Promise<BootstrapData> {
   if (!window.STANDALONE_MICRO_APPS) {

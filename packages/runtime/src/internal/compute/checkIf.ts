@@ -1,5 +1,5 @@
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
-import type { BrickConf, ResolveConf } from "@next-core/brick-types";
+import type { BrickConf, ResolveConf } from "@next-core/types";
 import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
 import { isPreEvaluated } from "./evaluate.js";
 import { resolveData } from "../data/resolveData.js";

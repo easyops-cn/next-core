@@ -1,8 +1,4 @@
-import type {
-  BrickEventHandlerCallback,
-  ContextConf,
-  ResolveOptions,
-} from "@next-core/brick-types";
+import type { BrickEventHandlerCallback, ContextConf } from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
@@ -11,7 +7,7 @@ import {
   asyncComputeRealValue,
   computeRealValue,
 } from "../compute/computeRealValue.js";
-import { resolveData } from "./resolveData.js";
+import { ResolveOptions, resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import type {
   AsyncProperties,

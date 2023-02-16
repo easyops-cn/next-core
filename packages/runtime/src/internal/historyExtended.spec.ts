@@ -1,9 +1,9 @@
 import {
   UpdateQueryFunction,
   UpdateAnchorFunction,
-  PluginLocation,
-  PluginHistoryState,
-} from "@next-core/brick-types";
+  NextLocation,
+  NextHistoryState,
+} from "@next-core/types";
 import { History } from "history";
 import { getUserConfirmation, historyExtended } from "./historyExtended";
 import { isOutsideApp } from "../core/matchStoryboard";
@@ -172,7 +172,7 @@ describe("historyExtended", () => {
     }
   );
 
-  it.each<[Parameters<UpdateAnchorFunction>, PluginLocation]>([
+  it.each<[Parameters<UpdateAnchorFunction>, NextLocation]>([
     [
       ["yes"],
       {
@@ -264,8 +264,8 @@ describe("historyExtended", () => {
   it.each<
     [
       "push" | "replace",
-      Parameters<History<PluginHistoryState>["push"]>,
-      [unknown, PluginHistoryState?]
+      Parameters<History<NextHistoryState>["push"]>,
+      [unknown, NextHistoryState?]
     ]
   >([
     ["push", ["/my-app"], ["/my-app", undefined]],
@@ -299,11 +299,7 @@ describe("historyExtended", () => {
   );
 
   it.each<
-    [
-      "push" | "replace",
-      Parameters<History<PluginHistoryState>["push"]>,
-      string
-    ]
+    ["push" | "replace", Parameters<History<NextHistoryState>["push"]>, string]
   >([
     ["push", ["/another-app"], "/another-app"],
     ["push", ["/another-app?a=1"], "/another-app?a=1"],

@@ -1,8 +1,4 @@
-import type {
-  BrickConf,
-  RouteConf,
-  SlotsConfOfBricks,
-} from "@next-core/brick-types";
+import type { BrickConf, RouteConf, SlotsConfOfBricks } from "@next-core/types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
 import {
@@ -67,17 +63,18 @@ export function setupTemplateProxy(
         if (!insertBricks.length) {
           continue;
         }
-        let expandableSlot = quasisMap.get(to.refSlot);
+        const refToSlot = to.refSlot ?? from;
+        let expandableSlot = quasisMap.get(refToSlot);
         if (!expandableSlot) {
           expandableSlot = [];
           // The size of quasis should be the existed slotted bricks' size plus one.
-          const size = hasOwnProperty(slots, to.refSlot)
-            ? slots[to.refSlot].bricks.length + 1
+          const size = hasOwnProperty(slots, refToSlot)
+            ? slots[refToSlot].bricks.length + 1
             : 1;
           for (let i = 0; i < size; i += 1) {
             expandableSlot.push([]);
           }
-          quasisMap.set(to.refSlot, expandableSlot);
+          quasisMap.set(refToSlot, expandableSlot);
         }
         const refPosition = to.refPosition ?? -1;
         expandableSlot[

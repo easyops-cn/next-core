@@ -2,13 +2,24 @@ import type {
   HandleReject,
   HandleRejectByTransform,
   ResolveConf,
-  ResolveOptions,
-} from "@next-core/brick-types";
+} from "@next-core/types";
 import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 import type { RuntimeContext } from "../interfaces.js";
 
 const cache = new Map<string, Promise<unknown>>();
+
+export interface ResolveOptions {
+  /**
+   * Cache mode of resolve.
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
+   *
+   * - `default`: Looks for a matching cache.
+   * - `reload`: Without looking for a matching cache.
+   */
+  cache?: "default" | "reload";
+}
 
 export async function resolveData(
   resolveConf: ResolveConf,

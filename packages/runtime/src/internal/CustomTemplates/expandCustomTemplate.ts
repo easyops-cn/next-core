@@ -3,7 +3,7 @@ import type {
   BrickConfInTemplate,
   SlotsConfOfBricks,
   UseSingleBrickConf,
-} from "@next-core/brick-types";
+} from "@next-core/types";
 import { uniq, uniqueId } from "lodash";
 import { customTemplates } from "../../CustomTemplates.js";
 import { DataStore } from "../data/DataStore.js";

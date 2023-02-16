@@ -1,13 +1,13 @@
 import type { LegacyCompatibleRuntimeContext } from "@next-core/inject";
 import type {
+  BrickEventHandler,
   BrickEventsMap,
   BrickPackage,
   CustomTemplateProxy,
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
-  RuntimeBrickElement,
   SlotsConfOfBricks,
-} from "@next-core/brick-types";
+} from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 
 export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
@@ -39,6 +39,25 @@ export interface RuntimeBrick {
   iid?: string;
   runtimeContext: RuntimeContext;
   tplHostMetadata?: TemplateHostMetadata;
+}
+
+export type MetaInfoOfEventListener = [
+  string,
+  // For compatibility of devtools, leave the second argument there.
+  null | undefined,
+  BrickEventHandler
+];
+
+export type RememberedEventListener = [string, EventListener];
+
+export interface RuntimeBrickElement extends HTMLElement {
+  $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
+  /** Meta info of listeners, for devtools only */
+  $$eventListeners?: MetaInfoOfEventListener[];
+  /** Remembered listeners for unbinding */
+  $$listeners?: RememberedEventListener[];
+  /** Find element by ref in a custom template */
+  $$getElementByRef?: (ref: string) => HTMLElement;
 }
 
 export interface TemplateHostMetadata {

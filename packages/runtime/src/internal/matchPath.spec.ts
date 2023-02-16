@@ -1,5 +1,5 @@
 import { matchPath, MatchPathOptions, toPath } from "./matchPath";
-import { MatchResult } from "@next-core/brick-types";
+import { MatchResult } from "@next-core/types";
 
 describe("matchPath", () => {
   it.each<[string, MatchPathOptions, MatchResult]>([

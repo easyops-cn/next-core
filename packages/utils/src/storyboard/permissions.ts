@@ -1,4 +1,4 @@
-import { Storyboard } from "@next-core/brick-types";
+import type { Storyboard } from "@next-core/types";
 import type { EstreeLiteral } from "@next-core/cook";
 import {
   traverseStoryboardExpressions,

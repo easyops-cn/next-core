@@ -1,5 +1,4 @@
-import type { RuntimeBrickElement } from "@next-core/brick-types";
-import type { RuntimeBrick } from "../interfaces.js";
+import type { RuntimeBrick, RuntimeBrickElement } from "../interfaces.js";
 import { getTplStateStore } from "./utils.js";
 
 export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
@@ -69,10 +68,10 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
       if (refElement) {
         Object.defineProperty(tplHostElement, from, {
           get() {
-            return refElement[to.refProperty];
+            return refElement[to.refProperty ?? from];
           },
           set(value) {
-            refElement[to.refProperty] = value;
+            refElement[to.refProperty ?? from] = value;
           },
           enumerable: true,
         });
@@ -99,7 +98,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
             })
           );
         };
-        refElement.addEventListener(to.refEvent, listener);
+        refElement.addEventListener(to.refEvent ?? from, listener);
       }
     }
   }
@@ -115,7 +114,7 @@ export function handleProxyOfCustomTemplate(brick: RuntimeBrick) {
       if (refElement) {
         Object.defineProperty(tplHostElement, from, {
           value(...args: unknown[]) {
-            return refElement[to.refMethod](...args);
+            return refElement[to.refMethod ?? from](...args);
           },
         });
       }

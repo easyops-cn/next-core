@@ -2,7 +2,7 @@ import type {
   BrickConf,
   BrickPackage,
   UseSingleBrickConf,
-} from "@next-core/brick-types";
+} from "@next-core/types";
 import { flushStableLoadBricks } from "@next-core/loader";
 import { _internalApiGetRuntimeContext } from "./Runtime.js";
 import { RenderOutput, renderBrick, renderBricks } from "./Renderer.js";

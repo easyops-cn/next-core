@@ -2,7 +2,7 @@ import {
   SlotsConfOfBricks,
   UseBrickConf,
   UseSingleBrickConf,
-} from "@next-core/brick-types";
+} from "@next-core/types";
 import { isObject } from "@next-core/utils/general";
 import { TemplateHostContext } from "../interfaces.js";
 // import type { ProxyContext } from "./expandCustomTemplate.js";

@@ -3,7 +3,7 @@ import {
   cloneDeepWithComputedMark,
   haveBeenComputed,
   markAsComputed,
-  resetAllComputed,
+  resetAllComputedMarks,
 } from "./markAsComputed.js";
 
 describe("injected", () => {
@@ -22,7 +22,7 @@ describe("injected", () => {
     expect(haveBeenComputed(object)).toBe(true);
     expect(haveBeenComputed(innerArray)).toBe(true);
     expect(haveBeenComputed(innerObject)).toBe(true);
-    resetAllComputed();
+    resetAllComputedMarks();
     expect(haveBeenComputed(object)).toBe(false);
     expect(haveBeenComputed(innerArray)).toBe(false);
     expect(haveBeenComputed(innerObject)).toBe(false);
@@ -39,7 +39,7 @@ describe("injected", () => {
     expect(haveBeenComputed(array)).toBe(true);
     expect(haveBeenComputed(innerArray)).toBe(true);
     expect(haveBeenComputed(innerObject)).toBe(true);
-    resetAllComputed();
+    resetAllComputedMarks();
     expect(haveBeenComputed(array)).toBe(false);
     expect(haveBeenComputed(innerArray)).toBe(false);
     expect(haveBeenComputed(innerObject)).toBe(false);

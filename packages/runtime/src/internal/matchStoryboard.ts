@@ -1,4 +1,4 @@
-import type { RuntimeStoryboard } from "@next-core/brick-types";
+import type { RuntimeStoryboard } from "@next-core/types";
 import { orderBy } from "lodash";
 
 export function matchStoryboard(

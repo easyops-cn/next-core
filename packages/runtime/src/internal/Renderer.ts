@@ -1,9 +1,4 @@
-import type {
-  BrickConf,
-  PluginHistoryState,
-  RouteConf,
-  SlotConfOfBricks,
-} from "@next-core/brick-types";
+import type { BrickConf, RouteConf, SlotConfOfBricks } from "@next-core/types";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
@@ -35,6 +30,7 @@ import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js"
 import type { RuntimeBrick, RuntimeContext } from "./interfaces.js";
 import { getTagNameOfCustomTemplate } from "./CustomTemplates/utils.js";
 import { customTemplates } from "../CustomTemplates.js";
+import type { NextHistoryState } from "./historyExtended.js";
 
 export interface RenderOutput {
   main: RuntimeBrick[];
@@ -42,7 +38,7 @@ export interface RenderOutput {
   unauthenticated?: boolean;
   redirect?: {
     path: string;
-    state?: PluginHistoryState;
+    state?: NextHistoryState;
   };
   route?: RouteConf;
   blockingList: (Promise<unknown> | undefined)[];

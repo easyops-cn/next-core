@@ -1,4 +1,4 @@
-import type { BrickConf } from "@next-core/brick-types";
+import type { BrickConf } from "@next-core/types";
 import type { AsyncProperties, BrickHolder } from "../interfaces.js";
 
 export const symbolForAsyncComputedPropsFromHost = Symbol.for(

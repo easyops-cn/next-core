@@ -1,10 +1,6 @@
 import { get } from "lodash";
 import type { Location } from "history";
-import type {
-  FeatureFlags,
-  MatchResult,
-  MicroApp,
-} from "@next-core/brick-types";
+import type { FeatureFlags, MicroApp } from "@next-core/types";
 import { processPipes } from "@next-core/pipes";
 import { parseInjectableString } from "./syntax.js";
 import type { Placeholder } from "./interfaces.js";
@@ -19,7 +15,12 @@ export interface LegacyCompatibleRuntimeContext {
   flags: FeatureFlags;
   /** 系统运行时信息，包括登录信息和页面信息。 */
   sys: Record<string, unknown>;
-  match?: MatchResult;
+  match?: {
+    path: string;
+    url: string;
+    isExact: boolean;
+    params: Record<string, string>;
+  };
   event?: Event;
   data?: unknown;
 }

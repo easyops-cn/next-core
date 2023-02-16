@@ -1,0 +1,29 @@
+{
+  "name": "@next-core/types",
+  "version": "0.0.0",
+  "description": "Pure types for Brick Next V3+",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/types",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json --watch",
+    "prebuild": "npm run clean",
+    "build": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json"
+  }
+}

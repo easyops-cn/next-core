@@ -37,8 +37,8 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/brick-types": "^2.82.3",
     "@next-core/runtime": "^0.0.0",
+    "@next-core/types": "^0.0.0",
     "react": "0.0.0-experimental-ee8509801-20230117",
     "react-dom": "0.0.0-experimental-ee8509801-20230117"
   },

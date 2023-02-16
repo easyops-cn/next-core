@@ -1,6 +1,5 @@
-import { RuntimeBrickElement } from "@next-core/brick-types";
 import type { DataStore } from "../data/DataStore.js";
-import type { RuntimeContext } from "../interfaces.js";
+import type { RuntimeBrickElement, RuntimeContext } from "../interfaces.js";
 import { customTemplates } from "../../CustomTemplates.js";
 
 type MinimalTplStateStoreContext = Pick<

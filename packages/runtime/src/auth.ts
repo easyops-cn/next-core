@@ -1,9 +1,21 @@
-import { AuthInfo } from "@next-core/brick-types";
 // import { userAnalytics } from "@next-core/easyops-analytics";
 import { resetPermissionPreChecks } from "./internal/checkPermissions.js";
 // import { resetPermissionPreChecks } from "./internal/checkPermissions";
 
 const auth: AuthInfo = {};
+
+/** @internal */
+export interface AuthInfo {
+  org?: number;
+  username?: string;
+  userInstanceId?: string;
+  loginFrom?: string;
+  accessRule?: string;
+  isAdmin?: boolean;
+  csrfToken?: string;
+  license?: Record<string, unknown>;
+  userShowValue?: string[];
+}
 
 /** @internal */
 export function authenticate(newAuth: AuthInfo): void {

@@ -1,14 +1,6 @@
 // Ref https://github.com/ReactTraining/react-router/blob/master/packages/react-router/modules/matchPath.js
+import type { LegacyCompatibleRuntimeContext } from "@next-core/inject";
 import { pathToRegexp, Key, compile } from "path-to-regexp";
-import type {
-  CompileResult,
-  CompileOptions,
-  MatchOptions,
-  MatchResult,
-  MatchParams,
-} from "@next-core/brick-types";
-
-export type MatchPathOptions = MatchOptions & CompileOptions;
 
 const cache: Map<string, Map<string, CompileResult>> = new Map();
 const cacheLimit = 10000;
@@ -71,7 +63,7 @@ export function matchPath(
       return null;
     }
 
-    const initialParams: MatchParams = {};
+    const initialParams: MatchResult["params"] = {};
     const result = {
       path, // the path used to match
       url: path === "/" && url === "" ? "/" : url, // the matched portion of the URL
@@ -92,3 +84,26 @@ export function toPath(
 ): string {
   return compile(path)(pathParams);
 }
+
+interface CompileOptions {
+  end?: boolean;
+  strict?: boolean;
+  sensitive?: boolean;
+}
+
+interface CompileResult {
+  regexp: RegExp;
+  keys: Key[];
+}
+
+interface MatchOptions {
+  path: string | string[];
+  exact?: boolean;
+}
+
+type MatchPathOptions = MatchOptions & CompileOptions;
+
+export type MatchResult = Exclude<
+  LegacyCompatibleRuntimeContext["match"],
+  undefined
+>;

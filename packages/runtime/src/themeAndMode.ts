@@ -1,4 +1,4 @@
-import type { SiteMode, SiteTheme } from "@next-core/brick-types";
+import type { SiteMode, SiteTheme } from "@next-core/types";
 import { JsonStorage } from "@next-core/utils/general";
 
 // Themes.

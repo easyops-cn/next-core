@@ -1,4 +1,4 @@
-import { PluginRuntimeContext } from "@next-core/brick-types";
+import { PluginRuntimeContext } from "@next-core/types";
 import { RuntimeBrick } from "../core/BrickNode";
 import {
   listenOnTrackingContext,

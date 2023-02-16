@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import type { UseSingleBrickConf } from "@next-core/brick-types";
+import type { UseSingleBrickConf } from "@next-core/types";
 import { __secret_internals, handleHttpError } from "@next-core/runtime";
 
 export interface ReactUseBrickProps {

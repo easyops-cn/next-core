@@ -1,4 +1,4 @@
-import { BootstrapData } from "@next-core/brick-types";
+import { BootstrapData } from "@next-core/types";
 import { loadCheckLogin } from "./loadCheckLogin.js";
 import { loadBootstrapData } from "./loadBootstrapData.js";
 import { Router } from "./Router.js";

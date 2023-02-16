@@ -1,4 +1,4 @@
-import type { BrickPackage } from "@next-core/brick-types";
+import type { BrickPackage } from "@next-core/types";
 import { loadBricksImperatively } from "@next-core/loader";
 
 const pool = new Map<string, HTMLElement>();

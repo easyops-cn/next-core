@@ -1,10 +1,14 @@
-import { RuntimeContext } from "@next-core/brick-types";
-import { transform, inject, transformAndInject } from "./compile.js";
+import {
+  transform,
+  inject,
+  transformAndInject,
+  LegacyCompatibleRuntimeContext,
+} from "./compile.js";
 
 const originalQuery =
   "q=abc&page=2&sort=name&asc=1&extra=0&fields=%7B%7D&errors=&name=abc&key=K&array=1&array=2";
 
-const context: RuntimeContext = {
+const context: LegacyCompatibleRuntimeContext = {
   query: new URLSearchParams(originalQuery),
   // hash: "#yes",
   // match: {

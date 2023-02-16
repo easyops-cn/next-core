@@ -1,7 +1,4 @@
-import {
-  CustomTemplate,
-  CustomTemplateConstructor,
-} from "@next-core/brick-types";
+import { CustomTemplate, CustomTemplateConstructor } from "@next-core/types";
 
 class CustomTemplateRegistry {
   readonly #registry = new Map<string, CustomTemplate>();

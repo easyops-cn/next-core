@@ -1,4 +1,4 @@
-import type { ProviderPollOptions } from "@next-core/brick-types";
+import type { ProviderPollOptions } from "@next-core/types";
 import { _internalApiGetRenderId } from "./Runtime.js";
 
 export type PollableCallbackFunction = (result?: unknown) => unknown;

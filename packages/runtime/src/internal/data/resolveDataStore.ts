@@ -1,4 +1,4 @@
-import { ContextConf } from "@next-core/brick-types";
+import { ContextConf } from "@next-core/types";
 import { collectMemberUsage, MemberUsage } from "@next-core/utils/storyboard";
 
 export interface DeferredContext {

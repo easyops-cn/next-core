@@ -6,11 +6,10 @@ import type {
   CustomBrickEventHandler,
   ExecuteCustomBrickEventHandler,
   ProviderPollOptions,
-  RuntimeBrickElement,
   SetPropsCustomBrickEventHandler,
   SiteTheme,
   UseProviderEventHandler,
-} from "@next-core/brick-types";
+} from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
 import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
@@ -20,7 +19,11 @@ import { PollableCallback, startPoll } from "./poll.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { setProperties } from "./compute/setProperties.js";
 import { applyMode, applyTheme } from "../themeAndMode.js";
-import type { ElementHolder, RuntimeContext } from "./interfaces.js";
+import type {
+  ElementHolder,
+  RuntimeBrickElement,
+  RuntimeContext,
+} from "./interfaces.js";
 import {
   getTplHostElement,
   getTplStateStore,

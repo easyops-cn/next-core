@@ -1,6 +1,6 @@
 // import { getFixedT } from "i18next";
 // import { identity } from "lodash";
-import type { MicroApp } from "@next-core/brick-types";
+import type { MicroApp } from "@next-core/types";
 // import { widgetI18nFactory } from "../core/WidgetI18n";
 // import { i18nText } from "../i18nText";
 // import { getI18nNamespace } from "../i18n";

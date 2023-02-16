@@ -14,6 +14,7 @@ V3 废弃了一些核心包，包括但不限于：
 - custom-antd-styles
 - editor-bricks-helper
 - fontawesome-library
+- brick-types
 ```
 
 新增了一些包，包括但不限于：
@@ -27,6 +28,7 @@ V3 废弃了一些核心包，包括但不限于：
 - react-runtime      # 基于 React 的运行时，包括 UseBrick 等的实现
 - brick-playground   # 用于开发调试构件（脱离核心框架）
 - build-next-bricks  # 打包器，用于构件包、brick-container 和 brick-playground
+- types              # 相当于新的 brick-types
 ```
 
 ## 构件开发

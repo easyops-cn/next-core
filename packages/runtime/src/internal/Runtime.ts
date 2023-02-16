@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import type { RuntimeStoryboard, Settings } from "@next-core/brick-types";
+import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
 import { createHistory } from "../history.js";
 import { initI18n } from "./i18n.js";
 import { Kernel } from "./Kernel.js";
@@ -35,7 +35,7 @@ export class Runtime {
   getFeatureFlags() {
     return {
       ...kernel.bootstrapData.settings?.featureFlags,
-      ...(kernel.router.getCurrentApp()?.config?.settings as Settings)
+      ...(kernel.router.getCurrentApp()?.config?.settings as BootstrapSettings)
         ?.featureFlags,
     };
   }
@@ -43,7 +43,8 @@ export class Runtime {
   getMiscSettings() {
     return {
       ...kernel.bootstrapData.settings?.misc,
-      ...(kernel.router.getCurrentApp()?.config?.settings as Settings)?.misc,
+      ...(kernel.router.getCurrentApp()?.config?.settings as BootstrapSettings)
+        ?.misc,
     };
   }
 }
