@@ -47,6 +47,10 @@ export function trackUsedState(data: unknown): string[] {
   return collectContextUsage(data, "STATE").usedContexts;
 }
 
+export function trackUsedFormState(data: unknown): string[] {
+  return collectContextUsage(data, "FORM_STATE").usedContexts;
+}
+
 function track(
   raw: string,
   trackText: string,
