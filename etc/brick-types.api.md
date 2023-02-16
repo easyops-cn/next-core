@@ -1906,6 +1906,8 @@ export interface Settings {
     // (undocumented)
     [key: string]: unknown;
     // (undocumented)
+    brand?: Record<string, string>;
+    // (undocumented)
     featureFlags: FeatureFlags;
     // (undocumented)
     homepage: string;

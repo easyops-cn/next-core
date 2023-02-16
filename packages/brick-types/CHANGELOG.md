@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.82.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.3...@next-core/brick-types@2.82.4) (2023-02-16)
+
+### Bug Fixes
+
+- fix setting favicon not render ([7072323](https://github.com/easyops-cn/next-core/commit/70723230baf7adc176cfe98e8731b62073d09a59))
+
 ## [2.82.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.2...@next-core/brick-types@2.82.3) (2023-01-05)
 
 ### Bug Fixes

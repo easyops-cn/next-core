@@ -20,6 +20,7 @@ import {
   RuntimeStoryboard,
   StoryConf,
   RuntimeBrickConf,
+  SiteTheme,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {

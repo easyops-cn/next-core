@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.164.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.2...@next-core/brick-kit@2.164.3) (2023-02-16)
+
+### Bug Fixes
+
+- fix setting favicon not render ([7072323](https://github.com/easyops-cn/next-core/commit/70723230baf7adc176cfe98e8731b62073d09a59))
+
+## [2.164.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.1...@next-core/brick-kit@2.164.2) (2023-02-07)
+
+### Bug Fixes
+
+- **useBrick:** wait for brick being loaded before rendering ([9f43d88](https://github.com/easyops-cn/next-core/commit/9f43d88fe08e8048f8d0021572f824ab5888619f))
+
+## [2.164.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.0...@next-core/brick-kit@2.164.1) (2023-02-07)
+
+### Bug Fixes
+
+- optimization ([7f638dc](https://github.com/easyops-cn/next-core/commit/7f638dc093e35f54694f046199bd34887a8a8879))
+- refactor brick preview ([cb93c9f](https://github.com/easyops-cn/next-core/commit/cb93c9fb33c45a00dcc97c0c1553813c7142bf2a))
+- undo previous code ([c54eb7c](https://github.com/easyops-cn/next-core/commit/c54eb7cc35f13a1ebb87a3f6549490bc06eaa9cf))
+
+# [2.164.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.163.0...@next-core/brick-kit@2.164.0) (2023-01-30)
+
+### Features
+
+- support devloper brick preview ([9ad79ff](https://github.com/easyops-cn/next-core/commit/9ad79ffeebfb97b332f3640785cae19f249cf28f))
+
 # [2.163.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.1...@next-core/brick-kit@2.163.0) (2023-01-16)
 
 ### Bug Fixes

@@ -45,6 +45,9 @@ export function loadService(serviceSeg: string): Context {
     }
 
     fs.readdirSync(modelDir).forEach((file) => {
+      if (!(file.endsWith(".yaml") || file.endsWith(".yml"))) {
+        return;
+      }
       if (file === i18nYamlFile) {
         return;
       }

@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.14](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.13...@next-core/custom-antd-styles@1.25.14) (2023-02-16)
+
+### Bug Fixes
+
+- BRICK_STORE-3251 【表格组件】表头筛选图标颜色需替换为 [#8](https://github.com/easyops-cn/next-core/issues/8)c8c8c ，位置应紧跟表头文字，间隔是 8px ([8b1cb43](https://github.com/easyops-cn/next-core/commit/8b1cb43719d12791c3f389e30c074a8b59dff94a)), closes [#8c8c8](https://github.com/easyops-cn/next-core/issues/8c8c8)
+
+## [1.25.13](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.12...@next-core/custom-antd-styles@1.25.13) (2023-02-16)
+
+### Bug Fixes
+
+- BRICK_STORE-3251 【表格组件】表头筛选图标颜色需替换为 [#8](https://github.com/easyops-cn/next-core/issues/8)c8c8c ，位置应紧跟表头文字，间隔是 8px ([485055f](https://github.com/easyops-cn/next-core/commit/485055f4b89079fbf158a85563b944b89e2ff587)), closes [#8c8c8](https://github.com/easyops-cn/next-core/issues/8c8c8)
+
+## [1.25.12](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.11...@next-core/custom-antd-styles@1.25.12) (2023-02-06)
+
+### Bug Fixes
+
+- 下拉选项圆角调整 ([6838a18](https://github.com/easyops-cn/next-core/commit/6838a188359e10c995098d1d7a95d55b9dabd4af))
+
+## [1.25.11](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.10...@next-core/custom-antd-styles@1.25.11) (2023-02-03)
+
+### Bug Fixes
+
+- 修改 select-dropdown 和 pagination 的 border-radius ([dfdf85c](https://github.com/easyops-cn/next-core/commit/dfdf85c6920fc708c727d0973d668d4a5f637720))
+
 ## [1.25.10](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.9...@next-core/custom-antd-styles@1.25.10) (2023-01-19)
 
 ### Bug Fixes

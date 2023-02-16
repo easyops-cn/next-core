@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.11...@next-core/brick-icons@2.31.12) (2023-02-16)
+
+### Bug Fixes
+
+- BRICK_STORE-3251 【表格组件】表头筛选图标颜色需替换为 [#8](https://github.com/easyops-cn/next-core/issues/8)c8c8c ，位置应紧跟表头文字，间隔是 8px ([485055f](https://github.com/easyops-cn/next-core/commit/485055f4b89079fbf158a85563b944b89e2ff587)), closes [#8c8c8](https://github.com/easyops-cn/next-core/issues/8c8c8)
+
+## [2.31.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.10...@next-core/brick-icons@2.31.11) (2023-02-16)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
+## [2.31.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.9...@next-core/brick-icons@2.31.10) (2023-02-02)
+
+**Note:** Version bump only for package @next-core/brick-icons
+
 ## [2.31.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.8...@next-core/brick-icons@2.31.9) (2023-01-15)
 
 **Note:** Version bump only for package @next-core/brick-icons

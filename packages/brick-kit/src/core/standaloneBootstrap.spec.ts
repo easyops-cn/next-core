@@ -7,6 +7,7 @@ import {
 import {
   BootstrapStandaloneApi_runtimeStandalone,
   BootstrapStandaloneApi_RuntimeStandaloneResponseBody,
+  BootstrapV2Api_getBricksInfo,
 } from "@next-sdk/api-gateway-sdk";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-sdk/micro-app-standalone-sdk";
 
@@ -33,6 +34,7 @@ describe("standaloneBootstrap", () => {
     window.APP_ID = undefined;
     window.APP_ROOT = "";
     window.NO_AUTH_GUARD = false;
+    window.DEVELOPER_PREVIEW = false;
   });
 
   it.each<

@@ -122,6 +122,7 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       }
     }
   }
+
   return {
     ...bootstrapResult,
     settings,

@@ -6,6 +6,7 @@ import sys
 import ens_api
 import requests
 import simplejson
+import tarfile
 
 from copy import deepcopy
 
@@ -74,7 +75,7 @@ def collect(install_path):
   return package_name, bricks_content, stories_content, snippets_content, contract_content
 
 
-def report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content):
+def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks_content, stories_content, snippets_content):
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
   if session_id <= 0:
     raise NameServiceError("get nameservice logic.micro_app_service error, session_id={}".format(session_id))
@@ -82,14 +83,17 @@ def report_bricks_atom(org, package_name, bricks_content, stories_content, snipp
   headers = {"org": str(org), "user": "defaultUser"}
   # report atom
   atom_url = "http://{}/api/v1/brick/atom/import".format(address)
-  atom_param = {"packageName": package_name, "data": {"stories": stories_content, "bricks": bricks_content}}
-  rsp = requests.post(atom_url, json=atom_param, headers=headers)
+  data_dict = {"stories": stories_content, "bricks": bricks_content}
+  data_str = simplejson.dumps(data_dict)
+  data = {"packageName": package_name, "packageVersion": package_version, "data": data_str}
+  rsp = requests.post(atom_url, data=data, headers=headers, files={"file": open(nb_targz_path, "rb")})
   rsp.raise_for_status()
   # report snippet
   snippet_url = "http://{}/api/v1/brick/snippet/import".format(address)
   snippet_param = {"packageName": package_name, "snippets": snippets_content}
   rsp = requests.post(snippet_url, json=snippet_param, headers=headers)
   rsp.raise_for_status()
+
 
 def report_provider_into_contract(org, package_name, contract_content):
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
@@ -102,6 +106,25 @@ def report_provider_into_contract(org, package_name, contract_content):
   param = {"packageName": package_name, "data": {"contractInfo": contract_content}}
   rsp = requests.post(url, json=param, headers=headers)
   rsp.raise_for_status()
+
+def mk_nb_tar_gz(output_filename, source_dir):
+  try:
+    tar = tarfile.open(output_filename, "w:gz")
+    for root, dirs, files in os.walk(source_dir):
+        root_ = os.path.relpath(root,start=source_dir)
+        for file in files:
+            if not file.endswith(".log"):
+                file_path = os.path.join(root, file)
+                tar.add(file_path, arcname=os.path.join(root_, file))
+    tar.close()
+    return True
+  except Exception as e:
+    logger.error(e)
+    return False
+
+
+def remove_tar_gz_file(nb_targz_path):
+  os.remove(nb_targz_path)
 
 
 if __name__ == "__main__":
@@ -122,8 +145,21 @@ if __name__ == "__main__":
   if not install_path.endswith("-NB"):
     sys.exit(0)
 
+  # 读取版本信息
+  version_file = os.path.join(install_path, "version.ini")
+  with open(version_file, "r") as f:
+    lines = f.readlines()
+    package_version = str.strip(lines[1])
+
   package_name, bricks_content, stories_content, snippets_content, contract_content = collect(install_path)
   if package_name and bricks_content and snippets_content:
-    report_bricks_atom(org, package_name, bricks_content, stories_content, snippets_content)
+    targz_name = package_name + ".tar.gz"
+    nb_targz_path = os.path.join(install_path, targz_name)
+    if not mk_nb_tar_gz(nb_targz_path, install_path):
+      logger.error("mkdir tar.gz of nb err")
+      sys.exit(1)
+    report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks_content, stories_content,
+                       snippets_content)
+    remove_tar_gz_file(nb_targz_path)
   if contract_content:
     report_provider_into_contract(org, package_name, contract_content)

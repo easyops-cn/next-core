@@ -1,6 +1,6 @@
 {
   "name": "@next-core/supply",
-  "version": "1.0.91",
+  "version": "1.0.92",
   "description": "Supply for expressions and storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/supply",
   "license": "GPL-3.0",

@@ -13,6 +13,16 @@
     &.@{table-prefix-cls}-column-sort.@{table-prefix-cls}-column-has-sorters {
       background-color: var(--antd-table-header-sort-active-bg);
     }
+
+    &.@{table-prefix-cls}-column-has-sorters{
+      .@{table-prefix-cls}-filter-column-title{
+        padding: 0px;
+        .@{table-prefix-cls}-column-sorters{
+          padding-right: 26px;
+
+        }
+      }
+    }
   }
 
   &-thead > tr {
@@ -98,16 +108,23 @@
   }
 
   &-filter-column-title {
-    padding: 0;
+    padding: 11px 26px 11px 16px;
     display: inline-flex;
     align-items: center;
   }
   &-filter-column {
     display: inline-block;
     align-items: center;
+    position: relative;
+  }
+
+  &-filter-trigger-container{
+    padding: 0px 7px 0px 7px;
   }
   &-filter-trigger {
     font-size: 11px;
+    width: 1em;
+    color:  var(--color-secondary-text);
     .@{table-prefix-cls}-filter-trigger-container-open &,
     &:hover {
       color: var(--bg-color-button-primary);

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-scripts",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Generate new brick-packages or new lib-packages or new bricks in existed packages",
   "homepage": "$repo-org-url$/next-core/tree/master/packages/brick-scripts",
   "license": "GPL-3.0",

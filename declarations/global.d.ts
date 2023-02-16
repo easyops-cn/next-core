@@ -53,6 +53,9 @@ interface Window {
   /** Markup for standalone micro-apps. */
   STANDALONE_MICRO_APPS?: boolean;
 
+  /** Markup for standalone brick preview */
+  DEVELOPER_PREVIEW?: boolean;
+
   /** The app needs no auth guard.  */
   NO_AUTH_GUARD?: boolean;
 

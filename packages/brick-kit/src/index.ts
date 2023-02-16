@@ -35,6 +35,7 @@ export {
   getCssPropertyValue,
   getCurrentTheme,
   batchSetAppsLocalTheme,
+  applyTheme,
 } from "./themeAndMode";
 export * from "./featureFlags";
 export * from "./core/StoryboardFunctionRegistryFactory";

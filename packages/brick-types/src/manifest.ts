@@ -24,6 +24,7 @@ export interface Settings {
   featureFlags: FeatureFlags;
   homepage: string;
   misc?: Record<string, unknown>;
+  brand?: Record<string, string>;
   [key: string]: unknown;
 }
 
