@@ -28,29 +28,28 @@ const bootstrap = fetch("/bootstrap.hash.json", {
     javascript: string;
   }
 ): Promise<void> => {
-  if (type === "html") {
-    // Note: if use DOMParser, script tags will not be executed, while using
-    // createContextualFragment they will.
-
-    const parser = new DOMParser();
-    const dom = parser.parseFromString(html, "text/html");
-    // const dom = document.createRange().createContextualFragment(html);
-    const nodes = dom.querySelectorAll("*");
-    // const usedCustomElements = new Set<string>();
-    const bricks = new Set<string>();
-    for (const node of nodes) {
-      if (node.tagName.includes("-")) {
-        const lowerTagName = node.tagName.toLowerCase();
-        // usedCustomElements.add(lowerTagName);
-        if (lowerTagName.includes(".")) {
-          bricks.add(lowerTagName);
+  try {
+    if (type === "html") {
+      // Note: if use DOMParser, script tags will not be executed, while using
+      // createContextualFragment they will.
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(html, "text/html");
+      // const dom = document.createRange().createContextualFragment(html);
+      const nodes = dom.querySelectorAll("*");
+      // const usedCustomElements = new Set<string>();
+      const bricks = new Set<string>();
+      for (const node of nodes) {
+        if (node.tagName.includes("-")) {
+          const lowerTagName = node.tagName.toLowerCase();
+          // usedCustomElements.add(lowerTagName);
+          if (lowerTagName.includes(".")) {
+            bricks.add(lowerTagName);
+          }
         }
       }
-    }
 
-    await bootstrap;
+      await bootstrap;
 
-    try {
       await loadBricksImperatively(bricks, brickPackages);
       mountPoints.main.innerHTML = "";
       mountPoints.portal.innerHTML = "";
@@ -60,29 +59,22 @@ const bootstrap = fetch("/bootstrap.hash.json", {
       scriptTag.text = javascript;
       scriptTag.type = "module";
       mountPoints.main.appendChild(scriptTag);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      mountPoints.main.innerHTML = "failed";
-    }
-  } else {
-    const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true });
+    } else {
+      const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true });
 
-    await bootstrap;
+      await bootstrap;
 
-    try {
       const bricks = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
       await __secret_internals.renderPreviewBricks(
         bricks,
         brickPackages,
         mountPoints
       );
-      // console.log("output:", output);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      mountPoints.portal.innerHTML = "";
-      mountPoints.main.innerHTML = "failed";
     }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    mountPoints.portal.innerHTML = "";
+    mountPoints.main.innerHTML = "failed";
   }
 };

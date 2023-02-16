@@ -199,7 +199,7 @@ routes:
   # if: '<% !QUERY.redirect %>'
   if: '${QUERY.redirect|not}'
   type: redirect
-  redirect: '<% "/?redirect=1" %>'
+  redirect: '<% "/?redirect=3" %>'
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 1 %>'
   permissionsPreCheck:
