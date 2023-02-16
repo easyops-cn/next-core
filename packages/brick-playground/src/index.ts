@@ -60,7 +60,8 @@ let previewWin: {
       yaml: string;
       html: string;
       javascript: string;
-    }
+    },
+    theme: string
   ): Promise<void>;
 };
 const iframeReady = new Promise<void>((resolve, reject) => {
@@ -78,6 +79,9 @@ const editorColumn = document.querySelector("#brick-playground-editor-column");
 const selectType = document.querySelector(
   "#brick-playground-select-type"
 ) as HTMLSelectElement;
+const selectTheme = document.querySelector(
+  "#brick-playground-select-theme"
+) as HTMLSelectElement;
 const buttonRun = document.querySelector("#brick-playground-button-run");
 
 const sourceTypeStorageKey = "brick-playground-source-type";
@@ -89,9 +93,21 @@ if (storedType !== currentType) {
   selectType.value = storedType.toUpperCase();
 }
 
+const themeStorageKey = "brick-playground-theme";
+let currentTheme = "Dark";
+const storedTheme = localStorage.getItem(themeStorageKey) ?? "Dark";
+if (storedTheme !== currentTheme) {
+  setCurrentTheme(storedTheme);
+  selectTheme.value = storedTheme;
+}
+
 async function render(): Promise<void> {
   await iframeReady;
-  previewWin._preview_only_render(currentType, sources);
+  previewWin._preview_only_render(
+    currentType,
+    sources,
+    currentTheme.toLowerCase()
+  );
 }
 
 buttonRun.addEventListener("click", render);
@@ -107,6 +123,18 @@ function setCurrentType(type: string, store?: boolean) {
 
 selectType.addEventListener("change", (event) => {
   setCurrentType((event.target as HTMLSelectElement).value.toLowerCase(), true);
+  render();
+});
+
+function setCurrentTheme(theme: string, store?: boolean) {
+  currentTheme = theme;
+  if (store) {
+    localStorage.setItem(themeStorageKey, theme);
+  }
+}
+
+selectTheme.addEventListener("change", (event) => {
+  setCurrentTheme((event.target as HTMLSelectElement).value, true);
   render();
 });
 

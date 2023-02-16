@@ -26,10 +26,13 @@ const bootstrap = fetch("/bootstrap.hash.json", {
     yaml: string;
     html: string;
     javascript: string;
-  }
+  },
+  theme: "dark" | "light"
 ): Promise<void> => {
   try {
     if (type === "html") {
+      document.documentElement.dataset.theme =
+        theme === "light" ? theme : "dark-v2";
       // Note: if use DOMParser, script tags will not be executed, while using
       // createContextualFragment they will.
       const parser = new DOMParser();
@@ -68,7 +71,10 @@ const bootstrap = fetch("/bootstrap.hash.json", {
       await __secret_internals.renderPreviewBricks(
         bricks,
         brickPackages,
-        mountPoints
+        mountPoints,
+        {
+          theme: theme === "light" ? theme : "dark-v2",
+        }
       );
     }
   } catch (e) {

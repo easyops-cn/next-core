@@ -1,6 +1,7 @@
 import type {
   BrickConf,
   BrickPackage,
+  SiteTheme,
   UseSingleBrickConf,
 } from "@next-core/types";
 import { flushStableLoadBricks } from "@next-core/loader";
@@ -123,6 +124,9 @@ export async function renderPreviewBricks(
   mountPoints: {
     main: HTMLElement;
     portal: HTMLElement;
+  },
+  options?: {
+    theme?: SiteTheme;
   }
 ) {
   const runtimeContext = {
@@ -171,7 +175,7 @@ export async function renderPreviewBricks(
   unmountTree(mountPoints.main);
   unmountTree(mountPoints.portal);
 
-  setTheme("light");
+  setTheme(options?.theme ?? "light");
   setMode("default");
 
   if (!failed) {
