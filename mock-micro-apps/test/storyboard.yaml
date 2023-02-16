@@ -536,7 +536,7 @@ routes:
   bricks:
   # 控制节点一：循环遍历
   - brick: ":forEach"
-    if: false
+    # if: false
     dataSource:
     - title: A
       content: Hello
@@ -585,7 +585,7 @@ routes:
 
   # 控制节点二：条件判断
   - brick: ":if"
-    if: false
+    # if: false
     dataSource: "<% false %>"
     slots:
       "":

@@ -196,19 +196,33 @@ export async function renderBrick(
       brickConf.dataSource,
       runtimeContext
     );
+
+    const slot =
+      brickConf.brick === ":forEach"
+        ? ""
+        : brickConf.brick === ":switch"
+        ? String(dataSource)
+        : dataSource
+        ? ""
+        : "else";
+
+    const bricks =
+      brickConf.slots &&
+      hasOwnProperty(brickConf.slots, slot) &&
+      (brickConf.slots[""] as SlotConfOfBricks)?.bricks;
+
+    if (!Array.isArray(bricks)) {
+      return output;
+    }
+
     switch (brickConf.brick) {
       case ":forEach": {
         if (!Array.isArray(dataSource)) {
           return output;
         }
-        const forEachBricks = (brickConf.slots?.[""] as SlotConfOfBricks)
-          ?.bricks;
-        if (!Array.isArray(forEachBricks)) {
-          return output;
-        }
         return renderForEach(
-          forEachBricks,
           dataSource,
+          bricks,
           runtimeContext,
           rendererContext,
           slotId,
@@ -217,28 +231,13 @@ export async function renderBrick(
       }
       case ":if":
       case ":switch": {
-        const slot =
-          brickConf.brick === ":switch"
-            ? String(dataSource)
-            : dataSource
-            ? ""
-            : "else";
-        let bricks: BrickConf[];
-        if (
-          brickConf.slots &&
-          hasOwnProperty(brickConf.slots, slot) &&
-          (bricks = (brickConf.slots[slot] as SlotConfOfBricks)?.bricks) &&
-          Array.isArray(bricks)
-        ) {
-          return renderBricks(
-            bricks,
-            runtimeContext,
-            rendererContext,
-            slotId,
-            tplStack
-          );
-        }
-        return output;
+        return renderBricks(
+          bricks,
+          runtimeContext,
+          rendererContext,
+          slotId,
+          tplStack
+        );
       }
       default:
         throw new Error(
@@ -393,8 +392,8 @@ export async function renderBrick(
 }
 
 export async function renderForEach(
-  bricks: BrickConf[],
   dataSource: unknown[],
+  bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId?: string,

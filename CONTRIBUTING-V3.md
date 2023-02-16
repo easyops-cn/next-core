@@ -129,6 +129,6 @@ src/bootstrap.ts
 - [x] Template states only expose as properties when specified exclusively
 - [x] React wrapper for bricks
 - [x] Control node: forEach
-- [ ] Control node: if
-- [ ] Control node: switch
+- [x] Control node: if
+- [x] Control node: switch
 - [ ] ?? Trackable control nodes
