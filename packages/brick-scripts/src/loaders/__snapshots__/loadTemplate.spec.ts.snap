@@ -201,6 +201,16 @@ getRuntime().registerCustomTemplate(\\"for-good.for-better\\", {
 exports[`loadTemplate should create a new package of bricks 1`] = `
 Array [
   Array [
+    "dist/jest.config.js",
+    "const { jestConfigFactory } = require(\\"@next-core/jest-config-factory\\");
+
+module.exports = jestConfigFactory({
+  standalone: true,
+  cwd: __dirname,
+});
+",
+  ],
+  Array [
     "dist/rollup.snippets.js",
     "import { rollupFactoryForSnippets } from \\"@next-core/rollup-config-factory\\";
 
@@ -443,6 +453,16 @@ customElements.define(\\"for-good.for-better\\", ForBetterElement);
 exports[`loadTemplate should create a new package of bricks without any bricks 1`] = `
 Array [
   Array [
+    "dist/jest.config.js",
+    "const { jestConfigFactory } = require(\\"@next-core/jest-config-factory\\");
+
+module.exports = jestConfigFactory({
+  standalone: true,
+  cwd: __dirname,
+});
+",
+  ],
+  Array [
     "dist/rollup.snippets.js",
     "import { rollupFactoryForSnippets } from \\"@next-core/rollup-config-factory\\";
 
@@ -595,6 +615,16 @@ module.exports = dll.webpackDllFactory();
 exports[`loadTemplate should create a new package of libs 1`] = `
 Array [
   Array [
+    "dist/jest.config.js",
+    "const { jestConfigFactory } = require(\\"@next-core/jest-config-factory\\");
+
+module.exports = jestConfigFactory({
+  standalone: true,
+  cwd: __dirname,
+});
+",
+  ],
+  Array [
     "dist/scripts/post-build.js",
     "const { postBuild } = require(\\"@next-core/build-config-factory\\");
 
@@ -621,6 +651,16 @@ postBuild(\\"libs\\");
 
 exports[`loadTemplate should create a new package of providers 1`] = `
 Array [
+  Array [
+    "dist/jest.config.js",
+    "const { jestConfigFactory } = require(\\"@next-core/jest-config-factory\\");
+
+module.exports = jestConfigFactory({
+  standalone: true,
+  cwd: __dirname,
+});
+",
+  ],
   Array [
     "dist/rollup.snippets.js",
     "import { rollupFactoryForSnippets } from \\"@next-core/rollup-config-factory\\";
