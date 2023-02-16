@@ -53,10 +53,10 @@
     "@types/klaw-sync": "^6.0.1",
     "@types/lodash": "^4.14.191",
     "@types/meow": "^5.0.0",
-    "@types/node": "^16.18.11",
+    "@types/node": "^16.18.12",
     "@types/prettier": "^2.7.2",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "babel-jest": "^29.4.1",
     "buffer": "^6.0.3",
@@ -87,7 +87,7 @@
   "resolutions": {
     "@babel/parser": "^7.20.15",
     "@babel/runtime": "^7.20.13",
-    "@types/react": "^18.0.27",
+    "@types/react": "^18.0.28",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
   }
