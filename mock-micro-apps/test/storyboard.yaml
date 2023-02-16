@@ -183,6 +183,17 @@ meta:
           color: red
     - brick: div
       ref: content
+      slots:
+        "":
+          bricks:
+          - brick: ":forEach"
+            dataSource: [1, 2]
+            slots:
+              "":
+                bricks:
+                - brick: span
+                  properties:
+                    textContent: '<% `<item:${ITEM}>` %>'
 routes:
 - path: ${APP.homepage}
   # if: '<% !QUERY.redirect %>'
@@ -611,4 +622,42 @@ routes:
       "b":
         bricks:
         - brick: button
+          properties:
+            textContent: GO
+          events:
+            click:
+              action: history.pushQuery
+              args:
+              - redirect: 6
         - brick: hr
+          lifeCycle:
+            onMount:
+              action: console.log
+            onUnmount:
+              action: console.log
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 6 %>'
+  context:
+  - name: x
+    resolve:
+      useProvider: demo-basic.have-more-fun
+      args:
+      - lazy
+      - 3000
+  type: redirect
+  redirect: "<% CTX.x, '/?redirect=7' %>"
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 7 %>'
+  context:
+  - name: x
+    resolve:
+      useProvider: demo-basic.have-more-fun
+      args:
+      - lazy
+      - 3000
+  bricks:
+  - brick: div
+    properties:
+      textContent: OK

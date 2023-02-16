@@ -47,6 +47,7 @@ export class Router {
   #nextLocation?: PluginLocation;
   #runtimeContext?: RuntimeContext;
   #rendererContext?: RendererContext;
+  #rendererContextTrashCan = new Set<RendererContext | undefined>();
   #redirectCount = 0;
   #renderId?: string;
   #currentApp?: MicroApp;
@@ -220,7 +221,7 @@ export class Router {
     const prevRendererContext = this.#rendererContext;
 
     const redirectTo = (to: string, state?: PluginHistoryState): void => {
-      prevRendererContext?.dispose();
+      this.#rendererContextTrashCan.add(prevRendererContext);
       this.#checkInfiniteRedirect(location, to);
       history.replace(to, state);
     };
@@ -234,9 +235,18 @@ export class Router {
     const portal = document.querySelector("#portal-mount-point") as HTMLElement;
 
     const cleanUpPreviousRender = (): void => {
-      prevRendererContext?.dispose();
       unmountTree(main);
       unmountTree(portal);
+
+      // Note: redirects can lead to multiple trash renderer contexts.
+      this.#rendererContextTrashCan.add(prevRendererContext);
+      for (const item of this.#rendererContextTrashCan) {
+        if (item) {
+          item.dispatchOnUnmount();
+          item.dispose();
+        }
+      }
+      this.#rendererContextTrashCan.clear();
 
       setTheme(
         (currentApp &&
@@ -338,7 +348,7 @@ export class Router {
           redirectToLogin();
           return;
         } else if (isHttpAbortError(error)) {
-          prevRendererContext?.dispose();
+          this.#rendererContextTrashCan.add(prevRendererContext);
           return;
         } else {
           failed = true;
@@ -382,6 +392,7 @@ export class Router {
         if (!failed) {
           rendererContext.dispatchPageLoad();
           rendererContext.dispatchAnchorLoad();
+          rendererContext.dispatchOnMount();
           rendererContext.initializeScrollIntoView();
           rendererContext.initializeMediaChange();
         }

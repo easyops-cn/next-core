@@ -656,10 +656,21 @@ export interface BrickLifeCycle {
 
   /** @internal */
   onMessageClose?: BrickEventHandler | BrickEventHandler[];
+
   /**
    * 定义构件与窗口视图交集大小超过阈值（threshold）规定的大小时候执行的动作
    */
   onScrollIntoView?: ScrollIntoViewConf;
+
+  /**
+   * 定义构件在挂载时的动作。
+   */
+  onMount?: BrickEventHandler | BrickEventHandler[];
+
+  /**
+   * 定义构件在卸载时的动作。
+   */
+  onUnmount?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1298,17 +1309,8 @@ export interface UseBrickSlotConf {
  */
 export type UseBrickLifeCycle = Pick<
   BrickLifeCycle,
-  "onScrollIntoView" | "onMediaChange"
-> & {
-  /**
-   * 定义 useBrick 里的构件在挂载时的动作。
-   */
-  onMount?: BrickEventHandler | BrickEventHandler[];
-  /**
-   * 定义 useBrick 里的构件在卸载时的动作。
-   */
-  onUnmount?: BrickEventHandler | BrickEventHandler[];
-};
+  "onMount" | "onUnmount" | "onScrollIntoView" | "onMediaChange"
+>;
 
 /** 在 `useBackend` 中使用provider的配置  **/
 export interface UseBackendConf {

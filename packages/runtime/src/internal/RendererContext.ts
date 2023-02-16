@@ -3,7 +3,6 @@ import type {
   BrickLifeCycle,
   PluginHistoryState,
   UseBrickLifeCycle,
-  UseSingleBrickConf,
 } from "@next-core/brick-types";
 import type { Action, Location } from "history";
 import { listenerFactory } from "./bindListeners.js";
@@ -18,6 +17,22 @@ type MemoizedLifeCycle<T> = {
     handlers: T[Key];
   }[];
 };
+
+const commonLifeCycles = [
+  "onMount",
+  "onUnmount",
+  "onMediaChange",
+  "onScrollIntoView",
+] as const;
+
+const routerOnlyLifeCycles = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onPageLeave",
+  "onBeforePageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+] as const;
 
 export class RendererContext {
   public readonly type: "router" | "useBrick";
@@ -38,11 +53,12 @@ export class RendererContext {
         | "onAnchorUnload"
         | "onMediaChange"
         | "onScrollIntoView"
+        | "onMount"
+        | "onUnmount"
         // Omitted:
         // "onMessage"
         // "onMessageClose"
-      > &
-        UseBrickLifeCycle
+      >
     >
   > = {
     onBeforePageLoad: [],
@@ -61,29 +77,15 @@ export class RendererContext {
 
   registerBrickLifeCycle(
     brick: RuntimeBrick,
-    lifeCycle: BrickLifeCycle | UseSingleBrickConf["lifeCycle"] | undefined
+    lifeCycle: BrickLifeCycle | UseBrickLifeCycle | undefined
   ): void {
     if (!lifeCycle) {
       return;
     }
-    const lifeCycleTypes =
-      this.type === "useBrick"
-        ? ([
-            "onMount",
-            "onUnmount",
-            "onMediaChange",
-            "onScrollIntoView",
-          ] as const)
-        : ([
-            "onBeforePageLoad",
-            "onPageLoad",
-            "onPageLeave",
-            "onBeforePageLeave",
-            "onAnchorLoad",
-            "onAnchorUnload",
-            "onMediaChange",
-            "onScrollIntoView",
-          ] as const);
+    const lifeCycleTypes = [
+      ...commonLifeCycles,
+      ...(this.type === "router" ? routerOnlyLifeCycles : []),
+    ];
     for (const key of lifeCycleTypes) {
       const handlers = (lifeCycle as BrickLifeCycle)[key as "onPageLoad"];
       if (handlers) {
@@ -109,6 +111,7 @@ export class RendererContext {
     }
   }
 
+  // Note: no `onScrollIntoView`
   #dispatchGeneralLifeCycle(
     type:
       | "onBeforePageLoad"
@@ -122,16 +125,14 @@ export class RendererContext {
       | "onUnmount",
     event: CustomEvent
   ): void {
-    if (process.env.NODE_ENV === "development") {
-      if (
-        type === "onMount" || type === "onUnmount"
-          ? this.type !== "useBrick"
-          : this.type === "useBrick" && type !== "onMediaChange"
-      ) {
-        throw new Error(
-          `\`lifeCycle.${type}\` cannot be used in ${this.type}.\nThis is a bug of Brick Next, please report it.`
-        );
-      }
+    if (
+      process.env.NODE_ENV === "development" &&
+      this.type === "useBrick" &&
+      routerOnlyLifeCycles.includes(type as "onPageLoad")
+    ) {
+      throw new Error(
+        `\`lifeCycle.${type}\` cannot be used in ${this.type}.\nThis is a bug of Brick Next, please report it.`
+      );
     }
     for (const { brick, handlers } of this.#memoizedLifeCycle[type] ?? []) {
       listenerFactory(handlers, brick.runtimeContext, brick)(event);
