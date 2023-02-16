@@ -326,6 +326,8 @@ export class Router {
     const customFaviconHref = (
       currentApp?.config?._easyops_app_favicon as Record<string, string>
     )?.default;
+    const settingsFaviconHref =
+      this.kernel.bootstrapData.settings?.brand?.favicon;
     if (faviconElement) {
       if (customFaviconHref) {
         faviconElement.href = /^(?:https?|data):|^\//.test(customFaviconHref)
@@ -333,6 +335,8 @@ export class Router {
           : imagesFactory(currentApp.id, currentApp.isBuildPush).get(
               customFaviconHref
             );
+      } else if (settingsFaviconHref) {
+        faviconElement.href = settingsFaviconHref;
       } else {
         faviconElement.href = this.kernel.getOriginFaviconHref();
       }
