@@ -568,6 +568,9 @@ export interface BrickConf {
 
   /** 构件编排 ID */
   iid?: string;
+
+  /** 控制类节点的数据源 */
+  dataSource?: unknown;
 }
 
 /** @internal */

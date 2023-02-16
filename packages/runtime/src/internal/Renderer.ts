@@ -8,11 +8,14 @@ import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
 } from "@next-core/loader";
-import { isObject } from "@next-core/utils/general";
+import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { checkBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
-import { asyncComputeRealValue } from "./compute/computeRealValue.js";
+import {
+  asyncComputeRealValue,
+  computeRealValue,
+} from "./compute/computeRealValue.js";
 import { validatePermissions } from "./checkPermissions.js";
 import {
   TrackingContextItem,
@@ -25,6 +28,7 @@ import {
   RuntimeBrickConfWithTplSymbols,
   symbolForAsyncComputedPropsFromHost,
   symbolForBrickHolder,
+  symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
@@ -173,8 +177,74 @@ export async function renderBrick(
     tplStateStoreId,
   };
 
+  if (hasOwnProperty(brickConf, symbolForTPlExternalForEachItem)) {
+    // The external bricks of a template should restore their `forEachItem`
+    // from their host.
+    runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
+  }
+
   if (!(await checkBrickIf(brickConf, runtimeContext))) {
     return output;
+  }
+
+  runtimeContext.pendingPermissionsPreCheck.push(
+    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
+  );
+
+  if (brickConf.brick.startsWith(":")) {
+    const dataSource = await computeRealValue(
+      brickConf.dataSource,
+      runtimeContext
+    );
+    switch (brickConf.brick) {
+      case ":forEach": {
+        if (!Array.isArray(dataSource)) {
+          return output;
+        }
+        const forEachBricks = (brickConf.slots?.[""] as SlotConfOfBricks)
+          ?.bricks;
+        if (!Array.isArray(forEachBricks)) {
+          return output;
+        }
+        return renderForEach(
+          forEachBricks,
+          dataSource,
+          runtimeContext,
+          rendererContext,
+          slotId,
+          tplStack
+        );
+      }
+      case ":if":
+      case ":switch": {
+        const slot =
+          brickConf.brick === ":switch"
+            ? String(dataSource)
+            : dataSource
+            ? ""
+            : "else";
+        let bricks: BrickConf[];
+        if (
+          brickConf.slots &&
+          hasOwnProperty(brickConf.slots, slot) &&
+          (bricks = (brickConf.slots[slot] as SlotConfOfBricks)?.bricks) &&
+          Array.isArray(bricks)
+        ) {
+          return renderBricks(
+            bricks,
+            runtimeContext,
+            rendererContext,
+            slotId,
+            tplStack
+          );
+        }
+        return output;
+      }
+      default:
+        throw new Error(
+          `Unknown storyboard control node: "${brickConf.brick}"`
+        );
+    }
   }
 
   // Custom templates need to be defined before rendering.
@@ -200,11 +270,7 @@ export async function renderBrick(
     tplStack.set(tplTagName, tplCount + 1);
   }
 
-  runtimeContext.pendingPermissionsPreCheck.push(
-    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
-  );
-
-  if (typeof brickConf.brick === "string" && brickConf.brick.includes(".")) {
+  if (brickConf.brick.includes(".")) {
     output.blockingList.push(
       enqueueStableLoadBricks([brickConf.brick], runtimeContext.brickPackages)
     );
@@ -273,29 +339,38 @@ export async function renderBrick(
     output.main.push(brick);
   }
 
+  let childRuntimeContext: RuntimeContext;
+  if (tplTagName) {
+    // There is a boundary for `forEachItem` between template internals and externals.
+    childRuntimeContext = {
+      ...runtimeContext,
+    };
+    delete childRuntimeContext.forEachItem;
+  } else {
+    childRuntimeContext = runtimeContext;
+  }
+
   const loadChildren = async () => {
     if (!isObject(expandedBrickConf.slots)) {
       return;
     }
     const rendered = await Promise.all(
-      Object.entries(expandedBrickConf.slots).map(([childSlotId, slotConf]) => {
-        if (slotConf.type === "bricks" || rendererContext.type === "router") {
-          return renderBricks(
-            (slotConf as SlotConfOfBricks).bricks,
-            runtimeContext,
-            rendererContext,
-            childSlotId,
-            tplStack
-          );
-        } else if (slotConf.type === "routes") {
-          return renderRoutes(
-            slotConf.routes,
-            runtimeContext,
-            rendererContext,
-            childSlotId
-          );
-        }
-      })
+      Object.entries(expandedBrickConf.slots).map(([childSlotId, slotConf]) =>
+        slotConf.type !== "routes"
+          ? renderBricks(
+              (slotConf as SlotConfOfBricks).bricks,
+              childRuntimeContext,
+              rendererContext,
+              childSlotId,
+              tplStack
+            )
+          : renderRoutes(
+              slotConf.routes,
+              childRuntimeContext,
+              rendererContext,
+              childSlotId
+            )
+      )
     );
 
     const childrenOutput: RenderOutput = {
@@ -314,6 +389,46 @@ export async function renderBrick(
 
   await Promise.all(blockingList);
 
+  return output;
+}
+
+export async function renderForEach(
+  bricks: BrickConf[],
+  dataSource: unknown[],
+  runtimeContext: RuntimeContext,
+  rendererContext: RendererContext,
+  slotId?: string,
+  tplStack?: Map<string, number>
+): Promise<RenderOutput> {
+  const output: RenderOutput = {
+    main: [],
+    portal: [],
+    blockingList: [],
+  };
+
+  const rendered = await Promise.all(
+    dataSource.map((item) =>
+      Promise.all(
+        bricks.map((brickConf) =>
+          renderBrick(
+            brickConf,
+            {
+              ...runtimeContext,
+              forEachItem: item,
+            },
+            rendererContext,
+            slotId,
+            tplStack && new Map(tplStack)
+          )
+        )
+      )
+    )
+  );
+
+  // 多层构件并行异步转换，但转换的结果按原顺序串行合并。
+  for (const item of rendered.flat()) {
+    mergeRenderOutput(output, item);
+  }
   return output;
 }
 

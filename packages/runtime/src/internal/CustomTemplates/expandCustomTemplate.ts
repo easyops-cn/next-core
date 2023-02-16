@@ -28,6 +28,10 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
     ...hostBrick.runtimeContext,
     tplStateStoreId,
   };
+
+  // There is a boundary for `forEachItem` between template internals and externals.
+  delete runtimeContext.forEachItem;
+
   const tplStateStore = new DataStore("STATE", hostBrick);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
 

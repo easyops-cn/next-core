@@ -123,3 +123,12 @@ src/bootstrap.ts
 - [ ] Form Renderer
 - [ ] Chrome Devtools
 - [ ] EasyOps Analytics
+
+## 新特性
+
+- [x] Template states only expose as properties when specified exclusively
+- [x] React wrapper for bricks
+- [x] Control node: forEach
+- [ ] Control node: if
+- [ ] Control node: switch
+- [ ] ?? Trackable control nodes
