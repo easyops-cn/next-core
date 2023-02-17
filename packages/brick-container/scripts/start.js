@@ -11,12 +11,12 @@ const server = new WebpackDevServer(
   {
     open: true,
     setupMiddlewares(middlewares) {
-      middlewares.unshift({
+      middlewares.push({
         path: "/bricks/",
         middleware: express.static(path.join(rootDir, "bricks")),
       });
 
-      middlewares.unshift(bootstrapJson(rootDir));
+      middlewares.push(bootstrapJson(rootDir));
 
       middlewares.push({
         name: "try_files index.html",

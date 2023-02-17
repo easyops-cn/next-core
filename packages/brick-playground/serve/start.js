@@ -12,12 +12,12 @@ const server = new WebpackDevServer(
     open: true,
     port: 8082,
     setupMiddlewares(middlewares) {
-      middlewares.unshift({
+      middlewares.push({
         path: "/bricks/",
         middleware: express.static(path.join(rootDir, "bricks")),
       });
 
-      middlewares.unshift(bootstrapJson(rootDir));
+      middlewares.push(bootstrapJson(rootDir));
 
       return middlewares;
     },

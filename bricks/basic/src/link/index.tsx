@@ -28,7 +28,7 @@ const { defineElement, property } = createDecorators();
 @defineElement("basic.general-link", {
   styleTexts: [styleText],
 })
-class Link extends ReactNextElement {
+class Link extends ReactNextElement implements LinkProps {
   /**
    * @kind LinkType
    * @required false
@@ -136,4 +136,4 @@ export function LinkComponent({
 
 export { Link };
 
-export const WrappedXButton = wrapLocalBrick<Link, LinkProps>(Link);
+export const WrappedLink = wrapLocalBrick<Link, LinkProps>(Link);

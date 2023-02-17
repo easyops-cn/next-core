@@ -29,7 +29,7 @@ const { defineElement, property } = createDecorators();
 @defineElement("basic.general-button", {
   styleTexts: [styleText],
 })
-class Button extends ReactNextElement {
+class Button extends ReactNextElement implements ButtonProps {
   /**
    * @kind ButtonType
    * @required false

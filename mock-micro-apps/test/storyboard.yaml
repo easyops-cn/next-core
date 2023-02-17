@@ -259,7 +259,7 @@ routes:
       - 2000
       lazy: true
   bricks:
-  - brick: basic.demo-button
+  - brick: basic.general-button
     properties:
       label: "Hi:"
     slots:

@@ -128,8 +128,6 @@ export default async function build(config) {
   const bricks = [];
   /** @type {string[]} */
   const processors = [];
-  /** @type {Record<string, string[]>} */
-  let dependencies = {};
   if (isBricks) {
     for (const key of Object.keys(config.exposes)) {
       const segments = key.split("/");
@@ -141,12 +139,6 @@ export default async function build(config) {
         bricks.push(`${packageName}.${name}`);
       }
     }
-    dependencies = Object.fromEntries(
-      Object.entries(config.dependencies).map(([key, value]) => [
-        `${packageName}.${key}`,
-        value,
-      ])
-    );
   }
 
   /** @type {Record<string, { import: string; name: string; }>} */
@@ -280,8 +272,8 @@ export default async function build(config) {
         // Do not generate source map for these vendors:
         exclude: [
           // "polyfill",
-          // No source maps for React and ReactDOM
-          /^chunks\/(?:2?784|(?:2?8)?316)(?:\.[0-9a-f]+)?\.js$/,
+          // No source maps for React,ReactDOM,@next-core/theme
+          /^chunks\/(?:2?784|(?:2?8)?316|628)(?:\.[0-9a-f]+)?\.js$/,
           /^chunks\/(?:vendors-)?node_modules_/,
           /^chunks\/(?:easyops|fa)-icons\//,
         ],
@@ -329,7 +321,7 @@ export default async function build(config) {
               packageName,
               bricks,
               processors,
-              dependencies,
+              dependencies: config.dependencies,
             }),
           ]
         : []),

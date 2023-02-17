@@ -12,9 +12,7 @@ export interface ButtonWithIconInterface {
 
 const WrappedFaIcon = wrapBrick<FaIcon, FaIconProps>("icons.fa-icon");
 
-@defineElement("demo-basic.button-with-icon", {
-  dependencies: ["icons.fa-icon"],
-})
+@defineElement("demo-basic.button-with-icon")
 class ButtonWithIcon
   extends ReactNextElement
   implements ButtonWithIconInterface

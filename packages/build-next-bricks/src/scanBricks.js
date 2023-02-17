@@ -24,7 +24,7 @@ export default async function scanBricks(packageDir) {
   /** @type {Map<string, { import: string; name: string; }>} */
   const exposes = new Map();
   /** @type {Record<string, string[]>} */
-  const dependencies = {};
+  const specifiedDeps = {};
   /** @type {Set<string>} */
   const processedFiles = new Set();
 
@@ -36,6 +36,15 @@ export default async function scanBricks(packageDir) {
   /** @type {string} */
   const packageName = packageJson.name.split("/").pop();
   const camelPackageName = getCamelPackageName(packageName);
+
+  /** @type {Map<string, Set<string>} */
+  const usingWrappedBricks = new Map();
+
+  /** @type {Map<string, string} */
+  const brickSourceFiles = new Map();
+
+  /** @type {Map<string, Set<string>} */
+  const importsMap = new Map();
 
   /**
    *
@@ -182,6 +191,8 @@ export default async function scanBricks(packageDir) {
               );
             }
 
+            brickSourceFiles.set(fullName, filePath);
+
             exposes.set(`./${brickName}`, {
               import: `./${path
                 .relative(packageDir, overrideImport || filePath)
@@ -234,6 +245,21 @@ export default async function scanBricks(packageDir) {
             throw new Error(
               "Please call `customTemplates.define()` only with literal string"
             );
+          }
+        } else if (
+          callee.type === "Identifier" &&
+          callee.name === "wrapBrick" &&
+          args.length >= 1
+        ) {
+          const { type, value: brickName } = args[0];
+          if (type !== "StringLiteral") {
+            throw new Error("Please call `wrapBrick` only with literal string");
+          }
+          const bricks = usingWrappedBricks.get(filePath);
+          if (bricks) {
+            bricks.add(brickName);
+          } else {
+            usingWrappedBricks.set(filePath, new Set([brickName]));
           }
         }
       },
@@ -302,8 +328,10 @@ export default async function scanBricks(packageDir) {
             }
           }
           if (deps.length > 0) {
-            dependencies[brickName] = deps;
+            specifiedDeps[fullName] = deps;
           }
+
+          brickSourceFiles.set(fullName, filePath);
 
           exposes.set(`./${brickName}`, {
             import: `./${path
@@ -318,11 +346,12 @@ export default async function scanBricks(packageDir) {
         // Match `import "..."`
         if (
           source.type === "StringLiteral" &&
+          // Ignore import from node modules.
           (source.value.startsWith("./") || source.value.startsWith("../")) &&
           // Ignore `import type {...} from "..."`
-          importKind === "value" &&
+          importKind === "value"
           // Ignore `import { ... } from "..."`
-          specifiers.length === 0
+          // && specifiers.length === 0
         ) {
           const importPath = path.resolve(dirname, source.value);
           const lastName = path.basename(importPath);
@@ -349,7 +378,7 @@ export default async function scanBricks(packageDir) {
 
     await Promise.all(
       [...importPaths.entries()].map((item) =>
-        scanByImport(item, nextOverrideImport)
+        scanByImport(item, filePath, nextOverrideImport)
       )
     );
   }
@@ -357,9 +386,10 @@ export default async function scanBricks(packageDir) {
   /**
    *
    * @param {[string, Set<string>]} importEntry
+   * @param {string} importFrom
    * @param {string | undefined} overrideImport
    */
-  async function scanByImport([dirname, files], overrideImport) {
+  async function scanByImport([dirname, files], importFrom, overrideImport) {
     const dirents = await readdir(dirname, { withFileTypes: true });
     const possibleFilenames = [...files].map(
       (filename) => new RegExp(`${escapeRegExp(filename)}\\.[tj]sx?`)
@@ -371,6 +401,12 @@ export default async function scanBricks(packageDir) {
           possibleFilenames.some((regex) => regex.test(dirent.name))
         ) {
           const filePath = path.resolve(dirname, dirent.name);
+          const imports = importsMap.get(importFrom);
+          if (imports) {
+            imports.add(filePath);
+          } else {
+            importsMap.set(importFrom, new Set([filePath]));
+          }
           return scanByFile(filePath, overrideImport);
         }
       })
@@ -384,10 +420,46 @@ export default async function scanBricks(packageDir) {
 
   await scanByFile(bootstrapTsPath);
 
+  // console.log("usingWrappedBricks:", usingWrappedBricks);
+  // console.log("brickSourceFiles:", brickSourceFiles);
+  // console.log("importsMap:", importsMap);
+
+  // Find brick dependencies by static analysis.
+  /** @type {Record<string, string[]>} */
+  const analyzedDeps = {};
+  for (const [brickName, sourcePath] of brickSourceFiles.entries()) {
+    /** @type {Set<string>} */
+    const deps = new Set();
+    /** @type {Set<string>} */
+    const analyzedFiles = new Set();
+    const analyze = (filePath) => {
+      if (analyzedFiles.has(filePath)) {
+        return;
+      }
+      if (brickName === "button-with-icon") {
+        console.log("scan:", filePath);
+      }
+      analyzedFiles.add(filePath);
+      for (const dep of usingWrappedBricks.get(filePath) ?? []) {
+        deps.add(dep);
+      }
+      for (const item of importsMap.get(filePath) ?? []) {
+        analyze(item);
+      }
+    };
+    analyze(sourcePath);
+    if (deps.size > 0) {
+      analyzedDeps[brickName] = [...deps];
+    }
+  }
+
   // console.log("exposes:", exposes);
 
   return {
     exposes: Object.fromEntries([...exposes.entries()]),
-    dependencies,
+    dependencies: {
+      ...analyzedDeps,
+      ...specifiedDeps,
+    },
   };
 }

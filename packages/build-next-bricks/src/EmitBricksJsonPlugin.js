@@ -51,7 +51,7 @@ export default class EmitBricksJsonPlugin {
 
           console.log("Defined bricks:", this.bricks);
           console.log("Defined processors:", this.processors);
-          console.log("Brick dependencies:", this.dependencies);
+          console.log("Found dependencies:", this.dependencies);
           callback();
         }
       );

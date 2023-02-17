@@ -1,4 +1,4 @@
-@import "./variables.css";
 @import "./generated.css";
 @import "./default.css";
 @import "./dark.css";
+@import "./variables.css";
