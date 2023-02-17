@@ -61,7 +61,7 @@
     "semver": "^7.3.8",
     "size-limit": "^8.1.2",
     "typescript": "5.0.0-beta",
-    "yargs": "^17.6.2"
+    "yargs": "^17.7.0"
   },
   "devDependencies": {
     "@size-limit/file": "^8.1.2",
