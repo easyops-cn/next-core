@@ -118,7 +118,7 @@
     color: var(--color-secondary-text);
   }
   &-filter-column-title {
-    padding: 11px 26px 11px 16px;
+    padding: 14px 26px 14px 0px;
     display: inline-flex;
     align-items: center;
   }
@@ -126,17 +126,15 @@
     display: inline-block;
     align-items: center;
     position: relative;
+    margin: -11px 0px;
   }
 
-  &-filter-trigger-container{
-    padding: 0px 7px 0px 7px;
-  }
   &-filter-trigger {
     font-size: 11px;
-    width: 1em;
+    width: 25px;
     color:  var(--color-secondary-text);
     .@{table-prefix-cls}-filter-trigger-container-open & {
-      color: var(--bg-color-button-primary);
+      color: #595959;
     }
   }
   &-filter-dropdown {
