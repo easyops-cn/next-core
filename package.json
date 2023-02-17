@@ -10,13 +10,11 @@
   "scripts": {
     "prepare": "lerna bootstrap && husky install",
     "start": "lerna run start --scope \"@next-core/brick-container\"",
-    "serve": "brick-container-serve --no-mock --local-container",
+    "serve": "lerna run serve --scope \"@next-core/brick-container\"",
     "serve:e2e": "cross-env NODE_ENV='e2e-test' brick-container-serve",
     "build": "lerna run build",
     "docs:build": "lerna run docs:build",
     "docs:dev": "lerna run docs:dev",
-    "postbuild": "npm run size-limit",
-    "size-limit": "size-limit",
     "test": "test-next-project",
     "test:ci": "lerna run test:ci --",
     "yo": "brick-scripts -t dll",
@@ -42,7 +40,6 @@
     "@babel/types": "^7.20.7",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/test-next": "^0.0.0",
-    "@size-limit/file": "^8.1.2",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/file-saver": "^2.0.5",
     "@types/fs-extra": "^9.0.13",
@@ -59,7 +56,7 @@
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "babel-jest": "^29.4.3",
-    "buffer": "^6.0.3",
+    "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "cypress": "^12.5.1",
     "eslint": "^8.34.0",
@@ -73,16 +70,14 @@
     "lerna": "^6.5.1",
     "lint-staged": "^13.1.2",
     "mock-socket": "^9.2.1",
-    "null-loader": "^4.0.1",
     "prettier": "^2.8.4",
     "rimraf": "^3.0.2",
-    "timers-browserify": "^2.0.12",
     "ts-jest-resolver": "^2.0.0",
     "typescript": "5.0.0-beta"
   },
   "workspaces": [
     "bricks/*",
-    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory|brick-kit|brick-icons|brick-utils|brick-types|dev-dependencies|dll-differ|easyops-analytics|easyops-illustrations|jest-config-factory|typedoc-plugin-filter-inherit|storyboard|storyboard-function-types|brick-scripts|sdk-scripts|repo-config|public-scoped-sdk|next-docs)/**"
+    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory|brick-kit|brick-icons|brick-utils|brick-types|dev-dependencies|dll-differ|easyops-analytics|easyops-illustrations|jest-config-factory|typedoc-plugin-filter-inherit|storyboard|storyboard-function-types|brick-scripts|sdk-scripts|repo-config|public-scoped-sdk|next-docs|create-next-repo|color-theme)/**"
   ],
   "resolutions": {
     "@babel/parser": "^7.20.15",
@@ -90,8 +85,5 @@
     "@types/react": "^18.0.28",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
-  },
-  "dependencies": {
-    "concurrently": "^7.6.0"
   }
 }
