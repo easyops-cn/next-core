@@ -15,6 +15,14 @@
     }
 
     &.@{table-prefix-cls}-column-has-sorters{
+      &:hover{
+        .@{table-prefix-cls}-filter-trigger-container{
+          background-color: var(--antd-table-header-sort-active-bg);
+        }
+      }
+    }
+
+    &.@{table-prefix-cls}-column-has-sorters{
       .@{table-prefix-cls}-filter-column-title{
         padding: 0px;
         .@{table-prefix-cls}-column-sorters{
@@ -106,7 +114,9 @@
       }
     }
   }
-
+  &-column-sorter{
+    color: var(--color-secondary-text);
+  }
   &-filter-column-title {
     padding: 11px 26px 11px 16px;
     display: inline-flex;
@@ -125,8 +135,7 @@
     font-size: 11px;
     width: 1em;
     color:  var(--color-secondary-text);
-    .@{table-prefix-cls}-filter-trigger-container-open &,
-    &:hover {
+    .@{table-prefix-cls}-filter-trigger-container-open & {
       color: var(--bg-color-button-primary);
     }
   }
