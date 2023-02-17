@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.15](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.14...@next-core/custom-antd-styles@1.25.15) (2023-02-17)
+
+
+### Bug Fixes
+
+* BRICK_STORE-3251 【表格组件】表头筛选图标颜色hover是不需要蓝色 ([0bcd2e6](https://github.com/easyops-cn/next-core/commit/0bcd2e61195ddffbec0ba5747956a72d2957c7ab))
+
+
+
+
+
 ## [1.25.14](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.13...@next-core/custom-antd-styles@1.25.14) (2023-02-16)
 
 
