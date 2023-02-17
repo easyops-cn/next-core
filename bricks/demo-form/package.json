@@ -12,10 +12,6 @@
   "files": [
     "dist"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
-  },
   "scripts": {
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
     "build": "cross-env NODE_ENV=production build-next-bricks",
@@ -25,7 +21,7 @@
   "dependencies": {
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
-    "react": "^18.2.0"
+    "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
