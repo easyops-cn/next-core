@@ -54,6 +54,9 @@ const defaultPropertyDeclaration: Required<PropertyDeclaration> = {
   hasChanged: notEqual,
 };
 
+// Note: `prefix` is a native prop on Element, but it's only used in XML documents.
+const allowedNativeProps = new Set(["prefix"]);
+
 export function createDecorators() {
   const attributeReflections = new Map<string, AttributeReflection>();
   const definedProperties = new Set<string>();
@@ -141,8 +144,8 @@ export function createDecorators() {
         private: isPrivate,
       }: ClassAccessorDecoratorContext<NextElement, T>
     ): ClassAccessorDecoratorResult<NextElement, T> {
-      // istanbul ignore next
-      if (process.env.NODE_ENV === "development") {
+      // istanbul ignore else
+      if (process.env.NODE_ENV !== "production") {
         if (kind !== "accessor") {
           throw new Error(
             `Invalid usage of \`@property()\` on a ${kind}: "${String(name)}"`
@@ -162,6 +165,12 @@ export function createDecorators() {
           throw new Error(
             `Invalid usage of \`@property()\` on a private ${kind}: "${name}"`
           );
+        }
+        if (name in HTMLElement.prototype && !allowedNativeProps.has(name)) {
+          const message = `"${
+            name as string
+          }" is a native HTMLElement property, and is deprecated to be used as a brick property.`;
+          throw new Error(message);
         }
       }
       definedProperties.add(name as string);
@@ -247,8 +256,8 @@ export function createDecorators() {
         private: isPrivate,
       }: ClassMethodDecoratorContext
     ) {
-      // istanbul ignore next
-      if (process.env.NODE_ENV === "development") {
+      // istanbul ignore else
+      if (process.env.NODE_ENV !== "production") {
         if (kind !== "method") {
           throw new Error(
             `Invalid usage of \`@method()\` on a ${kind}: "${String(name)}"`
@@ -269,6 +278,12 @@ export function createDecorators() {
             `Invalid usage of \`@method()\` on a private ${kind}: "${name}"`
           );
         }
+        if (name in HTMLElement.prototype && !allowedNativeProps.has(name)) {
+          const message = `"${
+            name as string
+          }" is a native HTMLElement property, and is deprecated to be used as a brick method.`;
+          throw new Error(message);
+        }
       }
       definedMethods.add(name as string);
     };
@@ -284,8 +299,8 @@ export function createDecorators() {
         private: isPrivate,
       }: ClassAccessorDecoratorContext
     ): ClassAccessorDecoratorResult<NextElement, EventEmitter<T>> {
-      // istanbul ignore next
-      if (process.env.NODE_ENV === "development") {
+      // istanbul ignore else
+      if (process.env.NODE_ENV !== "production") {
         if (kind !== "accessor") {
           throw new Error(
             `Invalid usage of \`@event()\` on a ${kind}: "${String(name)}"`

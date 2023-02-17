@@ -23,7 +23,7 @@ class ButtonWithIcon
   render() {
     return (
       <button>
-        <WrappedFaIcon iconPrefix="regular" icon="user" />
+        <WrappedFaIcon prefix="regular" icon="user" />
         <slot />
       </button>
     );

@@ -34,7 +34,8 @@ class GeneralIcon extends ReactNextElement {
   @property() accessor theme: string | undefined;
   @property() accessor icon: string | undefined;
   @property() accessor category: string | undefined;
-  @property() accessor iconPrefix: string | undefined;
+  // Note: `prefix` is a native prop on Element, but it's only used in XML documents.
+  @property() accessor prefix!: string;
 
   render() {
     return this.lib === "antd" ? (
@@ -42,7 +43,7 @@ class GeneralIcon extends ReactNextElement {
     ) : this.lib === "easyops" ? (
       <WrappedEasyOpsIcon category={this.category} icon={this.icon} />
     ) : this.lib === "fa" ? (
-      <WrappedFaIcon iconPrefix={this.iconPrefix} icon={this.icon} />
+      <WrappedFaIcon prefix={this.prefix} icon={this.icon} />
     ) : null;
   }
 }

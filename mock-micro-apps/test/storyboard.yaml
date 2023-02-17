@@ -509,7 +509,7 @@ routes:
         fontSize: 2em
   - brick: icons.fa-icon
     properties:
-      iconPrefix: regular
+      prefix: regular
       icon: smile
       spin: true
       style:
@@ -527,6 +527,11 @@ routes:
     events:
       click:
         action: console.log
+  - brick: icons.general-icon
+    properties:
+      lib: fa
+      prefix: regular
+      icon: smile
   # - brick: basic.fa-icon
   #   properties:
   #     prefix: solid

@@ -115,12 +115,12 @@ export default async function scanBricks(packageDir) {
      * @param {string} file
      */
     function addImportFile(dir, file) {
-      let files = importPaths.get(dir);
-      if (!files) {
-        files = new Set();
-        importPaths.set(dir, files);
+      const files = importPaths.get(dir);
+      if (files) {
+        files.add(file);
+      } else {
+        importPaths.set(dir, new Set([file]));
       }
-      files.add(file);
     }
 
     traverse(ast, {
@@ -355,7 +355,7 @@ export default async function scanBricks(packageDir) {
         ) {
           const importPath = path.resolve(dirname, source.value);
           const lastName = path.basename(importPath);
-          const matchExtension = /\.[tj]sx?/.test(lastName);
+          const matchExtension = /\.[tj]sx?$/.test(lastName);
           const noExtension = !lastName.includes(".");
           if (matchExtension || noExtension) {
             addImportFile(
@@ -392,7 +392,7 @@ export default async function scanBricks(packageDir) {
   async function scanByImport([dirname, files], importFrom, overrideImport) {
     const dirents = await readdir(dirname, { withFileTypes: true });
     const possibleFilenames = [...files].map(
-      (filename) => new RegExp(`${escapeRegExp(filename)}\\.[tj]sx?`)
+      (filename) => new RegExp(`${escapeRegExp(filename)}\\.[tj]sx?$`)
     );
     await Promise.all(
       dirents.map((dirent) => {
@@ -441,7 +441,10 @@ export default async function scanBricks(packageDir) {
       }
       analyzedFiles.add(filePath);
       for (const dep of usingWrappedBricks.get(filePath) ?? []) {
-        deps.add(dep);
+        // Do not dependent on itself
+        if (dep !== brickName) {
+          deps.add(dep);
+        }
       }
       for (const item of importsMap.get(filePath) ?? []) {
         analyze(item);

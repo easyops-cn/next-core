@@ -14,7 +14,7 @@ export type FaIconPrefix = "regular" | "solid" | "brands";
 export type FaIconSize = "2xs" | "xs" | "sm" | "lg" | "xl" | "2xl";
 export type FaIconScale = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-export interface FaIconInterface {
+export interface FaIconProps {
   prefix: FaIconPrefix;
   icon: string;
   size?: FaIconSize;
@@ -31,7 +31,7 @@ export interface FaIconInterface {
 @defineElement("basic.fa-icon", {
   styleTexts: [styleText1, styleText2, styleText3, styleText4],
 })
-class FaIcon extends ReactNextElement implements FaIconInterface {
+class FaIcon extends ReactNextElement implements FaIconProps {
   @property() accessor prefix!: FaIconPrefix;
   @property() accessor icon!: string;
   @property() accessor size: FaIconSize | undefined;
@@ -68,4 +68,4 @@ class FaIcon extends ReactNextElement implements FaIconInterface {
   }
 }
 
-export const WrappedFaIcon = wrapLocalBrick<FaIconInterface, FaIcon>(FaIcon);
+export const WrappedFaIcon = wrapLocalBrick<FaIcon, FaIconProps>(FaIcon);

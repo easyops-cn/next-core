@@ -12,7 +12,7 @@ config.autoAddCss = false;
 const { defineElement, property } = createDecorators();
 
 export interface FaIconProps {
-  iconPrefix?: string;
+  prefix?: string;
   icon?: string;
   spin?: boolean;
 }
@@ -21,23 +21,20 @@ export interface FaIconProps {
   styleTexts: [styleText],
 })
 class FaIcon extends ReactNextElement implements FaIconProps {
-  @property() accessor iconPrefix: string | undefined;
+  // Note: `prefix` is a native prop on Element, but it's only used in XML documents.
+  @property() accessor prefix!: string;
   @property() accessor icon: string | undefined;
   @property({ type: Boolean }) accessor spin: boolean | undefined;
 
   render() {
     return (
-      <FaIconComponent
-        iconPrefix={this.iconPrefix}
-        icon={this.icon}
-        spin={this.spin}
-      />
+      <FaIconComponent prefix={this.prefix} icon={this.icon} spin={this.spin} />
     );
   }
 }
 
-function FaIconComponent({ iconPrefix, icon, spin }: FaIconProps) {
-  const prefix = iconPrefix ?? "solid";
+function FaIconComponent({ prefix: _prefix, icon, spin }: FaIconProps) {
+  const prefix = _prefix ?? "solid";
   const [iconDefinition, setIconDefinition] = useState<IconDefinition | null>(
     null
   );

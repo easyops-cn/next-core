@@ -1,5 +1,8 @@
 import { CustomTemplate, CustomTemplateConstructor } from "@next-core/types";
 
+// Note: `prefix` is a native prop on Element, but it's only used in XML documents.
+const allowedNativeProps = new Set(["prefix"]);
+
 class CustomTemplateRegistry {
   readonly #registry = new Map<string, CustomTemplate>();
 
@@ -29,7 +32,9 @@ class CustomTemplateRegistry {
 
     const props = getPropsOfCustomTemplate(tagName);
 
-    const nativeProp = props.find((prop) => prop in HTMLElement.prototype);
+    const nativeProp = props.find(
+      (prop) => prop in HTMLElement.prototype && !allowedNativeProps.has(prop)
+    );
     // istanbul ignore if
     if (nativeProp !== undefined) {
       throw new Error(
