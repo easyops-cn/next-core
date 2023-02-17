@@ -1,11 +1,9 @@
-import i18next from "i18next";
+import i18n from "i18next";
 import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
 import { createHistory } from "../history.js";
 import { initI18n } from "./i18n.js";
 import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";
-
-const i18n = i18next as unknown as typeof i18next.default;
 
 let kernel: Kernel;
 let runtime: Runtime;

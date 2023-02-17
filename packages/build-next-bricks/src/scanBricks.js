@@ -1,6 +1,6 @@
 import path from "node:path";
-import fs from "node:fs";
-import { readdir, readFile } from "node:fs/promises";
+import fs, { existsSync, statSync } from "node:fs";
+import { readdir, readFile, stat } from "node:fs/promises";
 import { parse } from "@babel/parser";
 import babelTraverse from "@babel/traverse";
 import _ from "lodash";
@@ -100,6 +100,20 @@ export default async function scanBricks(packageDir) {
 
     /** @type {Map<string, Set<string>} */
     const importPaths = new Map();
+
+    /**
+     * @param {string} dir
+     * @param {string} file
+     */
+    function addImportFile(dir, file) {
+      let files = importPaths.get(dir);
+      if (!files) {
+        files = new Set();
+        importPaths.set(dir, files);
+      }
+      files.add(file);
+    }
+
     traverse(ast, {
       CallExpression({ node: { callee, arguments: args } }) {
         // Match `customProcessors.define(...)`
@@ -305,21 +319,30 @@ export default async function scanBricks(packageDir) {
         if (
           source.type === "StringLiteral" &&
           (source.value.startsWith("./") || source.value.startsWith("../")) &&
-          source.value.endsWith(".js") &&
           // Ignore `import type {...} from "..."`
           importKind === "value" &&
           // Ignore `import { ... } from "..."`
           specifiers.length === 0
         ) {
           const importPath = path.resolve(dirname, source.value);
-          const importDir = path.dirname(importPath);
-          const importFile = path.basename(importPath, ".js");
-          let files = importPaths.get(importDir);
-          if (!files) {
-            files = new Set();
-            importPaths.set(importDir, files);
+          const lastName = path.basename(importPath);
+          const matchExtension = /\.[tj]sx?/.test(lastName);
+          const noExtension = !lastName.includes(".");
+          if (matchExtension || noExtension) {
+            addImportFile(
+              path.dirname(importPath),
+              lastName.replace(/\.[^.]+$/, "")
+            );
           }
-          files.add(importFile);
+          if (
+            noExtension &&
+            existsSync(importPath) &&
+            statSync(importPath).isDirectory()
+          ) {
+            // When matching `import "./directory"`,
+            // also look for "./directory/index.*"
+            addImportFile(importPath, "index");
+          }
         }
       },
     });

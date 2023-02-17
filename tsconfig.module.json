@@ -3,7 +3,7 @@
     "declaration": false,
     "sourceMap": true,
     "importHelpers": true,
-    "moduleResolution": "Node16",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "target": "ESNext",
     "module": "Node16",
