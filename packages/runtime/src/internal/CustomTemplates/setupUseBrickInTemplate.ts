@@ -2,6 +2,7 @@ import type { UseBrickSlotsConf, UseSingleBrickConf } from "@next-core/types";
 import { isObject } from "@next-core/utils/general";
 import type { TemplateHostContext } from "../interfaces.js";
 import { setupTemplateProxy } from "./setupTemplateProxy.js";
+import { childrenToSlots } from "../Renderer.js";
 
 export function setupUseBrickInTemplate<T>(
   props: T,
@@ -35,8 +36,14 @@ export function setupUseBrickInTemplate<T>(
   }
 
   function setup(item: UseSingleBrickConf): UseSingleBrickConf {
+    const { properties, slots: originalSlots, children, ...restConf } = item;
+
+    const transpiledSlots = childrenToSlots(children, originalSlots) as
+      | UseBrickSlotsConf
+      | undefined;
+
     const slots = Object.fromEntries(
-      Object.entries(item.slots ?? {}).map(([slotName, slotConf]) => [
+      Object.entries(transpiledSlots ?? {}).map(([slotName, slotConf]) => [
         slotName,
         {
           type: "bricks",
@@ -46,10 +53,10 @@ export function setupUseBrickInTemplate<T>(
     ) as UseBrickSlotsConf;
 
     return {
-      ...item,
-      properties: walk(item.properties),
+      ...restConf,
+      properties: walk(properties),
       slots,
-      ...setupTemplateProxy(hostContext, item.ref, slots),
+      ...setupTemplateProxy(hostContext, restConf.ref, slots),
     };
   }
 

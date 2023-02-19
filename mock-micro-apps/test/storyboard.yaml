@@ -81,9 +81,7 @@ meta:
     bricks:
     - brick: div
       ref: container
-      slots:
-        "":
-          bricks:
+      children:
           - brick: span
             ref: thingSpan
             events:
@@ -464,15 +462,12 @@ routes:
               - '<% EVENT %>'
               - '<% DATA %>'
   - brick: tpl-basic
-    if: false
+    # if: false
     properties:
       thing: Template
       status: Works!
       hello: 你好
-    slots:
-      "":
-        type: bricks
-        bricks:
+    children:
         - brick: span
           properties:
             textContent: "~~"

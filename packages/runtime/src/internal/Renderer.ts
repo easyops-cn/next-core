@@ -1,4 +1,9 @@
-import type { BrickConf, RouteConf, SlotConfOfBricks } from "@next-core/types";
+import type {
+  BrickConf,
+  RouteConf,
+  SlotConfOfBricks,
+  SlotsConf,
+} from "@next-core/types";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
@@ -205,7 +210,7 @@ export async function renderBrick(
         : "else";
 
     // Don't forget to transpile children to slots.
-    const slots = childrenToSlots(brickConf);
+    const slots = childrenToSlots(brickConf.children, brickConf.slots);
 
     // Then, get the bricks in that matched slot.
     const bricks =
@@ -352,7 +357,10 @@ export async function renderBrick(
   }
 
   const loadChildren = async () => {
-    const slots = childrenToSlots(expandedBrickConf);
+    const slots = childrenToSlots(
+      expandedBrickConf.children,
+      expandedBrickConf.slots
+    );
     if (!slots) {
       return;
     }
@@ -448,22 +456,25 @@ export function mergeRenderOutput(
   Object.assign(output, rest);
 }
 
-function childrenToSlots(brick: BrickConf) {
-  let { slots, children } = brick;
-  if (Array.isArray(children) && !slots) {
-    slots = {};
+export function childrenToSlots(
+  children: BrickConf[] | undefined,
+  originalSlots: SlotsConf | undefined
+) {
+  let newSlots = originalSlots;
+  if (Array.isArray(children) && !newSlots) {
+    newSlots = {};
     for (const child of children) {
       const slot = child.slot ?? "";
-      if (!hasOwnProperty(slots, slot)) {
-        slots[slot] = {
+      if (!hasOwnProperty(newSlots, slot)) {
+        newSlots[slot] = {
           type: "bricks",
           bricks: [],
         };
       }
-      (slots[slot] as SlotConfOfBricks).bricks.push(child);
+      (newSlots[slot] as SlotConfOfBricks).bricks.push(child);
     }
   }
-  return slots;
+  return newSlots;
 }
 
 async function preCheckPermissionsForBrickOrRoute(
