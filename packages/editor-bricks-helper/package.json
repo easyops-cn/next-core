@@ -33,7 +33,7 @@
     "@next-core/brick-kit": "^2.164.3",
     "@next-core/brick-utils": "^2.45.19",
     "@next-core/rollup-config-factory": "^2.6.5",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dnd": "^11.1.3",
