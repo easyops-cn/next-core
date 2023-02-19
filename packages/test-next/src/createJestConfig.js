@@ -27,6 +27,7 @@ export function createJestConfig({
     collectCoverageFrom: ["**/*.{js,jsx,ts,tsx}"],
     collectCoverage: true,
     coverageDirectory: "<rootDir>/.coverage",
+    coveragePathIgnorePatterns: ["/__(?:fixtures|mocks)__/"],
     coverageReporters: ["text-summary", process.env.CI ? "cobertura" : "lcov"],
     transform: {
       "^.+\\.[jt]sx?$": [
