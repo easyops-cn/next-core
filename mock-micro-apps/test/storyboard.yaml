@@ -74,7 +74,6 @@ meta:
       slots:
         "":
           ref: container
-          refSlot: ""
       events:
         "yo":
           ref: thingSpan
@@ -396,6 +395,7 @@ routes:
     value: a
   bricks:
   - brick: demo-basic.x-button
+    if: false
     properties:
       label: X
     events:

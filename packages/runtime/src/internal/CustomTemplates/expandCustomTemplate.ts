@@ -119,6 +119,7 @@ function expandBrickInTemplate(
   }
   const {
     ref,
+    properties,
     slots: slotsInTemplate,
     ...restBrickConfInTemplate
   } = brickConfInTemplate;
@@ -135,10 +136,9 @@ function expandBrickInTemplate(
     ])
   );
 
-  setupUseBrickInTemplate(brickConfInTemplate.properties, hostContext);
-
   return {
     ...restBrickConfInTemplate,
+    properties: setupUseBrickInTemplate(properties, hostContext),
     slots,
     ...setupTemplateProxy(hostContext, ref, slots),
   };

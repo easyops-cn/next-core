@@ -2,7 +2,7 @@ import React from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import { ReactUseBrick } from "@next-core/react-runtime";
-import { UseSingleBrickConf } from "@next-core/brick-types";
+import { UseSingleBrickConf } from "@next-core/types";
 import { WrappedXButton } from "../x-button/index.js";
 import { WrappedYButton } from "../y-button/index.js";
 

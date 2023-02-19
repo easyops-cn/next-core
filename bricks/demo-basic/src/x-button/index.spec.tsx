@@ -2,11 +2,11 @@ import React from "react";
 import { describe, test, expect, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
 import { render } from "@testing-library/react";
-import { XButtonComponent } from "./index.js";
+import { XButton, XButtonComponent } from "./index.js";
 
 describe("demo-basic.x-button", () => {
   test("basic usage", () => {
-    const element = document.createElement("demo-basic.x-button");
+    const element = document.createElement("demo-basic.x-button") as XButton;
 
     expect(element.shadowRoot).toBeFalsy();
     act(() => {
@@ -17,7 +17,7 @@ describe("demo-basic.x-button", () => {
 
     const listener = jest.fn();
     element.addEventListener("oops", listener);
-    element.click();
+    element.triggerClick();
     expect(listener).toBeCalledTimes(1);
     expect(listener).toBeCalledWith(
       expect.objectContaining({

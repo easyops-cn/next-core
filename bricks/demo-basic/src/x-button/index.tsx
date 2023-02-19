@@ -22,7 +22,7 @@ class XButton extends ReactNextElement implements XButtonProps {
   @event({ type: "oops" }) accessor #clickEvent: EventEmitter<string>;
 
   @method()
-  click() {
+  triggerClick() {
     this.#clickEvent.emit("ok");
     http.get("/favicon.png").then(
       (res) => {

@@ -1,6 +1,6 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
-import "./index.js";
+import { YButton } from "./index.js";
 
 describe("demo-basic.y-button", () => {
   test("basic usage", () => {
@@ -8,7 +8,7 @@ describe("demo-basic.y-button", () => {
     // container.innerHTML = '<basic.y-button label="Hi:"></basic.y-button>';
     // const target = container;
     // const element = container.firstElementChild as HTMLElement;
-    const element = document.createElement("demo-basic.y-button");
+    const element = document.createElement("demo-basic.y-button") as YButton;
     // (element as any).label = "Hi:";
     element.setAttribute("label", "Hi:");
     const target = element;
@@ -27,7 +27,7 @@ describe("demo-basic.y-button", () => {
 
     const listener = jest.fn();
     element.addEventListener("oops", listener);
-    element.click();
+    element.triggerClick();
     expect(listener).toBeCalledTimes(1);
     expect(listener).toBeCalledWith(
       expect.objectContaining({

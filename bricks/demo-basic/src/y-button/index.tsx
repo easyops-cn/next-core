@@ -29,4 +29,6 @@ class YButton extends XButton {
   }
 }
 
+export { YButton };
+
 export const WrappedYButton = wrapLocalBrick<YButton, YButtonProps>(YButton);

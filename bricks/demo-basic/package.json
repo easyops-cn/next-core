@@ -24,6 +24,7 @@
     "@next-core/react-element": "^0.0.0",
     "@next-core/react-runtime": "^0.0.0",
     "@next-core/runtime": "^0.0.0",
+    "@next-core/types": "^0.0.0",
     "@next-core/utils": "^0.0.0",
     "i18next": "^22.4.9",
     "react": "0.0.0-experimental-ee8509801-20230117",
