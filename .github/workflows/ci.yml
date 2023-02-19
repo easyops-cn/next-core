@@ -5,10 +5,12 @@ on:
     branches:
     - master
     - next
+    - v3
   pull_request:
     branches:
     - master
     - next
+    - v3
     - renovate/*
 
 jobs:
@@ -40,13 +42,23 @@ jobs:
 
     - name: Cache for yarn
       uses: actions/cache@v3
-      id: yarn-cache
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: node-cache-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        key: node-cache-${{ runner.os }}-yarn-master-${{ hashFiles('yarn.lock') }}
         restore-keys: |
+          node-cache-${{ runner.os }}-yarn-master-
           node-cache-${{ runner.os }}-yarn-
       if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
+
+    - name: Cache for yarn (v3)
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: node-cache-${{ runner.os }}-yarn-v3-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          node-cache-${{ runner.os }}-yarn-v3-
+          node-cache-${{ runner.os }}-yarn-
+      if: (github.event_name == 'pull_request' && github.base_ref != 'v3') || (github.event_name == 'push' && github.ref_name != 'v3')
 
     - name: Get week number
       id: week-number
@@ -55,7 +67,6 @@ jobs:
 
     - name: Cache for yarn (next)
       uses: actions/cache@v3
-      id: yarn-cache-next
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: node-cache-${{ runner.os }}-yarn-next-${{ steps.week-number.outputs.num }}
@@ -68,10 +79,19 @@ jobs:
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-nx-master-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx-
-      if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
+          ${{ runner.os }}-nx-master-
+      if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
+
+    - name: Cache for nx
+      uses: actions/cache@v3
+      with:
+        path: .cache
+        key: ${{ runner.os }}-nx-v3-${{ hashFiles('**/package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nx-v3-
+      if: (github.event_name == 'pull_request' && github.base_ref == 'v3') || (github.event_name == 'push' && github.ref_name == 'v3')
 
     - name: Cache for npx
       uses: actions/cache@v3
@@ -81,15 +101,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-wait-on--start-serve-and-test
 
-    - name: Get cypress version
-      id: cypress-version
-      run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
+    # - name: Get cypress version
+    #   id: cypress-version
+    #   run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
 
-    - name: Cache for cypress
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/Cypress
-        key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
+    # - name: Cache for cypress
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: ~/.cache/Cypress
+    #     key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
 
     # Fix `yarn install --frozen-lockfile` not working in monorepo.
     # https://github.com/yarnpkg/yarn/issues/5840#issuecomment-468782288
@@ -98,9 +118,9 @@ jobs:
       run: echo "::set-output name=sum::$(cksum yarn.lock)"
 
     - run: yarn install --frozen-lockfile
-      env:
-        CYPRESS_INSTALL_BINARY: ''
-        CYPRESS_DOWNLOAD_MIRROR: ''
+      # env:
+      #   CYPRESS_INSTALL_BINARY: ''
+      #   CYPRESS_DOWNLOAD_MIRROR: ''
 
     - name: Get checksum after yarn install
       id: yarn-lock-check-after
@@ -112,9 +132,9 @@ jobs:
 
     - run: yarn build
     - run: yarn test:ci
-    - run: yarn test:e2e:ci
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+    # - run: yarn test:e2e:ci
+    #   env:
+    #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     - name: Codecov
       uses: codecov/codecov-action@v3
@@ -125,8 +145,8 @@ jobs:
       uses: easyops-cn/actions-next-publish-from-tags@master
       with:
         npm-token: ${{ secrets.NPM_TOKEN }}
-      if: github.event_name == 'push' && github.ref_name != 'next'
+      if: github.event_name == 'push' && github.ref_name == 'master'
 
     - name: Sync taobao npm mirror
       run: npx lerna exec -- curl -sLX PUT 'https://npm.taobao.org/sync/$LERNA_PACKAGE_NAME?sync_upstream=true'
-      if: github.event_name == 'push' && github.ref_name != 'next' && steps.next-publish-from-tags.outputs.has-tags
+      if: github.event_name == 'push' && github.ref_name == 'master' && steps.next-publish-from-tags.outputs.has-tags

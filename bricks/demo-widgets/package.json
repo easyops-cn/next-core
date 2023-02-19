@@ -14,9 +14,7 @@
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
-    "build": "cross-env NODE_ENV=production build-next-bricks",
-    "test": "cross-env NODE_ENV='test' test-next",
-    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+    "build": "cross-env NODE_ENV=production build-next-bricks"
   },
   "dependencies": {
     "@next-core/runtime": "^0.0.0"

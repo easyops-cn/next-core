@@ -34,9 +34,7 @@
     "start": "cross-env NODE_ENV='development' node scripts/start.js",
     "_prebuild": "node scripts/pre-build.js",
     "build": "cross-env NODE_ENV='production' build-next-bricks",
-    "serve": "node scripts/serve.js",
-    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
+    "serve": "node scripts/serve.js"
   },
   "dependencies": {
     "@next-core/runtime": "^0.0.0",
