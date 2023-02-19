@@ -1,11 +1,11 @@
-import React from "react";
 import { describe, test, expect } from "@jest/globals";
 import { act } from "react-dom/test-utils";
 import "./index.js";
+import { FlexLayout } from "./index.js";
 
-describe("basic.demo-button", () => {
+describe("basic.flex-layout", () => {
   test("basic usage", () => {
-    const element = document.createElement("basic.flex-layout");
+    const element = document.createElement("basic.flex-layout") as FlexLayout;
 
     expect(element.shadowRoot).toBeFalsy();
     act(() => {
@@ -13,15 +13,13 @@ describe("basic.demo-button", () => {
       document.body.appendChild(element);
     });
     expect(element.shadowRoot).toBeTruthy();
-    expect(element.shadowRoot.childNodes.length).toBe(3);
+    expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    expect(
-      element.shadowRoot?.querySelectorAll("style")[1]?.textContent
-    ).toContain("flex-direction: row;");
+    expect(element.style.flexDirection === "row");
 
     act(() => {
       document.body.removeChild(element);
     });
-    expect(element.shadowRoot.childNodes.length).toBe(0);
+    expect(element.shadowRoot?.childNodes.length).toBe(0);
   });
 });

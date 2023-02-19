@@ -19,7 +19,6 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/brick-http": "^2.8.0",
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/react-runtime": "^0.0.0",

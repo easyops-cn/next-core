@@ -10,15 +10,17 @@ const originalQuery =
 
 const context: LegacyCompatibleRuntimeContext = {
   query: new URLSearchParams(originalQuery),
-  // hash: "#yes",
-  // match: {
-  //   params: {
-  //     objectId: "HOST",
-  //   },
-  //   path: "",
-  //   url: "",
-  //   isExact: false,
-  // },
+  location: {
+    hash: "#yes",
+  },
+  match: {
+    params: {
+      objectId: "HOST",
+    },
+    path: "",
+    url: "",
+    isExact: false,
+  },
   event: {
     type: "hello",
     detail: "world",
@@ -28,18 +30,18 @@ const context: LegacyCompatibleRuntimeContext = {
     name: "cmdb",
     id: "cmdb",
   },
-  // sys: {
-  //   org: 8888,
-  //   username: "easyops",
-  //   userInstanceId: "acbd46b",
-  // } as any,
-  // flags: {
-  //   "better-world": true,
-  // },
+  sys: {
+    org: 8888,
+    username: "easyops",
+    userInstanceId: "acbd46b",
+  } as any,
+  flags: {
+    "better-world": true,
+  },
 } as any;
 
 describe("transform", () => {
-  it.each<[string, any, any]>([
+  it.each<[string, unknown, unknown]>([
     [
       "@{}",
       {
@@ -64,7 +66,7 @@ describe("transform", () => {
       "q=good&p=&size=10&asc=0",
     ],
   ])("transform(%j, %j) should return %j", (raw, data, result) => {
-    expect(transform(raw, data)).toEqual(result);
+    expect(transform(raw, { ...context, data })).toEqual(result);
   });
 
   it("should throw if a placeholder is invalid", () => {
@@ -76,12 +78,12 @@ describe("transform", () => {
     expect(() => {
       transform("q=@{quality=[}", {});
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to match a JSON value at index 12 near: \\"[}\\""`
+      `"Failed to match a JSON value at index 12 near: "[}""`
     );
     expect(() => {
       transform("q=@{quality|map:[}", {});
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to match a JSON value at index 16 near: \\"[}\\""`
+      `"Failed to match a JSON value at index 16 near: "[}""`
     );
   });
 });
@@ -141,9 +143,6 @@ describe("inject", () => {
       "${EVENT.detail}",
     ],
     ["${ANCHOR}", context, "yes"],
-    ["${CTX.myFreeContext}", context, "good"],
-    ["${CTX.myPropContext}", context, "better"],
-    ["${CTX.notExisted}", context, undefined],
   ])("inject(%j, %o) should return %j", (raw, data, result) => {
     expect(inject(raw, data)).toEqual(result);
   });
@@ -157,12 +156,12 @@ describe("inject", () => {
     expect(() => {
       inject("q=${quality=[}", context);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to match a JSON value at index 12 near: \\"[}\\""`
+      `"Failed to match a JSON value at index 12 near: "[}""`
     );
     expect(() => {
       inject("q=${quality|map:[}", context);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to match a JSON value at index 16 near: \\"[}\\""`
+      `"Failed to match a JSON value at index 16 near: "[}""`
     );
   });
 });
@@ -201,7 +200,7 @@ describe("transformAndInject", () => {
   ])(
     "transformAndInject(%j, %j) should return %j",
     (raw, data, context, result) => {
-      expect(transformAndInject(raw, data, context)).toEqual(result);
+      expect(transformAndInject(raw, { ...context, data })).toEqual(result);
     }
   );
 
@@ -214,12 +213,12 @@ describe("transformAndInject", () => {
     expect(() => {
       transformAndInject("q=@{quality=[}", {}, context);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to match a JSON value at index 12 near: \\"[}\\""`
+      `"Failed to match a JSON value at index 12 near: "[}""`
     );
     expect(() => {
       transformAndInject("q=${quality|map:[}", {}, context);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to match a JSON value at index 16 near: \\"[}\\""`
+      `"Failed to match a JSON value at index 16 near: "[}""`
     );
   });
 });

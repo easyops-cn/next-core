@@ -2,6 +2,7 @@ import React from "react";
 import { describe, test, expect, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
 import { render } from "@testing-library/react";
+import "./index.js";
 import { XButton, XButtonComponent } from "./index.js";
 
 describe("demo-basic.x-button", () => {

@@ -44,3 +44,5 @@ class FlexLayout extends ReactNextElement {
     return <slot />;
   }
 }
+
+export { FlexLayout };

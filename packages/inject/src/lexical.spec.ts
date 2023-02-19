@@ -127,7 +127,7 @@ describe("tokenize", () => {
     expect(() => {
       tokenize("${QUERY|}", "$");
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Expected a pipe identifier at index 8 near: \\"}\\""`
+      `"Expected a pipe identifier at index 8 near: "}""`
     );
   });
 });
