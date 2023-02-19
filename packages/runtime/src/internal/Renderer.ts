@@ -204,11 +204,14 @@ export async function renderBrick(
         ? ""
         : "else";
 
+    // Don't forget to transpile children to slots.
+    const slots = childrenToSlots(brickConf);
+
     // Then, get the bricks in that matched slot.
     const bricks =
-      brickConf.slots &&
-      hasOwnProperty(brickConf.slots, slot) &&
-      (brickConf.slots[slot] as SlotConfOfBricks)?.bricks;
+      slots &&
+      hasOwnProperty(slots, slot) &&
+      (slots[slot] as SlotConfOfBricks)?.bricks;
 
     if (!Array.isArray(bricks)) {
       return output;
@@ -349,11 +352,12 @@ export async function renderBrick(
   }
 
   const loadChildren = async () => {
-    if (!isObject(expandedBrickConf.slots)) {
+    const slots = childrenToSlots(expandedBrickConf);
+    if (!slots) {
       return;
     }
     const rendered = await Promise.all(
-      Object.entries(expandedBrickConf.slots).map(([childSlotId, slotConf]) =>
+      Object.entries(slots).map(([childSlotId, slotConf]) =>
         slotConf.type !== "routes"
           ? renderBricks(
               (slotConf as SlotConfOfBricks).bricks,
@@ -442,6 +446,24 @@ export function mergeRenderOutput(
   output.portal.push(...portal);
   output.blockingList.push(...pendingPromises);
   Object.assign(output, rest);
+}
+
+function childrenToSlots(brick: BrickConf) {
+  let { slots, children } = brick;
+  if (Array.isArray(children) && !slots) {
+    slots = {};
+    for (const child of children) {
+      const slot = child.slot ?? "";
+      if (!hasOwnProperty(slots, slot)) {
+        slots[slot] = {
+          type: "bricks",
+          bricks: [],
+        };
+      }
+      (slots[slot] as SlotConfOfBricks).bricks.push(child);
+    }
+  }
+  return slots;
 }
 
 async function preCheckPermissionsForBrickOrRoute(
