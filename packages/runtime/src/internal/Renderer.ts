@@ -1,4 +1,9 @@
-import type { BrickConf, RouteConf, SlotConfOfBricks } from "@next-core/types";
+import type {
+  BrickConf,
+  RouteConf,
+  SlotConfOfBricks,
+  SlotsConf,
+} from "@next-core/types";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
@@ -204,11 +209,14 @@ export async function renderBrick(
         ? ""
         : "else";
 
+    // Don't forget to transpile children to slots.
+    const slots = childrenToSlots(brickConf.children, brickConf.slots);
+
     // Then, get the bricks in that matched slot.
     const bricks =
-      brickConf.slots &&
-      hasOwnProperty(brickConf.slots, slot) &&
-      (brickConf.slots[slot] as SlotConfOfBricks)?.bricks;
+      slots &&
+      hasOwnProperty(slots, slot) &&
+      (slots[slot] as SlotConfOfBricks)?.bricks;
 
     if (!Array.isArray(bricks)) {
       return output;
@@ -349,11 +357,15 @@ export async function renderBrick(
   }
 
   const loadChildren = async () => {
-    if (!isObject(expandedBrickConf.slots)) {
+    const slots = childrenToSlots(
+      expandedBrickConf.children,
+      expandedBrickConf.slots
+    );
+    if (!slots) {
       return;
     }
     const rendered = await Promise.all(
-      Object.entries(expandedBrickConf.slots).map(([childSlotId, slotConf]) =>
+      Object.entries(slots).map(([childSlotId, slotConf]) =>
         slotConf.type !== "routes"
           ? renderBricks(
               (slotConf as SlotConfOfBricks).bricks,
@@ -442,6 +454,27 @@ export function mergeRenderOutput(
   output.portal.push(...portal);
   output.blockingList.push(...pendingPromises);
   Object.assign(output, rest);
+}
+
+export function childrenToSlots(
+  children: BrickConf[] | undefined,
+  originalSlots: SlotsConf | undefined
+) {
+  let newSlots = originalSlots;
+  if (Array.isArray(children) && !newSlots) {
+    newSlots = {};
+    for (const child of children) {
+      const slot = child.slot ?? "";
+      if (!hasOwnProperty(newSlots, slot)) {
+        newSlots[slot] = {
+          type: "bricks",
+          bricks: [],
+        };
+      }
+      (newSlots[slot] as SlotConfOfBricks).bricks.push(child);
+    }
+  }
+  return newSlots;
 }
 
 async function preCheckPermissionsForBrickOrRoute(

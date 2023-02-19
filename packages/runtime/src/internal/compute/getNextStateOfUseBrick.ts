@@ -57,6 +57,8 @@ export function getNextStateOfUseBrick(
             return StateOfUseBrick.USE_BRICK_EVENTS;
           case "slots":
             return StateOfUseBrick.USE_BRICK_SLOTS;
+          case "children":
+            return StateOfUseBrick.USE_BRICK_SLOTS_ITEM_BRICKS;
           case "if":
             return StateOfUseBrick.USE_BRICK_IF;
           case "lifeCycle":

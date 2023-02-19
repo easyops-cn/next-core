@@ -1,6 +1,7 @@
 import type {
   BrickConf,
   BrickConfInTemplate,
+  SlotsConfInTemplate,
   SlotsConfOfBricks,
   UseSingleBrickConf,
 } from "@next-core/types";
@@ -16,6 +17,7 @@ import type {
   TemplateHostContext,
 } from "../interfaces.js";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
+import { childrenToSlots } from "../Renderer.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
@@ -39,7 +41,11 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   // collectWidgetContract(template.contracts);
   tplStateStore.define(state, runtimeContext, asyncHostProperties);
 
-  const { slots: externalSlots, ...restBrickConf } = brickConf;
+  const {
+    slots: originalExternalSlots,
+    children: externalChildren,
+    ...restBrickConf
+  } = brickConf;
 
   const newBrickConf = {
     ...restBrickConf,
@@ -94,7 +100,9 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   const hostContext: TemplateHostContext = {
     reversedProxies,
     asyncHostProperties,
-    externalSlots: externalSlots as SlotsConfOfBricks | undefined,
+    externalSlots: childrenToSlots(externalChildren, originalExternalSlots) as
+      | SlotsConfOfBricks
+      | undefined,
     tplStateStoreId,
     hostBrick: hostBrick as TemplateHostBrick,
   };
@@ -121,11 +129,17 @@ function expandBrickInTemplate(
     ref,
     properties,
     slots: slotsInTemplate,
+    children: childrenInTemplate,
     ...restBrickConfInTemplate
   } = brickConfInTemplate;
 
+  const transpiledSlots = childrenToSlots(
+    childrenInTemplate,
+    slotsInTemplate
+  ) as SlotsConfInTemplate | undefined;
+
   const slots: SlotsConfOfBricks = Object.fromEntries(
-    Object.entries(slotsInTemplate ?? {}).map(([slotName, slotConf]) => [
+    Object.entries(transpiledSlots ?? {}).map(([slotName, slotConf]) => [
       slotName,
       {
         type: "bricks",

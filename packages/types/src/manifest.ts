@@ -475,6 +475,12 @@ export interface BrickConf {
    */
   slots?: SlotsConf;
 
+  /** 子构件列表，优先级低于 `slots` */
+  children?: BrickConf[];
+
+  /** 当使用 children 而不是 slots 定义子构件时，子构件需要设置所属 slot */
+  slot?: string;
+
   /**
    * 构件属性。
    */
@@ -1094,9 +1100,9 @@ export type CustomBrickEventHandler =
 export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
 
 /** 使用 `useBrick` 自行渲染子构件的配置（单个）。 */
-export type UseSingleBrickConf = Pick<
+export type UseSingleBrickConf = Omit<
   BrickConf,
-  "brick" | "properties" | "events" | "if" | "iid" | "dataSource"
+  "lifeCycle" | "slots" | "children"
 > & {
   /** {@inheritDoc BrickConfInTemplate.ref} */
   ref?: string;
@@ -1106,6 +1112,9 @@ export type UseSingleBrickConf = Pick<
 
   /** {@inheritDoc UseBrickSlotsConf} */
   slots?: UseBrickSlotsConf;
+
+  /** {@inheritDoc BrickConf.children} */
+  children?: UseSingleBrickConf[];
 };
 
 /** 在 `useBrick` 中使用的插槽配置表。 */
@@ -1289,12 +1298,15 @@ export interface CustomTemplate {
 export type CustomTemplateConstructor = Omit<CustomTemplate, "name">;
 
 /** 自定义模板渲染的构件配置。 */
-export type BrickConfInTemplate = Omit<BrickConf, "slots"> & {
+export type BrickConfInTemplate = Omit<BrickConf, "slots" | "children"> & {
   /** 用于在自定义模板内部引用的 ID。 */
   ref?: string;
 
   /** {@inheritDoc SlotsConfInTemplate} */
   slots?: SlotsConfInTemplate;
+
+  /** {@inheritDoc BrickConf.children} */
+  children?: BrickConfInTemplate[];
 };
 
 /**
