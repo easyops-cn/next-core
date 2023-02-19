@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
-import { ReactNextElement } from "@next-core/react-element";
 import { ComponentSize, InputType } from "../interface.js";
 import classNames from "classnames";
 import styleText from "./input.shadow.css";
+import { FormItemWrapper } from "../form-item/index.js";
+import { FormItemElement } from "../form-item/FormItemElement.js";
+import { Form } from "../form/index.js";
 import "@next-core/theme";
 
 interface InputProps {
+  formElement?: HTMLElement;
+  curElement: HTMLElement;
   name?: string;
+  label?: string;
   value?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -16,9 +21,13 @@ interface InputProps {
   inputStyle?: React.CSSProperties;
   minLength?: number;
   maxLength?: number;
+  required?: boolean;
+  pattern?: string;
+  min?: number;
+  max?: number;
+  validateState?: string;
   onInputChange: (value: string) => void;
 }
-
 const { defineElement, property, event } = createDecorators();
 
 /**
@@ -32,7 +41,7 @@ const { defineElement, property, event } = createDecorators();
 @defineElement("basic.general-input", {
   styleTexts: [styleText],
 })
-class Input extends ReactNextElement {
+class Input extends FormItemElement {
   /**
    * @kind string
    * @required false
@@ -42,6 +51,13 @@ class Input extends ReactNextElement {
    * @group basic
    */
   @property() accessor name: string | undefined;
+
+  /**
+   * @default
+   * @required
+   * @description
+   */
+  @property() accessor label: string | undefined;
 
   /**
    * @kind string
@@ -119,6 +135,55 @@ class Input extends ReactNextElement {
   accessor maxLength: number | undefined;
 
   /**
+   * @kind boolean
+   * @required false
+   * @default -
+   * @description 表单项是否必填
+   * @group basicFormItem
+   */
+  @property({
+    type: Boolean,
+  })
+  accessor required: boolean | undefined;
+
+  /**
+   * @default
+   * @required
+   * @description
+   */
+  @property() accessor pattern: string | undefined;
+
+  /**
+   * @default
+   * @required
+   * @description
+   */
+  @property({
+    type: Number,
+  })
+  accessor max: number | undefined;
+
+  /**
+   * @default
+   * @required
+   * @description
+   */
+  @property({
+    type: Number,
+  })
+  accessor min: number | undefined;
+
+  /**
+   * @default
+   * @required
+   * @description
+   */
+  @property({
+    attribute: true,
+  })
+  accessor message: Record<string, string> | undefined;
+
+  /**
    * @kind React.CSSProperties
    * @required false
    * @default -
@@ -137,13 +202,21 @@ class Input extends ReactNextElement {
   accessor #InputChangeEvent: EventEmitter<string>;
 
   #handleInputChange = (value: string) => {
+    this.value = value;
     this.#InputChangeEvent.emit(value);
   };
 
   render() {
     return (
       <InputComponent
+        formElement={this.getFormElement()}
+        curElement={this}
         name={this.name}
+        label={this.label}
+        required={this.required}
+        pattern={this.pattern}
+        min={this.min}
+        max={this.max}
         value={this.value}
         placeholder={this.placeholder}
         type={this.type}
@@ -152,44 +225,50 @@ class Input extends ReactNextElement {
         minLength={this.minLength}
         maxLength={this.maxLength}
         inputStyle={this.inputStyle}
+        validateState={this.validateState}
         onInputChange={this.#handleInputChange}
       />
     );
   }
 }
 
-export function InputComponent({
-  name,
-  value,
-  placeholder,
-  type,
-  size = "middle",
-  disabled,
-  inputStyle,
-  minLength,
-  maxLength,
-  onInputChange,
-}: InputProps) {
-  const [inputValue, setInputValue] = useState(value);
+export function InputComponent(props: InputProps) {
+  const {
+    formElement,
+    name,
+    value,
+    placeholder,
+    type,
+    size = "middle",
+    disabled,
+    inputStyle,
+    minLength,
+    maxLength,
+    validateState,
+    onInputChange,
+  } = props;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value;
-    setInputValue(value);
-    onInputChange(value);
-  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
+    formElement && name
+      ? (formElement as Form).formStore.onWatch(name, e, onInputChange)
+      : onInputChange(e.target.value);
 
   return (
-    <input
-      name={name}
-      className={classNames(size)}
-      type={type}
-      value={inputValue}
-      disabled={disabled}
-      style={inputStyle}
-      placeholder={placeholder}
-      minLength={minLength}
-      maxLength={maxLength}
-      onChange={handleInputChange}
-    />
+    <FormItemWrapper {...props}>
+      <input
+        value={value ?? ""}
+        name={name}
+        className={classNames(size, {
+          error: validateState === "error",
+        })}
+        type={type}
+        disabled={disabled}
+        style={inputStyle}
+        placeholder={placeholder}
+        minLength={minLength}
+        maxLength={maxLength}
+        onChange={handleInputChange}
+      />
+    </FormItemWrapper>
   );
 }
