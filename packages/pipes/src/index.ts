@@ -31,12 +31,13 @@ export function processPipes(value: unknown, pipes: PipeCall[]): unknown {
   }
   let result = value;
   for (const pipe of pipes) {
-    if (!PipeRegistry.has(pipe.identifier)) {
+    const registeredPipe = PipeRegistry.get(pipe.identifier);
+    if (!registeredPipe) {
       // eslint-disable-next-line no-console
       console.warn(`Unknown pipe: ${pipe.identifier}`);
       return;
     }
-    result = PipeRegistry.get(pipe.identifier)(result, ...pipe.parameters);
+    result = registeredPipe(result, ...pipe.parameters);
   }
   return result;
 }
