@@ -38,7 +38,7 @@
     "**/packages/next-docs/**",
     "**/packages/create-next-repo/**",
     "**/packages/color-theme/**",
-    "**/rollup-config-factory/**"
+    "**/packages/rollup-config-factory/**"
   ],
   "baseBranches": ["v3"],
   "packageRules": [
