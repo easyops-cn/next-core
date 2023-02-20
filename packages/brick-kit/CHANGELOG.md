@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.164.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.3...@next-core/brick-kit@2.164.4) (2023-02-20)
+
+
+### Bug Fixes
+
+* 修复formstate中conf设置track:true无法生效,refs:FORM_BUILDER-217 ([ed68b7c](https://github.com/easyops-cn/next-core/commit/ed68b7c4feef99e48c527285c42176fd7da3eb7e))
+
+
+
+
+
 ## [2.164.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.2...@next-core/brick-kit@2.164.3) (2023-02-16)
 
 

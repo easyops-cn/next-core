@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.19...@next-core/brick-utils@2.45.20) (2023-02-20)
+
+
+### Bug Fixes
+
+* 修复formstate中conf设置track:true无法生效,refs:FORM_BUILDER-217 ([ed68b7c](https://github.com/easyops-cn/next-core/commit/ed68b7c4feef99e48c527285c42176fd7da3eb7e))
+
+
+
+
+
 ## [2.45.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.18...@next-core/brick-utils@2.45.19) (2023-02-16)
 
 **Note:** Version bump only for package @next-core/brick-utils
