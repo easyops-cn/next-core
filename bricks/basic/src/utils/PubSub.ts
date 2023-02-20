@@ -30,13 +30,7 @@ export class PubSub {
   unsubscribe(token: string): void {
     for (const m in this.#topics) {
       if (this.#topics[m]) {
-        for (let i = 0, j = this.#topics[m].length; i < j; i++) {
-          if (this.#topics[m][i].token === token) {
-            _.remove(this.#topics[m], function (n) {
-              return n === i;
-            });
-          }
-        }
+        _.remove(this.#topics[m], item => item.token === token);
       }
     }
   }
