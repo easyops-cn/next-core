@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { createDecorators } from "@next-core/element";
-import { wrapLocalBrick } from "@next-core/react-element";
 import { FormItemElement } from "./FormItemElement.js";
 import type { Form } from "../form/index.jsx";
 import styleText from "./FormItem.shadow.css";
@@ -15,7 +14,7 @@ type CurrentElement = HTMLElement & {
   [key: string]: any;
 };
 
-interface FormItemProps {
+export interface FormItemProps {
   formElement?: Form;
   curElement: CurrentElement;
   name?: string;
@@ -47,7 +46,7 @@ const { defineElement, property } = createDecorators();
 @defineElement("basic.general-form-item", {
   styleTexts: [styleText],
 })
-class FormItem extends FormItemElement {
+class FormItem extends FormItemElement implements FormItemProps {
   /**
    * @default
    * @required
@@ -220,6 +219,8 @@ class FormItem extends FormItemElement {
   }
 }
 
+export { FormItem };
+
 export function FormItemComponent(props: FormItemProps) {
   const {
     name,
@@ -328,7 +329,3 @@ export function FormItemComponent(props: FormItemProps) {
     </div>
   );
 }
-
-export const FormItemWrapper = wrapLocalBrick<FormItem, FormItemProps>(
-  FormItem
-);

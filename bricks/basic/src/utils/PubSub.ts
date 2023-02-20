@@ -1,7 +1,7 @@
-import _ from "lodash";
+import { remove } from "lodash";
 
 export class PubSub {
-  #topics: Record<string, any> = {};
+  #topics: Record<string, { token: string; func: Function }[]> = {};
   #subUid = 0;
 
   publish(topic: string, body: any): void {
@@ -30,7 +30,7 @@ export class PubSub {
   unsubscribe(token: string): void {
     for (const m in this.#topics) {
       if (this.#topics[m]) {
-        _.remove(this.#topics[m], item => item.token === token);
+        remove(this.#topics[m], (item) => item.token === token);
       }
     }
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { createDecorators } from "@next-core/element";
-import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
+import { ReactNextElement } from "@next-core/react-element";
 import "./fontawesome-free/css/font-faces.css";
 import styleText1 from "./fontawesome-free/css/fontawesome.shadow.css";
 import styleText2 from "./fontawesome-free/css/regular.shadow.css";
@@ -68,4 +68,4 @@ class FaIcon extends ReactNextElement implements FaIconProps {
   }
 }
 
-export const WrappedFaIcon = wrapLocalBrick<FaIcon, FaIconProps>(FaIcon);
+export { FaIcon };
