@@ -11383,10 +11383,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@5.0.0-beta:
-  version "5.0.0-beta"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.0-beta.tgz#791fa95411d6ff64ee77d677ed1e6f32a2eaabaf"
-  integrity sha512-+SSabbSXG5mtF+QGdV9uXXt9Saq1cSyI6hSG7znhaLoquleJpnmfkwSxFngK9c2fWWi1W/263TuzXQOsIcdjjA==
+typescript@5.0.0-dev.20230220:
+  version "5.0.0-dev.20230220"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.0-dev.20230220.tgz#212b1d36ae6bc60454e58889e388005543c4214a"
+  integrity sha512-Mz8+qrRqafbke4GCbwkWfbQ7oVUOvySQyt6kv0qoxl1fGKsIMqG/WB+w3zrjeUM9koD8/Tybpi9AGmlz665tEA==
 
 "typescript@^3 || ^4":
   version "4.9.5"
