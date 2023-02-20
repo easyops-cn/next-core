@@ -37,7 +37,8 @@
     "**/packages/public-scoped-sdk/**",
     "**/packages/next-docs/**",
     "**/packages/create-next-repo/**",
-    "**/packages/color-theme/**"
+    "**/packages/color-theme/**",
+    "**/rollup-config-factory/**"
   ],
   "baseBranches": ["v3"],
   "packageRules": [
