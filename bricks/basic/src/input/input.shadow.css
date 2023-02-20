@@ -24,6 +24,16 @@ input:disabled {
   background: var(--antd-input-disabled-bg);
 }
 
+input.error {
+  border-color: var(--antd-error-color);
+}
+input.error:hover {
+  border-color: var(--antd-error-color);
+}
+input.error:focus {
+  border-color: var(--antd-error-color);
+}
+
 input::placeholder {
   color: var(--antd-input-placeholder-color);
 }

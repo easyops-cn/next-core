@@ -22,7 +22,7 @@ export type ComponentSize = "large" | "middle" | "small" | "xs";
 
 export type LinkType = "link" | "text";
 
-/* ============== Link Type Start ============== */
+/* ============== Link Type End ============== */
 
 /* ============== Input Type Start ============== */
 
@@ -50,4 +50,10 @@ export type InputType =
   | "url"
   | "week";
 
+/* ============== Input Type End ============== */
+
 /* ============== Input Type Start ============== */
+
+export type Layout = "horizontal" | "vertical" | "inline";
+
+/* ============== Input Type End ============== */

@@ -5,3 +5,5 @@ import "./flex-layout/index.js";
 import "./modal/index.js";
 import "./input/index.js";
 import "./textarea/index.js";
+import "./form/index.js";
+import "./form-item/index.js";
