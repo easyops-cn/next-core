@@ -12,7 +12,26 @@ import classNames from "classnames";
 import type { Button, ButtonProps } from "../button";
 import styleText from "./modal.shadow.css";
 
-interface ModalProps {
+/**
+ * Wrap usage:
+ *
+ * ```ts
+ * import type { Modal, ModalProps, ModalEvents, ModalMapEvents } from "@next-bricks/basic/modal";
+ *
+ * const WrappedModal = wrapBrick<Modal, ModalProps, ModalEvents, ModalMapEvents>("basic.general-modal", {
+ *   onClose: "close",
+ *   onConfirm: "confirm",
+ *   onCancel: "cancel",
+ * });
+ *
+ * <WrappedModal
+ *  modalTitle="..."
+ *  onClose={() => { ... }}
+ * />
+ * ```
+ */
+
+export interface ModalProps {
   modalTitle?: string;
   width?: string | number;
   maskClosable?: boolean;
@@ -21,12 +40,22 @@ interface ModalProps {
   fullscreen?: boolean;
   manualClose?: boolean;
   confirmDisabled?: boolean;
-  open?: boolean;
-  onModalClose: () => void;
-  onModalConfirm: () => void;
-  onModalCancel: () => void;
+  visible?: boolean;
 }
 
+export interface ModalEvents {
+  close?: Event;
+  confirm?: Event;
+  cancel?: Event;
+}
+
+export interface ModalMapEvents {
+  onClose: "close";
+  onConfirm: "confirm";
+  onCancel: "cancel";
+}
+
+// 使用弱关联来引用其他构件，以便按需加载构件，并避免打包可能包含重复文件的问题。
 const WrappedButton = wrapBrick<Button, ButtonProps>("basic.general-button");
 
 const { defineElement, property, event, method } = createDecorators();
@@ -34,7 +63,7 @@ const { defineElement, property, event, method } = createDecorators();
 @defineElement("basic.general-modal", {
   styleTexts: [styleText],
 })
-class Modal extends ReactNextElement {
+class Modal extends ReactNextElement implements ModalProps {
   /**
    * @kind string
    * @required false
@@ -181,7 +210,7 @@ class Modal extends ReactNextElement {
         modalTitle={this.modalTitle}
         width={this.width}
         maskClosable={this.maskClosable}
-        open={this.visible}
+        visible={this.visible}
         fullscreen={this.fullscreen}
         confirmDisabled={this.confirmDisabled}
         onModalClose={this.close}
@@ -192,19 +221,27 @@ class Modal extends ReactNextElement {
   }
 }
 
+export { Modal };
+
+interface ModalComponentProps extends ModalProps {
+  onModalClose: () => void;
+  onModalConfirm: () => void;
+  onModalCancel: () => void;
+}
+
 function ModalComponent({
   modalTitle,
   width,
   maskClosable,
   confirmText = "确定",
   cancelText = "取消",
-  open = false,
+  visible: open = false,
   fullscreen,
   confirmDisabled,
   onModalConfirm,
   onModalCancel,
   onModalClose,
-}: ModalProps) {
+}: ModalComponentProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(open);
 
