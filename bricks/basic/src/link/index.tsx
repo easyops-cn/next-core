@@ -1,12 +1,12 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
-import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
+import { ReactNextElement } from "@next-core/react-element";
 import type { LinkType, Target } from "../interface.js";
 import styleText from "./link.shadow.css";
 import classNames from "classnames";
 import "@next-core/theme";
 
-interface LinkProps {
+export interface LinkProps {
   type?: LinkType;
   disabled?: boolean;
   href?: string;
@@ -135,5 +135,3 @@ export function LinkComponent({
 }
 
 export { Link };
-
-export const WrappedLink = wrapLocalBrick<Link, LinkProps>(Link);

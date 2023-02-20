@@ -6,11 +6,11 @@ import React, {
   useCallback,
 } from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
-import { ReactNextElement } from "@next-core/react-element";
-import { WrappedButton } from "../button/index.js";
-import classNames from "classnames";
-import styleText from "./modal.shadow.css";
+import { ReactNextElement, wrapBrick } from "@next-core/react-element";
 import "@next-core/theme";
+import classNames from "classnames";
+import type { Button, ButtonProps } from "../button";
+import styleText from "./modal.shadow.css";
 
 interface ModalProps {
   modalTitle?: string;
@@ -26,6 +26,8 @@ interface ModalProps {
   onModalConfirm: () => void;
   onModalCancel: () => void;
 }
+
+const WrappedButton = wrapBrick<Button, ButtonProps>("basic.general-button");
 
 const { defineElement, property, event, method } = createDecorators();
 
@@ -115,7 +117,7 @@ class Modal extends ReactNextElement {
    * @detail
    * @description 打开弹窗事件
    */
-  @event({ type: "open" }) accessor #modalOpen: EventEmitter<void>;
+  @event({ type: "open" }) accessor #modalOpen!: EventEmitter<void>;
   #handleModelOpen() {
     this.#modalOpen.emit();
   }
@@ -125,7 +127,7 @@ class Modal extends ReactNextElement {
    * @description 关闭弹窗事件
    */
   @event({ type: "close" })
-  accessor #modalClose: EventEmitter<void>;
+  accessor #modalClose!: EventEmitter<void>;
   #handleModelClose() {
     this.#modalClose.emit();
   }
@@ -135,25 +137,25 @@ class Modal extends ReactNextElement {
    * @description 确认按钮事件
    */
   @event({ type: "confirm" })
-  accessor #modalConfirm: EventEmitter<void>;
-  #handleModelConfirm() {
+  accessor #modalConfirm!: EventEmitter<void>;
+  #handleModelConfirm = () => {
     if (this.confirmDisabled) return;
     this.#modalConfirm.emit();
     if (this.autoCloseWhenConfirm) {
       this.close();
     }
-  }
+  };
 
   /**
    * @detail
    * @description 取消按钮事件
    */
   @event({ type: "cancel" })
-  accessor #modalCancel: EventEmitter<void>;
-  #handleModelCancel() {
+  accessor #modalCancel!: EventEmitter<void>;
+  #handleModelCancel = () => {
     this.#modalCancel.emit();
     this.close();
-  }
+  };
 
   /**
    * @description 打开模态款
@@ -167,7 +169,7 @@ class Modal extends ReactNextElement {
   /**
    * @description 关闭弹窗
    */
-  @method()
+  @method({ bound: true })
   close() {
     this.visible = false;
     this.#handleModelClose();
@@ -182,9 +184,9 @@ class Modal extends ReactNextElement {
         open={this.visible}
         fullscreen={this.fullscreen}
         confirmDisabled={this.confirmDisabled}
-        onModalClose={() => this.close()}
-        onModalConfirm={() => this.#handleModelConfirm()}
-        onModalCancel={() => this.#handleModelCancel()}
+        onModalClose={this.close}
+        onModalConfirm={this.#handleModelConfirm}
+        onModalCancel={this.#handleModelCancel}
       />
     );
   }

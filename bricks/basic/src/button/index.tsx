@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import { createDecorators } from "@next-core/element";
-import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
+import { ReactNextElement } from "@next-core/react-element";
 import type { ButtonType, ComponentSize } from "../interface.js";
 import classNames from "classnames";
 import styleText from "./button.shadow.css";
 import "@next-core/theme";
 
-interface ButtonProps {
+export interface ButtonProps {
   type?: ButtonType;
   size?: ComponentSize;
   danger?: boolean;
@@ -164,5 +164,3 @@ export function ButtonComponent({
 }
 
 export { Button };
-
-export const WrappedButton = wrapLocalBrick<Button, ButtonProps>(Button);
