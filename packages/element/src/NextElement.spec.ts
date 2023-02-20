@@ -415,4 +415,39 @@ describe("NextElement", () => {
       })
     );
   });
+
+  test("methods bound", async () => {
+    const { defineElement, property, method, event } = createDecorators();
+    @defineElement("my-element-bound-methods")
+    class MyElement extends NextElement {
+      @property() accessor value: string | undefined;
+
+      @method({ bound: true })
+      getBoundValue() {
+        return this.value;
+      }
+
+      @method()
+      getUnboundValue() {
+        return this.value;
+      }
+
+      _render() {
+        // Do nothing
+      }
+    }
+
+    const element = document.createElement(
+      "my-element-bound-methods"
+    ) as MyElement;
+    element.value = "good";
+    expect(element.getBoundValue()).toEqual("good");
+    expect(element.getUnboundValue()).toEqual("good");
+
+    const newTarget = {
+      value: "bad",
+    };
+    expect(element.getBoundValue.call(newTarget)).toEqual("good");
+    expect(element.getUnboundValue.call(newTarget)).toEqual("bad");
+  });
 });

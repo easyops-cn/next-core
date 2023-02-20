@@ -2,11 +2,16 @@ import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ComponentSize, InputType } from "../interface.js";
 import classNames from "classnames";
-import styleText from "./input.shadow.css";
-import { FormItemWrapper } from "../form-item/index.js";
+import { wrapBrick } from "@next-core/react-element";
+import "@next-core/theme";
 import { FormItemElement } from "../form-item/FormItemElement.js";
 import { Form } from "../form/index.js";
-import "@next-core/theme";
+import type { FormItem, FormItemProps } from "../form-item/index.jsx";
+import styleText from "./input.shadow.css";
+
+const WrappedFormItem = wrapBrick<FormItem, FormItemProps>(
+  "basic.general-form-item"
+);
 
 interface InputProps {
   formElement?: Form;
@@ -200,11 +205,11 @@ class Input extends FormItemElement {
    * @description 值改变事件
    */
   @event({ type: "change" })
-  accessor #InputChangeEvent: EventEmitter<string>;
+  accessor #inputChangeEvent!: EventEmitter<string>;
 
   handleInputChange = (value: string) => {
     this.value = value;
-    this.#InputChangeEvent.emit(value);
+    this.#inputChangeEvent.emit(value);
   };
 
   render() {
@@ -250,7 +255,7 @@ export function InputComponent(props: InputProps) {
   } = props;
 
   return (
-    <FormItemWrapper {...props}>
+    <WrappedFormItem {...props}>
       <input
         value={value ?? ""}
         name={name}
@@ -265,6 +270,6 @@ export function InputComponent(props: InputProps) {
         maxLength={maxLength}
         onChange={(e) => onInputChange(e.target.value)}
       />
-    </FormItemWrapper>
+    </WrappedFormItem>
   );
 }

@@ -37,7 +37,7 @@ class FlexLayout extends ReactNextElement {
 
     Object.entries(flexProps).forEach(([key, value]) => {
       if (value != null) {
-        this.style[key] = value;
+        this.style[key as "flexDirection"] = value;
       }
     });
 

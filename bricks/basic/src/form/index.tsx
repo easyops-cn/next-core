@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import { FormStore, MessageBody } from "./formStore.js";
@@ -50,7 +50,7 @@ class Form extends ReactNextElement {
    * @detail
    * @description
    */
-  @event({ type: "values.change" }) accessor #valuesChangeEvent: EventEmitter<
+  @event({ type: "values.change" }) accessor #valuesChangeEvent!: EventEmitter<
     Record<string, unknown>
   >;
   handleValuesChange = (values: Record<string, unknown>) => {
@@ -60,13 +60,13 @@ class Form extends ReactNextElement {
   /**
    * @description 表单验证成功时触发
    */
-  @event({ type: "validate.success" }) accessor #successEvent: EventEmitter<
+  @event({ type: "validate.success" }) accessor #successEvent!: EventEmitter<
     Record<string, unknown>
   >;
   /**
    * @description 表单验证报错时触发
    */
-  @event({ type: "validate.error" }) accessor #errorEvent: EventEmitter<
+  @event({ type: "validate.error" }) accessor #errorEvent!: EventEmitter<
     MessageBody[]
   >;
 

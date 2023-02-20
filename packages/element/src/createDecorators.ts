@@ -246,7 +246,7 @@ export function createDecorators() {
     };
   }
 
-  function method() {
+  function method(options?: { bound?: boolean }) {
     return function (
       value: Function,
       {
@@ -254,6 +254,7 @@ export function createDecorators() {
         name,
         static: isStatic,
         private: isPrivate,
+        addInitializer,
       }: ClassMethodDecoratorContext
     ) {
       // istanbul ignore else
@@ -284,6 +285,13 @@ export function createDecorators() {
           }" is a native HTMLElement property, and is deprecated to be used as a brick method.`;
           throw new Error(message);
         }
+      }
+      if (options?.bound) {
+        addInitializer(function () {
+          (this as Record<string, Function>)[name as string] = (
+            this as Record<string, Function>
+          )[name as string].bind(this);
+        });
       }
       definedMethods.add(name as string);
     };

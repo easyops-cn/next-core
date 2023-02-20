@@ -132,7 +132,7 @@ class Textarea extends ReactNextElement {
    * @description 值改变事件
    */
   @event({ type: "change" })
-  accessor #InputChangeEvent: EventEmitter<string>;
+  accessor #InputChangeEvent!: EventEmitter<string>;
 
   #handleInputChange = (value: string) => {
     this.#InputChangeEvent.emit(value);
