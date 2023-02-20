@@ -30,6 +30,7 @@ interface FormItemProps {
   message?: Record<string, string>;
   layout?: Layout;
   size?: ComponentSize;
+  trigger?: string;
   valuePropsName?: string;
 }
 
@@ -191,6 +192,13 @@ class FormItem extends FormItemElement {
   })
   accessor trim = true;
 
+  /**
+   * @default false
+   * @description 事件触发方法名
+   */
+  @property()
+  accessor trigger!: string;
+
   render() {
     return (
       <FormItemComponent
@@ -205,6 +213,7 @@ class FormItem extends FormItemElement {
         message={this.message}
         size={this.size || this.formElement?.size}
         layout={this.layout || this.formElement?.layout}
+        trigger={this.trigger}
         valuePropsName={this.valuePropsName}
       />
     );
@@ -224,6 +233,7 @@ export function FormItemComponent(props: FormItemProps) {
     curElement,
     valuePropsName = "value",
     size,
+    trigger = "onChange",
     layout,
   } = props;
   const formInstance = formElement?.formStore;
@@ -235,6 +245,10 @@ export function FormItemComponent(props: FormItemProps) {
 
   useEffect(() => {
     if (!formInstance || !name) return;
+    const originTrigger = curElement[trigger];
+    curElement[trigger] = (e: React.ChangeEvent) =>
+      formInstance.onWatch(name, e, originTrigger);
+
     formInstance.subscribe(`${name}.validate`, (_, detail) => {
       setValidateState(detail);
       curElement.validateState = detail.type;

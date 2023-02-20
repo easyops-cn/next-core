@@ -1,4 +1,4 @@
-import { Event } from "../utils/Event.js";
+import { PubSub } from "../utils/PubSub.js";
 
 interface FormStoreOptions {
   onValuesChanged?: (data: any) => void;
@@ -41,7 +41,7 @@ class Field {
   }
 }
 
-export class FormStore extends Event {
+export class FormStore extends PubSub {
   static uid: number;
   static instance: Map<number, FormStore> = new Map();
   static getInstance(options?: FormStoreOptions): FormStore {

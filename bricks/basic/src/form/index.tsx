@@ -32,13 +32,13 @@ class Form extends ReactNextElement {
   set values(value: Record<string, unknown>) {
     this.#_values = value;
 
-    this._setInitValue(value);
+    this.#_setInitValue(value);
   }
   get values(): Record<string, unknown> {
     return this.#_values;
   }
 
-  _setInitValue(values: Record<string, unknown>) {
+  #_setInitValue(values: Record<string, unknown>) {
     this.formStore.setInitValue(values);
   }
 
@@ -89,7 +89,7 @@ class Form extends ReactNextElement {
    */
   @method()
   setInitValue(values: Record<string, unknown>) {
-    this._setInitValue(values);
+    this.#_setInitValue(values);
   }
 
   /**

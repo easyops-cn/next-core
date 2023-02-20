@@ -9,7 +9,7 @@ import { Form } from "../form/index.js";
 import "@next-core/theme";
 
 interface InputProps {
-  formElement?: HTMLElement;
+  formElement?: Form;
   curElement: HTMLElement;
   name?: string;
   label?: string;
@@ -26,6 +26,7 @@ interface InputProps {
   min?: number;
   max?: number;
   validateState?: string;
+  trigger?: string;
   onInputChange: (value: string) => void;
 }
 const { defineElement, property, event } = createDecorators();
@@ -201,7 +202,7 @@ class Input extends FormItemElement {
   @event({ type: "change" })
   accessor #InputChangeEvent: EventEmitter<string>;
 
-  #handleInputChange = (value: string) => {
+  handleInputChange = (value: string) => {
     this.value = value;
     this.#InputChangeEvent.emit(value);
   };
@@ -226,7 +227,8 @@ class Input extends FormItemElement {
         maxLength={this.maxLength}
         inputStyle={this.inputStyle}
         validateState={this.validateState}
-        onInputChange={this.#handleInputChange}
+        trigger="handleInputChange"
+        onInputChange={this.handleInputChange}
       />
     );
   }
@@ -234,7 +236,6 @@ class Input extends FormItemElement {
 
 export function InputComponent(props: InputProps) {
   const {
-    formElement,
     name,
     value,
     placeholder,
@@ -247,11 +248,6 @@ export function InputComponent(props: InputProps) {
     validateState,
     onInputChange,
   } = props;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    formElement && name
-      ? (formElement as Form).formStore.onWatch(name, e, onInputChange)
-      : onInputChange(e.target.value);
 
   return (
     <FormItemWrapper {...props}>
@@ -267,7 +263,7 @@ export function InputComponent(props: InputProps) {
         placeholder={placeholder}
         minLength={minLength}
         maxLength={maxLength}
-        onChange={handleInputChange}
+        onChange={(e) => onInputChange(e.target.value)}
       />
     </FormItemWrapper>
   );

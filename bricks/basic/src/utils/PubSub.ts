@@ -1,4 +1,6 @@
-export class Event {
+import _ from "lodash";
+
+export class PubSub {
   #topics: Record<string, any> = {};
   #subUid = 0;
 
@@ -30,7 +32,9 @@ export class Event {
       if (this.#topics[m]) {
         for (let i = 0, j = this.#topics[m].length; i < j; i++) {
           if (this.#topics[m][i].token === token) {
-            this.#topics[m].splice(i, 1);
+            _.remove(this.#topics[m], function (n) {
+              return n === i;
+            });
           }
         }
       }
