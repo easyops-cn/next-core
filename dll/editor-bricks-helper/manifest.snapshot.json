@@ -92,6 +92,7 @@
           "trackFormState",
           "trackState",
           "trackUsedContext",
+          "trackUsedFormState",
           "trackUsedState",
           "transform",
           "transformAndInject",
