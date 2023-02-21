@@ -7,3 +7,4 @@ import "./input/index.js";
 import "./textarea/index.js";
 import "./form/index.js";
 import "./form-item/index.js";
+import "./drawer/index.js";
