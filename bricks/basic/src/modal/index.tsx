@@ -7,10 +7,14 @@ import React, {
 } from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement, wrapBrick } from "@next-core/react-element";
-import "@next-core/theme";
 import classNames from "classnames";
 import type { Button, ButtonProps } from "../button";
+import type {
+  GeneralIcon,
+  GeneralIconProps,
+} from "@next-bricks/icons/general-icon";
 import styleText from "./modal.shadow.css";
+import "@next-core/theme";
 
 /**
  * Wrap usage:
@@ -38,7 +42,6 @@ export interface ModalProps {
   confirmText?: string;
   cancelText?: string;
   fullscreen?: boolean;
-  manualClose?: boolean;
   confirmDisabled?: boolean;
   visible?: boolean;
 }
@@ -57,6 +60,9 @@ export interface ModalMapEvents {
 
 // 使用弱关联来引用其他构件，以便按需加载构件，并避免打包可能包含重复文件的问题。
 const WrappedButton = wrapBrick<Button, ButtonProps>("basic.general-button");
+const WrappedIcon = wrapBrick<GeneralIcon, GeneralIconProps>(
+  "icons.general-icon"
+);
 
 const { defineElement, property, event, method } = createDecorators();
 
@@ -213,7 +219,7 @@ class Modal extends ReactNextElement implements ModalProps {
         visible={this.visible}
         fullscreen={this.fullscreen}
         confirmDisabled={this.confirmDisabled}
-        onModalClose={this.close}
+        onModalClose={() => (this.visible = false)}
         onModalConfirm={this.#handleModelConfirm}
         onModalCancel={this.#handleModelCancel}
       />
@@ -268,9 +274,13 @@ function ModalComponent({
     () => (
       <div className="modal-header">
         <span className="modal-title">{modalTitle}</span>
-        <span className="close-btn" onClick={onModalClose}>
-          X
-        </span>
+        <WrappedIcon
+          className="close-btn"
+          lib="antd"
+          theme="outlined"
+          icon="close"
+          onClick={onModalClose}
+        />
       </div>
     ),
     [modalTitle, onModalClose]

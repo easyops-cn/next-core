@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <basic.general-button id="btn-left">左侧弹出</basic.general-button>
+    <basic.general-drawer
+      id="drawer-left"
+      placement="left"
+      width="1000"
+      custom-title="左侧弹出"
+      mask-closeable="true"
+    >
+      <div>body</div>
+    </basic.general-drawer>
+
+    <basic.general-button id="btn-right">右侧弹出</basic.general-button>
+    <basic.general-drawer
+      id="drawer-right"
+      placement="right"
+      custom-title="遮罩层无法点击"
+      mask-closeable="false"
+    >
+      <div style="height: 1000px; background: red; color: #fff">
+        overflow auto
+      </div>
+    </basic.general-drawer>
+
+    <basic.general-button id="btn-top">上方弹出</basic.general-button>
+    <basic.general-drawer
+      id="drawer-top"
+      placement="top"
+      height="500"
+      custom-title="上方弹出，高度500px"
+      mask-closeable="true"
+    >
+      <div>body</div>
+    </basic.general-drawer>
+
+    <basic.general-button id="btn-bottom">下方弹出</basic.general-button>
+    <basic.general-drawer
+      id="drawer-bottom"
+      placement="bottom"
+      custom-title="下方弹出"
+      mask-closeable="false"
+    >
+      <basic.general-button id="btn-bottom-inner"
+        >点击关闭抽屉</basic.general-button
+      >
+    </basic.general-drawer>
+  </body>
+  <script>
+    var btnLeft = document.getElementById("btn-left");
+    var drawerLeft = document.getElementById("drawer-left");
+
+    btnLeft.addEventListener("click", () => {
+      drawerLeft.open();
+    });
+
+    var btnRight = document.getElementById("btn-right");
+    var drawerRight = document.getElementById("drawer-right");
+
+    btnRight.addEventListener("click", () => {
+      drawerRight.open();
+    });
+
+    var btnTop = document.getElementById("btn-top");
+    var drawerTop = document.getElementById("drawer-top");
+
+    btnTop.addEventListener("click", () => {
+      drawerTop.open();
+    });
+
+    var btnBottom = document.getElementById("btn-bottom");
+    var drawerBottom = document.getElementById("drawer-bottom");
+
+    btnBottom.addEventListener("click", () => {
+      drawerBottom.open();
+    });
+
+    var btnBottomInner = document.getElementById("btn-bottom-inner");
+    btnBottomInner.addEventListener("click", () => {
+      drawerBottom.close();
+    });
+
+    drawerBottom.addEventListener("open", () => {
+      console.log("遮罩层打开");
+    });
+
+    drawerBottom.addEventListener("close", () => {
+      console.log("遮罩层关闭");
+    });
+  </script>
+</html>

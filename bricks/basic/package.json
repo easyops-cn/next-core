@@ -44,6 +44,7 @@
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/theme": "^0.0.0",
+    "@next-bricks/icons": "^0.0.0",
     "classnames": "^2.3.2",
     "react": "0.0.0-experimental-ee8509801-20230117"
   },
