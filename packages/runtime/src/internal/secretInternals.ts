@@ -84,9 +84,9 @@ export function mountUseBrick(
     unmountTree(prevMountResult.portalMountPoint);
     ({ portalMountPoint } = prevMountResult);
   } else {
-    const portalRoot =
-      document.querySelector("#portal-mount-point") ||
-      (document.querySelector("#preview-portal") as HTMLElement);
+    const portalRoot = document.querySelector(
+      "#portal-mount-point"
+    ) as HTMLElement;
     portalMountPoint = document.createElement("div");
     portalRoot.appendChild(portalMountPoint);
   }

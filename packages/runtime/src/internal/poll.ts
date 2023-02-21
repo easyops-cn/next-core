@@ -43,7 +43,7 @@ export function startPoll(
           progress?.(result);
           if (expectPollEnd?.(result)) {
             if (delegateLoadingBar) {
-              window.dispatchEvent(new CustomEvent("request.end"));
+              window.dispatchEvent(new Event("request.end"));
             }
             success?.(result);
             finallyCallback?.();
@@ -69,7 +69,7 @@ export function startPoll(
     } finally {
       // Manually dispatch an event of `request.end` when the polling is stopped immediately.
       if (delegateLoadingBar && shouldStop) {
-        window.dispatchEvent(new CustomEvent("request.end"));
+        window.dispatchEvent(new Event("request.end"));
       }
     }
   }
@@ -82,7 +82,7 @@ export function startPoll(
   delayedPoll(leadingRequestDelay ?? 0);
 
   if (delegateLoadingBar) {
-    window.dispatchEvent(new CustomEvent("request.start"));
+    window.dispatchEvent(new Event("request.start"));
   }
 }
 

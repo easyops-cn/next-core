@@ -1,2 +1,2 @@
-import "@next-core/runtime/styles/default.css";
+import "./styles/default.css";
 import("./bootstrap.js");

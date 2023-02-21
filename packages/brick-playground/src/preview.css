@@ -29,7 +29,7 @@ body {
   overflow: auto;
 }
 
-#preview-portal {
+#portal-mount-point {
   height: 0;
   width: 0;
   position: absolute;

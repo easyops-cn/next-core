@@ -20,4 +20,27 @@ export default {
       baseHref: "/",
     }),
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+          name: "vendors",
+        },
+        core: {
+          test: /[\\/]next-core[\\/]packages[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+          name: "core",
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
 };

@@ -8,7 +8,9 @@ export function haveFun() {
 
 export function haveMoreFun(about: string, timeout = 1000) {
   return new Promise<string>((resolve) => {
+    window.dispatchEvent(new Event("request.start"));
     setTimeout(() => {
+      window.dispatchEvent(new Event("request.end"));
       resolve(`more-${haveFun()}-${count++}:${about}`);
     }, timeout);
   });

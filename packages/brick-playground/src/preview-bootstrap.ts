@@ -4,7 +4,7 @@ import { safeLoad, JSON_SCHEMA } from "js-yaml";
 
 const mountPoints = {
   main: document.querySelector("#preview-root") as HTMLElement,
-  portal: document.querySelector("#preview-portal") as HTMLElement,
+  portal: document.querySelector("#portal-mount-point") as HTMLElement,
 };
 
 let brickPackages: any[];
