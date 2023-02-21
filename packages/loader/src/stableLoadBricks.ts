@@ -35,14 +35,18 @@ export function enqueueStableLoadBricks(
   bricks: Iterable<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
-  return enqueueStableLoad("bricks", bricks, brickPackages);
+  const promise = enqueueStableLoad("bricks", bricks, brickPackages);
+  dispatchRequestStatus(promise);
+  return promise;
 }
 
 export function enqueueStableLoadProcessors(
   processors: Iterable<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
-  return enqueueStableLoad("processors", processors, brickPackages);
+  const promise = enqueueStableLoad("processors", processors, brickPackages);
+  dispatchRequestStatus(promise);
+  return promise;
 }
 
 export function loadBricksImperatively(
@@ -51,6 +55,7 @@ export function loadBricksImperatively(
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
   flushStableLoadBricks();
+  dispatchRequestStatus(promise);
   return promise;
 }
 
@@ -60,6 +65,7 @@ export function loadProcessorsImperatively(
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
   flushStableLoadBricks();
+  dispatchRequestStatus(promise);
   return promise;
 }
 
@@ -161,6 +167,12 @@ async function enqueueStableLoad(
   );
 
   await Promise.all(pkgPromises);
+}
+
+function dispatchRequestStatus(promise: Promise<unknown>) {
+  promise.finally(() => {
+    window.dispatchEvent(new Event("request.end"));
+  });
 }
 
 function getProcessorPackageName(camelPackageName: string): string {

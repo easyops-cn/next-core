@@ -24,8 +24,7 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
-    "./package.json": "./package.json",
-    "./styles/default.css": "./styles/default.css"
+    "./package.json": "./package.json"
   },
   "scripts": {
     "clean": "rimraf dist",

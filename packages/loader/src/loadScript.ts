@@ -24,7 +24,7 @@ export default function loadScript(
   }
   const promise = new Promise<string>((resolve, reject) => {
     const end = (): void => {
-      window.dispatchEvent(new CustomEvent("request.end"));
+      window.dispatchEvent(new Event("request.end"));
     };
     const script = document.createElement("script");
     script.src = fixedSrc;
@@ -41,7 +41,7 @@ export default function loadScript(
     const firstScript =
       document.currentScript || document.getElementsByTagName("script")[0];
     (firstScript.parentNode as Node).insertBefore(script, firstScript);
-    window.dispatchEvent(new CustomEvent("request.start"));
+    window.dispatchEvent(new Event("request.start"));
   });
   cache.set(fixedSrc, promise);
   return promise;

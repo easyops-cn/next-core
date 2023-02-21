@@ -15,6 +15,5 @@ export class Kernel {
     ]);
     this.bootstrapData = bootstrapData;
     await this.router.bootstrap();
-    document.body.classList.add("first-rendered");
   }
 }
