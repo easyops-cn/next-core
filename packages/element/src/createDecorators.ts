@@ -66,7 +66,27 @@ export function createDecorators() {
   function defineElement(
     name: string,
     options?: {
+      /**
+       * The style text list which will be inserted into the shadow DOM.
+       *
+       * Note: setting `styleTexts` with `shadowOptions: false` is not supported.
+       */
       styleTexts?: string[];
+
+      /**
+       * By default, it will use shadow DOM with open mode.
+       *
+       * Passing an object to override the default shadow DOM options.
+       *
+       * Setting `shadowOptions` to false will disable shadow DOM.
+       */
+      shadowOptions?: Partial<ShadowRootInit> | false;
+
+      /**
+       * By default, we will do a static analysis of source code to get a brick's dependencies.
+       *
+       * In case of that approach not working, specify it exclusively.
+       */
       dependencies?: string[];
     }
   ) {
@@ -104,6 +124,16 @@ export function createDecorators() {
         );
 
         defineReadonlyProperty(this, "styleTexts", options?.styleTexts);
+        defineReadonlyProperty(
+          this,
+          "shadowOptions",
+          options?.shadowOptions !== false
+            ? {
+                mode: "open",
+                ...options?.shadowOptions,
+              }
+            : null
+        );
 
         defineReadonlyProperty(this, "__tagName", name);
 
