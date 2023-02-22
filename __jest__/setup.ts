@@ -1,8 +1,5 @@
 import { setImmediate as flushMicroTasks } from "node:timers";
-// import { configure } from "enzyme";
-// import Adapter from "enzyme-adapter-react-16";
-
-// configure({ adapter: new Adapter() });
+import { jest } from "@jest/globals";
 
 (global as any).IS_REACT_ACT_ENVIRONMENT = true;
 

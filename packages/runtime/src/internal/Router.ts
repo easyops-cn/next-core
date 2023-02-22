@@ -5,7 +5,7 @@ import {
 } from "@next-core/loader";
 import type { MicroApp } from "@next-core/types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { isHttpAbortError } from "@next-core/brick-http";
+import { isHttpAbortError } from "@next-core/http";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import type { Kernel } from "./Kernel.js";

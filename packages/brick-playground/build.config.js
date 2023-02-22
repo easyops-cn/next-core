@@ -13,9 +13,6 @@ export default {
     preview: "./src/preview",
   },
   extractCss: true,
-  optimization: {
-    minimize: false,
-  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
@@ -43,4 +40,28 @@ export default {
       }.worker.js`,
     }),
   ],
+  optimization: {
+    minimize: false,
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+          name: "vendors",
+        },
+        core: {
+          test: /[\\/]next-core[\\/]packages[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+          name: "core",
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
 };
