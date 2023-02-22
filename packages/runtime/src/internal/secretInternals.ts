@@ -15,11 +15,14 @@ import { afterMountTree, mountTree, unmountTree } from "./mount.js";
 import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 
+let previewRuntimeContext: Partial<RuntimeContext> | undefined;
+
 export async function renderUseBrick(
   useBrick: UseSingleBrickConf,
   data?: unknown
 ) {
   const runtimeContext = {
+    ...previewRuntimeContext,
     ..._internalApiGetRuntimeContext()!,
     data,
     pendingPermissionsPreCheck: [],
@@ -118,9 +121,14 @@ export function unmountUseBrick(mountResult: MountUseBrickResult): void {
 
 let _rendererContext: RendererContext;
 
+export function initializePreviewBricks(brickPackages: BrickPackage[]) {
+  previewRuntimeContext = {
+    brickPackages,
+  };
+}
+
 export async function renderPreviewBricks(
   bricks: BrickConf[],
-  brickPackages: BrickPackage[],
   mountPoints: {
     main: HTMLElement;
     portal: HTMLElement;
@@ -130,7 +138,7 @@ export async function renderPreviewBricks(
   }
 ) {
   const runtimeContext = {
-    brickPackages,
+    ...previewRuntimeContext,
     pendingPermissionsPreCheck: [],
     tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
   } as Partial<RuntimeContext> as RuntimeContext;
