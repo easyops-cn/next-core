@@ -11,10 +11,12 @@ V3 废弃了一些核心包，包括但不限于：
 - rollup-config-factory
 - webpack-config-factory
 - build-config-factory
+- jest-config-factory
 - custom-antd-styles
 - editor-bricks-helper
 - fontawesome-library
 - brick-types
+- brick-http
 ```
 
 新增了一些包，包括但不限于：
@@ -29,6 +31,7 @@ V3 废弃了一些核心包，包括但不限于：
 - brick-playground   # 用于开发调试构件（脱离核心框架）
 - build-next-bricks  # 打包器，用于构件包、brick-container 和 brick-playground
 - types              # 相当于新的 brick-types
+- http               # 相当于新的 brick-http
 ```
 
 ## 构件开发

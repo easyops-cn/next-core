@@ -63,22 +63,31 @@ export default async function build(config) {
   const camelPackageName = getCamelPackageName(packageName);
   const libName = isBricks ? `bricks/${packageName}` : config.type;
 
+  const sharedSingletonPackages = [
+    "history",
+    "i18next",
+    "lodash",
+    "moment",
+    "js-yaml",
+    "react-i18next",
+    "@next-core/runtime",
+    "@next-core/http",
+    "@next-core/theme",
+    "@next-core/cook",
+    "@next-core/inject",
+    "@next-core/loader",
+    "@next-core/supply",
+    "@next-core/utils/general",
+    "@next-core/utils/storyboard",
+  ];
+
   const sharedPackages = [
     "react",
     "react-dom",
-    "history",
-    "i18next",
-    "react-i18next",
-    "lodash",
     "@next-core/element",
     "@next-core/react-element",
     "@next-core/react-runtime",
-    "@next-core/runtime",
-    "@next-core/brick-http",
-    "@next-core/cook",
-    "@next-core/utils/general",
-    "@next-core/utils/storyboard",
-    "@next-core/theme",
+    ...sharedSingletonPackages,
   ];
 
   /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig["moduleFederationShared"]} */
@@ -111,7 +120,7 @@ export default async function build(config) {
           return [
             dep,
             {
-              singleton: true,
+              singleton: sharedSingletonPackages.includes(dep),
               version: depPackageJson.version,
               requiredVersion: packageJson.dependencies?.[depPkgName],
               ...customized,
@@ -265,17 +274,37 @@ export default async function build(config) {
       ],
     },
     devtool: false,
-    optimization: config.optimization,
+    optimization:
+      config.optimization ||
+      (isBricks
+        ? {
+            splitChunks: {
+              cacheGroups: {
+                react: {
+                  test: /[\\/]node_modules[\\/]react(?:-dom)?[\\/]/,
+                  priority: -10,
+                  reuseExistingChunk: true,
+                  name: "react",
+                },
+                default: {
+                  minChunks: 2,
+                  priority: -20,
+                  reuseExistingChunk: true,
+                },
+              },
+            },
+          }
+        : undefined),
     plugins: [
       new SourceMapDevToolPlugin({
         filename: "[file].map",
         // Do not generate source map for these vendors:
         exclude: [
-          // "polyfill",
           // No source maps for React,ReactDOM,@next-core/theme
-          /^chunks\/(?:2?784|(?:2?8)?316|628)(?:\.[0-9a-f]+)?\.js$/,
+          /^chunks\/(?:2?784|(?:2?8)?316|628|react)(?:\.[0-9a-f]+|\.bundle)?\.js$/,
           /^chunks\/(?:vendors-)?node_modules_/,
-          /^chunks\/(?:easyops|fa)-icons\//,
+          /^chunks\/(?:easyops|fa|antd)-icons\//,
+          /^(?:vendors|polyfill)(?:\.[0-9a-f]+|\.bundle)?\.js$/,
         ],
       }),
 

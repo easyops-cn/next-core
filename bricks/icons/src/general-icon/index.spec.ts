@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
 import "./index.js";
 import { GeneralIcon } from "./index.js";

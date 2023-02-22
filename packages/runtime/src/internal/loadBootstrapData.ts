@@ -1,4 +1,4 @@
-import { http } from "@next-core/brick-http";
+import { http } from "@next-core/http";
 import { BootstrapData } from "@next-core/types";
 
 export async function loadBootstrapData(): Promise<BootstrapData> {
