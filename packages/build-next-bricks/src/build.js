@@ -63,24 +63,31 @@ export default async function build(config) {
   const camelPackageName = getCamelPackageName(packageName);
   const libName = isBricks ? `bricks/${packageName}` : config.type;
 
-  const sharedPackages = [
-    "react",
-    "react-dom",
+  const sharedSingletonPackages = [
     "history",
     "i18next",
-    "react-i18next",
     "lodash",
     "moment",
     "js-yaml",
+    "react-i18next",
+    "@next-core/runtime",
+    "@next-core/http",
+    "@next-core/theme",
+    "@next-core/cook",
+    "@next-core/inject",
+    "@next-core/loader",
+    "@next-core/supply",
+    "@next-core/utils/general",
+    "@next-core/utils/storyboard",
+  ];
+
+  const sharedPackages = [
+    "react",
+    "react-dom",
     "@next-core/element",
     "@next-core/react-element",
     "@next-core/react-runtime",
-    "@next-core/runtime",
-    "@next-core/http",
-    "@next-core/cook",
-    "@next-core/utils/general",
-    "@next-core/utils/storyboard",
-    "@next-core/theme",
+    ...sharedSingletonPackages,
   ];
 
   /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig["moduleFederationShared"]} */
@@ -113,7 +120,7 @@ export default async function build(config) {
           return [
             dep,
             {
-              singleton: true,
+              singleton: sharedSingletonPackages.includes(dep),
               version: depPackageJson.version,
               requiredVersion: packageJson.dependencies?.[depPkgName],
               ...customized,
