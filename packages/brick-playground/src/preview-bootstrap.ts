@@ -14,6 +14,7 @@ const bootstrap = fetch("/bootstrap.hash.json", {
   .then((res) => res.json())
   .then((data) => {
     brickPackages = data.brickPackages;
+    __secret_internals.initializePreviewBricks(brickPackages);
   });
 
 (window as any)._preview_only_render = async (
@@ -68,14 +69,9 @@ const bootstrap = fetch("/bootstrap.hash.json", {
       await bootstrap;
 
       const bricks = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
-      await __secret_internals.renderPreviewBricks(
-        bricks,
-        brickPackages,
-        mountPoints,
-        {
-          theme: theme === "light" ? theme : "dark-v2",
-        }
-      );
+      await __secret_internals.renderPreviewBricks(bricks, mountPoints, {
+        theme: theme === "light" ? theme : "dark-v2",
+      });
     }
   } catch (e) {
     // eslint-disable-next-line no-console
