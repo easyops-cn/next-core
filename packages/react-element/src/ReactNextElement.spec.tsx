@@ -177,7 +177,7 @@ describe("ReactNextElement", () => {
     CSSStyleSheet.prototype.replaceSync = originalReplaceSync;
   });
 
-  test("basic element with empty adopted style", async () => {
+  test("basic element with empty adopted style", () => {
     mockSupportsAdoptingStyleSheets.mockReturnValue(true);
     const originalReplaceSync = CSSStyleSheet.prototype.replaceSync;
     if (!originalReplaceSync) {
@@ -215,7 +215,7 @@ describe("ReactNextElement", () => {
     CSSStyleSheet.prototype.replaceSync = originalReplaceSync;
   });
 
-  test("lazy connect", async () => {
+  test("lazy connect", () => {
     const { defineElement, property } = createDecorators();
     @defineElement("my-element-lazy-connect")
     class MyElement extends ReactNextElement {
@@ -242,5 +242,62 @@ describe("ReactNextElement", () => {
     act(() => {
       document.body.removeChild(element);
     });
+  });
+
+  test("no shadow dom", () => {
+    const { defineElement, property } = createDecorators();
+    @defineElement("my-element-no-shadow-dom", {
+      shadowOptions: false,
+    })
+    class MyElement extends ReactNextElement {
+      @property() accessor stringAttr: string | undefined;
+
+      render() {
+        return <span>{this.stringAttr}</span>;
+      }
+    }
+    const element = document.createElement(
+      "my-element-no-shadow-dom"
+    ) as MyElement;
+    element.stringAttr = "Hi";
+
+    (element as any)._render();
+
+    expect(element.shadowRoot).toBeFalsy();
+    act(() => {
+      document.body.appendChild(element);
+    });
+    expect(element.shadowRoot).toBeFalsy();
+    expect(element.innerHTML).toBe("<span>Hi</span>");
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+  });
+
+  test("no shadow dom but with style texts", () => {
+    const { defineElement, property } = createDecorators();
+    @defineElement("my-element-no-shadow-dom-with-style-texts", {
+      shadowOptions: false,
+      styleTexts: [":host{display:block}"],
+    })
+    class MyElement extends ReactNextElement {
+      @property() accessor stringAttr: string | undefined;
+
+      render() {
+        return <span>{this.stringAttr}</span>;
+      }
+    }
+    const element = document.createElement(
+      "my-element-no-shadow-dom-with-style-texts"
+    ) as MyElement;
+    element.stringAttr = "Hi";
+
+    (element as any)._render();
+
+    expect(element.shadowRoot).toBeFalsy();
+    expect(() => {
+      element.connectedCallback();
+    }).toThrowError();
   });
 });

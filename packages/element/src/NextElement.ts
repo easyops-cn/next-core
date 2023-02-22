@@ -6,6 +6,7 @@ import {
 
 export abstract class NextElement extends HTMLElement {
   static readonly styleTexts: string[] | undefined;
+  static readonly shadowOptions: ShadowRootInit | null | undefined;
   static readonly __attributeReflections: Map<string, AttributeReflection>;
   static readonly __tagName: string;
 

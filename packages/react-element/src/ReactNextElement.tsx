@@ -9,17 +9,25 @@ export abstract class ReactNextElement extends NextElement {
     if (this.#root) {
       return;
     }
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    if (supportsAdoptingStyleSheets()) {
-      const styleTexts = (this.constructor as typeof ReactNextElement)
-        .styleTexts;
-      if (styleTexts?.length) {
-        const styleSheet = new CSSStyleSheet();
-        styleSheet.replaceSync(styleTexts.join(""));
-        shadowRoot.adoptedStyleSheets = [styleSheet];
+    const ctor = this.constructor as typeof ReactNextElement;
+    if (ctor.shadowOptions) {
+      const shadowRoot = this.attachShadow(ctor.shadowOptions);
+      if (supportsAdoptingStyleSheets()) {
+        if (ctor.styleTexts?.length) {
+          const styleSheet = new CSSStyleSheet();
+          styleSheet.replaceSync(ctor.styleTexts.join(""));
+          shadowRoot.adoptedStyleSheets = [styleSheet];
+        }
       }
+      this.#root = createRoot(shadowRoot);
+    } else {
+      if (process.env.NODE_ENV !== "production" && ctor.styleTexts?.length) {
+        throw new Error(
+          "Use `styleTexts` with `noShadowDom: true` is not supported"
+        );
+      }
+      this.#root = createRoot(this);
     }
-    this.#root = createRoot(shadowRoot);
   }
 
   connectedCallback() {
@@ -33,23 +41,24 @@ export abstract class ReactNextElement extends NextElement {
   }
 
   protected _render() {
-    if (!this.isConnected) {
+    if (!this.isConnected || !this.#root) {
       return;
     }
-    let styleTexts: string[] | undefined;
-    this.#root?.render(
-      supportsAdoptingStyleSheets() ||
-        ((styleTexts = (this.constructor as typeof ReactNextElement)
-          .styleTexts),
-        !styleTexts?.length) ? (
-        this.render()
-      ) : (
-        <>
-          <style>{styleTexts.join("\n")}</style>
-          {this.render()}
-        </>
-      )
-    );
+    const ctor = this.constructor as typeof ReactNextElement;
+    if (ctor.shadowOptions) {
+      this.#root.render(
+        supportsAdoptingStyleSheets() || !ctor.styleTexts?.length ? (
+          this.render()
+        ) : (
+          <>
+            <style>{ctor.styleTexts.join("\n")}</style>
+            {this.render()}
+          </>
+        )
+      );
+    } else {
+      this.#root.render(this.render());
+    }
   }
 
   abstract render(): React.ReactNode;

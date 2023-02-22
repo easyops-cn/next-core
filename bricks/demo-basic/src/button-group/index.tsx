@@ -12,6 +12,7 @@ const { defineElement, property, method, event } = createDecorators();
 
 @defineElement("demo-basic.button-group", {
   // styleTexts: [styleText],
+  shadowOptions: false,
 })
 class ButtonGroup extends ReactNextElement {
   @property({ attribute: false })
