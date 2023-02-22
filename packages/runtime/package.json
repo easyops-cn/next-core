@@ -38,6 +38,7 @@
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json"
   },
   "dependencies": {
+    "@next-api-sdk/api-gateway-sdk": "^0.0.0",
     "@next-core/http": "^0.0.0",
     "@next-core/cook": "^1.6.81",
     "@next-core/inject": "^0.0.0",

@@ -4,6 +4,7 @@ import express from "express";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
 import bootstrapJson from "./bootstrapJson.js";
+import mockAuth from "./mockAuth.js";
 
 const compiler = await build(config);
 const rootDir = path.resolve(process.cwd(), "../..");
@@ -16,6 +17,7 @@ const server = new WebpackDevServer(
         middleware: express.static(path.join(rootDir, "bricks")),
       });
 
+      middlewares.push(mockAuth());
       middlewares.push(bootstrapJson(rootDir));
 
       middlewares.push({
