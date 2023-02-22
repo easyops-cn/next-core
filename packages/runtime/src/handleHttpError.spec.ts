@@ -5,7 +5,7 @@ import {
   HttpResponseError,
   HttpParseError,
   HttpAbortError,
-} from "@next-core/brick-http";
+} from "@next-core/http";
 import {
   httpErrorToString,
   handleHttpError,

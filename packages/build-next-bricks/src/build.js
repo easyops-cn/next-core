@@ -70,11 +70,13 @@ export default async function build(config) {
     "i18next",
     "react-i18next",
     "lodash",
+    "moment",
+    "js-yaml",
     "@next-core/element",
     "@next-core/react-element",
     "@next-core/react-runtime",
     "@next-core/runtime",
-    "@next-core/brick-http",
+    "@next-core/http",
     "@next-core/cook",
     "@next-core/utils/general",
     "@next-core/utils/storyboard",
@@ -265,17 +267,37 @@ export default async function build(config) {
       ],
     },
     devtool: false,
-    optimization: config.optimization,
+    optimization:
+      config.optimization ||
+      (isBricks
+        ? {
+            splitChunks: {
+              cacheGroups: {
+                react: {
+                  test: /[\\/]node_modules[\\/]react(?:-dom)?[\\/]/,
+                  priority: -10,
+                  reuseExistingChunk: true,
+                  name: "react",
+                },
+                default: {
+                  minChunks: 2,
+                  priority: -20,
+                  reuseExistingChunk: true,
+                },
+              },
+            },
+          }
+        : undefined),
     plugins: [
       new SourceMapDevToolPlugin({
         filename: "[file].map",
         // Do not generate source map for these vendors:
         exclude: [
-          // "polyfill",
           // No source maps for React,ReactDOM,@next-core/theme
-          /^chunks\/(?:2?784|(?:2?8)?316|628)(?:\.[0-9a-f]+)?\.js$/,
+          /^chunks\/(?:2?784|(?:2?8)?316|628|react)(?:\.[0-9a-f]+|\.bundle)?\.js$/,
           /^chunks\/(?:vendors-)?node_modules_/,
-          /^chunks\/(?:easyops|fa)-icons\//,
+          /^chunks\/(?:easyops|fa|antd)-icons\//,
+          /^(?:vendors|polyfill)(?:\.[0-9a-f]+|\.bundle)?\.js$/,
         ],
       }),
 

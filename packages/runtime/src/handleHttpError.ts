@@ -2,7 +2,7 @@ import {
   HttpFetchError,
   HttpResponseError,
   isHttpAbortError,
-} from "@next-core/brick-http";
+} from "@next-core/http";
 import { getRuntime } from "./internal/Runtime.js";
 import { getHistory } from "./history.js";
 

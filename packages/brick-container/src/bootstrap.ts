@@ -1,5 +1,5 @@
 import { createRuntime, httpErrorToString } from "@next-core/runtime";
-import { http, HttpError, HttpResponse } from "@next-core/brick-http";
+import { http, HttpError, HttpResponse } from "@next-core/http";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
