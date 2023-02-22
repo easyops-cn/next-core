@@ -1,0 +1,9 @@
+_version_: 2.0
+_kind_: type
+
+name: page
+type: int
+description: 分页
+
+validate:
+  gte: 1

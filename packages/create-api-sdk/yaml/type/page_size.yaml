@@ -1,0 +1,9 @@
+_version_: 2.0
+_kind_: type
+
+name: page_size
+type: int
+description: 每页数量
+
+validate:
+  gte: 1

@@ -1,0 +1,43 @@
+_version_: 2.0
+_kind_: "interface"
+version: 1.0
+name: "Upload"
+description: "上传包"
+
+endpoint:
+  method: "POST"
+  uri: "/packages/pkg/:packageId/upload"
+  ext_fields:
+    - name: params
+      source: query
+    - name: others
+      source: body
+
+request:
+  type: object
+  fields:
+    - name: packageId
+      type: string
+      description: 包 ID
+
+    - name: params
+      description: params
+      type: object
+      fields:
+        - name: versionId
+          type: string
+          description: 版本 ID
+
+    - name: others
+      description: others
+      type: object
+      fields:
+        - name: sourceFile
+          type: file[]
+          description: 文件
+        - name: encoding
+          type: string[]
+          description: 编码
+
+response:
+  type: file

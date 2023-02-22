@@ -1,0 +1,26 @@
+_version_: 2.0
+_kind_: "interface"
+version: 1.0
+
+name: Retry
+description: 重试
+
+endpoint:
+  method: POST
+  uri: "/api/pipeline/v1/builds/:build_id/retry"
+
+request:
+  type: object
+  fields:
+    - name: build_id
+      type: string
+      description: 构建任务id
+  required:
+    - build_id
+
+response:
+  type: object
+  fields:
+    - name: id
+      type: string
+      description: build id

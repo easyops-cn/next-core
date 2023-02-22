@@ -1,0 +1,25 @@
+_version_: 2.0
+_kind_: "interface"
+version: 1.0.0
+name: "SendMessageWithAppendix"
+description: "处理带附件的通知消息"
+
+import:
+  - easyops/model/msgsender/send_message_with_appendix_request
+
+endpoint:
+  method: "post"
+  uri: "/api/v1/message_sender/mail_with_appendix"
+
+request:
+  type: SendMessageWithAppendixRequest
+  required:
+    - SendMessageWithAppendixRequest.files
+
+response:
+  wrapper: false
+  type: object
+  fields:
+    - name: id
+      type: string
+      description: some id

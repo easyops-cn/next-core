@@ -1,0 +1,57 @@
+_version_: 2.0
+_kind_: "interface"
+version: 1.0.0
+name: AutoDiscovery
+description: '实例自动发现的接口'
+
+endpoint:
+  method: POST
+  uri: /object/:objectId/instance/_import-json
+  ext_fields:
+    - name: "body"
+      source: body
+
+request:
+
+  type: object
+  fields:
+    - name: objectId
+      type: object_id
+      description: 资源模型ID
+
+    - name: body
+      type: object[]
+      fields:
+        - name: filter
+          type: map
+          description: "筛选器"
+        - name: update
+          type: map
+          description: "更新数据"
+        - name: upsert
+          type: bool
+          description: "存在即更新"
+      description: "请求体"
+
+  required:
+    - objectId
+    - body
+
+response:
+  wrapper: false
+  type: object
+  fields:
+    - name: code
+      type: int
+      description: 返回码
+    - name: error
+      type: string
+      description: 错误信息
+    - name: message
+      type: string
+      description: 返回消息
+
+  required:
+    - code
+    - error
+    - message
