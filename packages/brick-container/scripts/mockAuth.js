@@ -2,7 +2,7 @@ let username;
 
 export default function mockAuth() {
   return async function (req, res, next) {
-    if (req.path !== "/api/auth/login" && req.method !== "GET") {
+    if (req.path !== "/api/auth/login" || req.method !== "GET") {
       next();
       return;
     }
