@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.17](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.16...@next-core/custom-antd-styles@1.25.17) (2023-02-23)
+
+
+### Bug Fixes
+
+* **button:** fix hover, focus, and active style of text type ([5202ec1](https://github.com/easyops-cn/next-core/commit/5202ec13b6bf553cdd481cee2b7a1e846d9b84c6))
+
+
+
+
+
 ## [1.25.16](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.15...@next-core/custom-antd-styles@1.25.16) (2023-02-17)
 
 
