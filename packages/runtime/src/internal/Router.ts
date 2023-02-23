@@ -35,6 +35,7 @@ import {
   httpErrorToString,
   isUnauthenticatedError,
 } from "../handleHttpError.js";
+import { abortPendingRequest, initAbortController } from "./abortController.js";
 
 export class Router {
   #kernel: Kernel;
@@ -108,6 +109,7 @@ export class Router {
   }
 
   bootstrap() {
+    initAbortController();
     const history = getHistory();
     this.#prevLocation = history.location;
     history.listen((location, action) => {
@@ -145,7 +147,7 @@ export class Router {
         this.#prevLocation = location;
         return;
       }
-      // abortController.abortPendingRequest();
+      abortPendingRequest();
       this.#prevLocation = location;
       this.#rendererContext?.dispatchPageLeave();
       // this.locationContext.messageDispatcher.reset();
