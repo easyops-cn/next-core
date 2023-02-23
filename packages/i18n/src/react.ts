@@ -1,6 +1,6 @@
-import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
-import { initializeI18n } from "@next-core/i18n/basic";
+import { i18n } from "@next-core/i18n";
+import { initReactI18next, useTranslation } from "react-i18next";
+import { initializeI18n } from "@next-core/i18n";
 
 let initialized = false;
 
@@ -10,5 +10,7 @@ export function initializeReactI18n() {
   }
   initialized = true;
   initializeI18n();
-  initReactI18next.init(i18next.default);
+  initReactI18next.init(i18n);
 }
+
+export { useTranslation };

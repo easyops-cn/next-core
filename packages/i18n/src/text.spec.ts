@@ -1,9 +1,9 @@
-import i18next from "i18next";
+import { i18n } from "@next-core/i18n";
 import { I18nData } from "@next-core/types";
 import { describe, it, expect } from "@jest/globals";
 import { i18nText } from "./text.js";
 
-i18next.init();
+i18n.init();
 
 describe("i18nText", () => {
   it.each<[string | undefined, I18nData | null, string | undefined, Function?]>(
@@ -56,7 +56,7 @@ describe("i18nText", () => {
   )(
     "for language %s and data %j, should return %j",
     (language, data, result, done) => {
-      i18next.changeLanguage(language, () => {
+      i18n.changeLanguage(language, () => {
         expect(i18nText(data)).toBe(result);
         done!();
       });

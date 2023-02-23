@@ -36,8 +36,8 @@ describe("demo-basic.x-button", () => {
 
 describe("XButtonComponent", () => {
   test("basic usage", () => {
-    const { container } = render(<XButtonComponent label="Hello" />);
+    const { container } = render(<XButtonComponent label="Oops" />);
     expect(container.querySelector("button")).toBeTruthy();
-    expect(container.querySelector("button").textContent).toContain("Hello");
+    expect(container.querySelector("button").textContent).toContain("Oops");
   });
 });

@@ -3,10 +3,10 @@
     "declaration": false,
     "sourceMap": true,
     "importHelpers": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "target": "ESNext",
-    "module": "Node16",
+    "module": "node16",
     "skipLibCheck": true,
     "strict": true,
     "jsx": "preserve"

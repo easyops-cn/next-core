@@ -13,22 +13,17 @@
     "dist"
   ],
   "exports": {
-    "./package.json": "./package.json",
-    "./basic": {
-      "types": "./dist/types/basic.d.ts",
-      "import": "./dist/esm/basic.js",
-      "require": "./dist/cjs/basic.js"
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./react": {
       "types": "./dist/types/react.d.ts",
       "import": "./dist/esm/react.js",
       "require": "./dist/cjs/react.js"
     },
-    "./text": {
-      "types": "./dist/types/text.d.ts",
-      "import": "./dist/esm/text.js",
-      "require": "./dist/cjs/text.js"
-    }
+    "./package.json": "./package.json"
   },
   "scripts": {
     "clean": "rimraf dist",

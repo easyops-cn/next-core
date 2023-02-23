@@ -75,7 +75,7 @@ export default async function build(config) {
     "@next-core/http",
     "@next-core/theme",
     "@next-core/cook",
-    "@next-core/i18n/basic",
+    "@next-core/i18n",
     "@next-core/i18n/react",
     "@next-core/inject",
     "@next-core/loader",

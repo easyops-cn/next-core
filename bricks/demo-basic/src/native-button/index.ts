@@ -1,5 +1,5 @@
 import { createDecorators, NextElement } from "@next-core/element";
-import { initializeI18n } from "@next-core/i18n/basic";
+import { initializeI18n } from "@next-core/i18n";
 
 initializeI18n();
 

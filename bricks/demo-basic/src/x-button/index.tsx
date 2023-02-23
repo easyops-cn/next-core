@@ -1,8 +1,7 @@
 import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
-import { initializeReactI18n } from "@next-core/i18n/react";
-import { useTranslation } from "react-i18next";
+import { initializeReactI18n, useTranslation } from "@next-core/i18n/react";
 import styleText from "./x-button.shadow.css";
 
 initializeReactI18n();

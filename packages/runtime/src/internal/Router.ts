@@ -36,6 +36,8 @@ import {
   isUnauthenticatedError,
 } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
+import { registerAppI18n } from "./registerAppI18n.js";
+import { registerCustomTemplates } from "./registerCustomTemplates.js";
 
 export class Router {
   #kernel: Kernel;
@@ -285,19 +287,8 @@ export class Router {
         "router"
       ));
 
-      if (!storyboard.$$registerCustomTemplateProcessed) {
-        const templates = storyboard.meta?.customTemplates;
-        if (Array.isArray(templates)) {
-          for (const tpl of templates) {
-            const tagName = tpl.name.includes(".")
-              ? tpl.name
-              : `${currentApp.id}.${tpl.name}`;
-            customTemplates.define(tagName, tpl);
-          }
-        }
-        storyboard.$$registerCustomTemplateProcessed = true;
-      }
-
+      registerAppI18n(storyboard);
+      registerCustomTemplates(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
 
       let failed = false;

@@ -5,10 +5,10 @@ import type {
   GeneralIcon,
   GeneralIconProps,
 } from "@next-bricks/icons/general-icon";
-import type { Placement } from "../interface";
 import classNames from "classnames";
-import styleText from "./drawer.shadow.css";
 import "@next-core/theme";
+import type { Placement } from "../interface.js";
+import styleText from "./drawer.shadow.css";
 
 export interface DrawerEvents {
   close?: Event;

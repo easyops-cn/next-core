@@ -1,5 +1,5 @@
 import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
-import { initializeI18n } from "@next-core/i18n/basic";
+import { initializeI18n } from "@next-core/i18n";
 import { createHistory } from "../history.js";
 import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";

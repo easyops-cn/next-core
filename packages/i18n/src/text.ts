@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import { i18n } from "@next-core/i18n";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { I18nData } from "@next-core/types";
 
@@ -8,11 +8,7 @@ export function i18nText(
   if (!data) {
     return;
   }
-  const language =
-    (process.env.NODE_ENV === "test"
-      ? (i18next as unknown as typeof i18next.default)
-      : i18next.default
-    ).language ?? "zh-CN";
+  const language = i18n.language ?? "zh-CN";
   // First, make a perfect match.
   if (hasOwnProperty(data, language)) {
     return data[language];

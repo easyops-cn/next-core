@@ -1,14 +1,14 @@
-// import { getFixedT } from "i18next";
-// import { identity } from "lodash";
+import { identity } from "lodash";
 import type { MicroApp } from "@next-core/types";
-import { i18nText } from "@next-core/i18n/text";
+import { i18n } from "@next-core/i18n";
+import { i18nText } from "@next-core/i18n";
 // import { widgetI18nFactory } from "../core/WidgetI18n";
-// import { getI18nNamespace } from "../i18n";
 // import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
 import { checkPermissions } from "../checkPermissions.js";
 import { getReadOnlyProxy } from "../proxyFactories.js";
 import { getTheme } from "../../themeAndMode.js";
 import { getBasePath } from "../../getBasePath.js";
+import { getI18nNamespace } from "../registerAppI18n.js";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
@@ -61,17 +61,17 @@ function getIndividualGlobal(
     //     : widgetId
     //     ? widgetImagesFactory(widgetId, widgetVersion)
     //     : imagesFactory(app.id, app.isBuildPush);
-    // case "I18N":
-    //   return collectCoverage
-    //     ? identity
-    //     : widgetId
-    //     ? widgetI18nFactory(widgetId)
-    //     : getFixedT(
-    //         null,
-    //         [appendI18nNamespace, getI18nNamespace("app", app.id)].filter(
-    //           Boolean
-    //         )
-    //       );
+    case "I18N":
+      return collectCoverage
+        ? identity
+        : // : widgetId
+          // ? widgetI18nFactory(widgetId)
+          i18n.getFixedT(
+            null,
+            [appendI18nNamespace, getI18nNamespace("app", app!.id)].filter(
+              Boolean
+            ) as string[]
+          );
     case "I18N_TEXT":
       return collectCoverage ? fakeI18nText : i18nText;
     case "PERMISSIONS":
