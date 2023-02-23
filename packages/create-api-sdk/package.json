@@ -1,0 +1,56 @@
+{
+  "name": "@next-core/create-api-sdk",
+  "version": "0.0.0",
+  "description": "Build next bricks",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-api-sdk",
+  "license": "GPL-3.0",
+  "type": "module",
+  "bin": {
+    "create-api-sdk": "./bin/create-api-sdk.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "template",
+    "template.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "tsc -w",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "change-case": "^4.1.2",
+    "fs-extra": "^10.1.0",
+    "inquirer": "^8.2.5",
+    "js-yaml": "^3.14.1",
+    "klaw-sync": "^6.0.0",
+    "meow": "^9.0.0",
+    "prettier": "^2.8.4",
+    "semver": "^7.3.8"
+  },
+  "devDependencies": {
+    "@next-core/build-next-libs": "^0.2.16",
+    "@next-core/test-next": "^0.0.0"
+  }
+}

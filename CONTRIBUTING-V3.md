@@ -119,7 +119,7 @@ src/bootstrap.ts
 - [x] UseBrick with Custom Templates
 - [x] Icons
 - [x] Builtin Message and Error Displaying
-- [ ] API SDK
+- [x] API SDK
 - [ ] Menu
 - [ ] Flow API
 - [ ] Widgets
@@ -127,7 +127,6 @@ src/bootstrap.ts
 - [ ] WebSocket Message API
 - [ ] Form Renderer
 - [ ] Chrome Devtools
-- [ ] EasyOps Analytics
 
 ## 新特性
 

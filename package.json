@@ -18,6 +18,7 @@
     "test:ci": "lerna run test:ci --",
     "yo": "brick-scripts -t dll",
     "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
+    "yo-sdk": "create-api-sdk",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --record",
     "cypress:run:no-record": "cypress run",
@@ -40,7 +41,6 @@
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/test-next": "^0.0.0",
     "@testing-library/react-hooks": "^8.0.1",
-    "@types/file-saver": "^2.0.5",
     "@types/fs-extra": "^9.0.13",
     "@types/history": "^4.7.11",
     "@types/inquirer": "^7.3.3",
@@ -64,11 +64,9 @@
     "husky": "^8.0.3",
     "jest": "^29.4.3",
     "jest-environment-jsdom": "^29.4.3",
-    "jest-fetch-mock": "^3.0.3",
     "jest-websocket-mock": "^2.4.0",
     "lerna": "^6.5.1",
     "lint-staged": "^13.1.2",
-    "mock-socket": "^9.2.1",
     "prettier": "^2.8.4",
     "rimraf": "^3.0.2",
     "ts-jest-resolver": "^2.0.0",
@@ -76,7 +74,8 @@
   },
   "workspaces": [
     "bricks/*",
-    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory|brick-kit|brick-icons|brick-utils|brick-types|dev-dependencies|dll-differ|easyops-analytics|easyops-illustrations|jest-config-factory|typedoc-plugin-filter-inherit|storyboard|storyboard-function-types|brick-scripts|sdk-scripts|repo-config|public-scoped-sdk|next-docs|create-next-repo|color-theme|rollup-config-factory|brick-http)/**"
+    "sdk/*",
+    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory|brick-kit|brick-icons|brick-utils|brick-types|dev-dependencies|dll-differ|easyops-analytics|easyops-illustrations|jest-config-factory|typedoc-plugin-filter-inherit|storyboard|storyboard-function-types|brick-scripts|sdk-scripts|next-docs|create-next-repo|color-theme|rollup-config-factory|brick-http)/**"
   ],
   "resolutions": {
     "@babel/parser": "^7.21.1",

@@ -2,6 +2,7 @@ import path from "node:path";
 import express from "express";
 import compression from "compression";
 import bootstrapJson from "./bootstrapJson.js";
+import mockAuth from "./mockAuth.js";
 
 const app = express();
 
@@ -11,6 +12,7 @@ const rootDir = path.resolve(process.cwd(), "../..");
 
 app.use("/bricks/", express.static(path.join(rootDir, "bricks")));
 
+app.use(mockAuth());
 app.use(bootstrapJson(rootDir));
 
 app.use("/", express.static(path.join(process.cwd(), "dist")));

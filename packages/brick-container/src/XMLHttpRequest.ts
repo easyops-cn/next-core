@@ -1,4 +1,4 @@
-import { getAuth } from "@next-core/brick-kit";
+import { getAuth } from "@next-core/runtime";
 
 declare global {
   interface XMLHttpRequest {
@@ -14,9 +14,9 @@ declare global {
 }
 
 XMLHttpRequest.prototype.origOpen = XMLHttpRequest.prototype.open;
-XMLHttpRequest.prototype.open = function () {
+XMLHttpRequest.prototype.open = function (...args: any) {
   // eslint-disable-next-line prefer-spread, prefer-rest-params
-  this.origOpen.apply(this, arguments);
+  this.origOpen.apply(this, args);
   const csrfToken = getAuth().csrfToken;
 
   if (csrfToken) {

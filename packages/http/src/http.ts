@@ -45,11 +45,7 @@ function isNil(value: unknown): value is null | undefined {
 const base = document.querySelector("base");
 const fullBaseHref = base ? base.href : location.origin + "/";
 
-export type HttpParams =
-  | URLSearchParams
-  | {
-      [key: string]: string | string[] | null | undefined;
-    };
+export type HttpParams = URLSearchParams | object;
 
 export interface RequestCustomOptions {
   observe?: "data" | "response";

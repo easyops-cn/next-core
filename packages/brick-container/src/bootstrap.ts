@@ -1,11 +1,32 @@
-import { createRuntime, httpErrorToString } from "@next-core/runtime";
+import { createRuntime, getAuth, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
+import i18n from "i18next";
+import "./XMLHttpRequest.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
     window.dispatchEvent(new Event("request.start"));
   }
-  return config;
+
+  const headers = new Headers(config.options?.headers || {});
+
+  headers.set("lang", i18n.resolvedLanguage);
+  const { csrfToken } = getAuth();
+  csrfToken && headers.set("X-CSRF-Token", csrfToken);
+
+  // const mockInfo = getMockInfo(config.url, config.method);
+  // if (mockInfo) {
+  //   config.url = mockInfo.url;
+  //   headers.set("easyops-mock-id", mockInfo.mockId);
+  // }
+
+  return {
+    ...config,
+    options: {
+      ...config.options,
+      headers,
+    },
+  };
 });
 
 http.interceptors.response.use(

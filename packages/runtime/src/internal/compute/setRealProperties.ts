@@ -15,9 +15,11 @@ export function setRealProperties(
           (brick[propName] as unknown as Record<string, unknown>)[k] = v;
         }
         break;
+      case "constructor":
+      case "__proto__":
       case "innerHTML":
         // `innerHTML` is dangerous, use `textContent` instead.
-        throw new Error("set innerHTML is prohibited");
+        throw new Error(`set \`${propName}\` is prohibited`);
       default:
         (brick as unknown as Record<string, unknown>)[propName] = propValue;
     }

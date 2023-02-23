@@ -23,7 +23,7 @@ export abstract class ReactNextElement extends NextElement {
     } else {
       if (process.env.NODE_ENV !== "production" && ctor.styleTexts?.length) {
         throw new Error(
-          "Use `styleTexts` with `noShadowDom: true` is not supported"
+          "Use `styleTexts` with `shadowOptions: false` is not supported"
         );
       }
       this.#root = createRoot(this);

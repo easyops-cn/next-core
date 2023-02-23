@@ -1,0 +1,7 @@
+_version_: 2.0
+_kind_: type
+
+name: white_permission_type
+type: string
+enum: [deleteAuthorizers, readAuthorizers, updateAuthorizers]
+description: 白色单权限类型

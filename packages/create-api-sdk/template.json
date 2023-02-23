@@ -1,0 +1,38 @@
+{
+  "name": "$npm-scope-of-sdk$/$kebab-service-name$-sdk",
+  "version": "1.0.0",
+  "description": "API SDK for $Title Service Name$",
+  "homepage": "$workspace-homepage$/tree/master/sdk/$kebab-service-name$-sdk",
+  "license": "$open-source-license$",
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/types/index.d.ts",
+  "files": ["dist", "contracts.json"],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "concurrently -k -n types,main \"npm run start:types\" \"npm run start:main\"",
+    "start:main": "cross-env NODE_ENV=development build-next-libs --watch",
+    "start:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --watch",
+    "prebuild": "npm run clean",
+    "build": "npm run build:types && npm run build:main",
+    "build:main": "cross-env NODE_ENV=production build-next-libs",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@next-core/http": "^0.0.0"
+  },
+  "devDependencies": {
+    "@next-core/build-next-libs": "^0.2.16"
+  }
+}

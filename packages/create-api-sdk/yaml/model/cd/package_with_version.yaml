@@ -1,0 +1,17 @@
+_version_: 2.0
+_kind_: model
+
+name: PackageWithVersion
+description: 包带版本的模型
+
+import:
+  - easyops/model/cd/version
+
+fields:
+  - name: lastVersionInfo
+    type: Version[]
+    description: 最新版本信息
+
+  - name: desc
+    type: string
+    description: 描述

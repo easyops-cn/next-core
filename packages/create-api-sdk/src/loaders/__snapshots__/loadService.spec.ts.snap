@@ -1,0 +1,1176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadService should work 1`] = `
+[
+  [
+    "dist/src/api/cd/package/autoDiscovery.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+
+/** 请求体 */
+export type PackageApi_AutoDiscoveryRequestBody =
+  PackageApi_AutoDiscoveryRequestBody_item[];
+
+export interface PackageApi_AutoDiscoveryResponseBody {
+  /** 返回码 */
+  code: number;
+
+  /** 错误信息 */
+  error: string;
+
+  /** 返回消息 */
+  message: string;
+}
+
+/**
+ * @description 实例自动发现的接口
+ * @endpoint POST /object/:objectId/instance/_import-json
+ */
+export const PackageApi_autoDiscovery = (
+  objectId: string | number,
+  data: PackageApi_AutoDiscoveryRequestBody,
+  options?: HttpOptions
+): Promise<PackageApi_AutoDiscoveryResponseBody> =>
+  /**! @contract easyops.api.cd.package.AutoDiscovery@1.0.0 */ http.post<PackageApi_AutoDiscoveryResponseBody>(
+    \`api/gateway/cd.package.AutoDiscovery/object/\${objectId}/instance/_import-json\`,
+    data,
+    options
+  );
+
+export interface PackageApi_AutoDiscoveryRequestBody_item {
+  /** 筛选器 */
+  filter?: Record<string, any>;
+
+  /** 更新数据 */
+  update?: Record<string, any>;
+
+  /** 存在即更新 */
+  upsert?: boolean;
+}
+",
+  ],
+  [
+    "dist/src/api/cd/package/create.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+import { ModelPackage } from "../../../model/cd/index.js";
+
+export interface PackageApi_CreateRequestBody {
+  /** 包名称 */
+  name: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  type: 1 | 3 | 7 | 15;
+
+  /** 包分类 */
+  cId: 1;
+
+  /** 备注说明 */
+  memo: string;
+
+  /** 安装路径 */
+  installPath: string;
+
+  /** 平台 */
+  platform: "linux" | "windows" | "others";
+
+  /** 包文件源 */
+  source?: string;
+
+  /** 包分类标签 */
+  category?: string;
+
+  /** 包图标 */
+  icon?: string;
+
+  /** 包图标样式(颜色) */
+  style?: string;
+}
+
+export type PackageApi_CreateResponseBody = Partial<ModelPackage> &
+  ModelPackage_partial;
+
+/**
+ * @description 创建包
+ * @endpoint POST /package
+ */
+export const PackageApi_create = (
+  data: PackageApi_CreateRequestBody,
+  options?: HttpOptions
+): Promise<PackageApi_CreateResponseBody> =>
+  /**! @contract easyops.api.cd.package.Create@1 */ http.post<PackageApi_CreateResponseBody>(
+    "api/gateway/cd.package.Create/package",
+    data,
+    options
+  );
+
+export interface ModelPackage_partial {
+  /** 包Id */
+  packageId: string;
+
+  /** 包名称 */
+  name: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  type: 1 | 3 | 7 | 15;
+
+  /** 包分类 */
+  cId: 1;
+
+  /** 备注说明 */
+  memo: string;
+
+  /** 安装路径 */
+  installPath: string;
+
+  /** 平台 */
+  platform: "linux" | "windows" | "others";
+
+  /** 包文件源 */
+  source: string;
+
+  /** 包分类标签 */
+  category: string;
+
+  /** 包图标 */
+  icon: string;
+
+  /** 包图标样式(颜色) */
+  style: string;
+}
+",
+  ],
+  [
+    "dist/src/api/cd/package/get.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+import { ModelPackageWithVersion } from "../../../model/cd/index.js";
+import { ResponseBodyWrapper } from "../../../wrapper.js";
+
+export interface PackageApi_GetRequestParams {
+  /** 包Id */
+  packageId?: string;
+
+  /** 版本Id */
+  versionId?: string;
+
+  /** 语言 */
+  lang?: string;
+}
+
+export interface PackageApi_GetResponseBody {
+  /** 最新版本信息 */
+  lastVersionInfo?: ModelPackageWithVersion["lastVersionInfo"];
+
+  /** MAP */
+  mapField?: Record<string, any>;
+
+  /** MAPS */
+  mapsField?: Record<string, any>[];
+}
+
+/**
+ * @description 获取包
+ * @endpoint GET /packages/pkg
+ */
+export const PackageApi_get = async (
+  params: PackageApi_GetRequestParams,
+  options?: HttpOptions
+): Promise<PackageApi_GetResponseBody> =>
+  /**! @contract easyops.api.cd.package.Get@1 */ (
+    await http.get<ResponseBodyWrapper<PackageApi_GetResponseBody>>(
+      "api/gateway/cd.package.Get/packages/pkg",
+      { ...options, params }
+    )
+  ).data;
+",
+  ],
+  [
+    "dist/src/api/cd/package/listNameService.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+
+export interface PackageApi_ListNameServiceRequestParams {
+  /** page */
+  page?: number;
+
+  /** page_size, 最大1000 */
+  page_size?: number;
+}
+
+export interface PackageApi_ListNameServiceResponseBody {
+  /** 返回码 */
+  code?: number;
+
+  /** 消息 */
+  msg?: string;
+
+  /** 页码 */
+  page?: number;
+
+  /** 分页大小 */
+  page_size?: number;
+
+  /** 总数 */
+  total?: number;
+
+  /** 名字服务列表 */
+  data?: PackageApi_ListNameServiceResponseBody_data_item[];
+}
+
+/**
+ * @description 获取全量名字服务列表
+ * @endpoint GET /api/v1/name_service/config
+ */
+export const PackageApi_listNameService = (
+  params: PackageApi_ListNameServiceRequestParams,
+  options?: HttpOptions
+): Promise<PackageApi_ListNameServiceResponseBody> =>
+  /**! @contract easyops.api.cd.package.ListNameService@1.0.0 */ http.get<PackageApi_ListNameServiceResponseBody>(
+    "api/gateway/cd.package.ListNameService/api/v1/name_service/config",
+    { ...options, params }
+  );
+
+export interface PackageApi_ListNameServiceResponseBody_data_item {
+  /** 服务名 */
+  service_name?: string;
+
+  /** host列表 */
+  hosts?: PackageApi_ListNameServiceResponseBody_data_item_hosts_item[];
+
+  /** 创建时间 */
+  ctime?: number;
+
+  /** 修改时间 */
+  mtime?: number;
+}
+
+export interface PackageApi_ListNameServiceResponseBody_data_item_hosts_item {
+  /** ip */
+  ip?: string;
+
+  /** 端口 */
+  port?: number;
+
+  /** 权重 */
+  weight?: number;
+}
+",
+  ],
+  [
+    "dist/src/api/cd/package/retry.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+import { ResponseBodyWrapper } from "../../../wrapper.js";
+
+export interface PackageApi_RetryResponseBody {
+  /** build id */
+  id?: string;
+}
+
+/**
+ * @description 重试
+ * @endpoint POST /api/pipeline/v1/builds/:build_id/retry
+ */
+export const PackageApi_retry = async (
+  build_id: string | number,
+  options?: HttpOptions
+): Promise<PackageApi_RetryResponseBody> =>
+  /**! @contract easyops.api.cd.package.Retry@1 */ (
+    await http.post<ResponseBodyWrapper<PackageApi_RetryResponseBody>>(
+      \`api/gateway/cd.package.Retry/api/pipeline/v1/builds/\${build_id}/retry\`,
+      undefined,
+      options
+    )
+  ).data;
+",
+  ],
+  [
+    "dist/src/api/cd/package/search.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+import { ModelPackage, ModelPackageExt } from "../../../model/cd/index.js";
+import { ResponseListWrapper, ResponseBodyWrapper } from "../../../wrapper.js";
+
+export interface PackageApi_SearchRequestParams {
+  /** 包名称 */
+  name: string;
+
+  /** page number */
+  page?: number;
+
+  /** size of each page */
+  pageSize?: number;
+
+  /** the field need to sort */
+  order?: string;
+}
+
+export type PackageApi_SearchResponseItem = ModelPackage &
+  PackageApi_SearchResponseItem_2;
+
+export type PackageApi_SearchResponseBody =
+  ResponseListWrapper<PackageApi_SearchResponseItem>;
+
+/**
+ * @description 搜索包 (支持模糊搜索)
+ * @endpoint LIST /packages/search
+ */
+export const PackageApi_search = async (
+  params: PackageApi_SearchRequestParams,
+  options?: HttpOptions
+): Promise<PackageApi_SearchResponseBody> =>
+  /**! @contract easyops.api.cd.package.Search@1 */ (
+    await http.get<ResponseBodyWrapper<PackageApi_SearchResponseBody>>(
+      "api/gateway/cd.package.Search/packages/search",
+      { ...options, params }
+    )
+  ).data;
+
+export interface PackageApi_SearchResponseItem_2 {
+  /** 最新版本信息 */
+  lastVersionInfo: ModelPackageExt["lastVersionInfo"];
+}
+",
+  ],
+  [
+    "dist/src/api/cd/package/sendMessageWithAppendix.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+import { ModelSendMessageWithAppendixRequest } from "../../../model/msgsender/index.js";
+
+export type PackageApi_SendMessageWithAppendixRequestBody =
+  Partial<ModelSendMessageWithAppendixRequest> &
+    ModelSendMessageWithAppendixRequest_partial;
+
+export interface PackageApi_SendMessageWithAppendixResponseBody {
+  /** some id */
+  id?: string;
+}
+
+/**
+ * @description 处理带附件的通知消息
+ * @endpoint post /api/v1/message_sender/mail_with_appendix
+ */
+export const PackageApi_sendMessageWithAppendix = (
+  data: PackageApi_SendMessageWithAppendixRequestBody,
+  options?: HttpOptions
+): Promise<PackageApi_SendMessageWithAppendixResponseBody> => {
+  /**! @contract easyops.api.cd.package.SendMessageWithAppendix@1.0.0 */ const _formData =
+    new FormData();
+  for (const [key, value] of Object.entries(data)) {
+    if (Array.isArray(value)) {
+      const k = \`\${key}[]\`;
+      value.forEach((v) => {
+        _formData.append(k, v);
+      });
+    } else {
+      _formData.append(key, value);
+    }
+  }
+  return http.post<PackageApi_SendMessageWithAppendixResponseBody>(
+    "api/gateway/cd.package.SendMessageWithAppendix/api/v1/message_sender/mail_with_appendix",
+    _formData,
+    options
+  );
+};
+
+export interface ModelSendMessageWithAppendixRequest_partial {
+  /** 附件的二进制数据 */
+  files: File;
+}
+",
+  ],
+  [
+    "dist/src/api/cd/package/upload.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+
+/** params */
+export interface PackageApi_UploadRequestParams {
+  /** 版本 ID */
+  versionId?: string;
+}
+
+/** others */
+export interface PackageApi_UploadRequestBody {
+  /** 文件 */
+  sourceFile?: File[];
+
+  /** 编码 */
+  encoding?: string[];
+}
+
+/**
+ * @description 上传包
+ * @endpoint POST /packages/pkg/:packageId/upload
+ */
+export const PackageApi_upload = (
+  packageId: string | number,
+  params: PackageApi_UploadRequestParams,
+  data: PackageApi_UploadRequestBody,
+  options?: HttpOptions
+): Promise<Blob> => {
+  /**! @contract easyops.api.cd.package.Upload@1 */ const _formData =
+    new FormData();
+  for (const [key, value] of Object.entries(data)) {
+    if (Array.isArray(value)) {
+      const k = \`\${key}[]\`;
+      value.forEach((v) => {
+        _formData.append(k, v);
+      });
+    } else {
+      _formData.append(key, value);
+    }
+  }
+  return http.post<Blob>(
+    \`api/gateway/cd.package.Upload/packages/pkg/\${packageId}/upload\`,
+    _formData,
+    { ...options, params, responseType: "blob" }
+  );
+};
+",
+  ],
+  [
+    "dist/src/model/cd/ModelPackage.ts",
+    "/** 包模型 */
+export interface ModelPackage {
+  /** 包Id */
+  packageId: string;
+
+  /** 包名称 */
+  name: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  type: 1 | 3 | 7 | 15;
+
+  /** 包分类 */
+  cId: 1;
+
+  /** 包文件源 */
+  source: string;
+
+  /** 备注说明 */
+  memo: string;
+
+  /** 安装路径 */
+  installPath: string;
+
+  /** 平台 */
+  platform: "linux" | "windows" | "others";
+
+  /** 包分类标签 */
+  category: string;
+
+  /** 包图标 */
+  icon: string;
+
+  /** 包图标样式(颜色) */
+  style: string;
+
+  /** ctime */
+  ctime: string;
+
+  /** mtime */
+  mtime: string;
+}
+",
+  ],
+  [
+    "dist/src/model/cd/ModelVersion.ts",
+    "/** 程序包版本 */
+export interface ModelVersion {
+  /** 版本名称 */
+  name: string;
+
+  /** 版本Id */
+  versionId: string;
+
+  /** 包Id */
+  packageId: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  env_type: 1 | 3 | 7 | 15;
+
+  /** 创建时间 */
+  ctime: string;
+
+  /** 修改时间 */
+  mtime: string;
+}
+",
+  ],
+  [
+    "dist/src/model/cd/ModelPackageWithVersion.ts",
+    "import { ModelVersion } from "./index.js";
+
+/** 包带版本的模型 */
+export interface ModelPackageWithVersion {
+  /** 最新版本信息 */
+  lastVersionInfo: Partial<ModelVersion>[];
+
+  /** 描述 */
+  desc: string;
+}
+",
+  ],
+  [
+    "dist/src/model/cd/ModelPackageExt.ts",
+    "/** 包模型 */
+export interface ModelPackageExt {
+  /** 最新版本信息 */
+  lastVersionInfo: ModelPackageExt_lastVersionInfo;
+
+  /** 包实例数量 */
+  instanceCount: number;
+}
+
+export interface ModelPackageExt_lastVersionInfo {
+  /** 创建时间 */
+  ctime?: string;
+
+  /** 版本类型 1 开发, 3 测试, 7 预发布, 15 生产 */
+  env_type?: 1 | 3 | 7 | 15;
+
+  /** 版本名称 */
+  name?: string;
+
+  /** 版本Id */
+  versionId?: string;
+}
+",
+  ],
+  [
+    "dist/src/model/msgsender/ModelSendMessageWithAppendixRequest.ts",
+    "/** 发送带附件的通知的请求body */
+export interface ModelSendMessageWithAppendixRequest {
+  /** 附件的二进制数据 */
+  files: File;
+}
+",
+  ],
+  [
+    "dist/src/api/cd/package/index.ts",
+    "export * from "./autoDiscovery.js";
+export * from "./create.js";
+export * from "./get.js";
+export * from "./listNameService.js";
+export * from "./retry.js";
+export * from "./search.js";
+export * from "./sendMessageWithAppendix.js";
+export * from "./upload.js";
+",
+  ],
+  [
+    "dist/src/model/cd/index.ts",
+    "export * from "./ModelPackage.js";
+export * from "./ModelVersion.js";
+export * from "./ModelPackageWithVersion.js";
+export * from "./ModelPackageExt.js";
+",
+  ],
+  [
+    "dist/src/model/msgsender/index.ts",
+    "export * from "./ModelSendMessageWithAppendixRequest.js";
+",
+  ],
+  [
+    "dist/src/index.ts",
+    "export * from "./api/cd/package/index.js";
+export * as CdModels from "./model/cd/index.js";
+export * as MsgsenderModels from "./model/msgsender/index.js";
+",
+  ],
+  [
+    "dist/contracts.json",
+    "{
+  "name": "cd",
+  "description": {
+    "en": "cd",
+    "zh": "持续部署"
+  },
+  "contracts": [
+    {
+      "contract": "cd.package.AutoDiscovery",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "AutoDiscovery",
+      "version": "1.0.0",
+      "description": "实例自动发现的接口",
+      "endpoint": {
+        "method": "POST",
+        "uri": "/object/:objectId/instance/_import-json",
+        "ext_fields": [
+          {
+            "name": "body",
+            "source": "body"
+          }
+        ]
+      },
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "objectId",
+            "type": "object_id",
+            "description": "资源模型ID"
+          },
+          {
+            "name": "body",
+            "type": "object[]",
+            "fields": [
+              {
+                "name": "filter",
+                "type": "map",
+                "description": "筛选器"
+              },
+              {
+                "name": "update",
+                "type": "map",
+                "description": "更新数据"
+              },
+              {
+                "name": "upsert",
+                "type": "bool",
+                "description": "存在即更新"
+              }
+            ],
+            "description": "请求体"
+          }
+        ],
+        "required": [
+          "objectId",
+          "body"
+        ]
+      },
+      "response": {
+        "wrapper": false,
+        "type": "object",
+        "fields": [
+          {
+            "name": "code",
+            "type": "int",
+            "description": "返回码"
+          },
+          {
+            "name": "error",
+            "type": "string",
+            "description": "错误信息"
+          },
+          {
+            "name": "message",
+            "type": "string",
+            "description": "返回消息"
+          }
+        ],
+        "required": [
+          "code",
+          "error",
+          "message"
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.Create",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "Create",
+      "version": 1,
+      "description": "创建包",
+      "endpoint": {
+        "method": "POST",
+        "uri": "/package"
+      },
+      "import": [
+        "easyops/model/cd/package"
+      ],
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "ref": "Package.name"
+          },
+          {
+            "ref": "Package.type"
+          },
+          {
+            "ref": "Package.cId"
+          },
+          {
+            "ref": "Package.memo"
+          },
+          {
+            "ref": "Package.installPath"
+          },
+          {
+            "ref": "Package.platform"
+          },
+          {
+            "ref": "Package.source"
+          },
+          {
+            "ref": "Package.category"
+          },
+          {
+            "ref": "Package.icon"
+          },
+          {
+            "ref": "Package.style"
+          }
+        ],
+        "required": [
+          "Package.name",
+          "Package.type",
+          "Package.cId",
+          "Package.memo",
+          "Package.installPath",
+          "Package.platform"
+        ]
+      },
+      "response": {
+        "wrapper": false,
+        "type": "Package",
+        "required": [
+          "Package.packageId",
+          "Package.name",
+          "Package.type",
+          "Package.cId",
+          "Package.memo",
+          "Package.installPath",
+          "Package.platform",
+          "Package.source",
+          "Package.category",
+          "Package.icon",
+          "Package.style"
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.Get",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "Get",
+      "version": 1,
+      "description": "获取包",
+      "endpoint": {
+        "method": "GET",
+        "uri": "/packages/pkg"
+      },
+      "import": [
+        "easyops/model/cd/package_with_version",
+        "easyops/model/cd/version"
+      ],
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "ref": "Version.packageId"
+          },
+          {
+            "ref": "Version.versionId"
+          },
+          {
+            "name": "lang",
+            "type": "string",
+            "description": "语言"
+          }
+        ]
+      },
+      "response": {
+        "wrapper": true,
+        "type": "object",
+        "fields": [
+          {
+            "ref": "PackageWithVersion.lastVersionInfo"
+          },
+          {
+            "name": "mapField",
+            "type": "map",
+            "description": "MAP"
+          },
+          {
+            "name": "mapsField",
+            "type": "map[]",
+            "description": "MAPS"
+          }
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.ListNameService",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "ListNameService",
+      "version": "1.0.0",
+      "description": "获取全量名字服务列表",
+      "endpoint": {
+        "method": "GET",
+        "uri": "/api/v1/name_service/config"
+      },
+      "import": [],
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "page",
+            "type": "int",
+            "description": "page"
+          },
+          {
+            "name": "page_size",
+            "type": "int",
+            "description": "page_size, 最大1000"
+          }
+        ]
+      },
+      "response": {
+        "wrapper": false,
+        "type": "object",
+        "fields": [
+          {
+            "name": "code",
+            "type": "int",
+            "description": "返回码"
+          },
+          {
+            "name": "msg",
+            "type": "string",
+            "description": "消息"
+          },
+          {
+            "name": "page",
+            "type": "page",
+            "description": "页码"
+          },
+          {
+            "name": "page_size",
+            "type": "page_size",
+            "description": "分页大小"
+          },
+          {
+            "name": "total",
+            "type": "int",
+            "description": "总数"
+          },
+          {
+            "name": "data",
+            "type": "object[]",
+            "description": "名字服务列表",
+            "fields": [
+              {
+                "name": "service_name",
+                "type": "string",
+                "description": "服务名"
+              },
+              {
+                "name": "hosts",
+                "type": "object[]",
+                "description": "host列表",
+                "fields": [
+                  {
+                    "name": "ip",
+                    "type": "string",
+                    "description": "ip"
+                  },
+                  {
+                    "name": "port",
+                    "type": "int",
+                    "description": "端口"
+                  },
+                  {
+                    "name": "weight",
+                    "type": "int",
+                    "description": "权重"
+                  }
+                ]
+              },
+              {
+                "name": "ctime",
+                "type": "int",
+                "description": "创建时间"
+              },
+              {
+                "name": "mtime",
+                "type": "int",
+                "description": "修改时间"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.Retry",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "Retry",
+      "version": 1,
+      "description": "重试",
+      "endpoint": {
+        "method": "POST",
+        "uri": "/api/pipeline/v1/builds/:build_id/retry"
+      },
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "build_id",
+            "type": "string",
+            "description": "构建任务id"
+          }
+        ],
+        "required": [
+          "build_id"
+        ]
+      },
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "build id"
+          }
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.Search",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "Search",
+      "version": 1,
+      "description": "搜索包",
+      "detail": "支持模糊搜索",
+      "endpoint": {
+        "method": "LIST",
+        "uri": "/packages/search"
+      },
+      "import": [
+        "easyops/model/cd/package",
+        "easyops/model/cd/package_ext"
+      ],
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "ref": "Package.name"
+          },
+          {
+            "name": "page",
+            "type": "int",
+            "description": "page number"
+          },
+          {
+            "name": "pageSize",
+            "type": "int",
+            "description": "size of each page"
+          },
+          {
+            "name": "order",
+            "type": "string",
+            "description": "the field need to sort"
+          }
+        ],
+        "required": [
+          "Package.name"
+        ],
+        "default": {
+          "page": 1
+        }
+      },
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "ref": "Package.*"
+          },
+          {
+            "ref": "PackageExt.lastVersionInfo"
+          }
+        ],
+        "required": [
+          "Package.*",
+          "PackageExt.lastVersionInfo"
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.SendMessageWithAppendix",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "SendMessageWithAppendix",
+      "version": "1.0.0",
+      "description": "处理带附件的通知消息",
+      "endpoint": {
+        "method": "post",
+        "uri": "/api/v1/message_sender/mail_with_appendix"
+      },
+      "import": [
+        "easyops/model/msgsender/send_message_with_appendix_request"
+      ],
+      "request": {
+        "type": "SendMessageWithAppendixRequest",
+        "required": [
+          "SendMessageWithAppendixRequest.files"
+        ]
+      },
+      "response": {
+        "wrapper": false,
+        "type": "object",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "some id"
+          }
+        ]
+      }
+    },
+    {
+      "contract": "cd.package.Upload",
+      "category": {
+        "en": "package",
+        "zh": "包"
+      },
+      "name": "Upload",
+      "version": 1,
+      "description": "上传包",
+      "endpoint": {
+        "method": "POST",
+        "uri": "/packages/pkg/:packageId/upload",
+        "ext_fields": [
+          {
+            "name": "params",
+            "source": "query"
+          },
+          {
+            "name": "others",
+            "source": "body"
+          }
+        ]
+      },
+      "request": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "packageId",
+            "type": "string",
+            "description": "包 ID"
+          },
+          {
+            "name": "params",
+            "description": "params",
+            "type": "object",
+            "fields": [
+              {
+                "name": "versionId",
+                "type": "string",
+                "description": "版本 ID"
+              }
+            ]
+          },
+          {
+            "name": "others",
+            "description": "others",
+            "type": "object",
+            "fields": [
+              {
+                "name": "sourceFile",
+                "type": "file[]",
+                "description": "文件"
+              },
+              {
+                "name": "encoding",
+                "type": "string[]",
+                "description": "编码"
+              }
+            ]
+          }
+        ]
+      },
+      "response": {
+        "type": "file"
+      }
+    }
+  ]
+}",
+  ],
+]
+`;
+
+exports[`loadService should work for api_gateway 1`] = `
+[
+  [
+    "dist/src/api/api_gateway/auth/checkLogin.ts",
+    "import { http, HttpOptions } from "@next-core/http";
+import { ResponseBodyWrapper } from "../../../wrapper.js";
+
+export interface AuthApi_CheckLoginResponseBody {
+  /** 是否已经登录 */
+  loggedIn?: boolean;
+}
+
+/**
+ * @description 判断用户是否登录
+ * @endpoint GET /api/auth/login
+ */
+export const AuthApi_checkLogin = async (
+  options?: HttpOptions
+): Promise<AuthApi_CheckLoginResponseBody> =>
+  /**! @contract easyops.api.api_gateway.auth.CheckLogin@1.0.0 */ (
+    await http.get<ResponseBodyWrapper<AuthApi_CheckLoginResponseBody>>(
+      "api/auth/login",
+      options
+    )
+  ).data;
+",
+  ],
+  [
+    "dist/src/api/api_gateway/auth/index.ts",
+    "export * from "./checkLogin.js";
+",
+  ],
+  [
+    "dist/src/index.ts",
+    "export * from "./api/api_gateway/auth/index.js";
+",
+  ],
+  [
+    "dist/contracts.json",
+    "{
+  "name": "api_gateway",
+  "contracts": [
+    {
+      "contract": "api_gateway.auth.CheckLogin",
+      "name": "CheckLogin",
+      "version": "1.0.0",
+      "description": "判断用户是否登录",
+      "endpoint": {
+        "method": "GET",
+        "uri": "/api/auth/login"
+      },
+      "import": [],
+      "request": null,
+      "response": {
+        "type": "object",
+        "fields": [
+          {
+            "name": "loggedIn",
+            "type": "bool",
+            "description": "是否已经登录"
+          }
+        ]
+      }
+    }
+  ]
+}",
+  ],
+]
+`;

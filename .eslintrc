@@ -25,7 +25,8 @@
         "packages/build-next-libs/**/*.js",
         "packages/build-next-bricks/**/*.js",
         "packages/test-next/**/*.js",
-        "packages/brick-playground/serve/**/*.js"
+        "packages/brick-playground/serve/**/*.js",
+        "packages/create-api-sdk/**/*.{ts,js}"
       ],
       "extends": "@next-core/eslint-config-next/node"
     },

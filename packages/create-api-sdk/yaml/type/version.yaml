@@ -1,0 +1,9 @@
+_version_: 2.0
+_kind_: type
+
+name: version
+type: string
+description: 语义化版本号
+
+validate:
+  pattern: /^\d+\.\d+\.\d+$/

@@ -14,6 +14,7 @@ export function createJestConfig({
   transformModulePatterns = [],
   moduleNameMapper,
   testPathIgnorePatterns = [],
+  coverageProvider,
 }) {
   const projectRoot = "<rootDir>/../..";
   return {
@@ -24,6 +25,7 @@ export function createJestConfig({
     resolver: "ts-jest-resolver",
     testEnvironment: "jsdom",
     setupFilesAfterEnv: [`${projectRoot}/__jest__/setup.ts`],
+    coverageProvider,
     collectCoverageFrom: ["**/*.{js,jsx,ts,tsx}"],
     collectCoverage: true,
     coverageDirectory: "<rootDir>/.coverage",
