@@ -1,4 +1,4 @@
-import { createProviderClass } from "@next-core/utils/general";
+import { createProviderClass } from "@next-core/utils/storyboard";
 
 let count = 0;
 
