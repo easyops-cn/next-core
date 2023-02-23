@@ -30,8 +30,8 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@babel/parser": "^7.21.1",
-    "@babel/traverse": "^7.21.0",
+    "@babel/parser": "^7.21.2",
+    "@babel/traverse": "^7.21.2",
     "@svgr/webpack": "^6.5.1",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
