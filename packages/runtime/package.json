@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "@next-api-sdk/api-gateway-sdk": "^0.0.0",
-    "@next-core/http": "^0.0.0",
     "@next-core/cook": "^1.6.81",
+    "@next-core/http": "^0.0.0",
     "@next-core/inject": "^0.0.0",
     "@next-core/loader": "^0.0.0",
     "@next-core/supply": "^1.0.91",
@@ -49,6 +49,7 @@
     "@ungap/event-target": "^0.2.3",
     "history": "^4.10.1",
     "i18next": "^22.4.10",
+    "i18next-browser-languagedetector": "^7.0.1",
     "lodash": "^4.17.21",
     "path-to-regexp": "^6.2.1"
   },
