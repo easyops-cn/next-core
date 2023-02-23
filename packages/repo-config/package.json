@@ -9,8 +9,5 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
-  },
-  "devDependencies": {
-    "@next-core/test-next": "^0.0.0"
   }
 }

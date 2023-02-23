@@ -1,8 +1,8 @@
 // import { getFixedT } from "i18next";
 // import { identity } from "lodash";
 import type { MicroApp } from "@next-core/types";
+import { i18nText } from "@next-core/i18n/text";
 // import { widgetI18nFactory } from "../core/WidgetI18n";
-// import { i18nText } from "../i18nText";
 // import { getI18nNamespace } from "../i18n";
 // import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
 import { checkPermissions } from "../checkPermissions.js";
@@ -72,8 +72,8 @@ function getIndividualGlobal(
     //           Boolean
     //         )
     //       );
-    // case "I18N_TEXT":
-    //   return collectCoverage ? fakeI18nText : i18nText;
+    case "I18N_TEXT":
+      return collectCoverage ? fakeI18nText : i18nText;
     case "PERMISSIONS":
       return getReadOnlyProxy({
         check: collectCoverage ? fakeCheckPermissions : checkPermissions,
@@ -102,9 +102,9 @@ function getIndividualGlobal(
   }
 }
 
-// function fakeI18nText(data: Record<string, string>): string {
-//   return data?.en;
-// }
+function fakeI18nText(data: Record<string, string>): string {
+  return data?.en;
+}
 
 // function fakeImageFactory(): ImagesFactory {
 //   return {

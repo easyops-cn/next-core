@@ -8,9 +8,6 @@
     "url": "git@github.com:easyops-cn/next-core.git"
   },
   "type": "module",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
@@ -46,6 +43,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.16"
+    "@next-core/build-next-libs": "^0.2.16",
+    "@next-core/test-next": "^0.0.0"
   }
 }

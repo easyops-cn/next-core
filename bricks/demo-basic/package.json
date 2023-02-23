@@ -20,14 +20,13 @@
   },
   "dependencies": {
     "@next-core/element": "^0.0.0",
+    "@next-core/i18n": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/react-runtime": "^0.0.0",
     "@next-core/runtime": "^0.0.0",
     "@next-core/types": "^0.0.0",
     "@next-core/utils": "^0.0.0",
-    "i18next": "^22.4.10",
-    "react": "0.0.0-experimental-ee8509801-20230117",
-    "react-i18next": "^12.1.5"
+    "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",

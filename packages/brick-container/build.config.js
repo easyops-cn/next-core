@@ -41,7 +41,7 @@ export default {
           name: "vendors",
         },
         core: {
-          test: /[\\/]next-core[\\/]packages[\\/]/,
+          test: /[\\/]next-core[\\/](?:packages|sdk)[\\/]/,
           priority: -10,
           reuseExistingChunk: true,
           name: "core",
