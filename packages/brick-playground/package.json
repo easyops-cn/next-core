@@ -14,7 +14,7 @@
   "files": [
     "bin",
     "dist",
-    "scripts"
+    "serve"
   ],
   "scripts": {
     "start": "cross-env NODE_ENV='development' node serve/start.js",
@@ -22,18 +22,21 @@
     "serve": "node serve/index.js"
   },
   "dependencies": {
-    "@next-core/loader": "^0.0.0",
-    "@next-core/runtime": "^0.0.0",
-    "@next-core/utils": "^0.0.0",
     "compression": "^1.7.4",
-    "express": "^4.18.2",
-    "js-yaml": "^3.14.1",
-    "monaco-editor": "^0.35.0"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
+    "@next-core/loader": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "js-yaml": "^3.14.1",
+    "monaco-editor": "^0.35.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "webpack-dev-server": "^4.11.1"
+  },
+  "peerDependencies": {
+    "@next-core/runtime": "*",
+    "@next-core/utils": "*"
   }
 }

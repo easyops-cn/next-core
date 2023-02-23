@@ -1,6 +1,7 @@
 // @ts-check
 import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
 
 const packageDir = process.cwd();
 
@@ -18,6 +19,16 @@ export default {
       title: "DevOps 管理专家",
       template: path.join(packageDir, "src/index.ejs"),
       baseHref: "/",
+      // favicon: path.join(packageDir, "assets/favicon.png"),
+      faviconPath: "assets/favicon.png",
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(packageDir, "assets"),
+          to: "assets",
+        },
+      ],
     }),
   ],
   optimization: {

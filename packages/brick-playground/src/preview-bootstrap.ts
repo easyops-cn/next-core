@@ -1,6 +1,8 @@
 import { loadBricksImperatively } from "@next-core/loader";
-import { __secret_internals } from "@next-core/runtime";
+import { createRuntime, __secret_internals } from "@next-core/runtime";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
+
+createRuntime();
 
 const mountPoints = {
   main: document.querySelector("#preview-root") as HTMLElement,

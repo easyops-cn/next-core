@@ -13,19 +13,8 @@
     "conf",
     "deploy",
     "dist",
-    "serve",
     "tools"
   ],
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/dist",
-          "{projectRoot}/src/styles/theme/generated.css"
-        ]
-      }
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -37,12 +26,10 @@
     "serve": "node scripts/serve.js"
   },
   "dependencies": {
-    "@next-core/http": "^0.0.0",
-    "@next-core/runtime": "^0.0.0",
-    "@next-core/utils": "^0.0.0",
     "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
+    "compression": "^1.7.4",
     "concat-stream": "^2.0.0",
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
@@ -54,15 +41,18 @@
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
-    "clean-webpack-plugin": "^4.0.0",
-    "compression": "^1.7.4",
+    "@next-core/http": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.28.0",
-    "express": "^4.18.2",
-    "fs-extra": "^10.1.0",
     "html-webpack-plugin": "^5.5.0",
-    "i18next-browser-languagedetector": "^6.1.8",
+    "i18next": "^22.4.10",
     "regenerator-runtime": "^0.13.11",
     "webpack-dev-server": "^4.11.1"
+  },
+  "peerDependencies": {
+    "@next-core/http": "*",
+    "@next-core/runtime": "*",
+    "@next-core/utils": "*"
   }
 }

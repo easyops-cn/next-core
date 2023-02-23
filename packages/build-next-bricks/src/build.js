@@ -122,7 +122,10 @@ export default async function build(config) {
             {
               singleton: sharedSingletonPackages.includes(dep),
               version: depPackageJson.version,
-              requiredVersion: packageJson.dependencies?.[depPkgName],
+              requiredVersion:
+                packageJson.peerDependencies?.[depPkgName] ??
+                packageJson.devDependencies?.[depPkgName] ??
+                packageJson.dependencies?.[depPkgName],
               ...customized,
             },
           ];
