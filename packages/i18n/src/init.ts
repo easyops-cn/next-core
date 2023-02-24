@@ -1,14 +1,22 @@
-import i18n from "i18next";
-// import { initReactI18next } from "react-i18next";
+import { i18n } from "@next-core/i18n";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-export function initI18n() {
+let initialized = false;
+
+export function initializeI18n() {
+  if (initialized) {
+    return;
+  }
+  initialized = true;
   i18n
     // learn more: https://github.com/i18next/i18next-xhr-backend
     // .use(Backend)
     // learn more: https://github.com/i18next/i18next-browser-languageDetector
-    .use(LanguageDetector)
-    // .use(initReactI18next)
+    .use(
+      process.env.NODE_ENV === "test"
+        ? (LanguageDetector as unknown as LanguageDetector.default)
+        : LanguageDetector.default
+    )
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
       fallbackLng: "zh",

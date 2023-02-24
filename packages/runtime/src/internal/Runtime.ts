@@ -1,7 +1,6 @@
-import i18n from "i18next";
 import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
+import { initializeI18n } from "@next-core/i18n";
 import { createHistory } from "../history.js";
-import { initI18n } from "./i18n.js";
 import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";
 
@@ -12,9 +11,7 @@ export function createRuntime() {
   if (runtime) {
     throw new Error("Cannot create multiple runtimes");
   }
-  initI18n();
-  // eslint-disable-next-line no-console
-  console.log(i18n.language, i18n.t("translation:hello"));
+  initializeI18n();
   createHistory();
   runtime = new Runtime();
   return runtime;

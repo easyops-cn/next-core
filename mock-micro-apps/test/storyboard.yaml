@@ -4,6 +4,11 @@ app:
   homepage: /
   noAuthGuard: true
 meta:
+  i18n:
+    en:
+      world: World!
+    zh:
+      world: 世界！
   functions:
   - name: sayYes
     source: |
@@ -661,3 +666,17 @@ routes:
   - brick: div
     properties:
       textContent: OK
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 8 %>'
+  context:
+  - name: world
+    value:
+      en: World
+      zh: 世界
+  bricks:
+  - brick: demo-basic.native-button
+  - brick: demo-basic.x-button
+    properties:
+      # label: '<% I18N_TEXT(CTX.world) %>'
+      label: '<% I18N("world") %>'

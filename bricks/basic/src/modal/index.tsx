@@ -8,13 +8,13 @@ import React, {
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement, wrapBrick } from "@next-core/react-element";
 import classNames from "classnames";
-import type { Button, ButtonProps } from "../button";
 import type {
   GeneralIcon,
   GeneralIconProps,
 } from "@next-bricks/icons/general-icon";
-import styleText from "./modal.shadow.css";
 import "@next-core/theme";
+import type { Button, ButtonProps } from "../button/index.js";
+import styleText from "./modal.shadow.css";
 
 /**
  * Wrap usage:

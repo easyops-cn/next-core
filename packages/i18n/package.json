@@ -1,28 +1,27 @@
 {
-  "name": "@next-core/runtime",
+  "name": "@next-core/i18n",
   "version": "0.0.0",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/runtime",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/i18n",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
   },
-  "sideEffects": [
-    "*.css"
-  ],
+  "sideEffects": false,
   "type": "module",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "typings": "dist/types/index.d.ts",
   "files": [
-    "dist",
-    "styles"
+    "dist"
   ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
+    },
+    "./react": {
+      "types": "./dist/types/react.d.ts",
+      "import": "./dist/esm/react.js",
+      "require": "./dist/cjs/react.js"
     },
     "./package.json": "./package.json"
   },
@@ -35,22 +34,16 @@
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
-    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json"
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-api-sdk/api-gateway-sdk": "^0.0.0",
-    "@next-core/cook": "^1.6.81",
-    "@next-core/http": "^0.0.0",
-    "@next-core/i18n": "^0.0.0",
-    "@next-core/inject": "^0.0.0",
-    "@next-core/loader": "^0.0.0",
-    "@next-core/supply": "^1.0.91",
     "@next-core/types": "^0.0.0",
     "@next-core/utils": "^0.0.0",
-    "@ungap/event-target": "^0.2.3",
-    "history": "^4.10.1",
-    "lodash": "^4.17.21",
-    "path-to-regexp": "^6.2.1"
+    "i18next": "^22.4.10",
+    "react-i18next": "^12.1.5",
+    "i18next-browser-languagedetector": "^7.0.1"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.16",

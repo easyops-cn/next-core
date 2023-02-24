@@ -69,11 +69,14 @@ export default async function build(config) {
     "lodash",
     "moment",
     "js-yaml",
+    "i18next-browser-languagedetector",
     "react-i18next",
     "@next-core/runtime",
     "@next-core/http",
     "@next-core/theme",
     "@next-core/cook",
+    "@next-core/i18n",
+    "@next-core/i18n/react",
     "@next-core/inject",
     "@next-core/loader",
     "@next-core/supply",
@@ -284,7 +287,7 @@ export default async function build(config) {
             splitChunks: {
               cacheGroups: {
                 react: {
-                  test: /[\\/]node_modules[\\/]react(?:-dom)?[\\/]/,
+                  test: /[\\/]node_modules[\\/](?:react(?:-dom)?|scheduler)[\\/]/,
                   priority: -10,
                   reuseExistingChunk: true,
                   name: "react",
