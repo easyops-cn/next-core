@@ -14,7 +14,6 @@ import { DataStore } from "./data/DataStore.js";
 import { clearResolveCache } from "./data/resolveData.js";
 import { afterMountTree, mountTree, unmountTree } from "./mount.js";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
-import { customTemplates } from "../CustomTemplates.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
 import { RendererContext } from "./RendererContext.js";
@@ -38,6 +37,10 @@ import {
 import { abortPendingRequest, initAbortController } from "./abortController.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
+import {
+  clearCollectWidgetContract,
+  collectContract,
+} from "./data/CollectContracts.js";
 
 export class Router {
   #kernel: Kernel;
@@ -196,6 +199,7 @@ export class Router {
 
     resetAllComputedMarks();
     clearResolveCache();
+    clearCollectWidgetContract();
 
     const history = getHistory();
     history.unblock();
@@ -290,6 +294,7 @@ export class Router {
       registerAppI18n(storyboard);
       registerCustomTemplates(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
+      collectContract(storyboard.meta?.contracts);
 
       let failed = false;
       let output: RenderOutput;

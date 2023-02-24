@@ -1,20 +1,33 @@
 import type { BrickPackage } from "@next-core/types";
 import { loadBricksImperatively } from "@next-core/loader";
+import { isFlowApiProvider } from "./FlowApi.js";
+import {
+  FLOW_API_PROVIDER,
+  registerFlowApiProvider,
+} from "./FlowApiProvider.js";
 
 const pool = new Map<string, HTMLElement>();
 export async function getProviderBrick(
   provider: string,
   brickPackages: BrickPackage[]
 ): Promise<HTMLElement> {
+  if (isFlowApiProvider(provider)) {
+    provider = FLOW_API_PROVIDER;
+  }
+
   let brick = pool.get(provider);
   if (brick) {
     return brick;
   }
 
-  await loadBricksImperatively([provider], brickPackages);
+  if (provider === FLOW_API_PROVIDER && !customElements.get(provider)) {
+    registerFlowApiProvider();
+  } else {
+    await loadBricksImperatively([provider], brickPackages);
 
-  if (!customElements.get(provider)) {
-    throw new Error(`Provider not defined: "${provider}".`);
+    if (!customElements.get(provider)) {
+      throw new Error(`Provider not defined: "${provider}".`);
+    }
   }
 
   brick = document.createElement(provider);

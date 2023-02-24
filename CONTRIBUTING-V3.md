@@ -121,8 +121,8 @@ src/bootstrap.ts
 - [x] Builtin Message and Error Displaying
 - [x] API SDK
 - [x] I18n
+- [x] Flow API
 - [ ] Menu
-- [ ] Flow API
 - [ ] Widgets
 - [ ] WebSocket Message API
 - [ ] Form Renderer
