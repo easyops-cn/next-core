@@ -675,6 +675,7 @@ routes:
       en: World
       zh: 世界
   bricks:
+  - brick: demo-basic.say-hello
   - brick: demo-basic.native-button
   - brick: demo-basic.x-button
     properties:

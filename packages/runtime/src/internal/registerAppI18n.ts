@@ -16,5 +16,5 @@ export function getI18nNamespace(
   type: "app" | "widget" | "menu",
   id: string
 ): string {
-  return `$${type}-${id}`;
+  return `${type}/${id}`;
 }

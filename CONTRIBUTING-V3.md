@@ -120,10 +120,10 @@ src/bootstrap.ts
 - [x] Icons
 - [x] Builtin Message and Error Displaying
 - [x] API SDK
+- [x] I18n
 - [ ] Menu
 - [ ] Flow API
 - [ ] Widgets
-- [ ] I18n
 - [ ] WebSocket Message API
 - [ ] Form Renderer
 - [ ] Chrome Devtools
