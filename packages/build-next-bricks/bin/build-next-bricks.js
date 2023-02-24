@@ -51,12 +51,11 @@ try {
         }
       });
     });
-  }
 
-  // Done
-  console.log(
-    `Build bricks done in ${((Date.now() - startTime) / 1000).toFixed(2)}s`
-  );
+    console.log(
+      `Build bricks done in ${((Date.now() - startTime) / 1000).toFixed(2)}s`
+    );
+  }
 } catch (e) {
   console.error(e);
   process.exitCode = 1;

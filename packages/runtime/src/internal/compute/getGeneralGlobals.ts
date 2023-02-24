@@ -1,7 +1,6 @@
 import { identity } from "lodash";
 import type { MicroApp } from "@next-core/types";
-import { i18n } from "@next-core/i18n";
-import { i18nText } from "@next-core/i18n";
+import { i18n, i18nText } from "@next-core/i18n";
 // import { widgetI18nFactory } from "../core/WidgetI18n";
 // import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
 import { checkPermissions } from "../checkPermissions.js";

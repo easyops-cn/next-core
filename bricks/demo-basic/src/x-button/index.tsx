@@ -1,10 +1,7 @@
 import React from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement, wrapLocalBrick } from "@next-core/react-element";
-import { initializeReactI18n, useTranslation } from "@next-core/i18n/react";
 import styleText from "./x-button.shadow.css";
-
-initializeReactI18n();
 
 const { defineElement, property, method, event } = createDecorators();
 
@@ -32,10 +29,9 @@ class XButton extends ReactNextElement implements XButtonProps {
 }
 
 export function XButtonComponent({ label }: { label?: string }) {
-  const { t } = useTranslation();
   return (
     <button>
-      {t("hello")}
+      Hello,
       {label}
       <slot />
     </button>
