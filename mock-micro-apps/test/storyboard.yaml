@@ -681,3 +681,15 @@ routes:
     properties:
       # label: '<% I18N_TEXT(CTX.world) %>'
       label: '<% I18N("world") %>'
+    events:
+      click:
+        useProvider: easyops.api.cmdb.instance@ListInstance:1.0.0
+        args:
+        - HOST
+        - page: 1
+          page_size: 10
+        callback:
+          success:
+            action: console.log
+          error:
+            action: console.error

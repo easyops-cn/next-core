@@ -29,6 +29,7 @@ import {
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
 import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
+import { getArgsOfFlowApi } from "./data/FlowApi.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -403,19 +404,19 @@ async function brickCallback(
   }
 
   const task = async (): Promise<unknown> => {
-    const computedArgs = argsFactory(
+    let computedArgs = argsFactory(
       handler.args,
       runtimeContext,
       event,
       options
     );
-    // if (isUseProviderHandler(handler)) {
-    //   computedArgs = await getArgsOfCustomApi(
-    //     handler.useProvider,
-    //     computedArgs,
-    //     method
-    //   );
-    // }
+    if (isUseProviderHandler(handler)) {
+      computedArgs = await getArgsOfFlowApi(
+        handler.useProvider,
+        computedArgs,
+        method
+      );
+    }
     return (target as any)[method](...computedArgs);
   };
 

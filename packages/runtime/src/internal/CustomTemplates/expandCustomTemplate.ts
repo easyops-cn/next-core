@@ -18,6 +18,7 @@ import type {
 } from "../interfaces.js";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 import { childrenToSlots } from "../Renderer.js";
+import { collectWidgetContract } from "../data/CollectContracts.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
@@ -37,8 +38,8 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   const tplStateStore = new DataStore("STATE", hostBrick);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
 
-  const { bricks, proxy, state } = customTemplates.get(tplTagName)!;
-  // collectWidgetContract(template.contracts);
+  const { bricks, proxy, state, contracts } = customTemplates.get(tplTagName)!;
+  collectWidgetContract(contracts);
   tplStateStore.define(state, runtimeContext, asyncHostProperties);
 
   const {

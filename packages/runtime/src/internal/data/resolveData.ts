@@ -6,6 +6,7 @@ import type {
 import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 import type { RuntimeContext } from "../interfaces.js";
+import { getArgsOfFlowApi } from "./FlowApi.js";
 
 const cache = new Map<string, Promise<unknown>>();
 
@@ -27,6 +28,13 @@ export async function resolveData(
   options?: ResolveOptions
 ) {
   const { useProvider, method = "resolve", args, onReject } = resolveConf;
+
+  const legacyProvider = (resolveConf as { provider?: string }).provider;
+  if (legacyProvider && !useProvider) {
+    throw new Error(
+      `You're using "provider: ${legacyProvider}" which is not supported in v3, please use "useProvider" instead`
+    );
+  }
 
   const [provider, actualArgs] = await Promise.all([
     getProviderBrick(
@@ -59,12 +67,8 @@ export async function resolveData(
   }
   if (!promise) {
     promise = (async () => {
-      // actualArgs = await getArgsOfCustomApi(
-      //   useProvider,
-      //   actualArgs,
-      //   method
-      // );
-      return provider[method](...actualArgs);
+      const finalArgs = await getArgsOfFlowApi(useProvider, actualArgs, method);
+      return provider[method](...finalArgs);
     })();
 
     cache.set(cacheKey, promise);
