@@ -22,7 +22,7 @@ describe("demo-basic.y-button", () => {
     expect(element.shadowRoot.childNodes.length).toBe(2);
 
     expect(element.shadowRoot.innerHTML).toMatchInlineSnapshot(
-      `"<style>x-button.shadow.css</style><button>helloHi:<slot></slot></button>"`
+      `"<style>x-button.shadow.css</style><button>Hello,Hi:<slot></slot></button>"`
     );
 
     const listener = jest.fn();
