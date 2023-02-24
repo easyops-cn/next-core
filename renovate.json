@@ -10,6 +10,7 @@
   "ignorePaths": [
     "**/node_modules/**",
     "**/dll/**",
+    "**/sdk/**",
     "**/packages/brick-dll/**",
     "**/packages/fontawesome-library/**",
     "**/packages/editor-bricks-helper/**",
@@ -52,7 +53,8 @@
         "^@next-core/",
         "^@next-dll/",
         "^@next-sdk/",
-        "^@next-bricks/"
+        "^@next-bricks/",
+        "^@next-api-sdk/"
       ],
       "enabled": false
     },
