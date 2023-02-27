@@ -8,3 +8,4 @@ import "./textarea/index.js";
 import "./form/index.js";
 import "./form-item/index.js";
 import "./drawer/index.js";
+import "./card/index.js";
