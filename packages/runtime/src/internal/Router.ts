@@ -25,7 +25,7 @@ import {
   setTheme,
 } from "../themeAndMode.js";
 import { getRuntime } from "./Runtime.js";
-import { getAuth } from "../auth.js";
+import { getAuth, isLoggedIn } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
@@ -35,12 +35,12 @@ import {
   isUnauthenticatedError,
 } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
-import { registerAppI18n } from "./registerAppI18n.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
 import {
   clearCollectWidgetContract,
   collectContract,
 } from "./data/CollectContracts.js";
+import { fulfilStoryboard } from "./loadBootstrapData.js";
 
 export class Router {
   #kernel: Kernel;
@@ -272,6 +272,8 @@ export class Router {
     };
 
     if (currentApp) {
+      await fulfilStoryboard(storyboard);
+
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,
@@ -291,7 +293,6 @@ export class Router {
         "router"
       ));
 
-      registerAppI18n(storyboard);
       registerCustomTemplates(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
       collectContract(storyboard.meta?.contracts);
@@ -393,7 +394,7 @@ export class Router {
 
         return;
       }
-    } else if (!window.NO_AUTH_GUARD /* && !isLoggedIn() */) {
+    } else if (!window.NO_AUTH_GUARD && !isLoggedIn()) {
       // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
       // Redirect to login if no storyboard is matched.
       redirectToLogin();

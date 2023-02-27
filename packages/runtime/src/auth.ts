@@ -1,5 +1,5 @@
 // import { userAnalytics } from "@next-core/easyops-analytics";
-import { AuthApi_CheckLoginResponseBody } from "@next-api-sdk/api-gateway-sdk";
+import type { AuthApi_CheckLoginResponseBody } from "@next-api-sdk/api-gateway-sdk";
 import { resetPermissionPreChecks } from "./internal/checkPermissions.js";
 
 const auth: AuthInfo = {};

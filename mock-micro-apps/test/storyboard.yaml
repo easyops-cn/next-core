@@ -2,7 +2,8 @@ app:
   name: Test
   id: test
   homepage: /
-  noAuthGuard: true
+  # noAuthGuard: true
+  standaloneMode: true
 meta:
   i18n:
     en:
@@ -680,7 +681,8 @@ routes:
   - brick: demo-basic.x-button
     properties:
       # label: '<% I18N_TEXT(CTX.world) %>'
-      label: '<% I18N("world") %>'
+      # label: '<% I18N("world") %>'
+      label: '<% SYS.username %>'
     events:
       click:
         useProvider: easyops.api.cmdb.instance@ListInstance:1.0.0
