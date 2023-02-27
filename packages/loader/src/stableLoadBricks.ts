@@ -170,6 +170,7 @@ async function enqueueStableLoad(
 }
 
 function dispatchRequestStatus(promise: Promise<unknown>) {
+  window.dispatchEvent(new Event("request.start"));
   promise.finally(() => {
     window.dispatchEvent(new Event("request.end"));
   });

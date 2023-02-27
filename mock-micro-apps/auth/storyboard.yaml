@@ -6,26 +6,6 @@ app:
 routes:
 - path: ${APP.homepage}/login
   bricks:
-  # - brick: form
-  #   properties:
-  #     action: api/auth/login/v2
-  #     method: POST
-  #     enctype: application/x-www-form-urlencoded
-  #   children:
-  #   - brick: input
-  #     properties:
-  #       type: text
-  #       name: username
-  #       placeholder: Username
-  #   - brick: input
-  #     properties:
-  #       type: password
-  #       name: password
-  #       placeholder: Password
-  #   - brick: button
-  #     properties:
-  #       type: submit
-  #       textContent: Login
   - brick: basic.general-form
     properties:
       id: login-form
