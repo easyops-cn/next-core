@@ -10,7 +10,7 @@ http.interceptors.request.use((config) => {
 
   const headers = new Headers(config.options?.headers || {});
 
-  headers.set("lang", i18n.resolvedLanguage);
+  headers.set("lang", i18n.resolvedLanguage ?? i18n.language);
   const { csrfToken } = getAuth();
   csrfToken && headers.set("X-CSRF-Token", csrfToken);
 

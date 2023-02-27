@@ -1,4 +1,5 @@
 // import "./fa-icon/index.js";
+import "./data-providers/httpRequest.js";
 import "./button/index.js";
 import "./link/index.js";
 import "./flex-layout/index.js";
