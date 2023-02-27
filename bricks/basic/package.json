@@ -41,13 +41,19 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.3.0",
+    "@next-bricks/icons": "^0.0.0",
     "@next-core/element": "^0.0.0",
     "@next-core/http": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/theme": "^0.0.0",
-    "@next-bricks/icons": "^0.0.0",
+    "@next-core/brick-types": "^2.82.4",
+    "antd": "^5.2.2",
     "classnames": "^2.3.2",
-    "react": "0.0.0-experimental-ee8509801-20230117"
+    "immutability-helper": "^3.1.1",
+    "lodash": "^4.17.21",
+    "react": "0.0.0-experimental-ee8509801-20230117",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
