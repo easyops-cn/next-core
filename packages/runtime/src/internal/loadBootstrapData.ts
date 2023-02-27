@@ -9,7 +9,12 @@ import { registerAppI18n } from "./registerAppI18n.js";
 export async function loadBootstrapData(): Promise<BootstrapData> {
   return window.STANDALONE_MICRO_APPS
     ? standaloneBootstrap()
-    : (BootstrapV2Api_bootstrapV2({}) as Promise<BootstrapData>);
+    : (BootstrapV2Api_bootstrapV2({
+        appFields:
+          "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status,icons,standaloneMode",
+        ignoreTemplateFields: "templates",
+        ignoreBrickFields: "bricks,processors,providers,editors",
+      }) as Promise<BootstrapData>);
 }
 
 async function standaloneBootstrap(): Promise<BootstrapData> {
