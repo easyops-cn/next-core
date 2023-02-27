@@ -2,6 +2,8 @@
 
 export type Target = "_self" | "_blank" | "_parent" | "_top";
 
+export type UIType = "default" | "dashboard";
+
 /* ============== Common Type Start ============== */
 
 /* ============== Button Type Start ============== */
@@ -63,3 +65,28 @@ export type Layout = "horizontal" | "vertical" | "inline";
 export type Placement = "left" | "right" | "top" | "bottom";
 
 /* ============== Drawer Type Start ============== */
+
+/* ============== Radio Type Start ============== */
+
+export type RadioType =
+  | "button"
+  | "default"
+  | "icon"
+  | "icon-circle"
+  | "icon-square"
+  | "custom";
+export interface GeneralComplexOption<T = string | number | boolean> {
+  label: string;
+  value: T;
+}
+
+export declare type GeneralOption =
+  | string
+  | number
+  | boolean
+  | GeneralComplexOption
+  | Record<string, any>;
+
+export declare type RadioGroupButtonStyle = "outline" | "solid";
+
+/* ============== Radio Type End ============== */
