@@ -137,7 +137,7 @@ async function enqueueStableLoad(
   let basicPkgPromise: Promise<unknown> | undefined;
   const basicPkg = foundBasicPkg;
   if (basicPkg) {
-    const tempPromise = loadScript(basicPkg.filePath);
+    const tempPromise = loadScript(basicPkg.filePath, window.PUBLIC_ROOT ?? "");
     // Packages other than BASIC will wait for an extra micro-task tick.
     if (!basicPkgWillBeResolved) {
       basicPkgWillBeResolved = true;
@@ -155,7 +155,7 @@ async function enqueueStableLoad(
 
   const pkgPromises = [basicPkgPromise].concat(
     restPackages.map(async (pkg) => {
-      await loadScript(pkg.filePath);
+      await loadScript(pkg.filePath, window.PUBLIC_ROOT ?? "");
       await waitBasicPkg;
       return Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -170,6 +170,7 @@ async function enqueueStableLoad(
 }
 
 function dispatchRequestStatus(promise: Promise<unknown>) {
+  window.dispatchEvent(new Event("request.start"));
   promise.finally(() => {
     window.dispatchEvent(new Event("request.end"));
   });

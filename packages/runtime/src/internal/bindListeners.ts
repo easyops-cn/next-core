@@ -169,6 +169,9 @@ export function listenerFactory(
             break;
 
           case "console.log":
+          case "console.error":
+          case "console.warn":
+          case "console.info":
             handleConsoleAction(event, method, handler.args, runtimeContext);
             break;
 

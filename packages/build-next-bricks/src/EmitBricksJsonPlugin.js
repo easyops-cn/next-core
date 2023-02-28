@@ -25,12 +25,21 @@ export default class EmitBricksJsonPlugin {
           stage: webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE,
         },
         (compilationAssets, callback) => {
-          const assetFilePath = Object.keys(compilationAssets).find(
+          const jsEntries = Object.keys(compilationAssets).filter(
             (filePath) =>
               filePath.startsWith("index.") && filePath.endsWith(".js")
           );
-          const jsFilePath =
-            assetFilePath && `bricks/${this.packageName}/dist/${assetFilePath}`;
+          if (!jsEntries) {
+            throw new Error(
+              `No js files in dist of bricks/${this.packageName}`
+            );
+          }
+          if (jsEntries.length > 1) {
+            throw new Error(
+              `Only a single js entry is allowed in dist of bricks/${this.packageName}, but ${jsEntries.length} entries were found`
+            );
+          }
+          const jsFilePath = `bricks/${this.packageName}/dist/${jsEntries[0]}`;
 
           const bricksJson = JSON.stringify(
             {
