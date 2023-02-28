@@ -83,8 +83,5 @@
     "@types/react": "^18.0.28",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
-  },
-  "dependencies": {
-    "tslib": "^2.5.0"
   }
 }
