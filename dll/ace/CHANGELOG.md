@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.582](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.581...@next-dll/ace@2.0.582) (2023-02-28)
+
+**Note:** Version bump only for package @next-dll/ace
+
+
+
+
+
 ## [2.0.581](https://github.com/easyops-cn/next-core/compare/@next-dll/ace@2.0.580...@next-dll/ace@2.0.581) (2023-02-20)
 
 **Note:** Version bump only for package @next-dll/ace
