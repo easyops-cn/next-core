@@ -4,7 +4,7 @@ import { ReactNextElement, wrapBrick } from "@next-core/react-element";
 
 import styleText from "./card.shadow.css";
 import "@next-core/theme";
-import { Button, ButtonProps } from "../button/index.jsx";
+import type { Button, ButtonProps } from "../button/index.js";
 import { isEmpty } from "lodash";
 
 export interface OperationButton {
