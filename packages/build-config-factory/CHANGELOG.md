@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.24.7...@next-core/build-config-factory@2.25.0) (2023-02-28)
+
+
+### Features
+
+* properties doc support editor ([ec90293](https://github.com/easyops-cn/next-core/commit/ec90293be6cd7d0cf0efd934edfbbeaa0b085dbf))
+
+
+
+
+
 ## [2.24.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.24.6...@next-core/build-config-factory@2.24.7) (2023-02-20)
 
 **Note:** Version bump only for package @next-core/build-config-factory
