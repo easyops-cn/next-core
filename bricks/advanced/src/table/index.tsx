@@ -258,7 +258,7 @@ class TableComponent extends ReactNextElement {
    * @group basic
    */
   @property({
-    attribute: false,
+    type: Boolean,
   })
   accessor showCard = true;
 
@@ -300,7 +300,7 @@ class TableComponent extends ReactNextElement {
    * @group rowSelection
    */
   @property({
-    attribute: false,
+    type: Boolean,
   })
   accessor showSelectInfo = false;
 
