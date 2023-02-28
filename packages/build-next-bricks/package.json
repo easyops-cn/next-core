@@ -43,7 +43,7 @@
     "postcss-loader": "^7.0.2",
     "postcss-preset-env": "^8.0.1",
     "style-loader": "^3.3.1",
-    "typescript": "5.0.0-beta",
+    "typescript": "5.0.0-dev.20230226",
     "webpack": "^5.75.0"
   }
 }
