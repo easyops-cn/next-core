@@ -4,11 +4,7 @@ import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import styleText from "./table.shadow.css";
 import { ColumnProps, TablePaginationConfig, TableProps } from "antd/es/table";
-import {
-  BrickEventsMap,
-  UseBrickConf,
-  UseSingleBrickConf,
-} from "@next-core/types";
+import { BrickEventsMap, UseSingleBrickConf } from "@next-core/types";
 import {
   get,
   map,
@@ -135,14 +131,14 @@ export interface CustomColumn extends ColumnProps<Record<string, any>> {
 createHistory();
 
 /**
- * @id basic.general-table
- * @name basic.general-table
+ * @id advanced.general-table
+ * @name advanced.general-table
  * @docKind brick
  * @description 通用表格构件
  * @author sailor
  * @noInheritDoc
  */
-@defineElement("basic.general-table", {
+@defineElement("advanced.general-table", {
   styleTexts: [styleText],
 })
 class TableComponent extends ReactNextElement {
@@ -559,9 +555,7 @@ class TableComponent extends ReactNextElement {
    * @description 前端搜索参数
    * @group paginationAndFilter
    */
-  @property({
-    attribute: false,
-  })
+  @property()
   accessor frontSearchQuery = "";
 
   /**
@@ -593,7 +587,7 @@ class TableComponent extends ReactNextElement {
    * @group paginationAndFilter
    */
   @property({
-    attribute: false,
+    type: Number,
   })
   accessor page: number | undefined;
 
@@ -604,7 +598,7 @@ class TableComponent extends ReactNextElement {
    * @group paginationAndFilter
    */
   @property({
-    attribute: false,
+    type: Number,
   })
   accessor pageSize: number | undefined;
 
@@ -631,7 +625,7 @@ class TableComponent extends ReactNextElement {
    * @description 把过滤条件更新到 url 时的字段名
    * @group paginationAndFilter
    */
-  @property({ attribute: false })
+  @property()
   accessor qField = "q";
 
   /**
@@ -689,7 +683,7 @@ class TableComponent extends ReactNextElement {
    * @description 表格表头是否透明
    * @group ui
    */
-  @property({ attribute: false })
+  @property({ type: Boolean })
   accessor thTransparent: boolean | undefined;
 
   /**
@@ -699,7 +693,7 @@ class TableComponent extends ReactNextElement {
    * @group ui
    */
   @property({
-    attribute: false,
+    type: Boolean,
   })
   accessor showHeader = true;
 
@@ -720,9 +714,7 @@ class TableComponent extends ReactNextElement {
    * @description 表格大小（antd原生size）
    * @group ui
    */
-  @property({
-    attribute: false,
-  })
+  @property()
   accessor size: SizeType;
 
   /**
@@ -742,9 +734,7 @@ class TableComponent extends ReactNextElement {
    * @description 是否更新 url 参数。设置为否之后，如果是后台进行分页/排序等功能，则需要结合事件进行编排。如果是前台进行分页/排序，则不需要。
    * @group other
    */
-  @property({
-    attribute: false,
-  })
+  @property({ type: Boolean })
   accessor shouldUpdateUrlParams = true;
 
   /**
@@ -754,7 +744,7 @@ class TableComponent extends ReactNextElement {
    * @group other
    */
   @property({
-    attribute: false,
+    type: Boolean,
   })
   accessor shouldRenderWhenUrlParamsUpdate = true;
 

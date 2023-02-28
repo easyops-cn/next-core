@@ -161,7 +161,10 @@ export function BrickTable(props: BrickTableProps): React.ReactElement {
   }
 
   const {
-    configProps,
+    configProps = {
+      pagination: true,
+      sortBy: false,
+    },
     columns,
     rowKey = "key",
     expandIconAsCell,
@@ -199,7 +202,10 @@ export function BrickTable(props: BrickTableProps): React.ReactElement {
     setData(initData);
   }, [initData]);
 
-  const expandIconColumnIndexOffset = configProps?.rowSelection ? -1 : 0;
+  const expandIconColumnIndexOffset = (configProps as TableProps<any>)
+    ?.rowSelection
+    ? -1
+    : 0;
   const customColumns = useMemo(() => {
     if (columns) {
       columnTitleBrickDataMapRef.current.clear();
@@ -490,10 +496,3 @@ export function BrickTable(props: BrickTableProps): React.ReactElement {
 
   return table;
 }
-
-BrickTable.defaultProps = {
-  configProps: {
-    pagination: true,
-    sortBy: false,
-  },
-};
