@@ -3198,7 +3198,7 @@ ansi-styles@^6.0.0:
   resolved "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.1.0.tgz"
   integrity sha512-VbqNsoz55SYGczauuup0MFUyXNQviSpFTj1RQtFzmQLk18qbVSpTFFGMT293rmDaQuKCT6InmbuEyUne4mTuxQ==
 
-antd@^5.2.2:
+antd@^5.2.3:
   version "5.2.3"
   resolved "https://registry.npmjs.org/antd/-/antd-5.2.3.tgz#049bdd5f654f2fd42584c9c0eb71152df9da6e3c"
   integrity sha512-mUSVH4ZhzC8h3eLNyL7PWquKUmvDcWAVRZYi060MOw6uiKl0pqsB/FC8OpfwntpBlVYgGMk+y3GB0loqTMSmJA==
