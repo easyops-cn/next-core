@@ -1,0 +1,87 @@
+.brickTableOddRow {
+  background-color: var(--color-fill-bg-base-4);
+}
+
+.ant-table-small .ant-table-body {
+  margin: 0;
+}
+
+.ant-table-small .ant-table-thead {
+  background: var(--antd-table-header-bg);
+}
+
+.ant-table-small .ant-table-row {
+  line-height: 26px;
+}
+
+.ant-table-tbody > tr.invalidRow > td {
+  background-color: var(--color-error-bg);
+}
+
+.ant-table-tbody > tr.invalidRow:hover > td {
+  background-color: var(--color-error-bg);
+}
+
+.ant-table-tbody > tr.disabledRow > td {
+  background-color: var(--theme-gray-border-color);
+}
+
+.ant-table-tbody > .ant-table-row-selected td {
+  background: var(--antd-table-cell-fixed-body-bg) !important;
+}
+
+td.alignTop {
+  vertical-align: top;
+}
+
+td.alignBottom {
+  vertical-align: bottom;
+}
+
+.expandIconCellHidden .ant-table-row-expand-icon-cell,
+.expandIconCellHidden .ant-table-expand-icon-col {
+  width: 1px;
+  min-width: auto;
+}
+
+.expandIconCellHidden .ant-table-row-expand-icon-cell > *,
+.expandIconCellHidden .ant-table-expand-icon-col > * {
+  display: none;
+}
+
+.expandIconSpan {
+  cursor: pointer;
+  margin-right: 9px;
+  color: var(--antd-table-row-expand-icon-color);
+  font-size: 11px;
+}
+
+.expandIconSpan .anticon {
+  background: var(--antd-table-row-expand-icon-action-bg);
+  border-radius: 2px;
+  padding: 3px;
+}
+
+.tableThTransparent thead.ant-table-thead > tr > th {
+  background: var(--antd-table-header-bg);
+}
+
+.zebraPatternTable .ant-table-tbody tr td {
+  border-bottom: 0;
+}
+
+.ellipsis {
+  max-width: 240px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.totalText {
+  color: var(--antd-pagination-total-text);
+}
+
+.total {
+  font-weight: normal;
+  color: var(--antd-pagination-total-strong-text);
+}
