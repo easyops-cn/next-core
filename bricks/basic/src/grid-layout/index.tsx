@@ -213,6 +213,24 @@ class GridLayout extends ReactNextElement {
       }
     }
     super.connectedCallback();
+
+    const style = `
+      .grid-border {
+        border-top: 1px solid var(--grid-border-color);
+        border-left: 1px solid var(--grid-border-color);
+      }
+      .grid-border > * {
+        border-bottom: 1px solid var(--grid-border-color);
+        border-right: 1px solid var(--grid-border-color);
+      }
+      
+      .grid-border-with-gap > * {
+        border: 1px solid var(--grid-border-color);
+      }
+    `;
+    const styleEle = document.createElement("style");
+    styleEle.textContent = style;
+    this.appendChild(styleEle);
   }
 
   disconnectedCallback(): void {
@@ -269,7 +287,7 @@ class GridLayout extends ReactNextElement {
 
     return {
       columns: layout.columns || 1,
-      rows: layout.columns || 1,
+      rows: layout.rows || 1,
       columnSpan: layout.columnSpan || 1,
       rowSpan: layout.rowSpan || 1,
     };
@@ -293,13 +311,13 @@ class GridLayout extends ReactNextElement {
       gridTemplateRows: rows === 1 ? "" : `repeat(${rows},1fr)`,
     };
 
-    this.handleShowGridBorder();
-
     Object.entries(gridProps).forEach(([key, value]) => {
       if (value != null) {
         this.style[key as any] = value;
       }
     });
+
+    this.handleShowGridBorder();
 
     return <slot />;
   }
