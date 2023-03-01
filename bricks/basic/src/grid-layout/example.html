@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <basic.grid-layout
+      id="grid-demo-1"
+      style="width: 900px; background: pink; margin-bottom: 20px"
+    >
+      <div style="background: yellow">第一个 div</div>
+      <div style="background: orange">第二个 div</div>
+      <div style="background: blue">第三个 div</div>
+      <div style="background: red">第四个 div</div>
+      <div style="background: green">第五个 div</div>
+      <div style="background: black">第六个 div</div>
+      <div style="background: gray">第七个 div</div>
+    </basic.grid-layout>
+
+    <script>
+      const grid = document.querySelector("#grid-demo-1");
+      grid.columns = 2;
+      grid.gap = "20px";
+      grid.showGridBorder = true;
+    </script>
+  </body>
+</html>

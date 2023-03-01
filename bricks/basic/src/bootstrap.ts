@@ -12,3 +12,4 @@ import "./drawer/index.js";
 import "./card/index.js";
 import "./text/index.js";
 import "./radio/index.js";
+import "./grid-layout/index.js";

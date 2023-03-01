@@ -1,0 +1,19 @@
+:host {
+  display: grid;
+}
+
+:host[hidden] {
+  display: none;
+}
+
+.grid-border {
+  border-top: 1px solid var(--grid-border-color);
+  border-left: 1px solid var(--grid-border-color);
+}
+.grid-border > * {
+  border-bottom: 1px solid var(--grid-border-color);
+  border-right: 1px solid var(--grid-border-color);
+}
+.grid-border-with-gap > * {
+  border: 1px solid var(--grid-border-color);
+}
