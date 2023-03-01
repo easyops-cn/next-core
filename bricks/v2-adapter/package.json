@@ -1,7 +1,7 @@
 {
-  "name": "@next-bricks/basic",
+  "name": "@next-bricks/v2-adapter",
   "version": "0.0.0",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/basic",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/v2-adapter",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -30,9 +30,7 @@
     }
   },
   "scripts": {
-    "_prestart": "node ./scripts/pre-build.js",
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
-    "_prebuild": "node ./scripts/pre-build.js",
     "build": "npm run build:main && npm run build:types",
     "build:main": "cross-env NODE_ENV=production build-next-bricks",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json",
@@ -40,20 +38,21 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.3.0",
-    "@next-bricks/icons": "^0.0.0",
-    "@next-core/element": "^0.0.0",
+    "@next-core/i18n": "^0.0.0",
     "@next-core/http": "^0.0.0",
-    "@next-core/react-element": "^0.0.0",
-    "@next-core/react-runtime": "^0.0.0",
-    "@next-core/theme": "^0.0.0",
-    "@next-core/types": "^0.0.0",
-    "classnames": "^2.3.2",
-    "lodash": "^4.17.21",
-    "react": "0.0.0-experimental-ee8509801-20230117"
+    "@next-core/loader": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
+    "@next-core/utils": "^0.0.0",
+    "history": "^4.10.1"
   },
   "devDependencies": {
+    "@next-core/brick-dll-v3": "^0.0.0",
     "@next-core/build-next-bricks": "^0.0.0",
-    "@next-core/test-next": "^0.0.0"
+    "@next-core/styles-v3": "^0.0.0",
+    "@next-core/test-next": "^0.0.0",
+    "@next-dll/ace": "^2.0.582",
+    "@next-dll/d3": "^2.0.74",
+    "@next-dll/editor-bricks-helper": "^0.34.50",
+    "@next-dll/react-dnd": "^0.1.520"
   }
 }

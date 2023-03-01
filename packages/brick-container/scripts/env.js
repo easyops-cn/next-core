@@ -12,7 +12,7 @@ const cli = meow({
     },
     remote: {
       type: "boolean",
-      default: true,
+      // default: true,
     },
   },
 });

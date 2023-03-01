@@ -60,6 +60,13 @@ const server = new WebpackDevServer(
         middleware: express.static(path.join(rootDir, "bricks")),
       });
 
+      middlewares.push({
+        path: `${baseHref}bricks/`,
+        middleware: express.static(
+          path.join(rootDir, "node_modules/@next-bricks")
+        ),
+      });
+
       if (!useRemote) {
         middlewares.push({
           path: baseHref,
@@ -121,7 +128,9 @@ async function serveIndexHtml(req, res, next, isHome) {
     ready,
   ]);
   if (!storyboard) {
-    console.log(">>> storyboard not found for:", req.path);
+    if (!req.path.endsWith(".js.map")) {
+      console.log(">>> storyboard not found for:", req.path);
+    }
     next();
     return;
   }

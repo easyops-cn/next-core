@@ -60,7 +60,7 @@ export class BrickNode {
   }
 
   unmount(): void {
-    const element = this.brick.element;
+    // const element = this.brick.element;
     // for (const key of Object.keys(this.brick)) {
     //   delete this.brick[key as "element"];
     // }
@@ -69,9 +69,9 @@ export class BrickNode {
       child.unmount();
     });
     this.children.length = 0;
-    if (this.hasInitialElement && element) {
-      element.innerHTML = "";
-    }
+    // if (this.hasInitialElement && element) {
+    //   element.innerHTML = "";
+    // }
   }
 
   // Handle proxies later after bricks in portal and main both mounted.

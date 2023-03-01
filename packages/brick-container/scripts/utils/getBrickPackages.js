@@ -3,17 +3,18 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 
 export async function getBrickPackages(rootDir, publicRootWithVersion) {
-  const dirs = await readdir(path.join(rootDir, "bricks"), {
+  // const bricksDir = path.join(rootDir, "bricks");
+  const bricksDir = path.join(rootDir, "node_modules/@next-bricks");
+  const dirs = await readdir(bricksDir, {
     withFileTypes: true,
   });
   return (
     await Promise.all(
       dirs
-        .filter((item) => item.isDirectory())
+        .filter((item) => item.isDirectory() || item.isSymbolicLink())
         .map(async (dir) => {
           const bricksJsonPath = path.join(
-            rootDir,
-            "bricks",
+            bricksDir,
             dir.name,
             "dist/bricks.json"
           );

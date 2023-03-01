@@ -69,6 +69,17 @@ export function loadProcessorsImperatively(
   return promise;
 }
 
+interface V2AdapterBrick {
+  resolve(
+    adapterPkgFilePath: string,
+    brickPkgFilePath: string,
+    bricks: string[],
+    dlls?: string[]
+  ): Promise<void>;
+}
+
+let v2AdapterPromise: Promise<V2AdapterBrick> | undefined;
+
 async function enqueueStableLoad(
   type: "bricks" | "processors",
   list: Iterable<string>,
@@ -109,9 +120,24 @@ async function enqueueStableLoad(
   }
 
   let foundBasicPkg: BrickPackage | undefined;
+  const v2Packages: BrickPackage[] = [];
   const restPackages: BrickPackage[] = [];
+  let maybeV2Adapter: BrickPackage | undefined;
   for (const pkg of brickPackages) {
-    if (modulesByPkg.has(pkg.id)) {
+    if (!pkg.id) {
+      // Brick packages of v2 has no `id`
+      const pkgId = pkg.filePath.split("/").slice(0, 2).join("/");
+      if (modulesByPkg.has(pkgId)) {
+        v2Packages.push(pkg);
+        maybeV2Adapter = brickPackages.find(
+          (pkg) => pkg.id === "bricks/v2-adapter"
+        );
+        if (!maybeV2Adapter) {
+          // eslint-disable-next-line no-console
+          console.error("Using v2 bricks, but v2-adapter not found");
+        }
+      }
+    } else if (modulesByPkg.has(pkg.id)) {
       if (pkg.id === "bricks/basic") {
         foundBasicPkg = pkg;
       } else {
@@ -119,6 +145,7 @@ async function enqueueStableLoad(
       }
     }
   }
+  const v2Adapter = maybeV2Adapter;
 
   const loadBrickModule = async (pkgId: string, moduleName: string) => {
     try {
@@ -165,6 +192,38 @@ async function enqueueStableLoad(
       );
     })
   );
+
+  if (v2Adapter && v2Packages.length > 0) {
+    if (!v2AdapterPromise) {
+      const loadV2Adapter = async () => {
+        await loadScript(v2Adapter.filePath, window.PUBLIC_ROOT ?? "");
+        await loadBrickModule(v2Adapter.id, "./load-bricks");
+        return document.createElement(
+          "v2-adapter.load-bricks"
+        ) as unknown as V2AdapterBrick;
+      };
+      v2AdapterPromise = loadV2Adapter();
+    }
+
+    pkgPromises.push(
+      v2AdapterPromise.then((adapter) =>
+        Promise.all(
+          v2Packages.map((pkg) =>
+            adapter.resolve(
+              v2Adapter.filePath,
+              pkg.filePath,
+              type === "bricks"
+                ? modulesByPkg
+                    .get(pkg.filePath.split("/").slice(0, 2).join("/"))!
+                    .map((moduleName) => moduleName.split("/").pop()!)
+                : [],
+              (pkg as { dll?: string[] }).dll
+            )
+          )
+        )
+      )
+    );
+  }
 
   await Promise.all(pkgPromises);
 }

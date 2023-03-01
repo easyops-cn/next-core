@@ -10144,7 +10144,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -10679,6 +10679,16 @@ react-dom@0.0.0-experimental-ee8509801-20230117:
     loose-envify "^1.1.0"
     scheduler "0.0.0-experimental-ee8509801-20230117"
 
+react-dom@^16.14.0:
+  version "16.14.0"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
+  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
+
 react-error-boundary@^3.1.0:
   version "3.1.4"
   resolved "https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-3.1.4.tgz"
@@ -10715,6 +10725,15 @@ react@0.0.0-experimental-ee8509801-20230117:
   integrity sha512-RriS2Fco7EKsXFXi63e9RFEz9xPnDakzHVKGzQ5iwy0jaFwHpvZbYr4fSbPmmUyGUXjDFtr4BfzANERUju1byw==
   dependencies:
     loose-envify "^1.1.0"
+
+react@^16.14.0:
+  version "16.14.0"
+  resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
+  integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
 
 read-cmd-shim@3.0.0, read-cmd-shim@^3.0.0:
   version "3.0.0"
@@ -11119,6 +11138,14 @@ scheduler@0.0.0-experimental-ee8509801-20230117:
   integrity sha512-P7U/SCdj9TE3YciEfb6iwY8SskSFFJNttMoHwUrXllu0rGcb2Y8HQC2zN/+ldZufaQCxAqIoevua1QBQFPrXPw==
   dependencies:
     loose-envify "^1.1.0"
+
+scheduler@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
+  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 schema-utils@^3.1.0, schema-utils@^3.1.1:
   version "3.1.1"

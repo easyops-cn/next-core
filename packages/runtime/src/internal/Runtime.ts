@@ -1,5 +1,7 @@
 import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
-import { initializeI18n } from "@next-core/i18n";
+import { i18n, initializeI18n } from "@next-core/i18n";
+import moment from "moment";
+import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
 import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";
@@ -12,6 +14,10 @@ export function createRuntime() {
     throw new Error("Cannot create multiple runtimes");
   }
   initializeI18n();
+  moment.locale(i18n.language);
+  i18n.on("languageChanged", () => {
+    moment.locale(i18n.language);
+  });
   createHistory();
   runtime = new Runtime();
   return runtime;

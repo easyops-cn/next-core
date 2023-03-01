@@ -23,6 +23,10 @@ const distDir = path.join(process.cwd(), "dist");
 
 app.use(`${baseHref}sa-static/-/bricks/`, serveBricksWithVersions(env));
 app.use(`${baseHref}bricks/`, express.static(path.join(rootDir, "bricks")));
+app.use(
+  `${baseHref}bricks/`,
+  express.static(path.join(rootDir, "node_modules/@next-bricks"))
+);
 
 if (!useRemote) {
   app.use(baseHref, mockAuth());
