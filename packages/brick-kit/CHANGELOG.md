@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.164.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.4...@next-core/brick-kit@2.164.5) (2023-03-02)
+
+
+### Bug Fixes
+
+* refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
+
+
+
+
+
 ## [2.164.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.3...@next-core/brick-kit@2.164.4) (2023-02-20)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.521](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.520...@next-dll/react-dnd@0.1.521) (2023-03-02)
+
+
+### Bug Fixes
+
+* refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
+
+
+
+
+
 ## [0.1.520](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.519...@next-dll/react-dnd@0.1.520) (2023-02-28)
 
 **Note:** Version bump only for package @next-dll/react-dnd

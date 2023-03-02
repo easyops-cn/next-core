@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.19.4...@next-core/webpack-config-factory@2.19.5) (2023-03-02)
+
+
+### Bug Fixes
+
+* refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
+
+
+
+
+
 ## [2.19.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.19.3...@next-core/webpack-config-factory@2.19.4) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/webpack-config-factory
