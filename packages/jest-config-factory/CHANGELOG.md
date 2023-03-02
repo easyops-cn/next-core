@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.12](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.11...@next-core/jest-config-factory@0.4.12) (2023-03-02)
+
+
+### Bug Fixes
+
+* **next-jest:** fix the value of jest option is incorrectly treated as target ([09389a8](https://github.com/easyops-cn/next-core/commit/09389a8b69665caee2e283e8dbcd9c61b41b066e))
+
+
+
+
+
 ## [0.4.11](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.10...@next-core/jest-config-factory@0.4.11) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/jest-config-factory
