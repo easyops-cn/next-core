@@ -14,3 +14,4 @@ import "./text/index.js";
 import "./radio/index.js";
 import "./grid-layout/index.js";
 import "./select/index.js";
+import "./submit-buttons/index.js";
