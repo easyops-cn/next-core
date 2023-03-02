@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.13](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.12...@next-core/jest-config-factory@0.4.13) (2023-03-02)
+
+
+### Bug Fixes
+
+* **next-jest:** adaptation for folder restructuring of jest-cli ([0305f2f](https://github.com/easyops-cn/next-core/commit/0305f2fddb2db2a0df2809b91722562562e18167))
+
+
+
+
+
 ## [0.4.12](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.11...@next-core/jest-config-factory@0.4.12) (2023-03-02)
 
 
