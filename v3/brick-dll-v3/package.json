@@ -36,11 +36,11 @@
     "@next-core/lodash-v3": "^0.1.0",
     "@next-core/moment-v3": "^0.1.0",
     "@next-core/pipes": "^1.0.15",
-    "@next-core/react-i18next-v3": "^0.1.0",
     "@next-core/webpack-config-factory": "^2.19.5",
     "antd": "~4.12.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-i18next": "^11.18.6",
     "react-transition-group": "^4.4.5",
     "source-map-loader": "^1.1.3"
   },
@@ -62,10 +62,10 @@
     "@next-core/lodash-v3": "^0.0.0",
     "@next-core/moment-v3": "^0.0.0",
     "@next-core/pipes": "^1.0.15",
-    "@next-core/react-i18next-v3": "^0.0.0",
     "antd": "~4.12.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-i18next": "^11.18.6",
     "react-transition-group": "^4.4.5"
   }
 }
