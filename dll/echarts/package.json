@@ -18,10 +18,11 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js",
     "postbuild": "dll-differ"
   },
-  "dependencies": {
+  "peerDependencies": {
     "echarts": "^4.9.0"
   },
   "devDependencies": {
-    "@next-core/webpack-config-factory": "^2.19.4"
+    "@next-core/webpack-config-factory": "^2.19.4",
+    "echarts": "^4.9.0"
   }
 }
