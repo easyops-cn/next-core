@@ -85,7 +85,6 @@ module.exports = {
       "brick-http$": "@next-core/brick-http-v3",
       history$: "@next-core/history-v3",
       i18next$: "@next-core/i18next-v3",
-      "react-i18next$": "@next-core/react-i18next-v3",
       lodash$: "@next-core/lodash-v3",
       moment$: "@next-core/moment-v3",
       "js-yaml$": "@next-core/js-yaml-v3",

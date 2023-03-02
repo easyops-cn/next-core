@@ -1405,6 +1405,19 @@
         "providedExports": ["useForm", "List", "default"]
       }
     },
+    "./node_modules/react-i18next/dist/es/utils.js": {
+      "id": "3Ddu",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "warn",
+          "warnOnce",
+          "loadNamespaces",
+          "hasLoadedNamespace",
+          "getDisplayName"
+        ]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/PullRequestOutlined.js": {
       "id": "3Ez2",
       "buildMeta": {
@@ -1555,6 +1568,13 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
+      }
+    },
+    "./node_modules/react-i18next/dist/es/Trans.js": {
+      "id": "3k8n",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["nodesToString", "Trans"]
       }
     },
     "./node_modules/rc-tree-select/es/hooks/useTreeData.js": {
@@ -3259,6 +3279,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/react-i18next/dist/es/useTranslation.js": {
+      "id": "9Koi",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["useTranslation"]
+      }
+    },
     "./node_modules/lodash/_toKey.js": {
       "id": "9Nap",
       "buildMeta": { "providedExports": true }
@@ -3357,7 +3384,32 @@
     },
     "./node_modules/react-i18next/dist/es/index.js": {
       "id": "9kay",
-      "buildMeta": { "providedExports": true }
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "Trans",
+          "useTranslation",
+          "withTranslation",
+          "Translation",
+          "I18nextProvider",
+          "withSSR",
+          "useSSR",
+          "I18nContext",
+          "initReactI18next",
+          "setDefaults",
+          "getDefaults",
+          "setI18n",
+          "getI18n",
+          "composeInitialProps",
+          "getInitialProps",
+          "date",
+          "time",
+          "number",
+          "select",
+          "plural",
+          "selectOrdinal"
+        ]
+      }
     },
     "./node_modules/@ant-design/icons/es/icons/EditFilled.js": {
       "id": "9mgU",
@@ -7599,6 +7651,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/react-i18next/dist/es/withTranslation.js": {
+      "id": "LCzB",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["withTranslation"]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/ClusterOutlined.js": {
       "id": "LF7l",
       "buildMeta": {
@@ -9075,6 +9134,10 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/void-elements/index.js": {
+      "id": "QEeW",
+      "buildMeta": { "providedExports": true }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/FormatPainterOutlined.js": {
       "id": "QFn1",
       "buildMeta": {
@@ -9174,6 +9237,23 @@
     "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/set-prototype-of.js": {
       "id": "QRdY",
       "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/react-i18next/dist/es/context.js": {
+      "id": "QSL9",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "I18nContext",
+          "setDefaults",
+          "getDefaults",
+          "ReportNamespaces",
+          "setI18n",
+          "getI18n",
+          "initReactI18next",
+          "composeInitialProps",
+          "getInitialProps"
+        ]
+      }
     },
     "./node_modules/rc-field-form/es/utils/asyncUtil.js": {
       "id": "QTrl",
@@ -13656,6 +13736,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/react-i18next/dist/es/Translation.js": {
+      "id": "d2/T",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["Translation"]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/MinusCircleTwoTone.js": {
       "id": "d2Hs",
       "buildMeta": {
@@ -13679,6 +13766,13 @@
     },
     "./node_modules/@ant-design/icons-svg/es/asn/ExpandAltOutlined.js": {
       "id": "dASJ",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/html-parse-stringify/dist/html-parse-stringify.module.js": {
+      "id": "dBhH",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -13851,6 +13945,13 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
+      }
+    },
+    "./node_modules/react-i18next/dist/es/I18nextProvider.js": {
+      "id": "didv",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["I18nextProvider"]
       }
     },
     "./node_modules/@ant-design/icons/es/icons/FieldBinaryOutlined.js": {
@@ -16121,6 +16222,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/react-i18next/dist/es/unescape.js": {
+      "id": "ls4Q",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["unescape"]
+      }
+    },
     "./node_modules/regenerator-runtime/runtime.js": {
       "id": "ls82",
       "buildMeta": { "providedExports": true }
@@ -18212,6 +18320,13 @@
       "id": "tadb",
       "buildMeta": { "providedExports": true }
     },
+    "./node_modules/react-i18next/dist/es/withSSR.js": {
+      "id": "tbcY",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["withSSR"]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/DeploymentUnitOutlined.js": {
       "id": "tbg4",
       "buildMeta": {
@@ -19837,6 +19952,10 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
+    },
+    "./node_modules/react-i18next/dist/es/useSSR.js": {
+      "id": "z9JE",
+      "buildMeta": { "exportsType": "namespace", "providedExports": ["useSSR"] }
     },
     "./node_modules/antd/es/_util/scrollTo.js": {
       "id": "zAh6",
