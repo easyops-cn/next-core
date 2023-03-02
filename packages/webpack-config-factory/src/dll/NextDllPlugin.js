@@ -25,7 +25,19 @@ class NextDllPlugin {
    * @param {DllPluginOptions} options options object
    */
   constructor(options) {
-    validateOptions(schema, options, "Dll Plugin");
+    validateOptions(
+      {
+        ...schema,
+        properties: {
+          ...schema.properties,
+          migrateToBrickNextV3: {
+            type: "boolean",
+          },
+        },
+      },
+      options,
+      "Dll Plugin"
+    );
     this.options = options;
   }
 

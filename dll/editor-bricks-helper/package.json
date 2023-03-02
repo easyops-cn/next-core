@@ -14,12 +14,13 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js",
     "postbuild": "dll-differ"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@next-core/editor-bricks-helper": "^0.49.58"
   },
   "devDependencies": {
     "@next-core/brick-dll": "^2.41.34",
     "@next-core/webpack-config-factory": "^2.19.4",
-    "@next-dll/react-dnd": "^0.1.520"
+    "@next-dll/react-dnd": "^0.1.520",
+    "@next-core/editor-bricks-helper": "^0.49.58"
   }
 }

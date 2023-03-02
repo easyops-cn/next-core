@@ -5,14 +5,14 @@ const NextDllPlugin = require("./NextDllPlugin");
 const NextDllReferencePlugin = require("./NextDllReferencePlugin");
 const NextHashedModuleIdsPlugin = require("./NextHashedModuleIdsPlugin");
 
-module.exports = () => {
+module.exports = ({ migrateToBrickNextV3 } = {}) => {
   const isProd = process.env.NODE_ENV === "production";
   const dirname = process.cwd();
   const appRoot = path.join(dirname, "..", "..");
   const distPath = path.join(dirname, "dist");
 
   const packageJson = require(path.join(dirname, "package.json"));
-  const { name, dependencies, devDependencies } = packageJson;
+  const { name, peerDependencies, devDependencies } = packageJson;
   const filename = `dll-of-${name.split("/").slice(-1)[0]}`;
 
   const dllReferences = [];
@@ -34,7 +34,7 @@ module.exports = () => {
     devtool: "source-map",
     mode: isProd ? "production" : "development",
     entry: {
-      [changeCase.pascalCase(filename)]: Object.keys(dependencies),
+      [changeCase.pascalCase(filename)]: Object.keys(peerDependencies),
     },
     output: {
       filename: isProd
@@ -59,8 +59,9 @@ module.exports = () => {
       new NextDllPlugin({
         name: "[name]",
         path: path.join(distPath, "manifest.json"),
+        migrateToBrickNextV3,
       }),
-      new NextHashedModuleIdsPlugin(),
+      new NextHashedModuleIdsPlugin({ migrateToBrickNextV3 }),
     ],
     resolve: {
       // only resolve .js extension files

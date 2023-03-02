@@ -100,7 +100,8 @@
   },
   "workspaces": [
     "packages/*",
-    "dll/*"
+    "dll/*",
+    "v3/*"
   ],
   "resolutions": {
     "@babel/parser": "^7.20.5",

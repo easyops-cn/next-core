@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "dll/*"],
+  "packages": ["packages/*", "dll/*", "v3/*"],
   "version": "independent",
   "npmClient": "yarn",
   "stream": true,

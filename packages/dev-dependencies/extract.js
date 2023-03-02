@@ -76,7 +76,9 @@ module.exports = function extract() {
         paths: [process.cwd()],
       })
     );
-    for (const [name, version] of Object.entries(dllPackageJson.dependencies)) {
+    for (const [name, version] of Object.entries(
+      dllPackageJson.peerDependencies
+    )) {
       toBeExtracted.set(name, version);
     }
   }

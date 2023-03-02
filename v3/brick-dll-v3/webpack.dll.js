@@ -64,9 +64,10 @@ module.exports = {
       name: "[name]",
       path: path.join(distPath, "manifest.json"),
       format: !isProd,
+      migrateToBrickNextV3: true,
     }),
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh|en/),
-    new NextHashedModuleIdsPlugin(),
+    new NextHashedModuleIdsPlugin({ migrateToBrickNextV3: true }),
     new webpack.IgnorePlugin({
       // - `esprima` and `buffer` are optional imported by `js-yaml`
       // we don't need them.
@@ -79,6 +80,16 @@ module.exports = {
     extensions: [".ts", ".js"],
     // modules: [path.join(appRoot, "node_modules")],
     symlinks: false,
+    alias: {
+      "brick-kit$": "@next-core/brick-kit-v3",
+      "brick-http$": "@next-core/brick-http-v3",
+      history$: "@next-core/history-v3",
+      i18next$: "@next-core/i18next-v3",
+      "react-i18next$": "@next-core/react-i18next-v3",
+      lodash$: "@next-core/lodash-v3",
+      moment$: "@next-core/moment-v3",
+      "js-yaml$": "@next-core/js-yaml-v3",
+    },
   },
   performance: {
     hints: false,
