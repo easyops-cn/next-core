@@ -1,9 +1,9 @@
 app:
   name: Test
   id: test
-  homepage: /
-  noAuthGuard: true
-  standaloneMode: true
+  homepage: /test
+  # noAuthGuard: true
+  # standaloneMode: true
 meta:
   i18n:
     en:
@@ -202,7 +202,7 @@ routes:
   # if: '<% !QUERY.redirect %>'
   if: '${QUERY.redirect|not}'
   type: redirect
-  redirect: '<% "/?redirect=3" %>'
+  redirect: '<% `${APP.homepage}?redirect=3` %>'
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 1 %>'
   permissionsPreCheck:
@@ -652,7 +652,7 @@ routes:
       - lazy
       - 3000
   type: redirect
-  redirect: "<% CTX.x, '/?redirect=7' %>"
+  redirect: "<% CTX.x, `${APP.homepage}?redirect=7` %>"
 
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 7 %>'
@@ -768,7 +768,7 @@ routes:
       - brick: presentational-bricks.brick-link
         properties:
           label: go
-          url: "/?redirect=8"
+          url: "${APP.homepage}?redirect=8"
       - brick: presentational-bricks.cost-time
         properties:
           cost: 1200

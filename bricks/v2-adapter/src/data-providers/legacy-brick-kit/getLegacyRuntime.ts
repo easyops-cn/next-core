@@ -1,4 +1,4 @@
-import { customProcessors, getRuntime } from "@next-core/runtime";
+import { customProcessors, getBasePath, getRuntime } from "@next-core/runtime";
 import { registerLazyBricks } from "./LazyBrickRegistry.js";
 
 export function getLegacyRuntime() {
@@ -18,6 +18,7 @@ export function getLegacyRuntime() {
       return customProcessors.define(...args);
     },
     registerLazyBricks,
+    getBasePath,
 
     // Launchpad
     getDesktops() {

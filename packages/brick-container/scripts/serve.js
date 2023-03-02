@@ -29,8 +29,8 @@ app.use(
 
 if (!useRemote) {
   app.use(baseHref, mockAuth());
+  app.use(baseHref, bootstrapJson(env));
 }
-app.use(baseHref, bootstrapJson(env));
 
 const browseHappyHtml = "browse-happy.html";
 
@@ -87,10 +87,6 @@ async function serveIndexHtml(req, res, next, isHome) {
     return;
   }
   const storyboard = await getMatchedStoryboard(env, req.path);
-  if (!storyboard) {
-    next();
-    return;
-  }
   const indexHtmlPath = path.join(distDir, "index.html");
   const content = await readFile(indexHtmlPath, "utf-8");
   res.contentType("html");

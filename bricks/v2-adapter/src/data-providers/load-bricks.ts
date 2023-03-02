@@ -11,7 +11,6 @@ import {
   batchSetAppsLocalTheme,
   applyTheme,
   getHistory,
-  getRuntime,
   handleHttpError,
   httpErrorToString,
 } from "@next-core/runtime";
