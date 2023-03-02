@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.1.1...@next-core/styles-v3@0.1.2) (2023-03-02)
+
+
+### Bug Fixes
+
+* ignore antd global.less ([fc76247](https://github.com/easyops-cn/next-core/commit/fc7624770aa74230214b99223a4ce1b32bc3a79a))
+
+
+
+
+
 ## [0.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.1.0...@next-core/styles-v3@0.1.1) (2023-03-02)
 
 
