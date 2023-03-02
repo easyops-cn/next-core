@@ -23,6 +23,8 @@ const propertyDocComments = [
   "description",
   "group",
   "enums",
+  "editor",
+  "editorprops",
 ];
 const baseDocComments = [
   "id",
