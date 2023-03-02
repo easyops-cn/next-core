@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-dll",
-  "version": "2.41.35",
+  "version": "2.41.36",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-dll",
   "license": "GPL-3.0",
@@ -57,7 +57,7 @@
     "@next-core/fontawesome-library": "^1.1.36",
     "@next-core/illustrations": "^0.11.4",
     "@next-core/pipes": "^1.0.15",
-    "@next-core/webpack-config-factory": "^2.19.5",
+    "@next-core/webpack-config-factory": "^2.19.6",
     "antd": "~4.12.3",
     "history": "^4.10.1",
     "i18next": "^22.1.4",

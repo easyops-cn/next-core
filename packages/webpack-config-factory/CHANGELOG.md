@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.19.6](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.19.5...@next-core/webpack-config-factory@2.19.6) (2023-03-02)
+
+
+### Bug Fixes
+
+* do not replace react-i18next ([414258e](https://github.com/easyops-cn/next-core/commit/414258ee708a266d4f0bf01d26e75f25a57150a3))
+
+
+
+
+
 ## [2.19.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.19.4...@next-core/webpack-config-factory@2.19.5) (2023-03-02)
 
 
