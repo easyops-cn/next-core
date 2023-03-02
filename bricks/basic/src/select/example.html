@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div>
+      <basic.general-card
+        id="card1"
+        card-title="标题"
+        verticalCenter="true"
+        fillVertical="true"
+      >
+        <basic.general-select id="select1" label="111:"></basic.general-select>
+        <basic.general-select id="select2" label="222:"></basic.general-select>
+      </basic.general-card>
+    </div>
+  </body>
+  <script>
+    var select1 = document.getElementById("select1");
+    var select2 = document.getElementById("select2");
+    select1.options = [
+      { value: 1, label: "d" },
+      { value: 2, label: "longlonglonglonglonglonglong" },
+      { value: 3, label: "xx" },
+      { value: 4, label: "d3" },
+      { value: 5, label: "d0" },
+      { value: 6, label: "d8" },
+      { value: 7, label: "d80f" },
+      { value: 8, label: "dfds8" },
+    ];
+    select1.placeholder = "请选择内容";
+    select1.options = [
+      { value: 1, label: "d" },
+      { value: 2, label: "longlonglonglonglonglonglong" },
+      { value: 3, label: "xx" },
+      { value: 4, label: "d3" },
+      { value: 5, label: "d0" },
+      { value: 6, label: "d8" },
+      { value: 7, label: "d80f" },
+      { value: 8, label: "dfds8" },
+    ];
+    select2.disabled = true;
+    select2.value = 2;
+  </script>
+</html>

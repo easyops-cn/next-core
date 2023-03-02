@@ -1,0 +1,211 @@
+.select {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: var(--antd-text-color);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  background-color: var(--antd-component-background);
+}
+
+.select-show-search .select-selector {
+  cursor: text;
+}
+
+.select .select-selector {
+  position: relative;
+  background-color: var(--antd-component-background);
+  border: 1px solid var(--antd-border-color-base);
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  box-sizing: border-box;
+}
+
+.select-single .select-selector {
+  width: 100%;
+  height: 32px;
+  padding: 0 11px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.select-single .select-show-arrow .select-selection-search {
+  right: 25px;
+}
+
+.select-single .select-selector .select-selection-search {
+  position: absolute;
+  top: 0;
+  right: 11px;
+  bottom: 0;
+  left: 11px;
+}
+
+.select .select-selector .select-selection-search-input {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
+  color: var(--antd-text-color);
+}
+
+.select-disabled .select-selector {
+  color: var(--text-color-disabled);
+  background: var(--antd-input-disabled-bg);
+  cursor: not-allowed;
+}
+.select-disabled .select-selector .select-selection-search-input {
+  cursor: not-allowed;
+}
+
+.select-single .select-selector .select-selection-item {
+  position: relative;
+  user-select: none;
+  line-height: 30px;
+}
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.selector-focused {
+  border-color: #2893f7 !important;
+  border-right-width: 1px !important;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgb(0 113 235 / 20%);
+}
+
+/* arrow */
+.anticon {
+  display: inline-block;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.select-arrow {
+  display: inline-block;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  top: 53%;
+  right: 11px;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  color: var(--text-color-disabled);
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+}
+
+.ant-select-arrow .anticon {
+  vertical-align: top;
+  transition: transform 0.3s;
+}
+
+/* dropdown */
+.select-dropdown {
+  margin: 0;
+  padding: 0;
+  margin-top: 5px;
+  color: var(--antd-text-color);
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: absolute;
+  top: 32px;
+  left: 0px;
+  width: 100%;
+  z-index: 1050;
+  box-sizing: border-box;
+  padding: 4px 2px;
+  overflow: hidden;
+  font-size: 14px;
+  font-variant: initial;
+  background-color: var(--antd-select-dropdown-bg);
+  border-radius: 4px;
+  outline: none;
+  box-shadow: var(--antd-box-shadow-base);
+}
+
+.dropdown-list {
+  max-height: 256px;
+  overflow-y: scroll;
+  overflow-anchor: none;
+}
+
+.dropdown-inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 32px;
+}
+
+.select-item {
+  position: relative;
+  display: block;
+  padding: 5px 12px;
+  color: var(--antd-text-color);
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.select-item-option {
+  display: flex;
+  border-radius: 6px;
+}
+.select-item-option:hover {
+  background-color: var(--antd-select-item-active-bg);
+}
+.select-item-option-content {
+  flex: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.select-item-option-content .option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.option .label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 8px;
+}
+.select-option-selected {
+  color: var(--color-brand);
+  background-color: var(--v8-top-menu-item-selected-bg);
+}
+.select-option-hover {
+  background-color: var(--antd-select-item-active-bg);
+}
