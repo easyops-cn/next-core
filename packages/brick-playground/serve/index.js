@@ -9,7 +9,10 @@ app.use(compression());
 
 const rootDir = path.resolve(process.cwd(), "../..");
 
-app.use("/bricks/", express.static(path.join(rootDir, "bricks")));
+app.use(
+  "/bricks/",
+  express.static(path.join(rootDir, "node_modules/@next-bricks"))
+);
 
 app.use(bootstrapJson(rootDir));
 

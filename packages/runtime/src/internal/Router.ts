@@ -53,6 +53,7 @@ export class Router {
   #redirectCount = 0;
   #renderId?: string;
   #currentApp?: MicroApp;
+  #previousApp?: MicroApp;
 
   constructor(kernel: Kernel) {
     this.#kernel = kernel;
@@ -82,12 +83,15 @@ export class Router {
     return this.#renderId;
   }
 
-  getCurrentApp() {
-    return this.#currentApp;
-  }
-
   getRuntimeContext() {
     return this.#runtimeContext;
+  }
+
+  getRecentApps() {
+    return {
+      currentApp: this.#currentApp,
+      previousApp: this.#previousApp,
+    };
   }
 
   #getBlockMessageBeforePageLave(detail: {
@@ -260,6 +264,7 @@ export class Router {
       setMode("default");
 
       if (appChanged) {
+        this.#previousApp = previousApp;
         window.dispatchEvent(
           new CustomEvent("app.change", {
             detail: {

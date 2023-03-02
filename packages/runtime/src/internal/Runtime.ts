@@ -33,20 +33,61 @@ export class Runtime {
     return kernel.bootstrap();
   }
 
+  getRecentApps() {
+    return kernel.router.getRecentApps();
+  }
+
   getFeatureFlags() {
     return {
       ...kernel.bootstrapData.settings?.featureFlags,
-      ...(kernel.router.getCurrentApp()?.config?.settings as BootstrapSettings)
-        ?.featureFlags,
+      ...(
+        kernel.router.getRecentApps().currentApp?.config
+          ?.settings as BootstrapSettings
+      )?.featureFlags,
     };
   }
 
   getMiscSettings() {
     return {
       ...kernel.bootstrapData.settings?.misc,
-      ...(kernel.router.getCurrentApp()?.config?.settings as BootstrapSettings)
-        ?.misc,
+      ...(
+        kernel.router.getRecentApps().currentApp?.config
+          ?.settings as BootstrapSettings
+      )?.misc,
     };
+  }
+
+  getBrandSettings(): Record<string, string> {
+    return {
+      base_title: "DevOps 管理专家",
+      ...(kernel.bootstrapData.settings?.brand as Record<string, string>),
+      // ...(kernel.getOriginFaviconHref()
+      //   ? { favicon: kernel.getOriginFaviconHref() }
+      //   : {})
+    };
+  }
+
+  getLaunchpadSettings() {
+    return {
+      columns: 7,
+      rows: 4,
+      ...(kernel.bootstrapData.settings?.launchpad as {
+        columns?: number;
+        rows?: number;
+      }),
+    };
+  }
+
+  getDesktops(): unknown[] {
+    return (kernel.bootstrapData as any).desktops || [];
+  }
+
+  getLaunchpadSiteMap(): unknown[] {
+    return (kernel.bootstrapData as any).siteSort || [];
+  }
+
+  toggleLaunchpadEffect(open: boolean): void {
+    document.body.classList.toggle("launchpad-open", open);
   }
 }
 

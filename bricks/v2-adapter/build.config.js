@@ -40,6 +40,10 @@ const dll = Object.keys(packageJson.devDependencies)
     };
   });
 
+const thisPackageName = packageJson.name.split("/")[1];
+const dllPublicPath = `bricks/${thisPackageName}/dist/dll/`;
+const dllPublicPathWithVersion = `bricks/${thisPackageName}/${packageJson.version}/dist/dll/`;
+
 /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig} */
 export default {
   extractCss: true,
@@ -62,7 +66,9 @@ export default {
                   .toString()
                   .replace(
                     `.p${space}=${space}"__DLL_PUBLIC_PATH__"`,
-                    `.p${space}=${space}window.CORE_ROOT ||""`
+                    `.p=(window.PUBLIC_ROOT||"")+(window.PUBLIC_ROOT_WITH_VERSION?${JSON.stringify(
+                      dllPublicPathWithVersion
+                    )}:${JSON.stringify(dllPublicPath)})`
                   );
               }
             : undefined,

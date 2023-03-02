@@ -1762,6 +1762,36 @@
     validate-npm-package-name "^4.0.0"
     yargs-parser "20.2.4"
 
+"@next-core/brick-dll-v3@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@next-core/brick-dll-v3/-/brick-dll-v3-0.1.1.tgz#7a5e2482be3ec0d81104ba92bd2e1bc2afcdc773"
+  integrity sha512-2KuJlzGeG5zpz+qGsMBVfPlvBgnni+QvlI5p/S7meJhUNsChOqs0TDYBAr0Eaep4smFummpS1WvKyjYs8+8jnA==
+
+"@next-core/styles-v3@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.1.1.tgz#634df95c9fa34410df977cd92b18f8c9fc0c01a9"
+  integrity sha512-dZqNiZygkf/Du8K5RqjKOkNXdRduFmsMfTfEImzyWdzDjkQcmfb5d8/mqaJFSq9AopVtYi+FuUC08mbzixZzkA==
+
+"@next-dll/ace@^2.0.584":
+  version "2.0.584"
+  resolved "https://registry.npmjs.org/@next-dll/ace/-/ace-2.0.584.tgz#1fc7ce1ca6c29714de3ef3fb0767ed9f841fb00f"
+  integrity sha512-3PBSN56G8AHvyGDsKsQzY4TklTEyT9cdgwphExD99hRrx7bOazX4dJZhCnnQuvgaPvK0EHSjhrQxj4cy1us1lA==
+
+"@next-dll/d3@^2.0.76":
+  version "2.0.76"
+  resolved "https://registry.npmjs.org/@next-dll/d3/-/d3-2.0.76.tgz#51424d022bbf6ea57fa8e117f21867e8ccdf8ab3"
+  integrity sha512-2HZx5gKNqb4X7Ti21eUOmtnhaCyBJYPYwLm6gHCqPfRZBeqTMJgBwLtlEhIXC4koFJBHftHAONqZy5IM9cfbqA==
+
+"@next-dll/editor-bricks-helper@^0.34.52":
+  version "0.34.52"
+  resolved "https://registry.npmjs.org/@next-dll/editor-bricks-helper/-/editor-bricks-helper-0.34.52.tgz#75b7bc562e973d345fa1756407265a5b12203032"
+  integrity sha512-g8MVJIsTf3Qe7eYkpzIJLDWPNteJhN560Pvysq7isY7RrDGw9OgWE9m1QZHW6IXhKGbVqnldqaetbpezr3IOyg==
+
+"@next-dll/react-dnd@^0.1.522":
+  version "0.1.522"
+  resolved "https://registry.npmjs.org/@next-dll/react-dnd/-/react-dnd-0.1.522.tgz#877cd94d10b4d442e2ceca266851df7c27107073"
+  integrity sha512-pdlytFCKmY5kIPEs83Bc6A9bTU17we6zOcMCMNwtOShy7pQjwzlZkQG0mVD+X1k1MLFsNQ4GoBYGimzXDIWcWw==
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz"
@@ -8835,6 +8865,11 @@ normalize-url@^6.0.1:
   resolved "https://registry.npmjs.org/normalize-url/-/normalize-url-6.1.0.tgz"
   integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
 
+normalize.css@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
+  integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
+
 npm-bundled@^1.1.1, npm-bundled@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/npm-bundled/-/npm-bundled-1.1.2.tgz"
@@ -10144,7 +10179,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -10679,16 +10714,6 @@ react-dom@0.0.0-experimental-ee8509801-20230117:
     loose-envify "^1.1.0"
     scheduler "0.0.0-experimental-ee8509801-20230117"
 
-react-dom@^16.14.0:
-  version "16.14.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
-  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
-
 react-error-boundary@^3.1.0:
   version "3.1.4"
   resolved "https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-3.1.4.tgz"
@@ -10725,15 +10750,6 @@ react@0.0.0-experimental-ee8509801-20230117:
   integrity sha512-RriS2Fco7EKsXFXi63e9RFEz9xPnDakzHVKGzQ5iwy0jaFwHpvZbYr4fSbPmmUyGUXjDFtr4BfzANERUju1byw==
   dependencies:
     loose-envify "^1.1.0"
-
-react@^16.14.0:
-  version "16.14.0"
-  resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
-  integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
 
 read-cmd-shim@3.0.0, read-cmd-shim@^3.0.0:
   version "3.0.0"
@@ -11138,14 +11154,6 @@ scheduler@0.0.0-experimental-ee8509801-20230117:
   integrity sha512-P7U/SCdj9TE3YciEfb6iwY8SskSFFJNttMoHwUrXllu0rGcb2Y8HQC2zN/+ldZufaQCxAqIoevua1QBQFPrXPw==
   dependencies:
     loose-envify "^1.1.0"
-
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 schema-utils@^3.1.0, schema-utils@^3.1.1:
   version "3.1.1"

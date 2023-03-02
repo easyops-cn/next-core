@@ -57,11 +57,6 @@ const server = new WebpackDevServer(
 
       middlewares.push({
         path: `${baseHref}bricks/`,
-        middleware: express.static(path.join(rootDir, "bricks")),
-      });
-
-      middlewares.push({
-        path: `${baseHref}bricks/`,
         middleware: express.static(
           path.join(rootDir, "node_modules/@next-bricks")
         ),

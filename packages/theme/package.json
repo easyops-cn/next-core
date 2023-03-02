@@ -7,5 +7,8 @@
   "exports": {
     ".": "./src/index.css",
     "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }

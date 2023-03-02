@@ -68,6 +68,7 @@ export default async function build(config) {
     "i18next",
     "lodash",
     "moment",
+    "moment/locale/zh-cn.js",
     "js-yaml",
     "i18next-browser-languagedetector",
     "react-i18next",

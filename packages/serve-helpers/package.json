@@ -1,0 +1,31 @@
+{
+  "name": "@next-core/serve-helpers",
+  "version": "0.0.0",
+  "description": "Serve helpers",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/serve-helpers",
+  "license": "GPL-3.0",
+  "type": "module",
+  "typings": "./index.d.ts",
+  "files": [
+    "src",
+    "index.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

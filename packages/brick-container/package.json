@@ -26,6 +26,7 @@
     "serve": "node scripts/serve.js"
   },
   "dependencies": {
+    "@next-core/serve-helpers": "^0.0.0",
     "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
@@ -44,6 +45,7 @@
     "@next-core/http": "^0.0.0",
     "@next-core/i18n": "^0.0.0",
     "@next-core/runtime": "^0.0.0",
+    "@next-core/theme": "^0.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.28.0",
     "html-webpack-plugin": "^5.5.0",

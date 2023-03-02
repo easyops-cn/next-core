@@ -3,7 +3,7 @@ app:
   id: test
   homepage: /
   noAuthGuard: true
-  # standaloneMode: true
+  standaloneMode: true
 meta:
   i18n:
     en:
@@ -706,12 +706,13 @@ routes:
     _lifeCycle:
       onPageLoad:
         useProvider: v2-adapter.load-dll
+  - brick: basic-bricks.app-bar
   - brick: basic-bricks.general-card
-    lifeCycle:
-      onPageLoad:
-        useProvider: next-builder.provider-get-brick-library
-        args:
-        - projectId: abc
+    # events:
+    #   click:
+    #     useProvider: next-builder.provider-get-brick-library
+    #     args:
+    #     - projectId: abc
     properties:
       style:
         padding: 20px
@@ -732,7 +733,7 @@ routes:
             action: console.log
       - brick: basic.general-button
         properties:
-          textContent: I'm a v3 brick
+          textContent: "<% `I'm a v3 brick ${moment().format('MMM')}` %>"
           type: primary
         events:
           click:
@@ -752,6 +753,18 @@ routes:
             lib: antd
             theme: outlined
             icon: branches
+      - brick: presentational-bricks.basic-icon
+        properties:
+          icon:
+            lib: fa
+            prefix: fas
+            icon: user
+      - brick: presentational-bricks.basic-icon
+        properties:
+          icon:
+            lib: easyops
+            category: default
+            icon: account
       - brick: presentational-bricks.brick-link
         properties:
           label: go
@@ -899,3 +912,11 @@ routes:
               time: OPT_NOTIFICATION_TM
             taskTitle: 运维任务
           value: 2021-06-20
+      - brick: presentational-bricks.markdown-display
+        properties:
+          value: |
+            ### 三级标题
+
+            - 列表1
+            - 列表2
+            - 列表3

@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+}
+
+@import "~normalize.css";
 @import "./generated.css";
 @import "./default.css";
 @import "./dark.css";

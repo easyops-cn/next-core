@@ -12,7 +12,8 @@ body.launchpad-open {
   overflow: hidden;
 }
 
-.launchpad-open #main-mount-point .filter-of-blur #main-mount-point {
+.launchpad-open #main-mount-point,
+.filter-of-blur #main-mount-point {
   filter: var(--launchpad-backdrop-filter);
 }
 

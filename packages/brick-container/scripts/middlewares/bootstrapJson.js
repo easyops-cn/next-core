@@ -1,8 +1,8 @@
+import { getBrickPackages } from "@next-core/serve-helpers";
 import {
   getStoryboards,
   getSingleStoryboard,
 } from "../utils/getStoryboards.js";
-import { getBrickPackages } from "../utils/getBrickPackages.js";
 
 export default function bootstrapJson({ rootDir, localMicroApps }) {
   const baseBootstrapRegExp = /^\/api\/auth\/v2\/bootstrap\/?$/;

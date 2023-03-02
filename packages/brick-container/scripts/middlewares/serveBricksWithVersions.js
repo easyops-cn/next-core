@@ -1,3 +1,4 @@
+import { tryServeFiles } from "@next-core/serve-helpers";
 import path from "node:path";
 
 export default function serveBricksWithVersions({ rootDir }) {
@@ -6,7 +7,10 @@ export default function serveBricksWithVersions({ rootDir }) {
    * @param res {import("express").Response}
    */
   return async function (req, res, next) {
-    if (req.method !== "GET" || !/^\/[^/]+\/0\.0\.0\/dist\//.test(req.path)) {
+    if (
+      req.method !== "GET" ||
+      !/^\/[^/]+\/\d+\.\d+\.\d+\/dist\//.test(req.path)
+    ) {
       next();
       return;
     }
@@ -14,7 +18,14 @@ export default function serveBricksWithVersions({ rootDir }) {
     const segments = req.path.split("/");
     // Remove the version part.
     segments.splice(2, 1);
-    const targetFilePath = path.join(rootDir, "bricks", segments.join("/"));
-    res.sendFile(targetFilePath);
+
+    tryServeFiles(
+      [
+        path.join(rootDir, "node_modules/@next-bricks", segments.join("/")),
+        path.join(rootDir, "node_modules/@bricks", segments.join("/")),
+      ],
+      req,
+      res
+    );
   };
 }

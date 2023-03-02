@@ -11,16 +11,22 @@ import {
   batchSetAppsLocalTheme,
   applyTheme,
   getHistory,
+  getRuntime,
+  handleHttpError,
+  httpErrorToString,
 } from "@next-core/runtime";
 import { i18n } from "@next-core/i18n";
-import * as newHttp from "@next-core/http";
-import * as newHistory from "history";
-import { useTranslation } from "@next-core/i18n/react";
-import newLodash from "lodash";
-import newMoment from "moment";
+import * as Http from "@next-core/http";
+import * as History from "history";
+import lodash from "lodash";
+import moment from "moment";
+import "@next-core/theme";
 import { getLegacyUseBrick } from "./legacy-brick-kit/getLegacyUseBrick.js";
 import { getLegacyRuntime } from "./legacy-brick-kit/getLegacyRuntime.js";
 import { loadLazyBricks } from "./legacy-brick-kit/LazyBrickRegistry.js";
+import { getLegacyUseFeatureFlags } from "./legacy-brick-kit/getLegacyUseFeatureFlags.js";
+import { getLegacyErrorBoundary } from "./legacy-brick-kit/getLegacyErrorBoundary.js";
+import { getLegacyUseRecentApps } from "./legacy-brick-kit/getLegacyUseRecentApps.js";
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -93,36 +99,41 @@ async function loadMainDll(adapterPkgFilePath: string) {
 
   const dll = (window as unknown as { dll: DLL }).dll;
 
-  const brickKit = dll("tYg3");
-  const React = dll("q1tI");
-  const i18next = dll("XzT5");
-  const reactI18next = dll("9kay");
-  const http = dll("JxWY");
-  const history = dll("LhCv");
-  const fontAwesome = dll("9RIe");
-  const lodash = dll("LvDl");
-  const moment = dll("wd/R");
-  const antd = dll("gdfu");
+  const LegacyBrickKit = dll("tYg3");
+  const LegacyReact = dll("q1tI");
+  const LegacyI18next = dll("XzT5");
+  const LegacyReactI18next = dll("9kay");
+  const LegacyHttp = dll("JxWY");
+  const LegacyHistory = dll("LhCv");
+  const LegacyFontAwesome = dll("9RIe");
+  const LegacyLodash = dll("LvDl");
+  const LegacyMoment = dll("wd/R");
+  const LegacyAntd = dll("gdfu");
   const antdLocaleEnUS = dll("D7Yy");
+  const { antdLocaleZhCN } = LegacyBrickKit;
 
-  fontAwesome.initializeLibrary();
+  LegacyFontAwesome.initializeLibrary();
 
-  defineModule(i18next, {
+  defineModule(LegacyI18next, {
     default: i18n,
   });
 
-  defineModule(reactI18next, {
-    useTranslation: useTranslation,
-  });
+  LegacyReactI18next.initReactI18next.init(i18n);
 
-  defineModule(http, newHttp);
-  defineModule(history, newHistory);
-  lodash.__inject(newLodash);
-  moment.__inject(newMoment);
+  defineModule(LegacyHttp, Http);
+  defineModule(LegacyHistory, History);
+  LegacyLodash.__inject(lodash);
+  LegacyMoment.__inject(moment);
 
-  defineModule(brickKit, {
+  const { useFeatureFlags, FeatureFlagsProvider, DisplayByFeatureFlags } =
+    getLegacyUseFeatureFlags(LegacyReact);
+  const LegacyErrorBoundary = getLegacyErrorBoundary(LegacyReact);
+
+  defineModule(LegacyBrickKit, {
     getRuntime: getLegacyRuntime,
     getHistory,
+    handleHttpError,
+    httpErrorToString,
 
     // Auth
     getAuth,
@@ -137,22 +148,43 @@ async function loadMainDll(adapterPkgFilePath: string) {
     batchSetAppsLocalTheme,
     applyTheme,
 
-    // Todo: ErrorBoundary/FeatureFlagsProvider/ConfigProvider
     BrickWrapper(props: { children: unknown }) {
-      return React.createElement(
-        antd.ConfigProvider,
-        {
-          locale:
-            i18n.language && i18n.language.split("-")[0] === "en"
-              ? antdLocaleEnUS
-              : brickKit.antdLocaleEnUS,
-          autoInsertSpaceInButton: false,
-        },
-        ...([] as unknown[]).concat(props.children)
+      // istanbul ignore next
+      const featureFlags =
+        process.env.NODE_ENV === "test"
+          ? {}
+          : getLegacyRuntime().getFeatureFlags();
+      return LegacyReact.createElement(
+        LegacyErrorBoundary,
+        null,
+        LegacyReact.createElement(
+          FeatureFlagsProvider,
+          {
+            value: featureFlags,
+          },
+          LegacyReact.createElement(
+            LegacyAntd.ConfigProvider,
+            {
+              locale:
+                i18n.language && i18n.language.split("-")[0] === "en"
+                  ? antdLocaleEnUS
+                  : antdLocaleZhCN,
+              autoInsertSpaceInButton: false,
+            },
+            ...([] as unknown[]).concat(props.children)
+          )
+        )
       );
     },
 
-    ...getLegacyUseBrick(React),
+    // Feature flags helpers
+    useFeatureFlags,
+    FeatureFlagsProvider,
+    DisplayByFeatureFlags,
+
+    ...getLegacyUseBrick(LegacyReact),
+
+    ...getLegacyUseRecentApps(LegacyReact),
   });
 }
 
