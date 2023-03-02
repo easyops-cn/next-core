@@ -1767,10 +1767,10 @@
   resolved "https://registry.npmjs.org/@next-core/brick-dll-v3/-/brick-dll-v3-0.1.1.tgz#7a5e2482be3ec0d81104ba92bd2e1bc2afcdc773"
   integrity sha512-2KuJlzGeG5zpz+qGsMBVfPlvBgnni+QvlI5p/S7meJhUNsChOqs0TDYBAr0Eaep4smFummpS1WvKyjYs8+8jnA==
 
-"@next-core/styles-v3@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.1.1.tgz#634df95c9fa34410df977cd92b18f8c9fc0c01a9"
-  integrity sha512-dZqNiZygkf/Du8K5RqjKOkNXdRduFmsMfTfEImzyWdzDjkQcmfb5d8/mqaJFSq9AopVtYi+FuUC08mbzixZzkA==
+"@next-core/styles-v3@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.1.2.tgz#f60c5ed2c316f3253cc136f1db8a191b244455bf"
+  integrity sha512-RhNW9wZ9PzEFwAbPRKZIjx5e76gHXSSw13OOJaAevHNgAxVTb8gAILyHIqfDWmeSPSy9ThnNrvUfcBz8lbzx3A==
 
 "@next-dll/ace@^2.0.584":
   version "2.0.584"

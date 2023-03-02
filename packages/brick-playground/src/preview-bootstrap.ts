@@ -6,7 +6,6 @@ import {
 } from "@next-core/runtime";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
-import "./preview.css";
 
 createRuntime();
 

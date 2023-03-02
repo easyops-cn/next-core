@@ -20,6 +20,7 @@ const getCssLoaders = (cssOptions) => [
     loader: "css-loader",
     options: {
       sourceMap: false,
+      importLoaders: 1,
       ...cssOptions,
     },
   },
