@@ -22,7 +22,9 @@
         "packages/public-scoped-sdk/**/*.js",
         "packages/repo-config/**/*.js",
         "packages/jest-config-factory/**/*.js",
-        "packages/build-next-libs/**/*.js"
+        "packages/build-next-libs/**/*.js",
+        "v3/lodash-v3/**/*.js",
+        "v3/moment-v3/**/*.js"
       ],
       "extends": "@next-core/eslint-config-next/node"
     },

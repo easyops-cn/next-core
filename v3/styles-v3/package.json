@@ -1,0 +1,25 @@
+{
+  "name": "@next-core/styles-v3",
+  "version": "0.0.0",
+  "license": "GPL-3.0",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/main.css",
+  "module": "./dist/main.css",
+  "typings": "./index.d.ts",
+  "scripts": {
+    "start": "cross-env NODE_ENV='development' webpack --config webpack.config.js --watch",
+    "build": "cross-env NODE_ENV='production' webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "@next-core/custom-antd-styles": "^1.25.17",
+    "@next-core/less-plugin-css-variables": "^0.2.8",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^5.2.7",
+    "less": "^3.13.1",
+    "less-loader": "^7.3.0",
+    "mini-css-extract-plugin": "^1.6.2",
+    "webpack": "^4.46.0"
+  }
+}

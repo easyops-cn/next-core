@@ -1,0 +1,6 @@
+{
+  "name": "@next-core/react-i18next-v3",
+  "version": "0.0.0",
+  "license": "GPL-3.0",
+  "module": "index.esm.js"
+}
