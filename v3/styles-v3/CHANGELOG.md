@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.0...@next-core/styles-v3@0.2.1) (2023-03-03)
+
+
+### Bug Fixes
+
+* fix missing variable in global.css ([9b0b800](https://github.com/easyops-cn/next-core/commit/9b0b8008b10b01e49375b4cbec8578db604562bd))
+
+
+
+
+
 # [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.1.2...@next-core/styles-v3@0.2.0) (2023-03-03)
 
 
