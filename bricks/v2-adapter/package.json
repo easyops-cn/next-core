@@ -33,9 +33,7 @@
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
     "build": "npm run build:main && npm run build:types",
     "build:main": "cross-env NODE_ENV=production build-next-bricks",
-    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json",
-    "test": "cross-env NODE_ENV='test' test-next",
-    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json"
   },
   "dependencies": {
     "@next-core/element": "^0.0.0",

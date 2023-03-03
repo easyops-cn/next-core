@@ -37,6 +37,10 @@ export class Runtime {
     return kernel.router.getRecentApps();
   }
 
+  getCurrentApp() {
+    return kernel.router.getRecentApps().currentApp;
+  }
+
   getFeatureFlags() {
     return {
       ...kernel.bootstrapData.settings?.featureFlags,
