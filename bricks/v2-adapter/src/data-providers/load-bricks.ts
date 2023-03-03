@@ -14,6 +14,7 @@ import {
   handleHttpError,
   httpErrorToString,
   checkIfByTransform,
+  checkIfOfComputed,
 } from "@next-core/runtime";
 import { i18n } from "@next-core/i18n";
 import * as Http from "@next-core/http";
@@ -139,6 +140,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
     handleHttpError,
     httpErrorToString,
     looseCheckIfByTransform: checkIfByTransform,
+    looseCheckIfOfComputed: checkIfOfComputed,
 
     // Auth
     getAuth,

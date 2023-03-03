@@ -1,4 +1,8 @@
-import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
+import type {
+  RuntimeStoryboard,
+  BootstrapSettings,
+  FeatureFlags,
+} from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import moment from "moment";
 import "moment/locale/zh-cn.js";
@@ -41,13 +45,14 @@ export class Runtime {
     return kernel.router.getRecentApps().currentApp;
   }
 
-  getFeatureFlags() {
+  getFeatureFlags(): FeatureFlags {
     return {
       ...kernel.bootstrapData.settings?.featureFlags,
       ...(
         kernel.router.getRecentApps().currentApp?.config
           ?.settings as BootstrapSettings
       )?.featureFlags,
+      "migrate-to-brick-next-v3": true,
     };
   }
 
