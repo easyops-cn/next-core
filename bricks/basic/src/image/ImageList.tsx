@@ -1,5 +1,5 @@
 import React, { Ref, forwardRef, useImperativeHandle, useState } from "react";
-import { ImageListContext } from "./ImageListContext.js";
+import { ImageListContext, PreviewImage } from "./ImageListContext.js";
 import { Preview } from "./Preview.js";
 import { ImageComponent } from "./ImageComponent.js";
 import { isNil } from "lodash";
