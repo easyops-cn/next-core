@@ -157,7 +157,7 @@ export default async function scanBricks(packageDir) {
                 .replace(/\/index$/, "")}`,
               name: getExposeName(processorName),
             });
-          } else {
+          } else if (packageName !== "v2-adapter") {
             throw new Error(
               "Please call `customProcessors.define()` only with literal string"
             );
@@ -241,7 +241,7 @@ export default async function scanBricks(packageDir) {
                 .replace(/\/index$/, "")}`,
               name: getExposeName(brickName),
             });
-          } else {
+          } else if (packageName !== "v2-adapter") {
             throw new Error(
               "Please call `customTemplates.define()` only with literal string"
             );

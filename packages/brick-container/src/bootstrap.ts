@@ -2,6 +2,7 @@ import { createRuntime, getAuth, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
 import "@next-core/theme";
+import "./styles/default.css";
 import "./XMLHttpRequest.js";
 
 http.interceptors.request.use((config) => {

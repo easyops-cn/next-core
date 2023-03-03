@@ -14,3 +14,4 @@ export {
   batchSetAppsLocalTheme,
   applyTheme,
 } from "./themeAndMode.js";
+export { checkIfByTransform } from "./internal/compute/checkIf.js";

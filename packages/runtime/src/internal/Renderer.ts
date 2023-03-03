@@ -8,7 +8,7 @@ import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
 } from "@next-core/loader";
-import { hasOwnProperty, isObject } from "@next-core/utils/general";
+import { hasOwnProperty } from "@next-core/utils/general";
 import { checkBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
@@ -185,6 +185,12 @@ export async function renderBrick(
   }
 
   if (!(await checkBrickIf(brickConf, runtimeContext))) {
+    return output;
+  }
+
+  if (!brickConf.brick) {
+    // eslint-disable-next-line no-console
+    console.error("Legacy templates are not supported in v3:", brickConf);
     return output;
   }
 
@@ -386,6 +392,8 @@ export async function renderBrick(
     const childrenOutput: RenderOutput = {
       ...output,
       main: brick.children,
+      portal: [],
+      blockingList: [],
     };
     for (const item of rendered) {
       mergeRenderOutput(childrenOutput, item);

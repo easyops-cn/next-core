@@ -214,6 +214,9 @@ export class Router {
     );
 
     const previousApp = this.#runtimeContext?.app;
+    if (storyboard?.app) {
+      await fulfilStoryboard(storyboard);
+    }
     const currentApp = (this.#currentApp = storyboard?.app);
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.
@@ -277,8 +280,6 @@ export class Router {
     };
 
     if (currentApp) {
-      await fulfilStoryboard(storyboard);
-
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,

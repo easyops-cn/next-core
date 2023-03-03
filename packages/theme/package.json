@@ -9,6 +9,6 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "@next-core/styles-v3": "^0.2.1"
   }
 }

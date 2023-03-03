@@ -173,7 +173,8 @@ function lowLevelEvaluate(
   let usedStates: Set<string>;
   let tplStateStore: DataStore<"STATE"> | undefined;
 
-  if (attemptToVisitGlobals.has("STATE")) {
+  // For existed TPL usage, treat it as a STATE.
+  if (attemptToVisitGlobals.has("STATE") || attemptToVisitGlobals.has("TPL")) {
     tplStateStore = getTplStateStore(runtimeContext, "STATE", `: "${raw}"`);
   }
 
@@ -186,6 +187,10 @@ function lowLevelEvaluate(
 
     if (tplStateStore) {
       usedStates = strictCollectMemberUsage(raw, "STATE");
+      const usedTpls = strictCollectMemberUsage(raw, "TPL");
+      for (const tpl of usedTpls) {
+        usedStates.add(tpl);
+      }
       isAsync && blockingList.push(tplStateStore.waitFor(usedStates));
     }
 
@@ -239,7 +244,14 @@ function lowLevelEvaluate(
               : null;
             break;
           case "APP":
-            globalVariables[variableName] = cloneDeep(app);
+            globalVariables[variableName] = {
+              ...cloneDeep(app),
+              getMenu() {
+                return {
+                  title: "Menu not implemented yet",
+                };
+              },
+            };
             break;
           case "CTX":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
@@ -345,6 +357,7 @@ function lowLevelEvaluate(
               getItem: getStorageItem("session"),
             });
             break;
+          case "TPL":
           case "STATE":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(target, key) {

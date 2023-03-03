@@ -13,10 +13,12 @@ import {
   getHistory,
   handleHttpError,
   httpErrorToString,
+  checkIfByTransform,
 } from "@next-core/runtime";
 import { i18n } from "@next-core/i18n";
 import * as Http from "@next-core/http";
 import * as History from "history";
+import * as JsYaml from "js-yaml";
 import lodash from "lodash";
 import moment from "moment";
 import "@next-core/theme";
@@ -104,6 +106,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
   const LegacyReactI18next = dll("9kay");
   const LegacyHttp = dll("JxWY");
   const LegacyHistory = dll("LhCv");
+  const LegacyJsYaml = dll("ZR4k");
   const LegacyFontAwesome = dll("9RIe");
   const LegacyLodash = dll("LvDl");
   const LegacyMoment = dll("wd/R");
@@ -121,6 +124,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
 
   defineModule(LegacyHttp, Http);
   defineModule(LegacyHistory, History);
+  defineModule(LegacyJsYaml, JsYaml);
   LegacyLodash.__inject(lodash);
   LegacyMoment.__inject(moment);
 
@@ -133,6 +137,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
     getHistory,
     handleHttpError,
     httpErrorToString,
+    looseCheckIfByTransform: checkIfByTransform,
 
     // Auth
     getAuth,
@@ -180,6 +185,27 @@ async function loadMainDll(adapterPkgFilePath: string) {
     useFeatureFlags,
     FeatureFlagsProvider,
     DisplayByFeatureFlags,
+
+    useProvider(...args: unknown[]) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "React hook `useProvider` is not implemented yet in v3:",
+        ...args
+      );
+      return {};
+    },
+    useCurrentTheme() {
+      // eslint-disable-next-line no-console
+      console.error(
+        "React hook `useCurrentTheme` is not implemented yet in v3"
+      );
+      return "dark-v2";
+    },
+    useApplyPageTitle(pageTitle: string) {
+      LegacyReact.useEffect(() => {
+        getLegacyRuntime().applyPageTitle(pageTitle);
+      }, [pageTitle]);
+    },
 
     ...getLegacyUseBrick(LegacyReact),
 

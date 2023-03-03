@@ -89,6 +89,11 @@ export class Runtime {
   toggleLaunchpadEffect(open: boolean): void {
     document.body.classList.toggle("launchpad-open", open);
   }
+
+  applyPageTitle(pageTitle: string): void {
+    const baseTitle = this.getBrandSettings().base_title;
+    document.title = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
+  }
 }
 
 /* istanbul ignore next */

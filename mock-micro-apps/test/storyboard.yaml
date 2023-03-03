@@ -3,7 +3,7 @@ app:
   id: test
   homepage: /test
   # noAuthGuard: true
-  # standaloneMode: true
+  standaloneMode: true
 meta:
   i18n:
     en:

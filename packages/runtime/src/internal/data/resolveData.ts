@@ -109,5 +109,5 @@ export function clearResolveCache() {
 function isHandleRejectByTransform(
   onReject: HandleReject | undefined
 ): onReject is HandleRejectByTransform {
-  return !!(onReject as HandleRejectByTransform).transform;
+  return !!(onReject as HandleRejectByTransform)?.transform;
 }

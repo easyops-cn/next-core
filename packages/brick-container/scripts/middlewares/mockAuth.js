@@ -4,7 +4,7 @@ let username;
 
 export default function mockAuth() {
   /**
-   * @param req {import("express").Request}
+   * @param {import("express").Request} req
    */
   return async function (req, res, next) {
     if (req.path === "/api/auth/login" && req.method === "GET") {

@@ -11,23 +11,42 @@ import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getMatchedStoryboard } from "./utils/getStoryboards.js";
 import { getStandaloneConfig } from "./utils/getStandaloneConfig.js";
 import getProxy from "./getProxy.js";
+import standaloneBootstrapJson from "./middlewares/standaloneBootstrapJson.js";
+import { shouldServeAsIndexHtml } from "./utils/shouldServeAsIndexHtml.js";
 
 const env = getEnv();
-const { rootDir, baseHref, useRemote, useLocalContainer, port } = env;
+const {
+  rootDir,
+  baseHref,
+  useRemote,
+  useLocalContainer,
+  port,
+  localMicroApps,
+} = env;
+const distDir = path.join(process.cwd(), "dist");
 
 const app = express();
 
 app.use(compression());
-
-const distDir = path.join(process.cwd(), "dist");
 
 app.use(`${baseHref}sa-static/-/bricks/`, serveBricksWithVersions(env));
 app.use(
   `${baseHref}bricks/`,
   express.static(path.join(rootDir, "node_modules/@next-bricks"))
 );
+app.use(
+  `${baseHref}bricks/`,
+  express.static(path.join(rootDir, "node_modules/@bricks"))
+);
 
-if (!useRemote) {
+if (useRemote) {
+  for (const appId of localMicroApps) {
+    app.use(
+      `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/`,
+      standaloneBootstrapJson(env, appId)
+    );
+  }
+} else {
   app.use(baseHref, mockAuth());
   app.use(baseHref, bootstrapJson(env));
 }
@@ -78,11 +97,11 @@ app.listen(port);
 console.log(`open http://localhost:${port}${baseHref}`);
 
 /**
- * @param req {import("express").Request}
- * @param res {import("express").Response}
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
  */
 async function serveIndexHtml(req, res, next, isHome) {
-  if (req.method !== "GET" || (isHome && req.path !== "/")) {
+  if (!shouldServeAsIndexHtml(req, isHome)) {
     next();
     return;
   }
