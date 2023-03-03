@@ -4,7 +4,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 
 module.exports = {
-  entry: path.join(__dirname, "src/index.less"),
+  entry: {
+    main: path.join(__dirname, "src/index.less"),
+    global: path.join(__dirname, "src/global.less"),
+  },
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: "",
