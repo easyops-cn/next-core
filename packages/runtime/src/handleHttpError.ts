@@ -51,6 +51,8 @@ export function isUnauthenticatedError(error: unknown): boolean {
 
 let unauthenticatedConfirming = false;
 
+let lastErrorMessage: string | undefined;
+
 /**
  * 处理 http 请求错误（使用 AntDesign 模态框弹出错误信息）。
  *
@@ -88,5 +90,13 @@ export function handleHttpError(error: unknown) {
   // eslint-disable-next-line no-console
   console.error(error);
 
-  return alert(httpErrorToString(error));
+  const message = httpErrorToString(error);
+  if (message !== lastErrorMessage) {
+    lastErrorMessage = message;
+    alert(message);
+    setTimeout(() => {
+      lastErrorMessage = undefined;
+    }, 1000);
+  }
+  return;
 }
