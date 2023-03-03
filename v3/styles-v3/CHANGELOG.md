@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.1.2...@next-core/styles-v3@0.2.0) (2023-03-03)
+
+
+### Features
+
+* expose v2 global css ([fb45174](https://github.com/easyops-cn/next-core/commit/fb451741dc218840c49c556637693a9a2d33f7d6))
+
+
+
+
+
 ## [0.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.1.1...@next-core/styles-v3@0.1.2) (2023-03-02)
 
 
