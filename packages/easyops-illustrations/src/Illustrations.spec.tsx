@@ -6,7 +6,6 @@ import {
 
 describe("Illustration", () => {
   it("should work", () => {
-    window.CORE_ROOT = undefined;
     const result = getIllustration({
       name: "exception",
       category: "feedback",
@@ -16,25 +15,22 @@ describe("Illustration", () => {
   });
 
   it("should work with default category", () => {
-    window.CORE_ROOT = "-/core/";
     const result = getIllustration({
       name: "no-content",
     });
 
-    expect(result).toBe("-/core/assets/illustrations/svgr-url");
+    expect(result).toBe("assets/illustrations/svgr-url");
   });
 
   it("should work with default theme", () => {
-    window.CORE_ROOT = "-/core/";
     const result = getIllustration({
       name: "no-content",
     });
 
-    expect(result).toBe("-/core/assets/illustrations/svgr-url");
+    expect(result).toBe("assets/illustrations/svgr-url");
   });
 
   it("should work with dark theme", () => {
-    window.CORE_ROOT = "-/core/";
     let result = determineIllustrationName("default", "dark-v2", "no-content");
     expect(result).toBe("no-content-dark");
     result = determineIllustrationName("exception", "dark-v2", "no-content");
@@ -52,7 +48,6 @@ describe("Illustration", () => {
   });
 
   it("should return undefined when illustration not exist", () => {
-    window.CORE_ROOT = undefined;
     const result = getIllustration({
       name: "without",
     });
