@@ -1,6 +1,11 @@
 import { loadBricksImperatively } from "@next-core/loader";
-import { createRuntime, __secret_internals } from "@next-core/runtime";
+import {
+  createRuntime,
+  __secret_internals,
+  applyTheme,
+} from "@next-core/runtime";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
+import "@next-core/theme";
 
 createRuntime();
 
@@ -34,8 +39,9 @@ const bootstrap = fetch("/bootstrap.hash.json", {
 ): Promise<void> => {
   try {
     if (type === "html") {
-      document.documentElement.dataset.theme =
-        theme === "light" ? theme : "dark-v2";
+      // document.documentElement.dataset.theme =
+      //   theme === "light" ? theme : "dark-v2";
+      applyTheme(theme === "light" ? theme : "dark-v2");
       // Note: if use DOMParser, script tags will not be executed, while using
       // createContextualFragment they will.
       const parser = new DOMParser();

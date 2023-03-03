@@ -94,3 +94,11 @@ export function applyMode(value?: SiteMode): void {
     );
   }
 }
+
+export function getCssPropertyValue(
+  name: string,
+  el = document.documentElement
+): string {
+  if (!el) return "";
+  return window.getComputedStyle(el)?.getPropertyValue(name) || "";
+}

@@ -45,13 +45,13 @@ export default {
     splitChunks: {
       cacheGroups: {
         defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](?!normalized\.css[\\/])/,
           priority: -10,
           reuseExistingChunk: true,
           name: "vendors",
         },
         core: {
-          test: /[\\/]next-core[\\/](?:packages|sdk)[\\/]/,
+          test: /[\\/]next-core[\\/](?:packages|sdk)[\\/](?!theme[\\/])/,
           priority: -10,
           reuseExistingChunk: true,
           name: "core",

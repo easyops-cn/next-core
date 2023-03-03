@@ -1,7 +1,7 @@
 // @ts-check
 /**
  * @param {string} packageName
- * @returns string
+ * @returns {string}
  */
 export default function getCamelPackageName(packageName) {
   return packageName

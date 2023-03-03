@@ -1762,6 +1762,36 @@
     validate-npm-package-name "^4.0.0"
     yargs-parser "20.2.4"
 
+"@next-core/brick-dll-v3@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@next-core/brick-dll-v3/-/brick-dll-v3-0.1.1.tgz#7a5e2482be3ec0d81104ba92bd2e1bc2afcdc773"
+  integrity sha512-2KuJlzGeG5zpz+qGsMBVfPlvBgnni+QvlI5p/S7meJhUNsChOqs0TDYBAr0Eaep4smFummpS1WvKyjYs8+8jnA==
+
+"@next-core/styles-v3@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.1.tgz#af2f6ef328b86eab84a6f4a90a33a9a90bf488b3"
+  integrity sha512-7wnnYZ83p6rL5Wn2xhc77+Cd81q8I3GjNSpQQjy0dbU7ZvJpRehNHWSSpttquAdW6Xw091FOum6k2W/t20d0ng==
+
+"@next-dll/ace@^2.0.584":
+  version "2.0.584"
+  resolved "https://registry.npmjs.org/@next-dll/ace/-/ace-2.0.584.tgz#1fc7ce1ca6c29714de3ef3fb0767ed9f841fb00f"
+  integrity sha512-3PBSN56G8AHvyGDsKsQzY4TklTEyT9cdgwphExD99hRrx7bOazX4dJZhCnnQuvgaPvK0EHSjhrQxj4cy1us1lA==
+
+"@next-dll/d3@^2.0.76":
+  version "2.0.76"
+  resolved "https://registry.npmjs.org/@next-dll/d3/-/d3-2.0.76.tgz#51424d022bbf6ea57fa8e117f21867e8ccdf8ab3"
+  integrity sha512-2HZx5gKNqb4X7Ti21eUOmtnhaCyBJYPYwLm6gHCqPfRZBeqTMJgBwLtlEhIXC4koFJBHftHAONqZy5IM9cfbqA==
+
+"@next-dll/editor-bricks-helper@^0.34.52":
+  version "0.34.52"
+  resolved "https://registry.npmjs.org/@next-dll/editor-bricks-helper/-/editor-bricks-helper-0.34.52.tgz#75b7bc562e973d345fa1756407265a5b12203032"
+  integrity sha512-g8MVJIsTf3Qe7eYkpzIJLDWPNteJhN560Pvysq7isY7RrDGw9OgWE9m1QZHW6IXhKGbVqnldqaetbpezr3IOyg==
+
+"@next-dll/react-dnd@^0.1.522":
+  version "0.1.522"
+  resolved "https://registry.npmjs.org/@next-dll/react-dnd/-/react-dnd-0.1.522.tgz#877cd94d10b4d442e2ceca266851df7c27107073"
+  integrity sha512-pdlytFCKmY5kIPEs83Bc6A9bTU17we6zOcMCMNwtOShy7pQjwzlZkQG0mVD+X1k1MLFsNQ4GoBYGimzXDIWcWw==
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz"

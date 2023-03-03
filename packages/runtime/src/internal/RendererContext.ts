@@ -4,6 +4,7 @@ import type {
   UseBrickLifeCycle,
 } from "@next-core/types";
 import type { Action } from "history";
+import { isEmpty } from "lodash";
 import { listenerFactory } from "./bindListeners.js";
 import { NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
@@ -93,6 +94,13 @@ export class RendererContext {
           handlers: handlers as BrickEventHandler | BrickEventHandler[],
         });
       }
+    }
+    if (!isEmpty((lifeCycle as { useResolves?: unknown }).useResolves)) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "`lifeCycle.useResolves` is not supported in v3:",
+        lifeCycle
+      );
     }
   }
 

@@ -12,7 +12,7 @@ const cli = meow({
     },
     remote: {
       type: "boolean",
-      default: true,
+      // default: true,
     },
   },
 });
@@ -31,7 +31,7 @@ export function getEnv(runtimeFlags) {
     useRemote: flags.remote,
     baseHref: flags.subdir ? "/next/" : "/",
     useLocalContainer: true,
-    localMicroApps: ["auth", "test"],
+    localMicroApps: ["test"],
     port: 8081,
     server: getServerPath(flags.server),
   };

@@ -1,5 +1,5 @@
 /**
- * @param storyboard {import("@next-core/types").Storyboard}
+ * @param {import("@next-core/types").Storyboard} storyboard
  */
 export function getStandaloneConfig(storyboard) {
   return storyboard?.app.standaloneMode

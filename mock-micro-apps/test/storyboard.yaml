@@ -1,7 +1,7 @@
 app:
   name: Test
   id: test
-  homepage: /
+  homepage: /test
   # noAuthGuard: true
   standaloneMode: true
 meta:
@@ -202,7 +202,7 @@ routes:
   # if: '<% !QUERY.redirect %>'
   if: '${QUERY.redirect|not}'
   type: redirect
-  redirect: '<% "/?redirect=3" %>'
+  redirect: '<% `${APP.homepage}?redirect=3` %>'
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 1 %>'
   permissionsPreCheck:
@@ -652,7 +652,7 @@ routes:
       - lazy
       - 3000
   type: redirect
-  redirect: "<% CTX.x, '/?redirect=7' %>"
+  redirect: "<% CTX.x, `${APP.homepage}?redirect=7` %>"
 
 - path: ${APP.homepage}
   if: '<% +QUERY.redirect === 7 %>'
@@ -695,3 +695,228 @@ routes:
             action: console.log
           error:
             action: console.error
+
+- path: ${APP.homepage}
+  if: '<% +QUERY.redirect === 9 %>'
+  bricks:
+  - brick: div
+    if: false
+    properties:
+      textContent: v2-adapter
+    _lifeCycle:
+      onPageLoad:
+        useProvider: v2-adapter.load-dll
+  - brick: basic-bricks.app-bar
+  - brick: basic-bricks.general-card
+    # events:
+    #   click:
+    #     useProvider: next-builder.provider-get-brick-library
+    #     args:
+    #     - projectId: abc
+    properties:
+      style:
+        padding: 20px
+    children:
+    - brick: div
+      slot: content
+      properties:
+        style:
+          display: grid
+          gap: 10px
+      children:
+      - brick: basic-bricks.general-button
+        properties:
+          buttonName: I'm a v2 brick
+          buttonType: danger
+        events:
+          general.button.click:
+            action: console.log
+      - brick: basic.general-button
+        properties:
+          textContent: "<% `I'm a v3 brick ${moment().format('MMM')}` %>"
+          type: primary
+        events:
+          click:
+            action: console.log
+      - brick: basic-bricks.list-container
+        properties:
+          data:
+          - a
+          - b
+          useBrick:
+            brick: basic.general-button
+            properties:
+              textContent: '<% DATA %>'
+      - brick: presentational-bricks.basic-icon
+        properties:
+          icon:
+            lib: antd
+            theme: outlined
+            icon: branches
+      - brick: presentational-bricks.basic-icon
+        properties:
+          icon:
+            lib: fa
+            prefix: fas
+            icon: user
+      - brick: presentational-bricks.basic-icon
+        properties:
+          icon:
+            lib: easyops
+            category: default
+            icon: account
+      - brick: presentational-bricks.brick-link
+        properties:
+          label: go
+          url: "${APP.homepage}?redirect=8"
+      - brick: presentational-bricks.cost-time
+        properties:
+          cost: 1200
+      - brick: presentational-bricks.brick-table
+        properties:
+          rowKey: id
+          showCard: false
+          rowSelection: true
+          hiddenColumns:
+          - name
+          columns:
+          - title: Name
+            dataIndex: name
+            key: name
+          - title: Age
+            dataIndex: age
+            key: age
+          - dataIndex: address
+            key: address
+            headerBrick:
+              useBrick:
+                brick: presentational-bricks.general-tooltip
+                properties:
+                  icon:
+                    lib: fa
+                    icon: info-circle
+                    color: var(--color-secondary-text)
+                  content: 这是一个 tooltips
+                  text: Address
+          - title: Tags
+            key: tags
+            dataIndex: tags
+            useBrick:
+              brick: presentational-bricks.brick-tag
+              properties:
+                showCard: false
+                tagList: "<% DATA.cellData %>"
+                configProps:
+                  color: var(--color-brand)
+          dataSource:
+            list:
+            - id: '1'
+              name: John Brown
+              age: 32
+              address: New York No. 1 Lake Park
+              tags:
+              - nice
+              - good
+            - id: '2'
+              name: Jim Green
+              age: 42
+              address: London No. 1 Lake Park
+              tags:
+              - loser
+              - bad
+            page: 1
+            pageSize: 10
+            total: 2
+        events:
+          select.update:
+            action: console.log
+          select.update.args:
+            action: console.log
+          filter.update:
+            action: console.log
+          page.update:
+            action: console.log
+      - brick: time.task-calendar
+        events:
+          calendar.onPanelChange:
+            - action: console.log
+              args:
+                - '${EVENT.detail}'
+          calendar.onSelect:
+            - action: console.log
+              args:
+                - '${EVENT.detail}'
+        properties:
+          briefList:
+            - date: 2021-06-13
+              text: 休
+            - date: 2021-06-12
+              text: 休
+            - date: 2021-06-14
+              text: 休
+          importanceSettings:
+            colorMap:
+              两会: var(--theme-cyan-color)
+              人行窗口: var(--theme-geekblue-color)
+              发版: var(--theme-green-color)
+            priority:
+              - 发版
+              - 两会
+              - 人行窗口
+          importantList:
+            - date: 2021-06-01
+              issues:
+                - 发版
+            - date: 2021-06-02
+              issues: []
+            - date: 2021-06-03
+              issues:
+                - 人行窗口
+                - 两会
+          style:
+            width: 500px
+          taskList:
+            - date: 2021-06-20
+              task:
+                - OPT_CHANGE_NUMBER: '001'
+                  OPT_NOTIFICATION_TM: '2021-05-01 09:00:00'
+                  OPT_PRIORITY_ID: '3'
+                  OPT_SUMMARY: XBUS系统月度巡检
+                  url: /test?id=001
+                - OPT_CHANGE_NUMBER: '002'
+                  OPT_NOTIFICATION_TM: '2021-05-01 10:00:00'
+                  OPT_PRIORITY_ID: '3'
+                  OPT_SUMMARY: ESB系统月度巡检
+                  url: /test?id=002
+                - OPT_CHANGE_NUMBER: '003'
+                  OPT_NOTIFICATION_TM: '2021-05-01 10:00:00'
+                  OPT_PRIORITY_ID: '2'
+                  OPT_SUMMARY: 新同城数据中心EBUS部署
+            - date: 2021-06-02
+              task:
+                - OPT_CHANGE_NUMBER: '004'
+                  OPT_NOTIFICATION_TM: '2021-05-01 10:00:00'
+                  OPT_PRIORITY_ID: '1'
+                  OPT_SUMMARY: EBUS系统老中心WAS漏洞修复工作
+            - date: 2021-06-03
+              task: []
+          taskSettings:
+            colorMap:
+              '0': var(--theme-red-color)
+              '1': var(--theme-orange-color)
+              '2': var(--theme-purple-color)
+              '3': var(--theme-green-color)
+            fields:
+              priority: OPT_PRIORITY_ID
+              summary: OPT_SUMMARY
+              time: OPT_NOTIFICATION_TM
+            taskTitle: 运维任务
+          value: 2021-06-20
+      - brick: presentational-bricks.markdown-display
+        properties:
+          value: |
+            ### 三级标题
+
+            - 列表1
+            - 列表2
+            - 列表3

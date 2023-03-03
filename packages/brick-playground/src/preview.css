@@ -1,7 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
 html[data-theme="dark"],
 html[data-theme="dark-v2"],
 [data-override-theme="dark-v2"] {

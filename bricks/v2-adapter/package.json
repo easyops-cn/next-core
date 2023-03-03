@@ -1,0 +1,61 @@
+{
+  "name": "@next-bricks/v2-adapter",
+  "version": "0.0.0",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/v2-adapter",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "license": "GPL-3.0",
+  "type": "module",
+  "sideEffects": true,
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/dist-types"
+        ]
+      }
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist-types/*/index.d.ts"
+    }
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development build-next-bricks --watch",
+    "build": "npm run build:main && npm run build:types",
+    "build:main": "cross-env NODE_ENV=production build-next-bricks",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json"
+  },
+  "dependencies": {
+    "@next-core/element": "^0.0.0",
+    "@next-core/i18n": "^0.0.0",
+    "@next-core/http": "^0.0.0",
+    "@next-core/loader": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
+    "@next-core/theme": "^0.0.0",
+    "@next-core/utils": "^0.0.0",
+    "history": "^4.10.1",
+    "js-yaml": "^3.14.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "@next-core/brick-dll-v3": "^0.1.1",
+    "@next-core/build-next-bricks": "^0.0.0",
+    "@next-core/styles-v3": "^0.2.1",
+    "@next-core/test-next": "^0.0.0",
+    "@next-dll/ace": "^2.0.584",
+    "@next-dll/d3": "^2.0.76",
+    "@next-dll/editor-bricks-helper": "^0.34.52",
+    "@next-dll/react-dnd": "^0.1.522"
+  }
+}

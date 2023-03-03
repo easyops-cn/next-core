@@ -11,10 +11,12 @@ import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getMatchedStoryboard } from "./utils/getStoryboards.js";
 import { getStandaloneConfig } from "./utils/getStandaloneConfig.js";
 import getProxy from "./getProxy.js";
+import standaloneBootstrapJson from "./middlewares/standaloneBootstrapJson.js";
+import { shouldServeAsIndexHtml } from "./utils/shouldServeAsIndexHtml.js";
 
 const env = getEnv();
-
-const { rootDir, baseHref, port, useRemote } = env;
+const { rootDir, baseHref, port, useRemote, localMicroApps } = env;
+const distDir = path.join(process.cwd(), "dist");
 
 const compiler = await build(config);
 const server = new WebpackDevServer(
@@ -30,8 +32,8 @@ const server = new WebpackDevServer(
       if (baseHref !== "/") {
         middlewares.unshift(
           /**
-           * @param req {import("express").Request}
-           * @param res {import("express").Response}
+           * @param {import("express").Request} req
+           * @param {import("express").Response} res
            */
           async function redirect(req, res, next) {
             if (req.path === "/" && req.method === "GET") {
@@ -50,26 +52,42 @@ const server = new WebpackDevServer(
         },
       });
 
-      middlewares.push({
+      middlewares.unshift({
         path: `${baseHref}sa-static/-/bricks/`,
         middleware: serveBricksWithVersions(env),
       });
 
-      middlewares.push({
+      middlewares.unshift({
         path: `${baseHref}bricks/`,
-        middleware: express.static(path.join(rootDir, "bricks")),
+        middleware: express.static(
+          path.join(rootDir, "node_modules/@next-bricks")
+        ),
       });
 
-      if (!useRemote) {
+      // middlewares.push({
+      //   path: `${baseHref}bricks/`,
+      //   middleware: express.static(
+      //     path.join(rootDir, "node_modules/@bricks")
+      //   ),
+      // });
+
+      if (useRemote) {
+        for (const appId of localMicroApps) {
+          middlewares.push({
+            path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/`,
+            middleware: standaloneBootstrapJson(env, appId),
+          });
+        }
+      } else {
         middlewares.push({
           path: baseHref,
           middleware: mockAuth(),
         });
+        middlewares.push({
+          path: baseHref,
+          middleware: bootstrapJson(env),
+        });
       }
-      middlewares.push({
-        path: baseHref,
-        middleware: bootstrapJson(env),
-      });
 
       middlewares.push({
         path: `${baseHref}sa-static/-/core/0.0.0/`,
@@ -108,11 +126,11 @@ const ready = new Promise((resolve) => {
 });
 
 /**
- * @param req {import("express").Request}
- * @param res {import("express").Response}
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
  */
 async function serveIndexHtml(req, res, next, isHome) {
-  if (req.method !== "GET" || (isHome && req.path !== "/")) {
+  if (!shouldServeAsIndexHtml(req, isHome)) {
     next();
     return;
   }
@@ -120,12 +138,7 @@ async function serveIndexHtml(req, res, next, isHome) {
     getMatchedStoryboard(env, req.path),
     ready,
   ]);
-  if (!storyboard) {
-    console.log(">>> storyboard not found for:", req.path);
-    next();
-    return;
-  }
-  const indexHtmlPath = path.join(process.cwd(), "dist/index.html");
+  const indexHtmlPath = path.join(distDir, "index.html");
   compiler.outputFileSystem.readFile(indexHtmlPath, (err, content) => {
     if (err) {
       res.sendStatus(500);
@@ -139,8 +152,8 @@ async function serveIndexHtml(req, res, next, isHome) {
 }
 
 /**
- * @param req {import("express").Request}
- * @param res {import("express").Response}
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
  */
 async function serveStandaloneCoreStatic(req, res, next) {
   if (req.method !== "GET") {
@@ -150,7 +163,7 @@ async function serveStandaloneCoreStatic(req, res, next) {
 
   await ready;
 
-  const staticFilePath = path.join(process.cwd(), "dist", req.path);
+  const staticFilePath = path.join(distDir, req.path);
   compiler.outputFileSystem.readFile(staticFilePath, (err, content) => {
     if (err) {
       res.sendStatus(500);

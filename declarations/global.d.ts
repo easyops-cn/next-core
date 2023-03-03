@@ -48,6 +48,9 @@ interface Window {
   /** A map of dll name to file path. */
   DLL_PATH?: Record<string, string>;
 
+  /** Markup for v2 adapter */
+  MIGRATE_TO_BRICK_NEXT_V3?: boolean;
+
   // Variables below are for standalone micro-apps only.
 
   /** Markup for standalone micro-apps. */

@@ -1,3 +1,4 @@
+@import "~@next-core/styles-v3/dist/global.css";
 @import "./generated.css";
 @import "./default.css";
 @import "./dark.css";

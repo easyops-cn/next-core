@@ -69,13 +69,24 @@ export function loadProcessorsImperatively(
   return promise;
 }
 
+interface V2AdapterBrick {
+  resolve(
+    adapterPkgFilePath: string,
+    brickPkgFilePath: string,
+    bricks: string[],
+    dlls?: string[]
+  ): Promise<void>;
+}
+
+let v2AdapterPromise: Promise<V2AdapterBrick> | undefined;
+
 async function enqueueStableLoad(
   type: "bricks" | "processors",
   list: Iterable<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const moduleDir = type === "processors" ? "./processors/" : "./";
-  const modulesByPkg = new Map<string, string[]>();
+  const itemsByPkg = new Map<string, string[]>();
 
   const listToLoad = new Set<string>();
   const add = (item: string) => {
@@ -88,12 +99,12 @@ async function enqueueStableLoad(
       type === "processors" ? getProcessorPackageName(namespace) : namespace
     }`;
 
-    let groupModules = modulesByPkg.get(pkgId);
-    if (!groupModules) {
-      groupModules = [];
-      modulesByPkg.set(pkgId, groupModules);
+    let groupItems = itemsByPkg.get(pkgId);
+    if (!groupItems) {
+      groupItems = [];
+      itemsByPkg.set(pkgId, groupItems);
     }
-    groupModules.push(`${moduleDir}${itemName}`);
+    groupItems.push(itemName);
 
     // Load their dependencies too
     const pkg = brickPackages.find((p) => p.id === pkgId);
@@ -109,9 +120,24 @@ async function enqueueStableLoad(
   }
 
   let foundBasicPkg: BrickPackage | undefined;
+  const v2Packages: BrickPackage[] = [];
   const restPackages: BrickPackage[] = [];
+  let maybeV2Adapter: BrickPackage | undefined;
   for (const pkg of brickPackages) {
-    if (modulesByPkg.has(pkg.id)) {
+    if (!pkg.id) {
+      // Brick packages of v2 has no `id`
+      const pkgId = getPkgIdByFilePath(pkg.filePath);
+      if (itemsByPkg.has(pkgId)) {
+        v2Packages.push(pkg);
+        maybeV2Adapter = brickPackages.find(
+          (pkg) => pkg.id === "bricks/v2-adapter"
+        );
+        if (!maybeV2Adapter) {
+          // eslint-disable-next-line no-console
+          console.error("Using v2 bricks, but v2-adapter not found");
+        }
+      }
+    } else if (itemsByPkg.has(pkg.id)) {
       if (pkg.id === "bricks/basic") {
         foundBasicPkg = pkg;
       } else {
@@ -119,6 +145,7 @@ async function enqueueStableLoad(
       }
     }
   }
+  const v2Adapter = maybeV2Adapter;
 
   const loadBrickModule = async (pkgId: string, moduleName: string) => {
     try {
@@ -146,9 +173,11 @@ async function enqueueStableLoad(
     basicPkgPromise = tempPromise.then(() =>
       Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        modulesByPkg
+        itemsByPkg
           .get(basicPkg.id)!
-          .map((moduleName) => loadBrickModule(basicPkg.id, moduleName))
+          .map((itemName) =>
+            loadBrickModule(basicPkg.id, `${moduleDir}${itemName}`)
+          )
       )
     );
   }
@@ -159,12 +188,48 @@ async function enqueueStableLoad(
       await waitBasicPkg;
       return Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        modulesByPkg
+        itemsByPkg
           .get(pkg.id)!
-          .map((moduleName) => loadBrickModule(pkg.id, moduleName))
+          .map((itemName) => loadBrickModule(pkg.id, `${moduleDir}${itemName}`))
       );
     })
   );
+
+  if (v2Adapter && v2Packages.length > 0) {
+    if (!v2AdapterPromise) {
+      const loadV2Adapter = async () => {
+        await loadScript(v2Adapter.filePath, window.PUBLIC_ROOT ?? "");
+        await waitBasicPkg;
+        await loadBrickModule(v2Adapter.id, "./load-bricks");
+        return document.createElement(
+          "v2-adapter.load-bricks"
+        ) as unknown as V2AdapterBrick;
+      };
+      v2AdapterPromise = loadV2Adapter();
+    }
+
+    pkgPromises.push(
+      v2AdapterPromise.then((adapter) =>
+        Promise.all(
+          v2Packages.map((pkg) => {
+            const pkgId = getPkgIdByFilePath(pkg.filePath);
+            const pkgNamespace = pkgId.split("/")[1];
+            return adapter.resolve(
+              v2Adapter.filePath,
+              pkg.filePath,
+              type === "bricks"
+                ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  itemsByPkg
+                    .get(pkgId)!
+                    .map((itemName) => `${pkgNamespace}.${itemName}`)
+                : [],
+              (pkg as { dll?: string[] }).dll
+            );
+          })
+        )
+      )
+    );
+  }
 
   await Promise.all(pkgPromises);
 }
@@ -180,4 +245,8 @@ function getProcessorPackageName(camelPackageName: string): string {
   return camelPackageName
     .replace(/[A-Z]/g, (match) => `-${match[0].toLocaleLowerCase()}`)
     .replace(/_[0-9]/g, (match) => `-${match[1]}`);
+}
+
+function getPkgIdByFilePath(filePath: string) {
+  return filePath.split("/").slice(0, 2).join("/");
 }

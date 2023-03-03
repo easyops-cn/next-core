@@ -1,8 +1,8 @@
+import { getBrickPackages } from "@next-core/serve-helpers";
 import {
   getStoryboards,
   getSingleStoryboard,
 } from "../utils/getStoryboards.js";
-import { getBrickPackages } from "../utils/getBrickPackages.js";
 
 export default function bootstrapJson({ rootDir, localMicroApps }) {
   const baseBootstrapRegExp = /^\/api\/auth\/v2\/bootstrap\/?$/;
@@ -11,8 +11,8 @@ export default function bootstrapJson({ rootDir, localMicroApps }) {
     /^\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap\.[^.]+\.json$/;
 
   /**
-   * @param req {import("express").Request}
-   * @param res {import("express").Response}
+   * @param {import("express").Request} req
+   * @param {import("express").Response} res
    */
   return async function (req, res, next) {
     if (baseBootstrapRegExp.test(req.path) && req.method === "GET") {

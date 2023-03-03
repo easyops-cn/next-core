@@ -7,3 +7,11 @@ export * from "./handleHttpError.js";
 export * from "./history.js";
 export { createRuntime, getRuntime } from "./internal/Runtime.js";
 export * as __secret_internals from "./internal/secretInternals.js";
+export {
+  getCssPropertyValue,
+  getCurrentTheme,
+  getCurrentMode,
+  batchSetAppsLocalTheme,
+  applyTheme,
+} from "./themeAndMode.js";
+export { checkIfByTransform } from "./internal/compute/checkIf.js";

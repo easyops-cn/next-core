@@ -63,3 +63,10 @@ export async function checkBrickIf(
   }
   return asyncCheckIf(brickConf, runtimeContext);
 }
+
+export async function checkIfByTransform(
+  ifContainer: IfContainer,
+  data: unknown
+) {
+  return checkIf(ifContainer, { data } as RuntimeContext);
+}

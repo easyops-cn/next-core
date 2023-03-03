@@ -20,6 +20,7 @@ const getCssLoaders = (cssOptions) => [
     loader: "css-loader",
     options: {
       sourceMap: false,
+      importLoaders: 1,
       ...cssOptions,
     },
   },
@@ -68,6 +69,7 @@ export default async function build(config) {
     "i18next",
     "lodash",
     "moment",
+    "moment/locale/zh-cn.js",
     "js-yaml",
     "i18next-browser-languagedetector",
     "react-i18next",

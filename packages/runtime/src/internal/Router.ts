@@ -53,6 +53,7 @@ export class Router {
   #redirectCount = 0;
   #renderId?: string;
   #currentApp?: MicroApp;
+  #previousApp?: MicroApp;
 
   constructor(kernel: Kernel) {
     this.#kernel = kernel;
@@ -82,12 +83,15 @@ export class Router {
     return this.#renderId;
   }
 
-  getCurrentApp() {
-    return this.#currentApp;
-  }
-
   getRuntimeContext() {
     return this.#runtimeContext;
+  }
+
+  getRecentApps() {
+    return {
+      currentApp: this.#currentApp,
+      previousApp: this.#previousApp,
+    };
   }
 
   #getBlockMessageBeforePageLave(detail: {
@@ -210,6 +214,9 @@ export class Router {
     );
 
     const previousApp = this.#runtimeContext?.app;
+    if (storyboard?.app) {
+      await fulfilStoryboard(storyboard);
+    }
     const currentApp = (this.#currentApp = storyboard?.app);
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.
@@ -260,6 +267,7 @@ export class Router {
       setMode("default");
 
       if (appChanged) {
+        this.#previousApp = previousApp;
         window.dispatchEvent(
           new CustomEvent("app.change", {
             detail: {
@@ -272,8 +280,6 @@ export class Router {
     };
 
     if (currentApp) {
-      await fulfilStoryboard(storyboard);
-
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,

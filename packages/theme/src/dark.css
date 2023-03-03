@@ -1,5 +1,5 @@
-html[data-theme="dark"],
-[data-override-theme="dark"] {
+html[data-theme="dark-v2"],
+[data-override-theme="dark-v2"] {
   /* https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme */
   color-scheme: dark;
 
