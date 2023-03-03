@@ -1,9 +1,13 @@
 import type { SiteMode, SiteTheme } from "@next-core/types";
 import { JsonStorage } from "@next-core/utils/general";
 
+interface AppThemes {
+  [appId: string]: SiteTheme;
+}
+
 // Themes.
 let theme: SiteTheme = "light";
-const storage = new JsonStorage(localStorage);
+const storage = new JsonStorage<Record<string, AppThemes>>(localStorage);
 const LOCAL_STORAGE_APPS_THEME_KEY = "apps-theme";
 
 export function setTheme(value: SiteTheme): void {
@@ -37,22 +41,17 @@ export function applyTheme(value?: SiteTheme): void {
   }
 }
 
-export function batchSetAppsLocalTheme(
-  appsTheme: Record<string, SiteTheme>
-): void {
+export function batchSetAppsLocalTheme(appsTheme: AppThemes): void {
   storage.setItem(LOCAL_STORAGE_APPS_THEME_KEY, {
     ...getLocalAppsTheme(),
     ...appsTheme,
   });
 }
 
-export function getLocalAppsTheme(): Record<string, SiteTheme> {
-  let result;
+export function getLocalAppsTheme(): AppThemes {
+  let result: AppThemes | undefined;
   try {
-    result = storage.getItem(LOCAL_STORAGE_APPS_THEME_KEY) as Record<
-      string,
-      SiteTheme
-    >;
+    result = storage.getItem(LOCAL_STORAGE_APPS_THEME_KEY);
   } catch {
     // eslint-disable-next-line no-console
     console.error("JSON parse error inside `getLocalAppsTheme()`");

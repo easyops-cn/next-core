@@ -1762,10 +1762,10 @@
     validate-npm-package-name "^4.0.0"
     yargs-parser "20.2.4"
 
-"@next-core/brick-dll-v3@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@next-core/brick-dll-v3/-/brick-dll-v3-0.1.1.tgz#7a5e2482be3ec0d81104ba92bd2e1bc2afcdc773"
-  integrity sha512-2KuJlzGeG5zpz+qGsMBVfPlvBgnni+QvlI5p/S7meJhUNsChOqs0TDYBAr0Eaep4smFummpS1WvKyjYs8+8jnA==
+"@next-core/brick-dll-v3@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@next-core/brick-dll-v3/-/brick-dll-v3-0.2.0.tgz#81fdf6f1027d0a4766224057cb17a7b175242a21"
+  integrity sha512-f8fz4lFGGR+lori29qstBMVc1aQIc7Mlo+G+c9lzTRshTkuAn7hQEVkFZqCVZMmF3UwtBo/WH35U+N7Cw6WInw==
 
 "@next-core/styles-v3@^0.2.1":
   version "0.2.1"

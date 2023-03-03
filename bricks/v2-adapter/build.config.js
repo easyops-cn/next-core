@@ -75,6 +75,17 @@ export default {
         })),
     }),
     new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(
+            require.resolve(`${mainDll}/package.json`),
+            "../dist/assets/illustrations"
+          ),
+          to: "dll/assets/illustrations",
+        },
+      ],
+    }),
+    new CopyPlugin({
       patterns: dll
         .map((d) => d.packageName)
         .map((packageName) =>
