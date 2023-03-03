@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 const {
   dll: { NextDllPlugin, NextHashedModuleIdsPlugin },
   CleanWebpackPlugin,
@@ -72,6 +73,17 @@ module.exports = {
       // - `esprima` and `buffer` are optional imported by `js-yaml`
       // we don't need them.
       resourceRegExp: /^(?:esprima)$/,
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: `${path.resolve(
+            require.resolve("@next-core/illustrations/package.json"),
+            "../dist/illustrations"
+          )}`,
+          to: "assets/illustrations",
+        },
+      ],
     }),
   ],
   resolve: {
