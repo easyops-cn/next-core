@@ -4,7 +4,7 @@ button {
   border: none;
   background: none;
   cursor: pointer;
-  padding: 4px 15px;
+  padding: 0px 15px;
 }
 
 button:disabled {
@@ -14,6 +14,19 @@ button:disabled {
   border-radius: 3px;
   border: 1px solid var(--antd-btn-default-border);
   box-shadow: none;
+}
+
+.icon {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.shape {
+  border-radius: 32px;
+}
+
+.circle {
+  border-radius: 50%;
 }
 
 /* type */

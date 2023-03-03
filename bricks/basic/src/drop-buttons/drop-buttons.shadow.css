@@ -1,0 +1,69 @@
+.drop-buttons-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.buttons-list {
+  position: absolute;
+  padding-top: 4px;
+  min-width: 100%;
+  z-index: 1050;
+}
+
+.buttons-list::before {
+  position: absolute;
+  inset: -4px 0px -4px -7px;
+  z-index: -9999;
+  opacity: 0.0001;
+  content: " ";
+}
+
+.buttons-list > ul {
+  position: relative;
+  margin: 0px;
+  padding: 2px;
+  box-sizing: border-box;
+  text-align: left;
+  list-style-type: none;
+  background-color: var(--antd-dropdown-menu-bg);
+  background-clip: padding-box;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: var(--antd-box-shadow-base);
+}
+
+.buttons-list > ul > li {
+  list-style: none;
+  clear: both;
+  margin: 0px;
+  padding: 5px 12px;
+  color: var(--antd-text-color);
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease 0s;
+}
+
+.buttons-list > ul > li.disabled,
+.buttons-list > ul > li.disabled > .drop-button-item > a {
+  cursor: not-allowed;
+  color: var(--text-color-disabled);
+}
+
+.buttons-list > ul > li:not(.disabled):hover {
+  background-color: var(--antd-item-hover-bg);
+}
+
+.drop-button-item > a {
+  text-decoration: none;
+  color: var(--antd-text-color);
+  background: none;
+}
+
+.drop-button-icon {
+  vertical-align: middle;
+  margin-right: 4px;
+}
