@@ -38,7 +38,3 @@ export async function loadLazyBricks(bricks: Iterable<string>): Promise<void> {
   }
   await Promise.all(requests);
 }
-
-export function loadAllLazyBricks(): Promise<void> {
-  return loadLazyBricks(lazyBrickRegistry.keys());
-}

@@ -7,6 +7,7 @@ import {
 import type {
   CustomTemplateConstructor,
   CustomTemplateProxyBasicProperty,
+  FeatureFlags,
 } from "@next-core/types";
 import { registerLazyBricks } from "./LazyBrickRegistry.js";
 
@@ -16,7 +17,10 @@ interface LegacyTplPropProxy extends CustomTemplateProxyBasicProperty {
   refTransform?: unknown;
 }
 
-export function getLegacyRuntime() {
+export function getLegacyRuntime(): {
+  getFeatureFlags(): FeatureFlags;
+  applyPageTitle(pageTitle: string): void;
+} {
   return new Proxy(getRuntime(), {
     get(...args) {
       // const key = args[1] as keyof ReturnType<typeof getRuntime>;

@@ -17,6 +17,7 @@ import {
 } from "@next-core/runtime";
 import { i18n } from "@next-core/i18n";
 import * as Http from "@next-core/http";
+import type { SiteTheme } from "@next-core/types";
 import * as History from "history";
 import * as JsYaml from "js-yaml";
 import lodash from "lodash";
@@ -195,11 +196,21 @@ async function loadMainDll(adapterPkgFilePath: string) {
       return {};
     },
     useCurrentTheme() {
-      // eslint-disable-next-line no-console
-      console.error(
-        "React hook `useCurrentTheme` is not implemented yet in v3"
+      const [currentTheme, setCurrentTheme] = LegacyReact.useState(
+        getCurrentTheme()
       );
-      return "dark-v2";
+
+      LegacyReact.useEffect(() => {
+        const listenToThemeChange = (event: Event): void => {
+          setCurrentTheme((event as CustomEvent<SiteTheme>).detail);
+        };
+        window.addEventListener("theme.change", listenToThemeChange);
+        return () => {
+          window.removeEventListener("theme.change", listenToThemeChange);
+        };
+      }, []);
+
+      return currentTheme;
     },
     useApplyPageTitle(pageTitle: string) {
       LegacyReact.useEffect(() => {
@@ -215,12 +226,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
 
 function defineModule(target: object, modules: object) {
   for (const [key, value] of Object.entries(modules)) {
-    Object.defineProperty(target, key, {
-      get() {
-        return value;
-      },
-      configurable: false,
-    });
+    Object.defineProperty(target, key, { value });
   }
 }
 

@@ -11,9 +11,9 @@ const require = createRequire(import.meta.url);
 const mainDll = "@next-core/brick-dll-v3";
 
 /**
- * @param packageName {string}
- * @param regExp {RegExp}
- * @returns string | undefined
+ * @param {string} packageName
+ * @param {RegExp} regExp
+ * @returns {string}
  */
 function getDllJsName(packageName, regExp) {
   const jsFile = readdirSync(
