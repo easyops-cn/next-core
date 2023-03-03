@@ -75,6 +75,8 @@ interface Window {
   MOCK_DATE?: string;
 }
 
+declare const __webpack_public_path__: string;
+
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 };

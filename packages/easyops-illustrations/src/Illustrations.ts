@@ -25,7 +25,7 @@ export function getIllustration(props: IllustrationProps): any {
   const category = props?.category || "default";
   const name = determineIllustrationName(category, theme, props.name);
   const url = (categories as any)?.[category]?.[name];
-  return url && `${window.CORE_ROOT ?? ""}assets/illustrations/${url}`;
+  return url && `${__webpack_public_path__}assets/illustrations/${url}`;
 }
 
 export function translateIllustrationConfig(
