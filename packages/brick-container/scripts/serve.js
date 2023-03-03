@@ -4,51 +4,32 @@ import express from "express";
 import compression from "compression";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { getEnv } from "./env.js";
-import bootstrapJson from "./middlewares/bootstrapJson.js";
-import mockAuth from "./middlewares/mockAuth.js";
-import serveBricksWithVersions from "./middlewares/serveBricksWithVersions.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getMatchedStoryboard } from "./utils/getStoryboards.js";
 import { getStandaloneConfig } from "./utils/getStandaloneConfig.js";
 import getProxy from "./getProxy.js";
-import standaloneBootstrapJson from "./middlewares/standaloneBootstrapJson.js";
 import { shouldServeAsIndexHtml } from "./utils/shouldServeAsIndexHtml.js";
+import {
+  getMiddlewares,
+  getPreMiddlewares,
+} from "./middlewares/getMiddlewares.js";
 
 const env = getEnv();
-const {
-  rootDir,
-  baseHref,
-  useRemote,
-  useLocalContainer,
-  port,
-  localMicroApps,
-} = env;
+const { baseHref, useLocalContainer, port } = env;
 const distDir = path.join(process.cwd(), "dist");
 
 const app = express();
 
 app.use(compression());
 
-app.use(`${baseHref}sa-static/-/bricks/`, serveBricksWithVersions(env));
-app.use(
-  `${baseHref}bricks/`,
-  express.static(path.join(rootDir, "node_modules/@next-bricks"))
-);
-app.use(
-  `${baseHref}bricks/`,
-  express.static(path.join(rootDir, "node_modules/@bricks"))
-);
+const middlewares = [...getPreMiddlewares(env), ...getMiddlewares(env)];
 
-if (useRemote) {
-  for (const appId of localMicroApps) {
-    app.use(
-      `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/`,
-      standaloneBootstrapJson(env, appId)
-    );
+for (const middleware of middlewares) {
+  if (typeof middleware === "function") {
+    app.use(middleware);
+  } else {
+    app.use(middleware.path, middleware.middleware);
   }
-} else {
-  app.use(baseHref, mockAuth());
-  app.use(baseHref, bootstrapJson(env));
 }
 
 const browseHappyHtml = "browse-happy.html";
@@ -69,8 +50,6 @@ if (useLocalContainer) {
 
   // Serve static files in next-core for new standalone apps.
   app.use(`${baseHref}sa-static/-/core/0.0.0/`, express.static(distDir));
-  // For legacy standalone apps.
-  // app.use(`${baseHref}:appId/-/core/`, express.static(distDir));
 }
 
 const proxy = getProxy(env);

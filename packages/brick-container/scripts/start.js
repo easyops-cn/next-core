@@ -1,21 +1,20 @@
 import path from "node:path";
 import WebpackDevServer from "webpack-dev-server";
-import express from "express";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
 import { getEnv } from "./env.js";
-import bootstrapJson from "./middlewares/bootstrapJson.js";
-import mockAuth from "./middlewares/mockAuth.js";
-import serveBricksWithVersions from "./middlewares/serveBricksWithVersions.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getMatchedStoryboard } from "./utils/getStoryboards.js";
 import { getStandaloneConfig } from "./utils/getStandaloneConfig.js";
 import getProxy from "./getProxy.js";
-import standaloneBootstrapJson from "./middlewares/standaloneBootstrapJson.js";
 import { shouldServeAsIndexHtml } from "./utils/shouldServeAsIndexHtml.js";
+import {
+  getMiddlewares,
+  getPreMiddlewares,
+} from "./middlewares/getMiddlewares.js";
 
 const env = getEnv();
-const { rootDir, baseHref, port, useRemote, localMicroApps } = env;
+const { rootDir, baseHref, port } = env;
 const distDir = path.join(process.cwd(), "dist");
 
 const compiler = await build(config);
@@ -52,42 +51,9 @@ const server = new WebpackDevServer(
         },
       });
 
-      middlewares.unshift({
-        path: `${baseHref}sa-static/-/bricks/`,
-        middleware: serveBricksWithVersions(env),
-      });
+      middlewares.unshift(...getPreMiddlewares(env));
 
-      middlewares.unshift({
-        path: `${baseHref}bricks/`,
-        middleware: express.static(
-          path.join(rootDir, "node_modules/@next-bricks")
-        ),
-      });
-
-      // middlewares.push({
-      //   path: `${baseHref}bricks/`,
-      //   middleware: express.static(
-      //     path.join(rootDir, "node_modules/@bricks")
-      //   ),
-      // });
-
-      if (useRemote) {
-        for (const appId of localMicroApps) {
-          middlewares.push({
-            path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/`,
-            middleware: standaloneBootstrapJson(env, appId),
-          });
-        }
-      } else {
-        middlewares.push({
-          path: baseHref,
-          middleware: mockAuth(),
-        });
-        middlewares.push({
-          path: baseHref,
-          middleware: bootstrapJson(env),
-        });
-      }
+      middlewares.push(...getMiddlewares(env));
 
       middlewares.push({
         path: `${baseHref}sa-static/-/core/0.0.0/`,

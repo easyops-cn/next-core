@@ -7,7 +7,7 @@ export default function mockAuth() {
    * @param {import("express").Request} req
    */
   return async function (req, res, next) {
-    if (req.path === "/api/auth/login" && req.method === "GET") {
+    if (req.path === "/login" && req.method === "GET") {
       res.json({
         code: 0,
         data: {
@@ -16,7 +16,7 @@ export default function mockAuth() {
           org: username && 8888,
         },
       });
-    } else if (req.path === "/api/auth/login/v2" && req.method === "POST") {
+    } else if (req.path === "/login/v2" && req.method === "POST") {
       bodyParser.json()(req, res, () => {
         if (
           req.body &&
