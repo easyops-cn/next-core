@@ -51,7 +51,7 @@ class GridLayout extends ReactNextElement {
    * @group basic
    */
   @property({
-    attribute: false,
+    type: Number,
   })
   accessor columns: number | undefined;
   /**
@@ -93,7 +93,7 @@ class GridLayout extends ReactNextElement {
    * @description 网格布局模板列，即 CSS 的 gridTemplateColumns，优先于 `columns`。
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor templateColumns: string | undefined;
 
@@ -103,7 +103,7 @@ class GridLayout extends ReactNextElement {
    * @description  设置单元格的垂直位置
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor alignItems: CSSProperties["alignItems"] | undefined;
   /**
@@ -112,7 +112,7 @@ class GridLayout extends ReactNextElement {
    * @description 设置整个内容区域的垂直位置
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor alignContent: CSSProperties["alignContent"] | undefined;
   /**
@@ -121,7 +121,7 @@ class GridLayout extends ReactNextElement {
    * @description 设置单元格内容的水平位置
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor justifyItems: CSSProperties["justifyItems"] | undefined;
   /**
@@ -130,7 +130,7 @@ class GridLayout extends ReactNextElement {
    * @description 设置整个内容区域在容器里面的水平位置
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor justifyContent: CSSProperties["justifyContent"] | undefined;
 
@@ -140,7 +140,7 @@ class GridLayout extends ReactNextElement {
    * @description  子元素自动排布顺序
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor autoFlow: CSSProperties["gridAutoFlow"] | undefined;
 
@@ -183,7 +183,7 @@ class GridLayout extends ReactNextElement {
    * @description 网格布局边框颜色
    */
   @property({
-    attribute: false,
+    type: String,
   })
   accessor gridBorderColor: string | undefined;
 
@@ -235,20 +235,9 @@ class GridLayout extends ReactNextElement {
         "--grid-border-color",
         this.gridBorderColor ?? "#454547"
       );
-      this.classList.add(
-        parseInt(this.gap) === 0 ? "grid-border" : "grid-border-with-gap"
-      );
     } else {
       if (this.style.getPropertyValue("--grid-border-color")) {
         this.style.removeProperty("--grid-border-color");
-      }
-      const keys = Array.from(this.classList).filter(
-        (item) =>
-          item.startsWith("grid-border") ||
-          item.startsWith("grid-border-with-gap")
-      );
-      if (keys.length) {
-        this.classList.remove(...keys);
       }
     }
   }
@@ -269,7 +258,7 @@ class GridLayout extends ReactNextElement {
 
     return {
       columns: layout.columns || 1,
-      rows: layout.columns || 1,
+      rows: layout.rows || 1,
       columnSpan: layout.columnSpan || 1,
       rowSpan: layout.rowSpan || 1,
     };
@@ -293,13 +282,13 @@ class GridLayout extends ReactNextElement {
       gridTemplateRows: rows === 1 ? "" : `repeat(${rows},1fr)`,
     };
 
-    this.handleShowGridBorder();
-
     Object.entries(gridProps).forEach(([key, value]) => {
       if (value != null) {
         this.style[key as any] = value;
       }
     });
+
+    this.handleShowGridBorder();
 
     return <slot />;
   }
