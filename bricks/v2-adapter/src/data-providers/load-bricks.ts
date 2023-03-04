@@ -30,6 +30,7 @@ import { loadLazyBricks } from "./legacy-brick-kit/LazyBrickRegistry.js";
 import { getLegacyUseFeatureFlags } from "./legacy-brick-kit/getLegacyUseFeatureFlags.js";
 import { getLegacyErrorBoundary } from "./legacy-brick-kit/getLegacyErrorBoundary.js";
 import { getLegacyUseRecentApps } from "./legacy-brick-kit/getLegacyUseRecentApps.js";
+import { getLegacyUseProvider } from "./legacy-brick-kit/getLegacyUseProvider.js";
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -189,14 +190,16 @@ async function loadMainDll(adapterPkgFilePath: string) {
     FeatureFlagsProvider,
     DisplayByFeatureFlags,
 
-    useProvider(...args: unknown[]) {
-      // eslint-disable-next-line no-console
-      console.error(
-        "React hook `useProvider` is not implemented yet in v3:",
-        ...args
-      );
-      return {};
-    },
+    // useProvider(...args: unknown[]) {
+    //   // eslint-disable-next-line no-console
+    //   console.error(
+    //     "React hook `useProvider` is not implemented yet in v3:",
+    //     ...args
+    //   );
+    //   return {};
+    // },
+    useProvider: getLegacyUseProvider(LegacyReact),
+
     useCurrentTheme() {
       const [currentTheme, setCurrentTheme] = LegacyReact.useState(
         getCurrentTheme()
