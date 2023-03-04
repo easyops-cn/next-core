@@ -9,6 +9,8 @@ import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
 import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";
+import { ResolveOptions, resolveByProvider } from "./data/resolveData.js";
+import { getProviderBrick } from "./data/getProviderBrick.js";
 
 let kernel: Kernel;
 let runtime: Runtime;
@@ -102,6 +104,18 @@ export class Runtime {
   applyPageTitle(pageTitle: string): void {
     const baseTitle = this.getBrandSettings().base_title;
     document.title = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
+  }
+
+  async fetchByProvider(
+    provider: string,
+    args: unknown[],
+    options?: ResolveOptions
+  ) {
+    const providerBrick = (await getProviderBrick(
+      provider,
+      kernel.bootstrapData.brickPackages
+    )) as unknown as Record<string, Function>;
+    return resolveByProvider(providerBrick, provider, "resolve", args, options);
   }
 }
 
