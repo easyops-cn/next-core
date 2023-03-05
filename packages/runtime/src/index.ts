@@ -1,6 +1,7 @@
 export * from "./auth.js";
 export * from "./CustomProcessors.js";
 export * from "./CustomTemplates.js";
+export * from "./fetchByProvider.js";
 export * from "./getBasePath.js";
 export * from "./getPageInfo.js";
 export * from "./handleHttpError.js";
@@ -14,4 +15,7 @@ export {
   batchSetAppsLocalTheme,
   applyTheme,
 } from "./themeAndMode.js";
-export { checkIfByTransform } from "./internal/compute/checkIf.js";
+export {
+  checkIfOfComputed,
+  checkIfByTransform,
+} from "./internal/compute/checkIf.js";

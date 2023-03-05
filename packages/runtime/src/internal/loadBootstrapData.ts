@@ -5,7 +5,7 @@ import {
 import { http } from "@next-core/http";
 import type { BootstrapData, RuntimeStoryboard } from "@next-core/types";
 import { i18n } from "@next-core/i18n";
-import { deepFreeze } from "@next-core/utils/general";
+import { deepFreeze, isObject } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { registerAppI18n } from "./registerAppI18n.js";
 
@@ -38,7 +38,9 @@ export async function loadBootstrapData(): Promise<BootstrapData> {
     }
   }
 
-  data.settings = deepFreeze(data.settings);
+  if (isObject(data.settings)) {
+    deepFreeze(data.settings);
+  }
   data.brickPackages = deepFreeze(data.brickPackages);
 
   return data;

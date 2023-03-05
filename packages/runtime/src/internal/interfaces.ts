@@ -2,7 +2,6 @@ import type { LegacyCompatibleRuntimeContext } from "@next-core/inject";
 import type {
   BrickEventHandler,
   BrickEventsMap,
-  BrickPackage,
   CustomTemplateProxy,
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
@@ -11,7 +10,6 @@ import type {
 import type { DataStore } from "./data/DataStore.js";
 
 export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
-  brickPackages: BrickPackage[];
   ctxStore: DataStore<"CTX">;
   tplStateStoreMap: Map<string, DataStore<"STATE">>;
   pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];

@@ -27,7 +27,7 @@ export async function resolveData(
   runtimeContext: RuntimeContext,
   options?: ResolveOptions
 ) {
-  const { useProvider, method = "resolve", args, onReject } = resolveConf;
+  const { useProvider, method = "resolve", args = [], onReject } = resolveConf;
 
   const legacyProvider = (resolveConf as { provider?: string }).provider;
   if (legacyProvider && !useProvider) {
@@ -36,43 +36,21 @@ export async function resolveData(
     );
   }
 
-  const [provider, actualArgs] = await Promise.all([
-    getProviderBrick(
-      useProvider,
-      runtimeContext.brickPackages
-    ) as unknown as Promise<Record<string, Function>>,
-    asyncComputeRealValue(args || [], runtimeContext) as Promise<unknown[]>,
+  const [providerBrick, actualArgs] = await Promise.all([
+    getProviderBrick(useProvider) as unknown as Promise<
+      Record<string, Function>
+    >,
+    asyncComputeRealValue(args, runtimeContext) as Promise<unknown[]>,
   ]);
 
-  let cacheKey: string;
-  try {
-    // `actualArgs` may contain circular references, which makes
-    // JSON stringify failed, thus we fallback to original args.
-    cacheKey = JSON.stringify({
-      useProvider,
-      method,
-      actualArgs,
-    });
-  } catch (e) {
-    cacheKey = JSON.stringify({
-      useProvider,
-      method,
-      args,
-    });
-  }
-
-  let promise: Promise<unknown> | undefined;
-  if (options?.cache !== "reload") {
-    promise = cache.get(cacheKey);
-  }
-  if (!promise) {
-    promise = (async () => {
-      const finalArgs = await getArgsOfFlowApi(useProvider, actualArgs, method);
-      return provider[method](...finalArgs);
-    })();
-
-    cache.set(cacheKey, promise);
-  }
+  const promise = resolveByProvider(
+    providerBrick,
+    useProvider,
+    method,
+    actualArgs,
+    options,
+    args
+  );
 
   let { transform } = resolveConf;
   let data: unknown;
@@ -104,6 +82,50 @@ export async function resolveData(
 
 export function clearResolveCache() {
   cache.clear();
+}
+
+export async function resolveByProvider(
+  brick: Record<string, Function>,
+  useProvider: string,
+  method: string,
+  args: unknown[],
+  options?: ResolveOptions,
+  originalArgs?: unknown[]
+) {
+  let cacheKey: string;
+  try {
+    // `args` may contain circular references, which makes
+    // JSON stringify failed, thus we fallback to original args.
+    cacheKey = JSON.stringify({
+      useProvider,
+      method,
+      args,
+    });
+  } catch (e) {
+    if (!originalArgs) {
+      throw e;
+    }
+    cacheKey = JSON.stringify({
+      useProvider,
+      method,
+      originalArgs,
+    });
+  }
+
+  let promise: Promise<unknown> | undefined;
+  if (options?.cache !== "reload") {
+    promise = cache.get(cacheKey);
+  }
+  if (!promise) {
+    promise = (async () => {
+      const finalArgs = await getArgsOfFlowApi(useProvider, args, method);
+      return brick.resolve(...finalArgs);
+    })();
+
+    cache.set(cacheKey, promise);
+  }
+
+  return promise;
 }
 
 function isHandleRejectByTransform(
