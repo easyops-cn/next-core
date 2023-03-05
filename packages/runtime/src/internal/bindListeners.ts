@@ -281,10 +281,7 @@ async function handleUseProviderAction(
   runtimeBrick?: ElementHolder
 ) {
   try {
-    const providerBrick = await getProviderBrick(
-      handler.useProvider,
-      runtimeContext.brickPackages
-    );
+    const providerBrick = await getProviderBrick(handler.useProvider);
     const method = handler.method !== "saveAs" ? "resolve" : "saveAs";
     brickCallback(
       event,

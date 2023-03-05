@@ -1,6 +1,7 @@
 export * from "./auth.js";
 export * from "./CustomProcessors.js";
 export * from "./CustomTemplates.js";
+export * from "./fetchByProvider.js";
 export * from "./getBasePath.js";
 export * from "./getPageInfo.js";
 export * from "./handleHttpError.js";

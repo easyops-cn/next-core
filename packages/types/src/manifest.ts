@@ -3,6 +3,8 @@ export interface BootstrapData {
   brickPackages: BrickPackage[];
   storyboards: Storyboard[];
   settings?: BootstrapSettings;
+  desktops?: unknown[];
+  siteSort?: unknown[];
 }
 
 /** @internal */
@@ -13,9 +15,14 @@ export interface RuntimeBootstrapData extends BootstrapData {
 
 /** @internal */
 export interface BootstrapSettings {
-  featureFlags: FeatureFlags;
-  homepage: string;
+  featureFlags?: FeatureFlags;
+  homepage?: string;
   misc?: Record<string, unknown>;
+  brand?: Record<string, string>;
+  launchpad?: {
+    columns?: number;
+    rows?: number;
+  };
   [key: string]: unknown;
 }
 

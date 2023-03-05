@@ -37,10 +37,9 @@ export async function resolveData(
   }
 
   const [providerBrick, actualArgs] = await Promise.all([
-    getProviderBrick(
-      useProvider,
-      runtimeContext.brickPackages
-    ) as unknown as Promise<Record<string, Function>>,
+    getProviderBrick(useProvider) as unknown as Promise<
+      Record<string, Function>
+    >,
     asyncComputeRealValue(args, runtimeContext) as Promise<unknown[]>,
   ]);
 

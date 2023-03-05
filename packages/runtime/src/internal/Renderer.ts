@@ -36,6 +36,7 @@ import type { RuntimeBrick, RuntimeContext } from "./interfaces.js";
 import { getTagNameOfCustomTemplate } from "./CustomTemplates/utils.js";
 import { customTemplates } from "../CustomTemplates.js";
 import type { NextHistoryState } from "./historyExtended.js";
+import { getBrickPackages } from "./Runtime.js";
 
 export interface RenderOutput {
   main: RuntimeBrick[];
@@ -261,10 +262,7 @@ export async function renderBrick(
 
   // Custom templates need to be defined before rendering.
   if (/\.tpl-/.test(brickConf.brick) && !customTemplates.get(brickConf.brick)) {
-    await loadBricksImperatively(
-      [brickConf.brick],
-      runtimeContext.brickPackages
-    );
+    await loadBricksImperatively([brickConf.brick], getBrickPackages());
   }
 
   const tplTagName = getTagNameOfCustomTemplate(
@@ -284,7 +282,7 @@ export async function renderBrick(
 
   if (brickConf.brick.includes(".")) {
     output.blockingList.push(
-      enqueueStableLoadBricks([brickConf.brick], runtimeContext.brickPackages)
+      enqueueStableLoadBricks([brickConf.brick], getBrickPackages())
     );
   }
 

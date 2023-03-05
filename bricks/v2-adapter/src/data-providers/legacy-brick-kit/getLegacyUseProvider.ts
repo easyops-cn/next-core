@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type React from "react";
 import { isObject, isString } from "lodash";
-import { getRuntime } from "@next-core/runtime";
+import { fetchByProvider } from "@next-core/runtime";
 import type { HttpOptions } from "@next-core/http";
 import type {
   IncomingOptions,
@@ -66,8 +66,7 @@ export function getLegacyUseProvider(LegacyReact: typeof React) {
         try {
           error.current = undefined;
           if (!suspense) setLoading(true);
-          // const newRes = (await fetch(provider, cache, ...args)) as TData;
-          const newRes = (await getRuntime().fetchByProvider(provider, args, {
+          const newRes = (await fetchByProvider(provider, args, {
             cache: cache ? "default" : "reload",
           })) as TData;
           response.current = newRes;
