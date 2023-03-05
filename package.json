@@ -40,7 +40,6 @@
     "@babel/types": "^7.21.2",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/test-next": "^0.0.0",
-    "@testing-library/react-hooks": "^8.0.1",
     "@types/fs-extra": "^9.0.13",
     "@types/history": "^4.7.11",
     "@types/inquirer": "^7.3.3",
