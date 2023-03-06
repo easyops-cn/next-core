@@ -19,8 +19,8 @@ describe("basic.general-button", () => {
     expect(element.shadowRoot).toBeTruthy();
     expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    const button = element.shadowRoot.querySelector("button");
-    const icon = element.shadowRoot.querySelector(".icon");
+    const button = element.shadowRoot?.querySelector("button");
+    const icon = element.shadowRoot?.querySelector(".icon");
     expect(button?.className).toBe("large primary");
     expect(icon).toBe(null);
 
@@ -42,7 +42,7 @@ describe("basic.general-button", () => {
     expect(element.shadowRoot).toBeTruthy();
     expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    const button = element.shadowRoot.querySelector("button");
+    const button = element.shadowRoot?.querySelector("button");
     expect(button?.className).toBe("middle default danger");
 
     act(() => {
@@ -67,10 +67,10 @@ describe("basic.general-button", () => {
     expect(element1.shadowRoot).toBeTruthy();
     expect(element1.shadowRoot?.childNodes.length).toBe(2);
 
-    const button1 = element1.shadowRoot.querySelector("button");
-    const button2 = element2.shadowRoot.querySelector("button");
-    const link1 = element1.shadowRoot.querySelector("a");
-    const link2 = element2.shadowRoot.querySelector("a");
+    const button1 = element1.shadowRoot?.querySelector("button");
+    const button2 = element2.shadowRoot?.querySelector("button");
+    const link1 = element1.shadowRoot?.querySelector("a");
+    const link2 = element2.shadowRoot?.querySelector("a");
     expect(button1).toBe(null);
     expect(link1?.className).toBe("middle");
     expect(button2?.className).toBe("middle");
@@ -100,7 +100,7 @@ describe("basic.general-button", () => {
     expect(element.shadowRoot).toBeTruthy();
     expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    const icon = element.shadowRoot.querySelector(".icon");
+    const icon = element.shadowRoot?.querySelector(".icon");
     expect(icon?.tagName).toBe("ICONS.GENERAL-ICON");
 
     act(() => {

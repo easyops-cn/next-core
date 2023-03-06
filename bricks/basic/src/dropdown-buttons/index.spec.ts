@@ -41,17 +41,17 @@ describe("basic.dropdown-buttons", () => {
     expect(element.shadowRoot).toBeTruthy();
     expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    const dropButton = element.shadowRoot.querySelector(".dropdown-button");
+    const dropButton = element.shadowRoot?.querySelector(".dropdown-button");
     expect(dropButton?.innerHTML).toBe("Hello world");
-    expect(element.shadowRoot.querySelector(".buttons-list")).toBeFalsy();
+    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeFalsy();
 
     act(() => {
       Simulate.click(dropButton as HTMLElement);
     });
 
-    expect(element.shadowRoot.querySelector(".buttons-list")).toBeTruthy();
+    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeTruthy();
 
-    const listItem = element.shadowRoot.querySelectorAll(
+    const listItem = element.shadowRoot?.querySelectorAll(
       ".dropdown-button-item"
     );
     expect(listItem[0].innerHTML).toBe("a");
@@ -64,23 +64,23 @@ describe("basic.dropdown-buttons", () => {
       Simulate.click(listItem[1]);
     });
     // click disabled item not close the list
-    expect(element.shadowRoot.querySelector(".buttons-list")).toBeTruthy();
+    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeTruthy();
 
     act(() => {
       Simulate.click(listItem[0]);
     });
 
-    expect(element.shadowRoot.querySelector(".buttons-list")).toBeFalsy();
+    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeFalsy();
 
     act(() => {
       Simulate.click(dropButton as HTMLElement);
     });
-    expect(element.shadowRoot.querySelector(".buttons-list")).toBeTruthy();
+    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeTruthy();
 
     act(() => {
       Simulate.click(dropButton as HTMLElement);
     });
-    expect(element.shadowRoot.querySelector(".buttons-list")).toBeFalsy();
+    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeFalsy();
 
     act(() => {
       document.body.removeChild(element);
