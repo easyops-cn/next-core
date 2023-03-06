@@ -4,6 +4,8 @@ export type Target = "_self" | "_blank" | "_parent" | "_top";
 
 export type UIType = "default" | "dashboard";
 
+export type Shape = "round" | "circle";
+
 /* ============== Common Type Start ============== */
 
 /* ============== Button Type Start ============== */
