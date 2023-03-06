@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+
+  <body>
+    <basic.general-image id="general-image-1"> </basic.general-image>
+
+    <script>
+      const image = document.querySelector("#general-image-1");
+      image.imgList = [
+        {
+          width: "300px",
+          src: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+        },
+        {
+          width: "300px",
+          preview: false,
+          src: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200",
+        },
+        {
+          width: "300px",
+          src: "aaa",
+          fallback:
+            "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+        },
+      ];
+      image.addEventListener("visibleChange", (e) => {
+        console.log(e.detail);
+      });
+    </script>
+  </body>
+</html>

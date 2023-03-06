@@ -15,3 +15,4 @@ import "./radio/index.js";
 import "./grid-layout/index.js";
 import "./select/index.js";
 import "./submit-buttons/index.js";
+import "./image/index.js";
