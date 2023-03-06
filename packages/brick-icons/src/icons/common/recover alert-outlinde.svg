@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>recover alert-outlinde</title>
+    <g id="recover-alert-outlinde" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.65">
+        <g id="recover-alert">
+            <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+            <path d="M8,1 C11.8769231,1 15,4.12307692 15,8 C15,11.8769231 11.8769231,15 8,15 C4.12307692,15 1,11.8769231 1,8 C1,4.12307692 4.12307692,1 8,1 Z M8,2.2 C4.78581862,2.2 2.2,4.78581862 2.2,8 C2.2,11.2141814 4.78581862,13.8 8,13.8 C11.2141814,13.8 13.8,11.2141814 13.8,8 C13.8,4.78581862 11.2141814,2.2 8,2.2 Z M11.75,7.475 C12.0625,7.475 12.375,7.685 12.375,8 C12.375,8.315 12.125,8.525 11.75,8.525 L4.25000001,8.525 C3.9375,8.525 3.625,8.315 3.625,8 C3.625,7.685 3.9375,7.475 4.25000001,7.475 L11.75,7.475 Z" id="形状" fill="#000000" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>
