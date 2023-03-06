@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>pipeline task 2</title>
+    <g id="pipeline-task" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="20" height="20"></rect>
+        <g id="编组" transform="translate(3.367729, 3.500000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="编组-8">
+                <path d="M9.13227093,0 L9.132,0.4 L12.2042753,0.4 L12.2042753,7.04581686 L9.132,7.045 L9.13227093,8 L3.13227093,8 L3.132,7.045 L1.23527526,7.045 L1.20827526,10.649 L3.132,10.649 L3.13227093,10 L9.13227093,10 L9.13227093,13 L3.13227093,13 L3.132,11.85 L0,11.85 L0.00429038749,11.24574 L0.0384012109,6.44155682 L0.0426311039,5.84581686 L3.132,5.845 L3.13227093,5 L9.13227093,5 L9.132,5.845 L11.0042753,5.845 L11.0042753,1.6 L9.132,1.6 L9.13227093,3 L3.13227093,3 L3.13227093,0 L9.13227093,0 Z" id="形状结合"></path>
+            </g>
+        </g>
+    </g>
+</svg>

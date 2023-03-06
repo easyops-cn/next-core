@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Go to enable-fillde</title>
+    <g id="Go-to-enable-fillde" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组">
+            <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+            <path d="M10,2 C14.418278,2 18,5.581722 18,10 C18,14.418278 14.418278,18 10,18 C6.2724501,18 3.14033727,15.4506308 2.25212715,12.0003581 L9.499,11.999 L9.5,15.4 L15.5,10 L9.5,4.6 L9.499,7.999 L2.25186923,8.00064404 C3.13973081,4.54986283 6.27208922,2 10,2 Z" id="路径" fill="#000000" opacity="0.649999976"></path>
+        </g>
+    </g>
+</svg>

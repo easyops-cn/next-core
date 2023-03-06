@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>workload-second menu-normal</title>
+    <g id="workload-second-menu-normal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="工作负载">
+            <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="20" height="20"></rect>
+            <g id="架构拓扑" opacity="0.85" transform="translate(2.000280, 3.000479)">
+                <path d="M2.5,11.5 L8,2.5 M13.5,11.5 L8,2.5 M13.5,11.5 C13.5,11.5 9.83333333,11.5 2.5,11.5" id="形状结合" stroke="#717FAB" stroke-width="1.2"></path>
+                <path d="M7.99972,0 C9.38043187,-2.53632657e-16 10.49972,1.11928813 10.49972,2.5 C10.49972,3.88071187 9.38043187,5 7.99972,5 C6.61900813,5 5.49972,3.88071187 5.49972,2.5 C5.49972,1.11928813 6.61900813,2.53632657e-16 7.99972,0 Z M2.5,9 C3.88071187,9 5,10.1192881 5,11.5 C5,12.8807119 3.88071187,14 2.5,14 C1.11928813,14 1.69088438e-16,12.8807119 0,11.5 C-1.69088438e-16,10.1192881 1.11928813,9 2.5,9 Z M13.5,9 C14.8807119,9 16,10.1192881 16,11.5 C16,12.8807119 14.8807119,14 13.5,14 C12.1192881,14 11,12.8807119 11,11.5 C11,10.1192881 12.1192881,9 13.5,9 Z" id="形状结合" fill="#AEBBD7"></path>
+            </g>
+        </g>
+    </g>
+</svg>
