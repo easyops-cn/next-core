@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Unfocus-fillde</title>
+    <g id="Unfocus-fillde" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组">
+            <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+            <path d="M14.6783398,16.7993398 L15.8783398,17.9993398 L13.4,18 L13.4,16.8 L14.6783398,16.7993398 Z M3.2,13.4 L3.2,16.8 L6.6,16.8 L6.6,18 L2,18 L2,13.4 L3.2,13.4 Z M3,2 L18,17 L18,18 L17,18 L2,3 L2,2 L3,2 Z M18,13.4 L17.9993398,15.8783398 L16.7993398,14.6783398 L16.8,13.4 L18,13.4 Z M1.99933983,4.11933983 L3.19933983,5.31933983 L3.2,6.6 L2,6.6 L1.99933983,4.11933983 Z M18,2 L18,6.6 L16.8,6.6 L16.8,3.2 L13.4,3.2 L13.4,2 L18,2 Z M6.6,2 L6.6,3.2 L5.31933983,3.19933983 L4.11933983,1.99933983 L6.6,2 Z" id="Unfocus" fill="#000000" opacity="0.649999976"></path>
+        </g>
+    </g>
+</svg>

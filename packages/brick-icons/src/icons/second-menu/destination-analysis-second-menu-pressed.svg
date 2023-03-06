@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Destination analysis-second menu-pressed</title>
+    <g id="Destination-analysis-second-menu-pressed" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Destination-analysis">
+            <g id="编组-2">
+                <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+                <circle id="椭圆形" fill="#FFFFFF" opacity="0.55" cx="7" cy="9.5" r="5"></circle>
+                <circle id="椭圆形" fill="#FFFFFF" cx="7" cy="9.5" r="3.8"></circle>
+            </g>
+            <g id="编组" transform="translate(12.500668, 3.092250)" fill="#FFFFFF" opacity="0.55">
+                <path d="M0.499331808,5.90774962 L3.35633181,5.90774962 L3.35647466,4.90774962 L4.98776769,6.50774962 L3.35647466,8.10774962 L3.35633181,7.10774962 L0.499331808,7.10774962 L0.499331808,5.90774962 Z" id="形状结合"></path>
+                <path d="M0.499331808,1.90774962 L3.35633181,1.90774962 L3.35647466,0.907749616 L4.98776769,2.50774962 L3.35647466,4.10774962 L3.35633181,3.10774962 L0.499331808,3.10774962 L0.499331808,1.90774962 Z" id="形状结合" transform="translate(2.743550, 2.507750) rotate(-30.000000) translate(-2.743550, -2.507750) "></path>
+                <path d="M0.499331808,9.90774962 L3.35633181,9.90774962 L3.35647466,8.90774962 L4.98776769,10.5077496 L3.35647466,12.1077496 L3.35633181,11.1077496 L0.499331808,11.1077496 L0.499331808,9.90774962 Z" id="形状结合备份" transform="translate(2.743550, 10.507750) rotate(-330.000000) translate(-2.743550, -10.507750) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

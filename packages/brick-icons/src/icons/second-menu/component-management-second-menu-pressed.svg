@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>component management-second menu-pressed</title>
+    <g id="component-management-second-menu-pressed" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="component-management">
+            <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+            <g id="编组-24" transform="translate(2.000000, 2.000000)" fill="#FFFFFF">
+                <path d="M8,3.2 L13.999,8 L8,12.8 L2,8 L8,3.2 Z" id="形状结合" opacity="0.55"></path>
+                <path d="M8,0 L16,6.4 L15.999,9.598 L8,16 L0.001,9.6 L0,6.4 L8,0 Z M2.96,8.768 L1.921,9.6 L7.399,13.981 L7.399,12.319 L2.96,8.768 Z M13.04,8.768 L8.599,12.321 L8.599,13.981 L14.078,9.6 L13.04,8.768 Z M8,4.737 L3.92,7.999 L8,11.262 L12.078,7.999 L8,4.737 Z M1.2,7.36 L1.2,8.639 L1.999,8 L1.2,7.36 Z M14.799,7.361 L14.001,8 L14.799,8.638 L14.799,7.361 Z M7.399,2.017 L1.921,6.4 L2.96,7.231 L7.399,3.68 L7.399,2.017 Z M8.599,2.017 L8.599,3.678 L13.039,7.231 L14.078,6.4 L8.599,2.017 Z" id="形状" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>

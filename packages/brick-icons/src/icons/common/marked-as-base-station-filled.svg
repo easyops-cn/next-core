@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>marked as base station-filled</title>
+    <g id="marked-as-base-station-filled" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形备份" fill-opacity="0" fill="#CDCDCD" x="0" y="0" width="20" height="20"></rect>
+        <g id="标为基线" transform="translate(2.000000, 2.000000)">
+            <rect id="矩形" fill-opacity="0" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
+            <path d="M10.3,6 L11.8,6 L11.8,1 L13.25,1 C13.8022847,1 14.25,1.44771525 14.25,2 L14.25,14.3671574 C14.25,14.9194421 13.8022847,15.3671574 13.25,15.3671574 C13.0920068,15.3671574 12.9362619,15.3297218 12.7955277,15.2579182 L8.40816308,13.0194547 C8.12064307,12.87276 7.77999527,12.8738677 7.49343532,13.0224291 L3.21025545,15.2429593 C2.71994448,15.4971514 2.11640553,15.3057392 1.86221347,14.8154282 C1.78848432,14.6732121 1.75,14.5153646 1.75,14.3551728 L1.75,2 C1.75,1.44771525 2.19771525,1 2.75,1 L10.3,1 L10.3,6 Z" id="形状结合" fill="#262626"></path>
+        </g>
+    </g>
+</svg>
