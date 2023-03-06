@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Resource comparison-outlinde</title>
+    <g id="Resource-comparison-outlinde" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Resource-comparison">
+            <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+            <path d="M6,2 L6,3.2 L2.2,3.2 L2.2,13 L6,13 L6,14.2 L1,14.2 L1,2 L6,2 Z M8.6,1 L8.6,15 L7.4,15 L7.4,1 L8.6,1 Z M10,2 L11.2,2 L11.2,3.2 L10,3.2 L10,2 Z M12,2 L13.2,2 L13.2,3.2 L12,3.2 L12,2 Z M14,2 L15.2,2 L15.2,3.2 L14,3.2 L14,2 Z M14,4.2 L15.2,4.2 L15.2,5.4 L14,5.4 L14,4.2 Z M14,6.4 L15.2,6.4 L15.2,7.6 L14,7.6 L14,6.4 Z M14,8.6 L15.2,8.6 L15.2,9.8 L14,9.8 L14,8.6 Z M14,10.8 L15.2,10.8 L15.2,12 L14,12 L14,10.8 Z M14,12.95 L15.2,12.95 L15.2,14.15 L14,14.15 L14,12.95 Z M12,12.95 L13.2,12.95 L13.2,14.15 L12,14.15 L12,12.95 Z M10,12.95 L11.2,12.95 L11.2,14.15 L10,14.15 L10,12.95 Z" id="形状" fill-opacity="0.65" fill="#000000" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

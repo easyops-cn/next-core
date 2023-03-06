@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>pipeline task 3</title>
+    <g id="pipeline-task" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="20" height="20"></rect>
+        <g id="编组" transform="translate(3.972004, 3.500000)">
+            <g id="编组-7备份" transform="translate(0.000000, 1.000000)" fill="#9FAECF" fill-rule="nonzero">
+                <g id="编组-8">
+                    <polygon id="路径" transform="translate(5.497862, 5.125000) scale(-1, 1) translate(-5.497862, -5.125000) " points="6.70861109 -0.6 6.70861109 0.6 0.595724736 0.6 0.595724736 4.845 11.5573689 4.84581686 11.5615988 5.44155682 11.5957096 10.24574 11.6 10.85 3.05102113 10.85 3.05102113 9.65 10.3917247 9.649 10.3647247 6.045 -0.604275264 6.04581686 -0.604275264 -0.6"></polygon>
+                </g>
+            </g>
+            <rect id="矩形" fill="#57689C" x="2.52799567" y="0" width="6" height="3"></rect>
+            <rect id="矩形" fill="#57689C" x="2.52799567" y="5" width="6" height="3"></rect>
+            <rect id="矩形" fill="#57689C" x="2.52799567" y="10" width="6" height="3"></rect>
+        </g>
+    </g>
+</svg>

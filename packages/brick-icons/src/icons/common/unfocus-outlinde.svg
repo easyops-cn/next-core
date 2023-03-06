@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Unfocus-outlinde</title>
+    <g id="Unfocus-outlinde" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.65">
+        <g id="编组-2">
+            <g id="编组">
+                <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+                <path d="M11.8533398,13.9743398 L12.9033398,15.0243398 L10.975,15.025 L10.975,13.975 L11.8533398,13.9743398 Z M2.05,10.975 L2.05,13.95 L5.025,13.95 L5.025,15 L1,15 L1,10.975 L2.05,10.975 Z M15,11 L14.9993398,12.8783398 L13.9493398,11.8283398 L13.95,11 L15,11 Z M0.999339828,3.11933983 L2.04933983,4.16933983 L2.05,5.025 L1,5.025 L0.999339828,3.11933983 Z M15,1 L15,5.025 L13.95,5.025 L13.95,2.05 L10.975,2.05 L10.975,1 L15,1 Z M5.025,1 L5.025,2.05 L4.16933983,2.04933983 L3.11933983,0.999339828 L5.025,1 Z" id="形状" fill="#000000" fill-rule="nonzero"></path>
+            </g>
+            <polygon id="路径-12" fill="#000000" fill-rule="nonzero" points="2 1 15 14 15 15 14 15 1 2 1 1"></polygon>
+        </g>
+    </g>
+</svg>
