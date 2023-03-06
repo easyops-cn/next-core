@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.14...@next-core/brick-icons@2.31.15) (2023-03-06)
+
+
+### Bug Fixes
+
+* add icons for 三级菜单、二级菜单 ([b019128](https://github.com/easyops-cn/next-core/commit/b019128a6a412688211eb4e1fc01440df03855cb))
+
+
+
+
+
 ## [2.31.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.13...@next-core/brick-icons@2.31.14) (2023-02-28)
 
 **Note:** Version bump only for package @next-core/brick-icons
