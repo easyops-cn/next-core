@@ -1,4 +1,4 @@
-.drop-buttons-wrapper {
+.dropdown-buttons-wrapper {
   position: relative;
   display: inline-block;
 }
@@ -48,7 +48,7 @@
 }
 
 .buttons-list > ul > li.disabled,
-.buttons-list > ul > li.disabled > .drop-button-item > a {
+.buttons-list > ul > li.disabled > .dropdown-button-item > a {
   cursor: not-allowed;
   color: var(--text-color-disabled);
 }
@@ -57,13 +57,13 @@
   background-color: var(--antd-item-hover-bg);
 }
 
-.drop-button-item > a {
+.dropdown-button-item > a {
   text-decoration: none;
   color: var(--antd-text-color);
   background: none;
 }
 
-.drop-button-icon {
+.dropdown-button-icon {
   vertical-align: middle;
   margin-right: 4px;
 }

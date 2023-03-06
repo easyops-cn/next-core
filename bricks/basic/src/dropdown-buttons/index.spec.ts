@@ -1,13 +1,15 @@
 import { describe, test, expect } from "@jest/globals";
 import { act, Simulate } from "react-dom/test-utils";
-import "./";
-import { DropButton } from "./index.js";
+import "./index.jsx";
+import { DropButton } from "./index.jsx";
 
 jest.mock("@next-core/theme", () => ({}));
 
-describe("basic.drop-buttons", () => {
+describe("basic.dropdown-buttons", () => {
   test("basic usage", async () => {
-    const element = document.createElement("basic.drop-buttons") as DropButton;
+    const element = document.createElement(
+      "basic.dropdown-buttons"
+    ) as DropButton;
 
     expect(element.shadowRoot).toBeFalsy();
     act(() => {
@@ -39,7 +41,7 @@ describe("basic.drop-buttons", () => {
     expect(element.shadowRoot).toBeTruthy();
     expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    const dropButton = element.shadowRoot.querySelector(".drop-button");
+    const dropButton = element.shadowRoot.querySelector(".dropdown-button");
     expect(dropButton?.innerHTML).toBe("Hello world");
     expect(element.shadowRoot.querySelector(".buttons-list")).toBeFalsy();
 
@@ -49,11 +51,13 @@ describe("basic.drop-buttons", () => {
 
     expect(element.shadowRoot.querySelector(".buttons-list")).toBeTruthy();
 
-    const listItem = element.shadowRoot.querySelectorAll(".drop-button-item");
+    const listItem = element.shadowRoot.querySelectorAll(
+      ".dropdown-button-item"
+    );
     expect(listItem[0].innerHTML).toBe("a");
     expect(listItem[1].innerHTML).toBe("b");
     expect(listItem[2].innerHTML).toEqual(
-      '<icons.general-icon class="drop-button-icon" lib="antd" icon="setting" theme="filled"></icons.general-icon><a href="www.baidu.com">c</a>'
+      '<icons.general-icon class="dropdown-button-icon" lib="antd" icon="setting" theme="filled"></icons.general-icon><a href="www.baidu.com">c</a>'
     );
 
     act(() => {

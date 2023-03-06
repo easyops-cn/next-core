@@ -1,10 +1,9 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement, wrapBrick } from "@next-core/react-element";
-import styleText from "./drop-buttons.shadow.css";
-import type { ButtonProps, Button } from "../button/index.js";
-import { useCallback } from "react";
+import styleText from "./dropdown-buttons.shadow.css";
 import classNames from "classnames";
+import type { ButtonProps, Button } from "../button/index.js";
 import type {
   GeneralIcon,
   GeneralIconProps,
@@ -40,14 +39,14 @@ const defaultIcon: GeneralIconProps = {
 };
 
 /**
- * @id basic.drop-buttons
- * @name basic.drop-buttons
+ * @id basic.dropdown-buttons
+ * @name basic.dropdown-buttons
  * @docKind brick
  * @description 下拉按钮
  * @author sailor
  *
  */
-@defineElement("basic.drop-buttons", {
+@defineElement("basic.dropdown-buttons", {
   styleTexts: [styleText],
 })
 class DropButton extends ReactNextElement {
@@ -104,7 +103,7 @@ class DropButton extends ReactNextElement {
 
   render() {
     return (
-      <DropButtonComponent
+      <DropdownButtonComponent
         curElement={this}
         buttons={this.buttons}
         btnText={this.btnText}
@@ -117,7 +116,7 @@ class DropButton extends ReactNextElement {
   }
 }
 
-function DropButtonComponent({
+function DropdownButtonComponent({
   curElement,
   buttons,
   btnText = "管理",
@@ -126,16 +125,20 @@ function DropButtonComponent({
   shape,
   handleClick,
 }: DropButtonsProps) {
-  const dropButtonsRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   const handleDocumentClick = useCallback(
     (e: MouseEvent) => {
-      if (!curElement.contains(e.target as HTMLElement)) {
-        setVisible(visible);
+      if (e.target === curElement) return;
+      if (
+        !curElement.contains(e.target as HTMLElement) ||
+        !wrapperRef.current?.contains(e.target as HTMLElement)
+      ) {
+        setVisible(false);
       }
     },
-    [visible, curElement]
+    [curElement]
   );
 
   useEffect(() => {
@@ -143,20 +146,20 @@ function DropButtonComponent({
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, []);
+  }, [handleDocumentClick]);
 
   const renderDropButtonItem = (props: DropButtonItemProps) => {
     const { text, icon, href, event, disabled, target } = props;
     return (
       <div
-        className="drop-button-item"
+        className="dropdown-button-item"
         onClick={(e) => {
           e.stopPropagation();
           disabled ? e.preventDefault() : event && handleClick(event);
-          !disabled && setVisible(!visible);
+          !disabled && setVisible(false);
         }}
       >
-        {icon && <WrappedIcon className="drop-button-icon" {...icon} />}
+        {icon && <WrappedIcon className="dropdown-button-icon" {...icon} />}
         {href ? (
           <a href={href} target={target}>
             {text}
@@ -169,9 +172,9 @@ function DropButtonComponent({
   };
 
   return (
-    <div className="drop-buttons-wrapper" ref={dropButtonsRef}>
+    <div className="dropdown-buttons-wrapper" ref={wrapperRef}>
       <WrappedButton
-        className="drop-button"
+        className="dropdown-button"
         size={size}
         shape={shape}
         icon={icon ?? defaultIcon}
@@ -181,10 +184,10 @@ function DropButtonComponent({
       >
         {btnText}
       </WrappedButton>
-      {visible && buttons?.length && (
+      {visible && (
         <div className="buttons-list">
           <ul>
-            {buttons.map((button, index) => {
+            {buttons?.map((button, index) => {
               return (
                 <li
                   className={classNames({
@@ -196,6 +199,7 @@ function DropButtonComponent({
                 </li>
               );
             })}
+            <slot></slot>
           </ul>
         </div>
       )}
