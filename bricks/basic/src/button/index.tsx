@@ -1,14 +1,19 @@
 import React, { useMemo } from "react";
 import { createDecorators } from "@next-core/element";
-import { ReactNextElement } from "@next-core/react-element";
-import type { ButtonType, ComponentSize } from "../interface.js";
+import { ReactNextElement, wrapBrick } from "@next-core/react-element";
+import type { ButtonType, ComponentSize, Shape } from "../interface.js";
+import type {
+  GeneralIcon,
+  GeneralIconProps,
+} from "@next-bricks/icons/general-icon";
 import classNames from "classnames";
 import styleText from "./button.shadow.css";
 import "@next-core/theme";
-
 export interface ButtonProps {
   type?: ButtonType;
   size?: ComponentSize;
+  icon?: GeneralIconProps;
+  shape?: Shape;
   danger?: boolean;
   disabled?: boolean;
   href?: string;
@@ -17,6 +22,10 @@ export interface ButtonProps {
 }
 
 const { defineElement, property } = createDecorators();
+
+const WrappedIcon = wrapBrick<GeneralIcon, GeneralIconProps>(
+  "icons.general-icon"
+);
 
 /**
  * @id basic.general-button
@@ -61,6 +70,30 @@ class Button extends ReactNextElement implements ButtonProps {
     type: Boolean,
   })
   accessor danger: boolean | undefined;
+
+  /**
+   * @kind GeneralIconProps
+   * @required false
+   * @default middle
+   * @description 图标
+   * @enums
+   * @group basic
+   */
+  @property({
+    attribute: false,
+  })
+  accessor icon: GeneralIconProps | undefined;
+
+  /**
+   * @kind "circle" | "round"
+   * @required false
+   * @default -
+   * @description 按钮形状，支持圆形、椭圆形，不设置为默认方形
+   * @enums "circle"|"round"
+   * @group ui
+   */
+  @property()
+  accessor shape: Shape | undefined;
 
   /**
    * @kind boolean
@@ -111,6 +144,8 @@ class Button extends ReactNextElement implements ButtonProps {
         size={this.size}
         danger={this.danger}
         disabled={this.disabled}
+        icon={this.icon}
+        shape={this.shape}
         href={this.href}
         target={this.target}
         buttonStyle={this.buttonStyle}
@@ -122,6 +157,8 @@ class Button extends ReactNextElement implements ButtonProps {
 export function ButtonComponent({
   type = "default",
   size = "middle",
+  icon,
+  shape,
   danger,
   disabled,
   href,
@@ -138,26 +175,28 @@ export function ButtonComponent({
         href={href}
         target={target}
       >
+        {icon && <WrappedIcon className="icon" {...icon} />}
         <slot />
       </a>
     ),
-    [size, danger, buttonStyle, href, target]
+    [size, danger, buttonStyle, href, target, icon]
   );
 
   const button = useMemo(
     () => (
       <button
-        className={classNames(size, {
+        className={classNames(size, shape, {
           [type]: !disabled,
           danger: danger,
         })}
         style={buttonStyle}
         disabled={disabled}
       >
+        {icon && <WrappedIcon className="icon" {...icon} />}
         <slot />
       </button>
     ),
-    [size, type, disabled, danger, buttonStyle]
+    [size, shape, type, disabled, danger, buttonStyle, icon]
   );
 
   return type === "link" && href ? link : button;
