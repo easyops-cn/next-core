@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { getCurrentTheme } from "@next-core/runtime";
 import type { SiteTheme } from "@next-core/types";
-import { useEffect, useState } from "react";
 
 export function useCurrentTheme(): SiteTheme {
   const [currentTheme, setCurrentTheme] = useState(getCurrentTheme());

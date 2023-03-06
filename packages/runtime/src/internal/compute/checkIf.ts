@@ -54,7 +54,7 @@ export async function checkBrickIf(
   brickConf: BrickConf,
   runtimeContext: RuntimeContext
 ): Promise<boolean> {
-  if (isObject(brickConf.if)) {
+  if (isObject(brickConf.if) && !isPreEvaluated(brickConf.if)) {
     const resolved = (await resolveData(
       brickConf.if as ResolveConf,
       runtimeContext

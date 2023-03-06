@@ -1,5 +1,5 @@
-import { tryServeFiles } from "@next-core/serve-helpers";
 import path from "node:path";
+import { tryServeFiles } from "@next-core/serve-helpers";
 
 export default function serveBricksWithVersions({ rootDir }) {
   /**

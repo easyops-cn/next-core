@@ -36,6 +36,10 @@ export function getEnv(runtimeFlags) {
     server: getServerPath(flags.server),
   };
 
+  if (!env.useRemote) {
+    env.localMicroApps.push("auth");
+  }
+
   return env;
 }
 

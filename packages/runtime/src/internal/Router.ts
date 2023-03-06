@@ -3,12 +3,11 @@ import {
   flushStableLoadBricks,
   loadProcessorsImperatively,
 } from "@next-core/loader";
-import type { MicroApp } from "@next-core/types";
+import type { MicroApp, Storyboard } from "@next-core/types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { isHttpAbortError } from "@next-core/http";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
-import type { Kernel } from "./Kernel.js";
 import { RenderOutput, renderRoutes } from "./Renderer.js";
 import { DataStore } from "./data/DataStore.js";
 import { clearResolveCache } from "./data/resolveData.js";
@@ -43,7 +42,7 @@ import {
 import { fulfilStoryboard } from "./loadBootstrapData.js";
 
 export class Router {
-  #kernel: Kernel;
+  readonly #storyboards: Storyboard[];
   #rendering = false;
   #prevLocation!: NextLocation;
   #nextLocation?: NextLocation;
@@ -55,8 +54,8 @@ export class Router {
   #currentApp?: MicroApp;
   #previousApp?: MicroApp;
 
-  constructor(kernel: Kernel) {
-    this.#kernel = kernel;
+  constructor(storyboards: Storyboard[]) {
+    this.#storyboards = storyboards;
 
     const history = getHistory();
     window.addEventListener("beforeunload", (event) => {
@@ -163,7 +162,7 @@ export class Router {
 
       if (action === "POP") {
         const storyboard = matchStoryboard(
-          this.#kernel.bootstrapData.storyboards,
+          this.#storyboards,
           location.pathname
         );
         // When a browser action of goBack or goForward is performing,
@@ -208,10 +207,7 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
-    const storyboard = matchStoryboard(
-      this.#kernel.bootstrapData.storyboards,
-      location.pathname
-    );
+    const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
     const previousApp = this.#runtimeContext?.app;
     if (storyboard?.app) {
@@ -290,7 +286,6 @@ export class Router {
           ...getPageInfo(),
         },
         ctxStore: new DataStore("CTX"),
-        brickPackages: this.#kernel.bootstrapData.brickPackages,
         pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
       });
@@ -336,7 +331,7 @@ export class Router {
           //     "PROCESSORS",
           //     2
           //   ),
-          //   runtimeContext.brickPackages
+          //   getBrickPackages()
           // ),
           ...runtimeContext.pendingPermissionsPreCheck
         );

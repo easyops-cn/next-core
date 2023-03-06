@@ -1,7 +1,8 @@
 import { responseInterceptor } from "http-proxy-middleware";
 import _ from "lodash";
 import { getBrickPackages } from "@next-core/serve-helpers";
-import { getSingleStoryboard, getStoryboards } from "./utils/getStoryboards.js";
+import { getStoryboards } from "./utils/getStoryboards.js";
+import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 
 export default function getProxy({
   rootDir,
@@ -24,41 +25,46 @@ export default function getProxy({
             : {
                 [`^${_.escapeRegExp(baseHref)}api`]: "/next/api",
               },
-        // bypass(req) {
-        //   if (req.path.startsWith(`${baseHref}api/auth/v2/bootstrap`)) {
-        //     return req.path;
-        //   }
-        // },
+        bypass(req) {
+          const appId = getAppIdFromBootstrapPath(req.path);
+          if (localMicroApps.includes(appId)) {
+            return req.path;
+          }
+        },
         onProxyRes: responseInterceptor(
           async (responseBuffer, proxyRes, req, res) => {
             if (res.statusCode !== 200 || req.method !== "GET") {
               return responseBuffer;
             }
+
             if (req.path === "/next/api/auth/v2/bootstrap") {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
               const data = result.data;
-              data.storyboards = (
-                await getStoryboards({ rootDir, localMicroApps })
-              ).concat(data.storyboards);
-              data.brickPackages = (await getBrickPackages(rootDir)).concat(
-                data.brickPackages
-              );
+
+              const [storyboards, brickPackages] = await Promise.all([
+                getStoryboards({ rootDir, localMicroApps }),
+                getBrickPackages(rootDir),
+              ]);
+
+              // Todo: filter out local micro-apps and brick packages
+              data.storyboards = storyboards.concat(data.storyboards);
+              data.brickPackages = brickPackages.concat(data.brickPackages);
               removeCacheHeaders(res);
               return JSON.stringify(result);
             }
-            const matchSingleAppBootstrap = req.path.match(
-              /^\/next\/api\/auth\/v2\/bootstrap\/(\w+)$/
-            );
-            const appId = matchSingleAppBootstrap?.[1];
-            if (appId && localMicroApps.includes(appId)) {
-              const data = await getSingleStoryboard(rootDir, appId);
-              removeCacheHeaders(res);
-              return JSON.stringify({
-                code: 0,
-                data,
-              });
+
+            const appId = getAppIdFromBootstrapPath(req.path);
+            if (appId) {
+              if (localMicroApps.includes(appId)) {
+                throw new Error("Should bypass, this is a bug");
+              }
+              const content = responseBuffer.toString("utf-8");
+              const result = JSON.parse(content);
+              fixV2Storyboard(result.data);
+              return JSON.stringify(result);
             }
+
             return responseBuffer;
           }
         ),
@@ -87,4 +93,16 @@ function removeCacheHeaders(res) {
   res.removeHeader("expires");
   res.removeHeader("etag");
   res.removeHeader("last-modified");
+}
+
+/**
+ * @param {string} reqPath
+ * @returns {string | undefined}
+ */
+function getAppIdFromBootstrapPath(reqPath) {
+  const matchSingleAppBootstrap = reqPath.match(
+    /^\/next\/api\/auth\/v2\/bootstrap\/([^/]+)$/
+  );
+  const appId = matchSingleAppBootstrap?.[1];
+  return appId;
 }

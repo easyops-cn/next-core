@@ -1,11 +1,14 @@
 import type {
+  BootstrapData,
   BrickConf,
-  BrickPackage,
   SiteTheme,
   UseSingleBrickConf,
 } from "@next-core/types";
 import { flushStableLoadBricks } from "@next-core/loader";
-import { _internalApiGetRuntimeContext } from "./Runtime.js";
+import {
+  _internalApiGetRuntimeContext,
+  _internalApiSetBootstrapData,
+} from "./Runtime.js";
 import { RenderOutput, renderBrick, renderBricks } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
@@ -15,14 +18,11 @@ import { afterMountTree, mountTree, unmountTree } from "./mount.js";
 import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 
-let previewRuntimeContext: Partial<RuntimeContext> | undefined;
-
 export async function renderUseBrick(
   useBrick: UseSingleBrickConf,
   data?: unknown
 ) {
   const runtimeContext = {
-    ...previewRuntimeContext,
     ..._internalApiGetRuntimeContext()!,
     data,
     pendingPermissionsPreCheck: [],
@@ -121,10 +121,10 @@ export function unmountUseBrick(mountResult: MountUseBrickResult): void {
 
 let _rendererContext: RendererContext;
 
-export function initializePreviewBricks(brickPackages: BrickPackage[]) {
-  previewRuntimeContext = {
-    brickPackages,
-  };
+export function initializePreviewBootstrap(
+  bootstrapData: Partial<BootstrapData>
+) {
+  _internalApiSetBootstrapData(bootstrapData);
 }
 
 export async function renderPreviewBricks(
@@ -138,7 +138,6 @@ export async function renderPreviewBricks(
   }
 ) {
   const runtimeContext = {
-    ...previewRuntimeContext,
     pendingPermissionsPreCheck: [],
     tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
   } as Partial<RuntimeContext> as RuntimeContext;

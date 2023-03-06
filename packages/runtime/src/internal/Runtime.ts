@@ -1,13 +1,24 @@
-import type { RuntimeStoryboard, BootstrapSettings } from "@next-core/types";
+import type {
+  RuntimeStoryboard,
+  BootstrapSettings,
+  FeatureFlags,
+  BootstrapData,
+} from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
-import { Kernel } from "./Kernel.js";
 import { matchStoryboard } from "./matchStoryboard.js";
+import { ResolveOptions, resolveByProvider } from "./data/resolveData.js";
+import { getProviderBrick } from "./data/getProviderBrick.js";
+import { Router } from "./Router.js";
+import { loadCheckLogin } from "./loadCheckLogin.js";
+import { loadBootstrapData } from "./loadBootstrapData.js";
 
-let kernel: Kernel;
 let runtime: Runtime;
+
+let bootstrapData: Partial<BootstrapData> | undefined;
+let router!: Router;
 
 export function createRuntime() {
   if (runtime) {
@@ -28,35 +39,39 @@ export function getRuntime() {
 }
 
 export class Runtime {
-  bootstrap() {
-    kernel = new Kernel();
-    return kernel.bootstrap();
+  async bootstrap() {
+    const [, _bootstrapData] = await Promise.all([
+      loadCheckLogin(),
+      loadBootstrapData(),
+    ]);
+    bootstrapData = _bootstrapData;
+    router = new Router(_bootstrapData.storyboards);
+    await router.bootstrap();
   }
 
   getRecentApps() {
-    return kernel.router.getRecentApps();
+    return router.getRecentApps();
   }
 
   getCurrentApp() {
-    return kernel.router.getRecentApps().currentApp;
+    return router.getRecentApps().currentApp;
   }
 
-  getFeatureFlags() {
+  getFeatureFlags(): FeatureFlags {
     return {
-      ...kernel.bootstrapData.settings?.featureFlags,
+      ...bootstrapData?.settings?.featureFlags,
       ...(
-        kernel.router.getRecentApps().currentApp?.config
-          ?.settings as BootstrapSettings
+        router.getRecentApps().currentApp?.config?.settings as BootstrapSettings
       )?.featureFlags,
+      "migrate-to-brick-next-v3": true,
     };
   }
 
   getMiscSettings() {
     return {
-      ...kernel.bootstrapData.settings?.misc,
+      ...bootstrapData?.settings?.misc,
       ...(
-        kernel.router.getRecentApps().currentApp?.config
-          ?.settings as BootstrapSettings
+        router.getRecentApps().currentApp?.config?.settings as BootstrapSettings
       )?.misc,
     };
   }
@@ -64,7 +79,7 @@ export class Runtime {
   getBrandSettings(): Record<string, string> {
     return {
       base_title: "DevOps 管理专家",
-      ...(kernel.bootstrapData.settings?.brand as Record<string, string>),
+      ...(bootstrapData?.settings?.brand as Record<string, string>),
       // ...(kernel.getOriginFaviconHref()
       //   ? { favicon: kernel.getOriginFaviconHref() }
       //   : {})
@@ -75,19 +90,16 @@ export class Runtime {
     return {
       columns: 7,
       rows: 4,
-      ...(kernel.bootstrapData.settings?.launchpad as {
-        columns?: number;
-        rows?: number;
-      }),
+      ...bootstrapData?.settings?.launchpad,
     };
   }
 
   getDesktops(): unknown[] {
-    return (kernel.bootstrapData as any).desktops || [];
+    return bootstrapData?.desktops ?? [];
   }
 
   getLaunchpadSiteMap(): unknown[] {
-    return (kernel.bootstrapData as any).siteSort || [];
+    return bootstrapData?.siteSort ?? [];
   }
 
   toggleLaunchpadEffect(open: boolean): void {
@@ -100,12 +112,20 @@ export class Runtime {
   }
 }
 
+export function _internalApiSetBootstrapData(data: Partial<BootstrapData>) {
+  bootstrapData = data;
+}
+
+export function getBrickPackages() {
+  return bootstrapData?.brickPackages ?? [];
+}
+
 /* istanbul ignore next */
 export function _internalApiGetRenderId(): string | undefined {
   if (process.env.NODE_ENV === "test") {
     return "render-id-1";
   }
-  return kernel.router.getRenderId();
+  return router.getRenderId();
 }
 
 /* istanbul ignore next */
@@ -115,10 +135,10 @@ export function _internalApiMatchStoryboard(
   if (process.env.NODE_ENV === "test") {
     return;
   }
-  return matchStoryboard(kernel.bootstrapData.storyboards, pathname);
+  return matchStoryboard(bootstrapData?.storyboards ?? [], pathname);
 }
 
 /* istanbul ignore next */
 export function _internalApiGetRuntimeContext() {
-  return kernel?.router.getRuntimeContext();
+  return router.getRuntimeContext();
 }

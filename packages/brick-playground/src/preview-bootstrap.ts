@@ -21,7 +21,7 @@ const bootstrap = fetch("/bootstrap.hash.json", {
   .then((res) => res.json())
   .then((data) => {
     brickPackages = data.brickPackages;
-    __secret_internals.initializePreviewBricks(brickPackages);
+    __secret_internals.initializePreviewBootstrap(data);
   });
 
 (window as any)._preview_only_render = async (

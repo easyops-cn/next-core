@@ -23,7 +23,7 @@ import {
 import { getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
-import { getRuntime } from "../Runtime.js";
+import { getBrickPackages, getRuntime } from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 
@@ -198,10 +198,7 @@ function lowLevelEvaluate(
       usedProcessors = strictCollectMemberUsage(raw, "PROCESSORS", 2);
       isAsync &&
         blockingList.push(
-          loadProcessorsImperatively(
-            usedProcessors,
-            runtimeContext.brickPackages
-          )
+          loadProcessorsImperatively(usedProcessors, getBrickPackages())
         );
     }
   }
