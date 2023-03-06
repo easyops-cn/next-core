@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { describe, test, expect } from "@jest/globals";
 import useImage from "./useImage.js";
 
@@ -30,52 +30,53 @@ describe("useImage", () => {
 
   it("should work when src type is string", async (): Promise<void> => {
     let src = "image";
-    const { result, rerender, waitForNextUpdate } = renderHook(() =>
-      useImage(src)
-    );
+    const { result, rerender } = renderHook(() => useImage(src));
 
-    await waitForNextUpdate();
-    expect(result.current).toEqual({
-      src,
-      status: "normal",
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        src,
+        status: "normal",
+      });
     });
 
     src = "image" + LOAD_FAILURE_FLAG;
     rerender(src);
-    await waitForNextUpdate();
-    expect(result.current).toEqual({
-      src,
-      status: "error",
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        src,
+        status: "error",
+      });
     });
   });
 
   it("should work when src type is array", async (): Promise<void> => {
     let srcList = ["image", "image" + LOAD_FAILURE_FLAG, "image2"];
 
-    const { result, rerender, waitForNextUpdate } = renderHook(() =>
-      useImage(srcList)
-    );
+    const { result, rerender } = renderHook(() => useImage(srcList));
 
-    await waitForNextUpdate();
-    expect(result.current).toEqual({
-      src: "image",
-      status: "normal",
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        src: "image",
+        status: "normal",
+      });
     });
 
     srcList = ["image" + LOAD_FAILURE_FLAG, "image2", "image"];
     rerender(srcList);
-    await waitForNextUpdate();
-    expect(result.current).toEqual({
-      src: "image2",
-      status: "normal",
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        src: "image2",
+        status: "normal",
+      });
     });
 
     srcList = ["image" + LOAD_FAILURE_FLAG, "image2" + LOAD_FAILURE_FLAG];
     rerender(srcList);
-    await waitForNextUpdate();
-    expect(result.current).toEqual({
-      src: "image2" + LOAD_FAILURE_FLAG,
-      status: "error",
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        src: "image2" + LOAD_FAILURE_FLAG,
+        status: "error",
+      });
     });
   });
 });
