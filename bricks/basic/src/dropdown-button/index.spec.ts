@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals";
-import { act, Simulate } from "react-dom/test-utils";
+import { act } from "react-dom/test-utils";
 import "./index.js";
 import { DropdownButton } from "./index.js";
 
@@ -15,7 +15,7 @@ describe("basic.dropdown-button", () => {
     act(() => {
       element.btnText = "Hello world";
       element.size = "large";
-      element.buttons = [
+      element.actions = [
         {
           text: "a",
           event: "a.click",
@@ -29,32 +29,29 @@ describe("basic.dropdown-button", () => {
       document.body.appendChild(element);
     });
     expect(element.shadowRoot).toBeTruthy();
-    expect(element.shadowRoot?.childNodes.length).toBe(2);
+    expect(element.shadowRoot?.childNodes.length).toBe(1);
 
     const mockAClick = jest.fn();
     const mockBClick = jest.fn();
     element.addEventListener("a.click", mockAClick);
     element.addEventListener("b.click", mockBClick);
 
-    const dropButton = element.shadowRoot?.querySelector(".dropdown-button");
-    expect(dropButton?.innerHTML).toBe("Hello world");
-
     expect(element.shadowRoot?.innerHTML).toMatchInlineSnapshot(
-      `"<style>dropdown-buttons.shadow.css</style><basic.general-dropdown><basic.general-button slot="trigger" class="dropdown-button" size="large" icon="[object Object]">Hello world</basic.general-button><basic.general-menu><basic.general-menu-item text="a" event="a.click">a</basic.general-menu-item><basic.general-menu-item text="b" event="b.click" disabled="">b</basic.general-menu-item></basic.general-menu></basic.general-dropdown>"`
+      `"<basic.general-dropdown><basic.general-button slot="trigger" size="large" icon="[object Object]">Hello world</basic.general-button><basic.general-menu><basic.general-menu-item text="a" event="a.click">a</basic.general-menu-item><basic.general-menu-item text="b" event="b.click" disabled="">b</basic.general-menu-item></basic.general-menu></basic.general-dropdown>"`
     );
 
     act(() => {
-      Simulate.click(
-        element.shadowRoot?.children[1]?.children[1]?.children[0] as HTMLElement
-      );
+      (
+        element.shadowRoot?.children[0]?.children[1]?.children[0] as HTMLElement
+      ).click();
     });
 
     expect(mockAClick).toBeCalledTimes(1);
 
     act(() => {
-      Simulate.click(
-        element.shadowRoot?.children[1]?.children[1]?.children[0] as HTMLElement
-      );
+      (
+        element.shadowRoot?.children[0]?.children[1]?.children[0] as HTMLElement
+      ).click();
     });
 
     expect(mockBClick).toBeCalledTimes(0);

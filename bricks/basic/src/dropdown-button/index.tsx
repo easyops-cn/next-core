@@ -1,7 +1,6 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement, wrapBrick } from "@next-core/react-element";
-import styleText from "./dropdown-buttons.shadow.css";
 import type { ButtonProps, Button } from "../button/index.jsx";
 import type { GeneralIconProps } from "@next-bricks/icons/general-icon";
 import { ButtonType, ComponentSize, Shape } from "../interface.js";
@@ -16,7 +15,7 @@ const WrappedDropdown = wrapBrick<Dropdown, any>("basic.general-dropdown");
 const WrappedMenu = wrapBrick<Menu, any>("basic.general-menu");
 const WrappedMenuItem = wrapBrick<MenuItem, any>("basic.general-menu-item");
 interface DropButtonProps {
-  buttons?: DropButtonItemProps[];
+  actions?: DropButtonItemProps[];
   btnText?: string;
   size?: ComponentSize;
   shape?: Shape;
@@ -46,7 +45,7 @@ const defaultIcon: GeneralIconProps = {
  *
  */
 @defineElement("basic.dropdown-button", {
-  styleTexts: [styleText],
+  styleTexts: [],
 })
 class DropdownButton extends ReactNextElement {
   /**
@@ -67,7 +66,7 @@ class DropdownButton extends ReactNextElement {
   @property({
     attribute: false,
   })
-  accessor buttons: DropButtonItemProps[] | undefined;
+  accessor actions: DropButtonItemProps[] | undefined;
 
   /**
    * @default 管理
@@ -113,7 +112,7 @@ class DropdownButton extends ReactNextElement {
   render() {
     return (
       <DropdownButtonComponent
-        buttons={this.buttons}
+        actions={this.actions}
         btnText={this.btnText}
         size={this.size}
         icon={this.icon}
@@ -126,7 +125,7 @@ class DropdownButton extends ReactNextElement {
 }
 
 function DropdownButtonComponent({
-  buttons,
+  actions,
   btnText = "管理",
   size,
   icon,
@@ -138,7 +137,6 @@ function DropdownButtonComponent({
     <WrappedDropdown>
       <WrappedButton
         slot="trigger"
-        className="dropdown-button"
         size={size}
         shape={shape}
         type={type}
@@ -146,18 +144,18 @@ function DropdownButtonComponent({
       >
         {btnText}
       </WrappedButton>
-      {buttons && (
+      {actions && (
         <WrappedMenu>
-          {buttons?.map((button, index) => {
+          {actions?.map((action, index) => {
             return (
               <WrappedMenuItem
                 key={index}
-                {...button}
+                {...action}
                 onClick={() => {
-                  !button.disabled && button.event && handleClick(button.event);
+                  !action.disabled && action.event && handleClick(action.event);
                 }}
               >
-                {button.text}
+                {action.text}
               </WrappedMenuItem>
             );
           })}
