@@ -36,6 +36,12 @@ describe("basic.general-menu", () => {
     (element.shadowRoot?.querySelector(".menu-item") as HTMLElement)?.click();
 
     expect(mockClickEvent).toBeCalledTimes(1);
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 
   test("disabled and click event not emit", () => {
@@ -58,5 +64,11 @@ describe("basic.general-menu", () => {
     (element.shadowRoot?.querySelector(".menu-item") as HTMLElement)?.click();
 
     expect(mockClickEvent).toBeCalledTimes(0);
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 });

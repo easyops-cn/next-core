@@ -58,5 +58,11 @@ describe("basic.dropdown-button", () => {
     });
 
     expect(mockBClick).toBeCalledTimes(0);
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 });

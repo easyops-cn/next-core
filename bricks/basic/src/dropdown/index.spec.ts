@@ -46,5 +46,11 @@ describe("basic.general-dropdown", () => {
 
     expect(element.shadowRoot?.querySelector(".close")).toBeTruthy();
     expect(element.shadowRoot?.querySelector(".open")).toBeFalsy();
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 });

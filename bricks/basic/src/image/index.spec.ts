@@ -37,5 +37,11 @@ describe("basic.general-image", () => {
         detail: false,
       })
     );
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 });
