@@ -1,25 +1,21 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement, wrapBrick } from "@next-core/react-element";
-import styleText from "./dropdown-buttons.shadow.css";
-import classNames from "classnames";
 import type { ButtonProps, Button } from "../button/index.jsx";
-import type {
-  GeneralIcon,
-  GeneralIconProps,
-} from "@next-bricks/icons/general-icon";
-import { ComponentSize, Shape } from "../interface.js";
+import type { GeneralIconProps } from "@next-bricks/icons/general-icon";
+import { ButtonType, ComponentSize, Shape } from "../interface.js";
+import type { Dropdown } from "../dropdown/index.js";
+import type { Menu } from "../menu/index.js";
+import type { MenuItem } from "../menu-item/index.js";
 
 const { defineElement, property } = createDecorators();
 
 const WrappedButton = wrapBrick<Button, ButtonProps>("basic.general-button");
-const WrappedIcon = wrapBrick<GeneralIcon, GeneralIconProps>(
-  "icons.general-icon"
-);
-
+const WrappedDropdown = wrapBrick<Dropdown, any>("basic.general-dropdown");
+const WrappedMenu = wrapBrick<Menu, any>("basic.general-menu");
+const WrappedMenuItem = wrapBrick<MenuItem, any>("basic.general-menu-item");
 interface DropButtonProps {
-  curElement: HTMLElement;
-  buttons?: DropButtonItemProps[];
+  actions?: DropButtonItemProps[];
   btnText?: string;
   size?: ComponentSize;
   shape?: Shape;
@@ -30,7 +26,9 @@ interface DropButtonProps {
 type DropButtonItemProps = {
   text: string;
   event?: string;
-} & ButtonProps;
+  icon?: GeneralIconProps;
+  disabled?: boolean;
+};
 
 const defaultIcon: GeneralIconProps = {
   lib: "antd",
@@ -47,9 +45,19 @@ const defaultIcon: GeneralIconProps = {
  *
  */
 @defineElement("basic.dropdown-button", {
-  styleTexts: [styleText],
+  styleTexts: [],
 })
 class DropdownButton extends ReactNextElement {
+  /**
+   * @kind ButtonType
+   * @required false
+   * @default default
+   * @description 按钮类型
+   * @enums
+   * @group basic
+   */
+  @property() accessor type: ButtonType | undefined;
+
   /**
    * @default
    * @required
@@ -58,7 +66,7 @@ class DropdownButton extends ReactNextElement {
   @property({
     attribute: false,
   })
-  accessor buttons: DropButtonItemProps[] | undefined;
+  accessor actions: DropButtonItemProps[] | undefined;
 
   /**
    * @default 管理
@@ -104,12 +112,12 @@ class DropdownButton extends ReactNextElement {
   render() {
     return (
       <DropdownButtonComponent
-        curElement={this}
-        buttons={this.buttons}
+        actions={this.actions}
         btnText={this.btnText}
         size={this.size}
         icon={this.icon}
         shape={this.shape}
+        type={this.type}
         handleClick={this.#handleClick}
       />
     );
@@ -117,93 +125,43 @@ class DropdownButton extends ReactNextElement {
 }
 
 function DropdownButtonComponent({
-  curElement,
-  buttons,
+  actions,
   btnText = "管理",
   size,
   icon,
   shape,
+  type,
   handleClick,
-}: DropButtonProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  const handleDocumentClick = useCallback(
-    (e: MouseEvent) => {
-      if (e.target === curElement) return;
-      if (
-        !curElement.contains(e.target as HTMLElement) ||
-        !wrapperRef.current?.contains(e.target as HTMLElement)
-      ) {
-        setVisible(false);
-      }
-    },
-    [curElement]
-  );
-
-  useEffect(() => {
-    document.addEventListener("click", handleDocumentClick);
-    return () => {
-      document.removeEventListener("click", handleDocumentClick);
-    };
-  }, [handleDocumentClick]);
-
-  const renderDropButtonItem = (props: DropButtonItemProps) => {
-    const { text, icon, href, event, disabled, target } = props;
-    return (
-      <div
-        className="dropdown-button-item"
-        onClick={(e) => {
-          e.stopPropagation();
-          disabled ? e.preventDefault() : event && handleClick(event);
-          !disabled && setVisible(false);
-        }}
-      >
-        {icon && <WrappedIcon className="dropdown-button-icon" {...icon} />}
-        {href ? (
-          <a href={href} target={target}>
-            {text}
-          </a>
-        ) : (
-          text
-        )}
-      </div>
-    );
-  };
-
+}: DropButtonProps & ButtonProps) {
   return (
-    <div className="dropdown-button-wrapper" ref={wrapperRef}>
+    <WrappedDropdown>
       <WrappedButton
-        className="dropdown-button"
+        slot="trigger"
         size={size}
         shape={shape}
+        type={type}
         icon={icon ?? defaultIcon}
-        onClick={() => {
-          setVisible(!visible);
-        }}
       >
         {btnText}
       </WrappedButton>
-      {visible && (
-        <div className="buttons-list">
-          <ul>
-            {buttons?.map((button, index) => {
-              return (
-                <li
-                  className={classNames({
-                    disabled: button.disabled,
-                  })}
-                  key={index}
-                >
-                  {renderDropButtonItem(button)}
-                </li>
-              );
-            })}
-            <slot></slot>
-          </ul>
-        </div>
+      {actions && (
+        <WrappedMenu>
+          {actions?.map((action, index) => {
+            return (
+              <WrappedMenuItem
+                key={index}
+                {...action}
+                onClick={() => {
+                  !action.disabled && action.event && handleClick(action.event);
+                }}
+              >
+                {action.text}
+              </WrappedMenuItem>
+            );
+          })}
+        </WrappedMenu>
       )}
-    </div>
+    </WrappedDropdown>
   );
 }
 

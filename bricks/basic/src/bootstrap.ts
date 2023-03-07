@@ -17,3 +17,6 @@ import "./select/index.js";
 import "./submit-buttons/index.js";
 import "./image/index.js";
 import "./dropdown-button/index.js";
+import "./dropdown/index.js";
+import "./menu/index.js";
+import "./menu-item/index.js";

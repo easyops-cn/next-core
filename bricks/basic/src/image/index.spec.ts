@@ -6,7 +6,7 @@ import { Image } from "./index.jsx";
 jest.mock("@next-core/theme", () => ({}));
 
 // Todo(nlicro): fix test fail
-describe.skip("basic.general-image", () => {
+describe("basic.general-image", () => {
   test("basic usage", () => {
     const onVisibleChange = jest.fn();
     const element = document.createElement("basic.general-image") as Image;
@@ -37,5 +37,11 @@ describe.skip("basic.general-image", () => {
         detail: false,
       })
     );
+
+    act(() => {
+      document.body.removeChild(element);
+    });
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 });

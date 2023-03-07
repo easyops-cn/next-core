@@ -74,9 +74,8 @@ class Button extends ReactNextElement implements ButtonProps {
   /**
    * @kind GeneralIconProps
    * @required false
-   * @default middle
+   * @default -
    * @description 图标
-   * @enums
    * @group basic
    */
   @property({
@@ -85,7 +84,7 @@ class Button extends ReactNextElement implements ButtonProps {
   accessor icon: GeneralIconProps | undefined;
 
   /**
-   * @kind "circle" | "round"
+   * @kind Shape
    * @required false
    * @default -
    * @description 按钮形状，支持圆形、椭圆形，不设置为默认方形

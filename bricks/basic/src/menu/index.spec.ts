@@ -1,27 +1,20 @@
-import React from "react";
 import { describe, test, expect } from "@jest/globals";
 import { act } from "react-dom/test-utils";
-import "./index.jsx";
-import { TableComponent } from "./index.jsx";
+import "./index.js";
+import { Menu } from "./index.js";
 
-jest.mock("./BrickTable.js", () => ({
-  BrickTable: () => {
-    <div>hello world</div>;
-  },
-}));
 jest.mock("@next-core/theme", () => ({}));
 
-describe("advanced.general-table", () => {
-  test("basic usage", () => {
-    const element = document.createElement(
-      "advanced.general-table"
-    ) as TableComponent;
+describe("basic.general-menu", () => {
+  test("basic usage", async () => {
+    const element = document.createElement("basic.general-menu") as Menu;
 
     expect(element.shadowRoot).toBeFalsy();
     act(() => {
       document.body.appendChild(element);
     });
     expect(element.shadowRoot).toBeTruthy();
+    expect(element.shadowRoot?.childNodes.length).toBe(2);
 
     act(() => {
       document.body.removeChild(element);

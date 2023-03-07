@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  position: relative;
+  background: var(--antd-dropdown-menu-bg);
+  border: 1px solid var(--antd-btn-default-border);
+  border-radius: 6px;
+  padding: 4px;
+  overflow: auto;
+}

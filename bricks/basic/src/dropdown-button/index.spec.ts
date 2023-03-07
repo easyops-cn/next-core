@@ -1,7 +1,7 @@
 import { describe, test, expect } from "@jest/globals";
-import { act, Simulate } from "react-dom/test-utils";
-import "./index.jsx";
-import { DropdownButton } from "./index.jsx";
+import { act } from "react-dom/test-utils";
+import "./index.js";
+import { DropdownButton } from "./index.js";
 
 jest.mock("@next-core/theme", () => ({}));
 
@@ -15,7 +15,7 @@ describe("basic.dropdown-button", () => {
     act(() => {
       element.btnText = "Hello world";
       element.size = "large";
-      element.buttons = [
+      element.actions = [
         {
           text: "a",
           event: "a.click",
@@ -25,68 +25,41 @@ describe("basic.dropdown-button", () => {
           event: "b.click",
           disabled: true,
         },
-        {
-          text: "c",
-          event: "c.click",
-          href: "www.baidu.com",
-          icon: {
-            lib: "antd",
-            icon: "setting",
-            theme: "filled",
-          },
-        },
       ];
       document.body.appendChild(element);
     });
     expect(element.shadowRoot).toBeTruthy();
-    expect(element.shadowRoot?.childNodes.length).toBe(2);
+    expect(element.shadowRoot?.childNodes.length).toBe(1);
 
-    const dropButton = element.shadowRoot?.querySelector(".dropdown-button");
-    expect(dropButton?.innerHTML).toBe("Hello world");
-    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeFalsy();
+    const mockAClick = jest.fn();
+    const mockBClick = jest.fn();
+    element.addEventListener("a.click", mockAClick);
+    element.addEventListener("b.click", mockBClick);
 
-    act(() => {
-      Simulate.click(dropButton as HTMLElement);
-    });
-
-    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeTruthy();
-
-    const listItem = element.shadowRoot?.querySelectorAll(
-      ".dropdown-button-item"
+    expect(element.shadowRoot?.innerHTML).toMatchInlineSnapshot(
+      `"<basic.general-dropdown><basic.general-button slot="trigger" size="large" icon="[object Object]">Hello world</basic.general-button><basic.general-menu><basic.general-menu-item text="a" event="a.click">a</basic.general-menu-item><basic.general-menu-item text="b" event="b.click" disabled="">b</basic.general-menu-item></basic.general-menu></basic.general-dropdown>"`
     );
-    if (listItem) {
-      expect(listItem[0].innerHTML).toBe("a");
-      expect(listItem[1].innerHTML).toBe("b");
-      expect(listItem[2].innerHTML).toEqual(
-        '<icons.general-icon class="dropdown-button-icon" lib="antd" icon="setting" theme="filled"></icons.general-icon><a href="www.baidu.com">c</a>'
-      );
-
-      act(() => {
-        Simulate.click(listItem[1]);
-      });
-      // click disabled item not close the list
-      expect(element.shadowRoot?.querySelector(".buttons-list")).toBeTruthy();
-
-      act(() => {
-        Simulate.click(listItem[0]);
-      });
-
-      expect(element.shadowRoot?.querySelector(".buttons-list")).toBeFalsy();
-    }
 
     act(() => {
-      Simulate.click(dropButton as HTMLElement);
+      (
+        element.shadowRoot?.children[0]?.children[1]?.children[0] as HTMLElement
+      ).click();
     });
-    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeTruthy();
+
+    expect(mockAClick).toBeCalledTimes(1);
 
     act(() => {
-      Simulate.click(dropButton as HTMLElement);
+      (
+        element.shadowRoot?.children[0]?.children[1]?.children[0] as HTMLElement
+      ).click();
     });
-    expect(element.shadowRoot?.querySelector(".buttons-list")).toBeFalsy();
+
+    expect(mockBClick).toBeCalledTimes(0);
 
     act(() => {
       document.body.removeChild(element);
     });
-    expect(element.shadowRoot?.childNodes.length).toBe(0);
+
+    expect(document.body.contains(element)).toBeFalsy();
   });
 });
