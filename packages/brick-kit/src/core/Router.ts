@@ -346,6 +346,11 @@ export class Router {
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
     );
+
+    currentApp?.config?.["support-ui-8.2-compact-layout"]
+      ? document.body.classList.add("compact-layout")
+      : document.body.classList.remove("compact-layout");
+
     setMode("default");
 
     devtoolsHookEmit("rendering");

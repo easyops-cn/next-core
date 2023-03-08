@@ -798,4 +798,32 @@ describe("Router", () => {
     await router.bootstrap();
     expect(kernel.layoutBootstrap).toBeCalledWith("business");
   });
+
+  it("should render support-ui-8.2-compact-layout", async () => {
+    __setMatchedStoryboard({
+      routes: [],
+      app: {
+        id: "hello",
+        config: {
+          "support-ui-8.2-compact-layout": true,
+        },
+      },
+    });
+    __setMountRoutesResults(
+      {
+        route: {
+          type: "routes",
+        },
+        main: [
+          {
+            type: "p",
+          },
+        ],
+      },
+      null
+    );
+    router = new Router(kernel);
+    await router.bootstrap();
+    expect(document.body.className).toContain("compact-layout");
+  });
 });
