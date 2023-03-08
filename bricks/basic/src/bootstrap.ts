@@ -20,3 +20,5 @@ import "./dropdown-button/index.js";
 import "./dropdown/index.js";
 import "./menu/index.js";
 import "./menu-item/index.js";
+import "./tag/index.js";
+import "./tag-list/index.js";
