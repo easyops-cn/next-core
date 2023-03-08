@@ -25,6 +25,7 @@ import {
 } from "../internal/getStandaloneInstalledApps";
 import { mediaEventTarget } from "../internal/mediaQuery";
 import i18next from "i18next";
+import { getCssPropertyValue } from "../themeAndMode";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -797,5 +798,14 @@ describe("Router", () => {
     router = new Router(kernel);
     await router.bootstrap();
     expect(kernel.layoutBootstrap).toBeCalledWith("business");
+  });
+
+  it("should render support-ui-8.2-compact-layout", async () => {
+    mockFeature.mockReturnValue({ "support-ui-8.2-compact-layout": true });
+    router = new Router(kernel);
+    await router.bootstrap();
+    expect(document.body.style.getPropertyValue("--body-background")).toEqual(
+      "#fff"
+    );
   });
 });

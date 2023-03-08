@@ -343,10 +343,17 @@ export class Router {
       this.kernel.setOriginFaviconHref(faviconElement.href);
     }
 
-    setTheme(
-      getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
-    );
+    const theme =
+      getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light";
+
+    setTheme(theme);
+
     setMode("default");
+
+    if (this.kernel.getFeatureFlags()["support-ui-8.2-compact-layout"]) {
+      theme === "light" &&
+        document.body.style.setProperty("--body-background", "#fff");
+    }
 
     devtoolsHookEmit("rendering");
 
