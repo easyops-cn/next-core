@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>recover alert-fillde</title>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>recover-alert-fillde</title>
     <g id="recover-alert-fillde" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="recover-alert">
-            <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
-            <path d="M10,2 C14.4307692,2 18,5.56923077 18,10 C18,14.4307692 14.4307692,18 10,18 C5.56923077,18 2,14.4307692 2,10 C2,5.56923077 5.56923077,2 10,2 Z M14.2857143,9.4 L5.71428572,9.4 C5.35714286,9.4 5,9.64 5,10 C5,10.36 5.35714286,10.6 5.71428572,10.6 L14.2857143,10.6 C14.7142857,10.6 15,10.36 15,10 C15,9.64 14.6428571,9.4 14.2857143,9.4 Z" id="形状" fill="#000000" opacity="0.649999976"></path>
+            <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+            <path d="M8,0 C12.4307692,0 16,3.56923077 16,8 C16,12.4307692 12.4307692,16 8,16 C3.56923077,16 0,12.4307692 0,8 C0,3.56923077 3.56923077,0 8,0 Z M12.2857143,7.4 L3.71428572,7.4 C3.35714286,7.4 3,7.64 3,8 C3,8.36 3.35714286,8.6 3.71428572,8.6 L12.2857143,8.6 C12.7142857,8.6 13,8.36 13,8 C13,7.64 12.6428571,7.4 12.2857143,7.4 Z" id="形状" fill="#000000" opacity="0.649999976"></path>
         </g>
     </g>
 </svg>
