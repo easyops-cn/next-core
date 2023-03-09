@@ -10,6 +10,7 @@ export enum StateOfUseBrick {
   USE_BRICK_SLOTS_ITEM_BRICKS,
   USE_BRICK_SLOTS_ITEM_BRICKS_ITEM,
   USE_BRICK_LIFECYCLE,
+  USE_BRICK_DATA_SOURCE,
 }
 
 export function isLazyContentInUseBrick(
@@ -20,6 +21,7 @@ export function isLazyContentInUseBrick(
     case StateOfUseBrick.USE_BRICK_EVENTS:
     case StateOfUseBrick.USE_BRICK_IF:
     case StateOfUseBrick.USE_BRICK_LIFECYCLE:
+    case StateOfUseBrick.USE_BRICK_DATA_SOURCE:
       return true;
   }
   return false;
@@ -53,6 +55,8 @@ export function getNextStateOfUseBrick(
         switch (key) {
           case "properties":
             return StateOfUseBrick.USE_BRICK_PROPERTIES;
+          case "dataSource":
+            return StateOfUseBrick.USE_BRICK_DATA_SOURCE;
           case "events":
             return StateOfUseBrick.USE_BRICK_EVENTS;
           case "slots":
