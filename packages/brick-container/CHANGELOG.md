@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.84.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.0...@next-core/brick-container@2.84.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* 增加新颜色变量及修改input.less ([57050e7](https://github.com/easyops-cn/next-core/commit/57050e7bc6f1e689c7e6ed459a9791ed80bef001))
+
+
+
+
+
 # [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.83.2...@next-core/brick-container@2.84.0) (2023-03-09)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.18](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.17...@next-core/custom-antd-styles@1.25.18) (2023-03-09)
+
+
+### Bug Fixes
+
+* 增加新颜色变量及修改input.less ([57050e7](https://github.com/easyops-cn/next-core/commit/57050e7bc6f1e689c7e6ed459a9791ed80bef001))
+
+
+
+
+
 ## [1.25.17](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.16...@next-core/custom-antd-styles@1.25.17) (2023-02-23)
 
 
