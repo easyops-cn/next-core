@@ -180,7 +180,7 @@ async function mergeMenu(
     }
   }
 
-  const needEvaluteList = await Promise.all(
+  const shouldCacheList = await Promise.all(
     menuList.map((menu) => loadDynamicMenuItems(menu, kernel, menuWithI18n))
   );
 
@@ -204,7 +204,7 @@ async function mergeMenu(
     items: validMenuList.flatMap((menu) =>
       processGroupInject(menu.items, menu, injectWithMenus, menuWithI18n)
     ),
-    [symbolShouldCache]: needEvaluteList.every(Boolean),
+    [symbolShouldCache]: shouldCacheList.every(Boolean),
     [symbolMenuI18nNamespace]: menuWithI18n.get(mainMenu),
     [symbolOverrideApp]: mainMenu.overrideApp,
   };
@@ -306,7 +306,7 @@ async function loadDynamicMenuItems(
     if ((menu.itemsResolve as UseProviderResolveConf)?.args) {
       return !attemptToVisit(
         (menu.itemsResolve as UseProviderResolveConf)?.args,
-        ["APP", "I18N", "PATH"]
+        ["QUERY", "PATH"]
       );
     }
   }
@@ -473,7 +473,7 @@ function sortMenuItems(list: MenuItemRawData[]): MenuItemRawData[] {
 }
 
 /**
- * If the menu contains evaluations which use `APP` or `I18N` or `PATH`,
+ * If the menu contains evaluations which use `APP` or `I18N`,
  * we have to override app in context when computing real values.
  */
 function attemptToVisit(
