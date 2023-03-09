@@ -6,6 +6,7 @@ import {
   MenuRawData,
   MenuItemRawData,
   MicroApp,
+  UseProviderResolveConf,
 } from "@next-core/brick-types";
 import {
   deepFreeze,
@@ -33,6 +34,7 @@ import { validatePermissions } from "./checkPermissions";
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
 const symbolOverrideApp = Symbol("overrideApp");
+const symbolShouldCache = Symbol("shouldCache");
 
 interface RuntimeMenuItemRawData extends MenuItemRawData {
   [symbolAppId]?: string;
@@ -41,6 +43,7 @@ interface RuntimeMenuItemRawData extends MenuItemRawData {
 }
 
 interface RuntimeMenuRawData extends MenuRawData {
+  [symbolShouldCache]?: boolean;
   [symbolMenuI18nNamespace]?: string;
   [symbolOverrideApp]?: MicroApp;
 }
@@ -146,7 +149,7 @@ export async function fetchMenuById(
     throw new Error(`Menu not found: ${menuId}`);
   }
   reorderMenuItems(menuData);
-  menuCache.set(menuId, menuData);
+  menuData[symbolShouldCache] && menuCache.set(menuId, menuData);
   return menuData;
 }
 
@@ -177,7 +180,7 @@ async function mergeMenu(
     }
   }
 
-  await Promise.all(
+  const needEvaluteList = await Promise.all(
     menuList.map((menu) => loadDynamicMenuItems(menu, kernel, menuWithI18n))
   );
 
@@ -201,6 +204,7 @@ async function mergeMenu(
     items: validMenuList.flatMap((menu) =>
       processGroupInject(menu.items, menu, injectWithMenus, menuWithI18n)
     ),
+    [symbolShouldCache]: needEvaluteList.every(Boolean),
     [symbolMenuI18nNamespace]: menuWithI18n.get(mainMenu),
     [symbolOverrideApp]: mainMenu.overrideApp,
   };
@@ -251,7 +255,7 @@ async function loadDynamicMenuItems(
   menu: MenuRawData,
   kernel: Kernel,
   menuWithI18n: WeakMap<MenuRawData, string>
-): Promise<void> {
+): Promise<boolean> {
   if (menu.dynamicItems && menu.itemsResolve) {
     const itemsConf: Partial<{ items: MenuItemRawData[] }> = {};
     const overrideAppId = menu.app[0].appId;
@@ -299,7 +303,14 @@ async function loadDynamicMenuItems(
       newContext
     );
     menu.items = itemsConf.items;
+    if ((menu.itemsResolve as UseProviderResolveConf)?.args) {
+      return !attemptToVisit(
+        (menu.itemsResolve as UseProviderResolveConf)?.args,
+        ["APP", "I18N", "PATH"]
+      );
+    }
   }
+  return true;
 }
 
 export async function processMenu(
@@ -462,7 +473,7 @@ function sortMenuItems(list: MenuItemRawData[]): MenuItemRawData[] {
 }
 
 /**
- * If the menu contains evaluations which use `APP` or `I18N`,
+ * If the menu contains evaluations which use `APP` or `I18N` or `PATH`,
  * we have to override app in context when computing real values.
  */
 function attemptToVisit(
