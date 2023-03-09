@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.165.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.6...@next-core/brick-kit@2.165.0) (2023-03-09)
+
+
+### Features
+
+* **router:** support-ui-8.2-compact-layout background ([#2787](https://github.com/easyops-cn/next-core/issues/2787)) ([31c92b0](https://github.com/easyops-cn/next-core/commit/31c92b052a3f8bffb60f3644da0cd54cddd79e17))
+
+
+
+
+
 ## [2.164.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.5...@next-core/brick-kit@2.164.6) (2023-03-03)
 
 **Note:** Version bump only for package @next-core/brick-kit
