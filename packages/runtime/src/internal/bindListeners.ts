@@ -112,7 +112,7 @@ export function listenerFactory(
 ) {
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
-      if (!checkIf(handler, runtimeContext)) {
+      if (!checkIf(handler, { ...runtimeContext, event })) {
         continue;
       }
       if (isBuiltinHandler(handler)) {

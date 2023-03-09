@@ -12,10 +12,7 @@ import { hasOwnProperty } from "@next-core/utils/general";
 import { checkBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
-import {
-  asyncComputeRealValue,
-  computeRealValue,
-} from "./compute/computeRealValue.js";
+import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import { validatePermissions } from "./checkPermissions.js";
 import {
   TrackingContextItem,
@@ -201,7 +198,7 @@ export async function renderBrick(
 
   if (brickConf.brick.startsWith(":")) {
     // First, get the `dataSource`
-    const dataSource = await computeRealValue(
+    const dataSource = await asyncComputeRealValue(
       brickConf.dataSource,
       runtimeContext
     );
@@ -292,6 +289,7 @@ export async function renderBrick(
     slotId,
     events: brickConf.events,
     runtimeContext,
+    iid: brickConf.iid,
   };
 
   const brickHolder = brickConf[symbolForBrickHolder];
