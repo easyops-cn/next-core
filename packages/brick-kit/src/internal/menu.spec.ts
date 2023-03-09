@@ -311,6 +311,26 @@ const mockMenuList: any[] = [
       },
     ],
   },
+  {
+    menuId: "menu-i",
+    title: "Menu i",
+    dynamicItems: true,
+    itemsResolve: {
+      args: ["<% PATH.objectId %>"],
+      useProvider: "my.fake-provider",
+    },
+    items: [
+      {
+        text: "Menu Item with dynamic arguments",
+        sort: 1,
+      },
+    ],
+    app: [
+      {
+        appId: "hello",
+      },
+    ],
+  },
 ];
 
 (InstanceApi_postSearch as jest.Mock).mockImplementation((objectId, params) => {
@@ -344,20 +364,21 @@ describe("fetchMenuById", () => {
     clearMenuCache();
     jest.clearAllMocks();
   });
+  const formatData = <T>(item: T): T => JSON.parse(JSON.stringify(item));
 
   it("should work", async () => {
     const menu1 = await fetchMenuById("menu-a", null);
-    expect(menu1).toEqual({
+    expect(formatData(menu1)).toEqual({
       menuId: "menu-a",
       items: [],
     });
     const menu2 = await fetchMenuById("menu-a", null);
-    expect(menu2).toEqual({
+    expect(formatData(menu2)).toEqual({
       menuId: "menu-a",
       items: [],
     });
     const menu3 = await fetchMenuById("menu-b", null);
-    expect(menu3).toEqual({
+    expect(formatData(menu3)).toEqual({
       menuId: "menu-b",
       items: [],
     });
@@ -366,7 +387,7 @@ describe("fetchMenuById", () => {
 
   it("test clear menu cache", async () => {
     const menu1 = await fetchMenuById("menu-a", null);
-    expect(menu1).toEqual({
+    expect(formatData(menu1)).toEqual({
       menuId: "menu-a",
       items: [],
     });
@@ -375,6 +396,13 @@ describe("fetchMenuById", () => {
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
     clearMenuCache();
     await fetchMenuById("menu-a", null);
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
+  });
+
+  it("menu should not cache cache", async () => {
+    await fetchMenuById("menu-i", null);
+    expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
+    await fetchMenuById("menu-i", null);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 });
