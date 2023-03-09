@@ -25,7 +25,6 @@ import {
 } from "../internal/getStandaloneInstalledApps";
 import { mediaEventTarget } from "../internal/mediaQuery";
 import i18next from "i18next";
-import { getCssPropertyValue } from "../themeAndMode";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
@@ -81,7 +80,10 @@ const spyOnMediaEventTargetAddEventListener = jest.spyOn(
 const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
-  getFeatureFlags: () => ({ "enable-analyzer": false }),
+  getFeatureFlags: () => ({
+    "enable-analyzer": false,
+    "support-ui-8.2-compact-layout": true,
+  }),
 }));
 
 let historyListeners: LocationListener[] = [];
@@ -801,11 +803,8 @@ describe("Router", () => {
   });
 
   it("should render support-ui-8.2-compact-layout", async () => {
-    mockFeature.mockReturnValue({ "support-ui-8.2-compact-layout": true });
     router = new Router(kernel);
     await router.bootstrap();
-    expect(document.body.style.getPropertyValue("--body-background")).toEqual(
-      "#fff"
-    );
+    expect(document.body.className).toContain("compact-layout");
   });
 });

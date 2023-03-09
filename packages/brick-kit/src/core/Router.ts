@@ -73,6 +73,7 @@ import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 import { httpCacheRecord } from "./HttpCache";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
+import { getRuntime } from "../runtime";
 
 export class Router {
   private defaultCollapsed = false;
@@ -343,17 +344,14 @@ export class Router {
       this.kernel.setOriginFaviconHref(faviconElement.href);
     }
 
-    const theme =
-      getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light";
+    setTheme(
+      getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
+    );
 
-    setTheme(theme);
-
+    getRuntime().getFeatureFlags()["support-ui-8.2-compact-layout"]
+      ? document.body.classList.add("compact-layout")
+      : document.body.classList.remove("compact-layout");
     setMode("default");
-
-    if (this.kernel.getFeatureFlags()["support-ui-8.2-compact-layout"]) {
-      theme === "light" &&
-        document.body.style.setProperty("--body-background", "#fff");
-    }
 
     devtoolsHookEmit("rendering");
 
