@@ -207,7 +207,7 @@ function TagListComponent({
       tag.checked = !tag.checked;
       onCheck?.(
         tag,
-        computedList?.filter((item) => item.checked && !item.hide)
+        computedList?.filter((item) => item.checked && !item.hidden)
       );
     },
     [computedList, onCheck]
@@ -215,13 +215,13 @@ function TagListComponent({
 
   const handleClose = useCallback(
     (tag: tagListItem) => {
-      tag.hide = !tag.hide;
+      tag.hidden = !tag.hidden;
       if (tag.checked) {
         handleCheck(tag);
       }
       onClose?.(
         tag,
-        computedList?.filter((item) => !item.hide)
+        computedList?.filter((item) => !item.hidden)
       );
     },
     [computedList, handleCheck, onClose]

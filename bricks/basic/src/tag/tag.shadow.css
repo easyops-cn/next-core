@@ -65,7 +65,7 @@
   background: var(--antd-tag-closable-disabled-bg);
 }
 
-.tag.hide {
+.tag.hidden {
   display: none;
 }
 

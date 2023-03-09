@@ -52,7 +52,7 @@ export interface TagProps {
   disabled?: boolean;
   checkable?: boolean;
   checked?: boolean;
-  hide?: boolean;
+  hidden?: boolean;
   tagStyle?: React.CSSProperties;
 }
 
@@ -158,18 +158,6 @@ class Tag extends ReactNextElement implements TagProps {
   accessor checked: boolean | undefined;
 
   /**
-   * @kind boolean
-   * @required false
-   * @default -
-   * @description 是否隐藏
-   * @group basic
-   */
-  @property({
-    type: Boolean,
-  })
-  accessor hide: boolean | undefined;
-
-  /**
    * @kind React.CSSProperties
    * @required false
    * @default -
@@ -200,6 +188,7 @@ class Tag extends ReactNextElement implements TagProps {
   accessor #closeEvent!: EventEmitter<TagProps>;
 
   handleClose = (detail: TagProps): void => {
+    this.hidden = true;
     this.#closeEvent.emit(detail);
   };
 
@@ -230,7 +219,6 @@ function TagComponent(props: TagComponentProps) {
   const {
     size = "middle",
     icon,
-    hide,
     color,
     disabled,
     closable,
@@ -240,7 +228,6 @@ function TagComponent(props: TagComponentProps) {
     onCheck,
     onClose,
   } = props;
-  const [visible, setVisible] = useState(!hide);
   const [checked, setChecked] = useState(isChecked);
 
   const useDefineColor = useMemo(() => {
@@ -264,12 +251,10 @@ function TagComponent(props: TagComponentProps) {
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setVisible(false);
     onClose?.(
       omit(
         {
           ...props,
-          hide: false,
         },
         ["onCheck", "onClose"]
       )
@@ -280,7 +265,6 @@ function TagComponent(props: TagComponentProps) {
     <div
       className={classNames("tag", size, {
         [`color-${color}`]: useDefineColor,
-        hide: !visible,
         checkable,
         checked,
         disabled,

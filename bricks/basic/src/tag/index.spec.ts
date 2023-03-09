@@ -51,7 +51,7 @@ describe("basic.general-tag", () => {
     expect(mockCloseFn).toBeCalled();
     expect(
       (element.shadowRoot?.querySelector(".tag") as HTMLElement).className
-    ).toBe("tag large color-yellow hide checkable");
+    ).toBe("tag large color-yellow checkable");
 
     act(() => {
       document.body.removeChild(element);
@@ -60,7 +60,7 @@ describe("basic.general-tag", () => {
     expect(document.body.contains(element)).toBeFalsy();
   });
 
-  test("when disabled state and close icon should be hide, with custom color", () => {
+  test("when disabled state and close icon should be hidden, with custom color", () => {
     const element = document.createElement("basic.general-tag") as Tag;
     const div = document.createElement("div");
     div.textContent = "Hello world";
