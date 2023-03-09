@@ -15,21 +15,6 @@
   transition: all 0.3s ease 0s;
 }
 
-.tag.small {
-  font-size: 12px;
-  list-style: 20px;
-}
-
-.tag.middle {
-  font-size: 14px;
-  list-style: 22px;
-}
-
-.tag.large {
-  font-size: 16px;
-  list-style: 24px;
-}
-
 .tag-wrapper {
   display: flex;
   justify-content: center;
@@ -65,9 +50,22 @@
   background: var(--antd-tag-closable-disabled-bg);
 }
 
-.tag.hidden {
-  display: none;
+/* Size */
+.tag.small {
+  font-size: 12px;
+  list-style: 20px;
 }
+
+.tag.middle {
+  font-size: 14px;
+  list-style: 22px;
+}
+
+.tag.large {
+  font-size: 16px;
+  list-style: 24px;
+}
+/* Size */
 
 /* Color */
 .color-blue {
