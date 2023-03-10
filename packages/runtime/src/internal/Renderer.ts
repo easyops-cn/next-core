@@ -1,5 +1,6 @@
 import type {
   BrickConf,
+  BrickConfInTemplate,
   RouteConf,
   SlotConfOfBricks,
   SlotsConf,
@@ -25,7 +26,6 @@ import { getAuth, isLoggedIn } from "../auth.js";
 import {
   RuntimeBrickConfWithTplSymbols,
   symbolForAsyncComputedPropsFromHost,
-  symbolForBrickHolder,
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
@@ -360,14 +360,10 @@ export async function renderBrick(
     runtimeContext,
     portal: brickConf.portal,
     iid: brickConf.iid,
+    ref: (brickConf as BrickConfInTemplate).ref,
   };
 
   output.node = brick;
-
-  const brickHolder = brickConf[symbolForBrickHolder];
-  if (brickHolder) {
-    brickHolder.brick = brick;
-  }
 
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];

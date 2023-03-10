@@ -24,10 +24,6 @@ export interface ElementHolder {
   element?: HTMLElement | null;
 }
 
-export interface BrickHolder {
-  brick?: ElementHolder;
-}
-
 export interface RenderRoot extends BaseRenderNode {
   tag: RenderTag.ROOT;
   container?: HTMLElement | DocumentFragment;
@@ -81,14 +77,16 @@ export interface RuntimeBrickElement extends HTMLElement {
   $$eventListeners?: MetaInfoOfEventListener[];
   /** Remembered listeners for unbinding */
   $$listeners?: RememberedEventListener[];
+  /** Remembered proxy listeners for unbinding */
+  $$proxyListeners?: RememberedEventListener[];
   /** Find element by ref in a custom template */
-  $$getElementByRef?: (ref: string) => HTMLElement;
+  $$getElementByRef?: (ref: string) => HTMLElement | null | undefined;
+  $$tplStateStore?: DataStore<"STATE">;
 }
 
 export interface TemplateHostMetadata {
-  internalBricksByRef: Map<string, BrickHolder>;
+  internalBricksByRef: Map<string, RuntimeBrick>;
   tplStateStoreId: string;
-  exposedStates: string[];
   proxy?: CustomTemplateProxy;
 }
 

@@ -1,4 +1,10 @@
-import { CustomTemplate, CustomTemplateConstructor } from "@next-core/types";
+import type {
+  ContextConf,
+  CustomTemplate,
+  CustomTemplateConstructor,
+} from "@next-core/types";
+import { uniq } from "lodash";
+import { RuntimeBrickElement } from "./internal/interfaces.js";
 
 // Note: `prefix` is a native prop on Element, but it's only used in XML documents.
 const allowedNativeProps = new Set(["prefix"]);
@@ -30,7 +36,15 @@ class CustomTemplateRegistry {
       name: tagName,
     });
 
-    const props = getPropsOfCustomTemplate(tagName);
+    const { state, proxy } = constructor;
+    const exposedStates = getExposedStates(state);
+    const proxyProps = Object.entries(proxy?.properties ?? {});
+    const proxyMethods = Object.entries(proxy?.methods ?? {});
+
+    const props = exposedStates.concat(
+      proxyProps.filter((entry) => entry[1].ref).map((entry) => entry[0]),
+      proxyMethods.map((entry) => entry[0])
+    );
 
     const nativeProp = props.find(
       (prop) => prop in HTMLElement.prototype && !allowedNativeProps.has(prop)
@@ -38,7 +52,7 @@ class CustomTemplateRegistry {
     // istanbul ignore if
     if (nativeProp !== undefined) {
       throw new Error(
-        `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property.`
+        `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property or method.`
       );
     }
 
@@ -47,12 +61,18 @@ class CustomTemplateRegistry {
     }
 
     class TplElement extends HTMLElement {
-      get $$typeof(): string {
-        return "custom-template";
+      get $$typeof() {
+        return "custom-template" as const;
       }
 
       static get _dev_only_definedProperties(): string[] {
-        return getPropsOfCustomTemplate(tagName);
+        return props;
+      }
+
+      $$getElementByRef(this: RuntimeBrickElement, ref: string) {
+        return this.$$tplStateStore?.hostBrick?.tplHostMetadata?.internalBricksByRef.get(
+          ref
+        )?.element;
       }
 
       connectedCallback() {
@@ -76,11 +96,55 @@ class CustomTemplateRegistry {
       }
     }
 
-    for (const prop of props) {
-      Object.defineProperty(TplElement.prototype, prop, {
+    for (const propName of exposedStates) {
+      Object.defineProperty(TplElement.prototype, propName, {
+        get(this: RuntimeBrickElement) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return this.$$tplStateStore!.getValue(propName);
+        },
+        set(this: RuntimeBrickElement, value: unknown) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.$$tplStateStore?.updateValue(propName, value, "replace");
+        },
         enumerable: true,
-        writable: true,
-        configurable: true,
+      });
+    }
+
+    for (const [from, to] of proxyProps) {
+      Object.defineProperty(TplElement.prototype, from, {
+        get(this: TplElement) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const element = this.$$getElementByRef!(to.ref) as unknown as Record<
+            string,
+            unknown
+          >;
+          return element[to.refProperty ?? from];
+        },
+        set(this: TplElement, value: unknown) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const element = this.$$getElementByRef!(to.ref) as unknown as Record<
+            string,
+            unknown
+          >;
+          if (element) {
+            element[to.refProperty ?? from] = value;
+          }
+        },
+        enumerable: true,
+      });
+    }
+
+    for (const [from, to] of proxyMethods) {
+      Object.defineProperty(TplElement.prototype, from, {
+        value(this: TplElement, ...args: unknown[]) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const element = this.$$getElementByRef!(to.ref) as unknown as Record<
+            string,
+            Function
+          >;
+          element[to.refMethod ?? from](...args);
+        },
+        enumerable: true,
       });
     }
 
@@ -94,10 +158,9 @@ class CustomTemplateRegistry {
 
 export const customTemplates = new CustomTemplateRegistry();
 
-function getPropsOfCustomTemplate(tagName: string): string[] {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { state, proxy } = customTemplates.get(tagName)!;
-  return (
+function getExposedStates(state: ContextConf[] | undefined): string[] {
+  // Allow duplicated state names which maybe mutually exclusive.
+  return uniq(
     state?.filter((item) => item.expose).map((item) => item.name) ?? []
-  ).concat(Object.keys(proxy?.properties ?? {}));
+  );
 }

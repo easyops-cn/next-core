@@ -13,7 +13,7 @@ import { RenderOutput, renderBrick, renderBricks } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
 import type { RenderRoot, RuntimeContext } from "./interfaces.js";
-import { afterMountTree, mountTree, unmountTree } from "./mount.js";
+import { mountTree, unmountTree } from "./mount.js";
 import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 import { RenderTag } from "./enums.js";
@@ -92,7 +92,6 @@ export function mountUseBrick(
   }
 
   mountTree(renderRoot, element);
-  afterMountTree(renderRoot);
 
   return {
     portal,
@@ -192,7 +191,6 @@ export async function renderPreviewBricks(
   applyMode();
 
   mountTree(renderRoot);
-  afterMountTree(renderRoot);
 
   window.scrollTo(0, 0);
 

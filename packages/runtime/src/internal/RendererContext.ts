@@ -11,8 +11,9 @@ import { NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type { RenderBrick, RenderNode, RenderRoot } from "./interfaces.js";
-import { afterMountTree, mountTree } from "./mount.js";
+import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
+import { unbindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -152,6 +153,10 @@ export class RendererContext {
         this.#observers.delete(brick);
       }
 
+      unbindTemplateProxy(brick);
+      delete brick.element?.$$tplStateStore;
+
+      // Also remove the element
       brick.element?.remove();
     }
 
@@ -293,8 +298,6 @@ export class RendererContext {
           : root.createPortal;
       portal.insertBefore(portalFragment, insertPortalBeforeChild);
     }
-
-    afterMountTree(renderRoot);
 
     const newBricks = getBrickRange(node, last);
     this.#initializeRerenderBricks(newBricks);

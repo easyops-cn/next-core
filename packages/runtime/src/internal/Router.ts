@@ -11,7 +11,7 @@ import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { RenderOutput, renderRoutes } from "./Renderer.js";
 import { DataStore } from "./data/DataStore.js";
 import { clearResolveCache } from "./data/resolveData.js";
-import { afterMountTree, mountTree, unmountTree } from "./mount.js";
+import { mountTree, unmountTree } from "./mount.js";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
@@ -383,7 +383,6 @@ export class Router {
         applyMode();
 
         mountTree(renderRoot);
-        afterMountTree(renderRoot);
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
@@ -423,7 +422,6 @@ export class Router {
     renderRoot.child = node;
 
     mountTree(renderRoot);
-    afterMountTree(renderRoot);
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);

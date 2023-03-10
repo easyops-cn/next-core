@@ -92,7 +92,7 @@ function registerCustomTemplate(
           tagName,
           key
         );
-      } else {
+      } else if (value.ref) {
         validProps.push([key, value]);
       }
     }

@@ -1,8 +1,13 @@
-import { handleProxyOfCustomTemplate } from "./CustomTemplates/handleProxyOfCustomTemplate.js";
+import { bindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
+import { getTplStateStore } from "./CustomTemplates/utils.js";
 import { bindListeners } from "./bindListeners.js";
 import { setRealProperties } from "./compute/setRealProperties.js";
 import { RenderTag } from "./enums.js";
-import type { RenderNode, RenderRoot } from "./interfaces.js";
+import type {
+  RenderNode,
+  RenderRoot,
+  RuntimeBrickElement,
+} from "./interfaces.js";
 
 export function unmountTree(mountPoint: HTMLElement) {
   mountPoint.innerHTML = "";
@@ -10,10 +15,10 @@ export function unmountTree(mountPoint: HTMLElement) {
 
 export function mountTree(
   root: RenderRoot,
-  initializedElement?: HTMLElement
+  initializedElement?: RuntimeBrickElement
 ): void {
   let current = root.child;
-  const portalElements: HTMLElement[] = [];
+  const portalElements: RuntimeBrickElement[] = [];
   while (current) {
     const tagName = current.type;
 
@@ -30,7 +35,7 @@ export function mountTree(
       );
     }
 
-    const element =
+    const element: RuntimeBrickElement =
       initializedElement && current === root.child
         ? initializedElement
         : document.createElement(tagName);
@@ -44,6 +49,16 @@ export function mountTree(
     }
     setRealProperties(element, current.properties);
     bindListeners(element, current.events, current.runtimeContext);
+    if (current.tplHostMetadata) {
+      element.$$tplStateStore = getTplStateStore(
+        {
+          tplStateStoreId: current.tplHostMetadata.tplStateStoreId,
+          tplStateStoreMap: current.runtimeContext.tplStateStoreMap,
+        },
+        "mount"
+      );
+    }
+    bindTemplateProxy(current);
 
     if (current.portal) {
       portalElements.push(element);
@@ -79,27 +94,6 @@ export function mountTree(
           }
           currentReturn.childElements = undefined;
         }
-        if (currentReturn.sibling) {
-          break;
-        }
-        currentReturn = currentReturn.return;
-      }
-      current = currentReturn?.sibling;
-    }
-  }
-}
-
-export function afterMountTree(root: RenderRoot) {
-  let current = root.child;
-  while (current) {
-    handleProxyOfCustomTemplate(current);
-    if (current.child) {
-      current = current.child;
-    } else if (current.sibling) {
-      current = current.sibling;
-    } else {
-      let currentReturn: RenderNode | null | undefined = current.return;
-      while (currentReturn) {
         if (currentReturn.sibling) {
           break;
         }

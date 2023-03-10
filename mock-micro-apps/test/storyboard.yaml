@@ -44,8 +44,9 @@ meta:
           ref: status
           refProperty: textContent
       methods:
-        append:
+        appendStatus:
           ref: status
+          refMethod: append
       events:
         status.click:
           ref: status
@@ -1001,7 +1002,7 @@ routes:
     - brick: img
       slot: oops
     - brick: ':switch'
-      if: false
+      # if: false
       dataSource: '<% "track context", CTX.count, CTX.list[0] %>'
       slots:
         a:
@@ -1021,7 +1022,7 @@ routes:
             properties:
               textContent: E
     - brick: ':forEach'
-      if: false
+      # if: false
       dataSource: '<% "track context", CTX.count, CTX.list %>'
       children:
       - if: '<% ITEM !== "c" %>'
@@ -1059,6 +1060,20 @@ routes:
           action: console.log
           args:
           - singly click
+    - brick: demo-basic.button-group
+      properties:
+        datum: USE
+        useBrick:
+          brick: tpl-inner
+          properties:
+            innerHello: '<% "track context", `${CTX.list[0]}:${DATA}` %>'
+            visible: '<% "track context", CTX.list[0] === "c" %>'
+          events:
+            status.click:
+              action: console.log
+              args:
+              - useBrick click
+
     - brick: basic.general-button
       properties:
         textContent: Refresh
@@ -1076,3 +1091,12 @@ routes:
           - list
           - - c
             - d
+
+    - brick: basic.general-button
+      properties:
+        textContent: Go To
+      events:
+        click:
+          action: history.pushQuery
+          args:
+          - a: '<% `_${Math.ceil(Math.random() * 100)}` %>'
