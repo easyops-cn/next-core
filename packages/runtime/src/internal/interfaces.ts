@@ -8,6 +8,7 @@ import type {
   SlotsConfOfBricks,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
+import { RenderTag } from "./enums.js";
 
 export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   ctxStore: DataStore<"CTX">;
@@ -27,9 +28,33 @@ export interface BrickHolder {
   brick?: ElementHolder;
 }
 
+export interface RenderRoot extends BaseRenderNode {
+  tag: RenderTag.ROOT;
+  container?: HTMLElement | DocumentFragment;
+  createPortal:
+    | HTMLElement
+    | DocumentFragment
+    | (() => HTMLElement | DocumentFragment);
+}
+
+export interface RenderBrick extends BaseRenderNode, RuntimeBrick {
+  tag: RenderTag.BRICK;
+  return: RenderNode;
+  hasTrackingControls?: boolean;
+}
+
+export interface BaseRenderNode {
+  tag: RenderTag;
+  child?: RenderBrick;
+  sibling?: RenderBrick;
+  return?: RenderNode | null;
+  childElements?: HTMLElement[];
+}
+
+export type RenderNode = RenderRoot | RenderBrick;
+
 export interface RuntimeBrick {
   type: string;
-  children: RuntimeBrick[];
   properties?: Record<string, unknown>;
   events?: BrickEventsMap;
   slotId?: string;
@@ -37,6 +62,8 @@ export interface RuntimeBrick {
   iid?: string;
   runtimeContext: RuntimeContext;
   tplHostMetadata?: TemplateHostMetadata;
+  portal?: boolean;
+  ref?: string;
 }
 
 export type MetaInfoOfEventListener = [

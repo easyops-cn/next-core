@@ -9,6 +9,7 @@ import {
   loadBricksImperatively,
 } from "@next-core/loader";
 import { hasOwnProperty } from "@next-core/utils/general";
+import { debounce } from "lodash";
 import { checkBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
@@ -29,15 +30,19 @@ import {
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
-import type { RuntimeBrick, RuntimeContext } from "./interfaces.js";
-import { getTagNameOfCustomTemplate } from "./CustomTemplates/utils.js";
+import type { RenderBrick, RenderNode, RuntimeContext } from "./interfaces.js";
+import {
+  getTagNameOfCustomTemplate,
+  getTplStateStore,
+} from "./CustomTemplates/utils.js";
 import { customTemplates } from "../CustomTemplates.js";
 import type { NextHistoryState } from "./historyExtended.js";
 import { getBrickPackages } from "./Runtime.js";
+import { RenderTag } from "./enums.js";
+import { getTracks } from "./compute/getTracks.js";
 
 export interface RenderOutput {
-  main: RuntimeBrick[];
-  portal: RuntimeBrick[];
+  node?: RenderBrick;
   unauthenticated?: boolean;
   redirect?: {
     path: string;
@@ -45,8 +50,10 @@ export interface RenderOutput {
   };
   route?: RouteConf;
   blockingList: (Promise<unknown> | undefined)[];
+  hasTrackingControls?: boolean;
 }
 export async function renderRoutes(
+  returnNode: RenderNode,
   routes: RouteConf[],
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
@@ -54,8 +61,6 @@ export async function renderRoutes(
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
   const output: RenderOutput = {
-    main: [],
-    portal: [],
     blockingList: [],
   };
   switch (matched) {
@@ -104,6 +109,7 @@ export async function renderRoutes(
         }
         case "routes": {
           const newOutput = await renderRoutes(
+            returnNode,
             route.routes,
             runtimeContext,
             rendererContext,
@@ -114,6 +120,7 @@ export async function renderRoutes(
         }
         default: {
           const newOutput = await renderBricks(
+            returnNode,
             route.bricks,
             runtimeContext,
             rendererContext,
@@ -128,45 +135,53 @@ export async function renderRoutes(
 }
 
 export async function renderBricks(
+  returnNode: RenderNode,
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId?: string,
-  tplStack?: Map<string, number>
+  tplStack?: Map<string, number>,
+  noMemoize?: boolean
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
-    main: [],
-    portal: [],
     blockingList: [],
   };
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const rendered = await Promise.all(
-    bricks.map((brickConf) =>
+    bricks.map((brickConf, index) =>
       renderBrick(
+        returnNode,
         brickConf,
         runtimeContext,
         rendererContext,
         slotId,
+        index,
         tplStack && new Map(tplStack)
       )
     )
   );
-  for (const item of rendered) {
+
+  rendered.forEach((item, index) => {
+    if (!noMemoize && item.hasTrackingControls) {
+      // Memoize a render node before it's been merged.
+      rendererContext.memoizeControlNode(slotId, index, item.node, returnNode);
+    }
     mergeRenderOutput(output, item);
-  }
+  });
+
   return output;
 }
 
 export async function renderBrick(
+  returnNode: RenderNode,
   brickConf: RuntimeBrickConfWithTplSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId?: string,
+  key?: number,
   tplStack = new Map<string, number>()
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
-    main: [],
-    portal: [],
     blockingList: [],
   };
 
@@ -197,64 +212,117 @@ export async function renderBrick(
   );
 
   if (brickConf.brick.startsWith(":")) {
-    // First, get the `dataSource`
-    const dataSource = await asyncComputeRealValue(
-      brickConf.dataSource,
-      runtimeContext
-    );
+    const { dataSource } = brickConf;
 
-    // Then, get the matched slot.
-    const slot =
-      brickConf.brick === ":forEach"
-        ? ""
-        : brickConf.brick === ":switch"
-        ? String(dataSource)
-        : dataSource
-        ? ""
-        : "else";
+    const renderControlNode = async () => {
+      // First, compute the `dataSource`
+      const computedDataSource = await asyncComputeRealValue(
+        dataSource,
+        runtimeContext
+      );
 
-    // Don't forget to transpile children to slots.
-    const slots = childrenToSlots(brickConf.children, brickConf.slots);
+      // Then, get the matched slot.
+      const slot =
+        brickConf.brick === ":forEach"
+          ? ""
+          : brickConf.brick === ":switch"
+          ? String(computedDataSource)
+          : computedDataSource
+          ? ""
+          : "else";
 
-    // Then, get the bricks in that matched slot.
-    const bricks =
-      slots &&
-      hasOwnProperty(slots, slot) &&
-      (slots[slot] as SlotConfOfBricks)?.bricks;
+      // Don't forget to transpile children to slots.
+      const slots = childrenToSlots(brickConf.children, brickConf.slots);
 
-    if (!Array.isArray(bricks)) {
-      return output;
-    }
+      // Then, get the bricks in that matched slot.
+      const bricks =
+        slots &&
+        hasOwnProperty(slots, slot) &&
+        (slots[slot] as SlotConfOfBricks)?.bricks;
 
-    switch (brickConf.brick) {
-      case ":forEach": {
-        if (!Array.isArray(dataSource)) {
-          return output;
+      if (!Array.isArray(bricks)) {
+        return output;
+      }
+
+      switch (brickConf.brick) {
+        case ":forEach": {
+          if (!Array.isArray(computedDataSource)) {
+            return output;
+          }
+          return renderForEach(
+            returnNode,
+            computedDataSource,
+            bricks,
+            runtimeContext,
+            rendererContext,
+            slotId,
+            tplStack
+          );
         }
-        return renderForEach(
-          dataSource,
-          bricks,
-          runtimeContext,
-          rendererContext,
-          slotId,
-          tplStack
-        );
+        case ":if":
+        case ":switch": {
+          return renderBricks(
+            returnNode,
+            bricks,
+            runtimeContext,
+            rendererContext,
+            slotId,
+            tplStack,
+            true
+          );
+        }
+        default:
+          throw new Error(
+            `Unknown storyboard control node: "${brickConf.brick}"`
+          );
       }
-      case ":if":
-      case ":switch": {
-        return renderBricks(
-          bricks,
-          runtimeContext,
-          rendererContext,
-          slotId,
-          tplStack
+    };
+
+    const controlledOutput = await renderControlNode();
+
+    const { contextNames, stateNames } = getTracks(dataSource);
+    if (contextNames || stateNames) {
+      controlledOutput.hasTrackingControls = true;
+      let renderId = 0;
+      const listener = async () => {
+        const currentRenderId = ++renderId;
+        const output = await renderControlNode();
+        output.blockingList.push(
+          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+            store.waitForAll()
+          ),
+          ...runtimeContext.pendingPermissionsPreCheck
         );
+        await Promise.all(output.blockingList);
+        // Ignore stale renders
+        if (renderId === currentRenderId) {
+          rendererContext.rerenderControlNode(
+            slotId,
+            key as number,
+            output.node,
+            returnNode
+          );
+        }
+      };
+      const debouncedListener = debounce(listener);
+      if (contextNames) {
+        for (const contextName of contextNames) {
+          runtimeContext.ctxStore.onChange(contextName, debouncedListener);
+        }
       }
-      default:
-        throw new Error(
-          `Unknown storyboard control node: "${brickConf.brick}"`
-        );
+      if (stateNames) {
+        for (const contextName of stateNames) {
+          const tplStateStore = getTplStateStore(
+            runtimeContext,
+            "STATE",
+            `: "${dataSource}"`
+          );
+          tplStateStore.onChange(contextName, debouncedListener);
+        }
+      }
     }
+
+    return controlledOutput;
   }
 
   // Custom templates need to be defined before rendering.
@@ -283,14 +351,18 @@ export async function renderBrick(
     );
   }
 
-  const brick: RuntimeBrick = {
+  const brick: RenderBrick = {
+    tag: RenderTag.BRICK,
     type: tplTagName || brickConf.brick,
-    children: [],
+    return: returnNode,
     slotId,
     events: brickConf.events,
     runtimeContext,
+    portal: brickConf.portal,
     iid: brickConf.iid,
   };
+
+  output.node = brick;
 
   const brickHolder = brickConf[symbolForBrickHolder];
   if (brickHolder) {
@@ -340,11 +412,6 @@ export async function renderBrick(
   if (expandedBrickConf.portal) {
     // A portal brick has no slotId.
     brick.slotId = undefined;
-    // Make parent portal bricks appear before child bricks.
-    // This makes z-index of a child brick be higher than its parent.
-    output.portal.push(brick);
-  } else {
-    output.main.push(brick);
   }
 
   let childRuntimeContext: RuntimeContext;
@@ -370,6 +437,7 @@ export async function renderBrick(
       Object.entries(slots).map(([childSlotId, slotConf]) =>
         slotConf.type !== "routes"
           ? renderBricks(
+              brick,
               (slotConf as SlotConfOfBricks).bricks,
               childRuntimeContext,
               rendererContext,
@@ -377,6 +445,7 @@ export async function renderBrick(
               tplStack
             )
           : renderRoutes(
+              brick,
               slotConf.routes,
               childRuntimeContext,
               rendererContext,
@@ -387,16 +456,18 @@ export async function renderBrick(
 
     const childrenOutput: RenderOutput = {
       ...output,
-      main: brick.children,
-      portal: [],
+      node: undefined,
       blockingList: [],
     };
     for (const item of rendered) {
       mergeRenderOutput(childrenOutput, item);
     }
+    if (childrenOutput.node) {
+      brick.child = childrenOutput.node;
+    }
     mergeRenderOutput(output, {
       ...childrenOutput,
-      main: [],
+      node: undefined,
     });
   };
   blockingList.push(loadChildren());
@@ -406,25 +477,25 @@ export async function renderBrick(
   return output;
 }
 
-export async function renderForEach(
+async function renderForEach(
+  returnNode: RenderNode,
   dataSource: unknown[],
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  slotId?: string,
+  slotId: string | undefined,
   tplStack?: Map<string, number>
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
-    main: [],
-    portal: [],
     blockingList: [],
   };
 
   const rendered = await Promise.all(
-    dataSource.map((item) =>
+    dataSource.map((item, i) =>
       Promise.all(
-        bricks.map((brickConf) =>
+        bricks.map((brickConf, j) =>
           renderBrick(
+            returnNode,
             brickConf,
             {
               ...runtimeContext,
@@ -432,6 +503,7 @@ export async function renderForEach(
             },
             rendererContext,
             slotId,
+            i * j,
             tplStack && new Map(tplStack)
           )
         )
@@ -446,17 +518,25 @@ export async function renderForEach(
   return output;
 }
 
-export function mergeRenderOutput(
+function mergeRenderOutput(
   output: RenderOutput,
-  newOutput: RenderOutput | undefined
+  newOutput: RenderOutput
 ): void {
-  if (!newOutput) {
-    return;
+  const { blockingList, node, hasTrackingControls, ...rest } = newOutput;
+  output.blockingList.push(...blockingList);
+
+  if (node) {
+    if (output.node) {
+      let last = output.node;
+      while (last.sibling) {
+        last = last.sibling;
+      }
+      last.sibling = node;
+    } else {
+      output.node = node;
+    }
   }
-  const { main, portal, blockingList: pendingPromises, ...rest } = newOutput;
-  output.main.push(...main);
-  output.portal.push(...portal);
-  output.blockingList.push(...pendingPromises);
+
   Object.assign(output, rest);
 }
 

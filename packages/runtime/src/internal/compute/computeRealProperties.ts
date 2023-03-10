@@ -1,15 +1,9 @@
 import { isObject } from "@next-core/utils/general";
-import { isEvaluable } from "@next-core/cook";
-import { track } from "@next-core/utils/storyboard";
 import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
-import {
-  PreEvaluated,
-  getPreEvaluatedRaw,
-  isPreEvaluated,
-} from "./evaluate.js";
 import { TrackingContextItem } from "./listenOnTrackingContext.js";
 import type { RuntimeContext } from "../interfaces.js";
 import { StateOfUseBrick } from "./getNextStateOfUseBrick.js";
+import { getTracks } from "./getTracks.js";
 
 export async function asyncComputeRealProperties(
   properties: Record<string, unknown> | undefined,
@@ -23,23 +17,9 @@ export async function asyncComputeRealProperties(
           Object.entries(properties).map<
             Promise<[string, unknown] | undefined>
           >(async ([propName, propValue]) => {
-            if (
-              Array.isArray(trackingContextList) &&
-              (typeof propValue === "string"
-                ? isEvaluable(propValue)
-                : isPreEvaluated(propValue))
-            ) {
-              const raw =
-                typeof propValue === "string"
-                  ? propValue
-                  : getPreEvaluatedRaw(propValue as PreEvaluated);
-              const contextNames = track(raw, "track context", "CTX");
-              const stateNames = track(raw, "track state", "STATE");
-              const formStateNames = track(
-                raw,
-                "track formstate",
-                "FORM_STATE"
-              );
+            if (Array.isArray(trackingContextList)) {
+              const { contextNames, stateNames, formStateNames } =
+                getTracks(propValue);
               if (contextNames || stateNames || formStateNames) {
                 trackingContextList.push({
                   contextNames,
@@ -89,19 +69,9 @@ export function computeRealProperties(
     return Object.fromEntries(
       Object.entries(properties)
         .map<[string, unknown] | undefined>(([propName, propValue]) => {
-          if (
-            Array.isArray(trackingContextList) &&
-            (typeof propValue === "string"
-              ? isEvaluable(propValue)
-              : isPreEvaluated(propValue))
-          ) {
-            const raw =
-              typeof propValue === "string"
-                ? propValue
-                : getPreEvaluatedRaw(propValue as PreEvaluated);
-            const contextNames = track(raw, "track context", "CTX");
-            const stateNames = track(raw, "track state", "STATE");
-            const formStateNames = track(raw, "track formstate", "FORM_STATE");
+          if (Array.isArray(trackingContextList)) {
+            const { contextNames, stateNames, formStateNames } =
+              getTracks(propValue);
             if (contextNames || stateNames || formStateNames) {
               trackingContextList.push({
                 contextNames,

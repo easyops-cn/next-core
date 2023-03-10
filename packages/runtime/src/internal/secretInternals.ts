@@ -12,17 +12,17 @@ import {
 import { RenderOutput, renderBrick, renderBricks } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
-import type { RuntimeBrick, RuntimeContext } from "./interfaces.js";
-import { BrickNode } from "./BrickNode.js";
+import type { RenderRoot, RuntimeContext } from "./interfaces.js";
 import { afterMountTree, mountTree, unmountTree } from "./mount.js";
 import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
+import { RenderTag } from "./enums.js";
 
 export async function renderUseBrick(
   useBrick: UseSingleBrickConf,
-  data?: unknown
+  data: unknown
 ) {
-  const runtimeContext = {
+  const runtimeContext: RuntimeContext = {
     ..._internalApiGetRuntimeContext()!,
     data,
     pendingPermissionsPreCheck: [],
@@ -30,7 +30,15 @@ export async function renderUseBrick(
   };
 
   const rendererContext = new RendererContext("useBrick");
+
+  const renderRoot: RenderRoot = {
+    tag: RenderTag.ROOT,
+    // Will set during `mountUseBrick`
+    createPortal: null!,
+  };
+
   const output = await renderBrick(
+    renderRoot,
     useBrick as BrickConf,
     runtimeContext,
     rendererContext
@@ -47,75 +55,56 @@ export async function renderUseBrick(
 
   await Promise.all(output.blockingList);
 
-  if (output.main.length === 0 && output.portal.length > 0) {
+  if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
   }
 
-  return { output, rendererContext };
+  renderRoot.child = output.node;
+
+  return { renderRoot, rendererContext };
 }
 
 export interface MountUseBrickResult {
-  mainBrickNode: BrickNode | undefined;
-  portalMountPoint: HTMLElement;
+  portal?: HTMLElement;
 }
 
 export function mountUseBrick(
-  mainBrick: RuntimeBrick,
+  renderRoot: RenderRoot,
   element: HTMLElement,
-  portalBricks: RuntimeBrick[],
-  prevMountResult?: MountUseBrickResult
-): MountUseBrickResult;
-
-export function mountUseBrick(
-  mainBrick: null,
-  element: null,
-  portalBricks: RuntimeBrick[],
-  prevMountResult?: MountUseBrickResult
-): MountUseBrickResult;
-
-export function mountUseBrick(
-  mainBrick: RuntimeBrick | null,
-  element: HTMLElement | null,
-  portalBricks: RuntimeBrick[],
   prevMountResult?: MountUseBrickResult
 ): MountUseBrickResult {
-  if (prevMountResult?.mainBrickNode) {
-    prevMountResult.mainBrickNode.unmount();
-  }
-  let portalMountPoint: HTMLElement;
-  if (prevMountResult?.portalMountPoint) {
-    unmountTree(prevMountResult.portalMountPoint);
-    ({ portalMountPoint } = prevMountResult);
+  // if (prevMountResult?.mainBrick) {
+  //   prevMountResult.mainBrick.unmount();
+  // }
+  let portal = prevMountResult?.portal;
+  if (portal) {
+    unmountTree(portal);
+    renderRoot.createPortal = () => portal!;
   } else {
-    const portalRoot = document.querySelector(
-      "#portal-mount-point"
-    ) as HTMLElement;
-    portalMountPoint = document.createElement("div");
-    portalRoot.appendChild(portalMountPoint);
+    renderRoot.createPortal = () => {
+      const portalRoot = document.querySelector(
+        "#portal-mount-point"
+      ) as HTMLElement;
+      portal = document.createElement("div");
+      portalRoot.appendChild(portal);
+      return portal;
+    };
   }
 
-  let mainBrickNode: BrickNode | undefined;
-  if (mainBrick) {
-    mainBrickNode = new BrickNode(mainBrick, element!);
-    mainBrickNode.mount();
-  }
-  mountTree(portalBricks, portalMountPoint);
-
-  mainBrickNode?.afterMount();
-  afterMountTree(portalMountPoint);
+  mountTree(renderRoot, element);
+  afterMountTree(renderRoot);
 
   return {
-    mainBrickNode,
-    portalMountPoint,
+    portal,
   };
 }
 
 export function unmountUseBrick(mountResult: MountUseBrickResult): void {
-  if (mountResult.mainBrickNode) {
-    mountResult.mainBrickNode.unmount();
-  }
-  if (mountResult.portalMountPoint) {
-    unmountTree(mountResult.portalMountPoint);
+  // if (mountResult.mainBrick) {
+  //   mountResult.mainBrick.unmount();
+  // }
+  if (mountResult.portal) {
+    unmountTree(mountResult.portal);
   }
 }
 
@@ -145,10 +134,21 @@ export async function renderPreviewBricks(
   const previousRendererContext = _rendererContext;
   const rendererContext = (_rendererContext = new RendererContext("router"));
 
+  const renderRoot: RenderRoot = {
+    tag: RenderTag.ROOT,
+    container: mountPoints.main,
+    createPortal: mountPoints.portal,
+  };
+
   let failed = false;
   let output: RenderOutput;
   try {
-    output = await renderBricks(bricks, runtimeContext, rendererContext);
+    output = await renderBricks(
+      renderRoot,
+      bricks,
+      runtimeContext,
+      rendererContext
+    );
 
     output.blockingList.push(
       ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
@@ -163,20 +163,20 @@ export async function renderPreviewBricks(
   } catch (error) {
     failed = true;
     output = {
-      main: [
-        {
-          type: "div",
-          properties: {
-            textContent: httpErrorToString(error),
-          },
-          children: [],
-          runtimeContext: null!,
+      node: {
+        tag: RenderTag.BRICK,
+        type: "div",
+        properties: {
+          textContent: httpErrorToString(error),
         },
-      ],
-      portal: [],
+        return: renderRoot,
+        runtimeContext: null!,
+      },
       blockingList: [],
     };
   }
+
+  renderRoot.child = output.node;
 
   previousRendererContext?.dispose();
   unmountTree(mountPoints.main);
@@ -191,8 +191,8 @@ export async function renderPreviewBricks(
   applyTheme();
   applyMode();
 
-  mountTree(output.main, mountPoints.main);
-  mountTree(output.portal, mountPoints.portal);
+  mountTree(renderRoot);
+  afterMountTree(renderRoot);
 
   window.scrollTo(0, 0);
 
