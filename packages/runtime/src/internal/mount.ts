@@ -50,6 +50,8 @@ export function mountTree(
     setRealProperties(element, current.properties);
     bindListeners(element, current.events, current.runtimeContext);
     if (current.tplHostMetadata) {
+      // 先设置属性，再设置 `$$tplStateStore`，这样，当触发属性设置时，
+      // 避免初始化的一次 state update 操作及其 onChange 事件。
       element.$$tplStateStore = getTplStateStore(
         {
           tplStateStoreId: current.tplHostMetadata.tplStateStoreId,

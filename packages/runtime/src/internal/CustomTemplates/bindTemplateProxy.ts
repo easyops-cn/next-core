@@ -4,7 +4,8 @@ import { getTplStateStore } from "./utils.js";
 export function bindTemplateProxy(brick: RuntimeBrick) {
   const { ref, runtimeContext, element } = brick;
 
-  if (!runtimeContext.tplStateStoreId || !ref) {
+  // Error recovering brick may have no runtimeContext.
+  if (!ref || !runtimeContext.tplStateStoreId) {
     return;
   }
 

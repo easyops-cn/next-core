@@ -19,3 +19,5 @@ export {
   checkIfOfComputed,
   checkIfByTransform,
 } from "./internal/compute/checkIf.js";
+export { registerWidgetFunctions } from "./internal/compute/WidgetFunctions.js";
+export { StoryboardFunctionRegistryFactory } from "./StoryboardFunctionRegistry.js";

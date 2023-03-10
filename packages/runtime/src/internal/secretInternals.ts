@@ -104,6 +104,7 @@ export function unmountUseBrick(mountResult: MountUseBrickResult): void {
   // }
   if (mountResult.portal) {
     unmountTree(mountResult.portal);
+    mountResult.portal.remove();
   }
 }
 

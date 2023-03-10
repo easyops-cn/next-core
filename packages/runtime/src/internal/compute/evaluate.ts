@@ -26,6 +26,7 @@ import { getStorageItem } from "./getStorageItem.js";
 import { getBrickPackages, getRuntime } from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
+import { widgetFunctions } from "./WidgetFunctions.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -370,7 +371,10 @@ function lowLevelEvaluate(
             break;
           case "SYS":
             globalVariables[variableName] = getReadOnlyProxy(sys);
-          // case "__WIDGET_FN__":
+            break;
+          case "__WIDGET_FN__":
+            globalVariables[variableName] = widgetFunctions;
+            break;
           // case "__WIDGET_IMG__":
           // case "__WIDGET_I18N__":
         }

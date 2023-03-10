@@ -101,15 +101,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-wait-on--start-serve-and-test
 
-    # - name: Get cypress version
-    #   id: cypress-version
-    #   run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
+    - name: Get cypress version
+      id: cypress-version
+      run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
 
-    # - name: Cache for cypress
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: ~/.cache/Cypress
-    #     key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
+    - name: Cache for cypress
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/Cypress
+        key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
 
     # Fix `yarn install --frozen-lockfile` not working in monorepo.
     # https://github.com/yarnpkg/yarn/issues/5840#issuecomment-468782288
@@ -118,9 +118,9 @@ jobs:
       run: echo "::set-output name=sum::$(cksum yarn.lock)"
 
     - run: yarn install --frozen-lockfile
-      # env:
-      #   CYPRESS_INSTALL_BINARY: ''
-      #   CYPRESS_DOWNLOAD_MIRROR: ''
+      env:
+        CYPRESS_INSTALL_BINARY: ''
+        CYPRESS_DOWNLOAD_MIRROR: ''
 
     - name: Get checksum after yarn install
       id: yarn-lock-check-after
@@ -132,9 +132,9 @@ jobs:
 
     - run: yarn build
     - run: yarn test:ci
-    # - run: yarn test:e2e:ci
-    #   env:
-    #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+    - run: yarn test:e2e:ci
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     - name: Codecov
       uses: codecov/codecov-action@v3
