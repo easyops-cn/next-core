@@ -162,7 +162,8 @@ class CustomTemplateRegistry {
           return this.$$tplStateStore!.getValue(propName);
         },
         set(this: RuntimeBrickElement, value: unknown) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // 在 mount 过程中，先设置属性，再设置 `$$tplStateStore`，这样，当触发属性设置时，
+          // 避免初始化的一次 state update 操作及其 onChange 事件。
           this.$$tplStateStore?.updateValue(propName, value, "replace");
         },
         enumerable: true,
@@ -180,8 +181,8 @@ class CustomTemplateRegistry {
           return element[to.refProperty ?? from];
         },
         set(this: TplElement, value: unknown) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const element = this.$$getElementByRef!(to.ref) as unknown as Record<
+          // 同上 exposedState.set
+          const element = this.$$getElementByRef?.(to.ref) as unknown as Record<
             string,
             unknown
           >;
