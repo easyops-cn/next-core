@@ -149,6 +149,13 @@ class CustomTemplateRegistry {
     }
 
     for (const propName of exposedStates) {
+      if (validProxyProps.some((entry) => entry[0] === propName)) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `Cannot define an exposed state that is also a proxy property: "${propName}" in ${tagName}`
+        );
+        continue;
+      }
       Object.defineProperty(TplElement.prototype, propName, {
         get(this: RuntimeBrickElement) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -163,13 +170,6 @@ class CustomTemplateRegistry {
     }
 
     for (const [from, to] of validProxyProps) {
-      if (exposedStates.includes(from)) {
-        // eslint-disable-next-line no-console
-        console.error(
-          `Cannot define a proxy property that is also an exposed state: "${from}" in ${tagName}`
-        );
-        continue;
-      }
       Object.defineProperty(TplElement.prototype, from, {
         get(this: TplElement) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
