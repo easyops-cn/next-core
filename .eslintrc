@@ -42,6 +42,10 @@
       "globals": {
         "cy": true,
         "Cypress": true
+      },
+      "env": {
+        "mocha": true,
+        "jest": false
       }
     }
   ]

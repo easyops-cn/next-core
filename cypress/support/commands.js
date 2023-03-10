@@ -1,3 +1,5 @@
+/* global expect */
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -33,4 +35,18 @@ Cypress.Commands.add("login", (origin) => {
 
 Cypress.Commands.add("logout", (origin) => {
   cy.request("POST", `${origin}/next/api/auth/logout`);
+});
+
+Cypress.Commands.add("expectMainContents", (contents) => {
+  cy.get("#main-mount-point > *").then((elements) => {
+    const received = elements.map((i, el) => el.textContent).get();
+    expect(received).to.deep.equal(contents);
+  });
+});
+
+Cypress.Commands.add("expectPortalContents", (contents) => {
+  cy.get("#portal-mount-point > *").then((elements) => {
+    const received = elements.map((i, el) => el.textContent).get();
+    expect(received).to.deep.equal(contents);
+  });
 });

@@ -1767,12 +1767,7 @@
   resolved "https://registry.npmjs.org/@next-core/brick-dll-v3/-/brick-dll-v3-0.2.3.tgz#b0685defaa96cc494f03b66e7963bbef92df243b"
   integrity sha512-jbp4R8rx04zXhpcmgRhsq4NXsohU7pkI/XXRQQnRWdQOOmyfFpoXYovTlSvaSv5DkUyKQrfhtLtepeQd2SQG3A==
 
-"@next-core/styles-v3@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.1.tgz#af2f6ef328b86eab84a6f4a90a33a9a90bf488b3"
-  integrity sha512-7wnnYZ83p6rL5Wn2xhc77+Cd81q8I3GjNSpQQjy0dbU7ZvJpRehNHWSSpttquAdW6Xw091FOum6k2W/t20d0ng==
-
-"@next-core/styles-v3@^0.2.4":
+"@next-core/styles-v3@^0.2.1", "@next-core/styles-v3@^0.2.4":
   version "0.2.4"
   resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.4.tgz#010f3f44bc17ead379b5ef20db1e04bd89dd0f74"
   integrity sha512-fAZM62j8df084NmI+q7GGIKH067e3IG0ftb67gQTmUS0lhlA2YH/2xPN2OhNuVE81Y8TsGmIt7/zRPRdkvSRiA==
