@@ -1,6 +1,6 @@
 {
   "name": "@next-core/styles-v3",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "GPL-3.0",
   "files": [
     "dist",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@ant-design/compatible": "^1.0.8",
-    "@next-core/brick-icons": "^2.31.16",
+    "@next-core/brick-icons": "^2.31.17",
     "@next-core/custom-antd-styles": "^1.25.18",
     "@next-core/less-plugin-css-variables": "^0.2.8",
     "antd": "~4.12.3",
