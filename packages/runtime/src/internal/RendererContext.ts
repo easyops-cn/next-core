@@ -87,6 +87,7 @@ export class RendererContext {
       {
         node?: RenderBrick;
         last?: RenderBrick;
+        lastNormal?: RenderBrick | undefined;
         lastPortal?: RenderBrick | undefined;
       }
     >
@@ -202,6 +203,7 @@ export class RendererContext {
     mem.set(memKey, {
       node,
       last: getLastNode(node),
+      lastNormal: getLastNormalNode(node),
       lastPortal: getLastPortalNode(node),
     });
   }
@@ -218,14 +220,19 @@ export class RendererContext {
     const {
       node: prevNode,
       last: prevLast,
+      lastNormal: prevLastNormal,
       lastPortal: prevLastPortal,
     } = memoized;
+
+    const insertBeforeChild = prevLastNormal?.element?.nextSibling ?? null;
     const insertPortalBeforeChild =
       prevLastPortal?.element?.nextSibling ?? null;
 
     const last = getLastNode(node);
     memoized.node = node;
     memoized.last = last;
+    memoized.lastNormal = getLastNormalNode(node);
+    memoized.lastPortal = getLastPortalNode(node);
 
     // Figure out the unchanged prev sibling and next sibling
     let prevSibling: RenderBrick | undefined;
@@ -237,7 +244,6 @@ export class RendererContext {
       }
       current = current.sibling;
     }
-    const insertBeforeChild = prevLast?.sibling?.element ?? null;
 
     const fragment = document.createDocumentFragment();
     const portalFragment = document.createDocumentFragment();
@@ -466,6 +472,20 @@ function getLastNode(node: RenderBrick | undefined): RenderBrick | undefined {
   return last;
 }
 
+function getLastNormalNode(
+  node: RenderBrick | undefined
+): RenderBrick | undefined {
+  let last: RenderBrick | undefined;
+  let current = node;
+  while (current) {
+    if (!current.portal) {
+      last = current;
+    }
+    current = current.sibling;
+  }
+  return last;
+}
+
 function getLastPortalNode(
   node: RenderBrick | undefined
 ): RenderBrick | undefined {
@@ -480,7 +500,14 @@ function getLastPortalNode(
     } else if (current.sibling) {
       current = current.sibling;
     } else {
-      current = current.return.sibling;
+      let currentReturn: RenderNode | null | undefined = current.return;
+      while (currentReturn) {
+        if (currentReturn.sibling) {
+          break;
+        }
+        currentReturn = currentReturn.return;
+      }
+      current = currentReturn?.sibling;
     }
   }
   return last;
@@ -501,10 +528,17 @@ function getBrickRange(
     } else if (current.sibling) {
       current = current.sibling;
     } else {
-      if (current.return === to) {
+      let currentReturn: RenderNode | null | undefined = current.return;
+      while (currentReturn && currentReturn !== to) {
+        if (currentReturn.sibling) {
+          break;
+        }
+        currentReturn = currentReturn.return;
+      }
+      if (currentReturn === to) {
         break;
       }
-      current = current.return.sibling;
+      current = currentReturn?.sibling;
     }
   }
   return range;
