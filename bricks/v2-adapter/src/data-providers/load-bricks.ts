@@ -190,14 +190,6 @@ async function loadMainDll(adapterPkgFilePath: string) {
     FeatureFlagsProvider,
     DisplayByFeatureFlags,
 
-    // useProvider(...args: unknown[]) {
-    //   // eslint-disable-next-line no-console
-    //   console.error(
-    //     "React hook `useProvider` is not implemented yet in v3:",
-    //     ...args
-    //   );
-    //   return {};
-    // },
     useProvider: getLegacyUseProvider(LegacyReact),
 
     useCurrentTheme() {

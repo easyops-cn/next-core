@@ -3,15 +3,10 @@ import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
 import {
   symbolForAsyncComputedPropsFromHost,
-  symbolForBrickHolder,
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./constants.js";
-import type {
-  AsyncProperties,
-  BrickHolder,
-  TemplateHostContext,
-} from "../interfaces.js";
+import type { AsyncProperties, TemplateHostContext } from "../interfaces.js";
 
 export function setupTemplateProxy(
   hostContext: TemplateHostContext,
@@ -27,12 +22,8 @@ export function setupTemplateProxy(
   } = hostContext;
 
   let asyncComputedProps: AsyncProperties | undefined;
-  let brickHolder: BrickHolder | undefined;
 
   if (ref && reversedProxies) {
-    brickHolder = {};
-    hostBrick.tplHostMetadata.internalBricksByRef.set(ref, brickHolder);
-
     const propertyProxies = reversedProxies.properties.get(ref);
     if (propertyProxies) {
       const getComputedProps = (hostProps: Record<string, unknown>) => {
@@ -116,7 +107,6 @@ export function setupTemplateProxy(
 
   return {
     [symbolForAsyncComputedPropsFromHost]: asyncComputedProps,
-    [symbolForBrickHolder]: brickHolder,
     [symbolForTplStateStoreId]: tplStateStoreId,
   };
 }

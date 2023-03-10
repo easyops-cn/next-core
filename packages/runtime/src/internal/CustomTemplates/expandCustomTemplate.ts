@@ -5,7 +5,7 @@ import type {
   SlotsConfOfBricks,
   UseSingleBrickConf,
 } from "@next-core/types";
-import { uniq, uniqueId } from "lodash";
+import { uniqueId } from "lodash";
 import { customTemplates } from "../../CustomTemplates.js";
 import { DataStore } from "../data/DataStore.js";
 import { RuntimeBrickConfWithTplSymbols } from "./constants.js";
@@ -57,10 +57,6 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
     internalBricksByRef: new Map(),
     tplStateStoreId,
     proxy,
-    // Allow duplicated state names which maybe mutually exclusive.
-    exposedStates: state
-      ? uniq(state.filter((item) => item.expose).map((item) => item.name))
-      : [],
   };
 
   // Reversed proxies are used for expand storyboard before rendering page.
@@ -127,7 +123,6 @@ function expandBrickInTemplate(
     delete brickConfInTemplate.if;
   }
   const {
-    ref,
     properties,
     slots: slotsInTemplate,
     children: childrenInTemplate,
@@ -155,6 +150,6 @@ function expandBrickInTemplate(
     ...restBrickConfInTemplate,
     properties: setupUseBrickInTemplate(properties, hostContext),
     slots,
-    ...setupTemplateProxy(hostContext, ref, slots),
+    ...setupTemplateProxy(hostContext, restBrickConfInTemplate.ref, slots),
   };
 }
