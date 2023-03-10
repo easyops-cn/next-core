@@ -541,6 +541,18 @@ export function childrenToSlots(
   originalSlots: SlotsConf | undefined
 ) {
   let newSlots = originalSlots;
+  if (
+    process.env.NODE_ENV === "development" &&
+    children &&
+    !Array.isArray(children)
+  ) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "Specified brick children but not array:",
+      `<${typeof children}>`,
+      children
+    );
+  }
   if (Array.isArray(children) && !newSlots) {
     newSlots = {};
     for (const child of children) {

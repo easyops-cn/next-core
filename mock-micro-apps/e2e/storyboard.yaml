@@ -28,7 +28,7 @@ meta:
         useBrick:
           brick: div
           children:
-            brick: tpl-modal
+          - brick: tpl-modal
             portal: true
             properties:
               m: '<% `${STATE.z}:${DATA}` %>'
@@ -78,7 +78,7 @@ routes:
           z: '<% DATA %>'
   - brick: div
     properties:
-      textContent: "Reset"
+      textContent: Reset
     events:
       click:
         target: '#my-list'

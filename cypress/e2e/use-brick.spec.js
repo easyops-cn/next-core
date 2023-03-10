@@ -12,27 +12,18 @@ for (const port of Cypress.env("ports")) {
       });
       cy.get("@console.error").should("not.be.called");
 
-      cy.contains("X:Z:1");
-      cy.contains("X:Z:2");
-      cy.contains("X:3:1");
-      cy.contains("X:3:2");
-      cy.contains("X:4:1");
+      // `useBrick` will render asynchronously,
+      // so wait for specific content rendered.
       cy.contains("X:4:2");
-      cy.contains("Modal:Z:0");
-      cy.contains("Modal:3:0");
-      cy.contains("Modal:4:0");
+
+      cy.expectMainContents(["X:Z:1X:Z:2", "X:3:1X:3:2X:4:1X:4:2", "Reset"]);
+      cy.expectPortalContents(["Modal:Z:0", "Modal:3:0", "Modal:4:0"]);
 
       cy.contains("Reset").click();
 
-      cy.contains("X:Z:1");
-      cy.contains("X:Z:2");
-      cy.contains("X:5:1");
-      cy.contains("X:5:2");
-      cy.contains("X:6:1");
       cy.contains("X:6:2");
-      cy.contains("Modal:Z:0");
-      cy.contains("Modal:5:0");
-      cy.contains("Modal:6:0");
+      cy.expectMainContents(["X:Z:1X:Z:2", "X:5:1X:5:2X:6:1X:6:2", "Reset"]);
+      cy.expectPortalContents(["Modal:Z:0", "Modal:5:0", "Modal:6:0"]);
     });
   });
 }
