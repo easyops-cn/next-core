@@ -51,12 +51,17 @@
     {
       "matchPackagePatterns": [
         "^@next-core/",
-        "^@next-dll/",
         "^@next-sdk/",
         "^@next-bricks/",
         "^@next-api-sdk/"
       ],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["@next-core/brick-dll-v3", "@next-core/styles-v3"],
+      "matchPackagePatterns": ["^@next-dll/"],
+      "enabled": true,
+      "groupName": "legacy v2 packages"
     },
     {
       "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
