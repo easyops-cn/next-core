@@ -45,6 +45,8 @@
     "@next-core/element": "^0.0.0",
     "@next-core/http": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
+    "@next-core/react-runtime": "^0.0.0",
+    "@next-core/runtime": "^0.0.0",
     "@next-core/theme": "^0.0.0",
     "@next-core/types": "^0.0.0",
     "antd": "^5.2.3",
