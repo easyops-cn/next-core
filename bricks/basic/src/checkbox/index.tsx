@@ -26,22 +26,15 @@ export declare type CheckboxValueType = string | number | boolean;
 
 export interface CheckboxOptionType {
   label: React.ReactNode;
-  value: CheckboxValueType;
+  value: any;
   style?: React.CSSProperties;
   disabled?: boolean;
+  checkboxColor?: string;
   [propName: string]: any;
 }
 
 export interface MenuIcon {
   [propName: string]: any;
-}
-
-export interface IconCheckboxItem {
-  icon?: MenuIcon;
-  value: any;
-  label?: any;
-  disabled?: boolean;
-  checkboxColor?: string;
 }
 
 export interface OptionGroup {
@@ -56,11 +49,11 @@ export interface OptionGroup {
   /**
    * 分组下的选项
    */
-  options: (CheckboxOptionType | IconCheckboxItem)[];
+  options: CheckboxOptionType[];
 }
 
 export interface GeneralCheckboxProps {
-  options?: CheckboxOptionType | IconCheckboxItem[];
+  options?: CheckboxOptionType[];
   label?: string;
   value?: CheckboxValueType[];
   onChange?: (value: CheckboxValueType[] | CheckboxValueType) => void;
@@ -92,7 +85,7 @@ class Checkbox extends FormItemElement {
    * @group basic
    */
   @property({ attribute: false })
-  accessor options: CheckboxOptionType | IconCheckboxItem[];
+  accessor options: CheckboxOptionType[] = [];
 
   /**
    * @kind string
@@ -122,7 +115,7 @@ class Checkbox extends FormItemElement {
    * @group basic
    */
   @property({ attribute: false })
-  accessor type: CheckboxType;
+  accessor type: CheckboxType = "default";
 
   /**
    * @kind boolean
@@ -132,7 +125,7 @@ class Checkbox extends FormItemElement {
    * @group basic
    */
   @property({ attribute: false })
-  accessor isCustom: boolean;
+  accessor isCustom: boolean = false;
 
   /**
    * @detail
@@ -164,7 +157,7 @@ export { Checkbox };
 
 function CheckboxComponent(props: any) {
   let newValue: CheckboxValueType[] = (props?.value && [...props.value]) || [];
-  const [options, setOptions] = useState(props.options);
+  const [options, setOptions] = useState<CheckboxOptionType[]>(props.options);
   useEffect(() => {
     setOptions(props.options);
   }, [props.options]);
@@ -214,7 +207,7 @@ function CheckboxComponent(props: any) {
   };
 
   const IconCheckbox = (props: any) => {
-    const { options, name, disabled = false, isCustom = false } = props;
+    const { name, disabled = false, isCustom = false } = props;
     return (
       <>
         {options.map((item: any) => (
@@ -264,7 +257,6 @@ function CheckboxComponent(props: any) {
   };
 
   const CheckboxItem = (props: GeneralCheckboxProps) => {
-    const { options } = props;
     return (
       <div
         style={{
@@ -279,7 +271,7 @@ function CheckboxComponent(props: any) {
             checkboxWrapper: true,
           })}
         >
-          {options?.map((item: CheckboxOptionType | IconCheckboxItem) => {
+          {options?.map((item: CheckboxOptionType) => {
             return (
               <label
                 key={item.value}
