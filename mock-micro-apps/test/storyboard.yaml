@@ -2,7 +2,7 @@ app:
   name: Test
   id: test
   homepage: /test
-  # noAuthGuard: true
+  noAuthGuard: true
   standaloneMode: true
 meta:
   i18n:
@@ -27,12 +27,57 @@ meta:
   customTemplates:
   - name: tpl-inner
     state:
+    - name: visible
+      expose: true
     - name: innerHello
       expose: true
+    - name: asyncHello
+      resolve:
+        useProvider: demo-basic.have-more-fun
+        args:
+        - |
+          <% `I'm lazy (${STATE.innerHello})` %>
+        - 200
+    proxy:
+      properties:
+        status:
+          ref: status
+          refProperty: textContent
+      methods:
+        appendStatus:
+          ref: status
+          refMethod: append
+      events:
+        status.click:
+          ref: status
+          refEvent: click
     bricks:
     - brick: span
       properties:
-        textContent: '<% "track state", `Inner says ${STATE.innerHello}` %>'
+        textContent: '<% "track state", `Inner says ${STATE.innerHello}. ` %>'
+      lifeCycle:
+        onMount:
+          action: console.log
+          args:
+          - onMount
+          - '<% "track state", `Inner says ${STATE.asyncHello}. ` %>'
+        onUnmount:
+          action: console.log
+          args:
+          - onUnmount
+          - '<% "track state", `Inner says ${STATE.asyncHello}. ` %>'
+    - brick: ':if'
+      dataSource: '<% "track state", STATE.visible %>'
+      children:
+      - brick: span
+        ref: status
+        properties:
+          textContent: visible
+      - brick: span
+        ref: status
+        slot: else
+        properties:
+          textContent: hidden
   - name: tpl-basic
     state:
     - name: lazyHello
@@ -199,11 +244,13 @@ meta:
                     textContent: '<% `<item:${ITEM}>` %>'
 routes:
 - path: ${APP.homepage}
+  exact: true
   # if: '<% !QUERY.redirect %>'
   if: '${QUERY.redirect|not}'
   type: redirect
   redirect: '<% `${APP.homepage}?redirect=3` %>'
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 1 %>'
   permissionsPreCheck:
   - abc
@@ -393,6 +440,7 @@ routes:
   # - brick: demo-basic.have-more-fun
   # - brick: demo-basic.have-no-fun
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 2 %>'
   context:
   - name: datum
@@ -497,6 +545,7 @@ routes:
         action: console.log
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 3 %>'
   bricks:
   - brick: demo-basic.button-with-icon
@@ -542,12 +591,14 @@ routes:
   #     class: "fa-solid fa-user"
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 4 %>'
   bricks:
   - brick: demo-widgets.tpl-first-template
   - brick: demo-widgets.tpl-second-template
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 5 %>'
 
   bricks:
@@ -643,6 +694,7 @@ routes:
               action: console.log
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 6 %>'
   context:
   - name: x
@@ -655,6 +707,7 @@ routes:
   redirect: "<% CTX.x, `${APP.homepage}?redirect=7` %>"
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 7 %>'
   context:
   - name: x
@@ -669,6 +722,7 @@ routes:
       textContent: OK
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 8 %>'
   context:
   - name: world
@@ -697,6 +751,7 @@ routes:
             action: console.error
 
 - path: ${APP.homepage}
+  exact: true
   if: '<% +QUERY.redirect === 9 %>'
   bricks:
   - brick: div
@@ -920,3 +975,128 @@ routes:
             - 列表1
             - 列表2
             - 列表3
+
+- path: ${APP.homepage}/controls
+  exact: true
+  context:
+  - name: list
+    value:
+    - a
+    - b
+  - name: count
+    value: '<% CTX.list.length %>'
+    track: true
+  bricks:
+  - brick: div
+    properties:
+      style:
+        padding: 20px
+    children:
+    - brick: blockquote
+      children:
+      - brick: span
+        children:
+        - brick: strong
+          properties:
+            textContent: Q
+    - brick: img
+      slot: oops
+    - brick: ':switch'
+      # if: false
+      dataSource: '<% "track context", CTX.count, CTX.list[0] %>'
+      slots:
+        a:
+          bricks:
+          - brick: h2
+            properties:
+              textContent: A
+          - brick: hr
+        c:
+          bricks:
+          - brick: h2
+            properties:
+              textContent: C
+        e:
+          bricks:
+          - brick: h2
+            properties:
+              textContent: E
+    - brick: ':forEach'
+      # if: false
+      dataSource: '<% "track context", CTX.count, CTX.list %>'
+      children:
+      - if: '<% ITEM !== "c" %>'
+        brick: i
+        properties:
+          textContent: '<% ITEM %>'
+      - if: '<% ITEM === "c" %>'
+        brick: demo-basic.x-button
+        properties:
+          label: '<% ITEM %>'
+      - brick: div
+        portal: true
+        properties:
+          style:
+            position: fixed
+            top: '<% `${Math.random() * 100}px` %>'
+            right: '<% `${Math.random() * 100}px` %>'
+          textContent: '<% `I am portal ${Math.ceil(Math.random() * 100)}` %>'
+      - brick: tpl-inner
+        properties:
+          innerHello: '<% ITEM %>'
+          visible: '<% ITEM === "c" %>'
+        events:
+          status.click:
+            action: console.log
+            args:
+            - foreach status click
+    - brick: tpl-inner
+      # if: false
+      properties:
+        innerHello: '<% "track context", CTX.list[0] %>'
+        visible: '<% "track context", CTX.list[0] === "c" %>'
+      events:
+        status.click:
+          action: console.log
+          args:
+          - singly click
+    - brick: demo-basic.button-group
+      properties:
+        datum: USE
+        useBrick:
+          brick: tpl-inner
+          properties:
+            innerHello: '<% "track context", `${CTX.list[0]}:${DATA}` %>'
+            visible: '<% "track context", CTX.list[0] === "c" %>'
+          events:
+            status.click:
+              action: console.log
+              args:
+              - useBrick click
+
+    - brick: basic.general-button
+      properties:
+        textContent: Refresh
+      events:
+        click:
+        - if: '<% CTX.list[0] === "c" %>'
+          action: context.replace
+          args:
+          - list
+          - - e
+            - f
+        - if: '<% CTX.list[0] === "a" %>'
+          action: context.replace
+          args:
+          - list
+          - - c
+            - d
+
+    - brick: basic.general-button
+      properties:
+        textContent: Go To
+      events:
+        click:
+          action: history.pushQuery
+          args:
+          - a: '<% `_${Math.ceil(Math.random() * 100)}` %>'

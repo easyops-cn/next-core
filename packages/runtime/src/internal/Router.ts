@@ -11,7 +11,7 @@ import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { RenderOutput, renderRoutes } from "./Renderer.js";
 import { DataStore } from "./data/DataStore.js";
 import { clearResolveCache } from "./data/resolveData.js";
-import { afterMountTree, mountTree, unmountTree } from "./mount.js";
+import { mountTree, unmountTree } from "./mount.js";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
 import { preCheckPermissions } from "./checkPermissions.js";
@@ -26,7 +26,7 @@ import {
 import { getRuntime } from "./Runtime.js";
 import { getAuth, isLoggedIn } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
-import type { RuntimeContext } from "./interfaces.js";
+import type { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
 import {
   handleHttpError,
@@ -40,6 +40,7 @@ import {
   collectContract,
 } from "./data/CollectContracts.js";
 import { fulfilStoryboard } from "./loadBootstrapData.js";
+import { RenderTag } from "./enums.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -241,6 +242,12 @@ export class Router {
     const main = document.querySelector("#main-mount-point") as HTMLElement;
     const portal = document.querySelector("#portal-mount-point") as HTMLElement;
 
+    const renderRoot: RenderRoot = {
+      tag: RenderTag.ROOT,
+      container: main,
+      createPortal: portal,
+    };
+
     const cleanUpPreviousRender = (): void => {
       unmountTree(main);
       unmountTree(portal);
@@ -302,6 +309,7 @@ export class Router {
       let output: RenderOutput;
       try {
         output = await renderRoutes(
+          renderRoot,
           storyboard.routes,
           runtimeContext,
           rendererContext
@@ -349,21 +357,20 @@ export class Router {
         } else {
           failed = true;
           output = {
-            main: [
-              {
-                type: "div",
-                properties: {
-                  textContent: httpErrorToString(error),
-                },
-                children: [],
-                runtimeContext: null!,
+            node: {
+              tag: RenderTag.BRICK,
+              type: "div",
+              properties: {
+                textContent: httpErrorToString(error),
               },
-            ],
-            portal: [],
+              runtimeContext: null!,
+              return: renderRoot,
+            },
             blockingList: [],
           };
         }
       }
+      renderRoot.child = output.node;
 
       cleanUpPreviousRender();
 
@@ -375,11 +382,7 @@ export class Router {
         applyTheme();
         applyMode();
 
-        mountTree(output.main, main);
-        mountTree(output.portal, portal);
-
-        afterMountTree(main);
-        afterMountTree(portal);
+        mountTree(renderRoot);
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
@@ -407,19 +410,18 @@ export class Router {
     applyTheme();
     applyMode();
 
-    mountTree(
-      [
-        {
-          type: "div",
-          properties: {
-            textContent: "Page not found",
-          },
-          children: [],
-          runtimeContext: null!,
-        },
-      ],
-      main
-    );
+    const node: RenderBrick = {
+      tag: RenderTag.BRICK,
+      type: "div",
+      properties: {
+        textContent: "Page not found",
+      },
+      runtimeContext: null!,
+      return: renderRoot,
+    };
+    renderRoot.child = node;
+
+    mountTree(renderRoot);
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);

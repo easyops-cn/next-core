@@ -1,44 +1,107 @@
-import { BrickNode } from "./BrickNode.js";
-import type { RuntimeBrick } from "./interfaces.js";
+import { bindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
+import { getTplStateStore } from "./CustomTemplates/utils.js";
+import { bindListeners } from "./bindListeners.js";
+import { setRealProperties } from "./compute/setRealProperties.js";
+import { RenderTag } from "./enums.js";
+import type {
+  RenderNode,
+  RenderRoot,
+  RuntimeBrickElement,
+} from "./interfaces.js";
 
-export interface MountableElement extends HTMLElement {
-  $$rootBricks?: BrickNode[];
-}
-
-export function unmountTree(mountPoint: MountableElement): void {
-  if (Array.isArray(mountPoint.$$rootBricks)) {
-    mountPoint.$$rootBricks.forEach((brick) => {
-      brick.unmount();
-    });
-    mountPoint.$$rootBricks = [];
-  }
+export function unmountTree(mountPoint: HTMLElement) {
   mountPoint.innerHTML = "";
 }
 
 export function mountTree(
-  bricks: RuntimeBrick[],
-  mountPoint: MountableElement
+  root: RenderRoot,
+  initializedElement?: RuntimeBrickElement
 ): void {
-  // Destroy any existing tree
-  if (mountPoint.firstChild) {
-    unmountTree(mountPoint);
-  }
+  let current = root.child;
+  const portalElements: RuntimeBrickElement[] = [];
+  while (current) {
+    const tagName = current.type;
 
-  // Create the top-level internal instance
-  const rootBricks = bricks.map((brick) => new BrickNode(brick));
+    if (tagName.includes("-") && !customElements.get(tagName)) {
+      // eslint-disable-next-line no-console
+      console.error(`Undefined custom element: ${tagName}`);
+    }
 
-  // Mount the top-level component into the container
-  const nodes = rootBricks.map((brick) => brick.mount());
-  nodes.forEach((node) => mountPoint.appendChild(node));
+    // istanbul ignore if
+    if (tagName === "basic-bricks.script-brick") {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "`basic-bricks.script-brick` is deprecated, please take caution when using it"
+      );
+    }
 
-  // Save a reference to the internal instance
-  mountPoint.$$rootBricks = rootBricks;
-}
+    const element: RuntimeBrickElement =
+      initializedElement && current === root.child
+        ? initializedElement
+        : document.createElement(tagName);
+    current.element = element;
 
-export function afterMountTree(mountPoint: MountableElement): void {
-  if (Array.isArray(mountPoint.$$rootBricks)) {
-    mountPoint.$$rootBricks.forEach((brick) => {
-      brick.afterMount();
-    });
+    if (current.slotId) {
+      element.setAttribute("slot", current.slotId);
+    }
+    if (current.iid) {
+      element.dataset.iid = current.iid;
+    }
+    setRealProperties(element, current.properties);
+    bindListeners(element, current.events, current.runtimeContext);
+    if (current.tplHostMetadata) {
+      // 先设置属性，再设置 `$$tplStateStore`，这样，当触发属性设置时，
+      // 避免初始化的一次 state update 操作及其 onChange 事件。
+      element.$$tplStateStore = getTplStateStore(
+        {
+          tplStateStoreId: current.tplHostMetadata.tplStateStoreId,
+          tplStateStoreMap: current.runtimeContext.tplStateStoreMap,
+        },
+        "mount"
+      );
+    }
+    bindTemplateProxy(current);
+
+    if (current.portal) {
+      portalElements.push(element);
+    } else if (current.return) {
+      if (!current.return.childElements) {
+        current.return.childElements = [];
+      }
+      current.return.childElements.push(element);
+    }
+
+    if (current.child) {
+      current = current.child;
+    } else if (current.sibling) {
+      current = current.sibling;
+    } else {
+      let currentReturn: RenderNode | null | undefined = current.return;
+      while (currentReturn) {
+        // Append elements inside out
+        if (currentReturn.childElements) {
+          if (currentReturn.tag === RenderTag.ROOT) {
+            currentReturn.container?.append(...currentReturn.childElements);
+
+            if (portalElements.length > 0) {
+              const portal =
+                typeof currentReturn.createPortal === "function"
+                  ? currentReturn.createPortal()
+                  : currentReturn.createPortal;
+              portal.append(...portalElements);
+            }
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            currentReturn.element!.append(...currentReturn.childElements);
+          }
+          currentReturn.childElements = undefined;
+        }
+        if (currentReturn.sibling) {
+          break;
+        }
+        currentReturn = currentReturn.return;
+      }
+      current = currentReturn?.sibling;
+    }
   }
 }

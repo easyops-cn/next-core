@@ -15,8 +15,9 @@ import {
   httpErrorToString,
   checkIfByTransform,
   checkIfOfComputed,
+  StoryboardFunctionRegistryFactory,
 } from "@next-core/runtime";
-import { i18n } from "@next-core/i18n";
+import { i18n, i18nText } from "@next-core/i18n";
 import * as Http from "@next-core/http";
 import type { SiteTheme } from "@next-core/types";
 import * as History from "history";
@@ -142,6 +143,8 @@ async function loadMainDll(adapterPkgFilePath: string) {
     httpErrorToString,
     looseCheckIfByTransform: checkIfByTransform,
     looseCheckIfOfComputed: checkIfOfComputed,
+    i18nText,
+    StoryboardFunctionRegistryFactory,
 
     // Auth
     getAuth,
@@ -190,14 +193,6 @@ async function loadMainDll(adapterPkgFilePath: string) {
     FeatureFlagsProvider,
     DisplayByFeatureFlags,
 
-    // useProvider(...args: unknown[]) {
-    //   // eslint-disable-next-line no-console
-    //   console.error(
-    //     "React hook `useProvider` is not implemented yet in v3:",
-    //     ...args
-    //   );
-    //   return {};
-    // },
     useProvider: getLegacyUseProvider(LegacyReact),
 
     useCurrentTheme() {

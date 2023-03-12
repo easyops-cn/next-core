@@ -1,0 +1,208 @@
+app:
+  name: E2E Tests
+  id: e2e
+  homepage: /e2e
+  noAuthGuard: true
+  standaloneMode: true
+meta:
+  customTemplates:
+
+  - name: tpl-a
+    state:
+    - name: x
+      value: X
+    - name: z
+      value: Z
+      expose: true
+    bricks:
+    - brick: e2e.list-by-use-brick
+      properties:
+        data: [1, 2]
+        useBrick:
+          brick: div
+          properties:
+            textContent: '<% `${STATE.x}:${STATE.z}:${DATA}` %>'
+    - brick: e2e.list-by-use-brick
+      properties:
+        data: [0]
+        useBrick:
+          brick: div
+          children:
+          - brick: tpl-modal
+            portal: true
+            properties:
+              m: '<% `${STATE.z}:${DATA}` %>'
+
+  - name: tpl-b
+    state:
+    - name: x
+      value: X
+    - name: z
+      value: Z
+      expose: true
+    bricks:
+    - brick: div
+      properties:
+        textContent: '<% `${STATE.x}:${STATE.z}` %>'
+    - brick: tpl-modal
+      portal: true
+      properties:
+        m: '<% STATE.z %>'
+
+  - name: tpl-modal
+    state:
+    - name: m
+      value: M
+      expose: true
+    bricks:
+    - brick: div
+      properties:
+        style:
+          position: fixed
+          right: '<% `${Math.random() * 300}px` %>'
+          top: '<% `${Math.random() * 300}px` %>'
+        textContent: '<% `Modal:${STATE.x ?? STATE.z ?? STATE.m}` %>'
+
+routes:
+
+- path: '${APP.homepage}/use-brick'
+  bricks:
+  - brick: tpl-a
+  - brick: e2e.list-by-use-brick
+    properties:
+      id: my-list
+      data: [3, 4]
+      useBrick:
+        brick: tpl-a
+        properties:
+          z: '<% DATA %>'
+  - brick: div
+    properties:
+      textContent: Reset
+    events:
+      click:
+        target: '#my-list'
+        properties:
+          data: [5, 6]
+
+- path: '${APP.homepage}/control-nodes/1'
+  bricks:
+  - brick: div
+    children:
+    - brick: span
+      properties:
+        textContent: "Hello "
+    - brick: span
+      properties:
+        textContent: "World"
+  - brick: ':forEach'
+    dataSource: [1, 2]
+    children:
+    - brick: span
+      properties:
+        textContent: '<% ITEM %>'
+    - brick: span
+      properties:
+        textContent: ','
+  - brick: div
+    children:
+    - brick: span
+      properties:
+        textContent: "Goodbye "
+    - brick: span
+      properties:
+        textContent: "World"
+
+- path: '${APP.homepage}/control-nodes/2'
+  bricks:
+  - brick: div
+    properties:
+      textContent: "Hello"
+  - brick: ':forEach'
+    dataSource: [["a"], ["b","c"]]
+    children:
+    - brick: div
+      properties:
+        textContent: '<% `start:${ITEM.length}` %>'
+    - brick: ':forEach'
+      dataSource: '<% ITEM %>'
+      children:
+      - brick: span
+        properties:
+          textContent: '<% ITEM %>'
+    - brick: div
+      properties:
+        textContent: '<% `end:${ITEM.length}` %>'
+  - brick: div
+    properties:
+      textContent: "Goodbye"
+
+- path: '${APP.homepage}/control-nodes/3'
+  context:
+  - name: list
+    value: [1, 2]
+  bricks:
+  - brick: tpl-modal
+    portal: true
+    properties:
+      m: Hello
+  - brick: ':forEach'
+    dataSource: '<% "track context", CTX.list %>'
+    children:
+    - brick: tpl-a
+      properties:
+        z: '<% ITEM %>'
+  - brick: tpl-modal
+    portal: true
+    properties:
+      m: Goodbye
+  - brick: div
+    properties:
+      textContent: Refresh
+    events:
+      click:
+      - if: '<% CTX.list[0] !== 1 %>'
+        action: context.replace
+        args:
+        - list
+        - [5, 6]
+      - if: '<% CTX.list[0] === 1 %>'
+        action: context.replace
+        args:
+        - list
+        - [3, 4]
+
+- path: '${APP.homepage}/control-nodes/4'
+  context:
+  - name: list
+    value: [1, 2]
+  bricks:
+  - brick: tpl-modal
+    portal: true
+    properties:
+      m: Hello
+  - brick: ':forEach'
+    dataSource: '<% "track context", CTX.list %>'
+    children:
+    - brick: tpl-b
+      properties:
+        z: '<% ITEM %>'
+  - brick: tpl-modal
+    portal: true
+    properties:
+      m: Goodbye
+  - brick: div
+    properties:
+      textContent: Refresh
+    events:
+      click:
+      - if: '<% CTX.list[0] !== 1 %>'
+        action: context.replace
+        args:
+        - list
+        - [5, 6]
+      - if: '<% CTX.list[0] === 1 %>'
+        action: context.replace
+        args:
+        - list
+        - [3, 4]

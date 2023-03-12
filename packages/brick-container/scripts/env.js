@@ -31,7 +31,7 @@ export function getEnv(runtimeFlags) {
     useRemote: flags.remote,
     baseHref: flags.subdir ? "/next/" : "/",
     useLocalContainer: true,
-    localMicroApps: ["test"],
+    localMicroApps: ["test", "e2e"],
     port: 8081,
     server: getServerPath(flags.server),
   };

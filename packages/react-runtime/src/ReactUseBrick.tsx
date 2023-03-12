@@ -42,9 +42,9 @@ export function ReactUseBrick({
     // return <span>🌀 Loading...</span>;
   }
 
-  const { output, rendererContext } = renderResult;
+  const { renderRoot, rendererContext } = renderResult;
 
-  const mainBrick = output.main[0];
+  const mainBrick = renderRoot.child;
 
   if (!mainBrick) {
     return null;
@@ -61,9 +61,8 @@ export function ReactUseBrick({
           }
           elementRef.current = element;
           mountResult.current = __secret_internals.mountUseBrick(
-            mainBrick,
+            renderRoot,
             element,
-            output.portal,
             mountResult.current
           );
 

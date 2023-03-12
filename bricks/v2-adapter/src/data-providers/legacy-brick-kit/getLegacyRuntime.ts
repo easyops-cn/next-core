@@ -3,19 +3,10 @@ import {
   customTemplates,
   getBasePath,
   getRuntime,
+  registerWidgetFunctions,
 } from "@next-core/runtime";
-import type {
-  CustomTemplateConstructor,
-  CustomTemplateProxyBasicProperty,
-  FeatureFlags,
-} from "@next-core/types";
+import type { CustomTemplateConstructor, FeatureFlags } from "@next-core/types";
 import { registerLazyBricks } from "./LazyBrickRegistry.js";
-
-interface LegacyTplPropProxy extends CustomTemplateProxyBasicProperty {
-  asVariable?: boolean;
-  mergeProperty?: unknown;
-  refTransform?: unknown;
-}
 
 export function getLegacyRuntime(): {
   getFeatureFlags(): FeatureFlags;
@@ -46,6 +37,8 @@ export function getLegacyRuntime(): {
           return registerCustomTemplate;
         case "registerCustomProcessor":
           return registerCustomProcessor;
+        case "registerWidgetFunctions":
+          return registerWidgetFunctions;
         case "registerLazyBricks":
           return registerLazyBricks;
         case "getBasePath":
@@ -69,49 +62,7 @@ function registerCustomTemplate(
   tagName: string,
   constructor: CustomTemplateConstructor
 ) {
-  const props = constructor.proxy?.properties as {
-    [name: string]: LegacyTplPropProxy;
-  };
-  const validProps: [string, CustomTemplateProxyBasicProperty][] = [];
-  const tplVariables: string[] = [];
-  if (props) {
-    for (const [key, value] of Object.entries(props)) {
-      if (value.asVariable) {
-        // For existed TPL usage, treat it as a STATE.
-        tplVariables.push(key);
-        // eslint-disable-next-line no-console
-        console.warn(
-          "Template `asVariable` with `TPL.*` is deprecated and will be dropped in v3:",
-          tagName,
-          key
-        );
-      } else if (value.mergeProperty || value.refTransform) {
-        // eslint-disable-next-line no-console
-        console.error(
-          "Template `mergeProperty` and `refTransform` are not supported in v3:",
-          tagName,
-          key
-        );
-      } else {
-        validProps.push([key, value]);
-      }
-    }
-  }
-  return customTemplates.define(tagName, {
-    ...constructor,
-    proxy: {
-      ...constructor.proxy,
-      properties: Object.fromEntries(validProps),
-    },
-    state: (constructor.state
-      ? constructor.state.map((item) => ({
-          // For existed templates, make `expose` defaults to true.
-          expose: true,
-          ...item,
-        }))
-      : []
-    ).concat(tplVariables.map((tpl) => ({ name: tpl, expose: true }))),
-  });
+  return customTemplates.define(tagName, constructor);
 }
 
 function registerCustomProcessor(
