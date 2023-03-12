@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <basic.general-checkbox id="test1"></basic.general-checkbox>
+    <basic.general-checkbox id="test2"></basic.general-checkbox>
+    <basic.general-checkbox id="test3"></basic.general-checkbox>
+    <basic.general-checkbox id="test4"></basic.general-checkbox>
+  </body>
+  <script>
+    var testButton1 = document.getElementById("test1");
+    testButton1.label = "类型为icon的checkbox";
+    testButton1.value = ["1", "2"];
+    testButton1.type = "icon";
+    testButton1.options = [
+      {
+        label: "label1111",
+        value: "1",
+        disabled: true,
+      },
+      {
+        label: "label11",
+        value: "2",
+        icon: { icon: "area-chart", lib: "antd" },
+      },
+      { label: "label2", value: "3", icon: { icon: "bar-chart", lib: "antd" } },
+    ];
+    var testButton2 = document.getElementById("test2");
+    testButton2.label = "带图标的checkbox";
+    testButton2.options = [
+      {
+        label: "label1",
+        value: "1",
+        icon: { icon: "area-chart", lib: "antd" },
+      },
+      {
+        label: "label2",
+        value: "2",
+        icon: { icon: "area-chart", lib: "antd" },
+      },
+      { label: "label3", value: "3", icon: { icon: "bar-chart", lib: "antd" } },
+    ];
+    var testButton3 = document.getElementById("test3");
+    testButton3.label = "普通checkbox";
+    testButton3.options = [
+      {
+        label: "label1",
+        value: "1",
+      },
+      {
+        label: "label2",
+        value: "2",
+      },
+      { label: "label3", value: "3" },
+    ];
+    var testButton4 = document.getElementById("test4");
+    testButton4.label = "自定义";
+    testButton4.type = "icon";
+    testButton4.isCustom = true;
+    testButton4.options = [
+      {
+        label: "label1",
+        value: "1",
+        icon: { icon: "area-chart", lib: "antd" },
+      },
+      {
+        label: "label2",
+        value: "2",
+        icon: { icon: "area-chart", lib: "antd" },
+      },
+      {
+        label: "label3",
+        value: "3",
+        icon: { icon: "area-chart", lib: "antd" },
+      },
+    ];
+    var testButton5 = document.getElementById("test5");
+    testButton5.label = "禁用状态的checkbox";
+    testButton5.value = ["1", "2"];
+    testButton5.options = [
+      {
+        label: "label1",
+        value: "1",
+
+        disabled: true,
+      },
+      {
+        label: "label2",
+        value: "2",
+        disabled: true,
+      },
+      { label: "label3", value: "3", disabled: true },
+    ];
+  </script>
+</html>
