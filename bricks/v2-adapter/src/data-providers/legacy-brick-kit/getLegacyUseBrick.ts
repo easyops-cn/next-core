@@ -22,9 +22,8 @@ export function getLegacyUseBrick(LegacyReact: typeof React) {
     useBrick,
     data,
   }: ReactUseBrickProps): React.ReactElement | null {
-    const [renderResult, setRenderResult] = useState<Awaited<
-      ReturnType<typeof __secret_internals.renderUseBrick>
-    > | null>(null);
+    const [renderResult, setRenderResult] =
+      useState<__secret_internals.RenderUseBrickResult | null>(null);
     const mountResult = useRef<__secret_internals.MountUseBrickResult>();
     const [renderKey, setRenderKey] = useState<number>();
     const elementRef = useRef<HTMLElement | null>();
@@ -58,15 +57,12 @@ export function getLegacyUseBrick(LegacyReact: typeof React) {
       // return <span>🌀 Loading...</span>;
     }
 
-    const { renderRoot, rendererContext } = renderResult;
-
-    const mainBrick = renderRoot.child;
-
-    if (!mainBrick) {
+    const { tagName } = renderResult;
+    if (tagName === null) {
       return null;
     }
 
-    const WebComponent = mainBrick.type as any;
+    const WebComponent = tagName as any;
 
     return LegacyReact.createElement(WebComponent, {
       key: renderKey,
@@ -77,19 +73,13 @@ export function getLegacyUseBrick(LegacyReact: typeof React) {
           }
           elementRef.current = element;
           mountResult.current = __secret_internals.mountUseBrick(
-            renderRoot,
+            renderResult,
             element,
             mountResult.current
           );
-
-          rendererContext.dispatchOnMount();
-          rendererContext.initializeScrollIntoView();
-          rendererContext.initializeMediaChange();
         } else if (mountResult.current) {
-          __secret_internals.unmountUseBrick(mountResult.current);
+          __secret_internals.unmountUseBrick(renderResult, mountResult.current);
           mountResult.current = undefined;
-          rendererContext.dispatchOnUnmount();
-          rendererContext.dispose();
         }
       },
     });

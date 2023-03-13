@@ -135,4 +135,4 @@ src/bootstrap.ts
 - [x] Control node: forEach
 - [x] Control node: if
 - [x] Control node: switch
-- [ ] ?? Trackable control nodes
+- [x] Trackable control nodes
