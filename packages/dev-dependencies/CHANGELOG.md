@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.43](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.42...@next-core/dev-dependencies@1.16.43) (2023-03-10)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.42](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.41...@next-core/dev-dependencies@1.16.42) (2023-03-09)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.41](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.40...@next-core/dev-dependencies@1.16.41) (2023-03-09)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.40](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.39...@next-core/dev-dependencies@1.16.40) (2023-03-09)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.39](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.38...@next-core/dev-dependencies@1.16.39) (2023-03-09)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.38](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.37...@next-core/dev-dependencies@1.16.38) (2023-03-06)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.37](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.36...@next-core/dev-dependencies@1.16.37) (2023-03-03)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.36](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.35...@next-core/dev-dependencies@1.16.36) (2023-03-03)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.35](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.34...@next-core/dev-dependencies@1.16.35) (2023-03-02)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.34](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.33...@next-core/dev-dependencies@1.16.34) (2023-03-02)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.33](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.32...@next-core/dev-dependencies@1.16.33) (2023-03-02)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.32](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.31...@next-core/dev-dependencies@1.16.32) (2023-03-02)
+
+### Bug Fixes
+
+- refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
+
+## [1.16.31](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.30...@next-core/dev-dependencies@1.16.31) (2023-02-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.30](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.29...@next-core/dev-dependencies@1.16.30) (2023-02-28)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.29](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.28...@next-core/dev-dependencies@1.16.29) (2023-02-23)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.28](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.27...@next-core/dev-dependencies@1.16.28) (2023-02-20)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.27](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.26...@next-core/dev-dependencies@1.16.27) (2023-02-17)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
+## [1.16.26](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.25...@next-core/dev-dependencies@1.16.26) (2023-02-17)
+
+**Note:** Version bump only for package @next-core/dev-dependencies
+
 ## [1.16.25](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.24...@next-core/dev-dependencies@1.16.25) (2023-02-16)
 
 **Note:** Version bump only for package @next-core/dev-dependencies

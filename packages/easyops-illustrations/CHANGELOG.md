@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.4...@next-core/illustrations@0.11.5) (2023-03-03)
+
+### Bug Fixes
+
+- use **webpack_public_path** instead of hard code ([52e9b64](https://github.com/easyops-cn/next-core/commit/52e9b640de93ae53daffdc062017553de06eadae))
+
 ## [0.11.4](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.3...@next-core/illustrations@0.11.4) (2023-02-16)
 
 **Note:** Version bump only for package @next-core/illustrations

@@ -73,6 +73,7 @@ import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
 import { httpCacheRecord } from "./HttpCache";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
+import { getRuntime } from "../runtime";
 
 export class Router {
   private defaultCollapsed = false;
@@ -346,6 +347,10 @@ export class Router {
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
     );
+
+    getRuntime().getFeatureFlags()["support-ui-8.2-compact-layout"]
+      ? document.body.classList.add("compact-layout")
+      : document.body.classList.remove("compact-layout");
     setMode("default");
 
     devtoolsHookEmit("rendering");

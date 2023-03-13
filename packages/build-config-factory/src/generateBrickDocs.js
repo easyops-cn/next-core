@@ -23,6 +23,8 @@ const propertyDocComments = [
   "description",
   "group",
   "enums",
+  "editor",
+  "editorprops",
 ];
 const baseDocComments = [
   "id",
@@ -70,6 +72,11 @@ function convertTagsToMapByFields(tags, fields) {
 
       if (curr.tag === "enums") {
         prev["enums"] = curr.text;
+        return prev;
+      }
+
+      if (curr.tag === "editor") {
+        prev["editor"] = curr.text;
         return prev;
       }
 

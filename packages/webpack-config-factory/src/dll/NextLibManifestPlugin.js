@@ -7,6 +7,7 @@
 const path = require("path");
 const asyncLib = require("neo-async");
 const SingleEntryDependency = require("webpack/lib/dependencies/SingleEntryDependency");
+const replaceIdent = require("./replaceIdent");
 
 /**
  * This plugin works as the same as `webpack/lib/LibManifestPlugin`,
@@ -61,7 +62,10 @@ class NextLibManifestPlugin {
                   if (ident) {
                     return {
                       // !!! Here's the replacement.
-                      ident: ident
+                      ident: (this.options.migrateToBrickNextV3
+                        ? replaceIdent(ident)
+                        : ident
+                      )
                         .replace("@next-core/", "@easyops/")
                         .replace(
                           "@babel/runtime/helpers/regeneratorRuntime",

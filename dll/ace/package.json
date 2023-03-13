@@ -1,6 +1,6 @@
 {
   "name": "@next-dll/ace",
-  "version": "2.0.580",
+  "version": "2.0.590",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/ace",
   "license": "GPL-3.0",
@@ -18,11 +18,12 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.dll.js",
     "postbuild": "dll-differ"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react-ace": "^7.0.5"
   },
   "devDependencies": {
-    "@next-core/brick-dll": "^2.41.32",
-    "@next-core/webpack-config-factory": "^2.19.4"
+    "@next-core/brick-dll": "^2.41.42",
+    "@next-core/webpack-config-factory": "^2.19.6",
+    "react-ace": "^7.0.5"
   }
 }

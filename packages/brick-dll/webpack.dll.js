@@ -15,7 +15,7 @@ module.exports = {
   devtool: "source-map",
   mode: isProd ? "production" : "development",
   entry: {
-    dll: Object.keys(packageJson.dependencies).flatMap((dep) => {
+    dll: Object.keys(packageJson.peerDependencies).flatMap((dep) => {
       if (dep === "@babel/runtime") {
         const babelRuntime = require(`${dep}/package.json`);
         return (

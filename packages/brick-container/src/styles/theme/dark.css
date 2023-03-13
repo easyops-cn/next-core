@@ -154,6 +154,7 @@ html[data-theme="dark-v2"],
     rgba(232, 232, 232, 0.12) 88%,
     rgba(255, 255, 255, 0) 100%
   );
+  --v8-left-sidebar-item-normal: #c5cbd4;
 
   /* component CSS variables */
 

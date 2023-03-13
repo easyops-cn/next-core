@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.165.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.0...@next-core/brick-kit@2.165.1) (2023-03-09)
+
+### Bug Fixes
+
+- fix menu update when dynamic arg ([bd0cf53](https://github.com/easyops-cn/next-core/commit/bd0cf53bcebb77b88564f707b03dcb448e8fa776))
+- update field ([4650362](https://github.com/easyops-cn/next-core/commit/465036257d157670623d73abdd73f53c9e9910fa))
+
+# [2.165.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.6...@next-core/brick-kit@2.165.0) (2023-03-09)
+
+### Features
+
+- **router:** support-ui-8.2-compact-layout background ([#2787](https://github.com/easyops-cn/next-core/issues/2787)) ([31c92b0](https://github.com/easyops-cn/next-core/commit/31c92b052a3f8bffb60f3644da0cd54cddd79e17))
+
+## [2.164.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.5...@next-core/brick-kit@2.164.6) (2023-03-03)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.164.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.4...@next-core/brick-kit@2.164.5) (2023-03-02)
+
+### Bug Fixes
+
+- refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
+
+## [2.164.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.3...@next-core/brick-kit@2.164.4) (2023-02-20)
+
+### Bug Fixes
+
+- 修复 formstate 中 conf 设置 track:true 无法生效,refs:FORM_BUILDER-217 ([ed68b7c](https://github.com/easyops-cn/next-core/commit/ed68b7c4feef99e48c527285c42176fd7da3eb7e))
+
 ## [2.164.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.2...@next-core/brick-kit@2.164.3) (2023-02-16)
 
 ### Bug Fixes

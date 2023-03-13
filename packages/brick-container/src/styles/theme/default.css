@@ -187,6 +187,7 @@
     #e8e8e8 88%,
     rgba(255, 255, 255, 0) 100%
   );
+  --v8-left-sidebar-item-normal: #3c4875;
 
   /* component CSS variables */
 

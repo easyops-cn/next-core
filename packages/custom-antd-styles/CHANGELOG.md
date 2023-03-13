@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.18](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.17...@next-core/custom-antd-styles@1.25.18) (2023-03-09)
+
+### Bug Fixes
+
+- 增加新颜色变量及修改 input.less ([57050e7](https://github.com/easyops-cn/next-core/commit/57050e7bc6f1e689c7e6ed459a9791ed80bef001))
+
+## [1.25.17](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.16...@next-core/custom-antd-styles@1.25.17) (2023-02-23)
+
+### Bug Fixes
+
+- **button:** fix hover, focus, and active style of text type ([5202ec1](https://github.com/easyops-cn/next-core/commit/5202ec13b6bf553cdd481cee2b7a1e846d9b84c6))
+
+## [1.25.16](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.15...@next-core/custom-antd-styles@1.25.16) (2023-02-17)
+
+### Bug Fixes
+
+- BRICK_STORE-3251 【表格组件】表头筛选图标颜色需替换为 [#8](https://github.com/easyops-cn/next-core/issues/8)c8c8c ，位置应紧跟表头文字，间隔是 8px ([e47b5b2](https://github.com/easyops-cn/next-core/commit/e47b5b24e9124f276ee9e684a8e9ef6e55440993)), closes [#8c8c8](https://github.com/easyops-cn/next-core/issues/8c8c8)
+
+## [1.25.15](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.14...@next-core/custom-antd-styles@1.25.15) (2023-02-17)
+
+### Bug Fixes
+
+- BRICK_STORE-3251 【表格组件】表头筛选图标颜色 hover 是不需要蓝色 ([0bcd2e6](https://github.com/easyops-cn/next-core/commit/0bcd2e61195ddffbec0ba5747956a72d2957c7ab))
+
 ## [1.25.14](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.13...@next-core/custom-antd-styles@1.25.14) (2023-02-16)
 
 ### Bug Fixes
