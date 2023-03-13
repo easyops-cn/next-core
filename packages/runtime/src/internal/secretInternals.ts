@@ -18,10 +18,16 @@ import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 import { RenderTag } from "./enums.js";
 
+export interface RenderUseBrickResult {
+  tagName: string | null;
+  renderRoot: RenderRoot;
+  rendererContext: RendererContext;
+}
+
 export async function renderUseBrick(
   useBrick: UseSingleBrickConf,
   data: unknown
-) {
+): Promise<RenderUseBrickResult> {
   const runtimeContext: RuntimeContext = {
     ..._internalApiGetRuntimeContext()!,
     data,
@@ -61,7 +67,9 @@ export async function renderUseBrick(
 
   renderRoot.child = output.node;
 
-  return { renderRoot, rendererContext };
+  const tagName = output.node ? output.node.type : null;
+
+  return { tagName, renderRoot, rendererContext };
 }
 
 export interface MountUseBrickResult {
@@ -69,7 +77,7 @@ export interface MountUseBrickResult {
 }
 
 export function mountUseBrick(
-  renderRoot: RenderRoot,
+  { renderRoot, rendererContext }: RenderUseBrickResult,
   element: HTMLElement,
   prevMountResult?: MountUseBrickResult
 ): MountUseBrickResult {
@@ -93,12 +101,19 @@ export function mountUseBrick(
 
   mountTree(renderRoot, element);
 
+  rendererContext.dispatchOnMount();
+  rendererContext.initializeScrollIntoView();
+  rendererContext.initializeMediaChange();
+
   return {
     portal,
   };
 }
 
-export function unmountUseBrick(mountResult: MountUseBrickResult): void {
+export function unmountUseBrick(
+  { rendererContext }: RenderUseBrickResult,
+  mountResult: MountUseBrickResult
+): void {
   // if (mountResult.mainBrick) {
   //   mountResult.mainBrick.unmount();
   // }
@@ -106,6 +121,8 @@ export function unmountUseBrick(mountResult: MountUseBrickResult): void {
     unmountTree(mountResult.portal);
     mountResult.portal.remove();
   }
+  rendererContext.dispatchOnUnmount();
+  rendererContext.dispose();
 }
 
 let _rendererContext: RendererContext;
@@ -198,6 +215,7 @@ export async function renderPreviewBricks(
   if (!failed) {
     rendererContext.dispatchPageLoad();
     // rendererContext.dispatchAnchorLoad();
+    rendererContext.dispatchOnMount();
     rendererContext.initializeScrollIntoView();
     rendererContext.initializeMediaChange();
   }
