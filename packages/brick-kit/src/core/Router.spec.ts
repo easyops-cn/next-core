@@ -80,7 +80,10 @@ const spyOnMediaEventTargetAddEventListener = jest.spyOn(
 const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
-  getFeatureFlags: () => ({ "enable-analyzer": false }),
+  getFeatureFlags: () => ({
+    "enable-analyzer": false,
+    "support-ui-8.2-compact-layout": true,
+  }),
 }));
 
 let historyListeners: LocationListener[] = [];
@@ -797,5 +800,11 @@ describe("Router", () => {
     router = new Router(kernel);
     await router.bootstrap();
     expect(kernel.layoutBootstrap).toBeCalledWith("business");
+  });
+
+  it("should render support-ui-8.2-compact-layout", async () => {
+    router = new Router(kernel);
+    await router.bootstrap();
+    expect(document.body.className).toContain("compact-layout");
   });
 });

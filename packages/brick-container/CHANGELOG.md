@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.84.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.4...@next-core/brick-container@2.84.5) (2023-03-13)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.84.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.3...@next-core/brick-container@2.84.4) (2023-03-10)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.84.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.2...@next-core/brick-container@2.84.3) (2023-03-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.84.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.1...@next-core/brick-container@2.84.2) (2023-03-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.84.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.0...@next-core/brick-container@2.84.1) (2023-03-09)
+
+### Bug Fixes
+
+- 增加新颜色变量及修改 input.less ([57050e7](https://github.com/easyops-cn/next-core/commit/57050e7bc6f1e689c7e6ed459a9791ed80bef001))
+
+# [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.83.2...@next-core/brick-container@2.84.0) (2023-03-09)
+
+### Features
+
+- **router:** support-ui-8.2-compact-layout background ([#2787](https://github.com/easyops-cn/next-core/issues/2787)) ([31c92b0](https://github.com/easyops-cn/next-core/commit/31c92b052a3f8bffb60f3644da0cd54cddd79e17))
+
+## [2.83.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.83.1...@next-core/brick-container@2.83.2) (2023-03-06)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.83.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.83.0...@next-core/brick-container@2.83.1) (2023-03-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+# [2.83.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.12...@next-core/brick-container@2.83.0) (2023-03-03)
+
+### Features
+
+- **report_brick_next:** report_brick_next ([b39d4ea](https://github.com/easyops-cn/next-core/commit/b39d4ea2c3bf15241e600638cbaf79fe93b73494))
+
+## [2.82.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.11...@next-core/brick-container@2.82.12) (2023-03-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.82.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.10...@next-core/brick-container@2.82.11) (2023-03-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.82.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.9...@next-core/brick-container@2.82.10) (2023-02-28)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.82.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.8...@next-core/brick-container@2.82.9) (2023-02-23)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.82.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.7...@next-core/brick-container@2.82.8) (2023-02-20)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.82.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.6...@next-core/brick-container@2.82.7) (2023-02-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+## [2.82.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.5...@next-core/brick-container@2.82.6) (2023-02-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
 ## [2.82.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.82.4...@next-core/brick-container@2.82.5) (2023-02-16)
 
 **Note:** Version bump only for package @next-core/brick-container

@@ -26,7 +26,9 @@
         "packages/build-next-bricks/**/*.js",
         "packages/test-next/**/*.js",
         "packages/brick-playground/serve/**/*.js",
-        "packages/create-api-sdk/**/*.{ts,js}"
+        "packages/create-api-sdk/**/*.{ts,js}",
+        "v3/lodash-v3/**/*.js",
+        "v3/moment-v3/**/*.js"
       ],
       "extends": "@next-core/eslint-config-next/node"
     },

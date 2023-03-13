@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>haproxy-second-menu</title>
+    <g id="haproxy-second-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="20" height="20"></rect>
+        <g id="haproxy" transform="translate(2.000000, 2.000000)">
+            <polygon id="背景" points="0 0 16 0 16 16 10.8820796 16 0 16"></polygon>
+            <g id="图形" transform="translate(0.380541, 0.253189)" fill="#57689C" fill-rule="nonzero" opacity="0.550000012">
+                <rect id="矩形" x="6.54702703" y="9.04843243" width="2.51243243" height="2.51243243"></rect>
+                <rect id="矩形" x="4.03459459" y="6.536" width="2.51243243" height="2.51243243"></rect>
+                <rect id="矩形" x="6.54702703" y="4.02356757" width="2.51243243" height="2.51243243"></rect>
+                <rect id="矩形" x="9.05945946" y="6.536" width="2.51243243" height="2.51243243"></rect>
+                <rect id="矩形" x="9.05945946" y="2.76518919" width="1.25837838" height="1.25837838"></rect>
+                <rect id="矩形" x="5.28864865" y="2.76518919" width="1.25837838" height="1.25837838"></rect>
+                <rect id="矩形" x="9.05945946" y="11.5651892" width="1.25837838" height="1.25837838"></rect>
+                <rect id="矩形" x="5.28864865" y="11.5651892" width="1.25837838" height="1.25837838"></rect>
+                <polygon id="路径" points="4.03459459 5.27762162 4.03459459 6.536 2.77621622 6.536 2.77621622 5.27762162"></polygon>
+                <polygon id="路径" points="4.03459459 9.04843243 4.03459459 10.3068108 2.77621622 10.3068108 2.77621622 9.04843243"></polygon>
+                <polygon id="路径" points="12.8345946 5.27762162 12.8345946 6.536 11.5762162 6.536 11.5762162 5.27762162"></polygon>
+                <polygon id="路径" points="12.8345946 9.04843243 12.8345946 10.3068108 11.5762162 10.3068108 11.5762162 9.04843243"></polygon>
+                <rect id="矩形" x="6.54702703" y="1.19545946" width="1" height="1"></rect>
+                <rect id="矩形" x="4.66162162" y="1.82248649" width="1" height="1"></rect>
+                <rect id="矩形" x="10.3178378" y="1.82248649" width="1" height="1"></rect>
+                <rect id="矩形" x="8.43243243" y="1.19545946" width="1" height="1"></rect>
+                <rect id="矩形" x="13.8162162" y="6.59654054" width="1" height="1"></rect>
+                <rect id="矩形" x="13.1848649" y="4.65059459" width="1" height="1"></rect>
+                <rect id="矩形" x="1.94162162" y="4.65059459" width="1" height="1"></rect>
+                <rect id="矩形" x="1.24540541" y="6.536" width="1" height="1"></rect>
+                <rect id="矩形" x="1.24540541" y="8.42140541" width="1" height="1"></rect>
+                <rect id="矩形" x="2.02378378" y="10.4149189" width="1" height="1"></rect>
+                <rect id="矩形" x="13.8162162" y="8.42140541" width="1" height="1"></rect>
+                <rect id="矩形" x="13.1459459" y="10.3803243" width="1" height="1"></rect>
+                <rect id="矩形" x="6.54702703" y="13.723027" width="1" height="1"></rect>
+                <rect id="矩形" x="4.52756757" y="12.923027" width="1" height="1"></rect>
+                <rect id="矩形" x="10.3178378" y="13.1349189" width="1" height="1"></rect>
+                <rect id="矩形" x="8.43243243" y="13.7835676" width="1" height="1"></rect>
+                <rect id="矩形" x="3.04432432" y="3.08086486" width="1" height="1"></rect>
+                <rect id="矩形" x="3.03567568" y="11.8765405" width="1" height="1"></rect>
+                <rect id="矩形" x="12.0648649" y="11.8203243" width="1" height="1"></rect>
+                <rect id="矩形" x="12.0691892" y="3.15005405" width="1" height="1"></rect>
+                <rect id="矩形" x="0.125405405" y="9.04843243" width="1" height="1"></rect>
+                <rect id="矩形" x="0" y="8.1187027" width="1" height="1"></rect>
+                <rect id="矩形" x="0.856216216" y="11.0419459" width="1" height="1"></rect>
+                <rect id="矩形" x="0.428108108" y="10.0949189" width="1" height="1"></rect>
+                <rect id="矩形" x="1.90702703" y="12.6678919" width="1" height="1"></rect>
+                <rect id="矩形" x="1.31891892" y="11.9327568" width="1" height="1"></rect>
+                <rect id="矩形" x="3.55891892" y="13.9997838" width="1" height="1"></rect>
+                <rect id="矩形" x="2.70702703" y="13.4073514" width="1" height="1"></rect>
+                <rect id="矩形" x="4.48" y="14.4884324" width="1" height="1"></rect>
+                <rect id="矩形" x="6.44324324" y="15.1154595" width="1" height="1"></rect>
+                <rect id="矩形" x="5.40108108" y="14.8905946" width="1" height="1"></rect>
+                <rect id="矩形" x="8.86918919" y="15.2019459" width="1" height="1"></rect>
+                <rect id="矩形" x="7.65405405" y="15.2668108" width="1" height="1"></rect>
+                <rect id="矩形" x="0.125405405" y="6.1987027" width="1" height="1"></rect>
+                <rect id="矩形" x="0" y="7.12843243" width="1" height="1"></rect>
+                <rect id="矩形" x="0.856216216" y="4.20518919" width="1" height="1"></rect>
+                <rect id="矩形" x="0.428108108" y="5.15221622" width="1" height="1"></rect>
+                <rect id="矩形" x="1.90702703" y="2.58356757" width="1" height="1"></rect>
+                <rect id="矩形" x="1.31891892" y="3.31437838" width="1" height="1"></rect>
+                <rect id="矩形" x="3.55891892" y="1.24735135" width="1" height="1"></rect>
+                <rect id="矩形" x="2.70702703" y="1.83978378" width="1" height="1"></rect>
+                <rect id="矩形" x="4.48" y="0.758702703" width="1" height="1"></rect>
+                <rect id="矩形" x="6.44324324" y="0.153297297" width="1" height="1"></rect>
+                <rect id="矩形" x="5.40108108" y="0.356540541" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(15.277276, 9.217600) rotate(-180.000000) translate(-15.277276, -9.217600) " x="15.1259243" y="9.06624865" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(15.400086, 8.289859) rotate(-180.000000) translate(-15.400086, -8.289859) " x="15.2487351" y="8.13850811" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(14.546292, 11.213362) rotate(-180.000000) translate(-14.546292, -11.213362) " x="14.3949405" y="11.0620108" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(14.970941, 10.264951) rotate(-180.000000) translate(-14.970941, -10.264951) " x="14.8195892" y="10.1136" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(13.492065, 12.837362) rotate(-180.000000) translate(-13.492065, -12.837362) " x="13.3407135" y="12.6860108" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(14.082681, 12.101535) rotate(-180.000000) translate(-14.082681, -12.101535) " x="13.9313297" y="11.9501838" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(11.840130, 14.170335) rotate(-180.000000) translate(-11.840130, -14.170335) " x="11.6887784" y="14.0189838" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(12.696216, 13.577816) rotate(-180.000000) translate(-12.696216, -13.577816) " x="12.5448649" y="13.4264649" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(10.920605, 14.660065) rotate(-180.000000) translate(-10.920605, -14.660065) " x="10.7692541" y="14.5087135" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(10.000043, 15.062011) rotate(-180.000000) translate(-10.000043, -15.062011) " x="9.84869189" y="14.9106595" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(15.277276, 6.370422) rotate(-180.000000) translate(-15.277276, -6.370422) " x="15.1259243" y="6.21907027" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(15.400086, 7.298205) rotate(-180.000000) translate(-15.400086, -7.298205) " x="15.2487351" y="7.14685405" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(14.546292, 4.374703) rotate(-180.000000) translate(-14.546292, -4.374703) " x="14.3949405" y="4.22335135" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(14.970941, 5.323114) rotate(-180.000000) translate(-14.970941, -5.323114) " x="14.8195892" y="5.17176216" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(13.492065, 2.750703) rotate(-180.000000) translate(-13.492065, -2.750703) " x="13.3407135" y="2.59935135" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(14.082681, 3.486530) rotate(-180.000000) translate(-14.082681, -3.486530) " x="13.9313297" y="3.33517838" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(11.840130, 1.417686) rotate(-180.000000) translate(-11.840130, -1.417686) " x="11.6887784" y="1.26633514" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(12.696216, 2.010205) rotate(-180.000000) translate(-12.696216, -2.010205) " x="12.5448649" y="1.85885405" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(10.920605, 0.928000) rotate(-180.000000) translate(-10.920605, -0.928000) " x="10.7692541" y="0.776648649" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(8.964843, 0.302400) rotate(-180.000000) translate(-8.964843, -0.302400) " x="8.81349189" y="0.151048649" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(10.000043, 0.526011) rotate(-180.000000) translate(-10.000043, -0.526011) " x="9.84869189" y="0.374659459" width="1" height="1"></rect>
+                <rect id="矩形" transform="translate(7.803676, 0.151351) rotate(-180.000000) translate(-7.803676, -0.151351) " x="7.65232432" y="0" width="1" height="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

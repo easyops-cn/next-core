@@ -1,0 +1,6 @@
+{
+  "name": "@next-core/js-yaml-v3",
+  "version": "0.1.0",
+  "license": "GPL-3.0",
+  "module": "index.esm.js"
+}

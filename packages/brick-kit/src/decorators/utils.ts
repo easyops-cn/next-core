@@ -1,4 +1,3 @@
-import { getRuntime } from "../runtime";
 import { PropertyDeclaration } from "../UpdatingElement";
 
 export function warnNativeHtmlElementProperty(
@@ -19,8 +18,6 @@ export function warnNativeHtmlElementProperty(
       throw new Error(message);
     }
     // eslint-disable-next-line no-console
-    console[
-      getRuntime().getFeatureFlags()["development-mode"] ? "error" : "warn"
-    ](message);
+    console.warn(message);
   }
 }

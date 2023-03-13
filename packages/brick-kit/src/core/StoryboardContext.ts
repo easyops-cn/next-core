@@ -17,6 +17,7 @@ import {
   trackUsedContext,
   trackUsedState,
   collectContextUsage,
+  trackUsedFormState,
 } from "@next-core/brick-utils";
 import { looseCheckIf } from "../checkIf";
 import {
@@ -272,7 +273,12 @@ export class StoryboardContextWrapper {
     mergedContext: PluginRuntimeContext;
     keyword: string;
   } {
-    return this.tplContextId
+    return this.formContextId
+      ? {
+          mergedContext: { ...coreContext, formContextId: this.formContextId },
+          keyword: "FORM_STATE",
+        }
+      : this.tplContextId
       ? {
           mergedContext: { ...coreContext, tplContextId: this.tplContextId },
           keyword: "STATE",
@@ -453,10 +459,15 @@ function resolveFreeVariableValue(
 
   if (contextConf.track) {
     const isTemplateState = !!storyboardContextWrapper.tplContextId;
+    const isFormState = !!storyboardContextWrapper.formContextId;
     // Track its dependencies and auto update when each of them changed.
-    const deps = (isTemplateState ? trackUsedState : trackUsedContext)(
-      load ? contextConf.resolve : contextConf.value
-    );
+    const deps = (
+      isFormState
+        ? trackUsedFormState
+        : isTemplateState
+        ? trackUsedState
+        : trackUsedContext
+    )(load ? contextConf.resolve : contextConf.value);
     for (const dep of deps) {
       const ctx = storyboardContextWrapper.get().get(dep);
       (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
