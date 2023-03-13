@@ -142,3 +142,9 @@ export function _internalApiMatchStoryboard(
 export function _internalApiGetRuntimeContext() {
   return router.getRuntimeContext();
 }
+
+export function _internalApiGetAppInBootstrapData(appId: string) {
+  return bootstrapData?.storyboards?.find(
+    (storyboard) => storyboard.app.id === appId
+  )?.app;
+}
