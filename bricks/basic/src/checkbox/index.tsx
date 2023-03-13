@@ -38,25 +38,16 @@ export interface MenuIcon {
 }
 
 export interface OptionGroup {
-  /**
-   * 分组名称
-   */
   name: string;
-  /**
-   * 分组唯一键，必填，不可重复
-   */
   key: string;
-  /**
-   * 分组下的选项
-   */
   options: CheckboxOptionType[];
 }
 
-export interface GeneralCheckboxProps {
+export interface CheckboxProps {
   options?: CheckboxOptionType[];
   label?: string;
   value?: CheckboxValueType[];
-  onChange?: (value: CheckboxValueType[] | CheckboxValueType) => void;
+  onChange?: (value: CheckboxOptionType[]) => void;
   text?: string;
   type?: CheckboxType;
   isCustom?: boolean;
@@ -141,6 +132,7 @@ class Checkbox extends FormItemElement {
   render() {
     return (
       <CheckboxComponent
+        curElement={this}
         options={this.options}
         label={this.label}
         name={this.name}
@@ -155,11 +147,13 @@ class Checkbox extends FormItemElement {
 
 export { Checkbox };
 
-function CheckboxComponent(props: any) {
+function CheckboxComponent(props: CheckboxProps) {
   let newValue: CheckboxValueType[] = (props?.value && [...props.value]) || [];
-  const [options, setOptions] = useState<CheckboxOptionType[]>(props.options);
+  const [options, setOptions] = useState<CheckboxOptionType[]>(
+    props.options || []
+  );
   useEffect(() => {
-    setOptions(props.options);
+    setOptions(props.options || []);
   }, [props.options]);
 
   const handleInputClick = (e: any, item: CheckboxOptionType) => {
@@ -170,7 +164,10 @@ function CheckboxComponent(props: any) {
       const index = newValue.findIndex((i) => i == item.value);
       newValue.splice(index, 1);
     }
-    props.onChange?.(newValue);
+    const currentSelectOption = options.filter((item) =>
+      newValue.includes(item.value)
+    );
+    props.onChange?.(currentSelectOption);
   };
 
   const getIcon = (item: CheckboxOptionType) => {
@@ -206,7 +203,7 @@ function CheckboxComponent(props: any) {
     return iconNode;
   };
 
-  const IconCheckbox = (props: any) => {
+  const IconCheckbox = (props: CheckboxProps) => {
     const { name, disabled = false, isCustom = false } = props;
     return (
       <>
@@ -256,7 +253,7 @@ function CheckboxComponent(props: any) {
     );
   };
 
-  const CheckboxItem = (props: GeneralCheckboxProps) => {
+  const CheckboxItem = (props: CheckboxProps) => {
     return (
       <div
         style={{
@@ -317,7 +314,7 @@ function CheckboxComponent(props: any) {
   };
 
   return (
-    <WrappedFormItem {...props}>
+    <WrappedFormItem {...(props as FormItemProps)}>
       {props.type == "icon" ? (
         <IconCheckbox {...props}></IconCheckbox>
       ) : (
