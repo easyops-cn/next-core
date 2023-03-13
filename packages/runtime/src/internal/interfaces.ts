@@ -16,6 +16,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
   tplStateStoreId?: string;
   forEachItem?: unknown;
+  appendI18nNamespace?: string;
 }
 
 export type AsyncProperties = Promise<Record<string, unknown>>;

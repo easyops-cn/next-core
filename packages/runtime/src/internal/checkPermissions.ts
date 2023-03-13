@@ -1,5 +1,8 @@
 import { difference } from "lodash";
-import { scanPermissionActionsInStoryboard } from "@next-core/utils/storyboard";
+import {
+  scanPermissionActionsInAny,
+  scanPermissionActionsInStoryboard,
+} from "@next-core/utils/storyboard";
 import { Storyboard } from "@next-core/types";
 import { getAuth, isLoggedIn } from "../auth.js";
 // import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
@@ -36,6 +39,15 @@ export function preCheckPermissions(
 ): Promise<void> | undefined {
   if (isLoggedIn() && !getAuth().isAdmin) {
     const usedActions = scanPermissionActionsInStoryboard(storyboard);
+    return validatePermissions(usedActions);
+  }
+}
+
+export function preCheckPermissionsForAny(
+  data: unknown
+): Promise<void> | undefined {
+  if (isLoggedIn() && !getAuth().isAdmin) {
+    const usedActions = scanPermissionActionsInAny(data);
     return validatePermissions(usedActions);
   }
 }

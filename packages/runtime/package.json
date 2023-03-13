@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@next-api-sdk/api-gateway-sdk": "^0.0.0",
+    "@next-api-sdk/cmdb-sdk": "^0.0.0",
     "@next-core/cook": "^1.6.81",
     "@next-core/http": "^0.0.0",
     "@next-core/i18n": "^0.0.0",

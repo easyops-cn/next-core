@@ -27,6 +27,8 @@ import { getBrickPackages, getRuntime } from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
+import { collectGetMenuUsage, GetMenuUsage } from "./collectGetMenuUsage.js";
+import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -124,10 +126,23 @@ function lowLevelEvaluate(
     raw = raw[symbolForRaw];
   }
 
+  // Collect `APP.getMenu(...)` usage before evaluating.
+  const menuUsage: GetMenuUsage = {
+    usedMenuIds: new Set(),
+    hasNonStaticUsage: false,
+  };
+
   // A `SyntaxError` maybe thrown.
   let precooked: PreevaluateResult;
   try {
-    precooked = preevaluate(raw);
+    precooked = preevaluate(raw, {
+      withParent: true,
+      hooks: {
+        beforeVisitGlobal(node, parent) {
+          collectGetMenuUsage(menuUsage, node, parent!);
+        },
+      },
+    });
   } catch (error: any) {
     const message = `${error.message}, in "${raw}"`;
     // if (options.isReEvaluation) {
@@ -141,6 +156,12 @@ function lowLevelEvaluate(
     const errorConstructor = getCookErrorConstructor(error);
     throw new errorConstructor(message);
     // }
+  }
+
+  if (menuUsage.hasNonStaticUsage) {
+    throw new Error(
+      `Non-static usage of "APP.getMenu" is not supported in v3, check your expression: "${raw}"`
+    );
   }
 
   const globalVariables: Record<string, unknown> = {};
@@ -215,6 +236,16 @@ function lowLevelEvaluate(
     if (attemptToCheckPermissions) {
       blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
     }
+
+    if (menuUsage.usedMenuIds.size > 0) {
+      // Block evaluating if has `APP.getMenu(...)` usage.
+      const usedMenuIds = [...menuUsage.usedMenuIds];
+      blockingList.push(
+        Promise.all(
+          usedMenuIds.map((menuId) => fetchMenuById(menuId, runtimeContext))
+        )
+      );
+    }
   }
 
   return {
@@ -244,11 +275,7 @@ function lowLevelEvaluate(
           case "APP":
             globalVariables[variableName] = {
               ...cloneDeep(app),
-              getMenu() {
-                return {
-                  title: "Menu not implemented yet",
-                };
-              },
+              getMenu: getMenuById,
             };
             break;
           case "CTX":
@@ -385,7 +412,7 @@ function lowLevelEvaluate(
         getGeneralGlobals(precooked.attemptToVisitGlobals, {
           storyboardFunctions,
           app: runtimeContext.app,
-          // appendI18nNamespace: runtimeContext.appendI18nNamespace,
+          appendI18nNamespace: runtimeContext.appendI18nNamespace,
         })
       );
 
