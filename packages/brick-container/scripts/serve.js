@@ -52,7 +52,7 @@ if (useLocalContainer) {
   app.use(`${baseHref}sa-static/-/core/0.0.0/`, express.static(distDir));
 }
 
-const proxy = getProxy(env);
+const proxy = getProxy(env, getRawIndexHtml);
 if (proxy) {
   for (const options of proxy) {
     app.use(
@@ -85,8 +85,12 @@ async function serveIndexHtml(req, res, next, isHome) {
     return;
   }
   const storyboard = await getMatchedStoryboard(env, req.path);
-  const indexHtmlPath = path.join(distDir, "index.html");
-  const content = await readFile(indexHtmlPath, "utf-8");
+  const content = await getRawIndexHtml();
   res.contentType("html");
   res.send(injectIndexHtml(env, content, getStandaloneConfig(storyboard)));
+}
+
+function getRawIndexHtml() {
+  const indexHtmlPath = path.join(distDir, "index.html");
+  return readFile(indexHtmlPath, "utf-8");
 }

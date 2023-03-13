@@ -18,13 +18,11 @@ export function tryFiles(files) {
  * @param req {import("express").Request}
  * @param res {import("express").Response}
  */
-export function tryServeFiles(files, req, res) {
+export function tryServeFiles(files, req, res, next) {
   const filePath = tryFiles(files);
   if (filePath) {
     res.sendFile(filePath);
     return;
   }
-  res.status(404).json({
-    error: `404 Not Found: ${req.method} ${req.originalUrl}`,
-  });
+  next();
 }

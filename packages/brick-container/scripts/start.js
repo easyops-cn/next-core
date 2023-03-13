@@ -75,7 +75,7 @@ const server = new WebpackDevServer(
       return middlewares;
     },
     watchFiles: [path.join(rootDir, "bricks/*/dist/*")],
-    proxy: getProxy(env),
+    proxy: getProxy(env, getRawIndexHtml),
   },
   compiler
 );
@@ -100,21 +100,12 @@ async function serveIndexHtml(req, res, next, isHome) {
     next();
     return;
   }
-  const [storyboard] = await Promise.all([
+  const [storyboard, rawIndexHtml] = await Promise.all([
     getMatchedStoryboard(env, req.path),
-    ready,
+    getRawIndexHtml(),
   ]);
-  const indexHtmlPath = path.join(distDir, "index.html");
-  compiler.outputFileSystem.readFile(indexHtmlPath, (err, content) => {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.contentType("html");
-      res.send(
-        injectIndexHtml(env, String(content), getStandaloneConfig(storyboard))
-      );
-    }
-  });
+  res.contentType("html");
+  res.send(injectIndexHtml(env, rawIndexHtml, getStandaloneConfig(storyboard)));
 }
 
 /**
@@ -137,5 +128,19 @@ async function serveStandaloneCoreStatic(req, res, next) {
       res.contentType(path.basename(staticFilePath));
       res.send(content);
     }
+  });
+}
+
+async function getRawIndexHtml() {
+  await ready;
+  const indexHtmlPath = path.join(distDir, "index.html");
+  return new Promise((resolve, reject) => {
+    compiler.outputFileSystem.readFile(indexHtmlPath, (err, content) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(String(content));
+      }
+    });
   });
 }
