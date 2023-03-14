@@ -11,7 +11,7 @@
     "prepare": "lerna bootstrap && husky install",
     "start": "lerna run start --scope \"@next-core/brick-container\" --",
     "serve": "lerna run serve --scope \"@next-core/brick-container\" --",
-    "serve:e2e": "lerna run serve --scope \"@next-core/brick-container\" --",
+    "serve:e2e": "lerna run serve --scope \"@next-core/brick-container\" -- --no-remote",
     "build": "lerna run build",
     "docs:build": "lerna run docs:build",
     "docs:dev": "lerna run docs:dev",

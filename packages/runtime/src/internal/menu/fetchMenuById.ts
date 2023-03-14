@@ -27,7 +27,11 @@ export function fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
 
 async function _fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
   if (window.STANDALONE_MICRO_APPS) {
-    throw new Error("Fetch menu in standalone micro-apps is not supported yet");
+    // throw new Error("Fetch menu in standalone micro-apps is not supported yet");
+    menuCache.set(menuId, {
+      title: "Fetch menu in standalone micro-apps is not supported yet",
+    });
+    return;
   }
 
   const menuList = (

@@ -55,6 +55,7 @@ for (const port of Cypress.env("ports")) {
       // `useBrick` will render asynchronously,
       // so wait for specific content rendered.
       cy.contains("X:2:2");
+      cy.contains("Modal:2:0");
 
       cy.expectMainContents(["X:1:1X:1:2", "X:2:1X:2:2", "Refresh"]);
 
@@ -68,6 +69,7 @@ for (const port of Cypress.env("ports")) {
 
       cy.contains("Refresh").click();
       cy.contains("X:4:2");
+      cy.contains("Modal:4:0");
       cy.expectMainContents(["X:3:1X:3:2", "X:4:1X:4:2", "Refresh"]);
       cy.expectPortalContents([
         "Modal:Hello",
@@ -79,6 +81,7 @@ for (const port of Cypress.env("ports")) {
 
       cy.contains("Refresh").click();
       cy.contains("X:6:2");
+      cy.contains("Modal:6:0");
       cy.expectMainContents(["X:5:1X:5:2", "X:6:1X:6:2", "Refresh"]);
       cy.expectPortalContents([
         "Modal:Hello",

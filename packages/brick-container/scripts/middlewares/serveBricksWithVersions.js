@@ -25,7 +25,8 @@ export default function serveBricksWithVersions({ rootDir }) {
         path.join(rootDir, "node_modules/@bricks", segments.join("/")),
       ],
       req,
-      res
+      res,
+      next
     );
   };
 }
