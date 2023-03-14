@@ -11,7 +11,7 @@ export default function getProxy(env, getRawIndexHtml) {
   if (useRemote) {
     return [
       {
-        ...getBasicProxyOptions(env, "api"),
+        ...getBasicProxyOptions(env, "api/"),
         selfHandleResponse: true,
         bypass(req) {
           const appId = getAppIdFromBootstrapPath(req.path);
@@ -57,8 +57,8 @@ export default function getProxy(env, getRawIndexHtml) {
           }
         ),
       },
-      getBasicProxyOptions(env, "bricks"),
-      getBasicProxyOptions(env, "sa-static/-/bricks"),
+      getBasicProxyOptions(env, "bricks/"),
+      getBasicProxyOptions(env, "sa-static/-/bricks/"),
       {
         ...getBasicProxyOptions(env, ""),
         selfHandleResponse: true,
