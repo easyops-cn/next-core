@@ -49,6 +49,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@next-bricks/icons": "^0.0.0",
     "@next-core/element": "^0.0.0",
     "@next-core/react-element": "^0.0.0",
     "@next-core/utils": "^0.0.0",
@@ -56,6 +57,7 @@
     "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
+    "@next-core/brick-icons": "^2.31.20",
     "@next-core/build-next-bricks": "^0.0.0",
     "@next-core/test-next": "^0.0.0"
   }

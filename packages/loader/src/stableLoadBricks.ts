@@ -74,7 +74,8 @@ interface V2AdapterBrick {
     adapterPkgFilePath: string,
     brickPkgFilePath: string,
     bricks: string[],
-    dlls?: string[]
+    dlls: string[] | undefined,
+    brickPackages: BrickPackage[]
   ): Promise<void>;
 }
 
@@ -223,7 +224,8 @@ async function enqueueStableLoad(
                     .get(pkgId)!
                     .map((itemName) => `${pkgNamespace}.${itemName}`)
                 : [],
-              (pkg as { dll?: string[] }).dll
+              (pkg as { dll?: string[] }).dll,
+              brickPackages
             );
           })
         )

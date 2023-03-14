@@ -24,8 +24,8 @@ const tasks = [];
 {
   // --- EasyOps Icons start ---
   const legacyEasyOpsIconsPath = path.resolve(
-    __dirname,
-    "../../../packages/brick-icons/src/icons"
+    require.resolve("@next-core/brick-icons/package.json"),
+    "../src/icons"
   );
   const newEasyOpsIconsPath = path.resolve(
     __dirname,
@@ -51,7 +51,9 @@ const tasks = [];
           ) {
             const categoryDir = path.resolve(legacyEasyOpsIconsPath, item.name);
             const newCategoryDir = path.resolve(newEasyOpsIconsPath, item.name);
-            mkdirSync(newCategoryDir);
+            if (!existsSync(newCategoryDir)) {
+              mkdirSync(newCategoryDir);
+            }
             return readdir(categoryDir).then((icons) =>
               icons
                 .filter((icon) => icon.endsWith(".svg"))

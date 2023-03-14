@@ -1,4 +1,4 @@
-import { loadScript } from "@next-core/loader";
+import { loadScript, loadBricksImperatively } from "@next-core/loader";
 import { createProviderClass } from "@next-core/utils/storyboard";
 import {
   authenticate,
@@ -19,12 +19,13 @@ import {
 } from "@next-core/runtime";
 import { i18n, i18nText } from "@next-core/i18n";
 import * as Http from "@next-core/http";
-import type { SiteTheme } from "@next-core/types";
+import type { BrickPackage, SiteTheme } from "@next-core/types";
 import * as History from "history";
 import * as JsYaml from "js-yaml";
 import lodash from "lodash";
 import moment from "moment";
 import "@next-core/theme";
+import type { EasyOpsIconProps } from "@next-bricks/icons/easyops-icon";
 import { getLegacyUseBrick } from "./legacy-brick-kit/getLegacyUseBrick.js";
 import { getLegacyRuntime } from "./legacy-brick-kit/getLegacyRuntime.js";
 import { loadLazyBricks } from "./legacy-brick-kit/LazyBrickRegistry.js";
@@ -43,21 +44,33 @@ interface DLL {
   (moduleId: string): any;
 }
 
+const MAIN_KEY = "";
+const ICONS_KEY = "_icons";
+const ICONS_BRICK = "icons.easyops-icon";
+
 export async function loadBricks(
   adapterPkgFilePath: string,
   brickPkgFilePath: string,
   bricks: string[],
-  dlls?: string[]
+  dlls: string[] | undefined,
+  brickPackages: BrickPackage[]
 ) {
-  let mainPromise = dllPromises.get("");
+  let iconsPromise = dllPromises.get(ICONS_KEY);
+  if (!iconsPromise) {
+    // Load the icon brick, but do not wait for it.
+    iconsPromise = loadBricksImperatively([ICONS_BRICK], brickPackages);
+    dllPromises.set(ICONS_KEY, iconsPromise);
+  }
+  let mainPromise = dllPromises.get(MAIN_KEY);
   if (!mainPromise) {
     mainPromise = loadMainDll(adapterPkgFilePath);
-    dllPromises.set("", mainPromise);
+    dllPromises.set(MAIN_KEY, mainPromise);
   }
   await mainPromise;
   await loadDlls(adapterPkgFilePath, dlls);
   await loadScript(brickPkgFilePath, window.PUBLIC_ROOT ?? "");
   await loadLazyBricks(bricks);
+  await iconsPromise;
 }
 
 async function loadDlls(adapterPkgFilePath: string, dlls?: string[]) {
@@ -109,6 +122,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
   const LegacyI18next = dll("XzT5");
   const LegacyReactI18next = dll("9kay");
   const LegacyHttp = dll("JxWY");
+  const LegacyBrickIcons = dll("AE1K");
   const LegacyHistory = dll("LhCv");
   const LegacyJsYaml = dll("ZR4k");
   const LegacyFontAwesome = dll("9RIe");
@@ -135,6 +149,15 @@ async function loadMainDll(adapterPkgFilePath: string) {
   const { useFeatureFlags, FeatureFlagsProvider, DisplayByFeatureFlags } =
     getLegacyUseFeatureFlags(LegacyReact);
   const LegacyErrorBoundary = getLegacyErrorBoundary(LegacyReact);
+
+  defineModule(LegacyBrickIcons, {
+    BrickIcon({ category, icon }: EasyOpsIconProps) {
+      return LegacyReact.createElement(ICONS_BRICK, {
+        category,
+        icon,
+      });
+    },
+  });
 
   defineModule(LegacyBrickKit, {
     getRuntime: getLegacyRuntime,
