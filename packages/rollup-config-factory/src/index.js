@@ -27,6 +27,7 @@ exports.rollupFactory = ({
   disableEsm,
   copyFiles = [],
   babelExclude,
+  extraExternals = [],
 }) => {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   // Find peer dependencies include:
@@ -97,7 +98,7 @@ exports.rollupFactory = ({
           (disableEsm && item.format === "esm")
         )
     ),
-    external: Array.from(external.add(/@babel\/runtime/)),
+    external: [...external.add(/@babel\/runtime/), ...extraExternals],
     plugins: [
       ...plugins,
       ...(copyFiles.length > 0
