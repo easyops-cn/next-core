@@ -13,12 +13,9 @@ import type {
 import { i18n } from "@next-core/i18n";
 import { deepFreeze, hasOwnProperty, isObject } from "@next-core/utils/general";
 import { merge } from "lodash";
-import { registerAppI18n } from "./registerAppI18n.js";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
-import {
-  type RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
-  RuntimeApi_runtimeMicroAppStandalone,
-} from "@next-api-sdk/micro-app-standalone-sdk";
+import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
+import { registerAppI18n } from "./registerAppI18n.js";
 import { MenuRawData } from "./menu/interfaces.js";
 
 interface StandaloneConf {
@@ -104,6 +101,7 @@ async function standaloneBootstrap(): Promise<BootstrapData> {
         ? matches[1]
         : null);
     if (appId) {
+      // No need to wait.
       safeGetRuntimeMicroAppStandalone(appId);
     }
   }
@@ -178,12 +176,15 @@ function mergeRuntimeSettings(
 
 const appRuntimeDataMap = new Map<
   string,
-  Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void>
+  Promise<RuntimeMicroAppStandaloneData | undefined>
 >();
 
-export async function safeGetRuntimeMicroAppStandalone(
-  appId: string
-): Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void> {
+interface RuntimeMicroAppStandaloneData {
+  userConfig?: Record<string, unknown>;
+  injectMenus?: MenuRawData[];
+}
+
+export async function safeGetRuntimeMicroAppStandalone(appId: string) {
   if (appRuntimeDataMap.has(appId)) {
     return appRuntimeDataMap.get(appId);
   }
@@ -195,7 +196,7 @@ export async function safeGetRuntimeMicroAppStandalone(
       error,
       ", something might went wrong running standalone micro app"
     );
-  });
+  }) as Promise<RuntimeMicroAppStandaloneData | undefined>;
   appRuntimeDataMap.set(appId, promise);
   return promise;
 }
@@ -217,7 +218,7 @@ async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
       $$fulfilling: null,
     });
     if (!window.NO_AUTH_GUARD) {
-      let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void;
+      let appRuntimeData: RuntimeMicroAppStandaloneData | void;
       try {
         // Note: the request maybe have fired already during bootstrap.
         appRuntimeData = await safeGetRuntimeMicroAppStandalone(
@@ -233,16 +234,20 @@ async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
         );
       }
       if (appRuntimeData) {
+        const { userConfig, injectMenus } = appRuntimeData;
         // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
         storyboard.app.userConfig = {
           ...storyboard.app.userConfig,
-          ...appRuntimeData.userConfig,
+          ...userConfig,
         };
+
+        // Initialize `overrideApp.config` in `injectMenus`
+        initializeInjectMenus(injectMenus);
 
         // get inject menus (Actually, appRuntimeData contains both main and inject menus)
         storyboard.meta = {
           ...storyboard.meta,
-          injectMenus: appRuntimeData.injectMenus as MenuRawData[],
+          injectMenus,
         };
       }
     }
@@ -267,4 +272,15 @@ async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
 
 function initializeAppConfig(app: MicroApp) {
   app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
+}
+
+function initializeInjectMenus(menus: MenuRawData[] | undefined) {
+  if (!Array.isArray(menus)) {
+    return;
+  }
+  for (const menu of menus) {
+    if (menu.overrideApp) {
+      initializeAppConfig(menu.overrideApp);
+    }
+  }
 }

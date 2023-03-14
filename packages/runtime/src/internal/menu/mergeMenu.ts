@@ -1,6 +1,10 @@
 import { i18n } from "@next-core/i18n";
 import { getI18nNamespace } from "../registerAppI18n.js";
-import { symbolAppId, symbolMenuI18nNamespace } from "./constants.js";
+import {
+  symbolAppId,
+  symbolMenuI18nNamespace,
+  symbolOverrideApp,
+} from "./constants.js";
 import type {
   MenuItemRawData,
   MenuRawData,
@@ -66,6 +70,7 @@ export async function mergeMenu(
         processGroupInject(menu.items, menu, injectWithMenus, menuWithI18n)!
     ),
     [symbolMenuI18nNamespace]: menuWithI18n.get(mainMenu),
+    [symbolOverrideApp]: mainMenu.overrideApp,
   };
 }
 
@@ -106,6 +111,7 @@ function processGroupInject(
       ),
       [symbolAppId]: menu.app[0].appId,
       [symbolMenuI18nNamespace]: menuWithI18n.get(menu),
+      [symbolOverrideApp]: menu.overrideApp,
     };
   });
 }

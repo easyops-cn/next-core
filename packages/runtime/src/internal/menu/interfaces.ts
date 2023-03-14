@@ -25,7 +25,7 @@ export interface MenuRawData {
   dynamicItems?: boolean;
   itemsResolve?: ResolveConf;
   i18n?: MetaI18n;
-  // overrideApp?: MicroApp;
+  overrideApp?: MicroApp;
 }
 
 /** 原始菜单项数据。 */

@@ -12,9 +12,12 @@ export async function loadDynamicMenuItems(
     const overrideAppId = menu.app[0].appId;
     let newRuntimeContext = runtimeContext;
     if (overrideAppId !== runtimeContext.app.id) {
+      const overrideApp = window.STANDALONE_MICRO_APPS
+        ? menu.overrideApp
+        : _internalApiGetAppInBootstrapData(overrideAppId);
       newRuntimeContext = {
         ...runtimeContext,
-        overrideApp: _internalApiGetAppInBootstrapData(overrideAppId),
+        overrideApp,
         appendI18nNamespace: menuWithI18n.get(menu),
       };
     }
