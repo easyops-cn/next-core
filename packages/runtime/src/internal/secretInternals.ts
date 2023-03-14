@@ -190,6 +190,7 @@ export async function renderPreviewBricks(
         runtimeContext: null!,
       },
       blockingList: [],
+      menuRequests: [],
     };
   }
 

@@ -3,7 +3,13 @@ import {
   flushStableLoadBricks,
   loadProcessorsImperatively,
 } from "@next-core/loader";
-import type { MicroApp, Storyboard } from "@next-core/types";
+import type {
+  BreadcrumbConf,
+  BreadcrumbItemConf,
+  MicroApp,
+  StaticMenuConf,
+  Storyboard,
+} from "@next-core/types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { isHttpAbortError } from "@next-core/http";
 import { uniqueId } from "lodash";
@@ -54,6 +60,9 @@ export class Router {
   #renderId?: string;
   #currentApp?: MicroApp;
   #previousApp?: MicroApp;
+  #navConfig?: {
+    breadcrumb?: BreadcrumbItemConf[];
+  };
 
   constructor(storyboards: Storyboard[]) {
     this.#storyboards = storyboards;
@@ -92,6 +101,10 @@ export class Router {
       currentApp: this.#currentApp,
       previousApp: this.#previousApp,
     };
+  }
+
+  getNavConfig() {
+    return this.#navConfig;
   }
 
   #getBlockMessageBeforePageLave(detail: {
@@ -300,6 +313,7 @@ export class Router {
       const rendererContext = (this.#rendererContext = new RendererContext(
         "router"
       ));
+      this.#navConfig = undefined;
 
       registerCustomTemplates(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
@@ -344,6 +358,9 @@ export class Router {
           ...runtimeContext.pendingPermissionsPreCheck
         );
         await Promise.all(output.blockingList);
+
+        const menuConfs = await Promise.all(output.menuRequests);
+        this.#navConfig = mergeMenuConfs(menuConfs);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
@@ -367,6 +384,7 @@ export class Router {
               return: renderRoot,
             },
             blockingList: [],
+            menuRequests: [],
           };
         }
       }
@@ -426,4 +444,23 @@ export class Router {
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);
   }
+}
+
+function mergeMenuConfs(menuConfs: (StaticMenuConf | undefined)[]) {
+  const navConfig = {
+    breadcrumb: [] as BreadcrumbItemConf[],
+  };
+  for (const menuConf of menuConfs) {
+    if (menuConf) {
+      const { breadcrumb } = menuConf;
+      if (breadcrumb) {
+        if (breadcrumb.overwrite) {
+          navConfig.breadcrumb = breadcrumb.items;
+        } else {
+          navConfig.breadcrumb.push(...breadcrumb.items);
+        }
+      }
+    }
+  }
+  return navConfig;
 }

@@ -1,9 +1,12 @@
 import type {
   BrickConf,
   BrickConfInTemplate,
+  ContextConf,
+  MenuConf,
   RouteConf,
   SlotConfOfBricks,
   SlotsConf,
+  StaticMenuConf,
 } from "@next-core/types";
 import {
   enqueueStableLoadBricks,
@@ -50,8 +53,10 @@ export interface RenderOutput {
   };
   route?: RouteConf;
   blockingList: (Promise<unknown> | undefined)[];
+  menuRequests: (Promise<StaticMenuConf | undefined> | undefined)[];
   hasTrackingControls?: boolean;
 }
+
 export async function renderRoutes(
   returnNode: RenderNode,
   routes: RouteConf[],
@@ -62,6 +67,7 @@ export async function renderRoutes(
   const matched = await matchRoutes(routes, _runtimeContext);
   const output: RenderOutput = {
     blockingList: [],
+    menuRequests: [],
   };
   switch (matched) {
     case "missed":
@@ -108,6 +114,7 @@ export async function renderRoutes(
           break;
         }
         case "routes": {
+          output.menuRequests.push(loadMenu(route.menu, runtimeContext));
           const newOutput = await renderRoutes(
             returnNode,
             route.routes,
@@ -119,6 +126,7 @@ export async function renderRoutes(
           break;
         }
         default: {
+          output.menuRequests.push(loadMenu(route.menu, runtimeContext));
           const newOutput = await renderBricks(
             returnNode,
             route.bricks,
@@ -145,6 +153,7 @@ export async function renderBricks(
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
+    menuRequests: [],
   };
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const rendered = await Promise.all(
@@ -183,6 +192,7 @@ export async function renderBrick(
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
+    menuRequests: [],
   };
 
   const tplStateStoreId = brickConf[symbolForTplStateStoreId];
@@ -205,6 +215,16 @@ export async function renderBrick(
     // eslint-disable-next-line no-console
     console.error("Legacy templates are not supported in v3:", brickConf);
     return output;
+  }
+
+  const { context } = brickConf as { context?: ContextConf[] };
+  if (Array.isArray(context) && context.length > 0) {
+    // eslint-disable-next-line no-console
+    console.error(
+      "Defining context on bricks will be dropped in v3:",
+      brickConf
+    );
+    runtimeContext.ctxStore.define(context, runtimeContext);
   }
 
   runtimeContext.pendingPermissionsPreCheck.push(
@@ -484,6 +504,7 @@ async function renderForEach(
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
+    menuRequests: [],
   };
 
   const rendered = await Promise.all(
@@ -514,12 +535,40 @@ async function renderForEach(
   return output;
 }
 
+function loadMenu(
+  menuConf: MenuConf | undefined,
+  runtimeContext: RuntimeContext
+) {
+  if (!menuConf) {
+    return;
+  }
+
+  if ((menuConf as { type?: "brick" }).type === "brick") {
+    // eslint-disable-next-line no-console
+    console.error("Set menu with brick is dropped in v3:", menuConf);
+    throw new Error("Set menu with brick is dropped in v3");
+  }
+
+  if (menuConf.type === "resolve") {
+    // eslint-disable-next-line no-console
+    console.warn("Set menu with resolve is not supported in v3 yet:", menuConf);
+    return;
+  }
+
+  return asyncComputeRealValue(
+    menuConf,
+    runtimeContext
+  ) as Promise<StaticMenuConf>;
+}
+
 function mergeRenderOutput(
   output: RenderOutput,
   newOutput: RenderOutput
 ): void {
-  const { blockingList, node, hasTrackingControls, ...rest } = newOutput;
+  const { blockingList, node, menuRequests, hasTrackingControls, ...rest } =
+    newOutput;
   output.blockingList.push(...blockingList);
+  output.menuRequests.push(...menuRequests);
 
   if (node) {
     if (output.node) {

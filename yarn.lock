@@ -1782,6 +1782,11 @@
   resolved "https://registry.npmjs.org/@next-dll/d3/-/d3-2.0.76.tgz#51424d022bbf6ea57fa8e117f21867e8ccdf8ab3"
   integrity sha512-2HZx5gKNqb4X7Ti21eUOmtnhaCyBJYPYwLm6gHCqPfRZBeqTMJgBwLtlEhIXC4koFJBHftHAONqZy5IM9cfbqA==
 
+"@next-dll/echarts@^2.0.77":
+  version "2.0.77"
+  resolved "https://registry.npmjs.org/@next-dll/echarts/-/echarts-2.0.77.tgz#e0a7a7b722c9f40fbb3a96b51be185f5da815bf0"
+  integrity sha512-98lMKoDpcg452H7lldQ4UW/lRij4nO1lVZ73PQtYI49TftCSOB3exoow+pScxBcZr+JiktdYuJexvBT9GG4rcQ==
+
 "@next-dll/editor-bricks-helper@^0.34.52":
   version "0.34.52"
   resolved "https://registry.npmjs.org/@next-dll/editor-bricks-helper/-/editor-bricks-helper-0.34.52.tgz#75b7bc562e973d345fa1756407265a5b12203032"
