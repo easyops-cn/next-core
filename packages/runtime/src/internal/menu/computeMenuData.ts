@@ -5,7 +5,11 @@ import type {
   RuntimeMenuRawData,
 } from "./interfaces.js";
 import { _internalApiGetAppInBootstrapData } from "../Runtime.js";
-import { symbolAppId, symbolMenuI18nNamespace } from "./constants.js";
+import {
+  symbolAppId,
+  symbolMenuI18nNamespace,
+  symbolOverrideApp,
+} from "./constants.js";
 
 type RuntimeMenuRestRawData = Omit<RuntimeMenuRawData, "app" | "items">;
 type RuntimeMenuItemRestRawData = Omit<RuntimeMenuItemRawData, "children">;
@@ -15,9 +19,12 @@ export function computeMenuData<
 >(data: T, overrideAppId: string, runtimeContext: RuntimeContext): Promise<T> {
   let newRuntimeContext = runtimeContext;
   if (overrideAppId !== runtimeContext.app.id) {
+    const overrideApp = window.STANDALONE_MICRO_APPS
+      ? data[symbolOverrideApp]
+      : _internalApiGetAppInBootstrapData(overrideAppId);
     newRuntimeContext = {
       ...runtimeContext,
-      overrideApp: _internalApiGetAppInBootstrapData(overrideAppId),
+      overrideApp,
       appendI18nNamespace: data[symbolMenuI18nNamespace],
     };
   }
