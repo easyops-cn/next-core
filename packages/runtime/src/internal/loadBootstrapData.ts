@@ -1,13 +1,42 @@
 import {
+  BootstrapStandaloneApi_runtimeStandalone,
   BootstrapV2Api_bootstrapV2,
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-api-sdk/api-gateway-sdk";
 import { http } from "@next-core/http";
-import type { BootstrapData, RuntimeStoryboard } from "@next-core/types";
+import type {
+  BootstrapData,
+  BootstrapSettings,
+  MicroApp,
+  RuntimeStoryboard,
+} from "@next-core/types";
 import { i18n } from "@next-core/i18n";
-import { deepFreeze, isObject } from "@next-core/utils/general";
+import { deepFreeze, hasOwnProperty, isObject } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { registerAppI18n } from "./registerAppI18n.js";
+import { JSON_SCHEMA, safeLoad } from "js-yaml";
+import {
+  type RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
+  RuntimeApi_runtimeMicroAppStandalone,
+} from "@next-api-sdk/micro-app-standalone-sdk";
+import { MenuRawData } from "./menu/interfaces.js";
+
+interface StandaloneConf {
+  /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
+  sys_settings: StandaloneSettings;
+
+  /** For fully standalone micro-apps. */
+  user_config?: Record<string, unknown>;
+
+  /** For mixed standalone micro-apps. */
+  user_config_by_apps?: UserConfigByApps;
+}
+
+type UserConfigByApps = Record<string, Record<string, unknown>>;
+
+interface StandaloneSettings extends Omit<BootstrapSettings, "featureFlags"> {
+  feature_flags: Record<string, boolean>;
+}
 
 export async function loadBootstrapData(): Promise<BootstrapData> {
   const data = await (window.STANDALONE_MICRO_APPS
@@ -47,11 +76,128 @@ export async function loadBootstrapData(): Promise<BootstrapData> {
 }
 
 async function standaloneBootstrap(): Promise<BootstrapData> {
-  const bootstrapResult = await http.get<BootstrapData>(
-    window.BOOTSTRAP_FILE as string
+  const requests = [
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    http.get<BootstrapData>(window.BOOTSTRAP_FILE!),
+    http.get<string>(`${window.APP_ROOT}conf.yaml`, {
+      responseType: "text",
+    }),
+    BootstrapStandaloneApi_runtimeStandalone().catch((error) => {
+      // make it not crash when the backend service is not updated.
+      // eslint-disable-next-line no-console
+      console.warn(
+        "request runtime api from api-gateway failed: ",
+        error,
+        ", something might went wrong running standalone micro app"
+      );
+    }),
+  ] as const;
+
+  if (!window.NO_AUTH_GUARD) {
+    let matches: string[] | null;
+    const appId =
+      window.APP_ID ||
+      (window.APP_ROOT &&
+      (matches = window.APP_ROOT.match(
+        /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\//
+      ))
+        ? matches[1]
+        : null);
+    if (appId) {
+      safeGetRuntimeMicroAppStandalone(appId);
+    }
+  }
+
+  const [bootstrapResult, confString, runtimeData] = await Promise.all(
+    requests
   );
-  // Todo: BootstrapStandaloneApi_runtimeStandalone
+
+  mergeConf(bootstrapResult, confString);
+
+  mergeRuntimeSettings(bootstrapResult, runtimeData?.settings);
+
   return bootstrapResult;
+}
+
+function mergeConf(bootstrapResult: BootstrapData, confString: string) {
+  let conf: StandaloneConf | undefined;
+  try {
+    conf = confString
+      ? (safeLoad(confString, {
+          schema: JSON_SCHEMA,
+          json: true,
+        }) as StandaloneConf)
+      : undefined;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Parse conf.yaml failed", error);
+    throw new Error("Invalid conf.yaml");
+  }
+
+  if (conf) {
+    const { sys_settings, user_config, user_config_by_apps } = conf;
+    if (sys_settings) {
+      const { feature_flags: featureFlags, ...rest } = sys_settings;
+      bootstrapResult.settings = {
+        featureFlags,
+        ...rest,
+      } as BootstrapSettings;
+    }
+    if (user_config && bootstrapResult.storyboards.length === 1) {
+      bootstrapResult.storyboards[0].app.userConfig = user_config;
+    } else if (user_config_by_apps) {
+      for (const { app } of bootstrapResult.storyboards) {
+        if (hasOwnProperty(user_config_by_apps, app.id)) {
+          app.userConfig = user_config_by_apps[app.id];
+        }
+      }
+    }
+  }
+}
+
+function mergeRuntimeSettings(
+  bootstrapResult: BootstrapData,
+  runtimeSettings: BootstrapSettings | undefined
+) {
+  if (!runtimeSettings) {
+    return;
+  }
+  // Merge Feature Flags & Misc
+  const { featureFlags, misc, ...rest } = runtimeSettings;
+  const settings = (bootstrapResult.settings ??= {});
+  settings.featureFlags = {
+    ...settings.featureFlags,
+    ...featureFlags,
+  };
+  settings.misc = {
+    ...settings.misc,
+    ...misc,
+  };
+  Object.assign(settings, rest);
+}
+
+const appRuntimeDataMap = new Map<
+  string,
+  Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void>
+>();
+
+export async function safeGetRuntimeMicroAppStandalone(
+  appId: string
+): Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void> {
+  if (appRuntimeDataMap.has(appId)) {
+    return appRuntimeDataMap.get(appId);
+  }
+  const promise = RuntimeApi_runtimeMicroAppStandalone(appId).catch((error) => {
+    // make it not crash when the backend service is not updated.
+    // eslint-disable-next-line no-console
+    console.warn(
+      "request standalone runtime api from micro-app-standalone failed: ",
+      error,
+      ", something might went wrong running standalone micro app"
+    );
+  });
+  appRuntimeDataMap.set(appId, promise);
+  return promise;
 }
 
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
@@ -70,7 +216,36 @@ async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
       $$fulfilled: true,
       $$fulfilling: null,
     });
-    // Todo: GetRuntimeMicroAppStandalone
+    if (!window.NO_AUTH_GUARD) {
+      let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void;
+      try {
+        // Note: the request maybe have fired already during bootstrap.
+        appRuntimeData = await safeGetRuntimeMicroAppStandalone(
+          storyboard.app.id
+        );
+      } catch (error) {
+        // make it not crash when the backend service is not updated.
+        // eslint-disable-next-line no-console
+        console.warn(
+          "request standalone runtime api from micro-app-standalone failed: ",
+          error,
+          ", something might went wrong running standalone micro app"
+        );
+      }
+      if (appRuntimeData) {
+        // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
+        storyboard.app.userConfig = {
+          ...storyboard.app.userConfig,
+          ...appRuntimeData.userConfig,
+        };
+
+        // get inject menus (Actually, appRuntimeData contains both main and inject menus)
+        storyboard.meta = {
+          ...storyboard.meta,
+          injectMenus: appRuntimeData.injectMenus as MenuRawData[],
+        };
+      }
+    }
   } else {
     const { routes, meta, app } = await BootstrapV2Api_getAppStoryboardV2(
       storyboard.app.id,
@@ -87,7 +262,9 @@ async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
 
   registerAppI18n(storyboard);
 
-  storyboard.app.config = deepFreeze(
-    merge({}, storyboard.app.defaultConfig, storyboard.app.userConfig)
-  );
+  initializeAppConfig(storyboard.app);
+}
+
+function initializeAppConfig(app: MicroApp) {
+  app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
 }

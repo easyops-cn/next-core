@@ -9,8 +9,6 @@ import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
 import { matchStoryboard } from "./matchStoryboard.js";
-import { ResolveOptions, resolveByProvider } from "./data/resolveData.js";
-import { getProviderBrick } from "./data/getProviderBrick.js";
 import { Router } from "./Router.js";
 import { loadCheckLogin } from "./loadCheckLogin.js";
 import { loadBootstrapData } from "./loadBootstrapData.js";
