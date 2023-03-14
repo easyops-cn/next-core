@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.19...@next-core/brick-icons@2.31.20) (2023-03-14)
+
+
+### Bug Fixes
+
+* expose src/icons for v3 usage ([c8195d0](https://github.com/easyops-cn/next-core/commit/c8195d0caf732a978b9f3593de454039c32aad46))
+
+
+
+
+
 ## [2.31.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.18...@next-core/brick-icons@2.31.19) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/brick-icons

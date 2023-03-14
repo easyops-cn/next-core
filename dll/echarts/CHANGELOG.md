@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.78](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.77...@next-dll/echarts@2.0.78) (2023-03-14)
+
+**Note:** Version bump only for package @next-dll/echarts
+
+
+
+
+
 ## [2.0.77](https://github.com/easyops-cn/next-core/compare/@next-dll/echarts@2.0.76...@next-dll/echarts@2.0.77) (2023-03-02)
 
 **Note:** Version bump only for package @next-dll/echarts

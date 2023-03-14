@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.6.5...@next-core/rollup-config-factory@2.7.0) (2023-03-14)
+
+
+### Features
+
+* support setting extra externals ([90c4356](https://github.com/easyops-cn/next-core/commit/90c4356f2484958857caba38fb9f85781b8667ab))
+
+
+
+
+
 ## [2.6.5](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.6.4...@next-core/rollup-config-factory@2.6.5) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/rollup-config-factory

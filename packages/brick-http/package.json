@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-http",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-http",
   "license": "GPL-3.0",
@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/rollup-config-factory": "^2.6.5",
+    "@next-core/rollup-config-factory": "^2.7.0",
     "whatwg-fetch": "^3.6.2"
   }
 }

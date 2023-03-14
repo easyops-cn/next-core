@@ -1,6 +1,6 @@
 {
   "name": "@next-dll/d3",
-  "version": "2.0.76",
+  "version": "2.0.77",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/d3",
   "license": "GPL-3.0",
@@ -27,7 +27,7 @@
     "d3-zoom": "^2.0.0"
   },
   "devDependencies": {
-    "@next-core/webpack-config-factory": "^2.19.6",
+    "@next-core/webpack-config-factory": "^2.20.0",
     "d3-drag": "^2.0.0",
     "d3-force": "^2.1.1",
     "d3-hierarchy": "^2.0.0",

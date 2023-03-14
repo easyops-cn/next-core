@@ -1,6 +1,6 @@
 {
   "name": "@next-core/fontawesome-library",
-  "version": "1.1.36",
+  "version": "1.1.37",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/easyops/fontawesome-library",
   "license": "GPL-3.0",
@@ -34,6 +34,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4"
   },
   "devDependencies": {
-    "@next-core/rollup-config-factory": "^2.6.5"
+    "@next-core/rollup-config-factory": "^2.7.0"
   }
 }
