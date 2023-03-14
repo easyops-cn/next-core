@@ -75,7 +75,7 @@ export function StoryboardFunctionRegistryFactory({
     },
   }) as ReadonlyStoryboardFunctions;
 
-  let currentApp: PartialMicroApp;
+  let currentApp: PartialMicroApp | undefined;
 
   function registerStoryboardFunctions(
     functions: StoryboardFunction[],
