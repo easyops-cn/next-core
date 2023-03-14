@@ -23,6 +23,13 @@ export function getMiddlewares(env) {
       path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/bootstrap.hash.json`,
       middleware: standaloneBootstrapJson(env, appId),
     });
+    middlewares.push({
+      path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/conf.yaml`,
+      middleware(req, res) {
+        res.status(204);
+        res.send();
+      },
+    });
   }
 
   if (!useRemote) {
@@ -33,6 +40,17 @@ export function getMiddlewares(env) {
     middlewares.push({
       path: `${baseHref}api/auth/v2/bootstrap`,
       middleware: bootstrapJson(env),
+    });
+    middlewares.push({
+      path: `${baseHref}api/v1/runtime_standalone`,
+      middleware(req, res) {
+        res.send({
+          code: 0,
+          data: {
+            settings: {},
+          },
+        });
+      },
     });
   }
 

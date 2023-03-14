@@ -9,8 +9,6 @@ import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
 import { matchStoryboard } from "./matchStoryboard.js";
-import { ResolveOptions, resolveByProvider } from "./data/resolveData.js";
-import { getProviderBrick } from "./data/getProviderBrick.js";
 import { Router } from "./Router.js";
 import { loadCheckLogin } from "./loadCheckLogin.js";
 import { loadBootstrapData } from "./loadBootstrapData.js";
@@ -143,8 +141,12 @@ export function _internalApiGetRuntimeContext() {
   return router.getRuntimeContext();
 }
 
-export function _internalApiGetAppInBootstrapData(appId: string) {
+export function _internalApiGetStoryboardInBootstrapData(appId: string) {
   return bootstrapData?.storyboards?.find(
     (storyboard) => storyboard.app.id === appId
-  )?.app;
+  );
+}
+
+export function _internalApiGetAppInBootstrapData(appId: string) {
+  return _internalApiGetStoryboardInBootstrapData(appId)?.app;
 }
