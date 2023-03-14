@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>编组 17</title>
-    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="组件巡检备份-2" transform="translate(-1.000000, -1.000000)" fill="#595959" fill-rule="nonzero">
-            <g id="编组-16" transform="translate(1.000000, 1.000000)">
+    <title>component-inspection-outlined</title>
+    <g id="component-inspection-outlined" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-17" transform="translate(-0.000000, -0.000000)" fill="#595959" fill-rule="nonzero">
+            <g id="编组-16">
                 <path d="M5.6,0 L5.6,5.6 L0,5.6 L0,0 L5.6,0 Z M4.399,1.2 L1.2,1.2 L1.2,4.399 L4.399,4.399 L4.399,1.2 Z" id="Rectangle-Copy-23"></path>
                 <path d="M5.6,8.4 L5.6,14 L0,14 L0,8.4 L5.6,8.4 Z M4.399,9.6 L1.2,9.6 L1.2,12.799 L4.399,12.799 L4.399,9.6 Z" id="Rectangle-Copy-25"></path>
                 <path d="M14,0 L14,5.6 L8.4,5.6 L8.4,0 L14,0 Z M12.799,1.2 L9.6,1.2 L9.6,4.399 L12.799,4.399 L12.799,1.2 Z" id="Rectangle-Copy-24"></path>

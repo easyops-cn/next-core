@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>User Info-third menu</title>
-    <g id="User-Info-third-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <title>user-Info-third-menu</title>
+    <g id="user-Info-third-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect id="矩形" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="16" height="16"></rect>
         <g id="图形" transform="translate(1.000000, 1.000000)">
             <path d="M5.68508374,0.6 C6.39646064,0.6 7.04048479,0.888340644 7.50666527,1.35452601 C7.97285057,1.82071622 8.26118811,2.4647537 8.26118811,3.17613774 C8.26118811,3.88751702 7.97285048,4.53155081 7.50666564,4.99773854 C7.04048499,5.46392207 6.3964607,5.75226174 5.68508374,5.75226174 C4.9737071,5.75226174 4.32967615,5.46391898 3.86348933,4.99773216 C3.3973025,4.53154533 3.10895975,3.88751438 3.10895975,3.17613774 C3.10895975,2.46475634 3.39730242,1.8207217 3.8634897,1.3545324 C4.32967635,0.888343734 4.97370716,0.6 5.68508374,0.6 Z" id="路径" stroke="#262626" stroke-width="1.2"></path>

@@ -4,8 +4,8 @@
     <g id="haproxy-second-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect id="矩形" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="20" height="20"></rect>
         <g id="haproxy" transform="translate(2.000000, 2.000000)">
-            <polygon id="背景" points="0 0 16 0 16 16 10.8820796 16 0 16"></polygon>
-            <g id="图形" transform="translate(0.380541, 0.253189)" fill="#57689C" fill-rule="nonzero" opacity="0.550000012">
+            <polygon id="背景" fill="#D8D8D8" opacity="0" points="0 0 16 0 16 16 10.8820796 16 0 16"></polygon>
+            <g id="图形" transform="translate(0.380541, 0.253189)" fill="#57689C" fill-rule="nonzero">
                 <rect id="矩形" x="6.54702703" y="9.04843243" width="2.51243243" height="2.51243243"></rect>
                 <rect id="矩形" x="4.03459459" y="6.536" width="2.51243243" height="2.51243243"></rect>
                 <rect id="矩形" x="6.54702703" y="4.02356757" width="2.51243243" height="2.51243243"></rect>
@@ -60,8 +60,8 @@
                 <rect id="矩形" x="3.55891892" y="1.24735135" width="1" height="1"></rect>
                 <rect id="矩形" x="2.70702703" y="1.83978378" width="1" height="1"></rect>
                 <rect id="矩形" x="4.48" y="0.758702703" width="1" height="1"></rect>
-                <rect id="矩形" x="6.44324324" y="0.153297297" width="1" height="1"></rect>
-                <rect id="矩形" x="5.40108108" y="0.356540541" width="1" height="1"></rect>
+                <rect id="矩形" opacity="0.550000012" x="6.44324324" y="0.153297297" width="1" height="1"></rect>
+                <rect id="矩形" opacity="0.550000012" x="5.40108108" y="0.356540541" width="1" height="1"></rect>
                 <rect id="矩形" transform="translate(15.277276, 9.217600) rotate(-180.000000) translate(-15.277276, -9.217600) " x="15.1259243" y="9.06624865" width="1" height="1"></rect>
                 <rect id="矩形" transform="translate(15.400086, 8.289859) rotate(-180.000000) translate(-15.400086, -8.289859) " x="15.2487351" y="8.13850811" width="1" height="1"></rect>
                 <rect id="矩形" transform="translate(14.546292, 11.213362) rotate(-180.000000) translate(-14.546292, -11.213362) " x="14.3949405" y="11.0620108" width="1" height="1"></rect>
@@ -81,9 +81,9 @@
                 <rect id="矩形" transform="translate(11.840130, 1.417686) rotate(-180.000000) translate(-11.840130, -1.417686) " x="11.6887784" y="1.26633514" width="1" height="1"></rect>
                 <rect id="矩形" transform="translate(12.696216, 2.010205) rotate(-180.000000) translate(-12.696216, -2.010205) " x="12.5448649" y="1.85885405" width="1" height="1"></rect>
                 <rect id="矩形" transform="translate(10.920605, 0.928000) rotate(-180.000000) translate(-10.920605, -0.928000) " x="10.7692541" y="0.776648649" width="1" height="1"></rect>
-                <rect id="矩形" transform="translate(8.964843, 0.302400) rotate(-180.000000) translate(-8.964843, -0.302400) " x="8.81349189" y="0.151048649" width="1" height="1"></rect>
-                <rect id="矩形" transform="translate(10.000043, 0.526011) rotate(-180.000000) translate(-10.000043, -0.526011) " x="9.84869189" y="0.374659459" width="1" height="1"></rect>
-                <rect id="矩形" transform="translate(7.803676, 0.151351) rotate(-180.000000) translate(-7.803676, -0.151351) " x="7.65232432" y="0" width="1" height="1"></rect>
+                <rect id="矩形" opacity="0.550000012" transform="translate(8.964843, 0.302400) rotate(-180.000000) translate(-8.964843, -0.302400) " x="8.81349189" y="0.151048649" width="1" height="1"></rect>
+                <rect id="矩形" opacity="0.550000012" transform="translate(10.000043, 0.526011) rotate(-180.000000) translate(-10.000043, -0.526011) " x="9.84869189" y="0.374659459" width="1" height="1"></rect>
+                <rect id="矩形" opacity="0.550000012" transform="translate(7.803676, 0.151351) rotate(-180.000000) translate(-7.803676, -0.151351) " x="7.65232432" y="0" width="1" height="1"></rect>
             </g>
         </g>
     </g>
