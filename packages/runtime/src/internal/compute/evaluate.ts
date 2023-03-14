@@ -29,6 +29,8 @@ import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
 import { collectGetMenuUsage, GetMenuUsage } from "./collectGetMenuUsage.js";
 import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
+import { widgetI18nFactory } from "./WidgetI18n.js";
+import { widgetImagesFactory } from "./images.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -303,7 +305,13 @@ function lowLevelEvaluate(
           case "HASH":
             globalVariables[variableName] = location.hash;
             break;
-          // case "INSTALLED_APPS":
+          case "INSTALLED_APPS":
+            globalVariables[variableName] = getReadOnlyProxy({
+              has() {
+                return true;
+              },
+            });
+            break;
           case "ITEM":
             if (!hasOwnProperty(runtimeContext, "forEachItem")) {
               if (process.env.NODE_ENV === "development") {
@@ -402,8 +410,12 @@ function lowLevelEvaluate(
           case "__WIDGET_FN__":
             globalVariables[variableName] = widgetFunctions;
             break;
-          // case "__WIDGET_IMG__":
-          // case "__WIDGET_I18N__":
+          case "__WIDGET_IMG__":
+            globalVariables[variableName] = widgetImagesFactory;
+            break;
+          case "__WIDGET_I18N__":
+            globalVariables[variableName] = widgetI18nFactory;
+            break;
         }
       }
 

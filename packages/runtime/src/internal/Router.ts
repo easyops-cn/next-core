@@ -4,7 +4,6 @@ import {
   loadProcessorsImperatively,
 } from "@next-core/loader";
 import type {
-  BreadcrumbConf,
   BreadcrumbItemConf,
   MicroApp,
   StaticMenuConf,

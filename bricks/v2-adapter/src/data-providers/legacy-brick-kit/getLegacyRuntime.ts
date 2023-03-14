@@ -4,6 +4,7 @@ import {
   getBasePath,
   getRuntime,
   registerWidgetFunctions,
+  registerWidgetI18n,
 } from "@next-core/runtime";
 import type { CustomTemplateConstructor, FeatureFlags } from "@next-core/types";
 import { registerLazyBricks } from "./LazyBrickRegistry.js";
@@ -40,6 +41,8 @@ export function getLegacyRuntime(): {
           return registerCustomProcessor;
         case "registerWidgetFunctions":
           return registerWidgetFunctions;
+        case "registerWidgetI18n":
+          return registerWidgetI18n;
         case "registerLazyBricks":
           return registerLazyBricks;
         case "getBasePath":

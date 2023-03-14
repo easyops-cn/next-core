@@ -124,6 +124,7 @@ src/bootstrap.ts
 - [x] Flow API
 - [x] Menu
 - [x] Breadcrumbs
+- [ ] INSTALLED_APPS
 - [ ] Widgets
 - [ ] WebSocket Message API
 - [ ] Form Renderer

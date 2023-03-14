@@ -1,8 +1,8 @@
 import { identity } from "lodash";
 import type { MicroApp } from "@next-core/types";
 import { i18n, i18nText } from "@next-core/i18n";
-// import { widgetI18nFactory } from "../core/WidgetI18n";
-// import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images";
+import { widgetI18nFactory } from "./WidgetI18n.js";
+import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images.js";
 import { checkPermissions } from "../checkPermissions.js";
 import { getReadOnlyProxy } from "../proxyFactories.js";
 import { getTheme } from "../../themeAndMode.js";
@@ -54,18 +54,18 @@ function getIndividualGlobal(
       return collectCoverage ? "/next" : getBasePath().replace(/\/$/, "");
     case "FN":
       return storyboardFunctions;
-    // case "IMG":
-    //   return collectCoverage
-    //     ? fakeImageFactory()
-    //     : widgetId
-    //     ? widgetImagesFactory(widgetId, widgetVersion)
-    //     : imagesFactory(app.id, app.isBuildPush);
+    case "IMG":
+      return collectCoverage
+        ? fakeImageFactory()
+        : widgetId
+        ? widgetImagesFactory(widgetId, widgetVersion)
+        : imagesFactory(app!.id, app!.isBuildPush);
     case "I18N":
       return collectCoverage
         ? identity
-        : // : widgetId
-          // ? widgetI18nFactory(widgetId)
-          i18n.getFixedT(
+        : widgetId
+        ? widgetI18nFactory(widgetId)
+        : i18n.getFixedT(
             null,
             [appendI18nNamespace, getI18nNamespace("app", app!.id)].filter(
               Boolean
@@ -105,13 +105,13 @@ function fakeI18nText(data: Record<string, string>): string {
   return data?.en;
 }
 
-// function fakeImageFactory(): ImagesFactory {
-//   return {
-//     get(name: string) {
-//       return `mock/images/${name}`;
-//     },
-//   };
-// }
+function fakeImageFactory(): ImagesFactory {
+  return {
+    get(name: string) {
+      return `mock/images/${name}`;
+    },
+  };
+}
 
 function fakeCheckPermissions(): boolean {
   return true;
