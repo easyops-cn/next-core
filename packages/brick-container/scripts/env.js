@@ -12,6 +12,7 @@ const cli = meow({
     },
     remote: {
       type: "boolean",
+      default: true,
     },
     localContainer: {
       type: "boolean",
