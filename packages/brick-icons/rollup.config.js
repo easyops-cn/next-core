@@ -3,6 +3,7 @@ import svgr from "@svgr/rollup";
 
 export default rollupFactory({
   disableUmd: true,
+  extraExternals: ["@next-core/brick-utils", "react"],
   plugins: [
     svgr({
       exclude: [

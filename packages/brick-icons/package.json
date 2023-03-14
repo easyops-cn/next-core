@@ -7,7 +7,8 @@
   "module": "dist/index.esm.js",
   "typings": "dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src/icons"
   ],
   "nx": {
     "targets": {
@@ -47,9 +48,5 @@
     "lodash": "^4.17.21",
     "prettier": "^2.8.1",
     "react": "^16.14.0"
-  },
-  "peerDependencies": {
-    "@next-core/brick-utils": "*",
-    "react": "*"
   }
 }
