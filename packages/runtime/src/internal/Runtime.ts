@@ -108,6 +108,10 @@ export class Runtime {
     const baseTitle = this.getBrandSettings().base_title;
     document.title = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
   }
+
+  getNavConfig() {
+    return router.getNavConfig();
+  }
 }
 
 export function _internalApiSetBootstrapData(data: Partial<BootstrapData>) {

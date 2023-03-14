@@ -122,7 +122,8 @@ src/bootstrap.ts
 - [x] API SDK
 - [x] I18n
 - [x] Flow API
-- [ ] Menu
+- [x] Menu
+- [x] Breadcrumbs
 - [ ] Widgets
 - [ ] WebSocket Message API
 - [ ] Form Renderer

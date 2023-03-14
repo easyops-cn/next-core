@@ -55,6 +55,7 @@
     "@next-core/test-next": "^0.0.0",
     "@next-dll/ace": "^2.0.584",
     "@next-dll/d3": "^2.0.76",
+    "@next-dll/echarts": "^2.0.77",
     "@next-dll/editor-bricks-helper": "^0.34.52",
     "@next-dll/react-dnd": "^0.1.522"
   }
