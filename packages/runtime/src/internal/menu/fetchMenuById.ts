@@ -8,6 +8,7 @@ import type { MenuRawData } from "./interfaces.js";
 import { checkIfOfComputed } from "../compute/checkIf.js";
 import { computeMenuItems, computeMenuData } from "./computeMenuData.js";
 import { fetchMenuTitle } from "./fetchMenuTitle.js";
+import { getMenusOfStandaloneApp } from "./getMenusOfStandaloneApp.js";
 
 const menuPromises = new Map<string, Promise<void>>();
 
@@ -26,47 +27,41 @@ export function fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
 }
 
 async function _fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
-  if (window.STANDALONE_MICRO_APPS) {
-    // throw new Error("Fetch menu in standalone micro-apps is not supported yet");
-    menuCache.set(menuId, {
-      title: "Fetch menu in standalone micro-apps is not supported yet",
-    });
-    return;
-  }
-
-  const menuList = (
-    await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
-      page: 1,
-      page_size: 200,
-      fields: {
-        menuId: true,
-        title: true,
-        icon: true,
-        link: true,
-        titleDataSource: true,
-        defaultCollapsed: true,
-        defaultCollapsedBreakpoint: true,
-        type: true,
-        injectMenuGroupId: true,
-        dynamicItems: true,
-        itemsResolve: true,
-        items: true,
-        i18n: true,
-        "items.children": true,
-        "app.appId": true,
-      },
-      query: {
-        menuId: {
-          $eq: menuId,
-        },
-        app: {
-          $size: {
-            $gt: 0,
+  const menuList = window.STANDALONE_MICRO_APPS
+    ? getMenusOfStandaloneApp(menuId, runtimeContext.app.id)
+    : ((
+        await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
+          page: 1,
+          page_size: 200,
+          fields: {
+            menuId: true,
+            title: true,
+            icon: true,
+            link: true,
+            titleDataSource: true,
+            defaultCollapsed: true,
+            defaultCollapsedBreakpoint: true,
+            type: true,
+            injectMenuGroupId: true,
+            dynamicItems: true,
+            itemsResolve: true,
+            items: true,
+            i18n: true,
+            "items.children": true,
+            "app.appId": true,
           },
-        },
-      },
-    })
-  ).list as MenuRawData[];
+          query: {
+            menuId: {
+              $eq: menuId,
+            },
+            app: {
+              $size: {
+                $gt: 0,
+              },
+            },
+          },
+        })
+      ).list as MenuRawData[]);
 
   const menuData = await mergeMenu(menuList, runtimeContext);
   if (!menuData) {
@@ -87,15 +82,13 @@ async function _fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
   delete newRuntimeContext.forEachItem;
   const rootAppId = app[0].appId;
 
-  const [computedMenuTitle, computedMenuData, computedMenuItems] =
-    await Promise.all([
-      fetchMenuTitle(restMenuData),
-      computeMenuData(restMenuData, rootAppId, newRuntimeContext),
-      computeMenuItems(items, newRuntimeContext),
-    ]);
+  const [computedMenuData, computedMenuItems] = await Promise.all([
+    computeMenuData(restMenuData, rootAppId, newRuntimeContext),
+    computeMenuItems(items, newRuntimeContext),
+  ]);
 
   const finalMenuData = {
-    title: computedMenuTitle,
+    title: await fetchMenuTitle(computedMenuData),
     ...pick(computedMenuData, [
       "icon",
       "link",

@@ -141,8 +141,12 @@ export function _internalApiGetRuntimeContext() {
   return router.getRuntimeContext();
 }
 
-export function _internalApiGetAppInBootstrapData(appId: string) {
+export function _internalApiGetStoryboardInBootstrapData(appId: string) {
   return bootstrapData?.storyboards?.find(
     (storyboard) => storyboard.app.id === appId
-  )?.app;
+  );
+}
+
+export function _internalApiGetAppInBootstrapData(appId: string) {
+  return _internalApiGetStoryboardInBootstrapData(appId)?.app;
 }
