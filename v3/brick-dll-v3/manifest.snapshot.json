@@ -3590,10 +3590,7 @@
     },
     "./node_modules/@easyops/brick-icons/dist/index.esm.js": {
       "id": "AE1K",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["BrickIcon", "iconsByCategory"]
-      }
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/TrademarkOutlined.js": {
       "id": "AIvW",
