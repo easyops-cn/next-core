@@ -11154,10 +11154,6 @@
       "id": "UR8F",
       "buildMeta": { "providedExports": true }
     },
-    "./node_modules/timers-browserify/main.js": {
-      "id": "URgk",
-      "buildMeta": { "providedExports": true }
-    },
     "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldLooseBase.js": {
       "id": "USLQ",
       "buildMeta": {
@@ -12322,10 +12318,6 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
-    },
-    "./node_modules/setimmediate/setImmediate.js": {
-      "id": "YBdB",
-      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/MinusSquareTwoTone.js": {
       "id": "YCd8",
