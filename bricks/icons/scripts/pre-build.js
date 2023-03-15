@@ -45,7 +45,7 @@ const tasks = [];
         list.map((item) => {
           // 目前验证阶段先只构建默认分类的图标，以便提升构建速率。
           if (
-            // process.env.ALL_ICONS &&
+            process.env.ALL_ICONS &&
             item.isDirectory() &&
             /\w/.test(item.name)
           ) {
