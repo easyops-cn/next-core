@@ -14,7 +14,7 @@ import {
 } from "@next-core/loader";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { debounce } from "lodash";
-import { checkBrickIf } from "./compute/checkIf.js";
+import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
@@ -207,7 +207,7 @@ export async function renderBrick(
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
   }
 
-  if (!(await checkBrickIf(brickConf, runtimeContext))) {
+  if (!(await asyncCheckBrickIf(brickConf, runtimeContext))) {
     return output;
   }
 
