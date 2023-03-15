@@ -1,0 +1,28 @@
+.tab-item {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  color: var(--antd-tabs-title-color);
+  height: 100%;
+  font-size: 16px;
+  /* margin-right: 24px; */
+  padding: 10px 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tab-item-icon {
+  font-size: 14px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.tab-item[aria-selected="true"] {
+  color: var(--antd-tabs-title-selected-color);
+  font-weight: var(--font-weight-500);
+}
+
+.tab-item.disabled {
+  color: var(--antd-tabs-title-disabled-color);
+  cursor: not-allowed;
+}
