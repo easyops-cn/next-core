@@ -1,7 +1,6 @@
 import React, { CSSProperties } from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
-import styleText from "../button/button.shadow.css";
 
 export interface TextProps {
   color?: CSSProperties["color"];
@@ -21,9 +20,7 @@ const { defineElement, property } = createDecorators();
  * @author astrid
  * @noInheritDoc
  */
-@defineElement("basic.general-text", {
-  styleTexts: [styleText],
-})
+@defineElement("basic.general-text")
 class Text extends ReactNextElement implements TextProps {
   /**
    * @default 14px
