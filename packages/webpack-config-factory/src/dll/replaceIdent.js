@@ -32,6 +32,10 @@ function replaceIdent(ident) {
     .replace(
       "/node_modules/@next-core/i18next-v3/index.esm.js",
       "/node_modules/i18next/dist/esm/i18next.js"
+    )
+    .replace(
+      "/node_modules/@next-core/react-fontawesome-v3/index.esm.js",
+      "/node_modules/@fortawesome/react-fontawesome/index.es.js"
     );
 }
 

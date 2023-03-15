@@ -2675,25 +2675,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js": {
-      "id": "7O5W",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "icon",
-          "noAuto",
-          "config",
-          "toHtml",
-          "layer",
-          "text",
-          "counter",
-          "library",
-          "dom",
-          "parse",
-          "findIconDefinition"
-        ]
-      }
-    },
     "./node_modules/@ant-design/icons/es/icons/ItalicOutlined.js": {
       "id": "7SyW",
       "buildMeta": {
@@ -3311,13 +3292,6 @@
     "./node_modules/rc-form/node_modules/async-validator/es/index.js": {
       "id": "9Q1S",
       "buildMeta": { "providedExports": true }
-    },
-    "./node_modules/@easyops/fontawesome-library/dist/index.esm.js": {
-      "id": "9RIe",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["fab", "fas", "initializeLibrary"]
-      }
     },
     "./node_modules/@ant-design/icons/es/icons/SlidersFilled.js": {
       "id": "9VIx",
@@ -6877,10 +6851,7 @@
     },
     "./node_modules/@fortawesome/react-fontawesome/index.es.js": {
       "id": "IP2g",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["FontAwesomeIcon"]
-      }
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/YahooFilled.js": {
       "id": "IPt3",
