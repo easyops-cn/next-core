@@ -50,6 +50,7 @@
     "@next-core/types": "^0.0.0",
     "@next-core/utils": "^0.0.0",
     "@ungap/event-target": "^0.2.3",
+    "compare-versions": "^5.0.3",
     "history": "^4.10.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

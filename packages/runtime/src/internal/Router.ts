@@ -46,6 +46,7 @@ import {
 } from "./data/CollectContracts.js";
 import { fulfilStoryboard } from "./loadBootstrapData.js";
 import { RenderTag } from "./enums.js";
+import { preCheckInstalledApps } from "./checkInstalledApps.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -295,6 +296,8 @@ export class Router {
     };
 
     if (currentApp) {
+      preCheckInstalledApps(storyboard);
+
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,

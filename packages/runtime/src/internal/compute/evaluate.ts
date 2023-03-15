@@ -27,10 +27,15 @@ import { getBrickPackages, getRuntime } from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
-import { collectGetMenuUsage, GetMenuUsage } from "./collectGetMenuUsage.js";
+import {
+  collectAppGetMenuUsage,
+  collectInstalledAppsHasUsage,
+  MemberCallUsage,
+} from "./collectMemberCallUsage.js";
 import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { widgetImagesFactory } from "./images.js";
+import { hasInstalledApp, waitForCheckingApps } from "../checkInstalledApps.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -129,9 +134,11 @@ function lowLevelEvaluate(
   }
 
   // Collect `APP.getMenu(...)` usage before evaluating.
-  const menuUsage: GetMenuUsage = {
-    usedMenuIds: new Set(),
-    hasNonStaticUsage: false,
+  const menuUsage: MemberCallUsage = {
+    usedArgs: new Set(),
+  };
+  const hasAppUsage: MemberCallUsage = {
+    usedArgs: new Set(),
   };
 
   // A `SyntaxError` maybe thrown.
@@ -141,7 +148,8 @@ function lowLevelEvaluate(
       withParent: true,
       hooks: {
         beforeVisitGlobal(node, parent) {
-          collectGetMenuUsage(menuUsage, node, parent!);
+          collectAppGetMenuUsage(menuUsage, node, parent!);
+          collectInstalledAppsHasUsage(hasAppUsage, node, parent!);
         },
       },
     });
@@ -163,6 +171,12 @@ function lowLevelEvaluate(
   if (menuUsage.hasNonStaticUsage) {
     throw new Error(
       `Non-static usage of "APP.getMenu" is not supported in v3, check your expression: "${raw}"`
+    );
+  }
+
+  if (hasAppUsage.hasNonStaticUsage) {
+    throw new Error(
+      `Non-static usage of "INSTALLED_APPS.has" is not supported in v3, check your expression: "${raw}"`
     );
   }
 
@@ -239,14 +253,19 @@ function lowLevelEvaluate(
       blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
     }
 
-    if (menuUsage.usedMenuIds.size > 0) {
+    if (menuUsage.usedArgs.size > 0) {
       // Block evaluating if has `APP.getMenu(...)` usage.
-      const usedMenuIds = [...menuUsage.usedMenuIds];
+      const usedMenuIds = [...menuUsage.usedArgs];
       blockingList.push(
         Promise.all(
           usedMenuIds.map((menuId) => fetchMenuById(menuId, runtimeContext))
         )
       );
+    }
+
+    if (hasAppUsage.usedArgs.size > 0) {
+      // Only wait for specific apps
+      blockingList.push(waitForCheckingApps([...hasAppUsage.usedArgs]));
     }
   }
 
@@ -307,9 +326,7 @@ function lowLevelEvaluate(
             break;
           case "INSTALLED_APPS":
             globalVariables[variableName] = getReadOnlyProxy({
-              has() {
-                return true;
-              },
+              has: hasInstalledApp,
             });
             break;
           case "ITEM":
