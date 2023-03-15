@@ -45,7 +45,7 @@ const tasks = [];
         list.map((item) => {
           // 目前验证阶段先只构建默认分类的图标，以便提升构建速率。
           if (
-            process.env.ALL_ICONS &&
+            // process.env.ALL_ICONS &&
             item.isDirectory() &&
             /\w/.test(item.name)
           ) {
@@ -99,11 +99,11 @@ const tasks = [];
   );
 
   const iconCategories = {
-    regular: far,
+    far,
     // 目前验证阶段先只构建 Regular 分类的图标，以便提升构建速率。
     ...(process.env.ALL_ICONS && {
-      solid: fas,
-      brands: fab,
+      fas,
+      fab,
     }),
   };
   const aliasMapByCategory = {};
