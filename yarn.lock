@@ -4443,6 +4443,11 @@ compare-func@^2.0.0:
     array-ify "^1.0.0"
     dot-prop "^5.1.0"
 
+compare-versions@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/compare-versions/-/compare-versions-5.0.3.tgz#a9b34fea217472650ef4a2651d905f42c28ebfd7"
+  integrity sha512-4UZlZP8Z99MGEY+Ovg/uJxJuvoXuN4M6B3hKaiackiHrgzQFEe3diJi1mf1PNHbFujM7FvLrK2bpgIaImbtZ1A==
+
 compressible@~2.0.16:
   version "2.0.16"
   resolved "https://registry.npmjs.org/compressible/-/compressible-2.0.16.tgz"
