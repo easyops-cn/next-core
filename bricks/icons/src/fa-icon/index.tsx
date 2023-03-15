@@ -34,7 +34,7 @@ class FaIcon extends ReactNextElement implements FaIconProps {
 }
 
 function FaIconComponent({ prefix: _prefix, icon, spin }: FaIconProps) {
-  const prefix = _prefix ?? "solid";
+  const prefix = _prefix ?? "fas";
   const [iconDefinition, setIconDefinition] = useState<IconDefinition | null>(
     null
   );

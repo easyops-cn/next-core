@@ -50,7 +50,7 @@ export function checkIfOfComputed(ifContainer: IfContainer): boolean {
   return !hasOwnProperty(ifContainer, "if") || !!ifContainer.if;
 }
 
-export async function checkBrickIf(
+export async function asyncCheckBrickIf(
   brickConf: BrickConf,
   runtimeContext: RuntimeContext
 ): Promise<boolean> {
@@ -64,9 +64,6 @@ export async function checkBrickIf(
   return asyncCheckIf(brickConf, runtimeContext);
 }
 
-export async function checkIfByTransform(
-  ifContainer: IfContainer,
-  data: unknown
-) {
+export function checkIfByTransform(ifContainer: IfContainer, data: unknown) {
   return checkIf(ifContainer, { data } as RuntimeContext);
 }
