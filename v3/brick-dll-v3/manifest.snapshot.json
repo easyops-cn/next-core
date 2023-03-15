@@ -3293,6 +3293,10 @@
       "id": "9Q1S",
       "buildMeta": { "providedExports": true }
     },
+    "./node_modules/@easyops/fontawesome-library/dist/index.esm.js": {
+      "id": "9RIe",
+      "buildMeta": { "providedExports": true }
+    },
     "./node_modules/@ant-design/icons/es/icons/SlidersFilled.js": {
       "id": "9VIx",
       "buildMeta": {

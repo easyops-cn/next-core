@@ -14,6 +14,10 @@ function replaceIdent(ident) {
       "@next-core/brick-icons/dist/index.esm.js"
     )
     .replace(
+      "@next-core/fontawesome-library-v3/index.esm.js",
+      "@next-core/fontawesome-library/dist/index.esm.js"
+    )
+    .replace(
       "/node_modules/@next-core/history-v3/index.esm.js",
       "/node_modules/history/esm/history.js"
     )
