@@ -46,7 +46,8 @@ interface DLL {
 
 const MAIN_KEY = "";
 const ICONS_KEY = "_icons";
-const ICONS_BRICK = "icons.easyops-icon";
+const EASYOPS_ICON_BRICK = "icons.easyops-icon";
+const FA_ICON_BRICK = "icons.fa-icon";
 
 export async function loadBricks(
   adapterPkgFilePath: string,
@@ -58,7 +59,10 @@ export async function loadBricks(
   let iconsPromise = dllPromises.get(ICONS_KEY);
   if (!iconsPromise) {
     // Load the icon brick, but do not wait for it.
-    iconsPromise = loadBricksImperatively([ICONS_BRICK], brickPackages);
+    iconsPromise = loadBricksImperatively(
+      [EASYOPS_ICON_BRICK, FA_ICON_BRICK],
+      brickPackages
+    );
     dllPromises.set(ICONS_KEY, iconsPromise);
   }
   let mainPromise = dllPromises.get(MAIN_KEY);
@@ -125,14 +129,12 @@ async function loadMainDll(adapterPkgFilePath: string) {
   const LegacyBrickIcons = dll("AE1K");
   const LegacyHistory = dll("LhCv");
   const LegacyJsYaml = dll("ZR4k");
-  const LegacyFontAwesome = dll("9RIe");
+  const LegacyReactFontAwesome = dll("IP2g");
   const LegacyLodash = dll("LvDl");
   const LegacyMoment = dll("wd/R");
   const LegacyAntd = dll("gdfu");
   const antdLocaleEnUS = dll("D7Yy");
   const { antdLocaleZhCN } = LegacyBrickKit;
-
-  LegacyFontAwesome.initializeLibrary();
 
   defineModule(LegacyI18next, {
     default: i18n,
@@ -152,10 +154,27 @@ async function loadMainDll(adapterPkgFilePath: string) {
 
   defineModule(LegacyBrickIcons, {
     BrickIcon({ category, icon }: EasyOpsIconProps) {
-      return LegacyReact.createElement(ICONS_BRICK, {
+      return LegacyReact.createElement(EASYOPS_ICON_BRICK, {
         category,
         icon,
       });
+    },
+    iconsByCategory: {},
+  });
+
+  defineModule(LegacyReactFontAwesome, {
+    FontAwesomeIcon({ icon }: { icon: [string, string] | string }) {
+      return LegacyReact.createElement(
+        FA_ICON_BRICK,
+        Array.isArray(icon)
+          ? {
+              prefix: icon[0],
+              icon: icon[1],
+            }
+          : {
+              icon,
+            }
+      );
     },
   });
 
