@@ -40,13 +40,12 @@ jobs:
 
     - name: Cache for yarn
       uses: actions/cache@v3
-      id: yarn-cache
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: node-cache-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        key: node-cache-${{ runner.os }}-yarn-master-${{ hashFiles('yarn.lock') }}
         restore-keys: |
-          node-cache-${{ runner.os }}-yarn-
-      if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
+          node-cache-${{ runner.os }}-yarn-master-
+      if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
 
     - name: Get week number
       id: week-number
@@ -55,23 +54,21 @@ jobs:
 
     - name: Cache for yarn (next)
       uses: actions/cache@v3
-      id: yarn-cache-next
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: node-cache-${{ runner.os }}-yarn-next-${{ steps.week-number.outputs.num }}
         restore-keys: |
           node-cache-${{ runner.os }}-yarn-next-
-          node-cache-${{ runner.os }}-yarn-
       if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
 
     - name: Cache for nx
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-nx-master-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx-
-      if: (github.event_name == 'pull_request' && github.base_ref != 'next') || (github.event_name == 'push' && github.ref_name != 'next')
+          ${{ runner.os }}-nx-master-
+      if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
 
     - name: Cache for npx
       uses: actions/cache@v3
