@@ -66,6 +66,9 @@ meta:
 routes:
 
 - path: '${APP.homepage}/use-brick'
+  context:
+  - name: stage
+    value: 1
   bricks:
   - brick: tpl-a
   - brick: e2e.list-by-use-brick
@@ -76,14 +79,43 @@ routes:
         brick: tpl-a
         properties:
           z: '<% DATA %>'
+  - brick: e2e.list-by-use-brick
+    properties:
+      id: my-list-2
+      data: [7, 8]
+      useBrick:
+        if: '<% DATA !== 0  %>'
+        brick: div
+        children:
+        - brick: tpl-modal
+          portal: true
+          properties:
+            m: '<% `S:${DATA}` %>'
   - brick: div
     properties:
       textContent: Reset
     events:
       click:
-        target: '#my-list'
+      - target: '#my-list'
         properties:
-          data: [5, 6]
+          data: |
+            <%
+              CTX.stage === 1
+                ? [3, 5]
+                : [4]
+            %>
+      - target: '#my-list-2'
+        properties:
+          data: |
+            <%
+              CTX.stage === 1
+                ? [7, 9]
+                : [8, 0]
+            %>
+      - action: context.replace
+        args:
+        - stage
+        - '<% CTX.stage + 1 %>'
 
 - path: '${APP.homepage}/control-nodes/1'
   bricks:
