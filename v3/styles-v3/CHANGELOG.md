@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.13...@next-core/styles-v3@0.2.14) (2023-03-16)
+
+
+### Bug Fixes
+
+* notification圆角调整 ([063fe3d](https://github.com/easyops-cn/next-core/commit/063fe3dda494bc69a36718525478bcff70231699))
+
+
+
+
+
 ## [0.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.12...@next-core/styles-v3@0.2.13) (2023-03-16)
 
 **Note:** Version bump only for package @next-core/styles-v3
