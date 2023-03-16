@@ -36,43 +36,67 @@ const tasks = [];
   }
   mkdirSync(newEasyOpsIconsPath);
 
+  const allIcons = {
+    default: [],
+  };
+
   const newDefaultCategoryDir = path.resolve(newEasyOpsIconsPath, "default");
   mkdirSync(newDefaultCategoryDir);
 
   tasks.push(
-    readdir(legacyEasyOpsIconsPath, { withFileTypes: true }).then((list) =>
-      Promise.all(
-        list.map((item) => {
-          // 目前验证阶段先只构建默认分类的图标，以便提升构建速率。
-          if (
-            process.env.ALL_ICONS &&
-            item.isDirectory() &&
-            /\w/.test(item.name)
-          ) {
-            const categoryDir = path.resolve(legacyEasyOpsIconsPath, item.name);
-            const newCategoryDir = path.resolve(newEasyOpsIconsPath, item.name);
-            if (!existsSync(newCategoryDir)) {
-              mkdirSync(newCategoryDir);
+    readdir(legacyEasyOpsIconsPath, { withFileTypes: true })
+      .then((list) =>
+        Promise.all(
+          list.map((item) => {
+            // 目前验证阶段先只构建默认分类的图标，以便提升构建速率。
+            if (
+              process.env.ALL_ICONS &&
+              item.isDirectory() &&
+              /\w/.test(item.name)
+            ) {
+              const categoryDir = path.resolve(
+                legacyEasyOpsIconsPath,
+                item.name
+              );
+              const newCategoryDir = path.resolve(
+                newEasyOpsIconsPath,
+                item.name
+              );
+              if (!existsSync(newCategoryDir)) {
+                mkdirSync(newCategoryDir);
+                allIcons[item.name] = [];
+              }
+              return readdir(categoryDir).then((icons) =>
+                icons
+                  .filter((icon) => icon.endsWith(".svg"))
+                  .map((icon) => {
+                    allIcons[item.name].push(
+                      icon.substring(0, icon.length - 4)
+                    );
+                    return copyFile(
+                      path.resolve(categoryDir, icon),
+                      path.resolve(newCategoryDir, icon)
+                    );
+                  })
+              );
+            } else if (item.name.endsWith(".svg")) {
+              allIcons.default.push(
+                item.name.substring(0, item.name.length - 4)
+              );
+              return copyFile(
+                path.resolve(legacyEasyOpsIconsPath, item.name),
+                path.resolve(newDefaultCategoryDir, item.name)
+              );
             }
-            return readdir(categoryDir).then((icons) =>
-              icons
-                .filter((icon) => icon.endsWith(".svg"))
-                .map((icon) =>
-                  copyFile(
-                    path.resolve(categoryDir, icon),
-                    path.resolve(newCategoryDir, icon)
-                  )
-                )
-            );
-          } else if (item.name.endsWith(".svg")) {
-            return copyFile(
-              path.resolve(legacyEasyOpsIconsPath, item.name),
-              path.resolve(newDefaultCategoryDir, item.name)
-            );
-          }
-        })
+          })
+        )
       )
-    )
+      .then(() =>
+        writeFile(
+          path.resolve(newEasyOpsIconsPath, "icons.json"),
+          JSON.stringify(allIcons)
+        )
+      )
   );
 }
 
@@ -107,9 +131,11 @@ const tasks = [];
     }),
   };
   const aliasMapByCategory = {};
+  const allIcons = {};
 
   for (const category of Object.keys(iconCategories)) {
     mkdirSync(path.resolve(iconsDir, category));
+    allIcons[category] = [];
   }
 
   for (const [category, pack] of Object.entries(iconCategories)) {
@@ -119,7 +145,9 @@ const tasks = [];
         const aliases = item.icon[2].filter(
           (alias) => typeof alias === "string"
         );
+        allIcons[category].push(item.iconName);
         for (const alias of aliases) {
+          allIcons[category].push(alias);
           aliasMap[alias] = item.iconName;
         }
         return writeFile(
@@ -136,6 +164,13 @@ const tasks = [];
     writeFile(
       path.resolve(generatedDir, "alias.json"),
       JSON.stringify(aliasMapByCategory)
+    )
+  );
+
+  tasks.push(
+    writeFile(
+      path.resolve(generatedDir, "icons.json"),
+      JSON.stringify(allIcons)
     )
   );
 }

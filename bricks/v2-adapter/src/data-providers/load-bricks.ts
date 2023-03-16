@@ -44,10 +44,23 @@ interface DLL {
   (moduleId: string): any;
 }
 
+interface IconsByCategory {
+  [category: string]: string[];
+}
+
+interface IconsResolver {
+  resolve(): Promise<IconsByCategory>;
+}
+
 const MAIN_KEY = "";
 const ICONS_KEY = "_icons";
 const EASYOPS_ICON_BRICK = "icons.easyops-icon";
 const FA_ICON_BRICK = "icons.fa-icon";
+const GET_EASYOPS_ICONS = "icons.get-easyops-icons";
+const GET_FA_ICONS = "icons.get-fa-icons";
+
+let easyopsIcons: IconsByCategory = {};
+let faIcons: IconsByCategory = {};
 
 export async function loadBricks(
   adapterPkgFilePath: string,
@@ -56,13 +69,21 @@ export async function loadBricks(
   dlls: string[] | undefined,
   brickPackages: BrickPackage[]
 ) {
-  let iconsPromise = dllPromises.get(ICONS_KEY);
-  if (!iconsPromise) {
+  if (!dllPromises.has(ICONS_KEY)) {
     // Load the icon brick, but do not wait for it.
-    iconsPromise = loadBricksImperatively(
-      [EASYOPS_ICON_BRICK, FA_ICON_BRICK],
+    const iconsPromise = loadBricksImperatively(
+      [EASYOPS_ICON_BRICK, FA_ICON_BRICK, GET_EASYOPS_ICONS, GET_FA_ICONS],
       brickPackages
-    );
+    ).then(async () => {
+      [easyopsIcons, faIcons] = await Promise.all([
+        (
+          document.createElement(GET_EASYOPS_ICONS) as unknown as IconsResolver
+        ).resolve(),
+        (
+          document.createElement(GET_FA_ICONS) as unknown as IconsResolver
+        ).resolve(),
+      ]);
+    });
     dllPromises.set(ICONS_KEY, iconsPromise);
   }
   let mainPromise = dllPromises.get(MAIN_KEY);
@@ -74,7 +95,6 @@ export async function loadBricks(
   await loadDlls(adapterPkgFilePath, dlls);
   await loadScript(brickPkgFilePath, window.PUBLIC_ROOT ?? "");
   await loadLazyBricks(bricks);
-  await iconsPromise;
 }
 
 async function loadDlls(adapterPkgFilePath: string, dlls?: string[]) {
@@ -118,6 +138,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
   import("@next-core/styles-v3");
 
   await doLoadDll(adapterPkgFilePath, "");
+  await dllPromises.get(ICONS_KEY);
 
   const dll = (window as unknown as { dll: DLL }).dll;
 
@@ -130,6 +151,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
   const LegacyHistory = dll("LhCv");
   const LegacyJsYaml = dll("ZR4k");
   const LegacyReactFontAwesome = dll("IP2g");
+  const LegacyFontAwesomeLibrary = dll("9RIe");
   const LegacyLodash = dll("LvDl");
   const LegacyMoment = dll("wd/R");
   const LegacyAntd = dll("gdfu");
@@ -159,7 +181,7 @@ async function loadMainDll(adapterPkgFilePath: string) {
         icon,
       });
     },
-    iconsByCategory: {},
+    iconsByCategory: easyopsIcons,
   });
 
   defineModule(LegacyReactFontAwesome, {
@@ -177,6 +199,21 @@ async function loadMainDll(adapterPkgFilePath: string) {
       );
     },
   });
+
+  defineModule(
+    LegacyFontAwesomeLibrary,
+    Object.fromEntries(
+      ["fas", "fab"].map((prefix) => [
+        prefix,
+        Object.fromEntries(
+          (faIcons[prefix] ?? []).map((iconName) => [
+            `${prefix}-${iconName}`,
+            { prefix, iconName },
+          ])
+        ),
+      ])
+    )
+  );
 
   defineModule(LegacyBrickKit, {
     getRuntime: getLegacyRuntime,
