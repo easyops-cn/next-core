@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <containers.tab-list id="tab1" active-panel="编辑">
+      <div slot="创建">Panel Create</div>
+      <div slot="编辑">Panel Edit</div>
+      <div slot="删除">Panel Delete</div>
+      <div slot="查询">Panel Query</div>
+      <div slot="设置">Panel Setting</div>
+      <div slot="extra">
+        <basic.general-button>Extra Button</basic.general-button>
+      </div>
+    </containers.tab-list>
+  </body>
+  <script>
+    const tab2 = document.getElementById("tab1");
+
+    tab2.tabs = [
+      {
+        text: "创建",
+        panel: "创建",
+      },
+      {
+        text: "编辑",
+        panel: "编辑",
+        icon: {
+          lib: "antd",
+          icon: "edit",
+          theme: "filled",
+        },
+      },
+      {
+        text: "删除",
+        panel: "删除",
+        disabled: true,
+      },
+      {
+        text: "查询",
+        panel: "查询",
+        hidden: true,
+      },
+      "设置",
+    ];
+  </script>
+</html>

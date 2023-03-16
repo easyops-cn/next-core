@@ -1,0 +1,27 @@
+.tab-wrapper {
+  border-radius: 6px;
+}
+
+.tab-wrapper.show-card {
+  background: var(--antd-tabs-title-wrapper-bg);
+  box-shadow: var(--antd-tabs-shadow);
+}
+
+.tab-nav {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--antd-tabs-title-border-color);
+}
+
+.tab-item-wrapper {
+  display: flex;
+  overflow: auto;
+  margin-right: 12px;
+}
+
+.content {
+  padding: 16px var(--page-card-gap);
+}
