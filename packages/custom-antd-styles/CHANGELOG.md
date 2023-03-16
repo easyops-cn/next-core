@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.19](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.18...@next-core/custom-antd-styles@1.25.19) (2023-03-16)
+
+
+### Bug Fixes
+
+* BRICK_STORE-3314 【8.2升级】部分遗漏组件的圆角调整 ([e85a9ea](https://github.com/easyops-cn/next-core/commit/e85a9eac7e70d6c291f7836fb2857bd090050b0f))
+
+
+
+
+
 ## [1.25.18](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.17...@next-core/custom-antd-styles@1.25.18) (2023-03-09)
 
 
