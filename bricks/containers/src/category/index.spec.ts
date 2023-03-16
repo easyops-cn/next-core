@@ -11,7 +11,7 @@ describe("containers.general-category", () => {
     const element = document.createElement(
       "containers.general-category"
     ) as Category;
-    element.category = [
+    element.categories = [
       {
         title: "item1",
         key: "item1",

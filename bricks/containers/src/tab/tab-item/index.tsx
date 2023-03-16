@@ -8,11 +8,11 @@ import type {
   GeneralIconProps,
 } from "@next-bricks/icons/general-icon";
 
-const { defineElement, property, event } = createDecorators();
+const { defineElement, property } = createDecorators();
 
 export interface TabItemProps {
-  text: string;
-  key: string;
+  text?: string;
+  panel: string;
   icon?: GeneralIconProps;
   disabled?: boolean;
   hidden?: boolean;
@@ -34,27 +34,19 @@ const WrappedIcon = wrapBrick<GeneralIcon, GeneralIconProps>(
 @defineElement("containers.tab-item", {
   styleTexts: [styleText],
 })
-class TabItem extends ReactNextElement implements TabItemProps {
+class TabItem extends ReactNextElement {
   /**
    * @default
    * @required
-   * @description
+   * @description 面板名称
    */
   @property()
-  accessor text: string;
+  accessor panel: string;
 
   /**
    * @default
    * @required
-   * @description
-   */
-  @property()
-  accessor key: string;
-
-  /**
-   * @default
-   * @required
-   * @description
+   * @description 图标
    */
   @property({
     attribute: false,
@@ -64,7 +56,7 @@ class TabItem extends ReactNextElement implements TabItemProps {
   /**
    * @default
    * @required
-   * @description
+   * @description 是否禁用
    */
   @property({
     type: Boolean,
@@ -74,7 +66,7 @@ class TabItem extends ReactNextElement implements TabItemProps {
   /**
    * @default
    * @required
-   * @description
+   * @description 是否激活状态
    */
   @property({
     type: Boolean,
@@ -84,8 +76,7 @@ class TabItem extends ReactNextElement implements TabItemProps {
   render() {
     return (
       <TabItemElement
-        text={this.text}
-        key={this.key}
+        panel={this.panel}
         icon={this.icon}
         disabled={this.disabled}
         hidden={this.hidden}
@@ -96,8 +87,7 @@ class TabItem extends ReactNextElement implements TabItemProps {
 }
 
 function TabItemElement({
-  text,
-  key,
+  panel,
   icon,
   disabled,
   hidden,
@@ -116,13 +106,13 @@ function TabItemElement({
       className={classNames("tab-item", {
         disabled,
       })}
-      key={key}
+      key={panel}
       hidden={hidden}
       aria-selected={active}
       onClick={handleTabSelect}
     >
       {icon && <WrappedIcon className="tab-item-icon" {...icon} />}
-      {text}
+      <slot />
     </div>
   );
 }

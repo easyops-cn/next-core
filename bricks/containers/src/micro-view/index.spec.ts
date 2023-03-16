@@ -10,7 +10,7 @@ describe("containers.micro-view", () => {
     const element = document.createElement(
       "containers.micro-view"
     ) as MicroView;
-    element.pageTitle = "hello world";
+    element.pageTitle = "Hello world";
 
     expect(element.shadowRoot).toBeFalsy();
     act(() => {
@@ -19,31 +19,9 @@ describe("containers.micro-view", () => {
     expect(element.shadowRoot).toBeTruthy();
     expect(element.shadowRoot?.childNodes.length).toBe(2);
 
-    expect(
-      (element.shadowRoot?.querySelector(".header") as HTMLElement)?.style
-        .margin
-    ).toBe("9px 0px");
-
-    act(() => {
-      document.body.removeChild(element);
-    });
-
-    expect(document.body.contains(element)).toBeFalsy();
-  });
-
-  test("hide header", () => {
-    const element = document.createElement(
-      "containers.micro-view"
-    ) as MicroView;
-
-    act(() => {
-      document.body.appendChild(element);
-    });
-
-    expect(
-      (element.shadowRoot?.querySelector(".header") as HTMLElement)?.style
-        .margin
-    ).toBe("");
+    expect(element.shadowRoot.querySelector(".page-title").textContent).toBe(
+      "Hello world"
+    );
 
     act(() => {
       document.body.removeChild(element);

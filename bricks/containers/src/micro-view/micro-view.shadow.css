@@ -2,6 +2,10 @@
   padding-top: var(--page-title-margin-top);
 }
 
+:host([has-toolbar]) .header {
+  margin: 9px 0;
+}
+
 .micro-view-wrapper {
   padding: var(--page-padding);
 }

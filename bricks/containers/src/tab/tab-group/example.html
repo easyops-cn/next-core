@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <containers.tab-group active-panel="Tab2">
+      <containers.tab-item slot="nav" panel="Tab1"> Tab 1 </containers.tab-item>
+      <containers.tab-item slot="nav" panel="Tab2">Tab 2</containers.tab-item>
+      <containers.tab-item slot="nav" panel="Tabx" disabled="true">
+        Tabx
+      </containers.tab-item>
+
+      <div slot="Tab1">Panel 1</div>
+      <div slot="Tab2">Panel 2</div>
+      <div slot="Tabx">Panel x</div>
+    </containers.tab-group>
+  </body>
+</html>

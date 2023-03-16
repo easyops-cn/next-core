@@ -11,7 +11,7 @@ export interface categoryProps {
 }
 
 export interface CategoryContainerProps {
-  category: categoryProps[];
+  categories: categoryProps[];
   headerStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
   containerStyle?: React.CSSProperties;
@@ -38,7 +38,7 @@ class Category extends ReactNextElement implements CategoryContainerProps {
   @property({
     attribute: false,
   })
-  accessor category: categoryProps[];
+  accessor categories: categoryProps[];
 
   /**
    * @kind React.CSSProperties
@@ -76,7 +76,7 @@ class Category extends ReactNextElement implements CategoryContainerProps {
   render() {
     return (
       <CategoryElement
-        category={this.category}
+        categories={this.categories}
         contentStyle={this.contentStyle}
         headerStyle={this.headerStyle}
         containerStyle={this.containerStyle}
@@ -86,10 +86,10 @@ class Category extends ReactNextElement implements CategoryContainerProps {
 }
 
 function CategoryElement(props: CategoryContainerProps): React.ReactElement {
-  const { category, headerStyle, contentStyle, containerStyle } = props;
+  const { categories, headerStyle, contentStyle, containerStyle } = props;
   return (
     <div className="category-container-wrapper" style={containerStyle}>
-      {category?.map((categoryItem: categoryProps): React.ReactElement => {
+      {categories?.map((categoryItem: categoryProps): React.ReactElement => {
         return (
           <div className="category-item" key={categoryItem.key}>
             <div className="category-item-header" style={headerStyle}>

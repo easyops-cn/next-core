@@ -7,35 +7,28 @@
     <title>Document</title>
   </head>
   <body>
-    <containers.tab-list id="tab1">
-      <div>Panel 1</div>
-      <div>Panel 2</div>
-      <div>Panel 3</div>
-      <div>Panel 4</div>
-    </containers.tab-list>
-
-    <containers.tab-list id="tab2">
-      <div>Panel 1</div>
-      <div>Panel 2</div>
-      <div>Panel 3</div>
-      <div>Panel 4</div>
-      <div>Panel 5</div>
+    <containers.tab-list id="tab1" active-panel="编辑">
+      <div slot="创建">Panel Create</div>
+      <div slot="编辑">Panel Edit</div>
+      <div slot="删除">Panel Delete</div>
+      <div slot="查询">Panel Query</div>
+      <div slot="设置">Panel Setting</div>
+      <div slot="extra">
+        <basic.general-button>Extra Button</basic.general-button>
+      </div>
     </containers.tab-list>
   </body>
   <script>
-    const tab1 = document.getElementById("tab1");
-    const tab2 = document.getElementById("tab2");
-
-    tab1.tabs = ["创建", "编辑", "删除", "查询"];
+    const tab2 = document.getElementById("tab1");
 
     tab2.tabs = [
       {
         text: "创建",
-        key: "创建",
+        panel: "创建",
       },
       {
         text: "编辑",
-        key: "编辑",
+        panel: "编辑",
         icon: {
           lib: "antd",
           icon: "edit",
@@ -44,12 +37,12 @@
       },
       {
         text: "删除",
-        key: "删除",
+        panel: "删除",
         disabled: true,
       },
       {
         text: "查询",
-        key: "查询",
+        panel: "查询",
         hidden: true,
       },
       "设置",

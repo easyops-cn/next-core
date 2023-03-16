@@ -31,12 +31,15 @@ class MicroView extends ReactNextElement {
   @property()
   accessor pageTitle: string | undefined;
 
+  @property()
   accessor hasToolbar: boolean | undefined;
 
   renderCallback = () => {
     const slotToolbar = this.#getSlotBySelector("slot[name='toolbar']");
     slotToolbar?.addEventListener("slotchange", () => {
-      this.hasToolbar = true;
+      if (slotToolbar.assignedElements().length) {
+        this.hasToolbar = true;
+      }
     });
   };
 
@@ -62,12 +65,7 @@ function MicroViewElement({
 }: MicroViewProps): React.ReactElement {
   return (
     <div className="micro-view-wrapper" ref={callback}>
-      <div
-        className="header"
-        style={{
-          margin: hasToolbar || pageTitle ? "9px 0" : "",
-        }}
-      >
+      <div className="header">
         {pageTitle && <div className="page-title">{pageTitle}</div>}
         <div className="toolbar">
           <slot name="toolbar" />
