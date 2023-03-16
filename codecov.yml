@@ -1,0 +1,10 @@
+component_management:
+  individual_components:
+    - component_id: core-packages  # this is an identifier that should not be changed
+      name: core  # this is a display name, and can be changed freely
+      paths:
+        - packages/
+    - component_id: bricks  # this is an identifier that should not be changed
+      name: bricks  # this is a display name, and can be changed freely
+      paths:
+        - bricks/
