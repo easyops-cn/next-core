@@ -57,7 +57,7 @@ class TabList extends ReactNextElement {
   })
   accessor showCard: boolean | undefined;
 
-  #computedTabs = (tabs: TabItemProps[] | string[]): TabItemProps[] => {
+  #computedTabs = (tabs: Array<TabItemProps | string>): TabItemProps[] => {
     if (tabs?.length) {
       return tabs.map((tab) => {
         if (typeof tab === "string") {

@@ -37,9 +37,7 @@ class MicroView extends ReactNextElement {
   renderCallback = () => {
     const slotToolbar = this.#getSlotBySelector("slot[name='toolbar']");
     slotToolbar?.addEventListener("slotchange", () => {
-      if (slotToolbar.assignedElements().length) {
-        this.hasToolbar = true;
-      }
+      this.hasToolbar = slotToolbar.assignedElements().length > 0;
     });
   };
 
@@ -51,7 +49,6 @@ class MicroView extends ReactNextElement {
     return (
       <MicroViewElement
         pageTitle={this.pageTitle}
-        hasToolbar={this.hasToolbar}
         callback={this.renderCallback}
       />
     );
@@ -60,7 +57,6 @@ class MicroView extends ReactNextElement {
 
 function MicroViewElement({
   pageTitle,
-  hasToolbar,
   callback,
 }: MicroViewProps): React.ReactElement {
   return (
