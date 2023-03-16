@@ -30,9 +30,7 @@
     }
   },
   "scripts": {
-    "_prestart": "node ./scripts/pre-build.js",
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
-    "_prebuild": "node ./scripts/pre-build.js",
     "build": "npm run build:main && npm run build:types",
     "build:main": "cross-env NODE_ENV=production build-next-bricks",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json",
@@ -40,7 +38,6 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.3.0",
     "@next-bricks/icons": "^0.0.0",
     "@next-core/element": "^0.0.0",
     "@next-core/http": "^0.0.0",
