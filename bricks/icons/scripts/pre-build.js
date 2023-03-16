@@ -50,7 +50,7 @@ const tasks = [];
           list.map((item) => {
             // 目前验证阶段先只构建默认分类的图标，以便提升构建速率。
             if (
-              process.env.ALL_ICONS &&
+              // process.env.ALL_ICONS &&
               item.isDirectory() &&
               /\w/.test(item.name)
             ) {
@@ -125,10 +125,10 @@ const tasks = [];
   const iconCategories = {
     far,
     // 目前验证阶段先只构建 Regular 分类的图标，以便提升构建速率。
-    ...(process.env.ALL_ICONS && {
-      fas,
-      fab,
-    }),
+    // ...(process.env.ALL_ICONS && {
+    fas,
+    fab,
+    // }),
   };
   const aliasMapByCategory = {};
   const allIcons = {};
@@ -187,7 +187,8 @@ const tasks = [];
     // 目前验证阶段先不构建 twotone 分类的图标，以便提升构建速率。
     "outlined",
     "filled",
-    ...(process.env.ALL_ICONS ? ["twotone"] : []),
+    "twotone",
+    // ...(process.env.ALL_ICONS ? ["twotone"] : []),
   ];
   for (const theme of themes) {
     const themeDir = path.resolve(generatedDir, theme);
