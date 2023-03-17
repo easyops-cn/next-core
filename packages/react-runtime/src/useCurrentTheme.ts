@@ -3,7 +3,7 @@ import { getCurrentTheme } from "@next-core/runtime";
 import type { SiteTheme } from "@next-core/types";
 
 export function useCurrentTheme(): SiteTheme {
-  const [currentTheme, setCurrentTheme] = useState(getCurrentTheme());
+  const [currentTheme, setCurrentTheme] = useState(getCurrentTheme);
 
   useEffect(() => {
     const listenToThemeChange = (event: Event): void => {
