@@ -1,13 +1,19 @@
+import type { I18nData } from "@next-core/types";
 import {
   StoryboardFunctionRegistryFactory,
   FunctionCoverageCollector,
 } from "./StoryboardFunctionRegistry.js";
-import { checkPermissions } from "./internal/checkPermissions";
+import { checkPermissions } from "./internal/checkPermissions.js";
 
-jest.mock("../internal/checkPermissions");
-jest.mock("i18next", () => ({
-  getFixedT(lang: string, ns: string) {
-    return (key: string) => `${ns}:${key}`;
+jest.mock("./internal/checkPermissions.js");
+jest.mock("@next-core/i18n", () => ({
+  i18n: {
+    getFixedT(lang: string, ns: string) {
+      return (key: string) => `${ns}:${key}`;
+    },
+  },
+  i18nText(data: I18nData) {
+    return data.zh;
   },
 }));
 
@@ -88,7 +94,7 @@ describe("StoryboardFunctions", () => {
       }
     );
     expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
-      "$app-my-app:HELLO, 世界!"
+      "app/my-app:HELLO, 世界!"
     );
     expect(consoleLog).toBeCalledTimes(1);
     expect(consoleLog).toBeCalledWith({ en: "world", zh: "世界" });
@@ -104,7 +110,7 @@ describe("StoryboardFunctions", () => {
       `,
     });
     expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
-      "$app-my-app:HELLO, 世界!!"
+      "app/my-app:HELLO, 世界!!"
     );
     expect(fn.sayExclamation("Oops")).toBe("Oops!!");
     expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
@@ -170,7 +176,7 @@ describe("Widget Functions", () => {
       },
     ]);
     expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
-      "$widget-my-widget:HELLO, 世界!"
+      "widget/my-widget:HELLO, 世界!"
     );
     expect(fn.getImg()).toBe("bricks/my-widget/dist/assets/my-img.png");
   });

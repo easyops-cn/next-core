@@ -1,8 +1,12 @@
-import { matchPath, MatchPathOptions, toPath } from "./matchPath";
-import { MatchResult } from "@next-core/types";
+import {
+  matchPath,
+  MatchPathOptions,
+  MatchResult,
+  toPath,
+} from "./matchPath.js";
 
 describe("matchPath", () => {
-  it.each<[string, MatchPathOptions, MatchResult]>([
+  it.each<[string, MatchPathOptions, Partial<MatchResult> | null]>([
     [
       "/",
       {
@@ -68,40 +72,13 @@ describe("matchPath", () => {
       },
       null,
     ],
-    [
-      "/next",
-      {
-        path: ["/:id", "/before"],
-        exact: true,
-        checkIf: () => true,
-        getContext: () => ({} as any),
-      },
-      {
-        path: "/:id",
-        url: "/next",
-        isExact: true,
-        params: {
-          id: "next",
-        },
-      },
-    ],
-    [
-      "/next",
-      {
-        path: ["/:id", "/before"],
-        exact: true,
-        checkIf: () => false,
-        getContext: () => ({} as any),
-      },
-      null,
-    ],
   ])("matchPath('%s', %j) should return %j", (pathname, options, result) => {
     expect(matchPath(pathname, options)).toEqual(result);
   });
 });
 
 describe("toPath", () => {
-  it.each<[string, Record<string, any>, string]>([
+  it.each<[string, Record<string, unknown> | undefined, string]>([
     ["/good", undefined, "/good"],
     [
       "/for/:quality",

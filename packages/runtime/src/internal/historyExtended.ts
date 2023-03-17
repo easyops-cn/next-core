@@ -219,14 +219,14 @@ export interface ExtendedHistory {
   unblock: () => void;
 
   /** 推入一条记录。*/
-  push?: (
+  push: (
     location: LocationDescriptor<NextHistoryState>,
     state?: NextHistoryState,
     callback?: (blocked: boolean) => void
   ) => void;
 
   /** 替换一条记录。*/
-  replace?: (
+  replace: (
     location: LocationDescriptor<NextHistoryState>,
     state?: NextHistoryState,
     callback?: (blocked: boolean) => void

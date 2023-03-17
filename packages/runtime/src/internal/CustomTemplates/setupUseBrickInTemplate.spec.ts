@@ -1,15 +1,20 @@
-import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate";
-import { symbolForTplContextId } from "./constants";
+import {
+  symbolForTplStateStoreId,
+  RuntimeBrickConfOfTplSymbols,
+} from "./constants.js";
+import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 
 describe("setupUseBrickInTemplate", () => {
   it("should work for undefined props", () => {
-    setupUseBrickInTemplate(undefined, {
-      templateContextId: "tpl-ctx-1",
+    const props = undefined;
+    const returnedProps = setupUseBrickInTemplate(props, {
+      tplStateStoreId: "tpl-state-1",
     } as any);
+    expect(returnedProps).toBe(undefined);
   });
 
   it("should work", () => {
-    const props: Record<string | symbol, any> = {
+    const props = {
       displayBrick: {
         useBrick: {
           brick: "my-brick-a",
@@ -17,6 +22,7 @@ describe("setupUseBrickInTemplate", () => {
             useBrick: {
               brick: "my-brick-b",
             },
+            list: [],
           },
           slots: {
             any: {
@@ -36,30 +42,37 @@ describe("setupUseBrickInTemplate", () => {
         },
       },
     };
-    setupUseBrickInTemplate(props, {
-      templateContextId: "tpl-ctx-1",
+    const returnedProps = setupUseBrickInTemplate(props, {
+      tplStateStoreId: "tpl-state-1",
     } as any);
 
     for (const item of [
-      props,
-      props.displayBrick,
-      props.displayBrick.useBrick.properties,
-      props.displayBrick.useBrick.slots,
-      props.displayBrick.useBrick.slots.any,
-      props.displayBrick.useBrick.slots.any.bricks,
-      props.displayBrick.useBrick.slots.any.bricks[0].properties,
-      props.displayBrick.useBrick.slots.any.bricks[0].properties.useBrick,
+      returnedProps,
+      returnedProps.displayBrick,
+      returnedProps.displayBrick.useBrick.properties,
+      returnedProps.displayBrick.useBrick.slots,
+      returnedProps.displayBrick.useBrick.slots.any,
+      returnedProps.displayBrick.useBrick.slots.any.bricks,
+      returnedProps.displayBrick.useBrick.slots.any.bricks[0].properties,
+      returnedProps.displayBrick.useBrick.slots.any.bricks[0].properties
+        .useBrick,
     ]) {
-      expect(item[symbolForTplContextId]).toBe(undefined);
+      expect(
+        (item as RuntimeBrickConfOfTplSymbols)[symbolForTplStateStoreId]
+      ).toBe(undefined);
     }
 
     for (const item of [
-      props.displayBrick.useBrick,
-      props.displayBrick.useBrick.slots.any.bricks[0],
-      props.displayBrick.useBrick.slots.any.bricks[0].properties.useBrick[0],
-      props.displayBrick.useBrick.slots.any.bricks[0].properties.useBrick[1],
+      returnedProps.displayBrick.useBrick,
+      returnedProps.displayBrick.useBrick.slots.any.bricks[0],
+      returnedProps.displayBrick.useBrick.slots.any.bricks[0].properties
+        .useBrick[0],
+      returnedProps.displayBrick.useBrick.slots.any.bricks[0].properties
+        .useBrick[1],
     ]) {
-      expect(item[symbolForTplContextId]).toBe("tpl-ctx-1");
+      expect(
+        (item as RuntimeBrickConfOfTplSymbols)[symbolForTplStateStoreId]
+      ).toBe("tpl-state-1");
     }
   });
 });

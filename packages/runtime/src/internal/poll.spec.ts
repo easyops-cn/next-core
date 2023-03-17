@@ -1,15 +1,19 @@
-import * as runtime from "../core/Runtime";
-import { clearPollTimeout, startPoll } from "./poll";
+import * as runtime from "./Runtime.js";
+import { clearPollTimeout, startPoll } from "./poll.js";
 
 const mockApiGetRouterRenderId = jest
-  .spyOn(runtime, "_internalApiGetRouterRenderId")
+  .spyOn(runtime, "_internalApiGetRenderId")
   .mockReturnValue("render-id-1");
 
 const dispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 describe("poll", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 
   it("should work", async () => {
