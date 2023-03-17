@@ -46,6 +46,8 @@ export function ListByMultipleUseBricks({
   return <ReactUseMultipleBricks useBrick={useBrick} data={data} />;
 }
 
+const consoleError = jest.spyOn(console, "error");
+
 describe("ReactUseBrick", () => {
   test("basic", async () => {
     mockRenderUseBrick.mockImplementation((...args) =>
@@ -151,9 +153,7 @@ describe("ReactUseBrick", () => {
   });
 
   test("render failed", async () => {
-    const consoleError = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => void 0);
+    consoleError.mockImplementationOnce(() => void 0);
     const error = new Error("oops");
     mockRenderUseBrick.mockImplementation(() => Promise.reject(error));
     const useBrick = { brick: "div" };
@@ -162,6 +162,7 @@ describe("ReactUseBrick", () => {
     );
 
     await act(() => (global as any).flushPromises());
+    expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith(
       "Render useBrick failed:",
       useBrick,
