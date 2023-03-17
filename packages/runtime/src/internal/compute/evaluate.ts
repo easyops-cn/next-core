@@ -42,7 +42,7 @@ const symbolForContext = Symbol.for("pre.evaluated.context");
 
 export interface PreEvaluated {
   [symbolForRaw]: string;
-  [symbolForContext]: EvaluateRuntimeContext;
+  [symbolForContext]: RuntimeContext;
 }
 
 export interface EvaluateOptions {
@@ -50,8 +50,6 @@ export interface EvaluateOptions {
   isReEvaluation?: boolean;
   evaluationId?: number;
 }
-
-interface EvaluateRuntimeContext extends RuntimeContext {}
 
 export function isPreEvaluated(raw: unknown): raw is PreEvaluated {
   return !!(raw as PreEvaluated)?.[symbolForRaw];
@@ -84,7 +82,7 @@ export function getCookErrorConstructor(error: any): ErrorConstructor {
 
 export async function asyncEvaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
-  runtimeContext: EvaluateRuntimeContext,
+  runtimeContext: RuntimeContext,
   options?: EvaluateOptions
 ): Promise<unknown> {
   const { blockingList, run } = lowLevelEvaluate(
@@ -99,7 +97,7 @@ export async function asyncEvaluate(
 
 export function evaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
-  runtimeContext: EvaluateRuntimeContext,
+  runtimeContext: RuntimeContext,
   options?: EvaluateOptions
 ): Promise<unknown> {
   const { run } = lowLevelEvaluate(raw, runtimeContext, options, false);
@@ -108,7 +106,7 @@ export function evaluate(
 
 function lowLevelEvaluate(
   raw: string | PreEvaluated, // string or pre-evaluated object.
-  runtimeContext: EvaluateRuntimeContext,
+  runtimeContext: RuntimeContext,
   options: EvaluateOptions = {},
   isAsync?: boolean
 ): {
@@ -225,7 +223,10 @@ function lowLevelEvaluate(
 
     if (tplStateStore) {
       usedStates = strictCollectMemberUsage(raw, "STATE");
+      // Todo: remove compatibility support for `TPL`
+      // istanbul ignore next
       const usedTpls = strictCollectMemberUsage(raw, "TPL");
+      // istanbul ignore next
       for (const tpl of usedTpls) {
         usedStates.add(tpl);
       }
@@ -331,9 +332,6 @@ function lowLevelEvaluate(
             break;
           case "ITEM":
             if (!hasOwnProperty(runtimeContext, "forEachItem")) {
-              if (process.env.NODE_ENV === "development") {
-                globalVariables[variableName] = undefined;
-              }
               // eslint-disable-next-line no-console
               console.error(
                 `Using \`ITEM\` but no \`:forEach\` is found, check your expression: "${raw}"`
@@ -407,6 +405,8 @@ function lowLevelEvaluate(
               getItem: getStorageItem("session"),
             });
             break;
+          // Todo: remove compatibility support for `TPL`
+          // istanbul ignore next
           case "TPL":
           case "STATE":
             globalVariables[variableName] = getDynamicReadOnlyProxy({

@@ -48,9 +48,9 @@ export function ReactUseBrick({
           element,
           mountResult.current
         );
-      } else if (mountResult.current) {
+      } else {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        __secret_internals.unmountUseBrick(renderResult!, mountResult.current);
+        __secret_internals.unmountUseBrick(renderResult!, mountResult.current!);
         mountResult.current = undefined;
       }
     },

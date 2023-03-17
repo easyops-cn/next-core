@@ -6,26 +6,18 @@ import {
   HttpParseError,
   HttpAbortError,
 } from "@next-core/http";
-import {
-  httpErrorToString,
-  handleHttpError,
-  isUnauthenticatedError,
-} from "./handleHttpError.js";
+import { httpErrorToString, handleHttpError } from "./handleHttpError.js";
 import { getHistory } from "./history.js";
 import { getRuntime } from "./internal/Runtime.js";
 
-jest.mock("./internal/isUnauthenticatedError");
-jest.mock("./history");
-jest.mock("./runtime");
+jest.mock("./history.js");
+jest.mock("./internal/Runtime.js");
 
-// const spyOnModalError = jest.spyOn(Modal, "error");
-// const spyOnModalConfirm = jest.spyOn(Modal, "confirm");
-const spyOnModalError = jest.spyOn(window, "alert");
+const spyOnModalError = (window.alert = jest.fn());
 const spyOnModalConfirm = jest.spyOn(window, "confirm");
+const consoleError = jest.spyOn(console, "error");
 
 const spyOnGetRuntime = getRuntime as jest.Mock;
-// jest.spyOn(i18next, "t").mockImplementation((k) => k as string);
-const spyOnIsUnauthenticatedError = isUnauthenticatedError as jest.Mock;
 const spyOnHistoryPush = jest.fn();
 (getHistory as jest.Mock).mockReturnValue({
   push: spyOnHistoryPush,
@@ -41,16 +33,13 @@ const spyOnHistoryPush = jest.fn();
 (window as any).HTMLScriptElement = class {};
 
 describe("httpErrorToString", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
   it("should return Errors", () => {
     expect(httpErrorToString(new Error("oops"))).toBe("Error: oops");
   });
 
   it("should return network error for HttpFetchErrors", () => {
     expect(httpErrorToString(new HttpFetchError("oops"))).toBe(
-      "brick-kit:NETWORK_ERROR"
+      "网络错误，请检查您的网络连接。"
     );
   });
 
@@ -124,82 +113,50 @@ describe("handleHttpError", () => {
   });
 
   it("should handle errors", () => {
-    spyOnIsUnauthenticatedError.mockReturnValueOnce(false);
-    handleHttpError(new Error("oops"));
-    // expect(spyOnModalError).toBeCalledWith({
-    //   title: "brick-kit:REQUEST_FAILED",
-    //   content: <div style={{ whiteSpace: "pre-wrap" }}>Error: oops</div>,
-    //   okText: "brick-kit:MODAL_OK",
-    // });
+    consoleError.mockImplementationOnce(() => void 0);
+    const error = new Error("oops");
+    handleHttpError(error);
+    expect(spyOnModalError).toBeCalledTimes(1);
+    expect(spyOnModalError).toBeCalledWith("Error: oops");
+    expect(consoleError).toBeCalledTimes(1);
   });
 
   it("should handle unauthenticated errors and redirect to general login page", () => {
+    consoleError.mockImplementationOnce(() => void 0);
     spyOnGetRuntime.mockReturnValueOnce({
       getFeatureFlags: () => ({ "sso-enabled": false }),
     });
-    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
-    handleHttpError(new Error("oops"));
-    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
-    handleHttpError(new Error("oops"));
+    spyOnModalConfirm.mockReturnValueOnce(true);
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    handleHttpError(error);
+    handleHttpError(error);
     expect(spyOnModalError).not.toBeCalled();
     expect(spyOnModalConfirm).toBeCalledTimes(1);
-    expect(spyOnModalConfirm).toHaveBeenCalledWith(
-      expect.objectContaining({
-        okText: "brick-kit:MODAL_OK",
-        cancelText: "brick-kit:MODAL_CANCEL",
-      })
-    );
-    expect(spyOnHistoryPush).not.toBeCalled();
-
-    // spyOnModalConfirm.mock.calls[0][0].onOk();
-    // expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
-    //   from: {
-    //     pathname: "/no-where",
-    //   },
-    // });
-
-    // mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
+    expect(spyOnModalError).not.toBeCalled();
+    expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
+      from: {
+        pathname: "/no-where",
+      },
+    });
   });
 
   it("should not show modal to go to login page when unauthenticated error occurs while NO_AUTH_GUARD is enabled", () => {
+    consoleError.mockImplementationOnce(() => void 0);
     window.NO_AUTH_GUARD = true;
-    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
-    handleHttpError(new Error("oops"));
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    handleHttpError(error);
     expect(spyOnModalConfirm).not.toBeCalled();
     expect(spyOnModalError).toBeCalledTimes(1);
   });
 
-  it("should handle unauthenticated errors and redirect to sso login page", () => {
-    spyOnGetRuntime.mockReturnValueOnce({
-      getFeatureFlags: () => ({ "sso-enabled": true }),
-    });
-    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
-    handleHttpError(new Error("oops"));
-    spyOnIsUnauthenticatedError.mockReturnValueOnce(true);
-    handleHttpError(new Error("oops"));
-    expect(spyOnModalError).not.toBeCalled();
-    expect(spyOnModalConfirm).toBeCalledTimes(1);
-    expect(spyOnModalConfirm).toHaveBeenCalledWith(
-      expect.objectContaining({
-        okText: "brick-kit:MODAL_OK",
-        cancelText: "brick-kit:MODAL_CANCEL",
-      })
-    );
-    expect(spyOnHistoryPush).not.toBeCalled();
-
-    // spyOnModalConfirm.mock.calls[0][0].onOk();
-    // expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
-    //   from: {
-    //     pathname: "/no-where",
-    //   },
-    // });
-
-    // mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
-  });
-
   it("should return undefined if abort http request", () => {
-    expect(
-      handleHttpError(new HttpAbortError("The user aborted a request."))
-    ).toBeUndefined();
+    handleHttpError(new HttpAbortError("The user aborted a request."));
+    expect(spyOnModalConfirm).not.toBeCalled();
+    expect(spyOnModalError).not.toBeCalled();
+    expect(spyOnModalError).not.toBeCalled();
   });
 });

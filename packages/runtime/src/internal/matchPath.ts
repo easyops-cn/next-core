@@ -80,7 +80,7 @@ export function matchPath(
 
 export function toPath(
   path: string,
-  pathParams: Record<string, unknown>
+  pathParams?: Record<string, unknown>
 ): string {
   return compile(path)(pathParams);
 }
@@ -101,7 +101,7 @@ interface MatchOptions {
   exact?: boolean;
 }
 
-type MatchPathOptions = MatchOptions & CompileOptions;
+export type MatchPathOptions = MatchOptions & CompileOptions;
 
 export type MatchResult = Exclude<
   LegacyCompatibleRuntimeContext["match"],

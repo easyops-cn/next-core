@@ -1,7 +1,7 @@
 import { getBasePath } from "./getBasePath.js";
 import { PageInfo } from "./getPageInfo.js";
 
-jest.mock("./internal/getBasePath.js");
+jest.mock("./getBasePath.js");
 jest.mock("./history.JS");
 
 (getBasePath as jest.Mock).mockReturnValue("/next/");
@@ -81,7 +81,7 @@ describe("getPageInfo", () => {
 
   it("show work in iframe of legacy console", () => {
     const location = window.location;
-    delete window.location;
+    delete (window as any).location;
     window.location = {
       pathname: "/next/abc",
     } as unknown as Location;
@@ -106,7 +106,7 @@ describe("getPageInfo", () => {
 
   it("show work in iframe of non-legacy console", () => {
     const location = window.location;
-    delete window.location;
+    delete (window as any).location;
     window.location = {
       pathname: "/next/abc",
     } as unknown as Location;
@@ -131,7 +131,7 @@ describe("getPageInfo", () => {
 
   it("show work in iframe of visual builder", () => {
     const location = window.location;
-    delete window.location;
+    delete (window as any).location;
     window.location = {
       pathname: "/next/any",
     } as unknown as Location;

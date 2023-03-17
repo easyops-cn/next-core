@@ -5,22 +5,23 @@ import {
 } from "./mediaQuery.js";
 
 const matchMediaMockResults = (window.matchMedia as jest.Mock).mock.results;
-const offset = matchMediaMockResults.length - mediaBreakpointMinWidthMap.size;
+const mediaBreakpoints = [...mediaBreakpointMinWidthMap.keys()];
+const listeners = mediaBreakpoints.map((breakpoint, index) => {
+  return matchMediaMockResults[index].value.addEventListener.mock.calls[0][1];
+}) as Function[];
 
 describe("mediaQuery", () => {
   it("should work", () => {
     const handler = jest.fn();
     expect(getMedia()).toEqual({ breakpoint: "xLarge" });
     mediaEventTarget.addEventListener("change", handler);
+
     const mediaBreakpoints = [...mediaBreakpointMinWidthMap.keys()];
     mediaBreakpoints.forEach((breakpoint, index) => {
       const nextBreakpoint = mediaBreakpoints[index + 1];
 
       if (nextBreakpoint) {
-        (
-          matchMediaMockResults[index + offset].value
-            .addEventListener as jest.Mock
-        ).mock.calls[0][1]({
+        listeners[index]({
           matches: false,
         });
         const newMedia = { breakpoint: nextBreakpoint };

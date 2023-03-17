@@ -1,17 +1,18 @@
-// import { scanPermissionActionsInStoryboard } from "@next-core/brick-utils";
-// import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
+import { scanPermissionActionsInStoryboard } from "@next-core/utils/storyboard";
+import { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
 import {
   preCheckPermissions as _preCheckPermissions,
   checkPermissions as _checkPermissions,
   validatePermissions as _validatePermissions,
   resetPermissionPreChecks as _resetPermissionPreChecks,
 } from "./checkPermissions.js";
-import { getAuth } from "../auth.js";
+import { isLoggedIn, getAuth } from "../auth.js";
 
-jest.mock("@next-core/brick-utils");
-jest.mock("@next-sdk/micro-app-sdk");
+jest.mock("@next-core/utils/storyboard");
+jest.mock("@next-api-sdk/micro-app-sdk");
 jest.mock("../auth.js");
 
+const mockIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 const mockGetAuth = (getAuth as jest.Mock).mockReturnValue({});
 
 const mockScanPermissionActionsInStoryboard =
@@ -49,7 +50,7 @@ describe("checkPermissions", () => {
 
   it("should not request if action is empty", async () => {
     mockScanPermissionActionsInStoryboard.mockReturnValueOnce([]);
-    await preCheckPermissions(null);
+    await preCheckPermissions(null!);
     expect(mockValidatePermissions).not.toBeCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
     expect(mockConsoleError).toBeCalledWith(
@@ -60,7 +61,7 @@ describe("checkPermissions", () => {
   it("should catch error if pre-check failed", async () => {
     mockScanPermissionActionsInStoryboard.mockReturnValueOnce(["my:action-a"]);
     mockValidatePermissions.mockRejectedValueOnce("oops");
-    await preCheckPermissions(null);
+    await preCheckPermissions(null!);
     expect(mockConsoleError).toBeCalledWith(
       "Pre-check permissions failed",
       "oops"
@@ -116,7 +117,7 @@ describe("checkPermissions", () => {
         },
       ],
     });
-    await preCheckPermissions(null);
+    await preCheckPermissions(null!);
     expect(mockValidatePermissions).toBeCalledWith({
       actions: ["my:action-a", "my:action-b", "my:action-c"],
     });
@@ -139,7 +140,7 @@ describe("checkPermissions", () => {
         },
       ],
     });
-    await preCheckPermissions(null);
+    await preCheckPermissions(null!);
     expect(mockValidatePermissions).toBeCalledWith({
       actions: ["my:action-d"],
     });

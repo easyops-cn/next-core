@@ -4,30 +4,8 @@ import {
   scanPermissionActionsInStoryboard,
 } from "@next-core/utils/storyboard";
 import { Storyboard } from "@next-core/types";
+import { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
 import { getAuth, isLoggedIn } from "../auth.js";
-// import { PermissionApi_validatePermissions } from "@next-sdk/micro-app-sdk";
-// import { getAuth } from "../auth";
-
-const PermissionApi_validatePermissions = async function ({
-  actions,
-}: {
-  actions: string[];
-}) {
-  await new Promise((resolve) => {
-    setTimeout(resolve, Math.random() * 100);
-  });
-  // eslint-disable-next-line no-console
-  console.log(
-    "called PermissionApi_validatePermissions with actions:",
-    actions
-  );
-  return {
-    actions: actions.map((action) => ({
-      action,
-      authorizationStatus: "authorized" as PermissionStatus,
-    })),
-  };
-};
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
@@ -63,8 +41,8 @@ export async function validatePermissions(
   checkedPermissions.push(...actions);
   try {
     const result = await PermissionApi_validatePermissions({ actions });
-    for (const item of result.actions) {
-      permissionMap.set(item.action, item.authorizationStatus);
+    for (const item of result.actions!) {
+      permissionMap.set(item.action!, item.authorizationStatus!);
       if (item.authorizationStatus === "undefined") {
         // eslint-disable-next-line no-console
         console.error(`Undefined permission action: "${item.action}"`);

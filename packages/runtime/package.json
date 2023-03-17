@@ -35,11 +35,14 @@
     "prebuild": "npm run clean",
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
-    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json"
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
     "@next-api-sdk/api-gateway-sdk": "^0.0.0",
     "@next-api-sdk/cmdb-sdk": "^0.0.0",
+    "@next-api-sdk/micro-app-sdk": "^0.0.0",
     "@next-api-sdk/micro-app-standalone-sdk": "^0.0.0",
     "@next-core/cook": "^1.6.81",
     "@next-core/http": "^0.0.0",

@@ -35,7 +35,7 @@ describe("widgetFunctions", () => {
         },
       ]);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Widget functions of \\"widget-a\\" already registered"`
+      `"Widget functions of "widget-a" already registered"`
     );
   });
 });

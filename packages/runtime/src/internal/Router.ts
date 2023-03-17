@@ -10,7 +10,7 @@ import type {
   Storyboard,
 } from "@next-core/types";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { isHttpAbortError } from "@next-core/http";
+import { HttpAbortError } from "@next-core/http";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { RenderOutput, renderRoutes } from "./Renderer.js";
@@ -370,7 +370,7 @@ export class Router {
         if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
           redirectToLogin();
           return;
-        } else if (isHttpAbortError(error)) {
+        } else if (error instanceof HttpAbortError) {
           this.#rendererContextTrashCan.add(prevRendererContext);
           return;
         } else {

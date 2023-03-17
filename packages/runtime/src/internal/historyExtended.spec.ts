@@ -1,24 +1,25 @@
-import {
-  UpdateQueryFunction,
-  UpdateAnchorFunction,
-  NextLocation,
-  NextHistoryState,
-} from "@next-core/types";
 import { History } from "history";
-import { getUserConfirmation, historyExtended } from "./historyExtended";
-import { isOutsideApp } from "../core/matchStoryboard";
+import {
+  NextHistoryState,
+  UpdateAnchorFunction,
+  UpdateQueryFunction,
+  getUserConfirmation,
+  historyExtended,
+} from "./historyExtended.js";
+import { isOutsideApp } from "./matchStoryboard.js";
+import type { NextLocation } from "../history.js";
 
-jest.mock("../core/Runtime", () => ({
+jest.mock("./Runtime.js", () => ({
   _internalApiMatchStoryboard: jest.fn(),
 }));
 
-jest.mock("../core/matchStoryboard");
+jest.mock("./matchStoryboard.js");
 
 const mockIsOutsideApp = (isOutsideApp as jest.Mock).mockReturnValue(false);
 
 describe("historyExtended", () => {
   const location = window.location;
-  delete window.location;
+  delete (window as any).location;
   window.location = {
     assign: jest.fn(),
     replace: jest.fn(),
