@@ -51,12 +51,12 @@
   "devDependencies": {
     "@next-core/brick-dll-v3": "^0.4.0",
     "@next-core/build-next-bricks": "^0.0.0",
-    "@next-core/styles-v3": "^0.2.8",
+    "@next-core/styles-v3": "^0.2.14",
     "@next-core/test-next": "^0.0.0",
-    "@next-dll/ace": "^2.0.596",
+    "@next-dll/ace": "^2.0.598",
     "@next-dll/d3": "^2.0.78",
     "@next-dll/echarts": "^2.0.79",
-    "@next-dll/editor-bricks-helper": "^0.34.64",
-    "@next-dll/react-dnd": "^0.1.534"
+    "@next-dll/editor-bricks-helper": "^0.34.66",
+    "@next-dll/react-dnd": "^0.1.536"
   }
 }
