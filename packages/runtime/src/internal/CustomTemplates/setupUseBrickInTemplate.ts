@@ -24,7 +24,7 @@ export function setupUseBrickInTemplate<T>(
             ? Array.isArray(value)
               ? [key, value.map(setup)]
               : [key, setup(value as UseSingleBrickConf)]
-            : [key, value]
+            : [key, walk(value)]
         )
         .concat(
           Object.getOwnPropertySymbols(props).map((k) => [
