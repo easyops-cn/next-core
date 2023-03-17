@@ -1767,12 +1767,7 @@
   resolved "https://registry.npmjs.org/@next-core/brick-icons/-/brick-icons-2.31.20.tgz#d436029a01ce3ca39f3dd475460a338fb79539c7"
   integrity sha512-OnWTzyNyssnbJN5xbQS9iLMJrNe5N+VtOXXizyYD9+J1HrLgl/axMDE10VrvaR5jLjRPyQj8TDjnJWulkW9/ag==
 
-"@next-core/styles-v3@^0.2.1":
-  version "0.2.4"
-  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.4.tgz#010f3f44bc17ead379b5ef20db1e04bd89dd0f74"
-  integrity sha512-fAZM62j8df084NmI+q7GGIKH067e3IG0ftb67gQTmUS0lhlA2YH/2xPN2OhNuVE81Y8TsGmIt7/zRPRdkvSRiA==
-
-"@next-core/styles-v3@^0.2.8":
+"@next-core/styles-v3@^0.2.1", "@next-core/styles-v3@^0.2.8":
   version "0.2.8"
   resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.8.tgz#a1432f3ef05ebcff1ef48e5e520b87f1b0e91d7b"
   integrity sha512-has4HinEoX+emAM6jQat9f9Uoui2Bj4rpkteS0jrGS5NFKTCQIqa5VhCjsIRJt0FrjeGxgatY+jVxVSdLML5TA==
@@ -12169,10 +12164,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
 
-typescript@5.0.1-rc:
-  version "5.0.1-rc"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.1-rc.tgz#f2ccabbdb9646b43b5e006dc6f7b0eaf9a222c8b"
-  integrity sha512-zh75jY8gPo/y7fpmlTVN2bb2MigoLx4hGk+Cla9pY6lgSTvzJrmQQrRt5S80VTsEt6biWPZJgLK2nm6f0Ya+mA==
+typescript@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.2.tgz#891e1a90c5189d8506af64b9ef929fca99ba1ee5"
+  integrity sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==
 
 "typescript@^3 || ^4":
   version "4.9.5"
