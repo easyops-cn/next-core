@@ -21,7 +21,7 @@
   "devDependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
-    "@babel/runtime": "^7.20.6",
+    "@babel/runtime": "^7.21.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@next-core/babel-runtime-helpers": "^1.0.27",
     "@next-core/brick-http-v3": "^0.1.0",
@@ -49,7 +49,7 @@
   "peerDependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@ant-design/icons": "^4.5.0",
-    "@babel/runtime": "^7.20.6",
+    "@babel/runtime": "^7.21.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@next-core/babel-runtime-helpers": "^1.0.27",
     "@next-core/brick-http-v3": "^0.0.0",
