@@ -22,7 +22,7 @@ describe("setupUseBrickInTemplate", () => {
             useBrick: {
               brick: "my-brick-b",
             },
-            list: [],
+            list: [1],
           },
           slots: {
             any: {
