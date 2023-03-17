@@ -11,6 +11,7 @@
     "**/node_modules/**",
     "**/dll/**",
     "**/sdk/**",
+    "**/v3/**",
     "**/packages/brick-dll/**",
     "**/packages/fontawesome-library/**",
     "**/packages/editor-bricks-helper/**",
@@ -39,7 +40,8 @@
     "**/packages/next-docs/**",
     "**/packages/create-next-repo/**",
     "**/packages/color-theme/**",
-    "**/packages/rollup-config-factory/**"
+    "**/packages/rollup-config-factory/**",
+    "**/packages/brick-http/**"
   ],
   "baseBranches": ["next"],
   "packageRules": [
