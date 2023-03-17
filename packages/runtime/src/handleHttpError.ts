@@ -1,7 +1,7 @@
 import {
+  HttpAbortError,
   HttpFetchError,
   HttpResponseError,
-  isHttpAbortError,
 } from "@next-core/http";
 import { getRuntime } from "./internal/Runtime.js";
 import { getHistory } from "./history.js";
@@ -60,7 +60,7 @@ let lastErrorMessage: string | undefined;
  */
 export function handleHttpError(error: unknown) {
   // Do nothing if aborted http requests
-  if (isHttpAbortError(error)) {
+  if (error instanceof HttpAbortError) {
     return;
   }
 
