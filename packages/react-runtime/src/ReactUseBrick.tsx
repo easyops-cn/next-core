@@ -1,4 +1,10 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import type { UseSingleBrickConf } from "@next-core/types";
 import { __secret_internals, handleHttpError } from "@next-core/runtime";
 
@@ -15,7 +21,6 @@ export function ReactUseBrick({
     useState<__secret_internals.RenderUseBrickResult | null>(null);
   const mountResult = useRef<__secret_internals.MountUseBrickResult>();
   const [renderKey, setRenderKey] = useState<number>();
-  const elementRef = useRef<HTMLElement | null>();
   const IdCounterRef = useRef(0);
 
   useEffect(() => {
@@ -31,9 +36,26 @@ export function ReactUseBrick({
         handleHttpError(error);
       }
     }
-    // setOutput(null);
     init();
   }, [data, useBrick]);
+
+  const refCallback = useCallback(
+    (element: HTMLElement) => {
+      if (element) {
+        mountResult.current = __secret_internals.mountUseBrick(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          renderResult!,
+          element,
+          mountResult.current
+        );
+      } else if (mountResult.current) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        __secret_internals.unmountUseBrick(renderResult!, mountResult.current);
+        mountResult.current = undefined;
+      }
+    },
+    [renderResult]
+  );
 
   if (!renderResult) {
     // Fallback when loading/
@@ -47,28 +69,7 @@ export function ReactUseBrick({
   }
 
   const WebComponent = tagName as any;
-
-  return (
-    <WebComponent
-      key={renderKey}
-      ref={(element: HTMLElement) => {
-        if (element) {
-          if (elementRef.current === element) {
-            return;
-          }
-          elementRef.current = element;
-          mountResult.current = __secret_internals.mountUseBrick(
-            renderResult,
-            element,
-            mountResult.current
-          );
-        } else if (mountResult.current) {
-          __secret_internals.unmountUseBrick(renderResult, mountResult.current);
-          mountResult.current = undefined;
-        }
-      }}
-    />
-  );
+  return <WebComponent key={renderKey} ref={refCallback} />;
 }
 
 function getUniqueId(ref: MutableRefObject<number>): number {

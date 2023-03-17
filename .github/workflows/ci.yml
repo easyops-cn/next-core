@@ -136,7 +136,6 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v3
       with:
-        directory: packages
         token: ${{ secrets.CODECOV_TOKEN }}
 
     - id: next-publish-from-tags
