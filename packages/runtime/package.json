@@ -42,6 +42,7 @@
   "dependencies": {
     "@next-api-sdk/api-gateway-sdk": "^0.0.0",
     "@next-api-sdk/cmdb-sdk": "^0.0.0",
+    "@next-api-sdk/micro-app-sdk": "^0.0.0",
     "@next-api-sdk/micro-app-standalone-sdk": "^0.0.0",
     "@next-core/cook": "^1.6.81",
     "@next-core/http": "^0.0.0",
