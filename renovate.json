@@ -41,7 +41,7 @@
     "**/packages/color-theme/**",
     "**/packages/rollup-config-factory/**"
   ],
-  "baseBranches": ["v3"],
+  "baseBranches": ["next"],
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
