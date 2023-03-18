@@ -6,16 +6,19 @@ import {
   beforeAll,
   afterAll,
 } from "@jest/globals";
+import { createProviderClass } from "@next-core/utils/storyboard";
 import type { RuntimeContext } from "./interfaces.js";
-import { listenerFactory } from "./bindListeners.js";
+import { bindListeners, listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
 import { DataStore } from "./data/DataStore.js";
 import { handleHttpError } from "../handleHttpError.js";
 import { applyTheme, applyMode } from "../themeAndMode.js";
+import { startPoll } from "./poll.js";
 
 jest.mock("../history.js");
 jest.mock("../handleHttpError.js");
 jest.mock("../themeAndMode.js");
+jest.mock("./poll.js");
 
 const consoleLog = jest.spyOn(console, "log");
 const consoleInfo = jest.spyOn(console, "info");
@@ -31,6 +34,19 @@ const mockApplyTheme = applyTheme as jest.MockedFunction<
   typeof handleHttpError
 >;
 const mockApplyMode = applyMode as jest.MockedFunction<typeof handleHttpError>;
+
+const myTimeoutProvider = jest.fn(
+  (timeout: number, result: string) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(result), timeout);
+    })
+);
+const MyTimeoutProvider = createProviderClass(myTimeoutProvider);
+const saveAs = jest.fn(() => Promise.resolve("saved"));
+Object.defineProperty(MyTimeoutProvider.prototype, "saveAs", {
+  value: saveAs,
+});
+customElements.define("my-timeout-provider", MyTimeoutProvider);
 
 const tplHostElement = {
   dispatchEvent: jest.fn(),
@@ -54,6 +70,33 @@ const runtimeContext = {
 } as Partial<RuntimeContext> as RuntimeContext;
 
 const event = new CustomEvent("response", { detail: "ok" });
+
+describe("bindListeners", () => {
+  test("basic", () => {
+    consoleInfo.mockReturnValueOnce();
+    const element = document.createElement("div");
+    bindListeners(
+      element,
+      {
+        click: {
+          action: "console.info",
+          args: [],
+        },
+      },
+      runtimeContext
+    );
+    element.click();
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledWith();
+  });
+
+  test("empty events", () => {
+    const element = document.createElement("div");
+    bindListeners(element, undefined, runtimeContext);
+    element.click();
+    expect(consoleInfo).not.toBeCalled();
+  });
+});
 
 describe("listenerFactory for history.*", () => {
   const history = {
@@ -582,7 +625,406 @@ describe("listenerFactory for console.*", () => {
   });
 });
 
-describe("listenerFactory for unknown action", () => {
+describe("listenerFactory for setting brick properties", () => {
+  test("target _self", () => {
+    const brick = {
+      element: document.createElement("div"),
+    };
+    listenerFactory(
+      {
+        target: "_self",
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      runtimeContext,
+      brick
+    )(event);
+    expect(brick.element.title).toBe("ok");
+  });
+
+  test("arbitrary target", () => {
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+    element1.classList.add("my-target");
+    element2.classList.add("my-target");
+    document.body.append(element1);
+    document.body.append(element2);
+    listenerFactory(
+      {
+        target: ".my-target",
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      runtimeContext
+    )(event);
+    expect(element1.title).toBe("ok");
+    expect(element2.title).toBe("");
+    element1.remove();
+    element2.remove();
+  });
+
+  test("evaluable target", () => {
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+    element1.classList.add("target-error");
+    element2.classList.add("target-ok");
+    document.body.append(element1);
+    document.body.append(element2);
+    listenerFactory(
+      {
+        target: "<% EVENT.detail === 'ok' ? '.target-ok' : '.target-error' %>",
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      runtimeContext
+    )(event);
+    expect(element1.title).toBe("");
+    expect(element2.title).toBe("ok");
+    element1.remove();
+    element2.remove();
+  });
+
+  test("pre-evaluated target", () => {
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+    element1.classList.add("target-error");
+    element2.classList.add("target-ok");
+    document.body.append(element1);
+    document.body.append(element2);
+    listenerFactory(
+      {
+        target: {
+          [Symbol.for("pre.evaluated.raw")]:
+            "<% EVENT.detail === 'ok' ? '.target-ok' : '.target-error' %>",
+        },
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      runtimeContext
+    )(event);
+    expect(element1.title).toBe("");
+    expect(element2.title).toBe("ok");
+    element1.remove();
+    element2.remove();
+  });
+
+  test("arbitrary multiple targets", () => {
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+    element1.classList.add("my-target");
+    element2.classList.add("my-target");
+    document.body.append(element1);
+    document.body.append(element2);
+    listenerFactory(
+      {
+        target: ".my-target",
+        multiple: true,
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      runtimeContext
+    )(event);
+    expect(element1.title).toBe("ok");
+    expect(element2.title).toBe("ok");
+    element1.remove();
+    element2.remove();
+  });
+
+  test("targetRef", () => {
+    const tplStateStoreId = "tpl-state-1";
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const element1 = document.createElement("div");
+    const host = {
+      $$getElementByRef(ref: string) {
+        if (ref === "a") {
+          return element1;
+        }
+      },
+    };
+    const stateStore = new DataStore("STATE", {
+      type: "div",
+      element: host as any,
+      runtimeContext,
+    });
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+    listenerFactory(
+      {
+        targetRef: "a",
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      {
+        ...runtimeContext,
+        tplStateStoreId,
+        tplStateStoreMap,
+      }
+    )(event);
+    expect(element1.title).toBe("ok");
+  });
+
+  test("pre-evaluated targetRef", () => {
+    const tplStateStoreId = "tpl-state-1";
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const element1 = document.createElement("div");
+    const host = {
+      $$getElementByRef(ref: string) {
+        if (ref === "a") {
+          return element1;
+        }
+      },
+    };
+    const stateStore = new DataStore("STATE", {
+      type: "div",
+      element: host as any,
+      runtimeContext,
+    });
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+    listenerFactory(
+      {
+        targetRef: {
+          [Symbol.for("pre.evaluated.raw")]:
+            "<% EVENT.detail === 'ok' ? 'a' : 'b' %>",
+        } as unknown as string,
+        properties: {
+          title: "<% EVENT.detail %>",
+        },
+      },
+      {
+        ...runtimeContext,
+        tplStateStoreId,
+        tplStateStoreMap,
+      }
+    )(event);
+    expect(element1.title).toBe("ok");
+  });
+});
+
+describe("listenerFactory for calling brick methods", () => {
+  test("Implicit args", () => {
+    const brick = {
+      element: {
+        callMe: jest.fn(),
+      },
+    };
+    listenerFactory(
+      {
+        target: "_self",
+        method: "callMe",
+      },
+      runtimeContext,
+      brick as any
+    )(event);
+    expect(brick.element.callMe).toBeCalledWith(event);
+  });
+
+  test("Callback error", async () => {
+    const error = new Error("oops");
+    const brick = {
+      element: {
+        callMe: jest.fn(() => Promise.reject(error)),
+        callbackSuccess: jest.fn(),
+        callbackError: jest.fn(),
+        callbackFinally: jest.fn(),
+      },
+    };
+    listenerFactory(
+      {
+        target: "_self",
+        method: "callMe",
+        args: ["<% EVENT.detail %>"],
+        callback: {
+          success: {
+            target: "_self",
+            method: "callbackSuccess",
+            args: ["<% EVENT.detail %>"],
+          },
+          error: {
+            target: "_self",
+            method: "callbackError",
+            args: ["<% EVENT.detail %>"],
+          },
+          finally: {
+            target: "_self",
+            method: "callbackFinally",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
+      },
+      runtimeContext,
+      brick as any
+    )(event);
+    expect(brick.element.callMe).toBeCalledWith("ok");
+    expect(brick.element.callbackSuccess).not.toBeCalled();
+    expect(brick.element.callbackError).not.toBeCalled();
+    expect(brick.element.callbackFinally).not.toBeCalled();
+
+    await (global as any).flushPromises();
+    expect(brick.element.callbackSuccess).not.toBeCalled();
+    expect(brick.element.callbackError).toBeCalledWith(error);
+    expect(brick.element.callbackFinally).toBeCalledWith(null);
+  });
+
+  test("Calling undefined method", () => {
+    consoleError.mockReturnValueOnce();
+    const brick = {
+      element: document.createElement("div"),
+    };
+    listenerFactory(
+      {
+        target: "_self",
+        method: "callMe",
+      },
+      runtimeContext,
+      brick
+    )(event);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("target has no method:", {
+      target: brick.element,
+      method: "callMe",
+    });
+  });
+});
+
+describe("listenerFactory for useProvider", () => {
+  test("useProvider with callback", async () => {
+    const brick = {
+      element: {
+        callbackSuccess: jest.fn(),
+        callbackError: jest.fn(),
+        callbackFinally: jest.fn(),
+      },
+    };
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        method: "willBeReplacedByResolve" as "resolve",
+        args: [100, "resolved"],
+        callback: {
+          success: {
+            target: "_self",
+            method: "callbackSuccess",
+            args: ["<% EVENT.detail %>"],
+          },
+          error: {
+            target: "_self",
+            method: "callbackError",
+            args: ["<% EVENT.detail %>"],
+          },
+          finally: {
+            target: "_self",
+            method: "callbackFinally",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
+      },
+      runtimeContext,
+      brick as any
+    )(event);
+
+    expect(brick.element.callbackSuccess).not.toBeCalled();
+    expect(brick.element.callbackError).not.toBeCalled();
+    expect(brick.element.callbackFinally).not.toBeCalled();
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    expect(brick.element.callbackSuccess).toBeCalledWith("resolved");
+    expect(brick.element.callbackError).not.toBeCalled();
+    expect(brick.element.callbackFinally).toBeCalledWith(null);
+  });
+
+  test("useProvider with saveAs", async () => {
+    const brick = {
+      element: {
+        callbackSuccess: jest.fn(),
+        callbackError: jest.fn(),
+        callbackFinally: jest.fn(),
+      },
+    };
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        method: "saveAs",
+        args: [100, "resolved"],
+        callback: {
+          success: {
+            target: "_self",
+            method: "callbackSuccess",
+            args: ["<% EVENT.detail %>"],
+          },
+          error: {
+            target: "_self",
+            method: "callbackError",
+            args: ["<% EVENT.detail %>"],
+          },
+          finally: {
+            target: "_self",
+            method: "callbackFinally",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
+      },
+      runtimeContext,
+      brick as any
+    )(event);
+
+    expect(brick.element.callbackSuccess).not.toBeCalled();
+    expect(brick.element.callbackError).not.toBeCalled();
+    expect(brick.element.callbackFinally).not.toBeCalled();
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(myTimeoutProvider).not.toBeCalled();
+    expect(saveAs).toBeCalledTimes(1);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    expect(brick.element.callbackSuccess).toBeCalledWith("saved");
+    expect(brick.element.callbackError).not.toBeCalled();
+    expect(brick.element.callbackFinally).toBeCalledWith(null);
+  });
+
+  test("useProvider with poll", async () => {
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        args: [100, "resolved"],
+        poll: {
+          enabled: "<% EVENT.detail === 'ok' %>" as unknown as boolean,
+        },
+        callback: {},
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(startPoll).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toBeCalledTimes(0);
+  });
+
+  test("useProvider with poll not enabled", async () => {
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        args: [100, "resolved"],
+        poll: {
+          enabled: "<% EVENT.detail !== 'ok' %>" as unknown as boolean,
+        },
+        callback: {},
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(startPoll).not.toBeCalled();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+  });
+});
+
+describe("listenerFactory for unknown handlers", () => {
   beforeAll(() => {
     consoleError.mockReturnValue();
   });
@@ -602,5 +1044,17 @@ describe("listenerFactory for unknown action", () => {
       "unknown event listener action:",
       "oops"
     );
+  });
+
+  test("unknown handler", () => {
+    listenerFactory(
+      {
+        provider: "oops",
+      } as any,
+      runtimeContext
+    )(event);
+    expect(consoleError).toBeCalledWith("unknown event handler:", {
+      provider: "oops",
+    });
   });
 });
