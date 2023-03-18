@@ -8,7 +8,7 @@ export function track(
   raw: string,
   trackText: string,
   variableName: string
-): Iterable<string> | false {
+): Set<string> | false {
   if (raw.includes(trackText)) {
     const usage: MemberUsage = {
       usedProperties: new Set(),

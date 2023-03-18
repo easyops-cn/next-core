@@ -8,7 +8,7 @@ describe("track", () => {
       "track context",
       "CTX"
     );
-    expect([...(result as Iterable<string>)]).toEqual(["abc", "xyz"]);
+    expect([...(result as Set<string>)]).toEqual(["abc", "xyz"]);
   });
 
   test("no usage", () => {

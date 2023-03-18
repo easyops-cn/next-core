@@ -3,9 +3,9 @@ import type { RuntimeBrick } from "../interfaces.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 
 export interface TrackingContextItem {
-  contextNames: Iterable<string> | false;
-  stateNames: Iterable<string> | false;
-  formStateNames: Iterable<string> | false;
+  contextNames: string[] | Set<string> | false;
+  stateNames: string[] | Set<string> | false;
+  formStateNames: string[] | Set<string> | false;
   propName: string;
   propValue: unknown;
 }
