@@ -113,6 +113,7 @@ export class RendererContext {
         });
       }
     }
+    // istanbul ignore next
     if (!isEmpty((lifeCycle as { useResolves?: unknown }).useResolves)) {
       // eslint-disable-next-line no-console
       console.error(
@@ -170,14 +171,14 @@ export class RendererContext {
 
   #initializeRerenderBricks(bricks: Set<RenderBrick>): void {
     const mountEvent = new CustomEvent("mount");
-    for (const { brick, handlers } of this.#memoizedLifeCycle.onMount ?? []) {
+    for (const { brick, handlers } of this.#memoizedLifeCycle.onMount) {
       if (bricks.has(brick)) {
         listenerFactory(handlers, brick.runtimeContext, brick)(mountEvent);
       }
     }
 
     for (const { brick, handlers: conf } of this.#memoizedLifeCycle
-      .onScrollIntoView ?? []) {
+      .onScrollIntoView) {
       if (bricks.has(brick)) {
         this.#addObserver(brick, conf);
       }
@@ -341,6 +342,7 @@ export class RendererContext {
       | "onUnmount",
     event: CustomEvent
   ): void {
+    // istanbul ignore next
     if (
       process.env.NODE_ENV === "development" &&
       this.type === "useBrick" &&
@@ -350,7 +352,7 @@ export class RendererContext {
         `\`lifeCycle.${type}\` cannot be used in ${this.type}.\nThis is a bug of Brick Next, please report it.`
       );
     }
-    for (const { brick, handlers } of this.#memoizedLifeCycle[type] ?? []) {
+    for (const { brick, handlers } of this.#memoizedLifeCycle[type]) {
       listenerFactory(handlers, brick.runtimeContext, brick)(event);
     }
   }
@@ -408,7 +410,7 @@ export class RendererContext {
 
   initializeScrollIntoView(): void {
     for (const { brick, handlers: conf } of this.#memoizedLifeCycle
-      .onScrollIntoView ?? []) {
+      .onScrollIntoView) {
       this.#addObserver(brick, conf);
     }
   }

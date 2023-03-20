@@ -50,16 +50,15 @@ export async function renderUseBrick(
     rendererContext
   );
 
-  output.blockingList.push(
+  flushStableLoadBricks();
+
+  await Promise.all([
+    ...output.blockingList,
     ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
       store.waitForAll()
     ),
-    ...runtimeContext.pendingPermissionsPreCheck
-  );
-
-  flushStableLoadBricks();
-
-  await Promise.all(output.blockingList);
+    ...runtimeContext.pendingPermissionsPreCheck,
+  ]);
 
   if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
