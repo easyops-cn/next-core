@@ -11,6 +11,8 @@ import { enqueueStableLoadBricks } from "@next-core/loader";
 import { mountTree, unmountTree } from "./mount.js";
 import { getHistory } from "../history.js";
 import { mediaEventTarget } from "./mediaQuery.js";
+import { customTemplates } from "../CustomTemplates.js";
+import { getTplStateStore } from "./CustomTemplates/utils.js";
 
 jest.mock("@next-core/loader");
 jest.mock("./checkPermissions.js");
@@ -60,6 +62,9 @@ describe("renderRoutes", () => {
       path: "${APP.homepage}/:objectId",
       context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
       bricks: [{ brick: "div" }],
+      menu: {
+        menuId: "my-menu",
+      },
     };
     const output = await renderRoutes(
       renderRoot,
@@ -69,7 +74,7 @@ describe("renderRoutes", () => {
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [undefined],
+      menuRequests: [expect.any(Promise)],
       route,
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
@@ -981,6 +986,392 @@ describe("renderBrick for control nodes", () => {
       )
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unknown storyboard control node: ":unknown"]`
+    );
+  });
+});
+
+describe("renderBrick for tpl", () => {
+  test("general", async () => {
+    customTemplates.define("my.tpl-a", {
+      state: [
+        {
+          name: "x",
+          value: "X",
+          expose: true,
+        },
+        {
+          name: "y",
+          value: "Y",
+          expose: false,
+        },
+        {
+          name: "z",
+          value: "Z",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "ResolvedZ"],
+          },
+        },
+      ],
+      proxy: {
+        properties: {
+          innerTitle: {
+            ref: "d",
+            refProperty: "title",
+          },
+        },
+        slots: {
+          "": {
+            ref: "d",
+            refPosition: 0,
+          },
+          outerToolbar: {
+            ref: "d",
+            refSlot: "innerToolbar",
+          },
+          empty: {
+            ref: "d",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "d",
+          properties: {
+            x: "<% STATE.x %>",
+            y: "<% STATE.y %>",
+            z: "<% STATE.z %>",
+          },
+          children: [
+            {
+              brick: "span",
+              properties: {
+                textContent: "<% `I'm inner slot [${STATE.z}]` %>",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("router");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "my.tpl-a",
+        properties: {
+          x: "X2",
+          y: "Y2",
+          innerTitle: "T",
+        },
+        children: [
+          {
+            brick: "strong",
+            properties: {
+              textContent: "I'm outer slot",
+            },
+          },
+          {
+            brick: "em",
+            slot: "outerToolbar",
+            properties: {
+              textContent: "I'm outer toolbar",
+            },
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext
+    );
+    renderRoot.child = output.node;
+
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+
+    mountTree(renderRoot);
+    expect(container.innerHTML).toMatchInlineSnapshot(
+      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span>I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
+    );
+    expect((container.firstChild as any).x).toBe("X2");
+    expect((container.firstChild as any).y).toBe("Y2");
+    expect((container.firstChild as any).z).toBe("ResolvedZ");
+    const stateStore = getTplStateStore(
+      {
+        tplStateStoreId: output.node?.tplHostMetadata?.tplStateStoreId,
+        tplStateStoreMap: runtimeContext.tplStateStoreMap,
+      },
+      "test"
+    );
+    expect(stateStore.getValue("x")).toBe("X2");
+    expect(stateStore.getValue("y")).toBe("Y");
+    expect(stateStore.getValue("z")).toBe("ResolvedZ");
+  });
+
+  test("tpl with inner :forEach and track", async () => {
+    consoleInfo.mockReturnValue();
+
+    customTemplates.define("my.tpl-b", {
+      state: [
+        {
+          name: "list",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, ["a", "b"]],
+          },
+        },
+      ],
+      bricks: [
+        {
+          brick: ":forEach",
+          dataSource: "<% 'track state', STATE.list %>",
+          children: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "<% ITEM %>",
+              },
+              lifeCycle: {
+                onMount: {
+                  action: "console.info",
+                  args: ["onMount", "<% EVENT.type %>", "<% ITEM %>"],
+                },
+                onUnmount: {
+                  action: "console.info",
+                  args: ["onUnmount", "<% EVENT.type %>", "<% ITEM %>"],
+                },
+                onScrollIntoView: {
+                  handlers: [
+                    {
+                      action: "console.info",
+                      args: [
+                        "onScrollIntoView",
+                        "<% EVENT.type %>",
+                        "<% ITEM %>",
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              brick: "p",
+              properties: {
+                textContent: "<% `portal:${ITEM}` %>",
+              },
+              portal: true,
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("router");
+    const output = await renderBricks(
+      renderRoot,
+      [{ brick: "my.tpl-b" }],
+      runtimeContext,
+      rendererContext,
+      undefined
+    );
+    renderRoot.child = output.node;
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+    mountTree(renderRoot);
+    expect(consoleInfo).not.toBeCalled();
+    rendererContext.dispatchOnMount();
+    rendererContext.initializeScrollIntoView();
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
+
+    expect(container.innerHTML).toBe(
+      "<my.tpl-b><div>a</div><div>b</div></my.tpl-b>"
+    );
+    expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:b</p>");
+
+    (container.firstChild?.firstChild as HTMLElement).title = "mark";
+    expect(container.innerHTML).toBe(
+      '<my.tpl-b><div title="mark">a</div><div>b</div></my.tpl-b>'
+    );
+
+    const stateStore = getTplStateStore(
+      {
+        tplStateStoreId: output.node?.tplHostMetadata?.tplStateStoreId,
+        tplStateStoreMap: runtimeContext.tplStateStoreMap,
+      },
+      "test"
+    );
+    stateStore.updateValue("list", ["a", "c"], "replace");
+    expect(consoleInfo).toBeCalledTimes(2);
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(consoleInfo).toBeCalledTimes(6);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "onUnmount", "unmount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "onUnmount", "unmount", "b");
+    expect(consoleInfo).toHaveBeenNthCalledWith(5, "onMount", "mount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(6, "onMount", "mount", "c");
+
+    // Note: previous `title="mark"` is removed
+    expect(container.innerHTML).toBe(
+      "<my.tpl-b><div>a</div><div>c</div></my.tpl-b>"
+    );
+    expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:c</p>");
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispose();
+    consoleInfo.mockReset();
+  });
+
+  test("tpl with outer :forEach ", async () => {
+    customTemplates.define("my.tpl-c", {
+      state: [
+        {
+          name: "z",
+          value: "Z",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "ResolvedZ"],
+          },
+        },
+      ],
+      proxy: {
+        properties: {
+          innerTitle: {
+            ref: "d",
+            refProperty: "title",
+          },
+        },
+        slots: {
+          "": {
+            ref: "d",
+            refPosition: 0,
+          },
+          outerToolbar: {
+            ref: "d",
+            refSlot: "innerToolbar",
+          },
+          empty: {
+            ref: "d",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "d",
+          properties: {
+            z: "<% STATE.z %>",
+          },
+          children: [
+            {
+              brick: "span",
+              properties: {
+                textContent: "<% `I'm inner slot [${STATE.z}]` %>",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("router");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: ":forEach",
+        dataSource: ["a", "b"],
+        children: [
+          {
+            brick: "my.tpl-c",
+            properties: {
+              innerTitle: "<% ITEM %>",
+            },
+            children: [
+              {
+                brick: "strong",
+                properties: {
+                  textContent: "<% `I'm outer slot [${ITEM}]` %>",
+                },
+              },
+              {
+                brick: "em",
+                slot: "outerToolbar",
+                properties: {
+                  textContent: "<% `I'm outer toolbar [${ITEM}]` %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext
+    );
+    renderRoot.child = output.node;
+
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+
+    mountTree(renderRoot);
+    expect(container.innerHTML).toMatchInlineSnapshot(
+      `"<my.tpl-c><div title="a"><strong>I'm outer slot [a]</strong><span>I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar [a]</em></div></my.tpl-c><my.tpl-c><div title="b"><strong>I'm outer slot [b]</strong><span>I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar [b]</em></div></my.tpl-c>"`
     );
   });
 });
