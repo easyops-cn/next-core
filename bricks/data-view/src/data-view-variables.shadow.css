@@ -1,0 +1,100 @@
+/* 大屏变量表 */
+/* https://tapd.easyops.local/pages/viewpage.action?pageId=41912245 */
+
+:root {
+  /* ============== 颜色 Start ============== */
+
+  /* 背景色 */
+  --data-view_color-fill-global-bg: #0f1014;
+  --data-view_color-fill-bg-container: rgba(255, 255, 255, 9%);
+  --data-view_color-fill-bg-base-1: rgba(101, 106, 134, 20%);
+  --data-view_color-fill-bg-base-2: rgba(15, 16, 20, 0%);
+  --data-view_color-fill-bg-base-3: rgba(0, 0, 0, 20%);
+  --data-view_color-fill-bg-base-4: rgba(40, 46, 58, 100%);
+  --data-view_color-fill-bg-base-5: rgba(19, 25, 47, 80%);
+
+  /* 主题色 */
+  --data-view_color-brand: #3366ff;
+
+  /* 辅助色 */
+  --data-view_color-contrast-1: #83f5e1;
+
+  /* 状态色 */
+  --data-view_color-error: #cc0066;
+
+  /* 文字色 */
+  --data-view_color-header-text-big: #ffffff;
+  --data-view_color-header-text: #ffffff;
+  --data-view_color-normal-text: #ffffff;
+  --data-view_color-auxiliary-text: rgba(255, 255, 255, 80%);
+  --data-view_color-secondary-text: rgba(255, 255, 255, 60%);
+
+  /* 边框色 */
+  --data-view_color-border-divider-line: rgba(255, 255, 255, 9%);
+  --data-view_color-text-divider-line-1: rgba(255, 255, 255, 20%);
+  --data-view_color-text-divider-line-2: rgba(255, 255, 255, 20%);
+
+  /* ============== 颜色 End ============== */
+
+  /* ============== 圆角 Start ============== */
+
+  --data-view_small-border-radius: 2px;
+  --data-view_medius-border-radius: 5px;
+  --data-view_larger-border-radius: 12px;
+  --data-view_container-border-radius: 9999px;
+  --data-view_no-border-radius: 0px;
+
+  /* ============== 圆角 End ============== */
+
+  /* ============== 遮罩 Start ============== */
+
+  --data-view_mask-bg: rgba(0, 0, 0, 70%);
+
+  /* ============== 遮罩 End ============== */
+
+  /* ============== 字体 Start ============== */
+
+  /* 标题 */
+  --data-view_title-font-size-larger: 30px;
+  --data-view_title-font-size: 18px;
+  --data-view_normal-font-size: 14px;
+  --data-view_auxiliary-font-size: 16px;
+  --data-view_auxiliary-font-size-small: 12px;
+
+  /* 统计数值 */
+  --data-view_overview-data-font-size: 34px;
+  --data-view_statistics-data-font-size: 28px;
+  --data-view_normal-data-font-size: 16px;
+
+  /* 图表 */
+  --data-view_chart-legend-font-size: 12px;
+  --data-view_chart-tooltips-font-size: 12px;
+  --data-view_chart-tooltips-font-size: 12px;
+  --data-view_chart-axis-x-font-size: 12px;
+  --data-view_chart-axis-y-font-size: 12px;
+
+  /* 字重 */
+  --data-view_font-weight-600: 600;
+  --data-view_font-weight-500: 500;
+  --data-view_font-weight-400: 400;
+
+  /* ============== 字体 End ============== */
+
+  /* ============== 阴影 Start ============== */
+
+  --data-view_text-shadow: 0px 1px 4px #2863ee;
+
+  /* ============== 阴影 End ============== */
+
+  /* ============== 线框 Start ============== */
+
+  --data-view_border-width-base: 1px;
+  --data-view_border-width-double-base: 2px;
+  --data-view_border-width-tribble-base: 3px;
+
+  /* 虚线 */
+  --data-view_punctate-width-base: 1px;
+  --data-view_paragraph-width-base: 1px;
+
+  /* ============== 线框 End ============== */
+}
