@@ -53,6 +53,7 @@ export interface TagProps {
   checkable?: boolean;
   checked?: boolean;
   hidden?: boolean;
+  ellipsisWidth?: string;
   tagStyle?: React.CSSProperties;
 }
 
@@ -137,6 +138,16 @@ class Tag extends ReactNextElement implements TagProps {
    * @kind boolean
    * @required false
    * @default -
+   * @description 超过宽度文本隐藏宽度
+   * @group basic
+   */
+  @property()
+  accessor ellipsisWidth: string | undefined;
+
+  /**
+   * @kind boolean
+   * @required false
+   * @default -
    * @description 是否允许选择
    * @group basic
    */
@@ -190,6 +201,9 @@ class Tag extends ReactNextElement implements TagProps {
   handleClose = (detail: TagProps): void => {
     this.hidden = true;
     this.#closeEvent.emit(detail);
+    setTimeout(() => {
+      this.parentNode?.removeChild(this);
+    });
   };
 
   render() {
@@ -202,6 +216,7 @@ class Tag extends ReactNextElement implements TagProps {
         closable={this.closable}
         checkable={this.checkable}
         checked={this.checked}
+        ellipsisWidth={this.ellipsisWidth}
         tagStyle={this.tagStyle}
         onCheck={this.handleCheck}
         onClose={this.handleClose}
@@ -222,6 +237,7 @@ function TagComponent(props: TagComponentProps) {
     color,
     disabled,
     closable,
+    ellipsisWidth,
     checkable,
     checked: isChecked,
     tagStyle,
@@ -282,7 +298,16 @@ function TagComponent(props: TagComponentProps) {
     >
       <div className="tag-wrapper">
         {icon && <WrappedIcon className="tag-icon custom-icon" {...icon} />}
-        <slot></slot>
+        <div
+          className={classNames({
+            ellipsis: ellipsisWidth,
+          })}
+          style={{
+            maxWidth: ellipsisWidth,
+          }}
+        >
+          <slot></slot>
+        </div>
         {closable && !disabled && (
           <WrappedIcon
             className="tag-icon close-icon"
