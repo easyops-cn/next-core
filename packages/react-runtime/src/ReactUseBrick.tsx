@@ -13,6 +13,8 @@ export interface ReactUseBrickProps {
   data?: unknown;
 }
 
+// Note: always synchronize code in LegacyUseBrick:
+// `bricks/v2-adapter/src/data-providers/legacy-brick-kit/getLegacyUseBrick.ts`
 export function ReactUseBrick({
   useBrick,
   data,

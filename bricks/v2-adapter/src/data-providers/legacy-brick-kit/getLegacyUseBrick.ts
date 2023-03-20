@@ -17,7 +17,7 @@ interface MutableRefObject<T> {
 }
 
 export function getLegacyUseBrick(LegacyReact: typeof React) {
-  const { useEffect, useRef, useState } = LegacyReact;
+  const { useEffect, useRef, useState, useCallback } = LegacyReact;
   function ReactUseBrick({
     useBrick,
     data,
@@ -26,7 +26,6 @@ export function getLegacyUseBrick(LegacyReact: typeof React) {
       useState<__secret_internals.RenderUseBrickResult | null>(null);
     const mountResult = useRef<__secret_internals.MountUseBrickResult>();
     const [renderKey, setRenderKey] = useState<number>();
-    const elementRef = useRef<HTMLElement | null>();
     const IdCounterRef = useRef(0);
 
     useEffect(() => {
@@ -51,6 +50,26 @@ export function getLegacyUseBrick(LegacyReact: typeof React) {
       init();
     }, [data, useBrick]);
 
+    const refCallback = useCallback(
+      (element: HTMLElement) => {
+        if (element) {
+          mountResult.current = __secret_internals.mountUseBrick(
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            renderResult!,
+            element
+          );
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          __secret_internals.unmountUseBrick(
+            renderResult!,
+            mountResult.current!
+          );
+          mountResult.current = undefined;
+        }
+      },
+      [renderResult]
+    );
+
     if (!renderResult) {
       // Fallback when loading/
       return null;
@@ -63,25 +82,9 @@ export function getLegacyUseBrick(LegacyReact: typeof React) {
     }
 
     const WebComponent = tagName as any;
-
     return LegacyReact.createElement(WebComponent, {
       key: renderKey,
-      ref: (element: HTMLElement) => {
-        if (element) {
-          if (elementRef.current === element) {
-            return;
-          }
-          elementRef.current = element;
-          mountResult.current = __secret_internals.mountUseBrick(
-            renderResult,
-            element,
-            mountResult.current
-          );
-        } else if (mountResult.current) {
-          __secret_internals.unmountUseBrick(renderResult, mountResult.current);
-          mountResult.current = undefined;
-        }
-      },
+      ref: refCallback,
     });
   }
 
