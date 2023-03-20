@@ -80,6 +80,7 @@ export type RadioType =
 export interface GeneralComplexOption<T = string | number | boolean> {
   label: string;
   value: T;
+  [key: string]: any;
 }
 
 export declare type GeneralOption =
