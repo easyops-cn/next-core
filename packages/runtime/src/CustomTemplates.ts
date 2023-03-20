@@ -5,7 +5,7 @@ import type {
   CustomTemplateProxyBasicProperty,
 } from "@next-core/types";
 import { uniq } from "lodash";
-import { RuntimeBrickElement } from "./internal/interfaces.js";
+import type { RuntimeBrickElement } from "./internal/interfaces.js";
 
 // Note: `prefix` is a native prop on Element, but it's only used in XML documents.
 const allowedNativeProps = new Set(["prefix"]);
@@ -43,7 +43,7 @@ class CustomTemplateRegistry {
     };
     const validProxyProps: [string, CustomTemplateProxyBasicProperty][] = [];
     const legacyTplVariables: string[] = [];
-    for (const [key, value] of Object.entries(proxyProperties ?? {})) {
+    for (const [key, value] of Object.entries(proxyProperties)) {
       if (value.asVariable) {
         // For existed TPL usage, treat it as a STATE.
         legacyTplVariables.push(key);
@@ -94,14 +94,15 @@ class CustomTemplateRegistry {
     );
 
     const props = exposedStates.concat(
-      validProxyProps.map((entry) => entry[0]),
-      proxyMethods.map((entry) => entry[0])
+      validProxyProps.map((entry) => entry[0])
     );
+    const methods = proxyMethods.map((entry) => entry[0]);
 
-    const nativeProp = props.find(
-      (prop) => prop in HTMLElement.prototype && !allowedNativeProps.has(prop)
-    );
-    // istanbul ignore if
+    const nativeProp = props
+      .concat(methods)
+      .find(
+        (prop) => prop in HTMLElement.prototype && !allowedNativeProps.has(prop)
+      );
     if (nativeProp !== undefined) {
       throw new Error(
         `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property or method.`
@@ -119,6 +120,10 @@ class CustomTemplateRegistry {
 
       static get _dev_only_definedProperties(): string[] {
         return props;
+      }
+
+      static get _dev_only_definedMethods(): string[] {
+        return methods;
       }
 
       $$getElementByRef(this: RuntimeBrickElement, ref: string) {

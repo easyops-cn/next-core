@@ -7,9 +7,9 @@ import {
 } from "./evaluate.js";
 
 export function getTracks(value: unknown) {
-  let contextNames: Iterable<string> | false = false;
-  let stateNames: Iterable<string> | false = false;
-  let formStateNames: Iterable<string> | false = false;
+  let contextNames: string[] | Set<string> | false = false;
+  let stateNames: string[] | Set<string> | false = false;
+  let formStateNames: string[] | Set<string> | false = false;
   if (typeof value === "string" ? isEvaluable(value) : isPreEvaluated(value)) {
     const raw =
       typeof value === "string"

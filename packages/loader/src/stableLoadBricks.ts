@@ -32,7 +32,7 @@ export function flushStableLoadBricks(): void {
  * basic package bundle if it contains the shared modules.
  */
 export function enqueueStableLoadBricks(
-  bricks: Iterable<string>,
+  bricks: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
@@ -41,7 +41,7 @@ export function enqueueStableLoadBricks(
 }
 
 export function enqueueStableLoadProcessors(
-  processors: Iterable<string>,
+  processors: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
@@ -50,7 +50,7 @@ export function enqueueStableLoadProcessors(
 }
 
 export function loadBricksImperatively(
-  bricks: Iterable<string>,
+  bricks: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
@@ -60,7 +60,7 @@ export function loadBricksImperatively(
 }
 
 export function loadProcessorsImperatively(
-  processors: Iterable<string>,
+  processors: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
@@ -83,7 +83,7 @@ let v2AdapterPromise: Promise<V2AdapterBrick> | undefined;
 
 async function enqueueStableLoad(
   type: "bricks" | "processors",
-  list: Iterable<string>,
+  list: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const moduleDir = type === "processors" ? "./processors/" : "./";

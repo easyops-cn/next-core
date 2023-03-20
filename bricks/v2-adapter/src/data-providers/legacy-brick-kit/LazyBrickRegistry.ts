@@ -23,7 +23,9 @@ export function registerLazyBricks(
   }
 }
 
-export async function loadLazyBricks(bricks: Iterable<string>): Promise<void> {
+export async function loadLazyBricks(
+  bricks: string[] | Set<string>
+): Promise<void> {
   const requests = new Set<Promise<unknown>>();
   for (const brick of bricks) {
     const factory = lazyBrickRegistry.get(brick);
