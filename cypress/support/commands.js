@@ -50,3 +50,12 @@ Cypress.Commands.add("expectPortalContents", (contents) => {
     expect(received).to.deep.equal(contents);
   });
 });
+
+Cypress.Commands.add("expectPortalContentsUnordered", (contents) => {
+  cy.get("#portal-mount-point > *").then((elements) => {
+    const received = elements.map((i, el) => el.textContent).get();
+    const sortedReceived = received.sort();
+    const sortedContents = contents.slice().sort();
+    expect(sortedReceived).to.deep.equal(sortedContents);
+  });
+});

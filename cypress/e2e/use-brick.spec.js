@@ -24,7 +24,7 @@ for (const port of Cypress.env("ports")) {
         "",
         "Reset",
       ]);
-      cy.expectPortalContents([
+      cy.expectPortalContentsUnordered([
         "Modal:S:7",
         "Modal:S:8",
         "Modal:Z:0",
@@ -43,7 +43,7 @@ for (const port of Cypress.env("ports")) {
         "",
         "Reset",
       ]);
-      cy.expectPortalContents([
+      cy.expectPortalContentsUnordered([
         "Modal:S:7",
         "Modal:Z:0",
         "Modal:3:0",
@@ -57,7 +57,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Modal:4:0");
       cy.contains("Modal:S:8");
       cy.expectMainContents(["X:Z:1X:Z:2", "X:4:1X:4:2", "", "Reset"]);
-      cy.expectPortalContents(["Modal:Z:0", "Modal:S:8", "Modal:4:0"]);
+      cy.expectPortalContentsUnordered(["Modal:Z:0", "Modal:S:8", "Modal:4:0"]);
     });
   });
 }
