@@ -1,15 +1,11 @@
 import { Action, locationsAreEqual } from "history";
-import {
-  flushStableLoadBricks,
-  loadProcessorsImperatively,
-} from "@next-core/loader";
+import { flushStableLoadBricks } from "@next-core/loader";
 import type {
   BreadcrumbItemConf,
   MicroApp,
   StaticMenuConf,
   Storyboard,
 } from "@next-core/types";
-import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { HttpAbortError } from "@next-core/http";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
@@ -343,7 +339,8 @@ export class Router {
 
         flushStableLoadBricks();
 
-        output.blockingList.push(
+        await Promise.all([
+          ...output.blockingList,
           runtimeContext.ctxStore.waitForAll(),
           ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
             store.waitForAll()
@@ -357,9 +354,8 @@ export class Router {
           //   ),
           //   getBrickPackages()
           // ),
-          ...runtimeContext.pendingPermissionsPreCheck
-        );
-        await Promise.all(output.blockingList);
+          ...runtimeContext.pendingPermissionsPreCheck,
+        ]);
 
         const menuConfs = await Promise.all(output.menuRequests);
         this.#navConfig = mergeMenuConfs(menuConfs);

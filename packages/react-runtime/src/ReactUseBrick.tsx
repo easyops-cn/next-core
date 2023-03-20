@@ -13,6 +13,8 @@ export interface ReactUseBrickProps {
   data?: unknown;
 }
 
+// Note: always synchronize code in LegacyUseBrick:
+// `bricks/v2-adapter/src/data-providers/legacy-brick-kit/getLegacyUseBrick.ts`
 export function ReactUseBrick({
   useBrick,
   data,
@@ -45,8 +47,7 @@ export function ReactUseBrick({
         mountResult.current = __secret_internals.mountUseBrick(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           renderResult!,
-          element,
-          mountResult.current
+          element
         );
       } else {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

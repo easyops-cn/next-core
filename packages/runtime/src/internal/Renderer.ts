@@ -18,14 +18,13 @@ import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
-import { validatePermissions } from "./checkPermissions.js";
+import { preCheckPermissionsForBrickOrRoute } from "./checkPermissions.js";
 import {
   TrackingContextItem,
   listenOnTrackingContext,
 } from "./compute/listenOnTrackingContext.js";
 import { RendererContext } from "./RendererContext.js";
 import { matchRoutes } from "./matchRoutes.js";
-import { getAuth, isLoggedIn } from "../auth.js";
 import {
   RuntimeBrickConfWithTplSymbols,
   symbolForAsyncComputedPropsFromHost,
@@ -195,6 +194,12 @@ export async function renderBrick(
     menuRequests: [],
   };
 
+  if (!brickConf.brick) {
+    // eslint-disable-next-line no-console
+    console.error("Legacy templates are not supported in v3:", brickConf);
+    return output;
+  }
+
   const tplStateStoreId = brickConf[symbolForTplStateStoreId];
   const runtimeContext = {
     ..._runtimeContext,
@@ -207,17 +212,8 @@ export async function renderBrick(
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
   }
 
-  if (!(await asyncCheckBrickIf(brickConf, runtimeContext))) {
-    return output;
-  }
-
-  if (!brickConf.brick) {
-    // eslint-disable-next-line no-console
-    console.error("Legacy templates are not supported in v3:", brickConf);
-    return output;
-  }
-
   const { context } = brickConf as { context?: ContextConf[] };
+  // istanbul ignore next
   if (Array.isArray(context) && context.length > 0) {
     // eslint-disable-next-line no-console
     console.error(
@@ -231,7 +227,14 @@ export async function renderBrick(
     preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
   );
 
-  if (brickConf.brick.startsWith(":")) {
+  if (!(await asyncCheckBrickIf(brickConf, runtimeContext))) {
+    return output;
+  }
+
+  const brickName = brickConf.brick;
+  if (brickName.startsWith(":")) {
+    ensureValidControlBrick(brickName);
+
     const { dataSource } = brickConf;
 
     const renderControlNode = async () => {
@@ -243,9 +246,9 @@ export async function renderBrick(
 
       // Then, get the matched slot.
       const slot =
-        brickConf.brick === ":forEach"
+        brickName === ":forEach"
           ? ""
-          : brickConf.brick === ":switch"
+          : brickName === ":switch"
           ? String(computedDataSource)
           : computedDataSource
           ? ""
@@ -264,7 +267,7 @@ export async function renderBrick(
         return output;
       }
 
-      switch (brickConf.brick) {
+      switch (brickName) {
         case ":forEach": {
           if (!Array.isArray(computedDataSource)) {
             return output;
@@ -291,10 +294,6 @@ export async function renderBrick(
             true
           );
         }
-        default:
-          throw new Error(
-            `Unknown storyboard control node: "${brickConf.brick}"`
-          );
       }
     };
 
@@ -346,12 +345,12 @@ export async function renderBrick(
   }
 
   // Custom templates need to be defined before rendering.
-  if (/\.tpl-/.test(brickConf.brick) && !customTemplates.get(brickConf.brick)) {
-    await loadBricksImperatively([brickConf.brick], getBrickPackages());
+  if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
+    await loadBricksImperatively([brickName], getBrickPackages());
   }
 
   const tplTagName = getTagNameOfCustomTemplate(
-    brickConf.brick,
+    brickName,
     runtimeContext.app?.id
   );
 
@@ -365,15 +364,15 @@ export async function renderBrick(
     tplStack.set(tplTagName, tplCount + 1);
   }
 
-  if (brickConf.brick.includes(".")) {
+  if (brickName.includes(".")) {
     output.blockingList.push(
-      enqueueStableLoadBricks([brickConf.brick], getBrickPackages())
+      enqueueStableLoadBricks([brickName], getBrickPackages())
     );
   }
 
   const brick: RenderBrick = {
     tag: RenderTag.BRICK,
-    type: tplTagName || brickConf.brick,
+    type: tplTagName || brickName,
     return: returnNode,
     slotId,
     events: brickConf.events,
@@ -493,6 +492,16 @@ export async function renderBrick(
   return output;
 }
 
+type ValidControlBrick = ":forEach" | ":if" | ":switch";
+
+function ensureValidControlBrick(
+  brick: string
+): asserts brick is ValidControlBrick {
+  if (brick !== ":forEach" && brick !== ":if" && brick !== ":switch") {
+    throw new Error(`Unknown storyboard control node: "${brick}"`);
+  }
+}
+
 async function renderForEach(
   returnNode: RenderNode,
   dataSource: unknown[],
@@ -590,6 +599,7 @@ export function childrenToSlots(
   originalSlots: SlotsConf | undefined
 ) {
   let newSlots = originalSlots;
+  // istanbul ignore next
   if (
     process.env.NODE_ENV === "development" &&
     children &&
@@ -616,21 +626,4 @@ export function childrenToSlots(
     }
   }
   return newSlots;
-}
-
-async function preCheckPermissionsForBrickOrRoute(
-  container: BrickConf | RouteConf,
-  runtimeContext: RuntimeContext
-) {
-  if (
-    isLoggedIn() &&
-    !getAuth().isAdmin &&
-    Array.isArray(container.permissionsPreCheck)
-  ) {
-    const actions = (await asyncComputeRealValue(
-      container.permissionsPreCheck,
-      runtimeContext
-    )) as string[];
-    return validatePermissions(actions);
-  }
 }

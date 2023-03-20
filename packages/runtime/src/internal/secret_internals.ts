@@ -50,16 +50,15 @@ export async function renderUseBrick(
     rendererContext
   );
 
-  output.blockingList.push(
+  flushStableLoadBricks();
+
+  await Promise.all([
+    ...output.blockingList,
     ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
       store.waitForAll()
     ),
-    ...runtimeContext.pendingPermissionsPreCheck
-  );
-
-  flushStableLoadBricks();
-
-  await Promise.all(output.blockingList);
+    ...runtimeContext.pendingPermissionsPreCheck,
+  ]);
 
   if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
@@ -78,26 +77,17 @@ export interface MountUseBrickResult {
 
 export function mountUseBrick(
   { renderRoot, rendererContext }: RenderUseBrickResult,
-  element: HTMLElement,
-  prevMountResult?: MountUseBrickResult
+  element: HTMLElement
 ): MountUseBrickResult {
-  // if (prevMountResult?.mainBrick) {
-  //   prevMountResult.mainBrick.unmount();
-  // }
-  let portal = prevMountResult?.portal;
-  if (portal) {
-    unmountTree(portal);
-    renderRoot.createPortal = () => portal!;
-  } else {
-    renderRoot.createPortal = () => {
-      const portalRoot = document.querySelector(
-        "#portal-mount-point"
-      ) as HTMLElement;
-      portal = document.createElement("div");
-      portalRoot.appendChild(portal);
-      return portal;
-    };
-  }
+  let portal: HTMLElement | undefined;
+  renderRoot.createPortal = () => {
+    const portalRoot = document.querySelector(
+      "#portal-mount-point"
+    ) as HTMLElement;
+    portal = document.createElement("div");
+    portalRoot.appendChild(portal);
+    return portal;
+  };
 
   mountTree(renderRoot, element);
 

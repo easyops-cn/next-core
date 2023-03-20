@@ -3,9 +3,11 @@ import {
   scanPermissionActionsInAny,
   scanPermissionActionsInStoryboard,
 } from "@next-core/utils/storyboard";
-import { Storyboard } from "@next-core/types";
+import type { BrickConf, RouteConf, Storyboard } from "@next-core/types";
 import { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
 import { getAuth, isLoggedIn } from "../auth.js";
+import type { RuntimeContext } from "./interfaces.js";
+import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
@@ -18,6 +20,23 @@ export function preCheckPermissions(
   if (isLoggedIn() && !getAuth().isAdmin) {
     const usedActions = scanPermissionActionsInStoryboard(storyboard);
     return validatePermissions(usedActions);
+  }
+}
+
+export async function preCheckPermissionsForBrickOrRoute(
+  container: BrickConf | RouteConf,
+  runtimeContext: RuntimeContext
+) {
+  if (
+    isLoggedIn() &&
+    !getAuth().isAdmin &&
+    Array.isArray(container.permissionsPreCheck)
+  ) {
+    const actions = (await asyncComputeRealValue(
+      container.permissionsPreCheck,
+      runtimeContext
+    )) as string[];
+    return validatePermissions(actions);
   }
 }
 

@@ -74,16 +74,14 @@ describe("ReactUseBrick", () => {
         tagName: "div",
         args: [useBrick, "a"],
       },
-      expect.any(HTMLDivElement),
-      undefined
+      expect.any(HTMLDivElement)
     );
     expect(mockMountUseBrick).toBeCalledWith(
       {
         tagName: "div",
         args: [useBrick, "b"],
       },
-      expect.any(HTMLDivElement),
-      undefined
+      expect.any(HTMLDivElement)
     );
 
     // Re-render useBrick with the latter one props updated.
@@ -110,8 +108,7 @@ describe("ReactUseBrick", () => {
         tagName: "div",
         args: [useBrick, "c"],
       },
-      expect.any(HTMLDivElement),
-      undefined
+      expect.any(HTMLDivElement)
     );
 
     unmount();
@@ -199,16 +196,14 @@ describe("ReactUseMultipleBricks", () => {
         tagName: "div",
         args: [useBrick[0], "m"],
       },
-      expect.any(HTMLDivElement),
-      undefined
+      expect.any(HTMLDivElement)
     );
     expect(mockMountUseBrick).toBeCalledWith(
       {
         tagName: "span",
         args: [useBrick[1], "m"],
       },
-      expect.any(HTMLSpanElement),
-      undefined
+      expect.any(HTMLSpanElement)
     );
 
     unmount();
@@ -235,8 +230,7 @@ describe("ReactUseMultipleBricks", () => {
         tagName: "div",
         args: [useBrick, "m"],
       },
-      expect.any(HTMLDivElement),
-      undefined
+      expect.any(HTMLDivElement)
     );
 
     unmount();
