@@ -77,26 +77,17 @@ export interface MountUseBrickResult {
 
 export function mountUseBrick(
   { renderRoot, rendererContext }: RenderUseBrickResult,
-  element: HTMLElement,
-  prevMountResult?: MountUseBrickResult
+  element: HTMLElement
 ): MountUseBrickResult {
-  // if (prevMountResult?.mainBrick) {
-  //   prevMountResult.mainBrick.unmount();
-  // }
-  let portal = prevMountResult?.portal;
-  if (portal) {
-    unmountTree(portal);
-    renderRoot.createPortal = () => portal!;
-  } else {
-    renderRoot.createPortal = () => {
-      const portalRoot = document.querySelector(
-        "#portal-mount-point"
-      ) as HTMLElement;
-      portal = document.createElement("div");
-      portalRoot.appendChild(portal);
-      return portal;
-    };
-  }
+  let portal: HTMLElement | undefined;
+  renderRoot.createPortal = () => {
+    const portalRoot = document.querySelector(
+      "#portal-mount-point"
+    ) as HTMLElement;
+    portal = document.createElement("div");
+    portalRoot.appendChild(portal);
+    return portal;
+  };
 
   mountTree(renderRoot, element);
 

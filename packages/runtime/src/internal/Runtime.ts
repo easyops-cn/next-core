@@ -142,7 +142,7 @@ export function _internalApiMatchStoryboard(
 
 /* istanbul ignore next */
 export function _internalApiGetRuntimeContext() {
-  return router.getRuntimeContext();
+  return router?.getRuntimeContext();
 }
 
 export function _internalApiGetStoryboardInBootstrapData(appId: string) {

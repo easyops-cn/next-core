@@ -45,8 +45,7 @@ export function ReactUseBrick({
         mountResult.current = __secret_internals.mountUseBrick(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           renderResult!,
-          element,
-          mountResult.current
+          element
         );
       } else {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
