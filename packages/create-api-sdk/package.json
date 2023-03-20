@@ -41,7 +41,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.1",
     "inquirer": "^8.2.5",
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
