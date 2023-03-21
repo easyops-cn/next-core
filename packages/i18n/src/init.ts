@@ -18,12 +18,11 @@ export function initializeI18n(NS?: string, locales?: Locales) {
       .use(
         process.env.NODE_ENV === "test"
           ? (LanguageDetector as unknown as LanguageDetector.default)
-          : LanguageDetector.default
+          : /* istanbul ignore next */ LanguageDetector.default
       )
       // for all options read: https://www.i18next.com/overview/configuration-options
       .init({
         fallbackLng: "zh",
-        /*global process*/
         debug: process.env.NODE_ENV === "development",
         supportedLngs: ["zh", "en"],
         nonExplicitSupportedLngs: true,
