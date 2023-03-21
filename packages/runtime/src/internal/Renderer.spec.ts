@@ -13,6 +13,7 @@ import { getHistory } from "../history.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
+import { symbolForTplStateStoreId } from "./CustomTemplates/constants.js";
 
 jest.mock("@next-core/loader");
 jest.mock("./checkPermissions.js");
@@ -992,6 +993,7 @@ describe("renderBrick for control nodes", () => {
 
 describe("renderBrick for tpl", () => {
   test("general", async () => {
+    consoleInfo.mockReturnValue();
     customTemplates.define("my.tpl-a", {
       state: [
         {
@@ -1033,6 +1035,12 @@ describe("renderBrick for tpl", () => {
             ref: "d",
           },
         },
+        events: {
+          spanClick: {
+            ref: "sp",
+            refEvent: "click",
+          },
+        },
       },
       bricks: [
         {
@@ -1042,11 +1050,17 @@ describe("renderBrick for tpl", () => {
             x: "<% STATE.x %>",
             y: "<% STATE.y %>",
             z: "<% STATE.z %>",
+            useBrick: {
+              brick: "i",
+              if: "<% STATE.z && DATA %>",
+            },
           },
           children: [
             {
               brick: "span",
+              ref: "sp",
               properties: {
+                id: "inner-span",
                 textContent: "<% `I'm inner slot [${STATE.z}]` %>",
               },
             },
@@ -1093,11 +1107,19 @@ describe("renderBrick for tpl", () => {
             },
           },
         ],
+        events: {
+          spanClick: {
+            action: "console.info",
+            args: ["<% EVENT.type %>"],
+          },
+        },
       },
       runtimeContext,
       rendererContext
     );
     renderRoot.child = output.node;
+    const { tplStateStoreId } = output.node!.tplHostMetadata!;
+    expect(tplStateStoreId).toBeDefined();
 
     await Promise.all([
       ...output.blockingList,
@@ -1109,21 +1131,43 @@ describe("renderBrick for tpl", () => {
 
     mountTree(renderRoot);
     expect(container.innerHTML).toMatchInlineSnapshot(
-      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span>I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
+      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span id="inner-span">I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
     );
     expect((container.firstChild as any).x).toBe("X2");
     expect((container.firstChild as any).y).toBe("Y2");
     expect((container.firstChild as any).z).toBe("ResolvedZ");
-    const stateStore = getTplStateStore(
-      {
-        tplStateStoreId: output.node?.tplHostMetadata?.tplStateStoreId,
-        tplStateStoreMap: runtimeContext.tplStateStoreMap,
+    expect((container.firstChild as any).firstChild.x).toBe("X2");
+    expect((container.firstChild as any).firstChild.y).toBe("Y");
+    expect((container.firstChild as any).firstChild.z).toBe("ResolvedZ");
+
+    // Setup useBrick in template
+    expect((container.firstChild as any).firstChild.useBrick).toEqual({
+      brick: "i",
+      if: {
+        [Symbol.for("pre.evaluated.raw")]: "<% STATE.z && DATA %>",
+        [Symbol.for("pre.evaluated.context")]: expect.objectContaining({
+          tplStateStoreId,
+        }),
       },
-      "test"
-    );
-    expect(stateStore.getValue("x")).toBe("X2");
-    expect(stateStore.getValue("y")).toBe("Y");
-    expect(stateStore.getValue("z")).toBe("ResolvedZ");
+      slots: {},
+      [symbolForTplStateStoreId]: tplStateStoreId,
+    });
+
+    const outerSpanClick = jest.fn();
+    container.addEventListener("spanClick", outerSpanClick);
+    container.querySelector("#inner-span")!.dispatchEvent(new Event("click"));
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledWith("spanClick");
+    expect(outerSpanClick).toBeCalledTimes(0);
+
+    container
+      .querySelector("#inner-span")!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledWith("spanClick");
+    expect(outerSpanClick).toBeCalledTimes(1);
+
+    consoleInfo.mockReset();
   });
 
   test("tpl with inner :forEach and track", async () => {

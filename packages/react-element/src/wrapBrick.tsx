@@ -31,7 +31,7 @@ export type WrappedBrickWithEventsMap<T, P, E, M> = ForwardRefExoticComponent<
 >;
 
 type MapEvents<E, M> = {
-  [key in keyof M]: M[key] extends keyof E ? (e: E[M[key]]) => void : never;
+  [key in keyof M]?: M[key] extends keyof E ? (e: E[M[key]]) => void : never;
 };
 
 export function wrapLocalBrick<T extends NextElement, P, E, M extends object>(

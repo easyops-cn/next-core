@@ -1,5 +1,6 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import type { UseSingleBrickConf } from "@next-core/types";
+import { createProviderClass } from "@next-core/utils/storyboard";
 import {
   mountUseBrick,
   renderPreviewBricks,
@@ -7,6 +8,7 @@ import {
   unmountUseBrick,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
+import { customTemplates } from "../CustomTemplates.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../themeAndMode.js");
@@ -20,6 +22,17 @@ const IntersectionObserver = jest.fn((callback: Function) => {
   };
 });
 (window as any).IntersectionObserver = IntersectionObserver;
+
+const myTimeoutProvider = jest.fn(
+  (timeout: number, result: unknown) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(result), timeout);
+    })
+);
+customElements.define(
+  "my-timeout-provider",
+  createProviderClass(myTimeoutProvider)
+);
 
 describe("useBrick", () => {
   beforeEach(() => {
@@ -140,6 +153,168 @@ describe("useBrick", () => {
     };
     const renderResult = await renderUseBrick(useBrick, "a");
     expect(renderResult.tagName).toBe(null);
+  });
+
+  test("tpl", async () => {
+    consoleInfo.mockReturnValue();
+    customTemplates.define("my.tpl-a", {
+      state: [
+        {
+          name: "x",
+          value: "X",
+          expose: true,
+        },
+        {
+          name: "y",
+          value: "Y",
+          expose: false,
+        },
+        {
+          name: "z",
+          value: "Z",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "ResolvedZ"],
+          },
+        },
+      ],
+      proxy: {
+        properties: {
+          innerTitle: {
+            ref: "d",
+            refProperty: "title",
+          },
+        },
+        slots: {
+          "": {
+            ref: "d",
+            refPosition: 0,
+          },
+          outerToolbar: {
+            ref: "d",
+            refSlot: "innerToolbar",
+          },
+          empty: {
+            ref: "d",
+          },
+        },
+        events: {
+          spanClick: {
+            ref: "sp",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "d",
+          properties: {
+            x: "<% STATE.x %>",
+            y: "<% STATE.y %>",
+            z: "<% STATE.z %>",
+          },
+          children: [
+            {
+              brick: ":if",
+              dataSource: "<% 'track state', STATE.x === 'X2' %>",
+              slots: {
+                "": {
+                  bricks: [
+                    {
+                      brick: "span",
+                      ref: "sp",
+                      properties: {
+                        id: "inner-span",
+                        textContent: "<% `I'm inner slot [${STATE.z}]` %>",
+                      },
+                    },
+                    {
+                      brick: "hr",
+                      ref: "hr",
+                    },
+                  ],
+                },
+                else: {
+                  bricks: [
+                    {
+                      brick: "span",
+                      ref: "sp",
+                      properties: {
+                        id: "inner-span",
+                        textContent:
+                          "<% `I'm updated inner slot [${STATE.z}]` %>",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const useBrick: UseSingleBrickConf = {
+      brick: "my.tpl-a",
+      properties: {
+        x: "X2",
+        y: "Y2",
+        innerTitle: "T",
+      },
+      children: [
+        {
+          brick: "strong",
+          properties: {
+            textContent: "I'm outer slot",
+          },
+        },
+        {
+          brick: "em",
+          slot: "outerToolbar",
+          properties: {
+            textContent: "I'm outer toolbar",
+          },
+        },
+      ],
+      events: {
+        spanClick: {
+          action: "console.info",
+          args: ["<% EVENT.type %>"],
+        },
+      },
+    };
+
+    const renderResult = await renderUseBrick(useBrick, "a");
+    expect(renderResult.tagName).toBe("my.tpl-a");
+
+    const root = document.createElement("my.tpl-a");
+    const mountResult = mountUseBrick(renderResult, root);
+
+    expect(root.outerHTML).toMatchInlineSnapshot(
+      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span id="inner-span">I'm inner slot [ResolvedZ]</span><hr><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
+    );
+    expect((root.firstChild as any).x).toBe("X2");
+    expect((root.firstChild as any).y).toBe("Y");
+    expect((root.firstChild as any).z).toBe("ResolvedZ");
+
+    root.querySelector("#inner-span")!.dispatchEvent(new Event("spanClick"));
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledWith("spanClick");
+
+    (root as any).x = "X3";
+    // Wait for debounced re-render for control nodes.
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    expect(root.outerHTML).toMatchInlineSnapshot(
+      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span id="inner-span">I'm updated inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
+    );
+
+    root.querySelector("#inner-span")!.dispatchEvent(new Event("spanClick"));
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledWith("spanClick");
+
+    unmountUseBrick(renderResult, mountResult);
+
+    consoleInfo.mockReset();
   });
 
   test("root as portal", async () => {
