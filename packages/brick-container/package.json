@@ -38,7 +38,7 @@
     "lodash": "^4.17.21",
     "meow": "^11.0.0",
     "mockdate": "^3.0.5",
-    "ws": "^8.12.1"
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^0.0.0",
@@ -47,10 +47,10 @@
     "@next-core/runtime": "^0.0.0",
     "@next-core/theme": "^0.0.0",
     "copy-webpack-plugin": "^11.0.0",
-    "core-js": "^3.28.0",
+    "core-js": "^3.29.1",
     "html-webpack-plugin": "^5.5.0",
     "regenerator-runtime": "^0.13.11",
-    "webpack-dev-server": "^4.11.1"
+    "webpack-dev-server": "^4.13.1"
   },
   "peerDependencies": {
     "@next-core/http": "*",
