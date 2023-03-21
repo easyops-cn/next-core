@@ -70,6 +70,7 @@ describe("checkInstalledApps", () => {
   });
 
   test("non-standalone", async () => {
+    window.STANDALONE_MICRO_APPS = false;
     preCheckInstalledApps({
       app: null!,
       routes: [
