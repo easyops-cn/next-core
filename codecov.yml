@@ -1,8 +1,8 @@
 comment:
   layout: "header, reach, diff, files, components"
 ignore:
-  - "node_modules"
-  - "\\.cache"
+  - "**/node_modules"
+  - "**/\\.cache"
 component_management:
   individual_components:
     - component_id: core-packages  # this is an identifier that should not be changed
