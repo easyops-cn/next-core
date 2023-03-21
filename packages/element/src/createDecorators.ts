@@ -174,7 +174,7 @@ export function createDecorators() {
         private: isPrivate,
       }: ClassAccessorDecoratorContext<NextElement, T>
     ): ClassAccessorDecoratorResult<NextElement, T> {
-      // istanbul ignore else
+      // istanbul ignore next
       if (process.env.NODE_ENV !== "production") {
         if (kind !== "accessor") {
           throw new Error(
@@ -287,7 +287,7 @@ export function createDecorators() {
         addInitializer,
       }: ClassMethodDecoratorContext
     ) {
-      // istanbul ignore else
+      // istanbul ignore next
       if (process.env.NODE_ENV !== "production") {
         if (kind !== "method") {
           throw new Error(
@@ -337,7 +337,7 @@ export function createDecorators() {
         private: isPrivate,
       }: ClassAccessorDecoratorContext
     ): ClassAccessorDecoratorResult<NextElement, EventEmitter<T>> {
-      // istanbul ignore else
+      // istanbul ignore next
       if (process.env.NODE_ENV !== "production") {
         if (kind !== "accessor") {
           throw new Error(
