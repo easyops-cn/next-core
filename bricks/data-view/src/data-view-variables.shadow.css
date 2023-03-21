@@ -1,100 +1,104 @@
 /* 大屏变量表 */
 /* https://tapd.easyops.local/pages/viewpage.action?pageId=41912245 */
 
-:root {
+:host {
+  /* ============== 基本色 Start ============== */
+  --white-1-channel: 255, 255, 255;
+  --blue-1-channel: 51, 102, 255;
+
   /* ============== 颜色 Start ============== */
 
   /* 背景色 */
-  --data-view_color-fill-global-bg: #0f1014;
-  --data-view_color-fill-bg-container: rgba(255, 255, 255, 9%);
-  --data-view_color-fill-bg-base-1: rgba(101, 106, 134, 20%);
-  --data-view_color-fill-bg-base-2: rgba(15, 16, 20, 0%);
-  --data-view_color-fill-bg-base-3: rgba(0, 0, 0, 20%);
-  --data-view_color-fill-bg-base-4: rgba(40, 46, 58, 100%);
-  --data-view_color-fill-bg-base-5: rgba(19, 25, 47, 80%);
+  --color-fill-global-bg: #0f1014;
+  --color-fill-bg-container: rgba(var(--white-1-channel), 9%);
+  --color-fill-bg-base-1: rgba(101, 106, 134, 20%);
+  --color-fill-bg-base-2: rgba(15, 16, 20, 0%);
+  --color-fill-bg-base-3: rgba(0, 0, 0, 20%);
+  --color-fill-bg-base-4: rgba(40, 46, 58, 100%);
+  --color-fill-bg-base-5: rgba(19, 25, 47, 80%);
 
   /* 主题色 */
-  --data-view_color-brand: #3366ff;
+  --color-brand: rgb(var(--blue-1-channel));
 
   /* 辅助色 */
-  --data-view_color-contrast-1: #83f5e1;
+  --color-contrast-1: #83f5e1;
 
   /* 状态色 */
-  --data-view_color-error: #cc0066;
+  --color-error: #cc0066;
 
   /* 文字色 */
-  --data-view_color-header-text-big: #ffffff;
-  --data-view_color-header-text: #ffffff;
-  --data-view_color-normal-text: #ffffff;
-  --data-view_color-auxiliary-text: rgba(255, 255, 255, 80%);
-  --data-view_color-secondary-text: rgba(255, 255, 255, 60%);
+  --color-header-text-big: #ffffff;
+  --color-header-text: #ffffff;
+  --color-normal-text: rgb(var(--white-1-channel));
+  --color-auxiliary-text: rgba(var(--white-1-channel), 80%);
+  --color-secondary-text: rgba(var(--white-1-channel), 60%);
 
   /* 边框色 */
-  --data-view_color-border-divider-line: rgba(255, 255, 255, 9%);
-  --data-view_color-text-divider-line-1: rgba(255, 255, 255, 20%);
-  --data-view_color-text-divider-line-2: rgba(255, 255, 255, 20%);
+  --color-border-divider-line: rgba(var(--white-1-channel), 9%);
+  --color-text-divider-line-1: rgba(var(--white-1-channel), 20%);
+  --color-text-divider-line-2: rgba(var(--white-1-channel), 20%);
 
   /* ============== 颜色 End ============== */
 
   /* ============== 圆角 Start ============== */
 
-  --data-view_small-border-radius: 2px;
-  --data-view_medius-border-radius: 5px;
-  --data-view_larger-border-radius: 12px;
-  --data-view_container-border-radius: 9999px;
-  --data-view_no-border-radius: 0px;
+  --small-border-radius: 2px;
+  --medius-border-radius: 5px;
+  --larger-border-radius: 12px;
+  --container-border-radius: 9999px;
+  --no-border-radius: 0px;
 
   /* ============== 圆角 End ============== */
 
   /* ============== 遮罩 Start ============== */
 
-  --data-view_mask-bg: rgba(0, 0, 0, 70%);
+  --mask-bg: rgba(0, 0, 0, 70%);
 
   /* ============== 遮罩 End ============== */
 
   /* ============== 字体 Start ============== */
 
   /* 标题 */
-  --data-view_title-font-size-larger: 30px;
-  --data-view_title-font-size: 18px;
-  --data-view_normal-font-size: 14px;
-  --data-view_auxiliary-font-size: 16px;
-  --data-view_auxiliary-font-size-small: 12px;
+  --title-font-size-larger: 30px;
+  --title-font-size: 18px;
+  --normal-font-size: 14px;
+  --auxiliary-font-size: 16px;
+  --auxiliary-font-size-small: 12px;
 
   /* 统计数值 */
-  --data-view_overview-data-font-size: 34px;
-  --data-view_statistics-data-font-size: 28px;
-  --data-view_normal-data-font-size: 16px;
+  --overview-data-font-size: 34px;
+  --statistics-data-font-size: 28px;
+  --normal-data-font-size: 16px;
 
   /* 图表 */
-  --data-view_chart-legend-font-size: 12px;
-  --data-view_chart-tooltips-font-size: 12px;
-  --data-view_chart-tooltips-font-size: 12px;
-  --data-view_chart-axis-x-font-size: 12px;
-  --data-view_chart-axis-y-font-size: 12px;
+  --chart-legend-font-size: 12px;
+  --chart-tooltips-font-size-1: 12px;
+  --chart-tooltips-font-size-2: 12px;
+  --chart-axis-x-font-size: 12px;
+  --chart-axis-y-font-size: 12px;
 
   /* 字重 */
-  --data-view_font-weight-600: 600;
-  --data-view_font-weight-500: 500;
-  --data-view_font-weight-400: 400;
+  --font-weight-600: 600;
+  --font-weight-500: 500;
+  --font-weight-400: 400;
 
   /* ============== 字体 End ============== */
 
   /* ============== 阴影 Start ============== */
 
-  --data-view_text-shadow: 0px 1px 4px #2863ee;
+  --text-shadow: 0px 1px 4px #2863ee;
 
   /* ============== 阴影 End ============== */
 
   /* ============== 线框 Start ============== */
 
-  --data-view_border-width-base: 1px;
-  --data-view_border-width-double-base: 2px;
-  --data-view_border-width-tribble-base: 3px;
+  --border-width-base: 1px;
+  --border-width-double-base: 2px;
+  --border-width-tribble-base: 3px;
 
   /* 虚线 */
-  --data-view_punctate-width-base: 1px;
-  --data-view_paragraph-width-base: 1px;
+  --punctate-width-base: 1px;
+  --paragraph-width-base: 1px;
 
   /* ============== 线框 End ============== */
 }

@@ -18,7 +18,7 @@ describe("data-view.gauge-chart", () => {
     });
     expect(element.shadowRoot).toBeTruthy();
     expect(element.innerHTML).toBe("<div>Hello world</div>");
-    expect(element.shadowRoot?.childNodes.length).toBe(1);
+    expect(element.shadowRoot?.childNodes.length).toBe(2);
     act(() => {
       document.body.removeChild(element);
     });

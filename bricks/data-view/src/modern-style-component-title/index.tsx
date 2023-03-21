@@ -154,13 +154,13 @@ function ModernStyleComponentTitleElement(
             ${
               hideLeftComponent
                 ? "rgba(255, 255, 255, 0)"
-                : "var(--data-view_color-text-divider-line-1)"
+                : "var(--color-text-divider-line-1)"
             } 0,
-            var(--data-view_color-text-divider-line-1) 50%,
+            var(--color-text-divider-line-1) 50%,
             ${
               hideRightComponent
                 ? "rgba(255, 255, 255, 0)"
-                : "var(--data-view_color-text-divider-line-1)"
+                : "var(--color-text-divider-line-1)"
             } 100%
             )`,
         }}
