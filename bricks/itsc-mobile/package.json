@@ -1,0 +1,56 @@
+{
+  "name": "@next-bricks/itsc-mobile",
+  "version": "0.0.0",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/itsc-mobile",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "license": "GPL-3.0",
+  "type": "module",
+  "sideEffects": true,
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/dist-types"
+        ]
+      }
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist-types/*/index.d.ts"
+    }
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development build-next-bricks --watch",
+    "build": "npm run build:main && npm run build:types",
+    "build:main": "cross-env NODE_ENV=production build-next-bricks",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+  },
+  "dependencies": {
+    "@next-bricks/icons": "^0.0.0",
+    "@next-core/element": "^0.0.0",
+    "@next-core/http": "^0.0.0",
+    "@next-core/react-element": "^0.0.0",
+    "@next-core/react-runtime": "^0.0.0",
+    "@next-core/theme": "^0.0.0",
+    "@next-core/types": "^0.0.0",
+    "classnames": "^2.3.2",
+    "lodash": "^4.17.21",
+    "react": "0.0.0-experimental-ee8509801-20230117"
+  },
+  "devDependencies": {
+    "@next-core/build-next-bricks": "^0.0.0",
+    "@next-core/test-next": "^0.0.0"
+  }
+}
