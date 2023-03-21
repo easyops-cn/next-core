@@ -3,14 +3,44 @@
 
 :host {
   /* ============== 基本色 Start ============== */
-  --white-1-channel: 255, 255, 255;
-  --blue-1-channel: 51, 102, 255;
+  --palette-rgba-white-1: rgba(255, 255, 255, 10%);
+  --palette-rgba-white-2: rgba(255, 255, 255, 20%);
+  --palette-rgba-white-3: rgba(255, 255, 255, 30%);
+  --palette-rgba-white-4: rgba(255, 255, 255, 40%);
+  --palette-rgba-white-5: rgba(255, 255, 255, 50%);
+  --palette-rgba-white-6: rgba(255, 255, 255, 60%);
+  --palette-rgba-white-7: rgba(255, 255, 255, 70%);
+  --palette-rgba-white-8: rgba(255, 255, 255, 80%);
+  --palette-rgba-white-9: rgba(255, 255, 255, 90%);
+  --palette-rgba-white-10: rgba(255, 255, 255, 100%);
+
+  --palette-rgba-gray-1: rgba(0, 0, 0, 10%);
+  --palette-rgba-gray-2: rgba(0, 0, 0, 20%);
+  --palette-rgba-gray-3: rgba(0, 0, 0, 30%);
+  --palette-rgba-gray-4: rgba(0, 0, 0, 40%);
+  --palette-rgba-gray-5: rgba(0, 0, 0, 50%);
+  --palette-rgba-gray-6: rgba(0, 0, 0, 60%);
+  --palette-rgba-gray-7: rgba(0, 0, 0, 70%);
+  --palette-rgba-gray-8: rgba(0, 0, 0, 80%);
+  --palette-rgba-gray-9: rgba(0, 0, 0, 90%);
+  --palette-rgba-gray-10: rgba(0, 0, 0, 100%);
+
+  --palette-tech-blue-6-channel: 51, 102, 255;
+  --palette-tech-blue-6: rgb(var(--palette-tech-blue-6-channel));
+
+  --palette-sea-green-4-channel: 131, 245, 225;
+  --palette-sea-green-4: rgb(var(--palette-sea-green-4-channel));
+
+  --palette-lotus-pink-7-channel: 204, 0, 102;
+  --palette-lotus-pink-7: rgb(var(--palette-lotus-pink-7-channel));
+
+  /* ============== 基本色 End ============== */
 
   /* ============== 颜色 Start ============== */
 
   /* 背景色 */
   --color-fill-global-bg: #0f1014;
-  --color-fill-bg-container: rgba(var(--white-1-channel), 9%);
+  --color-fill-bg-container: var(--palette-rgba-white-1);
   --color-fill-bg-base-1: rgba(101, 106, 134, 20%);
   --color-fill-bg-base-2: rgba(15, 16, 20, 0%);
   --color-fill-bg-base-3: rgba(0, 0, 0, 20%);
@@ -18,25 +48,25 @@
   --color-fill-bg-base-5: rgba(19, 25, 47, 80%);
 
   /* 主题色 */
-  --color-brand: rgb(var(--blue-1-channel));
+  --color-brand: var(--palette-tech-blue-6);
 
   /* 辅助色 */
-  --color-contrast-1: #83f5e1;
+  --color-contrast-1: var(--palette-sea-green-4);
 
   /* 状态色 */
-  --color-error: #cc0066;
+  --color-error: var(--palette-lotus-pink-7);
 
   /* 文字色 */
-  --color-header-text-big: #ffffff;
-  --color-header-text: #ffffff;
-  --color-normal-text: rgb(var(--white-1-channel));
-  --color-auxiliary-text: rgba(var(--white-1-channel), 80%);
-  --color-secondary-text: rgba(var(--white-1-channel), 60%);
+  --color-header-text-big: var(--palette-rgba-white-10);
+  --color-header-text: var(--palette-rgba-white-10);
+  --color-normal-text: var(--palette-rgba-white-10);
+  --color-auxiliary-text: var(--palette-rgba-white-8);
+  --color-secondary-text: var(--palette-rgba-white-6);
 
   /* 边框色 */
-  --color-border-divider-line: rgba(var(--white-1-channel), 9%);
-  --color-text-divider-line-1: rgba(var(--white-1-channel), 20%);
-  --color-text-divider-line-2: rgba(var(--white-1-channel), 20%);
+  --color-border-divider-line: var(--palette-rgba-white-1);
+  --color-text-divider-line-1: var(--palette-rgba-white-2);
+  --color-text-divider-line-2: var(--palette-rgba-white-2);
 
   /* ============== 颜色 End ============== */
 
@@ -52,7 +82,7 @@
 
   /* ============== 遮罩 Start ============== */
 
-  --mask-bg: rgba(0, 0, 0, 70%);
+  --mask-bg: var(--palette-rgba-gray-7);
 
   /* ============== 遮罩 End ============== */
 

@@ -151,7 +151,7 @@ function GaugeChartComponent(props: GaugeChartProps): React.ReactElement {
           </linearGradient>
           <linearGradient id="innerStrokeGradient">
             <stop offset="0%" stopColor="var(--color-normal-text)" />
-            <stop offset="100%" stopColor="rgb(var(--white-1-channel), 0%)" />
+            <stop offset="100%" stopColor="transparent" />
           </linearGradient>
           <filter id="shadow">
             <feDropShadow dx="0" dy="1" stdDeviation="4" floodColor="#2863ee" />
