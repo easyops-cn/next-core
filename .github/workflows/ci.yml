@@ -137,9 +137,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: |
-          packages/*/.coverage/cobertura-coverage.xml
-          bricks/*/.coverage/cobertura-coverage.xml
+        files: packages/*/.coverage/cobertura-coverage.xml,bricks/*/.coverage/cobertura-coverage.xml
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master
