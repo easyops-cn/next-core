@@ -153,13 +153,13 @@ function ModernStyleComponentTitleElement(
             90deg,
             ${
               hideLeftComponent
-                ? "rgba(255, 255, 255, 0)"
+                ? "transparent"
                 : "var(--color-text-divider-line-1)"
             } 0,
             var(--color-text-divider-line-1) 50%,
             ${
               hideRightComponent
-                ? "rgba(255, 255, 255, 0)"
+                ? "transparent"
                 : "var(--color-text-divider-line-1)"
             } 100%
             )`,
