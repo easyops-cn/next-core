@@ -42,7 +42,7 @@ export function preCheckInstalledApps(storyboard: Storyboard) {
       checkingApps.set(
         appId,
         promise.then((result) => {
-          const app = result?.list?.find((item) => item.appId);
+          const app = result?.list?.find((item) => item.appId === appId);
           const checkedApp = app
             ? {
                 ...app,
