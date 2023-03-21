@@ -552,12 +552,14 @@ function loadMenu(
     return;
   }
 
+  // istanbul ignore next
   if ((menuConf as { type?: "brick" }).type === "brick") {
     // eslint-disable-next-line no-console
     console.error("Set menu with brick is dropped in v3:", menuConf);
     throw new Error("Set menu with brick is dropped in v3");
   }
 
+  // istanbul ignore next
   if (menuConf.type === "resolve") {
     // eslint-disable-next-line no-console
     console.warn("Set menu with resolve is not supported in v3 yet:", menuConf);
