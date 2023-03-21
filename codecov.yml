@@ -3,6 +3,10 @@ comment:
 ignore:
   - "**/node_modules"
   - "**/.cache"
+coverage:
+  ignore:
+    - "**/node_modules"
+    - "**/.cache"
 component_management:
   individual_components:
     - component_id: core-packages  # this is an identifier that should not be changed
