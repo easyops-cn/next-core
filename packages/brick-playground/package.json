@@ -17,9 +17,8 @@
     "serve"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV='development' node serve/start.js",
-    "build": "cross-env NODE_ENV='production' build-next-bricks",
-    "serve": "node serve/index.js"
+    "start": "cross-env NODE_ENV='development' node scripts/start.js",
+    "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "dependencies": {
     "@next-core/serve-helpers": "^0.0.0",

@@ -1,4 +1,3 @@
-import path from "node:path";
 import meow from "meow";
 
 const cli = meow({
@@ -21,9 +20,7 @@ const cli = meow({
   },
 });
 
-const rootDir = path.resolve(process.cwd(), "../..");
-
-export function getEnv(runtimeFlags) {
+export function getEnv(rootDir, runtimeFlags) {
   const flags = {
     ...cli.flags,
     ...runtimeFlags,

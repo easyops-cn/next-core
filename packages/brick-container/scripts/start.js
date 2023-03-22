@@ -2,18 +2,18 @@ import path from "node:path";
 import WebpackDevServer from "webpack-dev-server";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
-import { getEnv } from "./env.js";
-import { injectIndexHtml } from "./utils/injectIndexHtml.js";
-import { getMatchedStoryboard } from "./utils/getStoryboards.js";
-import { getStandaloneConfig } from "./utils/getStandaloneConfig.js";
-import getProxy from "./getProxy.js";
-import { shouldServeAsIndexHtml } from "./utils/shouldServeAsIndexHtml.js";
+import { getEnv } from "../serve/env.js";
+import { injectIndexHtml } from "../serve/utils/injectIndexHtml.js";
+import { getMatchedStoryboard } from "../serve/utils/getStoryboards.js";
+import { getStandaloneConfig } from "../serve/utils/getStandaloneConfig.js";
+import getProxy from "../serve/getProxy.js";
+import { shouldServeAsIndexHtml } from "../serve/utils/shouldServeAsIndexHtml.js";
 import {
   getMiddlewares,
   getPreMiddlewares,
-} from "./middlewares/getMiddlewares.js";
+} from "../serve/middlewares/getMiddlewares.js";
 
-const env = getEnv();
+const env = getEnv(path.join(process.cwd(), "../.."));
 const { rootDir, baseHref, port } = env;
 const distDir = path.join(process.cwd(), "dist");
 

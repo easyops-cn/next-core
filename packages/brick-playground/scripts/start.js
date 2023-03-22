@@ -3,7 +3,7 @@ import WebpackDevServer from "webpack-dev-server";
 import express from "express";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
-import bootstrapJson from "./bootstrapJson.js";
+import bootstrapJson from "../serve/bootstrapJson.js";
 
 const compiler = await build(config);
 const rootDir = path.resolve(process.cwd(), "../..");
