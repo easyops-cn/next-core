@@ -1,13 +1,16 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import express from "express";
 import compression from "compression";
 import bootstrapJson from "./bootstrapJson.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
 app.use(compression());
 
-const rootDir = path.resolve(process.cwd(), "../..");
+const rootDir = process.cwd();
 
 app.use(
   "/bricks/",
@@ -16,7 +19,7 @@ app.use(
 
 app.use(bootstrapJson(rootDir));
 
-app.use("/", express.static(path.join(process.cwd(), "dist")));
+app.use("/", express.static(path.join(__dirname, "../dist")));
 
 app.listen(8082);
 

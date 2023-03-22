@@ -1,6 +1,7 @@
 {
   "name": "@next-bricks/data-view",
   "version": "0.0.0",
+  "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/data-view",
   "repository": {
     "type": "git",

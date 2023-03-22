@@ -1,6 +1,7 @@
 {
   "name": "@next-bricks/icons",
   "version": "0.0.0",
+  "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/icons",
   "repository": {
     "type": "git",

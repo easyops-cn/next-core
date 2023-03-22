@@ -11,6 +11,7 @@
     "**/node_modules/**",
     "**/dll/**",
     "**/sdk/**",
+    "**/v3/**",
     "**/packages/brick-dll/**",
     "**/packages/fontawesome-library/**",
     "**/packages/editor-bricks-helper/**",

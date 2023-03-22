@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "2.84.5",
+  "version": "2.84.14",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-container",
   "license": "GPL-3.0",
@@ -13,7 +13,8 @@
     "conf",
     "deploy",
     "dist",
-    "tools"
+    "tools",
+    "serve"
   ],
   "repository": {
     "type": "git",
@@ -21,17 +22,12 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV='development' node scripts/start.js",
-    "_prebuild": "node scripts/pre-build.js",
-    "build": "cross-env NODE_ENV='production' build-next-bricks",
-    "serve": "node scripts/serve.js"
+    "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "dependencies": {
     "@next-core/serve-helpers": "^0.0.0",
     "body-parser": "^1.20.1",
-    "chalk": "^4.1.2",
-    "chokidar": "^3.5.3",
     "compression": "^1.7.4",
-    "concat-stream": "^2.0.0",
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "js-yaml": "^3.14.1",
