@@ -1130,9 +1130,29 @@ describe("renderBrick for tpl", () => {
     ]);
 
     mountTree(renderRoot);
-    expect(container.innerHTML).toMatchInlineSnapshot(
-      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span id="inner-span">I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
-    );
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-a>
+          <div
+            title="T"
+          >
+            <strong>
+              I'm outer slot
+            </strong>
+            <span
+              id="inner-span"
+            >
+              I'm inner slot [ResolvedZ]
+            </span>
+            <em
+              slot="innerToolbar"
+            >
+              I'm outer toolbar
+            </em>
+          </div>
+        </my.tpl-a>,
+      ]
+    `);
     expect((container.firstChild as any).x).toBe("X2");
     expect((container.firstChild as any).y).toBe("Y2");
     expect((container.firstChild as any).z).toBe("ResolvedZ");
@@ -1265,15 +1285,44 @@ describe("renderBrick for tpl", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
 
-    expect(container.innerHTML).toBe(
-      "<my.tpl-b><div>a</div><div>b</div></my.tpl-b>"
-    );
-    expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:b</p>");
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-b>
+          <div>
+            a
+          </div>
+          <div>
+            b
+          </div>
+        </my.tpl-b>,
+      ]
+    `);
+    expect(portal.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <p>
+          portal:a
+        </p>,
+        <p>
+          portal:b
+        </p>,
+      ]
+    `);
 
     (container.firstChild?.firstChild as HTMLElement).title = "mark";
-    expect(container.innerHTML).toBe(
-      '<my.tpl-b><div title="mark">a</div><div>b</div></my.tpl-b>'
-    );
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-b>
+          <div
+            title="mark"
+          >
+            a
+          </div>
+          <div>
+            b
+          </div>
+        </my.tpl-b>,
+      ]
+    `);
 
     const stateStore = getTplStateStore(
       {
@@ -1294,10 +1343,28 @@ describe("renderBrick for tpl", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(6, "onMount", "mount", "c");
 
     // Note: previous `title="mark"` is removed
-    expect(container.innerHTML).toBe(
-      "<my.tpl-b><div>a</div><div>c</div></my.tpl-b>"
-    );
-    expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:c</p>");
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-b>
+          <div>
+            a
+          </div>
+          <div>
+            c
+          </div>
+        </my.tpl-b>,
+      ]
+    `);
+    expect(portal.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <p>
+          portal:a
+        </p>,
+        <p>
+          portal:c
+        </p>,
+      ]
+    `);
 
     unmountTree(container);
     unmountTree(portal);
@@ -1414,8 +1481,43 @@ describe("renderBrick for tpl", () => {
     ]);
 
     mountTree(renderRoot);
-    expect(container.innerHTML).toMatchInlineSnapshot(
-      `"<my.tpl-c><div title="a"><strong>I'm outer slot [a]</strong><span>I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar [a]</em></div></my.tpl-c><my.tpl-c><div title="b"><strong>I'm outer slot [b]</strong><span>I'm inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar [b]</em></div></my.tpl-c>"`
-    );
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-c>
+          <div
+            title="a"
+          >
+            <strong>
+              I'm outer slot [a]
+            </strong>
+            <span>
+              I'm inner slot [ResolvedZ]
+            </span>
+            <em
+              slot="innerToolbar"
+            >
+              I'm outer toolbar [a]
+            </em>
+          </div>
+        </my.tpl-c>,
+        <my.tpl-c>
+          <div
+            title="b"
+          >
+            <strong>
+              I'm outer slot [b]
+            </strong>
+            <span>
+              I'm inner slot [ResolvedZ]
+            </span>
+            <em
+              slot="innerToolbar"
+            >
+              I'm outer toolbar [b]
+            </em>
+          </div>
+        </my.tpl-c>,
+      ]
+    `);
   });
 });
