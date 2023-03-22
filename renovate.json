@@ -7,41 +7,6 @@
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
-  "ignorePaths": [
-    "**/node_modules/**",
-    "**/dll/**",
-    "**/sdk/**",
-    "**/v3/**",
-    "**/packages/brick-dll/**",
-    "**/packages/fontawesome-library/**",
-    "**/packages/editor-bricks-helper/**",
-    "**/packages/less-plugin-css-variables/**",
-    "**/packages/custom-antd-styles/**",
-    "**/packages/babel-runtime-helpers/**",
-    "**/packages/next-docs/**",
-    "**/packages/webpack-config-factory/**",
-    "**/packages/build-config-factory/**",
-    "**/packages/brick-kit/**",
-    "**/packages/brick-icons/**",
-    "**/packages/brick-utils/**",
-    "**/packages/brick-types/**",
-    "**/packages/dev-dependencies/**",
-    "**/packages/dll-differ/**",
-    "**/packages/easyops-analytics/**",
-    "**/packages/easyops-illustrations/**",
-    "**/packages/jest-config-factory/**",
-    "**/packages/typedoc-plugin-filter-inherit/**",
-    "**/packages/storyboard/**",
-    "**/packages/storyboard-function-types/**",
-    "**/packages/brick-scripts/**",
-    "**/packages/sdk-scripts/**",
-    "**/packages/repo-config/**",
-    "**/packages/public-scoped-sdk/**",
-    "**/packages/next-docs/**",
-    "**/packages/create-next-repo/**",
-    "**/packages/color-theme/**",
-    "**/packages/rollup-config-factory/**"
-  ],
   "baseBranches": ["next"],
   "packageRules": [
     {
@@ -57,12 +22,6 @@
         "^@next-api-sdk/"
       ],
       "enabled": false
-    },
-    {
-      "matchPackageNames": ["@next-core/brick-dll-v3", "@next-core/styles-v3"],
-      "matchPackagePatterns": ["^@next-dll/"],
-      "enabled": true,
-      "groupName": "legacy v2 packages"
     },
     {
       "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
@@ -82,26 +41,8 @@
       "enabled": false
     },
     {
-      "groupName": "d3 packages",
-      "matchPackagePatterns": ["^d3-"]
-    },
-    {
       "groupName": "type packages",
       "matchPackagePatterns": ["^@types/"]
-    },
-    {
-      "groupName": "rollup packages",
-      "matchPackagePatterns": ["^@rollup/"]
-    },
-    {
-      "groupName": "brick packages",
-      "matchPackagePatterns": ["^@next-bricks/"]
-    },
-    {
-      "matchPackageNames": ["antd"],
-      "matchPackagePatterns": ["^rc-", "^@ant-design/"],
-      "matchUpdateTypes": ["major", "minor"],
-      "enabled": false
     },
     {
       "groupName": "cypress packages",
