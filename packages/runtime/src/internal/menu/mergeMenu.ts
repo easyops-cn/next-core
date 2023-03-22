@@ -67,6 +67,7 @@ export async function mergeMenu(
     ...mainMenu,
     items: validMenuList.flatMap(
       (menu) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         processGroupInject(menu.items, menu, injectWithMenus, menuWithI18n)!
     ),
     [symbolMenuI18nNamespace]: menuWithI18n.get(mainMenu),
@@ -85,6 +86,7 @@ function processGroupInject(
       item.groupId && injectWithMenus.get(item.groupId);
     if (foundInjectingMenus) {
       // Each menu to be injected with should be injected only once.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       injectWithMenus.delete(item.groupId!);
     }
     return {
@@ -100,6 +102,7 @@ function processGroupInject(
         foundInjectingMenus
           ? foundInjectingMenus.flatMap(
               (injectingMenu) =>
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 processGroupInject(
                   injectingMenu.items,
                   injectingMenu,

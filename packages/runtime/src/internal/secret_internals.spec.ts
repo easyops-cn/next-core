@@ -106,12 +106,25 @@ describe("useBrick", () => {
     const mountResult = mountUseBrick(renderResult, root);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
 
-    expect(root.outerHTML).toBe(
-      '<div title="container:a"><span>child:a</span></div>'
-    );
-    expect(document.querySelector("#portal-mount-point")?.innerHTML).toBe(
-      "<div><p>portal:a</p></div>"
-    );
+    expect(root).toMatchInlineSnapshot(`
+      <div
+        title="container:a"
+      >
+        <span>
+          child:a
+        </span>
+      </div>
+    `);
+    expect(document.querySelector("#portal-mount-point")?.children)
+      .toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div>
+          <p>
+            portal:a
+          </p>
+        </div>,
+      ]
+    `);
 
     IntersectionObserver.mock.calls[0][0](
       [
@@ -290,9 +303,28 @@ describe("useBrick", () => {
     const root = document.createElement("my.tpl-a");
     const mountResult = mountUseBrick(renderResult, root);
 
-    expect(root.outerHTML).toMatchInlineSnapshot(
-      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span id="inner-span">I'm inner slot [ResolvedZ]</span><hr><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
-    );
+    expect(root).toMatchInlineSnapshot(`
+      <my.tpl-a>
+        <div
+          title="T"
+        >
+          <strong>
+            I'm outer slot
+          </strong>
+          <span
+            id="inner-span"
+          >
+            I'm inner slot [ResolvedZ]
+          </span>
+          <hr />
+          <em
+            slot="innerToolbar"
+          >
+            I'm outer toolbar
+          </em>
+        </div>
+      </my.tpl-a>
+    `);
     expect((root.firstChild as any).x).toBe("X2");
     expect((root.firstChild as any).y).toBe("Y");
     expect((root.firstChild as any).z).toBe("ResolvedZ");
@@ -304,9 +336,27 @@ describe("useBrick", () => {
     (root as any).x = "X3";
     // Wait for debounced re-render for control nodes.
     await new Promise((resolve) => setTimeout(resolve, 1));
-    expect(root.outerHTML).toMatchInlineSnapshot(
-      `"<my.tpl-a><div title="T"><strong>I'm outer slot</strong><span id="inner-span">I'm updated inner slot [ResolvedZ]</span><em slot="innerToolbar">I'm outer toolbar</em></div></my.tpl-a>"`
-    );
+    expect(root).toMatchInlineSnapshot(`
+      <my.tpl-a>
+        <div
+          title="T"
+        >
+          <strong>
+            I'm outer slot
+          </strong>
+          <span
+            id="inner-span"
+          >
+            I'm updated inner slot [ResolvedZ]
+          </span>
+          <em
+            slot="innerToolbar"
+          >
+            I'm outer toolbar
+          </em>
+        </div>
+      </my.tpl-a>
+    `);
 
     root.querySelector("#inner-span")!.dispatchEvent(new Event("spanClick"));
     expect(consoleInfo).toBeCalledTimes(2);

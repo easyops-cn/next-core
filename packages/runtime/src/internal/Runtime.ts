@@ -122,15 +122,10 @@ export function getBrickPackages() {
   return bootstrapData?.brickPackages ?? [];
 }
 
-/* istanbul ignore next */
 export function _internalApiGetRenderId(): string | undefined {
-  if (process.env.NODE_ENV === "test") {
-    return "render-id-1";
-  }
   return router.getRenderId();
 }
 
-/* istanbul ignore next */
 export function _internalApiMatchStoryboard(
   pathname: string
 ): RuntimeStoryboard | undefined {
@@ -140,7 +135,6 @@ export function _internalApiMatchStoryboard(
   return matchStoryboard(bootstrapData?.storyboards ?? [], pathname);
 }
 
-/* istanbul ignore next */
 export function _internalApiGetRuntimeContext() {
   return router?.getRuntimeContext();
 }
