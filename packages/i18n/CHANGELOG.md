@@ -1,0 +1,12 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0 (2023-03-22)
+
+### Bug Fixes
+
+- refine i18n ([d38cbbc](https://github.com/easyops-cn/next-core/commit/d38cbbcca4adfee788141dab4901dc1b5da39c94))
+- refine i18n ([60966a7](https://github.com/easyops-cn/next-core/commit/60966a747d2e04e72ad6ec7a82251d1b94a50a07))
+- refine i18n usage in bricks ([ad9d2c2](https://github.com/easyops-cn/next-core/commit/ad9d2c2b1a9361150147895dce9dff0fdea45328))

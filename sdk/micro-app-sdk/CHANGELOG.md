@@ -1,0 +1,11 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0 (2023-03-22)
+
+
+### Features
+
+* new api sdk of micro-app with minimal APIs ([2cac653](https://github.com/easyops-cn/next-core/commit/2cac6539addb465ca59cb5abda0e2eb42964dc19))

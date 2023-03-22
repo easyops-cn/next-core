@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.83...@next-core/cook@2.0.0) (2023-03-22)
+
+### Bug Fixes
+
+- make @next-core/cook be an ES module ([d3c3fc0](https://github.com/easyops-cn/next-core/commit/d3c3fc0b91d3fe04d7abd7463c08d7b413cbd195))
+
+### Features
+
+- async evaluate ([b6c38dd](https://github.com/easyops-cn/next-core/commit/b6c38dd764fbbcf5f131b69180b8e0d87193d921))
+- build-next-bricks ([86ca794](https://github.com/easyops-cn/next-core/commit/86ca7948e0ee920e2c0abd3a50a9e45114645c3a))
+
 ## [1.6.83](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.82...@next-core/cook@1.6.83) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/cook

@@ -1,6 +1,6 @@
 {
   "name": "@next-api-sdk/micro-app-sdk",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "API SDK for Micro App",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/sdk/micro-app-sdk",
   "license": "GPL-3.0",
@@ -33,9 +33,9 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/http": "^0.0.0"
+    "@next-core/http": "^1.0.0"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^0.2.16"
+    "@next-core/build-next-libs": "^1.0.0"
   }
 }

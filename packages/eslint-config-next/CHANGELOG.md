@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@1.0.40...@next-core/eslint-config-next@2.0.0) (2023-03-22)
+
+### Features
+
+- build-next-bricks ([86ca794](https://github.com/easyops-cn/next-core/commit/86ca7948e0ee920e2c0abd3a50a9e45114645c3a))
+- refine implementation of decorators ([577c022](https://github.com/easyops-cn/next-core/commit/577c022181f941d8e9ecd22ef486a5a6eb3f8359))
+- scan bricks ([4abac35](https://github.com/easyops-cn/next-core/commit/4abac35e9c616b0cb87591d766f5a725de935a71))
+
 ## [1.0.40](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@1.0.39...@next-core/eslint-config-next@1.0.40) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/eslint-config-next

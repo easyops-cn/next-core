@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.14...@next-core/brick-container@3.0.0) (2023-03-22)
+
+### Bug Fixes
+
+- fix mock auth ([45d8715](https://github.com/easyops-cn/next-core/commit/45d87157aeb8d543864a6618571fcc65df406023))
+- fix serve proxy paths ([e5016ac](https://github.com/easyops-cn/next-core/commit/e5016acb181a0f16db43d15853518dd5e4af4848))
+- fix serve scripts for standalone usage ([e0e7c97](https://github.com/easyops-cn/next-core/commit/e0e7c974f8bc05bf73bbab1c9f193fd742052d9b))
+- load shared modules from bricks/basic if possible ([b271dce](https://github.com/easyops-cn/next-core/commit/b271dcec2a6d60862b4824590cc55ca3be0fcde4))
+- refine deps ([89dbd28](https://github.com/easyops-cn/next-core/commit/89dbd28201dac7acc7d50e6e49c905fdc5cbe42d))
+- refine i18n ([d38cbbc](https://github.com/easyops-cn/next-core/commit/d38cbbcca4adfee788141dab4901dc1b5da39c94))
+- refine i18n ([60966a7](https://github.com/easyops-cn/next-core/commit/60966a747d2e04e72ad6ec7a82251d1b94a50a07))
+- refine serve ([809ce36](https://github.com/easyops-cn/next-core/commit/809ce368bdc76891c1e8359315e0cc3220ed7dc1))
+- refine server ([2609493](https://github.com/easyops-cn/next-core/commit/260949322bc7c115a0f5c85296c95fae8438f544))
+- support serving with remote standalone apps ([25fc30b](https://github.com/easyops-cn/next-core/commit/25fc30b9c95248480c222a7e79cb682b1466b9aa))
+- use remote by default ([b315cbd](https://github.com/easyops-cn/next-core/commit/b315cbd8864d285b13aab24f62709819d828a258))
+- use sdk of check login ([afe9e7d](https://github.com/easyops-cn/next-core/commit/afe9e7dc225462f40e49e9892aa2cc35a81c418f))
+- v2-adapter: initial ([7b3caa9](https://github.com/easyops-cn/next-core/commit/7b3caa9d98471f592c76f86cc9b5ee669a800359))
+- v2-adapter: stage 2 ([b314a22](https://github.com/easyops-cn/next-core/commit/b314a2296d18d0fa2e4cdf2338b2de9c78183139))
+- v2-adapter: stage 3 ([10f6843](https://github.com/easyops-cn/next-core/commit/10f6843252357144192e0d03c2be72b94e045c77))
+- v2-adapter: stage 4: mix remote apps and bricks ([524284f](https://github.com/easyops-cn/next-core/commit/524284f9a08c4cc8b216cf0cea097f6c6f4748d9))
+
+### Features
+
+- analyze brick dependencies ([870a724](https://github.com/easyops-cn/next-core/commit/870a72486bd023f317daac67d3b7fdb1ff20c0fe))
+- async evaluate ([b6c38dd](https://github.com/easyops-cn/next-core/commit/b6c38dd764fbbcf5f131b69180b8e0d87193d921))
+- build-next-bricks ([86ca794](https://github.com/easyops-cn/next-core/commit/86ca7948e0ee920e2c0abd3a50a9e45114645c3a))
+- decorators ([a242a7e](https://github.com/easyops-cn/next-core/commit/a242a7ea206b7ad6c6b4a3f055fc04cdcde0ad35))
+- merge with remote runtime settings ([a933c12](https://github.com/easyops-cn/next-core/commit/a933c12d5243538be09ea87595c1f542f41f5903))
+- react-element ([198862e](https://github.com/easyops-cn/next-core/commit/198862e8f899e4216d4eb5d295f6e564cfc02547))
+- refactor stableLoadBricks ([df800cf](https://github.com/easyops-cn/next-core/commit/df800cfbe83cd892f0542c75aeb02f7123f4b80e))
+- refine implementation of decorators ([577c022](https://github.com/easyops-cn/next-core/commit/577c022181f941d8e9ecd22ef486a5a6eb3f8359))
+- scan bricks ([4abac35](https://github.com/easyops-cn/next-core/commit/4abac35e9c616b0cb87591d766f5a725de935a71))
+- scan custom processors ([22b54ad](https://github.com/easyops-cn/next-core/commit/22b54adbadd064107e3c91ddf83fdf2248cd46d2))
+- support basic v2-adapter ([f5c1ac4](https://github.com/easyops-cn/next-core/commit/f5c1ac407087f8d96bf9909bdb41b5bc78517523))
+- support development with remote ([2f93e6c](https://github.com/easyops-cn/next-core/commit/2f93e6ca46c4858139c450a02af83b146e746894))
+- support loading bar ([dfab076](https://github.com/easyops-cn/next-core/commit/dfab0760fbef4dd4c0e36d5961cf8c4257559b8f))
+
 ## [2.84.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.13...@next-core/brick-container@2.84.14) (2023-03-16)
 
 ### Bug Fixes
