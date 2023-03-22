@@ -1,6 +1,6 @@
 {
   "name": "@next-bricks/basic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/basic",
   "repository": {
@@ -39,19 +39,19 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-bricks/icons": "^0.0.1",
-    "@next-core/element": "^1.0.1",
-    "@next-core/http": "^1.0.1",
-    "@next-core/react-element": "^1.0.1",
-    "@next-core/react-runtime": "^1.0.1",
-    "@next-core/theme": "^1.0.1",
-    "@next-core/types": "^1.0.1",
+    "@next-bricks/icons": "^0.0.2",
+    "@next-core/element": "^1.0.2",
+    "@next-core/http": "^1.0.2",
+    "@next-core/react-element": "^1.0.2",
+    "@next-core/react-runtime": "^1.0.2",
+    "@next-core/theme": "^1.0.2",
+    "@next-core/types": "^1.0.2",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.0.1",
-    "@next-core/test-next": "^1.0.1"
+    "@next-core/build-next-bricks": "^1.0.2",
+    "@next-core/test-next": "^1.0.2"
   }
 }

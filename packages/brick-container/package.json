@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-container",
   "license": "GPL-3.0",
@@ -25,7 +25,7 @@
     "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "dependencies": {
-    "@next-core/serve-helpers": "^1.0.1",
+    "@next-core/serve-helpers": "^1.0.2",
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",
     "express": "^4.18.2",
@@ -37,11 +37,11 @@
     "ws": "^8.13.0"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.0.1",
-    "@next-core/http": "^1.0.1",
-    "@next-core/i18n": "^1.0.1",
-    "@next-core/runtime": "^1.0.1",
-    "@next-core/theme": "^1.0.1",
+    "@next-core/build-next-bricks": "^1.0.2",
+    "@next-core/http": "^1.0.2",
+    "@next-core/i18n": "^1.0.2",
+    "@next-core/runtime": "^1.0.2",
+    "@next-core/theme": "^1.0.2",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.29.1",
     "html-webpack-plugin": "^5.5.0",

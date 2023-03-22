@@ -1,6 +1,6 @@
 {
   "name": "@next-api-sdk/cmdb-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "API SDK for Cmdb",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/sdk/cmdb-sdk",
   "license": "GPL-3.0",
@@ -33,9 +33,9 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/http": "^1.0.1"
+    "@next-core/http": "^1.0.2"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.1"
+    "@next-core/build-next-libs": "^1.0.2"
   }
 }
