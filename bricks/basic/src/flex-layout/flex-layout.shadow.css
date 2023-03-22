@@ -1,7 +1,0 @@
-:host {
-  display: flex;
-}
-
-:host[hidden] {
-  display: none;
-}
