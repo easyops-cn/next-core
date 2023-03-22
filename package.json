@@ -75,7 +75,7 @@
   "workspaces": [
     "bricks/*",
     "sdk/*",
-    "packages/!(brick-dll|fontawesome-library|editor-bricks-helper|less-plugin-css-variables|custom-antd-styles|babel-runtime-helpers|next-docs|webpack-config-factory|build-config-factory|brick-kit|brick-icons|brick-utils|brick-types|dev-dependencies|dll-differ|easyops-analytics|easyops-illustrations|jest-config-factory|typedoc-plugin-filter-inherit|storyboard|storyboard-function-types|brick-scripts|sdk-scripts|next-docs|create-next-repo|color-theme|rollup-config-factory|brick-http)/**"
+    "packages/*"
   ],
   "resolutions": {
     "@babel/parser": "^7.21.2",
