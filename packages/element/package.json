@@ -1,6 +1,6 @@
 {
   "name": "@next-core/element",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/element",
   "license": "GPL-3.0",
   "repository": {
@@ -37,7 +37,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.0",
-    "@next-core/test-next": "^1.0.0"
+    "@next-core/build-next-libs": "^1.0.1",
+    "@next-core/test-next": "^1.0.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@next-bricks/v2-adapter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/v2-adapter",
   "repository": {
@@ -37,13 +37,13 @@
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist-types --project tsconfig.json"
   },
   "dependencies": {
-    "@next-core/element": "^1.0.0",
-    "@next-core/i18n": "^1.0.0",
-    "@next-core/http": "^1.0.0",
-    "@next-core/loader": "^1.0.0",
-    "@next-core/runtime": "^1.0.0",
-    "@next-core/theme": "^1.0.0",
-    "@next-core/utils": "^1.0.0",
+    "@next-core/element": "^1.0.1",
+    "@next-core/http": "^1.0.1",
+    "@next-core/i18n": "^1.0.1",
+    "@next-core/loader": "^1.0.1",
+    "@next-core/runtime": "^1.0.1",
+    "@next-core/theme": "^1.0.1",
+    "@next-core/utils": "^1.0.1",
     "history": "^4.10.1",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
@@ -51,9 +51,9 @@
   },
   "devDependencies": {
     "@next-core/brick-dll-v3": "^0.4.0",
-    "@next-core/build-next-bricks": "^1.0.0",
+    "@next-core/build-next-bricks": "^1.0.1",
     "@next-core/styles-v3": "^0.2.8",
-    "@next-core/test-next": "^1.0.0",
+    "@next-core/test-next": "^1.0.1",
     "@next-dll/ace": "^2.0.596",
     "@next-dll/d3": "^2.0.78",
     "@next-dll/echarts": "^2.0.79",
