@@ -1,6 +1,6 @@
 {
   "name": "@next-core/styles-v3",
-  "version": "0.2.6",
+  "version": "0.2.14",
   "license": "GPL-3.0",
   "files": [
     "dist",
@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "@ant-design/compatible": "^1.0.8",
-    "@next-core/brick-icons": "^2.31.18",
-    "@next-core/custom-antd-styles": "^1.25.18",
+    "@next-core/brick-icons": "^2.31.24",
+    "@next-core/custom-antd-styles": "^1.25.19",
     "@next-core/less-plugin-css-variables": "^0.2.8",
     "antd": "~4.12.3",
     "clean-webpack-plugin": "^4.0.0",

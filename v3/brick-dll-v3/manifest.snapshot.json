@@ -2675,25 +2675,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js": {
-      "id": "7O5W",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "icon",
-          "noAuto",
-          "config",
-          "toHtml",
-          "layer",
-          "text",
-          "counter",
-          "library",
-          "dom",
-          "parse",
-          "findIconDefinition"
-        ]
-      }
-    },
     "./node_modules/@ant-design/icons/es/icons/ItalicOutlined.js": {
       "id": "7SyW",
       "buildMeta": {
@@ -3314,10 +3295,7 @@
     },
     "./node_modules/@easyops/fontawesome-library/dist/index.esm.js": {
       "id": "9RIe",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["fab", "fas", "initializeLibrary"]
-      }
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/SlidersFilled.js": {
       "id": "9VIx",
@@ -3590,10 +3568,7 @@
     },
     "./node_modules/@easyops/brick-icons/dist/index.esm.js": {
       "id": "AE1K",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["BrickIcon", "iconsByCategory"]
-      }
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/TrademarkOutlined.js": {
       "id": "AIvW",
@@ -6880,10 +6855,7 @@
     },
     "./node_modules/@fortawesome/react-fontawesome/index.es.js": {
       "id": "IP2g",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["FontAwesomeIcon"]
-      }
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/YahooFilled.js": {
       "id": "IPt3",
@@ -11186,10 +11158,6 @@
       "id": "UR8F",
       "buildMeta": { "providedExports": true }
     },
-    "./node_modules/timers-browserify/main.js": {
-      "id": "URgk",
-      "buildMeta": { "providedExports": true }
-    },
     "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldLooseBase.js": {
       "id": "USLQ",
       "buildMeta": {
@@ -12354,10 +12322,6 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
-    },
-    "./node_modules/setimmediate/setImmediate.js": {
-      "id": "YBdB",
-      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/MinusSquareTwoTone.js": {
       "id": "YCd8",

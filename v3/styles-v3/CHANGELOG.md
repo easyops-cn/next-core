@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.13...@next-core/styles-v3@0.2.14) (2023-03-16)
+
+### Bug Fixes
+
+- notification 圆角调整 ([063fe3d](https://github.com/easyops-cn/next-core/commit/063fe3dda494bc69a36718525478bcff70231699))
+
+## [0.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.12...@next-core/styles-v3@0.2.13) (2023-03-16)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+## [0.2.12](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.11...@next-core/styles-v3@0.2.12) (2023-03-16)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+## [0.2.11](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.10...@next-core/styles-v3@0.2.11) (2023-03-16)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+## [0.2.10](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.9...@next-core/styles-v3@0.2.10) (2023-03-15)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+## [0.2.9](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.8...@next-core/styles-v3@0.2.9) (2023-03-15)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+## [0.2.8](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.7...@next-core/styles-v3@0.2.8) (2023-03-14)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+## [0.2.7](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.6...@next-core/styles-v3@0.2.7) (2023-03-14)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
 ## [0.2.6](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.5...@next-core/styles-v3@0.2.6) (2023-03-13)
 
 **Note:** Version bump only for package @next-core/styles-v3
