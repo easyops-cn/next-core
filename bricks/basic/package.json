@@ -40,18 +40,18 @@
   },
   "dependencies": {
     "@next-bricks/icons": "^0.0.0",
-    "@next-core/element": "^0.0.0",
-    "@next-core/http": "^0.0.0",
-    "@next-core/react-element": "^0.0.0",
-    "@next-core/react-runtime": "^0.0.0",
-    "@next-core/theme": "^0.0.0",
-    "@next-core/types": "^0.0.0",
+    "@next-core/element": "^1.0.0",
+    "@next-core/http": "^1.0.0",
+    "@next-core/react-element": "^1.0.0",
+    "@next-core/react-runtime": "^1.0.0",
+    "@next-core/theme": "^1.0.0",
+    "@next-core/types": "^1.0.0",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^0.0.0",
-    "@next-core/test-next": "^0.0.0"
+    "@next-core/build-next-bricks": "^1.0.0",
+    "@next-core/test-next": "^1.0.0"
   }
 }
