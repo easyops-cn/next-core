@@ -1656,10 +1656,10 @@
     validate-npm-package-name "^4.0.0"
     yargs-parser "20.2.4"
 
-"@next-core/styles-v3@^0.2.1":
-  version "0.2.8"
-  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.8.tgz#a1432f3ef05ebcff1ef48e5e520b87f1b0e91d7b"
-  integrity sha512-has4HinEoX+emAM6jQat9f9Uoui2Bj4rpkteS0jrGS5NFKTCQIqa5VhCjsIRJt0FrjeGxgatY+jVxVSdLML5TA==
+"@next-core/styles-v3@^0.2.14":
+  version "0.2.14"
+  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.14.tgz#22bd7723f485ce96e8ac3bd410a6679d69c8ba6f"
+  integrity sha512-mScEzUsEORrH30KoGXewlc74EMaMLG0f3eWb5+/oEOwxbEkk8GhfzU/CQywF6UarA832r3ZVClrdaxsZ5i2hZA==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
