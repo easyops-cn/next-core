@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
-    <title>单选框组</title>
-    <desc>Created with Sketch.</desc>
-    <g id="单选框组" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M101,191 C51.2943725,191 11,150.705627 11,101 C11,51.2943725 51.2943725,11 101,11 C150.705627,11 191,51.2943725 191,101 C191,150.705627 150.705627,191 101,191 Z M101,181 C145.18278,181 181,145.18278 181,101 C181,56.81722 145.18278,21 101,21 C56.81722,21 21,56.81722 21,101 C21,145.18278 56.81722,181 101,181 Z M101,161 C134.137085,161 161,134.137085 161,101 C161,67.862915 134.137085,41 101,41 C67.862915,41 41,67.862915 41,101 C41,134.137085 67.862915,161 101,161 Z" id="Oval-2" fill="#000000" fill-rule="nonzero"></path>
-    </g>
-</svg>

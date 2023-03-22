@@ -1,9 +1,0 @@
-_version_: 2.0
-_kind_: type
-
-name: guid
-type: string
-description: 全局唯一ID
-
-validate:
-  pattern: /^[?a-zA-Z0-9]{8}-[?a-zA-Z0-9]{4}-[?a-zA-Z0-9]{4}-[?a-zA-Z0-9]{4}-[?a-zA-Z0-9]{12}$/

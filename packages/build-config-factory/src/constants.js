@@ -1,1 +1,0 @@
-exports.providerPackagePrefix = "providers-of-";
