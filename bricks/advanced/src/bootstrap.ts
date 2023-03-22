@@ -1,1 +1,0 @@
-import "./table/index.js";
