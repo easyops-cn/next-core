@@ -27,7 +27,7 @@
     "start": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json --watch",
     "prebuild": "npm run clean",
     "build": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json",
-    "postbuild": "node scripts/post-build.cjs"
+    "postbuild": "node scripts/post-build.js"
   },
   "devDependencies": {
     "typescript-json-schema": "^0.55.0"
