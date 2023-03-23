@@ -7,7 +7,7 @@ import fs from "fs";
 import TJS from "typescript-json-schema";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const schemaDir = path.resolve(__dirname, "../.schema");
+const schemaDir = path.resolve(__dirname, "../dist/.schema");
 if (!fs.existsSync(schemaDir)) {
   fs.mkdirSync(schemaDir);
 }
