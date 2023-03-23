@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { createDecorators, type EventEmitter } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import { Layout, MessageBody } from "../interface.js";
@@ -33,6 +33,7 @@ class GeneralFormElement extends ReactNextElement {
 
   #_setInitValue(values: Record<string, unknown>) {
     this.formUtils.setFieldsValue(values);
+    this._forceUpdate();
   }
 
   /**
@@ -48,7 +49,7 @@ class GeneralFormElement extends ReactNextElement {
    * @description 表单样式
    * @group ui
    */
-  @property() accessor formStyle?: React.CSSProperties;
+  @property() accessor formStyle: React.CSSProperties;
 
   /**
    * @detail
@@ -144,6 +145,55 @@ class GeneralFormElement extends ReactNextElement {
     });
   }
 
+  private _forceUpdate(element = this): void {
+    const renderedElementSet = new WeakSet<HTMLElement>();
+
+    this._forceUpdateSlot(element, renderedElementSet);
+    this._forceUpdateChild(element, renderedElementSet);
+  }
+
+  private _forceUpdateChild(
+    element: HTMLElement = this,
+    renderedElementSet: WeakSet<HTMLElement>
+  ): void {
+    if (
+      (element as any).isFormItemElement &&
+      !renderedElementSet.has(element)
+    ) {
+      // Manually trigger to render validation messages.
+      (element as any).render?.();
+      if (element.nodeName !== "FORMS.GENERAL-FORM-ITEM") {
+        return;
+      }
+    }
+
+    element.childNodes.forEach((child) => {
+      this._forceUpdateChild(child as HTMLElement, renderedElementSet);
+    });
+  }
+
+  private _forceUpdateSlot(
+    element: HTMLElement = this,
+    renderedElementSet: WeakSet<HTMLElement>
+  ): void {
+    if (element.shadowRoot) {
+      const slots = element.shadowRoot.querySelectorAll(
+        "slot"
+      ) as NodeListOf<HTMLSlotElement>;
+      if (slots.length) {
+        slots.forEach((slot) => {
+          slot.assignedNodes().forEach((node: any) => {
+            if (typeof node.render === "function") {
+              // Manually trigger to render validation messages.
+              node.render();
+              renderedElementSet.add(node);
+            }
+          });
+        });
+      }
+    }
+  }
+
   render() {
     return (
       <FormComponent
@@ -167,16 +217,17 @@ interface FormComponentProps {
 
 export function FormComponent(props: FormComponentProps) {
   const { name, layout, formElement, formStyle, onValuesChange } = props;
-  const [form] = Form.useForm();
+
+  const ref = useRef();
 
   useEffect(() => {
-    formElement.formUtils = form;
-  }, [form]);
+    formElement.formUtils = ref.current;
+  }, []);
 
   return (
     <div className="form-container">
       <Form
-        form={form}
+        ref={ref}
         name={name}
         layout={layout}
         style={{
