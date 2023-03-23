@@ -26,5 +26,5 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: 'lerna-version.yml',
-            ref: github.base_ref,
+            ref: context.payload.pull_request.base.ref,
           })
