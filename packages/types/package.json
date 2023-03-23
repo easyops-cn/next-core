@@ -18,7 +18,8 @@
     ".": {
       "types": "./dist/index.d.ts"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./storyboard.json": "./dist/.schema/storyboard.json"
   },
   "scripts": {
     "clean": "rimraf dist",
