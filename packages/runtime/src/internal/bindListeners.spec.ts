@@ -48,26 +48,7 @@ Object.defineProperty(MyTimeoutProvider.prototype, "saveAs", {
 });
 customElements.define("my-timeout-provider", MyTimeoutProvider);
 
-const tplHostElement = {
-  dispatchEvent: jest.fn(),
-};
-const ctxStore = {
-  updateValue: jest.fn(),
-} as any;
-const stateStore = {
-  updateValue: jest.fn(),
-  hostBrick: {
-    element: tplHostElement,
-  },
-} as any;
-const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
-const tplStateStoreId = "tpl-state-0";
-tplStateStoreMap.set(tplStateStoreId, stateStore);
-const runtimeContext = {
-  ctxStore,
-  tplStateStoreId,
-  tplStateStoreMap,
-} as Partial<RuntimeContext> as RuntimeContext;
+let runtimeContext = {} as RuntimeContext;
 
 const event = new CustomEvent("response", { detail: "ok" });
 
@@ -342,85 +323,132 @@ describe("listenerFactory for message.*", () => {
 });
 
 describe("listenerFactory for context.*", () => {
+  let ctxStore: DataStore<"CTX">;
+
+  beforeEach(async () => {
+    ctxStore = new DataStore("CTX");
+    runtimeContext = {
+      ctxStore,
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "complexContext",
+          value: {
+            quality: "good",
+          },
+        },
+        {
+          name: "lazyContext",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [30, "resolved"],
+            lazy: true,
+          },
+          value: "initial lazy",
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+  });
+
   test("context.assign", () => {
     listenerFactory(
       {
         action: "context.assign",
         args: [
-          "a",
+          "complexContext",
           {
-            v: "<% EVENT.detail %>",
+            update: "<% EVENT.detail %>",
           },
         ],
       },
       runtimeContext
     )(event);
-    expect(ctxStore.updateValue).toBeCalledWith(
-      "a",
-      { v: "ok" },
-      "assign",
-      undefined,
-      runtimeContext
-    );
+    expect(ctxStore.getValue("complexContext")).toEqual({
+      quality: "good",
+      update: "ok",
+    });
   });
 
-  test("context.load", () => {
+  test("context.load", async () => {
+    expect(ctxStore.getValue("lazyContext")).toEqual("initial lazy");
     listenerFactory(
       {
         action: "context.load",
-        args: ["a"],
+        args: ["lazyContext"],
         callback: { success: [] },
       },
       runtimeContext
     )(event);
-    expect(ctxStore.updateValue).toBeCalledWith(
-      "a",
-      undefined,
-      "load",
-      { success: [] },
-      runtimeContext
-    );
+    await (global as any).flushPromises();
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    expect(ctxStore.getValue("lazyContext")).toEqual("resolved");
   });
 });
 
-describe("listenerFactory for state.*", () => {
-  test("state.update", () => {
+describe("listenerFactory for state.* and tpl.*", () => {
+  let stateStore: DataStore<"STATE">;
+  const tplHostElement = {
+    dispatchEvent: jest.fn(),
+  };
+
+  beforeEach(async () => {
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const tplStateStoreId = "tpl-state-0";
+    runtimeContext = {
+      tplStateStoreId,
+      tplStateStoreMap,
+    } as RuntimeContext;
+    stateStore = new DataStore("STATE", { element: tplHostElement } as any);
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+    stateStore.define(
+      [
+        {
+          name: "primitiveState",
+          value: "initial primitive",
+        },
+        {
+          name: "asyncState",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [30, "<% `resolved:${STATE.primitiveState}` %>"],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    await stateStore.waitForAll();
+  });
+
+  test("state.update and then refresh", async () => {
+    expect(stateStore.getValue("primitiveState")).toBe("initial primitive");
+    expect(stateStore.getValue("asyncState")).toBe(
+      "resolved:initial primitive"
+    );
     listenerFactory(
       {
         action: "state.update",
-        args: ["a", "<% EVENT.detail %>"],
+        args: ["primitiveState", "<% EVENT.detail %>"],
       },
       runtimeContext
     )(event);
-    expect(stateStore.updateValue).toBeCalledWith(
-      "a",
-      "ok",
-      "replace",
-      undefined,
-      runtimeContext
-    );
-  });
+    expect(stateStore.getValue("primitiveState")).toBe("ok");
 
-  test("state.refresh", () => {
     listenerFactory(
       {
         action: "state.refresh",
-        args: ["a"],
+        args: ["asyncState"],
         callback: { error: [] },
       },
       runtimeContext
     )(event);
-    expect(stateStore.updateValue).toBeCalledWith(
-      "a",
-      undefined,
-      "refresh",
-      { error: [] },
-      runtimeContext
-    );
+    await (global as any).flushPromises();
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    expect(stateStore.getValue("asyncState")).toBe("resolved:ok");
   });
-});
 
-describe("listenerFactory for tpl.*", () => {
   test("tpl.dispatchEvent", () => {
     listenerFactory(
       {

@@ -10,6 +10,7 @@ import { loadBootstrapData } from "./loadBootstrapData.js";
 
 jest.mock("./loadBootstrapData.js");
 
+const consoleError = jest.spyOn(console, "error");
 window.scrollTo = jest.fn();
 
 let returnTemplates = false;
@@ -22,6 +23,16 @@ let returnTemplates = false;
           homepage: "/app-a",
           name: "App A",
           noAuthGuard: true,
+          config: {
+            settings: {
+              featureFlags: {
+                ["some-app-feature"]: true,
+              },
+              misc: {
+                staff: "cool",
+              },
+            },
+          },
         },
         routes: [
           {
@@ -35,6 +46,11 @@ let returnTemplates = false;
                 },
               },
             ],
+            menu: {
+              breadcrumb: {
+                items: [{ text: "Home" }],
+              },
+            },
           },
           {
             path: "${APP.homepage}/0",
@@ -62,6 +78,18 @@ let returnTemplates = false;
                 brick: "tpl-a",
               },
             ],
+          },
+          {
+            path: "${APP.homepage}/r1",
+            type: "redirect",
+            exact: true,
+            redirect: "${APP.homepage}/r2",
+          },
+          {
+            path: "${APP.homepage}/r2",
+            type: "redirect",
+            exact: true,
+            redirect: "${APP.homepage}/r1",
           },
         ],
         meta: {
@@ -93,6 +121,21 @@ let returnTemplates = false;
       },
     ],
     brickPackages: [],
+    settings: {
+      featureFlags: {
+        ["some-global-feature"]: true,
+      },
+      misc: {
+        quality: "good",
+      },
+      brand: {
+        favicon: "new-favicon.png",
+      },
+      launchpad: {
+        columns: 11,
+        rows: 3,
+      },
+    },
   })
 );
 
@@ -145,20 +188,60 @@ describe("Runtime", () => {
     await getRuntime().bootstrap();
     const renderId0 = _internalApiGetRenderId();
     expect(renderId0).toBeDefined();
-    expect(document.body).toMatchInlineSnapshot(`
-      <body>
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
         <div
           id="main-mount-point"
         >
           <div>
             I'm homepage of App A
           </div>
-        </div>
+        </div>,
         <div
           id="portal-mount-point"
-        />
-      </body>
+        />,
+      ]
     `);
+
+    expect(getRuntime().getRecentApps()).toEqual({
+      currentApp: expect.objectContaining({ id: "app-a" }),
+      previousApp: undefined,
+    });
+    expect(getRuntime().getCurrentApp()).toMatchObject({ id: "app-a" });
+    expect(getRuntime().getFeatureFlags()).toEqual({
+      "migrate-to-brick-next-v3": true,
+      "some-app-feature": true,
+      "some-global-feature": true,
+    });
+    expect(getRuntime().getMiscSettings()).toEqual({
+      quality: "good",
+      staff: "cool",
+    });
+    expect(getRuntime().getBrandSettings()).toEqual({
+      base_title: "DevOps 管理专家",
+      favicon: "new-favicon.png",
+    });
+    expect(getRuntime().getLaunchpadSettings()).toEqual({
+      columns: 11,
+      rows: 3,
+    });
+    expect(getRuntime().getDesktops()).toEqual([]);
+    expect(getRuntime().getLaunchpadSiteMap()).toEqual([]);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Home" }],
+    });
+
+    expect(document.body.classList.contains("launchpad-open")).toBe(false);
+    getRuntime().toggleLaunchpadEffect(true);
+    expect(document.body.classList.contains("launchpad-open")).toBe(true);
+    getRuntime().toggleLaunchpadEffect(false);
+    expect(document.body.classList.contains("launchpad-open")).toBe(false);
+
+    expect(document.title).toBe("");
+    getRuntime().applyPageTitle("Hello");
+    expect(document.title).toBe("Hello - DevOps 管理专家");
+    getRuntime().applyPageTitle("");
+    expect(document.title).toBe("DevOps 管理专家");
 
     // Go to a redirect page
     getHistory().push("/app-a/0");
@@ -169,19 +252,19 @@ describe("Runtime", () => {
 
     // It's redirected
     expect(getHistory().location.pathname).toBe("/app-a/1");
-    expect(document.body).toMatchInlineSnapshot(`
-      <body>
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
         <div
           id="main-mount-point"
         >
           <div>
             I'm page 1 of App A
           </div>
-        </div>
+        </div>,
         <div
           id="portal-mount-point"
-        />
-      </body>
+        />,
+      ]
     `);
 
     // No notify
@@ -193,29 +276,34 @@ describe("Runtime", () => {
     await (global as any).flushPromises();
     const renderId2 = _internalApiGetRenderId();
     expect(renderId2).toEqual(renderId1);
-    expect(document.body).toMatchInlineSnapshot(`
-      <body>
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
         <div
           id="main-mount-point"
         >
           <div>
             I'm page 1 of App A
           </div>
-        </div>
+        </div>,
         <div
           id="portal-mount-point"
-        />
-      </body>
+        />,
+      ]
     `);
   });
 
   test("tpl", async () => {
     returnTemplates = true;
     createRuntime();
+
+    expect(() => createRuntime()).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot create multiple runtimes"`
+    );
+
     getHistory().push("/app-a/2");
     await getRuntime().bootstrap();
-    expect(document.body).toMatchInlineSnapshot(`
-      <body>
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
         <div
           id="main-mount-point"
         >
@@ -224,11 +312,11 @@ describe("Runtime", () => {
               I'm Resolved X
             </div>
           </app-a.tpl-a>
-        </div>
+        </div>,
         <div
           id="portal-mount-point"
-        />
-      </body>
+        />,
+      ]
     `);
   });
 
@@ -236,19 +324,41 @@ describe("Runtime", () => {
     createRuntime();
     getHistory().push("/not-found");
     await getRuntime().bootstrap();
-    expect(document.body).toMatchInlineSnapshot(`
-      <body>
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
         <div
           id="main-mount-point"
         >
           <div>
             Page not found
           </div>
-        </div>
+        </div>,
         <div
           id="portal-mount-point"
-        />
-      </body>
+        />,
+      ]
     `);
+  });
+
+  test("infinite redirect", async () => {
+    consoleError.mockReturnValueOnce();
+    createRuntime();
+    getHistory().push("/app-a/r1");
+    await getRuntime().bootstrap();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        />,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith(
+      'Infinite redirect detected: from "/app-a/r2" to "/app-a/r1"'
+    );
+    expect(getHistory().location.pathname).toBe("/app-a/r2");
   });
 });

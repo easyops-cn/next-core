@@ -129,9 +129,6 @@ export function _internalApiGetRenderId(): string | undefined {
 export function _internalApiMatchStoryboard(
   pathname: string
 ): RuntimeStoryboard | undefined {
-  if (process.env.NODE_ENV === "test") {
-    return;
-  }
   return matchStoryboard(bootstrapData?.storyboards ?? [], pathname);
 }
 

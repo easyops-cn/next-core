@@ -9,6 +9,17 @@ import {
 
 const consoleError = jest.spyOn(console, "error");
 const consoleInfo = jest.spyOn(console, "info").mockReturnValue();
+let requestsCount = 0;
+const dispatchEvent = jest
+  .spyOn(window, "dispatchEvent")
+  .mockImplementation((event) => {
+    if (event.type === "request.start") {
+      requestsCount++;
+    } else {
+      requestsCount--;
+    }
+    return true;
+  });
 
 jest.mock("./loadScript.js", () => ({
   __esModule: true,
@@ -53,6 +64,10 @@ customElements.define(
   }
 );
 
+beforeEach(() => {
+  requestsCount = 0;
+});
+
 describe("loadBricksImperatively", () => {
   let loadBricksImperatively: typeof _loadBricksImperatively;
 
@@ -65,7 +80,7 @@ describe("loadBricksImperatively", () => {
   });
 
   test("load a single brick", async () => {
-    await loadBricksImperatively(
+    const promise = loadBricksImperatively(
       ["basic.general-button"],
       [
         {
@@ -74,6 +89,9 @@ describe("loadBricksImperatively", () => {
         },
       ]
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -90,7 +108,7 @@ describe("loadBricksImperatively", () => {
   });
 
   test("load multiple bricks with dependencies", async () => {
-    await loadBricksImperatively(
+    const promise = loadBricksImperatively(
       ["advanced.general-table", "basic.general-button", "basic.general-link"],
       [
         {
@@ -109,6 +127,9 @@ describe("loadBricksImperatively", () => {
         },
       ]
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -163,10 +184,13 @@ describe("loadBricksImperatively", () => {
         dll: ["d3"],
       },
     ];
-    await loadBricksImperatively(
+    const promise = loadBricksImperatively(
       ["legacy.some-brick", "basic.general-button"],
       brickPackages as any
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -205,7 +229,7 @@ describe("loadBricksImperatively", () => {
 
   test("load v2 bricks without v2-adapter", async () => {
     consoleError.mockReturnValueOnce();
-    await loadBricksImperatively(
+    const promise = loadBricksImperatively(
       ["legacy.some-brick", "basic.general-button"],
       [
         {
@@ -217,6 +241,9 @@ describe("loadBricksImperatively", () => {
         } as any,
       ]
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -239,7 +266,7 @@ describe("loadBricksImperatively", () => {
   // Todo: cause other tests to faile
   test.skip("load brick failed", async () => {
     // consoleError.mockReturnValueOnce();
-    await expect(
+    const promise = expect(
       loadBricksImperatively(
         ["unsure.not-existed"],
         [
@@ -252,6 +279,9 @@ describe("loadBricksImperatively", () => {
     ).rejects.toMatchInlineSnapshot(
       `[Error: Load bricks of "unsure.not-existed" failed]`
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -302,7 +332,9 @@ describe("enqueueStableLoadBricks", () => {
       enqueueStableLoadBricks(["basic.general-link"], brickPackages),
     ];
     flushStableLoadBricks();
+    expect(requestsCount).toBe(3);
     await Promise.all(promises);
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(9);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -371,7 +403,9 @@ describe("enqueueStableLoadBricks", () => {
       enqueueStableLoadBricks(["advanced.general-table"], brickPackages),
     ];
     flushStableLoadBricks();
+    expect(requestsCount).toBe(1);
     await Promise.all(promises);
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -412,7 +446,9 @@ describe("enqueueStableLoadProcessors", () => {
       enqueueStableLoadProcessors(["my_3d.getOutput"], brickPackages),
     ];
     flushStableLoadBricks();
+    expect(requestsCount).toBe(1);
     await Promise.all(promises);
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -441,7 +477,7 @@ describe("loadProcessorsImperatively", () => {
   });
 
   test("load multiple processors", async () => {
-    await loadProcessorsImperatively(
+    const promise = loadProcessorsImperatively(
       ["myPkg.sayGoodbye", "basic.sayHello"],
       [
         {
@@ -454,6 +490,9 @@ describe("loadProcessorsImperatively", () => {
         },
       ]
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -491,10 +530,13 @@ describe("loadProcessorsImperatively", () => {
         filePath: "bricks/legacy/dist/index.hash.js",
       },
     ];
-    await loadProcessorsImperatively(
+    const promise = loadProcessorsImperatively(
       ["legacy.saySomething"],
       brickPackages as any
     );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
     expect(consoleInfo).toBeCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
