@@ -11,7 +11,7 @@
     "prepare": "lerna bootstrap && husky install",
     "start": "lerna run start --scope \"@next-core/brick-container\" --",
     "serve": "brick-container-serve",
-    "serve:e2e": "brick-container-serve --no-remote",
+    "serve:e2e": "brick-container-serve --no-remote --local-micro-apps e2e",
     "start:playground": "lerna run start --scope \"@next-core/brick-playground\" --",
     "serve:playground": "brick-playground-serve",
     "build": "lerna run build",
