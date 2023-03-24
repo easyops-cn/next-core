@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div style="margin-top: 30px">form2</div>
+    <itsc-mobile.general-form id="form2" layout="inline">
+      <itsc-mobile.general-form-item name="sex" label="性别" id="form2-sex">
+        <itsc-mobile.general-input></itsc-mobile.general-input>
+      </itsc-mobile.general-form-item>
+    </itsc-mobile.general-form>
+
+    <basic.general-button id="btn-set">设置</basic.general-button>
+  </body>
+  <script>
+    const form2 = document.getElementById("form2");
+    form2.values = {
+      sex: "sex",
+    };
+    form2.setInitValue({
+      sex: "sexx",
+    });
+    const btnSet = document.getElementById("btn-set");
+    btnSet.addEventListener("click", () => {
+      form2.setInitValue({
+        sex: "setSex",
+      });
+    });
+  </script>
+</html>
