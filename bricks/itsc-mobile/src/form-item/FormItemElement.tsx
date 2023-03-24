@@ -1,21 +1,14 @@
+import React from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
-import type { GeneralFormElement } from "../form/index.jsx";
-
-const { method } = createDecorators();
-
+export interface AbstractGeneralFormElement extends HTMLElement {
+  formUtils: any;
+  layout: string;
+}
+const { property, method } = createDecorators();
 export abstract class FormItemElement extends ReactNextElement {
   accessor isFormItemElement = true;
   accessor #_notRender = false;
-  accessor #validate = "normal";
-
-  set validateState(value: string) {
-    this.#validate = value;
-    this._render();
-  }
-  get validateState() {
-    return this.#validate;
-  }
 
   /**
    * @required false
@@ -36,7 +29,7 @@ export abstract class FormItemElement extends ReactNextElement {
    * @description
    */
   @method()
-  getFormElement(): GeneralFormElement {
+  getFormElement(): AbstractGeneralFormElement {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let element: HTMLElement & { isFormElement?: boolean } = this;
     while ((element = element.parentNode as HTMLElement)) {
@@ -44,6 +37,6 @@ export abstract class FormItemElement extends ReactNextElement {
         break;
       }
     }
-    return element as unknown as GeneralFormElement;
+    return element as AbstractGeneralFormElement;
   }
 }

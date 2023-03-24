@@ -1,101 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createDecorators, EventEmitter } from "@next-core/element";
-import { FormItemElement } from "./FormItemElement.js";
-import type { GeneralFormElement } from "../form/index.js";
+import {
+  AbstractGeneralFormElement,
+  FormItemElement,
+} from "./FormItemElement.js";
 import { Form } from "antd-mobile";
-import { isBoolean } from "lodash";
 
-type NamePath = string | number | (string | number)[];
-interface RuleConfig {
-  /**仅在 type 为 array 类型时有效，用于指定数组元素的校验规则 */
-  defaultField: any;
-  /**是否匹配枚举中的值（需要将 type 设置为 enum) */
-  enum: any[];
-  /**string 类型时为字符串长度；number 类型时为确定数字； array 类型时为数组长度 */
-  len: number;
-  /**必须设置 type：string 类型为字符串最大长度；number 类型时为最大值；array 类型时为数组最大长度 */
-  max: number;
-  /**错误信息，不设置时会通过模板自动生成 */
-  message: string;
-  /**必须设置 type：string 类型为字符串最小长度；number 类型时为最小值；array 类型时为数组最小长度 */
-  min: number;
-  /**正则表达式匹配 */
-  pattern: RegExp;
-  /**是否为必选字段 */
-  required: boolean;
-  /**将字段值转换成目标值后进行校验 */
-  transform: (value) => any;
-  /**类型，常见有 string |number |boolean |url | email。 */
-  type: string;
-  /**设置触发验证时机，必须是 Form.Item 的 validateTrigger 的子集 */
-  validateTrigger: string | string[];
-  /**自定义校验，接收 Promise 作为返回值。 */
-  validator: (rule, value) => Promise<any>;
-  /**仅警告，不阻塞表单提交 */
-  warningOnly: boolean;
-  /**如果字段仅包含空格则校验不通过，只在 type: 'string' 时生效 */
-  whitespace: boolean;
-}
-type Rule = RuleConfig | ((form) => RuleConfig);
-export interface FormItemProps {
-  formElement?: GeneralFormElement;
-  curElement?: HTMLElement;
-  disabled?: boolean;
-  hidden?: boolean;
-  hasFeedback?: boolean;
-  name?: NamePath;
-  label?: React.ReactNode;
-  current?: HTMLElement;
-  required?: boolean;
-  rules?: Rule[];
-  noStyle?: boolean;
-  arrow?: boolean;
-  help?: React.ReactNode;
-  layout?: "vertical" | "horizontal";
-  onClick?: (
-    e: React.MouseEvent,
-    widgetRef: React.MutableRefObject<any>
-  ) => void;
-  preserve?: boolean;
-  trigger?: string;
-  validateTrigger?: string | string[];
-  valuePropName?: string;
-}
-
+type CurrentElement = HTMLElement & {
+  [key: string]: any;
+};
 const { defineElement, property, event, method } = createDecorators();
-
-/**
- * @id itsc-mobile.general-form-item
- * @name itsc-mobile.general-form-item
- * @docKind brick
- * @description 通用表单项
- * @author garen
- * @noInheritDoc
- */
 @defineElement("itsc-mobile.general-form-item", {
   styleTexts: [],
 })
-class FormItem extends FormItemElement implements FormItemProps {
-  /**
-   * @default
-   * @required
-   * @description
-   */
-  @property({
-    attribute: false,
-  })
-  accessor formElement: GeneralFormElement | undefined;
-
-  /**
-   * @default
-   * @required
-   * @description
-   */
-  @property({
-    attribute: false,
-  })
-  accessor curElement!: HTMLElement;
-
+class FormItem extends FormItemElement implements FormItemComponentProps {
   /**
    * @kind boolean
    * @required false
@@ -157,7 +75,7 @@ class FormItem extends FormItemElement implements FormItemProps {
    * @description 提示文本
    * @group itsc-mobile
    */
-  @property({ attribute: false }) accessor help: React.ReactNode;
+  @property({ attribute: false }) accessor help: string;
 
   /**
    * @kind React.ReactNode
@@ -166,7 +84,7 @@ class FormItem extends FormItemElement implements FormItemProps {
    * @description 标签名
    * @group itsc-mobile
    */
-  @property() accessor label: React.ReactNode;
+  @property() accessor label: string;
 
   /**
    * @kind NamePath
@@ -175,7 +93,7 @@ class FormItem extends FormItemElement implements FormItemProps {
    * @description 字段名，支持数组
    * @group itsc-mobile
    */
-  @property() accessor name: NamePath;
+  @property() accessor name: string;
 
   /**
    * @kind boolean
@@ -231,19 +149,17 @@ class FormItem extends FormItemElement implements FormItemProps {
    */
   @property() accessor trigger: string = "onChange";
 
-  /**
-   * @description 点击事件并收集子组件 Ref
-   */
-  @event({ type: "collect.ref" }) accessor #collectRefEvent!: EventEmitter<
+  @property({ attribute: false }) accessor value: any;
+
+  @event({ type: "form-item.change" }) accessor #changeEvent!: EventEmitter<
     Record<string, unknown>
   >;
 
-  /**
-   * @description
-   */
   @method()
-  onClick(e: React.MouseEvent, widgetRef: React.MutableRefObject<any>) {
-    this.#collectRefEvent.emit({ e, widgetRef });
+  _handleChange(value: any): void {
+    this.value = value;
+    this._render();
+    this.#changeEvent.emit(value);
   }
 
   render() {
@@ -252,24 +168,22 @@ class FormItem extends FormItemElement implements FormItemProps {
       <FormItemComponent
         formElement={formElement}
         curElement={this}
-        disabled={
-          isBoolean(this.disabled) ? this.disabled : formElement?.disabled
-        }
+        name={this.name}
+        label={this.label}
+        disabled={this.disabled}
         hidden={this.hidden}
         hasFeedback={this.hasFeedback}
-        layout={this.layout || formElement?.layout}
+        layout={this.layout || formElement.layout}
         noStyle={this.noStyle}
-        help={this.help}
         arrow={this.arrow}
-        label={this.label}
-        name={this.name}
-        onClick={this.onClick}
-        preserve={this.preserve}
+        help={this.help}
         required={this.required}
         rules={this.rules}
-        trigger={this.trigger}
-        validateTrigger={this.validateTrigger}
         valuePropName={this.valuePropName}
+        validateTrigger={this.validateTrigger}
+        trigger={this.trigger}
+        value={this.value}
+        onChange={this._handleChange}
       />
     );
   }
@@ -277,9 +191,72 @@ class FormItem extends FormItemElement implements FormItemProps {
 
 export { FormItem };
 
-export function FormItemComponent(props: FormItemProps) {
+interface RuleConfig {
+  /**仅在 type 为 array 类型时有效，用于指定数组元素的校验规则 */
+  defaultField: any;
+  /**是否匹配枚举中的值（需要将 type 设置为 enum) */
+  enum: any[];
+  /**string 类型时为字符串长度；number 类型时为确定数字； array 类型时为数组长度 */
+  len: number;
+  /**必须设置 type：string 类型为字符串最大长度；number 类型时为最大值；array 类型时为数组最大长度 */
+  max: number;
+  /**错误信息，不设置时会通过模板自动生成 */
+  message: string;
+  /**必须设置 type：string 类型为字符串最小长度；number 类型时为最小值；array 类型时为数组最小长度 */
+  min: number;
+  /**正则表达式匹配 */
+  pattern: RegExp;
+  /**是否为必选字段 */
+  required: boolean;
+  /**将字段值转换成目标值后进行校验 */
+  transform: (value: any) => any;
+  /**类型，常见有 string |number |boolean |url | email。 */
+  type: string;
+  /**设置触发验证时机，必须是 Form.Item 的 validateTrigger 的子集 */
+  validateTrigger: string | string[];
+  /**自定义校验，接收 Promise 作为返回值。 */
+  validator: (rule: any, value: any) => Promise<any>;
+  /**仅警告，不阻塞表单提交 */
+  warningOnly: boolean;
+  /**如果字段仅包含空格则校验不通过，只在 type: 'string' 时生效 */
+  whitespace: boolean;
+}
+type Rule = RuleConfig | ((form: AbstractGeneralFormElement) => RuleConfig);
+export interface FormItemWrapperProps {
+  formElement?: AbstractGeneralFormElement;
+  curElement?: CurrentElement;
+  className?: string;
+  disabled?: boolean;
+  hidden?: boolean;
+  hasFeedback?: boolean;
+  name?: string;
+  label?: React.ReactNode;
+  current?: HTMLElement;
+  required?: boolean;
+  rules?: any[];
+  noStyle?: boolean;
+  arrow?: boolean;
+  help?: React.ReactNode;
+  layout?: "vertical" | "horizontal";
+  onClick?: (
+    e: React.MouseEvent,
+    widgetRef: React.MutableRefObject<any>
+  ) => void;
+  preserve?: boolean;
+  trigger?: string;
+  validateTrigger?: string | string[];
+  valuePropName?: string;
+}
+export interface FormItemComponentProps extends FormItemWrapperProps {
+  value?: any;
+  onChange?(value: any): void;
+}
+
+export function FormItemComponent(
+  props: FormItemComponentProps
+): React.ReactElement {
   return (
-    <Form.Item {...props}>
+    <Form.Item className="itsm-mobile-form-item" {...props}>
       <slot></slot>
     </Form.Item>
   );
