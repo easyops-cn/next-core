@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.0.4...@next-core/brick-container@3.0.5) (2023-03-24)
+
+
+### Bug Fixes
+
+* fix merge local bricks with remote ([2087549](https://github.com/easyops-cn/next-core/commit/208754945b9aaf51b54aebd3133c5fb05102e1e6))
+
+
+
+
+
 ## [3.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.0.3...@next-core/brick-container@3.0.4) (2023-03-24)
 
 
