@@ -4,6 +4,7 @@ import { getBrickPackages } from "@next-core/serve-helpers";
 import { getStoryboards } from "./utils/getStoryboards.js";
 import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
+import { concatBrickPackages } from "./utils/concatBrickPackages.js";
 
 export default function getProxy(env, getRawIndexHtml) {
   const { rootDir, localMicroApps, baseHref, useRemote, useLocalContainer } =
@@ -37,7 +38,10 @@ export default function getProxy(env, getRawIndexHtml) {
 
               // Todo: filter out local micro-apps and brick packages
               data.storyboards = storyboards.concat(data.storyboards);
-              data.brickPackages = brickPackages.concat(data.brickPackages);
+              data.brickPackages = concatBrickPackages(
+                brickPackages,
+                data.brickPackages
+              );
               removeCacheHeaders(res);
               return JSON.stringify(result);
             }
@@ -171,9 +175,10 @@ export default function getProxy(env, getRawIndexHtml) {
             ) {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
-              result.brickPackages = (
-                await getBrickPackages(rootDir, true)
-              ).concat(result.brickPackages);
+              result.brickPackages = concatBrickPackages(
+                await getBrickPackages(rootDir, true),
+                result.brickPackages
+              );
               delete result.templatePackages;
               removeCacheHeaders(res);
               return JSON.stringify(result);
