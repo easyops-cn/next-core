@@ -127,7 +127,7 @@ jobs:
       run: exit 1
       if: steps.yarn-lock-check-before.outputs.sum != steps.yarn-lock-check-after.outputs.sum
 
-    - run: yarn build
+    - run: yarn build --concurrency 1
     - run: yarn test:ci
     - run: yarn test:e2e:ci
       env:
