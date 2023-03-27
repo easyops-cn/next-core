@@ -1671,6 +1671,34 @@
     validate-npm-package-name "^4.0.0"
     yargs-parser "20.2.4"
 
+"@next-api-sdk/api-gateway-sdk@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@next-api-sdk/api-gateway-sdk/-/api-gateway-sdk-1.1.0.tgz#6eaa4e4d8f1a53311b8ce6383d2b38d38e6a0650"
+  integrity sha512-uAZ/IwGHJjg28z0jCfWIANbKPTWEds5UzRan02obzWFYRpUOejij8h6ZBh08hTo6mnT9pZ+4+ma/JKuJZwNcGA==
+  dependencies:
+    "@next-core/http" "^1.0.0"
+
+"@next-api-sdk/cmdb-sdk@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@next-api-sdk/cmdb-sdk/-/cmdb-sdk-1.1.0.tgz#5c99b7b6ad51b2d2d4417a1d824ccf208caf8346"
+  integrity sha512-ov+wuAhZF/qaUpIafkGugjzaJ8XeLjmCca0BudYSXw7n40CTeMJgXRqETJjQ25PPTnPRed2Oc9XzkDP4rGOPcg==
+  dependencies:
+    "@next-core/http" "^1.0.0"
+
+"@next-api-sdk/micro-app-sdk@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@next-api-sdk/micro-app-sdk/-/micro-app-sdk-1.1.0.tgz#6bc65863f021532a3765e077d97bec1711361c25"
+  integrity sha512-P9Z5R0FPKe4hK7h2HXNuiCLJji0Xl6bg2jIEGW1snLXCYGQRQH7COXWEeeSDbi1MKgknLiZU5yNP1Vskj1J7jw==
+  dependencies:
+    "@next-core/http" "^1.0.0"
+
+"@next-api-sdk/micro-app-standalone-sdk@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/@next-api-sdk/micro-app-standalone-sdk/-/micro-app-standalone-sdk-1.1.0.tgz#8c98d78fa9853eaf1669fba11a1ba6cdc22002db"
+  integrity sha512-FHeVX83d5otNWwBzaja6kftK3fW6iGSxkoTSNXMxHVh39v8+E1Tk2OFA9OvBaOBCKi6ULgH9MYLlHpFDiIKLYw==
+  dependencies:
+    "@next-core/http" "^1.0.0"
+
 "@next-core/styles-v3@^0.2.1":
   version "0.2.8"
   resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.8.tgz#a1432f3ef05ebcff1ef48e5e520b87f1b0e91d7b"
