@@ -15,17 +15,12 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": [
-        "^@next-core/",
-        "^@next-sdk/",
-        "^@next-bricks/",
-        "^@next-api-sdk/"
-      ],
+      "matchPackagePatterns": ["^@next-core/", "^@next-bricks/"],
       "enabled": false
     },
     {
       "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
-      "baseBranches": ["master"]
+      "baseBranches": ["master", "v3"]
     },
     {
       "groupName": "size-limit packages",
