@@ -8,7 +8,30 @@ import { readdir, readFile } from "node:fs/promises";
  * @returns {Promise<unknown[]>}
  */
 export async function getBrickPackages(rootDir, publicRootWithVersion) {
-  const bricksDir = path.join(rootDir, "node_modules/@next-bricks");
+  return (
+    await Promise.all([
+      getBrickPackagesInDir(
+        path.join(rootDir, "node_modules/@next-bricks"),
+        publicRootWithVersion
+      ),
+      getBrickPackagesInDir(
+        path.join(rootDir, "node_modules/@bricks"),
+        publicRootWithVersion
+      ),
+    ])
+  ).flat();
+}
+
+/**
+ *
+ * @param {string} bricksDir
+ * @param {string} publicRootWithVersion
+ * @returns {Promise<unknown[]>}
+ */
+async function getBrickPackagesInDir(bricksDir, publicRootWithVersion) {
+  if (!existsSync(bricksDir)) {
+    return [];
+  }
   const dirs = await readdir(bricksDir, {
     withFileTypes: true,
   });
