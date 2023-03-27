@@ -17,6 +17,8 @@ app.use(
   express.static(path.join(rootDir, "node_modules/@next-bricks"))
 );
 
+app.use("/bricks/", express.static(path.join(rootDir, "node_modules/@bricks")));
+
 app.use(bootstrapJson(rootDir));
 
 app.use("/", express.static(path.join(__dirname, "../dist")));

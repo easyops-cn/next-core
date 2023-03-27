@@ -18,6 +18,10 @@ const server = new WebpackDevServer(
           path.join(rootDir, "node_modules/@next-bricks")
         ),
       });
+      middlewares.push({
+        path: "/bricks/",
+        middleware: express.static(path.join(rootDir, "node_modules/@bricks")),
+      });
 
       middlewares.push(bootstrapJson(rootDir));
 
