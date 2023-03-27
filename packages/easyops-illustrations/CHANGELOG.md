@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.7](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.6...@next-core/illustrations@0.11.7) (2023-03-27)
+
+
+### Bug Fixes
+
+* include images in npm package ([1d53b05](https://github.com/easyops-cn/next-core/commit/1d53b0547c551936a20a9e8c6e941457a1deff8c))
+
+
+
+
+
 ## [0.11.6](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.5...@next-core/illustrations@0.11.6) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/illustrations

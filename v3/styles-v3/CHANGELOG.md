@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.16](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.15...@next-core/styles-v3@0.2.16) (2023-03-27)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
 ## [0.2.15](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.14...@next-core/styles-v3@0.2.15) (2023-03-24)
 
 **Note:** Version bump only for package @next-core/styles-v3
