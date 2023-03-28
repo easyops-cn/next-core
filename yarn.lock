@@ -4239,20 +4239,20 @@ concat-stream@^2.0.0:
     readable-stream "^3.0.2"
     typedarray "^0.0.6"
 
-concurrently@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.npmjs.org/concurrently/-/concurrently-7.6.0.tgz"
-  integrity sha512-BKtRgvcJGeZ4XttiDiNcFiRlxoAeZOseqUvyYRUp/Vtd+9p1ULmeoSqGsDA+2ivdeDFpqrJvGvmI+StKfKl5hw==
+concurrently@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.npmjs.org/concurrently/-/concurrently-8.0.0.tgz#1f3f1b72d8daa45b1935ea9f43a690d98601dd9c"
+  integrity sha512-1fjagjL+RgPRAx9Wi8Yv866Whtx34MRdk9qf6wwxpQoYL2mD+lUZMOe9RXYULC6eBl6e4sde6cu8bpyg9Rd9/w==
   dependencies:
-    chalk "^4.1.0"
-    date-fns "^2.29.1"
+    chalk "^4.1.2"
+    date-fns "^2.29.3"
     lodash "^4.17.21"
-    rxjs "^7.0.0"
-    shell-quote "^1.7.3"
-    spawn-command "^0.0.2-1"
-    supports-color "^8.1.0"
+    rxjs "^7.8.0"
+    shell-quote "^1.7.4"
+    spawn-command "0.0.2-1"
+    supports-color "^8.1.1"
     tree-kill "^1.2.2"
-    yargs "^17.3.1"
+    yargs "^17.6.2"
 
 config-chain@1.1.12:
   version "1.1.12"
@@ -4781,9 +4781,9 @@ data-urls@^3.0.2:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
 
-date-fns@^2.29.1:
+date-fns@^2.29.3:
   version "2.29.3"
-  resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.29.3.tgz"
+  resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
   integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
 date-now@^0.1.4:
@@ -10375,7 +10375,7 @@ rxjs@^6.4.0:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^7.0.0, rxjs@^7.4.0, rxjs@^7.5.5, rxjs@^7.8.0:
+rxjs@^7.4.0, rxjs@^7.5.5, rxjs@^7.8.0:
   version "7.8.0"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.8.0.tgz"
   integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==
@@ -10584,7 +10584,7 @@ shebang-regex@^3.0.0:
   resolved "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz"
   integrity sha1-rhbxZE2HPsrYQ7AwexQzYtTEIXI=
 
-shell-quote@^1.4.2, shell-quote@^1.6.1, shell-quote@^1.7.3:
+shell-quote@^1.4.2, shell-quote@^1.6.1, shell-quote@^1.7.3, shell-quote@^1.7.4:
   version "1.8.0"
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.8.0.tgz"
   integrity sha512-QHsz8GgQIGKlRi24yFc6a6lN69Idnx634w49ay6+jA5yFh7a1UY+4Rp6HPx/L/1zcEDPEij8cIsiqR6bQsE5VQ==
@@ -10727,9 +10727,9 @@ source-map@~0.5.3:
   version "0.5.7"
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.5.7.tgz"
 
-spawn-command@^0.0.2-1:
+spawn-command@0.0.2-1:
   version "0.0.2-1"
-  resolved "https://registry.npmjs.org/spawn-command/-/spawn-command-0.0.2-1.tgz"
+  resolved "https://registry.npmjs.org/spawn-command/-/spawn-command-0.0.2-1.tgz#62f5e9466981c1b796dc5929937e11c9c6921bd0"
   integrity sha512-n98l9E2RMSJ9ON1AKisHzz7V42VDiBQGY6PB1BwRglz99wpVsSuGzQ+jOi6lFXBGVTCrRpltvjm+/XA+tpeJrg==
 
 spdx-correct@^3.0.0:
@@ -11042,7 +11042,7 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-supports-color@^8.0.0, supports-color@^8.1.0, supports-color@^8.1.1:
+supports-color@^8.0.0, supports-color@^8.1.1:
   version "8.1.1"
   resolved "https://registry.npmjs.org/supports-color/-/supports-color-8.1.1.tgz"
   integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==
