@@ -244,7 +244,7 @@ export default async function build(config) {
           test: /\.svg$/i,
           issuer(input) {
             // The issuer is null (or an empty string) for dynamic import
-            return !input || /\.[jt]sx?$/.test(input);
+            return !config.svgAsAsset && (!input || /\.[jt]sx?$/.test(input));
           },
           use: [
             {
@@ -277,6 +277,22 @@ export default async function build(config) {
               },
             },
           ],
+        },
+        {
+          // Images
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: "asset/resource",
+          generator: {
+            filename: config.imageAssetFilename ?? "images/[hash][ext][query]",
+          },
+        },
+        {
+          // Fonts
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: "asset/resource",
+          generator: {
+            filename: "fonts/[hash][ext][query]",
+          },
         },
         ...(config.moduleRules || []),
       ],

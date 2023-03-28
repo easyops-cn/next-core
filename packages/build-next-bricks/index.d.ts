@@ -66,6 +66,8 @@ export interface BuildNextBricksConfig {
   mode?: "development" | "production";
   entry?: Record<string, string>;
   extractCss?: boolean;
+  svgAsAsset?: boolean;
+  imageAssetFilename?: string | ((pathData: any, assetInfo: any) => string);
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];
   exposes?: ConstructorParameters<typeof container.ModuleFederationPlugin>;
