@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.4...@next-core/runtime@1.0.5) (2023-03-28)
+
+
+### Bug Fixes
+
+* update sdk ([e8a4875](https://github.com/easyops-cn/next-core/commit/e8a48754815ba2a9880c703d093482c14f4dcb0d))
+
+
+
+
+
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.3...@next-core/runtime@1.0.4) (2023-03-24)
 
 **Note:** Version bump only for package @next-core/runtime

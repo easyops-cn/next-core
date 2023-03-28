@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.0.2...@next-core/build-next-bricks@1.1.0) (2023-03-28)
+
+
+### Features
+
+* new config options: svgAsAsset, imageAssetFilename ([7d03307](https://github.com/easyops-cn/next-core/commit/7d03307771ee5cd8e99e2de45d32bef15c1c7b2b))
+
+
+
+
+
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.0.1...@next-core/build-next-bricks@1.0.2) (2023-03-22)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
