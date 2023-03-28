@@ -240,52 +240,54 @@ export default async function build(config) {
             rootMode: "upward",
           },
         },
-        {
-          test: /\.svg$/i,
-          issuer(input) {
-            // The issuer is null (or an empty string) for dynamic import
-            return !config.svgAsAsset && (!input || /\.[jt]sx?$/.test(input));
-          },
-          use: [
-            {
-              loader: "babel-loader",
-              options: {
-                rootMode: "upward",
+        config.svgAsAsset
+          ? {
+              // Images
+              test: /\.(png|svg|jpg|jpeg|gif)$/i,
+              type: "asset/resource",
+              generator: {
+                filename:
+                  config.imageAssetFilename ?? "images/[hash][ext][query]",
               },
-            },
-            {
-              loader: "@svgr/webpack",
-              options: {
-                babel: false,
-                icon: true,
-                svgoConfig: {
-                  plugins: [
-                    {
-                      name: "preset-default",
-                      params: {
-                        overrides: {
-                          // Keep `viewbox`
-                          removeViewBox: false,
-                          convertColors: {
-                            currentColor: true,
+            }
+          : {
+              test: /\.svg$/i,
+              issuer(input) {
+                // The issuer is null (or an empty string) for dynamic import
+                return !input || /\.[jt]sx?$/.test(input);
+              },
+              use: [
+                {
+                  loader: "babel-loader",
+                  options: {
+                    rootMode: "upward",
+                  },
+                },
+                {
+                  loader: "@svgr/webpack",
+                  options: {
+                    babel: false,
+                    icon: true,
+                    svgoConfig: {
+                      plugins: [
+                        {
+                          name: "preset-default",
+                          params: {
+                            overrides: {
+                              // Keep `viewbox`
+                              removeViewBox: false,
+                              convertColors: {
+                                currentColor: true,
+                              },
+                            },
                           },
                         },
-                      },
+                      ],
                     },
-                  ],
+                  },
                 },
-              },
+              ],
             },
-          ],
-        },
-        {
-          // Images
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: "asset/resource",
-          generator: {
-            filename: config.imageAssetFilename ?? "images/[hash][ext][query]",
-          },
-        },
         {
           // Fonts
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
