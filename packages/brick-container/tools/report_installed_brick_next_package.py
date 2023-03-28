@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 import logging
 import os
@@ -104,6 +105,7 @@ def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks
 
 
 def report_brick_next_package(org, brick_targz_path, package_name, package_version):
+    # report brick_next or NT
     session_id, ip, port = ens_api.get_service_by_name(
         "web.brick_next", "logic.micro_app_service")
     if session_id <= 0:
@@ -193,6 +195,24 @@ def report_nb(org, install_path):
     if contract_content:
         report_provider_into_contract(org, package_name, contract_content)
 
+def report_nt(org, install_path):
+    # 读取版本信息
+    version_file = os.path.join(install_path, "version.ini")
+    with open(version_file, "r") as f:
+        lines = f.readlines()
+        package_version = str.strip(lines[1])
+
+    package_name = os.path.basename(install_path)
+    if package_name:
+        targz_name = package_name + ".tar.gz"
+        nt_targz_path = os.path.join(install_path, targz_name)
+        if not mk_nb_tar_gz(nt_targz_path, install_path):
+            logger.error("mkdir tar.gz of nt err")
+            sys.exit(1)
+        report_brick_next_package(org, nt_targz_path, package_name, package_version)
+        remove_tar_gz_file(nt_targz_path)
+
+
 
 if __name__ == "__main__":
     # 兼容老nb包install_postscript.sh调用report_installed_brick_next_package仅传入包路径
@@ -213,5 +233,7 @@ if __name__ == "__main__":
         report_brick_next(org, install_path)
     elif install_path.endswith("-NB"):
         report_nb(org, install_path)
+    elif install_path.endswith("-NT"):
+        report_nt(org, install_path)
     else:
         sys.exit(0)
