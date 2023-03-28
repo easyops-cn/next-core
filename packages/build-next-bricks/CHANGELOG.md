@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.1...@next-core/build-next-bricks@1.1.2) (2023-03-28)
+
+
+### Bug Fixes
+
+* fix svgAsAsset is not set ([f35858f](https://github.com/easyops-cn/next-core/commit/f35858f4653675d81259973f42840304072c2dce))
+
+
+
+
+
 ## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.0...@next-core/build-next-bricks@1.1.1) (2023-03-28)
 
 
