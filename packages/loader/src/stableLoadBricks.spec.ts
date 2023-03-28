@@ -176,8 +176,15 @@ describe("loadBricksImperatively", () => {
         filePath: "bricks/basic/dist/index.hash.js",
       },
       {
+        id: "bricks/icons",
+        filePath: "bricks/icons/dist/index.hash.js",
+      },
+      {
         id: "bricks/v2-adapter",
         filePath: "bricks/v2-adapter/dist/index.hash.js",
+        dependencies: {
+          "v2-adapter.load-bricks": ["icons.general-icon"],
+        },
       },
       {
         filePath: "bricks/legacy/dist/index.hash.js",
@@ -191,7 +198,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toBeCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -206,15 +213,27 @@ describe("loadBricksImperatively", () => {
     );
     expect(consoleInfo).toHaveBeenNthCalledWith(
       3,
+      "loadScript done:",
+      "bricks/icons/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      4,
       "loadSharedModule done:",
       "bricks/basic",
       "./general-button"
     );
     expect(consoleInfo).toHaveBeenNthCalledWith(
-      4,
+      5,
       "loadSharedModule done:",
       "bricks/v2-adapter",
       "./load-bricks"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      6,
+      "loadSharedModule done:",
+      "bricks/icons",
+      "./general-icon"
     );
     expect(consoleError).toBeCalledTimes(0);
     expect(loadV2Bricks).toBeCalledTimes(1);

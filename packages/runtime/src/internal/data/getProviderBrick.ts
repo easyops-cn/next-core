@@ -17,13 +17,15 @@ export async function getProviderBrick(provider: string): Promise<HTMLElement> {
     return brick;
   }
 
-  if (provider === FLOW_API_PROVIDER && !customElements.get(provider)) {
-    registerFlowApiProvider();
-  } else {
-    await loadBricksImperatively([provider], getBrickPackages());
+  if (provider.includes("-") && !customElements.get(provider)) {
+    if (provider === FLOW_API_PROVIDER) {
+      registerFlowApiProvider();
+    } else {
+      await loadBricksImperatively([provider], getBrickPackages());
 
-    if (!customElements.get(provider)) {
-      throw new Error(`Provider not defined: "${provider}".`);
+      if (!customElements.get(provider)) {
+        throw new Error(`Provider not defined: "${provider}".`);
+      }
     }
   }
 
