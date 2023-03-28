@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.0...@next-core/build-next-bricks@1.1.1) (2023-03-28)
+
+
+### Bug Fixes
+
+* scan `unwrapProvider` usage ([e466e2e](https://github.com/easyops-cn/next-core/commit/e466e2ee971515579de17fe803307ba797a10831))
+
+
+
+
+
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.0.2...@next-core/build-next-bricks@1.1.0) (2023-03-28)
 
 

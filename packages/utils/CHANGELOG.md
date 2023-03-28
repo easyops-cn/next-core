@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.0.3...@next-core/utils@1.1.0) (2023-03-28)
+
+
+### Features
+
+* unwrap a provider brick as a function ([c3ec60a](https://github.com/easyops-cn/next-core/commit/c3ec60a2c7205036bec8af492e9e1a396260cbaa))
+
+
+
+
+
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.0.2...@next-core/utils@1.0.3) (2023-03-23)
 
 **Note:** Version bump only for package @next-core/utils
