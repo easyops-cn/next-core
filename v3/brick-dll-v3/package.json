@@ -39,7 +39,6 @@
     "@next-core/webpack-config-factory": "^2.22.0",
     "antd": "~4.12.3",
     "buffer": "^4.9.2",
-    "copy-webpack-plugin": "^6.4.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-i18next": "^11.18.6",
