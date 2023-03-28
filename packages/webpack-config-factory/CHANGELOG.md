@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.21.0...@next-core/webpack-config-factory@2.22.0) (2023-03-28)
+
+
+### Features
+
+* mock @next-core/illustrations ([070549f](https://github.com/easyops-cn/next-core/commit/070549f101879d2d2a4300cab88001d28916f262))
+
+
+
+
+
 # [2.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.20.0...@next-core/webpack-config-factory@2.21.0) (2023-03-15)
 
 

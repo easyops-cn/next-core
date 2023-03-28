@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-kit-v3",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/v3/brick-kit-v3",
   "license": "GPL-3.0",
@@ -42,7 +42,7 @@
     "@next-core/brick-utils": "^2.45.21",
     "@next-core/easyops-analytics": "^0.10.9",
     "@next-core/history-v3": "^0.1.0",
-    "@next-core/illustrations-v3": "^0.0.0",
+    "@next-core/illustrations-v3": "^0.1.0",
     "@next-core/js-yaml-v3": "^0.1.0",
     "@next-core/lodash-v3": "^0.1.0",
     "@next-core/moment-v3": "^0.1.0",
