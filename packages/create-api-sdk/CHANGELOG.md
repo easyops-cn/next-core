@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.2...@next-core/create-api-sdk@1.0.3) (2023-03-29)
+
+
+### Bug Fixes
+
+* clone with depth 1 ([5598927](https://github.com/easyops-cn/next-core/commit/559892771617b4bb1ab7abf5707275fec4e27a13))
+* leave v2 packages in v2 ([0576048](https://github.com/easyops-cn/next-core/commit/05760482e37cadc0f2aac4cb562a1ba4913f228e))
+
+
+
+
+
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.1...@next-core/create-api-sdk@1.0.2) (2023-03-22)
 
 **Note:** Version bump only for package @next-core/create-api-sdk
