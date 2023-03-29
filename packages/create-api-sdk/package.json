@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@next-core/public-scoped-sdk": "^0.2.13",
-    "@next-core/repo-config": "^1.0.2",
+    "@next-core/repo-config": "^0.2.5",
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",
