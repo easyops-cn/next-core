@@ -17,7 +17,6 @@
     "build": "lerna run build",
     "test": "test-next-project",
     "test:ci": "lerna run test:ci --concurrency 1 -- --runInBand",
-    "yo-sdk": "create-api-sdk",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --record",
     "cypress:run:no-record": "cypress run",
