@@ -1699,6 +1699,16 @@
   dependencies:
     "@next-core/http" "^1.0.0"
 
+"@next-core/public-scoped-sdk@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.npmjs.org/@next-core/public-scoped-sdk/-/public-scoped-sdk-0.2.13.tgz#09f7b2c3d10197c14ba5d89a9b5f5aaa40166a4f"
+  integrity sha512-OBj0bmpxLLIS93gJTNznVofynCFuHlg54P6DJL1c7QXjIMD5+0z6NN/5zkk31hHpseF17NjWkPBr7Y3rA8COCQ==
+
+"@next-core/repo-config@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.npmjs.org/@next-core/repo-config/-/repo-config-0.2.5.tgz#d751d21b10a41845679ba1ccc39d52f74e80f3c2"
+  integrity sha512-haAaz198IvoQ2MledsV6OVnmlj8utflDG3VYDytDGtJm0A0/2EN5bgkdyLtZzxroe9hEJzry6o9hVlO6dp7GCQ==
+
 "@next-core/styles-v3@^0.2.1":
   version "0.2.8"
   resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.2.8.tgz#a1432f3ef05ebcff1ef48e5e520b87f1b0e91d7b"
