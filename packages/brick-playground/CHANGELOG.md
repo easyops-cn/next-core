@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.8...@next-core/brick-playground@1.1.0) (2023-03-29)
+
+
+### Features
+
+* support sharing playground ([f2e25c3](https://github.com/easyops-cn/next-core/commit/f2e25c3b0cecabb123575575e5827ec74b23ce65))
+
+
+
+
+
 ## [1.0.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.7...@next-core/brick-playground@1.0.8) (2023-03-28)
 
 **Note:** Version bump only for package @next-core/brick-playground
