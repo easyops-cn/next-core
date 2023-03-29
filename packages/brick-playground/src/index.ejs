@@ -21,12 +21,20 @@
       <div class="brick-playground-divider"></div>
       <div class="brick-playground-column">
         <div class="brick-playground-toolbar">
-          <span>Preview</span>
-          <button id="brick-playground-button-run">Run</button>
-          <select id="brick-playground-select-theme">
-            <option checked>Dark</option>
-            <option>Light</option>
-          </select>
+          <div class="brick-playground-toolbar-column">
+            <span>Preview</span>
+          </div>
+          <div class="brick-playground-toolbar-column shrink">
+            <button id="brick-playground-button-run">Refresh</button>
+          </div>
+          <div class="brick-playground-toolbar-column">
+            <span id="brick-playground-share-result"></span>
+            <button id="brick-playground-button-share">Share</button>
+            <select id="brick-playground-select-theme">
+              <option checked>Dark</option>
+              <option>Light</option>
+            </select>
+          </div>
         </div>
         <div class="brick-playground-preview" id="brick-playground-preview"></div>
       </div>

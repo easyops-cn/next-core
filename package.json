@@ -9,8 +9,8 @@
   "license": "GPL-3.0",
   "scripts": {
     "prepare": "lerna bootstrap && husky install",
-    "start": "lerna run start --scope \"@next-core/brick-container\" --",
-    "serve": "brick-container-serve",
+    "start": "lerna run start --scope \"@next-core/brick-container\" -- --local-container",
+    "serve": "brick-container-serve --local-container",
     "serve:e2e": "brick-container-serve --no-remote --local-micro-apps e2e",
     "start:playground": "lerna run start --scope \"@next-core/brick-playground\" --",
     "serve:playground": "brick-playground-serve",

@@ -76,7 +76,7 @@ export default {
     splitChunks: {
       cacheGroups: {
         defaultVendors: {
-          test: /[\\/]node_modules[\\/](?!normalized\.css[\\/])/,
+          test: /[\\/]node_modules[\\/]/,
           priority: -10,
           reuseExistingChunk: true,
           name: "vendors",
