@@ -41,15 +41,14 @@ export default {
     }),
   ],
   optimization: {
-    minimize: false,
     splitChunks: {
       cacheGroups: {
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/](?!normalized\.css[\\/])/,
-          priority: -10,
-          reuseExistingChunk: true,
-          name: "vendors",
-        },
+        // defaultVendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: -10,
+        //   reuseExistingChunk: true,
+        //   name: "vendors",
+        // },
         core: {
           test: /[\\/]next-core[\\/](?:packages|sdk)[\\/](?!theme[\\/])/,
           priority: -10,

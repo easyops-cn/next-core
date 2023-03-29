@@ -6,6 +6,19 @@ import {
 } from "@next-core/runtime";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
+import "./preview.css";
+
+interface Sources {
+  yaml?: string;
+  html?: string;
+  javascript?: string;
+}
+
+interface RenderRequest {
+  type: "html" | "yaml";
+  sources: Sources;
+  theme: "dark" | "light";
+}
 
 createRuntime();
 
@@ -15,7 +28,7 @@ const mountPoints = {
 };
 
 let brickPackages: any[];
-const bootstrap = fetch("/bootstrap.hash.json", {
+const bootstrap = fetch("./bootstrap.hash.json", {
   method: "GET",
 })
   .then((res) => res.json())
@@ -24,19 +37,42 @@ const bootstrap = fetch("/bootstrap.hash.json", {
     __secret_internals.initializePreviewBootstrap(data);
   });
 
-(window as any)._preview_only_render = async (
+let rendering = false;
+let nextRequest: RenderRequest;
+
+(window as any)._preview_only_render = (
   type: "html" | "yaml",
-  {
-    yaml,
-    html,
-    javascript,
-  }: {
-    yaml: string;
-    html: string;
-    javascript: string;
-  },
+  sources: Sources,
   theme: "dark" | "light"
-): Promise<void> => {
+) => {
+  if (rendering) {
+    nextRequest = { type, sources, theme };
+  } else {
+    queuedRender({ type, sources, theme });
+  }
+};
+
+async function queuedRender(request: RenderRequest) {
+  rendering = true;
+  try {
+    const { type, sources, theme } = request;
+    // Assert: `render()` will not throw
+    await render(type, sources, theme);
+  } finally {
+    rendering = false;
+    if (nextRequest) {
+      const req = nextRequest;
+      nextRequest = undefined;
+      queuedRender(req);
+    }
+  }
+}
+
+async function render(
+  type: "html" | "yaml",
+  { yaml, html, javascript }: Sources,
+  theme: "dark" | "light"
+): Promise<void> {
   try {
     if (type === "html") {
       // document.documentElement.dataset.theme =
@@ -63,8 +99,8 @@ const bootstrap = fetch("/bootstrap.hash.json", {
       await bootstrap;
 
       await loadBricksImperatively(bricks, brickPackages);
-      mountPoints.main.innerHTML = "";
-      mountPoints.portal.innerHTML = "";
+      mountPoints.main.textContent = "";
+      mountPoints.portal.textContent = "";
       mountPoints.main.append(...dom.body.childNodes);
       // mountPoints.main.append(dom);
       const scriptTag = document.createElement("script");
@@ -83,8 +119,8 @@ const bootstrap = fetch("/bootstrap.hash.json", {
     }
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error(e);
-    mountPoints.portal.innerHTML = "";
-    mountPoints.main.innerHTML = "failed";
+    console.error("Render failed:", e);
+    mountPoints.portal.textContent = "";
+    mountPoints.main.textContent = `Render failed: ${String(e)}`;
   }
-};
+}

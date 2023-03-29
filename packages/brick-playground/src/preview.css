@@ -1,12 +1,5 @@
-html[data-theme="dark"],
-html[data-theme="dark-v2"],
-[data-override-theme="dark-v2"] {
-  color-scheme: dark;
-}
-
-:root,
-[data-override-theme="light"] {
-  color-scheme: light;
+body {
+  background-color: var(--body-background);
 }
 
 :root,
