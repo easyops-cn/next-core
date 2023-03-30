@@ -8,6 +8,7 @@ import cssnano from "cssnano";
 import cssnanoPresetLite from "cssnano-preset-lite";
 import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
 import getCamelPackageName from "./getCamelPackageName.js";
+import getSvgrLoaders from "./getSvgrLoaders.js";
 
 const require = createRequire(import.meta.url);
 
@@ -240,54 +241,32 @@ export default async function build(config) {
             rootMode: "upward",
           },
         },
-        config.svgAsAsset
-          ? {
-              // Images
-              test: /\.(png|svg|jpg|jpeg|gif)$/i,
-              type: "asset/resource",
-              generator: {
-                filename:
-                  config.imageAssetFilename ?? "images/[hash][ext][query]",
-              },
-            }
-          : {
-              test: /\.svg$/i,
-              issuer(input) {
-                // The issuer is null (or an empty string) for dynamic import
-                return !input || /\.[jt]sx?$/.test(input);
-              },
-              use: [
+        {
+          // Images
+          test: new RegExp(
+            `\\.(?:${[
+              "png",
+              "jpg",
+              "jpeg",
+              "gif",
+              ...(config.svgRules ? [] : ["svg"]),
+            ].join("|")})$`,
+            "i"
+          ),
+          type: "asset/resource",
+          generator: {
+            filename: config.imageAssetFilename ?? "images/[hash][ext][query]",
+          },
+        },
+        ...(config.svgRules ??
+          (config.svgAsReactComponent
+            ? [
                 {
-                  loader: "babel-loader",
-                  options: {
-                    rootMode: "upward",
-                  },
+                  test: /\.svg$/i,
+                  use: getSvgrLoaders(false),
                 },
-                {
-                  loader: "@svgr/webpack",
-                  options: {
-                    babel: false,
-                    icon: true,
-                    svgoConfig: {
-                      plugins: [
-                        {
-                          name: "preset-default",
-                          params: {
-                            overrides: {
-                              // Keep `viewbox`
-                              removeViewBox: false,
-                              convertColors: {
-                                currentColor: true,
-                              },
-                            },
-                          },
-                        },
-                      ],
-                    },
-                  },
-                },
-              ],
-            },
+              ]
+            : [])),
         {
           // Fonts
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -296,12 +275,12 @@ export default async function build(config) {
             filename: "fonts/[hash][ext][query]",
           },
         },
-        ...(config.moduleRules || []),
+        ...(config.moduleRules ?? []),
       ],
     },
     devtool: false,
     optimization:
-      config.optimization ||
+      config.optimization ??
       (isBricks
         ? {
             splitChunks: {
