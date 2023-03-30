@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.2.0...@next-core/build-next-bricks@1.3.0) (2023-03-30)
+
+
+### Features
+
+* support multi builds ([a16d336](https://github.com/easyops-cn/next-core/commit/a16d3361953c920375677594985bd633542292fa))
+
+
+
+
+
 # [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.2...@next-core/build-next-bricks@1.2.0) (2023-03-30)
 
 
