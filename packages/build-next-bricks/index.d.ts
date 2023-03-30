@@ -69,6 +69,9 @@ export interface BuildNextBricksConfig {
   type?: "bricks" | "container" | "brick-playground";
   mode?: "development" | "production";
   entry?: Record<string, string>;
+  /** Defaults to "dist" */
+  outputPath?: string;
+  devOnlyOutputPublicPath?: string;
   extractCss?: boolean;
   /** Treat svg as React component instead of asset */
   svgAsReactComponent?: boolean;
@@ -81,5 +84,5 @@ export interface BuildNextBricksConfig {
   exposes?: ConstructorParameters<typeof container.ModuleFederationPlugin>;
   dependencies?: Record<string, string[]>;
   optimization?: Configuration["optimization"];
-  moduleFederationShared?: SharedObject;
+  moduleFederationShared?: SharedObject | false;
 }
