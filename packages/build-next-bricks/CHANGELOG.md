@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.2...@next-core/build-next-bricks@1.2.0) (2023-03-30)
+
+
+### Features
+
+* expose svg rules ([2721e7d](https://github.com/easyops-cn/next-core/commit/2721e7dd5eb82ab23721e3d08c8ca3ea649ca9b2))
+
+
+
+
+
 ## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.1...@next-core/build-next-bricks@1.1.2) (2023-03-28)
 
 
