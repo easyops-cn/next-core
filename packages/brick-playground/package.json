@@ -14,8 +14,19 @@
   "files": [
     "bin",
     "dist",
+    "dist-preview",
     "serve"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/dist-preview"
+        ]
+      }
+    }
+  },
   "exports": {
     "./getExamples": {
       "import": "./serve/getExamples.js"
