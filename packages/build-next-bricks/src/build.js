@@ -10,6 +10,13 @@ import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
 import getCamelPackageName from "./getCamelPackageName.js";
 import getSvgrLoaders from "./getSvgrLoaders.js";
 
+/**
+ * @typedef {T | Array<T>} MaybeArray<T>
+ * @template {string} T
+ */
+
+/** @typedef {import("@next-core/build-next-bricks").BuildNextBricksConfig} BuildNextBricksConfig */
+
 const require = createRequire(import.meta.url);
 
 const { SourceMapDevToolPlugin, IgnorePlugin, ContextReplacementPlugin } =
@@ -48,9 +55,10 @@ const getCssLoaders = (cssOptions) => [
 ];
 
 /**
- * @param {import("@next-core/build-next-bricks").BuildNextBricksConfig} config
+ * @param {BuildNextBricksConfig} config
+ * @returns {import("webpack").Configuration}
  */
-export default async function build(config) {
+async function getWebpackConfig(config) {
   const packageDir = process.cwd();
   // const isContainer = config.type === "container";
   const isBricks = !config.type || config.type === "bricks";
@@ -96,49 +104,55 @@ export default async function build(config) {
     ...sharedSingletonPackages,
   ];
 
-  /** @type {import("@next-core/build-next-bricks").BuildNextBricksConfig["moduleFederationShared"]} */
-  const shared = Object.fromEntries(
-    (
-      await Promise.all(
-        sharedPackages.map(async (dep) => {
-          /** @type {string} */
-          let depPackageJsonPath;
-          const depPkgName = dep
-            .split("/")
-            .slice(0, dep.startsWith("@") ? 2 : 1)
-            .join("/");
-          try {
-            depPackageJsonPath = require.resolve(`${depPkgName}/package.json`, {
-              paths: [packageDir],
-            });
-          } catch (e) {
-            console.error(`Shared package not found: "${dep}"`);
-            return;
-          }
-          const depPackageJsonFile = await readFile(depPackageJsonPath, {
-            encoding: "utf-8",
-          });
-          const depPackageJson = JSON.parse(depPackageJsonFile);
-          const customized = config.moduleFederationShared?.[dep];
-          if (typeof customized === "string") {
-            return;
-          }
-          return [
-            dep,
-            {
-              singleton: sharedSingletonPackages.includes(dep),
-              version: depPackageJson.version,
-              requiredVersion:
-                packageJson.peerDependencies?.[depPkgName] ??
-                packageJson.devDependencies?.[depPkgName] ??
-                packageJson.dependencies?.[depPkgName],
-              ...customized,
-            },
-          ];
-        })
-      )
-    ).filter(Boolean)
-  );
+  /** @type {BuildNextBricksConfig["moduleFederationShared"]} */
+  const shared =
+    config.moduleFederationShared === false
+      ? undefined
+      : Object.fromEntries(
+          (
+            await Promise.all(
+              sharedPackages.map(async (dep) => {
+                /** @type {string} */
+                let depPackageJsonPath;
+                const depPkgName = dep
+                  .split("/")
+                  .slice(0, dep.startsWith("@") ? 2 : 1)
+                  .join("/");
+                try {
+                  depPackageJsonPath = require.resolve(
+                    `${depPkgName}/package.json`,
+                    {
+                      paths: [packageDir],
+                    }
+                  );
+                } catch (e) {
+                  console.error(`Shared package not found: "${dep}"`);
+                  return;
+                }
+                const depPackageJsonFile = await readFile(depPackageJsonPath, {
+                  encoding: "utf-8",
+                });
+                const depPackageJson = JSON.parse(depPackageJsonFile);
+                const customized = config.moduleFederationShared?.[dep];
+                if (typeof customized === "string") {
+                  return;
+                }
+                return [
+                  dep,
+                  {
+                    singleton: sharedSingletonPackages.includes(dep),
+                    version: depPackageJson.version,
+                    requiredVersion:
+                      packageJson.peerDependencies?.[depPkgName] ??
+                      packageJson.devDependencies?.[depPkgName] ??
+                      packageJson.dependencies?.[depPkgName],
+                    ...customized,
+                  },
+                ];
+              })
+            )
+          ).filter(Boolean)
+        );
 
   // console.log(packageName, "shared:", shared);
 
@@ -169,27 +183,24 @@ export default async function build(config) {
   //   };
   // }
 
-  const outputPath = path.join(packageDir, "dist");
+  const outputPath = path.join(packageDir, config.outputPath ?? "dist");
   const chunksDir = isBricks ? "chunks/" : "";
 
-  return webpack({
+  return {
     entry: config.entry || {
       main: "./src/index",
     },
     mode,
-    devServer: {
-      static: {
-        directory: outputPath,
-      },
-      port: 3001,
-    },
     output: {
       path: outputPath,
       filename: `${chunksDir}[name].${
         mode === "development" ? "bundle" : "[contenthash]"
       }.js`,
       // filename: "[name].bundle.js",
-      publicPath: "auto",
+      publicPath:
+        mode === "development"
+          ? config.devOnlyOutputPublicPath ?? "auto"
+          : "auto",
       hashDigestLength: 8,
       chunkFilename: `${chunksDir}[name]${
         mode === "development" ? "" : ".[contenthash]"
@@ -313,26 +324,30 @@ export default async function build(config) {
         ],
       }),
 
-      new ModuleFederationPlugin({
-        name: libName,
-        shared: {
-          ...config.moduleFederationShared,
-          ...shared,
-        },
-        ...(isBricks
-          ? {
-              library: { type: "window", name: libName },
-              filename:
-                mode === "development"
-                  ? "index.bundle.js"
-                  : "index.[contenthash].js",
-              exposes: {
-                ...config.exposes,
-                ...extraExposes,
+      ...(config.moduleFederationShared !== false
+        ? [
+            new ModuleFederationPlugin({
+              name: libName,
+              shared: {
+                ...config.moduleFederationShared,
+                ...shared,
               },
-            }
-          : null),
-      }),
+              ...(isBricks
+                ? {
+                    library: { type: "window", name: libName },
+                    filename:
+                      mode === "development"
+                        ? "index.bundle.js"
+                        : "index.[contenthash].js",
+                    exposes: {
+                      ...config.exposes,
+                      ...extraExposes,
+                    },
+                  }
+                : null),
+            }),
+          ]
+        : []),
 
       ...(config.extractCss
         ? [
@@ -370,5 +385,20 @@ export default async function build(config) {
 
       ...(config.plugins || []),
     ],
-  });
+  };
 }
+
+/**
+ * @type {{
+ *   (config: BuildNextBricksConfig): import("webpack").Compiler;
+ *   (config: BuildNextBricksConfig[]): import("webpack").MultiCompiler;
+ * }}
+ */
+const build = async (config) =>
+  webpack(
+    await (Array.isArray(config)
+      ? Promise.all(config.map((conf) => getWebpackConfig(conf)))
+      : getWebpackConfig(config))
+  );
+
+export default build;
