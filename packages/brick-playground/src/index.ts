@@ -190,7 +190,7 @@ async function main() {
     });
   });
 
-  iframe.src = "./preview.html";
+  iframe.src = "./preview/";
   const previewContainer = document.querySelector("#brick-playground-preview");
   previewContainer.append(iframe);
 

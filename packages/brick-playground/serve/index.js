@@ -14,15 +14,19 @@ app.use(compression());
 const rootDir = process.cwd();
 
 app.use(
-  "/bricks/",
+  "/preview/bricks/",
   express.static(path.join(rootDir, "node_modules/@next-bricks"))
 );
 
-app.use("/bricks/", express.static(path.join(rootDir, "node_modules/@bricks")));
+app.use(
+  "/preview/bricks/",
+  express.static(path.join(rootDir, "node_modules/@bricks"))
+);
 
-app.use(bootstrapJson(rootDir));
+app.use("/preview/", bootstrapJson(rootDir));
 app.use(examplesJson(rootDir));
 
+app.use("/preview/", express.static(path.join(__dirname, "../dist-preview")));
 app.use("/", express.static(path.join(__dirname, "../dist")));
 
 app.listen(8082);
