@@ -28,7 +28,7 @@ const mountPoints = {
 };
 
 let brickPackages: any[];
-const bootstrap = fetch("./bootstrap.hash.json", {
+const bootstrap = fetch(window.BOOTSTRAP_FILE, {
   method: "GET",
 })
   .then((res) => res.json())

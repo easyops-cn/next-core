@@ -1,0 +1,16 @@
+import path from "node:path";
+import getExamples from "./getExamples.js";
+
+export default function examplesJson(rootDir) {
+  return async function (req, res, next) {
+    if (req.path !== "/examples.hash.json") {
+      next();
+      return;
+    }
+    res.json({
+      examples: await getExamples(
+        path.join(rootDir, "node_modules/@next-bricks")
+      ),
+    });
+  };
+}

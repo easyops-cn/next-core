@@ -4,6 +4,7 @@ import express from "express";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
 import bootstrapJson from "../serve/bootstrapJson.js";
+import examplesJson from "../serve/examplesJson.js";
 
 const compiler = await build(config);
 const rootDir = path.resolve(process.cwd(), "../..");
@@ -24,6 +25,7 @@ const server = new WebpackDevServer(
       });
 
       middlewares.push(bootstrapJson(rootDir));
+      middlewares.push(examplesJson(rootDir));
 
       return middlewares;
     },
