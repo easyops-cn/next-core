@@ -50,7 +50,6 @@ body[data-loading] {
   border: 0;
 }
 
-.brick-playground-editor-title,
 .brick-playground-toolbar {
   padding: 0 10px;
   height: 32px;
