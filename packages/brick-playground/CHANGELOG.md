@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.3.0...@next-core/brick-playground@1.3.1) (2023-03-30)
+
+
+### Bug Fixes
+
+* add missing dist-preview ([2f48a10](https://github.com/easyops-cn/next-core/commit/2f48a102dfc86de19b6dc6e41f3bf7f6c7f55bf2))
+
+
+
+
+
 # [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.2.1...@next-core/brick-playground@1.3.0) (2023-03-30)
 
 
