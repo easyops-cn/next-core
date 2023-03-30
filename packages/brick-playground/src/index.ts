@@ -22,6 +22,8 @@ async function main() {
   let examples: Example[];
   let matchedExample: Example;
 
+  const models: Record<string, monaco.editor.ITextModel> = {};
+
   await fetch(window.EXAMPLES_FILE, {
     method: "GET",
   })
@@ -33,6 +35,13 @@ async function main() {
   const selectExample = document.querySelector(
     "#brick-playground-select-example"
   ) as HTMLSelectElement;
+  const selectType = document.querySelector(
+    "#brick-playground-select-type"
+  ) as HTMLSelectElement;
+  const editorColumn = document.querySelector(
+    "#brick-playground-editor-column"
+  );
+
   const groups = new Map<string, HTMLOptGroupElement>();
   for (const example of examples) {
     const parts = example.key.split("/");
@@ -52,18 +61,7 @@ async function main() {
     }
   }
 
-  selectExample.addEventListener("change", (e) => {
-    const key = (e.target as HTMLSelectElement).value;
-    if (key) {
-      const newParams = new URLSearchParams();
-      newParams.set("example", key);
-      location.assign(`?${newParams.toString()}`);
-    } else {
-      const newParams = new URLSearchParams();
-      newParams.set("mode", matchedExample ? matchedExample.mode : "html");
-      location.assign(`?${newParams.toString()}`);
-    }
-  });
+  selectExample.addEventListener("change", onExampleChange);
 
   if (exampleKey) {
     const example = examples.find((example) => example.key === exampleKey);
@@ -73,9 +71,57 @@ async function main() {
     }
   }
 
-  const mode = matchedExample
+  let mode = matchedExample
     ? matchedExample.mode
-    : params.get("mode") ?? "html";
+    : (params.get("mode") as keyof Sources) ?? "html";
+
+  const codeFromHash =
+    !matchedExample && location.hash && location.hash !== "#";
+  let saveToLocalStorage = !codeFromHash;
+
+  const sources = {} as Sources;
+  const debouncedRender = debounce(render);
+
+  function initEditorsWith(example?: Example) {
+    const editorTypes =
+      mode === "yaml" ? (["yaml"] as const) : (["html", "javascript"] as const);
+    for (const type of editorTypes) {
+      if (example) {
+        sources[type] = typeof example[type] === "string" ? example[type] : "";
+      } else {
+        const storageKey = getStorageKey(type);
+        sources[type] = localStorage.getItem(storageKey) ?? "";
+      }
+      initEditor(type);
+    }
+  }
+
+  function onExampleChange(e: Event) {
+    const key = (e.target as HTMLSelectElement).value;
+    if (key) {
+      const newParams = new URLSearchParams();
+      newParams.set("example", key);
+      const search = `?${newParams.toString()}`;
+      const example = examples.find((item) => item.key === key);
+      const modeChanged = mode !== example.mode;
+      mode = example.mode;
+      initEditorsWith(example);
+      saveToLocalStorage = false;
+      history.replaceState(null, "", search);
+      if (modeChanged) {
+        selectType.value = mode.toUpperCase();
+        updateMode();
+        debouncedRender();
+      }
+    } else {
+      const newParams = new URLSearchParams();
+      newParams.set("mode", mode);
+      const search = `?${newParams.toString()}`;
+      initEditorsWith();
+      saveToLocalStorage = true;
+      history.replaceState(null, "", search);
+    }
+  }
 
   function debounce(func: Function, timeout = 300) {
     let timer = -1;
@@ -90,76 +136,61 @@ async function main() {
     };
   }
 
-  const selectType = document.querySelector(
-    "#brick-playground-select-type"
-  ) as HTMLSelectElement;
-  const editorColumn = document.querySelector(
-    "#brick-playground-editor-column"
-  );
-
-  let currentType = "html";
-  if (mode !== currentType) {
-    setCurrentType(mode);
+  if (mode !== "html") {
+    updateMode();
     selectType.value = mode.toUpperCase();
   }
 
-  function setCurrentType(type: string) {
-    currentType = type;
-    editorColumn.classList.remove(type === "html" ? "yaml" : "html");
-    editorColumn.classList.add(type);
+  selectType.addEventListener("change", (e) => {
+    mode = (e.target as HTMLSelectElement).value.toLowerCase() as keyof Sources;
+    updateMode();
+    selectExample.value = "";
+    initEditorsWith();
+  });
+
+  function updateMode() {
+    editorColumn.classList.remove(mode === "html" ? "yaml" : "html");
+    editorColumn.classList.add(mode);
   }
 
   delete document.body.dataset.loading;
 
-  const editorTypes =
-    mode === "yaml" ? (["yaml"] as const) : (["html", "javascript"] as const);
-  const sources = {} as Sources;
-
-  const codeFromHash =
-    !matchedExample && location.hash && location.hash !== "#";
   if (matchedExample) {
-    for (const key of editorTypes) {
-      if (typeof matchedExample[key] === "string") {
-        sources[key] = matchedExample[key];
-      }
-    }
+    initEditorsWith(matchedExample);
   } else if (codeFromHash) {
+    let pastedSources: Example;
     try {
-      const pastedSources = JSON.parse(
-        b64DecodeUnicode(location.hash.slice(1))
-      );
-      if (pastedSources) {
-        for (const key of editorTypes) {
-          if (typeof pastedSources[key] === "string") {
-            sources[key] = pastedSources[key];
-          }
-        }
-      }
+      pastedSources = JSON.parse(b64DecodeUnicode(location.hash.slice(1)));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Parse pasted sources failed:", error);
     }
+    initEditorsWith(pastedSources ?? ({} as Example));
+  } else {
+    initEditorsWith();
   }
 
-  const debouncedRender = debounce(render);
+  function getStorageKey(type: string) {
+    return `brick-playground-${type}-source`;
+  }
 
-  for (const type of editorTypes) {
-    const storageKey = `brick-playground-${type}-source`;
-    if (matchedExample || codeFromHash) {
-      sources[type] ??= "";
-    } else {
-      sources[type] = localStorage.getItem(storageKey) ?? "";
+  function initEditor(type: keyof Sources) {
+    if (models[type]) {
+      models[type].setValue(sources[type]);
+      return;
     }
+    const storageKey = getStorageKey(type);
     const model = monaco.editor.createModel(
       sources[type],
       type,
       monaco.Uri.file(`workspace/index.${type === "javascript" ? "js" : type}`)
     );
+    models[type] = model;
     const editorContainer = document.querySelector(
       `#brick-playground-${type}-editor`
     ) as HTMLElement;
     const editor = monaco.editor.create(editorContainer, {
-      model: model,
+      model,
       theme: "vs-dark",
       minimap: {
         enabled: false,
@@ -171,7 +202,7 @@ async function main() {
     });
     editor.onDidChangeModelContent(() => {
       sources[type] = editor.getValue();
-      if (!codeFromHash) {
+      if (saveToLocalStorage) {
         localStorage.setItem(storageKey, sources[type]);
       }
       debouncedRender();
@@ -213,12 +244,6 @@ async function main() {
   }
 
   buttonRun.addEventListener("click", render);
-
-  selectType.addEventListener("change", (event) => {
-    location.assign(
-      `?mode=${(event.target as HTMLSelectElement).value.toLowerCase()}`
-    );
-  });
 
   function setCurrentTheme(theme: string, store?: boolean) {
     currentTheme = theme;
