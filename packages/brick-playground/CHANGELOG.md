@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.1.0...@next-core/brick-playground@1.2.0) (2023-03-30)
+
+
+### Features
+
+* render examples in playground ([04edb1f](https://github.com/easyops-cn/next-core/commit/04edb1fb50556a9cbbaa51fbb9b422f6b8f317d5))
+
+
+
+
+
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.8...@next-core/brick-playground@1.1.0) (2023-03-29)
 
 
