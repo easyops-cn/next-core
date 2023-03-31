@@ -123,12 +123,28 @@
     align-items: center;
   }
   &-filter-column {
-    display: inline-block;
     align-items: center;
     position: relative;
     margin: -11px 0px;
   }
 
+  &-column-has-sorters{
+    .@{table-prefix-cls}-filter-column {
+      display: inline-block;
+    }
+    .@{table-prefix-cls}-filter-trigger-container {
+      position: absolute;
+    }
+  }
+  &-filter-column:not(&-column-has-sorters){
+      .@{table-prefix-cls}-filter-column-title{
+        flex-grow: 0;
+        padding-right: 2px;
+      }
+    }
+  &-filter-trigger-container{
+      position: relative;
+  }
   &-filter-trigger {
     font-size: 11px;
     width: 25px;
