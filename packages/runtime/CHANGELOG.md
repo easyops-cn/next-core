@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.6...@next-core/runtime@1.0.7) (2023-03-31)
+
+
+### Bug Fixes
+
+* expose legacy doTransform ([5df317f](https://github.com/easyops-cn/next-core/commit/5df317fd4878b3b8d3d98b2d00152b513554e063))
+
+
+
+
+
 ## [1.0.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.5...@next-core/runtime@1.0.6) (2023-03-28)
 
 
