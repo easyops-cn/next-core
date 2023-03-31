@@ -17,6 +17,7 @@ import { mountTree, unmountTree } from "./mount.js";
 import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 import { RenderTag } from "./enums.js";
+import { computeRealValue } from "./compute/computeRealValue.js";
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -210,4 +211,24 @@ export async function renderPreviewBricks(
     rendererContext.initializeScrollIntoView();
     rendererContext.initializeMediaChange();
   }
+}
+
+export function legacyDoTransform(
+  data: unknown,
+  to: unknown,
+  options?: unknown
+) {
+  if (options) {
+    throw new Error("Legacy doTransform does not support options in v3");
+  }
+  return computeRealValue(
+    to,
+    {
+      ..._internalApiGetRuntimeContext()!,
+      data,
+    },
+    {
+      noInject: true,
+    }
+  );
 }
