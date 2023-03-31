@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.0.13...@next-core/brick-container@3.0.14) (2023-03-31)
+
+
+### Bug Fixes
+
+* split global.css ([498e1b9](https://github.com/easyops-cn/next-core/commit/498e1b9adbf925a166b2aa450cac93e11968b463))
+
+
+
+
+
 ## [3.0.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.0.12...@next-core/brick-container@3.0.13) (2023-03-30)
 
 **Note:** Version bump only for package @next-core/brick-container
