@@ -1,6 +1,6 @@
 import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
-import { transformAndInject } from "@next-core/inject";
+import { transformAndInject, transform } from "@next-core/inject";
 import {
   asyncEvaluate,
   isPreEvaluated,
@@ -19,6 +19,7 @@ export interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
   ignoreSymbols?: boolean;
+  noInject?: boolean;
 }
 
 export async function asyncComputeRealValue(
@@ -42,7 +43,12 @@ export async function asyncComputeRealValue(
       result = await asyncEvaluate(value, runtimeContext, { lazy });
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
     } else {
-      result = lazy ? value : transformAndInject(value, runtimeContext);
+      result = lazy
+        ? value
+        : (internalOptions.noInject ? transform : transformAndInject)(
+            value,
+            runtimeContext
+          );
     }
 
     if (!dismissMarkingComputed) {

@@ -2,6 +2,7 @@ import { jest, describe, test, expect } from "@jest/globals";
 import type { UseSingleBrickConf } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/storyboard";
 import {
+  legacyDoTransform,
   mountUseBrick,
   renderPreviewBricks,
   renderUseBrick,
@@ -426,5 +427,33 @@ describe("preview", () => {
 
     expect(main.innerHTML).toBe("<div>Goodbye Preview</div>");
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
+  });
+});
+
+describe("legacyDoTransform", () => {
+  test("should transform", () => {
+    expect(legacyDoTransform({ quality: "good" }, "<% DATA.quality %>")).toBe(
+      "good"
+    );
+  });
+
+  test("should transform use placeholder", () => {
+    expect(legacyDoTransform({ quality: "good" }, "q:@{quality}")).toBe(
+      "q:good"
+    );
+  });
+
+  test("should not inject", () => {
+    expect(
+      legacyDoTransform({ quality: "good" }, "q:@{quality},a:${oops}")
+    ).toBe("q:good,a:${oops}");
+  });
+
+  test("should throw if passing options", () => {
+    expect(() => {
+      legacyDoTransform("good", "<% DATA %>", { allowInject: true });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Legacy doTransform does not support options in v3"`
+    );
   });
 });
