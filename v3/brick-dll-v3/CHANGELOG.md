@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll-v3@0.5.1...@next-core/brick-dll-v3@0.5.2) (2023-03-31)
+
+
+### Bug Fixes
+
+* add missing setImmediate in dll ([89a4095](https://github.com/easyops-cn/next-core/commit/89a409584f4b9972ed12dabfaa8dd150bdbfa5de))
+
+
+
+
+
 ## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll-v3@0.5.0...@next-core/brick-dll-v3@0.5.1) (2023-03-28)
 
 **Note:** Version bump only for package @next-core/brick-dll-v3
