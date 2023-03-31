@@ -4,9 +4,10 @@ import {
   __secret_internals,
   applyTheme,
 } from "@next-core/runtime";
+import { http, HttpError, HttpResponse } from "@next-core/http";
+import type { BrickPackage } from "@next-core/types";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
-import "./preview.css";
 
 interface Sources {
   yaml?: string;
@@ -20,6 +21,50 @@ interface RenderRequest {
   theme: "dark" | "light";
 }
 
+http.interceptors.request.use((config) => {
+  if (!config.options?.interceptorParams?.ignoreLoadingBar) {
+    window.dispatchEvent(new Event("request.start"));
+  }
+  return config;
+});
+
+http.interceptors.response.use(
+  function (response: HttpResponse) {
+    window.dispatchEvent(new Event("request.end"));
+    return response;
+  },
+  function (error: HttpError) {
+    window.dispatchEvent(new Event("request.end"));
+    return Promise.reject(error);
+  }
+);
+
+const loadingBar = document.querySelector("#global-loading-bar");
+loadingBar.classList.add("rendered");
+
+let loading = false;
+let count = 0;
+function updateLoadingStatus() {
+  const hasRemainingRequests = count > 0;
+  if (hasRemainingRequests !== loading) {
+    loading = hasRemainingRequests;
+    loadingBar.classList[hasRemainingRequests ? "add" : "remove"]("loading");
+  }
+}
+const requestStart = (): void => {
+  count++;
+  updateLoadingStatus();
+};
+const requestEnd = (): void => {
+  // 兼容 loading bar 在某些请求开始和结束之间初始化时，`count` 可能小于 0 的情况
+  if (count > 0) {
+    count--;
+    updateLoadingStatus();
+  }
+};
+window.addEventListener("request.start", requestStart);
+window.addEventListener("request.end", requestEnd);
+
 createRuntime();
 
 const mountPoints = {
@@ -27,11 +72,11 @@ const mountPoints = {
   portal: document.querySelector("#portal-mount-point") as HTMLElement,
 };
 
-let brickPackages: any[];
-const bootstrap = fetch(window.BOOTSTRAP_FILE, {
-  method: "GET",
-})
-  .then((res) => res.json())
+let brickPackages: BrickPackage[];
+const bootstrap = http
+  .get<{ brickPackages: BrickPackage[] }>(window.BOOTSTRAP_FILE, {
+    responseType: "json",
+  })
   .then((data) => {
     brickPackages = data.brickPackages;
     __secret_internals.initializePreviewBootstrap(data);
@@ -73,6 +118,7 @@ async function render(
   { yaml, html, javascript }: Sources,
   theme: "dark" | "light"
 ): Promise<void> {
+  document.body.classList.remove("bootstrap-error");
   try {
     if (type === "html") {
       // document.documentElement.dataset.theme =
@@ -120,6 +166,10 @@ async function render(
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error("Render failed:", e);
+
+    // `.bootstrap-error` makes loading-bar invisible.
+    document.body.classList.add("bootstrap-error");
+
     mountPoints.portal.textContent = "";
     mountPoints.main.textContent = `Render failed: ${String(e)}`;
   }
