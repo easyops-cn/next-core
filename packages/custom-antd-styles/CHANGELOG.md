@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.20](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.19...@next-core/custom-antd-styles@1.25.20) (2023-03-31)
+
+
+### Bug Fixes
+
+* close MONITOR-5331 refs MONITOR-5331 ([f39a01f](https://github.com/easyops-cn/next-core/commit/f39a01f33880a0a70c0c0475053e279bd4897416))
+
+
+
+
+
 ## [1.25.19](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.18...@next-core/custom-antd-styles@1.25.19) (2023-03-16)
 
 
