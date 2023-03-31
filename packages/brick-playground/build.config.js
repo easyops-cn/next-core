@@ -56,6 +56,7 @@ export default [
     entry: {
       index: "./src/preview/preview",
     },
+    extractCss: true,
     outputPath: "dist-preview",
     devOnlyOutputPublicPath: "/preview/",
     plugins: [

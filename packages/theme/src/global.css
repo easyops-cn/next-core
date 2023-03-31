@@ -1,0 +1,5 @@
+@import "~@next-core/styles-v3/dist/global.css";
+
+body {
+  background-color: var(--body-background);
+}

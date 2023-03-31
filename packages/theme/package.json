@@ -6,6 +6,8 @@
   "type": "module",
   "exports": {
     ".": "./src/index.css",
+    "./global.css": "./src/global.css",
+    "./loading.css": "./src/loading.css",
     "./package.json": "./package.json"
   },
   "dependencies": {

@@ -1,16 +1,7 @@
-body {
-  background-color: var(--body-background);
-}
-
 :root,
 body,
 #preview-root {
   height: 100%;
-}
-
-body {
-  padding: 0;
-  margin: 0;
 }
 
 #preview-root {
@@ -22,4 +13,12 @@ body {
   height: 0;
   width: 0;
   position: absolute;
+}
+
+.bootstrap-error {
+  color: var(--color-error, red);
+}
+
+.bootstrap-error #global-loading-bar {
+  display: none;
 }
