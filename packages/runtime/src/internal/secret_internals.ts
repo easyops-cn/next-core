@@ -18,6 +18,7 @@ import { httpErrorToString } from "../handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 import { RenderTag } from "./enums.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
+import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -44,9 +45,29 @@ export async function renderUseBrick(
     createPortal: null!,
   };
 
+  const transform = (useBrick as { transform?: Record<string, unknown> })
+    .transform;
+  const strict = isStrictMode();
+  if (transform) {
+    warnAboutStrictMode(
+      strict,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick
+    );
+  }
+
   const output = await renderBrick(
     renderRoot,
-    useBrick as BrickConf,
+    strict
+      ? useBrick
+      : {
+          ...useBrick,
+          properties: {
+            ...useBrick.properties,
+            ...transform,
+          },
+        },
     runtimeContext,
     rendererContext
   );
@@ -130,9 +151,10 @@ export async function renderPreviewBricks(
     main: HTMLElement;
     portal: HTMLElement;
   },
-  options?: {
+  options: {
+    sandbox?: boolean;
     theme?: SiteTheme;
-  }
+  } = {}
 ) {
   const runtimeContext = {
     pendingPermissionsPreCheck: [],
@@ -191,18 +213,23 @@ export async function renderPreviewBricks(
   unmountTree(mountPoints.main);
   unmountTree(mountPoints.portal);
 
-  setTheme(options?.theme ?? "light");
-  setMode("default");
+  if (options.sandbox) {
+    setTheme(options.theme ?? "light");
+    setMode("default");
 
-  if (!failed) {
-    rendererContext.dispatchBeforePageLoad();
+    if (!failed) {
+      rendererContext.dispatchBeforePageLoad();
+    }
+
+    applyTheme();
+    applyMode();
   }
-  applyTheme();
-  applyMode();
 
   mountTree(renderRoot);
 
-  window.scrollTo(0, 0);
+  if (options.sandbox) {
+    window.scrollTo(0, 0);
+  }
 
   if (!failed) {
     rendererContext.dispatchPageLoad();

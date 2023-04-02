@@ -30,7 +30,7 @@ describe("strictCollectMemberUsageInFunction", () => {
         "FN"
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Non-static usage of FN is not supported, check your function: "test""`
+      `"Non-static usage of FN is prohibited, check your function: "test""`
     );
   });
 });

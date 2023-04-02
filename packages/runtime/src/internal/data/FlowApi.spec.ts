@@ -199,7 +199,7 @@ describe("FlowApi", () => {
     await expect(() =>
       getArgsOfFlowApi("easyops.custom_api@notFoundApi", [])
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"You're using legacy Custom API "easyops.custom_api@notFoundApi" which is not supported in v3, please use Flow API instead"`
+      `"You're using legacy Custom API "easyops.custom_api@notFoundApi" which is dropped in v3, please use Flow API instead"`
     );
   });
 });

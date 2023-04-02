@@ -17,7 +17,7 @@ export function strictCollectMemberUsageInFunction(
   );
   if (hasNonStaticUsage) {
     throw new Error(
-      `Non-static usage of ${objectName} is not supported, check your function: "${fn.name}"`
+      `Non-static usage of ${objectName} is prohibited, check your function: "${fn.name}"`
     );
   }
   return usedProperties;

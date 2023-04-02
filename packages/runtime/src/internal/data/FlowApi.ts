@@ -25,7 +25,7 @@ export async function getArgsOfFlowApi(
 
   if (!provider.includes(":")) {
     throw new Error(
-      `You're using legacy Custom API "${provider}" which is not supported in v3, please use Flow API instead`
+      `You're using legacy Custom API "${provider}" which is dropped in v3, please use Flow API instead`
     );
   }
 

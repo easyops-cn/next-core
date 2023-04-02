@@ -577,9 +577,23 @@ describe("renderBrick", () => {
     });
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith(
-      "Legacy templates are not supported in v3:",
+      "Legacy templates are dropped in v3:",
       brick
     );
+  });
+
+  test("invalid brick", async () => {
+    consoleError.mockReturnValueOnce();
+    const brick: any = {
+      foo: "bar",
+    };
+    const output = await renderBrick(null!, brick, null!, null!);
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [],
+    });
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Invalid brick:", brick);
   });
 });
 
