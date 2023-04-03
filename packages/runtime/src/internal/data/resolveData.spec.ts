@@ -163,7 +163,7 @@ describe("resolveData", () => {
         runtimeContext
       )
     ).rejects.toMatchInlineSnapshot(
-      `[Error: You're using "provider: my\\.legacy-provider" which is not supported in v3, please use "useProvider" instead]`
+      `[Error: You're using "provider: my\\.legacy-provider" which is dropped in v3, please use "useProvider" instead]`
     );
   });
 });

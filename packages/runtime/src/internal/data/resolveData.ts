@@ -32,7 +32,7 @@ export async function resolveData(
   const legacyProvider = (resolveConf as { provider?: string }).provider;
   if (legacyProvider && !useProvider) {
     throw new Error(
-      `You're using "provider: ${legacyProvider}" which is not supported in v3, please use "useProvider" instead`
+      `You're using "provider: ${legacyProvider}" which is dropped in v3, please use "useProvider" instead`
     );
   }
 

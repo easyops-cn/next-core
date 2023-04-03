@@ -242,19 +242,19 @@ describe("customTemplates", () => {
     expect(consoleWarn).toBeCalledTimes(1);
     expect(consoleError).toBeCalledTimes(3);
     expect(consoleWarn).toBeCalledWith(
-      "Template `asVariable` with `TPL.*` is deprecated and will be dropped in v3:",
+      "Template `asVariable` is deprecated in v3 and will be dropped in strict mode,",
       "tpl-legacy",
       "propB"
     );
     expect(consoleError).toHaveBeenNthCalledWith(
       1,
-      "Template `mergeProperty` and `refTransform` are not supported in v3:",
+      "Template `mergeProperty` and `refTransform` are dropped in v3:",
       "tpl-legacy",
       "propC"
     );
     expect(consoleError).toHaveBeenNthCalledWith(
       2,
-      "Template `mergeProperty` and `refTransform` are not supported in v3:",
+      "Template `mergeProperty` and `refTransform` are dropped in v3:",
       "tpl-legacy",
       "propD"
     );

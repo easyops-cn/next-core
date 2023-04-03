@@ -8,13 +8,19 @@ import {
   renderUseBrick,
   unmountUseBrick,
 } from "./secret_internals.js";
+import { applyTheme } from "../themeAndMode.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
+import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../themeAndMode.js");
+jest.mock("../isStrictMode.js");
 const consoleInfo = jest.spyOn(console, "info");
 window.scrollTo = jest.fn();
+const mockIsStrictMode = (
+  isStrictMode as jest.MockedFunction<typeof isStrictMode>
+).mockReturnValue(false);
 
 const IntersectionObserver = jest.fn((callback: Function) => {
   return {
@@ -158,6 +164,64 @@ describe("useBrick", () => {
     expect(document.querySelector("#portal-mount-point")?.innerHTML).toBe("");
 
     consoleInfo.mockReset();
+  });
+
+  test("strict mode with transform", async () => {
+    mockIsStrictMode.mockReturnValueOnce(true);
+    const useBrick: any = {
+      brick: "div",
+      properties: {
+        title: "<% `byProperties:${DATA}` %>",
+      },
+      transform: {
+        title: "<% `byTransform:${DATA}` %>",
+      },
+    };
+    const renderResult = await renderUseBrick(useBrick, "ok");
+    expect(warnAboutStrictMode).toBeCalledWith(
+      true,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick
+    );
+    expect(mockIsStrictMode).toBeCalled();
+
+    const root = document.createElement("div");
+    const mountResult = mountUseBrick(renderResult, root);
+    expect(root).toMatchInlineSnapshot(`
+      <div
+        title="byProperties:ok"
+      />
+    `);
+    unmountUseBrick(renderResult, mountResult);
+  });
+
+  test("non-strict mode with transform", async () => {
+    const useBrick: any = {
+      brick: "div",
+      properties: {
+        title: "<% `byProperties:${DATA}` %>",
+      },
+      transform: {
+        title: "<% `byTransform:${DATA}` %>",
+      },
+    };
+    const renderResult = await renderUseBrick(useBrick, "ok");
+    expect(warnAboutStrictMode).toBeCalledWith(
+      false,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick
+    );
+
+    const root = document.createElement("div");
+    const mountResult = mountUseBrick(renderResult, root);
+    expect(root).toMatchInlineSnapshot(`
+      <div
+        title="byTransform:ok"
+      />
+    `);
+    unmountUseBrick(renderResult, mountResult);
   });
 
   test("if: alse", async () => {
@@ -405,6 +469,8 @@ describe("preview", () => {
 
     expect(main.innerHTML).toBe("<div>Hello Preview</div>");
     expect(portal.innerHTML).toBe("<p>I'm portal</p>");
+    expect(applyTheme).not.toBeCalled();
+    expect(scrollTo).not.toBeCalled();
 
     await renderPreviewBricks(
       [
@@ -422,11 +488,14 @@ describe("preview", () => {
           portal: true,
         },
       ],
-      { main, portal }
+      { main, portal },
+      { sandbox: true }
     );
 
     expect(main.innerHTML).toBe("<div>Goodbye Preview</div>");
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
+    expect(applyTheme).toBeCalledTimes(1);
+    expect(scrollTo).toBeCalledTimes(1);
   });
 });
 

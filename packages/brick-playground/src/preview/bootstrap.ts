@@ -160,6 +160,7 @@ async function render(
 
       const bricks = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
       await __secret_internals.renderPreviewBricks(bricks, mountPoints, {
+        sandbox: true,
         theme: theme === "light" ? theme : "dark-v2",
       });
     }
