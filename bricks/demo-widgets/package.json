@@ -1,6 +1,6 @@
 {
   "name": "@next-bricks/demo-widgets",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/demo-widgets",
   "repository": {
@@ -18,7 +18,7 @@
     "build": "cross-env NODE_ENV=production build-next-bricks"
   },
   "dependencies": {
-    "@next-core/runtime": "^1.1.0"
+    "@next-core/runtime": "^1.1.1"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.3.0",

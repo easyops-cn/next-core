@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.0...@next-core/runtime@1.1.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* ignore transform placeholder with no data in context ([2bd1afc](https://github.com/easyops-cn/next-core/commit/2bd1afcf025d3a4a1c9aeb27e681864e1b6d16b7))
+
+
+
+
+
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.7...@next-core/runtime@1.1.0) (2023-04-03)
 
 
