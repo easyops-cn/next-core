@@ -63,9 +63,52 @@ meta:
           top: '<% `${Math.random() * 300}px` %>'
         textContent: '<% `Modal:${STATE.x ?? STATE.z ?? STATE.m}` %>'
 
+  - name: tpl-c
+    state:
+    - name: c
+      resolve:
+        useProvider: e2e.return-by-timeout
+        args:
+        - 100
+        - C
+    bricks:
+    - brick: div
+      ref: output
+      properties:
+        textContent: Inner Initial
+    - brick: e2e.list-by-use-brick
+      properties:
+        data: [1]
+        useBrick:
+          brick: button
+          properties:
+            textContent: Click Me
+          events:
+            click:
+              targetRef: output
+              properties:
+                textContent: Inner Updated
+          lifeCycle:
+            onMount:
+              targetRef: output
+              properties:
+                textContent: "<% `Inner Mounted <${STATE.c}>` %>"
+
+  - name: tpl-d
+    bricks:
+    - brick: div
+      ref: output
+      properties:
+        textContent: Outer Initial
+    - brick: e2e.list-by-use-brick
+      properties:
+        data: [2]
+        useBrick:
+          brick: tpl-c
+
 routes:
 
-- path: '${APP.homepage}/use-brick'
+- path: '${APP.homepage}/use-brick/1'
   context:
   - name: stage
     value: 1
@@ -116,6 +159,16 @@ routes:
         args:
         - stage
         - '<% CTX.stage + 1 %>'
+
+# Bricks within `useBrick` can access the template refs.
+- path: '${APP.homepage}/use-brick/2'
+  bricks:
+  - brick: tpl-c
+
+# Nested `useBrick` and tpl can access the template refs.
+- path: '${APP.homepage}/use-brick/3'
+  bricks:
+  - brick: tpl-d
 
 - path: '${APP.homepage}/control-nodes/1'
   bricks:
