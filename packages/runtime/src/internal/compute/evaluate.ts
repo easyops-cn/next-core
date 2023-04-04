@@ -122,6 +122,7 @@ function lowLevelEvaluate(
     const {
       pendingPermissionsPreCheck: _1,
       tplStateStoreMap: _2,
+      tplStateStoreScope: _3,
       ...passByRuntimeContext
     } = runtimeContext;
 

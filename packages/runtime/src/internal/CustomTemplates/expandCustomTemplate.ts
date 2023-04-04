@@ -37,6 +37,9 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
 
   const tplStateStore = new DataStore("STATE", hostBrick);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
+  if (runtimeContext.tplStateStoreScope) {
+    runtimeContext.tplStateStoreScope.push(tplStateStore);
+  }
 
   const { bricks, proxy, state, contracts } = customTemplates.get(tplTagName)!;
   collectWidgetContract(contracts);
