@@ -43,6 +43,7 @@ import {
 import { fulfilStoryboard } from "./loadBootstrapData.js";
 import { RenderTag } from "./enums.js";
 import { preCheckInstalledApps } from "./checkInstalledApps.js";
+import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -332,7 +333,7 @@ export class Router {
       try {
         output = await renderRoutes(
           renderRoot,
-          storyboard.routes,
+          insertPreviewRoutes(storyboard.routes),
           runtimeContext,
           rendererContext
         );
