@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.1...@next-core/runtime@1.1.2) (2023-04-04)
+
+
+### Bug Fixes
+
+* do not pass by tplStateStoreScope ([52492f0](https://github.com/easyops-cn/next-core/commit/52492f0cde4886bc887d8fe64feeb7eaaa9bda24))
+* fix nested useBrick and tpl ([50501ce](https://github.com/easyops-cn/next-core/commit/50501ce70a936759551348340b91dddb6ca5b96a))
+
+
+
+
+
 ## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.0...@next-core/runtime@1.1.1) (2023-04-03)
 
 
