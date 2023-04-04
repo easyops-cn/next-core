@@ -40,6 +40,11 @@
       "matchPackagePatterns": ["^@types/"]
     },
     {
+      "matchPackagePatterns": ["^@types/"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "groupName": "cypress packages",
       "matchPackageNames": ["cypress", "cypress/included"]
     }
