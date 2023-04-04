@@ -15,6 +15,8 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   tplStateStoreMap: Map<string, DataStore<"STATE">>;
   pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
   tplStateStoreId?: string;
+  // `useBrick` has a local tpl state store scope
+  tplStateStoreScope?: DataStore<"STATE">[];
   forEachItem?: unknown;
   appendI18nNamespace?: string;
 }
