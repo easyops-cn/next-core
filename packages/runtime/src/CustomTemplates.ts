@@ -100,15 +100,28 @@ class CustomTemplateRegistry {
     );
     const methods = proxyMethods.map((entry) => entry[0]);
 
-    const nativeProp = props
+    const nativeProps = props
       .concat(methods)
-      .find(
+      .filter(
         (prop) => prop in HTMLElement.prototype && !allowedNativeProps.has(prop)
       );
-    if (nativeProp !== undefined) {
-      throw new Error(
-        `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property or method.`
+    if (nativeProps.length > 0) {
+      warnAboutStrictMode(
+        strict,
+        "Using native HTMLElement properties as template properties or methods",
+        tagName,
+        ...nativeProps
       );
+      // istanbul ignore next
+      if (strict) {
+        throw new Error(
+          `In custom template "${tagName}", ${nativeProps
+            .map((p) => `"${p}"`)
+            .join(
+              ", "
+            )} are native HTMLElement properties, and should be avoid to be used as brick properties or methods.`
+        );
+      }
     }
 
     if (registered) {

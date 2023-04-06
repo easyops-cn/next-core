@@ -268,14 +268,17 @@ describe("customTemplates", () => {
   });
 
   test("define a native prop", () => {
-    expect(() => {
-      customTemplates.define("tpl-native-prop", {
-        bricks: [{ brick: "div" }],
-        state: [{ name: "title", expose: true }],
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"In custom template "tpl-native-prop", "title" is a native HTMLElement property, and should be avoid to be used as a brick property or method."`
+    consoleWarn.mockReturnValue();
+    customTemplates.define("tpl-native-prop", {
+      bricks: [{ brick: "div" }],
+      state: [{ name: "title", expose: true }],
+    });
+    expect(consoleWarn).toBeCalledWith(
+      "Using native HTMLElement properties as template properties or methods is deprecated in v3 and will be dropped in strict mode,",
+      "tpl-native-prop",
+      "title"
     );
+    consoleWarn.mockReset();
   });
 
   test("define a native prop that is allowed", () => {
