@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.0...@next-core/runtime@1.2.1) (2023-04-06)
+
+
+### Bug Fixes
+
+* only warn about using native props as tpl props in non-strict mode ([9174551](https://github.com/easyops-cn/next-core/commit/9174551a5091c185993f04384235b4a6cd6a0b40))
+
+
+
+
+
 # [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.2...@next-core/runtime@1.2.0) (2023-04-06)
 
 
