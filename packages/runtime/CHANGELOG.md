@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.2...@next-core/runtime@1.2.0) (2023-04-06)
+
+
+### Features
+
+* support preview in visual builder ([c517159](https://github.com/easyops-cn/next-core/commit/c5171591018c7ac57069c5f8f4a1e6b6ec1ca651))
+
+
+
+
+
 ## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.1...@next-core/runtime@1.1.2) (2023-04-04)
 
 
