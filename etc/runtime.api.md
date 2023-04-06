@@ -252,7 +252,7 @@ function updateStoryboardByRoute(appId: string, newRoute: RouteConf): void;
 // @public (undocumented)
 function updateStoryboardBySnippet(appId: string, snippetData: {
     snippetId: string;
-    bricks: BrickConf[];
+    bricks?: BrickConf[];
 }): void;
 
 // @public (undocumented)
