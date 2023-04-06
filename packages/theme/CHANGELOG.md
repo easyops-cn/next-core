@@ -5,14 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.0.2...@next-core/theme@1.1.0) (2023-03-31)
 
-
 ### Features
 
-* split global.css ([e26ca9e](https://github.com/easyops-cn/next-core/commit/e26ca9e29656b017301c3f3bcdc98caa824d934a))
-
-
-
-
+- split global.css ([e26ca9e](https://github.com/easyops-cn/next-core/commit/e26ca9e29656b017301c3f3bcdc98caa824d934a))
 
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.0.1...@next-core/theme@1.0.2) (2023-03-22)
 

@@ -11,6 +11,6 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@next-core/styles-v3": "^0.2.1"
+    "@next-core/styles-v3": "^0.2.14"
   }
 }

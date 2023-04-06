@@ -7,25 +7,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/i18n
 
-
-
-
-
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.3...@next-core/i18n@1.0.4) (2023-03-28)
 
 **Note:** Version bump only for package @next-core/i18n
 
-
-
-
-
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.2...@next-core/i18n@1.0.3) (2023-03-23)
 
 **Note:** Version bump only for package @next-core/i18n
-
-
-
-
 
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.1...@next-core/i18n@1.0.2) (2023-03-22)
 

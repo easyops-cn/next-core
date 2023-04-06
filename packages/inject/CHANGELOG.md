@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/inject
 
-
-
-
-
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.1...@next-core/inject@1.0.2) (2023-03-22)
 
 **Note:** Version bump only for package @next-core/inject

@@ -7,177 +7,93 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 ## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.5.2...@next-core/brick-playground@1.5.3) (2023-04-06)
 
 **Note:** Version bump only for package @next-core/brick-playground
-
-
-
-
 
 ## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.5.1...@next-core/brick-playground@1.5.2) (2023-04-04)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 ## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.5.0...@next-core/brick-playground@1.5.1) (2023-04-03)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 # [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.4.1...@next-core/brick-playground@1.5.0) (2023-04-03)
-
 
 ### Features
 
-* v3 strict mode ([6aae147](https://github.com/easyops-cn/next-core/commit/6aae147aef6c6fb8064c2477c90a45ac4349336c))
-
-
-
-
+- v3 strict mode ([6aae147](https://github.com/easyops-cn/next-core/commit/6aae147aef6c6fb8064c2477c90a45ac4349336c))
 
 ## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.4.0...@next-core/brick-playground@1.4.1) (2023-03-31)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.3.2...@next-core/brick-playground@1.4.0) (2023-03-31)
-
 
 ### Features
 
-* show loading status ([e487155](https://github.com/easyops-cn/next-core/commit/e487155566c2c106c23ebb695ce96dd84de1ab95))
-
-
-
-
+- show loading status ([e487155](https://github.com/easyops-cn/next-core/commit/e487155566c2c106c23ebb695ce96dd84de1ab95))
 
 ## [1.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.3.1...@next-core/brick-playground@1.3.2) (2023-03-30)
 
-
 ### Bug Fixes
 
-* make playground be like a single-page-app ([ecc9865](https://github.com/easyops-cn/next-core/commit/ecc98656cc679c1959ae1d4df33da24c08213d39))
-
-
-
-
+- make playground be like a single-page-app ([ecc9865](https://github.com/easyops-cn/next-core/commit/ecc98656cc679c1959ae1d4df33da24c08213d39))
 
 ## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.3.0...@next-core/brick-playground@1.3.1) (2023-03-30)
 
-
 ### Bug Fixes
 
-* add missing dist-preview ([2f48a10](https://github.com/easyops-cn/next-core/commit/2f48a102dfc86de19b6dc6e41f3bf7f6c7f55bf2))
-
-
-
-
+- add missing dist-preview ([2f48a10](https://github.com/easyops-cn/next-core/commit/2f48a102dfc86de19b6dc6e41f3bf7f6c7f55bf2))
 
 # [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.2.1...@next-core/brick-playground@1.3.0) (2023-03-30)
 
-
 ### Features
 
-* use multi builds ([177d27d](https://github.com/easyops-cn/next-core/commit/177d27daa9d142c595829998d7a34bed6781d6ea))
-
-
-
-
+- use multi builds ([177d27d](https://github.com/easyops-cn/next-core/commit/177d27daa9d142c595829998d7a34bed6781d6ea))
 
 ## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.2.0...@next-core/brick-playground@1.2.1) (2023-03-30)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 # [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.1.0...@next-core/brick-playground@1.2.0) (2023-03-30)
-
 
 ### Features
 
-* render examples in playground ([04edb1f](https://github.com/easyops-cn/next-core/commit/04edb1fb50556a9cbbaa51fbb9b422f6b8f317d5))
-
-
-
-
+- render examples in playground ([04edb1f](https://github.com/easyops-cn/next-core/commit/04edb1fb50556a9cbbaa51fbb9b422f6b8f317d5))
 
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.8...@next-core/brick-playground@1.1.0) (2023-03-29)
 
-
 ### Features
 
-* support sharing playground ([f2e25c3](https://github.com/easyops-cn/next-core/commit/f2e25c3b0cecabb123575575e5827ec74b23ce65))
-
-
-
-
+- support sharing playground ([f2e25c3](https://github.com/easyops-cn/next-core/commit/f2e25c3b0cecabb123575575e5827ec74b23ce65))
 
 ## [1.0.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.7...@next-core/brick-playground@1.0.8) (2023-03-28)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 ## [1.0.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.6...@next-core/brick-playground@1.0.7) (2023-03-28)
 
 **Note:** Version bump only for package @next-core/brick-playground
-
-
-
-
 
 ## [1.0.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.5...@next-core/brick-playground@1.0.6) (2023-03-28)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 ## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.4...@next-core/brick-playground@1.0.5) (2023-03-27)
-
 
 ### Bug Fixes
 
-* support bricks from local npm ([05c1e1b](https://github.com/easyops-cn/next-core/commit/05c1e1b12afd11dabf132a235c2d8eca0f0bfad8))
-
-
-
-
+- support bricks from local npm ([05c1e1b](https://github.com/easyops-cn/next-core/commit/05c1e1b12afd11dabf132a235c2d8eca0f0bfad8))
 
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.3...@next-core/brick-playground@1.0.4) (2023-03-24)
 
 **Note:** Version bump only for package @next-core/brick-playground
 
-
-
-
-
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.2...@next-core/brick-playground@1.0.3) (2023-03-23)
 
 **Note:** Version bump only for package @next-core/brick-playground
-
-
-
-
 
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.0.1...@next-core/brick-playground@1.0.2) (2023-03-22)
 

@@ -5,25 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.3...@next-core/serve-helpers@1.0.4) (2023-03-30)
 
-
 ### Bug Fixes
 
-* remove unused dep ([33e5ee9](https://github.com/easyops-cn/next-core/commit/33e5ee99eade20a30059f419f5c54e47808aa4bb))
-
-
-
-
+- remove unused dep ([33e5ee9](https://github.com/easyops-cn/next-core/commit/33e5ee99eade20a30059f419f5c54e47808aa4bb))
 
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.2...@next-core/serve-helpers@1.0.3) (2023-03-27)
 
-
 ### Bug Fixes
 
-* support bricks from local npm ([05c1e1b](https://github.com/easyops-cn/next-core/commit/05c1e1b12afd11dabf132a235c2d8eca0f0bfad8))
-
-
-
-
+- support bricks from local npm ([05c1e1b](https://github.com/easyops-cn/next-core/commit/05c1e1b12afd11dabf132a235c2d8eca0f0bfad8))
 
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.1...@next-core/serve-helpers@1.0.2) (2023-03-22)
 

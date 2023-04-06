@@ -5,30 +5,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.0.4...@next-core/loader@1.1.0) (2023-03-28)
 
-
 ### Features
 
-* load v2-adapter and its dependencies ([299abae](https://github.com/easyops-cn/next-core/commit/299abaea6bcc0d15c60d53abc980766cd31934bd))
-
-
-
-
+- load v2-adapter and its dependencies ([299abae](https://github.com/easyops-cn/next-core/commit/299abaea6bcc0d15c60d53abc980766cd31934bd))
 
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.0.3...@next-core/loader@1.0.4) (2023-03-24)
 
 **Note:** Version bump only for package @next-core/loader
 
-
-
-
-
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.0.2...@next-core/loader@1.0.3) (2023-03-23)
 
 **Note:** Version bump only for package @next-core/loader
-
-
-
-
 
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.0.1...@next-core/loader@1.0.2) (2023-03-22)
 

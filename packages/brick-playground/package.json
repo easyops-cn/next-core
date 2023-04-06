@@ -54,9 +54,9 @@
     "copy-to-clipboard": "^3.3.3",
     "html-webpack-plugin": "^5.5.0",
     "js-yaml": "^3.14.1",
-    "monaco-editor": "^0.36.1",
+    "monaco-editor": "^0.37.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
-    "webpack-dev-server": "^4.13.1"
+    "webpack-dev-server": "^4.13.2"
   },
   "peerDependencies": {
     "@next-core/i18n": "*",
