@@ -7,11 +7,19 @@ import {
   renderPreviewBricks,
   renderUseBrick,
   unmountUseBrick,
+  updateStoryboard,
+  updateStoryboardByRoute,
+  updateStoryboardBySnippet,
+  updateStoryboardByTemplate,
 } from "./secret_internals.js";
 import { applyTheme } from "../themeAndMode.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
+import {
+  _internalApiSetBootstrapData,
+  _internalApiGetStoryboardInBootstrapData,
+} from "./Runtime.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../themeAndMode.js");
@@ -524,5 +532,261 @@ describe("legacyDoTransform", () => {
     }).toThrowErrorMatchingInlineSnapshot(
       `"Legacy doTransform does not support options in v3"`
     );
+  });
+});
+
+describe("updateStoryboard", () => {
+  beforeEach(() => {
+    _internalApiSetBootstrapData({
+      storyboards: [
+        {
+          app: {
+            id: "hello",
+          } as any,
+          routes: [
+            {
+              path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+              exact: true,
+              bricks: [],
+            },
+            {
+              path: "${APP.homepage}",
+              type: "routes",
+              routes: [],
+            },
+            {
+              path: "${APP.homepage}/about",
+              bricks: [],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  afterEach(() => {
+    _internalApiSetBootstrapData(undefined!);
+  });
+
+  test("updateStoryboard", () => {
+    updateStoryboard("hello", {
+      routes: [
+        {
+          path: "${APP.homepage}",
+          bricks: [],
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}",
+          bricks: [],
+        },
+      ],
+      $$fulfilling: null,
+      $$fulfilled: true,
+      $$registerCustomTemplateProcessed: false,
+    });
+  });
+
+  test("updateStoryboardByRoute", () => {
+    updateStoryboardByRoute("hello", {
+      path: "${APP.homepage}/about",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [
+            {
+              brick: "div",
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardByRoute with new route", () => {
+    updateStoryboardByRoute("hello", {
+      path: "${APP.homepage}/new",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/new",
+          bricks: [
+            {
+              brick: "div",
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardByTemplate", () => {
+    updateStoryboardByTemplate(
+      "hello",
+      {
+        name: "tpl-a",
+        bricks: [
+          {
+            brick: "div",
+          },
+        ],
+      },
+      { properties: { quality: "good" } }
+    );
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          menu: false,
+          bricks: [
+            {
+              brick: "tpl-a",
+              properties: {
+                quality: "good",
+              },
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardBySnippet", () => {
+    updateStoryboardBySnippet("hello", {
+      snippetId: "snippet-1",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "div" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardBySnippet with no bricks", () => {
+    updateStoryboardBySnippet("hello", {
+      snippetId: "snippet-1",
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "span" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
   });
 });
