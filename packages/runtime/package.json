@@ -36,6 +36,9 @@
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json",
+    "postbuild": "npm run docs:build",
+    "docs:build": "api-extractor run",
+    "docs:dev": "api-extractor run --local --verbose",
     "test": "cross-env NODE_ENV='test' test-next",
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
@@ -60,6 +63,7 @@
     "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.34.4",
     "@next-core/build-next-libs": "^1.0.2",
     "@next-core/test-next": "^1.0.2"
   }
