@@ -1,5 +1,5 @@
 {
-  "packages": ["bricks/*", "sdk/*", "packages/*"],
+  "packages": ["bricks/*", "packages/*"],
   "version": "independent",
   "npmClient": "yarn",
   "stream": true,

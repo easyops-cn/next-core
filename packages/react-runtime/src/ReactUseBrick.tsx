@@ -42,7 +42,7 @@ export function ReactUseBrick({
   }, [data, useBrick]);
 
   const refCallback = useCallback(
-    (element: HTMLElement) => {
+    (element: HTMLElement | null) => {
       if (element) {
         mountResult.current = __secret_internals.mountUseBrick(
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -9,19 +9,14 @@
   "license": "GPL-3.0",
   "scripts": {
     "prepare": "lerna bootstrap && husky install",
-    "start": "lerna run start --scope \"@next-core/brick-container\" --",
-    "serve": "brick-container-serve",
-    "serve:e2e": "brick-container-serve --no-remote",
+    "start": "lerna run start --scope \"@next-core/brick-container\" -- --local-container",
+    "serve": "brick-container-serve --local-container",
+    "serve:e2e": "brick-container-serve --no-remote --local-micro-apps e2e",
     "start:playground": "lerna run start --scope \"@next-core/brick-playground\" --",
     "serve:playground": "brick-playground-serve",
     "build": "lerna run build",
-    "docs:build": "lerna run docs:build",
-    "docs:dev": "lerna run docs:dev",
     "test": "test-next-project",
-    "test:ci": "lerna run test:ci --",
-    "yo": "brick-scripts -t dll",
-    "yo-debug": "node --inspect-brk ./packages/brick-scripts/dist/index.js -t dll",
-    "yo-sdk": "create-api-sdk",
+    "test:ci": "lerna run test:ci --concurrency 1 -- --runInBand",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --record",
     "cypress:run:no-record": "cypress run",
@@ -78,7 +73,6 @@
   },
   "workspaces": [
     "bricks/*",
-    "sdk/*",
     "packages/*"
   ],
   "resolutions": {

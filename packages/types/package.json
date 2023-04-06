@@ -1,6 +1,6 @@
 {
   "name": "@next-core/types",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pure types for Brick Next V3+",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/types",
   "license": "GPL-3.0",
@@ -18,13 +18,18 @@
     ".": {
       "types": "./dist/index.d.ts"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./storyboard.json": "./dist/.schema/storyboard.json"
   },
   "scripts": {
     "clean": "rimraf dist",
     "prestart": "npm run clean",
     "start": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json --watch",
     "prebuild": "npm run clean",
-    "build": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json"
+    "build": "tsc --emitDeclarationOnly --declaration --declarationDir dist --project tsconfig.build.json",
+    "postbuild": "node scripts/post-build.js"
+  },
+  "devDependencies": {
+    "typescript-json-schema": "^0.55.0"
   }
 }

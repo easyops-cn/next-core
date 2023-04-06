@@ -242,19 +242,19 @@ describe("customTemplates", () => {
     expect(consoleWarn).toBeCalledTimes(1);
     expect(consoleError).toBeCalledTimes(3);
     expect(consoleWarn).toBeCalledWith(
-      "Template `asVariable` with `TPL.*` is deprecated and will be dropped in v3:",
+      "Template `asVariable` is deprecated in v3 and will be dropped in strict mode,",
       "tpl-legacy",
       "propB"
     );
     expect(consoleError).toHaveBeenNthCalledWith(
       1,
-      "Template `mergeProperty` and `refTransform` are not supported in v3:",
+      "Template `mergeProperty` and `refTransform` are dropped in v3:",
       "tpl-legacy",
       "propC"
     );
     expect(consoleError).toHaveBeenNthCalledWith(
       2,
-      "Template `mergeProperty` and `refTransform` are not supported in v3:",
+      "Template `mergeProperty` and `refTransform` are dropped in v3:",
       "tpl-legacy",
       "propD"
     );
@@ -268,14 +268,17 @@ describe("customTemplates", () => {
   });
 
   test("define a native prop", () => {
-    expect(() => {
-      customTemplates.define("tpl-native-prop", {
-        bricks: [{ brick: "div" }],
-        state: [{ name: "title", expose: true }],
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"In custom template "tpl-native-prop", "title" is a native HTMLElement property, and should be avoid to be used as a brick property or method."`
+    consoleWarn.mockReturnValue();
+    customTemplates.define("tpl-native-prop", {
+      bricks: [{ brick: "div" }],
+      state: [{ name: "title", expose: true }],
+    });
+    expect(consoleWarn).toBeCalledWith(
+      "Using native HTMLElement properties as template properties or methods is deprecated in v3 and will be dropped in strict mode,",
+      "tpl-native-prop",
+      "title"
     );
+    consoleWarn.mockReset();
   });
 
   test("define a native prop that is allowed", () => {

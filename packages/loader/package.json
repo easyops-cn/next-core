@@ -1,6 +1,6 @@
 {
   "name": "@next-core/loader",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/loader",
   "license": "GPL-3.0",
   "repository": {
@@ -33,10 +33,11 @@
     "build": "npm run build:types && npm run build:main",
     "build:main": "cross-env NODE_ENV=production build-next-libs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "test": "cross-env NODE_ENV='test' jest --passWithNoTests",
-    "test:ci": "cross-env NODE_ENV='test' CI=true jest --passWithNoTests"
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.2"
+    "@next-core/build-next-libs": "^1.0.2",
+    "@next-core/test-next": "^1.0.2"
   }
 }

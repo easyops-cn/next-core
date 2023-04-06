@@ -3,6 +3,8 @@ export enum StateOfUseBrick {
   USE_BRICK,
   USE_BRICK_ITEM,
   USE_BRICK_PROPERTIES,
+  // Compatible mode
+  USE_BRICK_TRANSFORM,
   USE_BRICK_EVENTS,
   USE_BRICK_IF,
   USE_BRICK_SLOTS,
@@ -18,6 +20,7 @@ export function isLazyContentInUseBrick(
 ): boolean {
   switch (state) {
     case StateOfUseBrick.USE_BRICK_PROPERTIES:
+    case StateOfUseBrick.USE_BRICK_TRANSFORM:
     case StateOfUseBrick.USE_BRICK_EVENTS:
     case StateOfUseBrick.USE_BRICK_IF:
     case StateOfUseBrick.USE_BRICK_LIFECYCLE:
@@ -55,6 +58,8 @@ export function getNextStateOfUseBrick(
         switch (key) {
           case "properties":
             return StateOfUseBrick.USE_BRICK_PROPERTIES;
+          case "transform":
+            return StateOfUseBrick.USE_BRICK_TRANSFORM;
           case "dataSource":
             return StateOfUseBrick.USE_BRICK_DATA_SOURCE;
           case "events":

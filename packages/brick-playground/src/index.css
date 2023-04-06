@@ -50,7 +50,6 @@ body[data-loading] {
   border: 0;
 }
 
-.brick-playground-editor-title,
 .brick-playground-toolbar {
   padding: 0 10px;
   height: 32px;
@@ -65,4 +64,31 @@ body[data-loading] {
 
 .brick-playground-column.html > [data-mode="yaml"] {
   display: none;
+}
+
+.brick-playground-toolbar-column {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+
+.shrink {
+  flex: initial;
+}
+
+.brick-playground-toolbar-column:last-child {
+  justify-content: flex-end;
+}
+
+.brick-playground-toolbar-column:first-child {
+  justify-content: flex-start;
+}
+
+#brick-playground-share-result {
+  color: gray;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

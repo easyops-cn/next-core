@@ -4,22 +4,32 @@ import express from "express";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
 import bootstrapJson from "../serve/bootstrapJson.js";
+import examplesJson from "../serve/examplesJson.js";
 
 const compiler = await build(config);
-const rootDir = path.resolve(process.cwd(), "../..");
+const packageDir = process.cwd();
+const rootDir = path.resolve(packageDir, "../..");
 const server = new WebpackDevServer(
   {
     open: true,
     port: 8082,
     setupMiddlewares(middlewares) {
       middlewares.push({
-        path: "/bricks/",
+        path: "/preview/bricks/",
         middleware: express.static(
           path.join(rootDir, "node_modules/@next-bricks")
         ),
       });
+      middlewares.push({
+        path: "/preview/bricks/",
+        middleware: express.static(path.join(rootDir, "node_modules/@bricks")),
+      });
 
-      middlewares.push(bootstrapJson(rootDir));
+      middlewares.push({
+        path: "/preview/",
+        middleware: bootstrapJson(rootDir),
+      });
+      middlewares.push(examplesJson(rootDir));
 
       return middlewares;
     },

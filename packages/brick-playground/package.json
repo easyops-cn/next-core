@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-playground",
-  "version": "1.0.2",
+  "version": "1.5.4",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-playground",
   "license": "GPL-3.0",
   "repository": {
@@ -14,23 +14,44 @@
   "files": [
     "bin",
     "dist",
+    "dist-preview",
     "serve"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/dist-preview"
+        ]
+      }
+    }
+  },
+  "exports": {
+    "./getExamples": {
+      "import": "./serve/getExamples.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV='development' node scripts/start.js",
     "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "dependencies": {
-    "@next-core/serve-helpers": "^1.0.2",
+    "@next-core/serve-helpers": "^1.0.4",
     "compression": "^1.7.4",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "node-html-parser": "^6.1.5"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.0.2",
-    "@next-core/i18n": "^1.0.2",
-    "@next-core/loader": "^1.0.2",
-    "@next-core/runtime": "^1.0.2",
-    "@next-core/theme": "^1.0.2",
+    "@next-core/build-next-bricks": "^1.3.0",
+    "@next-core/http": "^1.0.2",
+    "@next-core/i18n": "^1.0.5",
+    "@next-core/loader": "^1.1.0",
+    "@next-core/runtime": "^1.2.1",
+    "@next-core/theme": "^1.1.0",
+    "@next-core/types": "^1.0.3",
+    "copy-to-clipboard": "^3.3.3",
     "html-webpack-plugin": "^5.5.0",
     "js-yaml": "^3.14.1",
     "monaco-editor": "^0.37.0",

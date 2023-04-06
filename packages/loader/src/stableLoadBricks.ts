@@ -80,15 +80,15 @@ interface V2AdapterBrick {
 }
 
 let v2AdapterPromise: Promise<V2AdapterBrick> | undefined;
+const V2_ADAPTER_LOAD_BRICKS = "v2-adapter.load-bricks";
 
-async function enqueueStableLoad(
+// Get brick/processor items including their dependencies
+function getItemsByPkg(
   type: "bricks" | "processors",
   list: string[] | Set<string>,
-  brickPackages: BrickPackage[]
-): Promise<void> {
-  const moduleDir = type === "processors" ? "./processors/" : "./";
-  const itemsByPkg = new Map<string, string[]>();
-
+  brickPackagesMap: Map<string, BrickPackage>
+) {
+  const itemsByPkg = new Map<BrickPackage, string[]>();
   const listToLoad = new Set<string>();
   const add = (item: string) => {
     if (listToLoad.has(item)) {
@@ -99,17 +99,20 @@ async function enqueueStableLoad(
     const pkgId = `bricks/${
       type === "processors" ? getProcessorPackageName(namespace) : namespace
     }`;
+    const pkg = brickPackagesMap.get(pkgId);
+    if (!pkg) {
+      throw new Error(`Package ${pkgId} not found.`);
+    }
 
-    let groupItems = itemsByPkg.get(pkgId);
+    let groupItems = itemsByPkg.get(pkg);
     if (!groupItems) {
       groupItems = [];
-      itemsByPkg.set(pkgId, groupItems);
+      itemsByPkg.set(pkg, groupItems);
     }
     groupItems.push(itemName);
 
     // Load their dependencies too
-    const pkg = brickPackages.find((p) => p.id === pkgId);
-    const deps = pkg?.dependencies?.[item];
+    const deps = pkg.dependencies?.[item];
     if (deps) {
       for (const dep of deps) {
         add(dep);
@@ -119,48 +122,82 @@ async function enqueueStableLoad(
   for (const item of list) {
     add(item);
   }
+  return itemsByPkg;
+}
+
+async function loadBrickModule(
+  type: "bricks" | "processors",
+  pkgId: string,
+  itemName: string
+) {
+  const moduleName = `${
+    type === "processors" ? "./processors/" : "./"
+  }${itemName}`;
+  try {
+    await loadSharedModule(pkgId, moduleName);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    throw new Error(
+      `Load ${type} of "${pkgId.split("/").pop()}.${moduleName
+        .split("/")
+        .pop()}" failed`
+    );
+  }
+}
+
+function loadRestBricks(
+  type: "bricks" | "processors",
+  pkgs: BrickPackage[],
+  itemsMap: Map<BrickPackage, string[]>
+) {
+  return pkgs.map(async (pkg) => {
+    await loadScript(pkg.filePath, window.PUBLIC_ROOT ?? "");
+    await waitBasicPkg;
+    return Promise.all(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      itemsMap
+        .get(pkg)!
+        .map((itemName) => loadBrickModule(type, pkg.id, itemName))
+    );
+  });
+}
+
+async function enqueueStableLoad(
+  type: "bricks" | "processors",
+  list: string[] | Set<string>,
+  brickPackages: BrickPackage[]
+): Promise<void> {
+  const brickPackagesMap = new Map<string, BrickPackage>();
+  for (const pkg of brickPackages) {
+    const pkgId = pkg.id ?? getPkgIdByFilePath(pkg.filePath);
+    brickPackagesMap.set(pkgId, pkg);
+  }
+
+  const itemsByPkg = getItemsByPkg(type, list, brickPackagesMap);
 
   let foundBasicPkg: BrickPackage | undefined;
   const v2Packages: BrickPackage[] = [];
-  const restPackages: BrickPackage[] = [];
+  const v3PackagesOtherThanBasic: BrickPackage[] = [];
   let maybeV2Adapter: BrickPackage | undefined;
-  for (const pkg of brickPackages) {
-    if (!pkg.id) {
-      // Brick packages of v2 has no `id`
-      const pkgId = getPkgIdByFilePath(pkg.filePath);
-      if (itemsByPkg.has(pkgId)) {
-        v2Packages.push(pkg);
-        maybeV2Adapter = brickPackages.find(
-          (pkg) => pkg.id === "bricks/v2-adapter"
-        );
-        if (!maybeV2Adapter) {
-          // eslint-disable-next-line no-console
-          console.error("Using v2 bricks, but v2-adapter not found");
-        }
-      }
-    } else if (itemsByPkg.has(pkg.id)) {
+  for (const pkg of itemsByPkg.keys()) {
+    if (pkg.id) {
       if (pkg.id === "bricks/basic") {
         foundBasicPkg = pkg;
       } else {
-        restPackages.push(pkg);
+        v3PackagesOtherThanBasic.push(pkg);
+      }
+    } else {
+      // Brick packages of v2 has no `id`
+      v2Packages.push(pkg);
+      maybeV2Adapter = brickPackagesMap.get("bricks/v2-adapter");
+      if (!maybeV2Adapter) {
+        // eslint-disable-next-line no-console
+        console.error("Using v2 bricks, but v2-adapter not found");
       }
     }
   }
   const v2Adapter = maybeV2Adapter;
-
-  const loadBrickModule = async (pkgId: string, moduleName: string) => {
-    try {
-      await loadSharedModule(pkgId, moduleName);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      throw new Error(
-        `Load ${type} of "${pkgId.split("/").pop()}.${moduleName
-          .split("/")
-          .pop()}" failed`
-      );
-    }
-  };
 
   let basicPkgPromise: Promise<unknown> | undefined;
   const basicPkg = foundBasicPkg;
@@ -175,35 +212,32 @@ async function enqueueStableLoad(
       Promise.all(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         itemsByPkg
-          .get(basicPkg.id)!
-          .map((itemName) =>
-            loadBrickModule(basicPkg.id, `${moduleDir}${itemName}`)
-          )
+          .get(basicPkg)!
+          .map((itemName) => loadBrickModule(type, basicPkg.id, itemName))
       )
     );
   }
 
   const pkgPromises = [basicPkgPromise].concat(
-    restPackages.map(async (pkg) => {
-      await loadScript(pkg.filePath, window.PUBLIC_ROOT ?? "");
-      await waitBasicPkg;
-      return Promise.all(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        itemsByPkg
-          .get(pkg.id)!
-          .map((itemName) => loadBrickModule(pkg.id, `${moduleDir}${itemName}`))
-      );
-    })
+    loadRestBricks(type, v3PackagesOtherThanBasic, itemsByPkg)
   );
 
   if (v2Adapter && v2Packages.length > 0) {
     if (!v2AdapterPromise) {
+      // Load `v2-adapter.load-bricks` and its dependencies
+      const v2AdapterItemsByPkg = getItemsByPkg(
+        "bricks",
+        [V2_ADAPTER_LOAD_BRICKS],
+        brickPackagesMap
+      );
+      const v2AdapterPackages = [...v2AdapterItemsByPkg.keys()];
+
       const loadV2Adapter = async () => {
-        await loadScript(v2Adapter.filePath, window.PUBLIC_ROOT ?? "");
-        await waitBasicPkg;
-        await loadBrickModule(v2Adapter.id, "./load-bricks");
+        await Promise.all(
+          loadRestBricks("bricks", v2AdapterPackages, v2AdapterItemsByPkg)
+        );
         return document.createElement(
-          "v2-adapter.load-bricks"
+          V2_ADAPTER_LOAD_BRICKS
         ) as unknown as V2AdapterBrick;
       };
       v2AdapterPromise = loadV2Adapter();
@@ -221,10 +255,11 @@ async function enqueueStableLoad(
               type === "bricks"
                 ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   itemsByPkg
-                    .get(pkgId)!
+                    .get(pkg)!
                     .map((itemName) => `${pkgNamespace}.${itemName}`)
                 : [],
               (pkg as { dll?: string[] }).dll,
+              // Todo: remove `brickPackages` as an argument
               brickPackages
             );
           })

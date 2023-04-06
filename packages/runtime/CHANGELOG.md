@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.0...@next-core/runtime@1.2.1) (2023-04-06)
+
+### Bug Fixes
+
+- only warn about using native props as tpl props in non-strict mode ([9174551](https://github.com/easyops-cn/next-core/commit/9174551a5091c185993f04384235b4a6cd6a0b40))
+
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.2...@next-core/runtime@1.2.0) (2023-04-06)
+
+### Features
+
+- support preview in visual builder ([c517159](https://github.com/easyops-cn/next-core/commit/c5171591018c7ac57069c5f8f4a1e6b6ec1ca651))
+
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.1...@next-core/runtime@1.1.2) (2023-04-04)
+
+### Bug Fixes
+
+- do not pass by tplStateStoreScope ([52492f0](https://github.com/easyops-cn/next-core/commit/52492f0cde4886bc887d8fe64feeb7eaaa9bda24))
+- fix nested useBrick and tpl ([50501ce](https://github.com/easyops-cn/next-core/commit/50501ce70a936759551348340b91dddb6ca5b96a))
+
+## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.1.0...@next-core/runtime@1.1.1) (2023-04-03)
+
+### Bug Fixes
+
+- ignore transform placeholder with no data in context ([2bd1afc](https://github.com/easyops-cn/next-core/commit/2bd1afcf025d3a4a1c9aeb27e681864e1b6d16b7))
+
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.7...@next-core/runtime@1.1.0) (2023-04-03)
+
+### Features
+
+- v3 strict mode ([6aae147](https://github.com/easyops-cn/next-core/commit/6aae147aef6c6fb8064c2477c90a45ac4349336c))
+
+## [1.0.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.6...@next-core/runtime@1.0.7) (2023-03-31)
+
+### Bug Fixes
+
+- expose legacy doTransform ([5df317f](https://github.com/easyops-cn/next-core/commit/5df317fd4878b3b8d3d98b2d00152b513554e063))
+
+## [1.0.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.5...@next-core/runtime@1.0.6) (2023-03-28)
+
+### Bug Fixes
+
+- only load providers not defined yet ([0147667](https://github.com/easyops-cn/next-core/commit/0147667ec3e886645b3651afcb9061e27b0c97f8))
+
+## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.4...@next-core/runtime@1.0.5) (2023-03-28)
+
+### Bug Fixes
+
+- update sdk ([e8a4875](https://github.com/easyops-cn/next-core/commit/e8a48754815ba2a9880c703d093482c14f4dcb0d))
+
+## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.3...@next-core/runtime@1.0.4) (2023-03-24)
+
+**Note:** Version bump only for package @next-core/runtime
+
+## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.2...@next-core/runtime@1.0.3) (2023-03-23)
+
+**Note:** Version bump only for package @next-core/runtime
+
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.0.1...@next-core/runtime@1.0.2) (2023-03-22)
 
 **Note:** Version bump only for package @next-core/runtime

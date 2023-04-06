@@ -17,7 +17,7 @@ export function strictCollectMemberUsage(
     collectMemberUsage(data, objectName, level);
   if (hasNonStaticUsage) {
     throw new Error(
-      `Non-static usage of ${objectName} is not supported, check your expression: "${nonStaticUsage}"`
+      `Non-static usage of ${objectName} is prohibited, check your expression: "${nonStaticUsage}"`
     );
   }
   return usedProperties;

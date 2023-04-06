@@ -1,11 +1,13 @@
 {
   "name": "@next-core/theme",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "license": "GPL-3.0",
   "description": "> TODO: description",
   "type": "module",
   "exports": {
     ".": "./src/index.css",
+    "./global.css": "./src/global.css",
+    "./loading.css": "./src/loading.css",
     "./package.json": "./package.json"
   },
   "dependencies": {

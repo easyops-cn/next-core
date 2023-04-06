@@ -248,12 +248,14 @@ export default async function scanBricks(packageDir) {
           }
         } else if (
           callee.type === "Identifier" &&
-          callee.name === "wrapBrick" &&
+          (callee.name === "wrapBrick" || callee.name === "unwrapProvider") &&
           args.length >= 1
         ) {
           const { type, value: brickName } = args[0];
           if (type !== "StringLiteral") {
-            throw new Error("Please call `wrapBrick` only with literal string");
+            throw new Error(
+              `Please call \`${callee.name}\` only with literal string`
+            );
           }
           const bricks = usingWrappedBricks.get(filePath);
           if (bricks) {

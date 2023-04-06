@@ -6,6 +6,7 @@ import type {
 } from "@next-core/types";
 import { uniq } from "lodash";
 import type { RuntimeBrickElement } from "./internal/interfaces.js";
+import { isStrictMode, warnAboutStrictMode } from "./isStrictMode.js";
 
 // Note: `prefix` is a native prop on Element, but it's only used in XML documents.
 const allowedNativeProps = new Set(["prefix"]);
@@ -38,6 +39,7 @@ class CustomTemplateRegistry {
     }
 
     // Transform legacy `proxy.properties[].asVariable` as states.
+    const strict = isStrictMode();
     const proxyProperties = (constructor.proxy?.properties ?? {}) as {
       [name: string]: LegacyTplPropProxy;
     };
@@ -45,18 +47,16 @@ class CustomTemplateRegistry {
     const legacyTplVariables: string[] = [];
     for (const [key, value] of Object.entries(proxyProperties)) {
       if (value.asVariable) {
-        // For existed TPL usage, treat it as a STATE.
-        legacyTplVariables.push(key);
-        // eslint-disable-next-line no-console
-        console.warn(
-          "Template `asVariable` with `TPL.*` is deprecated and will be dropped in v3:",
-          tagName,
-          key
-        );
+        warnAboutStrictMode(strict, "Template `asVariable`", tagName, key);
+        // istanbul ignore next
+        if (!strict) {
+          // For existed TPL usage, treat it as a STATE.
+          legacyTplVariables.push(key);
+        }
       } else if (value.mergeProperty || value.refTransform) {
         // eslint-disable-next-line no-console
         console.error(
-          "Template `mergeProperty` and `refTransform` are not supported in v3:",
+          "Template `mergeProperty` and `refTransform` are dropped in v3:",
           tagName,
           key
         );
@@ -73,11 +73,13 @@ class CustomTemplateRegistry {
         properties: Object.fromEntries(validProxyProps),
       },
       state: (constructor.state
-        ? constructor.state.map((item) => ({
-            // For existed templates, make `expose` defaults to true.
-            expose: true,
-            ...item,
-          }))
+        ? strict
+          ? constructor.state
+          : constructor.state.map((item) => ({
+              // Make `expose` defaults to true in non-strict mode.
+              expose: true,
+              ...item,
+            }))
         : []
       ).concat(legacyTplVariables.map((tpl) => ({ name: tpl, expose: true }))),
     };
@@ -98,15 +100,28 @@ class CustomTemplateRegistry {
     );
     const methods = proxyMethods.map((entry) => entry[0]);
 
-    const nativeProp = props
+    const nativeProps = props
       .concat(methods)
-      .find(
+      .filter(
         (prop) => prop in HTMLElement.prototype && !allowedNativeProps.has(prop)
       );
-    if (nativeProp !== undefined) {
-      throw new Error(
-        `In custom template "${tagName}", "${nativeProp}" is a native HTMLElement property, and should be avoid to be used as a brick property or method.`
+    if (nativeProps.length > 0) {
+      warnAboutStrictMode(
+        strict,
+        "Using native HTMLElement properties as template properties or methods",
+        tagName,
+        ...nativeProps
       );
+      // istanbul ignore next
+      if (strict) {
+        throw new Error(
+          `In custom template "${tagName}", ${nativeProps
+            .map((p) => `"${p}"`)
+            .join(
+              ", "
+            )} are native HTMLElement properties, and should be avoid to be used as brick properties or methods.`
+        );
+      }
     }
 
     if (registered) {

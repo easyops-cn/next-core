@@ -2,18 +2,33 @@ import { jest, describe, test, expect } from "@jest/globals";
 import type { UseSingleBrickConf } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/storyboard";
 import {
+  legacyDoTransform,
   mountUseBrick,
   renderPreviewBricks,
   renderUseBrick,
   unmountUseBrick,
+  updateStoryboard,
+  updateStoryboardByRoute,
+  updateStoryboardBySnippet,
+  updateStoryboardByTemplate,
 } from "./secret_internals.js";
+import { applyTheme } from "../themeAndMode.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
+import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
+import {
+  _internalApiSetBootstrapData,
+  _internalApiGetStoryboardInBootstrapData,
+} from "./Runtime.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../themeAndMode.js");
+jest.mock("../isStrictMode.js");
 const consoleInfo = jest.spyOn(console, "info");
 window.scrollTo = jest.fn();
+const mockIsStrictMode = (
+  isStrictMode as jest.MockedFunction<typeof isStrictMode>
+).mockReturnValue(false);
 
 const IntersectionObserver = jest.fn((callback: Function) => {
   return {
@@ -157,6 +172,64 @@ describe("useBrick", () => {
     expect(document.querySelector("#portal-mount-point")?.innerHTML).toBe("");
 
     consoleInfo.mockReset();
+  });
+
+  test("strict mode with transform", async () => {
+    mockIsStrictMode.mockReturnValueOnce(true);
+    const useBrick: any = {
+      brick: "div",
+      properties: {
+        title: "<% `byProperties:${DATA}` %>",
+      },
+      transform: {
+        title: "<% `byTransform:${DATA}` %>",
+      },
+    };
+    const renderResult = await renderUseBrick(useBrick, "ok");
+    expect(warnAboutStrictMode).toBeCalledWith(
+      true,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick
+    );
+    expect(mockIsStrictMode).toBeCalled();
+
+    const root = document.createElement("div");
+    const mountResult = mountUseBrick(renderResult, root);
+    expect(root).toMatchInlineSnapshot(`
+      <div
+        title="byProperties:ok"
+      />
+    `);
+    unmountUseBrick(renderResult, mountResult);
+  });
+
+  test("non-strict mode with transform", async () => {
+    const useBrick: any = {
+      brick: "div",
+      properties: {
+        title: "<% `byProperties:${DATA}` %>",
+      },
+      transform: {
+        title: "<% `byTransform:${DATA}` %>",
+      },
+    };
+    const renderResult = await renderUseBrick(useBrick, "ok");
+    expect(warnAboutStrictMode).toBeCalledWith(
+      false,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick
+    );
+
+    const root = document.createElement("div");
+    const mountResult = mountUseBrick(renderResult, root);
+    expect(root).toMatchInlineSnapshot(`
+      <div
+        title="byTransform:ok"
+      />
+    `);
+    unmountUseBrick(renderResult, mountResult);
   });
 
   test("if: alse", async () => {
@@ -404,6 +477,8 @@ describe("preview", () => {
 
     expect(main.innerHTML).toBe("<div>Hello Preview</div>");
     expect(portal.innerHTML).toBe("<p>I'm portal</p>");
+    expect(applyTheme).not.toBeCalled();
+    expect(scrollTo).not.toBeCalled();
 
     await renderPreviewBricks(
       [
@@ -421,10 +496,297 @@ describe("preview", () => {
           portal: true,
         },
       ],
-      { main, portal }
+      { main, portal },
+      { sandbox: true }
     );
 
     expect(main.innerHTML).toBe("<div>Goodbye Preview</div>");
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
+    expect(applyTheme).toBeCalledTimes(1);
+    expect(scrollTo).toBeCalledTimes(1);
+  });
+});
+
+describe("legacyDoTransform", () => {
+  test("should transform", () => {
+    expect(legacyDoTransform({ quality: "good" }, "<% DATA.quality %>")).toBe(
+      "good"
+    );
+  });
+
+  test("should transform use placeholder", () => {
+    expect(legacyDoTransform({ quality: "good" }, "q:@{quality}")).toBe(
+      "q:good"
+    );
+  });
+
+  test("should not inject", () => {
+    expect(
+      legacyDoTransform({ quality: "good" }, "q:@{quality},a:${oops}")
+    ).toBe("q:good,a:${oops}");
+  });
+
+  test("should throw if passing options", () => {
+    expect(() => {
+      legacyDoTransform("good", "<% DATA %>", { allowInject: true });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Legacy doTransform does not support options in v3"`
+    );
+  });
+});
+
+describe("updateStoryboard", () => {
+  beforeEach(() => {
+    _internalApiSetBootstrapData({
+      storyboards: [
+        {
+          app: {
+            id: "hello",
+          } as any,
+          routes: [
+            {
+              path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+              exact: true,
+              bricks: [],
+            },
+            {
+              path: "${APP.homepage}",
+              type: "routes",
+              routes: [],
+            },
+            {
+              path: "${APP.homepage}/about",
+              bricks: [],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  afterEach(() => {
+    _internalApiSetBootstrapData(undefined!);
+  });
+
+  test("updateStoryboard", () => {
+    updateStoryboard("hello", {
+      routes: [
+        {
+          path: "${APP.homepage}",
+          bricks: [],
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}",
+          bricks: [],
+        },
+      ],
+      $$fulfilling: null,
+      $$fulfilled: true,
+      $$registerCustomTemplateProcessed: false,
+    });
+  });
+
+  test("updateStoryboardByRoute", () => {
+    updateStoryboardByRoute("hello", {
+      path: "${APP.homepage}/about",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [
+            {
+              brick: "div",
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardByRoute with new route", () => {
+    updateStoryboardByRoute("hello", {
+      path: "${APP.homepage}/new",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/new",
+          bricks: [
+            {
+              brick: "div",
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardByTemplate", () => {
+    updateStoryboardByTemplate(
+      "hello",
+      {
+        name: "tpl-a",
+        bricks: [
+          {
+            brick: "div",
+          },
+        ],
+      },
+      { properties: { quality: "good" } }
+    );
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          menu: false,
+          bricks: [
+            {
+              brick: "tpl-a",
+              properties: {
+                quality: "good",
+              },
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardBySnippet", () => {
+    updateStoryboardBySnippet("hello", {
+      snippetId: "snippet-1",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "div" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardBySnippet with no bricks", () => {
+    updateStoryboardBySnippet("hello", {
+      snippetId: "snippet-1",
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "span" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
   });
 });

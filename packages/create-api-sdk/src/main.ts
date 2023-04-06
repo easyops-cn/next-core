@@ -18,7 +18,7 @@ export async function main(tagOrCommit = "", flags?: Flags): Promise<void> {
   const selectedSdk = flags.sdk;
   console.log("git cloning ...");
   try {
-    await clone();
+    await clone(tagOrCommit);
   } catch (code) {
     console.error(chalk.red("git clone failed"));
     process.exitCode = typeof code === "number" && code !== 0 ? code : 2;

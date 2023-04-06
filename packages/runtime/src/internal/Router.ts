@@ -43,6 +43,7 @@ import {
 import { fulfilStoryboard } from "./loadBootstrapData.js";
 import { RenderTag } from "./enums.js";
 import { preCheckInstalledApps } from "./checkInstalledApps.js";
+import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -118,12 +119,23 @@ export class Router {
     return message;
   }
 
-  #checkInfiniteRedirect(from: NextLocation, to: string): void {
+  #safeRedirect(
+    to: string,
+    state: NextHistoryState | undefined,
+    from: NextLocation
+  ): void {
     if (this.#redirectCount++ > 10) {
-      throw new Error(
-        `Infinite redirect detected: from "${from.pathname}${from.search}${from.hash}" to "${to}"`
-      );
+      const message = `Infinite redirect detected: from "${from.pathname}${from.search}${from.hash}" to "${to}"`;
+      // istanbul ignore else: error cannot be caught in test
+      if (process.env.NODE_ENV === "test") {
+        // eslint-disable-next-line no-console
+        console.error(message);
+        return;
+      } else {
+        throw new Error(message);
+      }
     }
+    getHistory().replace(to, state);
   }
 
   bootstrap() {
@@ -239,8 +251,7 @@ export class Router {
 
     const redirectTo = (to: string, state?: NextHistoryState): void => {
       this.#rendererContextTrashCan.add(prevRendererContext);
-      this.#checkInfiniteRedirect(location, to);
-      history.replace(to, state);
+      this.#safeRedirect(to, state, location);
     };
 
     const redirectToLogin = (): void => {
@@ -322,7 +333,7 @@ export class Router {
       try {
         output = await renderRoutes(
           renderRoot,
-          storyboard.routes,
+          insertPreviewRoutes(storyboard.routes),
           runtimeContext,
           rendererContext
         );

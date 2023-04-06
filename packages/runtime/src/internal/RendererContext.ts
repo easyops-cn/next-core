@@ -116,10 +116,7 @@ export class RendererContext {
     // istanbul ignore next
     if (!isEmpty((lifeCycle as { useResolves?: unknown }).useResolves)) {
       // eslint-disable-next-line no-console
-      console.error(
-        "`lifeCycle.useResolves` is not supported in v3:",
-        lifeCycle
-      );
+      console.error("`lifeCycle.useResolves` is dropped in v3:", lifeCycle);
     }
   }
 

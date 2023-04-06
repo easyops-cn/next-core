@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.2.0...@next-core/build-next-bricks@1.3.0) (2023-03-30)
+
+### Features
+
+- support multi builds ([a16d336](https://github.com/easyops-cn/next-core/commit/a16d3361953c920375677594985bd633542292fa))
+
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.2...@next-core/build-next-bricks@1.2.0) (2023-03-30)
+
+### Features
+
+- expose svg rules ([2721e7d](https://github.com/easyops-cn/next-core/commit/2721e7dd5eb82ab23721e3d08c8ca3ea649ca9b2))
+
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.1...@next-core/build-next-bricks@1.1.2) (2023-03-28)
+
+### Bug Fixes
+
+- fix svgAsAsset is not set ([f35858f](https://github.com/easyops-cn/next-core/commit/f35858f4653675d81259973f42840304072c2dce))
+
+## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.1.0...@next-core/build-next-bricks@1.1.1) (2023-03-28)
+
+### Bug Fixes
+
+- scan `unwrapProvider` usage ([e466e2e](https://github.com/easyops-cn/next-core/commit/e466e2ee971515579de17fe803307ba797a10831))
+
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.0.2...@next-core/build-next-bricks@1.1.0) (2023-03-28)
+
+### Features
+
+- new config options: svgAsAsset, imageAssetFilename ([7d03307](https://github.com/easyops-cn/next-core/commit/7d03307771ee5cd8e99e2de45d32bef15c1c7b2b))
+
 ## [1.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.0.1...@next-core/build-next-bricks@1.0.2) (2023-03-22)
 
 **Note:** Version bump only for package @next-core/build-next-bricks

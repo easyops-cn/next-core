@@ -3,30 +3,51 @@
   <head>
     <meta charset="utf-8">
     <title>Brick Playground</title>
+    <script>window.EXAMPLES_FILE="./examples.hash.json"</script>
   </head>
   <body data-loading>
     <div class="brick-playground">
       <div class="brick-playground-column html" id="brick-playground-editor-column">
-        <div class="brick-playground-editor-title">
-          <select id="brick-playground-select-type">
-            <option checked>HTML</option>
-            <option>YAML</option>
-          </select>
+        <div class="brick-playground-toolbar">
+          <div class="brick-playground-toolbar-column">
+            <select id="brick-playground-select-type">
+              <option checked>HTML</option>
+              <option>YAML</option>
+            </select>
+          </div>
+          <div class="brick-playground-toolbar-column">
+            Example:
+            <select id="brick-playground-select-example">
+              <option value> - local - </option>
+            </select>
+          </div>
         </div>
         <div class="brick-playground-editor" data-mode="html" id="brick-playground-html-editor"></div>
-        <div class="brick-playground-editor-title" data-mode="html">JavaScript</div>
+        <div class="brick-playground-toolbar" data-mode="html">
+          <div class="brick-playground-toolbar-column">
+            JavaScript
+          </div>
+        </div>
         <div class="brick-playground-editor" data-mode="html" id="brick-playground-javascript-editor"></div>
         <div class="brick-playground-editor" data-mode="yaml" id="brick-playground-yaml-editor"></div>
       </div>
       <div class="brick-playground-divider"></div>
       <div class="brick-playground-column">
         <div class="brick-playground-toolbar">
-          <span>Preview</span>
-          <button id="brick-playground-button-run">Run</button>
-          <select id="brick-playground-select-theme">
-            <option checked>Dark</option>
-            <option>Light</option>
-          </select>
+          <div class="brick-playground-toolbar-column">
+            <span>Preview</span>
+          </div>
+          <div class="brick-playground-toolbar-column shrink">
+            <button id="brick-playground-button-run">Refresh</button>
+          </div>
+          <div class="brick-playground-toolbar-column">
+            <span id="brick-playground-share-result"></span>
+            <button id="brick-playground-button-share">Share</button>
+            <select id="brick-playground-select-theme">
+              <option checked>Dark</option>
+              <option>Light</option>
+            </select>
+          </div>
         </div>
         <div class="brick-playground-preview" id="brick-playground-preview"></div>
       </div>

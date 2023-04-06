@@ -1,6 +1,6 @@
 import { isEvaluable } from "@next-core/cook";
-import { isObject } from "@next-core/utils/general";
-import { transformAndInject } from "@next-core/inject";
+import { hasOwnProperty, isObject } from "@next-core/utils/general";
+import { transformAndInject, transform, inject } from "@next-core/inject";
 import {
   asyncEvaluate,
   isPreEvaluated,
@@ -19,6 +19,7 @@ export interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
   $$stateOfUseBrick?: StateOfUseBrick;
   ignoreSymbols?: boolean;
+  noInject?: boolean;
 }
 
 export async function asyncComputeRealValue(
@@ -42,7 +43,15 @@ export async function asyncComputeRealValue(
       result = await asyncEvaluate(value, runtimeContext, { lazy });
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
     } else {
-      result = lazy ? value : transformAndInject(value, runtimeContext);
+      result = lazy
+        ? value
+        : (hasOwnProperty(runtimeContext, "data")
+            ? internalOptions.noInject
+              ? transform
+              : transformAndInject
+            : internalOptions.noInject
+            ? identity
+            : inject)(value, runtimeContext);
     }
 
     if (!dismissMarkingComputed) {
@@ -109,7 +118,15 @@ export function computeRealValue(
       result = evaluate(value, runtimeContext);
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
     } else {
-      result = lazy ? value : transformAndInject(value, runtimeContext);
+      result = lazy
+        ? value
+        : (hasOwnProperty(runtimeContext, "data")
+            ? internalOptions.noInject
+              ? transform
+              : transformAndInject
+            : internalOptions.noInject
+            ? identity
+            : inject)(value, runtimeContext);
     }
 
     if (!dismissMarkingComputed) {
@@ -164,4 +181,8 @@ function getNextComputeOptions(
         ),
       }
     : internalOptions;
+}
+
+function identity<T>(value: T): T {
+  return value;
 }

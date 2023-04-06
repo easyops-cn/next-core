@@ -22,3 +22,4 @@ export {
 export { registerWidgetFunctions } from "./internal/compute/WidgetFunctions.js";
 export { registerWidgetI18n } from "./internal/compute/WidgetI18n.js";
 export { StoryboardFunctionRegistryFactory } from "./StoryboardFunctionRegistry.js";
+export { matchPath } from "./internal/matchPath.js";

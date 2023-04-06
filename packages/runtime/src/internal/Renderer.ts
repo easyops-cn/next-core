@@ -42,6 +42,7 @@ import type { NextHistoryState } from "./historyExtended.js";
 import { getBrickPackages } from "./Runtime.js";
 import { RenderTag } from "./enums.js";
 import { getTracks } from "./compute/getTracks.js";
+import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -195,8 +196,13 @@ export async function renderBrick(
   };
 
   if (!brickConf.brick) {
-    // eslint-disable-next-line no-console
-    console.error("Legacy templates are not supported in v3:", brickConf);
+    if ((brickConf as { template?: string }).template) {
+      // eslint-disable-next-line no-console
+      console.error("Legacy templates are dropped in v3:", brickConf);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("Invalid brick:", brickConf);
+    }
     return output;
   }
 
@@ -215,12 +221,16 @@ export async function renderBrick(
   const { context } = brickConf as { context?: ContextConf[] };
   // istanbul ignore next
   if (Array.isArray(context) && context.length > 0) {
-    // eslint-disable-next-line no-console
-    console.error(
-      "Defining context on bricks will be dropped in v3:",
+    const strict = isStrictMode(runtimeContext);
+    warnAboutStrictMode(
+      strict,
+      "Defining context on bricks",
+      "check your brick:",
       brickConf
     );
-    runtimeContext.ctxStore.define(context, runtimeContext);
+    if (!strict) {
+      runtimeContext.ctxStore.define(context, runtimeContext);
+    }
   }
 
   runtimeContext.pendingPermissionsPreCheck.push(

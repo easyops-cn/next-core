@@ -3,6 +3,7 @@ name: Release after merged
 on:
   pull_request:
     types: [closed]
+    branches: [master, v3]
 
 jobs:
   release:
@@ -25,5 +26,5 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: 'lerna-version.yml',
-            ref: 'master',
+            ref: context.payload.pull_request.base.ref,
           })

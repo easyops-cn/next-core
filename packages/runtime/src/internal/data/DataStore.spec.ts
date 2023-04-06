@@ -303,6 +303,11 @@ describe("DataStore", () => {
       [
         {
           name: "object",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "ignored"],
+            if: false,
+          },
           value: {
             quality: "good",
           },

@@ -72,6 +72,9 @@ registerWidgetFunctions("widget-a", [
       hello: "world",
     };
   },
+  getFeatureFlags() {
+    return {};
+  },
 }));
 
 function objectEntries(object: object) {
@@ -261,11 +264,26 @@ describe("evaluate", () => {
     expect(evaluate(raw, runtimeContext)).toEqual(result);
   });
 
+  test("some boundary cases", () => {
+    const result = evaluate("<% [PATH.objectId, SYS.username, ANCHOR] %>", {
+      location: { hash: "" },
+    } as RuntimeContext);
+    expect(result).toEqual([undefined, undefined, null]);
+  });
+
+  test("call undefined processors", () => {
+    expect(() =>
+      evaluate("<% PROCESSORS.foo.bar() %>", runtimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"'PROCESSORS.foo' is not registered! Have you installed the relevant brick package?, in "<% PROCESSORS.foo.bar() %>""`
+    );
+  });
+
   test("Non-static usage of APP.getMenu", () => {
     expect(() =>
       evaluate("<% APP.getMenu(HASH) %>", runtimeContext)
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Non-static usage of "APP.getMenu" is not supported in v3, check your expression: "<% APP.getMenu(HASH) %>""`
+      `"Non-static usage of "APP.getMenu" is prohibited in v3, check your expression: "<% APP.getMenu(HASH) %>""`
     );
   });
 
@@ -273,7 +291,7 @@ describe("evaluate", () => {
     expect(() =>
       evaluate("<% INSTALLED_APPS.has(HASH) %>", runtimeContext)
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Non-static usage of "INSTALLED_APPS.has" is not supported in v3, check your expression: "<% INSTALLED_APPS.has(HASH) %>""`
+      `"Non-static usage of "INSTALLED_APPS.has" is prohibited in v3, check your expression: "<% INSTALLED_APPS.has(HASH) %>""`
     );
   });
 

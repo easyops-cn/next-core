@@ -36,6 +36,7 @@ import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { widgetImagesFactory } from "./images.js";
 import { hasInstalledApp, waitForCheckingApps } from "../checkInstalledApps.js";
+import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -121,6 +122,7 @@ function lowLevelEvaluate(
     const {
       pendingPermissionsPreCheck: _1,
       tplStateStoreMap: _2,
+      tplStateStoreScope: _3,
       ...passByRuntimeContext
     } = runtimeContext;
 
@@ -168,13 +170,13 @@ function lowLevelEvaluate(
 
   if (menuUsage.hasNonStaticUsage) {
     throw new Error(
-      `Non-static usage of "APP.getMenu" is not supported in v3, check your expression: "${raw}"`
+      `Non-static usage of "APP.getMenu" is prohibited in v3, check your expression: "${raw}"`
     );
   }
 
   if (hasAppUsage.hasNonStaticUsage) {
     throw new Error(
-      `Non-static usage of "INSTALLED_APPS.has" is not supported in v3, check your expression: "${raw}"`
+      `Non-static usage of "INSTALLED_APPS.has" is prohibited in v3, check your expression: "${raw}"`
     );
   }
 
@@ -208,9 +210,13 @@ function lowLevelEvaluate(
   let usedProcessors: Set<string>;
   let usedStates: Set<string>;
   let tplStateStore: DataStore<"STATE"> | undefined;
+  const strict = isStrictMode(runtimeContext);
 
   // For existed TPL usage, treat it as a STATE.
-  if (attemptToVisitGlobals.has("STATE") || attemptToVisitGlobals.has("TPL")) {
+  if (
+    attemptToVisitGlobals.has("STATE") ||
+    (!strict && attemptToVisitGlobals.has("TPL"))
+  ) {
     tplStateStore = getTplStateStore(runtimeContext, "STATE", `: "${raw}"`);
   }
 
@@ -223,12 +229,12 @@ function lowLevelEvaluate(
 
     if (tplStateStore) {
       usedStates = strictCollectMemberUsage(raw, "STATE");
-      // Todo: remove compatibility support for `TPL`
-      // istanbul ignore next
-      const usedTpls = strictCollectMemberUsage(raw, "TPL");
-      // istanbul ignore next
-      for (const tpl of usedTpls) {
-        usedStates.add(tpl);
+      // istanbul ignore if
+      if (!strict) {
+        const usedTpls = strictCollectMemberUsage(raw, "TPL");
+        for (const tpl of usedTpls) {
+          usedStates.add(tpl);
+        }
       }
       isAsync && blockingList.push(tplStateStore.waitFor(usedStates));
     }
@@ -303,10 +309,7 @@ function lowLevelEvaluate(
           case "CTX":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(target, key) {
-                if (typeof key !== "string") {
-                  return;
-                }
-                return ctxStore.getValue(key);
+                return ctxStore.getValue(key as string);
               },
               ownKeys() {
                 return Array.from(usedCtx);
@@ -355,7 +358,9 @@ function lowLevelEvaluate(
             globalVariables[variableName] = new URLSearchParams(query);
             break;
           case "PATH":
-            globalVariables[variableName] = getReadOnlyProxy(match!.params);
+            globalVariables[variableName] = getReadOnlyProxy(
+              match?.params ?? {}
+            );
             break;
           case "PATH_NAME":
             globalVariables[variableName] = location.pathname;
@@ -363,21 +368,17 @@ function lowLevelEvaluate(
           case "PROCESSORS":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(target, key) {
-                if (typeof key !== "string") {
-                  return;
-                }
-                const pkg = customProcessors.get(key);
+                const pkg = customProcessors.get(key as string);
                 if (!pkg) {
                   throw new Error(
-                    `'PROCESSORS.${key}' is not registered! Have you installed the relevant brick package?`
+                    `'PROCESSORS.${
+                      key as string
+                    }' is not registered! Have you installed the relevant brick package?`
                   );
                 }
                 return getDynamicReadOnlyProxy({
                   get(t, k) {
-                    if (typeof k !== "string") {
-                      return;
-                    }
-                    return pkg.get(k);
+                    return pkg.get(k as string);
                   },
                   ownKeys() {
                     return Array.from(pkg.keys());
@@ -405,16 +406,21 @@ function lowLevelEvaluate(
               getItem: getStorageItem("session"),
             });
             break;
-          // Todo: remove compatibility support for `TPL`
           // istanbul ignore next
           case "TPL":
+            warnAboutStrictMode(
+              strict,
+              'Using "TPL" in expression',
+              `check your expression: "${raw}"`
+            );
+            if (strict) {
+              break;
+            }
+          // eslint-disable-next-line no-fallthrough
           case "STATE":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(target, key) {
-                if (typeof key !== "string") {
-                  return;
-                }
-                return tplStateStore!.getValue(key);
+                return tplStateStore!.getValue(key as string);
               },
               ownKeys() {
                 return Array.from(usedStates);
@@ -422,7 +428,7 @@ function lowLevelEvaluate(
             });
             break;
           case "SYS":
-            globalVariables[variableName] = getReadOnlyProxy(sys);
+            globalVariables[variableName] = getReadOnlyProxy(sys ?? {});
             break;
           case "__WIDGET_FN__":
             globalVariables[variableName] = widgetFunctions;

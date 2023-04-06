@@ -24,6 +24,9 @@ const server = new WebpackDevServer(
     host: "localhost",
     port,
     hot: true,
+    client: {
+      overlay: false,
+    },
     devMiddleware: {
       publicPath: baseHref,
     },

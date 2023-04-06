@@ -4,12 +4,21 @@ import { tmpDir } from "./loaders/env.js";
 
 const { contractUrl } = getEasyopsConfig();
 
-export const clone = (): Promise<void> => {
-  const result = spawn("git", ["clone", contractUrl, tmpDir], {
-    cwd: process.cwd(),
-    stdio: "inherit",
-    env: process.env,
-  });
+export const clone = (tagOrCommit: string): Promise<void> => {
+  const result = spawn(
+    "git",
+    [
+      "clone",
+      contractUrl,
+      ...(tagOrCommit === "" ? ["--depth", "1"] : []),
+      tmpDir,
+    ],
+    {
+      cwd: process.cwd(),
+      stdio: "inherit",
+      env: process.env,
+    }
+  );
 
   return new Promise<void>((resolve, reject) => {
     result.on("close", (code) => {

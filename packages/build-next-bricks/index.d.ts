@@ -1,6 +1,10 @@
 import type { Compiler, Configuration, RuleSetRule, container } from "webpack";
 
 export declare function build(config: BuildNextBricksConfig): Compiler;
+export declare function getSvgrLoaders(options: {
+  /** Set it to true for font icons */
+  convertCurrentColor?: boolean;
+}): RuleSetRule["use"];
 
 // Types of `SharedConfig` and `SharedObject` are copied from webpack.
 
@@ -65,11 +69,20 @@ export interface BuildNextBricksConfig {
   type?: "bricks" | "container" | "brick-playground";
   mode?: "development" | "production";
   entry?: Record<string, string>;
+  /** Defaults to "dist" */
+  outputPath?: string;
+  devOnlyOutputPublicPath?: string;
   extractCss?: boolean;
+  /** Treat svg as React component instead of asset */
+  svgAsReactComponent?: boolean;
+  /** Customize rules for svg */
+  svgRules?: RuleSetRule[];
+  /** By default the image assets are named `images/[hash][ext][query]` */
+  imageAssetFilename?: string | ((pathData: any, assetInfo: any) => string);
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];
   exposes?: ConstructorParameters<typeof container.ModuleFederationPlugin>;
   dependencies?: Record<string, string[]>;
   optimization?: Configuration["optimization"];
-  moduleFederationShared?: SharedObject;
+  moduleFederationShared?: SharedObject | false;
 }
