@@ -7,7 +7,8 @@ export * from "./getPageInfo.js";
 export * from "./handleHttpError.js";
 export * from "./history.js";
 export { createRuntime, getRuntime } from "./internal/Runtime.js";
-export * as __secret_internals from "./internal/secret_internals.js";
+import * as __secret_internals from "./internal/secret_internals.js";
+export { __secret_internals };
 export {
   getCssPropertyValue,
   getCurrentTheme,
