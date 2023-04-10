@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.1...@next-core/runtime@1.2.2) (2023-04-10)
+
+
+### Bug Fixes
+
+* fix feature flags in playground ([4f19ce1](https://github.com/easyops-cn/next-core/commit/4f19ce140de42173b80f6736327094b2115f8d21))
+
+
+
+
+
 ## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.0...@next-core/runtime@1.2.1) (2023-04-06)
 
 ### Bug Fixes
