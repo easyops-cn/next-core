@@ -16,7 +16,7 @@ import { loadBootstrapData } from "./loadBootstrapData.js";
 let runtime: Runtime;
 
 let bootstrapData: Partial<BootstrapData> | undefined;
-let router!: Router;
+let router: Router | undefined;
 
 export function createRuntime() {
   if (runtime) {
@@ -48,18 +48,19 @@ export class Runtime {
   }
 
   getRecentApps() {
-    return router.getRecentApps();
+    return router?.getRecentApps() ?? {};
   }
 
   getCurrentApp() {
-    return router.getRecentApps().currentApp;
+    return router?.getRecentApps().currentApp;
   }
 
   getFeatureFlags(): FeatureFlags {
     return {
       ...bootstrapData?.settings?.featureFlags,
       ...(
-        router.getRecentApps().currentApp?.config?.settings as BootstrapSettings
+        router?.getRecentApps().currentApp?.config
+          ?.settings as BootstrapSettings
       )?.featureFlags,
       "migrate-to-brick-next-v3": true,
     };
@@ -69,7 +70,8 @@ export class Runtime {
     return {
       ...bootstrapData?.settings?.misc,
       ...(
-        router.getRecentApps().currentApp?.config?.settings as BootstrapSettings
+        router?.getRecentApps().currentApp?.config
+          ?.settings as BootstrapSettings
       )?.misc,
     };
   }
@@ -110,7 +112,7 @@ export class Runtime {
   }
 
   getNavConfig() {
-    return router.getNavConfig();
+    return router?.getNavConfig();
   }
 }
 
@@ -123,7 +125,7 @@ export function getBrickPackages() {
 }
 
 export function _internalApiGetRenderId(): string | undefined {
-  return router.getRenderId();
+  return router?.getRenderId();
 }
 
 export function _internalApiMatchStoryboard(
