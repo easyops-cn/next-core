@@ -445,7 +445,7 @@ module.exports = (env) => {
 
               if (publicRootWithVersion) {
                 const publicPrefixMatches = raw.match(
-                  /\bvar\s+d\s*=\s*("[^"]+")/
+                  /\bvar\s+d\s*=\s*w\.PUBLIC_PREFIX\s*=\s*("[^"]+")/
                 );
                 if (!publicPrefixMatches) {
                   const message =
