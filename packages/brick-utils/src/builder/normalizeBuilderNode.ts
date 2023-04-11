@@ -31,6 +31,7 @@ const jsonFieldsInBrick = [
   "params",
   "if",
   "transform",
+  "dataSource",
 ];
 
 // Fields stored as yaml string will be parsed when build & push.
