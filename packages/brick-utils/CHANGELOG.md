@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.21...@next-core/brick-utils@2.45.22) (2023-04-11)
+
+
+### Bug Fixes
+
+* add a new json field in bricks: dataSource ([ff2cbcd](https://github.com/easyops-cn/next-core/commit/ff2cbcdae4db3a819d6e68deb0bc29c2e30a109f))
+
+
+
+
+
 ## [2.45.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.20...@next-core/brick-utils@2.45.21) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/brick-utils

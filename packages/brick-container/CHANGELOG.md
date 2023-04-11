@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.84.24](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.23...@next-core/brick-container@2.84.24) (2023-04-11)
+
+
+### Bug Fixes
+
+* compatible public-prefix scanning ([743639a](https://github.com/easyops-cn/next-core/commit/743639a36bb677dc91f732878fb42028b7d677ce))
+* fix scanning public-prefix ([fbbf363](https://github.com/easyops-cn/next-core/commit/fbbf36378ebfa9745409faef4e720a4763a6d157))
+
+
+
+
+
 ## [2.84.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.84.22...@next-core/brick-container@2.84.23) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/brick-container
