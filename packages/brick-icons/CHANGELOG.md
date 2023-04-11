@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.31...@next-core/brick-icons@2.31.32) (2023-04-11)
+
+
+### Bug Fixes
+
+* **icons:** 替换icon ([43b86b9](https://github.com/easyops-cn/next-core/commit/43b86b9bd4c973934f981ef9ba5593fac57c533e))
+
+
+
+
+
 ## [2.31.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.30...@next-core/brick-icons@2.31.31) (2023-04-11)
 
 
