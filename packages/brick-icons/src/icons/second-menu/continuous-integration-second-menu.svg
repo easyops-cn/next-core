@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>project list-second menu-normal备份 3</title>
+    <title>continuous-integration-second-menu</title>
     <defs>
         <filter x="-84.4%" y="-174.3%" width="268.8%" height="448.5%" filterUnits="objectBoundingBox" id="filter-1">
             <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
@@ -13,10 +13,7 @@
         </filter>
         <polygon id="path-2" points="0 0 16 0 16 7.74711246 0 7.74711246"></polygon>
     </defs>
-    <g id="project-list-second-menu-normal备份-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="project-list" fill="#000000" opacity="0">
-            <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
-        </g>
+    <g id="continuous-integration-second-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="持续集成" filter="url(#filter-1)" transform="translate(2.000000, 6.000000)">
             <g>
                 <mask id="mask-3" fill="white">
