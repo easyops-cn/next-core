@@ -361,4 +361,9 @@ describe("Runtime", () => {
     );
     expect(getHistory().location.pathname).toBe("/app-a/r2");
   });
+
+  test("without bootstrap", () => {
+    createRuntime();
+    expect(getRuntime().getRecentApps()).toEqual({});
+  });
 });
