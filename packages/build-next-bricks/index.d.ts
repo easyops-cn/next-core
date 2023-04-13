@@ -81,7 +81,9 @@ export interface BuildNextBricksConfig {
   imageAssetFilename?: string | ((pathData: any, assetInfo: any) => string);
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];
-  exposes?: ConstructorParameters<typeof container.ModuleFederationPlugin>;
+  exposes?: ConstructorParameters<
+    typeof container.ModuleFederationPlugin
+  >[0]["exposes"];
   dependencies?: Record<string, string[]>;
   optimization?: Configuration["optimization"];
   moduleFederationShared?: SharedObject | false;

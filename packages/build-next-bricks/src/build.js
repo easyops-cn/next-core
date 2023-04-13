@@ -159,16 +159,22 @@ async function getWebpackConfig(config) {
   /** @type {string[]} */
   const bricks = [];
   /** @type {string[]} */
+  const elements = [];
+  /** @type {string[]} */
   const processors = [];
   if (isBricks) {
-    for (const key of Object.keys(config.exposes)) {
+    for (const [key, val] of Object.entries(config.exposes)) {
       const segments = key.split("/");
       const name = segments.pop();
       const namespace = segments.pop();
       if (namespace === "processors") {
         processors.push(`${camelPackageName}.${name}`);
       } else {
-        bricks.push(`${packageName}.${name}`);
+        if (val[Symbol.for("noNamespace")]) {
+          elements.push(name);
+        } else {
+          bricks.push(`${packageName}.${name}`);
+        }
       }
     }
   }
@@ -218,9 +224,6 @@ async function getWebpackConfig(config) {
         {
           test: /\.css$/,
           exclude: /\.(module|shadow|lazy)\.css$/,
-          // resourceQuery: {
-          //   not: /shadow/
-          // },
           sideEffects: true,
           use: [
             config.extractCss ? MiniCssExtractPlugin.loader : "style-loader",
@@ -235,15 +238,18 @@ async function getWebpackConfig(config) {
             }),
           ],
         },
-        // {
-        //   test: /\.css$/,
-        //   resourceQuery: /shadow/,
-        //   use: [
-        //     ...getCssLoaders({
-        //       exportType: "string",
-        //     }),
-        //   ],
-        // },
+        {
+          test: /\.module\.css$/,
+          sideEffects: true,
+          use: [
+            config.extractCss ? MiniCssExtractPlugin.loader : "style-loader",
+            ...getCssLoaders({
+              modules: {
+                localIdentName: "[local]--[hash:base64:8]",
+              },
+            }),
+          ],
+        },
         {
           test: /\.[tj]sx?$/,
           loader: "babel-loader",
@@ -369,6 +375,7 @@ async function getWebpackConfig(config) {
             new EmitBricksJsonPlugin({
               packageName,
               bricks,
+              elements,
               processors,
               dependencies: config.dependencies,
             }),

@@ -4,6 +4,7 @@ import loadSharedModule from "./loadSharedModule.js";
 interface BrickPackage {
   id: string;
   filePath: string;
+  elements?: string[];
   dependencies?: Record<string, string[]>;
 }
 
@@ -95,13 +96,27 @@ function getItemsByPkg(
       return;
     }
     listToLoad.add(item);
-    const [namespace, itemName] = item.split(".");
-    const pkgId = `bricks/${
-      type === "processors" ? getProcessorPackageName(namespace) : namespace
-    }`;
-    const pkg = brickPackagesMap.get(pkgId);
+    let pkg: BrickPackage | undefined;
+    let namespace: string;
+    let itemName: string | undefined;
+    if (type === "processors" || item.includes(".")) {
+      [namespace, itemName] = item.split(".");
+      const pkgId = `bricks/${
+        type === "processors" ? getProcessorPackageName(namespace) : namespace
+      }`;
+      pkg = brickPackagesMap.get(pkgId);
+    } else {
+      itemName = item;
+      for (const p of brickPackagesMap.values()) {
+        if (p.elements?.some((e) => e === itemName)) {
+          pkg = p;
+          break;
+        }
+      }
+    }
+
     if (!pkg) {
-      throw new Error(`Package ${pkgId} not found.`);
+      throw new Error(`Package for ${item} not found.`);
     }
 
     let groupItems = itemsByPkg.get(pkg);
@@ -109,7 +124,7 @@ function getItemsByPkg(
       groupItems = [];
       itemsByPkg.set(pkg, groupItems);
     }
-    groupItems.push(itemName);
+    groupItems.push(itemName!);
 
     // Load their dependencies too
     const deps = pkg.dependencies?.[item];
