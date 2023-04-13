@@ -293,7 +293,3 @@ html[data-theme="dark"],
   --antd-popover-color: var(--antd-text-color);
   --antd-modal-mask-bg: rgba(11, 26, 47, 0.45);
 }
-
-html:not([data-theme="dark-v2"]) body.compact-layout {
-  --body-background: #fff;
-}
