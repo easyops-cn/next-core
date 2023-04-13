@@ -50,7 +50,7 @@ export function getTagNameOfCustomTemplate(
   appId?: string
 ): false | string {
   // When a template is registered by an app, it's namespace maybe missed.
-  if (!brick.includes(".") && appId) {
+  if (!brick.includes(".") && brick.startsWith("tpl-") && appId) {
     const tagName = `${appId}.${brick}`;
     if (customTemplates.get(tagName)) {
       return tagName;

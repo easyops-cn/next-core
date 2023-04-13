@@ -354,7 +354,7 @@ export async function renderBrick(
     return controlledOutput;
   }
 
-  // Custom templates need to be defined before rendering.
+  // Widgets need to be defined before rendering.
   if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
     await loadBricksImperatively([brickName], getBrickPackages());
   }
@@ -372,9 +372,7 @@ export async function renderBrick(
       );
     }
     tplStack.set(tplTagName, tplCount + 1);
-  }
-
-  if (brickName.includes(".")) {
+  } else if (brickName.includes("-") && !customElements.get(brickName)) {
     output.blockingList.push(
       enqueueStableLoadBricks([brickName], getBrickPackages())
     );

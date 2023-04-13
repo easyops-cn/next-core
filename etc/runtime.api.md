@@ -98,6 +98,27 @@ export const customProcessors: CustomProcessorRegistry;
 // @public (undocumented)
 export const customTemplates: CustomTemplateRegistry;
 
+// @public (undocumented)
+export const Dialog: Readonly<{
+    show: typeof show_2;
+}>;
+
+// @public (undocumented)
+export interface DialogOptions {
+    // (undocumented)
+    content: string;
+    // (undocumented)
+    onCancel?: () => void;
+    // (undocumented)
+    onOk?: () => void;
+    // (undocumented)
+    title?: string | null;
+    // (undocumented)
+    type?: "success" | "error" | "warn" | "info" | "confirm";
+    // (undocumented)
+    whiteSpace?: string;
+}
+
 // Warning: (ae-forgotten-export) The symbol "ResolveOptions" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -186,6 +207,21 @@ export interface NextHistoryState {
 // @public (undocumented)
 export type NextLocation = Location_2<NextHistoryState>;
 
+// @public (undocumented)
+const Notification_2: Readonly<{
+    show: typeof show;
+}>;
+export { Notification_2 as Notification }
+
+// @public (undocumented)
+interface NotificationOptions_2 {
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    type?: "success" | "error" | "warn" | "info";
+}
+export { NotificationOptions_2 as NotificationOptions }
+
 // @public
 export interface PageInfo {
     isInIframe: boolean;
@@ -263,6 +299,8 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 
 // Warnings were encountered during analysis:
 //
+// dist/types/Dialog.d.ts:12:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
+// dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

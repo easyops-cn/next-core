@@ -37,8 +37,7 @@ export function enqueueStableLoadBricks(
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
 export function enqueueStableLoadProcessors(
@@ -46,18 +45,16 @@ export function enqueueStableLoadProcessors(
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
-export function loadBricksImperatively(
+export async function loadBricksImperatively(
   bricks: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
   flushStableLoadBricks();
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
 export function loadProcessorsImperatively(
@@ -66,8 +63,7 @@ export function loadProcessorsImperatively(
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
   flushStableLoadBricks();
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
 interface V2AdapterBrick {
@@ -286,11 +282,13 @@ async function enqueueStableLoad(
   await Promise.all(pkgPromises);
 }
 
-function dispatchRequestStatus(promise: Promise<unknown>) {
+async function dispatchRequestStatus(promise: Promise<unknown>) {
   window.dispatchEvent(new Event("request.start"));
-  promise.finally(() => {
+  try {
+    await promise;
+  } finally {
     window.dispatchEvent(new Event("request.end"));
-  });
+  }
 }
 
 function getProcessorPackageName(camelPackageName: string): string {
