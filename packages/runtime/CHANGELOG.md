@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.2...@next-core/runtime@1.3.3) (2023-04-14)
+
+
+### Bug Fixes
+
+* fix isOutsideApp ([b862716](https://github.com/easyops-cn/next-core/commit/b862716bb4b6bad645fe2246bb59ee3b4ec00801))
+
+
+
+
+
 ## [1.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.1...@next-core/runtime@1.3.2) (2023-04-14)
 
 
