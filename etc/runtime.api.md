@@ -108,15 +108,11 @@ export interface DialogOptions {
     // (undocumented)
     content: string;
     // (undocumented)
-    onCancel?: () => void;
-    // (undocumented)
-    onOk?: () => void;
+    contentStyle?: object;
     // (undocumented)
     title?: string | null;
     // (undocumented)
     type?: "success" | "error" | "warn" | "info" | "confirm";
-    // (undocumented)
-    whiteSpace?: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "ResolveOptions" needs to be exported by the entry point index.d.ts
@@ -299,7 +295,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 
 // Warnings were encountered during analysis:
 //
-// dist/types/Dialog.d.ts:12:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
+// dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
 
