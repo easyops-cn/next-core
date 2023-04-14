@@ -155,6 +155,7 @@ html[data-theme="dark-v2"],
     rgba(255, 255, 255, 0) 100%
   );
   --v8-left-sidebar-item-normal: #c5cbd4;
+  --v8-left-secondary-text: var(--palette-rgba-gray-7);
 
   /* component CSS variables */
 
