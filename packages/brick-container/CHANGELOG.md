@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.85.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.85.1...@next-core/brick-container@2.85.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* NEXT_BUILDER-2934 二级菜单分类颜色需替换 ([ffd1400](https://github.com/easyops-cn/next-core/commit/ffd140075bf87301059318a8a3335b32b828d8fd))
+
+
+
+
+
 ## [2.85.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.85.0...@next-core/brick-container@2.85.1) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/brick-container
