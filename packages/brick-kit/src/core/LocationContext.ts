@@ -731,6 +731,7 @@ export class LocationContext {
           isBaseLayout))
     ) {
       await this.preFetchMenu(customTemplateRegistry.get(tplTagName)?.bricks);
+      await this.kernel.loadResourceOfTemplate(tplTagName);
       expandedBrickConf = await asyncExpandCustomTemplate(
         {
           ...brickConf,
