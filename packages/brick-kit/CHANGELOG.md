@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.165.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.4...@next-core/brick-kit@2.165.5) (2023-04-14)
+
+
+### Bug Fixes
+
+* fix loading processors in widgets ([0f7377f](https://github.com/easyops-cn/next-core/commit/0f7377f4f16d26652d5cffac36a0eed6869ef837))
+
+
+
+
+
 ## [2.165.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.3...@next-core/brick-kit@2.165.4) (2023-04-11)
 
 **Note:** Version bump only for package @next-core/brick-kit
