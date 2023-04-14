@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.4...@next-core/react-element@1.0.5) (2023-04-14)
+
+
+### Bug Fixes
+
+* **wrapLocalBrick:** allow pass brick name ([fce1864](https://github.com/easyops-cn/next-core/commit/fce1864973545303b530e83a62f82b1c4eefc28a))
+
+
+
+
+
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.3...@next-core/react-element@1.0.4) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/react-element
