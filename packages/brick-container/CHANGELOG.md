@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.85.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.85.2...@next-core/brick-container@2.85.3) (2023-04-14)
+
+
+### Bug Fixes
+
+* update ui 8.2 compact layout content style ([40af070](https://github.com/easyops-cn/next-core/commit/40af070128da5b0102f91c2a201a508f7f46e48f))
+
+
+
+
+
 ## [2.85.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.85.1...@next-core/brick-container@2.85.2) (2023-04-14)
 
 
