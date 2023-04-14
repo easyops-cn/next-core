@@ -49,19 +49,14 @@ describe("Dialog", () => {
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
 
     spyOnModalConfirm.mockReturnValueOnce(true);
-    const onOk = jest.fn();
-    const onCancel = jest.fn();
-    Dialog.show({
+    const promise = Dialog.show({
       type: "confirm",
       content: "Ouch!",
-      onOk,
-      onCancel,
     });
     expect(dialogService).not.toBeCalled();
     expect(spyOnModalConfirm).toBeCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 1));
-    expect(onOk).toBeCalled();
-    expect(onCancel).not.toBeCalled();
+    await promise;
   });
 
   test("confirm: fallback and canceled", async () => {
@@ -72,19 +67,17 @@ describe("Dialog", () => {
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
 
     spyOnModalConfirm.mockReturnValueOnce(false);
-    const onOk = jest.fn();
-    const onCancel = jest.fn();
+    let errorCaught = false;
     Dialog.show({
       type: "confirm",
       content: "Ouch!",
-      onOk,
-      onCancel,
+    }).catch(() => {
+      errorCaught = true;
     });
     expect(dialogService).not.toBeCalled();
     expect(spyOnModalConfirm).toBeCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 1));
-    expect(onOk).not.toBeCalled();
-    expect(onCancel).toBeCalled();
+    expect(errorCaught).toBe(true);
   });
 
   test("other: fallback", async () => {
@@ -95,17 +88,14 @@ describe("Dialog", () => {
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
 
     spyOnModalAlert.mockReturnValueOnce();
-    const onOk = jest.fn();
     Dialog.show({
       type: "success",
       content: "Ouch!",
-      onOk,
     });
     expect(dialogService).not.toBeCalled();
     expect(spyOnModalAlert).toBeCalledTimes(1);
     expect(spyOnModalAlert).toBeCalledWith("Ouch!");
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    expect(onOk).toBeCalled();
   });
 
   test("other: fallback without onOk", async () => {

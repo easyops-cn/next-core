@@ -1,30 +1,34 @@
 import * as __secret_internals from "./internal/secret_internals.js";
 
 let brick: {
-  resolve(options: DialogOptions): void;
+  resolve(options: DialogOptions): Promise<void>;
 };
 
-function show(options: DialogOptions) {
+function show(options: DialogOptions): Promise<void> {
   if (brick) {
-    brick.resolve(options);
+    return brick.resolve(options);
   } else {
     if (options.type === "confirm") {
       if (confirm(options.content)) {
-        setTimeout(() => {
-          options.onOk?.();
-        }, 1);
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            resolve();
+          }, 1)
+        );
       } else {
-        setTimeout(() => {
-          options.onCancel?.();
-        }, 1);
+        return new Promise((resolve, reject) =>
+          setTimeout(() => {
+            reject();
+          }, 1)
+        );
       }
     } else {
       alert(options.content);
-      if (options.onOk) {
+      return new Promise((resolve) =>
         setTimeout(() => {
-          options.onOk!();
-        }, 1000);
-      }
+          resolve();
+        }, 1000)
+      );
     }
   }
 }
@@ -45,9 +49,7 @@ export interface DialogOptions {
   type?: "success" | "error" | "warn" | "info" | "confirm";
   title?: string | null;
   content: string;
-  whiteSpace?: string;
-  onOk?: () => void;
-  onCancel?: () => void;
+  contentStyle?: object;
 }
 
 export const Dialog = Object.freeze({
