@@ -282,6 +282,35 @@ describe("loadBricksImperatively", () => {
     );
   });
 
+  test("load third-party bricks with no namespace", async () => {
+    const promise = loadBricksImperatively(
+      ["sl-alert"],
+      [
+        {
+          id: "bricks/shoelace",
+          filePath: "bricks/shoelace/dist/index.hash.js",
+          elements: ["sl-alert", "sl-icon", "sl-button"],
+        },
+      ]
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      1,
+      "loadScript done:",
+      "bricks/shoelace/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      2,
+      "loadSharedModule done:",
+      "bricks/shoelace",
+      "./sl-alert"
+    );
+  });
+
   // Todo: cause other tests to faile
   test.skip("load brick failed", async () => {
     // consoleError.mockReturnValueOnce();

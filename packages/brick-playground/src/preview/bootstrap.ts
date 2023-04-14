@@ -1,4 +1,3 @@
-import { loadBricksImperatively } from "@next-core/loader";
 import {
   createRuntime,
   __secret_internals,
@@ -72,13 +71,11 @@ const mountPoints = {
   portal: document.querySelector("#portal-mount-point") as HTMLElement,
 };
 
-let brickPackages: BrickPackage[];
 const bootstrap = http
   .get<{ brickPackages: BrickPackage[] }>(window.BOOTSTRAP_FILE, {
     responseType: "json",
   })
   .then((data) => {
-    brickPackages = data.brickPackages;
     __secret_internals.initializePreviewBootstrap(data);
   });
 
@@ -130,21 +127,17 @@ async function render(
       const dom = parser.parseFromString(html, "text/html");
       // const dom = document.createRange().createContextualFragment(html);
       const nodes = dom.querySelectorAll("*");
-      // const usedCustomElements = new Set<string>();
       const bricks = new Set<string>();
       for (const node of nodes) {
         if (node.tagName.includes("-")) {
           const lowerTagName = node.tagName.toLowerCase();
-          // usedCustomElements.add(lowerTagName);
-          if (lowerTagName.includes(".")) {
-            bricks.add(lowerTagName);
-          }
+          bricks.add(lowerTagName);
         }
       }
 
       await bootstrap;
 
-      await loadBricksImperatively(bricks, brickPackages);
+      await __secret_internals.loadBricks(bricks);
       mountPoints.main.textContent = "";
       mountPoints.portal.textContent = "";
       mountPoints.main.append(...dom.body.childNodes);

@@ -9,6 +9,8 @@ import { getHistory as _getHistory } from "../history.js";
 import { loadBootstrapData } from "./loadBootstrapData.js";
 
 jest.mock("./loadBootstrapData.js");
+jest.mock("../Dialog.js");
+jest.mock("../Notification.js");
 
 const consoleError = jest.spyOn(console, "error");
 window.scrollTo = jest.fn();

@@ -213,6 +213,8 @@ export interface BrickPackage {
   filePath: string;
   bricks: string[];
   processors: string[];
+  /** For third-party bricks, there maybe no namespace. */
+  elements?: string[];
   dependencies?: Record<string, string[]>;
 }
 

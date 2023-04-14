@@ -12,6 +12,9 @@ import { matchStoryboard } from "./matchStoryboard.js";
 import { Router } from "./Router.js";
 import { loadCheckLogin } from "./loadCheckLogin.js";
 import { loadBootstrapData } from "./loadBootstrapData.js";
+import { NS, locales } from "./i18n.js";
+import { loadNotificationService } from "../Notification.js";
+import { loadDialogService } from "../Dialog.js";
 
 let runtime: Runtime;
 
@@ -22,7 +25,7 @@ export function createRuntime() {
   if (runtime) {
     throw new Error("Cannot create multiple runtimes");
   }
-  initializeI18n();
+  initializeI18n(NS, locales);
   moment.locale(i18n.language);
   i18n.on("languageChanged", () => {
     moment.locale(i18n.language);
@@ -42,6 +45,9 @@ export class Runtime {
       loadCheckLogin(),
       loadBootstrapData(),
     ]);
+    // Todo: allow configuration of notification bricks.
+    loadNotificationService("shoelace.show-notification");
+    loadDialogService("shoelace.show-dialog");
     bootstrapData = _bootstrapData;
     router = new Router(_bootstrapData.storyboards);
     await router.bootstrap();

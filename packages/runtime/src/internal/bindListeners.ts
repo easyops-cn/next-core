@@ -30,6 +30,7 @@ import {
 } from "./CustomTemplates/utils.js";
 import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
 import { getArgsOfFlowApi } from "./data/FlowApi.js";
+import { Notification } from "../Notification.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -624,11 +625,13 @@ function handleMessageAction(
   args: unknown[] | undefined,
   runtimeContext: RuntimeContext
 ) {
-  alert(
-    ...argsFactory(args, runtimeContext, event, {
-      useEventAsDefault: true,
-    })
-  );
+  const computedArgs = argsFactory(args, runtimeContext, event, {
+    useEventAsDefault: true,
+  });
+  Notification.show({
+    type: method,
+    message: computedArgs[0] as string,
+  });
 }
 
 export function eventCallbackFactory(

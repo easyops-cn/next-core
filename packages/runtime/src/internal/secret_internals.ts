@@ -30,6 +30,8 @@ import { computeRealValue } from "./compute/computeRealValue.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
+import { loadNotificationService } from "../Notification.js";
+import { loadDialogService } from "../Dialog.js";
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -156,6 +158,9 @@ export function initializePreviewBootstrap(
   bootstrapData: Partial<BootstrapData>
 ) {
   _internalApiSetBootstrapData(bootstrapData);
+  // Todo: allow configuration of notification bricks.
+  loadNotificationService("shoelace.show-notification");
+  loadDialogService("shoelace.show-dialog");
 }
 
 export async function renderPreviewBricks(

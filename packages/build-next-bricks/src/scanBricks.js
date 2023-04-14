@@ -11,6 +11,7 @@ const { escapeRegExp } = _;
 
 const validBrickName =
   /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validCustomElementName = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 const validExposeName = /^[-\w]+$/;
 
@@ -18,7 +19,7 @@ const validExposeName = /^[-\w]+$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Promise<{exposes: Record<string, { import: string; name: string; }; dependencies: Record<string, string[]>}>>}
+ * @returns {Promise<{exposes: Record<string, { import: string; name: string; noNamespace?: boolean; }; dependencies: Record<string, string[]>}>>}
  */
 export default async function scanBricks(packageDir) {
   /** @type {Map<string, { import: string; name: string; }>} */
@@ -85,6 +86,18 @@ export default async function scanBricks(packageDir) {
     let nextOverrideImport = overrideImport;
     if (content.startsWith("// Merge bricks")) {
       nextOverrideImport = filePath;
+    } else if (content.startsWith("// Define brick")) {
+      // Match any source files starting with specific comments:
+      // `// Define brick: sl-alert` or
+      // `// Define bricks: sl-alert, sl-icon`
+      const firstLine = content.split("\n", 1)[0];
+      const match = firstLine.match(/^\/\/ Define bricks?: (.+)$/);
+      if (match) {
+        const bricks = match[1].split(/,\s*/g);
+        for (const brick of bricks) {
+          collectBrick(brick);
+        }
+      }
     }
 
     /**
@@ -121,6 +134,57 @@ export default async function scanBricks(packageDir) {
       } else {
         importPaths.set(dir, new Set([file]));
       }
+    }
+
+    /**
+     * @param {string} fullName
+     */
+    function collectBrick(fullName) {
+      /** @type string */
+      let brickNamespace;
+      /** @type string */
+      let brickName;
+      let noNamespace = false;
+      if (fullName.includes(".")) {
+        [brickNamespace, brickName] = fullName.split(".");
+        if (brickNamespace !== packageName) {
+          throw new Error(
+            `Invalid brick: "${fullName}", expecting prefixed with the package name: "${packageName}"`
+          );
+        }
+
+        if (!validBrickName.test(fullName)) {
+          throw new Error(
+            `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+          );
+        }
+
+        if (brickName.startsWith("tpl-")) {
+          throw new Error(
+            `Invalid brick: "${fullName}", the brick name cannot be started with "tpl-"`
+          );
+        }
+      } else {
+        // For third-party custom elements, there maybe no namespace.
+        brickName = fullName;
+        noNamespace = true;
+        if (!validCustomElementName.test(brickName)) {
+          throw new Error(
+            `Invalid brick: "${fullName}", the brick name must include a \`-\``
+          );
+        }
+      }
+
+      brickSourceFiles.set(fullName, filePath);
+
+      exposes.set(`./${brickName}`, {
+        import: `./${path
+          .relative(packageDir, overrideImport || filePath)
+          .replace(/\.[^.]+$/, "")
+          .replace(/\/index$/, "")}`,
+        name: getExposeName(brickName),
+        [Symbol.for("noNamespace")]: noNamespace,
+      });
     }
 
     traverse(ast, {
@@ -172,34 +236,7 @@ export default async function scanBricks(packageDir) {
         ) {
           const { type, value: fullName } = args[0];
           if (type === "StringLiteral") {
-            const [brickNamespace, brickName] = fullName.split(".");
-            if (brickNamespace !== packageName) {
-              throw new Error(
-                `Invalid brick: "${fullName}", expecting prefixed with the package name: "${packageName}"`
-              );
-            }
-
-            if (!validBrickName.test(fullName)) {
-              throw new Error(
-                `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
-              );
-            }
-
-            if (brickName.startsWith("tpl-")) {
-              throw new Error(
-                `Invalid brick: "${fullName}", the brick name cannot be started with "tpl-"`
-              );
-            }
-
-            brickSourceFiles.set(fullName, filePath);
-
-            exposes.set(`./${brickName}`, {
-              import: `./${path
-                .relative(packageDir, overrideImport || filePath)
-                .replace(/\.[^.]+$/, "")
-                .replace(/\/index$/, "")}`,
-              name: getExposeName(brickName),
-            });
+            collectBrick(fullName);
           } else {
             throw new Error(
               "Please call `customElements.define()` only with literal string"

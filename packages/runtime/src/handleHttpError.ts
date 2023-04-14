@@ -3,8 +3,11 @@ import {
   HttpFetchError,
   HttpResponseError,
 } from "@next-core/http";
+import { i18n } from "@next-core/i18n";
 import { getRuntime } from "./internal/Runtime.js";
 import { getHistory } from "./history.js";
+import { K, NS } from "./internal/i18n.js";
+import { Dialog } from "./Dialog.js";
 
 /**
  * 将 http 请求错误转换为可读的字符串。
@@ -70,20 +73,17 @@ export function handleHttpError(error: unknown) {
       return;
     }
     unauthenticatedConfirming = true;
-    // i18next.t(`${NS_BRICK_KIT}:${K.LOGIN_TIMEOUT_MESSAGE}`)
-    if (confirm("您还未登录或登录信息已过期，现在重新登录？")) {
-      const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
-      const history = getHistory();
-      history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
-        from: {
-          ...history.location,
-          state: undefined,
-        },
-      });
-    }
-    setTimeout(() => {
-      unauthenticatedConfirming = false;
-    }, 1);
+    Dialog.show({
+      type: "confirm",
+      content: i18n.t(`${NS}:${K.LOGIN_TIMEOUT_MESSAGE}`),
+      onOk() {
+        redirectToLogin();
+        unauthenticatedConfirming = false;
+      },
+      onCancel() {
+        unauthenticatedConfirming = false;
+      },
+    });
     return;
   }
 
@@ -93,10 +93,26 @@ export function handleHttpError(error: unknown) {
   const message = httpErrorToString(error);
   if (message !== lastErrorMessage) {
     lastErrorMessage = message;
-    alert(message);
-    setTimeout(() => {
-      lastErrorMessage = undefined;
-    }, 1000);
+    Dialog.show({
+      type: "error",
+      title: i18n.t(`${NS}:${K.REQUEST_FAILED}`),
+      content: message,
+      whiteSpace: "pre-wrap",
+      onOk() {
+        lastErrorMessage = undefined;
+      },
+    });
   }
   return;
+}
+
+function redirectToLogin() {
+  const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
+  const history = getHistory();
+  history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
+    from: {
+      ...history.location,
+      state: undefined,
+    },
+  });
 }

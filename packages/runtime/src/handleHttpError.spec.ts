@@ -1,5 +1,4 @@
 import "whatwg-fetch";
-// import i18next from "i18next";
 import {
   HttpFetchError,
   HttpResponseError,
@@ -9,12 +8,12 @@ import {
 import { httpErrorToString, handleHttpError } from "./handleHttpError.js";
 import { getHistory } from "./history.js";
 import { getRuntime } from "./internal/Runtime.js";
+import { Dialog } from "./Dialog.js";
 
 jest.mock("./history.js");
 jest.mock("./internal/Runtime.js");
+jest.mock("./Dialog.js");
 
-const spyOnModalError = (window.alert = jest.fn());
-const spyOnModalConfirm = jest.spyOn(window, "confirm");
 const consoleError = jest.spyOn(console, "error");
 
 const spyOnGetRuntime = getRuntime as jest.Mock;
@@ -104,6 +103,10 @@ describe("httpErrorToString", () => {
     (event as any).target = script;
     expect(httpErrorToString(event)).toBe("not-existed-script-src");
   });
+
+  it("should handle unknown error", () => {
+    expect(httpErrorToString(null)).toBe("Unknown error");
+  });
 });
 
 describe("handleHttpError", () => {
@@ -112,51 +115,129 @@ describe("handleHttpError", () => {
     window.NO_AUTH_GUARD = false;
   });
 
-  it("should handle errors", () => {
-    consoleError.mockImplementationOnce(() => void 0);
+  it("should handle errors", async () => {
+    consoleError.mockReturnValue();
+    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
+      setTimeout(() => {
+        opt.onOk();
+      }, 1);
+    });
     const error = new Error("oops");
     handleHttpError(error);
-    expect(spyOnModalError).toBeCalledTimes(1);
-    expect(spyOnModalError).toBeCalledWith("Error: oops");
-    expect(consoleError).toBeCalledTimes(1);
+    // Mock triggering the same error twice.
+    handleHttpError(error);
+    expect(Dialog.show).toBeCalledTimes(1);
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "error",
+        content: "Error: oops",
+      })
+    );
+    expect(consoleError).toBeCalledTimes(2);
+    consoleError.mockReset();
   });
 
-  it("should handle unauthenticated errors and redirect to general login page", () => {
-    consoleError.mockImplementationOnce(() => void 0);
+  it("should handle unauthenticated errors and redirect to general login page", async () => {
     spyOnGetRuntime.mockReturnValueOnce({
-      getFeatureFlags: () => ({ "sso-enabled": false }),
+      getFeatureFlags: () => ({}),
     });
-    spyOnModalConfirm.mockReturnValueOnce(true);
+    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
+      setTimeout(() => {
+        opt.onOk();
+      }, 1);
+    });
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
     handleHttpError(error);
+    // Mock triggering the same error twice.
     handleHttpError(error);
-    expect(spyOnModalError).not.toBeCalled();
-    expect(spyOnModalConfirm).toBeCalledTimes(1);
-    expect(spyOnModalError).not.toBeCalled();
+    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "confirm",
+      })
+    );
+    await new Promise((resolve) => setTimeout(resolve, 1));
     expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
       from: {
         pathname: "/no-where",
       },
     });
+    expect(consoleError).not.toBeCalled();
+  });
+
+  it("should handle unauthenticated errors and redirect to sso login page", async () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({ "sso-enabled": true }),
+    });
+    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
+      setTimeout(() => {
+        opt.onOk();
+      }, 1);
+    });
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    handleHttpError(error);
+    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "confirm",
+      })
+    );
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
+      from: {
+        pathname: "/no-where",
+      },
+    });
+    expect(consoleError).not.toBeCalled();
+  });
+
+  it("should handle unauthenticated errors and redirect to general login page", async () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({}),
+    });
+    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
+      setTimeout(() => {
+        opt.onCancel();
+      }, 1);
+    });
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    handleHttpError(error);
+    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "confirm",
+      })
+    );
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    expect(spyOnHistoryPush).not.toBeCalled();
+    expect(consoleError).not.toBeCalled();
   });
 
   it("should not show modal to go to login page when unauthenticated error occurs while NO_AUTH_GUARD is enabled", () => {
-    consoleError.mockImplementationOnce(() => void 0);
+    consoleError.mockReturnValueOnce();
     window.NO_AUTH_GUARD = true;
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
     handleHttpError(error);
-    expect(spyOnModalConfirm).not.toBeCalled();
-    expect(spyOnModalError).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "error",
+        content: "HttpResponseError",
+      })
+    );
+    expect(consoleError).toBeCalledTimes(1);
   });
 
   it("should return undefined if abort http request", () => {
     handleHttpError(new HttpAbortError("The user aborted a request."));
-    expect(spyOnModalConfirm).not.toBeCalled();
-    expect(spyOnModalError).not.toBeCalled();
-    expect(spyOnModalError).not.toBeCalled();
+    expect(Dialog.show).not.toBeCalled();
   });
 });
