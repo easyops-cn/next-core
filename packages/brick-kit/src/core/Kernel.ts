@@ -684,6 +684,12 @@ export class Kernel {
     await this.loadDynamicBricks(bricks, processors);
   }
 
+  async loadResourceOfTemplate(tplTagName: string): Promise<void> {
+    const template = customTemplateRegistry.get(tplTagName);
+    const processors = scanProcessorsInAny([template.state, template.bricks]);
+    await this.loadDynamicBricks([], processors);
+  }
+
   private _loadDynamicBricks = async (
     bricks: string[],
     processors?: string[]

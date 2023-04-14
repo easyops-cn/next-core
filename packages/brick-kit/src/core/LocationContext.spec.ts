@@ -128,6 +128,7 @@ describe("LocationContext", () => {
     getFeatureFlags: mockFeature,
     loadDynamicBricksInBrickConf: jest.fn(),
     loadDynamicBricks: jest.fn(),
+    loadResourceOfTemplate: jest.fn(),
   } as any;
 
   const getInitialMountResult = (): MountRoutesResult => ({
