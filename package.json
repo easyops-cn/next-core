@@ -46,11 +46,11 @@
     "@types/jest": "^29.5.0",
     "@types/js-yaml": "^3.12.7",
     "@types/klaw-sync": "^6.0.1",
-    "@types/lodash": "^4.14.192",
+    "@types/lodash": "^4.14.194",
     "@types/meow": "^5.0.0",
     "@types/node": "^16.18.23",
     "@types/prettier": "^2.7.2",
-    "@types/react": "^18.0.33",
+    "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "babel-jest": "^29.5.0",
@@ -78,7 +78,7 @@
   "resolutions": {
     "@babel/parser": "^7.21.4",
     "@babel/runtime": "^7.21.0",
-    "@types/react": "^18.0.33",
+    "@types/react": "^18.0.35",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
   }
