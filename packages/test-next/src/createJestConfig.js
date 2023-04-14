@@ -38,16 +38,11 @@ export function createJestConfig({
           configFile: findFileUpward(cwd, "babel.config.js"),
         },
       ],
-      "\\.(png|bmp|gif|jpg|jpeg|webp|html|md|shadow\\.css|svg)$": path.resolve(
-        __filename,
-        "../transforms/file.js"
-      ),
+      "\\.(png|bmp|gif|jpg|jpeg|webp|html|md|(?<!module\\.)css|svg)$":
+        path.resolve(__filename, "../transforms/file.js"),
     },
     transformIgnorePatterns: [
-      `/node_modules/(?!(?:${[
-        "@babel/runtime/helpers/esm/",
-        "@(?:next-)?libs/[^/]+/(?:dist/esm/|[^./]+(?:\\.js)?$)",
-      ]
+      `/node_modules/(?!(?:${["@babel/runtime/helpers/esm/"]
         .concat(transformModulePatterns)
         .join("|")}))`,
     ],
@@ -58,25 +53,11 @@ export function createJestConfig({
     ],
     moduleNameMapper: {
       "\\.module\\.css$": "identity-obj-proxy",
-      // "\\.shadow.css$": `${projectRoot}/__mocks__/styleTextMock.js`,
-      // "\\.less$": `${projectRoot}/__mocks__/styleMock.js`,
-      // "\\.css$": `${projectRoot}/__mocks__/styleMock.js`,
-      // "\\.html$": `${projectRoot}/__mocks__/htmlMock.js`,
-      // "\\.svg": `${projectRoot}/__mocks__/svgrMock.js`,
-      // "\\.(png|bmp|gif|jpg|jpeg|psd|svg|webp)$": `${projectRoot}/__mocks__/fileMock.js`,
-      // "\\.md?$": `${projectRoot}/__mocks__/markdownMock.js`,
       ...moduleNameMapper,
     },
     // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685
     // Todo(steve): remove next line when issue fixed.
     modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
-    // fakeTimers: {
-    //   enableGlobally: true,
-    // },
-    // snapshotFormat: {
-    //   escapeString: true,
-    //   printBasicPrototype: true,
-    // },
     clearMocks: true,
   };
 }
