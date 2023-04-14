@@ -45,10 +45,10 @@ export class Runtime {
       loadCheckLogin(),
       loadBootstrapData(),
     ]);
+    bootstrapData = _bootstrapData;
     // Todo: allow configuration of notification bricks.
     loadNotificationService("shoelace.show-notification");
     loadDialogService("shoelace.show-dialog");
-    bootstrapData = _bootstrapData;
     router = new Router(_bootstrapData.storyboards);
     await router.bootstrap();
   }
