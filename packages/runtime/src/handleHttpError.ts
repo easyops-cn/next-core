@@ -25,8 +25,7 @@ export function httpErrorToString(error: unknown): string {
     return error.target.src;
   }
   if (error instanceof HttpFetchError) {
-    // return i18next.t(`${NS_BRICK_KIT}:${K.NETWORK_ERROR}`);
-    return "网络错误，请检查您的网络连接。";
+    return i18n.t(`${NS}:${K.NETWORK_ERROR}`);
   }
   if (error instanceof HttpResponseError) {
     if (error.responseJson) {
@@ -76,14 +75,15 @@ export function handleHttpError(error: unknown) {
     Dialog.show({
       type: "confirm",
       content: i18n.t(`${NS}:${K.LOGIN_TIMEOUT_MESSAGE}`),
-      onOk() {
+    }).then(
+      () => {
         redirectToLogin();
         unauthenticatedConfirming = false;
       },
-      onCancel() {
+      () => {
         unauthenticatedConfirming = false;
-      },
-    });
+      }
+    );
     return;
   }
 
@@ -97,10 +97,11 @@ export function handleHttpError(error: unknown) {
       type: "error",
       title: i18n.t(`${NS}:${K.REQUEST_FAILED}`),
       content: message,
-      whiteSpace: "pre-wrap",
-      onOk() {
-        lastErrorMessage = undefined;
+      contentStyle: {
+        whiteSpace: "pre-wrap",
       },
+    }).then(() => {
+      lastErrorMessage = undefined;
     });
   }
   return;

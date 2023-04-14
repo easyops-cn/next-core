@@ -5,16 +5,20 @@ import {
   HttpParseError,
   HttpAbortError,
 } from "@next-core/http";
+import { initializeI18n } from "@next-core/i18n";
 import { httpErrorToString, handleHttpError } from "./handleHttpError.js";
 import { getHistory } from "./history.js";
 import { getRuntime } from "./internal/Runtime.js";
 import { Dialog } from "./Dialog.js";
+
+initializeI18n();
 
 jest.mock("./history.js");
 jest.mock("./internal/Runtime.js");
 jest.mock("./Dialog.js");
 
 const consoleError = jest.spyOn(console, "error");
+const showDialog = Dialog.show as jest.MockedFunction<typeof Dialog.show>;
 
 const spyOnGetRuntime = getRuntime as jest.Mock;
 const spyOnHistoryPush = jest.fn();
@@ -37,9 +41,7 @@ describe("httpErrorToString", () => {
   });
 
   it("should return network error for HttpFetchErrors", () => {
-    expect(httpErrorToString(new HttpFetchError("oops"))).toBe(
-      "网络错误，请检查您的网络连接。"
-    );
+    expect(httpErrorToString(new HttpFetchError("oops"))).toBe("NETWORK_ERROR");
   });
 
   it("should return HttpResponseErrors", () => {
@@ -117,17 +119,13 @@ describe("handleHttpError", () => {
 
   it("should handle errors", async () => {
     consoleError.mockReturnValue();
-    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
-      setTimeout(() => {
-        opt.onOk();
-      }, 1);
-    });
+    showDialog.mockResolvedValueOnce();
     const error = new Error("oops");
     handleHttpError(error);
     // Mock triggering the same error twice.
     handleHttpError(error);
     expect(Dialog.show).toBeCalledTimes(1);
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await (global as any).flushPromises();
     expect(Dialog.show).toBeCalledWith(
       expect.objectContaining({
         type: "error",
@@ -142,11 +140,7 @@ describe("handleHttpError", () => {
     spyOnGetRuntime.mockReturnValueOnce({
       getFeatureFlags: () => ({}),
     });
-    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
-      setTimeout(() => {
-        opt.onOk();
-      }, 1);
-    });
+    showDialog.mockResolvedValueOnce();
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
@@ -159,7 +153,7 @@ describe("handleHttpError", () => {
         type: "confirm",
       })
     );
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await (global as any).flushPromises();
     expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
       from: {
         pathname: "/no-where",
@@ -172,11 +166,7 @@ describe("handleHttpError", () => {
     spyOnGetRuntime.mockReturnValueOnce({
       getFeatureFlags: () => ({ "sso-enabled": true }),
     });
-    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
-      setTimeout(() => {
-        opt.onOk();
-      }, 1);
-    });
+    showDialog.mockResolvedValueOnce();
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
@@ -187,7 +177,7 @@ describe("handleHttpError", () => {
         type: "confirm",
       })
     );
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await (global as any).flushPromises();
     expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
       from: {
         pathname: "/no-where",
@@ -200,11 +190,7 @@ describe("handleHttpError", () => {
     spyOnGetRuntime.mockReturnValueOnce({
       getFeatureFlags: () => ({}),
     });
-    (Dialog.show as jest.Mock).mockImplementationOnce((opt) => {
-      setTimeout(() => {
-        opt.onCancel();
-      }, 1);
-    });
+    showDialog.mockRejectedValueOnce(undefined);
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
@@ -215,7 +201,7 @@ describe("handleHttpError", () => {
         type: "confirm",
       })
     );
-    await new Promise((resolve) => setTimeout(resolve, 1));
+    await (global as any).flushPromises();
     expect(spyOnHistoryPush).not.toBeCalled();
     expect(consoleError).not.toBeCalled();
   });
@@ -226,6 +212,7 @@ describe("handleHttpError", () => {
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
+    showDialog.mockResolvedValueOnce();
     handleHttpError(error);
     expect(Dialog.show).toBeCalledWith(
       expect.objectContaining({
