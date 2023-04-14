@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.1...@next-core/runtime@1.3.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* refine dialog service ([db4f973](https://github.com/easyops-cn/next-core/commit/db4f973aed0951d0bca4988ee16f5c8bcc779e56))
+
+
+
+
+
 ## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.0...@next-core/runtime@1.3.1) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/runtime
