@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.2...@next-core/runtime@1.3.0) (2023-04-14)
+
+
+### Features
+
+* notification and dialog ([bbdbbd2](https://github.com/easyops-cn/next-core/commit/bbdbbd2169f8c16721a5ce8182707f8cd31aff1d))
+
+
+
+
+
 ## [1.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.1...@next-core/runtime@1.2.2) (2023-04-10)
 
 

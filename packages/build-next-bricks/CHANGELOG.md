@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.3.1...@next-core/build-next-bricks@1.4.0) (2023-04-14)
+
+
+### Features
+
+* load third-party custom elements ([38fd3ed](https://github.com/easyops-cn/next-core/commit/38fd3ed323e5f53c4b1d7574c795e8925b134840))
+
+
+
+
+
 ## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.3.0...@next-core/build-next-bricks@1.3.1) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
