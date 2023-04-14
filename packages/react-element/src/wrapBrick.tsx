@@ -7,7 +7,6 @@ import React, {
   RefAttributes,
   forwardRef,
 } from "react";
-import { NextElement } from "@next-core/element";
 
 interface Constructable<T> {
   prototype: T;
@@ -34,19 +33,27 @@ type MapEvents<E, M> = {
   [key in keyof M]?: M[key] extends keyof E ? (e: E[M[key]]) => void : never;
 };
 
-export function wrapLocalBrick<T extends NextElement, P, E, M extends object>(
-  brick: Constructable<T>,
+export function wrapLocalBrick<T extends HTMLElement, P, E, M extends object>(
+  brick: Constructable<T> | string,
   eventsMapping: M
 ): WrappedBrickWithEventsMap<T, P, E, M>;
 
-export function wrapLocalBrick<T extends NextElement, P>(
-  brick: Constructable<T>
+export function wrapLocalBrick<T extends HTMLElement, P>(
+  brick: Constructable<T> | string
 ): WrappedBrick<T, P>;
 
-export function wrapLocalBrick<T extends NextElement, P, E, M extends object>(
-  brick: Constructable<T>,
+export function wrapLocalBrick<T extends HTMLElement, P, E, M extends object>(
+  brick: Constructable<T> | string,
   eventsMapping?: M
 ) {
+  // istanbul ignore next
+  if (process.env.NODE_ENV === "development") {
+    if (typeof brick === "string" && !customElements.get(brick)) {
+      throw new Error(
+        `Brick ${brick} is not defined while using \`wrapLocalBrick\`.`
+      );
+    }
+  }
   return forwardRef(function BrickReactWrapper(
     {
       children,
@@ -54,7 +61,7 @@ export function wrapLocalBrick<T extends NextElement, P, E, M extends object>(
     }: HTMLAttributes<T> & PropsWithChildren<P> & MapEvents<E, M>,
     ref: Ref<T>
   ) {
-    const WebComponent = brick.__tagName;
+    const WebComponent = typeof brick === "string" ? brick : brick.__tagName;
     const properties = getMappedProperties(
       props,
       eventsMapping as Record<string, string>
@@ -67,16 +74,16 @@ export function wrapLocalBrick<T extends NextElement, P, E, M extends object>(
   });
 }
 
-export function wrapBrick<T extends NextElement, P, E, M extends object>(
+export function wrapBrick<T extends HTMLElement, P, E, M extends object>(
   BrickName: string,
   eventsMapping: M
 ): WrappedBrickWithEventsMap<T, P, E, M>;
 
-export function wrapBrick<T extends NextElement, P>(
+export function wrapBrick<T extends HTMLElement, P>(
   BrickName: string
 ): WrappedBrick<T, P>;
 
-export function wrapBrick<T extends NextElement, P, E, M extends object>(
+export function wrapBrick<T extends HTMLElement, P, E, M extends object>(
   BrickName: string,
   eventsMapping?: M
 ) {
