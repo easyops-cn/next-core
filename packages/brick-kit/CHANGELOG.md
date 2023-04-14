@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.165.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.5...@next-core/brick-kit@2.165.6) (2023-04-14)
+
+
+### Bug Fixes
+
+* fix isOutsideApp ([cbfbbc5](https://github.com/easyops-cn/next-core/commit/cbfbbc512ebd52899aeb799fd6b8b94d3df505ec))
+
+
+
+
+
 ## [2.165.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.4...@next-core/brick-kit@2.165.5) (2023-04-14)
 
 
