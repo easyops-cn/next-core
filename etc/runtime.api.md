@@ -39,9 +39,7 @@ declare namespace __secret_internals {
         mountUseBrick,
         unmountUseBrick,
         initializePreviewBootstrap,
-        renderPreviewBricks,
         legacyDoTransform,
-        loadBricks,
         updateStoryboard,
         updateStoryboardByRoute,
         updateStoryboardByTemplate,
@@ -49,6 +47,7 @@ declare namespace __secret_internals {
         updateStoryboardBySnippet,
         RenderUseBrickResult,
         MountUseBrickResult,
+        loadBricks,
         updateSnippetPreviewSettings
     }
 }
@@ -82,6 +81,13 @@ export function checkIfOfComputed(ifContainer: IfContainer): boolean;
 
 // @public (undocumented)
 export function createHistory(): NextHistory;
+
+// @public (undocumented)
+export interface CreateRootOptions {
+    // (undocumented)
+    portal?: HTMLElement;
+    scope?: "page" | "fragment";
+}
 
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
 //
@@ -164,8 +170,10 @@ export function isUnauthenticatedError(error: unknown): boolean;
 // @public (undocumented)
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
 
+// Warning: (ae-forgotten-export) The symbol "_internalApiLoadBricks" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-function loadBricks(bricks: string[] | Set<string>): Promise<void>;
+const loadBricks: typeof _internalApiLoadBricks;
 
 // Warning: (ae-internal-missing-underscore) The name "logout" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -234,13 +242,10 @@ export function registerWidgetFunctions(widgetId: string, functions: StoryboardF
 export function registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
 
 // @public (undocumented)
-function renderPreviewBricks(bricks: BrickConf[], mountPoints: {
-    main: HTMLElement;
-    portal: HTMLElement;
-}, options?: {
-    sandbox?: boolean;
+export interface RenderOptions {
+    // (undocumented)
     theme?: SiteTheme;
-}): Promise<void>;
+}
 
 // @public (undocumented)
 function renderUseBrick(useBrick: UseSingleBrickConf, data: unknown): Promise<RenderUseBrickResult>;
@@ -271,6 +276,12 @@ export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, col
 
 // @public (undocumented)
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
+
+// @public (undocumented)
+export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope }?: CreateRootOptions): {
+    render(brick: BrickConf | BrickConf[], { theme }?: RenderOptions): Promise<void>;
+    unmount(): void;
+};
 
 // @public (undocumented)
 const updateSnippetPreviewSettings: typeof updateStoryboardBySnippet;
