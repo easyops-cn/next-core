@@ -18,6 +18,32 @@ describe("preview", () => {
           textContent: "Hello Preview",
         },
       },
+    ]);
+
+    expect(container.innerHTML).toBe("<div>Hello Preview</div>");
+    expect(portal.innerHTML).toBe("");
+    expect(applyTheme).not.toBeCalled();
+    expect(scrollTo).not.toBeCalled();
+
+    root.unmount();
+    expect(container.innerHTML).toBe("");
+    expect(portal.innerHTML).toBe("");
+
+    expect(() => root.render([{ brick: "div" }])).rejects.toMatchInlineSnapshot(
+      `[Error: The root is unmounted and cannot be rendered any more]`
+    );
+  });
+
+  test("with portal", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render([
+      {
+        brick: "div",
+        properties: {
+          textContent: "Hello Preview",
+        },
+      },
       {
         brick: "p",
         properties: {
@@ -36,10 +62,6 @@ describe("preview", () => {
     root.unmount();
     expect(container.innerHTML).toBe("");
     expect(portal.innerHTML).toBe("");
-
-    expect(() => root.render([{ brick: "div" }])).rejects.toMatchInlineSnapshot(
-      `[Error: The root is unmounted and cannot be rendered any more]`
-    );
   });
 
   test("sandbox", async () => {
@@ -71,5 +93,29 @@ describe("preview", () => {
     expect(portal.innerHTML).toBe("");
     // Cover unmount again.
     root.unmount();
+  });
+
+  test("fail", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render([
+      {
+        brick: "div",
+        properties: {
+          textContent: "<% oops %>",
+        },
+      } as any,
+    ]);
+
+    expect(container.innerHTML).toBe(
+      '<div>ReferenceError: oops is not defined, in "&lt;% oops %&gt;"</div>'
+    );
+    expect(portal.innerHTML).toBe("");
+    expect(applyTheme).not.toBeCalled();
+    expect(scrollTo).not.toBeCalled();
+
+    root.unmount();
+    expect(container.innerHTML).toBe("");
+    expect(portal.innerHTML).toBe("");
   });
 });

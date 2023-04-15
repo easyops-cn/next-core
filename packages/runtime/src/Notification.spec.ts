@@ -4,8 +4,8 @@ import {
   loadNotificationService as _loadNotificationService,
 } from "./Notification.js";
 
-jest.mock("./internal/Runtime.js", () => ({
-  _internalApiLoadBricks([tagName]: [string]) {
+jest.mock("@next-core/loader", () => ({
+  loadBricksImperatively([tagName]: [string]) {
     return tagName === "my-notification"
       ? Promise.resolve()
       : Promise.reject("oops");
