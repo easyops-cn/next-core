@@ -2882,10 +2882,10 @@
     "@typescript-eslint/types" "5.57.1"
     eslint-visitor-keys "^3.3.0"
 
-"@ungap/event-target@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.npmjs.org/@ungap/event-target/-/event-target-0.2.3.tgz"
-  integrity sha512-7Bz0qdvxNGV9n0f+xcMKU7wsEfK6PNzo8IdAcOiBgMNyCuU0Mk9dv0Hbd/Kgr+MFFfn4xLHFbuOt820egT5qEA==
+"@ungap/event-target@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.npmjs.org/@ungap/event-target/-/event-target-0.2.4.tgz#8b083a62ee665228bac08013fa516a3488528bb8"
+  integrity sha512-u9Fd3k2qfMtn+0dxbCn/y0pzQ9Ucw6lWR984CrHcbxc+WzcMkJE4VjWHWSb9At40MjwMyHCkJNXroS55Osshhw==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
