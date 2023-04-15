@@ -4,7 +4,6 @@ import { createProviderClass } from "@next-core/utils/storyboard";
 import {
   legacyDoTransform,
   mountUseBrick,
-  renderPreviewBricks,
   renderUseBrick,
   unmountUseBrick,
   updateStoryboard,
@@ -12,7 +11,6 @@ import {
   updateStoryboardBySnippet,
   updateStoryboardByTemplate,
 } from "./secret_internals.js";
-import { applyTheme } from "../themeAndMode.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
@@ -22,10 +20,8 @@ import {
 } from "./Runtime.js";
 
 jest.mock("@next-core/loader");
-jest.mock("../themeAndMode.js");
 jest.mock("../isStrictMode.js");
 const consoleInfo = jest.spyOn(console, "info");
-window.scrollTo = jest.fn();
 const mockIsStrictMode = (
   isStrictMode as jest.MockedFunction<typeof isStrictMode>
 ).mockReturnValue(false);
@@ -448,62 +444,6 @@ describe("useBrick", () => {
     await expect(renderUseBrick(useBrick, "a")).rejects.toMatchInlineSnapshot(
       `[Error: The root brick of useBrick cannot be a portal brick]`
     );
-  });
-});
-
-describe("preview", () => {
-  test("general", async () => {
-    const main = document.createElement("div");
-    const portal = document.createElement("div");
-
-    await renderPreviewBricks(
-      [
-        {
-          brick: "div",
-          properties: {
-            textContent: "Hello Preview",
-          },
-        },
-        {
-          brick: "p",
-          properties: {
-            textContent: "I'm portal",
-          },
-          portal: true,
-        },
-      ],
-      { main, portal }
-    );
-
-    expect(main.innerHTML).toBe("<div>Hello Preview</div>");
-    expect(portal.innerHTML).toBe("<p>I'm portal</p>");
-    expect(applyTheme).not.toBeCalled();
-    expect(scrollTo).not.toBeCalled();
-
-    await renderPreviewBricks(
-      [
-        {
-          brick: "div",
-          properties: {
-            textContent: "Goodbye Preview",
-          },
-        },
-        {
-          brick: "p",
-          properties: {
-            textContent: "I'm also portal",
-          },
-          portal: true,
-        },
-      ],
-      { main, portal },
-      { sandbox: true }
-    );
-
-    expect(main.innerHTML).toBe("<div>Goodbye Preview</div>");
-    expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
-    expect(applyTheme).toBeCalledTimes(1);
-    expect(scrollTo).toBeCalledTimes(1);
   });
 });
 

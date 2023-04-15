@@ -146,6 +146,11 @@ async function main() {
     updateMode();
     selectExample.value = "";
     initEditorsWith();
+    const newParams = new URLSearchParams();
+    newParams.set("mode", mode);
+    const search = `?${newParams.toString()}`;
+    saveToLocalStorage = true;
+    history.replaceState(null, "", search);
   });
 
   function updateMode() {

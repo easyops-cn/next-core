@@ -5,6 +5,7 @@ import type {
   BootstrapData,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
+import { loadBricksImperatively } from "@next-core/loader";
 import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
@@ -128,6 +129,10 @@ export function _internalApiSetBootstrapData(data: Partial<BootstrapData>) {
 
 export function getBrickPackages() {
   return bootstrapData?.brickPackages ?? [];
+}
+
+export function _internalApiLoadBricks(bricks: string[] | Set<string>) {
+  return loadBricksImperatively(bricks, getBrickPackages());
 }
 
 export function _internalApiGetRenderId(): string | undefined {

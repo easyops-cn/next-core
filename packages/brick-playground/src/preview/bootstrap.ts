@@ -1,7 +1,8 @@
 import {
   createRuntime,
-  __secret_internals,
   applyTheme,
+  unstable_createRoot,
+  __secret_internals,
 } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import type { BrickPackage } from "@next-core/types";
@@ -66,10 +67,12 @@ window.addEventListener("request.end", requestEnd);
 
 createRuntime();
 
-const mountPoints = {
-  main: document.querySelector("#preview-root") as HTMLElement,
-  portal: document.querySelector("#portal-mount-point") as HTMLElement,
-};
+const container = document.querySelector("#preview-root") as HTMLElement;
+const portal = document.querySelector("#portal-mount-point") as HTMLElement;
+const root = unstable_createRoot(container, {
+  portal,
+  scope: "page",
+});
 
 const bootstrap = http
   .get<{ brickPackages: BrickPackage[] }>(window.BOOTSTRAP_FILE, {
@@ -115,8 +118,8 @@ async function render(
   { yaml, html, javascript }: Sources,
   theme: "dark" | "light"
 ): Promise<void> {
-  document.body.classList.remove("bootstrap-error");
   try {
+    document.body.classList.remove("bootstrap-error");
     if (type === "html") {
       // document.documentElement.dataset.theme =
       //   theme === "light" ? theme : "dark-v2";
@@ -138,22 +141,21 @@ async function render(
       await bootstrap;
 
       await __secret_internals.loadBricks(bricks);
-      mountPoints.main.textContent = "";
-      mountPoints.portal.textContent = "";
-      mountPoints.main.append(...dom.body.childNodes);
-      // mountPoints.main.append(dom);
+      container.textContent = "";
+      portal.textContent = "";
+      container.append(...dom.body.childNodes);
+      // container.append(dom);
       const scriptTag = document.createElement("script");
       scriptTag.text = javascript;
       scriptTag.type = "module";
-      mountPoints.main.appendChild(scriptTag);
+      container.appendChild(scriptTag);
     } else {
       const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true });
 
       await bootstrap;
 
       const bricks = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
-      await __secret_internals.renderPreviewBricks(bricks, mountPoints, {
-        sandbox: true,
+      await root.render(bricks, {
         theme: theme === "light" ? theme : "dark-v2",
       });
     }
@@ -164,7 +166,7 @@ async function render(
     // `.bootstrap-error` makes loading-bar invisible.
     document.body.classList.add("bootstrap-error");
 
-    mountPoints.portal.textContent = "";
-    mountPoints.main.textContent = `Render failed: ${String(e)}`;
+    portal.textContent = "";
+    container.textContent = `Render failed: ${String(e)}`;
   }
 }
