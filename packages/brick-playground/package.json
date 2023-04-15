@@ -52,7 +52,7 @@
     "@next-core/theme": "^1.1.1",
     "@next-core/types": "^1.0.4",
     "copy-to-clipboard": "^3.3.3",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.5.1",
     "js-yaml": "^3.14.1",
     "monaco-editor": "^0.37.1",
     "monaco-editor-webpack-plugin": "^7.0.1",
