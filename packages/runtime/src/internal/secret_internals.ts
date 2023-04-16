@@ -47,7 +47,7 @@ export async function renderUseBrick(
 
   runtimeContext.tplStateStoreMap ??= new Map();
 
-  const rendererContext = new RendererContext("useBrick");
+  const rendererContext = new RendererContext("fragment");
 
   const renderRoot: RenderRoot = {
     tag: RenderTag.ROOT,

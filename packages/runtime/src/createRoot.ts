@@ -11,7 +11,11 @@ import { RenderTag } from "./internal/enums.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
-  /** Defaults to "fragment" */
+  /**
+   * Defaults to "fragment"
+   * - page: render as whole page, triggering page life cycles.
+   * - fragment: render as fragment, not triggering page life cycles.
+   */
   scope?: "page" | "fragment";
 }
 
@@ -21,13 +25,14 @@ export interface RenderOptions {
 
 export function unstable_createRoot(
   container: HTMLElement,
-  { portal: _portal, scope }: CreateRootOptions = {}
+  { portal: _portal, scope = "fragment" }: CreateRootOptions = {}
 ) {
   let portal = _portal;
   let createPortal: RenderRoot["createPortal"];
   if (_portal) {
     createPortal = _portal;
   } else {
+    // Create portal container when necessary.
     createPortal = () => {
       portal = document.createElement("div");
       portal.style.position = "absolute";
@@ -56,7 +61,7 @@ export function unstable_createRoot(
       } as Partial<RuntimeContext> as RuntimeContext;
 
       const previousRendererContext = rendererContext;
-      rendererContext = new RendererContext("router");
+      rendererContext = new RendererContext(scope);
 
       const renderRoot: RenderRoot = {
         tag: RenderTag.ROOT,
@@ -130,8 +135,8 @@ export function unstable_createRoot(
       if (!failed) {
         if (scope === "page") {
           rendererContext.dispatchPageLoad();
+          // rendererContext.dispatchAnchorLoad();
         }
-        // rendererContext.dispatchAnchorLoad();
         rendererContext.dispatchOnMount();
         rendererContext.initializeScrollIntoView();
         rendererContext.initializeMediaChange();
