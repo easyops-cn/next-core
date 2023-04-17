@@ -79,7 +79,7 @@ const bootstrap = http
     responseType: "json",
   })
   .then((data) => {
-    __secret_internals.initializePreviewBootstrap(data);
+    __secret_internals.initializePlayground();
   });
 
 let rendering = false;
@@ -150,11 +150,9 @@ async function render(
       scriptTag.type = "module";
       container.appendChild(scriptTag);
     } else {
-      const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true });
-
+      const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any;
+      const bricks = parsed ?? [];
       await bootstrap;
-
-      const bricks = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
       await root.render(bricks, {
         theme: theme === "light" ? theme : "dark-v2",
       });

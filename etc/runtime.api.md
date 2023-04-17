@@ -6,7 +6,6 @@
 
 import type { Action } from 'history';
 import type { AuthApi_CheckLoginResponseBody } from '@next-api-sdk/api-gateway-sdk';
-import type { BootstrapData } from '@next-core/types';
 import { BreadcrumbItemConf } from '@next-core/types';
 import type { BrickConf } from '@next-core/types';
 import type { BrickEventHandler } from '@next-core/types';
@@ -38,7 +37,7 @@ declare namespace __secret_internals {
         renderUseBrick,
         mountUseBrick,
         unmountUseBrick,
-        initializePreviewBootstrap,
+        initializePlayground,
         legacyDoTransform,
         updateStoryboard,
         updateStoryboardByRoute,
@@ -159,7 +158,7 @@ export function handleHttpError(error: unknown): void;
 export function httpErrorToString(error: unknown): string;
 
 // @public (undocumented)
-function initializePreviewBootstrap(bootstrapData: Partial<BootstrapData>): void;
+function initializePlayground(): void;
 
 // @public
 export function isLoggedIn(): boolean;
