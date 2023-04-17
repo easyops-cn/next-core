@@ -21,6 +21,11 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
+    "./standalone": {
+      "types": "./dist/types/standalone.d.ts",
+      "import": "./dist/esm/standalone.js",
+      "require": "./dist/cjs/standalone.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
