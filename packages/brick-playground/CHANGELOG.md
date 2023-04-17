@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.0...@next-core/brick-playground@1.7.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* fix playground ([da3e8ee](https://github.com/easyops-cn/next-core/commit/da3e8ee32d67133dc6e5cef68280e1a7fa9a81e6))
+
+
+
+
+
 # [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.6.3...@next-core/brick-playground@1.7.0) (2023-04-17)
 
 
