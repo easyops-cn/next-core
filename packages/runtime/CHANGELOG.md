@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.3...@next-core/runtime@1.4.0) (2023-04-17)
+
+
+### Bug Fixes
+
+* fix injecting bootstrap data ([0bcc628](https://github.com/easyops-cn/next-core/commit/0bcc6287bb434ff3841368fc409a44baa971bd60))
+* fix unhandled promise when compute props ([ce3fae2](https://github.com/easyops-cn/next-core/commit/ce3fae22f9fd57bbe833ca0e023c15496e466fd7))
+* refine renderer context scope ([6074e27](https://github.com/easyops-cn/next-core/commit/6074e27ac0793283eecc146f40c8235eb43180b2))
+
+
+### Features
+
+* createRoot ([0cfbd51](https://github.com/easyops-cn/next-core/commit/0cfbd5135298ad3b561a8796c65b01e60a28cef1))
+
+
+
+
+
 ## [1.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.2...@next-core/runtime@1.3.3) (2023-04-14)
 
 

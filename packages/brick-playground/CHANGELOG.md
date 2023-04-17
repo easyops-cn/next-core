@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.6.3...@next-core/brick-playground@1.7.0) (2023-04-17)
+
+
+### Bug Fixes
+
+* fix injecting bootstrap data ([0bcc628](https://github.com/easyops-cn/next-core/commit/0bcc6287bb434ff3841368fc409a44baa971bd60))
+
+
+### Features
+
+* createRoot ([0cfbd51](https://github.com/easyops-cn/next-core/commit/0cfbd5135298ad3b561a8796c65b01e60a28cef1))
+
+
+
+
+
 ## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.6.2...@next-core/brick-playground@1.6.3) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/brick-playground

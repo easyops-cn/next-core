@@ -1,6 +1,6 @@
 {
   "name": "@next-core/serve-helpers",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Serve helpers",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/serve-helpers",
   "license": "GPL-3.0",
