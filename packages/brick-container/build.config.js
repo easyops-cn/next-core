@@ -82,7 +82,8 @@ export default {
           name: "vendors",
         },
         core: {
-          test: /[\\/]next-core[\\/](?:packages|sdk)[\\/](?!theme[\\/])/,
+          // Make it compatible with EasyOps CI.
+          test: /[\\/](?:next-core|data[\\/]easyops)[\\/](?:packages|sdk)[\\/](?!theme[\\/])/,
           priority: -10,
           reuseExistingChunk: true,
           name: "core",
