@@ -320,7 +320,7 @@ export class Router {
       });
 
       const rendererContext = (this.#rendererContext = new RendererContext(
-        "router"
+        "page"
       ));
       this.#navConfig = undefined;
 

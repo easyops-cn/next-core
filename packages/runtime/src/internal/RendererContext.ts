@@ -29,7 +29,7 @@ const commonLifeCycles = [
   "onScrollIntoView",
 ] as const;
 
-const routerOnlyLifeCycles = [
+const pageOnlyLifeCycles = [
   "onBeforePageLoad",
   "onPageLoad",
   "onPageLeave",
@@ -39,10 +39,14 @@ const routerOnlyLifeCycles = [
 ] as const;
 
 export class RendererContext {
-  public readonly type: "router" | "useBrick";
+  /**
+   * - page: render as whole page, triggering page life cycles.
+   * - fragment: render as fragment, not triggering page life cycles.
+   */
+  public readonly scope: "page" | "fragment";
 
-  constructor(type: "router" | "useBrick") {
-    this.type = type;
+  constructor(scope: "page" | "fragment") {
+    this.scope = scope;
   }
 
   #memoizedLifeCycle: MemoizedLifeCycle<
@@ -102,7 +106,7 @@ export class RendererContext {
     }
     const lifeCycleTypes = [
       ...commonLifeCycles,
-      ...(this.type === "router" ? routerOnlyLifeCycles : []),
+      ...(this.scope === "page" ? pageOnlyLifeCycles : []),
     ];
     for (const key of lifeCycleTypes) {
       const handlers = (lifeCycle as BrickLifeCycle)[key as "onPageLoad"];
@@ -123,7 +127,7 @@ export class RendererContext {
   #unmountBricks(bricks: Set<RenderBrick>): void {
     const lifeCycleTypes = [
       ...commonLifeCycles,
-      ...(this.type === "router" ? routerOnlyLifeCycles : []),
+      ...(this.scope === "page" ? pageOnlyLifeCycles : []),
     ];
     const unmountList: {
       brick: RenderBrick;
@@ -342,11 +346,11 @@ export class RendererContext {
     // istanbul ignore next
     if (
       process.env.NODE_ENV === "development" &&
-      this.type === "useBrick" &&
-      routerOnlyLifeCycles.includes(type as "onPageLoad")
+      this.scope === "fragment" &&
+      pageOnlyLifeCycles.includes(type as "onPageLoad")
     ) {
       throw new Error(
-        `\`lifeCycle.${type}\` cannot be used in ${this.type}.\nThis is a bug of Brick Next, please report it.`
+        `\`lifeCycle.${type}\` cannot be used in ${this.scope}.\nThis is a bug of Brick Next, please report it.`
       );
     }
     for (const { brick, handlers } of this.#memoizedLifeCycle[type]) {

@@ -4,7 +4,7 @@ import { readdir, readFile } from "node:fs/promises";
 
 /**
  * @param {string} rootDir
- * @param {string} publicRootWithVersion
+ * @param {boolean} publicRootWithVersion
  * @returns {Promise<unknown[]>}
  */
 export async function getBrickPackages(rootDir, publicRootWithVersion) {
@@ -25,7 +25,7 @@ export async function getBrickPackages(rootDir, publicRootWithVersion) {
 /**
  *
  * @param {string} bricksDir
- * @param {string} publicRootWithVersion
+ * @param {boolean} publicRootWithVersion
  * @returns {Promise<unknown[]>}
  */
 async function getBrickPackagesInDir(bricksDir, publicRootWithVersion) {

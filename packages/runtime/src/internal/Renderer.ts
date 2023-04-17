@@ -411,14 +411,11 @@ export async function renderBrick(
         brick.properties[propName] = propValue;
       }
     }
+    listenOnTrackingContext(brick, trackingContextList);
     return brick.properties;
   };
   const asyncProperties = loadProperties();
   blockingList.push(asyncProperties);
-
-  asyncProperties.then(() => {
-    listenOnTrackingContext(brick, trackingContextList);
-  });
 
   rendererContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
 

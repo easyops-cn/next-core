@@ -1,30 +1,22 @@
 import type {
-  BootstrapData,
   BrickConf,
   CustomTemplate,
   RouteConf,
-  SiteTheme,
   Storyboard,
   UseSingleBrickConf,
 } from "@next-core/types";
-import {
-  flushStableLoadBricks,
-  loadBricksImperatively,
-} from "@next-core/loader";
+import { flushStableLoadBricks } from "@next-core/loader";
 import { pick } from "lodash";
 import {
   _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
-  _internalApiSetBootstrapData,
-  getBrickPackages,
+  _internalApiLoadBricks,
 } from "./Runtime.js";
-import { RenderOutput, renderBrick, renderBricks } from "./Renderer.js";
+import { renderBrick } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
 import type { RenderRoot, RuntimeContext } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
-import { httpErrorToString } from "../handleHttpError.js";
-import { applyMode, applyTheme, setMode, setTheme } from "../themeAndMode.js";
 import { RenderTag } from "./enums.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
@@ -53,7 +45,7 @@ export async function renderUseBrick(
 
   runtimeContext.tplStateStoreMap ??= new Map();
 
-  const rendererContext = new RendererContext("useBrick");
+  const rendererContext = new RendererContext("fragment");
 
   const renderRoot: RenderRoot = {
     tag: RenderTag.ROOT,
@@ -152,110 +144,10 @@ export function unmountUseBrick(
   rendererContext.dispose();
 }
 
-let _rendererContext: RendererContext;
-
-export function initializePreviewBootstrap(
-  bootstrapData: Partial<BootstrapData>
-) {
-  _internalApiSetBootstrapData(bootstrapData);
+export function initializePlayground() {
   // Todo: allow configuration of notification bricks.
   loadNotificationService("shoelace.show-notification");
   loadDialogService("shoelace.show-dialog");
-}
-
-export async function renderPreviewBricks(
-  bricks: BrickConf[],
-  mountPoints: {
-    main: HTMLElement;
-    portal: HTMLElement;
-  },
-  options: {
-    sandbox?: boolean;
-    theme?: SiteTheme;
-  } = {}
-) {
-  const runtimeContext = {
-    pendingPermissionsPreCheck: [],
-    tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
-  } as Partial<RuntimeContext> as RuntimeContext;
-
-  const previousRendererContext = _rendererContext;
-  const rendererContext = (_rendererContext = new RendererContext("router"));
-
-  const renderRoot: RenderRoot = {
-    tag: RenderTag.ROOT,
-    container: mountPoints.main,
-    createPortal: mountPoints.portal,
-  };
-
-  let failed = false;
-  let output: RenderOutput;
-  try {
-    output = await renderBricks(
-      renderRoot,
-      bricks,
-      runtimeContext,
-      rendererContext
-    );
-
-    output.blockingList.push(
-      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
-        store.waitForAll()
-      ),
-      ...runtimeContext.pendingPermissionsPreCheck
-    );
-
-    flushStableLoadBricks();
-
-    await Promise.all(output.blockingList);
-  } catch (error) {
-    failed = true;
-    output = {
-      node: {
-        tag: RenderTag.BRICK,
-        type: "div",
-        properties: {
-          textContent: httpErrorToString(error),
-        },
-        return: renderRoot,
-        runtimeContext: null!,
-      },
-      blockingList: [],
-      menuRequests: [],
-    };
-  }
-
-  renderRoot.child = output.node;
-
-  previousRendererContext?.dispose();
-  unmountTree(mountPoints.main);
-  unmountTree(mountPoints.portal);
-
-  if (options.sandbox) {
-    setTheme(options.theme ?? "light");
-    setMode("default");
-
-    if (!failed) {
-      rendererContext.dispatchBeforePageLoad();
-    }
-
-    applyTheme();
-    applyMode();
-  }
-
-  mountTree(renderRoot);
-
-  if (options.sandbox) {
-    window.scrollTo(0, 0);
-  }
-
-  if (!failed) {
-    rendererContext.dispatchPageLoad();
-    // rendererContext.dispatchAnchorLoad();
-    rendererContext.dispatchOnMount();
-    rendererContext.initializeScrollIntoView();
-    rendererContext.initializeMediaChange();
-  }
 }
 
 export function legacyDoTransform(
@@ -278,10 +170,7 @@ export function legacyDoTransform(
   );
 }
 
-// istanbul ignore next
-export function loadBricks(bricks: string[] | Set<string>) {
-  return loadBricksImperatively(bricks, getBrickPackages());
-}
+export const loadBricks = _internalApiLoadBricks;
 
 export function updateStoryboard(
   appId: string,

@@ -5,6 +5,7 @@ import type {
   BootstrapData,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
+import { loadBricksImperatively } from "@next-core/loader";
 import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
@@ -15,10 +16,12 @@ import { loadBootstrapData } from "./loadBootstrapData.js";
 import { NS, locales } from "./i18n.js";
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
+import { injectedBootstrapData } from "./bootstrapData.js";
 
 let runtime: Runtime;
 
-let bootstrapData: Partial<BootstrapData> | undefined;
+// Allow inject bootstrap data in a runtime other than Brick Next.
+let bootstrapData = injectedBootstrapData;
 let router: Router | undefined;
 
 export function createRuntime() {
@@ -122,12 +125,16 @@ export class Runtime {
   }
 }
 
-export function _internalApiSetBootstrapData(data: Partial<BootstrapData>) {
+export function _test_only_setBootstrapData(data: Partial<BootstrapData>) {
   bootstrapData = data;
 }
 
 export function getBrickPackages() {
   return bootstrapData?.brickPackages ?? [];
+}
+
+export function _internalApiLoadBricks(bricks: string[] | Set<string>) {
+  return loadBricksImperatively(bricks, getBrickPackages());
 }
 
 export function _internalApiGetRenderId(): string | undefined {

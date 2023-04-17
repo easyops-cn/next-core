@@ -1,4 +1,4 @@
-import * as __secret_internals from "./internal/secret_internals.js";
+import { _internalApiLoadBricks } from "./internal/Runtime.js";
 
 let brick: {
   resolve(options: DialogOptions): Promise<void>;
@@ -34,7 +34,7 @@ function show(options: DialogOptions): Promise<void> {
 }
 
 export function loadDialogService(tagName: string) {
-  __secret_internals.loadBricks([tagName]).then(
+  _internalApiLoadBricks([tagName]).then(
     () => {
       brick = document.createElement(tagName) as any;
     },

@@ -58,7 +58,7 @@ describe("renderRoutes", () => {
       },
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const route: RouteConf = {
       path: "${APP.homepage}/:objectId",
       context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
@@ -118,7 +118,7 @@ describe("renderRoutes", () => {
       },
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const route: RouteConf = {
       type: "redirect",
       path: "${APP.homepage}/:objectId",
@@ -152,7 +152,7 @@ describe("renderRoutes", () => {
       },
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const route: RouteConf = {
       type: "redirect",
       path: "${APP.homepage}/:objectId",
@@ -189,7 +189,7 @@ describe("renderRoutes", () => {
       },
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const route: RouteConf = {
       type: "redirect",
       path: "${APP.homepage}/:objectId",
@@ -229,7 +229,7 @@ describe("renderRoutes", () => {
       },
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const brick = { brick: "div" };
     const route: RouteConf = {
       type: "routes",
@@ -297,7 +297,7 @@ describe("renderRoutes", () => {
         noAuthGuard: true,
       },
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const route: RouteConf = {
       path: "${APP.homepage}/about",
       bricks: [{ brick: "div" }],
@@ -323,7 +323,7 @@ describe("renderRoutes", () => {
         homepage: "/home",
       },
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const route: RouteConf = {
       path: "${APP.homepage}/:objectId",
       bricks: [{ brick: "div" }],
@@ -366,7 +366,7 @@ describe("renderBrick", () => {
       ctxStore,
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBrick(
       renderRoot,
       {
@@ -548,7 +548,7 @@ describe("renderBrick", () => {
       ctxStore,
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBrick(
       renderRoot,
       {
@@ -619,7 +619,7 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext
     );
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const [output1, output2] = await Promise.all([
       renderBrick(
         renderRoot,
@@ -712,7 +712,7 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext
     );
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBricks(
       renderRoot,
       [
@@ -820,7 +820,7 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext
     );
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const slots = {
       "": {
         bricks: [
@@ -930,7 +930,7 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext
     );
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBrick(
       renderRoot,
       {
@@ -987,7 +987,7 @@ describe("renderBrick for control nodes", () => {
       ctxStore,
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     await expect(
       renderBrick(
         renderRoot,
@@ -1096,7 +1096,7 @@ describe("renderBrick for tpl", () => {
       tplStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBrick(
       renderRoot,
       {
@@ -1275,7 +1275,7 @@ describe("renderBrick for tpl", () => {
       tplStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBricks(
       renderRoot,
       [{ brick: "my.tpl-b" }],
@@ -1451,7 +1451,7 @@ describe("renderBrick for tpl", () => {
       tplStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("router");
+    const rendererContext = new RendererContext("page");
     const output = await renderBrick(
       renderRoot,
       {

@@ -4,8 +4,8 @@ import {
   loadDialogService as _loadDialogService,
 } from "./Dialog.js";
 
-jest.mock("./internal/secret_internals.js", () => ({
-  loadBricks([tagName]: [string]) {
+jest.mock("@next-core/loader", () => ({
+  loadBricksImperatively([tagName]: [string]) {
     return tagName === "my-dialog" ? Promise.resolve() : Promise.reject("oops");
   },
 }));
