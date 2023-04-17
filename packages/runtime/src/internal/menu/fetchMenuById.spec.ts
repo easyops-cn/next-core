@@ -6,7 +6,7 @@ import {
 } from "@next-api-sdk/cmdb-sdk";
 import { createProviderClass } from "@next-core/utils/storyboard";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
-import { _test_only_setBootstrapData } from "../Runtime.js";
+import { _internalApiSetBootstrapData } from "../Runtime.js";
 import type { RuntimeContext } from "../interfaces.js";
 
 jest.mock("@next-api-sdk/cmdb-sdk");
@@ -148,12 +148,12 @@ const menuList = [
 describe("fetchMenuById", () => {
   beforeEach(() => {
     window.STANDALONE_MICRO_APPS = false;
-    _test_only_setBootstrapData({});
+    _internalApiSetBootstrapData({});
   });
 
   test("standalone", async () => {
     window.STANDALONE_MICRO_APPS = true;
-    _test_only_setBootstrapData({
+    _internalApiSetBootstrapData({
       storyboards: [
         {
           app: {
@@ -405,7 +405,7 @@ describe("fetchMenuById", () => {
   });
 
   test("dynamic items", async () => {
-    _test_only_setBootstrapData({
+    _internalApiSetBootstrapData({
       storyboards: [
         {
           app: {
@@ -450,7 +450,7 @@ describe("fetchMenuById", () => {
 
   test("menu not found", async () => {
     window.STANDALONE_MICRO_APPS = true;
-    _test_only_setBootstrapData({
+    _internalApiSetBootstrapData({
       storyboards: [
         {
           app: {

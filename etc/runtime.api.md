@@ -6,6 +6,7 @@
 
 import type { Action } from 'history';
 import type { AuthApi_CheckLoginResponseBody } from '@next-api-sdk/api-gateway-sdk';
+import type { BootstrapData } from '@next-core/types';
 import { BreadcrumbItemConf } from '@next-core/types';
 import type { BrickConf } from '@next-core/types';
 import type { BrickEventHandler } from '@next-core/types';
@@ -158,7 +159,7 @@ export function handleHttpError(error: unknown): void;
 export function httpErrorToString(error: unknown): string;
 
 // @public (undocumented)
-function initializePlayground(): void;
+function initializePlayground(data: BootstrapData): void;
 
 // @public
 export function isLoggedIn(): boolean;
