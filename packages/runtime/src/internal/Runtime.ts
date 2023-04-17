@@ -125,7 +125,7 @@ export class Runtime {
   }
 }
 
-export function _test_only_setBootstrapData(data: Partial<BootstrapData>) {
+export function _internalApiSetBootstrapData(data: Partial<BootstrapData>) {
   bootstrapData = data;
 }
 

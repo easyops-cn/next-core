@@ -79,7 +79,7 @@ const bootstrap = http
     responseType: "json",
   })
   .then((data) => {
-    __secret_internals.initializePlayground();
+    __secret_internals.initializePlayground(data);
   });
 
 let rendering = false;

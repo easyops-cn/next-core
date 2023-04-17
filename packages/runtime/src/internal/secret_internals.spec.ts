@@ -15,7 +15,7 @@ import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import {
-  _test_only_setBootstrapData,
+  _internalApiSetBootstrapData,
   _internalApiGetStoryboardInBootstrapData,
 } from "./Runtime.js";
 
@@ -477,7 +477,7 @@ describe("legacyDoTransform", () => {
 
 describe("updateStoryboard", () => {
   beforeEach(() => {
-    _test_only_setBootstrapData({
+    _internalApiSetBootstrapData({
       storyboards: [
         {
           app: {
@@ -505,7 +505,7 @@ describe("updateStoryboard", () => {
   });
 
   afterEach(() => {
-    _test_only_setBootstrapData(undefined!);
+    _internalApiSetBootstrapData(undefined!);
   });
 
   test("updateStoryboard", () => {

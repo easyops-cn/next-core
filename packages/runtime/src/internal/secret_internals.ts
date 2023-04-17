@@ -1,4 +1,5 @@
 import type {
+  BootstrapData,
   BrickConf,
   CustomTemplate,
   RouteConf,
@@ -11,6 +12,7 @@ import {
   _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
   _internalApiLoadBricks,
+  _internalApiSetBootstrapData,
 } from "./Runtime.js";
 import { renderBrick } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
@@ -144,7 +146,8 @@ export function unmountUseBrick(
   rendererContext.dispose();
 }
 
-export function initializePlayground() {
+export function initializePlayground(data: BootstrapData) {
+  _internalApiSetBootstrapData(data);
   // Todo: allow configuration of notification bricks.
   loadNotificationService("shoelace.show-notification");
   loadDialogService("shoelace.show-dialog");
