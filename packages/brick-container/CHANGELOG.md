@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.1.8...@next-core/brick-container@3.1.9) (2023-04-18)
+
+
+### Bug Fixes
+
+* make cache groups compatible in EasyOps CI ([e2c4196](https://github.com/easyops-cn/next-core/commit/e2c419663d958539311bfb32dd7c23425a2995d5))
+
+
+
+
+
 ## [3.1.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.1.7...@next-core/brick-container@3.1.8) (2023-04-17)
 
 **Note:** Version bump only for package @next-core/brick-container

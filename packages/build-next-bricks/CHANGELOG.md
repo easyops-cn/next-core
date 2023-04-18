@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.0...@next-core/build-next-bricks@1.4.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* do not merge react and react-dom ([18872c7](https://github.com/easyops-cn/next-core/commit/18872c746c34d53e1c17df240773ff22372e43b7))
+
+
+
+
+
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.3.1...@next-core/build-next-bricks@1.4.0) (2023-04-14)
 
 
