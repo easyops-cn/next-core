@@ -4,6 +4,37 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const pluginName = "RuntimePlugin";
 
+const sharedSingletonPackages = [
+  "history",
+  "i18next",
+  "lodash",
+  "moment",
+  "moment/locale/zh-cn.js",
+  "js-yaml",
+  "i18next-browser-languagedetector",
+  "react-i18next",
+  "@next-core/runtime",
+  "@next-core/http",
+  "@next-core/theme",
+  "@next-core/cook",
+  "@next-core/i18n",
+  "@next-core/i18n/react",
+  "@next-core/inject",
+  "@next-core/loader",
+  "@next-core/supply",
+  "@next-core/utils/general",
+  "@next-core/utils/storyboard",
+];
+
+const sharedPackages = [
+  "react",
+  "react-dom",
+  "@next-core/element",
+  "@next-core/react-element",
+  "@next-core/react-runtime",
+  ...sharedSingletonPackages,
+];
+
 class RuntimePlugin {
   constructor(options) {
     this._options = options;
@@ -13,9 +44,35 @@ class RuntimePlugin {
    * @param {import("webpack").Compiler} compiler
    */
   apply(compiler) {
+    const { brickPackages, moduleFederationShared, libName } = this._options;
+    if (moduleFederationShared !== false) {
+      const shared = Object.fromEntries(
+        sharedPackages.map((pkg) => {
+          const customized = moduleFederationShared?.[pkg];
+          if (typeof customized === "string") {
+            return;
+          }
+          return [
+            pkg,
+            {
+              singleton: sharedSingletonPackages.includes(pkg),
+              ...customized,
+            },
+          ];
+        })
+      );
+      new webpack.container.ModuleFederationPlugin({
+        name: libName,
+        shared: {
+          ...moduleFederationShared,
+          ...shared,
+        },
+      }).apply(compiler);
+    }
+
     compiler.hooks.afterPlugins.tap(pluginName, () => {
       new CopyPlugin({
-        patterns: this._options.brickPackages.map((pkg) => ({
+        patterns: brickPackages.map((pkg) => ({
           from: path.join(require.resolve(`${pkg}/package.json`), "../dist"),
           to: path.join("bricks", pkg.split("/").pop(), "dist"),
           // Terser skip this file for minimization
@@ -25,19 +82,10 @@ class RuntimePlugin {
 
       new webpack.DefinePlugin({
         BOOTSTRAP_DATA: JSON.stringify({
-          brickPackages: this._options.brickPackages.map((pkg) =>
+          brickPackages: brickPackages.map((pkg) =>
             require(`${pkg}/dist/bricks.json`)
           ),
         }),
-      }).apply(compiler);
-
-      new webpack.container.ModuleFederationPlugin({
-        name: "demo-render-only",
-        shared: {
-          "@next-core/runtime": {
-            singleton: true,
-          },
-        },
       }).apply(compiler);
 
       new webpack.IgnorePlugin({
@@ -45,6 +93,10 @@ class RuntimePlugin {
         // we don't need them.
         resourceRegExp: /^(?:esprima|buffer)$/,
       }).apply(compiler);
+
+      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh|en/).apply(
+        compiler
+      );
     });
   }
 }
