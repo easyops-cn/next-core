@@ -129,15 +129,16 @@ jobs:
 
     - run: yarn build --concurrency 1
     - run: yarn test:ci
-    - run: yarn test:e2e:ci
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     - name: Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: packages/*/.coverage/cobertura-coverage.xml,bricks/*/.coverage/cobertura-coverage.xml,!.cache/**/*
+
+    - run: yarn test:e2e:ci
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master
