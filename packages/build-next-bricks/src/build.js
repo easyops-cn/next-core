@@ -60,7 +60,6 @@ const getCssLoaders = (cssOptions) => [
  */
 async function getWebpackConfig(config) {
   const packageDir = process.cwd();
-  // const isContainer = config.type === "container";
   const isBricks = !config.type || config.type === "bricks";
   const mode = config.mode || process.env.NODE_ENV;
 
@@ -126,7 +125,7 @@ async function getWebpackConfig(config) {
                     }
                   );
                 } catch (e) {
-                  console.error(`Shared package not found: "${dep}"`);
+                  console.warn(`Shared package not found: "${dep}"`);
                   return;
                 }
                 const depPackageJsonFile = await readFile(depPackageJsonPath, {
@@ -181,13 +180,6 @@ async function getWebpackConfig(config) {
 
   /** @type {Record<string, { import: string; name: string; }>} */
   const extraExposes = {};
-  // const initializeTsPath = path.join(packageDir, "src/initialize.ts");
-  // if (fs.existsSync(initializeTsPath)) {
-  //   extraExposes.initialize = {
-  //     import: `./${path.relative(packageDir, initializeTsPath)}`,
-  //     name: "initialize",
-  //   };
-  // }
 
   const outputPath = path.join(packageDir, config.outputPath ?? "dist");
   const chunksDir = isBricks ? "chunks/" : "";
@@ -302,12 +294,6 @@ async function getWebpackConfig(config) {
         ? {
             splitChunks: {
               cacheGroups: {
-                react: {
-                  test: /[\\/]node_modules[\\/](?:react(?:-dom)?|scheduler)[\\/]/,
-                  priority: -10,
-                  reuseExistingChunk: true,
-                  name: "react",
-                },
                 default: {
                   minChunks: 2,
                   priority: -20,
