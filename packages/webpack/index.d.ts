@@ -61,6 +61,7 @@ interface SharedObject {
 
 export interface RuntimePluginOptions {
   brickPackages: string[];
+  baseUrl?: string;
   moduleFederationShared?: SharedObject | false;
   libName?: string;
 }
