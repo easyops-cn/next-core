@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.1...@next-core/runtime@1.4.2) (2023-04-20)
+
+
+### Bug Fixes
+
+* **createRoot:** allow setting context/functions/templates/i18n ([567fe97](https://github.com/easyops-cn/next-core/commit/567fe972300e67bff68b0bd855df1100264b2b4c))
+
+
+
+
+
 ## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.0...@next-core/runtime@1.4.1) (2023-04-17)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack@0.2.0...@next-core/webpack@0.3.0) (2023-04-20)
+
+
+### Features
+
+* **RuntimePlugin:** support baseUrl ([8e1192e](https://github.com/easyops-cn/next-core/commit/8e1192e5011ad5778b3930a4942bc69aaf200776))
+
+
+
+
+
 # [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack@0.1.0...@next-core/webpack@0.2.0) (2023-04-18)
 
 

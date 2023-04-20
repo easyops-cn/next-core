@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.2...@next-core/brick-playground@1.7.3) (2023-04-20)
+
+
+### Bug Fixes
+
+* **createRoot:** allow setting context/functions/templates/i18n ([567fe97](https://github.com/easyops-cn/next-core/commit/567fe972300e67bff68b0bd855df1100264b2b4c))
+* no background before preview initialized ([454e56b](https://github.com/easyops-cn/next-core/commit/454e56bbf3909cc357f5036f8eab3e8a9fa9e4e4))
+
+
+
+
+
 ## [1.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.1...@next-core/brick-playground@1.7.2) (2023-04-18)
 
 
