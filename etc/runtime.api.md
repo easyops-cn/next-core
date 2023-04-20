@@ -159,7 +159,7 @@ export function handleHttpError(error: unknown): void;
 export function httpErrorToString(error: unknown): string;
 
 // @public (undocumented)
-function initializePlayground(data: BootstrapData): void;
+function initializePlayground(data: Partial<BootstrapData>): void;
 
 // @public
 export function isLoggedIn(): boolean;
@@ -244,6 +244,14 @@ export function registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
 // @public (undocumented)
 export interface RenderOptions {
     // (undocumented)
+    context?: ContextConf[];
+    // (undocumented)
+    functions?: StoryboardFunction[];
+    // (undocumented)
+    i18n?: MetaI18n;
+    // (undocumented)
+    templates?: CustomTemplate[];
+    // (undocumented)
     theme?: SiteTheme;
 }
 
@@ -279,7 +287,7 @@ function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult:
 
 // @public (undocumented)
 export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope }?: CreateRootOptions): {
-    render(brick: BrickConf | BrickConf[], { theme }?: RenderOptions): Promise<void>;
+    render(brick: BrickConf | BrickConf[], { theme, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };
 

@@ -9,16 +9,10 @@ import type { BrickPackage } from "@next-core/types";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
 
-interface Sources {
-  yaml?: string;
-  html?: string;
-  javascript?: string;
-}
-
 interface RenderRequest {
-  type: "html" | "yaml";
+  type: RenderType;
   sources: Sources;
-  theme: "dark" | "light";
+  options?: RenderOptions;
 }
 
 http.interceptors.request.use((config) => {
@@ -85,24 +79,20 @@ const bootstrap = http
 let rendering = false;
 let nextRequest: RenderRequest;
 
-(window as any)._preview_only_render = (
-  type: "html" | "yaml",
-  sources: Sources,
-  theme: "dark" | "light"
-) => {
+window._preview_only_render = (type, sources, options) => {
   if (rendering) {
-    nextRequest = { type, sources, theme };
+    nextRequest = { type, sources, options };
   } else {
-    queuedRender({ type, sources, theme });
+    queuedRender({ type, sources, options });
   }
 };
 
 async function queuedRender(request: RenderRequest) {
   rendering = true;
   try {
-    const { type, sources, theme } = request;
+    const { type, sources, options } = request;
     // Assert: `render()` will not throw
-    await render(type, sources, theme);
+    await render(type, sources, options);
   } finally {
     rendering = false;
     if (nextRequest) {
@@ -116,7 +106,7 @@ async function queuedRender(request: RenderRequest) {
 async function render(
   type: "html" | "yaml",
   { yaml, html, javascript }: Sources,
-  theme: "dark" | "light"
+  { theme, context, functions, templates, i18n }: RenderOptions = {}
 ): Promise<void> {
   try {
     document.body.classList.remove("bootstrap-error");
@@ -150,11 +140,23 @@ async function render(
       scriptTag.type = "module";
       container.appendChild(scriptTag);
     } else {
-      const parsed = safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any;
+      const parsed = yaml
+        ? (safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any)
+        : null;
       const bricks = parsed ?? [];
+
+      const parsedContext = loadYaml(context) as any[];
+      const parsedFunctions = loadYaml(functions) as any[];
+      const parsedTemplates = loadYaml(templates) as any[];
+      const parsedI18n = loadYaml(i18n) as any;
+
       await bootstrap;
       await root.render(bricks, {
         theme: theme === "light" ? theme : "dark-v2",
+        context: parsedContext,
+        functions: parsedFunctions,
+        templates: parsedTemplates,
+        i18n: parsedI18n,
       });
     }
   } catch (e) {
@@ -167,4 +169,10 @@ async function render(
     portal.textContent = "";
     container.textContent = `Render failed: ${String(e)}`;
   }
+}
+
+function loadYaml(content: unknown) {
+  return typeof content === "string"
+    ? safeLoad(content, { schema: JSON_SCHEMA, json: true })
+    : content;
 }

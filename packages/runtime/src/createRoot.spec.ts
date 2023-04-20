@@ -1,6 +1,8 @@
+import { initializeI18n } from "@next-core/i18n";
 import { unstable_createRoot } from "./createRoot.js";
 import { applyTheme } from "./themeAndMode.js";
 
+initializeI18n();
 jest.mock("./themeAndMode.js");
 window.scrollTo = jest.fn();
 
@@ -64,15 +66,12 @@ describe("preview", () => {
     expect(portal.innerHTML).toBe("");
   });
 
-  test("sandbox", async () => {
+  test("scope: page", async () => {
     const root = unstable_createRoot(container, { portal, scope: "page" });
 
-    await root.render([
+    const bricks = [
       {
-        brick: "div",
-        properties: {
-          textContent: "Goodbye Preview",
-        },
+        brick: "tpl-test",
       },
       {
         brick: "p",
@@ -81,12 +80,59 @@ describe("preview", () => {
         },
         portal: true,
       },
-    ]);
+    ];
+    const options = {
+      functions: [
+        {
+          name: "sayGoodbye",
+          source: `
+          function sayGoodBye(who) {
+            return \`\${I18N("GOODBYE")} \${who}\`;
+          }
+        `,
+        },
+      ],
+      templates: [
+        {
+          name: "tpl-test",
+          bricks: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "<% FN.sayGoodbye('Preview') %>",
+              },
+            },
+          ],
+        },
+      ],
+      i18n: {
+        en: {
+          GOODBYE: "Goodbye",
+        },
+      },
+    };
+    await root.render(bricks, options);
 
-    expect(container.innerHTML).toBe("<div>Goodbye Preview</div>");
+    expect(container.innerHTML).toBe(
+      "<demo.tpl-test><div>Goodbye Preview</div></demo.tpl-test>"
+    );
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
     expect(applyTheme).toBeCalledTimes(1);
     expect(scrollTo).toBeCalledTimes(1);
+
+    await root.render(bricks, {
+      ...options,
+      // Registered templates cannot be unregistered.
+      templates: undefined,
+      i18n: {
+        en: {
+          GOODBYE: "再见",
+        },
+      },
+    });
+    expect(container.innerHTML).toBe(
+      "<demo.tpl-test><div>再见 Preview</div></demo.tpl-test>"
+    );
 
     root.unmount();
     expect(container.innerHTML).toBe("");

@@ -73,7 +73,7 @@ async function main() {
 
   let mode = matchedExample
     ? matchedExample.mode
-    : (params.get("mode") as keyof Sources) ?? "html";
+    : (params.get("mode") as RenderType) ?? "html";
 
   const codeFromHash =
     !matchedExample && location.hash && location.hash !== "#";
@@ -142,7 +142,7 @@ async function main() {
   }
 
   selectType.addEventListener("change", (e) => {
-    mode = (e.target as HTMLSelectElement).value.toLowerCase() as keyof Sources;
+    mode = (e.target as HTMLSelectElement).value.toLowerCase() as RenderType;
     updateMode();
     selectExample.value = "";
     initEditorsWith();
@@ -216,12 +216,10 @@ async function main() {
 
   const iframe = document.createElement("iframe");
 
-  let previewWin: {
-    _preview_only_render(type: string, files: Sources, theme: string): unknown;
-  };
+  let previewWin: Window;
   const iframeReady = new Promise<void>((resolve, reject) => {
     iframe.addEventListener("load", () => {
-      previewWin = iframe.contentWindow as any;
+      previewWin = iframe.contentWindow;
       resolve();
     });
   });
@@ -245,7 +243,9 @@ async function main() {
 
   async function render(): Promise<void> {
     await iframeReady;
-    previewWin._preview_only_render(mode, sources, currentTheme.toLowerCase());
+    previewWin._preview_only_render(mode, sources, {
+      theme: currentTheme.toLowerCase(),
+    });
   }
 
   buttonRun.addEventListener("click", render);

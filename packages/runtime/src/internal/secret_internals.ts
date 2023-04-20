@@ -146,7 +146,7 @@ export function unmountUseBrick(
   rendererContext.dispose();
 }
 
-export function initializePlayground(data: BootstrapData) {
+export function initializePlayground(data: Partial<BootstrapData>) {
   _internalApiSetBootstrapData(data);
   // Todo: allow configuration of notification bricks.
   loadNotificationService("shoelace.show-notification");
