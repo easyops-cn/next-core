@@ -35,7 +35,8 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV='development' node scripts/start.js",
-    "build": "cross-env NODE_ENV='production' build-next-bricks"
+    "build": "cross-env NODE_ENV='production' build-next-bricks",
+    "build:dev": "cross-env NODE_ENV='development' build-next-bricks"
   },
   "dependencies": {
     "@next-core/serve-helpers": "^1.0.6",
