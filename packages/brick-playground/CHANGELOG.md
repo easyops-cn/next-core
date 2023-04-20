@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.3...@next-core/brick-playground@1.7.4) (2023-04-20)
+
+
+### Bug Fixes
+
+* reset preview body height to initial ([a62e3e7](https://github.com/easyops-cn/next-core/commit/a62e3e714f9c8497cae158084b46687be52e12ee))
+
+
+
+
+
 ## [1.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.2...@next-core/brick-playground@1.7.3) (2023-04-20)
 
 
