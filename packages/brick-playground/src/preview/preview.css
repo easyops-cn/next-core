@@ -15,10 +15,14 @@ body,
   position: absolute;
 }
 
-.bootstrap-error {
+body.bootstrap-error {
   color: var(--color-error, red);
 }
 
-.bootstrap-error #global-loading-bar {
+body.bootstrap-error #global-loading-bar {
   display: none;
+}
+
+body.bootstrap-not-ready {
+  background-color: transparent;
 }

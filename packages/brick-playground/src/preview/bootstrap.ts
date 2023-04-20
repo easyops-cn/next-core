@@ -103,12 +103,19 @@ async function queuedRender(request: RenderRequest) {
   }
 }
 
+let initialized = false;
+
 async function render(
   type: "html" | "yaml",
   { yaml, html, javascript }: Sources,
   { theme, context, functions, templates, i18n }: RenderOptions = {}
 ): Promise<void> {
   try {
+    if (!initialized) {
+      initialized = true;
+      document.body.classList.remove("bootstrap-not-ready");
+      applyTheme(theme === "light" ? theme : "dark-v2");
+    }
     document.body.classList.remove("bootstrap-error");
     if (type === "html") {
       // document.documentElement.dataset.theme =
