@@ -113,7 +113,7 @@ async function render(
   try {
     if (!initialized) {
       initialized = true;
-      document.body.classList.remove("bootstrap-not-ready");
+      document.body.classList.add("bootstrap-ready");
       applyTheme(theme === "light" ? theme : "dark-v2");
     }
     document.body.classList.remove("bootstrap-error");
