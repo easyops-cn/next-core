@@ -1,12 +1,5 @@
-:root,
-body,
 #preview-root {
-  height: 100%;
-}
-
-#preview-root {
-  padding: 10px;
-  overflow: auto;
+  padding: 1em;
 }
 
 #portal-mount-point {
@@ -23,6 +16,10 @@ body.bootstrap-error #global-loading-bar {
   display: none;
 }
 
-body.bootstrap-not-ready {
+body:not(.bootstrap-ready) {
   background-color: transparent;
+}
+
+body.bootstrap-ready {
+  height: initial;
 }
