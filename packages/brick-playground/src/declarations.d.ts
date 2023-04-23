@@ -12,6 +12,8 @@ interface RenderOptions {
   templates?: string | unknown[];
   functions?: string | unknown[];
   i18n?: string | object;
+  styleText?: string;
+  templatesAreArrayOfYaml?: boolean;
 }
 
 interface Window {

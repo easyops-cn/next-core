@@ -5,7 +5,7 @@ import {
   __secret_internals,
 } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
-import type { BrickPackage } from "@next-core/types";
+import type { BrickPackage, CustomTemplate } from "@next-core/types";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
 
@@ -108,7 +108,15 @@ let initialized = false;
 async function render(
   type: "html" | "yaml",
   { yaml, html, javascript }: Sources,
-  { theme, context, functions, templates, i18n }: RenderOptions = {}
+  {
+    theme,
+    context,
+    functions,
+    templates,
+    i18n,
+    styleText,
+    templatesAreArrayOfYaml,
+  }: RenderOptions = {}
 ): Promise<void> {
   try {
     if (!initialized) {
@@ -150,11 +158,23 @@ async function render(
       const parsed = yaml
         ? (safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any)
         : null;
-      const bricks = parsed ?? [];
+      const bricks = [].concat(parsed ?? []);
+      if (styleText) {
+        bricks.push({
+          brick: "style",
+          portal: true,
+          properties: {
+            textContent: styleText,
+          },
+        });
+      }
 
       const parsedContext = loadYaml(context) as any[];
       const parsedFunctions = loadYaml(functions) as any[];
-      const parsedTemplates = loadYaml(templates) as any[];
+      const parsedTemplates = loadYaml(
+        templates,
+        templatesAreArrayOfYaml
+      ) as any[];
       const parsedI18n = loadYaml(i18n) as any;
 
       await bootstrap;
@@ -178,8 +198,25 @@ async function render(
   }
 }
 
-function loadYaml(content: unknown) {
+interface YamlTemplate {
+  name: string;
+  yaml: string;
+}
+
+function loadYaml(content: unknown, templatesAreArrayOfYaml?: boolean) {
   return typeof content === "string"
     ? safeLoad(content, { schema: JSON_SCHEMA, json: true })
+    : templatesAreArrayOfYaml
+    ? (content as YamlTemplate[]).map((item) =>
+        typeof item.yaml === "string"
+          ? {
+              ...(safeLoad(item.yaml, {
+                schema: JSON_SCHEMA,
+                json: true,
+              }) as CustomTemplate),
+              name: item.name,
+            }
+          : item
+      )
     : content;
 }
