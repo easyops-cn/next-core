@@ -447,7 +447,7 @@ describe("setProperties", () => {
     }
   );
 
-  it("should setup useBrick in template", () => {
+  it("should ignore re-setup useBrick in template", () => {
     const element = {} as any;
     setProperties(
       element,
@@ -463,13 +463,9 @@ describe("setProperties", () => {
     );
     expect(element).toEqual({
       display: {
-        useBrick: expect.objectContaining({
+        useBrick: {
           brick: "my-brick",
-          slots: {},
-          [symbolForComputedPropsFromProxy]: {},
-          [symbolForRefForProxy]: undefined,
-          [symbolForTplContextId]: tplContext.id,
-        }),
+        },
       },
     });
   });

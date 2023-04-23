@@ -129,11 +129,6 @@ export function setProperties(
   injectDeep?: boolean
 ): void {
   const realProps = computeRealProperties(properties, context, injectDeep);
-  if (context.tplContextId) {
-    setupUseBrickInTemplate(realProps, {
-      templateContextId: context.tplContextId,
-    });
-  }
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
   }
