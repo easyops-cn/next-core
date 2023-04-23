@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.4...@next-core/brick-playground@1.8.0) (2023-04-23)
+
+
+### Features
+
+* **preview:** allow adding style ([00e817c](https://github.com/easyops-cn/next-core/commit/00e817c6fb3ad1b5ac65b77dac03a04d3b443d81))
+
+
+
+
+
 ## [1.7.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.7.3...@next-core/brick-playground@1.7.4) (2023-04-20)
 
 
