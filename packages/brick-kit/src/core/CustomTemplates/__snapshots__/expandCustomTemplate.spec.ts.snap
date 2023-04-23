@@ -63,6 +63,7 @@ Object {
                 },
                 Object {
                   "brick": "basic-bricks.general-input",
+                  "properties": undefined,
                   "slots": Object {},
                   Symbol(tpl.computedPropsFromProxy): Object {
                     "sharedPropOfInput": "shared",
@@ -72,6 +73,7 @@ Object {
                 },
                 Object {
                   "brick": "basic-bricks.general-link",
+                  "properties": undefined,
                   "slots": Object {},
                   Symbol(tpl.computedPropsFromProxy): Object {
                     "sharedPropOfLink": "linked:shared",
@@ -82,6 +84,7 @@ Object {
                 Object {
                   "brick": "basic-bricks.brick-in-portal",
                   "portal": true,
+                  "properties": undefined,
                   "slots": Object {},
                   Symbol(tpl.computedPropsFromProxy): Object {},
                   Symbol(tpl.refForProxy): undefined,
@@ -95,6 +98,7 @@ Object {
                       "properties": Object {
                         "useBrick": Object {
                           "brick": "b",
+                          "properties": undefined,
                           "ref": "useBrick-in-useBrick-ref-b",
                           "slots": Object {},
                           Symbol(tpl.computedPropsFromProxy): Object {},
@@ -111,6 +115,7 @@ Object {
                               "properties": Object {
                                 "useBrick": Object {
                                   "brick": "d",
+                                  "properties": undefined,
                                   "ref": "useBrick-slot-useBrick-ref-d",
                                   "slots": Object {},
                                   Symbol(tpl.computedPropsFromProxy): Object {},
@@ -133,6 +138,7 @@ Object {
                                     "title": "f",
                                     "useBrick": Object {
                                       "brick": "f",
+                                      "properties": undefined,
                                       "ref": "useBrick-slot-useBrick-deep-ref-f",
                                       "slots": Object {},
                                       Symbol(tpl.computedPropsFromProxy): Object {},
@@ -342,11 +348,11 @@ Object {
     "button" => Object {},
     "input" => Object {},
     "link" => Object {},
-    "useBrick-slot-ref-c" => Object {},
     "useBrick-slot-useBrick-ref-d" => Object {},
+    "useBrick-slot-ref-c" => Object {},
     "useBrick-slot-useBrick-deep-ref-f" => Object {},
-    "useBrick-ref-a" => Object {},
     "useBrick-in-useBrick-ref-b" => Object {},
+    "useBrick-ref-a" => Object {},
     "micro-view" => Object {},
   },
   "stateNames": Array [
@@ -365,6 +371,7 @@ Object {
       "bricks": Array [
         Object {
           "brick": "basic-bricks.micro-view",
+          "properties": undefined,
           "slots": Object {},
           Symbol(tpl.computedPropsFromProxy): Object {},
           Symbol(tpl.refForProxy): undefined,

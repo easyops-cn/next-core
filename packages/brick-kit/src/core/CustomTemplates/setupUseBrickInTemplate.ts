@@ -1,59 +1,67 @@
 import {
   SlotsConfOfBricks,
-  UseBrickConf,
+  UseBrickSlotsConf,
   UseSingleBrickConf,
 } from "@next-core/brick-types";
 import { isObject } from "@next-core/brick-utils";
 import type { ProxyContext } from "./expandCustomTemplate";
 import { setupTemplateProxy } from "./setupTemplateProxy";
 
-export function setupUseBrickInTemplate(
-  props: unknown,
+export function setupUseBrickInTemplate<T>(
+  props: T,
   proxyContext: Partial<ProxyContext>
-): void {
-  function walk(props: unknown): void {
-    if (!props) {
-      return;
+): T {
+  function walk<P>(props: P): P {
+    if (!isObject(props)) {
+      return props;
     }
-    for (const [key, value] of Object.entries<UseBrickConf>(
-      props as Record<string, UseBrickConf>
-    )) {
-      if (isObject(value)) {
-        if (key === "useBrick") {
-          if (Array.isArray(value)) {
-            value.forEach(setup);
-          } else {
-            setup(value);
-          }
-        } else {
-          walk(value);
-        }
-      }
+
+    if (Array.isArray(props)) {
+      return props.map(walk) as P & any[];
     }
+
+    return Object.fromEntries(
+      Object.entries(props)
+        .map(([key, value]) =>
+          isObject(value) && key === "useBrick"
+            ? Array.isArray(value)
+              ? [key, value.map(setup)]
+              : [key, setup(value as UseSingleBrickConf)]
+            : [key, walk(value)]
+        )
+        .concat(
+          Object.getOwnPropertySymbols(props).map((k) => [
+            k,
+            (props as Record<string | symbol, unknown>)[k],
+          ])
+        )
+    ) as P;
   }
 
   function setup(item: UseSingleBrickConf): UseSingleBrickConf {
-    const { ref, slots: slotsInTemplate } = item;
+    const { properties, slots: originalSlots, ...restConf } = item;
 
-    item.slots = Object.fromEntries(
-      Object.entries(slotsInTemplate ?? {}).map(([slotName, slotConf]) => [
+    const slots = Object.fromEntries(
+      Object.entries(originalSlots ?? {}).map(([slotName, slotConf]) => [
         slotName,
         {
           type: "bricks",
           bricks: (slotConf.bricks ?? []).map(setup),
         },
       ])
-    );
+    ) as UseBrickSlotsConf;
 
-    Object.assign(
-      item,
-      setupTemplateProxy(proxyContext, ref, item.slots as SlotsConfOfBricks)
-    );
-
-    walk(item.properties);
-
-    return item;
+    return {
+      ...restConf,
+      properties: walk(properties),
+      slots,
+      ...setupTemplateProxy(
+        proxyContext,
+        restConf.ref,
+        slots as SlotsConfOfBricks
+      ),
+    };
   }
 
-  walk(props);
+  return walk(props);
 }

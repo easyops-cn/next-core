@@ -254,10 +254,12 @@ function expandBrickInTemplate(
     ])
   );
 
-  setupUseBrickInTemplate(brickConfInTemplate.properties, proxyContext);
-
   return {
     ...restBrickConfInTemplate,
+    properties: setupUseBrickInTemplate(
+      brickConfInTemplate.properties,
+      proxyContext
+    ),
     slots,
     ...setupTemplateProxy(proxyContext, ref, slots),
   };
