@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.165.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.6...@next-core/brick-kit@2.165.7) (2023-04-23)
+
+
+### Bug Fixes
+
+* fix multi-instance of useBrick state conflict ([bca409b](https://github.com/easyops-cn/next-core/commit/bca409bd1470edb302381ab190762d291de5a25d))
+
+
+
+
+
 ## [2.165.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.5...@next-core/brick-kit@2.165.6) (2023-04-14)
 
 
