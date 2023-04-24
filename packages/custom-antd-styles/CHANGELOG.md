@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.21](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.20...@next-core/custom-antd-styles@1.25.21) (2023-04-24)
+
+
+### Bug Fixes
+
+* **table:** 表格构件hover行背景颜色使用错误 ([0aae4c4](https://github.com/easyops-cn/next-core/commit/0aae4c416d6eb9608ba0f72f557d3fb384041762))
+
+
+
+
+
 ## [1.25.20](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.19...@next-core/custom-antd-styles@1.25.20) (2023-03-31)
 
 
