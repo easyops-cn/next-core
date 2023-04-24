@@ -114,6 +114,23 @@
       }
     }
   }
+  &-tbody > tr {
+    &.@{table-prefix-cls}-row-hover,
+    &:hover {
+      &:not(.@{table-prefix-cls}-expanded-row):not(.@{table-prefix-cls}-row-selected) > td {
+        background-color: var(--color-fill-bg-base-1);
+      }
+    }
+    &:hover {
+      &.@{table-prefix-cls}-row-selected > td {
+        background-color: var(--color-fill-bg-base-1);
+        &.@{table-prefix-cls}-column-sort {
+          background-color: var(--color-fill-bg-base-1);
+        }
+      }
+    }
+  }
+  
   &-column-sorter{
     color: var(--color-secondary-text);
   }
