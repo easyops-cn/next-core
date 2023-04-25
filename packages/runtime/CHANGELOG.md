@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.2...@next-core/runtime@1.4.3) (2023-04-25)
+
+
+### Bug Fixes
+
+* allow to silent errors for unknown bricks ([d01d62c](https://github.com/easyops-cn/next-core/commit/d01d62cf898ff78cc5ab0df8993911ccda5f4fcc))
+
+
+
+
+
 ## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.1...@next-core/runtime@1.4.2) (2023-04-20)
 
 
