@@ -29,6 +29,13 @@ export interface CreateRootOptions {
    * - fragment: render as fragment, not triggering page life cycles, and disable register of functions/templates/i18n.
    */
   scope?: "page" | "fragment";
+
+  /**
+   * Whether to throw error when encountering unknown bricks.
+   *
+   * Defaults to "throw".
+   */
+  unknownBricks?: "silent" | "throw";
 }
 
 export interface RenderOptions {
@@ -41,7 +48,7 @@ export interface RenderOptions {
 
 export function unstable_createRoot(
   container: HTMLElement,
-  { portal: _portal, scope = "fragment" }: CreateRootOptions = {}
+  { portal: _portal, scope = "fragment", unknownBricks }: CreateRootOptions = {}
 ) {
   let portal = _portal;
   let createPortal: RenderRoot["createPortal"];
@@ -85,7 +92,7 @@ export function unstable_createRoot(
       } as Partial<RuntimeContext> as RuntimeContext;
 
       const previousRendererContext = rendererContext;
-      rendererContext = new RendererContext(scope);
+      rendererContext = new RendererContext(scope, { unknownBricks });
 
       const renderRoot: RenderRoot = {
         tag: RenderTag.ROOT,

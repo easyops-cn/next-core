@@ -38,6 +38,10 @@ const pageOnlyLifeCycles = [
   "onAnchorUnload",
 ] as const;
 
+export interface RendererContextOptions {
+  unknownBricks?: "silent" | "throw";
+}
+
 export class RendererContext {
   /**
    * - page: render as whole page, triggering page life cycles.
@@ -45,8 +49,11 @@ export class RendererContext {
    */
   public readonly scope: "page" | "fragment";
 
-  constructor(scope: "page" | "fragment") {
+  public readonly unknownBricks: "silent" | "throw";
+
+  constructor(scope: "page" | "fragment", options?: RendererContextOptions) {
     this.scope = scope;
+    this.unknownBricks = options?.unknownBricks ?? "throw";
   }
 
   #memoizedLifeCycle: MemoizedLifeCycle<

@@ -87,6 +87,7 @@ export interface CreateRootOptions {
     // (undocumented)
     portal?: HTMLElement;
     scope?: "page" | "fragment";
+    unknownBricks?: "silent" | "throw";
 }
 
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
@@ -286,7 +287,7 @@ export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, col
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
 
 // @public (undocumented)
-export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope }?: CreateRootOptions): {
+export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
     render(brick: BrickConf | BrickConf[], { theme, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };

@@ -66,6 +66,7 @@ const portal = document.querySelector("#portal-mount-point") as HTMLElement;
 const root = unstable_createRoot(container, {
   portal,
   scope: "page",
+  unknownBricks: "silent",
 });
 
 const bootstrap = http
