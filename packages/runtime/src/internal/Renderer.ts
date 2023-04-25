@@ -373,8 +373,14 @@ export async function renderBrick(
     }
     tplStack.set(tplTagName, tplCount + 1);
   } else if (brickName.includes("-") && !customElements.get(brickName)) {
+    const promise = enqueueStableLoadBricks([brickName], getBrickPackages());
     output.blockingList.push(
-      enqueueStableLoadBricks([brickName], getBrickPackages())
+      rendererContext.unknownBricks === "silent"
+        ? promise.catch((e) => {
+            // eslint-disable-next-line no-console
+            console.error(`Load brick "${brickName}" failed:`, e);
+          })
+        : promise
     );
   }
 

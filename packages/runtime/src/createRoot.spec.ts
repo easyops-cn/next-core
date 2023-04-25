@@ -3,6 +3,7 @@ import { unstable_createRoot } from "./createRoot.js";
 import { applyTheme } from "./themeAndMode.js";
 
 initializeI18n();
+const consoleError = jest.spyOn(console, "error");
 jest.mock("./themeAndMode.js");
 window.scrollTo = jest.fn();
 
@@ -139,6 +140,40 @@ describe("preview", () => {
     expect(portal.innerHTML).toBe("");
     // Cover unmount again.
     root.unmount();
+  });
+
+  test("unknown bricks", async () => {
+    consoleError.mockReturnValue();
+    const root = unstable_createRoot(container, { unknownBricks: "silent" });
+
+    await root.render([
+      {
+        brick: "unknown-brick",
+        properties: {
+          textContent: "silence",
+        },
+      } as any,
+    ]);
+
+    expect(container.innerHTML).toBe("<unknown-brick>silence</unknown-brick>");
+    expect(portal.innerHTML).toBe("");
+    expect(applyTheme).not.toBeCalled();
+    expect(scrollTo).not.toBeCalled();
+
+    expect(consoleError).toBeCalledTimes(2);
+    expect(consoleError).toHaveBeenNthCalledWith(
+      1,
+      'Load brick "unknown-brick" failed:',
+      expect.any(Error)
+    );
+    expect(consoleError).toHaveBeenNthCalledWith(
+      2,
+      "Undefined custom element: unknown-brick"
+    );
+
+    root.unmount();
+    expect(container.innerHTML).toBe("");
+    expect(portal.innerHTML).toBe("");
   });
 
   test("fail", async () => {
