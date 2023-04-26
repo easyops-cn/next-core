@@ -356,7 +356,11 @@ export async function renderBrick(
 
   // Widgets need to be defined before rendering.
   if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
-    await loadBricksImperatively([brickName], getBrickPackages());
+    await catchLoadBrick(
+      loadBricksImperatively([brickName], getBrickPackages()),
+      brickName,
+      rendererContext.unknownBricks
+    );
   }
 
   const tplTagName = getTagNameOfCustomTemplate(
@@ -373,14 +377,12 @@ export async function renderBrick(
     }
     tplStack.set(tplTagName, tplCount + 1);
   } else if (brickName.includes("-") && !customElements.get(brickName)) {
-    const promise = enqueueStableLoadBricks([brickName], getBrickPackages());
     output.blockingList.push(
-      rendererContext.unknownBricks === "silent"
-        ? promise.catch((e) => {
-            // eslint-disable-next-line no-console
-            console.error(`Load brick "${brickName}" failed:`, e);
-          })
-        : promise
+      catchLoadBrick(
+        enqueueStableLoadBricks([brickName], getBrickPackages()),
+        brickName,
+        rendererContext.unknownBricks
+      )
     );
   }
 
@@ -639,4 +641,17 @@ export function childrenToSlots(
     }
   }
   return newSlots;
+}
+
+function catchLoadBrick(
+  promise: Promise<unknown>,
+  brickName: string,
+  unknownBricks: RendererContext["unknownBricks"]
+) {
+  return unknownBricks === "silent"
+    ? promise.catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(`Load brick "${brickName}" failed:`, e);
+      })
+    : promise;
 }
