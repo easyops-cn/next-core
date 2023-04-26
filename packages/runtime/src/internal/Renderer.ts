@@ -26,13 +26,17 @@ import {
 import { RendererContext } from "./RendererContext.js";
 import { matchRoutes } from "./matchRoutes.js";
 import {
-  RuntimeBrickConfWithTplSymbols,
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
-import type { RenderBrick, RenderNode, RuntimeContext } from "./interfaces.js";
+import type {
+  RenderBrick,
+  RenderNode,
+  RuntimeBrickConfWithSymbols,
+  RuntimeContext,
+} from "./interfaces.js";
 import {
   getTagNameOfCustomTemplate,
   getTplStateStore,
@@ -43,6 +47,11 @@ import { getBrickPackages } from "./Runtime.js";
 import { RenderTag } from "./enums.js";
 import { getTracks } from "./compute/getTracks.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
+import {
+  FORM_RENDERER,
+  symbolForFormStateStoreId,
+} from "./FormRenderer/constants.js";
+import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -183,7 +192,7 @@ export async function renderBricks(
 
 export async function renderBrick(
   returnNode: RenderNode,
-  brickConf: RuntimeBrickConfWithTplSymbols,
+  brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId?: string,
@@ -207,9 +216,11 @@ export async function renderBrick(
   }
 
   const tplStateStoreId = brickConf[symbolForTplStateStoreId];
+  const formStateStoreId = brickConf[symbolForFormStateStoreId];
   const runtimeContext = {
     ..._runtimeContext,
     tplStateStoreId,
+    formStateStoreId,
   };
 
   if (hasOwnProperty(brickConf, symbolForTPlExternalForEachItem)) {
@@ -317,9 +328,10 @@ export async function renderBrick(
         const currentRenderId = ++renderId;
         const output = await renderControlNode();
         output.blockingList.push(
-          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
-            store.waitForAll()
-          ),
+          ...[
+            ...runtimeContext.tplStateStoreMap.values(),
+            ...runtimeContext.formStateStoreMap.values(),
+          ].map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck
         );
         await Promise.all(output.blockingList);
@@ -356,7 +368,11 @@ export async function renderBrick(
 
   // Widgets need to be defined before rendering.
   if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
-    await loadBricksImperatively([brickName], getBrickPackages());
+    await catchLoadBrick(
+      loadBricksImperatively([brickName], getBrickPackages()),
+      brickName,
+      rendererContext.unknownBricks
+    );
   }
 
   const tplTagName = getTagNameOfCustomTemplate(
@@ -373,15 +389,24 @@ export async function renderBrick(
     }
     tplStack.set(tplTagName, tplCount + 1);
   } else if (brickName.includes("-") && !customElements.get(brickName)) {
-    const promise = enqueueStableLoadBricks([brickName], getBrickPackages());
-    output.blockingList.push(
-      rendererContext.unknownBricks === "silent"
-        ? promise.catch((e) => {
-            // eslint-disable-next-line no-console
-            console.error(`Load brick "${brickName}" failed:`, e);
-          })
-        : promise
-    );
+    if (brickName === FORM_RENDERER) {
+      customElements.define(
+        FORM_RENDERER,
+        class FormRendererElement extends HTMLElement {
+          get $$typeof(): string {
+            return "form-renderer";
+          }
+        }
+      );
+    } else {
+      output.blockingList.push(
+        catchLoadBrick(
+          enqueueStableLoadBricks([brickName], getBrickPackages()),
+          brickName,
+          rendererContext.unknownBricks
+        )
+      );
+    }
   }
 
   const brick: RenderBrick = {
@@ -398,13 +423,22 @@ export async function renderBrick(
 
   output.node = brick;
 
+  // const confProps = brickConf.properties;
+  let formData: unknown;
+  let confProps: Record<string, unknown> | undefined;
+  if (brickName === FORM_RENDERER) {
+    ({ formData, ...confProps } = brickConf.properties ?? {});
+  } else {
+    confProps = brickConf.properties;
+  }
+
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
 
   const trackingContextList: TrackingContextItem[] = [];
   const loadProperties = async () => {
     brick.properties = await asyncComputeRealProperties(
-      brickConf.properties,
+      confProps,
       runtimeContext,
       trackingContextList
     );
@@ -429,6 +463,13 @@ export async function renderBrick(
   if (tplTagName) {
     expandedBrickConf = expandCustomTemplate(
       tplTagName,
+      brickConf,
+      brick,
+      asyncProperties
+    );
+  } else if (brickName === FORM_RENDERER) {
+    expandedBrickConf = expandFormRenderer(
+      formData,
       brickConf,
       brick,
       asyncProperties
@@ -639,4 +680,17 @@ export function childrenToSlots(
     }
   }
   return newSlots;
+}
+
+function catchLoadBrick(
+  promise: Promise<unknown>,
+  brickName: string,
+  unknownBricks: RendererContext["unknownBricks"]
+) {
+  return unknownBricks === "silent"
+    ? promise.catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(`Load brick "${brickName}" failed:`, e);
+      })
+    : promise;
 }

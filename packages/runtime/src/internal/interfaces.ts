@@ -9,6 +9,8 @@ import type {
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
+import { RuntimeBrickConfWithTplSymbols } from "./CustomTemplates/constants.js";
+import { RuntimeBrickConfOfFormSymbols } from "./FormRenderer/constants.js";
 
 export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   ctxStore: DataStore<"CTX">;
@@ -19,6 +21,10 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   tplStateStoreScope?: DataStore<"STATE">[];
   forEachItem?: unknown;
   appendI18nNamespace?: string;
+
+  formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
+  formStateStoreId?: string;
+  formStateStoreScope?: DataStore<"FORM_STATE">[];
 }
 
 export type AsyncProperties = Promise<Record<string, unknown>>;
@@ -119,3 +125,6 @@ interface ReversedSlotProxy {
   from: string;
   to: CustomTemplateProxySlot;
 }
+
+export type RuntimeBrickConfWithSymbols = RuntimeBrickConfWithTplSymbols &
+  RuntimeBrickConfOfFormSymbols;

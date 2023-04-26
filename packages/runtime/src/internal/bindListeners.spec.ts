@@ -471,6 +471,52 @@ describe("listenerFactory for state.* and tpl.*", () => {
   });
 });
 
+describe("listenerFactory for formstate.update", () => {
+  let formStore: DataStore<"FORM_STATE">;
+
+  beforeEach(async () => {
+    const formStateStoreMap = new Map<string, DataStore<"FORM_STATE">>();
+    const formStateStoreId = "form-state-0";
+    runtimeContext = {
+      formStateStoreId,
+      formStateStoreMap,
+    } as RuntimeContext;
+    formStore = new DataStore("FORM_STATE");
+    formStateStoreMap.set(formStateStoreId, formStore);
+    formStore.define(
+      [
+        {
+          name: "primitiveState",
+          value: "initial primitive",
+        },
+        {
+          name: "asyncState",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [30, "<% `resolved:${FORM_STATE.primitiveState}` %>"],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    await formStore.waitForAll();
+  });
+
+  test("formstate.update", async () => {
+    expect(formStore.getValue("primitiveState")).toBe("initial primitive");
+    expect(formStore.getValue("asyncState")).toBe("resolved:initial primitive");
+
+    listenerFactory(
+      {
+        action: "formstate.update",
+        args: ["primitiveState", "<% EVENT.detail %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(formStore.getValue("primitiveState")).toBe("ok");
+  });
+});
+
 describe("listenerFactory for theme.*", () => {
   beforeAll(() => {
     mockApplyTheme.mockReturnValue();

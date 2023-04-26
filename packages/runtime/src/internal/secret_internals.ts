@@ -38,14 +38,17 @@ export async function renderUseBrick(
   data: unknown
 ): Promise<RenderUseBrickResult> {
   const tplStateStoreScope: DataStore<"STATE">[] = [];
+  const formStateStoreScope: DataStore<"FORM_STATE">[] = [];
   const runtimeContext: RuntimeContext = {
     ..._internalApiGetRuntimeContext()!,
     data,
     pendingPermissionsPreCheck: [],
     tplStateStoreScope,
+    formStateStoreScope,
   };
 
   runtimeContext.tplStateStoreMap ??= new Map();
+  runtimeContext.formStateStoreMap ??= new Map();
 
   const rendererContext = new RendererContext("fragment");
 
@@ -87,7 +90,9 @@ export async function renderUseBrick(
   await Promise.all([
     ...output.blockingList,
     // Wait for local tpl state stores belong to current `useBrick` only.
-    ...tplStateStoreScope.map((store) => store.waitForAll()),
+    ...[...tplStateStoreScope, ...formStateStoreScope].map((store) =>
+      store.waitForAll()
+    ),
     ...runtimeContext.pendingPermissionsPreCheck,
   ]);
 

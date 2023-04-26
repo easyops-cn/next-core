@@ -193,7 +193,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       return false;
     }
     let value: unknown;
-    if (this.type === "STATE" && asyncHostProperties && dataConf.expose) {
+    if (
+      asyncHostProperties &&
+      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE")
+    ) {
       const hostProps = await asyncHostProperties;
       if (hasOwnProperty(hostProps, dataConf.name)) {
         value = hostProps[dataConf.name];
@@ -244,7 +247,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       );
     }
 
-    if (dataConf.track && this.type !== "FORM_STATE") {
+    if (dataConf.track) {
       const deps = strictCollectMemberUsage(
         load ? dataConf.resolve : dataConf.value,
         this.type

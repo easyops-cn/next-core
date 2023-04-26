@@ -25,7 +25,7 @@ export function getTplStateStore(
       }.\nThis is a bug of Brick Next, please report it.`
     );
   }
-  return store!;
+  return store;
 }
 
 export function getTplHostElement(
@@ -42,7 +42,7 @@ export function getTplHostElement(
       }.\nThis is a bug of Brick Next, please report it.`
     );
   }
-  return hostElement!;
+  return hostElement;
 }
 
 export function getTagNameOfCustomTemplate(

@@ -24,7 +24,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
   brickConf: T,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties | undefined
+  asyncHostProperties: AsyncProperties
 ): T {
   const tplStateStoreId = uniqueId("tpl-state-");
   const runtimeContext = {
@@ -32,8 +32,9 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
     tplStateStoreId,
   };
 
-  // There is a boundary for `forEachItem` between template internals and externals.
+  // There is a boundary for `forEachItem` and `FORM_STATE` between template internals and externals.
   delete runtimeContext.forEachItem;
+  delete runtimeContext.formStateStoreId;
 
   const tplStateStore = new DataStore("STATE", hostBrick);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
