@@ -1,7 +1,7 @@
 # Easy Bricks Core
 
 [![CI Status](https://github.com/easyops-cn/next-core/workflows/CI/badge.svg?event=push&branch=v3)](https://github.com/easyops-cn/next-core/actions?query=workflow%3ACI+branch%3Av3)
-[![Coverage Status](https://codecov.io/gh/easyops-cn/next-core/branch/v3/graph/badge.svg?token=XSPIZ7X5WH)](https://codecov.io/gh/easyops-cn/next-core/tree/v3)
+[![Coverage Status](https://codecov.io/gh/easyops-cn/next-core/branch/v3/graph/badge.svg?token=XSPIZ7X5WH)](https://app.codecov.io/gh/easyops-cn/next-core/tree/v3)
 [![Cypress Status](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/67qbbe/v3&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/67qbbe/runs)
 
 [English](#readme) | [简体中文](#简体中文)
