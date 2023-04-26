@@ -317,6 +317,7 @@ export class Router {
         ctxStore: new DataStore("CTX"),
         pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
+        formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       });
 
       const rendererContext = (this.#rendererContext = new RendererContext(
@@ -352,10 +353,11 @@ export class Router {
 
         await Promise.all([
           ...output.blockingList,
-          runtimeContext.ctxStore.waitForAll(),
-          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
-            store.waitForAll()
-          ),
+          ...[
+            runtimeContext.ctxStore,
+            ...runtimeContext.tplStateStoreMap.values(),
+            ...runtimeContext.formStateStoreMap.values(),
+          ].map((store) => store.waitForAll()),
           // Todo: load processors only when they would used in current rendering.
           // loadProcessorsImperatively(
           //   strictCollectMemberUsage(

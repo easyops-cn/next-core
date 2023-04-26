@@ -14,6 +14,8 @@ import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
 import { symbolForTplStateStoreId } from "./CustomTemplates/constants.js";
+import { FormDataProperties } from "./FormRenderer/interfaces.js";
+import { FORM_RENDERER } from "./FormRenderer/constants.js";
 
 jest.mock("@next-core/loader");
 jest.mock("./checkPermissions.js");
@@ -40,6 +42,21 @@ customElements.define(
   "my-timeout-provider",
   createProviderClass(myTimeoutProvider)
 );
+
+const formRendererBricks = [
+  "basic-bricks.micro-view",
+  "forms.general-form",
+  "forms.general-input",
+  "forms.general-input-number",
+  "forms.general-switch",
+  "forms.general-select",
+  "forms.general-textarea",
+  "forms.general-date-picker",
+  "forms.cmdb-instance-select-panel",
+];
+for (const brick of formRendererBricks) {
+  customElements.define(brick, class MyElement extends HTMLElement {});
+}
 
 describe("renderRoutes", () => {
   test("general", async () => {
@@ -698,6 +715,7 @@ describe("renderBrick for control nodes", () => {
     const runtimeContext = {
       ctxStore,
       tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
     ctxStore.define(
@@ -1273,6 +1291,7 @@ describe("renderBrick for tpl", () => {
     const runtimeContext = {
       ctxStore,
       tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");
@@ -1531,6 +1550,247 @@ describe("renderBrick for tpl", () => {
             </em>
           </div>
         </my.tpl-c>,
+      ]
+    `);
+  });
+});
+
+describe("renderBrick for form renderer", () => {
+  test("general", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    const types = [
+      "STRING",
+      "INT",
+      "FLOAT",
+      "BOOLEAN",
+      "ENUM",
+      "ENUMS",
+      "DATE",
+      "TIME",
+      "IP",
+      "JSON",
+      "ARRAY",
+      "STRUCTURE",
+      "STRUCTURE_ARRAY",
+    ];
+
+    const formData: FormDataProperties = {
+      formSchema: {
+        id: "form_1",
+        brick: "forms.general-form",
+        bricks: types.map((type) => ({
+          id: type.toLowerCase(),
+          mountPoint: "items",
+        })),
+      },
+      fields: types.map((type) => ({
+        fieldId: type.toLowerCase(),
+        name: `My ${type}`,
+        fieldType: type,
+      })),
+    };
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: FORM_RENDERER,
+        properties: {
+          formData,
+          renderRoot: false,
+        },
+      },
+      runtimeContext,
+      rendererContext
+    );
+    renderRoot.child = output.node;
+
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.formStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <form-renderer.form-renderer>
+          <forms.general-form>
+            <forms.general-input
+              data-testid="string"
+              id="string"
+              slot="items"
+            />
+            <forms.general-input-number
+              data-testid="int"
+              id="int"
+              slot="items"
+            />
+            <forms.general-input-number
+              data-testid="float"
+              id="float"
+              slot="items"
+            />
+            <forms.general-switch
+              data-testid="boolean"
+              id="boolean"
+              slot="items"
+            />
+            <forms.general-select
+              data-testid="enum"
+              id="enum"
+              slot="items"
+            />
+            <forms.general-select
+              data-testid="enums"
+              id="enums"
+              slot="items"
+            />
+            <forms.general-date-picker
+              data-testid="date"
+              id="date"
+              slot="items"
+            />
+            <forms.general-date-picker
+              data-testid="time"
+              id="time"
+              slot="items"
+            />
+            <forms.general-input
+              data-testid="ip"
+              id="ip"
+              slot="items"
+            />
+            <forms.general-textarea
+              data-testid="json"
+              id="json"
+              slot="items"
+            />
+            <forms.general-select
+              data-testid="array"
+              id="array"
+              slot="items"
+            />
+            <forms.cmdb-instance-select-panel
+              data-testid="structure"
+              id="structure"
+              slot="items"
+            />
+            <forms.cmdb-instance-select-panel
+              data-testid="structure_array"
+              id="structure_array"
+              slot="items"
+            />
+          </forms.general-form>
+        </form-renderer.form-renderer>,
+      ]
+    `);
+  });
+
+  test("no render root", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      formStateStoreMap: new Map(),
+      formStateStoreScope: [] as DataStore<"FORM_STATE">[],
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    const types = ["STRING"];
+
+    const formData: FormDataProperties = {
+      formSchema: {
+        id: "form_1",
+        brick: "forms.general-form",
+        bricks: types.map((type) => ({
+          id: type.toLowerCase(),
+          if: true,
+        })),
+        events: {
+          "validate.success": {
+            action: "console.log",
+          },
+        },
+      },
+      fields: types.map((type) => ({
+        fieldId: type.toLowerCase(),
+        name: `My ${type}`,
+        fieldType: type,
+      })),
+      context: [
+        {
+          name: "params",
+        },
+      ],
+    };
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: FORM_RENDERER,
+        properties: {
+          formData: JSON.stringify(formData),
+        },
+        events: {
+          "validate.success": {
+            action: "console.info",
+          },
+          "validate.error": {
+            action: "handleHttpError",
+          },
+        },
+      },
+      runtimeContext,
+      rendererContext
+    );
+    renderRoot.child = output.node;
+
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.formStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <form-renderer.form-renderer>
+          <basic-bricks.micro-view
+            style="padding: 12px;"
+          >
+            <forms.general-form
+              slot="content"
+            >
+              <forms.general-input
+                data-testid="string"
+                id="string"
+              />
+            </forms.general-form>
+          </basic-bricks.micro-view>
+        </form-renderer.form-renderer>,
       ]
     `);
   });

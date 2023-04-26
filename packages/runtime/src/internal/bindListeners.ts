@@ -31,6 +31,7 @@ import {
 import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
 import { getArgsOfFlowApi } from "./data/FlowApi.js";
 import { Notification } from "../Notification.js";
+import { getFormStateStore } from "./FormRenderer/utils.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -227,7 +228,14 @@ export function listenerFactory(
             break;
           }
 
-          // case "formstate.update":
+          case "formstate.update":
+            handleFormStateAction(
+              event,
+              handler.args,
+              handler.callback,
+              runtimeContext
+            );
+            break;
 
           // case "message.subscribe":
           // case "message.unsubscribe":
@@ -568,6 +576,27 @@ function handleTplStateAction(
     name as string,
     value,
     method === "update" ? "replace" : method,
+    callback,
+    runtimeContext
+  );
+}
+
+function handleFormStateAction(
+  event: Event,
+  args: unknown[] | undefined,
+  callback: BrickEventHandlerCallback | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const [name, value] = argsFactory(args, runtimeContext, event);
+  const formStateStore = getFormStateStore(
+    runtimeContext,
+    "formstate.update",
+    `: ${name}`
+  );
+  formStateStore.updateValue(
+    name as string,
+    value,
+    "replace",
     callback,
     runtimeContext
   );
