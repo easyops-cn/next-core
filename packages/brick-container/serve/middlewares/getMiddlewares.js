@@ -16,10 +16,6 @@ export function getMiddlewares(env) {
 
   for (const appId of localMicroApps) {
     middlewares.push({
-      path: `${baseHref}api/auth/v2/bootstrap/${appId}`,
-      middleware: singleAppBootstrapJson(env, appId),
-    });
-    middlewares.push({
       path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/bootstrap.hash.json`,
       middleware: standaloneBootstrapJson(env, appId),
     });
@@ -58,12 +54,19 @@ export function getMiddlewares(env) {
 }
 
 export function getPreMiddlewares(env) {
-  const { rootDir, baseHref } = env;
+  const { rootDir, baseHref, localMicroApps } = env;
 
   /**
    * @type {import("webpack-dev-server").Middleware[]}
    */
   const middlewares = [];
+
+  for (const appId of localMicroApps) {
+    middlewares.push({
+      path: `${baseHref}api/auth/v2/bootstrap/${appId}`,
+      middleware: singleAppBootstrapJson(env, appId),
+    });
+  }
 
   middlewares.push({
     path: `${baseHref}sa-static/-/bricks/`,
