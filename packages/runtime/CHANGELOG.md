@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.3...@next-core/runtime@1.5.0) (2023-04-26)
+
+
+### Bug Fixes
+
+* allow to silent errors when loading widgets ([fcc9620](https://github.com/easyops-cn/next-core/commit/fcc9620e4762c8097af107ee3d54d8bd18823cec))
+
+
+### Features
+
+* support form-renderer ([e2cbb85](https://github.com/easyops-cn/next-core/commit/e2cbb8585781f9c3fe0d36be402dbe95f5a3e75b))
+
+
+
+
+
 ## [1.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.2...@next-core/runtime@1.4.3) (2023-04-25)
 
 

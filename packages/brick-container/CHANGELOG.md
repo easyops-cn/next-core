@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.1.11...@next-core/brick-container@3.1.12) (2023-04-26)
+
+
+### Bug Fixes
+
+* fix local micro app not working in start mode with remote ([24afe10](https://github.com/easyops-cn/next-core/commit/24afe10eec40df1568081e281e6ca51095eba3e4))
+
+
+
+
+
 ## [3.1.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.1.10...@next-core/brick-container@3.1.11) (2023-04-25)
 
 **Note:** Version bump only for package @next-core/brick-container
