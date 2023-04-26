@@ -4,15 +4,29 @@ export interface ImagesFactory {
 
 export function imagesFactory(
   appId: string,
-  isBuildPush?: boolean
+  isBuildPush?: boolean,
+  version?: string
 ): ImagesFactory {
   return {
     get(name) {
+      const getSuffix = (): string => {
+        const suffix = window.APP_ROOT ? `${window.APP_ROOT}-/` : "";
+        if (window.APP_ID && window.APP_ID !== appId) {
+          return suffix.replace(
+            new RegExp(`${window.APP_ID}|/versions/.*?/`, "g"),
+            (match) => {
+              if (match.startsWith("/versions")) {
+                return `/versions/${version}/`;
+              }
+              return appId;
+            }
+          );
+        }
+        return suffix;
+      };
       return isBuildPush
         ? `api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
-        : `${
-            window.APP_ROOT ? `${window.APP_ROOT}-/` : ""
-          }micro-apps/${appId}/images/${name}`;
+        : `${getSuffix()}micro-apps/${appId}/images/${name}`;
     },
   };
 }

@@ -414,6 +414,8 @@ module.exports = (env) => {
               raw
             );
             if (standalone) {
+              const appIdMatch = raw.match(/\bAPP_ID\s*=\s*("[^"]+")/);
+              const appId = appIdMatch ? JSON.parse(appIdMatch[1]) : "";
               const appDir = pathname
                 .split("/")
                 .slice(1, pathname.startsWith("/legacy/") ? 3 : 2)
@@ -461,6 +463,7 @@ module.exports = (env) => {
 
                 return getIndexHtml(
                   {
+                    appId,
                     appDir,
                     appRoot,
                     publicPrefix,

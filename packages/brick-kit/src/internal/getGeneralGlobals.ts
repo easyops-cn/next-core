@@ -20,7 +20,10 @@ export interface GeneralGlobalsOptions {
   isStoryboardFunction?: boolean;
 }
 
-export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
+export type PartialMicroApp = Pick<
+  MicroApp,
+  "id" | "isBuildPush" | "currentVersion"
+>;
 
 // `GeneralGlobals` are globals which are page-state-agnostic,
 // thus they can be used both in storyboard expressions and functions.
@@ -60,7 +63,7 @@ function getIndividualGlobal(
         ? fakeImageFactory()
         : widgetId
         ? widgetImagesFactory(widgetId, widgetVersion)
-        : imagesFactory(app.id, app.isBuildPush);
+        : imagesFactory(app.id, app.isBuildPush, app.currentVersion);
     case "I18N":
       return collectCoverage
         ? identity

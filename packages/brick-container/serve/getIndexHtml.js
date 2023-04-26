@@ -66,6 +66,7 @@ const getIndexHtml = (standaloneConfig, env) => {
         (standaloneConfig.standaloneVersion === 2
           ? [
               "w.PUBLIC_ROOT_WITH_VERSION=!0",
+              `w.APP_ID=${JSON.stringify(standaloneConfig.appId)}`,
               `var d=${JSON.stringify(standaloneConfig.publicPrefix)}`,
               'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
               `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/"`,
