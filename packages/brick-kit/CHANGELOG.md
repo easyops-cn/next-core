@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.166.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.7...@next-core/brick-kit@2.166.0) (2023-04-27)
+
+
+### Features
+
+* support Menu Image ([e5b6c3c](https://github.com/easyops-cn/next-core/commit/e5b6c3c08c0e647ee805e53ee2585b59032b8c6d))
+* update code ([56bd9ed](https://github.com/easyops-cn/next-core/commit/56bd9ed10cfe8a84074fe08e98fa7a1a6ae71559))
+* update unit test ([7ba1090](https://github.com/easyops-cn/next-core/commit/7ba10909c7e60a296855d093586bedd9c1cea70b))
+
+
+
+
+
 ## [2.165.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.6...@next-core/brick-kit@2.165.7) (2023-04-23)
 
 
