@@ -8,6 +8,8 @@ describe("imagesFactory", () => {
       {
         app: { id: string; isBuildPush?: boolean };
         appRoot?: string;
+        appId?: string;
+        version?: string;
       },
       string,
       string
@@ -20,7 +22,7 @@ describe("imagesFactory", () => {
         },
       },
       "test.png",
-      "micro-apps/my-app/images/test.png",
+      "/micro-apps/my-app/images/test.png",
     ],
     [
       {
@@ -30,7 +32,7 @@ describe("imagesFactory", () => {
         },
       },
       "test.png",
-      "api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.png",
+      "/api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.png",
     ],
     [
       {
@@ -42,9 +44,34 @@ describe("imagesFactory", () => {
       "test.png",
       "/sa-static/-/micro-apps/my-app/images/test.png",
     ],
-  ])("should work", ({ app, appRoot }, img, src) => {
+    [
+      {
+        app: {
+          id: "other-app",
+        },
+        appRoot: "sa-static/my-app/versions/1.2.10/webroot/",
+        appId: "my-app",
+        version: "1.2.3",
+      },
+      "test20230406.png",
+      "/sa-static/other-app/versions/1.2.3/webroot/-/micro-apps/other-app/images/test20230406.png",
+    ],
+    [
+      {
+        app: {
+          id: "other-app",
+        },
+        appRoot: "other-app-test/my-app/versions/1.2.10/webroot/",
+        appId: "my-app",
+        version: "1.1.0",
+      },
+      "test20230406.png",
+      "/other-app-test/other-app/versions/1.1.0/webroot/-/micro-apps/other-app/images/test20230406.png",
+    ],
+  ])("should work", ({ app, appRoot, appId, version }, img, src) => {
     window.APP_ROOT = appRoot;
-    expect(imagesFactory(app.id, app.isBuildPush).get(img)).toBe(src);
+    window.APP_ID = appId;
+    expect(imagesFactory(app.id, app.isBuildPush, version).get(img)).toBe(src);
   });
 });
 

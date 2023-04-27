@@ -516,7 +516,7 @@ async function computeRealValueWithOverrideApp<
   let newContext = context;
   if (
     overrideAppId !== context.app.id &&
-    attemptToVisit(data, ["APP", "I18N"])
+    attemptToVisit(data, ["APP", "I18N", "IMG"])
   ) {
     if (window.STANDALONE_MICRO_APPS) {
       if (data[symbolOverrideApp]) {
