@@ -84,8 +84,7 @@ async function main() {
       loadCheckLogin(),
       loadBootstrapData(),
     ]);
-    runtime.initialize(bootstrapData);
-    await runtime.bootstrap();
+    await runtime.bootstrap(bootstrapData);
     bootstrapStatus = "ok";
     if (previewRequested) {
       startPreview();

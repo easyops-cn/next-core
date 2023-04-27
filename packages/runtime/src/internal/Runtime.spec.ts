@@ -398,8 +398,7 @@ describe("Runtime", () => {
 
   test("bootstrap twice", async () => {
     const runtime = createRuntime();
-    runtime.initialize({});
-    await runtime.bootstrap();
+    await runtime.bootstrap({});
     expect(runtime.bootstrap()).rejects.toMatchInlineSnapshot(
       `[Error: The runtime cannot be bootstrapped more than once]`
     );
