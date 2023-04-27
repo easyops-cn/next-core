@@ -1,3 +1,4 @@
+import { getBasePath } from "./getBasePath";
 export interface ImagesFactory {
   get(name: string): string;
 }
@@ -10,22 +11,25 @@ export function imagesFactory(
   return {
     get(name) {
       const getSuffix = (): string => {
-        const suffix = window.APP_ROOT ? `${window.APP_ROOT}-/` : "";
+        let suffix = window.APP_ROOT ? `${window.APP_ROOT}-/` : "";
+        if (!suffix.startsWith("/")) {
+          suffix = getBasePath() + suffix;
+        }
         if (window.APP_ID && window.APP_ID !== appId) {
           return suffix.replace(
-            new RegExp(`${window.APP_ID}|/versions/.*?/`, "g"),
-            (match) => {
-              if (match.startsWith("/versions")) {
-                return `/versions/${version}/`;
+            new RegExp(`/(${window.APP_ID}|\\d+.\\d+.\\d+)/`, "g"),
+            (_, p1) => {
+              if (p1 === window.APP_ID) {
+                return `/${appId}/`;
               }
-              return appId;
+              return `/${version}/`;
             }
           );
         }
         return suffix;
       };
       return isBuildPush
-        ? `api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
+        ? `${getSuffix()}api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
         : `${getSuffix()}micro-apps/${appId}/images/${name}`;
     },
   };
