@@ -1,5 +1,6 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { createProviderClass } from "@next-core/utils/storyboard";
+import { loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
 import {
   createRuntime as _createRuntime,
@@ -8,13 +9,18 @@ import {
 } from "./Runtime.js";
 import { getHistory as _getHistory } from "../history.js";
 
+jest.mock("@next-core/loader");
 jest.mock("../Dialog.js");
 jest.mock("../Notification.js");
 
 const consoleError = jest.spyOn(console, "error");
 window.scrollTo = jest.fn();
 
-const getBootstrapData = (returnTemplates?: boolean): BootstrapData => ({
+const getBootstrapData = (options?: {
+  templates?: boolean;
+  settings?: boolean;
+  locales?: boolean;
+}): BootstrapData => ({
   storyboards: [
     {
       app: {
@@ -32,6 +38,13 @@ const getBootstrapData = (returnTemplates?: boolean): BootstrapData => ({
             },
           },
         },
+        locales: options?.locales
+          ? {
+              en: {
+                name: "Application A",
+              },
+            }
+          : undefined,
       },
       routes: [
         {
@@ -41,7 +54,7 @@ const getBootstrapData = (returnTemplates?: boolean): BootstrapData => ({
             {
               brick: "div",
               properties: {
-                textContent: "I'm homepage of App A",
+                textContent: "<% `I'm homepage of ${APP.localeName}` %>",
               },
             },
           ],
@@ -92,7 +105,7 @@ const getBootstrapData = (returnTemplates?: boolean): BootstrapData => ({
         },
       ],
       meta: {
-        customTemplates: returnTemplates
+        customTemplates: options?.templates
           ? [
               {
                 name: "tpl-a",
@@ -120,21 +133,23 @@ const getBootstrapData = (returnTemplates?: boolean): BootstrapData => ({
     },
   ],
   brickPackages: [],
-  settings: {
-    featureFlags: {
-      ["some-global-feature"]: true,
-    },
-    misc: {
-      quality: "good",
-    },
-    brand: {
-      favicon: "new-favicon.png",
-    },
-    launchpad: {
-      columns: 11,
-      rows: 3,
-    },
-  },
+  settings: options?.settings
+    ? {
+        featureFlags: {
+          ["some-global-feature"]: true,
+        },
+        misc: {
+          quality: "good",
+        },
+        brand: {
+          favicon: "new-favicon.png",
+        },
+        launchpad: {
+          columns: 11,
+          rows: 3,
+        },
+      }
+    : undefined,
 });
 
 const myTimeoutProvider = jest.fn(
@@ -179,7 +194,9 @@ describe("Runtime", () => {
   });
 
   test("basic page", async () => {
-    createRuntime().initialize(getBootstrapData());
+    createRuntime().initialize(
+      getBootstrapData({ settings: true, locales: true })
+    );
     getHistory().push("/app-a");
     await getRuntime().bootstrap();
     const renderId0 = _internalApiGetRenderId();
@@ -190,7 +207,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <div>
-            I'm homepage of App A
+            I'm homepage of Application A
           </div>
         </div>,
         <div
@@ -289,7 +306,7 @@ describe("Runtime", () => {
   });
 
   test("tpl", async () => {
-    createRuntime().initialize(getBootstrapData(true));
+    createRuntime().initialize(getBootstrapData({ templates: true }));
 
     expect(() => createRuntime()).toThrowErrorMatchingInlineSnapshot(
       `"Cannot create multiple runtimes"`
@@ -357,8 +374,18 @@ describe("Runtime", () => {
     expect(getHistory().location.pathname).toBe("/app-a/r2");
   });
 
+  test("loadBricks", async () => {
+    const runtime = createRuntime();
+    runtime.initialize({ brickPackages: [{ id: "bricks/test" } as any] });
+    await runtime.loadBricks(["test.my-brick"]);
+    expect(loadBricksImperatively).toBeCalledWith(
+      ["test.my-brick"],
+      [{ id: "bricks/test" }]
+    );
+  });
+
   test("without bootstrap", () => {
-    createRuntime().initialize(getBootstrapData());
+    createRuntime().initialize({ brickPackages: [] });
     expect(getRuntime().getRecentApps()).toEqual({});
   });
 });
