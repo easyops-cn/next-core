@@ -44,8 +44,12 @@ class RuntimePlugin {
    * @param {import("webpack").Compiler} compiler
    */
   apply(compiler) {
-    const { brickPackages, baseUrl, moduleFederationShared, libName } =
-      this._options;
+    const {
+      brickPackages,
+      baseUrl = "/",
+      moduleFederationShared,
+      libName,
+    } = this._options;
     if (moduleFederationShared !== false) {
       const shared = Object.fromEntries(
         sharedPackages.map((pkg) => {
@@ -86,14 +90,14 @@ class RuntimePlugin {
       );
 
       new webpack.DefinePlugin({
-        BOOTSTRAP_DATA: JSON.stringify({
-          brickPackages: baseUrl
+        BRICK_PACKAGES: JSON.stringify(
+          baseUrl
             ? loadedBrickPackages.map((pkg) => ({
                 ...pkg,
                 filePath: `${baseUrl}${pkg.filePath}`,
               }))
-            : loadedBrickPackages,
-        }),
+            : loadedBrickPackages
+        ),
       }).apply(compiler);
 
       new webpack.IgnorePlugin({

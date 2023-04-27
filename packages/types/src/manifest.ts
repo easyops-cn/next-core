@@ -1,6 +1,6 @@
 /** @internal */
 export interface BootstrapData {
-  brickPackages: BrickPackage[];
+  brickPackages?: BrickPackage[];
   storyboards?: Storyboard[];
   settings?: BootstrapSettings;
   desktops?: unknown[];

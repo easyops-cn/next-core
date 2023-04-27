@@ -15,12 +15,12 @@ import { Router } from "./Router.js";
 import { NS, locales } from "./i18n.js";
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
-import { injectedBootstrapData } from "./bootstrapData.js";
+import { injectedBrickPackages } from "./injected.js";
 
 let runtime: Runtime;
 
 // Allow inject bootstrap data in a runtime other than Brick Next.
-let bootstrapData = injectedBootstrapData;
+let bootstrapData: BootstrapData | undefined;
 let router: Router | undefined;
 
 export interface RuntimeOptions {
@@ -53,7 +53,14 @@ export function getRuntime() {
 }
 
 export class Runtime {
+  #initialized = false;
+  #bootstrapped = false;
+
   initialize(data: BootstrapData) {
+    if (this.#initialized) {
+      throw new Error("The runtime cannot be initialized more than once");
+    }
+    this.#initialized = true;
     normalizeBootstrapData(data);
     bootstrapData = data;
     // Todo: allow configuration of notification bricks.
@@ -62,6 +69,10 @@ export class Runtime {
   }
 
   async bootstrap() {
+    if (this.#bootstrapped) {
+      throw new Error("The runtime cannot be bootstrapped more than once");
+    }
+    this.#bootstrapped = true;
     router = new Router(bootstrapData!.storyboards!);
     await router.bootstrap();
   }
@@ -160,15 +171,16 @@ function normalizeBootstrapData(data: BootstrapData) {
       }
     }
   }
-
   if (isObject(data.settings)) {
     deepFreeze(data.settings);
   }
-  data.brickPackages = deepFreeze(data.brickPackages);
+  if (data.brickPackages) {
+    deepFreeze(data.brickPackages);
+  }
 }
 
 export function getBrickPackages() {
-  return bootstrapData?.brickPackages ?? [];
+  return bootstrapData?.brickPackages ?? injectedBrickPackages;
 }
 
 export function _internalApiLoadBricks(bricks: string[] | Set<string>) {
@@ -199,7 +211,7 @@ export function _internalApiGetAppInBootstrapData(appId: string) {
   return _internalApiGetStoryboardInBootstrapData(appId)?.app;
 }
 
-export let _test_only_setBootstrapData: (data: Partial<BootstrapData>) => void;
+export let _test_only_setBootstrapData: (data: BootstrapData) => void;
 
 if (process.env.NODE_ENV === "test") {
   _test_only_setBootstrapData = (data) => {
