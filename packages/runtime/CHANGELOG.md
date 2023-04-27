@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.1...@next-core/runtime@1.5.2) (2023-04-27)
+
+
+### Bug Fixes
+
+* inject brick packages only ([faf6525](https://github.com/easyops-cn/next-core/commit/faf6525aa8aabe68fb3968150ff0a6bfac92a105))
+
+
+
+
+
 ## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.0...@next-core/runtime@1.5.1) (2023-04-27)
 
 **Note:** Version bump only for package @next-core/runtime
