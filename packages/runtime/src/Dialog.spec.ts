@@ -4,11 +4,8 @@ import {
   loadDialogService as _loadDialogService,
 } from "./Dialog.js";
 
-jest.mock("@next-core/loader", () => ({
-  loadBricksImperatively([tagName]: [string]) {
-    return tagName === "my-dialog" ? Promise.resolve() : Promise.reject("oops");
-  },
-}));
+const loader = ([tagName]: string[]) =>
+  tagName === "my-dialog" ? Promise.resolve() : Promise.reject("oops");
 const spyOnModalConfirm = jest.spyOn(window, "confirm");
 const spyOnModalAlert = jest.spyOn(window, "alert");
 const consoleError = jest.spyOn(console, "error");
@@ -29,7 +26,7 @@ describe("Dialog", () => {
   });
 
   test("confirm", async () => {
-    loadDialogService("my-dialog");
+    loadDialogService("my-dialog", loader);
     await (global as any).flushPromises();
     Dialog.show({
       type: "confirm",
@@ -43,7 +40,7 @@ describe("Dialog", () => {
 
   test("confirm: fallback and confirmed", async () => {
     consoleError.mockReturnValueOnce();
-    loadDialogService("undefined-dialog");
+    loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
@@ -61,7 +58,7 @@ describe("Dialog", () => {
 
   test("confirm: fallback and canceled", async () => {
     consoleError.mockReturnValueOnce();
-    loadDialogService("undefined-dialog");
+    loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
@@ -82,7 +79,7 @@ describe("Dialog", () => {
 
   test("other: fallback", async () => {
     consoleError.mockReturnValueOnce();
-    loadDialogService("undefined-dialog");
+    loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
@@ -100,7 +97,7 @@ describe("Dialog", () => {
 
   test("other: fallback without onOk", async () => {
     consoleError.mockReturnValueOnce();
-    loadDialogService("undefined-dialog");
+    loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");

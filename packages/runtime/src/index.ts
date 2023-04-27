@@ -7,7 +7,12 @@ export * from "./getPageInfo.js";
 export * from "./handleHttpError.js";
 export * from "./history.js";
 export * from "./createRoot.js";
-export { createRuntime, getRuntime } from "./internal/Runtime.js";
+export {
+  createRuntime,
+  getRuntime,
+  type RuntimeOptions,
+  type RuntimeHooks,
+} from "./internal/Runtime.js";
 import * as __secret_internals from "./internal/secret_internals.js";
 export { __secret_internals };
 export {

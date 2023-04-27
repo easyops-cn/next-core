@@ -1,5 +1,3 @@
-import { _internalApiLoadBricks } from "./internal/Runtime.js";
-
 let brick: {
   resolve(options: NotificationOptions): void;
 };
@@ -12,8 +10,11 @@ function show(options: NotificationOptions) {
   }
 }
 
-export function loadNotificationService(tagName: string) {
-  _internalApiLoadBricks([tagName]).then(
+export function loadNotificationService(
+  tagName: string,
+  loader: (bricks: string[]) => Promise<void>
+) {
+  loader([tagName]).then(
     () => {
       brick = document.createElement(tagName) as any;
     },

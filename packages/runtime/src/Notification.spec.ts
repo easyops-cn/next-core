@@ -4,13 +4,8 @@ import {
   loadNotificationService as _loadNotificationService,
 } from "./Notification.js";
 
-jest.mock("@next-core/loader", () => ({
-  loadBricksImperatively([tagName]: [string]) {
-    return tagName === "my-notification"
-      ? Promise.resolve()
-      : Promise.reject("oops");
-  },
-}));
+const loader = ([tagName]: string[]) =>
+  tagName === "my-notification" ? Promise.resolve() : Promise.reject("oops");
 const spyOnModalAlert = jest.spyOn(window, "alert");
 const consoleError = jest.spyOn(console, "error");
 const notificationService = jest.fn();
@@ -33,7 +28,7 @@ describe("Notification", () => {
   });
 
   test("success", async () => {
-    loadNotificationService("my-notification");
+    loadNotificationService("my-notification", loader);
     await (global as any).flushPromises();
     Notification.show({
       type: "success",
@@ -48,7 +43,7 @@ describe("Notification", () => {
 
   test("error: fallback", async () => {
     consoleError.mockReturnValueOnce();
-    loadNotificationService("undefined-notification");
+    loadNotificationService("undefined-notification", loader);
     await (global as any).flushPromises();
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith(

@@ -1,16 +1,10 @@
 /** @internal */
 export interface BootstrapData {
   brickPackages: BrickPackage[];
-  storyboards: Storyboard[];
+  storyboards?: Storyboard[];
   settings?: BootstrapSettings;
   desktops?: unknown[];
   siteSort?: unknown[];
-}
-
-/** @internal */
-export interface RuntimeBootstrapData extends BootstrapData {
-  storyboards: RuntimeStoryboard[];
-  offSiteStandaloneApps?: Partial<MicroApp>[];
 }
 
 /** @internal */
