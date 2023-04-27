@@ -1,5 +1,4 @@
 import type {
-  BootstrapData,
   BrickConf,
   CustomTemplate,
   RouteConf,
@@ -11,8 +10,6 @@ import { pick } from "lodash";
 import {
   _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
-  _internalApiLoadBricks,
-  _internalApiSetBootstrapData,
 } from "./Runtime.js";
 import { renderBrick } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
@@ -24,8 +21,6 @@ import { computeRealValue } from "./compute/computeRealValue.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
-import { loadNotificationService } from "../Notification.js";
-import { loadDialogService } from "../Dialog.js";
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -151,13 +146,6 @@ export function unmountUseBrick(
   rendererContext.dispose();
 }
 
-export function initializePlayground(data: Partial<BootstrapData>) {
-  _internalApiSetBootstrapData(data);
-  // Todo: allow configuration of notification bricks.
-  loadNotificationService("shoelace.show-notification");
-  loadDialogService("shoelace.show-dialog");
-}
-
 export function legacyDoTransform(
   data: unknown,
   to: unknown,
@@ -177,8 +165,6 @@ export function legacyDoTransform(
     }
   );
 }
-
-export const loadBricks = _internalApiLoadBricks;
 
 export function updateStoryboard(
   appId: string,

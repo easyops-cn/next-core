@@ -10,13 +10,10 @@ import type {
   MicroApp,
   RuntimeStoryboard,
 } from "@next-core/types";
-import { i18n } from "@next-core/i18n";
-import { deepFreeze, hasOwnProperty, isObject } from "@next-core/utils/general";
+import { deepFreeze, hasOwnProperty } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
-import { registerAppI18n } from "./registerAppI18n.js";
-import { MenuRawData } from "./menu/interfaces.js";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -35,47 +32,24 @@ interface StandaloneSettings extends Omit<BootstrapSettings, "featureFlags"> {
   feature_flags: Record<string, boolean>;
 }
 
-export async function loadBootstrapData(): Promise<BootstrapData> {
-  const data = await (window.STANDALONE_MICRO_APPS
+type BootstrapDataWithStoryboards = Omit<BootstrapData, "storyboards"> &
+  Required<Pick<BootstrapData, "storyboards">>;
+
+export function loadBootstrapData(): Promise<BootstrapDataWithStoryboards> {
+  return window.STANDALONE_MICRO_APPS
     ? standaloneBootstrap()
     : (BootstrapV2Api_bootstrapV2({
         appFields:
           "defaultConfig,userConfig,locales,name,homepage,id,currentVersion,installStatus,internal,status,icons,standaloneMode",
         ignoreTemplateFields: "templates",
         ignoreBrickFields: "bricks,processors,providers,editors",
-      }) as Promise<BootstrapData>));
-
-  for (const { app } of data.storyboards) {
-    if (app.locales) {
-      // Prefix to avoid conflict between brick package's i18n namespace.
-      const ns = `tmp/${app.id}`;
-      // Support any languages in `app.locales`.
-      Object.entries(app.locales).forEach(([lang, resources]) => {
-        i18n.addResourceBundle(lang, ns, resources);
-      });
-      // Use `app.name` as the fallback `app.localeName`.
-      app.localeName = i18n.getFixedT(null, ns)("name", app.name) as string;
-      // Remove the temporary i18n resource bundles.
-      Object.keys(app.locales).forEach((lang) => {
-        i18n.removeResourceBundle(lang, ns);
-      });
-    } else {
-      app.localeName = app.name;
-    }
-  }
-
-  if (isObject(data.settings)) {
-    deepFreeze(data.settings);
-  }
-  data.brickPackages = deepFreeze(data.brickPackages);
-
-  return data;
+      }) as Promise<BootstrapDataWithStoryboards>);
 }
 
-async function standaloneBootstrap(): Promise<BootstrapData> {
+async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
   const requests = [
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    http.get<BootstrapData>(window.BOOTSTRAP_FILE!),
+    http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!),
     http.get<string>(`${window.APP_ROOT}conf.yaml`, {
       responseType: "text",
     }),
@@ -117,7 +91,10 @@ async function standaloneBootstrap(): Promise<BootstrapData> {
   return bootstrapResult;
 }
 
-function mergeConf(bootstrapResult: BootstrapData, confString: string) {
+function mergeConf(
+  bootstrapResult: BootstrapDataWithStoryboards,
+  confString: string
+) {
   let conf: StandaloneConf | undefined;
   try {
     conf = confString
@@ -181,10 +158,11 @@ const appRuntimeDataMap = new Map<
 
 interface RuntimeMicroAppStandaloneData {
   userConfig?: Record<string, unknown>;
-  injectMenus?: MenuRawData[];
+  // injectMenus?: MenuRawData[];
+  injectMenus?: any[];
 }
 
-export async function safeGetRuntimeMicroAppStandalone(appId: string) {
+async function safeGetRuntimeMicroAppStandalone(appId: string) {
   if (appRuntimeDataMap.has(appId)) {
     return appRuntimeDataMap.get(appId);
   }
@@ -202,21 +180,7 @@ export async function safeGetRuntimeMicroAppStandalone(appId: string) {
 }
 
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
-  if (storyboard.$$fulfilled) {
-    return;
-  }
-  if (!storyboard.$$fulfilling) {
-    storyboard.$$fulfilling = doFulfilStoryboard(storyboard);
-  }
-  return storyboard.$$fulfilling;
-}
-
-async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
-    Object.assign(storyboard, {
-      $$fulfilled: true,
-      $$fulfilling: null,
-    });
     if (!window.NO_AUTH_GUARD) {
       let appRuntimeData: RuntimeMicroAppStandaloneData | void;
       try {
@@ -260,12 +224,8 @@ async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
       routes,
       meta,
       app: { ...storyboard.app, ...app },
-      $$fulfilled: true,
-      $$fulfilling: null,
     });
   }
-
-  registerAppI18n(storyboard);
 
   initializeAppConfig(storyboard.app);
 }
@@ -274,7 +234,8 @@ function initializeAppConfig(app: MicroApp) {
   app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
 }
 
-function initializeInjectMenus(menus: MenuRawData[] | undefined) {
+// function initializeInjectMenus(menus: MenuRawData[] | undefined) {
+function initializeInjectMenus(menus: any[] | undefined) {
   if (!Array.isArray(menus)) {
     return;
   }

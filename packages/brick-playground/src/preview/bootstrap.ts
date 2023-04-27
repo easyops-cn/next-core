@@ -2,10 +2,9 @@ import {
   createRuntime,
   applyTheme,
   unstable_createRoot,
-  __secret_internals,
 } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
-import type { BrickPackage, CustomTemplate } from "@next-core/types";
+import type { BootstrapData, CustomTemplate } from "@next-core/types";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
 
@@ -59,7 +58,7 @@ const requestEnd = (): void => {
 window.addEventListener("request.start", requestStart);
 window.addEventListener("request.end", requestEnd);
 
-createRuntime();
+const runtime = createRuntime();
 
 const container = document.querySelector("#preview-root") as HTMLElement;
 const portal = document.querySelector("#portal-mount-point") as HTMLElement;
@@ -70,11 +69,11 @@ const root = unstable_createRoot(container, {
 });
 
 const bootstrap = http
-  .get<{ brickPackages: BrickPackage[] }>(window.BOOTSTRAP_FILE, {
+  .get<BootstrapData>(window.BOOTSTRAP_FILE, {
     responseType: "json",
   })
   .then((data) => {
-    __secret_internals.initializePlayground(data);
+    runtime.initialize(data);
   });
 
 let rendering = false;
@@ -146,7 +145,7 @@ async function render(
 
       await bootstrap;
 
-      await __secret_internals.loadBricks(bricks);
+      await runtime.loadBricks(bricks);
       container.textContent = "";
       portal.textContent = "";
       container.append(...dom.body.childNodes);

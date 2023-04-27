@@ -6,7 +6,6 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-api-sdk/api-gateway-sdk";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
-import { initializeI18n } from "@next-core/i18n";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 
 jest.mock("@next-core/http");
@@ -127,8 +126,6 @@ user_config:
   throw new Error("oops");
 });
 
-initializeI18n();
-
 describe("loadBootstrapData", () => {
   beforeEach(() => {
     delete window.STANDALONE_MICRO_APPS;
@@ -152,7 +149,6 @@ describe("loadBootstrapData", () => {
           app: {
             id: "app-a",
             name: "App A",
-            localeName: "Application A",
             locales: {
               zh: { name: "应用 A" },
               en: { name: "Application A" },
@@ -183,12 +179,9 @@ describe("loadBootstrapData", () => {
     expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(1);
 
     expect(data.storyboards[0]).toEqual({
-      $$fulfilled: true,
-      $$fulfilling: expect.any(Promise),
       app: {
         id: "app-a",
         name: "App A",
-        localeName: "Application A",
         locales: {
           zh: { name: "应用 A" },
           en: { name: "Application A" },
@@ -246,7 +239,6 @@ describe("loadBootstrapData", () => {
           app: {
             id: "app-b",
             name: "App B",
-            localeName: "App B",
             userConfig: {
               x: true,
             },
@@ -291,23 +283,18 @@ describe("loadBootstrapData", () => {
           app: {
             id: "app-a",
             name: "App A",
-            localeName: "App A",
           },
         },
       ],
     });
 
     await fulfilStoryboard(data.storyboards[0]);
-    await fulfilStoryboard(data.storyboards[0]);
     expect(mockGetAppStoryboardV2).toBeCalledTimes(1);
 
     expect(data.storyboards[0]).toEqual({
-      $$fulfilled: true,
-      $$fulfilling: null,
       app: {
         id: "app-a",
         name: "App A",
-        localeName: "App A",
         userConfig: {
           userConf: 42,
         },

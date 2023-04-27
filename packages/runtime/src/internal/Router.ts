@@ -40,7 +40,7 @@ import {
   clearCollectWidgetContract,
   collectContract,
 } from "./data/CollectContracts.js";
-import { fulfilStoryboard } from "./loadBootstrapData.js";
+import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
 import { preCheckInstalledApps } from "./checkInstalledApps.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";

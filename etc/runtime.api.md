@@ -26,6 +26,7 @@ import { LocationDescriptor } from 'history';
 import type { MetaI18n } from '@next-core/types';
 import { MicroApp } from '@next-core/types';
 import type { RouteConf } from '@next-core/types';
+import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
@@ -38,7 +39,6 @@ declare namespace __secret_internals {
         renderUseBrick,
         mountUseBrick,
         unmountUseBrick,
-        initializePlayground,
         legacyDoTransform,
         updateStoryboard,
         updateStoryboardByRoute,
@@ -47,7 +47,6 @@ declare namespace __secret_internals {
         updateStoryboardBySnippet,
         RenderUseBrickResult,
         MountUseBrickResult,
-        loadBricks,
         updateSnippetPreviewSettings
     }
 }
@@ -93,7 +92,7 @@ export interface CreateRootOptions {
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function createRuntime(): Runtime;
+export function createRuntime(options?: RuntimeOptions): Runtime;
 
 // Warning: (ae-forgotten-export) The symbol "CustomProcessorRegistry" needs to be exported by the entry point index.d.ts
 //
@@ -159,9 +158,6 @@ export function handleHttpError(error: unknown): void;
 // @public
 export function httpErrorToString(error: unknown): string;
 
-// @public (undocumented)
-function initializePlayground(data: Partial<BootstrapData>): void;
-
 // @public
 export function isLoggedIn(): boolean;
 
@@ -170,11 +166,6 @@ export function isUnauthenticatedError(error: unknown): boolean;
 
 // @public (undocumented)
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
-
-// Warning: (ae-forgotten-export) The symbol "_internalApiLoadBricks" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-const loadBricks: typeof _internalApiLoadBricks;
 
 // Warning: (ae-internal-missing-underscore) The name "logout" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -271,6 +262,18 @@ interface RenderUseBrickResult {
     renderRoot: RenderRoot;
     // (undocumented)
     tagName: string | null;
+}
+
+// @public (undocumented)
+export interface RuntimeHooks {
+    // (undocumented)
+    fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
+}
+
+// @public (undocumented)
+export interface RuntimeOptions {
+    // (undocumented)
+    hooks?: RuntimeHooks;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StoryboardFunctionRegistry" needs to be exported by the entry point index.d.ts

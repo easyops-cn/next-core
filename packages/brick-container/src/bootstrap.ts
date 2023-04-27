@@ -1,13 +1,10 @@
-import {
-  __secret_internals,
-  createRuntime,
-  getAuth,
-  httpErrorToString,
-} from "@next-core/runtime";
+import { createRuntime, getAuth, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
+import { loadCheckLogin } from "./loadCheckLogin.js";
+import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
@@ -72,19 +69,28 @@ const requestEnd = (): void => {
 window.addEventListener("request.start", requestStart);
 window.addEventListener("request.end", requestEnd);
 
-const runtime = createRuntime();
-
 let bootstrapStatus: "loading" | "ok" | "failed" = "loading";
 let previewRequested = false;
 
-runtime.bootstrap().then(
-  () => {
+const runtime = createRuntime({
+  hooks: {
+    fulfilStoryboard,
+  },
+});
+
+async function main() {
+  try {
+    const [, bootstrapData] = await Promise.all([
+      loadCheckLogin(),
+      loadBootstrapData(),
+    ]);
+    runtime.initialize(bootstrapData);
+    await runtime.bootstrap();
     bootstrapStatus = "ok";
     if (previewRequested) {
       startPreview();
     }
-  },
-  (error: unknown) => {
+  } catch (error) {
     bootstrapStatus = "failed";
     // eslint-disable-next-line no-console
     console.error("bootstrap failed:", error);
@@ -97,7 +103,9 @@ runtime.bootstrap().then(
       "#main-mount-point"
     )!.textContent = `bootstrap failed: ${httpErrorToString(error)}`;
   }
-);
+}
+
+main();
 
 let previewStarted = false;
 let previewFromOrigin: string;
@@ -140,7 +148,7 @@ async function startPreview(): Promise<void> {
   if (previewAllowed) {
     const helperBrickName = "devtools.preview-start";
     try {
-      await __secret_internals.loadBricks([helperBrickName]);
+      await runtime.loadBricks([helperBrickName]);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(`Load ${helperBrickName} failed:`, error);
@@ -175,7 +183,7 @@ if (window.parent !== window) {
   window.addEventListener("message", listener);
 }
 
-export interface PreviewMessageContainerStartPreview {
+interface PreviewMessageContainerStartPreview {
   sender: "preview-container";
   type: "start-preview";
   options?: unknown;

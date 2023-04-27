@@ -6,13 +6,12 @@ import type {
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import { loadBricksImperatively } from "@next-core/loader";
+import { deepFreeze, isObject } from "@next-core/utils/general";
 import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
 import { matchStoryboard } from "./matchStoryboard.js";
 import { Router } from "./Router.js";
-import { loadCheckLogin } from "./loadCheckLogin.js";
-import { loadBootstrapData } from "./loadBootstrapData.js";
 import { NS, locales } from "./i18n.js";
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
@@ -24,10 +23,21 @@ let runtime: Runtime;
 let bootstrapData = injectedBootstrapData;
 let router: Router | undefined;
 
-export function createRuntime() {
+export interface RuntimeOptions {
+  hooks?: RuntimeHooks;
+}
+
+export interface RuntimeHooks {
+  fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
+}
+
+export let hooks: RuntimeHooks | undefined;
+
+export function createRuntime(options?: RuntimeOptions) {
   if (runtime) {
     throw new Error("Cannot create multiple runtimes");
   }
+  hooks = options?.hooks;
   initializeI18n(NS, locales);
   moment.locale(i18n.language);
   i18n.on("languageChanged", () => {
@@ -43,16 +53,16 @@ export function getRuntime() {
 }
 
 export class Runtime {
-  async bootstrap() {
-    const [, _bootstrapData] = await Promise.all([
-      loadCheckLogin(),
-      loadBootstrapData(),
-    ]);
-    bootstrapData = _bootstrapData;
+  initialize(data: BootstrapData) {
+    normalizeBootstrapData(data);
+    bootstrapData = data;
     // Todo: allow configuration of notification bricks.
-    loadNotificationService("shoelace.show-notification");
-    loadDialogService("shoelace.show-dialog");
-    router = new Router(_bootstrapData.storyboards);
+    loadNotificationService("shoelace.show-notification", this.loadBricks);
+    loadDialogService("shoelace.show-dialog", this.loadBricks);
+  }
+
+  async bootstrap() {
+    router = new Router(bootstrapData!.storyboards!);
     await router.bootstrap();
   }
 
@@ -123,10 +133,38 @@ export class Runtime {
   getNavConfig() {
     return router?.getNavConfig();
   }
+
+  loadBricks(bricks: string[] | Set<string>) {
+    return loadBricksImperatively(bricks, getBrickPackages());
+  }
 }
 
-export function _internalApiSetBootstrapData(data: Partial<BootstrapData>) {
-  bootstrapData = data;
+function normalizeBootstrapData(data: BootstrapData) {
+  if (Array.isArray(data.storyboards)) {
+    for (const { app } of data.storyboards) {
+      if (app.locales) {
+        // Prefix to avoid conflict between brick package's i18n namespace.
+        const ns = `tmp/${app.id}`;
+        // Support any languages in `app.locales`.
+        Object.entries(app.locales).forEach(([lang, resources]) => {
+          i18n.addResourceBundle(lang, ns, resources);
+        });
+        // Use `app.name` as the fallback `app.localeName`.
+        app.localeName = i18n.getFixedT(null, ns)("name", app.name) as string;
+        // Remove the temporary i18n resource bundles.
+        Object.keys(app.locales).forEach((lang) => {
+          i18n.removeResourceBundle(lang, ns);
+        });
+      } else {
+        app.localeName = app.name;
+      }
+    }
+  }
+
+  if (isObject(data.settings)) {
+    deepFreeze(data.settings);
+  }
+  data.brickPackages = deepFreeze(data.brickPackages);
 }
 
 export function getBrickPackages() {
@@ -159,4 +197,12 @@ export function _internalApiGetStoryboardInBootstrapData(appId: string) {
 
 export function _internalApiGetAppInBootstrapData(appId: string) {
   return _internalApiGetStoryboardInBootstrapData(appId)?.app;
+}
+
+export let _test_only_setBootstrapData: (data: Partial<BootstrapData>) => void;
+
+if (process.env.NODE_ENV === "test") {
+  _test_only_setBootstrapData = (data) => {
+    bootstrapData = data as BootstrapData;
+  };
 }

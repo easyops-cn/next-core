@@ -1,5 +1,5 @@
 import { AuthApi_checkLogin } from "@next-api-sdk/api-gateway-sdk";
-import { authenticate } from "../auth.js";
+import { authenticate } from "@next-core/runtime";
 
 export async function loadCheckLogin(): Promise<void> {
   if (!window.NO_AUTH_GUARD) {
