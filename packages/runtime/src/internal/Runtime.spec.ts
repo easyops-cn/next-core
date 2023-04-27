@@ -384,8 +384,24 @@ describe("Runtime", () => {
     );
   });
 
-  test("without bootstrap", () => {
-    createRuntime().initialize({ brickPackages: [] });
+  test("initialize twice", () => {
+    const runtime = createRuntime();
+    runtime.initialize({});
+    expect(() => {
+      runtime.initialize({});
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"The runtime cannot be initialized more than once"`
+    );
+
     expect(getRuntime().getRecentApps()).toEqual({});
+  });
+
+  test("bootstrap twice", async () => {
+    const runtime = createRuntime();
+    runtime.initialize({});
+    await runtime.bootstrap();
+    expect(runtime.bootstrap()).rejects.toMatchInlineSnapshot(
+      `[Error: The runtime cannot be bootstrapped more than once]`
+    );
   });
 });
