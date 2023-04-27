@@ -68,7 +68,10 @@ export class Runtime {
     loadDialogService("shoelace.show-dialog", this.loadBricks);
   }
 
-  async bootstrap() {
+  async bootstrap(data?: BootstrapData) {
+    if (data) {
+      this.initialize(data);
+    }
     if (this.#bootstrapped) {
       throw new Error("The runtime cannot be bootstrapped more than once");
     }
