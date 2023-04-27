@@ -29,7 +29,7 @@ export function imagesFactory(
         return suffix;
       };
       return isBuildPush
-        ? `${getSuffix()}api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
+        ? `${getBasePath()}api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
         : `${getSuffix()}micro-apps/${appId}/images/${name}`;
     },
   };
