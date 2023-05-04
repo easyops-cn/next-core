@@ -63,7 +63,7 @@
     "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.34.4",
+    "@microsoft/api-extractor": "^7.34.8",
     "@next-core/build-next-libs": "^1.0.3",
     "@next-core/test-next": "^1.0.3"
   }
