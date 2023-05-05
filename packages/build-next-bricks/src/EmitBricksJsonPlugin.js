@@ -23,7 +23,7 @@ export default class EmitBricksJsonPlugin {
       compilation.hooks.processAssets.tapAsync(
         {
           name: pluginName,
-          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE,
+          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
         },
         (compilationAssets, callback) => {
           const jsEntries = Object.keys(compilationAssets).filter(
