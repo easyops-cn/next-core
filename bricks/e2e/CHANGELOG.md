@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.31](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.30...@next-bricks/e2e@0.0.31) (2023-05-05)
+
+
+### Bug Fixes
+
+* refine utils usage ([5473151](https://github.com/easyops-cn/next-core/commit/5473151ce589909677c09fc98db580bb50ef5562))
+
+
+
+
+
 ## [0.0.30](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.29...@next-bricks/e2e@0.0.30) (2023-04-27)
 
 **Note:** Version bump only for package @next-bricks/e2e

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.1...@next-core/build-next-bricks@1.4.2) (2023-05-05)
+
+
+### Bug Fixes
+
+* fix asset stage ([3de0a5f](https://github.com/easyops-cn/next-core/commit/3de0a5f52269bf20e8fa5514052e26de576088c8))
+
+
+
+
+
 ## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.0...@next-core/build-next-bricks@1.4.1) (2023-04-18)
 
 

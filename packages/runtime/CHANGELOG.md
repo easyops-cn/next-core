@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.3...@next-core/runtime@1.5.4) (2023-05-05)
+
+
+### Bug Fixes
+
+* refine utils usage ([5473151](https://github.com/easyops-cn/next-core/commit/5473151ce589909677c09fc98db580bb50ef5562))
+
+
+
+
+
 ## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.2...@next-core/runtime@1.5.3) (2023-04-27)
 
 

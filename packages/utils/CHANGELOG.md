@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.2.5...@next-core/utils@1.3.0) (2023-05-05)
+
+
+### Features
+
+* move createProviderClass and unwrapProvider to general ([d957201](https://github.com/easyops-cn/next-core/commit/d957201ce063875a55d3123a181dbc67ff5037d1))
+
+
+
+
+
 ## [1.2.5](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.2.4...@next-core/utils@1.2.5) (2023-04-27)
 
 **Note:** Version bump only for package @next-core/utils
