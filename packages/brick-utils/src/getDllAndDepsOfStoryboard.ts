@@ -142,16 +142,16 @@ export function getDllAndDepsByResource(
         }
         const find = brickMap.get(namespace);
         if (find) {
-          deps.add(find.filePath);
-
-          if (find.dll) {
-            for (const dllName of find.dll) {
-              dll.add(dllName);
-            }
-          }
-
           if ((find as { id?: string }).id) {
             (isProcessor ? v3Processors : v3Bricks).add(name);
+          } else {
+            deps.add(find.filePath);
+
+            if (find.dll) {
+              for (const dllName of find.dll) {
+                dll.add(dllName);
+              }
+            }
           }
         } else {
           // eslint-disable-next-line no-console

@@ -327,7 +327,7 @@ describe("getDllAndDepsByResource", () => {
       )
     ).toEqual({
       dll: [],
-      deps: ["bricks/v3/dist/index.js"],
+      deps: [],
       v3Bricks: ["v3.my-button"],
       v3Processors: [],
     });
@@ -343,7 +343,7 @@ describe("getDllAndDepsByResource", () => {
       )
     ).toEqual({
       dll: [],
-      deps: ["bricks/v3/dist/index.js"],
+      deps: [],
       v3Bricks: [],
       v3Processors: ["v3.myTest"],
     });
