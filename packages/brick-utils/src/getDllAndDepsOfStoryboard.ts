@@ -7,6 +7,8 @@ import { scanStoryboard, ScanBricksOptions } from "./scanStoryboard";
 interface DllAndDeps {
   dll: string[];
   deps: string[];
+  v3Bricks?: string[];
+  v3Processors?: string[];
 }
 
 interface DllAndDepsAndBricks extends DllAndDeps {
@@ -116,6 +118,8 @@ export function getDllAndDepsByResource(
 ): DllAndDeps {
   const dll = new Set<string>();
   const deps = new Set<string>();
+  const v3Bricks = new Set<string>();
+  const v3Processors = new Set<string>();
 
   if (
     bricks?.length > 0 ||
@@ -124,24 +128,29 @@ export function getDllAndDepsByResource(
   ) {
     const brickMap = getBrickToPackageMap(brickPackages);
 
-    [...(bricks ?? []), ...(processors ?? [])].forEach((name) => {
+    [
+      ...(bricks ?? []).map((n) => [n]),
+      ...(processors ?? []).map((n) => [n, true] as [string, boolean?]),
+    ].forEach(([name, isProcessor]) => {
       // ignore custom template
       // istanbul ignore else
       if (name.includes(".")) {
         let namespace = name.split(".")[0];
-        const isProcessor = processors?.includes(name);
-
         // processor 是 camelCase 格式，转成 brick 的 param-case 格式，统一去判断
         if (isProcessor) {
           namespace = changeCase.paramCase(namespace);
         }
         const find = brickMap.get(namespace);
         if (find) {
-          deps.add(find.filePath);
+          if ((find as { id?: string }).id) {
+            (isProcessor ? v3Processors : v3Bricks).add(name);
+          } else {
+            deps.add(find.filePath);
 
-          if (find.dll) {
-            for (const dllName of find.dll) {
-              dll.add(dllName);
+            if (find.dll) {
+              for (const dllName of find.dll) {
+                dll.add(dllName);
+              }
             }
           }
         } else {
@@ -181,5 +190,7 @@ export function getDllAndDepsByResource(
   return {
     dll: Array.from(dll).map((dllName) => dllPath[dllName]),
     deps: Array.from(deps),
+    v3Bricks: Array.from(v3Bricks),
+    v3Processors: Array.from(v3Processors),
   };
 }

@@ -9,6 +9,7 @@ const packageJson = require("./package.json");
 const isProd = process.env.NODE_ENV === "production";
 const appRoot = path.join(__dirname, "..", "..");
 const distPath = path.join(__dirname, "dist");
+const simulateModuleFederation = '"simulate module federation"';
 
 module.exports = {
   context: appRoot,
@@ -71,6 +72,19 @@ module.exports = {
       // - `esprima` and `buffer` are optional imported by `js-yaml`
       // we don't need them.
       resourceRegExp: /^(?:esprima)$/,
+    }),
+    new webpack.DefinePlugin({
+      __webpack_init_sharing__: `((function(){
+        var MF = window[${simulateModuleFederation}];
+        if(MF) return MF.init;
+        MF = window[${simulateModuleFederation}] = {};
+        MF.scopes = {};
+        return MF.init = function(name){
+          if(!Object.prototype.hasOwnProperty.call(MF.scopes,name)) MF.scopes[name] = {};
+          return 1;
+        };
+      })())`,
+      __webpack_share_scopes__: `(window[${simulateModuleFederation}].scopes)`,
     }),
   ],
   resolve: {

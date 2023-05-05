@@ -42,6 +42,10 @@ import type {
   CustomTemplate,
   MetaI18n,
 } from "@next-core/brick-types";
+import {
+  loadBricksImperatively,
+  loadProcessorsImperatively,
+} from "@next-core/loader";
 import { authenticate } from "../auth";
 import {
   Router,
@@ -588,26 +592,38 @@ export class Kernel {
       );
       await loadScriptOfBricksOrTemplates(templateDeps);
       // 加载模板后才能加工得到最终的构件表
-      const { dll, deps, bricks, eager } = getDllAndDepsOfStoryboard(
-        await asyncProcessStoryboard(
-          storyboard,
-          brickTemplateRegistry,
-          templatePackages
-        ),
-        brickPackages,
-        {
-          ignoreBricksInUnusedCustomTemplates: true,
-        }
-      );
+      const { dll, deps, bricks, v3Bricks, v3Processors, eager } =
+        getDllAndDepsOfStoryboard(
+          await asyncProcessStoryboard(
+            storyboard,
+            brickTemplateRegistry,
+            templatePackages
+          ),
+          brickPackages,
+          {
+            ignoreBricksInUnusedCustomTemplates: true,
+          }
+        );
       // 需要先阻塞加载 Custom Processors 和 widgets。
       await loadScriptOfDll(eager.dll);
       await loadScriptOfBricksOrTemplates(eager.deps);
+      if (eager.v3Bricks?.length) {
+        await loadBricksImperatively(eager.v3Bricks, brickPackages as any);
+      }
       // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
       // 挂载构件可能包括：Provider 构件实时挂载、路由准备完成后的统一挂载等。
       return {
         pendingTask: loadScriptOfDll(dll)
           .then(() => loadScriptOfBricksOrTemplates(deps))
-          .then(() => loadLazyBricks(bricks)),
+          .then(async () => {
+            await Promise.all([
+              loadLazyBricks(bricks),
+              v3Bricks?.length &&
+                loadBricksImperatively(v3Bricks, brickPackages as any),
+              v3Processors?.length &&
+                loadProcessorsImperatively(v3Processors, brickPackages as any),
+            ]);
+          }),
       };
     }
   };
@@ -698,8 +714,9 @@ export class Kernel {
       // Only try to load undefined custom elements.
       (item) => !customElements.get(item)
     );
+    const { brickPackages } = this.bootstrapData;
     // Try to load deps for dynamic added bricks.
-    const { dll, deps } = getDllAndDepsByResource(
+    const { dll, deps, v3Bricks, v3Processors } = getDllAndDepsByResource(
       {
         bricks: filteredBricks,
         processors,
@@ -708,7 +725,13 @@ export class Kernel {
     );
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);
-    await loadLazyBricks(filteredBricks);
+    await Promise.all([
+      loadLazyBricks(filteredBricks),
+      v3Bricks?.length &&
+        loadBricksImperatively(v3Bricks, brickPackages as any),
+      v3Processors?.length &&
+        loadProcessorsImperatively(v3Processors, brickPackages as any),
+    ]);
   };
 
   loadDynamicBricks(bricks: string[], processors?: string[]): Promise<void> {
