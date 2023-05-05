@@ -128,7 +128,12 @@ export function setProperties(
   context: PluginRuntimeContext,
   injectDeep?: boolean
 ): void {
-  const realProps = computeRealProperties(properties, context, injectDeep);
+  let realProps = computeRealProperties(properties, context, injectDeep);
+  if (context.tplContextId) {
+    realProps = setupUseBrickInTemplate(realProps, {
+      templateContextId: context.tplContextId,
+    });
+  }
   if (!Array.isArray(bricks)) {
     bricks = [bricks];
   }
