@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.166.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.166.0...@next-core/brick-kit@2.166.1) (2023-05-05)
+
+
+### Bug Fixes
+
+* fix set props of useBrick ([96bb15d](https://github.com/easyops-cn/next-core/commit/96bb15d7521853a473543c4ab0199a07f74c4479))
+
+
+
+
+
 # [2.166.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.7...@next-core/brick-kit@2.166.0) (2023-04-27)
 
 
