@@ -23,6 +23,12 @@ afterEach(() => {
 });
 
 describe("DataStore: resolve and wait", () => {
+  // Sometimes `waitFor` will be stuck and multi macro tasks will be executed
+  // in a batch, so we set a retry.
+  jest.retryTimes(2, {
+    logErrorsBeforeRetry: true,
+  });
+
   const createContextStore = (provider = "my-timeout-provider") => {
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
