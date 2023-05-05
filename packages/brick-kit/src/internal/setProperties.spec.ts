@@ -447,7 +447,7 @@ describe("setProperties", () => {
     }
   );
 
-  it("should ignore re-setup useBrick in template", () => {
+  it("should re-setup useBrick in template", () => {
     const element = {} as any;
     setProperties(
       element,
@@ -465,6 +465,10 @@ describe("setProperties", () => {
       display: {
         useBrick: {
           brick: "my-brick",
+          slots: {},
+          [symbolForComputedPropsFromProxy]: {},
+          [symbolForRefForProxy]: undefined,
+          [symbolForTplContextId]: tplContext.id,
         },
       },
     });
