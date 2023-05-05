@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.22...@next-core/brick-utils@2.46.0) (2023-05-05)
+
+
+### Bug Fixes
+
+* fix a problem of v3 brick entries getting loaded twice ([fa80ad1](https://github.com/easyops-cn/next-core/commit/fa80ad1b19bd5037720126eb2d33cb8f34a029df))
+
+
+### Features
+
+* support using v3 bricks in v2 container ([df7d736](https://github.com/easyops-cn/next-core/commit/df7d73688bb570441315b1d5676eb064bcd7f5e0))
+
+
+
+
+
 ## [2.45.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.45.21...@next-core/brick-utils@2.45.22) (2023-04-11)
 
 

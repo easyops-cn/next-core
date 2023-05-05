@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.41.69...@next-core/brick-dll@2.42.0) (2023-05-05)
+
+
+### Features
+
+* support using v3 bricks in v2 container ([df7d736](https://github.com/easyops-cn/next-core/commit/df7d73688bb570441315b1d5676eb064bcd7f5e0))
+
+
+
+
+
 ## [2.41.69](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.41.68...@next-core/brick-dll@2.41.69) (2023-05-05)
 
 **Note:** Version bump only for package @next-core/brick-dll
