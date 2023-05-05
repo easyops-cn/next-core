@@ -38,12 +38,14 @@ import {
 } from "./standaloneBootstrap";
 import { applyColorTheme } from "../internal/applyColorTheme";
 import { formRenderer } from "./CustomForms/constants";
+import { loadBricksImperatively } from "@next-core/loader";
 
 i18next.init({
   fallbackLng: "en",
 });
 
 jest.mock("@next-core/brick-utils");
+jest.mock("@next-core/loader");
 jest.mock("@next-sdk/auth-sdk");
 jest.mock("@next-sdk/user-service-sdk");
 jest.mock("@next-sdk/api-gateway-sdk");
@@ -235,9 +237,11 @@ describe("Kernel", () => {
       dll: ["d3.js", "dll-of-editor-bricks-helper.abc.js"],
       deps: ["dep.js"],
       bricks: ["my-brick"],
+      v3Bricks: ["v3.my-brick"],
       eager: {
         dll: ["ace.js"],
         deps: ["processors.js"],
+        v3Bricks: ["v3-widgets.my-widget"],
       },
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
@@ -290,13 +294,26 @@ describe("Kernel", () => {
       "app-a",
       true
     );
+    expect(loadBricksImperatively).toBeCalledTimes(1);
+    expect(loadBricksImperatively).toHaveBeenNthCalledWith(
+      1,
+      ["v3-widgets.my-widget"],
+      expect.any(Array)
+    );
 
     await pendingTask;
     expect(loadLazyBricks).toBeCalledTimes(1);
     expect(loadLazyBricks).toBeCalledWith(["my-brick"]);
     expect(loadAllLazyBricks).not.toBeCalled();
+    expect(loadBricksImperatively).toBeCalledTimes(2);
+    expect(loadBricksImperatively).toHaveBeenNthCalledWith(
+      2,
+      ["v3.my-brick"],
+      expect.any(Array)
+    );
 
     spyOnLoadScript.mockClear();
+    (loadBricksImperatively as jest.Mock).mockClear();
     (loadLazyBricks as jest.Mock).mockClear();
 
     spyOnGetDllAndDepsOfStoryboard.mockReturnValueOnce({

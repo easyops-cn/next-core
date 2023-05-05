@@ -40,6 +40,10 @@ const brickPackages: BrickPackage[] = [
   {
     filePath: "bricks/test-widgets/dist/index.js",
   },
+  {
+    id: "bricks/v3",
+    filePath: "bricks/v3/dist/index.js",
+  } as BrickPackage,
 ];
 
 let spyConsoleError: jest.SpyInstance;
@@ -87,9 +91,13 @@ describe("getDllAndDepsOfStoryboard", () => {
         "bricks/d/dist/d.js",
       ],
       bricks: ["a.brick-a", "c.brick-c", "test-widgets.tpl-xyz"],
+      v3Bricks: [],
+      v3Processors: [],
       eager: {
         dll: [],
         deps: ["bricks/test-widgets/dist/index.js", "bricks/d/dist/d.js"],
+        v3Bricks: [],
+        v3Processors: [],
       },
     });
   });
@@ -158,6 +166,8 @@ describe("getDllAndDepsOfStoryboard", () => {
       dll: ["dll-of-d3.123.js"],
       deps: ["bricks/a/dist/a.js", "bricks/b/dist/b.js", "bricks/c/dist/c.js"],
       bricks: ["any-brick"],
+      v3Bricks: [],
+      v3Processors: [],
       eager: {
         dll: ["dll-of-d3.123.js"],
         deps: [
@@ -165,6 +175,8 @@ describe("getDllAndDepsOfStoryboard", () => {
           "bricks/b/dist/b.js",
           "bricks/c/dist/c.js",
         ],
+        v3Bricks: [],
+        v3Processors: [],
       },
     });
   });
@@ -213,6 +225,8 @@ describe("getDllAndDepsByResource", () => {
     ).toEqual({
       dll: ["dll-of-editor-bricks-helper.456.js"],
       deps: ["bricks/c/dist/editors/editors.js"],
+      v3Bricks: [],
+      v3Processors: [],
     });
   });
 
@@ -233,6 +247,8 @@ describe("getDllAndDepsByResource", () => {
         "bricks/a-test/dist/bbc.js",
         "bricks/c/dist/editors/editors.js",
       ],
+      v3Bricks: [],
+      v3Processors: [],
     });
   });
 
@@ -247,6 +263,8 @@ describe("getDllAndDepsByResource", () => {
     ).toEqual({
       dll: [],
       deps: [],
+      v3Bricks: [],
+      v3Processors: [],
     });
   });
 
@@ -285,6 +303,8 @@ describe("getDllAndDepsByResource", () => {
     expect(getDllAndDepsByResource({}, brickPackages)).toEqual({
       dll: [],
       deps: [],
+      v3Bricks: [],
+      v3Processors: [],
     });
 
     expect(
@@ -292,6 +312,40 @@ describe("getDllAndDepsByResource", () => {
     ).toEqual({
       deps: [],
       dll: [],
+      v3Bricks: [],
+      v3Processors: [],
+    });
+  });
+
+  it("should work for v3 bricks", () => {
+    expect(
+      getDllAndDepsByResource(
+        {
+          bricks: ["v3.my-button"],
+        },
+        brickPackages
+      )
+    ).toEqual({
+      dll: [],
+      deps: ["bricks/v3/dist/index.js"],
+      v3Bricks: ["v3.my-button"],
+      v3Processors: [],
+    });
+  });
+
+  it("should work for v3 processors", () => {
+    expect(
+      getDllAndDepsByResource(
+        {
+          processors: ["v3.myTest"],
+        },
+        brickPackages
+      )
+    ).toEqual({
+      dll: [],
+      deps: ["bricks/v3/dist/index.js"],
+      v3Bricks: [],
+      v3Processors: ["v3.myTest"],
     });
   });
 });
