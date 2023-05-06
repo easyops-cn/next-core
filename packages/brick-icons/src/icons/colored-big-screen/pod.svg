@@ -23,22 +23,22 @@
             <stop stop-color="#E94B4B" offset="0%"></stop>
             <stop stop-color="#E9AB4B" stop-opacity="0.09" offset="100%"></stop>
         </radialGradient>
-        <pattern id="pattern-7" width="100%" height="100%" patternUnits="objectBoundingBox">
-            <use xlink:href="#image-8"></use>
-        </pattern>
-        <image id="image-8" width="10" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAACqADAAQAAAABAAAAEAAAAAARKDfWAAABiUlEQVQoFTWSTY7TQBCFX1c7DkMIUqTZsGGBxFW4AecZcQguw0FYwI71aEB4kontriq+doQlq+zu5/fXLvnt6ydZNWVUKQapMG1Q9pm8s56qg6yEMovSUuyo9MFVovDKXbhVTA4wHHAkH9xQAagASBkQ4wMkS7pUfQNv7DAjqvgPQhrwcAOyUXdFFniF1a3LdhL8WVXkYNhcJW9QNDns3UKX3YJAFNr150EroLDQIECb721DZiOAvYzkeCW1LzRQNrkSsHMVvYf5SCO9GuyUMqjVRTvkYiW1NbX8JYRAf8TbYeu0RO8RxkJFdWya10V3x0nr80/S9fbu8X6AccRZrsqRemYCadaPxfVhPMvXR3xCaLPcX6NfCQPozlf5vul04gD+NtbPipiQn2Ce6Mpdx6Fp99b1Zgx9/p4a7121LdrvLqS+EO5isua61tD5KfQypb5goM+GJcd/DlcauJpeCHL5EzoCfn66nXWfnaD7r1vY2bQH8IrC51Pq97vUw8Nt1oPzB6HWyJDrP+Zx7Y6hpvBcAAAAAElFTkSuQmCC"></image>
-        <radialGradient cx="163.876985%" cy="116.099197%" fx="163.876985%" fy="116.099197%" r="195.952622%" gradientTransform="translate(1.638770,1.160992),scale(1.000000,0.510327),rotate(90.000000),translate(-1.638770,-1.160992)" id="radialGradient-9">
+        <linearGradient x1="63.0217049%" y1="7.35481667%" x2="50%" y2="100%" id="linearGradient-7">
+            <stop stop-color="#FFBB97" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#F1C082" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="163.876985%" cy="116.099197%" fx="163.876985%" fy="116.099197%" r="195.952622%" gradientTransform="translate(1.638770,1.160992),scale(1.000000,0.510327),rotate(90.000000),translate(-1.638770,-1.160992)" id="radialGradient-8">
             <stop stop-color="#F0CAB1" offset="0%"></stop>
             <stop stop-color="#F0CCB1" stop-opacity="0.5" offset="48.0354149%"></stop>
             <stop stop-color="#F0BCB1" stop-opacity="0" offset="100%"></stop>
         </radialGradient>
-        <polygon id="path-10" points="7.31519746 9.26130702 7.31519746 20 15.4663816 14.7662339 15.4663816 4.02754094"></polygon>
-        <radialGradient cx="55.0977049%" cy="50%" fx="55.0977049%" fy="50%" r="70.3645044%" gradientTransform="translate(0.550977,0.500000),scale(0.595766,1.000000),rotate(140.513971),scale(1.000000,0.398842),translate(-0.550977,-0.500000)" id="radialGradient-11">
+        <polygon id="path-9" points="7.31519746 9.26130702 7.31519746 20 15.4663816 14.7662339 15.4663816 4.02754094"></polygon>
+        <radialGradient cx="55.0977049%" cy="50%" fx="55.0977049%" fy="50%" r="70.3645044%" gradientTransform="translate(0.550977,0.500000),scale(0.595766,1.000000),rotate(140.513971),scale(1.000000,0.398842),translate(-0.550977,-0.500000)" id="radialGradient-10">
             <stop stop-color="#2263DD" stop-opacity="0" offset="0%"></stop>
             <stop stop-color="#2263DD" stop-opacity="0.7" offset="100%"></stop>
         </radialGradient>
-        <polygon id="path-12" points="8.15118416 4.54960717e-13 -6.22190293e-14 5.23376608 7.11889339 9.09739723 15.2700775 3.86363114"></polygon>
-        <filter x="-9.8%" y="-16.5%" width="119.6%" height="133.0%" filterUnits="objectBoundingBox" id="filter-13">
+        <polygon id="path-11" points="8.15118416 4.54960717e-13 -6.22190293e-14 5.23376608 7.11889339 9.09739723 15.2700775 3.86363114"></polygon>
+        <filter x="-9.8%" y="-16.5%" width="119.6%" height="133.0%" filterUnits="objectBoundingBox" id="filter-12">
             <feGaussianBlur stdDeviation="0.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
             <feOffset dx="0" dy="2" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
             <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
@@ -52,15 +52,15 @@
                 <feMergeNode in="shadowMatrixInner2"></feMergeNode>
             </feMerge>
         </filter>
-        <radialGradient cx="55.0977049%" cy="50%" fx="55.0977049%" fy="50%" r="70.3645044%" gradientTransform="translate(0.550977,0.500000),scale(0.595766,1.000000),rotate(140.513971),scale(1.000000,0.398842),translate(-0.550977,-0.500000)" id="radialGradient-14">
+        <radialGradient cx="55.0977049%" cy="50%" fx="55.0977049%" fy="50%" r="70.3645044%" gradientTransform="translate(0.550977,0.500000),scale(0.595766,1.000000),rotate(140.513971),scale(1.000000,0.398842),translate(-0.550977,-0.500000)" id="radialGradient-13">
             <stop stop-color="#DD6C22" stop-opacity="0" offset="0%"></stop>
             <stop stop-color="#DD7922" stop-opacity="0.7" offset="99.1149476%"></stop>
         </radialGradient>
-        <linearGradient x1="50%" y1="35.4338343%" x2="41.7547078%" y2="50%" id="linearGradient-15">
+        <linearGradient x1="50%" y1="35.4338343%" x2="41.7547078%" y2="50%" id="linearGradient-14">
             <stop stop-color="#F49022" stop-opacity="0.5" offset="0%"></stop>
             <stop stop-color="#F49022" stop-opacity="0" offset="100%"></stop>
         </linearGradient>
-        <polygon id="path-16" points="8.15118416 4.54960717e-13 -6.22190293e-14 5.23376608 7.11889339 9.09739723 15.2700775 3.86363114"></polygon>
+        <polygon id="path-15" points="8.15118416 4.54960717e-13 -6.22190293e-14 5.23376608 7.11889339 9.09739723 15.2700775 3.86363114"></polygon>
     </defs>
     <g id="控件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="容器组图标">
@@ -88,10 +88,10 @@
                 </g>
                 <polygon id="路径" fill="url(#linearGradient-4)" points="7.11889339 9.09739723 7.11889339 19.8360902 15.2700775 14.6023241 15.2700775 3.86363114"></polygon>
                 <g id="路径">
-                    <use fill="url(#linearGradient-5)" xlink:href="#path-10"></use>
-                    <use fill="url(#radialGradient-6)" xlink:href="#path-10"></use>
-                    <use fill="url(#pattern-7)" xlink:href="#path-10"></use>
-                    <use fill="url(#radialGradient-9)" xlink:href="#path-10"></use>
+                    <use fill="url(#linearGradient-5)" xlink:href="#path-9"></use>
+                    <use fill="url(#radialGradient-6)" xlink:href="#path-9"></use>
+                    <use fill="url(#linearGradient-7)" xlink:href="#path-9"></use>
+                    <use fill="url(#radialGradient-8)" xlink:href="#path-9"></use>
                 </g>
                 <g id="编组-11" transform="translate(8.772448, 9.550172)">
                     <polygon id="路径-43" fill="#C88223" points="4.10993869e-13 0.761930294 1.22221285 -5.88265217e-13 1.22221285 6.91548231 -7.65986331e-13 7.74071242"></polygon>
@@ -109,14 +109,14 @@
                     <polygon id="路径-43" fill="#DE7337" points="2.97271707e-13 0.761930294 0.90725488 0.194788394 0.90725488 6.72142164 9.82778954e-13 7.28724919"></polygon>
                 </g>
                 <g id="路径">
-                    <use fill="#2551BA" fill-rule="evenodd" xlink:href="#path-12"></use>
-                    <use fill="url(#radialGradient-11)" fill-rule="evenodd" xlink:href="#path-12"></use>
-                    <use fill="black" fill-opacity="1" filter="url(#filter-13)" xlink:href="#path-12"></use>
+                    <use fill="#2551BA" fill-rule="evenodd" xlink:href="#path-11"></use>
+                    <use fill="url(#radialGradient-10)" fill-rule="evenodd" xlink:href="#path-11"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-12)" xlink:href="#path-11"></use>
                 </g>
                 <g id="路径">
-                    <use fill="#E17726" xlink:href="#path-16"></use>
-                    <use fill="url(#radialGradient-14)" xlink:href="#path-16"></use>
-                    <use fill="url(#linearGradient-15)" xlink:href="#path-16"></use>
+                    <use fill="#E17726" xlink:href="#path-15"></use>
+                    <use fill="url(#radialGradient-13)" xlink:href="#path-15"></use>
+                    <use fill="url(#linearGradient-14)" xlink:href="#path-15"></use>
                 </g>
             </g>
         </g>
