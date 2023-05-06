@@ -49,44 +49,44 @@
             <stop stop-color="#4B67E9" offset="0%"></stop>
             <stop stop-color="#4B67E9" stop-opacity="0.09" offset="100%"></stop>
         </radialGradient>
-        <pattern id="pattern-18" width="100%" height="100%" patternUnits="objectBoundingBox">
-            <use xlink:href="#image-19"></use>
-        </pattern>
-        <image id="image-19" width="6" height="8" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAICAYAAADaxo44AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAABqADAAQAAAABAAAACAAAAADUoIPEAAAAl0lEQVQIHRWOOw7CMBBEn+2NEwmlQKKm4wQcgUtyKi5AR00VvklsL0M1ozc7ow3ni59aJRPogzO41Bs5tkLxSm2OGEHeYsSMxCxACHTugoks7S0WPrpelUFkLz9qMtnsvGPQ3JebDWpGDmpsLA+814llrDyeC9eUVQzs7A/107wYVey1Nu7RFdaRtTfK9kibOkrqeOn9xw9taEfEdWx3rgAAAABJRU5ErkJggg=="></image>
-        <radialGradient cx="163.876985%" cy="116.099197%" fx="163.876985%" fy="116.099197%" r="115.197525%" gradientTransform="translate(1.638770,1.160992),scale(1.000000,0.868074),rotate(90.000000),translate(-1.638770,-1.160992)" id="radialGradient-20">
+        <linearGradient x1="87.6776414%" y1="30.7817182%" x2="50%" y2="56.4049942%" id="linearGradient-18">
+            <stop stop-color="#97CAFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#82B8F1" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="163.876985%" cy="116.099197%" fx="163.876985%" fy="116.099197%" r="115.197525%" gradientTransform="translate(1.638770,1.160992),scale(1.000000,0.868074),rotate(90.000000),translate(-1.638770,-1.160992)" id="radialGradient-19">
             <stop stop-color="#BCB1F0" offset="0%"></stop>
             <stop stop-color="#BCB1F0" stop-opacity="0.5" offset="48.0354149%"></stop>
             <stop stop-color="#BCB1F0" stop-opacity="0" offset="100%"></stop>
         </radialGradient>
-        <polygon id="path-21" points="15.5215942 4.54249132 12.5890106 9.27973169 9.65642689 7.26044445 12.5890106 2.52320408"></polygon>
-        <linearGradient x1="40.9881506%" y1="41.488353%" x2="66.4914119%" y2="60.4890252%" id="linearGradient-22">
+        <polygon id="path-20" points="15.5215942 4.54249132 12.5890106 9.27973169 9.65642689 7.26044445 12.5890106 2.52320408"></polygon>
+        <linearGradient x1="40.9881506%" y1="41.488353%" x2="66.4914119%" y2="60.4890252%" id="linearGradient-21">
             <stop stop-color="#80D4F6" offset="0%"></stop>
             <stop stop-color="#596BE7" offset="100%"></stop>
         </linearGradient>
-        <radialGradient cx="55.1338668%" cy="50%" fx="55.1338668%" fy="50%" r="77.7845299%" gradientTransform="translate(0.551339,0.500000),scale(1.000000,0.619049),rotate(99.857277),scale(1.000000,0.457035),translate(-0.551339,-0.500000)" id="radialGradient-23">
+        <radialGradient cx="55.1338668%" cy="50%" fx="55.1338668%" fy="50%" r="77.7845299%" gradientTransform="translate(0.551339,0.500000),scale(1.000000,0.619049),rotate(99.857277),scale(1.000000,0.457035),translate(-0.551339,-0.500000)" id="radialGradient-22">
             <stop stop-color="#4B67E9" offset="0%"></stop>
             <stop stop-color="#4B67E9" stop-opacity="0.09" offset="100%"></stop>
         </radialGradient>
-        <pattern id="pattern-24" width="100%" height="100%" patternUnits="objectBoundingBox">
-            <use xlink:href="#image-25"></use>
-        </pattern>
-        <image id="image-25" width="6" height="8" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAICAYAAADaxo44AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAABqADAAQAAAABAAAACAAAAADUoIPEAAAAl0lEQVQIHRWOOw7CMBBEn+2NEwmlQKKm4wQcgUtyKi5AR00VvklsL0M1ozc7ow3ni59aJRPogzO41Bs5tkLxSm2OGEHeYsSMxCxACHTugoks7S0WPrpelUFkLz9qMtnsvGPQ3JebDWpGDmpsLA+814llrDyeC9eUVQzs7A/107wYVey1Nu7RFdaRtTfK9kibOkrqeOn9xw9taEfEdWx3rgAAAABJRU5ErkJggg=="></image>
-        <radialGradient cx="163.876985%" cy="116.099197%" fx="163.876985%" fy="116.099197%" r="161.538115%" gradientTransform="translate(1.638770,1.160992),scale(1.000000,0.619049),rotate(90.000000),translate(-1.638770,-1.160992)" id="radialGradient-26">
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-23">
+            <stop stop-color="#97CAFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#82B8F1" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="163.876985%" cy="116.099197%" fx="163.876985%" fy="116.099197%" r="161.538115%" gradientTransform="translate(1.638770,1.160992),scale(1.000000,0.619049),rotate(90.000000),translate(-1.638770,-1.160992)" id="radialGradient-24">
             <stop stop-color="#BCB1F0" offset="0%"></stop>
             <stop stop-color="#BCB1F0" stop-opacity="0.5" offset="48.0354149%"></stop>
             <stop stop-color="#BCB1F0" stop-opacity="0" offset="100%"></stop>
         </radialGradient>
-        <polygon id="path-27" points="15.1130914 8.89857988 15.1130914 14.3042472 10.3320796 16.6217362 10.3320796 11.012189"></polygon>
-        <pattern id="pattern-28" width="100%" height="100%" patternUnits="objectBoundingBox">
-            <use xlink:href="#image-29"></use>
-        </pattern>
-        <image id="image-29" width="6" height="8" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAICAYAAADaxo44AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAABqADAAQAAAABAAAACAAAAADUoIPEAAAAl0lEQVQIHRWOOw7CMBBEn+2NEwmlQKKm4wQcgUtyKi5AR00VvklsL0M1ozc7ow3ni59aJRPogzO41Bs5tkLxSm2OGEHeYsSMxCxACHTugoks7S0WPrpelUFkLz9qMtnsvGPQ3JebDWpGDmpsLA+814llrDyeC9eUVQzs7A/107wYVey1Nu7RFdaRtTfK9kibOkrqeOn9xw9taEfEdWx3rgAAAABJRU5ErkJggg=="></image>
-        <polygon id="path-30" points="9.03221659 12.2768437 9.03221659 17.682511 4.2512048 20 4.2512048 14.3904528"></polygon>
-        <pattern id="pattern-31" width="100%" height="100%" patternUnits="objectBoundingBox">
-            <use xlink:href="#image-32"></use>
-        </pattern>
-        <image id="image-32" width="6" height="8" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAICAYAAADaxo44AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAABqADAAQAAAABAAAACAAAAADUoIPEAAAAl0lEQVQIHRWOOw7CMBBEn+2NEwmlQKKm4wQcgUtyKi5AR00VvklsL0M1ozc7ow3ni59aJRPogzO41Bs5tkLxSm2OGEHeYsSMxCxACHTugoks7S0WPrpelUFkLz9qMtnsvGPQ3JebDWpGDmpsLA+814llrDyeC9eUVQzs7A/107wYVey1Nu7RFdaRtTfK9kibOkrqeOn9xw9taEfEdWx3rgAAAABJRU5ErkJggg=="></image>
-        <polygon id="path-33" points="9.03221659 4.84466331 9.03221659 10.2503307 4.2512048 12.5678196 4.2512048 6.95827246"></polygon>
+        <polygon id="path-25" points="15.1130914 8.89857988 15.1130914 14.3042472 10.3320796 16.6217362 10.3320796 11.012189"></polygon>
+        <linearGradient x1="69.16108%" y1="9.24200912%" x2="30.83892%" y2="100%" id="linearGradient-26">
+            <stop stop-color="#97CAFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#82B8F1" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-27" points="9.03221659 12.2768437 9.03221659 17.682511 4.2512048 20 4.2512048 14.3904528"></polygon>
+        <linearGradient x1="69.16108%" y1="4.36910346%" x2="39.9664206%" y2="74.3860135%" id="linearGradient-28">
+            <stop stop-color="#97CAFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#82B8F1" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-29" points="9.03221659 4.84466331 9.03221659 10.2503307 4.2512048 12.5678196 4.2512048 6.95827246"></polygon>
     </defs>
     <g id="控件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="应用图标">
@@ -126,28 +126,28 @@
                 </g>
                 <path d="M14.9208447,8.70496157 L14.9208447,14.1106289 L10.1398329,16.4281179 L10.1398329,10.8185707 L14.9208447,8.70496157 Z M12.3967638,2.32958577 L15.3293475,4.34887301 L12.3967638,9.08611338 L9.46418012,7.06682614 L12.3967638,2.32958577 Z M8.83996983,12.0832254 L8.83996983,17.4888927 L4.05895803,19.8063817 L4.05895803,14.1968345 L8.83996983,12.0832254 Z M8.83996983,4.651045 L8.83996983,10.0567123 L4.05895803,12.3742013 L4.05895803,6.76465415 L8.83996983,4.651045 Z" id="形状结合" fill="url(#linearGradient-15)"></path>
                 <g id="路径-6">
-                    <use fill="url(#linearGradient-16)" xlink:href="#path-21"></use>
-                    <use fill="url(#radialGradient-17)" xlink:href="#path-21"></use>
-                    <use fill="url(#pattern-18)" xlink:href="#path-21"></use>
-                    <use fill="url(#radialGradient-20)" xlink:href="#path-21"></use>
+                    <use fill="url(#linearGradient-16)" xlink:href="#path-20"></use>
+                    <use fill="url(#radialGradient-17)" xlink:href="#path-20"></use>
+                    <use fill="url(#linearGradient-18)" xlink:href="#path-20"></use>
+                    <use fill="url(#radialGradient-19)" xlink:href="#path-20"></use>
                 </g>
                 <g id="路径-6">
-                    <use fill="url(#linearGradient-22)" xlink:href="#path-27"></use>
-                    <use fill="url(#radialGradient-23)" xlink:href="#path-27"></use>
-                    <use fill="url(#pattern-24)" xlink:href="#path-27"></use>
-                    <use fill="url(#radialGradient-26)" xlink:href="#path-27"></use>
+                    <use fill="url(#linearGradient-21)" xlink:href="#path-25"></use>
+                    <use fill="url(#radialGradient-22)" xlink:href="#path-25"></use>
+                    <use fill="url(#linearGradient-23)" xlink:href="#path-25"></use>
+                    <use fill="url(#radialGradient-24)" xlink:href="#path-25"></use>
                 </g>
                 <g id="路径-6">
-                    <use fill="url(#linearGradient-22)" xlink:href="#path-30"></use>
-                    <use fill="url(#radialGradient-23)" xlink:href="#path-30"></use>
-                    <use fill="url(#pattern-28)" xlink:href="#path-30"></use>
-                    <use fill="url(#radialGradient-26)" xlink:href="#path-30"></use>
+                    <use fill="url(#linearGradient-21)" xlink:href="#path-27"></use>
+                    <use fill="url(#radialGradient-22)" xlink:href="#path-27"></use>
+                    <use fill="url(#linearGradient-26)" xlink:href="#path-27"></use>
+                    <use fill="url(#radialGradient-24)" xlink:href="#path-27"></use>
                 </g>
                 <g id="路径-6">
-                    <use fill="url(#linearGradient-22)" xlink:href="#path-33"></use>
-                    <use fill="url(#radialGradient-23)" xlink:href="#path-33"></use>
-                    <use fill="url(#pattern-31)" xlink:href="#path-33"></use>
-                    <use fill="url(#radialGradient-26)" xlink:href="#path-33"></use>
+                    <use fill="url(#linearGradient-21)" xlink:href="#path-29"></use>
+                    <use fill="url(#radialGradient-22)" xlink:href="#path-29"></use>
+                    <use fill="url(#linearGradient-28)" xlink:href="#path-29"></use>
+                    <use fill="url(#radialGradient-24)" xlink:href="#path-29"></use>
                 </g>
             </g>
         </g>
