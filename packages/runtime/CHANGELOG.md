@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.4...@next-core/runtime@1.5.5) (2023-05-08)
+
+
+### Bug Fixes
+
+* allow undefined prop value ([790a694](https://github.com/easyops-cn/next-core/commit/790a69405984ff420552b792669bc83c4a4d0a68))
+
+
+
+
+
 ## [1.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.3...@next-core/runtime@1.5.4) (2023-05-05)
 
 
