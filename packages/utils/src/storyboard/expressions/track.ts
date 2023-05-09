@@ -4,6 +4,12 @@ import {
   beforeVisitGlobalMember,
 } from "./beforeVisitGlobalMember.js";
 
+interface trackAllResult {
+  context: string[] | false;
+  state: string[] | false;
+  formState: string[] | false;
+}
+
 export function track(
   raw: string,
   trackText: string,
@@ -37,6 +43,55 @@ export function track(
           )}`
         );
       }
+    }
+  }
+  return false;
+}
+
+export function trackAll(raw: string): trackAllResult | false {
+  if (raw) {
+    const usage: MemberUsage = {
+      usedProperties: new Set(),
+      hasNonStaticUsage: false,
+    };
+    preevaluate(raw, {
+      withParent: true,
+      hooks: {
+        beforeVisitGlobal: beforeVisitGlobalMember(
+          usage,
+          ["CTX", "STATE", "FORM_STATE"],
+          1,
+          true
+        ),
+      },
+    });
+    if (usage.usedProperties.size > 0) {
+      const usedProperites = [...usage.usedProperties];
+      const result: trackAllResult = {
+        context: false,
+        state: false,
+        formState: false,
+      };
+      const keyMap: Record<string, keyof trackAllResult> = {
+        CTX: "context",
+        STATE: "state",
+        FORM_STATE: "formState",
+      };
+      usedProperites.forEach((item) => {
+        const [key, name] = item.split(".");
+        if (!result[keyMap[key]]) {
+          result[keyMap[key]] = [];
+        }
+        (result[keyMap[key]] as string[]).push(name);
+      });
+      return result;
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `You are using track all but no "CTX" or "STATE" or "FORM_STATE" usage found in your expression: ${JSON.stringify(
+          raw
+        )}`
+      );
     }
   }
   return false;

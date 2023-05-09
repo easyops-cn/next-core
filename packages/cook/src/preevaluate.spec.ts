@@ -2,6 +2,7 @@ import {
   isEvaluable,
   preevaluate,
   shouldAllowRecursiveEvaluations,
+  isTrackAll,
 } from "./preevaluate.js";
 
 describe("isEvaluable", () => {
@@ -17,6 +18,10 @@ describe("isEvaluable", () => {
     ["<%~ [] %> ", true],
     ["<%~[]%> ", false],
     ["<% ~[]%> ", false],
+    ["<%= [] %> ", true],
+    ["<%=[]%> ", false],
+    ["<%=[] %> ", false],
+    ["<%= []%> ", false],
   ])("isEvaluable(%j) should return %j", (raw, cookable) => {
     expect(isEvaluable(raw)).toBe(cookable);
   });
@@ -61,5 +66,15 @@ describe("shouldAllowRecursiveEvaluations", () => {
 
   it("should return true", () => {
     expect(shouldAllowRecursiveEvaluations("<%~ DATA %>")).toBe(true);
+  });
+});
+
+describe("isTrackAll", () => {
+  it("should return true", () => {
+    expect(isTrackAll("<%= CTX.a %>")).toBe(true);
+  });
+
+  it("should return false", () => {
+    expect(isTrackAll("<% CTX.a %>")).toBe(false);
   });
 });
