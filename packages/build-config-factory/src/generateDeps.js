@@ -9,7 +9,7 @@ const scopeToSuffix = new Map([
   ["@templates", "NT"],
 ]);
 
-module.exports = function generateDeps() {
+module.exports = function generateDeps(scope) {
   const packageJson = require(path.join(process.cwd(), "package.json"));
   const { peerDependencies } = packageJson;
   const confPath = path.join(process.cwd(), "deploy-default/package.conf.yaml");
@@ -34,6 +34,16 @@ module.exports = function generateDeps() {
         })
         .filter((dep) => dep && !existedDeps.has(dep.name))
     );
+
+  if (scope === "bricks") {
+    const brickNext = conf.dependencies.find(
+      (dep) => dep.name === "brick_next"
+    );
+    if (brickNext && /^\^2(?:\.\d+){0,2}$/.test(brickNext.version)) {
+      brickNext.version = `${brickNext.version} || ^3.0.0`;
+    }
+  }
+
   const content = yaml.safeDump(conf);
   fs.outputFileSync(
     path.join(process.cwd(), "deploy/package.conf.yaml"),
