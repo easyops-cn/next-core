@@ -194,15 +194,15 @@ module.exports = (scope) => {
       enableGenerateDoc && generateBrickDocs(pluginName);
     }
     generateBrickContracts(cwd, isProviderBricks);
-    generateDeps();
+    generateDeps(scope);
     mergeEditors();
     generateSnippets();
     ensureSingleRootBundle();
   } else if (scope === "micro-apps") {
     ensureMicroApp();
     ensureDeps();
-    generateDeps();
+    generateDeps(scope);
   } else if (scope === "templates") {
-    generateDeps();
+    generateDeps(scope);
   }
 };
