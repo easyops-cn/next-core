@@ -172,7 +172,7 @@ describe("Router", () => {
     getOriginFaviconHref: jest.fn(),
     presetBricks: {
       pageNotFound: "presentational-bricks.brick-result",
-      pageError: "basic-bricks.page-error",
+      pageError: "presentational-bricks.brick-result",
     },
     currentLayout: "console",
   } as unknown as Kernel;
@@ -381,15 +381,28 @@ describe("Router", () => {
     expect(spyOnHistory.replace).not.toBeCalled();
     expect(kernel.layoutBootstrap).toBeCalledWith("console");
     expect(kernel.loadDynamicBricks).toBeCalledWith([
-      "basic-bricks.page-error",
+      "presentational-bricks.brick-result",
     ]);
     expect(spyOnMountTree).toBeCalledTimes(1);
     expect(spyOnMountTree.mock.calls[0][0]).toMatchObject([
       {
-        type: "basic-bricks.page-error",
+        type: "presentational-bricks.brick-result",
         properties: {
-          error: "Error: oops",
-          code: null,
+          customTitle: "brick-kit:OTHER_ERROR",
+          illustrationsConfig: {
+            category: "easyops2",
+            name: "unknown-error",
+          },
+          status: "illustrations",
+          style: {
+            alignItems: "center",
+            display: "flex",
+            height: "calc(100vh - var(--app-bar-height))",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+          },
+          subTitle: "Error: oops",
+          useNewIllustration: true,
         },
       },
     ]);

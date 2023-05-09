@@ -9,6 +9,9 @@ export enum K {
   NETWORK_ERROR = "NETWORK_ERROR",
   PAGE_NOT_FOUND = "PAGE_NOT_FOUND",
   APP_NOT_FOUND = "APP_NOT_FOUND",
+  LICENSE_EXPIRED = "LICENSE_EXPIRED",
+  NO_PERMISSION = "NO_PERMISSION",
+  OTHER_ERROR = "OTHER_ERROR",
 }
 
 export type Locale = { [key in K]: string };

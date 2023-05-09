@@ -159,12 +159,12 @@ export class Kernel {
         ? {
             loadingBar: "business-website.loading-bar",
             pageNotFound: "presentational-bricks.brick-result",
-            pageError: "business-website.page-error",
+            pageError: "presentational-bricks.brick-result",
           }
         : {
             ...this.bootstrapData.navbar,
             pageNotFound: "presentational-bricks.brick-result",
-            pageError: "basic-bricks.page-error",
+            pageError: "presentational-bricks.brick-result",
           };
 
     for (const item of supportedLayouts) {
