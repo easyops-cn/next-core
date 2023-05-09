@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.167.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.167.0...@next-core/brick-kit@2.167.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* ignore non-plain object in props when setup useBrick ([63219be](https://github.com/easyops-cn/next-core/commit/63219beacf47466206d8e86e00636c135d294cc6))
+
+
+
+
+
 # [2.167.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.166.1...@next-core/brick-kit@2.167.0) (2023-05-05)
 
 
