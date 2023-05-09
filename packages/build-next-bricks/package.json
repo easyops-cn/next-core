@@ -12,6 +12,7 @@
   "files": [
     "bin",
     "src",
+    "template",
     "index.d.ts"
   ],
   "exports": {
