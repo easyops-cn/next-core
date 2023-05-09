@@ -421,6 +421,19 @@ describe("setProperties", () => {
         textContent: "<a>oops</a>",
       },
     ],
+    [
+      {
+        title: "<% new Map([['a',1]]) %>",
+      },
+      context,
+      true,
+      false,
+      {
+        style: {},
+        dataset: {},
+        title: new Map([["a", 1]]),
+      },
+    ],
   ];
   it.each(cases)(
     "test setProperties(%s, %s, %s) should work",
