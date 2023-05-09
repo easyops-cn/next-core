@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.34](https://github.com/easyops-cn/next-core/compare/@next-bricks/demo-widgets@0.0.33...@next-bricks/demo-widgets@0.0.34) (2023-05-09)
+
+**Note:** Version bump only for package @next-bricks/demo-widgets
+
+
+
+
+
 ## [0.0.33](https://github.com/easyops-cn/next-core/compare/@next-bricks/demo-widgets@0.0.32...@next-bricks/demo-widgets@0.0.33) (2023-05-09)
 
 **Note:** Version bump only for package @next-bricks/demo-widgets

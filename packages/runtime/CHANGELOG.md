@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.0...@next-core/runtime@1.6.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* **createRoot:** add missing form state store ([e7afa19](https://github.com/easyops-cn/next-core/commit/e7afa19babc961ce2b6c023475787972cff6a7d2))
+
+
+
+
+
 # [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.5...@next-core/runtime@1.6.0) (2023-05-09)
 
 
