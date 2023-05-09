@@ -3,6 +3,7 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import build from "../src/build.js";
 import scanBricks from "../src/scanBricks.js";
+import generateMetadata from "../src/generateMetadata.js";
 
 /**
  * @typedef {T | Array<T>} MaybeArray<T>
@@ -65,6 +66,10 @@ try {
         }
       });
     });
+
+    if (configList.some((config) => !config.type || config.type === "bricks")) {
+      await generateMetadata(packageDir);
+    }
 
     console.log(
       `Build bricks done in ${((Date.now() - startTime) / 1000).toFixed(2)}s`
