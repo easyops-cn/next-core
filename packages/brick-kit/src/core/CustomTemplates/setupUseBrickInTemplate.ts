@@ -12,12 +12,12 @@ export function setupUseBrickInTemplate<T>(
   proxyContext: Partial<ProxyContext>
 ): T {
   function walk<P>(props: P): P {
-    if (!isObject(props)) {
-      return props;
-    }
-
     if (Array.isArray(props)) {
       return props.map(walk) as P & any[];
+    }
+
+    if (!isObject(props) || !isPlainObject(props)) {
+      return props;
     }
 
     return Object.fromEntries(
@@ -64,4 +64,8 @@ export function setupUseBrickInTemplate<T>(
   }
 
   return walk(props);
+}
+
+function isPlainObject(object: unknown): boolean {
+  return Object.prototype.toString.call(object) === "[object Object]";
 }
