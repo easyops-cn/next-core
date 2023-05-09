@@ -134,17 +134,19 @@ module.exports = function extract() {
   // 同时更新 Renovate 配置，DLL 的依赖由 DLL 带动更新，不需要自动更新
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
-  const disabledRule = renovateJson.packageRules.find(
-    (item) => item.enabled === false
-  );
-  const disabledPackageNames = new Set(disabledRule.matchPackageNames);
+  if (renovateJson.enabled !== false) {
+    const disabledRule = renovateJson.packageRules.find(
+      (item) => item.enabled === false
+    );
+    const disabledPackageNames = new Set(disabledRule.matchPackageNames);
 
-  for (const pkg of toBeExtracted.keys()) {
-    disabledPackageNames.add(pkg);
+    for (const pkg of toBeExtracted.keys()) {
+      disabledPackageNames.add(pkg);
+    }
+    disabledRule.matchPackageNames = Array.from(disabledPackageNames).sort();
+
+    writeJsonFile(renovateJsonPath, renovateJson);
   }
-  disabledRule.matchPackageNames = Array.from(disabledPackageNames).sort();
-
-  writeJsonFile(renovateJsonPath, renovateJson);
 
   return patch();
 };
