@@ -45,6 +45,7 @@ customElements.define(
 
 const formRendererBricks = [
   "basic-bricks.micro-view",
+  "form.general-form",
   "forms.general-form",
   "forms.general-input",
   "forms.general-input-number",
@@ -1723,7 +1724,7 @@ describe("renderBrick for form renderer", () => {
     const formData: FormDataProperties = {
       formSchema: {
         id: "form_1",
-        brick: "forms.general-form",
+        brick: "form.general-form",
         bricks: types.map((type) => ({
           id: type.toLowerCase(),
           if: true,
@@ -1781,14 +1782,14 @@ describe("renderBrick for form renderer", () => {
           <basic-bricks.micro-view
             style="padding: 12px;"
           >
-            <forms.general-form
+            <form.general-form
               slot="content"
             >
               <forms.general-input
                 data-testid="string"
                 id="string"
               />
-            </forms.general-form>
+            </form.general-form>
           </basic-bricks.micro-view>
         </form-renderer.form-renderer>,
       ]

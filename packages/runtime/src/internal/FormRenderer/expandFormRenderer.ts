@@ -51,7 +51,11 @@ export function expandFormRenderer(
     formStateStoreId
   );
 
-  if (formConf.brick === "forms.general-form" && hostBrickConf.events) {
+  if (
+    (formConf.brick === "forms.general-form" ||
+      formConf.brick === "form.general-form") &&
+    hostBrickConf.events
+  ) {
     formConf.events = mergeEvents(formConf.events, hostBrickConf.events);
   }
 
