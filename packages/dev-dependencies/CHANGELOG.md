@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.82](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.81...@next-core/dev-dependencies@1.16.82) (2023-05-09)
+
+
+### Bug Fixes
+
+* fix extract when renovate is enabled in root ([adfe01c](https://github.com/easyops-cn/next-core/commit/adfe01c55695538ae26eeabad5723548ef1004ad))
+
+
+
+
+
 ## [1.16.81](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.80...@next-core/dev-dependencies@1.16.81) (2023-05-09)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
