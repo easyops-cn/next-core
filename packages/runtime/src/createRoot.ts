@@ -89,6 +89,7 @@ export function unstable_createRoot(
         ctxStore: new DataStore("CTX"),
         pendingPermissionsPreCheck: [],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
+        formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       } as Partial<RuntimeContext> as RuntimeContext;
 
       const previousRendererContext = rendererContext;
@@ -142,9 +143,10 @@ export function unstable_createRoot(
         await Promise.all([
           ...output.blockingList,
           runtimeContext.ctxStore.waitForAll(),
-          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
-            store.waitForAll()
-          ),
+          ...[
+            ...runtimeContext.tplStateStoreMap.values(),
+            ...runtimeContext.formStateStoreMap.values(),
+          ].map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck,
         ]);
       } catch (error) {
