@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.2...@next-core/build-next-bricks@1.5.0) (2023-05-09)
+
+
+### Features
+
+* build brick metadata ([73fbd4a](https://github.com/easyops-cn/next-core/commit/73fbd4a810fba359ab98bee0ab0cd7bd76cc65ae))
+
+
+
+
+
 ## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.1...@next-core/build-next-bricks@1.4.2) (2023-05-05)
 
 
