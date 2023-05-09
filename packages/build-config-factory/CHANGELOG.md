@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.25.7...@next-core/build-config-factory@2.25.8) (2023-05-09)
+
+
+### Bug Fixes
+
+* allow v2 bricks to be used in v3 container ([502d6ca](https://github.com/easyops-cn/next-core/commit/502d6cad15d3ef04b63b902fed84aac343b67e76))
+
+
+
+
+
 ## [2.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.25.6...@next-core/build-config-factory@2.25.7) (2023-05-05)
 
 **Note:** Version bump only for package @next-core/build-config-factory

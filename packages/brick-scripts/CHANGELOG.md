@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.8](/compare/@next-core/brick-scripts@3.0.7...@next-core/brick-scripts@3.0.8) (2023-05-09)
+
+
+### Bug Fixes
+
+* allow v2 bricks to be used in v3 container 502d6ca
+
+
+
+
+
 ## [3.0.7](/compare/@next-core/brick-scripts@3.0.6...@next-core/brick-scripts@3.0.7) (2023-02-16)
 
 
