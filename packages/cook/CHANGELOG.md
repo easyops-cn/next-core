@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.0.4...@next-core/cook@2.1.0) (2023-05-09)
+
+
+### Features
+
+* support track evalute syntax sugar ([c7999bf](https://github.com/easyops-cn/next-core/commit/c7999bf45967f83db017e38544975b408564c007))
+* update getTracks unit test ([e15d59b](https://github.com/easyops-cn/next-core/commit/e15d59b3f3582125f811d7f7e31e1eb6595cad70))
+
+
+
+
+
 ## [2.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.0.3...@next-core/cook@2.0.4) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/cook

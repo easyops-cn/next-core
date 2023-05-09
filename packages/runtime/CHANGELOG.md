@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.5...@next-core/runtime@1.6.0) (2023-05-09)
+
+
+### Features
+
+* support track evalute syntax sugar ([c7999bf](https://github.com/easyops-cn/next-core/commit/c7999bf45967f83db017e38544975b408564c007))
+* update getTracks unit test ([e15d59b](https://github.com/easyops-cn/next-core/commit/e15d59b3f3582125f811d7f7e31e1eb6595cad70))
+
+
+
+
+
 ## [1.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.4...@next-core/runtime@1.5.5) (2023-05-08)
 
 

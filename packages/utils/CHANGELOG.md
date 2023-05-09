@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.3.0...@next-core/utils@1.4.0) (2023-05-09)
+
+
+### Features
+
+* support track evalute syntax sugar ([c7999bf](https://github.com/easyops-cn/next-core/commit/c7999bf45967f83db017e38544975b408564c007))
+
+
+
+
+
 # [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.2.5...@next-core/utils@1.3.0) (2023-05-05)
 
 
