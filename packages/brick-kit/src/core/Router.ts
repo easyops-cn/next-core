@@ -32,7 +32,11 @@ import {
   NavConfig,
 } from "./exports";
 import { getHistory } from "../history";
-import { httpErrorToString, handleHttpError } from "../handleHttpError";
+import {
+  httpErrorToString,
+  handleHttpError,
+  getRefinedErrorConf,
+} from "../handleHttpError";
 import { isUnauthenticatedError } from "../internal/isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../internal/injected";
@@ -344,6 +348,14 @@ export class Router {
       this.kernel.setOriginFaviconHref(faviconElement.href);
     }
 
+    const illustrationStyle = {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      transform: "translateY(-100px)",
+      height: "calc(100vh - var(--app-bar-height))",
+    };
+
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
     );
@@ -436,15 +448,17 @@ export class Router {
           await this.kernel.loadDynamicBricks([brickPageError]);
 
           mountRoutesResult.flags.failed = true;
+          const { title, illustration } = getRefinedErrorConf(error);
           mountRoutesResult.main = [
             {
               type: brickPageError,
               properties: {
-                error: httpErrorToString(error),
-                code:
-                  error instanceof HttpResponseError
-                    ? error.response.status
-                    : null,
+                status: "illustrations",
+                useNewIllustration: true,
+                customTitle: title,
+                subTitle: httpErrorToString(error),
+                illustrationsConfig: illustration,
+                style: illustrationStyle,
               },
               events: {},
             },
@@ -717,13 +731,7 @@ export class Router {
           properties: {
             status: "illustrations",
             useNewIllustration: true,
-            style: {
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transform: "translateY(-100px)",
-              height: "calc(100vh - var(--app-bar-height))",
-            },
+            style: illustrationStyle,
             ...(storyboard ? notFoundPageConfig : notFoundAppConfig),
           },
           events: {},

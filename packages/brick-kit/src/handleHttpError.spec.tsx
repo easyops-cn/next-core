@@ -13,6 +13,7 @@ import {
   httpErrorToString,
   handleHttpError,
   LoginTimeoutMessage,
+  getRefinedErrorConf,
 } from "./handleHttpError";
 import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getHistory } from "./history";
@@ -211,5 +212,36 @@ describe("LoginTimeoutMessage", () => {
     const wrapper = mount(<LoginTimeoutMessage />);
     expect(wrapper.text()).toBe("brick-kit:LOGIN_TIMEOUT_MESSAGE");
     wrapper.unmount();
+  });
+});
+
+describe("getRefinedErrorConf", () => {
+  it.each([
+    [
+      new HttpResponseError(new Response("", { status: 403 })),
+      {
+        illustration: { category: "easyops2", name: "no-permission" },
+        title: "brick-kit:NO_PERMISSION",
+      },
+    ],
+    [
+      new HttpResponseError(new Response("", { status: 401 })),
+      {
+        illustration: { category: "easyops2", name: "unknown-error" },
+        title: "brick-kit:OTHER_ERROR",
+      },
+    ],
+    [
+      new HttpResponseError(new Response("", { status: 200 }), {
+        error: "oops",
+        code: "-200000",
+      }),
+      {
+        illustration: { category: "easyops2", name: "license-expired" },
+        title: "brick-kit:LICENSE_EXPIRED",
+      },
+    ],
+  ])("should work", (error, result) => {
+    expect(getRefinedErrorConf(error)).toEqual(result);
   });
 });

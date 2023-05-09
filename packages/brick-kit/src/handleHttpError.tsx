@@ -15,6 +15,14 @@ import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getRuntime } from "./runtime";
 import { isHttpAbortError } from "./internal/isHttpAbortError";
 
+interface ErrorIllustrationConf {
+  title: string;
+  illustration?: {
+    name: string;
+    category: string;
+  };
+}
+
 /**
  * 将 http 请求错误转换为可读的字符串。
  *
@@ -114,4 +122,54 @@ export function LoginTimeoutMessage(): React.ReactElement {
     };
   }, []);
   return <div>{i18next.t(`${NS_BRICK_KIT}:${K.LOGIN_TIMEOUT_MESSAGE}`)}</div>;
+}
+
+export function getConfOfHttpStatus(
+  error: HttpResponseError
+): ErrorIllustrationConf {
+  switch (error.response?.status) {
+    case 403:
+      return {
+        title: i18next.t(`${NS_BRICK_KIT}:${K.NO_PERMISSION}`),
+        illustration: {
+          name: "no-permission",
+          category: "easyops2",
+        },
+      };
+    default:
+      return null;
+  }
+}
+
+export function getConfOfHttpCode(
+  error: HttpResponseError
+): ErrorIllustrationConf {
+  switch (error.responseJson?.code) {
+    case "-200000":
+      return {
+        title: i18next.t(`${NS_BRICK_KIT}:${K.LICENSE_EXPIRED}`),
+        illustration: {
+          name: "license-expired",
+          category: "easyops2",
+        },
+      };
+    default:
+      return {
+        title: i18next.t(`${NS_BRICK_KIT}:${K.OTHER_ERROR}`),
+        illustration: {
+          name: "unknown-error",
+          category: "easyops2",
+        },
+      };
+  }
+}
+
+export function getRefinedErrorConf(
+  error: HttpResponseError
+): ErrorIllustrationConf {
+  return [getConfOfHttpStatus, getConfOfHttpCode].reduce(
+    (result: ErrorIllustrationConf, method) =>
+      result ? result : method(error),
+    null
+  );
 }
