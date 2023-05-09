@@ -13,11 +13,16 @@ export type BeforeVisitGlobal = (
 
 export function beforeVisitGlobalMember(
   usage: MemberUsage,
-  objectName: string,
-  level: 1 | 2 = 1
+  objectName: string | string[],
+  level: 1 | 2 = 1,
+  rememberObjectName = false
 ): BeforeVisitGlobal {
   return function beforeVisitGlobal(node, parent): void {
-    if (node.name === objectName) {
+    if (
+      typeof objectName === "string"
+        ? node.name === objectName
+        : objectName.includes(node.name)
+    ) {
       const segments: string[] = [];
       for (let i = 1; i <= level; i++) {
         const memberParent = parent[parent.length - i];
@@ -30,13 +35,21 @@ export function beforeVisitGlobalMember(
             !memberNode.computed &&
             memberNode.property.type === "Identifier"
           ) {
-            segments.push(memberNode.property.name);
+            segments.push(
+              rememberObjectName
+                ? `${node.name}.${memberNode.property.name}`
+                : memberNode.property.name
+            );
           } else if (
             memberNode.computed &&
             (memberNode.property as any).type === "Literal" &&
             typeof (memberNode.property as any).value === "string"
           ) {
-            segments.push((memberNode.property as any).value);
+            segments.push(
+              rememberObjectName
+                ? `${node.name}.${(memberNode.property as any).value}`
+                : (memberNode.property as any).value
+            );
           } else {
             usage.hasNonStaticUsage = true;
           }
