@@ -17,6 +17,7 @@ import { isHttpAbortError } from "./internal/isHttpAbortError";
 
 interface ErrorIllustrationConf {
   title: string;
+  showBackLink?: boolean;
   illustration?: {
     name: string;
     category: string;
@@ -130,6 +131,7 @@ export function getConfOfHttpStatus(
   switch (error.response?.status) {
     case 403:
       return {
+        showBackLink: true,
         title: i18next.t(`${NS_BRICK_KIT}:${K.NO_PERMISSION}`),
         illustration: {
           name: "no-permission",
@@ -155,6 +157,7 @@ export function getConfOfHttpCode(
       };
     default:
       return {
+        showBackLink: true,
         title: i18next.t(`${NS_BRICK_KIT}:${K.OTHER_ERROR}`),
         illustration: {
           name: "unknown-error",

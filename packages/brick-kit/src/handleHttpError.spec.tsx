@@ -220,6 +220,7 @@ describe("getRefinedErrorConf", () => {
     [
       new HttpResponseError(new Response("", { status: 403 })),
       {
+        showBackLink: true,
         illustration: { category: "easyops2", name: "no-permission" },
         title: "brick-kit:NO_PERMISSION",
       },
@@ -227,6 +228,7 @@ describe("getRefinedErrorConf", () => {
     [
       new HttpResponseError(new Response("", { status: 401 })),
       {
+        showBackLink: true,
         illustration: { category: "easyops2", name: "unknown-error" },
         title: "brick-kit:OTHER_ERROR",
       },

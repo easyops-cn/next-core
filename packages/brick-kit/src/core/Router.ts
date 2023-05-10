@@ -448,7 +448,8 @@ export class Router {
           await this.kernel.loadDynamicBricks([brickPageError]);
 
           mountRoutesResult.flags.failed = true;
-          const { title, illustration } = getRefinedErrorConf(error);
+          const { title, illustration, showBackLink } =
+            getRefinedErrorConf(error);
           mountRoutesResult.main = [
             {
               type: brickPageError,
@@ -460,6 +461,32 @@ export class Router {
                 illustrationsConfig: illustration,
                 style: illustrationStyle,
               },
+              ...(showBackLink
+                ? {
+                    children: [
+                      {
+                        type: "a",
+                        properties: {
+                          textContent: i18next.t(
+                            `${NS_BRICK_KIT}:${K.GO_BACK_PREVIOUS_PAGE}`
+                          ),
+                          style: {
+                            display: "block",
+                            textAlign: "center",
+                          },
+                        },
+                        slotId: "content",
+                        events: {
+                          click: [
+                            {
+                              action: "history.goBack",
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  }
+                : {}),
               events: {},
             },
           ];

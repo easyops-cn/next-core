@@ -12,6 +12,7 @@ export enum K {
   LICENSE_EXPIRED = "LICENSE_EXPIRED",
   NO_PERMISSION = "NO_PERMISSION",
   OTHER_ERROR = "OTHER_ERROR",
+  GO_BACK_PREVIOUS_PAGE = "GO_BACK_PREVIOUS_PAGE",
 }
 
 export type Locale = { [key in K]: string };

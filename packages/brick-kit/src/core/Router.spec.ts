@@ -417,10 +417,23 @@ describe("Router", () => {
     expect(spyOnMountTree).toBeCalledTimes(2);
     expect(spyOnMountTree.mock.calls[1][0]).toMatchObject([
       {
-        type: "basic-bricks.page-error",
+        type: "presentational-bricks.brick-result",
         properties: {
-          error: "HttpResponseError: oops",
-          code: 403,
+          customTitle: "brick-kit:NO_PERMISSION",
+          illustrationsConfig: {
+            category: "easyops2",
+            name: "no-permission",
+          },
+          status: "illustrations",
+          subTitle: "HttpResponseError: oops",
+          useNewIllustration: true,
+          style: {
+            alignItems: "center",
+            display: "flex",
+            height: "calc(100vh - var(--app-bar-height))",
+            justifyContent: "center",
+            transform: "translateY(-100px)",
+          },
         },
       },
     ]);
