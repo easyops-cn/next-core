@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.2...@next-core/runtime@1.6.3) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix when the storyboard has only a single portal brick ([1a49496](https://github.com/easyops-cn/next-core/commit/1a494966a92dbc1913f3657a0e27fef82c05d0c7))
+
+
+
+
+
 ## [1.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.1...@next-core/runtime@1.6.2) (2023-05-10)
 
 
