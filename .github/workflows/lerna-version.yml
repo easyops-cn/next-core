@@ -28,3 +28,5 @@ jobs:
 
     - name: Lerna Version
       run: npx lerna version --yes --conventional-commits --create-release github
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN_EVE }}
