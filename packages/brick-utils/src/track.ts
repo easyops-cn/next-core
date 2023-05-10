@@ -51,10 +51,6 @@ export function trackUsedFormState(data: unknown): string[] {
   return collectContextUsage(data, "FORM_STATE").usedContexts;
 }
 
-export function trackAllContext(raw: string): trackAllResult | false {
-  return trackAll(raw);
-}
-
 interface trackAllResult {
   context: string[] | false;
   state: string[] | false;
@@ -101,7 +97,7 @@ function track(
   return false;
 }
 
-function trackAll(raw: string): trackAllResult | false {
+export function trackAll(raw: string): trackAllResult | false {
   if (raw) {
     const usage: ContextUsage = {
       usedContexts: [],

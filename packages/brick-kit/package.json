@@ -70,7 +70,6 @@
     "@ant-design/icons": "*",
     "@next-core/brick-http": "*",
     "@next-core/brick-utils": "*",
-    "@next-core/cook": "*",
     "@next-core/easyops-analytics": "*",
     "@next-core/illustrations": "*",
     "@next-core/pipes": "*",

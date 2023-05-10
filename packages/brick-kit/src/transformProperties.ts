@@ -12,6 +12,9 @@ import {
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
   EvaluateRuntimeContext,
+  getPreEvaluatedRaw,
+  addDataToPreEvaluated,
+  PreEvaluated,
 } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
 import { devtoolsHookEmit } from "./internal/devtools";
@@ -139,7 +142,14 @@ export function doTransform(
     Object.entries(to)
       .map(([k, v]) => {
         if (Array.isArray(options?.trackingContextList)) {
-          const { contextNames, stateNames, formStateNames } = getTracks(v);
+          let raw: string;
+          if (typeof v === "string") {
+            raw = v;
+          } else {
+            raw = getPreEvaluatedRaw(v as PreEvaluated);
+            addDataToPreEvaluated(v, data);
+          }
+          const { contextNames, stateNames, formStateNames } = getTracks(raw);
           if (contextNames || stateNames || formStateNames) {
             options.trackingContextList.push({
               contextNames,

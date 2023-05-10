@@ -1,10 +1,10 @@
-import { isEvaluable } from "@next-core/cook";
 import {
+  isEvaluable,
   trackContext,
   trackState,
   trackFormState,
   isTrackAll,
-  trackAllContext,
+  trackAll,
 } from "@next-core/brick-utils";
 import { PreEvaluated, getPreEvaluatedRaw, isPreEvaluated } from "./evaluate";
 
@@ -18,7 +18,7 @@ export function getTracks(value: unknown) {
         ? value
         : getPreEvaluatedRaw(value as PreEvaluated);
     if (isTrackAll(raw)) {
-      const result = trackAllContext(raw);
+      const result = trackAll(raw);
       if (result) {
         contextNames = result.context;
         stateNames = result.state;
