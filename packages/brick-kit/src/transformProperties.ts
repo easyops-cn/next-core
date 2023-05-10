@@ -141,7 +141,10 @@ export function doTransform(
     // Get both string and symbol keys.
     Object.entries(to)
       .map(([k, v]) => {
-        if (Array.isArray(options?.trackingContextList)) {
+        if (
+          Array.isArray(options?.trackingContextList) &&
+          (typeof v === "string" ? isEvaluable(v) : isPreEvaluated(v))
+        ) {
           let raw: string;
           if (typeof v === "string") {
             raw = v;
