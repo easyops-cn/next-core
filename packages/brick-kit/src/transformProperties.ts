@@ -4,10 +4,7 @@ import {
   isObject,
   transform,
   isEvaluable,
-  trackContext,
   transformAndInject,
-  trackState,
-  trackFormState,
 } from "@next-core/brick-utils";
 import {
   evaluate,
@@ -15,9 +12,6 @@ import {
   isPreEvaluated,
   shouldDismissRecursiveMarkingInjected,
   EvaluateRuntimeContext,
-  PreEvaluated,
-  getPreEvaluatedRaw,
-  addDataToPreEvaluated,
 } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
 import { devtoolsHookEmit } from "./internal/devtools";
@@ -29,6 +23,7 @@ import {
 } from "./internal/getNextStateOfUseBrick";
 import { TrackingContextItem } from "./internal/listenOnTrackingContext";
 import { _internalApiGetCurrentContext } from "./core/Runtime";
+import { getTracks } from "./internal/getTracks";
 
 interface TransformOptions {
   isReTransformation?: boolean;
@@ -143,20 +138,8 @@ export function doTransform(
     // Get both string and symbol keys.
     Object.entries(to)
       .map(([k, v]) => {
-        if (
-          Array.isArray(options?.trackingContextList) &&
-          (typeof v === "string" ? isEvaluable(v) : isPreEvaluated(v))
-        ) {
-          let raw: string;
-          if (typeof v === "string") {
-            raw = v;
-          } else {
-            raw = getPreEvaluatedRaw(v as PreEvaluated);
-            addDataToPreEvaluated(v, data);
-          }
-          const contextNames = trackContext(raw);
-          const stateNames = trackState(raw);
-          const formStateNames = trackFormState(raw);
+        if (Array.isArray(options?.trackingContextList)) {
+          const { contextNames, stateNames, formStateNames } = getTracks(v);
           if (contextNames || stateNames || formStateNames) {
             options.trackingContextList.push({
               contextNames,

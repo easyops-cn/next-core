@@ -1,4 +1,5 @@
 import {
+  trackAllContext,
   trackContext,
   trackFormState,
   trackState,
@@ -112,5 +113,41 @@ describe("trackUsedState", () => {
         "<% CTX.bad1 %>",
       ])
     ).toEqual(["good1", "good2"]);
+  });
+});
+
+describe("trackAllContext", () => {
+  test("basic usage", () => {
+    const result1 = trackAllContext(
+      '<%= CTX.abc + CTX["xyz"] + CTX[DATA.non] + STATE.a + STATE["b"] + FORM_STATE.c %>'
+    );
+    expect(result1).toEqual({
+      context: ["abc", "xyz"],
+      formState: ["c"],
+      state: ["a", "b"],
+    });
+
+    const result2 = trackAllContext("<%= CTX.abc %>");
+    expect(result2).toEqual({
+      context: ["abc"],
+      formState: false,
+      state: false,
+    });
+  });
+
+  test("no usage", () => {
+    const consoleWarn = jest.spyOn(console, "warn").mockImplementation(() => {
+      // Do nothing
+    });
+    const result = trackAllContext("<%= DATA.CTX.abc %>");
+    expect(result).toBe(false);
+    expect(consoleWarn).toBeCalledWith(
+      expect.stringContaining(`no "CTX" or "STATE" or "FORM_STATE" usage found`)
+    );
+  });
+
+  test("no track", () => {
+    const result = trackAllContext("<%= abc %>");
+    expect(result).toBe(false);
   });
 });
