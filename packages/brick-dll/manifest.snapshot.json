@@ -5778,17 +5778,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/@easyops/cook/dist/esm/traverse.js": {
-      "id": "EaxO",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "collectBoundNames",
-          "containsExpression",
-          "collectScopedDeclarations"
-        ]
-      }
-    },
     "./node_modules/@babel/runtime/helpers/iterableToArray.js": {
       "id": "EbDI",
       "buildMeta": { "providedExports": true }
@@ -6326,10 +6315,6 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
-    },
-    "./node_modules/@babel/parser/lib/index.js": {
-      "id": "GGH7",
-      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/PartitionOutlined.js": {
       "id": "GGqe",
@@ -11913,13 +11898,6 @@
         "providedExports": ["default"]
       }
     },
-    "./node_modules/@easyops/cook/dist/esm/hasOwnProperty.js": {
-      "id": "W7+P",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["hasOwnProperty"]
-      }
-    },
     "./node_modules/@babel/runtime/helpers/createClass.js": {
       "id": "W8MJ",
       "buildMeta": { "providedExports": true }
@@ -15448,13 +15426,6 @@
         "providedExports": ["isWindow", "default"]
       }
     },
-    "./node_modules/@easyops/cook/dist/esm/precook.js": {
-      "id": "i72Z",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["precook"]
-      }
-    },
     "./node_modules/@ant-design/icons-svg/es/asn/BankOutlined.js": {
       "id": "i79N",
       "buildMeta": {
@@ -16126,13 +16097,6 @@
       "id": "kVK+",
       "buildMeta": { "providedExports": true }
     },
-    "./node_modules/@easyops/cook/dist/esm/AnalysisContext.js": {
-      "id": "kW/0",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": ["AnalysisContext", "AnalysisEnvironment"]
-      }
-    },
     "./node_modules/@ant-design/icons-svg/es/asn/CloseCircleOutlined.js": {
       "id": "kWUd",
       "buildMeta": {
@@ -16400,17 +16364,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
-      }
-    },
-    "./node_modules/@easyops/cook/dist/esm/parse.js": {
-      "id": "lbWb",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "parseAsEstreeExpression",
-          "parseAsEstree",
-          "parseForAnalysis"
-        ]
       }
     },
     "./node_modules/@ant-design/icons/es/icons/LineChartOutlined.js": {
@@ -17011,18 +16964,6 @@
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
-      }
-    },
-    "./node_modules/@easyops/cook/dist/esm/preevaluate.js": {
-      "id": "npgb",
-      "buildMeta": {
-        "exportsType": "namespace",
-        "providedExports": [
-          "preevaluate",
-          "isEvaluable",
-          "shouldAllowRecursiveEvaluations",
-          "isTrackAll"
-        ]
       }
     },
     "./node_modules/rc-picker/es/panels/TimePanel/index.js": {
