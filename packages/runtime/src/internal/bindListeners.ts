@@ -115,10 +115,28 @@ export function listenerFactory(
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, { ...runtimeContext, event })) {
+        if (handler.else) {
+          if (Array.isArray(handler.else)) {
+            handler.else.forEach((action) =>
+              listenerFactory(action, runtimeContext, runtimeBrick)(event)
+            );
+          } else {
+            listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);
+          }
+        }
         continue;
       }
-      if (isBuiltinHandler(handler)) {
-        const [object, method] = handler.action.split(".") as any;
+
+      if (handler.then) {
+        if (Array.isArray(handler.then)) {
+          handler.then.forEach((action) =>
+            listenerFactory(action, runtimeContext, runtimeBrick)(event)
+          );
+        } else {
+          listenerFactory(handler.then, runtimeContext, runtimeBrick)(event);
+        }
+      } else if (isBuiltinHandler(handler)) {
+        const [object, method] = handler.action?.split(".") as any;
         switch (handler.action) {
           case "history.push":
           case "history.replace":

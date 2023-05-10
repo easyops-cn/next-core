@@ -1132,3 +1132,137 @@ describe("listenerFactory for unknown handlers", () => {
     });
   });
 });
+
+describe("if/esle condition", () => {
+  let ctxStore: DataStore<"CTX">;
+
+  beforeEach(async () => {
+    consoleLog.mockReturnValue();
+
+    ctxStore = new DataStore("CTX");
+    runtimeContext = {
+      ctxStore,
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "yes",
+          value: true,
+        },
+        {
+          name: "no",
+          value: false,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+  });
+
+  afterEach(() => {
+    consoleLog.mockReset();
+  });
+
+  it("basic", async () => {
+    listenerFactory(
+      {
+        if: true,
+        then: [
+          {
+            useProvider: "my-timeout-provider",
+            args: [10, "resolved"],
+            callback: {
+              success: [
+                {
+                  if: "<% CTX.yes %>",
+                  then: [
+                    {
+                      action: "console.log",
+                      args: ["进入 then 逻辑", "<% EVENT.detail %>"],
+                    },
+                    {
+                      useProvider: "my-timeout-provider",
+                      args: [10, "nest-provider"],
+                      callback: {
+                        success: [
+                          {
+                            if: "<% CTX.yes %>",
+                            then: {
+                              action: "console.log",
+                              args: [
+                                "进入嵌套 provider 逻辑",
+                                "<% EVENT.detail %>",
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      if: true,
+                      then: {
+                        action: "console.log",
+                        args: ["进入嵌套 then 逻辑"],
+                      },
+                    },
+                  ],
+                },
+                {
+                  if: "<% CTX.no %>",
+                  else: [
+                    {
+                      action: "console.log",
+                      args: ["进入 else 逻辑"],
+                    },
+                    {
+                      if: "<% CTX.no %>",
+                      else: {
+                        action: "console.log",
+                        args: ["进入嵌套 else 逻辑"],
+                      },
+                    },
+                  ],
+                },
+                {
+                  if: true,
+                  then: [],
+                  else: {
+                    action: "console.log",
+                    args: ["不执行"],
+                  },
+                },
+                {
+                  if: false,
+                  then: {
+                    action: "console.log",
+                    args: ["不执行"],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 30));
+
+    expect(myTimeoutProvider).toBeCalledTimes(2);
+    expect(consoleLog).toBeCalledTimes(5);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "进入 then 逻辑", "resolved");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "进入嵌套 then 逻辑");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "进入 else 逻辑");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "进入嵌套 else 逻辑");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(
+      5,
+      "进入嵌套 provider 逻辑",
+      "nest-provider"
+    );
+  });
+});
