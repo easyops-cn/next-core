@@ -857,12 +857,13 @@ export interface BrickEventsMap {
 export type BrickEventHandler =
   | BuiltinBrickEventHandler
   | UseProviderEventHandler
-  | CustomBrickEventHandler;
+  | CustomBrickEventHandler
+  | ConditionalEventHandler;
 
 /** 系统内置的事件处理器。 */
 export interface BuiltinBrickEventHandler {
   /** 处理动作名。 */
-  action?: // Third Party History
+  action: // Third Party History
   | "history.push"
     | "history.replace"
     | "history.goBack"
@@ -958,11 +959,6 @@ export interface BuiltinBrickEventHandler {
 
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
-
-  /** 满足分枝条件逻辑处理器 */
-  then?: BrickEventHandler | BrickEventHandler[];
-  /** 不满足分枝条件逻辑处理器 */
-  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -985,12 +981,6 @@ export interface UseProviderEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
-
-  /** {@inheritDoc BuiltinBrickEventHandler.then} */
-  then?: BrickEventHandler | BrickEventHandler[];
-
-  /** {@inheritDoc BuiltinBrickEventHandler.else} */
-  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1047,11 +1037,17 @@ export interface BaseCustomBrickEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+}
 
-  /** {@inheritDoc BuiltinBrickEventHandler.then} */
-  then?: BrickEventHandler | BrickEventHandler[];
-
-  /** {@inheritDoc BuiltinBrickEventHandler.else} */
+/*
+ * 条件判断处理
+ */
+export interface ConditionalEventHandler {
+  /** {@inheritDoc BuiltinBrickEventHandler.if} */
+  if?: string | boolean;
+  /** 满足条件分枝 */
+  then: BrickEventHandler | BrickEventHandler[];
+  /** 不满足条件分枝 */
   else?: BrickEventHandler | BrickEventHandler[];
 }
 

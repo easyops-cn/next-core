@@ -9,6 +9,7 @@ import type {
   SetPropsCustomBrickEventHandler,
   SiteTheme,
   UseProviderEventHandler,
+  ConditionalEventHandler,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
 import { checkIf } from "./compute/checkIf.js";
@@ -107,6 +108,15 @@ export function isSetPropsCustomHandler(
   return !!(handler as SetPropsCustomBrickEventHandler).properties;
 }
 
+export function isConditionalEventHandler(
+  handler: BrickEventHandler
+): handler is ConditionalEventHandler {
+  return !!(
+    (handler as ConditionalEventHandler).then ||
+    (handler as ConditionalEventHandler).else
+  );
+}
+
 export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
   runtimeContext: RuntimeContext,
@@ -115,28 +125,16 @@ export function listenerFactory(
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, { ...runtimeContext, event })) {
-        if (handler.else) {
-          if (Array.isArray(handler.else)) {
-            handler.else.forEach((action) =>
-              listenerFactory(action, runtimeContext, runtimeBrick)(event)
-            );
-          } else {
-            listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);
-          }
+        if (isConditionalEventHandler(handler) && handler.else) {
+          listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);
         }
         continue;
       }
 
-      if (handler.then) {
-        if (Array.isArray(handler.then)) {
-          handler.then.forEach((action) =>
-            listenerFactory(action, runtimeContext, runtimeBrick)(event)
-          );
-        } else {
-          listenerFactory(handler.then, runtimeContext, runtimeBrick)(event);
-        }
+      if (isConditionalEventHandler(handler)) {
+        listenerFactory(handler.then, runtimeContext, runtimeBrick)(event);
       } else if (isBuiltinHandler(handler)) {
-        const [object, method] = handler.action?.split(".") as any;
+        const [object, method] = handler.action.split(".") as any;
         switch (handler.action) {
           case "history.push":
           case "history.replace":
