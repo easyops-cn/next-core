@@ -9,6 +9,7 @@ import type {
   SetPropsCustomBrickEventHandler,
   SiteTheme,
   UseProviderEventHandler,
+  ConditionalEventHandler,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
 import { checkIf } from "./compute/checkIf.js";
@@ -107,6 +108,12 @@ export function isSetPropsCustomHandler(
   return !!(handler as SetPropsCustomBrickEventHandler).properties;
 }
 
+export function isConditionalEventHandler(
+  handler: BrickEventHandler
+): handler is ConditionalEventHandler {
+  return !!(handler as ConditionalEventHandler).then;
+}
+
 export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
   runtimeContext: RuntimeContext,
@@ -115,9 +122,15 @@ export function listenerFactory(
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, { ...runtimeContext, event })) {
+        if (handler.else) {
+          listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);
+        }
         continue;
       }
-      if (isBuiltinHandler(handler)) {
+
+      if (isConditionalEventHandler(handler)) {
+        listenerFactory(handler.then, runtimeContext, runtimeBrick)(event);
+      } else if (isBuiltinHandler(handler)) {
         const [object, method] = handler.action.split(".") as any;
         switch (handler.action) {
           case "history.push":
