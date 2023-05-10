@@ -111,10 +111,7 @@ export function isSetPropsCustomHandler(
 export function isConditionalEventHandler(
   handler: BrickEventHandler
 ): handler is ConditionalEventHandler {
-  return !!(
-    (handler as ConditionalEventHandler).then ||
-    (handler as ConditionalEventHandler).else
-  );
+  return !!(handler as ConditionalEventHandler).then;
 }
 
 export function listenerFactory(
@@ -125,7 +122,7 @@ export function listenerFactory(
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, { ...runtimeContext, event })) {
-        if (isConditionalEventHandler(handler) && handler.else) {
+        if (handler.else) {
           listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);
         }
         continue;

@@ -1249,6 +1249,15 @@ describe("if/esle condition", () => {
                     args: ["执行"],
                   },
                 },
+                {
+                  if: false,
+                  useProvider: "my-timeout-provider",
+                  args: [10, "nest-provider"],
+                  else: {
+                    action: "console.log",
+                    args: ["执行"],
+                  },
+                },
               ],
             },
           },
@@ -1260,7 +1269,7 @@ describe("if/esle condition", () => {
     await new Promise((resolve) => setTimeout(resolve, 30));
 
     expect(myTimeoutProvider).toBeCalledTimes(2);
-    expect(consoleLog).toBeCalledTimes(6);
+    expect(consoleLog).toBeCalledTimes(7);
 
     expect(consoleLog).toHaveBeenNthCalledWith(1, "进入 then 逻辑", "resolved");
 
@@ -1272,8 +1281,10 @@ describe("if/esle condition", () => {
 
     expect(consoleLog).toHaveBeenNthCalledWith(5, "执行");
 
+    expect(consoleLog).toHaveBeenNthCalledWith(6, "执行");
+
     expect(consoleLog).toHaveBeenNthCalledWith(
-      6,
+      7,
       "进入嵌套 provider 逻辑",
       "nest-provider"
     );
