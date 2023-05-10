@@ -82,20 +82,21 @@ export function mountTree(
         if (currentReturn.childElements) {
           if (currentReturn.tag === RenderTag.ROOT) {
             currentReturn.container?.append(...currentReturn.childElements);
-
-            if (portalElements.length > 0) {
-              const portal =
-                typeof currentReturn.createPortal === "function"
-                  ? currentReturn.createPortal()
-                  : currentReturn.createPortal;
-              portal.append(...portalElements);
-            }
           } else {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             currentReturn.element!.append(...currentReturn.childElements);
           }
           currentReturn.childElements = undefined;
         }
+
+        if (currentReturn.tag === RenderTag.ROOT && portalElements.length > 0) {
+          const portal =
+            typeof currentReturn.createPortal === "function"
+              ? currentReturn.createPortal()
+              : currentReturn.createPortal;
+          portal.append(...portalElements);
+        }
+
         if (currentReturn.sibling) {
           break;
         }
