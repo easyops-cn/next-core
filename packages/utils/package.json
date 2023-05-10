@@ -1,7 +1,7 @@
 {
   "name": "@next-core/utils",
   "version": "1.4.0",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/utils",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/utils",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",

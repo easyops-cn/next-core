@@ -1,7 +1,7 @@
 {
   "name": "@next-core/i18n",
   "version": "1.0.12",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/i18n",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/i18n",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",

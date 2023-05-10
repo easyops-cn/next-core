@@ -2,7 +2,7 @@
   "name": "@next-bricks/demo-widgets",
   "version": "0.0.34",
   "private": true,
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/demo-widgets",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/bricks/demo-widgets",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"

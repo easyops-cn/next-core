@@ -2,7 +2,7 @@
   "name": "@next-core/create-api-sdk",
   "version": "1.0.5",
   "description": "Build next bricks",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-api-sdk",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/create-api-sdk",
   "license": "GPL-3.0",
   "type": "module",
   "bin": {

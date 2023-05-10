@@ -2,7 +2,7 @@
   "name": "@next-core/http",
   "version": "1.0.4",
   "description": "> TODO: description",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/http",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/http",
   "license": "GPL-3.0",
   "type": "module",
   "main": "dist/cjs/index.js",
