@@ -1,7 +1,7 @@
 {
   "name": "@next-core/element",
   "version": "1.0.4",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/element",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/element",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",

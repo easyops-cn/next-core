@@ -2,7 +2,7 @@
   "name": "@next-core/test-next",
   "version": "1.0.4",
   "description": "Test next packages",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/test-next",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/test-next",
   "license": "GPL-3.0",
   "type": "module",
   "typings": "./index.d.ts",

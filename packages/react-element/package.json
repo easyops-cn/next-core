@@ -1,7 +1,7 @@
 {
   "name": "@next-core/react-element",
   "version": "1.0.5",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/react-element",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/react-element",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
