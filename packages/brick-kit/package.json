@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-kit",
-  "version": "2.167.1",
+  "version": "2.168.0",
   "description": "Kernel",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-kit",
   "license": "GPL-3.0",
@@ -49,9 +49,9 @@
   "devDependencies": {
     "@ant-design/icons": "^4.5.0",
     "@next-core/brick-http": "^2.8.1",
-    "@next-core/brick-utils": "^2.46.0",
+    "@next-core/brick-utils": "^2.47.0",
     "@next-core/easyops-analytics": "^0.10.9",
-    "@next-core/illustrations": "^0.11.7",
+    "@next-core/illustrations": "^0.11.8",
     "@next-core/pipes": "^1.0.16",
     "@next-core/rollup-config-factory": "^2.7.0",
     "antd": "~4.12.3",

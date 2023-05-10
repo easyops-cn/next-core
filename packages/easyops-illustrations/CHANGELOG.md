@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.8](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.7...@next-core/illustrations@0.11.8) (2023-05-10)
+
+
+### Bug Fixes
+
+* Optimize error message display ([d5c828a](https://github.com/easyops-cn/next-core/commit/d5c828a7fdbe48c63fa1be305731f329079c85b6))
+
+
+
+
+
 ## [0.11.7](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.6...@next-core/illustrations@0.11.7) (2023-03-27)
 
 

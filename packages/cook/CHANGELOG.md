@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.83...@next-core/cook@1.7.0) (2023-05-10)
+
+
+### Features
+
+* support track syntax sugar in v2 ([0539348](https://github.com/easyops-cn/next-core/commit/0539348c3a509fb66ce3f94667d413131986ac4f))
+
+
+
+
+
 ## [1.6.83](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.6.82...@next-core/cook@1.6.83) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/cook

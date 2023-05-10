@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.168.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.167.1...@next-core/brick-kit@2.168.0) (2023-05-10)
+
+
+### Bug Fixes
+
+* Optimize error message display ([d5c828a](https://github.com/easyops-cn/next-core/commit/d5c828a7fdbe48c63fa1be305731f329079c85b6))
+
+
+### Features
+
+* support track syntax sugar in v2 ([0539348](https://github.com/easyops-cn/next-core/commit/0539348c3a509fb66ce3f94667d413131986ac4f))
+* update snapshot.json ([7ee1bd8](https://github.com/easyops-cn/next-core/commit/7ee1bd820ddf141f364335bab172a1692e3cb42d))
+* update transformProperties code ([9af1970](https://github.com/easyops-cn/next-core/commit/9af1970dc419f1df18a06ba8edd9af3d0bcd79bd))
+
+
+
+
+
 ## [2.167.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.167.0...@next-core/brick-kit@2.167.1) (2023-05-09)
 
 

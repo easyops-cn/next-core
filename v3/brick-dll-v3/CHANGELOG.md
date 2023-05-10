@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll-v3@0.5.4...@next-core/brick-dll-v3@0.6.0) (2023-05-10)
+
+
+### Features
+
+* update snapshot.json ([7ee1bd8](https://github.com/easyops-cn/next-core/commit/7ee1bd820ddf141f364335bab172a1692e3cb42d))
+
+
+
+
+
 ## [0.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll-v3@0.5.3...@next-core/brick-dll-v3@0.5.4) (2023-05-05)
 
 **Note:** Version bump only for package @next-core/brick-dll-v3
