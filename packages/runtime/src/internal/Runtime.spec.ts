@@ -92,6 +92,19 @@ const getBootstrapData = (options?: {
           ],
         },
         {
+          path: "${APP.homepage}/3",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              portal: true,
+              properties: {
+                textContent: "I'm in portal",
+              },
+            },
+          ],
+        },
+        {
           path: "${APP.homepage}/r1",
           type: "redirect",
           exact: true,
@@ -328,6 +341,27 @@ describe("Runtime", () => {
         <div
           id="portal-mount-point"
         />,
+      ]
+    `);
+  });
+
+  test("single portal brick", async () => {
+    createRuntime().initialize(getBootstrapData());
+
+    getHistory().push("/app-a/3");
+    await getRuntime().bootstrap();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        />,
+        <div
+          id="portal-mount-point"
+        >
+          <div>
+            I'm in portal
+          </div>
+        </div>,
       ]
     `);
   });
