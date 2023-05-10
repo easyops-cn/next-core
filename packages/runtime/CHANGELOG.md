@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.1...@next-core/runtime@1.6.2) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
 ## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.0...@next-core/runtime@1.6.1) (2023-05-09)
 
 
