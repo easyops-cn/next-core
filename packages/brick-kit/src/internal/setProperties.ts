@@ -4,17 +4,12 @@ import {
   isObject,
   inject,
   isEvaluable,
-  trackContext,
-  trackState,
-  trackFormState,
   hasOwnProperty,
 } from "@next-core/brick-utils";
 import {
   evaluate,
   EvaluateRuntimeContext,
-  getPreEvaluatedRaw,
   isPreEvaluated,
-  PreEvaluated,
   shouldDismissRecursiveMarkingInjected,
 } from "./evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./injected";
@@ -25,6 +20,7 @@ import {
 } from "./getNextStateOfUseBrick";
 import { TrackingContextItem } from "./listenOnTrackingContext";
 import { setupUseBrickInTemplate } from "../core/CustomTemplates/setupUseBrickInTemplate";
+import { getTracks } from "./getTracks";
 
 interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
@@ -194,19 +190,9 @@ export function computeRealProperties(
           result[propName] = realValue;
         }
       }
-      if (
-        Array.isArray(trackingContextList) &&
-        (typeof propValue === "string"
-          ? isEvaluable(propValue)
-          : isPreEvaluated(propValue))
-      ) {
-        const raw =
-          typeof propValue === "string"
-            ? propValue
-            : getPreEvaluatedRaw(propValue as PreEvaluated);
-        const contextNames = trackContext(raw);
-        const stateNames = trackState(raw);
-        const formStateNames = trackFormState(raw);
+      if (Array.isArray(trackingContextList)) {
+        const { contextNames, stateNames, formStateNames } =
+          getTracks(propValue);
         if (contextNames || stateNames || formStateNames) {
           trackingContextList.push({
             contextNames,

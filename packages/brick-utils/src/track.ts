@@ -51,6 +51,12 @@ export function trackUsedFormState(data: unknown): string[] {
   return collectContextUsage(data, "FORM_STATE").usedContexts;
 }
 
+interface trackAllResult {
+  context: string[] | false;
+  state: string[] | false;
+  formState: string[] | false;
+}
+
 function track(
   raw: string,
   trackText: string,
@@ -91,6 +97,53 @@ function track(
   return false;
 }
 
+export function trackAll(raw: string): trackAllResult | false {
+  if (raw) {
+    const usage: ContextUsage = {
+      usedContexts: [],
+      includesComputed: false,
+    };
+    preevaluate(raw, {
+      withParent: true,
+      hooks: {
+        beforeVisitGlobal: beforeVisitContextFactory(
+          usage,
+          ["CTX", "STATE", "FORM_STATE"],
+          true
+        ),
+      },
+    });
+    if (usage.usedContexts.length > 0) {
+      const result: trackAllResult = {
+        context: false,
+        state: false,
+        formState: false,
+      };
+      const keyMap: Record<string, keyof trackAllResult> = {
+        CTX: "context",
+        STATE: "state",
+        FORM_STATE: "formState",
+      };
+      usage.usedContexts.forEach((item) => {
+        const [key, name] = item.split(".");
+        if (!result[keyMap[key]]) {
+          result[keyMap[key]] = [];
+        }
+        (result[keyMap[key]] as string[]).push(name);
+      });
+      return result;
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `You are using track all but no "CTX" or "STATE" or "FORM_STATE" usage found in your expression: ${JSON.stringify(
+          raw
+        )}`
+      );
+    }
+  }
+  return false;
+}
+
 export interface ContextUsage {
   usedContexts: string[];
   includesComputed: boolean;
@@ -98,10 +151,15 @@ export interface ContextUsage {
 
 function beforeVisitContextFactory(
   usage: ContextUsage,
-  variableName: string
+  variableName: string | string[],
+  rememberObjectName = false
 ): PrecookHooks["beforeVisitGlobal"] {
   return function beforeVisitContext(node, parent): void {
-    if (node.name === variableName) {
+    if (
+      typeof variableName === "string"
+        ? node.name === variableName
+        : variableName.includes(node.name)
+    ) {
       const memberParent = parent[parent.length - 1];
       if (
         memberParent?.node.type === "MemberExpression" &&
@@ -121,7 +179,9 @@ function beforeVisitContextFactory(
           usage.includesComputed = true;
         }
         if (used !== undefined && !usage.usedContexts.includes(used)) {
-          usage.usedContexts.push(used);
+          usage.usedContexts.push(
+            rememberObjectName ? `${node.name}.${used}` : used
+          );
         }
       }
     }
