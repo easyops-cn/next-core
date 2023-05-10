@@ -959,6 +959,9 @@ export interface BuiltinBrickEventHandler {
 
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -981,6 +984,9 @@ export interface UseProviderEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1037,6 +1043,9 @@ export interface BaseCustomBrickEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /*
@@ -1045,9 +1054,9 @@ export interface BaseCustomBrickEventHandler {
 export interface ConditionalEventHandler {
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
-  /** 满足条件分枝 */
+  /** 满足条件分支 */
   then: BrickEventHandler | BrickEventHandler[];
-  /** 不满足条件分枝 */
+  /** 不满足条件分支 */
   else?: BrickEventHandler | BrickEventHandler[];
 }
 

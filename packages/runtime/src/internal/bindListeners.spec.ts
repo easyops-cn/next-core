@@ -1209,6 +1209,7 @@ describe("if/esle condition", () => {
                 },
                 {
                   if: "<% CTX.no %>",
+                  then: [],
                   else: [
                     {
                       action: "console.log",
@@ -1216,6 +1217,7 @@ describe("if/esle condition", () => {
                     },
                     {
                       if: "<% CTX.no %>",
+                      then: [],
                       else: {
                         action: "console.log",
                         args: ["进入嵌套 else 逻辑"],
@@ -1238,6 +1240,15 @@ describe("if/esle condition", () => {
                     args: ["不执行"],
                   },
                 },
+                {
+                  if: false,
+                  action: "console.log",
+                  args: ["不执行"],
+                  else: {
+                    action: "console.log",
+                    args: ["执行"],
+                  },
+                },
               ],
             },
           },
@@ -1249,7 +1260,7 @@ describe("if/esle condition", () => {
     await new Promise((resolve) => setTimeout(resolve, 30));
 
     expect(myTimeoutProvider).toBeCalledTimes(2);
-    expect(consoleLog).toBeCalledTimes(5);
+    expect(consoleLog).toBeCalledTimes(6);
 
     expect(consoleLog).toHaveBeenNthCalledWith(1, "进入 then 逻辑", "resolved");
 
@@ -1259,8 +1270,10 @@ describe("if/esle condition", () => {
 
     expect(consoleLog).toHaveBeenNthCalledWith(4, "进入嵌套 else 逻辑");
 
+    expect(consoleLog).toHaveBeenNthCalledWith(5, "执行");
+
     expect(consoleLog).toHaveBeenNthCalledWith(
-      5,
+      6,
       "进入嵌套 provider 逻辑",
       "nest-provider"
     );
