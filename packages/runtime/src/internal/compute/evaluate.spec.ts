@@ -228,7 +228,7 @@ describe("evaluate", () => {
     ["<% ANCHOR %>", "readme"],
     // ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
     // ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],
-    ["<% IMG.get('a.jpg') %>", "micro-apps/hello/images/a.jpg"],
+    ["<% IMG.get('a.jpg') %>", "/micro-apps/hello/images/a.jpg"],
     [
       "<% __WIDGET_IMG__('my-widget').get('b.png') %>",
       "bricks/my-widget/dist/assets/b.png",

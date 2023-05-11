@@ -23,6 +23,9 @@ export function injectIndexHtml(env, content, standaloneConfig) {
         "<script>",
         "((w)=>{",
         "w.STANDALONE_MICRO_APPS=!0;",
+        standaloneConfig.appId
+          ? `w.APP_ID = ${JSON.stringify(standaloneConfig.appId)};`
+          : "",
         `var a=w.APP_ROOT=${JSON.stringify(standaloneConfig.appRoot)};`,
         standaloneConfig.noAuthGuard ? "w.NO_AUTH_GUARD=!0;" : "",
         "w.PUBLIC_ROOT_WITH_VERSION=!0;",

@@ -59,7 +59,11 @@ function getIndividualGlobal(
         ? fakeImageFactory()
         : widgetId
         ? widgetImagesFactory(widgetId, widgetVersion)
-        : imagesFactory(app!.id, app!.isBuildPush);
+        : imagesFactory(
+            app!.id,
+            app!.isBuildPush,
+            (app as { currentVersion?: string }).currentVersion
+          );
     case "I18N":
       return collectCoverage
         ? identity

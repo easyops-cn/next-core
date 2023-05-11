@@ -98,6 +98,10 @@ export default function getProxy(env, getRawIndexHtml) {
                   const standalone =
                     /\bSTANDALONE_MICRO_APPS\s*=\s*(?:!0|true)/.test(content);
                   if (standalone) {
+                    const appIdMatch = content.match(
+                      /\bAPP_ID\s*=\s*("[^"]+")/
+                    );
+                    const appId = appIdMatch ? JSON.parse(appIdMatch[1]) : null;
                     const appRootMatches = content.match(
                       /\bAPP_ROOT\s*=\s*("[^"]+")/
                     );
@@ -154,6 +158,7 @@ export default function getProxy(env, getRawIndexHtml) {
                     const coreVersion = "0.0.0";
 
                     return injectIndexHtml(env, rawIndexHtml, {
+                      appId,
                       appRoot,
                       publicPrefix,
                       bootstrapHash,
