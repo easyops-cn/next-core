@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.3...@next-core/runtime@1.7.0) (2023-05-11)
+
+
+### Bug Fixes
+
+* fix IMG.get ([020cc17](https://github.com/easyops-cn/next-core/commit/020cc17edf19c7822c70e18969f3374b75772e5d))
+
+
+### Features
+
+* support if/esle syntax ([dee507b](https://github.com/easyops-cn/next-core/commit/dee507bb280fe61ec7319db1e7569b68e9b08547))
+* update code ([212c434](https://github.com/easyops-cn/next-core/commit/212c4346835c2596b8c32b3d4546d06665b90ea1))
+* update type ([e9c7e19](https://github.com/easyops-cn/next-core/commit/e9c7e1984bc9c0cbf6fa16a576b3b3fc9dc02136))
+* update type and add unit test ([1f231af](https://github.com/easyops-cn/next-core/commit/1f231af3f54515365ab4eb54230beecd1610a5c3))
+
+
+
+
+
 ## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.2...@next-core/runtime@1.6.3) (2023-05-10)
 
 
