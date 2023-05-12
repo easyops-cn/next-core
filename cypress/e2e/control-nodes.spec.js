@@ -126,5 +126,21 @@ for (const port of Cypress.env("ports")) {
         "Modal:Goodbye",
       ]);
     });
+
+    it("should render tracking if expressions as control nodes", () => {
+      cy.visit(`${origin}/e2e/control-nodes/5`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+        },
+      });
+      cy.get("@console.error").should("not.be.called");
+
+      cy.contains("Data:8");
+      cy.expectMainContents(["Toggle", "Data:8"]);
+
+      cy.contains("Toggle").click();
+      cy.contains("Data:7");
+      cy.expectMainContents(["Toggle", "Data:7"]);
+    });
   });
 }

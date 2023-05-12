@@ -12,6 +12,7 @@ import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
 } from "@next-core/loader";
+import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { debounce } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
@@ -49,9 +50,13 @@ import { getTracks } from "./compute/getTracks.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import {
   FORM_RENDERER,
+  RuntimeBrickConfOfFormSymbols,
   symbolForFormStateStoreId,
 } from "./FormRenderer/constants.js";
 import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
+import { isPreEvaluated } from "./compute/evaluate.js";
+import { getPreEvaluatedRaw } from "./compute/evaluate.js";
+import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -213,6 +218,40 @@ export async function renderBrick(
       console.error("Invalid brick:", brickConf);
     }
     return output;
+  }
+
+  // Translate `if: "<%= ... %>"` to `brick: ":if", dataSource: "<%= ... %>"`.
+  // In other words, translate tracking if expressions to tracking control nodes of `:if`.
+  const { if: brickIf, permissionsPreCheck, ...restBrickConf } = brickConf;
+  if (isGeneralizedTrackAll(brickIf)) {
+    return renderBrick(
+      returnNode,
+      {
+        brick: ":if",
+        dataSource: brickIf,
+        // `permissionsPreCheck` maybe required before computing `if`.
+        permissionsPreCheck,
+        slots: {
+          "": {
+            type: "bricks",
+            bricks: [restBrickConf],
+          },
+        },
+        // These symbols have to be copied to the new brick conf.
+        ...Object.getOwnPropertySymbols(brickConf).reduce(
+          (acc, symbol) => ({
+            ...acc,
+            [symbol]: (brickConf as any)[symbol],
+          }),
+          {} as RuntimeBrickConfOfTplSymbols & RuntimeBrickConfOfFormSymbols
+        ),
+      },
+      _runtimeContext,
+      rendererContext,
+      slotId,
+      key,
+      tplStack
+    );
   }
 
   const tplStateStoreId = brickConf[symbolForTplStateStoreId];
@@ -542,6 +581,14 @@ export async function renderBrick(
   await Promise.all(blockingList);
 
   return output;
+}
+
+function isGeneralizedTrackAll(brickIf: unknown): boolean {
+  return typeof brickIf === "string"
+    ? isTrackAll(brickIf)
+    : isPreEvaluated(brickIf) &&
+        // istanbul ignore next: covered by e2e tests
+        isTrackAll(getPreEvaluatedRaw(brickIf));
 }
 
 type ValidControlBrick = ":forEach" | ":if" | ":switch";

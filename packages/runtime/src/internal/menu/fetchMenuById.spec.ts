@@ -4,7 +4,7 @@ import {
   InstanceApi_getDetail,
   InstanceApi_postSearch,
 } from "@next-api-sdk/cmdb-sdk";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
 import { _test_only_setBootstrapData } from "../Runtime.js";
 import type { RuntimeContext } from "../interfaces.js";

@@ -6,7 +6,7 @@ import {
   beforeAll,
   afterAll,
 } from "@jest/globals";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import type { RuntimeContext } from "./interfaces.js";
 import { bindListeners, listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
