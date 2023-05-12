@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.169.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.168.2...@next-core/brick-kit@2.169.0) (2023-05-12)
+
+
+### Features
+
+* support if/esle syntax in v2 ([ea266cc](https://github.com/easyops-cn/next-core/commit/ea266ccf74c641621f5a94f913bab5f71c02ecef))
+
+
+
+
+
 ## [2.168.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.168.1...@next-core/brick-kit@2.168.2) (2023-05-12)
 
 **Note:** Version bump only for package @next-core/brick-kit

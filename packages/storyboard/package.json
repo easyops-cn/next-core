@@ -1,6 +1,6 @@
 {
   "name": "@next-core/storyboard",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Parse storyboard as AST",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/storyboard",
   "license": "GPL-3.0",
@@ -29,7 +29,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@next-core/brick-types": "^2.82.5"
+    "@next-core/brick-types": "^2.83.0"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^0.2.16"
