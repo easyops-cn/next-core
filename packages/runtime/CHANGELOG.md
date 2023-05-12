@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.7.0...@next-core/runtime@1.8.0) (2023-05-12)
+
+
+### Features
+
+* support tracking brick.if ([3d309c7](https://github.com/easyops-cn/next-core/commit/3d309c759602dfc2afd5847cf2cdb1f8062ff043))
+
+
+
+
+
 # [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.3...@next-core/runtime@1.7.0) (2023-05-11)
 
 
