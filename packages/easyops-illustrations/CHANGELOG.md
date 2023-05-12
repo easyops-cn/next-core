@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.12](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.11...@next-core/illustrations@0.11.12) (2023-05-12)
+
+
+### Bug Fixes
+
+* **images:** 增加新插画 ([a48a472](https://github.com/easyops-cn/next-core/commit/a48a47274cff3eed8e84645fc094b0595d7eec20))
+* 增加新插画 ([71b28ce](https://github.com/easyops-cn/next-core/commit/71b28cee8d3995cf3d453447abc7b1983ed4b090))
+
+
+
+
+
 ## [0.11.11](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.10...@next-core/illustrations@0.11.11) (2023-05-12)
 
 **Note:** Version bump only for package @next-core/illustrations
