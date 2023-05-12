@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.10](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.9...@next-core/illustrations@0.11.10) (2023-05-12)
+
+
+### Bug Fixes
+
+* 重新打包 ([e67d193](https://github.com/easyops-cn/next-core/commit/e67d1934156014925a894cc6a8784f39eb2cb00a))
+
+
+
+
+
 ## [0.11.9](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.8...@next-core/illustrations@0.11.9) (2023-05-11)
 
 
