@@ -15,6 +15,7 @@ import {
   UseProviderEventHandler,
   ProviderPollOptions,
   SiteTheme,
+  ConditionalEventHandler,
 } from "@next-core/brick-types";
 import { handleHttpError, httpErrorToString } from "../handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
@@ -26,7 +27,7 @@ import {
   _internalApiGetStoryboardContextWrapper,
 } from "../core/exports";
 import { getUrlBySegueFactory } from "./segue";
-import { looseCheckIf, IfContainer } from "../checkIf";
+import { looseCheckIf as _looseCheckIf, IfContainer } from "../checkIf";
 import { getUrlByAliasFactory } from "./alias";
 import { getMessageDispatcher } from "../core/MessageDispatcher";
 import { PluginWebSocketMessageTopic } from "../websocket/interfaces";
@@ -117,11 +118,71 @@ export function isSetPropsCustomHandler(
   return !!(handler as SetPropsCustomBrickEventHandler).properties;
 }
 
+export function isConditionalEventHandler(
+  handler: BrickEventHandler
+): handler is ConditionalEventHandler {
+  return !!(handler as ConditionalEventHandler).then;
+}
+
+function looseCheckIf(
+  handler: BrickEventHandler | IfContainer,
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
+): boolean {
+  if (!_looseCheckIf(handler, context)) {
+    const elseHandler = (handler as ConditionalEventHandler).else;
+    if (elseHandler) {
+      if (Array.isArray(elseHandler)) {
+        elseHandler.forEach((action) =>
+          listenerFactory(action, context, runtimeBrick)(context.event)
+        );
+      } else {
+        listenerFactory(
+          elseHandler as BrickEventHandler,
+          context,
+          runtimeBrick
+        )(context.event);
+      }
+    }
+    return false;
+  }
+  return true;
+}
+
+function runConditionalEventHandler(
+  handler: ConditionalEventHandler,
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
+) {
+  return (event: Event): void => {
+    if (
+      !looseCheckIf(
+        handler,
+        { ...context, event: event as CustomEvent },
+        runtimeBrick
+      )
+    ) {
+      return;
+    }
+    if (Array.isArray(handler.then)) {
+      handler.then.forEach((action) =>
+        listenerFactory(action, context, runtimeBrick)(event)
+      );
+    } else {
+      listenerFactory(handler.then, context, runtimeBrick)(event);
+    }
+  };
+}
+
 export function listenerFactory(
   handler: BrickEventHandler,
   context: PluginRuntimeContext,
   runtimeBrick: RuntimeBrick
 ): EventListener {
+  if (isConditionalEventHandler(handler)) {
+    return runConditionalEventHandler(handler, context, runtimeBrick);
+  }
+
   if (isBuiltinHandler(handler)) {
     const method = handler.action.split(".")[1] as any;
     switch (handler.action) {
@@ -140,7 +201,8 @@ export function listenerFactory(
           handler.args,
           handler,
           handler.callback,
-          context
+          context,
+          runtimeBrick
         );
       case "segue.push":
       case "segue.replace":
@@ -149,7 +211,8 @@ export function listenerFactory(
           handler.args,
           handler,
           handler.callback,
-          context
+          context,
+          runtimeBrick
         );
       case "alias.push":
       case "alias.replace":
@@ -157,19 +220,31 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
-          context
+          context,
+          runtimeBrick
         );
       case "legacy.go":
-        return builtinIframeListenerFactory(handler.args, handler, context);
+        return builtinIframeListenerFactory(
+          handler.args,
+          handler,
+          context,
+          runtimeBrick
+        );
       case "window.open":
-        return builtinWindowListenerFactory(handler.args, handler, context);
+        return builtinWindowListenerFactory(
+          handler.args,
+          handler,
+          context,
+          runtimeBrick
+        );
       case "location.reload":
       case "location.assign":
         return builtinLocationListenerFactory(
           method,
           handler.args,
           handler,
-          context
+          context,
+          runtimeBrick
         );
       case "localStorage.setItem":
       case "localStorage.removeItem":
@@ -178,7 +253,8 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
-          context
+          context,
+          runtimeBrick
         );
       case "sessionStorage.setItem":
       case "sessionStorage.removeItem":
@@ -187,11 +263,12 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
-          context
+          context,
+          runtimeBrick
         );
       case "event.preventDefault":
         return ((event: CustomEvent) => {
-          if (!looseCheckIf(handler, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
           event.preventDefault();
@@ -204,7 +281,8 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
-          context
+          context,
+          runtimeBrick
         );
       case "message.success":
       case "message.error":
@@ -214,11 +292,12 @@ export function listenerFactory(
           method,
           handler.args,
           handler,
-          context
+          context,
+          runtimeBrick
         );
       case "handleHttpError":
         return ((event: CustomEvent) => {
-          if (!looseCheckIf(handler, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
           handleHttpError(event.detail);
@@ -232,7 +311,8 @@ export function listenerFactory(
           handler.args,
           handler,
           handler.callback,
-          context
+          context,
+          runtimeBrick
         );
       case "state.update":
       case "state.refresh":
@@ -242,7 +322,8 @@ export function listenerFactory(
           handler.args,
           handler,
           handler.callback,
-          context
+          context,
+          runtimeBrick
         );
       case "formstate.update":
         return builtinFormStateListenerFactory(
@@ -250,10 +331,16 @@ export function listenerFactory(
           handler.args,
           handler,
           handler.callback,
-          context
+          context,
+          runtimeBrick
         );
       case "tpl.dispatchEvent":
-        return builtinTplDispatchEventFactory(handler.args, handler, context);
+        return builtinTplDispatchEventFactory(
+          handler.args,
+          handler,
+          context,
+          runtimeBrick
+        );
       case "message.subscribe":
       case "message.unsubscribe":
         return builtinWebSocketListenerFactory(
@@ -267,7 +354,7 @@ export function listenerFactory(
       case "theme.setDarkTheme":
       case "theme.setLightTheme":
         return ((event: CustomEvent) => {
-          if (!looseCheckIf(handler, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
           applyTheme(
@@ -275,11 +362,16 @@ export function listenerFactory(
           );
         }) as EventListener;
       case "theme.setTheme":
-        return builtinThemeListenerFactory(handler.args, handler, context);
+        return builtinThemeListenerFactory(
+          handler.args,
+          handler,
+          context,
+          runtimeBrick
+        );
       case "mode.setDashboardMode":
       case "mode.setDefaultMode":
         return ((event: CustomEvent) => {
-          if (!looseCheckIf(handler, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
           applyMode(
@@ -288,23 +380,33 @@ export function listenerFactory(
         }) as EventListener;
       case "menu.clearMenuTitleCache":
         return ((event: CustomEvent) => {
-          if (!looseCheckIf(handler, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
           clearMenuTitleCache();
         }) as EventListener;
       case "menu.clearMenuCache":
         return ((event: CustomEvent) => {
-          if (!looseCheckIf(handler, { ...context, event })) {
+          if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
           clearMenuCache();
         }) as EventListener;
       case "analytics.event":
-        return builtinAnalyticsListenerFactory(handler.args, handler, context);
+        return builtinAnalyticsListenerFactory(
+          handler.args,
+          handler,
+          context,
+          runtimeBrick
+        );
 
       case "preview.debug":
-        return builtinFormDebugListenerFactory(handler.args, handler, context);
+        return builtinFormDebugListenerFactory(
+          handler.args,
+          handler,
+          context,
+          runtimeBrick
+        );
       default:
         return () => {
           // eslint-disable-next-line no-console
@@ -328,7 +430,7 @@ function usingProviderFactory(
   runtimeBrick: RuntimeBrick
 ): EventListener {
   return async function (event: CustomEvent): Promise<void> {
-    if (!looseCheckIf(handler, { ...context, event })) {
+    if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
       return;
     }
     try {
@@ -370,10 +472,11 @@ function getFormContext(formContextId: string): CustomFormContext {
 function builtinTplDispatchEventFactory(
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const tpl = getTplContext(context.tplContextId).getBrick().element;
@@ -390,10 +493,11 @@ function builtinContextListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const storyboardContext = _internalApiGetStoryboardContextWrapper();
@@ -407,10 +511,11 @@ function builtinStateListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const tplContext = getTplContext(context.tplContextId);
@@ -429,10 +534,11 @@ function builtinFormStateListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const formContext = getFormContext(context.formContextId);
@@ -450,10 +556,11 @@ function builtinLocationListenerFactory(
   method: "assign" | "reload",
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     if (method === "assign") {
@@ -470,10 +577,11 @@ function builtinSegueListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const { app, segues } = _internalApiGetCurrentContext();
@@ -506,10 +614,11 @@ function builtinAliasListenerFactory(
   method: "push" | "replace",
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const { app } = _internalApiGetCurrentContext();
@@ -532,7 +641,7 @@ function builtinWebSocketListenerFactory(
   context: PluginRuntimeContext
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
 
@@ -553,7 +662,8 @@ function builtinWebSocketListenerFactory(
 function builtinIframeListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   const legacyIframeMountPoint = document.querySelector(
     "#legacy-iframe-mount-point"
@@ -577,7 +687,7 @@ function builtinIframeListenerFactory(
   };
 
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const [url] = argsFactory(args, context, event) as [string];
@@ -588,10 +698,11 @@ function builtinIframeListenerFactory(
 function builtinWindowListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const [url, target, features] = argsFactory(args, context, event) as [
@@ -606,10 +717,11 @@ function builtinWindowListenerFactory(
 function builtinAnalyticsListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const [action, data] = argsFactory(args, context, event) as [
@@ -628,10 +740,11 @@ function builtinAnalyticsListenerFactory(
 function builtinThemeListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const [theme] = argsFactory(args, context, event);
@@ -646,7 +759,7 @@ function customListenerFactory(
   runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
       return;
     }
     let targets: HTMLElement[] = [];
@@ -851,10 +964,11 @@ function builtinHistoryListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     let baseArgsLength = 0;
@@ -905,10 +1019,11 @@ function builtinConsoleListenerFactory(
   method: "log" | "error" | "warn" | "info",
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     // eslint-disable-next-line no-console
@@ -924,10 +1039,11 @@ function builtinMessageListenerFactory(
   method: "success" | "error" | "info" | "warn",
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent) {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const processArg = argsFactory(args, context, event) as Parameters<
@@ -952,10 +1068,11 @@ function builtinWebStorageListenerFactory(
   method: "setItem" | "removeItem",
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent) {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     const storage = storageType === "local" ? localStorage : sessionStorage;
@@ -973,10 +1090,11 @@ function builtinWebStorageListenerFactory(
 function builtinFormDebugListenerFactory(
   args: unknown[],
   ifContainer: IfContainer,
-  context: PluginRuntimeContext
+  context: PluginRuntimeContext,
+  runtimeBrick: RuntimeBrick
 ): EventListener {
   return function (event: CustomEvent): void {
-    if (!looseCheckIf(ifContainer, { ...context, event })) {
+    if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
     window.parent.postMessage({
