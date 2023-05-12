@@ -1,4 +1,7 @@
-import { PluginRuntimeContext } from "@next-core/brick-types";
+import {
+  BrickEventHandler,
+  PluginRuntimeContext,
+} from "@next-core/brick-types";
 import { hasOwnProperty } from "@next-core/brick-utils";
 import { computeRealValue } from "./internal/setProperties";
 import { doTransform, DoTransformOptions } from "./transformProperties";
@@ -21,6 +24,8 @@ export interface IfContainer {
    * ```
    */
   if?: unknown;
+
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /** @internal */

@@ -381,6 +381,8 @@ export function i18nText(data: I18nData): string;
 
 // @public
 export interface IfContainer {
+    // (undocumented)
+    else?: BrickEventHandler | BrickEventHandler[];
     if?: unknown;
 }
 

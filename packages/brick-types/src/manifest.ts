@@ -1131,7 +1131,8 @@ export interface BrickEventsMap {
 export type BrickEventHandler =
   | BuiltinBrickEventHandler
   | UseProviderEventHandler
-  | CustomBrickEventHandler;
+  | CustomBrickEventHandler
+  | ConditionalEventHandler;
 
 /** 系统内置的事件处理器。 */
 export interface BuiltinBrickEventHandler {
@@ -1235,6 +1236,9 @@ export interface BuiltinBrickEventHandler {
 
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1257,6 +1261,9 @@ export interface UseProviderEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1290,6 +1297,18 @@ export interface ProviderPollOptions {
    * 不会触发 `progress|success|error|finally` 等事件。
    */
   expectPollStopImmediately?: () => boolean;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
+}
+
+export interface ConditionalEventHandler {
+  /** {@inheritDoc BuiltinBrickEventHandler.if} */
+  if?: string | boolean;
+  /** 满足条件分支 */
+  then: BrickEventHandler | BrickEventHandler[];
+  /** 不满足条件分支 */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**

@@ -10,6 +10,7 @@ import {
   isCustomHandler,
   bindListeners,
   unbindListeners,
+  listenerFactory,
 } from "./bindListeners";
 import { getHistory } from "../history";
 import * as runtime from "../core/Runtime";
@@ -1259,5 +1260,150 @@ describe("bindListeners", () => {
     (console.log as jest.Mock).mockRestore();
     sourceElem.remove();
     targetElem.remove();
+  });
+});
+
+describe("if/esle condition", () => {
+  it("basic", async () => {
+    jest.spyOn(console, "log").mockImplementation(() => void 0);
+    const event = new CustomEvent("response", { detail: "ok" });
+
+    listenerFactory(
+      {
+        if: true,
+        then: [
+          {
+            useProvider: "any-provider",
+            args: [10, "resolved"],
+            callback: {
+              success: [
+                {
+                  if: "<% true %>",
+                  then: [
+                    {
+                      action: "console.log",
+                      args: ["进入 then 逻辑"],
+                    },
+                    {
+                      useProvider: "any-provider",
+                      args: [10, "nest-provider"],
+                      callback: {
+                        success: [
+                          {
+                            if: "<% true %>",
+                            then: {
+                              action: "console.log",
+                              args: ["进入嵌套 provider 逻辑"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      if: true,
+                      then: {
+                        action: "console.log",
+                        args: ["进入嵌套 then 逻辑"],
+                      },
+                    },
+                  ],
+                },
+                {
+                  if: "<% false %>",
+                  then: [],
+                  else: [
+                    {
+                      action: "console.log",
+                      args: ["进入 else 逻辑"],
+                    },
+                    {
+                      if: "<% false %>",
+                      then: [],
+                      else: {
+                        action: "console.log",
+                        args: ["进入嵌套 else 逻辑"],
+                      },
+                    },
+                  ],
+                },
+                {
+                  if: true,
+                  then: [],
+                  else: {
+                    action: "console.log",
+                    args: ["不执行"],
+                  },
+                },
+                {
+                  if: false,
+                  then: {
+                    action: "console.log",
+                    args: ["不执行"],
+                  },
+                },
+                {
+                  if: false,
+                  action: "console.log",
+                  args: ["不执行"],
+                  else: {
+                    action: "console.log",
+                    args: ["执行"],
+                  },
+                },
+                {
+                  if: false,
+                  useProvider: "any-provider",
+                  args: [10, "nest-provider"],
+                  else: {
+                    action: "console.log",
+                    args: ["执行"],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {},
+      {}
+    )(event);
+
+    await jest.runAllTimers();
+    await (global as any).flushPromises();
+    await jest.runAllTimers();
+    await (global as any).flushPromises();
+    await jest.runAllTimers();
+    await (global as any).flushPromises();
+
+    expect(console.log as jest.Mock).toBeCalledTimes(7);
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(
+      1,
+      "进入 then 逻辑"
+    );
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(
+      2,
+      "进入嵌套 then 逻辑"
+    );
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(
+      3,
+      "进入 else 逻辑"
+    );
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(
+      4,
+      "进入嵌套 else 逻辑"
+    );
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(5, "执行");
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(6, "执行");
+
+    expect(console.log as jest.Mock).toHaveBeenNthCalledWith(
+      7,
+      "进入嵌套 provider 逻辑"
+    );
   });
 });

@@ -289,7 +289,7 @@ export enum BrickEvent {
 }
 
 // @public
-export type BrickEventHandler = BuiltinBrickEventHandler | UseProviderEventHandler | CustomBrickEventHandler;
+export type BrickEventHandler = BuiltinBrickEventHandler | UseProviderEventHandler | CustomBrickEventHandler | ConditionalEventHandler;
 
 // @public
 export interface BrickEventHandlerCallback {
@@ -725,6 +725,7 @@ export interface BuiltinBrickEventHandler {
     action: "history.push" | "history.replace" | "history.goBack" | "history.goForward" | "history.reload" | "history.pushQuery" | "history.replaceQuery" | "history.pushAnchor" | "history.block" | "history.unblock" | "segue.push" | "segue.replace" | "alias.push" | "alias.replace" | "localStorage.setItem" | "localStorage.removeItem" | "sessionStorage.setItem" | "sessionStorage.removeItem" | "legacy.go" | "location.reload" | "location.assign" | "window.open" | "event.preventDefault" | "console.log" | "console.error" | "console.warn" | "console.info" | "message.success" | "message.error" | "message.info" | "message.warn" | "handleHttpError" | "context.assign" | "context.replace" | "context.refresh" | "context.load" | "state.update" | "state.refresh" | "state.load" | "tpl.dispatchEvent" | "message.subscribe" | "message.unsubscribe" | "theme.setDarkTheme" | "theme.setLightTheme" | "theme.setTheme" | "mode.setDashboardMode" | "mode.setDefaultMode" | "menu.clearMenuTitleCache" | "menu.clearMenuCache" | "preview.debug" | "analytics.event" | "formstate.update";
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
+    else?: BrickEventHandler | BrickEventHandler[];
     if?: string | boolean;
 }
 
@@ -828,6 +829,13 @@ export interface CompileResult {
     keys: Key[];
     // (undocumented)
     regexp: RegExp;
+}
+
+// @public (undocumented)
+export interface ConditionalEventHandler {
+    else?: BrickEventHandler | BrickEventHandler[];
+    if?: string | boolean;
+    then: BrickEventHandler | BrickEventHandler[];
 }
 
 // @public
@@ -1617,6 +1625,7 @@ export type ProviderConf = string | Pick<BrickConf, "brick" | "properties" | "ev
 export interface ProviderPollOptions {
     continueOnError?: boolean;
     delegateLoadingBar?: boolean;
+    else?: BrickEventHandler | BrickEventHandler[];
     enabled?: boolean;
     expectPollEnd?: (result: unknown) => boolean;
     expectPollStopImmediately?: () => boolean;
@@ -2535,6 +2544,7 @@ export interface UseBrickSlotsConf {
 export interface UseProviderEventHandler {
     args?: unknown[];
     callback?: BrickEventHandlerCallback;
+    else?: BrickEventHandler | BrickEventHandler[];
     if?: string | boolean;
     // (undocumented)
     method?: "resolve" | "saveAs";
