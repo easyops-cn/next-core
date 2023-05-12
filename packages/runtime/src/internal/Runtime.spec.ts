@@ -1,5 +1,5 @@
 import { describe, test, expect, jest } from "@jest/globals";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import { loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
 import {

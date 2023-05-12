@@ -1,6 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
 import { i18n } from "@next-core/i18n";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import type { RuntimeContext } from "../interfaces.js";
 import {
   asyncEvaluate,

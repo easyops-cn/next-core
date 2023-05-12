@@ -1,6 +1,6 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import type { UseSingleBrickConf } from "@next-core/types";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import {
   legacyDoTransform,
   mountUseBrick,
@@ -331,6 +331,10 @@ describe("useBrick", () => {
                 },
               },
             },
+            {
+              if: "<%= STATE.x === 'X2' %>",
+              brick: "br",
+            },
           ],
         },
       ],
@@ -386,6 +390,7 @@ describe("useBrick", () => {
             I'm inner slot [ResolvedZ]
           </span>
           <hr />
+          <br />
           <em
             slot="innerToolbar"
           >

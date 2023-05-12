@@ -232,7 +232,7 @@ routes:
     properties:
       m: Hello
   - brick: ':forEach'
-    dataSource: '<% "track context", CTX.list %>'
+    dataSource: '<%= CTX.list %>'
     children:
     - brick: tpl-a
       properties:
@@ -267,7 +267,7 @@ routes:
     properties:
       m: Hello
   - brick: ':forEach'
-    dataSource: '<% "track context", CTX.list %>'
+    dataSource: '<%= CTX.list %>'
     children:
     - brick: tpl-b
       properties:
@@ -291,3 +291,32 @@ routes:
         args:
         - list
         - [3, 4]
+
+- path: '${APP.homepage}/control-nodes/5'
+  context:
+  - name: target
+    value: 8
+  bricks:
+  - brick: button
+    properties:
+      textContent: Toggle
+    events:
+      click:
+      - action: context.replace
+        args:
+        - target
+        - '<% CTX.target === 8 ? 7 : 8 %>'
+      - action: console.log
+        args:
+        - target
+        - '<% CTX.target %>'
+  - brick: e2e.list-by-use-brick
+    properties:
+      data: [7, 8]
+      useBrick:
+        brick: div
+        children:
+        - if: '<%= CTX.target === DATA %>'
+          brick: div
+          properties:
+            textContent: '<% `Data:${DATA}` %>'

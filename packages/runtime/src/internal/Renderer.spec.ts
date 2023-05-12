@@ -1,6 +1,6 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import type { RouteConf } from "@next-core/types";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import { RenderRoot, RuntimeContext } from "./interfaces.js";
 import { RenderTag } from "./enums.js";
 import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
