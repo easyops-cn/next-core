@@ -53,6 +53,7 @@ import { registerLazyBricks } from "./LazyBrickRegistry";
 import { registerWidgetFunctions } from "./WidgetFunctions";
 import { registerWidgetI18n } from "./WidgetI18n";
 import { StoryboardContextWrapper } from "./StoryboardContext";
+import { getCustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { matchStoryboard } from "./matchStoryboard";
 
@@ -163,6 +164,21 @@ export function _dev_only_updateStoryboardBySnippet(
   }
 ): void {
   kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet);
+}
+
+/* istanbul ignore next */
+export function _dev_only_getContextValue(name: string): unknown {
+  return kernel.router.getStoryboardContextWrapper().getValue(name);
+}
+
+/* istanbul ignore next */
+export function _dev_only_getStateValue(
+  name: string,
+  { tplContextId }: Record<string, any>
+): unknown {
+  const tplContext = getCustomTemplateContext(tplContextId);
+
+  return tplContext.state.getValue(name);
 }
 
 /* istanbul ignore next */

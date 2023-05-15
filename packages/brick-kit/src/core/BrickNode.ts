@@ -69,6 +69,9 @@ export class BrickNode {
     if (brick.iid) {
       node.dataset.iid = brick.iid;
     }
+    if (brick.tplContextId) {
+      node.dataset.tplContextId = brick.tplContextId;
+    }
     setRealProperties(node, brick.properties);
     bindListeners(node, brick.events, brick.context);
 

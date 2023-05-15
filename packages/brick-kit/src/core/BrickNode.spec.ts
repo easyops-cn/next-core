@@ -26,6 +26,7 @@ describe("BrickNode", () => {
         },
       },
       iid: "i-1",
+      tplContextId: "tpl-ctx-6",
     };
     const brickNode = new BrickNode(runtimeBrick);
     const node = brickNode.mount();
@@ -34,6 +35,7 @@ describe("BrickNode", () => {
     expect(node.title).toBe("good");
     expect(node.childNodes.length).toBe(0);
     expect(node.dataset.iid).toBe("i-1");
+    expect(node.dataset.tplContextId).toEqual("tpl-ctx-6");
     const callArgs = spyOnBindListeners.mock.calls[0];
     expect(callArgs[0]).toBe(node);
     expect(callArgs[1]).toBe(runtimeBrick.events);
