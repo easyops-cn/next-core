@@ -8,11 +8,11 @@
 
 ## Introduction
 
-[_Brick Next_](https://brick-next.js.org) is a low-code engine library based on Web Components
+[_Brick Next_](https://brick-next.js.org) is a low-code engine library based on [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components), for building highly-pluggable and highly-configurable enterprise user interface solutions.
 
 The front-end of UWinTech's brand new DevOps platform _EasyOps_ is fully built on Brick Next. Hundreds of micro-apps are rapidly and continuously delivered to our enterprise clients. Building enterprise productivity tools has never been easier.
 
-Want to give it a try? Check out our [tutorial](https://brick-next.js.org/zh/docs/learn/tutorial).
+Want to give it a try? Check out our [tutorial](https://brick-next.js.org/docs/learn/tutorial).
 
 Table of contents:
 
@@ -59,7 +59,7 @@ Brick Next Core is [GPL-3.0 licensed](./COPYING).
 
 ## 简介
 
-[_Brick Next_](https://brick-next.js.org) 是优维科技的新一代前端框架，旨在提供一套高度插件化、高度可配置化的企业用户界面解决方案，也即一个可扩展的、企业级的低代码开发框架。
+[_Brick Next_](https://brick-next.js.org) 是一个基于 [Web Components](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components) 的低代码引擎库，旨在提供一套高度插件化、高度可配置化的企业用户界面解决方案。
 
 优维科技全新的 DevOps 平台 _EasyOps_ 的前端整个基于 Brick Next 搭建。数百个企业级的微应用得以快速地、持续地交付给我们的企业客户。搭建企业级生产力工具从未如此简单。
 
@@ -86,7 +86,7 @@ Brick Next Core is [GPL-3.0 licensed](./COPYING).
 +---------------------------------------------------------------+
 ```
 
-- *构件包*负责定义可重用的*构件*。构件和组件类似，但是有更高度的封装，并且可以很容易地通过声明的方式消费它们，无需编程。事实上，构件就是 [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)。构件可以是业务无关的、小的 UI 组件，也可以是包含业务特性的、大型的组件。
+- *构件包*负责定义可重用的*构件*。构件和组件类似，但是有更高度的封装，并且可以很容易地通过声明的方式消费它们，无需编程。事实上，构件就是 [Web Components](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components)。构件可以是业务无关的、小的 UI 组件，也可以是包含业务特性的、大型的组件。
 
 - *微应用*由构件组装而来，构件如何组装定义在一个 _Storyboard_ 中。Storyboard 可以用一个 YAML 或 JSON 配置，也可以通过可视化工具编排出来。
 
