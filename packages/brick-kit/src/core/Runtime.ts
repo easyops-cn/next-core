@@ -20,7 +20,7 @@ import {
   RuntimeStoryboard,
   StoryConf,
   RuntimeBrickConf,
-  SiteTheme,
+  StoryboardContextItem,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {
@@ -45,6 +45,7 @@ import {
   RecentApps,
   CustomApiDefinition,
   AbstractRuntime,
+  DataValueOption,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
@@ -167,18 +168,28 @@ export function _dev_only_updateStoryboardBySnippet(
 }
 
 /* istanbul ignore next */
-export function _dev_only_getContextValue(name: string): unknown {
+export function _dev_only_getContextValue(
+  name: string,
+  { tplContextId }: DataValueOption
+): unknown {
+  if (tplContextId) {
+    const tplContext = getCustomTemplateContext(tplContextId);
+    return tplContext.state.getValue(name);
+  }
+
   return kernel.router.getStoryboardContextWrapper().getValue(name);
 }
 
 /* istanbul ignore next */
-export function _dev_only_getStateValue(
-  name: string,
-  { tplContextId }: Record<string, any>
-): unknown {
-  const tplContext = getCustomTemplateContext(tplContextId);
+export function _dev_only_getAllContextValues({
+  tplContextId,
+}: DataValueOption): Map<string, StoryboardContextItem> {
+  if (tplContextId) {
+    const tplContext = getCustomTemplateContext(tplContextId);
+    return tplContext.state.get();
+  }
 
-  return tplContext.state.getValue(name);
+  return kernel.router.getStoryboardContextWrapper().get();
 }
 
 /* istanbul ignore next */

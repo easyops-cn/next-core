@@ -222,3 +222,7 @@ export interface ThemeSetting {
   baseColors: Omit<ColorThemeOptionsByBaseColors, "type">;
   variables: Omit<ColorThemeOptionsByVariables, "type">;
 }
+
+export interface DataValueOption {
+  tplContextId?: string;
+}
