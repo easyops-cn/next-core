@@ -207,6 +207,12 @@ export interface CustomApiProfile {
     version?: string;
 }
 
+// @public (undocumented)
+export interface DataValueOption {
+    // (undocumented)
+    tplContextId?: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "developHelper" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
