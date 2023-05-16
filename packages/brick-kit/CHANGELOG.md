@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.170.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.169.1...@next-core/brick-kit@2.170.0) (2023-05-16)
+
+
+### Bug Fixes
+
+* refactor preview value ([dc31655](https://github.com/easyops-cn/next-core/commit/dc316552e13cbba19cf63bdfbf4dc1cc327cf55e))
+
+
+### Features
+
+* support preview context/state value ([15b6f3e](https://github.com/easyops-cn/next-core/commit/15b6f3e49740bcfa9c9bf166c4009cdb975d485b))
+
+
+
+
+
 ## [2.169.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.169.0...@next-core/brick-kit@2.169.1) (2023-05-12)
 
 **Note:** Version bump only for package @next-core/brick-kit
