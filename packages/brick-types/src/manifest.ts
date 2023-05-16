@@ -1234,6 +1234,9 @@ export interface BuiltinBrickEventHandler {
    */
   if?: string | boolean;
 
+  /** 是否批量变更 */
+  batch?: boolean;
+
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
 

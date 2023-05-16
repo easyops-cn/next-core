@@ -31,8 +31,11 @@ import { handleHttpError } from "../handleHttpError";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
+  batchUpdate = false;
+  batchUpdateContextsNames: string[] = [];
   readonly tplContextId: string;
   readonly formContextId: string;
+  readonly eventName: string;
   readonly pendingStack: Array<
     ReturnType<typeof deferResolveContextConcurrently>
   > = [];
@@ -40,6 +43,11 @@ export class StoryboardContextWrapper {
   constructor(tplContextId?: string, formContextId?: string) {
     this.tplContextId = tplContextId;
     this.formContextId = formContextId;
+    this.eventName = this.formContextId
+      ? "formstate.change"
+      : this.tplContextId
+      ? "state.change"
+      : "context.change";
   }
 
   set(name: string, item: StoryboardContextItem): void {
@@ -59,6 +67,77 @@ export class StoryboardContextWrapper {
   /** Get value of free-variable only. */
   getValue(name: string): unknown {
     return (this.data.get(name) as StoryboardContextItemFreeVariable)?.value;
+  }
+
+  getAffectListByContext(name: string): string[] {
+    const affectNames = [name];
+    this.data.forEach((value, key) => {
+      if (value.type === "free-variable" && value.deps) {
+        const isInDeps = value.deps.some((item) => affectNames.includes(item));
+        isInDeps &&
+          affectNames.push(key) &&
+          affectNames.push(...this.getAffectListByContext(key));
+      }
+    });
+    affectNames.shift();
+    return [...new Set(affectNames)];
+  }
+
+  updateValues(
+    values: Array<{ name: string; value: unknown }>,
+    method: "assign" | "replace" | "refresh" | "load"
+  ): void {
+    this.batchUpdate = true;
+    this.batchUpdateContextsNames = values.map((item) => item.name);
+    if (
+      [...new Set(this.batchUpdateContextsNames)].length !==
+      this.batchUpdateContextsNames.length
+    ) {
+      throw new Error(`Batch update not allow to update same item`);
+    }
+
+    const updateContexts: Record<string, StoryboardContextItemFreeVariable> =
+      {};
+    const affectContexts: Record<string, StoryboardContextItemFreeVariable> =
+      {};
+    const affectDepsContextNames: string[] = [];
+
+    values.forEach((arg) => {
+      const { name, value } = arg;
+      const updateContextItem = this.data.get(name);
+      affectDepsContextNames.push(...this.getAffectListByContext(name));
+      updateContextItem.type === "free-variable" &&
+        (updateContexts[name] = updateContextItem);
+      this.updateValue(name as string, value, method);
+    });
+
+    affectDepsContextNames
+      .filter((item) => !updateContexts[item])
+      .forEach((name) => {
+        const affectContextItem = this.data.get(name);
+        affectContextItem.type === "free-variable" &&
+          (affectContexts[name] = affectContextItem);
+      });
+
+    const triggerEvent = (
+      contexts: Record<string, StoryboardContextItemFreeVariable>
+    ): void => {
+      for (const key in contexts) {
+        const context = contexts[key];
+        context.eventTarget?.dispatchEvent(
+          new CustomEvent(this.eventName, {
+            detail: context.value,
+          })
+        );
+      }
+    };
+
+    triggerEvent(updateContexts);
+    triggerEvent(affectContexts);
+
+    this.batchUpdate = false;
+
+    return;
   }
 
   updateValue(
@@ -120,16 +199,9 @@ export class StoryboardContextWrapper {
             item.loaded = true;
             item.value = val;
             item.eventTarget?.dispatchEvent(
-              new CustomEvent(
-                this.formContextId
-                  ? "formstate.change"
-                  : this.tplContextId
-                  ? "state.change"
-                  : "context.change",
-                {
-                  detail: item.value,
-                }
-              )
+              new CustomEvent(this.eventName, {
+                detail: item.value,
+              })
             );
           },
           (err) => {
@@ -179,17 +251,12 @@ export class StoryboardContextWrapper {
       }
     }
 
+    if (this.batchUpdate) return;
+
     item.eventTarget?.dispatchEvent(
-      new CustomEvent(
-        this.formContextId
-          ? "formstate.change"
-          : this.tplContextId
-          ? "state.change"
-          : "context.change",
-        {
-          detail: item.value,
-        }
-      )
+      new CustomEvent(this.eventName, {
+        detail: item.value,
+      })
     );
   }
 
@@ -441,17 +508,21 @@ function resolveFreeVariableValue(
     eventTarget: new EventTarget(),
     load,
     loaded,
+    deps: [],
   };
+
+  const eventName = storyboardContextWrapper.formContextId
+    ? "formstate.change"
+    : storyboardContextWrapper.tplContextId
+    ? "state.change"
+    : "context.change";
+
   if (contextConf.onChange) {
     for (const handler of ([] as BrickEventHandler[]).concat(
       contextConf.onChange
     )) {
       newContext.eventTarget.addEventListener(
-        storyboardContextWrapper.formContextId
-          ? "formstate.change"
-          : storyboardContextWrapper.tplContextId
-          ? "state.change"
-          : "context.change",
+        eventName,
         listenerFactory(handler, mergedContext, brick)
       );
     }
@@ -468,32 +539,51 @@ function resolveFreeVariableValue(
         ? trackUsedState
         : trackUsedContext
     )(load ? contextConf.resolve : contextConf.value);
+    newContext.deps = deps;
     for (const dep of deps) {
       const ctx = storyboardContextWrapper.get().get(dep);
       (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
-        storyboardContextWrapper.formContextId
-          ? "formstate.change"
-          : isTemplateState
-          ? "state.change"
-          : "context.change",
-        () => {
-          if (load) {
-            storyboardContextWrapper.updateValue(
-              contextConf.name,
-              { cache: "default" },
-              "refresh"
-            );
-          } else {
-            storyboardContextWrapper.updateValue(
-              contextConf.name,
-              computeRealValue(contextConf.value, mergedContext, true),
-              "replace"
-            );
-          }
-        }
+        eventName,
+        batchAddListener(
+          () => {
+            if (load) {
+              storyboardContextWrapper.updateValue(
+                contextConf.name,
+                { cache: "default" },
+                "refresh"
+              );
+            } else {
+              storyboardContextWrapper.updateValue(
+                contextConf.name,
+                computeRealValue(contextConf.value, mergedContext, true),
+                "replace"
+              );
+            }
+          },
+          contextConf,
+          storyboardContextWrapper
+        )
       );
     }
   }
 
   storyboardContextWrapper.set(contextConf.name, newContext);
+}
+
+function batchAddListener(
+  listener: EventListener,
+  contextConf: ContextConf,
+  storyboardContextWrapper: StoryboardContextWrapper
+): EventListener {
+  return (event: Event | CustomEvent): void => {
+    if (
+      storyboardContextWrapper.batchUpdate &&
+      storyboardContextWrapper.batchUpdateContextsNames.includes(
+        contextConf.name
+      )
+    ) {
+      return;
+    }
+    listener(event);
+  };
 }

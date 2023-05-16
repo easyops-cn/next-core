@@ -667,3 +667,239 @@ describe("deferDefine", () => {
     });
   });
 });
+
+describe("batchUpdate should work", () => {
+  const consoleLog = jest.spyOn(console, "log").mockImplementation();
+  const brick = { properties: {} };
+  const tplContext = new CustomTemplateContext(brick);
+  const ctx = tplContext.state;
+  beforeEach(async () => {
+    await ctx.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "b",
+          value: 2,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["b change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "c",
+          value: `<% +STATE.a + +STATE.b %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["c change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "d",
+          value: `<% +STATE.c + 1 %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["d change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("update a, and c d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("c")).toBe(4);
+    expect(ctx.getValue("d")).toBe(5);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+  });
+
+  it("update a and b, c and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+        {
+          name: "b",
+          value: 3,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("b")).toBe(3);
+    expect(ctx.getValue("c")).toBe(5);
+    expect(ctx.getValue("d")).toBe(6);
+    expect(consoleLog).toBeCalledTimes(4);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 3);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 5);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 6);
+  });
+
+  it("update a and c, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+        {
+          name: "c",
+          value: 0,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("c")).toBe(0);
+    expect(ctx.getValue("d")).toBe(1);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 0);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+  });
+
+  it("update c and a, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "c",
+          value: 0,
+        },
+        {
+          name: "a",
+          value: 1,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("a")).toBe(1);
+    expect(ctx.getValue("c")).toBe(0);
+    expect(ctx.getValue("d")).toBe(1);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 0);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "a change", 1);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+  });
+
+  it("update a, b, c, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 10,
+        },
+        {
+          name: "b",
+          value: 20,
+        },
+        {
+          name: "c",
+          value: 100,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("a")).toBe(10);
+    expect(ctx.getValue("b")).toBe(20);
+    expect(ctx.getValue("c")).toBe(100);
+    expect(ctx.getValue("d")).toBe(101);
+    expect(consoleLog).toBeCalledTimes(4);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 10);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 20);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 100);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 101);
+  });
+
+  it("update c, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "c",
+          value: 20,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("c")).toBe(20);
+    expect(ctx.getValue("d")).toBe(21);
+    expect(consoleLog).toBeCalledTimes(2);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 20);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "d change", 21);
+  });
+
+  it("update d c, not emit", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "d",
+          value: 10,
+        },
+        {
+          name: "c",
+          value: 20,
+        },
+      ],
+      "replace"
+    );
+
+    expect(ctx.getValue("d")).toBe(10);
+    expect(ctx.getValue("c")).toBe(20);
+    expect(consoleLog).toBeCalledTimes(2);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "d change", 10);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 20);
+  });
+});

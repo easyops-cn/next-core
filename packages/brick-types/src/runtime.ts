@@ -240,6 +240,7 @@ export interface StoryboardContextItemFreeVariable {
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
+  deps?: string[];
 }
 
 /** @internal */
