@@ -12,7 +12,7 @@ import {
   _dev_only_loadDynamicBricksInBrickConf,
   _dev_only_getTemplatePackages,
   _dev_only_getContextValue,
-  _dev_only_getStateValue,
+  _dev_only_getAllContextValues,
   _dev_only_getFakeKernel,
   _dev_only_loadEditorBricks,
   _dev_only_updateStoryboard,
@@ -54,6 +54,6 @@ export const developHelper = {
   updateSnippetPreviewSettings: _dev_only_updateSnippetPreviewSettings,
   updateFormPreviewSettings: _dev_only_updateFormPreviewSettings,
   getContextValue: _dev_only_getContextValue,
-  getStateValue: _dev_only_getStateValue,
+  getAllContextValues: _dev_only_getAllContextValues,
   render: _dev_only_render,
 };

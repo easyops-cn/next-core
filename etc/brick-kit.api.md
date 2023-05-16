@@ -231,7 +231,7 @@ export const developHelper: {
     updateSnippetPreviewSettings: typeof _dev_only_updateSnippetPreviewSettings;
     updateFormPreviewSettings: typeof _dev_only_updateFormPreviewSettings;
     getContextValue: typeof _dev_only_getContextValue;
-    getStateValue: typeof _dev_only_getStateValue;
+    getAllContextValues: typeof _dev_only_getAllContextValues;
     render: typeof _dev_only_render;
 };
 
@@ -638,7 +638,7 @@ export function useRecentApps(): RecentApps;
 // src/developHelper.ts:54:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:55:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:56:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_getStateValue" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
 // src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
 
 ```
