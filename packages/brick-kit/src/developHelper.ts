@@ -11,6 +11,8 @@ import {
   _dev_only_getStoryboards,
   _dev_only_loadDynamicBricksInBrickConf,
   _dev_only_getTemplatePackages,
+  _dev_only_getContextValue,
+  _dev_only_getStateValue,
   _dev_only_getFakeKernel,
   _dev_only_loadEditorBricks,
   _dev_only_updateStoryboard,
@@ -51,5 +53,7 @@ export const developHelper = {
   updateTemplatePreviewSettings: _dev_only_updateTemplatePreviewSettings,
   updateSnippetPreviewSettings: _dev_only_updateSnippetPreviewSettings,
   updateFormPreviewSettings: _dev_only_updateFormPreviewSettings,
+  getContextValue: _dev_only_getContextValue,
+  getStateValue: _dev_only_getStateValue,
   render: _dev_only_render,
 };
