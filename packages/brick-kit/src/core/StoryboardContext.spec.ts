@@ -681,6 +681,19 @@ describe("batchUpdate should work", () => {
     return arg[0];
   };
   beforeEach(async () => {
+    let count = 0;
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      async resolveOne(
+        type: unknown,
+        resolveConf: unknown,
+        conf: Record<string, unknown>
+      ) {
+        await Promise.resolve();
+        conf.value = `resolved:${count}`;
+        count += 1;
+      },
+    } as any);
+
     await ctx.define(
       [
         {
@@ -915,5 +928,128 @@ describe("batchUpdate should work", () => {
 
     expect(consoleLog).toHaveBeenNthCalledWith(1, "d change", 10);
     expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 20);
+  });
+});
+
+describe("batchUpdate with resolve should work", () => {
+  const consoleLog = jest.spyOn(console, "log").mockImplementation();
+  const brick = { properties: {} };
+  const tplContext = new CustomTemplateContext(brick);
+  const ctx = tplContext.state;
+  const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
+    return arg[0];
+  };
+  beforeEach(async () => {
+    let count = 0;
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      async resolveOne(
+        type: unknown,
+        resolveConf: unknown,
+        conf: Record<string, unknown>
+      ) {
+        await Promise.resolve();
+        conf.value = `resolved:${count}`;
+        count += 1;
+      },
+    } as any);
+
+    await ctx.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "b",
+          value: 2,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["b change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "c",
+          value: `<% +STATE.a + +STATE.b %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["c change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "d",
+          value: `<% +STATE.c + 1 %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["d change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        // Note: this is a state with resolve
+        {
+          name: "e",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% STATE.a %>"],
+          },
+          track: true,
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("update a, and c d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("c")).toBe(4);
+    expect(ctx.getValue("d")).toBe(5);
+    expect(ctx.getValue("e")).toBe("resolved:0");
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+
+    // `e` should only be changed after it's been resolved.
+    await (global as any).flushPromises();
+    expect(ctx.getValue("e")).toBe("resolved:1");
+    expect(consoleLog).toBeCalledTimes(4);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "e change", "resolved:1");
   });
 });
