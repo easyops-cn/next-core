@@ -99,6 +99,16 @@ export async function renderRoutes(
       runtimeContext.pendingPermissionsPreCheck.push(
         preCheckPermissionsForBrickOrRoute(route, runtimeContext)
       );
+
+      // Currently, this is only used for brick size-checking: these bricks
+      // will be loaded before page rendering, but they will NOT be rendered.
+      const { preLoadBricks } = route as { preLoadBricks?: string[] };
+      if (Array.isArray(preLoadBricks)) {
+        output.blockingList.push(
+          loadBricksImperatively(preLoadBricks, getBrickPackages())
+        );
+      }
+
       switch (route.type) {
         case "redirect": {
           let redirectTo: unknown;

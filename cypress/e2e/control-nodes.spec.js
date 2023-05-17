@@ -11,7 +11,6 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       cy.expectMainContents([
         "Hello World",
@@ -21,6 +20,8 @@ for (const port of Cypress.env("ports")) {
         ",",
         "Goodbye World",
       ]);
+
+      cy.get("@console.error").should("not.be.called");
     });
 
     it("should render nested control nodes", () => {
@@ -29,7 +30,6 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       cy.expectMainContents([
         "Hello",
@@ -42,6 +42,8 @@ for (const port of Cypress.env("ports")) {
         "end:2",
         "Goodbye",
       ]);
+
+      cy.get("@console.error").should("not.be.called");
     });
 
     it("should render control nodes with tpl with useBrick", () => {
@@ -50,12 +52,13 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       // `useBrick` will render asynchronously,
       // so wait for specific content rendered.
       cy.contains("X:2:2");
       cy.contains("Modal:2:0");
+
+      cy.get("@console.error").should("not.be.called");
 
       cy.expectMainContents(["X:1:1X:1:2", "X:2:1X:2:2", "Refresh"]);
 
@@ -98,7 +101,6 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       cy.expectMainContents(["X:1", "X:2", "Refresh"]);
       cy.expectPortalContents([
@@ -107,6 +109,8 @@ for (const port of Cypress.env("ports")) {
         "Modal:2",
         "Modal:Goodbye",
       ]);
+
+      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Refresh").click();
       cy.expectMainContents(["X:3", "X:4", "Refresh"]);
@@ -133,10 +137,11 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Data:8");
       cy.expectMainContents(["Toggle", "Data:8"]);
+
+      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Toggle").click();
       cy.contains("Data:7");

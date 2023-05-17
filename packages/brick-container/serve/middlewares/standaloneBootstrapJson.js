@@ -1,5 +1,6 @@
 import { getBrickPackages } from "@next-core/serve-helpers";
 import { getSingleStoryboard } from "../utils/getStoryboards.js";
+import { getSizeCheckStoryboards } from "../utils/sizeCheck.js";
 
 export default function standaloneBootstrapJson({ rootDir }, appId) {
   /**
@@ -13,10 +14,17 @@ export default function standaloneBootstrapJson({ rootDir }, appId) {
         getBrickPackages(rootDir, true),
       ]);
 
-      if (storyboard) {
+      if (appId === "-size-check-") {
+        res.json({
+          storyboards: getSizeCheckStoryboards(brickPackages),
+          brickPackages,
+          settings: getE2eSettings(),
+        });
+      } else if (storyboard) {
         res.json({
           storyboards: [storyboard],
           brickPackages,
+          settings: appId === "e2e" ? getE2eSettings() : undefined,
         });
       } else {
         res.status(404);
@@ -25,5 +33,14 @@ export default function standaloneBootstrapJson({ rootDir }, appId) {
     } else {
       next();
     }
+  };
+}
+
+function getE2eSettings() {
+  return {
+    presetBricks: {
+      notification: false,
+      dialog: false,
+    },
   };
 }

@@ -1,5 +1,5 @@
 import { jest, describe, test, expect } from "@jest/globals";
-import type { RouteConf } from "@next-core/types";
+import type { RouteConf, RouteConfOfBricks } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
 import { RenderRoot, RuntimeContext } from "./interfaces.js";
 import { RenderTag } from "./enums.js";
@@ -7,7 +7,10 @@ import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import { DataStore } from "./data/DataStore.js";
 import { preCheckPermissionsForBrickOrRoute } from "./checkPermissions.js";
-import { enqueueStableLoadBricks } from "@next-core/loader";
+import {
+  enqueueStableLoadBricks,
+  loadBricksImperatively,
+} from "@next-core/loader";
 import { mountTree, unmountTree } from "./mount.js";
 import { getHistory } from "../history.js";
 import { mediaEventTarget } from "./mediaQuery.js";
@@ -76,14 +79,15 @@ describe("renderRoutes", () => {
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");
-    const route: RouteConf = {
+    const route = {
       path: "${APP.homepage}/:objectId",
       context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
       bricks: [{ brick: "div" }],
       menu: {
         menuId: "my-menu",
       },
-    };
+      preLoadBricks: ["my-pre-load-brick"],
+    } as RouteConfOfBricks;
     const output = await renderRoutes(
       renderRoot,
       [route],
@@ -118,6 +122,7 @@ describe("renderRoutes", () => {
       newRuntimeContext
     );
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(2);
+    expect(loadBricksImperatively).toBeCalledWith(["my-pre-load-brick"], []);
     await ctxStore.waitForAll();
     expect(ctxStore.getValue("objectId")).toBe("HOST");
   });

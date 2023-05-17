@@ -7,6 +7,8 @@ import {
   getRuntime as _getRuntime,
   _internalApiGetRenderId as __internalApiGetRenderId,
 } from "./Runtime.js";
+import { loadNotificationService } from "../Notification.js";
+import { loadDialogService } from "../Dialog.js";
 import { getHistory as _getHistory } from "../history.js";
 
 jest.mock("@next-core/loader");
@@ -161,6 +163,10 @@ const getBootstrapData = (options?: {
           columns: 11,
           rows: 3,
         },
+        presetBricks: {
+          notification: false,
+          dialog: false,
+        },
       }
     : undefined,
 });
@@ -212,6 +218,8 @@ describe("Runtime", () => {
     );
     getHistory().push("/app-a");
     await getRuntime().bootstrap();
+    expect(loadNotificationService).not.toBeCalled();
+    expect(loadDialogService).not.toBeCalled();
     const renderId0 = _internalApiGetRenderId();
     expect(renderId0).toBeDefined();
     expect(document.body.children).toMatchInlineSnapshot(`
@@ -327,6 +335,10 @@ describe("Runtime", () => {
 
     getHistory().push("/app-a/2");
     await getRuntime().bootstrap();
+
+    expect(loadNotificationService).toBeCalledTimes(1);
+    expect(loadDialogService).toBeCalledTimes(1);
+
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div

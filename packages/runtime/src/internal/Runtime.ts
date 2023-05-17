@@ -63,9 +63,19 @@ export class Runtime {
     this.#initialized = true;
     normalizeBootstrapData(data);
     bootstrapData = data;
-    // Todo: allow configuration of notification bricks.
-    loadNotificationService("shoelace.show-notification", this.loadBricks);
-    loadDialogService("shoelace.show-dialog", this.loadBricks);
+    const { notification, dialog } = (data.settings?.presetBricks ?? {}) as {
+      notification?: string | false;
+      dialog?: string | false;
+    };
+    if (notification !== false) {
+      loadNotificationService(
+        notification ?? "shoelace.show-notification",
+        this.loadBricks
+      );
+    }
+    if (dialog !== false) {
+      loadDialogService(dialog ?? "shoelace.show-dialog", this.loadBricks);
+    }
   }
 
   async bootstrap(data?: BootstrapData) {

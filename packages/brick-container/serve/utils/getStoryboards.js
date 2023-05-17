@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import yaml from "js-yaml";
 import _ from "lodash";
+import { getSizeCheckApp } from "./sizeCheck.js";
 
 export function getStoryboards({ rootDir, localMicroApps }) {
   const storyboards = Promise.all(
@@ -16,6 +17,10 @@ export function getStoryboards({ rootDir, localMicroApps }) {
 }
 
 export async function getSingleStoryboard(rootDir, appId) {
+  const sizeCheckApp = getSizeCheckApp();
+  if (appId === sizeCheckApp.id) {
+    return { app: sizeCheckApp };
+  }
   const filePath = path.join(
     rootDir,
     "mock-micro-apps",

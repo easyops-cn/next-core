@@ -10,13 +10,14 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       // `useBrick` will render asynchronously,
       // so wait for specific content rendered.
       cy.contains("X:4:2");
       cy.contains("Modal:4:0");
       cy.contains("Modal:S:8");
+
+      cy.get("@console.error").should("not.be.called");
 
       cy.expectMainContents([
         "X:Z:1X:Z:2",
@@ -66,9 +67,10 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Inner Mounted <C>");
+
+      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Click Me").click();
       cy.contains("Inner Updated");
@@ -80,10 +82,11 @@ for (const port of Cypress.env("ports")) {
           cy.spy(win.console, "error").as("console.error");
         },
       });
-      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Outer Initial");
       cy.contains("Inner Mounted <C>");
+
+      cy.get("@console.error").should("not.be.called");
 
       cy.contains("Click Me").click();
       cy.contains("Inner Updated");
