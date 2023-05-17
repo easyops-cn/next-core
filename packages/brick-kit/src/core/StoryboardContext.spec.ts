@@ -678,7 +678,7 @@ describe("batchUpdate should work", () => {
   const tplContext = new CustomTemplateContext(brick);
   const ctx = tplContext.state;
   const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
-    return arg[0];
+    return arg[0] as BatchUpdateContextItem;
   };
   beforeEach(async () => {
     let count = 0;
@@ -929,6 +929,31 @@ describe("batchUpdate should work", () => {
     expect(consoleLog).toHaveBeenNthCalledWith(1, "d change", 10);
     expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 20);
   });
+
+  it("not allow to update same item", () => {
+    expect(() => {
+      ctx.updateValues(
+        [
+          {
+            name: "a",
+            value: 1,
+          },
+          {
+            name: "b",
+            value: 2,
+          },
+          {
+            name: "a",
+            value: 1,
+          },
+        ],
+        "replace",
+        argsFactory
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Batch update not allow to update same item"`
+    );
+  });
 });
 
 describe("batchUpdate with resolve should work", () => {
@@ -937,7 +962,7 @@ describe("batchUpdate with resolve should work", () => {
   const tplContext = new CustomTemplateContext(brick);
   const ctx = tplContext.state;
   const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
-    return arg[0];
+    return arg[0] as BatchUpdateContextItem;
   };
   beforeEach(async () => {
     let count = 0;
@@ -1024,7 +1049,7 @@ describe("batchUpdate with resolve should work", () => {
     jest.clearAllMocks();
   });
 
-  it("update a, and c d should update once", async () => {
+  it("update a, then c d should update once, then later e should update once", async () => {
     ctx.updateValues(
       [
         {

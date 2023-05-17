@@ -541,7 +541,7 @@ function resolveFreeVariableValue(
         ? trackUsedState
         : trackUsedContext
     )(load ? contextConf.resolve : contextConf.value);
-    newContext.deps = deps;
+    !load && (newContext.deps = deps);
     for (const dep of deps) {
       const ctx = storyboardContextWrapper.get().get(dep);
       (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
