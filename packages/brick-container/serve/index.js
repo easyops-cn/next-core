@@ -18,10 +18,17 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const env = getEnv(process.cwd());
-const { baseHref, useLocalContainer, port } = env;
+const { baseHref, useLocalContainer, port, sizeCheck } = env;
 const distDir = path.join(__dirname, "../dist");
 
 const app = express();
+
+if (sizeCheck) {
+  app.use((req, res, next) => {
+    res.set("Cache-Control", "no-store");
+    next();
+  });
+}
 
 app.use(compression());
 

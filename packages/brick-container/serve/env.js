@@ -1,5 +1,6 @@
 import meow from "meow";
 import chalk from "chalk";
+import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
 const cli = meow(
   `
@@ -13,6 +14,7 @@ const cli = meow(
     --local-micro-apps      Specify local micro apps to be used in remote mode
     --local-container       Use local brick-container instead of remote in remote mode
     --port                  Set local server listening port, defaults to "8081"
+    --size-check            Enable size-check mode
     --verbose               Print verbose logs
     --help                  Show help message
     --version               Show brick container version
@@ -39,6 +41,9 @@ const cli = meow(
       port: {
         type: "string",
         default: "8081",
+      },
+      sizeCheck: {
+        type: "boolean",
       },
       verbose: {
         type: "boolean",
@@ -79,8 +84,13 @@ export function getEnv(rootDir, runtimeFlags) {
     localMicroApps: flags.localMicroApps ? flags.localMicroApps.split(",") : [],
     port: Number(flags.port),
     server: getServerPath(flags.server),
+    sizeCheck: flags.sizeCheck,
     verbose: flags.verbose,
   };
+
+  if (env.sizeCheck) {
+    env.localMicroApps.push(getSizeCheckApp().id);
+  }
 
   if (env.verbose) {
     console.log("Configure:", env);
