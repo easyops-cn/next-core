@@ -957,6 +957,9 @@ export interface BuiltinBrickEventHandler {
    */
   if?: string | boolean;
 
+  /** 是否开启批量变更，默认为true */
+  batch?: boolean;
+
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
 
@@ -987,6 +990,14 @@ export interface UseProviderEventHandler {
 
   /** {@inheritDoc ConditionalEventHandler.else} */
   else?: BrickEventHandler | BrickEventHandler[];
+}
+
+/**
+ * 批量更新子项
+ */
+export interface BatchUpdateContextItem {
+  name: string;
+  value: unknown;
 }
 
 /**
