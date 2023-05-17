@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.1.25...@next-core/brick-container@3.1.26) (2023-05-17)
+
+
+### Bug Fixes
+
+* refine size-check ([b5396b3](https://github.com/easyops-cn/next-core/commit/b5396b3140bbbfbd628eaecb270b2bda886f3144))
+
+
+
+
+
 ## [3.1.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.1.24...@next-core/brick-container@3.1.25) (2023-05-17)
 
 
