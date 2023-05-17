@@ -1,4 +1,8 @@
-import { ResolveOptions, RuntimeBrickElement } from "@next-core/brick-types";
+import {
+  BatchUpdateContextItem,
+  ResolveOptions,
+  RuntimeBrickElement,
+} from "@next-core/brick-types";
 import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import * as runtime from "./Runtime";
@@ -673,6 +677,9 @@ describe("batchUpdate should work", () => {
   const brick = { properties: {} };
   const tplContext = new CustomTemplateContext(brick);
   const ctx = tplContext.state;
+  const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
+    return arg[0];
+  };
   beforeEach(async () => {
     await ctx.define(
       [
@@ -740,7 +747,8 @@ describe("batchUpdate should work", () => {
           value: 2,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("a")).toBe(2);
@@ -765,7 +773,8 @@ describe("batchUpdate should work", () => {
           value: 3,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("a")).toBe(2);
@@ -792,7 +801,8 @@ describe("batchUpdate should work", () => {
           value: 0,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("a")).toBe(2);
@@ -817,7 +827,8 @@ describe("batchUpdate should work", () => {
           value: 1,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("a")).toBe(1);
@@ -846,7 +857,8 @@ describe("batchUpdate should work", () => {
           value: 100,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("a")).toBe(10);
@@ -869,7 +881,8 @@ describe("batchUpdate should work", () => {
           value: 20,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("c")).toBe(20);
@@ -892,7 +905,8 @@ describe("batchUpdate should work", () => {
           value: 20,
         },
       ],
-      "replace"
+      "replace",
+      argsFactory
     );
 
     expect(ctx.getValue("d")).toBe(10);

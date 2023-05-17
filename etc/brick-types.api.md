@@ -129,6 +129,14 @@ export interface BaseRouteConf {
     segues?: SeguesConf;
 }
 
+// @public
+export interface BatchUpdateContextItem {
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    value: unknown;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "BootstrapData" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)

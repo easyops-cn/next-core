@@ -1353,6 +1353,14 @@ export interface ExecuteCustomBrickEventHandler
 }
 
 /**
+ * 批量更新子项
+ */
+export interface BatchUpdateContextItem {
+  name: string;
+  value: unknown;
+}
+
+/**
  * 事件处理回调。
  *
  * @remarks

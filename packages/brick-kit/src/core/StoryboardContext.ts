@@ -1,5 +1,6 @@
 import EventTarget from "@ungap/event-target";
 import {
+  BatchUpdateContextItem,
   BrickEventHandler,
   BrickEventHandlerCallback,
   ContextConf,
@@ -84,8 +85,9 @@ export class StoryboardContextWrapper {
   }
 
   updateValues(
-    values: Array<{ name: string; value: unknown }>,
-    method: "assign" | "replace" | "refresh" | "load"
+    values: BatchUpdateContextItem[],
+    method: "assign" | "replace",
+    argsFactory: (arg: unknown[]) => BatchUpdateContextItem
   ): void {
     this.batchUpdate = true;
     this.batchUpdateContextsNames = values.map((item) => item.name);
@@ -103,7 +105,7 @@ export class StoryboardContextWrapper {
     const affectDepsContextNames: string[] = [];
 
     values.forEach((arg) => {
-      const { name, value } = arg;
+      const { name, value } = argsFactory([arg]);
       const updateContextItem = this.data.get(name);
       affectDepsContextNames.push(...this.getAffectListByContext(name));
       updateContextItem.type === "free-variable" &&
