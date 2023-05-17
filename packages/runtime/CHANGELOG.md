@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.8.0...@next-core/runtime@1.9.0) (2023-05-17)
+
+
+### Bug Fixes
+
+* allow setting preLoadBricks on routes ([a5a1999](https://github.com/easyops-cn/next-core/commit/a5a19994386beb4cf68b7fcfbcb0107adf279106))
+
+
+### Features
+
+* allow disable preset bricks ([91923fb](https://github.com/easyops-cn/next-core/commit/91923fb89c1e00a55f4a15a65b03f0be3b2fb698))
+
+
+
+
+
 # [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.7.0...@next-core/runtime@1.8.0) (2023-05-12)
 
 
