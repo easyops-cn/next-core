@@ -1,4 +1,8 @@
-import { ResolveOptions, RuntimeBrickElement } from "@next-core/brick-types";
+import {
+  BatchUpdateContextItem,
+  ResolveOptions,
+  RuntimeBrickElement,
+} from "@next-core/brick-types";
 import { CustomTemplateContext } from "./CustomTemplates/CustomTemplateContext";
 import { StoryboardContextWrapper } from "./StoryboardContext";
 import * as runtime from "./Runtime";
@@ -665,5 +669,412 @@ describe("deferDefine", () => {
     expect(ctx.get().get("b")).toMatchObject({
       value: "a:undefined",
     });
+  });
+});
+
+describe("batchUpdate should work", () => {
+  const consoleLog = jest.spyOn(console, "log").mockImplementation();
+  const brick = { properties: {} };
+  const tplContext = new CustomTemplateContext(brick);
+  const ctx = tplContext.state;
+  const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
+    return arg[0] as BatchUpdateContextItem;
+  };
+  beforeEach(async () => {
+    let count = 0;
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      async resolveOne(
+        type: unknown,
+        resolveConf: unknown,
+        conf: Record<string, unknown>
+      ) {
+        await Promise.resolve();
+        conf.value = `resolved:${count}`;
+        count += 1;
+      },
+    } as any);
+
+    await ctx.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "b",
+          value: 2,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["b change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "c",
+          value: `<% +STATE.a + +STATE.b %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["c change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "d",
+          value: `<% +STATE.c + 1 %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["d change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("update a, and c d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("c")).toBe(4);
+    expect(ctx.getValue("d")).toBe(5);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+  });
+
+  it("update a and b, c and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+        {
+          name: "b",
+          value: 3,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("b")).toBe(3);
+    expect(ctx.getValue("c")).toBe(5);
+    expect(ctx.getValue("d")).toBe(6);
+    expect(consoleLog).toBeCalledTimes(4);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 3);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 5);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 6);
+  });
+
+  it("update a and c, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+        {
+          name: "c",
+          value: 0,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("c")).toBe(0);
+    expect(ctx.getValue("d")).toBe(1);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 0);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+  });
+
+  it("update c and a, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "c",
+          value: 0,
+        },
+        {
+          name: "a",
+          value: 1,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(1);
+    expect(ctx.getValue("c")).toBe(0);
+    expect(ctx.getValue("d")).toBe(1);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 0);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "a change", 1);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+  });
+
+  it("update a, b, c, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 10,
+        },
+        {
+          name: "b",
+          value: 20,
+        },
+        {
+          name: "c",
+          value: 100,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(10);
+    expect(ctx.getValue("b")).toBe(20);
+    expect(ctx.getValue("c")).toBe(100);
+    expect(ctx.getValue("d")).toBe(101);
+    expect(consoleLog).toBeCalledTimes(4);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 10);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 20);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 100);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 101);
+  });
+
+  it("update c, and d should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "c",
+          value: 20,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("c")).toBe(20);
+    expect(ctx.getValue("d")).toBe(21);
+    expect(consoleLog).toBeCalledTimes(2);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 20);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "d change", 21);
+  });
+
+  it("update d c, not emit", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "d",
+          value: 10,
+        },
+        {
+          name: "c",
+          value: 20,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("d")).toBe(10);
+    expect(ctx.getValue("c")).toBe(20);
+    expect(consoleLog).toBeCalledTimes(2);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "d change", 10);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 20);
+  });
+
+  it("not allow to update same item", () => {
+    expect(() => {
+      ctx.updateValues(
+        [
+          {
+            name: "a",
+            value: 1,
+          },
+          {
+            name: "b",
+            value: 2,
+          },
+          {
+            name: "a",
+            value: 1,
+          },
+        ],
+        "replace",
+        argsFactory
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Batch update not allow to update same item"`
+    );
+  });
+});
+
+describe("batchUpdate with resolve should work", () => {
+  const consoleLog = jest.spyOn(console, "log").mockImplementation();
+  const brick = { properties: {} };
+  const tplContext = new CustomTemplateContext(brick);
+  const ctx = tplContext.state;
+  const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
+    return arg[0] as BatchUpdateContextItem;
+  };
+  beforeEach(async () => {
+    let count = 0;
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      async resolveOne(
+        type: unknown,
+        resolveConf: unknown,
+        conf: Record<string, unknown>
+      ) {
+        await Promise.resolve();
+        conf.value = `resolved:${count}`;
+        count += 1;
+      },
+    } as any);
+
+    await ctx.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "b",
+          value: 2,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["b change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "c",
+          value: `<% +STATE.a + +STATE.b %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["c change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "d",
+          value: `<% +STATE.c + 1 %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["d change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        // Note: this is a state with resolve
+        {
+          name: "e",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% STATE.a %>"],
+          },
+          track: true,
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("update a, then c d should update once, then later e should update once", async () => {
+    ctx.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(ctx.getValue("a")).toBe(2);
+    expect(ctx.getValue("c")).toBe(4);
+    expect(ctx.getValue("d")).toBe(5);
+    expect(ctx.getValue("e")).toBe("resolved:0");
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+
+    // `e` should only be changed after it's been resolved.
+    await (global as any).flushPromises();
+    expect(ctx.getValue("e")).toBe("resolved:1");
+    expect(consoleLog).toBeCalledTimes(4);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "e change", "resolved:1");
   });
 });

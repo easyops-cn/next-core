@@ -8,6 +8,7 @@ import { Action } from 'history';
 import { AppBarBrick } from '@next-core/brick-types';
 import { AuthInfo } from '@next-core/brick-types';
 import { BaseColors } from '@next-core/color-theme';
+import { BatchUpdateContextItem } from '@next-core/brick-types';
 import { BrandColor } from '@next-core/color-theme';
 import { BreadcrumbItemConf } from '@next-core/brick-types';
 import { BrickConf } from '@next-core/brick-types';

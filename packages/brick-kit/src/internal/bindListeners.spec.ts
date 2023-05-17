@@ -453,6 +453,30 @@ describe("bindListeners", () => {
           args: ["myStringContext", "not-bad"],
         },
         {
+          action: "context.replace",
+          batch: true,
+          args: [
+            {
+              name: "myStringContext",
+              value: "good",
+            },
+          ],
+        },
+        {
+          action: "context.replace",
+          batch: false,
+          args: [
+            {
+              name: "myStringContext",
+              value: "not-bad",
+            },
+          ],
+        },
+        {
+          action: "context.replace",
+          args: ["myStringContext", "not-bad"],
+        },
+        {
           action: "context.assign",
           args: [
             "myNumberContext",
@@ -1098,6 +1122,26 @@ describe("bindListeners", () => {
             args: ["myState", "<% `${STATE.myState}:updated` %>"],
           },
           {
+            action: "state.update",
+            batch: true,
+            args: [
+              {
+                name: "myState",
+                value: "<% `${STATE.myState}:batchUpdate` %>",
+              },
+            ],
+          },
+          {
+            action: "state.update",
+            batch: false,
+            args: [
+              {
+                name: "myState",
+                value: "<% `${STATE.myState}:unBatchUpdate` %>",
+              },
+            ],
+          },
+          {
             action: "state.load",
             args: ["myLazyState"],
           },
@@ -1146,7 +1190,9 @@ describe("bindListeners", () => {
     );
     expect(button.forGood).toBeCalled();
     expect(button.forArray).toBeCalled();
-    expect(tplContext.state.getValue("myState")).toBe("initial:updated");
+    expect(tplContext.state.getValue("myState")).toBe(
+      "initial:updated:batchUpdate:unBatchUpdate"
+    );
 
     expect(useBrickElem.isEdit).toBe(true);
 

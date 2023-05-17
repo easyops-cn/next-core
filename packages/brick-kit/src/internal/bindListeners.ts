@@ -16,6 +16,7 @@ import {
   ProviderPollOptions,
   SiteTheme,
   ConditionalEventHandler,
+  BatchUpdateContextItem,
 } from "@next-core/brick-types";
 import { handleHttpError, httpErrorToString } from "../handleHttpError";
 import { computeRealValue, setProperties } from "./setProperties";
@@ -41,11 +42,12 @@ import {
   getCustomTemplateContext,
 } from "../core/CustomTemplates/CustomTemplateContext";
 import { isPreEvaluated } from "./evaluate";
-import { isEvaluable } from "@next-core/brick-utils";
+import { isEvaluable, isObject } from "@next-core/brick-utils";
 import {
   CustomFormContext,
   getCustomFormContext,
 } from "../core/CustomForms/CustomFormContext";
+import { StoryboardContextWrapper } from "../core/StoryboardContext";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -309,6 +311,7 @@ export function listenerFactory(
         return builtinContextListenerFactory(
           method,
           handler.args,
+          handler.batch ?? true,
           handler,
           handler.callback,
           context,
@@ -320,6 +323,7 @@ export function listenerFactory(
         return builtinStateListenerFactory(
           method,
           handler.args,
+          handler.batch ?? true,
           handler,
           handler.callback,
           context,
@@ -488,9 +492,37 @@ function builtinTplDispatchEventFactory(
   } as EventListener;
 }
 
+function batchUpdate(
+  args: unknown[],
+  batch: boolean,
+  method: "replace" | "assign",
+  context: StoryboardContextWrapper,
+  event: CustomEvent
+): void {
+  if (batch) {
+    context.updateValues(
+      args as BatchUpdateContextItem[],
+      method,
+      (arg: unknown[]) => {
+        return argsFactory(arg, context, event)[0] as BatchUpdateContextItem;
+      }
+    );
+  } else {
+    args.forEach((arg) => {
+      const { name, value } = argsFactory(
+        [arg],
+        context,
+        event
+      )[0] as BatchUpdateContextItem;
+      context.updateValue(name, value, method);
+    });
+  }
+}
+
 function builtinContextListenerFactory(
   method: "assign" | "replace" | "refresh" | "load",
   args: unknown[],
+  batch: boolean,
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext,
@@ -501,14 +533,20 @@ function builtinContextListenerFactory(
       return;
     }
     const storyboardContext = _internalApiGetStoryboardContextWrapper();
-    const [name, value] = argsFactory(args, context, event);
-    storyboardContext.updateValue(name as string, value, method, callback);
+    const isBatch = Array.isArray(args) && args.every(isObject);
+    if (isBatch && (method === "assign" || method === "replace")) {
+      batchUpdate(args, batch, method, storyboardContext, event);
+    } else {
+      const [name, value] = argsFactory(args, context, event);
+      storyboardContext.updateValue(name as string, value, method, callback);
+    }
   } as EventListener;
 }
 
 function builtinStateListenerFactory(
   method: "update" | "refresh" | "load",
   args: unknown[],
+  batch: boolean,
   ifContainer: IfContainer,
   callback: BrickEventHandlerCallback,
   context: PluginRuntimeContext,
@@ -519,13 +557,19 @@ function builtinStateListenerFactory(
       return;
     }
     const tplContext = getTplContext(context.tplContextId);
-    const [name, value] = argsFactory(args, context, event);
-    tplContext.state.updateValue(
-      name as string,
-      value,
-      method === "update" ? "replace" : method,
-      callback
-    );
+    const isBatch = Array.isArray(args) && args.every(isObject);
+    const computedMethod = method === "update" ? "replace" : method;
+    if (isBatch && computedMethod === "replace") {
+      batchUpdate(args, batch, computedMethod, tplContext.state, event);
+    } else {
+      const [name, value] = argsFactory(args, context, event);
+      tplContext.state.updateValue(
+        name as string,
+        value,
+        computedMethod,
+        callback
+      );
+    }
   } as EventListener;
 }
 
