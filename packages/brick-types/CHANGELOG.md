@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.83.0...@next-core/brick-types@2.84.0) (2023-05-17)
+
+
+### Features
+
+* support batchUpdate context ([bcadcb2](https://github.com/easyops-cn/next-core/commit/bcadcb286c4adab8d4ae94c8a23e2bc626b4b3c5))
+* update compute when update value ([5d51c33](https://github.com/easyops-cn/next-core/commit/5d51c3363c9af4b14edc2479168137985f42c0f8))
+
+
+
+
+
 # [2.83.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.5...@next-core/brick-types@2.83.0) (2023-05-12)
 
 
