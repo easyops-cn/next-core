@@ -104,6 +104,7 @@ const allowedGlobalObjects = new Set([
   "NaN",
   "Number",
   "String",
+  "RegExp",
   "decodeURI",
   "decodeURIComponent",
   "encodeURI",

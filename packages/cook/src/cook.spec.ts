@@ -387,4 +387,26 @@ describe("evaluate", () => {
       "else"
     );
   });
+
+  it("support RegExp", () => {
+    const source = `
+      function test() {
+        const reg = new RegExp("b");
+        return "abc".replace(reg, "");
+      }
+    `;
+    expect(() => equivalentFunc(source, new Set())).not.toThrowError();
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(
+      attemptToVisitGlobals,
+      getExtraGlobalVariables()
+    );
+    const func = cook(funcAst, source, {
+      globalVariables,
+      rules: { noVar: true },
+    }) as SimpleFunction;
+    const result = func();
+    expect(result).toBe("ac");
+  });
 });
