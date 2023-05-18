@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.1.1...@next-core/cook@2.2.0) (2023-05-18)
+
+
+### Features
+
+* function support RegExp in v3 ([20d47eb](https://github.com/easyops-cn/next-core/commit/20d47eb06247c0380fad3b214b4a4934a45a5b5f))
+
+
+
+
+
 ## [2.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.1.0...@next-core/cook@2.1.1) (2023-05-10)
 
 

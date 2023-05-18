@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.9.0...@next-core/brick-playground@1.9.1) (2023-05-18)
+
+
+### Bug Fixes
+
+* use extended syntax highlighting ([198504a](https://github.com/easyops-cn/next-core/commit/198504a64f78e4cf0a8e11a3d14f7b194890a142))
+
+
+
+
+
 # [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.8.15...@next-core/brick-playground@1.9.0) (2023-05-18)
 
 
