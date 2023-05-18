@@ -3,12 +3,11 @@ import "./index.css";
 // import * as monaco from "monaco-editor";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import copy from "copy-to-clipboard";
-
-interface Sources {
-  yaml?: string;
-  html?: string;
-  javascript?: string;
-}
+import type {
+  PreviewWindow,
+  RenderType,
+  Sources,
+} from "@next-core/preview/types";
 
 interface Example extends Sources {
   key: string;
@@ -73,7 +72,9 @@ async function main() {
 
   let mode = matchedExample
     ? matchedExample.mode
-    : (params.get("mode") as RenderType) ?? "html";
+    : params.get("mode") === "yaml"
+    ? "yaml"
+    : "html";
 
   const codeFromHash =
     !matchedExample && location.hash && location.hash !== "#";
@@ -83,8 +84,7 @@ async function main() {
   const debouncedRender = debounce(render);
 
   function initEditorsWith(example?: Example) {
-    const editorTypes =
-      mode === "yaml" ? (["yaml"] as const) : (["html", "javascript"] as const);
+    const editorTypes = [mode];
     for (const type of editorTypes) {
       if (example) {
         sources[type] = typeof example[type] === "string" ? example[type] : "";
@@ -188,7 +188,7 @@ async function main() {
     const model = monaco.editor.createModel(
       sources[type],
       type,
-      monaco.Uri.file(`workspace/index.${type === "javascript" ? "js" : type}`)
+      monaco.Uri.file(`workspace/index.${type}`)
     );
     models[type] = model;
     const editorContainer = document.querySelector(
@@ -216,10 +216,10 @@ async function main() {
 
   const iframe = document.createElement("iframe");
 
-  let previewWin: Window;
+  let previewWin: PreviewWindow;
   const iframeReady = new Promise<void>((resolve, reject) => {
     iframe.addEventListener("load", () => {
-      previewWin = iframe.contentWindow;
+      previewWin = iframe.contentWindow as unknown as PreviewWindow;
       resolve();
     });
   });
