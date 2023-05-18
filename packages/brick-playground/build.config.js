@@ -20,7 +20,7 @@ export default {
       template: path.join(packageDir, "src/index.ejs"),
     }),
     new MonacoWebpackPlugin({
-      languages: ["javascript", "typescript", "html", "css", "yaml"],
+      languages: ["javascript", "typescript", "html", "css" /* , "yaml" */],
       features: [
         "!accessibilityHelp",
         "!codelens",
