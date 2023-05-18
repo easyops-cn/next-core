@@ -8,6 +8,13 @@ import type {
   RenderType,
   Sources,
 } from "@next-core/preview/types";
+import { register as registerJavaScript } from "@next-core/monaco-contributions/javascript";
+import { register as registerTypeScript } from "@next-core/monaco-contributions/typescript";
+import { register as registerYaml } from "@next-core/monaco-contributions/yaml";
+
+registerJavaScript();
+registerTypeScript();
+registerYaml();
 
 interface Example extends Sources {
   key: string;
