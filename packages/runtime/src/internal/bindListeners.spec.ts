@@ -386,6 +386,39 @@ describe("listenerFactory for context.*", () => {
     await new Promise((resolve) => setTimeout(resolve, 30));
     expect(ctxStore.getValue("lazyContext")).toEqual("resolved");
   });
+
+  test("batchUpdate context.replace", async () => {
+    listenerFactory(
+      {
+        action: "context.replace",
+        args: [
+          {
+            name: "complexContext",
+            value: "good",
+          },
+        ],
+      },
+      runtimeContext
+    )(event);
+    expect(ctxStore.getValue("complexContext")).toEqual("good");
+  });
+
+  test("batchUpdate context.replace when batch was false", async () => {
+    listenerFactory(
+      {
+        action: "context.replace",
+        batch: false,
+        args: [
+          {
+            name: "complexContext",
+            value: "good",
+          },
+        ],
+      },
+      runtimeContext
+    )(event);
+    expect(ctxStore.getValue("complexContext")).toEqual("good");
+  });
 });
 
 describe("listenerFactory for state.* and tpl.*", () => {

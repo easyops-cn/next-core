@@ -10,6 +10,7 @@ import type {
   SiteTheme,
   UseProviderEventHandler,
   ConditionalEventHandler,
+  BatchUpdateContextItem,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
 import { checkIf } from "./compute/checkIf.js";
@@ -33,6 +34,8 @@ import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
 import { getArgsOfFlowApi } from "./data/FlowApi.js";
 import { Notification } from "../Notification.js";
 import { getFormStateStore } from "./FormRenderer/utils.js";
+import { DataStore } from "./data/DataStore.js";
+import { isObject } from "@next-core/utils/general";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -209,6 +212,7 @@ export function listenerFactory(
               event,
               method,
               handler.args,
+              handler.batch ?? true,
               handler.callback,
               runtimeContext
             );
@@ -221,6 +225,7 @@ export function listenerFactory(
               event,
               method,
               handler.args,
+              handler.batch ?? true,
               handler.callback,
               runtimeContext
             );
@@ -555,43 +560,101 @@ function handleWindowAction(
   window.open(url, target || "_self", features);
 }
 
+function batchUpdate(
+  args: unknown[],
+  batch: boolean,
+  method: "replace" | "assign",
+  store: DataStore,
+  runtimeContext: RuntimeContext,
+  event: CustomEvent | Event
+): void {
+  if (batch) {
+    store.updateValues(
+      args as BatchUpdateContextItem[],
+      method,
+      (arg: unknown[]) => {
+        return argsFactory(
+          arg,
+          runtimeContext,
+          event
+        )[0] as BatchUpdateContextItem;
+      }
+    );
+  } else {
+    args.forEach((arg) => {
+      const { name, value } = argsFactory(
+        [arg],
+        runtimeContext,
+        event
+      )[0] as BatchUpdateContextItem;
+      store.updateValue(name, value, method);
+    });
+  }
+}
+
 function handleContextAction(
   event: Event,
-  method: "assign" | "replace" | "refresh" | "load",
+  method: "assign" | "replace",
   args: unknown[] | undefined,
+  batch: boolean,
   callback: BrickEventHandlerCallback | undefined,
   runtimeContext: RuntimeContext
 ) {
-  const [name, value] = argsFactory(args, runtimeContext, event);
-  runtimeContext.ctxStore.updateValue(
-    name as string,
-    value,
-    method,
-    callback,
-    runtimeContext
-  );
+  const isBatch = Array.isArray(args) && args.every(isObject);
+  if (isBatch && (method === "assign" || method === "replace")) {
+    batchUpdate(
+      args,
+      batch,
+      method,
+      runtimeContext.ctxStore,
+      runtimeContext,
+      event
+    );
+  } else {
+    const [name, value] = argsFactory(args, runtimeContext, event);
+    runtimeContext.ctxStore.updateValue(
+      name as string,
+      value,
+      method,
+      callback,
+      runtimeContext
+    );
+  }
 }
 
 function handleTplStateAction(
   event: Event,
   method: "update" | "refresh" | "load",
   args: unknown[] | undefined,
+  batch: boolean,
   callback: BrickEventHandlerCallback | undefined,
   runtimeContext: RuntimeContext
 ) {
-  const [name, value] = argsFactory(args, runtimeContext, event);
-  const tplStateStore = getTplStateStore(
-    runtimeContext,
-    `state.${method}`,
-    `: ${name}`
-  );
-  tplStateStore.updateValue(
-    name as string,
-    value,
-    method === "update" ? "replace" : method,
-    callback,
-    runtimeContext
-  );
+  const isBatch = Array.isArray(args) && args.every(isObject);
+  if (isBatch && method === "update") {
+    batchUpdate(
+      args,
+      batch,
+      "replace",
+      runtimeContext.ctxStore,
+      runtimeContext,
+      event
+    );
+  } else {
+    const [name, value] = argsFactory(args, runtimeContext, event);
+    const tplStateStore = getTplStateStore(
+      runtimeContext,
+      `state.${method}`,
+      `: ${name}`
+    );
+    tplStateStore.updateValue(
+      name as string,
+      value,
+      method === "update" ? "replace" : method,
+      callback,
+      runtimeContext
+    );
+  }
 }
 
 function handleFormStateAction(
