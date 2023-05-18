@@ -7,6 +7,12 @@ import { http, HttpError, HttpResponse } from "@next-core/http";
 import type { BootstrapData, CustomTemplate } from "@next-core/types";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
+import type {
+  RenderType,
+  Sources,
+  RenderOptions,
+  PreviewWindow,
+} from "../types.d.ts";
 
 interface RenderRequest {
   type: RenderType;
@@ -79,7 +85,11 @@ const bootstrap = http
 let rendering = false;
 let nextRequest: RenderRequest;
 
-window._preview_only_render = (type, sources, options) => {
+(window as unknown as PreviewWindow)._preview_only_render = (
+  type,
+  sources,
+  options
+) => {
   if (rendering) {
     nextRequest = { type, sources, options };
   } else {
@@ -107,7 +117,7 @@ let initialized = false;
 
 async function render(
   type: "html" | "yaml",
-  { yaml, html, javascript }: Sources,
+  { yaml, html }: Sources,
   {
     theme,
     context,
@@ -126,18 +136,13 @@ async function render(
     }
     document.body.classList.remove("bootstrap-error");
     if (type === "html") {
-      // document.documentElement.dataset.theme =
-      //   theme === "light" ? theme : "dark-v2";
       applyTheme(theme === "light" ? theme : "dark-v2");
       // Note: if use DOMParser, script tags will not be executed, while using
-      // createContextualFragment they will.
       const parser = new DOMParser();
       const dom = parser.parseFromString(html, "text/html");
-      // const dom = document.createRange().createContextualFragment(html);
-      const nodes = dom.querySelectorAll("*");
       const bricks = new Set<string>();
-      for (const node of nodes) {
-        if (node.tagName.includes("-")) {
+      for (const node of dom.body.childNodes) {
+        if (node instanceof HTMLElement && node.tagName.includes("-")) {
           const lowerTagName = node.tagName.toLowerCase();
           bricks.add(lowerTagName);
         }
@@ -146,14 +151,18 @@ async function render(
       await bootstrap;
 
       await runtime.loadBricks(bricks);
-      container.textContent = "";
-      portal.textContent = "";
-      container.append(...dom.body.childNodes);
-      // container.append(dom);
-      const scriptTag = document.createElement("script");
-      scriptTag.text = javascript;
-      scriptTag.type = "module";
-      container.appendChild(scriptTag);
+      container.replaceChildren();
+      portal.replaceChildren();
+      const scripts: HTMLScriptElement[] = [];
+      const scriptTags = dom.querySelectorAll("script");
+      for (const scriptTag of scriptTags) {
+        const newScriptTag = document.createElement("script");
+        newScriptTag.text = scriptTag.text;
+        newScriptTag.type = "module";
+        scripts.push(newScriptTag);
+        scriptTag.remove();
+      }
+      container.append(...dom.body.childNodes, ...scripts);
     } else {
       const parsed = yaml
         ? (safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any)
