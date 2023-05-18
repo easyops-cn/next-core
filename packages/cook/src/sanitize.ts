@@ -52,6 +52,7 @@ const allowedConstructors = new WeakSet([
   URLSearchParams,
   WeakMap,
   WeakSet,
+  RegExp,
 ]);
 
 export function isAllowedConstructor(constructor: unknown): boolean {
