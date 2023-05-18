@@ -1,10 +1,11 @@
 // https://github.com/microsoft/monaco-editor/blob/8270c45a385a180a53fd8ef8e3a189b1471100ed/src/basic-languages/javascript/javascript.ts
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
-import { conf as tsConf, language as tsLanguage } from "./nextTs";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { conf as tsConf, language as tsLanguage } from "./typescript.js";
 
-export const conf: monaco.languages.LanguageConfiguration = tsConf;
+export const conf = tsConf;
 
-export const language = <monaco.languages.IMonarchLanguage>{
+/** @type {monaco.languages.IMonarchLanguage} */
+export const language = {
   // Set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: "invalid",
   tokenPostfix: ".js",
@@ -72,3 +73,25 @@ export const language = <monaco.languages.IMonarchLanguage>{
   regexpesc: tsLanguage.regexpesc,
   tokenizer: tsLanguage.tokenizer,
 };
+
+/**
+ * Register the extended javascript language, with control keywords
+ * highlighting supported.
+ *
+ * @param {string} languageId defaults to "javascript"
+ */
+export function register(languageId = "javascript") {
+  monaco.languages.register({
+    id: languageId,
+    extensions: [".js", ".es6", ".jsx", ".mjs", ".cjs"],
+    firstLine: "^#!.*\\bnode",
+    filenames: ["jakefile"],
+    aliases:
+      languageId === "javascript"
+        ? ["JavaScript", "javascript", "js"]
+        : undefined,
+    mimetypes: ["text/javascript"],
+  });
+  monaco.languages.setLanguageConfiguration(languageId, conf);
+  monaco.languages.setMonarchTokensProvider(languageId, language);
+}

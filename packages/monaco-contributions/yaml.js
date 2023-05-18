@@ -1,8 +1,9 @@
-/* eslint-disable */
+/* eslint-disable no-useless-escape */
 // https://github.com/microsoft/monaco-editor/blob/8270c45a385a180a53fd8ef8e3a189b1471100ed/src/basic-languages/yaml/yaml.ts
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
-export const conf: monaco.languages.LanguageConfiguration = {
+/** @type {monaco.languages.LanguageConfiguration} */
+export const conf = {
   comments: {
     lineComment: "#",
   },
@@ -38,7 +39,8 @@ export const conf: monaco.languages.LanguageConfiguration = {
   ],
 };
 
-export const language = <monaco.languages.IMonarchLanguage>{
+/** @type {monaco.languages.IMonarchLanguage} */
+export const language = {
   tokenPostfix: ".yaml.next",
 
   brackets: [
@@ -338,3 +340,20 @@ export const language = <monaco.languages.IMonarchLanguage>{
     ],
   },
 };
+
+/**
+ * Register the extended yaml language, with Brick Next expression syntax
+ * highlighting supported.
+ *
+ * @param {string} languageId defaults to "yaml"
+ */
+export function register(languageId = "yaml") {
+  monaco.languages.register({
+    id: languageId,
+    extensions: [".yaml", ".yml"],
+    aliases: languageId === "yaml" ? ["YAML", "yaml", "YML", "yml"] : undefined,
+    mimetypes: ["application/x-yaml", "text/x-yaml"],
+  });
+  monaco.languages.setLanguageConfiguration(languageId, conf);
+  monaco.languages.setMonarchTokensProvider(languageId, language);
+}

@@ -1,8 +1,9 @@
-/* eslint-disable */
+/* eslint-disable no-useless-escape */
 // https://github.com/microsoft/monaco-editor/blob/8270c45a385a180a53fd8ef8e3a189b1471100ed/src/basic-languages/typescript/typescript.ts
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
-export const conf: monaco.languages.LanguageConfiguration = {
+/** @type {monaco.languages.LanguageConfiguration} */
+export const conf = {
   wordPattern:
     /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 
@@ -71,7 +72,8 @@ export const conf: monaco.languages.LanguageConfiguration = {
   },
 };
 
-export const language = <monaco.languages.IMonarchLanguage>{
+/** @type {import("monaco-editor/esm/vs/editor/editor.api").languages.IMonarchLanguage} */
+export const language = {
   // Set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: "invalid",
   tokenPostfix: ".ts",
@@ -404,3 +406,23 @@ export const language = <monaco.languages.IMonarchLanguage>{
     ],
   },
 };
+
+/**
+ * Register the extended typescript language, with control keywords
+ * highlighting supported.
+ *
+ * @param {string} languageId defaults to "typescript"
+ */
+export function register(languageId = "typescript") {
+  monaco.languages.register({
+    id: languageId,
+    extensions: [".ts", ".tsx", ".cts", ".mts"],
+    aliases:
+      languageId === "typescript"
+        ? ["TypeScript", "ts", "typescript"]
+        : undefined,
+    mimetypes: ["text/typescript"],
+  });
+  monaco.languages.setLanguageConfiguration(languageId, conf);
+  monaco.languages.setMonarchTokensProvider(languageId, language);
+}

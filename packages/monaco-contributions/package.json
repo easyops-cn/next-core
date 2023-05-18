@@ -8,12 +8,25 @@
     "url": "git@github.com:easyops-cn/next-core.git"
   },
   "type": "module",
-  "typings": "index.d.ts",
-  "files": [
-    "dist",
-    "index.d.ts"
-  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./javascript": {
+      "types": "./javascript.d.ts",
+      "import": "./javascript.js"
+    },
+    "./typescript": {
+      "types": "./typescript.d.ts",
+      "import": "./typescript.js"
+    },
+    "./yaml": {
+      "types": "./yaml.d.ts",
+      "import": "./yaml.js"
+    }
+  },
   "devDependencies": {
+    "monaco-editor": "^0.37.1"
+  },
+  "peerDependencies": {
     "monaco-editor": "^0.37.1"
   }
 }
