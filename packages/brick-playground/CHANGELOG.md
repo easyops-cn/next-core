@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.8.15...@next-core/brick-playground@1.9.0) (2023-05-18)
+
+
+### Features
+
+* separate preview and playground ([9f30845](https://github.com/easyops-cn/next-core/commit/9f30845239d6bc0c54fdd190de73748f640b43d1))
+
+
+
+
+
 ## [1.8.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.8.14...@next-core/brick-playground@1.8.15) (2023-05-17)
 
 **Note:** Version bump only for package @next-core/brick-playground

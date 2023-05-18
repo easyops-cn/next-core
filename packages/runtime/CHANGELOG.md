@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.9.0...@next-core/runtime@1.10.0) (2023-05-18)
+
+
+### Features
+
+* support context batchUpdate ([4ab805b](https://github.com/easyops-cn/next-core/commit/4ab805b2d0e3802a37a84ad8796da079f5fdf01b))
+
+
+
+
+
 # [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.8.0...@next-core/runtime@1.9.0) (2023-05-17)
 
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.41](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.40...@next-bricks/e2e@0.0.41) (2023-05-18)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
 ## [0.0.40](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.39...@next-bricks/e2e@0.0.40) (2023-05-17)
 
 **Note:** Version bump only for package @next-bricks/e2e
