@@ -38,7 +38,7 @@
     "cssnano": "^6.0.1",
     "cssnano-preset-lite": "^3.0.0",
     "lodash": "^4.17.21",
-    "mini-css-extract-plugin": "^2.7.5",
+    "mini-css-extract-plugin": "^2.7.6",
     "postcss": "^8.4.23",
     "postcss-loader": "^7.3.0",
     "postcss-preset-env": "^8.3.2",
