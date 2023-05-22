@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.4.0...@next-core/storyboard@0.5.0) (2023-05-22)
+
+
+### Features
+
+* storyboard add condition event rule ([47a08a3](https://github.com/easyops-cn/next-core/commit/47a08a33bbabc9da2a8c7b18df0072ccec516dd1))
+
+
+
+
+
 # [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.3.7...@next-core/storyboard@0.4.0) (2023-05-22)
 
 
