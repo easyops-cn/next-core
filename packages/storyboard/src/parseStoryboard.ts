@@ -4,6 +4,7 @@ import type {
   BrickEventHandlerCallback,
   BrickEventsMap,
   BrickLifeCycle,
+  ConditionalEventHandler,
   ContextConf,
   CustomTemplate,
   CustomTemplateConstructor,
@@ -351,6 +352,8 @@ function parseEventHandlers(
       callback: parseEventCallback(
         (handler as UseProviderEventHandler).callback
       ),
+      then: parseEventHandlers((handler as ConditionalEventHandler).then),
+      else: parseEventHandlers((handler as ConditionalEventHandler).else),
       raw: handler,
     }));
 }

@@ -216,6 +216,8 @@ export interface StoryboardNodeEventHandler {
   type: "EventHandler";
   raw: BrickEventHandler;
   callback: StoryboardNodeEventCallback[] | undefined;
+  then: StoryboardNodeEventHandler[] | undefined;
+  else: StoryboardNodeEventHandler[] | undefined;
 }
 
 export interface StoryboardNodeConditionalEvent {
