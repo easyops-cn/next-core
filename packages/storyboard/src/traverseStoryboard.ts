@@ -98,6 +98,8 @@ function traverseNode(
       break;
     case "EventHandler":
       traverseNodes(node.callback, callback, childPath);
+      traverseNodes(node.then, callback, childPath);
+      traverseNodes(node.else, callback, childPath);
       break;
     case "ConditionalLifeCycle":
       traverseNodes(node.events, callback, childPath);
