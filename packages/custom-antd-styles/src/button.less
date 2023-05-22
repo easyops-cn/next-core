@@ -117,6 +117,80 @@
     }
   }
 
+  &-dangerous {
+    color: var(--antd-btn-danger-bg-image);
+    border-color: var(--antd-btn-danger-bg-image);
+    background: var(--antd-btn-default-bg);
+
+    &:hover,
+    &:focus {
+      color: var(--antd-btn-danger-hover-bg);
+      border-color: var(--antd-btn-danger-hover-bg);
+      background: var(--antd-btn-danger-hover-color);
+    }
+
+    &.active,
+    &:active {
+      color: var(--antd-btn-danger-active-bg);
+      border-color: var(--antd-btn-danger-active-bg);
+      background: var(--antd-btn-danger-active-color);
+    }
+
+    &.@{btn-prefix-cls}-primary {
+      background-image: var(--antd-btn-danger-bg-image);
+
+      &[disabled] {
+        background-image: none;
+      }
+
+      &:hover,
+      &:focus {
+        color: var(--antd-btn-danger-hover-color);
+        background-color: var(--antd-btn-danger-hover-bg);
+        border-color: var(--antd-btn-danger-hover-bg);
+      }
+
+      &.active,
+      &:active {
+        color: var(--antd-btn-danger-active-color);
+        background-color: var(--antd-btn-danger-active-bg);
+        border-color: var(--antd-btn-danger-active-bg);
+      }
+    }
+
+    &.@{btn-prefix-cls}-link {
+      &:hover,
+      &:focus {
+        color: var(--antd-btn-danger-hover-bg);
+        border-color: transparent;
+        background-color: transparent;
+      }
+
+      &.active,
+      &:active {
+        color: var(--antd-btn-danger-active-bg);
+        border-color: transparent;
+        background-color: transparent;
+      }
+    }
+
+    &.@{btn-prefix-cls}-text {
+      &:hover,
+      &:focus {
+        color: var(--antd-btn-danger-hover-bg);
+        background-color: rgba(0, 0, 0, 0.018);
+        border-color: transparent;
+      }
+
+      &.active,
+      &:active {
+        color: var(--antd-btn-danger-active-bg);
+        background-color: rgba(0, 0, 0, 0.028);
+        border-color: transparent;
+      }
+    }
+  }
+
   &-circle {
     border-radius: 50%;
   }
