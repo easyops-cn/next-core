@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.22](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.21...@next-core/custom-antd-styles@1.25.22) (2023-05-23)
+
+
+### Bug Fixes
+
+* **button:** add danger styles ([a7fdc23](https://github.com/easyops-cn/next-core/commit/a7fdc2300dc787b65e3fac0e025ec334b265e1c4))
+
+
+
+
+
 ## [1.25.21](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.20...@next-core/custom-antd-styles@1.25.21) (2023-04-24)
 
 
