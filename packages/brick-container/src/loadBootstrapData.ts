@@ -182,7 +182,7 @@ async function safeGetRuntimeMicroAppStandalone(appId: string) {
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
     if (!window.NO_AUTH_GUARD) {
-      let appRuntimeData: RuntimeMicroAppStandaloneData | void;
+      let appRuntimeData: RuntimeMicroAppStandaloneData | undefined;
       try {
         // Note: the request maybe have fired already during bootstrap.
         appRuntimeData = await safeGetRuntimeMicroAppStandalone(
