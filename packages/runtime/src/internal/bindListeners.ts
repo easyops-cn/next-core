@@ -13,6 +13,7 @@ import type {
   BatchUpdateContextItem,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
+import { isObject } from "@next-core/utils/general";
 import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { getHistory } from "../history.js";
@@ -31,11 +32,10 @@ import {
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
 import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
-import { getArgsOfFlowApi } from "./data/FlowApi.js";
 import { Notification } from "../Notification.js";
 import { getFormStateStore } from "./FormRenderer/utils.js";
 import { DataStore } from "./data/DataStore.js";
-import { isObject } from "@next-core/utils/general";
+import { hooks } from "./Runtime.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -437,8 +437,11 @@ async function brickCallback(
       event,
       options
     );
-    if (isUseProviderHandler(handler)) {
-      computedArgs = await getArgsOfFlowApi(
+    if (
+      isUseProviderHandler(handler) &&
+      hooks?.flowApi?.isFlowApiProvider(handler.useProvider)
+    ) {
+      computedArgs = await hooks.flowApi.getArgsOfFlowApi(
         handler.useProvider,
         computedArgs,
         method

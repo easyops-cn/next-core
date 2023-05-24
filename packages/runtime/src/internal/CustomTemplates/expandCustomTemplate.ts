@@ -18,7 +18,7 @@ import type {
 } from "../interfaces.js";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 import { childrenToSlots } from "../Renderer.js";
-import { collectWidgetContract } from "../data/CollectContracts.js";
+import { hooks } from "../Runtime.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
@@ -43,7 +43,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   }
 
   const { bricks, proxy, state, contracts } = customTemplates.get(tplTagName)!;
-  collectWidgetContract(contracts);
+  hooks?.flowApi?.collectWidgetContract(contracts);
   tplStateStore.define(state, runtimeContext, asyncHostProperties);
 
   const {

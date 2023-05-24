@@ -3,10 +3,13 @@ import type {
   BootstrapSettings,
   FeatureFlags,
   BootstrapData,
+  Contract,
+  Storyboard,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import { loadBricksImperatively } from "@next-core/loader";
 import { deepFreeze, isObject } from "@next-core/utils/general";
+import type { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
 import moment from "moment";
 import "moment/locale/zh-cn.js";
 import { createHistory } from "../history.js";
@@ -16,6 +19,7 @@ import { NS, locales } from "./i18n.js";
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { injectedBrickPackages } from "./injected.js";
+import type { AppForCheck } from "./checkInstalledApps.js";
 
 let runtime: Runtime;
 
@@ -29,6 +33,28 @@ export interface RuntimeOptions {
 
 export interface RuntimeHooks {
   fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
+  validatePermissions?: typeof PermissionApi_validatePermissions;
+  checkInstalledApps?: {
+    preCheckInstalledApps(
+      storyboard: Storyboard,
+      hasAppInBootstrap: (appId: string) => boolean
+    ): void;
+    waitForCheckingApps(appIds: string[]): Promise<void>;
+    getCheckedApp(appId: string): AppForCheck | undefined;
+  };
+  flowApi?: {
+    FLOW_API_PROVIDER: string;
+    registerFlowApiProvider(): void;
+    isFlowApiProvider(provider: string): boolean;
+    getArgsOfFlowApi(
+      provider: string,
+      originalArgs: unknown[],
+      method?: string
+    ): Promise<unknown[]>;
+    collectContract(contracts: Contract[] | undefined): void;
+    collectWidgetContract(contracts: Contract[] | undefined): void;
+    clearCollectWidgetContract(): void;
+  };
 }
 
 export let hooks: RuntimeHooks | undefined;
