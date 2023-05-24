@@ -84,6 +84,26 @@ export interface CookHooks {
   beforeBranch?(node: EstreeNode, branch: "if" | "else"): void;
 }
 
+export function nativeCook(
+  rootAst: Expression,
+  codeSource: string,
+  attemptToVisitGlobals: string[],
+  globalVariables: Record<string, unknown>
+) {
+  try {
+    const fn = new Function(
+      attemptToVisitGlobals.join(","),
+      `return (${codeSource})`
+    );
+    return fn(...attemptToVisitGlobals.map((key) => globalVariables[key]));
+  } catch (e) /* istanbul ignore next */ {
+    if (process.env.NODE_ENV === "test") {
+      throw e;
+    }
+    return cook(rootAst, codeSource, { globalVariables });
+  }
+}
+
 /** For next-core internal usage only. */
 export function cook(
   rootAst: FunctionDeclaration | Expression,

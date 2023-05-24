@@ -1,6 +1,6 @@
 import { supply } from "@next-core/supply";
 import { cloneDeep } from "lodash";
-import { cook } from "./cook.js";
+import { cook, nativeCook } from "./cook.js";
 import { precookFunction } from "./precookFunction.js";
 import { preevaluate } from "./preevaluate.js";
 import {
@@ -160,6 +160,15 @@ describe("evaluate", () => {
         expect(equivalentFunc(source, attemptToVisitGlobals, true)).toEqual(
           result
         );
+
+        expect(
+          nativeCook(
+            exprAst,
+            source,
+            [...attemptToVisitGlobals],
+            globalVariables
+          )
+        ).toEqual(result);
       }
       expect(received).toEqual(result);
     }

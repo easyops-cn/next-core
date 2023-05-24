@@ -1,5 +1,5 @@
 import {
-  cook,
+  nativeCook,
   preevaluate,
   PreevaluateResult,
   shouldAllowRecursiveEvaluations,
@@ -479,12 +479,12 @@ function lowLevelEvaluate(
       );
 
       try {
-        const result = cook(precooked.expression, precooked.source, {
-          globalVariables: supply(
-            precooked.attemptToVisitGlobals,
-            globalVariables
-          ),
-        });
+        const result = nativeCook(
+          precooked.expression,
+          precooked.source,
+          [...precooked.attemptToVisitGlobals],
+          supply(precooked.attemptToVisitGlobals, globalVariables)
+        );
         // const detail = { raw, context: globalVariables, result };
         // if (options.isReEvaluation) {
         //   devtoolsHookEmit("re-evaluation", {
