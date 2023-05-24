@@ -44,6 +44,6 @@
     "postcss-preset-env": "^8.4.1",
     "style-loader": "^3.3.3",
     "typescript": "^5.0.4",
-    "webpack": "^5.83.1"
+    "webpack": "^5.84.0"
   }
 }
