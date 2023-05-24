@@ -14,7 +14,7 @@ import { getI18nNamespace } from "../registerAppI18n.js";
 import { customProcessors } from "../../CustomProcessors.js";
 import { getStorageItem } from "./getStorageItem.js";
 import { checkPermissions } from "../checkPermissions.js";
-import { hasInstalledApp } from "../checkInstalledApps.js";
+import { hasInstalledApp } from "../hasInstalledApp.js";
 import { registerWidgetFunctions } from "./WidgetFunctions.js";
 import { getRuntime } from "../Runtime.js";
 import { getMenuById } from "../menu/fetchMenuById.js";
@@ -30,7 +30,7 @@ jest.mock("@next-core/loader", () => ({
 }));
 jest.mock("./getStorageItem.js");
 jest.mock("../checkPermissions.js");
-jest.mock("../checkInstalledApps.js");
+jest.mock("../hasInstalledApp.js");
 jest.mock("../Runtime.js");
 jest.mock("../menu/fetchMenuById.js");
 
@@ -138,6 +138,7 @@ const runtimeContext: RuntimeContext = {
   ctxStore,
   tplStateStoreId,
   tplStateStoreMap,
+  formStateStoreMap: null!,
   app: {
     id: "hello",
     name: "Hello",

@@ -35,7 +35,7 @@ import { widgetFunctions } from "./WidgetFunctions.js";
 import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { widgetImagesFactory } from "./images.js";
-import { hasInstalledApp } from "../checkInstalledApps.js";
+import { hasInstalledApp } from "../hasInstalledApp.js";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 import { getFormStateStore } from "../FormRenderer/utils.js";
 

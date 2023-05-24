@@ -19,7 +19,7 @@ import { NS, locales } from "./i18n.js";
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { injectedBrickPackages } from "./injected.js";
-import type { AppForCheck } from "./checkInstalledApps.js";
+import type { AppForCheck } from "./hasInstalledApp.js";
 
 let runtime: Runtime;
 
