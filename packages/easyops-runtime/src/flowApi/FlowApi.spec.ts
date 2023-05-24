@@ -67,14 +67,14 @@ jest
         return {
           contractData: {
             endpoint: {
-              method: "GET",
+              method: "LIST",
               uri: "/a/b/c/:objectId",
             },
             instanceId: "abcdefg",
             name: "TestMock",
             namespaceId: "easyops.api.test.sailor",
             namespace: [{ name: "easyops.api.test.sailor" }],
-            version: "1.0.0",
+            // version: "1.0.0",
             response: {
               default: {},
               description: "tt",
@@ -92,8 +92,10 @@ jest
         };
       case "easyops.custom_api.noneMock":
         return {};
-      case "invalid.export_api":
-        return {};
+      case "easyops.custom_api.noUri":
+        return {
+          contractData: {},
+        };
     }
   });
 
@@ -172,9 +174,9 @@ describe("FlowApi", () => {
       await getArgsOfFlowApi("easyops.custom_api@TestMock:1.0.0", ["object-1"])
     ).toEqual([
       {
-        method: "GET",
+        method: "get",
         responseWrapper: true,
-        url: "api/gateway/easyops.api.test.sailor.TestMock@1.0.0/a/b/c/object-1",
+        url: "api/gateway/api_service.easyops.api.test.sailor.TestMock/a/b/c/object-1",
         originalUri: "/a/b/c/:objectId",
         isFileType: false,
       },
@@ -195,11 +197,27 @@ describe("FlowApi", () => {
     ]);
   });
 
-  it("getArgsOfCustomApi should throw error", async () => {
+  it("getArgsOfCustomApi should throw error for legacy custom API", async () => {
     await expect(() =>
       getArgsOfFlowApi("easyops.custom_api@notFoundApi", [])
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"You're using legacy Custom API "easyops.custom_api@notFoundApi" which is dropped in v3, please use Flow API instead"`
+    );
+  });
+
+  it("getArgsOfCustomApi should throw error if API not found", async () => {
+    await expect(() =>
+      getArgsOfFlowApi("easyops.custom_api@noneMock:1.0.0", [])
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Flow API not found: "easyops.custom_api@noneMock:1.0.0""`
+    );
+  });
+
+  it("getArgsOfCustomApi should throw error if no uri", async () => {
+    await expect(() =>
+      getArgsOfFlowApi("easyops.custom_api@noUri:1.0.0", [])
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Missing endpoint.uri in contract of provider "easyops.custom_api@noUri:1.0.0""`
     );
   });
 });

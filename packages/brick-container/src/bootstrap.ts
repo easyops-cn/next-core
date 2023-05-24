@@ -1,6 +1,11 @@
 import { createRuntime, getAuth, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
+import {
+  validatePermissions,
+  flowApi,
+  checkInstalledApps,
+} from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
 import { loadCheckLogin } from "./loadCheckLogin.js";
@@ -75,6 +80,9 @@ let previewRequested = false;
 const runtime = createRuntime({
   hooks: {
     fulfilStoryboard,
+    validatePermissions,
+    flowApi,
+    checkInstalledApps,
   },
 });
 

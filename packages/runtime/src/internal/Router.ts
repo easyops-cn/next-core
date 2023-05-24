@@ -24,7 +24,11 @@ import {
   setMode,
   setTheme,
 } from "../themeAndMode.js";
-import { getRuntime } from "./Runtime.js";
+import {
+  _internalApiGetAppInBootstrapData,
+  getRuntime,
+  hooks,
+} from "./Runtime.js";
 import { getAuth, isLoggedIn } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
@@ -36,13 +40,8 @@ import {
 } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
-import {
-  clearCollectWidgetContract,
-  collectContract,
-} from "./data/CollectContracts.js";
 import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
-import { preCheckInstalledApps } from "./checkInstalledApps.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 
 export class Router {
@@ -224,7 +223,7 @@ export class Router {
 
     resetAllComputedMarks();
     clearResolveCache();
-    clearCollectWidgetContract();
+    hooks?.flowApi?.clearCollectWidgetContract();
 
     const history = getHistory();
     history.unblock();
@@ -303,7 +302,10 @@ export class Router {
     };
 
     if (currentApp) {
-      preCheckInstalledApps(storyboard);
+      hooks?.checkInstalledApps?.preCheckInstalledApps(
+        storyboard,
+        (appId) => !!_internalApiGetAppInBootstrapData(appId)
+      );
 
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
@@ -327,7 +329,7 @@ export class Router {
 
       registerCustomTemplates(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
-      collectContract(storyboard.meta?.contracts);
+      hooks?.flowApi?.collectContract(storyboard.meta?.contracts);
 
       let failed = false;
       let output: RenderOutput;

@@ -15,6 +15,7 @@ import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
+import type { Contract } from '@next-core/types';
 import type { CustomTemplate } from '@next-core/types';
 import type { CustomTemplateConstructor } from '@next-core/types';
 import type { CustomTemplateProxy } from '@next-core/types';
@@ -26,6 +27,7 @@ import { Location as Location_2 } from 'history';
 import { LocationDescriptor } from 'history';
 import type { MetaI18n } from '@next-core/types';
 import { MicroApp } from '@next-core/types';
+import type { PermissionApi_validatePermissions } from '@next-api-sdk/micro-app-sdk';
 import type { RouteConf } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
@@ -268,7 +270,25 @@ interface RenderUseBrickResult {
 // @public (undocumented)
 export interface RuntimeHooks {
     // (undocumented)
+    checkInstalledApps?: {
+        preCheckInstalledApps(storyboard: Storyboard, hasAppInBootstrap: (appId: string) => boolean): void;
+        waitForCheckingApps(appIds: string[]): Promise<void>;
+        getCheckedApp(appId: string): AppForCheck | undefined;
+    };
+    // (undocumented)
+    flowApi?: {
+        FLOW_API_PROVIDER: string;
+        registerFlowApiProvider(): void;
+        isFlowApiProvider(provider: string): boolean;
+        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string): Promise<unknown[]>;
+        collectContract(contracts: Contract[] | undefined): void;
+        collectWidgetContract(contracts: Contract[] | undefined): void;
+        clearCollectWidgetContract(): void;
+    };
+    // (undocumented)
     fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
+    // (undocumented)
+    validatePermissions?: typeof PermissionApi_validatePermissions;
 }
 
 // @public (undocumented)
@@ -322,6 +342,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:14:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

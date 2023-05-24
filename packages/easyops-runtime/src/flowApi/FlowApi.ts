@@ -19,10 +19,6 @@ export async function getArgsOfFlowApi(
   originalArgs: unknown[],
   method?: string
 ): Promise<unknown[]> {
-  if (!isFlowApiProvider(provider)) {
-    return originalArgs;
-  }
-
   if (!provider.includes(":")) {
     throw new Error(
       `You're using legacy Custom API "${provider}" which is dropped in v3, please use Flow API instead`

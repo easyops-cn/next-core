@@ -1,5 +1,4 @@
 import { scanPermissionActionsInStoryboard } from "@next-core/utils/storyboard";
-import { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
 import {
   preCheckPermissions as _preCheckPermissions,
   checkPermissions as _checkPermissions,
@@ -7,10 +6,15 @@ import {
   resetPermissionPreChecks as _resetPermissionPreChecks,
 } from "./checkPermissions.js";
 import { isLoggedIn, getAuth } from "../auth.js";
+import { hooks } from "./Runtime.js";
 
 jest.mock("@next-core/utils/storyboard");
-jest.mock("@next-api-sdk/micro-app-sdk");
 jest.mock("../auth.js");
+jest.mock("./Runtime.js", () => ({
+  hooks: {
+    validatePermissions: jest.fn(),
+  },
+}));
 
 const mockIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 const mockGetAuth = (getAuth as jest.Mock).mockReturnValue({});
@@ -19,10 +23,7 @@ const mockScanPermissionActionsInStoryboard =
   scanPermissionActionsInStoryboard as jest.MockedFunction<
     typeof scanPermissionActionsInStoryboard
   >;
-const mockValidatePermissions =
-  PermissionApi_validatePermissions as jest.MockedFunction<
-    typeof PermissionApi_validatePermissions
-  >;
+const mockValidatePermissions = hooks!.validatePermissions! as jest.Mock;
 const mockConsoleError = jest
   .spyOn(console, "error")
   .mockImplementation(() => void 0);

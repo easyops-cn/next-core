@@ -7,7 +7,12 @@ import {
 import { loadProcessorsImperatively } from "@next-core/loader";
 import { supply } from "@next-core/supply";
 import { hasOwnProperty } from "@next-core/utils/general";
-import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
+import {
+  strictCollectMemberUsage,
+  collectAppGetMenuUsage,
+  collectInstalledAppsHasUsage,
+  MemberCallUsage,
+} from "@next-core/utils/storyboard";
 import type { RuntimeContext } from "../interfaces.js";
 import { cloneDeep, omit } from "lodash";
 import { customProcessors } from "../../CustomProcessors.js";
@@ -23,19 +28,14 @@ import {
 import { getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
-import { getBrickPackages, getRuntime } from "../Runtime.js";
+import { getBrickPackages, getRuntime, hooks } from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
-import {
-  collectAppGetMenuUsage,
-  collectInstalledAppsHasUsage,
-  MemberCallUsage,
-} from "./collectMemberCallUsage.js";
 import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { widgetImagesFactory } from "./images.js";
-import { hasInstalledApp, waitForCheckingApps } from "../checkInstalledApps.js";
+import { hasInstalledApp } from "../hasInstalledApp.js";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 import { getFormStateStore } from "../FormRenderer/utils.js";
 
@@ -289,7 +289,11 @@ function lowLevelEvaluate(
 
     if (hasAppUsage.usedArgs.size > 0) {
       // Only wait for specific apps
-      blockingList.push(waitForCheckingApps([...hasAppUsage.usedArgs]));
+      blockingList.push(
+        hooks?.checkInstalledApps?.waitForCheckingApps([
+          ...hasAppUsage.usedArgs,
+        ])
+      );
     }
   }
 
