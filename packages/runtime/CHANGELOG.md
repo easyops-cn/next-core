@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.10.1...@next-core/runtime@1.11.0) (2023-05-25)
+
+
+### Features
+
+* decouple easyops runtime ([8caed78](https://github.com/easyops-cn/next-core/commit/8caed78ea86917369118b9bfdd6aba8acba2e046))
+
+
+
+
+
 ## [1.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.10.0...@next-core/runtime@1.10.1) (2023-05-18)
 
 **Note:** Version bump only for package @next-core/runtime
