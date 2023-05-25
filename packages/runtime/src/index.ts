@@ -12,9 +12,11 @@ export {
   getRuntime,
   type RuntimeOptions,
   type RuntimeHooks,
+  type RuntimeHooksMenuHelpers,
 } from "./internal/Runtime.js";
 import * as __secret_internals from "./internal/secret_internals.js";
 export { __secret_internals };
+export { __test_only } from "./internal/test_only.js";
 export {
   getCssPropertyValue,
   getCurrentTheme,

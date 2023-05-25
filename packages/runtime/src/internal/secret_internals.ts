@@ -22,6 +22,8 @@ import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 
+export type { RuntimeContext } from "./interfaces.js";
+
 export interface RenderUseBrickResult {
   tagName: string | null;
   renderRoot: RenderRoot;
@@ -146,6 +148,7 @@ export function unmountUseBrick(
   rendererContext.dispose();
 }
 
+/** For v2 compatibility of `doTransform` from brick-kit. */
 export function legacyDoTransform(
   data: unknown,
   to: unknown,

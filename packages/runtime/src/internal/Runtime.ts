@@ -5,6 +5,9 @@ import type {
   BootstrapData,
   Contract,
   Storyboard,
+  BrickConf,
+  RouteConf,
+  ResolveConf,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import { loadBricksImperatively } from "@next-core/loader";
@@ -20,6 +23,7 @@ import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { injectedBrickPackages } from "./injected.js";
 import type { AppForCheck } from "./hasInstalledApp.js";
+import type { RuntimeContext } from "./interfaces.js";
 
 let runtime: Runtime;
 
@@ -32,8 +36,22 @@ export interface RuntimeOptions {
 }
 
 export interface RuntimeHooks {
+  auth?: {
+    getAuth(): object;
+    isLoggedIn(): boolean;
+    authenticate?(...args: unknown[]): unknown;
+    logout?(...args: unknown[]): unknown;
+  };
   fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
   validatePermissions?: typeof PermissionApi_validatePermissions;
+  checkPermissions?: {
+    checkPermissions(...actions: string[]): boolean;
+    preCheckPermissions(storyboard: Storyboard): Promise<void> | undefined;
+    preCheckPermissionsForBrickOrRoute(
+      container: BrickConf | RouteConf,
+      asyncComputeRealValue: (value: unknown) => Promise<unknown>
+    ): Promise<void> | undefined;
+  };
   checkInstalledApps?: {
     preCheckInstalledApps(
       storyboard: Storyboard,
@@ -55,6 +73,27 @@ export interface RuntimeHooks {
     collectWidgetContract(contracts: Contract[] | undefined): void;
     clearCollectWidgetContract(): void;
   };
+  menu?: {
+    getMenuById(menuId: string): unknown;
+    fetchMenuById(
+      menuId: string,
+      runtimeContext: RuntimeContext,
+      runtimeHelpers: RuntimeHooksMenuHelpers
+    ): Promise<unknown>;
+  };
+}
+
+export interface RuntimeHooksMenuHelpers {
+  getStoryboardByAppId(appId: string): Storyboard | undefined;
+  resolveData(
+    resolveConf: ResolveConf,
+    runtimeContext: RuntimeContext
+  ): Promise<unknown>;
+  asyncComputeRealValue(
+    value: unknown,
+    runtimeContext: RuntimeContext,
+    options?: { ignoreSymbols?: boolean; noInject?: boolean }
+  ): Promise<unknown>;
 }
 
 export let hooks: RuntimeHooks | undefined;
@@ -252,6 +291,7 @@ export function _internalApiGetAppInBootstrapData(appId: string) {
 
 export let _test_only_setBootstrapData: (data: BootstrapData) => void;
 
+// istanbul ignore next
 if (process.env.NODE_ENV === "test") {
   _test_only_setBootstrapData = (data) => {
     bootstrapData = data as BootstrapData;

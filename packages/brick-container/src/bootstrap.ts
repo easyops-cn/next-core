@@ -1,10 +1,12 @@
-import { createRuntime, getAuth, httpErrorToString } from "@next-core/runtime";
+import { createRuntime, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
 import {
-  validatePermissions,
   flowApi,
   checkInstalledApps,
+  auth,
+  checkPermissions,
+  menu,
 } from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
@@ -19,7 +21,7 @@ http.interceptors.request.use((config) => {
   const headers = new Headers(config.options?.headers || {});
 
   headers.set("lang", i18n.resolvedLanguage ?? i18n.language);
-  const { csrfToken } = getAuth();
+  const { csrfToken } = auth.getAuth();
   csrfToken && headers.set("X-CSRF-Token", csrfToken);
 
   // const mockInfo = getMockInfo(config.url, config.method);
@@ -79,10 +81,12 @@ let previewRequested = false;
 
 const runtime = createRuntime({
   hooks: {
+    auth,
     fulfilStoryboard,
-    validatePermissions,
+    checkPermissions,
     flowApi,
     checkInstalledApps,
+    menu,
   },
 });
 

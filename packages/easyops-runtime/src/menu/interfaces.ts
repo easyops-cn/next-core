@@ -1,9 +1,17 @@
 import type { MetaI18n, MicroApp, ResolveConf } from "@next-core/types";
+import type {
+  RuntimeHooksMenuHelpers,
+  __secret_internals,
+} from "@next-core/runtime";
 import {
   symbolAppId,
   symbolMenuI18nNamespace,
   symbolOverrideApp,
 } from "./constants.js";
+
+export type RuntimeContext = __secret_internals.RuntimeContext;
+
+export type RuntimeHelpers = RuntimeHooksMenuHelpers;
 
 /** 原始菜单数据。 */
 export interface MenuRawData {

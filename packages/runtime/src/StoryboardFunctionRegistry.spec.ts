@@ -3,9 +3,17 @@ import {
   StoryboardFunctionRegistryFactory,
   FunctionCoverageCollector,
 } from "./StoryboardFunctionRegistry.js";
-import { checkPermissions } from "./internal/checkPermissions.js";
 
-jest.mock("./internal/checkPermissions.js");
+jest.mock("./internal/Runtime.js", () => ({
+  hooks: {
+    checkPermissions: {
+      checkPermissions(actions: string[]) {
+        return !actions.includes("my:action-b");
+      },
+    },
+  },
+}));
+
 jest.mock("@next-core/i18n", () => ({
   i18n: {
     getFixedT(lang: string, ns: string) {
@@ -16,12 +24,6 @@ jest.mock("@next-core/i18n", () => ({
     return data.zh;
   },
 }));
-
-(
-  checkPermissions as jest.MockedFunction<typeof checkPermissions>
-).mockImplementation((...actions) => {
-  return !actions.includes("my:action-b");
-});
 
 const consoleLog = jest.spyOn(console, "log").mockImplementation();
 

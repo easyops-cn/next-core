@@ -28,16 +28,22 @@ import {
 import { getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
-import { getBrickPackages, getRuntime, hooks } from "../Runtime.js";
+import {
+  _internalApiGetStoryboardInBootstrapData,
+  getBrickPackages,
+  getRuntime,
+  hooks,
+} from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
-import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { widgetImagesFactory } from "./images.js";
 import { hasInstalledApp } from "../hasInstalledApp.js";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 import { getFormStateStore } from "../FormRenderer/utils.js";
+import { resolveData } from "../data/resolveData.js";
+import { asyncComputeRealValue } from "./computeRealValue.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -277,12 +283,18 @@ function lowLevelEvaluate(
       blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
     }
 
-    if (menuUsage.usedArgs.size > 0) {
+    if (menuUsage.usedArgs.size > 0 && hooks?.menu) {
       // Block evaluating if has `APP.getMenu(...)` usage.
       const usedMenuIds = [...menuUsage.usedArgs];
       blockingList.push(
         Promise.all(
-          usedMenuIds.map((menuId) => fetchMenuById(menuId, runtimeContext))
+          usedMenuIds.map((menuId) =>
+            hooks!.menu!.fetchMenuById(menuId, runtimeContext, {
+              getStoryboardByAppId: _internalApiGetStoryboardInBootstrapData,
+              resolveData,
+              asyncComputeRealValue,
+            })
+          )
         )
       );
     }
@@ -324,7 +336,7 @@ function lowLevelEvaluate(
           case "APP":
             globalVariables[variableName] = {
               ...cloneDeep(app),
-              getMenu: getMenuById,
+              getMenu: hooks?.menu?.getMenuById,
             };
             break;
           case "CTX":

@@ -15,7 +15,6 @@ import { clearResolveCache } from "./data/resolveData.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
-import { preCheckPermissions } from "./checkPermissions.js";
 import { RendererContext } from "./RendererContext.js";
 import {
   applyMode,
@@ -29,7 +28,6 @@ import {
   getRuntime,
   hooks,
 } from "./Runtime.js";
-import { getAuth, isLoggedIn } from "../auth.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
@@ -313,11 +311,13 @@ export class Router {
         query: new URLSearchParams(location.search),
         flags,
         sys: {
-          ...getAuth(),
+          ...hooks?.auth?.getAuth(),
           ...getPageInfo(),
         },
         ctxStore: new DataStore("CTX"),
-        pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
+        pendingPermissionsPreCheck: [
+          hooks?.checkPermissions?.preCheckPermissions(storyboard),
+        ],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       });
@@ -429,7 +429,11 @@ export class Router {
 
         return;
       }
-    } else if (!window.NO_AUTH_GUARD && !isLoggedIn()) {
+    } else if (
+      !window.NO_AUTH_GUARD &&
+      hooks?.auth &&
+      !hooks.auth.isLoggedIn()
+    ) {
       // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
       // Redirect to login if no storyboard is matched.
       redirectToLogin();

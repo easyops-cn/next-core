@@ -1,10 +1,9 @@
-import { asyncComputeRealValue } from "../compute/computeRealValue.js";
-import type { RuntimeContext } from "../interfaces.js";
 import type {
+  RuntimeContext,
+  RuntimeHelpers,
   RuntimeMenuItemRawData,
   RuntimeMenuRawData,
 } from "./interfaces.js";
-import { _internalApiGetAppInBootstrapData } from "../Runtime.js";
 import {
   symbolAppId,
   symbolMenuI18nNamespace,
@@ -16,32 +15,38 @@ type RuntimeMenuItemRestRawData = Omit<RuntimeMenuItemRawData, "children">;
 
 export function computeMenuData<
   T extends RuntimeMenuRestRawData | RuntimeMenuItemRestRawData
->(data: T, overrideAppId: string, runtimeContext: RuntimeContext): Promise<T> {
+>(
+  data: T,
+  overrideAppId: string,
+  runtimeContext: RuntimeContext,
+  helpers: RuntimeHelpers
+): Promise<T> {
   let newRuntimeContext = runtimeContext;
   if (overrideAppId !== runtimeContext.app.id) {
     const overrideApp = window.STANDALONE_MICRO_APPS
       ? data[symbolOverrideApp]
-      : _internalApiGetAppInBootstrapData(overrideAppId);
+      : helpers.getStoryboardByAppId(overrideAppId)?.app;
     newRuntimeContext = {
       ...runtimeContext,
       overrideApp,
       appendI18nNamespace: data[symbolMenuI18nNamespace],
     };
   }
-  return asyncComputeRealValue(data, newRuntimeContext, {
+  return helpers.asyncComputeRealValue(data, newRuntimeContext, {
     ignoreSymbols: true,
   }) as Promise<T>;
 }
 
 export function computeMenuItems(
   items: RuntimeMenuItemRawData[],
-  runtimeContext: RuntimeContext
+  runtimeContext: RuntimeContext,
+  helpers: RuntimeHelpers
 ): Promise<RuntimeMenuItemRawData[]> {
   return Promise.all(
     items.map(async ({ children, ...rest }) => {
       const [computedRest, computedChildren] = await Promise.all([
-        computeMenuData(rest, rest[symbolAppId], runtimeContext),
-        children && (await computeMenuItems(children, runtimeContext)),
+        computeMenuData(rest, rest[symbolAppId], runtimeContext, helpers),
+        children && (await computeMenuItems(children, runtimeContext, helpers)),
       ]);
       return {
         ...computedRest,

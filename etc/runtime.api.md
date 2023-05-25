@@ -5,7 +5,6 @@
 ```ts
 
 import type { Action } from 'history';
-import type { AuthApi_CheckLoginResponseBody } from '@next-api-sdk/api-gateway-sdk';
 import type { BatchUpdateContextItem } from '@next-core/types';
 import type { BootstrapData } from '@next-core/types';
 import { BreadcrumbItemConf } from '@next-core/types';
@@ -28,6 +27,7 @@ import { LocationDescriptor } from 'history';
 import type { MetaI18n } from '@next-core/types';
 import { MicroApp } from '@next-core/types';
 import type { PermissionApi_validatePermissions } from '@next-api-sdk/micro-app-sdk';
+import type { ResolveConf } from '@next-core/types';
 import type { RouteConf } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
@@ -48,6 +48,7 @@ declare namespace __secret_internals {
         updateStoryboardByTemplate,
         updateTemplatePreviewSettings,
         updateStoryboardBySnippet,
+        RuntimeContext,
         RenderUseBrickResult,
         MountUseBrickResult,
         updateSnippetPreviewSettings
@@ -56,17 +57,15 @@ declare namespace __secret_internals {
 export { __secret_internals }
 
 // @public (undocumented)
+export let __test_only: RuntimeHooksMenuHelpers & {
+    setBootstrapData(data: BootstrapData): void;
+};
+
+// @public (undocumented)
 export function applyTheme(value?: SiteTheme): void;
 
-// Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export function authenticate(newAuth: AuthInfo): void;
-
-// Warning: (ae-internal-missing-underscore) The name "AuthInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export type AuthInfo = Omit<AuthApi_CheckLoginResponseBody, "loggedIn">;
+// @public @deprecated (undocumented)
+export function authenticate(...args: unknown[]): void;
 
 // Warning: (ae-forgotten-export) The symbol "AppThemes" needs to be exported by the entry point index.d.ts
 //
@@ -129,10 +128,8 @@ export interface DialogOptions {
 // @public (undocumented)
 export function fetchByProvider(provider: string, args: unknown[], options?: ResolveOptions): Promise<unknown>;
 
-// Warning: (ae-incompatible-release-tags) The symbol "getAuth" is marked as @public, but its signature references "AuthInfo" which is marked as @internal
-//
-// @public
-export function getAuth(): AuthInfo;
+// @public @deprecated (undocumented)
+export function getAuth(): object | undefined;
 
 // @public
 export function getBasePath(): string;
@@ -161,19 +158,17 @@ export function handleHttpError(error: unknown): void;
 // @public
 export function httpErrorToString(error: unknown): string;
 
-// @public
-export function isLoggedIn(): boolean;
+// @public @deprecated (undocumented)
+export function isLoggedIn(): boolean | undefined;
 
 // @public (undocumented)
 export function isUnauthenticatedError(error: unknown): boolean;
 
-// @public (undocumented)
+// @public
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
 
-// Warning: (ae-internal-missing-underscore) The name "logout" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export function logout(): void;
+// @public @deprecated (undocumented)
+export function logout(): unknown;
 
 // Warning: (ae-forgotten-export) The symbol "MatchPathOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "MatchResult" needs to be exported by the entry point index.d.ts
@@ -268,12 +263,51 @@ interface RenderUseBrickResult {
 }
 
 // @public (undocumented)
+interface RuntimeContext extends LegacyCompatibleRuntimeContext {
+    // (undocumented)
+    appendI18nNamespace?: string;
+    // Warning: (ae-forgotten-export) The symbol "DataStore" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    ctxStore: DataStore<"CTX">;
+    // (undocumented)
+    forEachItem?: unknown;
+    // (undocumented)
+    formStateStoreId?: string;
+    // (undocumented)
+    formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
+    // (undocumented)
+    formStateStoreScope?: DataStore<"FORM_STATE">[];
+    // (undocumented)
+    pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
+    // (undocumented)
+    tplStateStoreId?: string;
+    // (undocumented)
+    tplStateStoreMap: Map<string, DataStore<"STATE">>;
+    // (undocumented)
+    tplStateStoreScope?: DataStore<"STATE">[];
+}
+
+// @public (undocumented)
 export interface RuntimeHooks {
+    // (undocumented)
+    auth?: {
+        getAuth(): object;
+        isLoggedIn(): boolean;
+        authenticate?(...args: unknown[]): unknown;
+        logout?(...args: unknown[]): unknown;
+    };
     // (undocumented)
     checkInstalledApps?: {
         preCheckInstalledApps(storyboard: Storyboard, hasAppInBootstrap: (appId: string) => boolean): void;
         waitForCheckingApps(appIds: string[]): Promise<void>;
         getCheckedApp(appId: string): AppForCheck | undefined;
+    };
+    // (undocumented)
+    checkPermissions?: {
+        checkPermissions(...actions: string[]): boolean;
+        preCheckPermissions(storyboard: Storyboard): Promise<void> | undefined;
+        preCheckPermissionsForBrickOrRoute(container: BrickConf | RouteConf, asyncComputeRealValue: (value: unknown) => Promise<unknown>): Promise<void> | undefined;
     };
     // (undocumented)
     flowApi?: {
@@ -288,7 +322,25 @@ export interface RuntimeHooks {
     // (undocumented)
     fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
     // (undocumented)
+    menu?: {
+        getMenuById(menuId: string): unknown;
+        fetchMenuById(menuId: string, runtimeContext: RuntimeContext, runtimeHelpers: RuntimeHooksMenuHelpers): Promise<unknown>;
+    };
+    // (undocumented)
     validatePermissions?: typeof PermissionApi_validatePermissions;
+}
+
+// @public (undocumented)
+export interface RuntimeHooksMenuHelpers {
+    // (undocumented)
+    asyncComputeRealValue(value: unknown, runtimeContext: RuntimeContext, options?: {
+        ignoreSymbols?: boolean;
+        noInject?: boolean;
+    }): Promise<unknown>;
+    // (undocumented)
+    getStoryboardByAppId(appId: string): Storyboard | undefined;
+    // (undocumented)
+    resolveData(resolveConf: ResolveConf, runtimeContext: RuntimeContext): Promise<unknown>;
 }
 
 // @public (undocumented)
@@ -342,7 +394,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
-// dist/types/internal/Runtime.d.ts:14:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:26:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
