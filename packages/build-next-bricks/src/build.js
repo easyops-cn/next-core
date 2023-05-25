@@ -82,6 +82,7 @@ async function getWebpackConfig(config) {
     "i18next-browser-languagedetector",
     "react-i18next",
     "@next-core/runtime",
+    "@next-core/easyops-runtime",
     "@next-core/http",
     "@next-core/theme",
     "@next-core/cook",
