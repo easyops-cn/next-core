@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.8.0...@next-core/cook@1.8.1) (2023-05-25)
+
+
+### Bug Fixes
+
+* fix track all reg ([63245a7](https://github.com/easyops-cn/next-core/commit/63245a7142b879787fb26d1580f0c978f12ed63c))
+
+
+
+
+
 # [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.7.2...@next-core/cook@1.8.0) (2023-05-18)
 
 
