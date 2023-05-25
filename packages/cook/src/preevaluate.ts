@@ -45,5 +45,5 @@ export function shouldAllowRecursiveEvaluations(raw: string): boolean {
 }
 
 export function isTrackAll(raw: string): boolean {
-  return /^\s*<%=\s.*\s%>\s*$/.test(raw);
+  return /^\s*<%=\s/.test(raw) && /\s%>\s*$/.test(raw);
 }
