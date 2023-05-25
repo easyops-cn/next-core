@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.1...@next-core/build-next-bricks@1.5.2) (2023-05-25)
+
+
+### Bug Fixes
+
+* put @next-core/easyops-runtime into module federations ([f55a846](https://github.com/easyops-cn/next-core/commit/f55a846cebff80b0586592c02c504d74f8f4efc0))
+
+
+
+
+
 ## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.0...@next-core/build-next-bricks@1.5.1) (2023-05-10)
 
 
