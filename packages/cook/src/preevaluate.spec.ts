@@ -70,11 +70,36 @@ describe("shouldAllowRecursiveEvaluations", () => {
 });
 
 describe("isTrackAll", () => {
-  it("should return true", () => {
-    expect(isTrackAll("<%= CTX.a %>")).toBe(true);
-  });
-
-  it("should return false", () => {
-    expect(isTrackAll("<% CTX.a %>")).toBe(false);
+  it.each<[string, boolean]>([
+    ["<%= CTX.a %>", true],
+    [
+      `<%=
+          CTX.a
+        %>`,
+      true,
+    ],
+    [
+      `<%=
+          CTX.a%>`,
+      false,
+    ],
+    [
+      `<%
+          CTX.a
+        %>`,
+      false,
+    ],
+    [
+      `<%=
+          CTX.a%>`,
+      false,
+    ],
+    [
+      `<%=CTX.a
+        %>`,
+      false,
+    ],
+  ])("should work", (params, result) => {
+    expect(isTrackAll(params)).toBe(result);
   });
 });
