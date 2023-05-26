@@ -5,6 +5,6 @@
   ],
   "*.css": "prettier --write",
   "*.html": "prettier --write",
-  "*.md": "prettier --write",
+  "!(CHANGELOG).md": "prettier --write",
   "*.json": "prettier --write"
 }
