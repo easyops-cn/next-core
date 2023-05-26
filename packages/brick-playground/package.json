@@ -38,9 +38,9 @@
     "@next-core/preview": "^0.1.4",
     "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.5.0",
-    "monaco-editor": "^0.37.1",
+    "html-webpack-plugin": "^5.5.1",
+    "monaco-editor": "^0.38.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
-    "webpack-dev-server": "^4.13.2"
+    "webpack-dev-server": "^4.15.0"
   }
 }

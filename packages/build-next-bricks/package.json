@@ -31,20 +31,20 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@babel/parser": "^7.21.4",
-    "@babel/traverse": "^7.21.4",
-    "@svgr/webpack": "^7.0.0",
+    "@babel/parser": "^7.21.9",
+    "@babel/traverse": "^7.21.5",
+    "@svgr/webpack": "^8.0.1",
     "babel-loader": "^9.1.2",
-    "css-loader": "^6.7.3",
-    "cssnano": "^6.0.0",
+    "css-loader": "^6.7.4",
+    "cssnano": "^6.0.1",
     "cssnano-preset-lite": "^3.0.0",
     "lodash": "^4.17.21",
-    "mini-css-extract-plugin": "^2.7.5",
-    "postcss": "^8.4.21",
-    "postcss-loader": "^7.2.4",
-    "postcss-preset-env": "^8.3.0",
-    "style-loader": "^3.3.1",
-    "typescript": "^5.0.3",
-    "webpack": "^5.78.0"
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss": "^8.4.23",
+    "postcss-loader": "^7.3.1",
+    "postcss-preset-env": "^8.4.1",
+    "style-loader": "^3.3.3",
+    "typescript": "^5.0.4",
+    "webpack": "^5.84.1"
   }
 }
