@@ -26,7 +26,6 @@ app.use(
 app.use("/preview/", bootstrapJson(rootDir));
 app.use(examplesJson(rootDir));
 
-app.use("/preview/", express.static(path.join(__dirname, "../dist-preview")));
 app.use("/", express.static(path.join(__dirname, "../dist")));
 
 app.listen(8082);

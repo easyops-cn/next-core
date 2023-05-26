@@ -1,8 +1,8 @@
 {
   "name": "@next-core/browserslist-config-next",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "browserslist config for brick-next related packages",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/browserslist-config-next",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/browserslist-config-next",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",

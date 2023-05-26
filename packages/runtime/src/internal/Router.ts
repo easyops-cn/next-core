@@ -15,7 +15,6 @@ import { clearResolveCache } from "./data/resolveData.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
-import { preCheckPermissions } from "./checkPermissions.js";
 import { RendererContext } from "./RendererContext.js";
 import {
   applyMode,
@@ -24,8 +23,11 @@ import {
   setMode,
   setTheme,
 } from "../themeAndMode.js";
-import { getRuntime } from "./Runtime.js";
-import { getAuth, isLoggedIn } from "../auth.js";
+import {
+  _internalApiGetAppInBootstrapData,
+  getRuntime,
+  hooks,
+} from "./Runtime.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
@@ -36,13 +38,8 @@ import {
 } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
-import {
-  clearCollectWidgetContract,
-  collectContract,
-} from "./data/CollectContracts.js";
-import { fulfilStoryboard } from "./loadBootstrapData.js";
+import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
-import { preCheckInstalledApps } from "./checkInstalledApps.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 
 export class Router {
@@ -224,7 +221,7 @@ export class Router {
 
     resetAllComputedMarks();
     clearResolveCache();
-    clearCollectWidgetContract();
+    hooks?.flowApi?.clearCollectWidgetContract();
 
     const history = getHistory();
     history.unblock();
@@ -303,7 +300,10 @@ export class Router {
     };
 
     if (currentApp) {
-      preCheckInstalledApps(storyboard);
+      hooks?.checkInstalledApps?.preCheckInstalledApps(
+        storyboard,
+        (appId) => !!_internalApiGetAppInBootstrapData(appId)
+      );
 
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
@@ -311,22 +311,25 @@ export class Router {
         query: new URLSearchParams(location.search),
         flags,
         sys: {
-          ...getAuth(),
+          ...hooks?.auth?.getAuth(),
           ...getPageInfo(),
         },
         ctxStore: new DataStore("CTX"),
-        pendingPermissionsPreCheck: [preCheckPermissions(storyboard)],
+        pendingPermissionsPreCheck: [
+          hooks?.checkPermissions?.preCheckPermissions(storyboard),
+        ],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
+        formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       });
 
       const rendererContext = (this.#rendererContext = new RendererContext(
-        "router"
+        "page"
       ));
       this.#navConfig = undefined;
 
       registerCustomTemplates(storyboard);
       registerStoryboardFunctions(storyboard.meta?.functions, currentApp);
-      collectContract(storyboard.meta?.contracts);
+      hooks?.flowApi?.collectContract(storyboard.meta?.contracts);
 
       let failed = false;
       let output: RenderOutput;
@@ -352,10 +355,11 @@ export class Router {
 
         await Promise.all([
           ...output.blockingList,
-          runtimeContext.ctxStore.waitForAll(),
-          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
-            store.waitForAll()
-          ),
+          ...[
+            runtimeContext.ctxStore,
+            ...runtimeContext.tplStateStoreMap.values(),
+            ...runtimeContext.formStateStoreMap.values(),
+          ].map((store) => store.waitForAll()),
           // Todo: load processors only when they would used in current rendering.
           // loadProcessorsImperatively(
           //   strictCollectMemberUsage(
@@ -425,7 +429,11 @@ export class Router {
 
         return;
       }
-    } else if (!window.NO_AUTH_GUARD && !isLoggedIn()) {
+    } else if (
+      !window.NO_AUTH_GUARD &&
+      hooks?.auth &&
+      !hooks.auth.isLoggedIn()
+    ) {
       // Todo(steve): refine after api-gateway supports fetching storyboards before logged in.
       // Redirect to login if no storyboard is matched.
       redirectToLogin();

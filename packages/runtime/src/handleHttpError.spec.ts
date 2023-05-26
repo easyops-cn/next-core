@@ -1,21 +1,24 @@
 import "whatwg-fetch";
-// import i18next from "i18next";
 import {
   HttpFetchError,
   HttpResponseError,
   HttpParseError,
   HttpAbortError,
 } from "@next-core/http";
+import { initializeI18n } from "@next-core/i18n";
 import { httpErrorToString, handleHttpError } from "./handleHttpError.js";
 import { getHistory } from "./history.js";
 import { getRuntime } from "./internal/Runtime.js";
+import { Dialog } from "./Dialog.js";
+
+initializeI18n();
 
 jest.mock("./history.js");
 jest.mock("./internal/Runtime.js");
+jest.mock("./Dialog.js");
 
-const spyOnModalError = (window.alert = jest.fn());
-const spyOnModalConfirm = jest.spyOn(window, "confirm");
 const consoleError = jest.spyOn(console, "error");
+const showDialog = Dialog.show as jest.MockedFunction<typeof Dialog.show>;
 
 const spyOnGetRuntime = getRuntime as jest.Mock;
 const spyOnHistoryPush = jest.fn();
@@ -38,9 +41,7 @@ describe("httpErrorToString", () => {
   });
 
   it("should return network error for HttpFetchErrors", () => {
-    expect(httpErrorToString(new HttpFetchError("oops"))).toBe(
-      "网络错误，请检查您的网络连接。"
-    );
+    expect(httpErrorToString(new HttpFetchError("oops"))).toBe("NETWORK_ERROR");
   });
 
   it("should return HttpResponseErrors", () => {
@@ -104,6 +105,10 @@ describe("httpErrorToString", () => {
     (event as any).target = script;
     expect(httpErrorToString(event)).toBe("not-existed-script-src");
   });
+
+  it("should handle unknown error", () => {
+    expect(httpErrorToString(null)).toBe("Unknown error");
+  });
 });
 
 describe("handleHttpError", () => {
@@ -112,51 +117,114 @@ describe("handleHttpError", () => {
     window.NO_AUTH_GUARD = false;
   });
 
-  it("should handle errors", () => {
-    consoleError.mockImplementationOnce(() => void 0);
+  it("should handle errors", async () => {
+    consoleError.mockReturnValue();
+    showDialog.mockResolvedValueOnce();
     const error = new Error("oops");
     handleHttpError(error);
-    expect(spyOnModalError).toBeCalledTimes(1);
-    expect(spyOnModalError).toBeCalledWith("Error: oops");
-    expect(consoleError).toBeCalledTimes(1);
+    // Mock triggering the same error twice.
+    handleHttpError(error);
+    expect(Dialog.show).toBeCalledTimes(1);
+    await (global as any).flushPromises();
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "error",
+        content: "Error: oops",
+      })
+    );
+    expect(consoleError).toBeCalledTimes(2);
+    consoleError.mockReset();
   });
 
-  it("should handle unauthenticated errors and redirect to general login page", () => {
-    consoleError.mockImplementationOnce(() => void 0);
+  it("should handle unauthenticated errors and redirect to general login page", async () => {
     spyOnGetRuntime.mockReturnValueOnce({
-      getFeatureFlags: () => ({ "sso-enabled": false }),
+      getFeatureFlags: () => ({}),
     });
-    spyOnModalConfirm.mockReturnValueOnce(true);
+    showDialog.mockResolvedValueOnce();
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
     handleHttpError(error);
+    // Mock triggering the same error twice.
     handleHttpError(error);
-    expect(spyOnModalError).not.toBeCalled();
-    expect(spyOnModalConfirm).toBeCalledTimes(1);
-    expect(spyOnModalError).not.toBeCalled();
+    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "confirm",
+      })
+    );
+    await (global as any).flushPromises();
     expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
       from: {
         pathname: "/no-where",
       },
     });
+    expect(consoleError).not.toBeCalled();
   });
 
-  it("should not show modal to go to login page when unauthenticated error occurs while NO_AUTH_GUARD is enabled", () => {
-    consoleError.mockImplementationOnce(() => void 0);
-    window.NO_AUTH_GUARD = true;
+  it("should handle unauthenticated errors and redirect to sso login page", async () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({ "sso-enabled": true }),
+    });
+    showDialog.mockResolvedValueOnce();
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
     });
     handleHttpError(error);
-    expect(spyOnModalConfirm).not.toBeCalled();
-    expect(spyOnModalError).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "confirm",
+      })
+    );
+    await (global as any).flushPromises();
+    expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
+      from: {
+        pathname: "/no-where",
+      },
+    });
+    expect(consoleError).not.toBeCalled();
+  });
+
+  it("should handle unauthenticated errors and redirect to general login page", async () => {
+    spyOnGetRuntime.mockReturnValueOnce({
+      getFeatureFlags: () => ({}),
+    });
+    showDialog.mockRejectedValueOnce(undefined);
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    handleHttpError(error);
+    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "confirm",
+      })
+    );
+    await (global as any).flushPromises();
+    expect(spyOnHistoryPush).not.toBeCalled();
+    expect(consoleError).not.toBeCalled();
+  });
+
+  it("should not show modal to go to login page when unauthenticated error occurs while NO_AUTH_GUARD is enabled", () => {
+    consoleError.mockReturnValueOnce();
+    window.NO_AUTH_GUARD = true;
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    showDialog.mockResolvedValueOnce();
+    handleHttpError(error);
+    expect(Dialog.show).toBeCalledWith(
+      expect.objectContaining({
+        type: "error",
+        content: "HttpResponseError",
+      })
+    );
+    expect(consoleError).toBeCalledTimes(1);
   });
 
   it("should return undefined if abort http request", () => {
     handleHttpError(new HttpAbortError("The user aborted a request."));
-    expect(spyOnModalConfirm).not.toBeCalled();
-    expect(spyOnModalError).not.toBeCalled();
-    expect(spyOnModalError).not.toBeCalled();
+    expect(Dialog.show).not.toBeCalled();
   });
 });

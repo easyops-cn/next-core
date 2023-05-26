@@ -1,8 +1,8 @@
 {
   "name": "@next-core/build-next-bricks",
-  "version": "1.3.1",
+  "version": "1.5.2",
   "description": "Build next bricks",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/build-next-bricks",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-bricks",
   "license": "GPL-3.0",
   "type": "module",
   "typings": "./index.d.ts",
@@ -12,6 +12,7 @@
   "files": [
     "bin",
     "src",
+    "template",
     "index.d.ts"
   ],
   "exports": {

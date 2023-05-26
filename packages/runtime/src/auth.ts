@@ -1,59 +1,23 @@
-// import { userAnalytics } from "@next-core/easyops-analytics";
-import type { AuthApi_CheckLoginResponseBody } from "@next-api-sdk/api-gateway-sdk";
-import { resetPermissionPreChecks } from "./internal/checkPermissions.js";
+// istanbul ignore file
+// Todo(steve): This file will be removed in the future.
+import { hooks } from "./internal/Runtime.js";
 
-const auth: AuthInfo = {};
-
-/** @internal */
-export type AuthInfo = Omit<AuthApi_CheckLoginResponseBody, "loggedIn">;
-
-/** @internal */
-export function authenticate(newAuth: AuthInfo): void {
-  Object.assign(auth, {
-    org: newAuth.org,
-    username: newAuth.username,
-    userInstanceId: newAuth.userInstanceId,
-    loginFrom: newAuth.loginFrom,
-    accessRule: newAuth.accessRule,
-    isAdmin: newAuth.isAdmin,
-    csrfToken: newAuth.csrfToken,
-    license: newAuth.license,
-    userShowValue: newAuth.userShowValue,
-  });
-
-  // re-init analytics to set user_id
-  // if (userAnalytics.initialized) {
-  //   userAnalytics.setUserId(newAuth.userInstanceId);
-  // }
+/** @deprecated import it from "@next-core/easyops-runtime" instead */
+export function authenticate(...args: unknown[]): void {
+  hooks?.auth?.authenticate?.(...args);
 }
 
-/**
- * 获取当前登录认证信息。
- *
- * @returns 当前登录认证信息。
- */
-export function getAuth(): AuthInfo {
-  return {
-    ...auth,
-  };
+/** @deprecated import it from "@next-core/easyops-runtime" instead */
+export function getAuth() {
+  return hooks?.auth?.getAuth();
 }
 
-/** @internal */
-export function logout(): void {
-  for (const key of Object.keys(auth) as (keyof AuthInfo)[]) {
-    auth[key] = undefined;
-  }
-  resetPermissionPreChecks();
-
-  // re-init analytics to clear user_id
-  // userAnalytics.setUserId();
+/** @deprecated import it from "@next-core/easyops-runtime" instead */
+export function logout() {
+  return hooks?.auth?.logout?.();
 }
 
-/**
- * 查看当前是否已登录。
- *
- * @returns 当前是否已登录。
- */
-export function isLoggedIn(): boolean {
-  return auth.username !== undefined;
+/** @deprecated import it from "@next-core/easyops-runtime" instead */
+export function isLoggedIn() {
+  return hooks?.auth?.isLoggedIn();
 }

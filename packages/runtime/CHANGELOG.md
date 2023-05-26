@@ -3,6 +3,306 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.11.1...@next-core/runtime@1.12.0) (2023-05-26)
+
+
+### Features
+
+* move menu process from runtime to easyops-runtime ([6ecc552](https://github.com/easyops-cn/next-core/commit/6ecc552c833ced7cb138ccf52f778effc9fa1f0a))
+
+
+
+
+
+## [1.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.11.0...@next-core/runtime@1.11.1) (2023-05-25)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.10.1...@next-core/runtime@1.11.0) (2023-05-25)
+
+
+### Features
+
+* decouple easyops runtime ([8caed78](https://github.com/easyops-cn/next-core/commit/8caed78ea86917369118b9bfdd6aba8acba2e046))
+
+
+
+
+
+## [1.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.10.0...@next-core/runtime@1.10.1) (2023-05-18)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.9.0...@next-core/runtime@1.10.0) (2023-05-18)
+
+
+### Features
+
+* support context batchUpdate ([4ab805b](https://github.com/easyops-cn/next-core/commit/4ab805b2d0e3802a37a84ad8796da079f5fdf01b))
+
+
+
+
+
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.8.0...@next-core/runtime@1.9.0) (2023-05-17)
+
+
+### Bug Fixes
+
+* allow setting preLoadBricks on routes ([a5a1999](https://github.com/easyops-cn/next-core/commit/a5a19994386beb4cf68b7fcfbcb0107adf279106))
+
+
+### Features
+
+* allow disable preset bricks ([91923fb](https://github.com/easyops-cn/next-core/commit/91923fb89c1e00a55f4a15a65b03f0be3b2fb698))
+
+
+
+
+
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.7.0...@next-core/runtime@1.8.0) (2023-05-12)
+
+
+### Features
+
+* support tracking brick.if ([3d309c7](https://github.com/easyops-cn/next-core/commit/3d309c759602dfc2afd5847cf2cdb1f8062ff043))
+
+
+
+
+
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.3...@next-core/runtime@1.7.0) (2023-05-11)
+
+
+### Bug Fixes
+
+* fix IMG.get ([020cc17](https://github.com/easyops-cn/next-core/commit/020cc17edf19c7822c70e18969f3374b75772e5d))
+
+
+### Features
+
+* support if/esle syntax ([dee507b](https://github.com/easyops-cn/next-core/commit/dee507bb280fe61ec7319db1e7569b68e9b08547))
+* update code ([212c434](https://github.com/easyops-cn/next-core/commit/212c4346835c2596b8c32b3d4546d06665b90ea1))
+* update type ([e9c7e19](https://github.com/easyops-cn/next-core/commit/e9c7e1984bc9c0cbf6fa16a576b3b3fc9dc02136))
+* update type and add unit test ([1f231af](https://github.com/easyops-cn/next-core/commit/1f231af3f54515365ab4eb54230beecd1610a5c3))
+
+
+
+
+
+## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.2...@next-core/runtime@1.6.3) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix when the storyboard has only a single portal brick ([1a49496](https://github.com/easyops-cn/next-core/commit/1a494966a92dbc1913f3657a0e27fef82c05d0c7))
+
+
+
+
+
+## [1.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.1...@next-core/runtime@1.6.2) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.6.0...@next-core/runtime@1.6.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* **createRoot:** add missing form state store ([e7afa19](https://github.com/easyops-cn/next-core/commit/e7afa19babc961ce2b6c023475787972cff6a7d2))
+
+
+
+
+
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.5...@next-core/runtime@1.6.0) (2023-05-09)
+
+
+### Features
+
+* support track evalute syntax sugar ([c7999bf](https://github.com/easyops-cn/next-core/commit/c7999bf45967f83db017e38544975b408564c007))
+* update getTracks unit test ([e15d59b](https://github.com/easyops-cn/next-core/commit/e15d59b3f3582125f811d7f7e31e1eb6595cad70))
+
+
+
+
+
+## [1.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.4...@next-core/runtime@1.5.5) (2023-05-08)
+
+
+### Bug Fixes
+
+* allow undefined prop value ([790a694](https://github.com/easyops-cn/next-core/commit/790a69405984ff420552b792669bc83c4a4d0a68))
+
+
+
+
+
+## [1.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.3...@next-core/runtime@1.5.4) (2023-05-05)
+
+
+### Bug Fixes
+
+* refine utils usage ([5473151](https://github.com/easyops-cn/next-core/commit/5473151ce589909677c09fc98db580bb50ef5562))
+
+
+
+
+
+## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.2...@next-core/runtime@1.5.3) (2023-04-27)
+
+
+### Bug Fixes
+
+* allow bootstrap with initializing data ([1bfbaeb](https://github.com/easyops-cn/next-core/commit/1bfbaeba5942302a0e78a2dee7b3d8eb124f3050))
+
+
+
+
+
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.1...@next-core/runtime@1.5.2) (2023-04-27)
+
+
+### Bug Fixes
+
+* inject brick packages only ([faf6525](https://github.com/easyops-cn/next-core/commit/faf6525aa8aabe68fb3968150ff0a6bfac92a105))
+
+
+
+
+
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.5.0...@next-core/runtime@1.5.1) (2023-04-27)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.3...@next-core/runtime@1.5.0) (2023-04-26)
+
+
+### Bug Fixes
+
+* allow to silent errors when loading widgets ([fcc9620](https://github.com/easyops-cn/next-core/commit/fcc9620e4762c8097af107ee3d54d8bd18823cec))
+
+
+### Features
+
+* support form-renderer ([e2cbb85](https://github.com/easyops-cn/next-core/commit/e2cbb8585781f9c3fe0d36be402dbe95f5a3e75b))
+
+
+
+
+
+## [1.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.2...@next-core/runtime@1.4.3) (2023-04-25)
+
+
+### Bug Fixes
+
+* allow to silent errors for unknown bricks ([d01d62c](https://github.com/easyops-cn/next-core/commit/d01d62cf898ff78cc5ab0df8993911ccda5f4fcc))
+
+
+
+
+
+## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.1...@next-core/runtime@1.4.2) (2023-04-20)
+
+
+### Bug Fixes
+
+* **createRoot:** allow setting context/functions/templates/i18n ([567fe97](https://github.com/easyops-cn/next-core/commit/567fe972300e67bff68b0bd855df1100264b2b4c))
+
+
+
+
+
+## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.4.0...@next-core/runtime@1.4.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* fix playground ([da3e8ee](https://github.com/easyops-cn/next-core/commit/da3e8ee32d67133dc6e5cef68280e1a7fa9a81e6))
+
+
+
+
+
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.3...@next-core/runtime@1.4.0) (2023-04-17)
+
+
+### Bug Fixes
+
+* fix injecting bootstrap data ([0bcc628](https://github.com/easyops-cn/next-core/commit/0bcc6287bb434ff3841368fc409a44baa971bd60))
+* fix unhandled promise when compute props ([ce3fae2](https://github.com/easyops-cn/next-core/commit/ce3fae22f9fd57bbe833ca0e023c15496e466fd7))
+* refine renderer context scope ([6074e27](https://github.com/easyops-cn/next-core/commit/6074e27ac0793283eecc146f40c8235eb43180b2))
+
+
+### Features
+
+* createRoot ([0cfbd51](https://github.com/easyops-cn/next-core/commit/0cfbd5135298ad3b561a8796c65b01e60a28cef1))
+
+
+
+
+
+## [1.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.2...@next-core/runtime@1.3.3) (2023-04-14)
+
+
+### Bug Fixes
+
+* fix isOutsideApp ([b862716](https://github.com/easyops-cn/next-core/commit/b862716bb4b6bad645fe2246bb59ee3b4ec00801))
+
+
+
+
+
+## [1.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.1...@next-core/runtime@1.3.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* refine dialog service ([db4f973](https://github.com/easyops-cn/next-core/commit/db4f973aed0951d0bca4988ee16f5c8bcc779e56))
+
+
+
+
+
+## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.3.0...@next-core/runtime@1.3.1) (2023-04-14)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.2...@next-core/runtime@1.3.0) (2023-04-14)
+
+
+### Features
+
+* notification and dialog ([bbdbbd2](https://github.com/easyops-cn/next-core/commit/bbdbbd2169f8c16721a5ce8182707f8cd31aff1d))
+
+
+
+
+
 ## [1.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.2.1...@next-core/runtime@1.2.2) (2023-04-10)
 
 

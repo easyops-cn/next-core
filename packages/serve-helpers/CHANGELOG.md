@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.7...@next-core/serve-helpers@1.0.8) (2023-05-26)
+
+
+### Bug Fixes
+
+* **serve:** support --local-bricks ([0b46988](https://github.com/easyops-cn/next-core/commit/0b46988a3c1992b4d410bc3d4a94ead0655c3a05))
+
+
+
+
+
+## [1.0.7](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.6...@next-core/serve-helpers@1.0.7) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+## [1.0.6](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.5...@next-core/serve-helpers@1.0.6) (2023-04-17)
+
+
+### Bug Fixes
+
+* fix types ([7422941](https://github.com/easyops-cn/next-core/commit/742294170a4cbbc810a5e7745dfce2e58ed9085f))
+
+
+
+
+
 ## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.4...@next-core/serve-helpers@1.0.5) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/serve-helpers

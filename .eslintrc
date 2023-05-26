@@ -27,6 +27,7 @@
         "packages/test-next/**/*.js",
         "packages/brick-playground/serve/**/*.js",
         "packages/create-api-sdk/**/*.{ts,js}",
+        "packages/webpack/**/*.{ts,js}",
         "v3/lodash-v3/**/*.js",
         "v3/moment-v3/**/*.js"
       ],

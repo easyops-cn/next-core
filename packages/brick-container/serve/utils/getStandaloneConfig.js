@@ -4,6 +4,7 @@
 export function getStandaloneConfig(storyboard) {
   return storyboard?.app.standaloneMode
     ? {
+        appId: storyboard.app.id,
         appRoot: `sa-static/${storyboard.app.id}/versions/0.0.0/webroot/`,
         noAuthGuard: storyboard.app.noAuthGuard,
         publicPrefix: "sa-static/-/",

@@ -4,6 +4,7 @@ import loadSharedModule from "./loadSharedModule.js";
 interface BrickPackage {
   id: string;
   filePath: string;
+  elements?: string[];
   dependencies?: Record<string, string[]>;
 }
 
@@ -36,8 +37,7 @@ export function enqueueStableLoadBricks(
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
 export function enqueueStableLoadProcessors(
@@ -45,18 +45,16 @@ export function enqueueStableLoadProcessors(
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
-export function loadBricksImperatively(
+export async function loadBricksImperatively(
   bricks: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
   const promise = enqueueStableLoad("bricks", bricks, brickPackages);
   flushStableLoadBricks();
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
 export function loadProcessorsImperatively(
@@ -65,8 +63,7 @@ export function loadProcessorsImperatively(
 ): Promise<void> {
   const promise = enqueueStableLoad("processors", processors, brickPackages);
   flushStableLoadBricks();
-  dispatchRequestStatus(promise);
-  return promise;
+  return dispatchRequestStatus(promise);
 }
 
 interface V2AdapterBrick {
@@ -95,13 +92,27 @@ function getItemsByPkg(
       return;
     }
     listToLoad.add(item);
-    const [namespace, itemName] = item.split(".");
-    const pkgId = `bricks/${
-      type === "processors" ? getProcessorPackageName(namespace) : namespace
-    }`;
-    const pkg = brickPackagesMap.get(pkgId);
+    let pkg: BrickPackage | undefined;
+    let namespace: string;
+    let itemName: string | undefined;
+    if (type === "processors" || item.includes(".")) {
+      [namespace, itemName] = item.split(".");
+      const pkgId = `bricks/${
+        type === "processors" ? getProcessorPackageName(namespace) : namespace
+      }`;
+      pkg = brickPackagesMap.get(pkgId);
+    } else {
+      itemName = item;
+      for (const p of brickPackagesMap.values()) {
+        if (p.elements?.some((e) => e === itemName)) {
+          pkg = p;
+          break;
+        }
+      }
+    }
+
     if (!pkg) {
-      throw new Error(`Package ${pkgId} not found.`);
+      throw new Error(`Package for ${item} not found.`);
     }
 
     let groupItems = itemsByPkg.get(pkg);
@@ -109,7 +120,7 @@ function getItemsByPkg(
       groupItems = [];
       itemsByPkg.set(pkg, groupItems);
     }
-    groupItems.push(itemName);
+    groupItems.push(itemName!);
 
     // Load their dependencies too
     const deps = pkg.dependencies?.[item];
@@ -271,11 +282,13 @@ async function enqueueStableLoad(
   await Promise.all(pkgPromises);
 }
 
-function dispatchRequestStatus(promise: Promise<unknown>) {
+async function dispatchRequestStatus(promise: Promise<unknown>) {
   window.dispatchEvent(new Event("request.start"));
-  promise.finally(() => {
+  try {
+    await promise;
+  } finally {
     window.dispatchEvent(new Event("request.end"));
-  });
+  }
 }
 
 function getProcessorPackageName(camelPackageName: string): string {

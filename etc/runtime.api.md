@@ -5,7 +5,7 @@
 ```ts
 
 import type { Action } from 'history';
-import type { AuthApi_CheckLoginResponseBody } from '@next-api-sdk/api-gateway-sdk';
+import type { BatchUpdateContextItem } from '@next-core/types';
 import type { BootstrapData } from '@next-core/types';
 import { BreadcrumbItemConf } from '@next-core/types';
 import type { BrickConf } from '@next-core/types';
@@ -14,6 +14,7 @@ import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
+import type { Contract } from '@next-core/types';
 import type { CustomTemplate } from '@next-core/types';
 import type { CustomTemplateConstructor } from '@next-core/types';
 import type { CustomTemplateProxy } from '@next-core/types';
@@ -25,7 +26,10 @@ import { Location as Location_2 } from 'history';
 import { LocationDescriptor } from 'history';
 import type { MetaI18n } from '@next-core/types';
 import { MicroApp } from '@next-core/types';
+import type { PermissionApi_validatePermissions } from '@next-api-sdk/micro-app-sdk';
+import type { ResolveConf } from '@next-core/types';
 import type { RouteConf } from '@next-core/types';
+import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
@@ -38,15 +42,13 @@ declare namespace __secret_internals {
         renderUseBrick,
         mountUseBrick,
         unmountUseBrick,
-        initializePreviewBootstrap,
-        renderPreviewBricks,
         legacyDoTransform,
-        loadBricks,
         updateStoryboard,
         updateStoryboardByRoute,
         updateStoryboardByTemplate,
         updateTemplatePreviewSettings,
         updateStoryboardBySnippet,
+        RuntimeContext,
         RenderUseBrickResult,
         MountUseBrickResult,
         updateSnippetPreviewSettings
@@ -55,17 +57,15 @@ declare namespace __secret_internals {
 export { __secret_internals }
 
 // @public (undocumented)
+export let __test_only: RuntimeHooksMenuHelpers & {
+    setBootstrapData(data: BootstrapData): void;
+};
+
+// @public (undocumented)
 export function applyTheme(value?: SiteTheme): void;
 
-// Warning: (ae-internal-missing-underscore) The name "authenticate" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export function authenticate(newAuth: AuthInfo): void;
-
-// Warning: (ae-internal-missing-underscore) The name "AuthInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export type AuthInfo = Omit<AuthApi_CheckLoginResponseBody, "loggedIn">;
+// @public @deprecated (undocumented)
+export function authenticate(...args: unknown[]): void;
 
 // Warning: (ae-forgotten-export) The symbol "AppThemes" needs to be exported by the entry point index.d.ts
 //
@@ -83,10 +83,18 @@ export function checkIfOfComputed(ifContainer: IfContainer): boolean;
 // @public (undocumented)
 export function createHistory(): NextHistory;
 
+// @public (undocumented)
+export interface CreateRootOptions {
+    // (undocumented)
+    portal?: HTMLElement;
+    scope?: "page" | "fragment";
+    unknownBricks?: "silent" | "throw";
+}
+
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function createRuntime(): Runtime;
+export function createRuntime(options?: RuntimeOptions): Runtime;
 
 // Warning: (ae-forgotten-export) The symbol "CustomProcessorRegistry" needs to be exported by the entry point index.d.ts
 //
@@ -98,15 +106,30 @@ export const customProcessors: CustomProcessorRegistry;
 // @public (undocumented)
 export const customTemplates: CustomTemplateRegistry;
 
+// @public (undocumented)
+export const Dialog: Readonly<{
+    show: typeof show_2;
+}>;
+
+// @public (undocumented)
+export interface DialogOptions {
+    // (undocumented)
+    content: string;
+    // (undocumented)
+    contentStyle?: object;
+    // (undocumented)
+    title?: string | null;
+    // (undocumented)
+    type?: "success" | "error" | "warn" | "info" | "confirm";
+}
+
 // Warning: (ae-forgotten-export) The symbol "ResolveOptions" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
 export function fetchByProvider(provider: string, args: unknown[], options?: ResolveOptions): Promise<unknown>;
 
-// Warning: (ae-incompatible-release-tags) The symbol "getAuth" is marked as @public, but its signature references "AuthInfo" which is marked as @internal
-//
-// @public
-export function getAuth(): AuthInfo;
+// @public @deprecated (undocumented)
+export function getAuth(): object | undefined;
 
 // @public
 export function getBasePath(): string;
@@ -135,25 +158,17 @@ export function handleHttpError(error: unknown): void;
 // @public
 export function httpErrorToString(error: unknown): string;
 
-// @public (undocumented)
-function initializePreviewBootstrap(bootstrapData: Partial<BootstrapData>): void;
-
-// @public
-export function isLoggedIn(): boolean;
+// @public @deprecated (undocumented)
+export function isLoggedIn(): boolean | undefined;
 
 // @public (undocumented)
 export function isUnauthenticatedError(error: unknown): boolean;
 
-// @public (undocumented)
+// @public
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
 
-// @public (undocumented)
-function loadBricks(bricks: string[] | Set<string>): Promise<void>;
-
-// Warning: (ae-internal-missing-underscore) The name "logout" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export function logout(): void;
+// @public @deprecated (undocumented)
+export function logout(): unknown;
 
 // Warning: (ae-forgotten-export) The symbol "MatchPathOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "MatchResult" needs to be exported by the entry point index.d.ts
@@ -186,6 +201,21 @@ export interface NextHistoryState {
 // @public (undocumented)
 export type NextLocation = Location_2<NextHistoryState>;
 
+// @public (undocumented)
+const Notification_2: Readonly<{
+    show: typeof show;
+}>;
+export { Notification_2 as Notification }
+
+// @public (undocumented)
+interface NotificationOptions_2 {
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    type?: "success" | "error" | "warn" | "info";
+}
+export { NotificationOptions_2 as NotificationOptions }
+
 // @public
 export interface PageInfo {
     isInIframe: boolean;
@@ -202,13 +232,18 @@ export function registerWidgetFunctions(widgetId: string, functions: StoryboardF
 export function registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
 
 // @public (undocumented)
-function renderPreviewBricks(bricks: BrickConf[], mountPoints: {
-    main: HTMLElement;
-    portal: HTMLElement;
-}, options?: {
-    sandbox?: boolean;
+export interface RenderOptions {
+    // (undocumented)
+    context?: ContextConf[];
+    // (undocumented)
+    functions?: StoryboardFunction[];
+    // (undocumented)
+    i18n?: MetaI18n;
+    // (undocumented)
+    templates?: CustomTemplate[];
+    // (undocumented)
     theme?: SiteTheme;
-}): Promise<void>;
+}
 
 // @public (undocumented)
 function renderUseBrick(useBrick: UseSingleBrickConf, data: unknown): Promise<RenderUseBrickResult>;
@@ -227,6 +262,93 @@ interface RenderUseBrickResult {
     tagName: string | null;
 }
 
+// @public (undocumented)
+interface RuntimeContext extends LegacyCompatibleRuntimeContext {
+    // (undocumented)
+    appendI18nNamespace?: string;
+    // Warning: (ae-forgotten-export) The symbol "DataStore" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    ctxStore: DataStore<"CTX">;
+    // (undocumented)
+    forEachItem?: unknown;
+    // (undocumented)
+    formStateStoreId?: string;
+    // (undocumented)
+    formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
+    // (undocumented)
+    formStateStoreScope?: DataStore<"FORM_STATE">[];
+    // (undocumented)
+    pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
+    // (undocumented)
+    tplStateStoreId?: string;
+    // (undocumented)
+    tplStateStoreMap: Map<string, DataStore<"STATE">>;
+    // (undocumented)
+    tplStateStoreScope?: DataStore<"STATE">[];
+}
+
+// @public (undocumented)
+export interface RuntimeHooks {
+    // (undocumented)
+    auth?: {
+        getAuth(): object;
+        isLoggedIn(): boolean;
+        authenticate?(...args: unknown[]): unknown;
+        logout?(...args: unknown[]): unknown;
+    };
+    // (undocumented)
+    checkInstalledApps?: {
+        preCheckInstalledApps(storyboard: Storyboard, hasAppInBootstrap: (appId: string) => boolean): void;
+        waitForCheckingApps(appIds: string[]): Promise<void>;
+        getCheckedApp(appId: string): AppForCheck | undefined;
+    };
+    // (undocumented)
+    checkPermissions?: {
+        checkPermissions(...actions: string[]): boolean;
+        preCheckPermissions(storyboard: Storyboard): Promise<void> | undefined;
+        preCheckPermissionsForBrickOrRoute(container: BrickConf | RouteConf, asyncComputeRealValue: (value: unknown) => Promise<unknown>): Promise<void> | undefined;
+    };
+    // (undocumented)
+    flowApi?: {
+        FLOW_API_PROVIDER: string;
+        registerFlowApiProvider(): void;
+        isFlowApiProvider(provider: string): boolean;
+        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string): Promise<unknown[]>;
+        collectContract(contracts: Contract[] | undefined): void;
+        collectWidgetContract(contracts: Contract[] | undefined): void;
+        clearCollectWidgetContract(): void;
+    };
+    // (undocumented)
+    fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
+    // (undocumented)
+    menu?: {
+        getMenuById(menuId: string): unknown;
+        fetchMenuById(menuId: string, runtimeContext: RuntimeContext, runtimeHelpers: RuntimeHooksMenuHelpers): Promise<unknown>;
+    };
+    // (undocumented)
+    validatePermissions?: typeof PermissionApi_validatePermissions;
+}
+
+// @public (undocumented)
+export interface RuntimeHooksMenuHelpers {
+    // (undocumented)
+    asyncComputeRealValue(value: unknown, runtimeContext: RuntimeContext, options?: {
+        ignoreSymbols?: boolean;
+        noInject?: boolean;
+    }): Promise<unknown>;
+    // (undocumented)
+    getStoryboardByAppId(appId: string): Storyboard | undefined;
+    // (undocumented)
+    resolveData(resolveConf: ResolveConf, runtimeContext: RuntimeContext): Promise<unknown>;
+}
+
+// @public (undocumented)
+export interface RuntimeOptions {
+    // (undocumented)
+    hooks?: RuntimeHooks;
+}
+
 // Warning: (ae-forgotten-export) The symbol "StoryboardFunctionRegistry" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -239,6 +361,12 @@ export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, col
 
 // @public (undocumented)
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
+
+// @public (undocumented)
+export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
+    render(brick: BrickConf | BrickConf[], { theme, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
+    unmount(): void;
+};
 
 // @public (undocumented)
 const updateSnippetPreviewSettings: typeof updateStoryboardBySnippet;
@@ -263,7 +391,10 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 
 // Warnings were encountered during analysis:
 //
+// dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
+// dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:26:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

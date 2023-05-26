@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.5...@next-core/supply@2.1.0) (2023-05-18)
+
+
+### Features
+
+* function support RegExp in v3 ([20d47eb](https://github.com/easyops-cn/next-core/commit/20d47eb06247c0380fad3b214b4a4934a45a5b5f))
+
+
+
+
+
+## [2.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.4...@next-core/supply@2.0.5) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+## [2.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.3...@next-core/supply@2.0.4) (2023-04-14)
+
+**Note:** Version bump only for package @next-core/supply
+
+
+
+
+
 ## [2.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.2...@next-core/supply@2.0.3) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/supply

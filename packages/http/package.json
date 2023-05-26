@@ -1,8 +1,8 @@
 {
   "name": "@next-core/http",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "> TODO: description",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/http",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/http",
   "license": "GPL-3.0",
   "type": "module",
   "main": "dist/cjs/index.js",
@@ -38,8 +38,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.3",
-    "@next-core/test-next": "^1.0.3",
+    "@next-core/build-next-libs": "^1.0.4",
+    "@next-core/test-next": "^1.0.5",
     "whatwg-fetch": "^3.6.2"
   }
 }

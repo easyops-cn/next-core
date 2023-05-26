@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.3...@next-core/build-next-libs@1.0.4) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.2...@next-core/build-next-libs@1.0.3) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/build-next-libs

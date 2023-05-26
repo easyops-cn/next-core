@@ -1,6 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
 import { i18n } from "@next-core/i18n";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import type { RuntimeContext } from "../interfaces.js";
 import {
   asyncEvaluate,
@@ -13,11 +13,8 @@ import { registerWidgetI18n } from "./WidgetI18n.js";
 import { getI18nNamespace } from "../registerAppI18n.js";
 import { customProcessors } from "../../CustomProcessors.js";
 import { getStorageItem } from "./getStorageItem.js";
-import { checkPermissions } from "../checkPermissions.js";
-import { hasInstalledApp } from "../checkInstalledApps.js";
+import { hasInstalledApp } from "../hasInstalledApp.js";
 import { registerWidgetFunctions } from "./WidgetFunctions.js";
-import { getRuntime } from "../Runtime.js";
-import { getMenuById } from "../menu/fetchMenuById.js";
 import { registerStoryboardFunctions } from "./StoryboardFunctions.js";
 
 jest.mock("@next-core/loader", () => ({
@@ -29,10 +26,39 @@ jest.mock("@next-core/loader", () => ({
   },
 }));
 jest.mock("./getStorageItem.js");
-jest.mock("../checkPermissions.js");
-jest.mock("../checkInstalledApps.js");
-jest.mock("../Runtime.js");
-jest.mock("../menu/fetchMenuById.js");
+jest.mock("../hasInstalledApp.js");
+jest.mock("../Runtime.js", () => ({
+  getRuntime() {
+    return {
+      getMiscSettings() {
+        return {
+          hello: "world",
+        };
+      },
+      getFeatureFlags() {
+        return {};
+      },
+    };
+  },
+  hooks: {
+    checkPermissions: {
+      checkPermissions(actions: string[]) {
+        return !actions.includes("my:action-b");
+      },
+    },
+    menu: {
+      getMenuById(menuId: string) {
+        return {
+          title: `Mocked Menu: ${menuId}`,
+        };
+      },
+      fetchMenuById: jest.fn(),
+    },
+  },
+  getBrickPackages() {
+    return [];
+  },
+}));
 
 i18n.init({
   fallbackLng: "en",
@@ -66,17 +92,6 @@ registerWidgetFunctions("widget-a", [
   },
 ]);
 
-(getRuntime as jest.Mock).mockImplementation(() => ({
-  getMiscSettings() {
-    return {
-      hello: "world",
-    };
-  },
-  getFeatureFlags() {
-    return {};
-  },
-}));
-
 function objectEntries(object: object) {
   return Object.entries(object);
 }
@@ -88,12 +103,6 @@ customProcessors.define("brickKit.objectEntries", objectEntries);
   return () => ({ id: "mockId" });
 });
 
-(
-  checkPermissions as jest.MockedFunction<typeof checkPermissions>
-).mockImplementation((...actions) => {
-  return !actions.includes("my:action-b");
-});
-
 const mockInstalledApps = ["my-app-id"];
 (
   hasInstalledApp as jest.MockedFunction<typeof hasInstalledApp>
@@ -103,10 +112,6 @@ const mockInstalledApps = ["my-app-id"];
     !(matchVersion && matchVersion.startsWith(">"))
   );
 });
-
-(getMenuById as jest.Mock).mockImplementation((menuId: string) => ({
-  title: `Mocked Menu: ${menuId}`,
-}));
 
 customElements.define(
   "my-test-provider",
@@ -138,6 +143,7 @@ const runtimeContext: RuntimeContext = {
   ctxStore,
   tplStateStoreId,
   tplStateStoreMap,
+  formStateStoreMap: null!,
   app: {
     id: "hello",
     name: "Hello",
@@ -228,7 +234,7 @@ describe("evaluate", () => {
     ["<% ANCHOR %>", "readme"],
     // ["<% SEGUE.getUrl('testSegueId') %>", "/segue-target"],
     // ["<% ALIAS.getUrl('mock-alias') %>", "/mock/alias"],
-    ["<% IMG.get('a.jpg') %>", "micro-apps/hello/images/a.jpg"],
+    ["<% IMG.get('a.jpg') %>", "/micro-apps/hello/images/a.jpg"],
     [
       "<% __WIDGET_IMG__('my-widget').get('b.png') %>",
       "bricks/my-widget/dist/assets/b.png",

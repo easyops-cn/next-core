@@ -3,9 +3,17 @@ import {
   StoryboardFunctionRegistryFactory,
   FunctionCoverageCollector,
 } from "./StoryboardFunctionRegistry.js";
-import { checkPermissions } from "./internal/checkPermissions.js";
 
-jest.mock("./internal/checkPermissions.js");
+jest.mock("./internal/Runtime.js", () => ({
+  hooks: {
+    checkPermissions: {
+      checkPermissions(actions: string[]) {
+        return !actions.includes("my:action-b");
+      },
+    },
+  },
+}));
+
 jest.mock("@next-core/i18n", () => ({
   i18n: {
     getFixedT(lang: string, ns: string) {
@@ -16,12 +24,6 @@ jest.mock("@next-core/i18n", () => ({
     return data.zh;
   },
 }));
-
-(
-  checkPermissions as jest.MockedFunction<typeof checkPermissions>
-).mockImplementation((...actions) => {
-  return !actions.includes("my:action-b");
-});
 
 const consoleLog = jest.spyOn(console, "log").mockImplementation();
 
@@ -100,7 +102,7 @@ describe("StoryboardFunctions", () => {
     expect(consoleLog).toBeCalledWith({ en: "world", zh: "世界" });
 
     expect(fn.sayExclamation("Oops")).toBe("Oops!");
-    expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
+    expect(fn.getImg()).toBe("/micro-apps/my-app/images/my-img.png");
 
     updateStoryboardFunction("sayExclamation", {
       source: `
@@ -113,7 +115,7 @@ describe("StoryboardFunctions", () => {
       "app/my-app:HELLO, 世界!!"
     );
     expect(fn.sayExclamation("Oops")).toBe("Oops!!");
-    expect(fn.getImg()).toBe("micro-apps/my-app/images/my-img.png");
+    expect(fn.getImg()).toBe("/micro-apps/my-app/images/my-img.png");
     expect(fn.getBaseUrl()).toBe("http://localhost");
     expect(fn.checkPermissions("my:action-a")).toBe(true);
     expect(fn.checkPermissions("my:action-b")).toBe(false);

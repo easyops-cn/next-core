@@ -1,9 +1,11 @@
 import { jest, describe, test, expect, afterEach } from "@jest/globals";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import type { RuntimeContext } from "../interfaces.js";
 import { DataStore } from "./DataStore.js";
 import { clearResolveCache } from "./resolveData.js";
+import { BatchUpdateContextItem } from "@next-core/types";
 
+const consoleLog = jest.spyOn(console, "log");
 const consoleWarn = jest.spyOn(console, "warn");
 const consoleInfo = jest.spyOn(console, "info");
 
@@ -23,6 +25,12 @@ afterEach(() => {
 });
 
 describe("DataStore: resolve and wait", () => {
+  // Sometimes `waitFor` will be stuck and multi macro tasks will be executed
+  // in a batch, so we set a retry.
+  jest.retryTimes(2, {
+    logErrorsBeforeRetry: true,
+  });
+
   const createContextStore = (provider = "my-timeout-provider") => {
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
@@ -502,5 +510,419 @@ describe("DataStore", () => {
     expect(() => {
       ctxStore.updateValue("notExisted", "oops", "replace");
     }).toThrowErrorMatchingInlineSnapshot(`"CTX 'notExisted' is not defined"`);
+  });
+});
+
+describe("batchUpdate should work", () => {
+  const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
+    return arg[0] as BatchUpdateContextItem;
+  };
+  const createContextStore = () => {
+    const tplStateStoreId = "tpl-state-batch-update-1";
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const stateStore = new DataStore("STATE");
+    const runtimeContext = {
+      tplStateStoreId,
+      tplStateStoreMap,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+
+    stateStore.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "b",
+          value: 2,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["b change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "c",
+          value: `<% STATE.a + STATE.b %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["c change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "d",
+          value: `<% STATE.c + 1 %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["d change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+      ],
+      runtimeContext
+    );
+    return {
+      stateStore,
+    };
+  };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("update a, and c d should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("a")).toBe(2);
+    expect(stateStore.getValue("c")).toBe(4);
+    expect(stateStore.getValue("d")).toBe(5);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+  });
+
+  test("update a and b, c and d should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+        {
+          name: "b",
+          value: 3,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("a")).toBe(2);
+    expect(stateStore.getValue("b")).toBe(3);
+    expect(stateStore.getValue("c")).toBe(5);
+    expect(stateStore.getValue("d")).toBe(6);
+    expect(consoleLog).toBeCalledTimes(4);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 3);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 5);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 6);
+  });
+
+  test("update a and c, and d should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+        {
+          name: "c",
+          value: 0,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("a")).toBe(2);
+    expect(stateStore.getValue("c")).toBe(0);
+    expect(stateStore.getValue("d")).toBe(1);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 0);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+  });
+
+  test("update c and a, and d should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "c",
+          value: 0,
+        },
+        {
+          name: "a",
+          value: 1,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("a")).toBe(1);
+    expect(stateStore.getValue("c")).toBe(0);
+    expect(stateStore.getValue("d")).toBe(1);
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 0);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "a change", 1);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+  });
+
+  test("update a, b, c, and d should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "a",
+          value: 10,
+        },
+        {
+          name: "b",
+          value: 20,
+        },
+        {
+          name: "c",
+          value: 100,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("a")).toBe(10);
+    expect(stateStore.getValue("b")).toBe(20);
+    expect(stateStore.getValue("c")).toBe(100);
+    expect(stateStore.getValue("d")).toBe(101);
+    expect(consoleLog).toBeCalledTimes(4);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 10);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 20);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 100);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 101);
+  });
+
+  test("update c, and d should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "c",
+          value: 20,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("c")).toBe(20);
+    expect(stateStore.getValue("d")).toBe(21);
+    expect(consoleLog).toBeCalledTimes(2);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 20);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "d change", 21);
+  });
+
+  test("update d c, not emit", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    stateStore.updateValues(
+      [
+        {
+          name: "d",
+          value: 10,
+        },
+        {
+          name: "c",
+          value: 20,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+
+    expect(stateStore.getValue("d")).toBe(10);
+    expect(stateStore.getValue("c")).toBe(20);
+    expect(consoleLog).toBeCalledTimes(2);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "d change", 10);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 20);
+  });
+
+  test("not allow to update same item", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+    expect(() => {
+      stateStore.updateValues(
+        [
+          {
+            name: "a",
+            value: 1,
+          },
+          {
+            name: "b",
+            value: 2,
+          },
+          {
+            name: "a",
+            value: 1,
+          },
+        ],
+        "replace",
+        argsFactory
+      );
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Batch update not allow to update same item"`
+    );
+  });
+});
+
+describe("batchUpdate with resolve should work", () => {
+  const argsFactory = (arg: unknown[]): BatchUpdateContextItem => {
+    return arg[0] as BatchUpdateContextItem;
+  };
+  const createContextStore = () => {
+    const tplStateStoreId = "tpl-state-batch-update-2";
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const stateStore = new DataStore("STATE");
+    const runtimeContext = {
+      tplStateStoreId,
+      tplStateStoreMap,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+
+    stateStore.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "b",
+          value: 2,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["b change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "c",
+          value: `<% STATE.a + STATE.b %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["c change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        {
+          name: "d",
+          value: `<% STATE.c + 1 %>`,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["d change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        // Note: this is a state with resolve
+        {
+          name: "e",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [10, "<% STATE.a %>"],
+          },
+          track: true,
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    return {
+      stateStore,
+    };
+  };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("update a, then c d should update once, then later e should update once", async () => {
+    const { stateStore } = createContextStore();
+    await stateStore.waitForAll();
+
+    expect(stateStore.getValue("a")).toBe(1);
+    expect(stateStore.getValue("b")).toBe(2);
+    expect(stateStore.getValue("c")).toBe(3);
+    expect(stateStore.getValue("d")).toBe(4);
+    expect(stateStore.getValue("e")).toBe(1);
+
+    stateStore.updateValues(
+      [
+        {
+          name: "a",
+          value: 2,
+        },
+      ],
+      "replace",
+      argsFactory
+    );
+    expect(consoleLog).toBeCalledTimes(3);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+
+    await (global as any).flushPromises();
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100);
+    });
+    // `e` should only be changed after it's been resolved.
+    expect(stateStore.getValue("e")).toBe(2);
+    expect(consoleLog).toBeCalledTimes(4);
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "e change", 2);
   });
 });

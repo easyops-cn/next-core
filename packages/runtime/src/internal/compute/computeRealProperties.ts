@@ -42,14 +42,12 @@ export async function asyncComputeRealProperties(
                     : StateOfUseBrick.INITIAL,
               }
             );
-            if (realValue !== undefined) {
-              // For `style` and `dataset`, only object is acceptable.
-              if (
-                (propName !== "style" && propName !== "dataset") ||
-                isObject(realValue)
-              ) {
-                return [propName, realValue];
-              }
+            // For `style` and `dataset`, only object is acceptable.
+            if (
+              (propName !== "style" && propName !== "dataset") ||
+              isObject(realValue)
+            ) {
+              return [propName, realValue];
             }
           })
         )
@@ -90,14 +88,12 @@ export function computeRealProperties(
                 ? StateOfUseBrick.USE_BRICK
                 : StateOfUseBrick.INITIAL,
           });
-          if (realValue !== undefined) {
-            // For `style` and `dataset`, only object is acceptable.
-            if (
-              (propName !== "style" && propName !== "dataset") ||
-              isObject(realValue)
-            ) {
-              return [propName, realValue];
-            }
+          // For `style` and `dataset`, only object is acceptable.
+          if (
+            (propName !== "style" && propName !== "dataset") ||
+            isObject(realValue)
+          ) {
+            return [propName, realValue];
           }
         })
         .filter(Boolean) as [string, unknown][]

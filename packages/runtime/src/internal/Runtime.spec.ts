@@ -1,143 +1,175 @@
 import { describe, test, expect, jest } from "@jest/globals";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
+import { loadBricksImperatively } from "@next-core/loader";
+import type { BootstrapData } from "@next-core/types";
 import {
   createRuntime as _createRuntime,
   getRuntime as _getRuntime,
   _internalApiGetRenderId as __internalApiGetRenderId,
 } from "./Runtime.js";
+import { loadNotificationService } from "../Notification.js";
+import { loadDialogService } from "../Dialog.js";
 import { getHistory as _getHistory } from "../history.js";
-import { loadBootstrapData } from "./loadBootstrapData.js";
 
-jest.mock("./loadBootstrapData.js");
+jest.mock("@next-core/loader");
+jest.mock("../Dialog.js");
+jest.mock("../Notification.js");
 
 const consoleError = jest.spyOn(console, "error");
 window.scrollTo = jest.fn();
 
-let returnTemplates = false;
-(loadBootstrapData as jest.Mock<typeof loadBootstrapData>).mockImplementation(
-  async () => ({
-    storyboards: [
-      {
-        app: {
-          id: "app-a",
-          homepage: "/app-a",
-          name: "App A",
-          noAuthGuard: true,
-          config: {
-            settings: {
-              featureFlags: {
-                ["some-app-feature"]: true,
-              },
-              misc: {
-                staff: "cool",
-              },
+const getBootstrapData = (options?: {
+  templates?: boolean;
+  settings?: boolean;
+  locales?: boolean;
+}): BootstrapData => ({
+  storyboards: [
+    {
+      app: {
+        id: "app-a",
+        homepage: "/app-a",
+        name: "App A",
+        noAuthGuard: true,
+        config: {
+          settings: {
+            featureFlags: {
+              ["some-app-feature"]: true,
+            },
+            misc: {
+              staff: "cool",
             },
           },
         },
-        routes: [
-          {
-            path: "${APP.homepage}",
-            exact: true,
-            bricks: [
-              {
-                brick: "div",
-                properties: {
-                  textContent: "I'm homepage of App A",
-                },
+        locales: options?.locales
+          ? {
+              en: {
+                name: "Application A",
               },
-            ],
-            menu: {
-              breadcrumb: {
-                items: [{ text: "Home" }],
+            }
+          : undefined,
+      },
+      routes: [
+        {
+          path: "${APP.homepage}",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "<% `I'm homepage of ${APP.localeName}` %>",
               },
             },
+          ],
+          menu: {
+            breadcrumb: {
+              items: [{ text: "Home" }],
+            },
           },
-          {
-            path: "${APP.homepage}/0",
-            type: "redirect",
-            exact: true,
-            redirect: "${APP.homepage}/1",
-          },
-          {
-            path: "${APP.homepage}/1",
-            exact: true,
-            bricks: [
-              {
-                brick: "div",
-                properties: {
-                  textContent: "I'm page 1 of App A",
-                },
-              },
-            ],
-          },
-          {
-            path: "${APP.homepage}/2",
-            exact: true,
-            bricks: [
-              {
-                brick: "tpl-a",
-              },
-            ],
-          },
-          {
-            path: "${APP.homepage}/r1",
-            type: "redirect",
-            exact: true,
-            redirect: "${APP.homepage}/r2",
-          },
-          {
-            path: "${APP.homepage}/r2",
-            type: "redirect",
-            exact: true,
-            redirect: "${APP.homepage}/r1",
-          },
-        ],
-        meta: {
-          customTemplates: returnTemplates
-            ? [
-                {
-                  name: "tpl-a",
-                  state: [
-                    {
-                      name: "x",
-                      resolve: {
-                        useProvider: "my-timeout-provider",
-                        args: [1, "Resolved X"],
-                      },
-                    },
-                  ],
-                  bricks: [
-                    {
-                      brick: "div",
-                      properties: {
-                        textContent: "<% `I'm ${STATE.x}` %>",
-                      },
-                    },
-                  ],
-                },
-              ]
-            : [],
         },
-      },
-    ],
-    brickPackages: [],
-    settings: {
-      featureFlags: {
-        ["some-global-feature"]: true,
-      },
-      misc: {
-        quality: "good",
-      },
-      brand: {
-        favicon: "new-favicon.png",
-      },
-      launchpad: {
-        columns: 11,
-        rows: 3,
+        {
+          path: "${APP.homepage}/0",
+          type: "redirect",
+          exact: true,
+          redirect: "${APP.homepage}/1",
+        },
+        {
+          path: "${APP.homepage}/1",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "I'm page 1 of App A",
+              },
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/2",
+          exact: true,
+          bricks: [
+            {
+              brick: "tpl-a",
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/3",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              portal: true,
+              properties: {
+                textContent: "I'm in portal",
+              },
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/r1",
+          type: "redirect",
+          exact: true,
+          redirect: "${APP.homepage}/r2",
+        },
+        {
+          path: "${APP.homepage}/r2",
+          type: "redirect",
+          exact: true,
+          redirect: "${APP.homepage}/r1",
+        },
+      ],
+      meta: {
+        customTemplates: options?.templates
+          ? [
+              {
+                name: "tpl-a",
+                state: [
+                  {
+                    name: "x",
+                    resolve: {
+                      useProvider: "my-timeout-provider",
+                      args: [1, "Resolved X"],
+                    },
+                  },
+                ],
+                bricks: [
+                  {
+                    brick: "div",
+                    properties: {
+                      textContent: "<% `I'm ${STATE.x}` %>",
+                    },
+                  },
+                ],
+              },
+            ]
+          : [],
       },
     },
-  })
-);
+  ],
+  brickPackages: [],
+  settings: options?.settings
+    ? {
+        featureFlags: {
+          ["some-global-feature"]: true,
+        },
+        misc: {
+          quality: "good",
+        },
+        brand: {
+          favicon: "new-favicon.png",
+        },
+        launchpad: {
+          columns: 11,
+          rows: 3,
+        },
+        presetBricks: {
+          notification: false,
+          dialog: false,
+        },
+      }
+    : undefined,
+});
 
 const myTimeoutProvider = jest.fn(
   (timeout: number, result: unknown) =>
@@ -158,8 +190,6 @@ describe("Runtime", () => {
 
   beforeEach(() => {
     window.NO_AUTH_GUARD = true;
-    returnTemplates = false;
-
     const main = document.createElement("div");
     main.id = "main-mount-point";
     const portal = document.createElement("div");
@@ -183,9 +213,13 @@ describe("Runtime", () => {
   });
 
   test("basic page", async () => {
-    createRuntime();
+    createRuntime().initialize(
+      getBootstrapData({ settings: true, locales: true })
+    );
     getHistory().push("/app-a");
     await getRuntime().bootstrap();
+    expect(loadNotificationService).not.toBeCalled();
+    expect(loadDialogService).not.toBeCalled();
     const renderId0 = _internalApiGetRenderId();
     expect(renderId0).toBeDefined();
     expect(document.body.children).toMatchInlineSnapshot(`
@@ -194,7 +228,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <div>
-            I'm homepage of App A
+            I'm homepage of Application A
           </div>
         </div>,
         <div
@@ -293,8 +327,7 @@ describe("Runtime", () => {
   });
 
   test("tpl", async () => {
-    returnTemplates = true;
-    createRuntime();
+    createRuntime().initialize(getBootstrapData({ templates: true }));
 
     expect(() => createRuntime()).toThrowErrorMatchingInlineSnapshot(
       `"Cannot create multiple runtimes"`
@@ -302,6 +335,10 @@ describe("Runtime", () => {
 
     getHistory().push("/app-a/2");
     await getRuntime().bootstrap();
+
+    expect(loadNotificationService).toBeCalledTimes(1);
+    expect(loadDialogService).toBeCalledTimes(1);
+
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div
@@ -320,8 +357,29 @@ describe("Runtime", () => {
     `);
   });
 
+  test("single portal brick", async () => {
+    createRuntime().initialize(getBootstrapData());
+
+    getHistory().push("/app-a/3");
+    await getRuntime().bootstrap();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        />,
+        <div
+          id="portal-mount-point"
+        >
+          <div>
+            I'm in portal
+          </div>
+        </div>,
+      ]
+    `);
+  });
+
   test("page not found", async () => {
-    createRuntime();
+    createRuntime().initialize(getBootstrapData());
     getHistory().push("/not-found");
     await getRuntime().bootstrap();
     expect(document.body.children).toMatchInlineSnapshot(`
@@ -342,7 +400,7 @@ describe("Runtime", () => {
 
   test("infinite redirect", async () => {
     consoleError.mockReturnValueOnce();
-    createRuntime();
+    createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-a/r1");
     await getRuntime().bootstrap();
     expect(document.body.children).toMatchInlineSnapshot(`
@@ -362,8 +420,33 @@ describe("Runtime", () => {
     expect(getHistory().location.pathname).toBe("/app-a/r2");
   });
 
-  test("without bootstrap", () => {
-    createRuntime();
+  test("loadBricks", async () => {
+    const runtime = createRuntime();
+    runtime.initialize({ brickPackages: [{ id: "bricks/test" } as any] });
+    await runtime.loadBricks(["test.my-brick"]);
+    expect(loadBricksImperatively).toBeCalledWith(
+      ["test.my-brick"],
+      [{ id: "bricks/test" }]
+    );
+  });
+
+  test("initialize twice", () => {
+    const runtime = createRuntime();
+    runtime.initialize({});
+    expect(() => {
+      runtime.initialize({});
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"The runtime cannot be initialized more than once"`
+    );
+
     expect(getRuntime().getRecentApps()).toEqual({});
+  });
+
+  test("bootstrap twice", async () => {
+    const runtime = createRuntime();
+    await runtime.bootstrap({});
+    expect(runtime.bootstrap()).rejects.toMatchInlineSnapshot(
+      `[Error: The runtime cannot be bootstrapped more than once]`
+    );
   });
 });

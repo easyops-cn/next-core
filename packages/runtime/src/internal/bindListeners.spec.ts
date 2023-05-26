@@ -6,7 +6,7 @@ import {
   beforeAll,
   afterAll,
 } from "@jest/globals";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import type { RuntimeContext } from "./interfaces.js";
 import { bindListeners, listenerFactory } from "./bindListeners.js";
 import { getHistory } from "../history.js";
@@ -386,6 +386,39 @@ describe("listenerFactory for context.*", () => {
     await new Promise((resolve) => setTimeout(resolve, 30));
     expect(ctxStore.getValue("lazyContext")).toEqual("resolved");
   });
+
+  test("batchUpdate context.replace", async () => {
+    listenerFactory(
+      {
+        action: "context.replace",
+        args: [
+          {
+            name: "complexContext",
+            value: "good",
+          },
+        ],
+      },
+      runtimeContext
+    )(event);
+    expect(ctxStore.getValue("complexContext")).toEqual("good");
+  });
+
+  test("batchUpdate context.replace when batch was false", async () => {
+    listenerFactory(
+      {
+        action: "context.replace",
+        batch: false,
+        args: [
+          {
+            name: "complexContext",
+            value: "good",
+          },
+        ],
+      },
+      runtimeContext
+    )(event);
+    expect(ctxStore.getValue("complexContext")).toEqual("good");
+  });
 });
 
 describe("listenerFactory for state.* and tpl.*", () => {
@@ -468,6 +501,52 @@ describe("listenerFactory for state.* and tpl.*", () => {
     expect(dispatchedEvent.type).toBe("oops");
     expect(dispatchedEvent.bubbles).toBe(true);
     expect(dispatchedEvent.detail).toBe("ok");
+  });
+});
+
+describe("listenerFactory for formstate.update", () => {
+  let formStore: DataStore<"FORM_STATE">;
+
+  beforeEach(async () => {
+    const formStateStoreMap = new Map<string, DataStore<"FORM_STATE">>();
+    const formStateStoreId = "form-state-0";
+    runtimeContext = {
+      formStateStoreId,
+      formStateStoreMap,
+    } as RuntimeContext;
+    formStore = new DataStore("FORM_STATE");
+    formStateStoreMap.set(formStateStoreId, formStore);
+    formStore.define(
+      [
+        {
+          name: "primitiveState",
+          value: "initial primitive",
+        },
+        {
+          name: "asyncState",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [30, "<% `resolved:${FORM_STATE.primitiveState}` %>"],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    await formStore.waitForAll();
+  });
+
+  test("formstate.update", async () => {
+    expect(formStore.getValue("primitiveState")).toBe("initial primitive");
+    expect(formStore.getValue("asyncState")).toBe("resolved:initial primitive");
+
+    listenerFactory(
+      {
+        action: "formstate.update",
+        args: ["primitiveState", "<% EVENT.detail %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(formStore.getValue("primitiveState")).toBe("ok");
   });
 });
 
@@ -1084,5 +1163,163 @@ describe("listenerFactory for unknown handlers", () => {
     expect(consoleError).toBeCalledWith("unknown event handler:", {
       provider: "oops",
     });
+  });
+});
+
+describe("if/esle condition", () => {
+  let ctxStore: DataStore<"CTX">;
+
+  beforeEach(async () => {
+    consoleLog.mockReturnValue();
+
+    ctxStore = new DataStore("CTX");
+    runtimeContext = {
+      ctxStore,
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "yes",
+          value: true,
+        },
+        {
+          name: "no",
+          value: false,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+  });
+
+  afterEach(() => {
+    consoleLog.mockReset();
+  });
+
+  it("basic", async () => {
+    listenerFactory(
+      {
+        if: true,
+        then: [
+          {
+            useProvider: "my-timeout-provider",
+            args: [10, "resolved"],
+            callback: {
+              success: [
+                {
+                  if: "<% CTX.yes %>",
+                  then: [
+                    {
+                      action: "console.log",
+                      args: ["进入 then 逻辑", "<% EVENT.detail %>"],
+                    },
+                    {
+                      useProvider: "my-timeout-provider",
+                      args: [10, "nest-provider"],
+                      callback: {
+                        success: [
+                          {
+                            if: "<% CTX.yes %>",
+                            then: {
+                              action: "console.log",
+                              args: [
+                                "进入嵌套 provider 逻辑",
+                                "<% EVENT.detail %>",
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      if: true,
+                      then: {
+                        action: "console.log",
+                        args: ["进入嵌套 then 逻辑"],
+                      },
+                    },
+                  ],
+                },
+                {
+                  if: "<% CTX.no %>",
+                  then: [],
+                  else: [
+                    {
+                      action: "console.log",
+                      args: ["进入 else 逻辑"],
+                    },
+                    {
+                      if: "<% CTX.no %>",
+                      then: [],
+                      else: {
+                        action: "console.log",
+                        args: ["进入嵌套 else 逻辑"],
+                      },
+                    },
+                  ],
+                },
+                {
+                  if: true,
+                  then: [],
+                  else: {
+                    action: "console.log",
+                    args: ["不执行"],
+                  },
+                },
+                {
+                  if: false,
+                  then: {
+                    action: "console.log",
+                    args: ["不执行"],
+                  },
+                },
+                {
+                  if: false,
+                  action: "console.log",
+                  args: ["不执行"],
+                  else: {
+                    action: "console.log",
+                    args: ["执行"],
+                  },
+                },
+                {
+                  if: false,
+                  useProvider: "my-timeout-provider",
+                  args: [10, "nest-provider"],
+                  else: {
+                    action: "console.log",
+                    args: ["执行"],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 30));
+
+    expect(myTimeoutProvider).toBeCalledTimes(2);
+    expect(consoleLog).toBeCalledTimes(7);
+
+    expect(consoleLog).toHaveBeenNthCalledWith(1, "进入 then 逻辑", "resolved");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(2, "进入嵌套 then 逻辑");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(3, "进入 else 逻辑");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(4, "进入嵌套 else 逻辑");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(5, "执行");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(6, "执行");
+
+    expect(consoleLog).toHaveBeenNthCalledWith(
+      7,
+      "进入嵌套 provider 逻辑",
+      "nest-provider"
+    );
   });
 });

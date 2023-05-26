@@ -1,15 +1,11 @@
 import { loadBricksImperatively } from "@next-core/loader";
-import { isFlowApiProvider } from "./FlowApi.js";
-import {
-  FLOW_API_PROVIDER,
-  registerFlowApiProvider,
-} from "./FlowApiProvider.js";
-import { getBrickPackages } from "../Runtime.js";
+import { getBrickPackages, hooks } from "../Runtime.js";
 
 const pool = new Map<string, HTMLElement>();
 export async function getProviderBrick(provider: string): Promise<HTMLElement> {
-  if (isFlowApiProvider(provider)) {
-    provider = FLOW_API_PROVIDER;
+  const isFlowApi = hooks?.flowApi?.isFlowApiProvider(provider);
+  if (isFlowApi) {
+    provider = hooks!.flowApi!.FLOW_API_PROVIDER;
   }
 
   let brick = pool.get(provider);
@@ -18,8 +14,8 @@ export async function getProviderBrick(provider: string): Promise<HTMLElement> {
   }
 
   if (provider.includes("-") && !customElements.get(provider)) {
-    if (provider === FLOW_API_PROVIDER) {
-      registerFlowApiProvider();
+    if (isFlowApi) {
+      hooks!.flowApi!.registerFlowApiProvider();
     } else {
       await loadBricksImperatively([provider], getBrickPackages());
 

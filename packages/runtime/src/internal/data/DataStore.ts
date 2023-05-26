@@ -1,4 +1,8 @@
-import type { BrickEventHandlerCallback, ContextConf } from "@next-core/types";
+import type {
+  BatchUpdateContextItem,
+  BrickEventHandlerCallback,
+  ContextConf,
+} from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
@@ -24,6 +28,7 @@ export interface DataStoreItem {
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
+  deps: string[];
 }
 
 export class DataStore<T extends DataStoreType = "CTX"> {
@@ -33,6 +38,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private readonly pendingStack: Array<ReturnType<typeof resolveDataStore>> =
     [];
   public readonly hostBrick?: RuntimeBrick;
+  public batchUpdate = false;
+  public batchUpdateContextsNames: string[] = [];
 
   constructor(type: T, hostBrick?: RuntimeBrick) {
     this.type = type;
@@ -47,6 +54,72 @@ export class DataStore<T extends DataStoreType = "CTX"> {
 
   getValue(name: string): unknown {
     return this.data.get(name)?.value;
+  }
+
+  getAffectListByContext(name: string): string[] {
+    const affectNames = [name];
+    this.data.forEach((value, key) => {
+      if (value.deps) {
+        const isInDeps = value.deps.some((item) => affectNames.includes(item));
+        isInDeps &&
+          affectNames.push(key) &&
+          affectNames.push(...this.getAffectListByContext(key));
+      }
+    });
+    affectNames.shift();
+    return [...new Set(affectNames)];
+  }
+
+  updateValues(
+    values: BatchUpdateContextItem[],
+    method: "assign" | "replace",
+    argsFactory: (arg: unknown[]) => BatchUpdateContextItem
+  ): void {
+    this.batchUpdate = true;
+    this.batchUpdateContextsNames = values.map((item) => item.name);
+    if (
+      [...new Set(this.batchUpdateContextsNames)].length !==
+      this.batchUpdateContextsNames.length
+    ) {
+      throw new Error(`Batch update not allow to update same item`);
+    }
+
+    const updateContexts: Record<string, DataStoreItem> = {};
+    const affectContexts: Record<string, DataStoreItem> = {};
+    const affectDepsContextNames: string[] = [];
+
+    values.forEach((arg) => {
+      const { name, value } = argsFactory([arg]);
+      const updateContextItem = this.data.get(name);
+      affectDepsContextNames.push(...this.getAffectListByContext(name));
+      updateContextItem && (updateContexts[name] = updateContextItem);
+      this.updateValue(name as string, value, method);
+    });
+
+    affectDepsContextNames
+      .filter((item) => !updateContexts[item])
+      .forEach((name) => {
+        const affectContextItem = this.data.get(name);
+        affectContextItem && (affectContexts[name] = affectContextItem);
+      });
+
+    const triggerEvent = (contexts: Record<string, DataStoreItem>): void => {
+      for (const key in contexts) {
+        const context = contexts[key];
+        context.eventTarget?.dispatchEvent(
+          new CustomEvent(this.changeEventType, {
+            detail: context.value,
+          })
+        );
+      }
+    };
+
+    triggerEvent(updateContexts);
+    triggerEvent(affectContexts);
+
+    this.batchUpdate = false;
+
+    return;
   }
 
   updateValue(
@@ -138,6 +211,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       }
     }
 
+    if (this.batchUpdate) return;
+
     item.eventTarget.dispatchEvent(
       new CustomEvent(this.changeEventType, {
         detail: item.value,
@@ -193,7 +268,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       return false;
     }
     let value: unknown;
-    if (this.type === "STATE" && asyncHostProperties && dataConf.expose) {
+    if (
+      asyncHostProperties &&
+      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE")
+    ) {
       const hostProps = await asyncHostProperties;
       if (hasOwnProperty(hostProps, dataConf.name)) {
         value = hostProps[dataConf.name];
@@ -235,6 +313,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       eventTarget: new EventTarget(),
       load,
       loaded: !isLazyResolve,
+      deps: [],
     };
 
     if (dataConf.onChange) {
@@ -244,23 +323,27 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       );
     }
 
-    if (dataConf.track && this.type !== "FORM_STATE") {
+    if (dataConf.track) {
       const deps = strictCollectMemberUsage(
         load ? dataConf.resolve : dataConf.value,
         this.type
       );
+      !load && (newData.deps = [...deps]);
       for (const dep of deps) {
-        this.onChange(dep, () => {
-          if (load) {
-            this.updateValue(dataConf.name, { cache: "default" }, "refresh");
-          } else {
-            this.updateValue(
-              dataConf.name,
-              computeRealValue(dataConf.value, runtimeContext),
-              "replace"
-            );
-          }
-        });
+        this.onChange(
+          dep,
+          this.batchAddListener(() => {
+            if (load) {
+              this.updateValue(dataConf.name, { cache: "default" }, "refresh");
+            } else {
+              this.updateValue(
+                dataConf.name,
+                computeRealValue(dataConf.value, runtimeContext),
+                "replace"
+              );
+            }
+          }, dataConf)
+        );
       }
     }
 
@@ -272,5 +355,20 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     this.data.set(dataConf.name, newData);
 
     return true;
+  }
+
+  batchAddListener(
+    listener: EventListener,
+    contextConf: ContextConf
+  ): EventListener {
+    return (event: Event | CustomEvent): void => {
+      if (
+        this.batchUpdate &&
+        this.batchUpdateContextsNames.includes(contextConf.name)
+      ) {
+        return;
+      }
+      listener(event);
+    };
   }
 }

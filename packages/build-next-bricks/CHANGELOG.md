@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.1...@next-core/build-next-bricks@1.5.2) (2023-05-25)
+
+
+### Bug Fixes
+
+* put @next-core/easyops-runtime into module federations ([f55a846](https://github.com/easyops-cn/next-core/commit/f55a846cebff80b0586592c02c504d74f8f4efc0))
+
+
+
+
+
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.0...@next-core/build-next-bricks@1.5.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.2...@next-core/build-next-bricks@1.5.0) (2023-05-09)
+
+
+### Features
+
+* build brick metadata ([73fbd4a](https://github.com/easyops-cn/next-core/commit/73fbd4a810fba359ab98bee0ab0cd7bd76cc65ae))
+
+
+
+
+
+## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.1...@next-core/build-next-bricks@1.4.2) (2023-05-05)
+
+
+### Bug Fixes
+
+* fix asset stage ([3de0a5f](https://github.com/easyops-cn/next-core/commit/3de0a5f52269bf20e8fa5514052e26de576088c8))
+
+
+
+
+
+## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.4.0...@next-core/build-next-bricks@1.4.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* do not merge react and react-dom ([18872c7](https://github.com/easyops-cn/next-core/commit/18872c746c34d53e1c17df240773ff22372e43b7))
+
+
+
+
+
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.3.1...@next-core/build-next-bricks@1.4.0) (2023-04-14)
+
+
+### Features
+
+* load third-party custom elements ([38fd3ed](https://github.com/easyops-cn/next-core/commit/38fd3ed323e5f53c4b1d7574c795e8925b134840))
+
+
+
+
+
 ## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.3.0...@next-core/build-next-bricks@1.3.1) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/build-next-bricks

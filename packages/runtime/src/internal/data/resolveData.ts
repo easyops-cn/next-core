@@ -6,7 +6,7 @@ import type {
 import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 import type { RuntimeContext } from "../interfaces.js";
-import { getArgsOfFlowApi } from "./FlowApi.js";
+import { hooks } from "../Runtime.js";
 
 const cache = new Map<string, Promise<unknown>>();
 
@@ -118,7 +118,9 @@ export async function resolveByProvider(
   }
   if (!promise) {
     promise = (async () => {
-      const finalArgs = await getArgsOfFlowApi(useProvider, args, method);
+      const finalArgs = hooks?.flowApi?.isFlowApiProvider(useProvider)
+        ? await hooks.flowApi.getArgsOfFlowApi(useProvider, args, method)
+        : args;
       return brick.resolve(...finalArgs);
     })();
 

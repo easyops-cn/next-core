@@ -12,13 +12,13 @@ import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
 } from "@next-core/loader";
+import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { debounce } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
-import { preCheckPermissionsForBrickOrRoute } from "./checkPermissions.js";
 import {
   TrackingContextItem,
   listenOnTrackingContext,
@@ -26,23 +26,36 @@ import {
 import { RendererContext } from "./RendererContext.js";
 import { matchRoutes } from "./matchRoutes.js";
 import {
-  RuntimeBrickConfWithTplSymbols,
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
-import type { RenderBrick, RenderNode, RuntimeContext } from "./interfaces.js";
+import type {
+  RenderBrick,
+  RenderNode,
+  RuntimeBrickConfWithSymbols,
+  RuntimeContext,
+} from "./interfaces.js";
 import {
   getTagNameOfCustomTemplate,
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
 import { customTemplates } from "../CustomTemplates.js";
 import type { NextHistoryState } from "./historyExtended.js";
-import { getBrickPackages } from "./Runtime.js";
+import { getBrickPackages, hooks } from "./Runtime.js";
 import { RenderTag } from "./enums.js";
 import { getTracks } from "./compute/getTracks.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
+import {
+  FORM_RENDERER,
+  RuntimeBrickConfOfFormSymbols,
+  symbolForFormStateStoreId,
+} from "./FormRenderer/constants.js";
+import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
+import { isPreEvaluated } from "./compute/evaluate.js";
+import { getPreEvaluatedRaw } from "./compute/evaluate.js";
+import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -83,8 +96,21 @@ export async function renderRoutes(
       };
       runtimeContext.ctxStore.define(route.context, runtimeContext);
       runtimeContext.pendingPermissionsPreCheck.push(
-        preCheckPermissionsForBrickOrRoute(route, runtimeContext)
+        hooks?.checkPermissions?.preCheckPermissionsForBrickOrRoute(
+          route,
+          (value) => asyncComputeRealValue(value, runtimeContext)
+        )
       );
+
+      // Currently, this is only used for brick size-checking: these bricks
+      // will be loaded before page rendering, but they will NOT be rendered.
+      const { preLoadBricks } = route as { preLoadBricks?: string[] };
+      if (Array.isArray(preLoadBricks)) {
+        output.blockingList.push(
+          loadBricksImperatively(preLoadBricks, getBrickPackages())
+        );
+      }
+
       switch (route.type) {
         case "redirect": {
           let redirectTo: unknown;
@@ -183,7 +209,7 @@ export async function renderBricks(
 
 export async function renderBrick(
   returnNode: RenderNode,
-  brickConf: RuntimeBrickConfWithTplSymbols,
+  brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId?: string,
@@ -206,10 +232,46 @@ export async function renderBrick(
     return output;
   }
 
+  // Translate `if: "<%= ... %>"` to `brick: ":if", dataSource: "<%= ... %>"`.
+  // In other words, translate tracking if expressions to tracking control nodes of `:if`.
+  const { if: brickIf, permissionsPreCheck, ...restBrickConf } = brickConf;
+  if (isGeneralizedTrackAll(brickIf)) {
+    return renderBrick(
+      returnNode,
+      {
+        brick: ":if",
+        dataSource: brickIf,
+        // `permissionsPreCheck` maybe required before computing `if`.
+        permissionsPreCheck,
+        slots: {
+          "": {
+            type: "bricks",
+            bricks: [restBrickConf],
+          },
+        },
+        // These symbols have to be copied to the new brick conf.
+        ...Object.getOwnPropertySymbols(brickConf).reduce(
+          (acc, symbol) => ({
+            ...acc,
+            [symbol]: (brickConf as any)[symbol],
+          }),
+          {} as RuntimeBrickConfOfTplSymbols & RuntimeBrickConfOfFormSymbols
+        ),
+      },
+      _runtimeContext,
+      rendererContext,
+      slotId,
+      key,
+      tplStack
+    );
+  }
+
   const tplStateStoreId = brickConf[symbolForTplStateStoreId];
+  const formStateStoreId = brickConf[symbolForFormStateStoreId];
   const runtimeContext = {
     ..._runtimeContext,
     tplStateStoreId,
+    formStateStoreId,
   };
 
   if (hasOwnProperty(brickConf, symbolForTPlExternalForEachItem)) {
@@ -234,7 +296,10 @@ export async function renderBrick(
   }
 
   runtimeContext.pendingPermissionsPreCheck.push(
-    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
+    hooks?.checkPermissions?.preCheckPermissionsForBrickOrRoute(
+      brickConf,
+      (value) => asyncComputeRealValue(value, runtimeContext)
+    )
   );
 
   if (!(await asyncCheckBrickIf(brickConf, runtimeContext))) {
@@ -317,9 +382,10 @@ export async function renderBrick(
         const currentRenderId = ++renderId;
         const output = await renderControlNode();
         output.blockingList.push(
-          ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
-            store.waitForAll()
-          ),
+          ...[
+            ...runtimeContext.tplStateStoreMap.values(),
+            ...runtimeContext.formStateStoreMap.values(),
+          ].map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck
         );
         await Promise.all(output.blockingList);
@@ -354,9 +420,13 @@ export async function renderBrick(
     return controlledOutput;
   }
 
-  // Custom templates need to be defined before rendering.
+  // Widgets need to be defined before rendering.
   if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
-    await loadBricksImperatively([brickName], getBrickPackages());
+    await catchLoadBrick(
+      loadBricksImperatively([brickName], getBrickPackages()),
+      brickName,
+      rendererContext.unknownBricks
+    );
   }
 
   const tplTagName = getTagNameOfCustomTemplate(
@@ -372,12 +442,25 @@ export async function renderBrick(
       );
     }
     tplStack.set(tplTagName, tplCount + 1);
-  }
-
-  if (brickName.includes(".")) {
-    output.blockingList.push(
-      enqueueStableLoadBricks([brickName], getBrickPackages())
-    );
+  } else if (brickName.includes("-") && !customElements.get(brickName)) {
+    if (brickName === FORM_RENDERER) {
+      customElements.define(
+        FORM_RENDERER,
+        class FormRendererElement extends HTMLElement {
+          get $$typeof(): string {
+            return "form-renderer";
+          }
+        }
+      );
+    } else {
+      output.blockingList.push(
+        catchLoadBrick(
+          enqueueStableLoadBricks([brickName], getBrickPackages()),
+          brickName,
+          rendererContext.unknownBricks
+        )
+      );
+    }
   }
 
   const brick: RenderBrick = {
@@ -394,13 +477,22 @@ export async function renderBrick(
 
   output.node = brick;
 
+  // const confProps = brickConf.properties;
+  let formData: unknown;
+  let confProps: Record<string, unknown> | undefined;
+  if (brickName === FORM_RENDERER) {
+    ({ formData, ...confProps } = brickConf.properties ?? {});
+  } else {
+    confProps = brickConf.properties;
+  }
+
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
 
   const trackingContextList: TrackingContextItem[] = [];
   const loadProperties = async () => {
     brick.properties = await asyncComputeRealProperties(
-      brickConf.properties,
+      confProps,
       runtimeContext,
       trackingContextList
     );
@@ -413,14 +505,11 @@ export async function renderBrick(
         brick.properties[propName] = propValue;
       }
     }
+    listenOnTrackingContext(brick, trackingContextList);
     return brick.properties;
   };
   const asyncProperties = loadProperties();
   blockingList.push(asyncProperties);
-
-  asyncProperties.then(() => {
-    listenOnTrackingContext(brick, trackingContextList);
-  });
 
   rendererContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
 
@@ -428,6 +517,13 @@ export async function renderBrick(
   if (tplTagName) {
     expandedBrickConf = expandCustomTemplate(
       tplTagName,
+      brickConf,
+      brick,
+      asyncProperties
+    );
+  } else if (brickName === FORM_RENDERER) {
+    expandedBrickConf = expandFormRenderer(
+      formData,
       brickConf,
       brick,
       asyncProperties
@@ -500,6 +596,14 @@ export async function renderBrick(
   await Promise.all(blockingList);
 
   return output;
+}
+
+function isGeneralizedTrackAll(brickIf: unknown): boolean {
+  return typeof brickIf === "string"
+    ? isTrackAll(brickIf)
+    : isPreEvaluated(brickIf) &&
+        // istanbul ignore next: covered by e2e tests
+        isTrackAll(getPreEvaluatedRaw(brickIf));
 }
 
 type ValidControlBrick = ":forEach" | ":if" | ":switch";
@@ -638,4 +742,17 @@ export function childrenToSlots(
     }
   }
   return newSlots;
+}
+
+function catchLoadBrick(
+  promise: Promise<unknown>,
+  brickName: string,
+  unknownBricks: RendererContext["unknownBricks"]
+) {
+  return unknownBricks === "silent"
+    ? promise.catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(`Load brick "${brickName}" failed:`, e);
+      })
+    : promise;
 }

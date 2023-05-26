@@ -1,0 +1,237 @@
+import yaml from "js-yaml";
+import { ContractApi_searchSingleContract } from "@next-api-sdk/api-gateway-sdk";
+import { ContractRequest, ContractResponse, ExtField } from "@next-core/types";
+import { getContract } from "./CollectContracts.js";
+
+const flowApiDefinitionPromiseMap = new Map<
+  string,
+  Promise<CustomApiDefinition | undefined>
+>();
+
+// Legacy Custom API: `${namespace}@${name}`
+// Flow API: `${namespace}@${name}:${version}`
+export function isFlowApiProvider(provider: string): boolean {
+  return provider.includes("@");
+}
+
+export async function getArgsOfFlowApi(
+  provider: string,
+  originalArgs: unknown[],
+  method?: string
+): Promise<unknown[]> {
+  if (!provider.includes(":")) {
+    throw new Error(
+      `You're using legacy Custom API "${provider}" which is dropped in v3, please use Flow API instead`
+    );
+  }
+
+  const apiDefinition = await fetchFlowApiDefinition(provider);
+
+  if (!apiDefinition) {
+    throw new Error(`Flow API not found: "${provider}"`);
+  }
+
+  const apiProfile = getApiProfileFromApiDefinition(provider, apiDefinition);
+
+  return getApiArgsFromApiProfile(apiProfile, originalArgs, method);
+}
+
+function getApiArgsFromApiProfile(
+  {
+    uri,
+    method: apiMethod,
+    ext_fields,
+    name,
+    namespace,
+    serviceName,
+    responseWrapper,
+    version,
+    isFileType,
+    request,
+  }: CustomApiProfile,
+  originalArgs: unknown[],
+  method?: string
+): unknown[] {
+  const isDownload = isFileType && method === "saveAs";
+  let fileName: string | undefined;
+  if (isDownload) {
+    fileName = originalArgs.shift() as string;
+  }
+
+  const { url, args } = getTransformedUriAndRestArgs(
+    uri,
+    originalArgs,
+    name,
+    namespace,
+    serviceName,
+    version
+  );
+
+  return [
+    ...(isDownload ? [fileName] : []),
+    {
+      url,
+      originalUri: uri,
+      method: apiMethod,
+      ext_fields,
+      responseWrapper,
+      request,
+      isFileType,
+    },
+    ...args,
+  ];
+}
+
+function getTransformedUriAndRestArgs(
+  uri: string,
+  originalArgs: unknown[],
+  name: string,
+  namespace: string,
+  serviceName: string | undefined,
+  version?: string
+): { url: string; args: unknown[] } {
+  const prefix = version
+    ? serviceName
+      ? `api/gateway/${serviceName}`
+      : `api/gateway/${namespace}.${name}@${version}`
+    : `api/gateway/api_service.${namespace}.${name}`;
+  const restArgs = originalArgs.slice();
+  const transformedUri = uri.replace(
+    /:([^/]+)/g,
+    () => restArgs.shift() as string
+  );
+  return {
+    url: prefix + transformedUri,
+    args: restArgs,
+  };
+}
+
+function getApiProfileFromApiDefinition(
+  provider: string,
+  api: CustomApiDefinition
+): CustomApiProfile {
+  const contract: CustomApiDefinition["contract"] =
+    typeof api.contract === "string"
+      ? (yaml.safeLoad(api.contract, {
+          schema: yaml.JSON_SCHEMA,
+          json: true,
+        }) as CustomApiDefinition["contract"])
+      : api.contract;
+  const { uri, method = "GET", ext_fields } = contract?.endpoint ?? {};
+  const responseWrapper = contract?.response
+    ? contract.response.wrapper !== false
+    : false;
+  if (!uri) {
+    throw new Error(
+      `Missing endpoint.uri in contract of provider "${provider}"`
+    );
+  }
+  return {
+    uri,
+    method: method.toLowerCase() === "list" ? "get" : method,
+    ext_fields,
+    name: api.name,
+    namespace: api.namespace,
+    serviceName: api.serviceName,
+    version: api.version,
+    isFileType: contract?.response?.type === "file",
+    responseWrapper,
+    request: contract?.request,
+  };
+}
+
+function fetchFlowApiDefinition(
+  provider: string
+): Promise<CustomApiDefinition | undefined> {
+  let promise = flowApiDefinitionPromiseMap.get(provider);
+  if (!promise) {
+    promise = _fetchFlowApiDefinition(provider);
+    flowApiDefinitionPromiseMap.set(provider, promise);
+  }
+  return promise;
+}
+
+async function _fetchFlowApiDefinition(
+  provider: string
+): Promise<CustomApiDefinition | undefined> {
+  const [namespaceName, nameWithVersion] = provider.split("@");
+  const [name, version] = nameWithVersion.split(":");
+
+  const contract = getContract(`${namespaceName}.${name}`);
+  if (contract) {
+    return {
+      name: contract.name,
+      namespace: contract.namespaceId,
+      serviceName: contract.serviceName,
+      version: contract.version,
+      contract: {
+        endpoint: contract.endpoint,
+        response: contract.response,
+        request: contract.request,
+      },
+    };
+  } else {
+    const { contractData } = await ContractApi_searchSingleContract({
+      contractName: `${namespaceName}.${name}`,
+      version,
+    });
+
+    // return undefined if don't found contract
+    if (contractData) {
+      return {
+        name: contractData.name,
+        namespace: contractData.namespace?.[0]?.name,
+        serviceName: contractData.serviceName,
+        version: contractData.version,
+        contract: {
+          endpoint: contractData.endpoint,
+          response: contractData.response,
+          request: contractData.request,
+        },
+      };
+    }
+  }
+}
+
+export interface CustomApiDefinition {
+  name: string;
+  namespace: string;
+  version?: string;
+  serviceName?: string;
+  contract?: {
+    endpoint: {
+      ext_fields?: ExtField[];
+      uri: string;
+      method:
+        | "POST"
+        | "post"
+        | "PUT"
+        | "put"
+        | "GET"
+        | "get"
+        | "DELETE"
+        | "delete"
+        | "LIST"
+        | "list"
+        | "PATCH"
+        | "patch"
+        | "HEAD"
+        | "head";
+    };
+    request?: ContractRequest;
+    response?: ContractResponse;
+  };
+}
+
+export interface CustomApiProfile {
+  uri: string;
+  method: string;
+  name: string;
+  namespace: string;
+  serviceName?: string;
+  responseWrapper: boolean;
+  version?: string;
+  isFileType?: boolean;
+  ext_fields?: ExtField[];
+  request?: ContractRequest;
+}

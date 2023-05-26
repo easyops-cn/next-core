@@ -7,13 +7,20 @@ import { DataStore } from "../data/DataStore.js";
 
 const ctxStore = new DataStore("CTX");
 const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
-const stateStore = new DataStore("STATE", null!);
+const stateStore = new DataStore("STATE");
 const tplStateStoreId = "tpl-state-0";
 tplStateStoreMap.set(tplStateStoreId, stateStore);
+const formStateStoreMap = new Map<string, DataStore<"FORM_STATE">>();
+const formStore = new DataStore("FORM_STATE");
+const formStateStoreId = "form-state-0";
+formStateStoreMap.set(formStateStoreId, formStore);
+
 const runtimeContext = {
   ctxStore,
   tplStateStoreId,
   tplStateStoreMap,
+  formStateStoreId,
+  formStateStoreMap,
 } as Partial<RuntimeContext> as RuntimeContext;
 
 ctxStore.define(
@@ -38,6 +45,15 @@ stateStore.define(
   runtimeContext
 );
 
+formStore.define(
+  [
+    {
+      name: "good",
+    },
+  ],
+  runtimeContext
+);
+
 describe("listenOnTrackingContext", () => {
   const trackingContextList: TrackingContextItem[] = [
     {
@@ -57,9 +73,9 @@ describe("listenOnTrackingContext", () => {
     {
       contextNames: false,
       stateNames: false,
-      formStateNames: ["hello"],
+      formStateNames: ["good"],
       propName: "textContent",
-      propValue: "<% 'track formstate', FORM_STATE.hello %>",
+      propValue: "<% 'track formstate', FORM_STATE.good %>",
     },
   ];
 
@@ -83,6 +99,17 @@ describe("listenOnTrackingContext", () => {
     listenOnTrackingContext(brick, trackingContextList);
     stateStore.updateValue("hola", "Hola", "replace");
     expect(brick.element?.textContent).toBe("Hola");
+  });
+
+  it("should update brick properties when form state changed", () => {
+    const brick: RuntimeBrick = {
+      element: document.createElement("div"),
+      type: "div",
+      runtimeContext,
+    };
+    listenOnTrackingContext(brick, trackingContextList);
+    formStore.updateValue("good", "Better", "replace");
+    expect(brick.element?.textContent).toBe("Better");
   });
 
   it("should do nothing if brick has no element when context changed", () => {

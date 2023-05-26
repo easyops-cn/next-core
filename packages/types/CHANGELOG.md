@@ -3,6 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.2.0...@next-core/types@1.3.0) (2023-05-18)
+
+
+### Features
+
+* support context batchUpdate ([4ab805b](https://github.com/easyops-cn/next-core/commit/4ab805b2d0e3802a37a84ad8796da079f5fdf01b))
+
+
+
+
+
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.1.3...@next-core/types@1.2.0) (2023-05-11)
+
+
+### Features
+
+* support if/esle syntax ([dee507b](https://github.com/easyops-cn/next-core/commit/dee507bb280fe61ec7319db1e7569b68e9b08547))
+* update type ([e9c7e19](https://github.com/easyops-cn/next-core/commit/e9c7e1984bc9c0cbf6fa16a576b3b3fc9dc02136))
+* update type and add unit test ([1f231af](https://github.com/easyops-cn/next-core/commit/1f231af3f54515365ab4eb54230beecd1610a5c3))
+
+
+
+
+
+## [1.1.3](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.1.2...@next-core/types@1.1.3) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.1.1...@next-core/types@1.1.2) (2023-04-27)
+
+
+### Bug Fixes
+
+* inject brick packages only ([faf6525](https://github.com/easyops-cn/next-core/commit/faf6525aa8aabe68fb3968150ff0a6bfac92a105))
+
+
+
+
+
+## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.1.0...@next-core/types@1.1.1) (2023-04-27)
+
+**Note:** Version bump only for package @next-core/types
+
+
+
+
+
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.0.4...@next-core/types@1.1.0) (2023-04-14)
+
+
+### Features
+
+* load third-party custom elements ([38fd3ed](https://github.com/easyops-cn/next-core/commit/38fd3ed323e5f53c4b1d7574c795e8925b134840))
+
+
+
+
+
 ## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.0.3...@next-core/types@1.0.4) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/types

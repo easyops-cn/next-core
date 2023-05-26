@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.0...@next-core/loader@1.3.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.2.1...@next-core/loader@1.3.0) (2023-04-17)
+
+
+### Features
+
+* support load bricks standalone ([74ca584](https://github.com/easyops-cn/next-core/commit/74ca584867ee26c7a67817bb09bc591d270af5e8))
+
+
+
+
+
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.2.0...@next-core/loader@1.2.1) (2023-04-14)
+
+**Note:** Version bump only for package @next-core/loader
+
+
+
+
+
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.1.1...@next-core/loader@1.2.0) (2023-04-14)
+
+
+### Features
+
+* load third-party custom elements ([38fd3ed](https://github.com/easyops-cn/next-core/commit/38fd3ed323e5f53c4b1d7574c795e8925b134840))
+* notification and dialog ([bbdbbd2](https://github.com/easyops-cn/next-core/commit/bbdbbd2169f8c16721a5ce8182707f8cd31aff1d))
+
+
+
+
+
 ## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.1.0...@next-core/loader@1.1.1) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/loader

@@ -7,9 +7,14 @@ import {
 import { loadProcessorsImperatively } from "@next-core/loader";
 import { supply } from "@next-core/supply";
 import { hasOwnProperty } from "@next-core/utils/general";
-import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
+import {
+  strictCollectMemberUsage,
+  collectAppGetMenuUsage,
+  collectInstalledAppsHasUsage,
+  MemberCallUsage,
+} from "@next-core/utils/storyboard";
 import type { RuntimeContext } from "../interfaces.js";
-import { cloneDeep } from "lodash";
+import { cloneDeep, omit } from "lodash";
 import { customProcessors } from "../../CustomProcessors.js";
 import {
   checkPermissionsUsage,
@@ -23,20 +28,22 @@ import {
 import { getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
-import { getBrickPackages, getRuntime } from "../Runtime.js";
+import {
+  _internalApiGetStoryboardInBootstrapData,
+  getBrickPackages,
+  getRuntime,
+  hooks,
+} from "../Runtime.js";
 import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
-import {
-  collectAppGetMenuUsage,
-  collectInstalledAppsHasUsage,
-  MemberCallUsage,
-} from "./collectMemberCallUsage.js";
-import { fetchMenuById, getMenuById } from "../menu/fetchMenuById.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { widgetImagesFactory } from "./images.js";
-import { hasInstalledApp, waitForCheckingApps } from "../checkInstalledApps.js";
+import { hasInstalledApp } from "../hasInstalledApp.js";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
+import { getFormStateStore } from "../FormRenderer/utils.js";
+import { resolveData } from "../data/resolveData.js";
+import { asyncComputeRealValue } from "./computeRealValue.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -119,12 +126,13 @@ function lowLevelEvaluate(
     // If the `raw` is not a string, it must be a pre-evaluated object.
     // Then fulfil the context, and restore the original `raw`.
 
-    const {
-      pendingPermissionsPreCheck: _1,
-      tplStateStoreMap: _2,
-      tplStateStoreScope: _3,
-      ...passByRuntimeContext
-    } = runtimeContext;
+    const passByRuntimeContext = omit(runtimeContext, [
+      "pendingPermissionsPreCheck",
+      "tplStateStoreMap",
+      "tplStateStoreScope",
+      "formStateStoreMap",
+      "formStateStoreScope",
+    ]);
 
     runtimeContext = {
       ...raw[symbolForContext],
@@ -220,6 +228,16 @@ function lowLevelEvaluate(
     tplStateStore = getTplStateStore(runtimeContext, "STATE", `: "${raw}"`);
   }
 
+  let usedFormStates: Set<string>;
+  let formStateStore: DataStore<"FORM_STATE"> | undefined;
+  if (attemptToVisitGlobals.has("FORM_STATE")) {
+    formStateStore = getFormStateStore(
+      runtimeContext,
+      "FORM_STATE",
+      `: "${raw}"`
+    );
+  }
+
   const devHook = getDevHook();
   if (isAsync || devHook) {
     if (attemptToVisitGlobals.has("CTX")) {
@@ -237,6 +255,11 @@ function lowLevelEvaluate(
         }
       }
       isAsync && blockingList.push(tplStateStore.waitFor(usedStates));
+    }
+
+    if (formStateStore) {
+      usedFormStates = strictCollectMemberUsage(raw, "FORM_STATE");
+      isAsync && blockingList.push(formStateStore.waitFor(usedFormStates));
     }
 
     if (attemptToVisitGlobals.has("PROCESSORS")) {
@@ -260,19 +283,29 @@ function lowLevelEvaluate(
       blockingList.push(...runtimeContext.pendingPermissionsPreCheck);
     }
 
-    if (menuUsage.usedArgs.size > 0) {
+    if (menuUsage.usedArgs.size > 0 && hooks?.menu) {
       // Block evaluating if has `APP.getMenu(...)` usage.
       const usedMenuIds = [...menuUsage.usedArgs];
       blockingList.push(
         Promise.all(
-          usedMenuIds.map((menuId) => fetchMenuById(menuId, runtimeContext))
+          usedMenuIds.map((menuId) =>
+            hooks!.menu!.fetchMenuById(menuId, runtimeContext, {
+              getStoryboardByAppId: _internalApiGetStoryboardInBootstrapData,
+              resolveData,
+              asyncComputeRealValue,
+            })
+          )
         )
       );
     }
 
     if (hasAppUsage.usedArgs.size > 0) {
       // Only wait for specific apps
-      blockingList.push(waitForCheckingApps([...hasAppUsage.usedArgs]));
+      blockingList.push(
+        hooks?.checkInstalledApps?.waitForCheckingApps([
+          ...hasAppUsage.usedArgs,
+        ])
+      );
     }
   }
 
@@ -303,7 +336,7 @@ function lowLevelEvaluate(
           case "APP":
             globalVariables[variableName] = {
               ...cloneDeep(app),
-              getMenu: getMenuById,
+              getMenu: hooks?.menu?.getMenuById,
             };
             break;
           case "CTX":
@@ -324,6 +357,16 @@ function lowLevelEvaluate(
             break;
           case "FLAGS":
             globalVariables[variableName] = getReadOnlyProxy(flags);
+            break;
+          case "FORM_STATE":
+            globalVariables[variableName] = getDynamicReadOnlyProxy({
+              get(target, key) {
+                return formStateStore!.getValue(key as string);
+              },
+              ownKeys() {
+                return Array.from(usedFormStates);
+              },
+            });
             break;
           case "HASH":
             globalVariables[variableName] = location.hash;

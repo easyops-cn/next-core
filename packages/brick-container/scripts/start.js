@@ -13,7 +13,7 @@ import {
   getPreMiddlewares,
 } from "../serve/middlewares/getMiddlewares.js";
 
-const env = getEnv(path.join(process.cwd(), "../.."));
+const env = await getEnv(path.join(process.cwd(), "../.."));
 const { rootDir, baseHref, port } = env;
 const distDir = path.join(process.cwd(), "dist");
 

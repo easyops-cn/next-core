@@ -9,6 +9,7 @@ export default class EmitBricksJsonPlugin {
   constructor(options) {
     this.packageName = options.packageName;
     this.bricks = options.bricks;
+    this.elements = options.elements;
     this.processors = options.processors;
     this.dependencies = options.dependencies;
   }
@@ -22,7 +23,7 @@ export default class EmitBricksJsonPlugin {
       compilation.hooks.processAssets.tapAsync(
         {
           name: pluginName,
-          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE,
+          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
         },
         (compilationAssets, callback) => {
           const jsEntries = Object.keys(compilationAssets).filter(
@@ -45,6 +46,7 @@ export default class EmitBricksJsonPlugin {
             {
               id: `bricks/${this.packageName}`,
               bricks: this.bricks,
+              elements: this.elements,
               processors: this.processors,
               dependencies: this.dependencies,
               filePath: jsFilePath,
@@ -59,6 +61,7 @@ export default class EmitBricksJsonPlugin {
           );
 
           console.log("Defined bricks:", this.bricks);
+          console.log("Defined elements:", this.elements);
           console.log("Defined processors:", this.processors);
           console.log("Found dependencies:", this.dependencies);
           callback();

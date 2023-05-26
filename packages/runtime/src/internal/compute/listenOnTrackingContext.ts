@@ -1,6 +1,7 @@
 import { setProperties } from "./setProperties.js";
 import type { RuntimeBrick } from "../interfaces.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
+import { getFormStateStore } from "../FormRenderer/utils.js";
 
 export interface TrackingContextItem {
   contextNames: string[] | Set<string> | false;
@@ -39,14 +40,15 @@ export function listenOnTrackingContext(
         tplStateStore.onChange(stateName, listener);
       }
     }
-    // if (track.formStateNames) {
-    //   const formContext = getCustomFormContext(context.formContextId);
-    //   for (const stateName of track.formStateNames) {
-    //     const ctx = formContext.formState.get().get(stateName);
-    //     (
-    //       ctx as StoryboardContextItemFreeVariable
-    //     )?.eventTarget?.addEventListener("formstate.change", listener);
-    //   }
-    // }
+    if (track.formStateNames) {
+      const formStateStore = getFormStateStore(
+        brick.runtimeContext,
+        "FORM_STATE",
+        `: "${track.propValue}"`
+      );
+      for (const stateName of track.formStateNames) {
+        formStateStore.onChange(stateName, listener);
+      }
+    }
   }
 }

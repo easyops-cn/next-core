@@ -1,8 +1,8 @@
 {
   "name": "@next-bricks/e2e",
-  "version": "0.0.16",
+  "version": "0.0.45",
   "private": true,
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/bricks/e2e",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/bricks/e2e",
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"
@@ -13,22 +13,33 @@
   "files": [
     "dist"
   ],
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.pkgbuild",
+          "{projectRoot}/deploy"
+        ]
+      }
+    }
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=development build-next-bricks --watch",
     "build": "cross-env NODE_ENV=production build-next-bricks"
   },
   "dependencies": {
-    "@next-core/element": "^1.0.3",
-    "@next-core/i18n": "^1.0.6",
-    "@next-core/react-element": "^1.0.3",
-    "@next-core/react-runtime": "^1.0.13",
-    "@next-core/runtime": "^1.2.2",
-    "@next-core/types": "^1.0.4",
-    "@next-core/utils": "^1.2.1",
+    "@next-core/element": "^1.0.5",
+    "@next-core/i18n": "^1.0.18",
+    "@next-core/react-element": "^1.0.6",
+    "@next-core/react-runtime": "^1.0.39",
+    "@next-core/runtime": "^1.12.0",
+    "@next-core/types": "^1.3.0",
+    "@next-core/utils": "^1.5.1",
     "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.3.1",
-    "@next-core/test-next": "^1.0.3"
+    "@next-core/build-next-bricks": "^1.5.2",
+    "@next-core/test-next": "^1.0.5"
   }
 }

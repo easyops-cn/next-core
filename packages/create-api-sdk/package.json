@@ -1,8 +1,8 @@
 {
   "name": "@next-core/create-api-sdk",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Build next bricks",
-  "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/create-api-sdk",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/create-api-sdk",
   "license": "GPL-3.0",
   "type": "module",
   "bin": {
@@ -53,7 +53,7 @@
     "tslib": "^2.5.2"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.3",
-    "@next-core/test-next": "^1.0.3"
+    "@next-core/build-next-libs": "^1.0.4",
+    "@next-core/test-next": "^1.0.5"
   }
 }

@@ -1,16 +1,10 @@
 /** @internal */
 export interface BootstrapData {
-  brickPackages: BrickPackage[];
-  storyboards: Storyboard[];
+  brickPackages?: BrickPackage[];
+  storyboards?: Storyboard[];
   settings?: BootstrapSettings;
   desktops?: unknown[];
   siteSort?: unknown[];
-}
-
-/** @internal */
-export interface RuntimeBootstrapData extends BootstrapData {
-  storyboards: RuntimeStoryboard[];
-  offSiteStandaloneApps?: Partial<MicroApp>[];
 }
 
 /** @internal */
@@ -213,6 +207,8 @@ export interface BrickPackage {
   filePath: string;
   bricks: string[];
   processors: string[];
+  /** For third-party bricks, there maybe no namespace. */
+  elements?: string[];
   dependencies?: Record<string, string[]>;
 }
 
@@ -861,7 +857,8 @@ export interface BrickEventsMap {
 export type BrickEventHandler =
   | BuiltinBrickEventHandler
   | UseProviderEventHandler
-  | CustomBrickEventHandler;
+  | CustomBrickEventHandler
+  | ConditionalEventHandler;
 
 /** 系统内置的事件处理器。 */
 export interface BuiltinBrickEventHandler {
@@ -960,8 +957,14 @@ export interface BuiltinBrickEventHandler {
    */
   if?: string | boolean;
 
+  /** 是否开启批量变更，默认为true */
+  batch?: boolean;
+
   /** {@inheritDoc BrickEventHandlerCallback} */
   callback?: BrickEventHandlerCallback;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -984,6 +987,17 @@ export interface UseProviderEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
+}
+
+/**
+ * 批量更新子项
+ */
+export interface BatchUpdateContextItem {
+  name: string;
+  value: unknown;
 }
 
 /**
@@ -1040,6 +1054,21 @@ export interface BaseCustomBrickEventHandler {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+
+  /** {@inheritDoc ConditionalEventHandler.else} */
+  else?: BrickEventHandler | BrickEventHandler[];
+}
+
+/*
+ * 条件判断处理
+ */
+export interface ConditionalEventHandler {
+  /** {@inheritDoc BuiltinBrickEventHandler.if} */
+  if?: string | boolean;
+  /** 满足条件分支 */
+  then: BrickEventHandler | BrickEventHandler[];
+  /** 不满足条件分支 */
+  else?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**

@@ -54,6 +54,21 @@ describe("wrapLocalBrick", () => {
     expect(ref.current?.type).toBe("primary");
     expect(ref.current?.constructor).toBe(MyButton);
   });
+
+  test("pass brick name", () => {
+    const WrappedButton = wrapLocalBrick<MyButton, MyButtonProps>("my-button");
+    const ref = createRef<MyButton>();
+    const { container } = render(
+      <WrappedButton type="primary" ref={ref}>
+        ok
+      </WrappedButton>
+    );
+    const myButton = container.querySelector("my-button");
+    expect(myButton?.shadowRoot?.textContent).toBe("primary:");
+    expect(myButton?.textContent).toBe("ok");
+    expect(ref.current?.type).toBe("primary");
+    expect(ref.current?.constructor).toBe(MyButton);
+  });
 });
 
 describe("wrapBrick", () => {

@@ -1,5 +1,5 @@
-import { isEvaluable } from "@next-core/cook";
-import { track } from "@next-core/utils/storyboard";
+import { isEvaluable, isTrackAll } from "@next-core/cook";
+import { track, trackAll } from "@next-core/utils/storyboard";
 import {
   PreEvaluated,
   getPreEvaluatedRaw,
@@ -15,9 +15,18 @@ export function getTracks(value: unknown) {
       typeof value === "string"
         ? value
         : getPreEvaluatedRaw(value as PreEvaluated);
-    contextNames = track(raw, "track context", "CTX");
-    stateNames = track(raw, "track state", "STATE");
-    formStateNames = track(raw, "track formstate", "FORM_STATE");
+    if (isTrackAll(raw)) {
+      const result = trackAll(raw);
+      if (result) {
+        contextNames = result.context;
+        stateNames = result.state;
+        formStateNames = result.formState;
+      }
+    } else {
+      contextNames = track(raw, "track context", "CTX");
+      stateNames = track(raw, "track state", "STATE");
+      formStateNames = track(raw, "track formstate", "FORM_STATE");
+    }
   }
 
   return { contextNames, stateNames, formStateNames };

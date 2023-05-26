@@ -7,8 +7,14 @@ import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
 
 export default function getProxy(env, getRawIndexHtml) {
-  const { rootDir, localMicroApps, baseHref, useRemote, useLocalContainer } =
-    env;
+  const {
+    rootDir,
+    localMicroApps,
+    baseHref,
+    useRemote,
+    useLocalContainer,
+    localBricks,
+  } = env;
   if (useRemote) {
     return [
       {
@@ -33,7 +39,7 @@ export default function getProxy(env, getRawIndexHtml) {
 
               const [storyboards, brickPackages] = await Promise.all([
                 getStoryboards({ rootDir, localMicroApps }),
-                getBrickPackages(rootDir),
+                getBrickPackages(rootDir, false, localBricks),
               ]);
 
               // Todo: filter out local micro-apps and brick packages
@@ -98,6 +104,10 @@ export default function getProxy(env, getRawIndexHtml) {
                   const standalone =
                     /\bSTANDALONE_MICRO_APPS\s*=\s*(?:!0|true)/.test(content);
                   if (standalone) {
+                    const appIdMatch = content.match(
+                      /\bAPP_ID\s*=\s*("[^"]+")/
+                    );
+                    const appId = appIdMatch ? JSON.parse(appIdMatch[1]) : null;
                     const appRootMatches = content.match(
                       /\bAPP_ROOT\s*=\s*("[^"]+")/
                     );
@@ -154,6 +164,7 @@ export default function getProxy(env, getRawIndexHtml) {
                     const coreVersion = "0.0.0";
 
                     return injectIndexHtml(env, rawIndexHtml, {
+                      appId,
                       appRoot,
                       publicPrefix,
                       bootstrapHash,
@@ -176,7 +187,7 @@ export default function getProxy(env, getRawIndexHtml) {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
               result.brickPackages = concatBrickPackages(
-                await getBrickPackages(rootDir, true),
+                await getBrickPackages(rootDir, true, localBricks),
                 result.brickPackages
               );
               delete result.templatePackages;

@@ -1,0 +1,25 @@
+#preview-root {
+  padding: 1em;
+}
+
+#portal-mount-point {
+  height: 0;
+  width: 0;
+  position: absolute;
+}
+
+body.bootstrap-error {
+  color: var(--color-error, red);
+}
+
+body.bootstrap-error #global-loading-bar {
+  display: none;
+}
+
+body:not(.bootstrap-ready) {
+  background-color: transparent;
+}
+
+body.bootstrap-ready {
+  height: initial;
+}

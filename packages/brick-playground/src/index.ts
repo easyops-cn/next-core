@@ -3,12 +3,18 @@ import "./index.css";
 // import * as monaco from "monaco-editor";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import copy from "copy-to-clipboard";
+import type {
+  PreviewWindow,
+  RenderType,
+  Sources,
+} from "@next-core/preview/types";
+import { register as registerJavaScript } from "@next-core/monaco-contributions/javascript";
+import { register as registerTypeScript } from "@next-core/monaco-contributions/typescript";
+import { register as registerYaml } from "@next-core/monaco-contributions/yaml";
 
-interface Sources {
-  yaml?: string;
-  html?: string;
-  javascript?: string;
-}
+registerJavaScript();
+registerTypeScript();
+registerYaml();
 
 interface Example extends Sources {
   key: string;
@@ -73,7 +79,9 @@ async function main() {
 
   let mode = matchedExample
     ? matchedExample.mode
-    : (params.get("mode") as keyof Sources) ?? "html";
+    : params.get("mode") === "yaml"
+    ? "yaml"
+    : "html";
 
   const codeFromHash =
     !matchedExample && location.hash && location.hash !== "#";
@@ -83,8 +91,7 @@ async function main() {
   const debouncedRender = debounce(render);
 
   function initEditorsWith(example?: Example) {
-    const editorTypes =
-      mode === "yaml" ? (["yaml"] as const) : (["html", "javascript"] as const);
+    const editorTypes = [mode];
     for (const type of editorTypes) {
       if (example) {
         sources[type] = typeof example[type] === "string" ? example[type] : "";
@@ -142,10 +149,15 @@ async function main() {
   }
 
   selectType.addEventListener("change", (e) => {
-    mode = (e.target as HTMLSelectElement).value.toLowerCase() as keyof Sources;
+    mode = (e.target as HTMLSelectElement).value.toLowerCase() as RenderType;
     updateMode();
     selectExample.value = "";
     initEditorsWith();
+    const newParams = new URLSearchParams();
+    newParams.set("mode", mode);
+    const search = `?${newParams.toString()}`;
+    saveToLocalStorage = true;
+    history.replaceState(null, "", search);
   });
 
   function updateMode() {
@@ -183,7 +195,7 @@ async function main() {
     const model = monaco.editor.createModel(
       sources[type],
       type,
-      monaco.Uri.file(`workspace/index.${type === "javascript" ? "js" : type}`)
+      monaco.Uri.file(`workspace/index.${type}`)
     );
     models[type] = model;
     const editorContainer = document.querySelector(
@@ -211,12 +223,10 @@ async function main() {
 
   const iframe = document.createElement("iframe");
 
-  let previewWin: {
-    _preview_only_render(type: string, files: Sources, theme: string): unknown;
-  };
+  let previewWin: PreviewWindow;
   const iframeReady = new Promise<void>((resolve, reject) => {
     iframe.addEventListener("load", () => {
-      previewWin = iframe.contentWindow as any;
+      previewWin = iframe.contentWindow as unknown as PreviewWindow;
       resolve();
     });
   });
@@ -240,7 +250,9 @@ async function main() {
 
   async function render(): Promise<void> {
     await iframeReady;
-    previewWin._preview_only_render(mode, sources, currentTheme.toLowerCase());
+    previewWin._preview_only_render(mode, sources, {
+      theme: currentTheme.toLowerCase(),
+    });
   }
 
   buttonRun.addEventListener("click", render);

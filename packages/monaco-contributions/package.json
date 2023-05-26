@@ -1,0 +1,32 @@
+{
+  "name": "@next-core/monaco-contributions",
+  "version": "0.1.0",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/monaco-contributions",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./javascript": {
+      "types": "./javascript.d.ts",
+      "import": "./javascript.js"
+    },
+    "./typescript": {
+      "types": "./typescript.d.ts",
+      "import": "./typescript.js"
+    },
+    "./yaml": {
+      "types": "./yaml.d.ts",
+      "import": "./yaml.js"
+    }
+  },
+  "devDependencies": {
+    "monaco-editor": "^0.37.1"
+  },
+  "peerDependencies": {
+    "monaco-editor": "^0.37.1"
+  }
+}

@@ -1,13 +1,17 @@
-import {
-  __secret_internals,
-  createRuntime,
-  getAuth,
-  httpErrorToString,
-} from "@next-core/runtime";
+import { createRuntime, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
+import {
+  flowApi,
+  checkInstalledApps,
+  auth,
+  checkPermissions,
+  menu,
+} from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
+import { loadCheckLogin } from "./loadCheckLogin.js";
+import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
@@ -17,7 +21,7 @@ http.interceptors.request.use((config) => {
   const headers = new Headers(config.options?.headers || {});
 
   headers.set("lang", i18n.resolvedLanguage ?? i18n.language);
-  const { csrfToken } = getAuth();
+  const { csrfToken } = auth.getAuth();
   csrfToken && headers.set("X-CSRF-Token", csrfToken);
 
   // const mockInfo = getMockInfo(config.url, config.method);
@@ -72,19 +76,32 @@ const requestEnd = (): void => {
 window.addEventListener("request.start", requestStart);
 window.addEventListener("request.end", requestEnd);
 
-const runtime = createRuntime();
-
 let bootstrapStatus: "loading" | "ok" | "failed" = "loading";
 let previewRequested = false;
 
-runtime.bootstrap().then(
-  () => {
+const runtime = createRuntime({
+  hooks: {
+    auth,
+    fulfilStoryboard,
+    checkPermissions,
+    flowApi,
+    checkInstalledApps,
+    menu,
+  },
+});
+
+async function main() {
+  try {
+    const [, bootstrapData] = await Promise.all([
+      loadCheckLogin(),
+      loadBootstrapData(),
+    ]);
+    await runtime.bootstrap(bootstrapData);
     bootstrapStatus = "ok";
     if (previewRequested) {
       startPreview();
     }
-  },
-  (error: unknown) => {
+  } catch (error) {
     bootstrapStatus = "failed";
     // eslint-disable-next-line no-console
     console.error("bootstrap failed:", error);
@@ -97,7 +114,9 @@ runtime.bootstrap().then(
       "#main-mount-point"
     )!.textContent = `bootstrap failed: ${httpErrorToString(error)}`;
   }
-);
+}
+
+main();
 
 let previewStarted = false;
 let previewFromOrigin: string;
@@ -140,7 +159,7 @@ async function startPreview(): Promise<void> {
   if (previewAllowed) {
     const helperBrickName = "devtools.preview-start";
     try {
-      await __secret_internals.loadBricks([helperBrickName]);
+      await runtime.loadBricks([helperBrickName]);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(`Load ${helperBrickName} failed:`, error);
@@ -175,7 +194,7 @@ if (window.parent !== window) {
   window.addEventListener("message", listener);
 }
 
-export interface PreviewMessageContainerStartPreview {
+interface PreviewMessageContainerStartPreview {
   sender: "preview-container";
   type: "start-preview";
   options?: unknown;

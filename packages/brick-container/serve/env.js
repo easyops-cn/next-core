@@ -1,5 +1,7 @@
 import meow from "meow";
 import chalk from "chalk";
+import { getLocalBrickPackageNames } from "@next-core/serve-helpers";
+import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
 const cli = meow(
   `
@@ -10,9 +12,11 @@ const cli = meow(
     --no-remote             Disable remote mode (Defaults to remote enabled)
     --server                Set remote server address, defaults to "https://dev.easyops.local"
     --subdir                Set base href to "/next/" instead of "/"
-    --local-micro-apps      Specify local micro apps to be used in remote mode
+    --local-bricks          Specify local brick packages to be used, defaults to use all local ones
+    --local-micro-apps      Specify local micro apps to be used
     --local-container       Use local brick-container instead of remote in remote mode
     --port                  Set local server listening port, defaults to "8081"
+    --size-check            Enable size-check mode
     --verbose               Print verbose logs
     --help                  Show help message
     --version               Show brick container version
@@ -30,6 +34,9 @@ const cli = meow(
         type: "boolean",
         default: true,
       },
+      localBricks: {
+        type: "string",
+      },
       localMicroApps: {
         type: "string",
       },
@@ -39,6 +46,9 @@ const cli = meow(
       port: {
         type: "string",
         default: "8081",
+      },
+      sizeCheck: {
+        type: "boolean",
       },
       verbose: {
         type: "boolean",
@@ -64,7 +74,7 @@ if (cli.flags.version) {
   cli.showVersion();
 }
 
-export function getEnv(rootDir, runtimeFlags) {
+export async function getEnv(rootDir, runtimeFlags) {
   const flags = {
     ...cli.flags,
     ...runtimeFlags,
@@ -76,15 +86,29 @@ export function getEnv(rootDir, runtimeFlags) {
     useRemote: flags.remote,
     baseHref: flags.subdir ? "/next/" : "/",
     useLocalContainer: !flags.remote || flags.localContainer,
+    localBricks: flags.localBricks ? flags.localBricks.split(",") : undefined,
     localMicroApps: flags.localMicroApps ? flags.localMicroApps.split(",") : [],
     port: Number(flags.port),
     server: getServerPath(flags.server),
+    sizeCheck: flags.sizeCheck,
     verbose: flags.verbose,
   };
+
+  if (env.sizeCheck) {
+    env.localMicroApps.push(getSizeCheckApp().id);
+  }
 
   if (env.verbose) {
     console.log("Configure:", env);
   }
+
+  const validLocalBricks = await getLocalBrickPackageNames(
+    rootDir,
+    env.localBricks
+  );
+
+  console.log();
+  console.log("local brick packages:", validLocalBricks);
 
   if (env.localMicroApps.length > 0) {
     console.log();

@@ -9,8 +9,11 @@ import type {
   SetPropsCustomBrickEventHandler,
   SiteTheme,
   UseProviderEventHandler,
+  ConditionalEventHandler,
+  BatchUpdateContextItem,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
+import { isObject } from "@next-core/utils/general";
 import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { getHistory } from "../history.js";
@@ -29,7 +32,10 @@ import {
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
 import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
-import { getArgsOfFlowApi } from "./data/FlowApi.js";
+import { Notification } from "../Notification.js";
+import { getFormStateStore } from "./FormRenderer/utils.js";
+import { DataStore } from "./data/DataStore.js";
+import { hooks } from "./Runtime.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -105,6 +111,12 @@ export function isSetPropsCustomHandler(
   return !!(handler as SetPropsCustomBrickEventHandler).properties;
 }
 
+export function isConditionalEventHandler(
+  handler: BrickEventHandler
+): handler is ConditionalEventHandler {
+  return !!(handler as ConditionalEventHandler).then;
+}
+
 export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
   runtimeContext: RuntimeContext,
@@ -113,9 +125,15 @@ export function listenerFactory(
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
       if (!checkIf(handler, { ...runtimeContext, event })) {
+        if (handler.else) {
+          listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);
+        }
         continue;
       }
-      if (isBuiltinHandler(handler)) {
+
+      if (isConditionalEventHandler(handler)) {
+        listenerFactory(handler.then, runtimeContext, runtimeBrick)(event);
+      } else if (isBuiltinHandler(handler)) {
         const [object, method] = handler.action.split(".") as any;
         switch (handler.action) {
           case "history.push":
@@ -194,6 +212,7 @@ export function listenerFactory(
               event,
               method,
               handler.args,
+              handler.batch ?? true,
               handler.callback,
               runtimeContext
             );
@@ -206,6 +225,7 @@ export function listenerFactory(
               event,
               method,
               handler.args,
+              handler.batch ?? true,
               handler.callback,
               runtimeContext
             );
@@ -226,7 +246,14 @@ export function listenerFactory(
             break;
           }
 
-          // case "formstate.update":
+          case "formstate.update":
+            handleFormStateAction(
+              event,
+              handler.args,
+              handler.callback,
+              runtimeContext
+            );
+            break;
 
           // case "message.subscribe":
           // case "message.unsubscribe":
@@ -410,8 +437,11 @@ async function brickCallback(
       event,
       options
     );
-    if (isUseProviderHandler(handler)) {
-      computedArgs = await getArgsOfFlowApi(
+    if (
+      isUseProviderHandler(handler) &&
+      hooks?.flowApi?.isFlowApiProvider(handler.useProvider)
+    ) {
+      computedArgs = await hooks.flowApi.getArgsOfFlowApi(
         handler.useProvider,
         computedArgs,
         method
@@ -533,40 +563,119 @@ function handleWindowAction(
   window.open(url, target || "_self", features);
 }
 
+function batchUpdate(
+  args: unknown[],
+  batch: boolean,
+  method: "replace" | "assign",
+  store: DataStore,
+  runtimeContext: RuntimeContext,
+  event: CustomEvent | Event
+): void {
+  if (batch) {
+    store.updateValues(
+      args as BatchUpdateContextItem[],
+      method,
+      (arg: unknown[]) => {
+        return argsFactory(
+          arg,
+          runtimeContext,
+          event
+        )[0] as BatchUpdateContextItem;
+      }
+    );
+  } else {
+    args.forEach((arg) => {
+      const { name, value } = argsFactory(
+        [arg],
+        runtimeContext,
+        event
+      )[0] as BatchUpdateContextItem;
+      store.updateValue(name, value, method);
+    });
+  }
+}
+
 function handleContextAction(
   event: Event,
-  method: "assign" | "replace" | "refresh" | "load",
+  method: "assign" | "replace",
   args: unknown[] | undefined,
+  batch: boolean,
   callback: BrickEventHandlerCallback | undefined,
   runtimeContext: RuntimeContext
 ) {
-  const [name, value] = argsFactory(args, runtimeContext, event);
-  runtimeContext.ctxStore.updateValue(
-    name as string,
-    value,
-    method,
-    callback,
-    runtimeContext
-  );
+  const isBatch = Array.isArray(args) && args.every(isObject);
+  if (isBatch && (method === "assign" || method === "replace")) {
+    batchUpdate(
+      args,
+      batch,
+      method,
+      runtimeContext.ctxStore,
+      runtimeContext,
+      event
+    );
+  } else {
+    const [name, value] = argsFactory(args, runtimeContext, event);
+    runtimeContext.ctxStore.updateValue(
+      name as string,
+      value,
+      method,
+      callback,
+      runtimeContext
+    );
+  }
 }
 
 function handleTplStateAction(
   event: Event,
   method: "update" | "refresh" | "load",
   args: unknown[] | undefined,
+  batch: boolean,
+  callback: BrickEventHandlerCallback | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const isBatch = Array.isArray(args) && args.every(isObject);
+  if (isBatch && method === "update") {
+    batchUpdate(
+      args,
+      batch,
+      "replace",
+      runtimeContext.ctxStore,
+      runtimeContext,
+      event
+    );
+  } else {
+    const [name, value] = argsFactory(args, runtimeContext, event);
+    const tplStateStore = getTplStateStore(
+      runtimeContext,
+      `state.${method}`,
+      `: ${name}`
+    );
+    tplStateStore.updateValue(
+      name as string,
+      value,
+      method === "update" ? "replace" : method,
+      callback,
+      runtimeContext
+    );
+  }
+}
+
+function handleFormStateAction(
+  event: Event,
+  args: unknown[] | undefined,
   callback: BrickEventHandlerCallback | undefined,
   runtimeContext: RuntimeContext
 ) {
   const [name, value] = argsFactory(args, runtimeContext, event);
-  const tplStateStore = getTplStateStore(
+  const formStateStore = getFormStateStore(
     runtimeContext,
-    `state.${method}`,
+    "formstate.update",
     `: ${name}`
   );
-  tplStateStore.updateValue(
+  formStateStore.updateValue(
     name as string,
     value,
-    method === "update" ? "replace" : method,
+    "replace",
     callback,
     runtimeContext
   );
@@ -624,11 +733,13 @@ function handleMessageAction(
   args: unknown[] | undefined,
   runtimeContext: RuntimeContext
 ) {
-  alert(
-    ...argsFactory(args, runtimeContext, event, {
-      useEventAsDefault: true,
-    })
-  );
+  const computedArgs = argsFactory(args, runtimeContext, event, {
+    useEventAsDefault: true,
+  });
+  Notification.show({
+    type: method,
+    message: computedArgs[0] as string,
+  });
 }
 
 export function eventCallbackFactory(

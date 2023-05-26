@@ -1,5 +1,5 @@
 import { jest, describe, test, expect } from "@jest/globals";
-import { createProviderClass } from "@next-core/utils/storyboard";
+import { createProviderClass } from "@next-core/utils/general";
 import { resolveData } from "./resolveData.js";
 import type { RuntimeContext } from "../interfaces.js";
 import { DataStore } from "./DataStore.js";

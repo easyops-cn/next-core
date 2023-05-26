@@ -18,7 +18,7 @@ export function preevaluate(
   options?: PreevaluateOptions
 ): PreevaluateResult {
   const fixes: string[] = [];
-  const source = raw.replace(/^\s*<%~?\s|\s%>\s*$/g, (m) => {
+  const source = raw.replace(/^\s*<%[~=]?\s|\s%>\s*$/g, (m) => {
     fixes.push(m);
     return "";
   });
@@ -37,9 +37,13 @@ export function preevaluate(
 }
 
 export function isEvaluable(raw: string): boolean {
-  return /^\s*<%~?\s/.test(raw) && /\s%>\s*$/.test(raw);
+  return /^\s*<%[~=]?\s/.test(raw) && /\s%>\s*$/.test(raw);
 }
 
 export function shouldAllowRecursiveEvaluations(raw: string): boolean {
   return /^\s*<%~\s/.test(raw);
+}
+
+export function isTrackAll(raw: string): boolean {
+  return /^\s*<%=\s/.test(raw) && /\s%>\s*$/.test(raw);
 }

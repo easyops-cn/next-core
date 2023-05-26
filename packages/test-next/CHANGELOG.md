@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.4...@next-core/test-next@1.0.5) (2023-05-10)
+
+
+### Bug Fixes
+
+* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
+
+
+
+
+
+## [1.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.3...@next-core/test-next@1.0.4) (2023-04-14)
+
+
+### Bug Fixes
+
+* treat css imports other than css modules as text file ([60746e4](https://github.com/easyops-cn/next-core/commit/60746e4bb7a35e6ec14e63d9280b13c73fcdf45c))
+
+
+
+
+
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.2...@next-core/test-next@1.0.3) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/test-next

@@ -1,8 +1,8 @@
 import type { RouteConf } from "@next-core/types";
 import { MatchResult, matchPath } from "./matchPath.js";
 import { asyncCheckIf } from "./compute/checkIf.js";
-import { isLoggedIn } from "../auth.js";
 import type { RuntimeContext } from "./interfaces.js";
+import { hooks } from "./Runtime.js";
 
 type MatchRoutesResult =
   | {
@@ -33,7 +33,12 @@ export async function matchRoutes(
       exact: route.exact,
     });
     if (match && (await asyncCheckIf(route, runtimeContext))) {
-      if (runtimeContext.app.noAuthGuard || route.public || isLoggedIn()) {
+      if (
+        runtimeContext.app.noAuthGuard ||
+        route.public ||
+        !hooks?.auth ||
+        hooks.auth.isLoggedIn()
+      ) {
         return { match, route };
       }
       return "unauthenticated";

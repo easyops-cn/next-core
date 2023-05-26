@@ -18,13 +18,13 @@ import type {
 } from "../interfaces.js";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 import { childrenToSlots } from "../Renderer.js";
-import { collectWidgetContract } from "../data/CollectContracts.js";
+import { hooks } from "../Runtime.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
   brickConf: T,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties | undefined
+  asyncHostProperties: AsyncProperties
 ): T {
   const tplStateStoreId = uniqueId("tpl-state-");
   const runtimeContext = {
@@ -32,8 +32,9 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
     tplStateStoreId,
   };
 
-  // There is a boundary for `forEachItem` between template internals and externals.
+  // There is a boundary for `forEachItem` and `FORM_STATE` between template internals and externals.
   delete runtimeContext.forEachItem;
+  delete runtimeContext.formStateStoreId;
 
   const tplStateStore = new DataStore("STATE", hostBrick);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
@@ -42,7 +43,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   }
 
   const { bricks, proxy, state, contracts } = customTemplates.get(tplTagName)!;
-  collectWidgetContract(contracts);
+  hooks?.flowApi?.collectWidgetContract(contracts);
   tplStateStore.define(state, runtimeContext, asyncHostProperties);
 
   const {
