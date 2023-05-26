@@ -2,7 +2,10 @@ import { getBrickPackages } from "@next-core/serve-helpers";
 import { getSingleStoryboard } from "../utils/getStoryboards.js";
 import { getSizeCheckStoryboards } from "../utils/sizeCheck.js";
 
-export default function standaloneBootstrapJson({ rootDir }, appId) {
+export default function standaloneBootstrapJson(
+  { rootDir, localBricks },
+  appId
+) {
   /**
    * @param {import("express").Request} req
    * @param {import("express").Response} res
@@ -11,7 +14,7 @@ export default function standaloneBootstrapJson({ rootDir }, appId) {
     if (req.path === "/" && req.method === "GET") {
       const [storyboard, brickPackages] = await Promise.all([
         getSingleStoryboard(rootDir, appId),
-        getBrickPackages(rootDir, true),
+        getBrickPackages(rootDir, true, localBricks),
       ]);
 
       if (appId === "-size-check-") {
