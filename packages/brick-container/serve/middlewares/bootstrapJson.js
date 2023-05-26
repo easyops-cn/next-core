@@ -1,7 +1,11 @@
 import { getBrickPackages } from "@next-core/serve-helpers";
 import { getStoryboards } from "../utils/getStoryboards.js";
 
-export default function bootstrapJson({ rootDir, localMicroApps }) {
+export default function bootstrapJson({
+  rootDir,
+  localMicroApps,
+  localBricks,
+}) {
   /**
    * @param {import("express").Request} req
    * @param {import("express").Response} res
@@ -10,7 +14,7 @@ export default function bootstrapJson({ rootDir, localMicroApps }) {
     if (req.path === "/" && req.method === "GET") {
       const [storyboards, brickPackages] = await Promise.all([
         getStoryboards({ rootDir, localMicroApps }),
-        getBrickPackages(rootDir),
+        getBrickPackages(rootDir, false, localBricks),
       ]);
 
       res.json({

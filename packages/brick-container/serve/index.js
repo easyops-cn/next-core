@@ -17,7 +17,7 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const env = getEnv(process.cwd());
+const env = await getEnv(process.cwd());
 const { baseHref, useLocalContainer, port, sizeCheck } = env;
 const distDir = path.join(__dirname, "../dist");
 
