@@ -5,9 +5,9 @@ import {
   InstanceApi_postSearch,
 } from "@next-api-sdk/cmdb-sdk";
 import { createProviderClass } from "@next-core/utils/general";
+import { __test_only } from "@next-core/runtime";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
-import { _test_only_setBootstrapData } from "../Runtime.js";
-import type { RuntimeContext } from "../interfaces.js";
+import type { RuntimeContext, RuntimeHelpers } from "./interfaces.js";
 
 jest.mock("@next-api-sdk/cmdb-sdk");
 
@@ -145,15 +145,16 @@ const menuList = [
   throw new Error("Instance not found");
 });
 
+const runtimeHelpers: RuntimeHelpers = __test_only;
+
 describe("fetchMenuById", () => {
   beforeEach(() => {
     window.STANDALONE_MICRO_APPS = false;
-    _test_only_setBootstrapData({});
   });
 
   test("standalone", async () => {
     window.STANDALONE_MICRO_APPS = true;
-    _test_only_setBootstrapData({
+    __test_only.setBootstrapData({
       storyboards: [
         {
           app: {
@@ -304,7 +305,7 @@ describe("fetchMenuById", () => {
       },
       pendingPermissionsPreCheck: [] as unknown[],
     } as RuntimeContext;
-    await fetchMenuById("menu-a", runtimeContext);
+    await fetchMenuById("menu-a", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-a")).toEqual({
       title: "Menu A",
       menuItems: [
@@ -382,7 +383,7 @@ describe("fetchMenuById", () => {
       },
       pendingPermissionsPreCheck: [] as unknown[],
     } as RuntimeContext;
-    await fetchMenuById("menu-b", runtimeContext);
+    await fetchMenuById("menu-b", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-b")).toEqual({
       title: "my-host",
       menuItems: [],
@@ -397,7 +398,7 @@ describe("fetchMenuById", () => {
       },
       pendingPermissionsPreCheck: [] as unknown[],
     } as RuntimeContext;
-    await fetchMenuById("menu-c", runtimeContext);
+    await fetchMenuById("menu-c", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-c")).toEqual({
       title: "My(Host)",
       menuItems: [],
@@ -405,7 +406,7 @@ describe("fetchMenuById", () => {
   });
 
   test("dynamic items", async () => {
-    _test_only_setBootstrapData({
+    __test_only.setBootstrapData({
       storyboards: [
         {
           app: {
@@ -422,7 +423,7 @@ describe("fetchMenuById", () => {
       },
       pendingPermissionsPreCheck: [] as unknown[],
     } as RuntimeContext;
-    await fetchMenuById("menu-d", runtimeContext);
+    await fetchMenuById("menu-d", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-d")).toEqual({
       title: "My Host",
       menuItems: [
@@ -450,7 +451,7 @@ describe("fetchMenuById", () => {
 
   test("menu not found", async () => {
     window.STANDALONE_MICRO_APPS = true;
-    _test_only_setBootstrapData({
+    __test_only.setBootstrapData({
       storyboards: [
         {
           app: {
@@ -480,7 +481,7 @@ describe("fetchMenuById", () => {
       },
       pendingPermissionsPreCheck: [] as unknown[],
     } as RuntimeContext;
-    const promise = fetchMenuById("menu-c", runtimeContext);
+    const promise = fetchMenuById("menu-c", runtimeContext, runtimeHelpers);
     await expect(promise).rejects.toMatchInlineSnapshot(
       `[Error: Menu not found: menu-c]`
     );

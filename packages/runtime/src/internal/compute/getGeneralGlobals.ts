@@ -3,11 +3,11 @@ import type { MicroApp } from "@next-core/types";
 import { i18n, i18nText } from "@next-core/i18n";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { ImagesFactory, imagesFactory, widgetImagesFactory } from "./images.js";
-import { checkPermissions } from "../checkPermissions.js";
 import { getReadOnlyProxy } from "../proxyFactories.js";
 import { getTheme } from "../../themeAndMode.js";
 import { getBasePath } from "../../getBasePath.js";
 import { getI18nNamespace } from "../registerAppI18n.js";
+import { hooks } from "../Runtime.js";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
@@ -79,7 +79,9 @@ function getIndividualGlobal(
       return collectCoverage ? fakeI18nText : i18nText;
     case "PERMISSIONS":
       return getReadOnlyProxy({
-        check: collectCoverage ? fakeCheckPermissions : checkPermissions,
+        check: collectCoverage
+          ? fakeCheckPermissions
+          : hooks?.checkPermissions?.checkPermissions,
       });
     case "THEME":
       return getReadOnlyProxy({

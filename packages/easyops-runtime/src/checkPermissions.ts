@@ -4,10 +4,8 @@ import {
   scanPermissionActionsInStoryboard,
 } from "@next-core/utils/storyboard";
 import type { BrickConf, RouteConf, Storyboard } from "@next-core/types";
-import { getAuth, isLoggedIn } from "../auth.js";
-import type { RuntimeContext } from "./interfaces.js";
-import { asyncComputeRealValue } from "./compute/computeRealValue.js";
-import { hooks } from "./Runtime.js";
+import { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
+import { getAuth, isLoggedIn } from "./auth.js";
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
@@ -17,7 +15,7 @@ const permissionMap = new Map<string, PermissionStatus>();
 export function preCheckPermissions(
   storyboard: Storyboard
 ): Promise<void> | undefined {
-  if (hooks?.validatePermissions && isLoggedIn() && !getAuth().isAdmin) {
+  if (isLoggedIn() && !getAuth().isAdmin) {
     const usedActions = scanPermissionActionsInStoryboard(storyboard);
     return validatePermissions(usedActions);
   }
@@ -25,17 +23,15 @@ export function preCheckPermissions(
 
 export async function preCheckPermissionsForBrickOrRoute(
   container: BrickConf | RouteConf,
-  runtimeContext: RuntimeContext
+  asyncComputeRealValue: (value: unknown) => Promise<unknown>
 ) {
   if (
-    hooks?.validatePermissions &&
     isLoggedIn() &&
     !getAuth().isAdmin &&
     Array.isArray(container.permissionsPreCheck)
   ) {
     const actions = (await asyncComputeRealValue(
-      container.permissionsPreCheck,
-      runtimeContext
+      container.permissionsPreCheck
     )) as string[];
     return validatePermissions(actions);
   }
@@ -44,7 +40,7 @@ export async function preCheckPermissionsForBrickOrRoute(
 export function preCheckPermissionsForAny(
   data: unknown
 ): Promise<void> | undefined {
-  if (hooks?.validatePermissions && isLoggedIn() && !getAuth().isAdmin) {
+  if (isLoggedIn() && !getAuth().isAdmin) {
     const usedActions = scanPermissionActionsInAny(data);
     return validatePermissions(usedActions);
   }
@@ -60,7 +56,7 @@ export async function validatePermissions(
   }
   checkedPermissions.push(...actions);
   try {
-    const result = await hooks!.validatePermissions!({ actions });
+    const result = await PermissionApi_validatePermissions({ actions });
     for (const item of result.actions!) {
       permissionMap.set(item.action!, item.authorizationStatus!);
       if (item.authorizationStatus === "undefined") {

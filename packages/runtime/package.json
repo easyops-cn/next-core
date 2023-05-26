@@ -43,7 +43,6 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-api-sdk/cmdb-sdk": "^1.1.0",
     "@next-core/cook": "^2.2.1",
     "@next-core/http": "^1.0.5",
     "@next-core/i18n": "^1.0.18",

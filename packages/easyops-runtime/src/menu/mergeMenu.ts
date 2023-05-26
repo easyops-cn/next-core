@@ -1,22 +1,23 @@
 import { i18n } from "@next-core/i18n";
-import { getI18nNamespace } from "../registerAppI18n.js";
 import {
   symbolAppId,
   symbolMenuI18nNamespace,
   symbolOverrideApp,
 } from "./constants.js";
 import type {
+  RuntimeContext,
   MenuItemRawData,
   MenuRawData,
   RuntimeMenuItemRawData,
   RuntimeMenuRawData,
+  RuntimeHelpers,
 } from "./interfaces.js";
-import type { RuntimeContext } from "../interfaces.js";
 import { loadDynamicMenuItems } from "./loadDynamicMenuItems.js";
 
 export async function mergeMenu(
   menuList: MenuRawData[],
-  runtimeContext: RuntimeContext
+  runtimeContext: RuntimeContext,
+  helpers: RuntimeHelpers
 ): Promise<RuntimeMenuRawData | undefined> {
   const mainMenu = menuList.find((menu) => menu.type !== "inject");
   if (!mainMenu) {
@@ -28,12 +29,9 @@ export async function mergeMenu(
 
   for (const menu of menuList) {
     if (menu.i18n) {
-      const menuI18nNamespace = getI18nNamespace(
-        "menu",
-        `${menu.menuId}~${menu.app[0].appId}+${
-          (menu as { instanceId?: string }).instanceId
-        }`
-      );
+      const menuI18nNamespace = `menu/${menu.menuId}~${menu.app[0].appId}+${
+        (menu as { instanceId?: string }).instanceId
+      }`;
       // Support any language in `menu.i18n`.
       Object.entries(menu.i18n).forEach(([lang, resources]) => {
         i18n.addResourceBundle(lang, menuI18nNamespace, resources);
@@ -44,7 +42,7 @@ export async function mergeMenu(
 
   await Promise.all(
     menuList.map((menu) =>
-      loadDynamicMenuItems(menu, runtimeContext, menuWithI18n)
+      loadDynamicMenuItems(menu, runtimeContext, menuWithI18n, helpers)
     )
   );
 

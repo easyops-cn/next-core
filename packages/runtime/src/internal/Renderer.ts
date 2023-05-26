@@ -19,7 +19,6 @@ import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
-import { preCheckPermissionsForBrickOrRoute } from "./checkPermissions.js";
 import {
   TrackingContextItem,
   listenOnTrackingContext,
@@ -44,7 +43,7 @@ import {
 } from "./CustomTemplates/utils.js";
 import { customTemplates } from "../CustomTemplates.js";
 import type { NextHistoryState } from "./historyExtended.js";
-import { getBrickPackages } from "./Runtime.js";
+import { getBrickPackages, hooks } from "./Runtime.js";
 import { RenderTag } from "./enums.js";
 import { getTracks } from "./compute/getTracks.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
@@ -97,7 +96,10 @@ export async function renderRoutes(
       };
       runtimeContext.ctxStore.define(route.context, runtimeContext);
       runtimeContext.pendingPermissionsPreCheck.push(
-        preCheckPermissionsForBrickOrRoute(route, runtimeContext)
+        hooks?.checkPermissions?.preCheckPermissionsForBrickOrRoute(
+          route,
+          (value) => asyncComputeRealValue(value, runtimeContext)
+        )
       );
 
       // Currently, this is only used for brick size-checking: these bricks
@@ -294,7 +296,10 @@ export async function renderBrick(
   }
 
   runtimeContext.pendingPermissionsPreCheck.push(
-    preCheckPermissionsForBrickOrRoute(brickConf, runtimeContext)
+    hooks?.checkPermissions?.preCheckPermissionsForBrickOrRoute(
+      brickConf,
+      (value) => asyncComputeRealValue(value, runtimeContext)
+    )
   );
 
   if (!(await asyncCheckBrickIf(brickConf, runtimeContext))) {

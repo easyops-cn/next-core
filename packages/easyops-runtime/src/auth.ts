@@ -1,5 +1,5 @@
 import type { AuthApi_CheckLoginResponseBody } from "@next-api-sdk/api-gateway-sdk";
-// import { resetPermissionPreChecks } from "./internal/checkPermissions.js";
+import { resetPermissionPreChecks } from "./checkPermissions.js";
 
 const auth: AuthInfo = {};
 
@@ -37,7 +37,7 @@ export function logout(): void {
   for (const key of Object.keys(auth) as (keyof AuthInfo)[]) {
     auth[key] = undefined;
   }
-  // resetPermissionPreChecks();
+  resetPermissionPreChecks();
 }
 
 /**

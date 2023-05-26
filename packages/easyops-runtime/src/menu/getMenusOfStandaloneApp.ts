@@ -1,12 +1,12 @@
-import { _internalApiGetStoryboardInBootstrapData } from "../Runtime.js";
-import { MenuRawData } from "./interfaces.js";
+import { MenuRawData, RuntimeHelpers } from "./interfaces.js";
 
 export function getMenusOfStandaloneApp(
   menuId: string,
-  appId: string
+  appId: string,
+  helpers: RuntimeHelpers
 ): MenuRawData[] {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const storyboard = _internalApiGetStoryboardInBootstrapData(appId)!;
+  const storyboard = helpers.getStoryboardByAppId(appId)!;
   const menus = (storyboard.meta?.injectMenus ??
     storyboard.meta?.menus ??
     []) as MenuRawData[];

@@ -1,14 +1,17 @@
 import { InstanceApi_postSearch } from "@next-api-sdk/cmdb-sdk";
 import { pick } from "lodash";
+import { checkIfOfComputed } from "@next-core/runtime";
 import { mergeMenu } from "./mergeMenu.js";
 import { reorderMenuItems } from "./reorderMenuItems.js";
-import { preCheckPermissionsForAny } from "../checkPermissions.js";
-import type { RuntimeContext } from "../interfaces.js";
-import type { MenuRawData } from "./interfaces.js";
-import { checkIfOfComputed } from "../compute/checkIf.js";
+import type {
+  MenuRawData,
+  RuntimeContext,
+  RuntimeHelpers,
+} from "./interfaces.js";
 import { computeMenuItems, computeMenuData } from "./computeMenuData.js";
 import { fetchMenuTitle } from "./fetchMenuTitle.js";
 import { getMenusOfStandaloneApp } from "./getMenusOfStandaloneApp.js";
+import { preCheckPermissionsForAny } from "../checkPermissions.js";
 
 const menuPromises = new Map<string, Promise<void>>();
 
@@ -18,17 +21,25 @@ export function getMenuById(menuId: string) {
   return menuCache.get(menuId);
 }
 
-export function fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
+export function fetchMenuById(
+  menuId: string,
+  runtimeContext: RuntimeContext,
+  helpers: RuntimeHelpers
+) {
   let promise = menuPromises.get(menuId);
   if (!promise) {
-    promise = _fetchMenuById(menuId, runtimeContext);
+    promise = _fetchMenuById(menuId, runtimeContext, helpers);
   }
   return promise;
 }
 
-async function _fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
+async function _fetchMenuById(
+  menuId: string,
+  runtimeContext: RuntimeContext,
+  helpers: RuntimeHelpers
+) {
   const menuList = window.STANDALONE_MICRO_APPS
-    ? getMenusOfStandaloneApp(menuId, runtimeContext.app.id)
+    ? getMenusOfStandaloneApp(menuId, runtimeContext.app.id, helpers)
     : ((
         await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
           page: 1,
@@ -63,7 +74,7 @@ async function _fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
         })
       ).list as MenuRawData[]);
 
-  const menuData = await mergeMenu(menuList, runtimeContext);
+  const menuData = await mergeMenu(menuList, runtimeContext, helpers);
   if (!menuData) {
     throw new Error(`Menu not found: ${menuId}`);
   }
@@ -83,8 +94,8 @@ async function _fetchMenuById(menuId: string, runtimeContext: RuntimeContext) {
   const rootAppId = app[0].appId;
 
   const [computedMenuData, computedMenuItems] = await Promise.all([
-    computeMenuData(restMenuData, rootAppId, newRuntimeContext),
-    computeMenuItems(items, newRuntimeContext),
+    computeMenuData(restMenuData, rootAppId, newRuntimeContext, helpers),
+    computeMenuItems(items, newRuntimeContext, helpers),
   ]);
 
   const finalMenuData = {

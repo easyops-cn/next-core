@@ -430,6 +430,9 @@
       "tsdoc-undefined-tag": {
         "logLevel": "none"
         // "addToApiReportFile": false
+      },
+      "tsdoc-at-sign-in-word": {
+        "logLevel": "none"
       }
     }
   }

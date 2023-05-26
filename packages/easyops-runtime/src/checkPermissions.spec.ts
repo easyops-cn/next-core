@@ -1,20 +1,21 @@
-import { scanPermissionActionsInStoryboard } from "@next-core/utils/storyboard";
+import {
+  scanPermissionActionsInStoryboard,
+  scanPermissionActionsInAny,
+} from "@next-core/utils/storyboard";
+import { PermissionApi_validatePermissions } from "@next-api-sdk/micro-app-sdk";
 import {
   preCheckPermissions as _preCheckPermissions,
+  preCheckPermissionsForBrickOrRoute as _preCheckPermissionsForBrickOrRoute,
+  preCheckPermissionsForAny as _preCheckPermissionsForAny,
   checkPermissions as _checkPermissions,
   validatePermissions as _validatePermissions,
   resetPermissionPreChecks as _resetPermissionPreChecks,
 } from "./checkPermissions.js";
-import { isLoggedIn, getAuth } from "../auth.js";
-import { hooks } from "./Runtime.js";
+import { isLoggedIn, getAuth } from "./auth.js";
 
 jest.mock("@next-core/utils/storyboard");
-jest.mock("../auth.js");
-jest.mock("./Runtime.js", () => ({
-  hooks: {
-    validatePermissions: jest.fn(),
-  },
-}));
+jest.mock("@next-api-sdk/micro-app-sdk");
+jest.mock("./auth.js");
 
 const mockIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
 const mockGetAuth = (getAuth as jest.Mock).mockReturnValue({});
@@ -23,13 +24,22 @@ const mockScanPermissionActionsInStoryboard =
   scanPermissionActionsInStoryboard as jest.MockedFunction<
     typeof scanPermissionActionsInStoryboard
   >;
-const mockValidatePermissions = hooks!.validatePermissions! as jest.Mock;
+const mockScanPermissionActionsInAny =
+  scanPermissionActionsInAny as jest.MockedFunction<
+    typeof scanPermissionActionsInAny
+  >;
+const mockValidatePermissions =
+  PermissionApi_validatePermissions as jest.MockedFunction<
+    typeof PermissionApi_validatePermissions
+  >;
 const mockConsoleError = jest
   .spyOn(console, "error")
   .mockImplementation(() => void 0);
 
 describe("checkPermissions", () => {
   let preCheckPermissions: typeof _preCheckPermissions;
+  let preCheckPermissionsForBrickOrRoute: typeof _preCheckPermissionsForBrickOrRoute;
+  let preCheckPermissionsForAny: typeof _preCheckPermissionsForAny;
   let checkPermissions: typeof _checkPermissions;
   let validatePermissions: typeof _validatePermissions;
   let resetPermissionPreChecks: typeof _resetPermissionPreChecks;
@@ -39,6 +49,8 @@ describe("checkPermissions", () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const m = require("./checkPermissions");
       preCheckPermissions = m.preCheckPermissions;
+      preCheckPermissionsForBrickOrRoute = m.preCheckPermissionsForBrickOrRoute;
+      preCheckPermissionsForAny = m.preCheckPermissionsForAny;
       checkPermissions = m.checkPermissions;
       validatePermissions = m.validatePermissions;
       resetPermissionPreChecks = m.resetPermissionPreChecks;
@@ -47,6 +59,15 @@ describe("checkPermissions", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("should not request if is not loggedIn", async () => {
+    mockIsLoggedIn.mockReturnValue(false);
+    await preCheckPermissions(null!);
+    expect(mockValidatePermissions).not.toBeCalled();
+    expect(checkPermissions("my:action-a")).toBe(false);
+    expect(mockConsoleError).not.toBeCalled();
+    mockIsLoggedIn.mockReturnValue(true);
   });
 
   it("should not request if action is empty", async () => {
@@ -167,6 +188,40 @@ describe("checkPermissions", () => {
 
     mockGetAuth.mockReturnValueOnce({ isAdmin: true });
     expect(checkPermissions("my:action-a")).toEqual(true);
+  });
+
+  it("should not request if is not loggedIn for brick", async () => {
+    mockIsLoggedIn.mockReturnValue(false);
+    await preCheckPermissionsForBrickOrRoute(null!, null!);
+    expect(mockValidatePermissions).not.toBeCalled();
+    expect(checkPermissions("my:action-a")).toBe(false);
+    mockIsLoggedIn.mockReturnValue(true);
+  });
+
+  it("should work for brick", async () => {
+    await preCheckPermissionsForBrickOrRoute(
+      {
+        permissionsPreCheck: [],
+      } as any,
+      (v) => Promise.resolve(v)
+    );
+    expect(mockValidatePermissions).not.toBeCalled();
+    expect(checkPermissions("my:action-a")).toBe(false);
+  });
+
+  it("should not request if is not loggedIn for any", async () => {
+    mockIsLoggedIn.mockReturnValue(false);
+    await preCheckPermissionsForAny(null);
+    expect(mockValidatePermissions).not.toBeCalled();
+    expect(checkPermissions("my:action-a")).toBe(false);
+    mockIsLoggedIn.mockReturnValue(true);
+  });
+
+  it("should work for any", async () => {
+    mockScanPermissionActionsInAny.mockReturnValueOnce([]);
+    await preCheckPermissionsForAny({});
+    expect(mockValidatePermissions).not.toBeCalled();
+    expect(checkPermissions("my:action-a")).toBe(false);
   });
 
   it("should clear permission pre-checks", async () => {

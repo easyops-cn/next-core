@@ -6,7 +6,6 @@ import { RenderTag } from "./enums.js";
 import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import { DataStore } from "./data/DataStore.js";
-import { preCheckPermissionsForBrickOrRoute } from "./checkPermissions.js";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
@@ -19,10 +18,40 @@ import { getTplStateStore } from "./CustomTemplates/utils.js";
 import { symbolForTplStateStoreId } from "./CustomTemplates/constants.js";
 import { FormDataProperties } from "./FormRenderer/interfaces.js";
 import { FORM_RENDERER } from "./FormRenderer/constants.js";
+import { hooks } from "./Runtime.js";
+import * as compute from "./compute/computeRealValue.js";
 
 jest.mock("@next-core/loader");
-jest.mock("./checkPermissions.js");
 jest.mock("../history.js");
+jest.mock("./Runtime.js", () => ({
+  getBrickPackages() {
+    return [];
+  },
+  hooks: {
+    checkPermissions: {
+      preCheckPermissionsForBrickOrRoute: jest.fn(
+        async (container: RouteConf, asyncCompute: (v: unknown) => unknown) => {
+          await asyncCompute(container.permissionsPreCheck);
+        }
+      ),
+    },
+    auth: {
+      isLoggedIn() {
+        return false;
+      },
+      getAuth() {
+        return {};
+      },
+    },
+  },
+  getRuntime() {
+    //
+  },
+}));
+
+jest.spyOn(compute, "asyncComputeRealValue");
+
+const { preCheckPermissionsForBrickOrRoute } = hooks!.checkPermissions!;
 
 const consoleError = jest.spyOn(console, "error");
 const consoleInfo = jest.spyOn(console, "info");
@@ -105,21 +134,16 @@ describe("renderRoutes", () => {
       }),
     });
     expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(2);
-    const newRuntimeContext = {
-      ...runtimeContext,
-      match: expect.objectContaining({
-        params: { objectId: "HOST" },
-      }),
-    };
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       1,
       route,
-      newRuntimeContext
+      expect.any(Function)
     );
+    expect(preCheckPermissionsForBrickOrRoute);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       2,
       route.bricks[0],
-      newRuntimeContext
+      expect.any(Function)
     );
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(2);
     expect(loadBricksImperatively).toBeCalledWith(["my-pre-load-brick"], []);
@@ -283,26 +307,20 @@ describe("renderRoutes", () => {
       }),
     });
     expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(3);
-    const newRuntimeContext = {
-      ...runtimeContext,
-      match: expect.objectContaining({
-        params: { objectId: "HOST" },
-      }),
-    };
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       1,
       route,
-      newRuntimeContext
+      expect.any(Function)
     );
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       2,
       route.routes[0],
-      newRuntimeContext
+      expect.any(Function)
     );
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       3,
       brick,
-      newRuntimeContext
+      expect.any(Function)
     );
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(3);
     await ctxStore.waitForAll();
