@@ -141,8 +141,8 @@ async function render(
       const parser = new DOMParser();
       const dom = parser.parseFromString(html, "text/html");
       const bricks = new Set<string>();
-      for (const node of dom.body.childNodes) {
-        if (node instanceof HTMLElement && node.tagName.includes("-")) {
+      for (const node of dom.body.querySelectorAll("*")) {
+        if (node.tagName.includes("-")) {
           const lowerTagName = node.tagName.toLowerCase();
           bricks.add(lowerTagName);
         }
