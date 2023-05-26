@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.7...@next-core/serve-helpers@1.0.8) (2023-05-26)
+
+
+### Bug Fixes
+
+* **serve:** support --local-bricks ([0b46988](https://github.com/easyops-cn/next-core/commit/0b46988a3c1992b4d410bc3d4a94ead0655c3a05))
+
+
+
+
+
 ## [1.0.7](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.6...@next-core/serve-helpers@1.0.7) (2023-05-10)
 
 
