@@ -40,7 +40,7 @@
     "cssnano-preset-lite": "^3.0.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.24",
     "postcss-loader": "^7.3.2",
     "postcss-preset-env": "^8.4.1",
     "style-loader": "^3.3.3",
