@@ -4,6 +4,7 @@ import {
   InstanceApi_getDetail,
   InstanceApi_postSearch,
 } from "@next-sdk/cmdb-sdk";
+import { InstalledMicroAppApi_getMenusInfo } from "@next-sdk/micro-app-sdk";
 import { Kernel } from "../core/Kernel";
 import {
   fetchMenuById,
@@ -18,6 +19,7 @@ import * as runtime from "../core/Runtime";
 import { validatePermissions } from "./checkPermissions";
 
 jest.mock("@next-sdk/cmdb-sdk");
+jest.mock("@next-sdk/micro-app-sdk");
 
 jest.mock("./checkPermissions", () => ({
   validatePermissions: jest.fn(() => Promise.resolve()),
@@ -340,6 +342,13 @@ const mockMenuList: any[] = [
     ),
   });
 });
+(InstalledMicroAppApi_getMenusInfo as jest.Mock).mockImplementation(
+  (menuId) => {
+    return Promise.resolve({
+      list: mockMenuList.filter((item) => item.menuId === menuId),
+    });
+  }
+);
 
 (InstanceApi_getDetail as jest.Mock).mockImplementation((objectId) => {
   switch (objectId) {
@@ -365,44 +374,54 @@ describe("fetchMenuById", () => {
     jest.clearAllMocks();
   });
   const formatData = <T>(item: T): T => JSON.parse(JSON.stringify(item));
+  const getFeatureFlags = jest.fn().mockReturnValue({});
+  const fakeKernel = { getFeatureFlags } as unknown as Kernel;
 
   it("should work", async () => {
-    const menu1 = await fetchMenuById("menu-a", null);
+    const menu1 = await fetchMenuById("menu-a", fakeKernel);
     expect(formatData(menu1)).toEqual({
       menuId: "menu-a",
       items: [],
     });
-    const menu2 = await fetchMenuById("menu-a", null);
+    const menu2 = await fetchMenuById("menu-a", fakeKernel);
     expect(formatData(menu2)).toEqual({
       menuId: "menu-a",
       items: [],
     });
-    const menu3 = await fetchMenuById("menu-b", null);
+    const menu3 = await fetchMenuById("menu-b", fakeKernel);
     expect(formatData(menu3)).toEqual({
       menuId: "menu-b",
       items: [],
     });
-    await expect(fetchMenuById("menu-x", null)).rejects.toBeInstanceOf(Error);
+    getFeatureFlags.mockReturnValueOnce({ "three-level-menu-layout": true });
+    const menu4 = await fetchMenuById("menu-b", fakeKernel);
+    expect(formatData(menu4)).toEqual({
+      menuId: "menu-b",
+      items: [],
+    });
+    await expect(fetchMenuById("menu-x", fakeKernel)).rejects.toBeInstanceOf(
+      Error
+    );
   });
 
   it("test clear menu cache", async () => {
-    const menu1 = await fetchMenuById("menu-a", null);
+    const menu1 = await fetchMenuById("menu-a", fakeKernel);
     expect(formatData(menu1)).toEqual({
       menuId: "menu-a",
       items: [],
     });
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
-    await fetchMenuById("menu-a", null);
+    await fetchMenuById("menu-a", fakeKernel);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
     clearMenuCache();
-    await fetchMenuById("menu-a", null);
+    await fetchMenuById("menu-a", fakeKernel);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 
   it("menu should not cache cache", async () => {
-    await fetchMenuById("menu-i", null);
+    await fetchMenuById("menu-i", fakeKernel);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
-    await fetchMenuById("menu-i", null);
+    await fetchMenuById("menu-i", fakeKernel);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });
 });
@@ -505,8 +524,10 @@ describe("constructMenu", () => {
   } as unknown as PluginRuntimeContext;
 
   it("should ignore if no menuId", async () => {
+    const getFeatureFlags = jest.fn().mockReturnValue({});
+    const fakeKernel = { getFeatureFlags } as unknown as Kernel;
     const menuBar = {};
-    await constructMenu(menuBar, context, null);
+    await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
       subMenu: null,
     });
@@ -524,6 +545,7 @@ describe("constructMenu", () => {
       router: {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
+      getFeatureFlags: jest.fn().mockReturnValue({}),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -549,6 +571,7 @@ describe("constructMenu", () => {
       router: {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
+      getFeatureFlags: jest.fn().mockReturnValue({}),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -602,6 +625,7 @@ describe("constructMenu", () => {
       menuId: "menu-f",
     };
     const fakeKernel = {
+      getFeatureFlags: jest.fn().mockReturnValue({}),
       bootstrapData: {
         storyboards: [
           {
@@ -691,6 +715,7 @@ describe("constructMenu", () => {
           mockMenuList.filter((item) => item.menuId === menuId)
         );
       }),
+      getFeatureFlags: jest.fn().mockReturnValue({}),
     } as unknown as Kernel;
     window.STANDALONE_MICRO_APPS = true;
     await constructMenu(menuBar, context, fakeKernel);
@@ -741,6 +766,7 @@ describe("constructMenu", () => {
       menuId: "menu-g",
     };
     const fakeKernel = {
+      getFeatureFlags: jest.fn().mockReturnValue({}),
       bootstrapData: {
         storyboards: [
           {
@@ -807,6 +833,7 @@ describe("constructMenu", () => {
       router: {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
+      getFeatureFlags: jest.fn().mockReturnValue({}),
     } as unknown as Kernel;
     await preConstructMenus(["menu-c", "menu-d"], context, fakeKernel);
 
@@ -830,6 +857,7 @@ describe("processMenu", () => {
       router: {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
+      getFeatureFlags: jest.fn().mockReturnValue({}),
     } as unknown as Kernel;
     const menu = await processMenu("menu-h", context, fakeKernel);
     expect(menu).toEqual({

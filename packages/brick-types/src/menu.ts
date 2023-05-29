@@ -93,6 +93,9 @@ export interface SidebarMenuGroup {
   /** 该分组下的子菜单项列表。 */
   items: SidebarMenuItem[];
 
+  /** 子菜单项的布局方式。 */
+  childLayout?: "default" | "category";
+
   /** @internal */
   key?: string;
 
