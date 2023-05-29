@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.1.0...@next-core/monaco-contributions@0.1.1) (2023-05-29)
+
+
+### Bug Fixes
+
+* fix monaco version not matching ([10b90ad](https://github.com/easyops-cn/next-core/commit/10b90adc0742a327a52540099a754a0dd29e6c27))
+
+
+
+
+
 # 0.1.0 (2023-05-18)
 
 
