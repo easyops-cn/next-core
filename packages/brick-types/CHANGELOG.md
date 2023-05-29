@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.85.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.84.0...@next-core/brick-types@2.85.0) (2023-05-29)
+
+
+### Features
+
+* menu支持大于两层 ([5401ca5](https://github.com/easyops-cn/next-core/commit/5401ca552c5eac0772db45f3ec6d4ee31db68a11))
+
+
+
+
+
 # [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.83.0...@next-core/brick-types@2.84.0) (2023-05-17)
 
 
