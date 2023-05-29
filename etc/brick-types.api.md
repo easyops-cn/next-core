@@ -1947,6 +1947,7 @@ export interface SidebarMenu {
 
 // @public
 export interface SidebarMenuGroup {
+    childLayout?: "default" | "category";
     defaultExpanded?: boolean;
     icon?: MenuIcon;
     items: SidebarMenuItem[];

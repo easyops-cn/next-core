@@ -1,5 +1,6 @@
 import { isEmpty, isNil, merge, sortBy } from "lodash";
 import {
+  SidebarMenuItem,
   SidebarMenuSimpleItem,
   PluginRuntimeContext,
   SidebarMenu,
@@ -19,6 +20,7 @@ import {
   InstanceApi_postSearch,
   InstanceApi_getDetail,
 } from "@next-sdk/cmdb-sdk";
+import { InstalledMicroAppApi_getMenusInfo } from "@next-sdk/micro-app-sdk";
 import { computeRealValue } from "./setProperties";
 import { looseCheckIfOfComputed } from "../checkIf";
 import {
@@ -111,6 +113,8 @@ export async function fetchMenuById(
   }
   const menuList = window.STANDALONE_MICRO_APPS
     ? await kernel.getStandaloneMenus(menuId, isPreFetch)
+    : kernel.getFeatureFlags()["three-level-menu-layout"]
+    ? ((await InstalledMicroAppApi_getMenusInfo(menuId)).menus as MenuRawData[])
     : ((
         await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
           page: 1,
@@ -313,6 +317,32 @@ async function loadDynamicMenuItems(
   return true;
 }
 
+function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
+  return menuItems
+    ?.filter(
+      // `if` is already evaluated.
+      looseCheckIfOfComputed
+    )
+    .map((item) => {
+      const children = walkMenuItems(item.children);
+      return item.type === "group"
+        ? {
+            type: "group",
+            title: item.text,
+            items: children,
+          }
+        : children?.length
+        ? {
+            type: "subMenu",
+            title: item.text,
+            icon: item.icon,
+            items: children,
+            defaultExpanded: item.defaultExpanded,
+          }
+        : (item as SidebarMenuSimpleItem);
+    });
+}
+
 export async function processMenu(
   menuId: string,
   context: PluginRuntimeContext,
@@ -354,32 +384,7 @@ export async function processMenu(
     title: await processMenuTitle(menuData),
     icon: menuData.icon,
     link: menuData.link,
-    menuItems: menuData.items
-      .filter(
-        // `if` is already evaluated.
-        looseCheckIfOfComputed
-      )
-      .map((item) => {
-        const children = item.children?.filter(
-          // `if` is already evaluated.
-          looseCheckIfOfComputed
-        ) as SidebarMenuSimpleItem[];
-        return item.type === "group"
-          ? {
-              type: "group",
-              title: item.text,
-              items: children,
-            }
-          : children?.length
-          ? {
-              type: "subMenu",
-              title: item.text,
-              icon: item.icon,
-              items: children,
-              defaultExpanded: item.defaultExpanded,
-            }
-          : (item as SidebarMenuSimpleItem);
-      }),
+    menuItems: walkMenuItems(menuData.items),
     defaultCollapsed: menuData.defaultCollapsed || hasSubMenu,
     defaultCollapsedBreakpoint: menuData.defaultCollapsedBreakpoint,
   };
