@@ -15,7 +15,7 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["^@next-core/", "^@next-bricks/"],
+      "matchPackagePatterns": ["^@next-core/", "^@next-bricks/", "^@next-api-sdk/"],
       "enabled": false
     },
     {
