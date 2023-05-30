@@ -28,6 +28,7 @@ const {
   migrateLazyBricksWithJest,
   onlyAutoMergePatchVersions,
   enableLernaWithNx,
+  updateRenovateForV2,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -197,6 +198,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.15.3")) {
     enableLernaWithNx();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.17.0")) {
+    updateRenovateForV2();
   }
 
   updateDevDependenciesVersion();
