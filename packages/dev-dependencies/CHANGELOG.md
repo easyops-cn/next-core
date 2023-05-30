@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.99...@next-core/dev-dependencies@1.17.0) (2023-05-30)
+
+
+### Features
+
+* update renovate for v2: only enable @next-core/* and @next-libs/* ([062d719](https://github.com/easyops-cn/next-core/commit/062d719d2622a7652b80929f6453fc21da8a65ec))
+
+
+
+
+
 ## [1.16.99](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.16.98...@next-core/dev-dependencies@1.16.99) (2023-05-29)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
