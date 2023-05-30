@@ -11,10 +11,12 @@ import type {
 import { register as registerJavaScript } from "@next-core/monaco-contributions/javascript";
 import { register as registerTypeScript } from "@next-core/monaco-contributions/typescript";
 import { register as registerYaml } from "@next-core/monaco-contributions/yaml";
+import { register as registerHtml } from "@next-core/monaco-contributions/html";
 
 registerJavaScript();
 registerTypeScript();
 registerYaml();
+registerHtml();
 
 interface Example extends Sources {
   key: string;
