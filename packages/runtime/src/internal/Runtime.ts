@@ -188,9 +188,6 @@ export class Runtime {
     return {
       base_title: "DevOps 管理专家",
       ...(bootstrapData?.settings?.brand as Record<string, string>),
-      // ...(kernel.getOriginFaviconHref()
-      //   ? { favicon: kernel.getOriginFaviconHref() }
-      //   : {})
     };
   }
 

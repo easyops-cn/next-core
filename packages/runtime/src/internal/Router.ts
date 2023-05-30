@@ -313,6 +313,9 @@ export class Router {
         sys: {
           ...hooks?.auth?.getAuth(),
           ...getPageInfo(),
+          settings: {
+            brand: getRuntime().getBrandSettings(),
+          },
         },
         ctxStore: new DataStore("CTX"),
         pendingPermissionsPreCheck: [
