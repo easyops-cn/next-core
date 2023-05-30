@@ -175,6 +175,7 @@ export interface MenuRawData {
 export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   children?: MenuItemRawData[];
   type?: "default" | "group";
+  childLayout?: "default" | "category";
   sort?: number;
   if?: string | boolean;
   defaultExpanded?: boolean;

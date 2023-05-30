@@ -19,7 +19,10 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
+import {
+  InstalledMicroAppApi_getI18NData,
+  InstalledMicroAppApi_getMenusInfo,
+} from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import { RuntimeApi_RuntimeMicroAppStandaloneResponseBody } from "@next-sdk/micro-app-standalone-sdk";
 import type {
@@ -953,38 +956,44 @@ export class Kernel {
 
     if (!filterMenus.length) {
       filterMenus =
-        ((
-          await InstanceApi_postSearch("STANDALONE_MENU@EASYOPS", {
-            page: 1,
-            page_size: 200,
-            fields: {
-              menuId: true,
-              title: true,
-              icon: true,
-              link: true,
-              titleDataSource: true,
-              defaultCollapsed: true,
-              defaultCollapsedBreakpoint: true,
-              type: true,
-              injectMenuGroupId: true,
-              dynamicItems: true,
-              itemsResolve: true,
-              items: true,
-              i18n: true,
-              overrideApp: true,
-              "items.children": true,
-              "app.appId": true,
-            },
-            query: {
-              menuId: {
-                $eq: menuId,
-              },
-              "app.isActiveVersion": {
-                $eq: true,
-              },
-            },
-          })
-        )?.list as MenuRawData[]) ?? [];
+        (this.getFeatureFlags()["three-level-menu-layout"]
+          ? ((
+              await InstalledMicroAppApi_getMenusInfo(menuId, {
+                menuObjectId: "STANDALONE_MENU@EASYOPS",
+              })
+            ).menus as MenuRawData[])
+          : ((
+              await InstanceApi_postSearch("STANDALONE_MENU@EASYOPS", {
+                page: 1,
+                page_size: 200,
+                fields: {
+                  menuId: true,
+                  title: true,
+                  icon: true,
+                  link: true,
+                  titleDataSource: true,
+                  defaultCollapsed: true,
+                  defaultCollapsedBreakpoint: true,
+                  type: true,
+                  injectMenuGroupId: true,
+                  dynamicItems: true,
+                  itemsResolve: true,
+                  items: true,
+                  i18n: true,
+                  overrideApp: true,
+                  "items.children": true,
+                  "app.appId": true,
+                },
+                query: {
+                  menuId: {
+                    $eq: menuId,
+                  },
+                  "app.isActiveVersion": {
+                    $eq: true,
+                  },
+                },
+              })
+            )?.list as MenuRawData[])) ?? [];
     }
 
     return filterMenus as MenuRawData[];

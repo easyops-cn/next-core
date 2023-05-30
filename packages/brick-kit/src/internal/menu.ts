@@ -114,7 +114,11 @@ export async function fetchMenuById(
   const menuList = window.STANDALONE_MICRO_APPS
     ? await kernel.getStandaloneMenus(menuId, isPreFetch)
     : kernel.getFeatureFlags()["three-level-menu-layout"]
-    ? ((await InstalledMicroAppApi_getMenusInfo(menuId)).menus as MenuRawData[])
+    ? ((
+        await InstalledMicroAppApi_getMenusInfo(menuId, {
+          menuObjectId: "EASYOPS_STORYBOARD_MENU",
+        })
+      ).menus as MenuRawData[])
     : ((
         await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
           page: 1,
@@ -328,12 +332,14 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
       return item.type === "group"
         ? {
             type: "group",
+            childLayout: item.childLayout,
             title: item.text,
             items: children,
           }
         : children?.length
         ? {
             type: "subMenu",
+            childLayout: item.childLayout,
             title: item.text,
             icon: item.icon,
             items: children,
@@ -518,6 +524,9 @@ async function computeRealValueWithOverrideApp<
   context: PluginRuntimeContext,
   kernel: Kernel
 ): Promise<T> {
+  if ("if" in data && data.if === null) {
+    delete data.if;
+  }
   let newContext = context;
   if (
     overrideAppId !== context.app.id &&

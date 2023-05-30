@@ -14,7 +14,10 @@ import {
   BootstrapV2Api_getAppStoryboardV2,
 } from "@next-sdk/api-gateway-sdk";
 import { UserAdminApi_searchAllUsersInfo } from "@next-sdk/user-service-sdk";
-import { InstalledMicroAppApi_getI18NData } from "@next-sdk/micro-app-sdk";
+import {
+  InstalledMicroAppApi_getI18NData,
+  InstalledMicroAppApi_getMenusInfo,
+} from "@next-sdk/micro-app-sdk";
 import { InstanceApi_postSearch } from "@next-sdk/cmdb-sdk";
 import {
   LayoutType,
@@ -1144,6 +1147,22 @@ describe("Kernel", () => {
         },
       ],
     });
+    const mockSearchMenu_new = InstalledMicroAppApi_getMenusInfo as jest.Mock;
+    mockSearchMenu_new.mockResolvedValueOnce({
+      menus: [
+        {
+          menuId: "menu-3",
+          title: "menu-3-form-outside-new",
+          app: [
+            {
+              appId: "app-outside-new",
+            },
+          ],
+        },
+      ],
+    });
+    const getFeatureFlags = jest.fn().mockReturnValue({});
+
     kernel.currentApp = {
       id: "app-b",
     } as any;
@@ -1164,6 +1183,7 @@ describe("Kernel", () => {
         },
       ],
     } as any;
+    kernel.getFeatureFlags = getFeatureFlags;
     const menus = await kernel.getStandaloneMenus("menu-3");
     expect(menus).toEqual([
       {
@@ -1172,6 +1192,20 @@ describe("Kernel", () => {
         app: [
           {
             appId: "app-outside",
+          },
+        ],
+      },
+    ]);
+
+    getFeatureFlags.mockReturnValueOnce({ "three-level-menu-layout": true });
+    const menus_new = await kernel.getStandaloneMenus("menu-3");
+    expect(menus_new).toEqual([
+      {
+        menuId: "menu-3",
+        title: "menu-3-form-outside-new",
+        app: [
+          {
+            appId: "app-outside-new",
           },
         ],
       },

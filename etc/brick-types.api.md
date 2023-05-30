@@ -1371,6 +1371,7 @@ export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
     children?: MenuItemRawData[];
     type?: "default" | "group";
+    childLayout?: "default" | "category";
     sort?: number;
     if?: string | boolean;
     defaultExpanded?: boolean;
