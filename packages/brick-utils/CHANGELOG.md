@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.47.7...@next-core/brick-utils@2.48.0) (2023-05-30)
+
+
+### Features
+
+* menu支持大于两层(standalone) ([258333f](https://github.com/easyops-cn/next-core/commit/258333fc165dad8448d09971b99d3a40d6dd83c5))
+
+
+
+
+
 ## [2.47.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.47.6...@next-core/brick-utils@2.47.7) (2023-05-29)
 
 **Note:** Version bump only for package @next-core/brick-utils

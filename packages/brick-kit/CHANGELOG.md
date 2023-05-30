@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.173.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.172.0...@next-core/brick-kit@2.173.0) (2023-05-30)
+
+
+### Features
+
+* menu支持大于两层(standalone) ([258333f](https://github.com/easyops-cn/next-core/commit/258333fc165dad8448d09971b99d3a40d6dd83c5))
+
+
+
+
+
 # [2.172.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.171.4...@next-core/brick-kit@2.172.0) (2023-05-29)
 
 
