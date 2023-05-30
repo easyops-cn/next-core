@@ -21,6 +21,10 @@
     "./yaml": {
       "types": "./yaml.d.ts",
       "import": "./yaml.js"
+    },
+    "./html": {
+      "types": "./html.d.ts",
+      "import": "./html.js"
     }
   },
   "devDependencies": {
