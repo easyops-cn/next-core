@@ -80,6 +80,11 @@ const mockMenuList: any[] = [
   {
     menuId: "menu-d",
     title: "Menu D",
+    titleDataSource: {
+      objectId: "",
+      instanceId: "",
+      attributeId: "",
+    },
     items: [
       {
         if: null,

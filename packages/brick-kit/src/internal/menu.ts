@@ -524,6 +524,15 @@ async function computeRealValueWithOverrideApp<
   context: PluginRuntimeContext,
   kernel: Kernel
 ): Promise<T> {
+  if (
+    "titleDataSource" in data &&
+    isObject(data.titleDataSource) &&
+    Object.entries(data.titleDataSource).every(
+      ([key, value]) => value === null || value === ""
+    )
+  ) {
+    delete data.titleDataSource;
+  }
   if ("if" in data && data.if === null) {
     delete data.if;
   }
