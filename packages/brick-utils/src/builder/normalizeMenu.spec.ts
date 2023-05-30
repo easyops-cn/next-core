@@ -6,12 +6,19 @@ describe("normalizeMenu", () => {
       {
         _object_id: "MENU",
         menuId: "menu-a",
+        titleDataSource: {
+          objectId: "",
+          instanceId: "",
+          attributeId: "",
+        },
         items: [
           {
+            if: null,
             _object_id: "MENU_ITEM",
             text: "Menu Item 1",
           },
           {
+            if: "<% null %>",
             _object_id: "MENU_ITEM",
             text: "Menu Item 2",
             children: [
@@ -40,6 +47,7 @@ describe("normalizeMenu", () => {
             text: "Menu Item 1",
           },
           {
+            if: "<% null %>",
             text: "Menu Item 2",
             children: [
               {

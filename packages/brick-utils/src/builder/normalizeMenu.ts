@@ -1,3 +1,5 @@
+import { isObject } from "../isObject";
+
 const fieldsToKeepInMenu = [
   "menuId",
   "title",
@@ -55,7 +57,21 @@ function keep(
   return Object.fromEntries(
     Object.entries(node)
       // Keep certain fields from CMDB.
-      .filter((item) => fieldsToKeep.includes(item[0]))
+      .filter(([key, value]) => {
+        if (
+          key === "titleDataSource" &&
+          isObject(value) &&
+          Object.entries(value).every(
+            (item) => item[1] === null || item[1] === ""
+          )
+        ) {
+          return false;
+        }
+        if (key === "if" && value === null) {
+          return false;
+        }
+        return fieldsToKeep.includes(key);
+      })
   );
 }
 
