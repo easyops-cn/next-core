@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.12.1...@next-core/runtime@1.13.0) (2023-05-30)
+
+
+### Features
+
+* sys add settings field&export brand ([2b9175d](https://github.com/easyops-cn/next-core/commit/2b9175d19d9913d8f95d911ce0a35b499d250688))
+
+
+
+
+
 ## [1.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.12.0...@next-core/runtime@1.12.1) (2023-05-26)
 
 **Note:** Version bump only for package @next-core/runtime

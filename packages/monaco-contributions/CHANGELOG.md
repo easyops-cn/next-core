@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.1.1...@next-core/monaco-contributions@0.2.0) (2023-05-30)
+
+
+### Features
+
+* support extended html syntax: allow dots in tag name ([a67efd2](https://github.com/easyops-cn/next-core/commit/a67efd2b7f34532286e71cbe65c70eee9d5b18a3))
+
+
+
+
+
 ## [0.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.1.0...@next-core/monaco-contributions@0.1.1) (2023-05-29)
 
 
