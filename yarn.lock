@@ -1930,12 +1930,12 @@
   dependencies:
     "@next-core/http" "^1.0.0"
 
-"@next-api-sdk/cmdb-sdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@next-api-sdk/cmdb-sdk/-/cmdb-sdk-1.1.0.tgz#5c99b7b6ad51b2d2d4417a1d824ccf208caf8346"
-  integrity sha512-ov+wuAhZF/qaUpIafkGugjzaJ8XeLjmCca0BudYSXw7n40CTeMJgXRqETJjQ25PPTnPRed2Oc9XzkDP4rGOPcg==
+"@next-api-sdk/cmdb-sdk@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@next-api-sdk/cmdb-sdk/-/cmdb-sdk-1.1.1.tgz#2c03b61c4fa08c85a9bd9d5798c20fdc2c0db755"
+  integrity sha512-pfc0atfR9dtT3rArlm2dDj3csGw1PTknFICuxhTWNo7+IZcptMltEbw+z4guIiNDYAk1C3Ot+SB9bObulpiWdA==
   dependencies:
-    "@next-core/http" "^1.0.0"
+    "@next-core/http" "^1.0.6"
 
 "@next-api-sdk/micro-app-sdk@^1.1.0":
   version "1.1.0"
@@ -1950,6 +1950,11 @@
   integrity sha512-FHeVX83d5otNWwBzaja6kftK3fW6iGSxkoTSNXMxHVh39v8+E1Tk2OFA9OvBaOBCKi6ULgH9MYLlHpFDiIKLYw==
   dependencies:
     "@next-core/http" "^1.0.0"
+
+"@next-core/http@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@next-core/http/-/http-1.0.6.tgz#75af6668db782e76a4ce9d46573e9f30dd8fa64d"
+  integrity sha512-5WOczo6131ZTjeGaKxYj0VIVEU+OcXB80AIwF9HcOGgm4tVatd7ejhs7vZ+6mvblJKoSWEzhBcrUBQgV+tqfvA==
 
 "@next-core/public-scoped-sdk@^0.2.13":
   version "0.2.13"
