@@ -28,6 +28,7 @@ const fieldsToKeepInMenuItem = [
   "defaultExpanded",
   "if",
   "groupId",
+  "childLayout",
 ];
 
 export interface MenuNode {

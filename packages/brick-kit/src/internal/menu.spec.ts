@@ -82,7 +82,12 @@ const mockMenuList: any[] = [
     title: "Menu D",
     items: [
       {
+        if: null,
         text: "Menu Item 1",
+      },
+      {
+        if: "<% null %>",
+        text: "Menu Item 2",
       },
     ],
     app: [
@@ -343,7 +348,7 @@ const mockMenuList: any[] = [
   });
 });
 (InstalledMicroAppApi_getMenusInfo as jest.Mock).mockImplementation(
-  (menuId) => {
+  (menuId, params) => {
     return Promise.resolve({
       list: mockMenuList.filter((item) => item.menuId === menuId),
     });
