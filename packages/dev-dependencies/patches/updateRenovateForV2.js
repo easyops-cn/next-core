@@ -1,0 +1,49 @@
+const path = require("path");
+const { readJson, writeJsonFile, readSelfJson } = require("../utils");
+
+function updateRenovateForV2() {
+  const selfJson = readSelfJson();
+  const renovateJsonPath = path.resolve("renovate.json");
+  const renovateJson = readJson(renovateJsonPath);
+
+  renovateJson.packageRules = [
+    {
+      excludePackagePatterns: ["^@next-core/", "^@next-libs/"],
+      enabled: false,
+    },
+    {
+      groupName: "next-core packages",
+      matchPackagePatterns: ["^@next-core/"],
+      matchUpdateTypes: ["minor", "patch"],
+      postUpgradeTasks:
+        selfJson.homepage && selfJson.homepage.includes("github.com")
+          ? undefined
+          : {
+              commands: [
+                "yarn renew",
+                "yarn extract",
+                "./node_modules/.bin/prettier --write package.json",
+                "yarn-deduplicate yarn.lock",
+                "yarn",
+              ],
+              fileFilters: [
+                "**/*",
+                ".gitignore",
+                ".gitlab/**/*",
+                ".huskyrc",
+                ".husky/.gitignore",
+                ".husky/**/*",
+              ],
+            },
+    },
+    {
+      groupName: "next-libs packages",
+      matchPackagePatterns: ["^@next-libs/"],
+      separateMajorMinor: false,
+    },
+  ];
+
+  writeJsonFile(renovateJsonPath, renovateJson);
+}
+
+module.exports = updateRenovateForV2;
