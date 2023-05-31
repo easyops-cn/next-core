@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.48.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.48.0...@next-core/brick-utils@2.48.1) (2023-05-31)
+
+
+### Bug Fixes
+
+* normalizeMenu兼容新接口 ([65e125b](https://github.com/easyops-cn/next-core/commit/65e125b37dc36b7af92798eb71e7ec8e494c9bdb))
+
+
+
+
+
 # [2.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.47.7...@next-core/brick-utils@2.48.0) (2023-05-30)
 
 

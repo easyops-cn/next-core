@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.173.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.173.0...@next-core/brick-kit@2.173.1) (2023-05-31)
+
+
+### Bug Fixes
+
+* menu新接口结构体字段会默认填充所有结构体ID导致空判断出错 ([f6d3ade](https://github.com/easyops-cn/next-core/commit/f6d3aded99b5ddadb77795f57259fcd4708702c1))
+
+
+
+
+
 # [2.173.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.172.0...@next-core/brick-kit@2.173.0) (2023-05-30)
 
 
