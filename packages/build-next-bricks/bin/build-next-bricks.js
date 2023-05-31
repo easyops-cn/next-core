@@ -3,7 +3,7 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import build from "../src/build.js";
 import scanBricks from "../src/scanBricks.js";
-import generateMetadata from "../src/generateMetadata.js";
+import generatePkgBuild from "../src/generatePkgBuild.js";
 
 /**
  * @typedef {T | Array<T>} MaybeArray<T>
@@ -68,7 +68,7 @@ try {
     });
 
     if (configList.some((config) => !config.type || config.type === "bricks")) {
-      await generateMetadata(packageDir);
+      await generatePkgBuild(packageDir);
     }
 
     console.log(
