@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>通过</title>
+    <defs>
+        <filter x="-27.8%" y="-66.7%" width="155.6%" height="266.7%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="移动端2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="工单详情-动作图标及颜色" transform="translate(-25.000000, -61.000000)" fill-rule="nonzero">
+            <g id="通过" filter="url(#filter-1)" transform="translate(23.000000, 63.000000)">
+                <g transform="translate(8.000000, 4.000000)">
+                    <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                    <path d="M8,1 C11.8659932,1 15,4.13400673 15,8 C15,10.5008591 13.6658076,12.8117482 11.5,14.0621778 C9.33419248,15.3126074 6.66580752,15.3126074 4.5,14.0621778 C2.33419242,12.8117482 1,10.5008591 1,8 C1,4.13400673 4.13400675,1 8,1 Z M12.021506,5.46098977 C11.7238193,5.17296979 11.2490102,5.18080621 10.9609902,5.47849291 L10.9609902,5.47849291 L6.99699019,9.57401055 L5.04795483,7.48790044 L4.96633938,7.41248011 C4.68026044,7.18482442 4.26301661,7.19493102 3.98790091,7.45204406 C3.68527363,7.7348684 3.66922018,8.20947071 3.95204453,8.51209798 L3.95204453,8.51209798 L6.44062862,11.174929 L6.51785627,11.2468489 C6.81481505,11.4869241 7.25413193,11.4669759 7.52759321,11.1843365 L7.52759321,11.1843365 L12.0390091,6.52150552 L12.1102292,6.43620018 C12.3232088,6.13903361 12.2921302,5.72282612 12.021506,5.46098977 Z" id="形状结合" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

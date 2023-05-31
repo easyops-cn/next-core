@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>撤回</title>
+    <g id="移动端2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="工单详情-动作图标及颜色" transform="translate(-98.000000, -484.000000)" fill-rule="nonzero">
+            <g id="撤回" transform="translate(98.000000, 484.000000)">
+                <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                <path d="M5,8.625 L1,5.5016875 L5,2.5 L5,4.25 L10.5375,4.25 C13.0020707,4.25 15,6.2479293 15,8.7125 C15,11.0784879 13.1587084,13.014419 10.8309106,13.1655079 L10.5375,13.175 L4.5,13.175 L4.5,11.425 L10.5375,11.425 C12.0355724,11.425 13.25,10.2105724 13.25,8.7125 C13.25,7.29765386 12.1667606,6.13581185 10.7843928,6.0110851 L10.5375,6 L5,6 L5,8.625 Z" id="形状结合" fill="#333333"></path>
+            </g>
+        </g>
+    </g>
+</svg>

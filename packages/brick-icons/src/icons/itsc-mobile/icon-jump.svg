@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>直达</title>
+    <g id="红色顶栏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="直达" transform="translate(0.000000, 0.000000)">
+            <rect id="转派" x="0" y="0" width="22" height="22"></rect>
+            <line x1="1" y1="21" x2="6" y2="1" id="路径-26" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line>
+            <line x1="11" y1="21" x2="11" y2="1" id="路径-27" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3,3"></line>
+            <line x1="21" y1="21" x2="16" y2="1" id="路径-28" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line>
+        </g>
+    </g>
+</svg>

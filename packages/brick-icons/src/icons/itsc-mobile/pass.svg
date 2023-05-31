@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>通过</title>
+    <g id="红色顶栏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="通过">
+            <rect id="矩形" x="0" y="0" width="24" height="24"></rect>
+            <g id="编组-2" stroke="#313236" stroke-width="2">
+                <circle id="椭圆形" cx="12" cy="12" r="11"></circle>
+                <polyline id="路径-10" points="17.8855212 7.52566118 9.4403058 15.6871543 6 12"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

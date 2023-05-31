@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>认领</title>
+    <g id="红色顶栏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="认领">
+            <g id="待认领" transform="translate(1.000000, 1.000000)" stroke="#313236" stroke-width="2">
+                <polygon id="路径-13" stroke-linejoin="round" points="0 7.61538462 0 22 22 22 22 7.61538462 11 14.3846154"></polygon>
+                <path d="M0,7.78657998 L2.59646307,6.41701705 M19.5343213,6.48600219 L22,7.78657998" id="形状"></path>
+                <polyline id="路径-15" stroke-linecap="round" stroke-linejoin="round" points="2.53846154 8.46153846 2.53846154 0 19.4615385 0 19.4615385 8.46153846"></polyline>
+                <line x1="11" y1="3.38461538" x2="11" y2="10.1538462" id="路径-3"></line>
+                <polyline id="路径-4" points="7.61538462 7.61538462 11 11 14.3846154 7.61538462"></polyline>
+            </g>
+            <rect id="转派" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

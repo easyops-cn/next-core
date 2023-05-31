@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>退回</title>
+    <g id="红色顶栏" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="退回">
+            <rect id="矩形" x="0" y="0" width="24" height="24"></rect>
+            <g id="编组-2" stroke="#313236" stroke-width="2">
+                <circle id="椭圆形" cx="12" cy="12" r="11"></circle>
+                <line x1="7.940306" y1="8" x2="16.385521" y2="16.187154" id="路径-7"></line>
+                <line x1="16.385521" y1="8" x2="7.940306" y2="16.187154" id="路径-10"></line>
+            </g>
+        </g>
+    </g>
+</svg>

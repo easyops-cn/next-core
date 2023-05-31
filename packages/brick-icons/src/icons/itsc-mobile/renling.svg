@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>认领</title>
+    <g id="移动端2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="工单详情-动作图标及颜色" transform="translate(-170.000000, -484.000000)">
+            <g id="认领" transform="translate(170.000000, 484.000000)">
+                <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+                <polygon id="路径-13" stroke="#333333" stroke-linejoin="round" points="1.5 6 1.5 14.5 14.5 14.5 14.5 6 8 10"></polygon>
+                <path d="M1.5,6 L3.03427363,5.29187371 M13.043008,5.32754216 L14.5,6" id="形状" stroke="#333333"></path>
+                <polyline id="路径-15" stroke="#333333" stroke-linecap="round" stroke-linejoin="round" points="3 6.5 3 1.5 13 1.5 13 6.5"></polyline>
+                <line x1="8" y1="3.5" x2="8" y2="7.5" id="路径-3" stroke="#333333"></line>
+                <polyline id="路径-4" stroke="#333333" points="6 6 8 8 10 6"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
