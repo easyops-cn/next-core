@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.13.0...@next-core/runtime@1.14.0) (2023-06-01)
+
+
+### Features
+
+* menu支持大于两层 ([f3bd6d4](https://github.com/easyops-cn/next-core/commit/f3bd6d45f6e9f590d05428ba77d40408ba9f0944))
+
+
+
+
+
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.12.1...@next-core/runtime@1.13.0) (2023-05-30)
 
 

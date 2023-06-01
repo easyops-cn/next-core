@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.3.2...@next-core/easyops-runtime@0.4.0) (2023-06-01)
+
+
+### Features
+
+* menu支持大于两层 ([f3bd6d4](https://github.com/easyops-cn/next-core/commit/f3bd6d45f6e9f590d05428ba77d40408ba9f0944))
+
+
+
+
+
 ## [0.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.3.1...@next-core/easyops-runtime@0.3.2) (2023-05-30)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

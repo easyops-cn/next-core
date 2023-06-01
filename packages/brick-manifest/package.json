@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-manifest",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Brick manifest types for Brick Next V3+",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-manifest",
   "license": "GPL-3.0",

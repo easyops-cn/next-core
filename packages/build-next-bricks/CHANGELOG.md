@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.3...@next-core/build-next-bricks@1.6.0) (2023-06-01)
+
+
+### Features
+
+* generate brick package manifest ([5609928](https://github.com/easyops-cn/next-core/commit/5609928703a0eea00c0872f1e6a5020e7279f8d7))
+
+
+
+
+
 ## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.2...@next-core/build-next-bricks@1.5.3) (2023-05-26)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
