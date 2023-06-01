@@ -1871,10 +1871,10 @@
   dependencies:
     "@next-core/http" "^1.0.0"
 
-"@next-api-sdk/micro-app-sdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@next-api-sdk/micro-app-sdk/-/micro-app-sdk-1.1.0.tgz#6bc65863f021532a3765e077d97bec1711361c25"
-  integrity sha512-P9Z5R0FPKe4hK7h2HXNuiCLJji0Xl6bg2jIEGW1snLXCYGQRQH7COXWEeeSDbi1MKgknLiZU5yNP1Vskj1J7jw==
+"@next-api-sdk/micro-app-sdk@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@next-api-sdk/micro-app-sdk/-/micro-app-sdk-1.2.1.tgz#b3879de5e3b06e698c003d7eb4919392b3d710c6"
+  integrity sha512-pToTx4VukfLXk5AVp3EEcJ0Qx4vo9UcfEulYXR296AYy6bol6dgR3R7cLm0LxG5PMp90Mh09BMTEqqryD2JX7A==
   dependencies:
     "@next-core/http" "^1.0.0"
 
