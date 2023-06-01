@@ -38,6 +38,7 @@
     "css-loader": "^6.7.4",
     "cssnano": "^6.0.1",
     "cssnano-preset-lite": "^3.0.0",
+    "doctrine": "^3.0.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss": "^8.4.23",
@@ -46,5 +47,8 @@
     "style-loader": "^3.3.3",
     "typescript": "^5.0.4",
     "webpack": "^5.84.1"
+  },
+  "devDependencies": {
+    "@next-core/brick-manifest": "^0.0.0"
   }
 }

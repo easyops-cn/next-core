@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /**
  * @param {string} packageDir
  */
-export default async function generateMetadata(packageDir) {
+export default async function generatePkgBuild(packageDir) {
   const targetPkgBuildDir = path.join(packageDir, ".pkgbuild");
   if (!existsSync(targetPkgBuildDir)) {
     mkdirSync(targetPkgBuildDir);
