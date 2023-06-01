@@ -365,6 +365,7 @@ async function getWebpackConfig(config) {
               elements,
               processors,
               dependencies: config.dependencies,
+              manifest: config.manifest,
             }),
           ]
         : []),

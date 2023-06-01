@@ -1,10 +1,17 @@
 import path from "node:path";
 import fs, { existsSync, statSync } from "node:fs";
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { parse } from "@babel/parser";
 import babelTraverse from "@babel/traverse";
 import _ from "lodash";
 import getCamelPackageName from "./getCamelPackageName.js";
+import makeBrickManifest from "./makeBrickManifest.js";
+
+/**
+ * @typedef {import("@next-core/brick-manifest").PackageManifest} PackageManifest
+ * @typedef {{import: string; name: string; noNamespace?: boolean;}} Expose
+ * @typedef {Record<string, Expose>} Exposes
+ */
 
 const { default: traverse } = babelTraverse;
 const { escapeRegExp } = _;
@@ -19,10 +26,10 @@ const validExposeName = /^[-\w]+$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Promise<{exposes: Record<string, { import: string; name: string; noNamespace?: boolean; }; dependencies: Record<string, string[]>}>>}
+ * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest}>}
  */
 export default async function scanBricks(packageDir) {
-  /** @type {Map<string, { import: string; name: string; }>} */
+  /** @type {Map<string, Expose>} */
   const exposes = new Map();
   /** @type {Record<string, string[]>} */
   const specifiedDeps = {};
@@ -37,6 +44,14 @@ export default async function scanBricks(packageDir) {
   /** @type {string} */
   const packageName = packageJson.name.split("/").pop();
   const camelPackageName = getCamelPackageName(packageName);
+
+  /** @type {PackageManifest} */
+  const manifest = {
+    manifest_version: 1,
+    package: packageJson.name,
+    name: packageName,
+    bricks: [],
+  };
 
   /** @type {Map<string, Set<string>} */
   const usingWrappedBricks = new Map();
@@ -302,7 +317,10 @@ export default async function scanBricks(packageDir) {
           }
         }
       },
-      Decorator({ node: { expression } }) {
+      Decorator(nodePath) {
+        const {
+          node: { expression },
+        } = nodePath;
         // Match `@defineElement(...)`
         if (
           expression.type === "CallExpression" &&
@@ -371,6 +389,8 @@ export default async function scanBricks(packageDir) {
           }
 
           brickSourceFiles.set(fullName, filePath);
+
+          manifest.bricks.push(makeBrickManifest(fullName, nodePath, content));
 
           exposes.set(`./${brickName}`, {
             import: `./${path
@@ -503,5 +523,6 @@ export default async function scanBricks(packageDir) {
       ...analyzedDeps,
       ...specifiedDeps,
     },
+    manifest,
   };
 }
