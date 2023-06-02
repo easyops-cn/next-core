@@ -449,6 +449,10 @@ export default async function scanBricks(packageDir) {
    * @param {string | undefined} overrideImport
    */
   async function scanByImport([dirname, files], importFrom, overrideImport) {
+    // Ignore missing imports (maybe auto generated)
+    if (!existsSync(dirname)) {
+      return;
+    }
     const dirents = await readdir(dirname, { withFileTypes: true });
     const possibleFilenames = [...files].map(
       (filename) => new RegExp(`${escapeRegExp(filename)}\\.[tj]sx?$`)
