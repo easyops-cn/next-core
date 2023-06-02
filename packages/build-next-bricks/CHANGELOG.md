@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.0...@next-core/build-next-bricks@1.7.1) (2023-06-02)
+
+
+### Bug Fixes
+
+* ignore missing imports ([5a4f38f](https://github.com/easyops-cn/next-core/commit/5a4f38f9f8778616e30b9ce06b93a6bb45690030))
+
+
+
+
+
 # [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.6.0...@next-core/build-next-bricks@1.7.0) (2023-06-02)
 
 
