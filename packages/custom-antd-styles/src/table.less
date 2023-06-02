@@ -49,22 +49,7 @@
     min-width: 32px;
   }
 
-  &-middle .@{table-prefix-cls}-thead{
-    > tr > th {
-      padding: 6px 8px;
-    }
-  }
-
-  &-middle .@{table-prefix-cls}-tbody{
-    > tr > td {
-      padding: 6px 8px;
-    }
-  }
-  &-small .@{table-prefix-cls}-thead{
-    > tr > th {
-      padding: 4px 8px;
-    }
-  }
+  
 
   &-row-expand-icon-cell {
     padding: 14px 0;
@@ -196,3 +181,27 @@
     }
   }
 }
+
+.@{table-prefix-cls}.@{table-prefix-cls}-middle {
+  &-thead{
+    > tr > th {
+      padding: 6px 8px;
+    }
+  }
+}
+
+.@{table-prefix-cls}.@{table-prefix-cls}-middle {
+  &-tbody{
+    > tr > td {
+      padding: 6px 8px;
+    }
+  }
+}
+.@{table-prefix-cls}.@{table-prefix-cls}-small {
+  &-thead{
+    > tr > th {
+      padding: 4px 8px;
+    }
+  }
+}
+
