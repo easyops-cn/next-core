@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.31.52](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.51...@next-core/brick-icons@2.31.52) (2023-06-02)
+
+
+### Bug Fixes
+
+* add icon Closes INSTANCE-4965 ([5a1970f](https://github.com/easyops-cn/next-core/commit/5a1970f1f10c500b98fbdbe410280674c19f27c5))
+
+
+
+
+
 ## [2.31.51](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.50...@next-core/brick-icons@2.31.51) (2023-06-01)
 
 
