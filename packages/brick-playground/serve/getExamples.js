@@ -3,6 +3,9 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import walk from "./walk.js";
 
+const REGEX_EXAMPLES_IN_MARKDOWN =
+  /(?:^###\s+(.+?)(?:\s+\{.*\})?\n[\s\S]*?)?^(```+)(html|yaml)(\s.*)?\n([\s\S]*?)\2/gm;
+
 /**
  *
  * @param {string} bricksDir
@@ -49,6 +52,23 @@ export default async function getExamples(bricksDir) {
         if (existsSync(srcPath)) {
           await walk(srcPath, visitExamples, [dir.name]);
         }
+        const docsDir = path.join(bricksDir, dir.name, "docs");
+        const examplesInMarkdown = await getExamplesInMarkdown(docsDir);
+        /** @type {string | undefined} */
+        let lastHeading;
+        for (const item of examplesInMarkdown) {
+          const stack = [dir.name, item.name];
+          const heading = item.heading ?? lastHeading;
+          lastHeading = heading;
+          if (heading) {
+            stack.push(heading.trim().toLowerCase());
+          }
+          const key = getDeduplicatedKey(stack.join("/"), exampleMap);
+          exampleMap.set(key, {
+            mode: item.mode,
+            [item.mode]: item.code,
+          });
+        }
       }
     })
   );
@@ -60,4 +80,58 @@ export default async function getExamples(bricksDir) {
     key,
     ...exampleMap.get(key),
   }));
+}
+
+/**
+ * @param {string} docsDir
+ */
+async function getExamplesInMarkdown(docsDir) {
+  if (!existsSync(docsDir)) {
+    return [];
+  }
+  const docs = await readdir(docsDir);
+  return (
+    await Promise.all(
+      docs.map(async (filename) => {
+        const examplesInMarkdown = [];
+        if (filename.endsWith(".md")) {
+          const filePath = path.join(docsDir, filename);
+          const content = await readFile(filePath, "utf-8");
+          /** @type {null|(string | undefined)[]} */
+          let matches;
+          while (
+            (matches = REGEX_EXAMPLES_IN_MARKDOWN.exec(content)) !== null
+          ) {
+            const [, heading, , mode, meta, code] = matches;
+            const metaParts = meta.trim().split(/\s+/);
+            if (metaParts.includes("preview")) {
+              examplesInMarkdown.push({
+                name: path.basename(filename, ".md").split(".").pop(),
+                heading,
+                mode,
+                meta,
+                code,
+              });
+            }
+          }
+        }
+        return examplesInMarkdown;
+      })
+    )
+  ).flat();
+}
+
+/**
+ * @param {string} key
+ * @param {Map<string, unknown>} map
+ * @returns {string}
+ */
+function getDeduplicatedKey(key, map) {
+  let count = 2;
+  let cursor = key;
+  while (map.has(cursor)) {
+    cursor = `${key} (${count})`;
+    count++;
+  }
+  return cursor;
 }
