@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.6.0...@next-core/build-next-bricks@1.7.0) (2023-06-02)
+
+
+### Features
+
+* support build manifest only ([5288fa8](https://github.com/easyops-cn/next-core/commit/5288fa87f5ba34b306043dfb7ad43e76acdd5871))
+
+
+
+
+
 # [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.3...@next-core/build-next-bricks@1.6.0) (2023-06-01)
 
 
