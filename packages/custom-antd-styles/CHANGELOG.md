@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.23](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.22...@next-core/custom-antd-styles@1.25.23) (2023-06-02)
+
+
+### Bug Fixes
+
+* 修改table及timeline样式 ([8570bcc](https://github.com/easyops-cn/next-core/commit/8570bcc2e6e9a16c8d751238e2254ad3c50b0cc2))
+
+
+
+
+
 ## [1.25.22](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.21...@next-core/custom-antd-styles@1.25.22) (2023-05-23)
 
 
