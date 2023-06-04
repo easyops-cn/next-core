@@ -34,4 +34,5 @@ export * from "./debounceByAnimationFrame";
 export * from "./scanInstalledAppsInStoryboard";
 export * from "./makeThrottledAggregation";
 export * from "./removeDeadConditions";
+export * from "./preEvaluatedSnippetConf";
 export * from "@next-core/storyboard";
