@@ -1,4 +1,4 @@
-import { cook, isSnippetEvaluations, preevaluate } from "@next-core/cook";
+import { cook, isSnippetEvaluation, preevaluate } from "@next-core/cook";
 import { PrecookHooks } from "./cook";
 import { supply } from "@next-core/supply";
 import { visitStoryboardExpressions } from "./visitStoryboard";
@@ -77,7 +77,10 @@ function checkParamsValid(nameList: string[], context: RuntimeContext): void {
 function scanSnippetInStoryboard(data: unknown): string[] {
   const collection = new Set<string>();
   const beforeVisitGlobal = beforeVisitSnippetParamsFactory(collection);
-  visitStoryboardExpressions(data, beforeVisitGlobal, "SNIPPET_PARAMS");
+  visitStoryboardExpressions(data, beforeVisitGlobal, {
+    matchExpressionString: (v) => v.includes("SNIPPET_PARAMS"),
+    customIsEvaluable: isSnippetEvaluation,
+  });
 
   return Array.from(collection);
 }
@@ -86,31 +89,32 @@ function computeRealSnippetConf(
   value: unknown,
   context: RuntimeContext
 ): unknown {
-  if (typeof value === "string" && isSnippetEvaluations(value)) {
+  if (typeof value === "string" && isSnippetEvaluation(value)) {
     try {
-      let raw: string = value;
-      if (/^\s*<%@\s/.test(value)) {
-        const originSource = (value as string).replace(
-          /^\s*<%@\s|\s%>\s*$/g,
-          ""
-        );
+      const raw: string = value;
+      const ctxOrState = context.rootType === "template" ? "STATE" : "CTX";
 
-        raw = "<%! `<% ${" + originSource + "} %>` %>";
+      if (/^\s*<%@\s/.test(value)) {
+        const replacements = [
+          { search: "<%@", replace: "<%" },
+          { search: /\bCTX_OR_STATE\b/g, replace: ctxOrState },
+        ];
+
+        let result = value;
+
+        replacements.forEach((replacement) => {
+          result = result.replace(replacement.search, replacement.replace);
+        });
+
+        return result;
       }
 
       const globalVariables: Record<string, unknown> = {};
 
       const { expression, attemptToVisitGlobals, source } = preevaluate(raw);
 
-      const attemptToVisitCtxOrState =
-        attemptToVisitGlobals.has("CTX_OR_STATE");
       const attemptVisitSnippetParams =
         attemptToVisitGlobals.has("SNIPPET_PARAMS");
-
-      if (attemptToVisitCtxOrState) {
-        globalVariables.CTX_OR_STATE =
-          context.rootType === "template" ? "STATE" : "CTX";
-      }
 
       if (attemptVisitSnippetParams) {
         globalVariables.SNIPPET_PARAMS = context.inputParams;
@@ -143,7 +147,7 @@ function computeRealSnippetConf(
     ])
   );
 }
-export function preEvaluatedSnippetConf(
+export function snippetEvaluate(
   brickConf: RuntimeSnipeConf,
   context: RuntimeContext
 ): unknown {

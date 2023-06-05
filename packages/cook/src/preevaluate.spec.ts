@@ -3,7 +3,7 @@ import {
   isTrackAll,
   preevaluate,
   shouldAllowRecursiveEvaluations,
-  isSnippetEvaluations,
+  isSnippetEvaluation,
 } from "./preevaluate";
 
 describe("isEvaluable", () => {
@@ -23,8 +23,6 @@ describe("isEvaluable", () => {
     ["<%=[]%> ", false],
     ["<%=[] %> ", false],
     ["<%= []%> ", false],
-    ["<%! [] %>", true],
-    ["<%@ [] %>", true],
   ])("isEvaluable(%j) should return %j", (raw, cookable) => {
     expect(isEvaluable(raw)).toBe(cookable);
   });
@@ -72,12 +70,12 @@ describe("shouldAllowRecursiveEvaluations", () => {
   });
 });
 
-describe("isSnippetEvaluations", () => {
+describe("isSnippetEvaluation", () => {
   it.each([
     ["<%! CTX.a %>", true],
     ["<%@ STATE.a %>", true],
   ])("should work", (params, result) => {
-    expect(isSnippetEvaluations(params)).toEqual(result);
+    expect(isSnippetEvaluation(params)).toEqual(result);
   });
 });
 

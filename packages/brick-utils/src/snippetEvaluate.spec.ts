@@ -1,7 +1,7 @@
-import { preEvaluatedSnippetConf } from "./preEvaluatedSnippetConf";
+import { snippetEvaluate } from "./snippetEvaluate";
 
-describe("preEvaluatedSnippetConf", () => {
-  describe("preEvaluatedSnippetConf should work", () => {
+describe("snippetEvaluate processor", () => {
+  describe("snippetEvaluate should work", () => {
     it.each([
       [
         {
@@ -67,7 +67,7 @@ describe("preEvaluatedSnippetConf", () => {
                   },
                 ],
 
-                dataSource: "<%@ `${CTX_OR_STATE}.dataSourceList` %>",
+                dataSource: "<%@ CTX_OR_STATE.dataSourceList %>",
               },
             },
           ],
@@ -195,7 +195,7 @@ describe("preEvaluatedSnippetConf", () => {
                   },
                 ],
 
-                dataSource: "<%@ `${CTX_OR_STATE}.dataSourceList` %>",
+                dataSource: "<%@ CTX_OR_STATE.dataSourceList %>",
               },
             },
           ],
@@ -260,7 +260,7 @@ describe("preEvaluatedSnippetConf", () => {
         },
       ],
     ])("should work", (brickConf, context, result) => {
-      expect(preEvaluatedSnippetConf(brickConf, context)).toEqual(result);
+      expect(snippetEvaluate(brickConf, context)).toEqual(result);
     });
 
     it("should throw specific error", () => {
@@ -327,18 +327,18 @@ describe("preEvaluatedSnippetConf", () => {
                 },
               ],
 
-              dataSource: "<%@ `${CTX_OR_STATE}.dataSourceList` %>",
+              dataSource: "<%@ CTX_OR_STATE.dataSourceList %>",
             },
           },
         ],
       };
 
-      expect(() => preEvaluatedSnippetConf(brickConf, {})).toThrowError(
+      expect(() => snippetEvaluate(brickConf, {})).toThrowError(
         "Missing type of test in snippet params"
       );
 
       expect(() =>
-        preEvaluatedSnippetConf(brickConf, {
+        snippetEvaluate(brickConf, {
           declareParams: { test: { type: "object" } },
         })
       ).toThrowError(
@@ -346,7 +346,7 @@ describe("preEvaluatedSnippetConf", () => {
       );
 
       expect(() =>
-        preEvaluatedSnippetConf(brickConf, {
+        snippetEvaluate(brickConf, {
           inputParams: { test: 123 },
           declareParams: { test: { type: "string" } },
         })
