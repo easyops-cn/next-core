@@ -259,7 +259,7 @@ async function getWebpackConfig(config) {
               "jpg",
               "jpeg",
               "gif",
-              ...(config.svgRules ? [] : ["svg"]),
+              ...(config.svgRules || config.svgAsReactComponent ? [] : ["svg"]),
             ].join("|")})$`,
             "i"
           ),
@@ -273,7 +273,7 @@ async function getWebpackConfig(config) {
             ? [
                 {
                   test: /\.svg$/i,
-                  use: getSvgrLoaders(false),
+                  use: getSvgrLoaders(),
                 },
               ]
             : [])),
