@@ -3,6 +3,7 @@ import {
   precookFunction,
   PrecookHooks,
   isEvaluable,
+  isSnippetEvaluation,
   preevaluate,
 } from "./cook";
 import { isObject } from "./isObject";
@@ -31,6 +32,7 @@ interface VisitStoryboardExpressionsOptions {
   matchExpressionString: (v: string) => boolean;
   visitNonExpressionString?: (v: string) => unknown;
   visitObject?: (v: unknown[] | Record<string, unknown>) => unknown;
+  customIsEvaluable?: (v: string) => boolean;
 }
 
 export function visitStoryboardExpressions(
@@ -40,15 +42,20 @@ export function visitStoryboardExpressions(
   options: string | VisitStoryboardExpressionsOptions
 ): void {
   const memo = new WeakSet();
-  const { matchExpressionString, visitNonExpressionString, visitObject } =
-    typeof options === "string"
-      ? ({
-          matchExpressionString: (v: string) => v.includes(options),
-        } as VisitStoryboardExpressionsOptions)
-      : options;
+  const {
+    matchExpressionString,
+    visitNonExpressionString,
+    visitObject,
+    customIsEvaluable = isEvaluable,
+  } = typeof options === "string"
+    ? ({
+        matchExpressionString: (v: string) => v.includes(options),
+      } as VisitStoryboardExpressionsOptions)
+    : options;
+
   function visit(value: unknown): void {
     if (typeof value === "string") {
-      if (matchExpressionString(value) && isEvaluable(value)) {
+      if (matchExpressionString(value) && customIsEvaluable(value)) {
         try {
           preevaluate(value, {
             withParent: true,
