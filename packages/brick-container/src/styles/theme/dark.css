@@ -391,7 +391,7 @@ html[data-theme="dark-v2"],
   --antd-pagination-total-strong-text: var(--color-normal-text);
   --antd-pagination-item-hover: var(--color-info);
   --antd-pagination-item-active-bg: var(--color-brand);
-  --antd-pagination-item-active-border: var(--color-info);
+  --antd-pagination-item-active-border: var(--palette-blue-3);
   --antd-pagination-item-active-text-color: var(--color-white);
   --antd-pagination-item-selected-hover-text-color: var(
     --antd-pagination-item-active-text-color

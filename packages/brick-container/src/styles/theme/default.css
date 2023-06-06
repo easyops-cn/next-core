@@ -432,7 +432,7 @@
   --antd-pagination-total-strong-text: var(--text-color-default);
   --antd-pagination-item-hover: var(--color-brand);
   --antd-pagination-item-active-bg: transparent;
-  --antd-pagination-item-active-border: var(--color-brand);
+  --antd-pagination-item-active-border: var(--palette-blue-3);
   --antd-pagination-item-active-text-color: var(--color-brand);
   --antd-pagination-item-selected-hover-text-color: #2893f7;
   --antd-pagination-item-selected-hover-border-color: var(
