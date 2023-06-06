@@ -3,7 +3,9 @@
     border-color: transparent;
     background-color: transparent;
     border-radius: 4px;
-
+    height: 28px;
+    line-height: 26px;
+    min-width: 28px;
     &:focus,
     &:hover {
       color: var(--antd-pagination-item-hover);
@@ -52,6 +54,7 @@
   &-total-text {
     order: -1;
     margin-right: auto;
+    height: 28px !important;
   }
 
   &-options {
@@ -61,6 +64,15 @@
       background-color: transparent !important;
       border-color: transparent !important;
       box-shadow: none !important;
+      height: 28px !important;
+      .@{select-prefix-cls}-item{
+        line-height: 26px;
+      }
+      .@{select-prefix-cls}-selection-search{
+        .@{select-prefix-cls}-selection-search-input{
+          height: 26px;
+        }
+      }
     }
 
     /**
@@ -70,5 +82,17 @@
     .@{select-prefix-cls}-dropdown {
       padding: 2px;
     }
+  }
+
+  &-prev,
+  &-next,
+  &.mini &-next,
+  &.mini &-prev,
+  &-jump-next-custom-icon,
+  &.mini &-jump-next-custom-icon,
+  &.mini &-item{
+    height: 28px;
+    min-width: 28px;
+    line-height: 28px;
   }
 }
