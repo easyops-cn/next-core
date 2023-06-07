@@ -25,6 +25,7 @@ interface Example extends Sources {
 
 async function main() {
   const params = new URLSearchParams(location.search);
+  const paramMode = params.get("mode");
   const exampleKey = params.get("example");
 
   let examples: Example[];
@@ -38,6 +39,14 @@ async function main() {
     .then((res) => res.json())
     .then((data) => {
       examples = data.examples;
+      for (const example of examples) {
+        const altMode = example.mode === "yaml" ? "html" : "yaml";
+        example[altMode] = decorateAltCode(
+          example[altMode],
+          example.mode,
+          altMode
+        );
+      }
     });
 
   const selectExample = document.querySelector(
@@ -79,10 +88,12 @@ async function main() {
     }
   }
 
-  let mode = matchedExample
+  let mode = paramMode
+    ? paramMode === "yaml"
+      ? "yaml"
+      : "html"
+    : matchedExample
     ? matchedExample.mode
-    : params.get("mode") === "yaml"
-    ? "yaml"
     : "html";
 
   const codeFromHash =
@@ -109,19 +120,14 @@ async function main() {
     const key = (e.target as HTMLSelectElement).value;
     if (key) {
       const newParams = new URLSearchParams();
+      newParams.set("mode", mode);
       newParams.set("example", key);
       const search = `?${newParams.toString()}`;
       const example = examples.find((item) => item.key === key);
-      const modeChanged = mode !== example.mode;
-      mode = example.mode;
+      matchedExample = example;
       initEditorsWith(example);
       saveToLocalStorage = false;
       history.replaceState(null, "", search);
-      if (modeChanged) {
-        selectType.value = mode.toUpperCase();
-        updateMode();
-        debouncedRender();
-      }
     } else {
       const newParams = new URLSearchParams();
       newParams.set("mode", mode);
@@ -153,12 +159,13 @@ async function main() {
   selectType.addEventListener("change", (e) => {
     mode = (e.target as HTMLSelectElement).value.toLowerCase() as RenderType;
     updateMode();
-    selectExample.value = "";
-    initEditorsWith();
+    initEditorsWith(matchedExample);
     const newParams = new URLSearchParams();
     newParams.set("mode", mode);
+    if (matchedExample) {
+      newParams.set("example", matchedExample.key);
+    }
     const search = `?${newParams.toString()}`;
-    saveToLocalStorage = true;
     history.replaceState(null, "", search);
   });
 
@@ -284,7 +291,9 @@ async function main() {
     history.replaceState(
       null,
       "",
-      `?mode=${mode}#${b64EncodeUnicode(JSON.stringify(sources))}`
+      `?mode=${mode}#${b64EncodeUnicode(
+        JSON.stringify({ [mode]: sources[mode] })
+      )}`
     );
     const result = copy(location.href);
     shareResult.textContent = result ? "URL copied" : "Failed to copy URL";
@@ -314,6 +323,16 @@ function b64DecodeUnicode(str: string) {
       })
       .join("")
   );
+}
+
+function decorateAltCode(code: string, mode: string, altMode: string): string {
+  return `${
+    altMode === mode
+      ? ""
+      : altMode === "yaml"
+      ? "# Note: this example is original written in HTML and auto-transpiled to YAML\n"
+      : "<!-- Note: this example is original written in YAML and auto-transpiled to HTML -->\n"
+  }${code}`;
 }
 
 main().catch((error) => {

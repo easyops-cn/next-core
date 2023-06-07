@@ -1,0 +1,33 @@
+{
+  "name": "@next-core/doc-helpers",
+  "version": "0.0.0",
+  "description": "Doc helpers",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/doc-helpers",
+  "license": "GPL-3.0",
+  "type": "module",
+  "typings": "./index.d.ts",
+  "files": [
+    "src",
+    "index.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "@next-core/brick-manifest": "^0.1.0",
+    "fast-xml-parser": "^4.2.4",
+    "js-yaml": "^3.14.1"
+  }
+}

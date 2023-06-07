@@ -2,16 +2,21 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import walk from "./walk.js";
+import htmlToYaml from "./htmlToYaml.js";
+import yamlToHtml from "./yamlToHtml.js";
+import extractExamplesInMarkdown from "./extractExamplesInMarkdown.js";
 
-const REGEX_EXAMPLES_IN_MARKDOWN =
-  /(?:^###\s+(.+?)(?:\s+\{.*\})?\n[\s\S]*?)?^(```+)(html|yaml)(\s.*)?\n([\s\S]*?)\2/gm;
+/**
+ * @typedef {import("@next-core/brick-manifest").PackageManifest} PackageManifest
+ */
 
 /**
  *
  * @param {string} bricksDir
+ * @param {PackageManifest[] | undefined} manifests
  * @returns {Promise<unknown[]>}
  */
-export default async function getExamples(bricksDir) {
+export default async function getExamples(bricksDir, manifests) {
   if (!existsSync(bricksDir)) {
     return [];
   }
@@ -21,11 +26,18 @@ export default async function getExamples(bricksDir) {
 
   const parseExample = async (filePath, key) => {
     const content = await readFile(filePath, "utf-8");
-    const mode = filePath.endsWith("yaml") ? "yaml" : "html";
-    exampleMap.set(key, {
+    const isYaml = filePath.endsWith("yaml");
+    const mode = isYaml ? "yaml" : "html";
+    const example = {
       mode,
       [mode]: content,
-    });
+    };
+    if (isYaml) {
+      example.html = yamlToHtml(content, manifests);
+    } else {
+      example.yaml = htmlToYaml(content, manifests);
+    }
+    exampleMap.set(key, example);
   };
 
   const visitExamples = {
@@ -64,10 +76,18 @@ export default async function getExamples(bricksDir) {
             stack.push(heading.trim().toLowerCase());
           }
           const key = getDeduplicatedKey(stack.join("/"), exampleMap);
-          exampleMap.set(key, {
+          const example = {
             mode: item.mode,
             [item.mode]: item.code,
-          });
+          };
+          if (item.mode === "yaml") {
+            example.html = yamlToHtml(item.code, manifests ?? []);
+          } else {
+            example.yaml = htmlToYaml(item.code, manifests ?? []);
+          }
+          // Create a gap between inline elements (by inserting a hidden style tag)
+          example.gap = item.meta?.trim().includes("gap");
+          exampleMap.set(key, example);
         }
       }
     })
@@ -93,29 +113,15 @@ async function getExamplesInMarkdown(docsDir) {
   return (
     await Promise.all(
       docs.map(async (filename) => {
-        const examplesInMarkdown = [];
-        if (filename.endsWith(".md")) {
-          const filePath = path.join(docsDir, filename);
-          const content = await readFile(filePath, "utf-8");
-          /** @type {null|(string | undefined)[]} */
-          let matches;
-          while (
-            (matches = REGEX_EXAMPLES_IN_MARKDOWN.exec(content)) !== null
-          ) {
-            const [, heading, , mode, meta, code] = matches;
-            const metaParts = meta.trim().split(/\s+/);
-            if (metaParts.includes("preview")) {
-              examplesInMarkdown.push({
-                name: path.basename(filename, ".md").split(".").pop(),
-                heading,
-                mode,
-                meta,
-                code,
-              });
-            }
-          }
+        if (!filename.endsWith(".md")) {
+          return [];
         }
-        return examplesInMarkdown;
+        const filePath = path.join(docsDir, filename);
+        const markdown = await readFile(filePath, "utf-8");
+        return extractExamplesInMarkdown(
+          markdown,
+          path.basename(filename, ".md").split(".").pop()
+        );
       })
     )
   ).flat();

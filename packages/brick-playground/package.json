@@ -16,18 +16,13 @@
     "dist",
     "serve"
   ],
-  "exports": {
-    "./getExamples": {
-      "import": "./serve/getExamples.js"
-    },
-    "./package.json": "./package.json"
-  },
   "scripts": {
     "start": "cross-env NODE_ENV='development' node scripts/start.js",
     "build": "cross-env NODE_ENV='production' build-next-bricks",
     "build:dev": "cross-env NODE_ENV='development' build-next-bricks"
   },
   "dependencies": {
+    "@next-core/doc-helpers": "^0.0.0",
     "@next-core/serve-helpers": "^1.0.8",
     "compression": "^1.7.4",
     "express": "^4.18.2"
