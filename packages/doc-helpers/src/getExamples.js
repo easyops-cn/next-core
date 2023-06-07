@@ -13,7 +13,7 @@ import extractExamplesInMarkdown from "./extractExamplesInMarkdown.js";
 /**
  *
  * @param {string} bricksDir
- * @param {PackageManifest[] | undefined} manifests
+ * @param {PackageManifest[]} manifests
  * @returns {Promise<unknown[]>}
  */
 export default async function getExamples(bricksDir, manifests) {

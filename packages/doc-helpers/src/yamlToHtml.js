@@ -50,9 +50,7 @@ export default function yamlToHtml(yaml, manifests) {
       // Extra props
       ...Object.entries(extraScripts.props).map(
         ([k, v]) =>
-          `${varName}${
-            /^\w[\w\d]*$/.test(k) ? `.${k}` : `[${JSON.stringify(k)}]`
-          } = ${JSON.stringify(v, null, 2)};`
+          `${varName}${getAccessor(k)} = ${JSON.stringify(v, null, 2)};`
       ),
 
       // Events
@@ -69,11 +67,7 @@ export default function yamlToHtml(yaml, manifests) {
       case "console.error":
         return `${handler.action}(${
           Array.isArray(handler.args)
-            ? handler.args
-                .map((arg) => {
-                  return JSON.stringify(arg);
-                })
-                .join(", ")
+            ? handler.args.map(getEventArgument).join(", ")
             : ""
         })`;
       case "message.success":
@@ -82,9 +76,35 @@ export default function yamlToHtml(yaml, manifests) {
       case "message.error":
         return `alert(${
           Array.isArray(handler.args) && handler.args.length > 0
-            ? JSON.stringify(handler.args[0])
+            ? getEventArgument(handler.args[0])
             : ""
         });`;
+    }
+    if (handler.target) {
+      const lines = [
+        handler.target === "_self"
+          ? `const brick = e.target;`
+          : `const brick = document.querySelector(${JSON.stringify(
+              handler.target
+            )});`,
+      ];
+      if (handler.method) {
+        lines.push(
+          `  brick${getAccessor(handler.method)}(${
+            Array.isArray(handler.args)
+              ? handler.args.map(getEventArgument).join(", ")
+              : ""
+          });`
+        );
+      } else if (isObject(handler.properties)) {
+        lines.push(
+          ...Object.entries(handler.properties).map(
+            ([k, v]) =>
+              `  brick${getAccessor(k)} = ${JSON.stringify(v, null, 2)};`
+          )
+        );
+      }
+      return lines.join("\n");
     }
     return "// Todo";
   })()}
@@ -336,4 +356,28 @@ function slotsToChildren(slots) {
     ...bricks,
     slot,
   }));
+}
+
+/**
+ * @param {string} key
+ * @returns {string}
+ */
+function getAccessor(key) {
+  return /^\w[\w\d]*$/.test(key) ? `.${key}` : `[${JSON.stringify(key)}]`;
+}
+
+/**
+ * @param {string} arg
+ * @returns {string}
+ */
+function getEventArgument(arg) {
+  if (typeof arg === "string") {
+    const matches = arg.match(
+      /^\s*<%[~=]?\s+EVENT(?:\s*\.\s*(detail|target))?\s+%>\s*$/
+    );
+    if (matches) {
+      return `e${matches[1] ? `.${matches[1]}` : ""}`;
+    }
+  }
+  return JSON.stringify(arg);
 }
