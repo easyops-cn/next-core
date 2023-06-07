@@ -7,6 +7,7 @@ import {
   getTemplateDepsOfStoryboard,
   scanBricksInBrickConf,
   deepFreeze,
+  snippetEvaluate,
 } from "@next-core/brick-utils";
 import { checkLogin } from "@next-sdk/auth-sdk";
 import {
@@ -1815,7 +1816,8 @@ describe("Kernel", () => {
     });
     spyOnIsLoggedIn.mockReturnValueOnce(true);
     await kernel.bootstrap({} as any);
-    kernel._dev_only_updateSnippetPreviewSettings("app-b", {
+
+    const snippetData = {
       snippetId: "snippet-a",
       bricks: [
         {
@@ -1825,7 +1827,9 @@ describe("Kernel", () => {
           },
         },
       ],
-    });
+    };
+    (snippetEvaluate as jest.Mock).mockReturnValueOnce(snippetData);
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", snippetData);
     expect(mockStoryBoard).toMatchInlineSnapshot(`
       Array [
         Object {
@@ -1854,6 +1858,7 @@ describe("Kernel", () => {
                   },
                 },
               ],
+              "context": Array [],
               "exact": true,
               "hybrid": false,
               "menu": false,
@@ -1868,8 +1873,7 @@ describe("Kernel", () => {
       ]
     `);
 
-    // Update again.
-    kernel._dev_only_updateSnippetPreviewSettings("app-b", {
+    const snippetData2 = {
       snippetId: "snippet-a",
       bricks: [
         {
@@ -1879,7 +1883,11 @@ describe("Kernel", () => {
           },
         },
       ],
-    });
+    };
+    (snippetEvaluate as jest.Mock).mockReturnValueOnce(snippetData2);
+
+    // Update again.
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", snippetData2);
 
     expect(mockStoryBoard).toMatchInlineSnapshot(`
       Array [
@@ -1909,6 +1917,7 @@ describe("Kernel", () => {
                   },
                 },
               ],
+              "context": Array [],
               "exact": true,
               "hybrid": false,
               "menu": false,
@@ -1922,6 +1931,28 @@ describe("Kernel", () => {
         },
       ]
     `);
+
+    const parsedSnippetData3 = {
+      snippetId: "snippet-b",
+      bricks: [
+        {
+          brick: "button",
+          properties: {
+            buttonName: "<%! SNIPPET_PARAMS.test %>",
+          },
+        },
+      ],
+    };
+
+    (snippetEvaluate as jest.Mock).mockImplementation(() => {
+      throw new Error("error");
+    });
+    expect(() =>
+      kernel._dev_only_updateStoryboardBySnippet("app-b", parsedSnippetData3, {
+        rootType: "route",
+        inputParams: { test: "hello" },
+      })
+    ).toThrowError("error");
   });
 
   it("should update form preview settings", async () => {

@@ -2,25 +2,8 @@ import { cook, isSnippetEvaluation, preevaluate } from "@next-core/cook";
 import { PrecookHooks } from "./cook";
 import { supply } from "@next-core/supply";
 import { visitStoryboardExpressions } from "./visitStoryboard";
-import { BrickConf, ContextConf } from "@next-core/brick-types";
+import { RuntimeSnippet, SnippetContext } from "@next-core/brick-types";
 import { isObject } from "./isObject";
-
-export interface SnippetParamField {
-  type: string;
-  defaultValue?: unknown;
-}
-
-export type DeclareParams = Record<string, SnippetParamField>;
-
-export type RuntimeSnipeConf = BrickConf & {
-  data: ContextConf[];
-  params: DeclareParams;
-};
-interface RuntimeContext {
-  rootType?: string;
-  inputParams?: Record<string, unknown>;
-  declareParams?: DeclareParams;
-}
 
 function beforeVisitSnippetParamsFactory(
   collection: Set<string>
@@ -49,7 +32,7 @@ function beforeVisitSnippetParamsFactory(
   };
 }
 
-function checkParamsValid(nameList: string[], context: RuntimeContext): void {
+function checkParamsValid(nameList: string[], context: SnippetContext): void {
   const { declareParams = {}, inputParams = {} } = context;
   return nameList.forEach((name) => {
     const type = declareParams[name]?.type;
@@ -87,7 +70,7 @@ function scanSnippetInStoryboard(data: unknown): string[] {
 
 function computeRealSnippetConf(
   value: unknown,
-  context: RuntimeContext
+  context: SnippetContext
 ): unknown {
   if (typeof value === "string" && isSnippetEvaluation(value)) {
     try {
@@ -148,8 +131,8 @@ function computeRealSnippetConf(
   );
 }
 export function snippetEvaluate(
-  brickConf: RuntimeSnipeConf,
-  context: RuntimeContext
+  brickConf: RuntimeSnippet,
+  context: SnippetContext
 ): unknown {
   const collection = scanSnippetInStoryboard(brickConf);
   checkParamsValid(collection, context);

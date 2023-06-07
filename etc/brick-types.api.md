@@ -713,9 +713,13 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
     // (undocumented)
     category?: string;
     // (undocumented)
+    data?: ContextConf[];
+    // (undocumented)
     description?: I18nData;
     // (undocumented)
     layerType?: LayerType;
+    // (undocumented)
+    params?: SnippetDeclareParams;
     // (undocumented)
     snippetId: string;
     // (undocumented)
@@ -1870,6 +1874,20 @@ export interface RuntimeMisc {
     isInIframeOfVisualBuilder: boolean;
 }
 
+// @public (undocumented)
+export interface RuntimeSnippet {
+    // (undocumented)
+    brick?: string;
+    // (undocumented)
+    bricks: BrickConf[];
+    // (undocumented)
+    data?: ContextConf[];
+    // (undocumented)
+    params?: SnippetDeclareParams;
+    // (undocumented)
+    snippetId?: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboard" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -2078,6 +2096,21 @@ export interface SnippetConf {
     title: I18nData;
 }
 
+// @public (undocumented)
+export interface SnippetContext {
+    // (undocumented)
+    declareParams?: SnippetDeclareParams;
+    // (undocumented)
+    inputParams?: Record<string, unknown>;
+    // (undocumented)
+    rootType?: string;
+}
+
+// Warning: (ae-incompatible-release-tags) The symbol "SnippetDeclareParams" is marked as @public, but its signature references "SnippetParamField" which is marked as @internal
+//
+// @public (undocumented)
+export type SnippetDeclareParams = Record<string, SnippetParamField>;
+
 // Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
@@ -2098,6 +2131,16 @@ export interface SnippetDefinition {
     text?: I18nData;
     // (undocumented)
     thumbnail?: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "SnippetParamField" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SnippetParamField {
+    // (undocumented)
+    defaultValue?: unknown;
+    // (undocumented)
+    type: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "SrcIcon" should be prefixed with an underscore because the declaration is marked as @internal
