@@ -6,38 +6,22 @@
       "files": [
         "cypress/plugins/**/*.js",
         "packages/brick-container/{dev-server,serve,webpack}/**/*.js",
-        "packages/rollup-config-factory/src/**/*.{ts,js}",
-        "packages/webpack-config-factory/src/**/*.{ts,js}",
-        "packages/build-config-factory/src/**/*.{ts,js}",
-        "packages/brick-scripts/src/**/*.{ts,js}",
-        "packages/sdk-scripts/src/**/*.{ts,js}",
-        "packages/create-next-repo/src/**/*.{ts,js}",
         "packages/eslint-config-next/*.js",
         "packages/babel-preset-next/*.js",
         "packages/babel-preset-prismjs/*.js",
         "packages/browserslist-config-next/*.js",
-        "packages/dev-dependencies/**/*.js",
-        "packages/dll-differ/**/*.js",
-        "packages/less-plugin-css-variables/**/*.js",
-        "packages/public-scoped-sdk/**/*.js",
-        "packages/repo-config/**/*.js",
-        "packages/jest-config-factory/**/*.js",
         "packages/build-next-libs/**/*.js",
         "packages/build-next-bricks/**/*.js",
         "packages/test-next/**/*.js",
         "packages/brick-playground/serve/**/*.js",
         "packages/create-api-sdk/**/*.{ts,js}",
         "packages/webpack/**/*.{ts,js}",
+        "packages/doc-helpers/**/*.js",
+        "packages/serve-helpers/**/*.js",
         "v3/lodash-v3/**/*.js",
         "v3/moment-v3/**/*.js"
       ],
       "extends": "@next-core/eslint-config-next/node"
-    },
-    {
-      "files": ["packages/brick-scripts/template/**/*.{js,ts,jsx,tsx}"],
-      "rules": {
-        "@typescript-eslint/no-empty-interface": "off"
-      }
     },
     {
       "files": ["cypress/**/*.js"],

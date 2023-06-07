@@ -1,5 +1,6 @@
 import path from "node:path";
-import getExamples from "./getExamples.js";
+import { getExamples } from "@next-core/doc-helpers";
+import { getBrickManifests } from "@next-core/serve-helpers";
 
 export default function examplesJson(rootDir) {
   return async function (req, res, next) {
@@ -9,7 +10,8 @@ export default function examplesJson(rootDir) {
     }
     res.json({
       examples: await getExamples(
-        path.join(rootDir, "node_modules/@next-bricks")
+        path.join(rootDir, "node_modules/@next-bricks"),
+        await getBrickManifests(rootDir)
       ),
     });
   };
