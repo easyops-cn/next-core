@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-container",
   "license": "GPL-3.0",
@@ -25,7 +25,7 @@
     "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "dependencies": {
-    "@next-core/serve-helpers": "^1.0.8",
+    "@next-core/serve-helpers": "^1.1.0",
     "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
     "compression": "^1.7.4",

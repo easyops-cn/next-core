@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.8...@next-core/serve-helpers@1.1.0) (2023-06-07)
+
+
+### Features
+
+* transpile example between html and yaml ([bc1f707](https://github.com/easyops-cn/next-core/commit/bc1f707bd05bf7e45114504bc29765301dfd520e))
+
+
+
+
+
 ## [1.0.8](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.7...@next-core/serve-helpers@1.0.8) (2023-05-26)
 
 
