@@ -83,6 +83,7 @@ import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
 import { customTemplateRegistry } from "./CustomTemplates";
 import { getRuntimeMisc } from "../internal/misc";
+import { imagesFactory } from "../internal/images";
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -332,7 +333,25 @@ export class Kernel {
 
   private postProcessStoryboard(storyboard: RuntimeStoryboard): void {
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+    this.postProcessStoryboardImgSrc(storyboard);
     this.postProcessStoryboardI18n(storyboard);
+  }
+
+  private postProcessStoryboardImgSrc(storyboard: RuntimeStoryboard): void {
+    if (
+      storyboard.app.menuIcon &&
+      "imgSrc" in storyboard.app.menuIcon &&
+      storyboard.app.menuIcon.imgSrc?.startsWith("api/")
+    ) {
+      const splittedImgSrc = storyboard.app.menuIcon.imgSrc.split("/");
+      const imgSrc = splittedImgSrc[splittedImgSrc.length - 1];
+      const result = imagesFactory(
+        storyboard.app.id,
+        storyboard.app.isBuildPush,
+        storyboard.app.currentVersion
+      ).get(imgSrc);
+      storyboard.app.menuIcon.imgSrc = result;
+    }
   }
 
   private postProcessStoryboardI18n(storyboard: RuntimeStoryboard): void {
