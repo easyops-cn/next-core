@@ -7,7 +7,10 @@ export interface Example {
   yaml: string;
 }
 
-export function getExamples(bricksDir: string): Promise<Example[]>;
+export function getExamples(
+  bricksDir: string,
+  manifests: PackageManifest[]
+): Promise<Example[]>;
 
 export interface MarkdownExample {
   name: string;
