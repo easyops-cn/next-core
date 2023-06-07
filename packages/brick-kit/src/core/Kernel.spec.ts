@@ -361,6 +361,10 @@ describe("Kernel", () => {
     const fakeStoryboard = {
       app: {
         id: "fake",
+        menuIcon: {
+          imgSrc:
+            "api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.jpeg",
+        },
       },
     } as any;
 
@@ -374,6 +378,9 @@ describe("Kernel", () => {
     expect(spyOnAddResourceBundle).toBeCalledWith("en", "$app-fake", {
       HELLO: "Hello",
     });
+    expect(fakeStoryboard.app.menuIcon.imgSrc).toEqual(
+      "/micro-apps/fake/images/test.jpeg"
+    );
     expect(fakeStoryboard.$$fulfilled).toBe(true);
     await kernel.fulfilStoryboard(fakeStoryboard);
     expect(spyOnGetAppStoryboard).toBeCalledTimes(1);
