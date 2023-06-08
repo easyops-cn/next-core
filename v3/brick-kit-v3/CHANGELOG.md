@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.13...@next-core/brick-kit-v3@0.2.14) (2023-06-08)
+
+**Note:** Version bump only for package @next-core/brick-kit-v3
+
+
+
+
+
 ## [0.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.12...@next-core/brick-kit-v3@0.2.13) (2023-06-05)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3

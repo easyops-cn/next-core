@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.87.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.86.0...@next-core/brick-types@2.87.0) (2023-06-08)
+
+
+### Bug Fixes
+
+* standalone模式下小产品图标url错误 ([e4b0b00](https://github.com/easyops-cn/next-core/commit/e4b0b007c068b78a3f352bae5f216ca63ed2e8c2))
+
+
+### Features
+
+* support dynamic snippet preview ([9e1153b](https://github.com/easyops-cn/next-core/commit/9e1153b99e3053b244d5a06dd935888fcd47f9bf))
+
+
+
+
+
 # [2.86.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.85.0...@next-core/brick-types@2.86.0) (2023-05-30)
 
 
