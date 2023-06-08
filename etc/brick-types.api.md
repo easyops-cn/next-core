@@ -1456,8 +1456,10 @@ export interface MicroApp {
     legacy?: "iframe";
     localeName?: string;
     locales?: AppLocales;
-    // Warning: (ae-incompatible-release-tags) The symbol "menuIcon" is marked as @public, but its signature references "SrcIcon" which is marked as @internal
-    menuIcon?: MenuIcon | SrcIcon;
+    menuIcon?: MenuIcon | {
+        imgSrc?: string;
+        imgStyle?: Record<string, any>;
+    };
     name: string;
     noAuthGuard?: boolean;
     private?: boolean;
