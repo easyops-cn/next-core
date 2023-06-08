@@ -158,6 +158,15 @@ export function handleHttpError(error: unknown): void;
 // @public
 export function httpErrorToString(error: unknown): string;
 
+// @public (undocumented)
+export interface ImagesFactory {
+    // (undocumented)
+    get(name: string): string;
+}
+
+// @public (undocumented)
+export function imagesFactory(appId: string, isBuildPush?: boolean, version?: string): ImagesFactory;
+
 // @public @deprecated (undocumented)
 export function isLoggedIn(): boolean | undefined;
 
