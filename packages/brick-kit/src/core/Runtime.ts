@@ -161,7 +161,7 @@ export function _dev_only_updateStoryboardByTemplate(
 export function _dev_only_updateStoryboardBySnippet(
   appId: string,
   newSnippet: RuntimeSnippet,
-  settings: unknown
+  settings?: unknown
 ): void {
   kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet, settings);
 }
