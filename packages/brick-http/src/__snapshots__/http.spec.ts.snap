@@ -4,13 +4,6 @@ exports[`http DELETE http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "DELETE",
   },
 ]
@@ -20,13 +13,6 @@ exports[`http GET http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -36,13 +22,6 @@ exports[`http GET http://example.com with [{"params":"<URLSearchParams> lang=zh-
 Array [
   "http://example.com/?lang=zh-CN",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -52,13 +31,6 @@ exports[`http GET http://example.com with [{"params":{"lang":"zh-CN","type":null
 Array [
   "http://example.com/?lang=zh-CN&type=&category=",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -68,13 +40,6 @@ exports[`http GET http://example.com with [{"params":{"lang":["zh-CN","en-US"],"
 Array [
   "http://example.com/?lang=zh-CN&lang=en-US&type=&category=",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -84,13 +49,6 @@ exports[`http GET http://example.com/for-good?token=secret with [{"params":{"lan
 Array [
   "http://example.com/for-good?token=secret&lang=zh-CN&type=&category=",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -100,13 +58,6 @@ exports[`http HEAD http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "HEAD",
   },
 ]
@@ -116,13 +67,7 @@ exports[`http PATCH http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
+    "headers": undefined,
     "method": "PATCH",
   },
 ]
@@ -132,13 +77,7 @@ exports[`http POST http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
+    "headers": undefined,
     "method": "POST",
   },
 ]
@@ -152,9 +91,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -168,11 +104,7 @@ Array [
   Object {
     "body": "<FormData> [[\\"for\\",\\"the throne\\"]]",
     "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
+      "map": Object {},
     },
     "method": "POST",
   },
@@ -187,9 +119,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/x-www-form-urlencoded",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -205,9 +134,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
         "x-requested-with": "XMLHttpRequest",
       },
     },
@@ -224,9 +150,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
         "x-requested-with": "XMLHttpRequest",
       },
     },
@@ -243,9 +166,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -261,9 +181,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -275,13 +192,7 @@ exports[`http PUT http://example.com with [] should work 1`] = `
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
+    "headers": undefined,
     "method": "PUT",
   },
 ]
@@ -291,13 +202,6 @@ exports[`http requestWithBody or simpleRequest DELETE http://example.com with []
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "DELETE",
   },
 ]
@@ -307,13 +211,6 @@ exports[`http requestWithBody or simpleRequest GET http://example.com with [] sh
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -323,13 +220,6 @@ exports[`http requestWithBody or simpleRequest GET http://example.com with [{"pa
 Array [
   "http://example.com/?lang=zh-CN",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -339,13 +229,6 @@ exports[`http requestWithBody or simpleRequest GET http://example.com with [{"pa
 Array [
   "http://example.com/?lang=zh-CN&type=&category=",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -355,13 +238,6 @@ exports[`http requestWithBody or simpleRequest GET http://example.com with [{"pa
 Array [
   "http://example.com/?lang=zh-CN&lang=en-US&type=&category=",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -371,13 +247,6 @@ exports[`http requestWithBody or simpleRequest GET http://example.com/for-good?t
 Array [
   "http://example.com/for-good?token=secret&lang=zh-CN&type=&category=",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]
@@ -387,13 +256,6 @@ exports[`http requestWithBody or simpleRequest HEAD http://example.com with [] s
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "HEAD",
   },
 ]
@@ -403,13 +265,7 @@ exports[`http requestWithBody or simpleRequest PATCH http://example.com with [] 
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
+    "headers": undefined,
     "method": "PATCH",
   },
 ]
@@ -419,13 +275,7 @@ exports[`http requestWithBody or simpleRequest POST http://example.com with [] s
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
+    "headers": undefined,
     "method": "POST",
   },
 ]
@@ -439,9 +289,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -455,11 +302,7 @@ Array [
   Object {
     "body": "<FormData> [[\\"for\\",\\"the throne\\"]]",
     "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
+      "map": Object {},
     },
     "method": "POST",
   },
@@ -474,9 +317,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/x-www-form-urlencoded",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -492,9 +332,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
         "x-requested-with": "XMLHttpRequest",
       },
     },
@@ -511,9 +348,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
         "x-requested-with": "XMLHttpRequest",
       },
     },
@@ -530,9 +364,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -548,9 +379,6 @@ Array [
     "headers": Headers {
       "map": Object {
         "content-type": "application/json",
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
       },
     },
     "method": "POST",
@@ -562,13 +390,7 @@ exports[`http requestWithBody or simpleRequest PUT http://example.com with [] sh
 Array [
   "http://example.com",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
+    "headers": undefined,
     "method": "PUT",
   },
 ]
@@ -579,13 +401,6 @@ Object {
   "config": Object {
     "method": "GET",
     "options": Object {
-      "headers": Headers {
-        "map": Object {
-          "x-b3-sampled": "1",
-          "x-b3-spanid": "12345",
-          "x-b3-traceid": "8fffffffffffffff12345",
-        },
-      },
       "observe": "response",
     },
     "url": "http://example.com",
@@ -607,13 +422,6 @@ exports[`http should work with http.request 1`] = `
 Array [
   "http://example.com/for-good",
   Object {
-    "headers": Headers {
-      "map": Object {
-        "x-b3-sampled": "1",
-        "x-b3-spanid": "12345",
-        "x-b3-traceid": "8fffffffffffffff12345",
-      },
-    },
     "method": "GET",
   },
 ]

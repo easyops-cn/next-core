@@ -39,6 +39,7 @@ import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
 import { httpCacheAdapter } from "./httpCacheAdapter";
+import { getSpanId } from "./utils";
 
 initializeLibrary();
 
@@ -98,6 +99,10 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
     config.url = mockInfo.url;
     headers.set("easyops-mock-id", mockInfo.mockId);
   }
+  const spanId = getSpanId();
+  headers.set("X-B3-Traceid", `ffffffffffffffff${spanId}`);
+  headers.set("X-B3-Spanid", spanId);
+  headers.set("X-B3-Sampled", "1");
   return {
     ...config,
     options: {
