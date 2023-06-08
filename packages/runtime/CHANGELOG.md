@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.0...@next-core/runtime@1.14.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* standalone模式下小产品图标url错误 ([0686c76](https://github.com/easyops-cn/next-core/commit/0686c7614a89f72c5b2f4bce643b201a838dd0de))
+
+
+
+
+
 # [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.13.0...@next-core/runtime@1.14.0) (2023-06-01)
 
 

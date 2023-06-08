@@ -1,6 +1,6 @@
 {
   "name": "@next-core/yo",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Generator for next v3",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/yo",
   "license": "GPL-3.0",
@@ -20,8 +20,8 @@
     "node": ">=16"
   },
   "dependencies": {
-    "plop": "^3.1.2",
-    "minimist": "^1.2.8"
+    "minimist": "^1.2.8",
+    "plop": "^3.1.2"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.7.2",
