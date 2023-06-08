@@ -67,6 +67,7 @@ import { ResolveOptions } from '@next-core/brick-types';
 import { RouteConf } from '@next-core/brick-types';
 import type { RuntimeBootstrapData } from '@next-core/brick-types';
 import type { RuntimeMisc } from '@next-core/brick-types';
+import { RuntimeSnippet } from '@next-core/brick-types';
 import { RuntimeStoryboard } from '@next-core/brick-types';
 import { SidebarMenu } from '@next-core/brick-types';
 import { SidebarSubMenu } from '@next-core/brick-types';

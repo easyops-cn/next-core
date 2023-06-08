@@ -53,15 +53,39 @@ export interface BuilderCustomTemplateNode extends BuilderBaseNode {
 }
 
 /** @internal */
+export interface SnippetParamField {
+  type: string;
+  defaultValue?: unknown;
+}
+
+export type SnippetDeclareParams = Record<string, SnippetParamField>;
+
+/** @internal */
 export interface BuilderSnippetNode extends BuilderBaseNode {
   type: "snippet";
   snippetId: string;
+  data?: ContextConf[];
+  params?: SnippetDeclareParams;
   layerType?: LayerType;
   category?: string;
   subCategory?: string;
   text?: I18nData;
   description?: I18nData;
   thumbnail?: string;
+}
+
+export interface RuntimeSnippet {
+  snippetId?: string;
+  brick?: string;
+  bricks: BrickConf[];
+  data?: ContextConf[];
+  params?: SnippetDeclareParams;
+}
+
+export interface SnippetContext {
+  rootType?: string;
+  inputParams?: Record<string, unknown>;
+  declareParams?: SnippetDeclareParams;
 }
 
 /**

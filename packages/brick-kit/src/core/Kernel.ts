@@ -11,6 +11,7 @@ import {
   scanProcessorsInAny,
   CustomApiInfo,
   deepFreeze,
+  snippetEvaluate,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
@@ -44,6 +45,7 @@ import type {
   SimpleFunction,
   CustomTemplate,
   MetaI18n,
+  RuntimeSnippet,
 } from "@next-core/brick-types";
 import {
   loadBricksImperatively,
@@ -468,10 +470,8 @@ export class Kernel {
 
   _dev_only_updateSnippetPreviewSettings(
     appId: string,
-    snippetData: {
-      snippetId: string;
-      bricks: BrickConf[];
-    }
+    snippetData: RuntimeSnippet,
+    settings?: unknown
   ): void {
     const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
@@ -480,20 +480,35 @@ export class Kernel {
     const previewRouteIndex = routes.findIndex(
       (route) => route.path === previewPath
     );
-    const newPreviewRoute: RouteConf = {
-      path: previewPath,
-      bricks:
-        snippetData.bricks?.length > 0
-          ? snippetData.bricks
-          : [{ brick: "span" }],
-      menu: false,
-      exact: true,
-      hybrid: app.legacy === "iframe",
-    };
-    if (previewRouteIndex === -1) {
-      routes.unshift(newPreviewRoute);
-    } else {
-      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+
+    try {
+      const { params: declareParams, ...nodeData } = snippetData;
+
+      const parsedSnippetData = snippetEvaluate(nodeData, {
+        rootType: "route",
+        inputParams: (settings as any)?.params,
+        declareParams,
+      }) as RuntimeSnippet;
+
+      const newPreviewRoute: RouteConf = {
+        path: previewPath,
+        bricks:
+          parsedSnippetData.bricks?.length > 0
+            ? parsedSnippetData.bricks
+            : [{ brick: "span" }],
+        menu: false,
+        exact: true,
+        hybrid: app.legacy === "iframe",
+        context: parsedSnippetData.data || [],
+      };
+      if (previewRouteIndex === -1) {
+        routes.unshift(newPreviewRoute);
+      } else {
+        routes.splice(previewRouteIndex, 1, newPreviewRoute);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      throw new Error(error);
     }
   }
 
@@ -548,12 +563,10 @@ export class Kernel {
 
   _dev_only_updateStoryboardBySnippet(
     appId: string,
-    newSnippet: {
-      snippetId: string;
-      bricks: BrickConf[];
-    }
+    newSnippet: RuntimeSnippet,
+    settings: unknown
   ): void {
-    this._dev_only_updateSnippetPreviewSettings(appId, newSnippet);
+    this._dev_only_updateSnippetPreviewSettings(appId, newSnippet, settings);
   }
 
   _dev_only_updateFormPreviewSettings(

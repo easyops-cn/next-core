@@ -21,6 +21,8 @@ import {
   StoryConf,
   RuntimeBrickConf,
   StoryboardContextItem,
+  ContextConf,
+  RuntimeSnippet,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
 import {
@@ -133,12 +135,10 @@ export function _dev_only_updateTemplatePreviewSettings(
 /* istanbul ignore next */
 export function _dev_only_updateSnippetPreviewSettings(
   appId: string,
-  snippetData: {
-    snippetId: string;
-    bricks: BrickConf[];
-  }
+  snippetData: RuntimeSnippet,
+  settings: unknown
 ): void {
-  kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData);
+  kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData, settings);
 }
 
 /* istanbul ignore next */
@@ -157,14 +157,13 @@ export function _dev_only_updateStoryboardByTemplate(
   kernel._dev_only_updateStoryboardByTemplate(appId, newTemplate, settings);
 }
 
+/* istanbul ignore next */
 export function _dev_only_updateStoryboardBySnippet(
   appId: string,
-  newSnippet: {
-    snippetId: string;
-    bricks: BrickConf[];
-  }
+  newSnippet: RuntimeSnippet,
+  settings: unknown
 ): void {
-  kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet);
+  kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet, settings);
 }
 
 /* istanbul ignore next */
