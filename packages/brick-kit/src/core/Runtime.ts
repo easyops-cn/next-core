@@ -136,7 +136,7 @@ export function _dev_only_updateTemplatePreviewSettings(
 export function _dev_only_updateSnippetPreviewSettings(
   appId: string,
   snippetData: RuntimeSnippet,
-  settings: unknown
+  settings?: unknown
 ): void {
   kernel._dev_only_updateSnippetPreviewSettings(appId, snippetData, settings);
 }
