@@ -1,0 +1,33 @@
+import React from "react";
+import { createDecorators } from "@next-core/element";
+import { ReactNextElement } from "@next-core/react-element";
+import "@next-core/theme";
+import styleText from "./styles.shadow.css";
+
+// --- NOTE: uncomment these lines below to enable i18n for your brick ---
+// import { useTranslation, initializeReactI18n } from "@next-core/i18n/react";
+// import { K, NS, locales } from "./i18n.js";
+// initializeReactI18n(NS, locales);
+
+const { defineElement, property } = createDecorators();
+
+/**
+ * 构件 {{brickName}}
+ */
+export
+@defineElement("{{pkgName}}.{{brickName}}", {
+  styleTexts: [styleText],
+})
+class {{pascalCase brickName}} extends ReactNextElement {
+  render() {
+    return (
+      <{{pascalCase brickName}}Component />
+    );
+  }
+}
+
+export function {{pascalCase brickName}}Component() {
+  // const { t } = useTranslation(NS);
+  // const hello = t(K.HELLO);
+  return <div>It works!</div>;
+}
