@@ -113,7 +113,8 @@ export default function (
                 dir.isDirectory() &&
                 existsSync(path.join(bricksDir, dir.name, "package.json"))
             )
-            .map((dir) => dir.name);
+            .map((dir) => dir.name)
+            .sort();
         },
       },
       {
