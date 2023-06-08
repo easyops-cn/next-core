@@ -1,0 +1,10 @@
+import { createProviderClass } from "@next-core/utils/general";
+
+export async function {{camelCase providerName}}(): Promise<unknown> {
+  //
+}
+
+customElements.define(
+  "{{pkgName}}.{{providerName}}",
+  createProviderClass({{camelCase providerName}})
+);

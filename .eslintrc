@@ -18,6 +18,7 @@
         "packages/webpack/**/*.{ts,js}",
         "packages/doc-helpers/**/*.js",
         "packages/serve-helpers/**/*.js",
+        "packages/yo/**/*.js",
         "v3/lodash-v3/**/*.js",
         "v3/moment-v3/**/*.js"
       ],

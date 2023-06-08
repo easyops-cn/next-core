@@ -1,0 +1,8 @@
+import { describe, test, expect } from "@jest/globals";
+import { {{camelCase providerName}} } from "./{{providerName}}.js";
+
+describe("{{camelCase providerName}}", () => {
+  test("should work", async () => {
+    expect(await {{camelCase providerName}}()).toBe(undefined);
+  });
+});

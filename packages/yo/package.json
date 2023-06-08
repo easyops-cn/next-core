@@ -1,0 +1,35 @@
+{
+  "name": "@next-core/yo",
+  "version": "1.0.6",
+  "description": "Generator for next v3",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/yo",
+  "license": "GPL-3.0",
+  "type": "module",
+  "bin": {
+    "yo": "./bin/yo.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "plop": "^3.1.2",
+    "minimist": "^1.2.8"
+  },
+  "devDependencies": {
+    "@next-core/build-next-bricks": "^1.7.2",
+    "@next-core/element": "^1.0.6",
+    "@next-core/i18n": "^1.0.19",
+    "@next-core/react-element": "^1.0.7",
+    "@next-core/test-next": "^1.0.6",
+    "@next-core/theme": "^1.1.1",
+    "react": "0.0.0-experimental-ee8509801-20230117"
+  }
+}
