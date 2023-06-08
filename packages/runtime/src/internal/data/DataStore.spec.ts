@@ -580,10 +580,6 @@ describe("batchUpdate should work", () => {
     };
   };
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   test("update a, and c d should update once", async () => {
     consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
@@ -905,10 +901,6 @@ describe("batchUpdate with resolve should work", () => {
       stateStore,
     };
   };
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
 
   test("update a, then c d should update once, then later e should update once", async () => {
     consoleInfo.mockReturnValue();

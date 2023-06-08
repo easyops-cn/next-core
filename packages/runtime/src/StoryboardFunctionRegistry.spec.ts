@@ -44,10 +44,6 @@ jest.mock("@next-core/i18n", () => ({
 const consoleLog = jest.spyOn(console, "log").mockImplementation();
 
 describe("StoryboardFunctions", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   const {
     storyboardFunctions: fn,
     registerStoryboardFunctions,
