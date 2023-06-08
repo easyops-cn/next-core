@@ -6,7 +6,7 @@ import {
   HttpResponseError,
 } from "./errors";
 import InterceptorManager from "./InterceptorManager";
-
+import { getSpanId } from "./utils";
 export interface HttpRequestConfig {
   url?: string;
   method?: string;
@@ -439,7 +439,35 @@ class Http {
 }
 
 let http = new Http();
+http.interceptors.request.use((config) => {
+  const headers = new Headers(config.options?.headers || {});
+  const spanId = getSpanId();
+  headers.set("X-B3-Traceid", `8fffffffffffffff${spanId}`);
+  headers.set("X-B3-Spanid", spanId);
+  headers.set("X-B3-Sampled", "1");
+  return {
+    ...config,
+    options: {
+      ...config.options,
+      headers,
+    },
+  };
+}, null);
 function createHttpInstance(config: HttpRequestConfig): void {
   http = new Http(config);
+  http.interceptors.request.use((config) => {
+    const headers = new Headers(config.options?.headers || {});
+    const spanId = getSpanId();
+    headers.set("X-B3-Traceid", `8fffffffffffffff${spanId}`);
+    headers.set("X-B3-Spanid", spanId);
+    headers.set("X-B3-Sampled", "1");
+    return {
+      ...config,
+      options: {
+        ...config.options,
+        headers,
+      },
+    };
+  }, null);
 }
 export { http, createHttpInstance, defaultAdapter };

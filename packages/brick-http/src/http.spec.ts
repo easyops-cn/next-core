@@ -8,10 +8,12 @@ import {
   HttpResponseError,
   HttpAbortError,
 } from "./";
+import * as util from "./utils";
 
 jest.mock("./fetch");
 
 const spyOnFetch = fetch as jest.Mock;
+jest.spyOn(util, "getSpanId").mockReturnValue("12345");
 
 type TestItem =
   | ["GET" | "DELETE" | "HEAD", string, [HttpOptions?]]
