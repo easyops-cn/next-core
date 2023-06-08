@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.87.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.87.0...@next-core/brick-types@2.87.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* fix types that causing schema json too large ([79973e2](https://github.com/easyops-cn/next-core/commit/79973e24d0c8e16a34d0e73cd7f716b62f109cf3))
+
+
+
+
+
 # [2.87.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.86.0...@next-core/brick-types@2.87.0) (2023-06-08)
 
 
