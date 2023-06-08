@@ -1,7 +1,6 @@
 import { LocationDescriptor } from "history";
 import { SidebarMenu, MenuIcon, MenuRawData } from "./menu";
 import { PluginHistoryState } from "./runtime";
-import { SrcIcon } from "./story";
 
 /** @internal */
 export interface BootstrapData {
@@ -127,7 +126,12 @@ export interface MicroApp {
   /**
    * 应用在菜单中显示的图标。
    */
-  menuIcon?: MenuIcon | SrcIcon;
+  menuIcon?:
+    | MenuIcon
+    | {
+        imgSrc?: string;
+        imgStyle?: Record<string, any>;
+      };
 
   /** {@inheritDoc LayoutType} */
   layoutType?: LayoutType;
