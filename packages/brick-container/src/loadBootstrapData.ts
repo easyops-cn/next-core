@@ -14,7 +14,7 @@ import { deepFreeze, hasOwnProperty } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
-import { imagesFactory } from "@next-core/runtime";
+import { imagesFactory } from "./images.js";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */

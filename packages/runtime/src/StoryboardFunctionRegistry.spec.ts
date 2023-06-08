@@ -11,6 +11,22 @@ jest.mock("./internal/Runtime.js", () => ({
         return !actions.includes("my:action-b");
       },
     },
+    images: {
+      imagesFactory(appId: string) {
+        return {
+          get(name: string) {
+            return `/micro-apps/${appId}/images/${name}`;
+          },
+        };
+      },
+      widgetImagesFactory(widgetId: string) {
+        return {
+          get(name: string) {
+            return `bricks/${widgetId}/dist/assets/${name}`;
+          },
+        };
+      },
+    },
   },
 }));
 

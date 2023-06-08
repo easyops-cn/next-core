@@ -54,6 +54,22 @@ jest.mock("../Runtime.js", () => ({
       },
       fetchMenuById: jest.fn(),
     },
+    images: {
+      imagesFactory(appId: string) {
+        return {
+          get(name: string) {
+            return `/micro-apps/${appId}/images/${name}`;
+          },
+        };
+      },
+      widgetImagesFactory(widgetId: string) {
+        return {
+          get(name: string) {
+            return `bricks/${widgetId}/dist/assets/${name}`;
+          },
+        };
+      },
+    },
   },
   getBrickPackages() {
     return [];

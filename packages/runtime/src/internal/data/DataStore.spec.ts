@@ -5,7 +5,6 @@ import { DataStore } from "./DataStore.js";
 import { clearResolveCache } from "./resolveData.js";
 import { BatchUpdateContextItem } from "@next-core/types";
 
-const consoleLog = jest.spyOn(console, "log");
 const consoleWarn = jest.spyOn(console, "warn");
 const consoleInfo = jest.spyOn(console, "info");
 
@@ -535,7 +534,7 @@ describe("batchUpdate should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["a change", "<% EVENT.detail %>"],
             },
           ],
@@ -546,7 +545,7 @@ describe("batchUpdate should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["b change", "<% EVENT.detail %>"],
             },
           ],
@@ -557,7 +556,7 @@ describe("batchUpdate should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["c change", "<% EVENT.detail %>"],
             },
           ],
@@ -568,7 +567,7 @@ describe("batchUpdate should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["d change", "<% EVENT.detail %>"],
             },
           ],
@@ -586,6 +585,7 @@ describe("batchUpdate should work", () => {
   });
 
   test("update a, and c d should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -602,14 +602,17 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("c")).toBe(4);
     expect(stateStore.getValue("d")).toBe(5);
-    expect(consoleLog).toBeCalledTimes(3);
+    expect(consoleInfo).toBeCalledTimes(3);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
-    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "d change", 5);
+
+    consoleInfo.mockReset();
   });
 
   test("update a and b, c and d should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -631,15 +634,18 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("b")).toBe(3);
     expect(stateStore.getValue("c")).toBe(5);
     expect(stateStore.getValue("d")).toBe(6);
-    expect(consoleLog).toBeCalledTimes(4);
+    expect(consoleInfo).toBeCalledTimes(4);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 3);
-    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 5);
-    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 6);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "b change", 3);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "c change", 5);
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "d change", 6);
+
+    consoleInfo.mockReset();
   });
 
   test("update a and c, and d should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -660,14 +666,17 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("c")).toBe(0);
     expect(stateStore.getValue("d")).toBe(1);
-    expect(consoleLog).toBeCalledTimes(3);
+    expect(consoleInfo).toBeCalledTimes(3);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 0);
-    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 0);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "d change", 1);
+
+    consoleInfo.mockReset();
   });
 
   test("update c and a, and d should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -688,14 +697,17 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("a")).toBe(1);
     expect(stateStore.getValue("c")).toBe(0);
     expect(stateStore.getValue("d")).toBe(1);
-    expect(consoleLog).toBeCalledTimes(3);
+    expect(consoleInfo).toBeCalledTimes(3);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 0);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "a change", 1);
-    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 1);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "c change", 0);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "a change", 1);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "d change", 1);
+
+    consoleInfo.mockReset();
   });
 
   test("update a, b, c, and d should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -721,15 +733,18 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("b")).toBe(20);
     expect(stateStore.getValue("c")).toBe(100);
     expect(stateStore.getValue("d")).toBe(101);
-    expect(consoleLog).toBeCalledTimes(4);
+    expect(consoleInfo).toBeCalledTimes(4);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 10);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "b change", 20);
-    expect(consoleLog).toHaveBeenNthCalledWith(3, "c change", 100);
-    expect(consoleLog).toHaveBeenNthCalledWith(4, "d change", 101);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 10);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "b change", 20);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "c change", 100);
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "d change", 101);
+
+    consoleInfo.mockReset();
   });
 
   test("update c, and d should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -745,13 +760,16 @@ describe("batchUpdate should work", () => {
 
     expect(stateStore.getValue("c")).toBe(20);
     expect(stateStore.getValue("d")).toBe(21);
-    expect(consoleLog).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledTimes(2);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "c change", 20);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "d change", 21);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "c change", 20);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "d change", 21);
+
+    consoleInfo.mockReset();
   });
 
   test("update d c, not emit", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
     stateStore.updateValues(
@@ -771,10 +789,12 @@ describe("batchUpdate should work", () => {
 
     expect(stateStore.getValue("d")).toBe(10);
     expect(stateStore.getValue("c")).toBe(20);
-    expect(consoleLog).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledTimes(2);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "d change", 10);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 20);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "d change", 10);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 20);
+
+    consoleInfo.mockReset();
   });
 
   test("not allow to update same item", async () => {
@@ -827,7 +847,7 @@ describe("batchUpdate with resolve should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["a change", "<% EVENT.detail %>"],
             },
           ],
@@ -838,7 +858,7 @@ describe("batchUpdate with resolve should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["b change", "<% EVENT.detail %>"],
             },
           ],
@@ -849,7 +869,7 @@ describe("batchUpdate with resolve should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["c change", "<% EVENT.detail %>"],
             },
           ],
@@ -860,7 +880,7 @@ describe("batchUpdate with resolve should work", () => {
           track: true,
           onChange: [
             {
-              action: "console.log",
+              action: "console.info",
               args: ["d change", "<% EVENT.detail %>"],
             },
           ],
@@ -874,7 +894,7 @@ describe("batchUpdate with resolve should work", () => {
           },
           track: true,
           onChange: {
-            action: "console.log",
+            action: "console.info",
             args: ["e change", "<% EVENT.detail %>"],
           },
         },
@@ -891,6 +911,7 @@ describe("batchUpdate with resolve should work", () => {
   });
 
   test("update a, then c d should update once, then later e should update once", async () => {
+    consoleInfo.mockReturnValue();
     const { stateStore } = createContextStore();
     await stateStore.waitForAll();
 
@@ -910,11 +931,11 @@ describe("batchUpdate with resolve should work", () => {
       "replace",
       argsFactory
     );
-    expect(consoleLog).toBeCalledTimes(3);
+    expect(consoleInfo).toBeCalledTimes(3);
 
-    expect(consoleLog).toHaveBeenNthCalledWith(1, "a change", 2);
-    expect(consoleLog).toHaveBeenNthCalledWith(2, "c change", 4);
-    expect(consoleLog).toHaveBeenNthCalledWith(3, "d change", 5);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "d change", 5);
 
     await (global as any).flushPromises();
     await new Promise((resolve) => {
@@ -922,7 +943,9 @@ describe("batchUpdate with resolve should work", () => {
     });
     // `e` should only be changed after it's been resolved.
     expect(stateStore.getValue("e")).toBe(2);
-    expect(consoleLog).toBeCalledTimes(4);
-    expect(consoleLog).toHaveBeenNthCalledWith(4, "e change", 2);
+    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "e change", 2);
+
+    consoleInfo.mockReset();
   });
 });

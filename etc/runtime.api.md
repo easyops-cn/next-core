@@ -164,9 +164,6 @@ export interface ImagesFactory {
     get(name: string): string;
 }
 
-// @public (undocumented)
-export function imagesFactory(appId: string, isBuildPush?: boolean, version?: string): ImagesFactory;
-
 // @public @deprecated (undocumented)
 export function isLoggedIn(): boolean | undefined;
 
@@ -331,6 +328,11 @@ export interface RuntimeHooks {
     // (undocumented)
     fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
     // (undocumented)
+    images?: {
+        imagesFactory(appId: string, isBuildPush?: boolean, version?: string): ImagesFactory;
+        widgetImagesFactory(widgetId: string, widgetVersion?: string): ImagesFactory;
+    };
+    // (undocumented)
     menu?: {
         getMenuById(menuId: string): unknown;
         fetchMenuById(menuId: string, runtimeContext: RuntimeContext, runtimeHelpers: RuntimeHooksMenuHelpers): Promise<unknown>;
@@ -403,7 +405,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
-// dist/types/internal/Runtime.d.ts:26:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:29:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
