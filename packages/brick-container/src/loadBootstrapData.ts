@@ -14,6 +14,7 @@ import { deepFreeze, hasOwnProperty } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
+import { imagesFactory } from "@next-core/runtime";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -227,6 +228,7 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
     });
   }
 
+  fixStoryboardImgSrc(storyboard);
   initializeAppConfig(storyboard.app);
 }
 
@@ -243,5 +245,22 @@ function initializeInjectMenus(menus: any[] | undefined) {
     if (menu.overrideApp) {
       initializeAppConfig(menu.overrideApp);
     }
+  }
+}
+
+function fixStoryboardImgSrc(storyboard: RuntimeStoryboard): void {
+  if (
+    storyboard.app.menuIcon &&
+    "imgSrc" in storyboard.app.menuIcon &&
+    storyboard.app.menuIcon.imgSrc?.startsWith("api/")
+  ) {
+    const splittedImgSrc = storyboard.app.menuIcon.imgSrc.split("/");
+    const imgSrc = splittedImgSrc[splittedImgSrc.length - 1];
+    const result = imagesFactory(
+      storyboard.app.id,
+      storyboard.app.isBuildPush,
+      storyboard.app.currentVersion
+    ).get(imgSrc);
+    storyboard.app.menuIcon.imgSrc = result;
   }
 }

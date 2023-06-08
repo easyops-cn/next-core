@@ -34,3 +34,7 @@ export { StoryboardFunctionRegistryFactory } from "./StoryboardFunctionRegistry.
 export { matchPath } from "./internal/matchPath.js";
 export { Notification, type NotificationOptions } from "./Notification.js";
 export { Dialog, type DialogOptions } from "./Dialog.js";
+export {
+  imagesFactory,
+  type ImagesFactory,
+} from "./internal/compute/images.js";

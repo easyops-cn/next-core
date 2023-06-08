@@ -78,6 +78,10 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
               userConfig: {
                 userConf: 8,
               },
+              menuIcon: {
+                imgSrc:
+                  "api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.jpeg",
+              },
             },
           },
         ],
@@ -99,6 +103,9 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
             app: {
               id: "app-b",
               name: "App B",
+              menuIcon: {
+                imgSrc: "http://example.com",
+              },
             },
           },
         ],
@@ -159,6 +166,10 @@ describe("loadBootstrapData", () => {
             userConfig: {
               userConf: 8,
             },
+            menuIcon: {
+              imgSrc:
+                "api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.jpeg",
+            },
           },
         },
       ],
@@ -197,6 +208,9 @@ describe("loadBootstrapData", () => {
           defaultConf: 7,
           userConf: 8,
           runtimeUserConf: 9,
+        },
+        menuIcon: {
+          imgSrc: "/app-a/-/micro-apps/app-a/images/test.jpeg",
         },
       },
       meta: {
@@ -241,6 +255,9 @@ describe("loadBootstrapData", () => {
             name: "App B",
             userConfig: {
               x: true,
+            },
+            menuIcon: {
+              imgSrc: "http://example.com",
             },
           },
         },
