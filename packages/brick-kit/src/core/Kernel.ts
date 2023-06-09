@@ -955,11 +955,12 @@ export class Kernel {
   }
 
   getFeatureFlags(): FeatureFlags {
-    return Object.assign(
-      {},
-      this.bootstrapData?.settings?.featureFlags,
-      (this.nextApp?.config?.settings as any)?.featureFlags
-    );
+    const flags = {
+      ...this.bootstrapData?.settings?.featureFlags,
+      ...(this.nextApp?.config?.settings as any)?.featureFlags,
+    };
+    delete flags["migrate-to-brick-next-v3"];
+    return flags;
   }
 
   async getStandaloneMenus(
