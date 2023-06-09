@@ -6,6 +6,7 @@ import {
   HttpResponseError,
 } from "./errors";
 import InterceptorManager from "./InterceptorManager";
+
 export interface HttpRequestConfig {
   url?: string;
   method?: string;
