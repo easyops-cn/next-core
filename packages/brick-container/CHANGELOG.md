@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.87.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.86.34...@next-core/brick-container@2.87.0) (2023-06-09)
+
+
+### Features
+
+* brick_next在发起http请求给后端的时候，自动按策略生成trace_id ([#3160](https://github.com/easyops-cn/next-core/issues/3160)) ([8247832](https://github.com/easyops-cn/next-core/commit/8247832e69720d0d0dabde430e930d733305b6bc))
+
+
+
+
+
 ## [2.86.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.86.33...@next-core/brick-container@2.86.34) (2023-06-08)
 
 **Note:** Version bump only for package @next-core/brick-container
