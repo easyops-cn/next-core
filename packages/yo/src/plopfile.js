@@ -10,6 +10,7 @@ const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 
 const rootDir = process.cwd();
 const bricksDir = path.join(rootDir, "bricks");
+const sharedDir = path.join(rootDir, "shared");
 
 const packageJson = JSON.parse(
   await readFile(path.join(rootDir, "package.json"))
@@ -25,10 +26,17 @@ export default function (
   const isOnGitHub = packageJson.homepage.includes("github.com");
   const dependencies = {};
   const devDependencies = {};
+  const libDevDependencies = {};
   for (const [dep, version] of Object.entries(yoPackageJson.devDependencies)) {
     switch (dep) {
-      case "@next-core/build-next-bricks":
+      case "@next-core/build-next-libs":
+        libDevDependencies[dep] = version;
+        break;
       case "@next-core/test-next":
+        libDevDependencies[dep] = version;
+      // NOTE: Intentionally fallthrough
+      // eslint-disable-next-line no-fallthrough
+      case "@next-core/build-next-bricks":
         devDependencies[dep] = version;
         break;
       default:
@@ -37,6 +45,7 @@ export default function (
   }
 
   plop.setPartial("scope", isOnGitHub ? "@next-bricks" : "@bricks");
+  plop.setPartial("libScope", isOnGitHub ? "@next-shared" : "@shared");
   plop.setPartial("homepage", packageJson.homepage.replace(/\/$/, ""));
   plop.setPartial(
     "repository",
@@ -50,6 +59,10 @@ export default function (
   plop.setPartial(
     "devDependencies",
     getObjectPartialInPackageJson(devDependencies)
+  );
+  plop.setPartial(
+    "libDevDependencies",
+    getObjectPartialInPackageJson(libDevDependencies)
   );
 
   // create your generators here
@@ -72,6 +85,10 @@ export default function (
           {
             name: "Create a new brick package",
             value: "bricks",
+          },
+          {
+            name: "Create a new shared library",
+            value: "shared",
           },
         ],
       },
@@ -115,6 +132,25 @@ export default function (
             )
             .map((dir) => dir.name)
             .sort();
+        },
+      },
+      {
+        type: "input",
+        name: "libName",
+        message: "Your library name:",
+        when(data) {
+          return data.type === "shared";
+        },
+        validate(value) {
+          if (!validPkgName.test(value)) {
+            return "Please enter a lower-kebab-case library name.";
+          }
+
+          if (existsSync(path.join(sharedDir, value))) {
+            return `Library "${value}" exists, please enter another name.`;
+          }
+
+          return true;
         },
       },
       {
@@ -212,6 +248,15 @@ export default function (
             destination: "bricks/{{pkgName}}",
             base: "templates/bricks",
             templateFiles: "templates/bricks",
+          },
+        ];
+      } else if (data.type === "shared") {
+        return [
+          {
+            type: "addMany",
+            destination: "shared/{{libName}}",
+            base: "templates/shared",
+            templateFiles: "templates/shared",
           },
         ];
       }

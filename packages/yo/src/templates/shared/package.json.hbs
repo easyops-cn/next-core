@@ -1,0 +1,32 @@
+{
+  "name": "{{> libScope }}/{{libName}}",
+  "version": "0.0.0",
+  "homepage": "{{> homepage }}/tree/master/shared/{{libName}}",
+  "repository": {{> repository }},
+  "license": "{{> license}}",
+  "sideEffects": false,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./types": {
+      "types": "./dist/types/types.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prestart": "npm run clean",
+    "start": "concurrently -k -n types,main \"npm run start:types\" \"npm run start:main\"",
+    "start:main": "cross-env NODE_ENV=development build-next-libs --watch",
+    "start:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json --watch",
+    "prebuild": "npm run clean",
+    "build": "npm run build:types && npm run build:main",
+    "build:main": "cross-env NODE_ENV=production build-next-libs",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types --project tsconfig.build.json",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+  },
+  "devDependencies": {{> libDevDependencies }}
+}
