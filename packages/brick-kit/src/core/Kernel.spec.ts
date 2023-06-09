@@ -206,6 +206,7 @@ describe("Kernel", () => {
       settings: {
         featureFlags: {
           "load-magic-brick-config": true,
+          "migrate-to-brick-next-v3": true,
         },
       },
     });
