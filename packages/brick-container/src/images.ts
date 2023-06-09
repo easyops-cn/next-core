@@ -1,9 +1,5 @@
 import { escapeRegExp } from "lodash";
-import { getBasePath } from "../../getBasePath.js";
-
-export interface ImagesFactory {
-  get(name: string): string;
-}
+import { getBasePath, type ImagesFactory } from "@next-core/runtime";
 
 export function imagesFactory(
   appId: string,

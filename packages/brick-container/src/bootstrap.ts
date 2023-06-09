@@ -1,3 +1,4 @@
+// istanbul ignore file
 import { createRuntime, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
@@ -12,6 +13,7 @@ import "@next-core/theme";
 import "./XMLHttpRequest.js";
 import { loadCheckLogin } from "./loadCheckLogin.js";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
+import { imagesFactory, widgetImagesFactory } from "./images.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
@@ -87,6 +89,7 @@ const runtime = createRuntime({
     flowApi,
     checkInstalledApps,
     menu,
+    images: { imagesFactory, widgetImagesFactory },
   },
 });
 

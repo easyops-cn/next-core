@@ -13,6 +13,7 @@ export {
   type RuntimeOptions,
   type RuntimeHooks,
   type RuntimeHooksMenuHelpers,
+  type ImagesFactory,
 } from "./internal/Runtime.js";
 import * as __secret_internals from "./internal/secret_internals.js";
 export { __secret_internals };
@@ -34,7 +35,3 @@ export { StoryboardFunctionRegistryFactory } from "./StoryboardFunctionRegistry.
 export { matchPath } from "./internal/matchPath.js";
 export { Notification, type NotificationOptions } from "./Notification.js";
 export { Dialog, type DialogOptions } from "./Dialog.js";
-export {
-  imagesFactory,
-  type ImagesFactory,
-} from "./internal/compute/images.js";

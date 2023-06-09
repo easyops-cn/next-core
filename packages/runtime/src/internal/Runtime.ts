@@ -35,6 +35,10 @@ export interface RuntimeOptions {
   hooks?: RuntimeHooks;
 }
 
+export interface ImagesFactory {
+  get(name: string): string;
+}
+
 export interface RuntimeHooks {
   auth?: {
     getAuth(): object;
@@ -80,6 +84,17 @@ export interface RuntimeHooks {
       runtimeContext: RuntimeContext,
       runtimeHelpers: RuntimeHooksMenuHelpers
     ): Promise<unknown>;
+  };
+  images?: {
+    imagesFactory(
+      appId: string,
+      isBuildPush?: boolean,
+      version?: string
+    ): ImagesFactory;
+    widgetImagesFactory(
+      widgetId: string,
+      widgetVersion?: string
+    ): ImagesFactory;
   };
 }
 

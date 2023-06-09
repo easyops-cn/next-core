@@ -113,7 +113,6 @@ describe("httpErrorToString", () => {
 
 describe("handleHttpError", () => {
   afterEach(() => {
-    jest.clearAllMocks();
     window.NO_AUTH_GUARD = false;
   });
 
