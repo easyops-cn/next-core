@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.1...@next-core/runtime@1.14.2) (2023-06-12)
+
+
+### Bug Fixes
+
+* move images code out of runtime ([d6b72d2](https://github.com/easyops-cn/next-core/commit/d6b72d27e8d84937c9c2c90a468141dd4510ff68))
+
+
+
+
+
 ## [1.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.0...@next-core/runtime@1.14.1) (2023-06-08)
 
 

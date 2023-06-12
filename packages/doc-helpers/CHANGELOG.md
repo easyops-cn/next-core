@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.1.1...@next-core/doc-helpers@0.1.2) (2023-06-12)
+
+
+### Bug Fixes
+
+* fix transformation of slots to children ([a5532df](https://github.com/easyops-cn/next-core/commit/a5532df308a9409746a9273df52d131be757a66f))
+
+
+
+
+
 ## [0.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.1.0...@next-core/doc-helpers@0.1.1) (2023-06-07)
 
 

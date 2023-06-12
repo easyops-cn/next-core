@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.2.9...@next-core/brick-container@3.3.0) (2023-06-12)
+
+
+### Bug Fixes
+
+* move images code out of runtime ([d6b72d2](https://github.com/easyops-cn/next-core/commit/d6b72d27e8d84937c9c2c90a468141dd4510ff68))
+
+
+### Features
+
+* brick_next在发起http请求给后端的时候，自动按策略生成trace_id ([6d51a6b](https://github.com/easyops-cn/next-core/commit/6d51a6b5a49897d2b37ef185f88a58696db2c4c0))
+
+
+
+
+
 ## [3.2.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.2.8...@next-core/brick-container@3.2.9) (2023-06-08)
 
 

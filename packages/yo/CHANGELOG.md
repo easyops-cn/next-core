@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.1.0...@next-core/yo@1.2.0) (2023-06-12)
+
+
+### Features
+
+* create new shared libraries ([b02ccc1](https://github.com/easyops-cn/next-core/commit/b02ccc1da96a9ff07f98b56595d1bcb1724e2b6b))
+
+
+
+
+
 # 1.1.0 (2023-06-08)
 
 
