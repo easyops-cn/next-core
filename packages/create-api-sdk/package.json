@@ -50,7 +50,7 @@
     "meow": "^9.0.0",
     "prettier": "^2.8.8",
     "semver": "^7.5.1",
-    "tslib": "^2.5.2"
+    "tslib": "^2.5.3"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.4",
