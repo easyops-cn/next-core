@@ -41,6 +41,6 @@
     "html-webpack-plugin": "^5.5.3",
     "monaco-editor": "^0.39.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
-    "webpack-dev-server": "^4.15.0"
+    "webpack-dev-server": "^4.15.1"
   }
 }
