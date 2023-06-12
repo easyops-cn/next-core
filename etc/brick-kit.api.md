@@ -19,6 +19,7 @@ import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
 import { ContextConf } from '@next-core/brick-types';
+import { ContextResolveTriggerBrickLifeCycle } from '@next-core/brick-types';
 import { ContractRequest } from '@next-core/brick-types';
 import { ContractResponse } from '@next-core/brick-types';
 import { CustomApiInfo } from '@next-core/brick-utils';

@@ -865,7 +865,11 @@ export interface ContextConf {
 // @public
 export type ContextResolveConf = ResolveConf & {
     lazy?: boolean;
+    trigger?: ContextResolveTriggerBrickLifeCycle;
 };
+
+// @public
+export type ContextResolveTriggerBrickLifeCycle = "onBeforePageLoad" | "onPageLoad" | "onBeforePageLeave" | "onPageLeave" | "onAnchorLoad" | "onAnchorUnload";
 
 // @public (undocumented)
 export interface Contract {

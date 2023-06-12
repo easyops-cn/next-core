@@ -23,6 +23,7 @@ import {
   StaticMenuConf,
   isRouteConfOfBricks,
   isRouteConfOfRoutes,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/brick-types";
 import {
   isObject,
@@ -82,6 +83,7 @@ import {
   symbolForFormContextId,
 } from "./CustomForms/constants";
 import { matchStoryboard } from "./matchStoryboard";
+import { getCustomContextTriggerListByLifecycle } from "./CustomTemplates/CustomTemplateContext";
 
 export type MatchRoutesResult =
   | {
@@ -929,6 +931,10 @@ export class LocationContext {
   }
 
   handleBeforePageLoad(): void {
+    this.attachContextTriggerToLifecycle(
+      "onBeforePageLoad",
+      this.beforePageLoadHandlers
+    );
     this.dispatchLifeCycleEvent(
       new CustomEvent("page.beforeLoad"),
       this.beforePageLoadHandlers
@@ -936,6 +942,7 @@ export class LocationContext {
   }
 
   handlePageLoad(): void {
+    this.attachContextTriggerToLifecycle("onPageLoad", this.pageLoadHandlers);
     const event = new CustomEvent("page.load");
 
     this.dispatchLifeCycleEvent(event, this.pageLoadHandlers);
@@ -948,6 +955,10 @@ export class LocationContext {
     location?: Location<PluginHistoryState>;
     action?: Action;
   }): void {
+    this.attachContextTriggerToLifecycle(
+      "onBeforePageLeave",
+      this.beforePageLeaveHandlers
+    );
     this.dispatchLifeCycleEvent(
       new CustomEvent("page.beforeLeave", {
         detail,
@@ -957,6 +968,10 @@ export class LocationContext {
   }
 
   handlePageLeave(): void {
+    this.attachContextTriggerToLifecycle(
+      "onPageLeave" as ContextResolveTriggerBrickLifeCycle,
+      this.pageLeaveHandlers
+    );
     this.dispatchLifeCycleEvent(
       new CustomEvent("page.leave"),
       this.pageLeaveHandlers
@@ -966,6 +981,10 @@ export class LocationContext {
   handleAnchorLoad(): void {
     const hash = getHistory().location.hash;
     if (hash && hash !== "#") {
+      this.attachContextTriggerToLifecycle(
+        "onAnchorLoad",
+        this.anchorLoadHandlers
+      );
       this.dispatchLifeCycleEvent(
         new CustomEvent("anchor.load", {
           detail: {
@@ -976,6 +995,10 @@ export class LocationContext {
         this.anchorLoadHandlers
       );
     } else {
+      this.attachContextTriggerToLifecycle(
+        "onAnchorUnload",
+        this.anchorUnloadHandlers
+      );
       this.dispatchLifeCycleEvent(
         new CustomEvent("anchor.unload"),
         this.anchorUnloadHandlers
@@ -1073,5 +1096,29 @@ export class LocationContext {
     this.observersList.push({
       $$observe: () => observer.observe(brick.element),
     });
+  }
+
+  private attachContextTriggerToLifecycle(
+    lifecycle: ContextResolveTriggerBrickLifeCycle,
+    handlers: BrickAndLifeCycleHandler[]
+  ): void {
+    const contextNameArray = this.storyboardContextWrapper
+      .getContextTriggerSetByLifecycle(lifecycle)
+      .concat(getCustomContextTriggerListByLifecycle(lifecycle));
+    if (contextNameArray?.length > 0) {
+      for (const context of contextNameArray) {
+        handlers.push({
+          brick: null as RuntimeBrick,
+          match: this.currentMatch,
+          tplContextId: context.tplContextId,
+          handler: [
+            {
+              action: `${context.type}.load`,
+              args: [context.name],
+            },
+          ],
+        });
+      }
+    }
   }
 }
