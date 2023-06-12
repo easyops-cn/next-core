@@ -352,10 +352,12 @@ function isObject(object) {
 }
 
 function slotsToChildren(slots) {
-  return Object.entries(slots).flatMap(([slot, { bricks }]) => ({
-    ...bricks,
-    slot,
-  }));
+  return Object.entries(slots).flatMap(([slot, { bricks }]) =>
+    bricks.map((item) => ({
+      ...item,
+      slot,
+    }))
+  );
 }
 
 /**
