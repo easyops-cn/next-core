@@ -8,6 +8,7 @@ import {
   ResolveOptions,
   StoryboardContextItem,
   StoryboardContextItemFreeVariable,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/brick-types";
 import {
   hasOwnProperty,
@@ -34,6 +35,10 @@ export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
   batchUpdate = false;
   batchUpdateContextsNames: string[] = [];
+  readonly batchTriggerContextsNamesMap: Map<
+    ContextResolveTriggerBrickLifeCycle,
+    { type: "context" | "state"; name: string; tplContextId: string }[]
+  > = new Map();
   readonly tplContextId: string;
   readonly formContextId: string;
   readonly eventName: string;
@@ -357,6 +362,12 @@ export class StoryboardContextWrapper {
           keyword: "CTX",
         };
   }
+
+  getContextTriggerSetByLifecycle(
+    lifecycle: ContextResolveTriggerBrickLifeCycle
+  ): { type: "context" | "state"; name: string; tplContextId: string }[] {
+    return this.batchTriggerContextsNamesMap.get(lifecycle) || [];
+  }
 }
 
 async function resolveStoryboardContext(
@@ -388,6 +399,14 @@ async function resolveStoryboardContext(
   );
 }
 
+const supportContextResolveTriggerBrickLifeCycle = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onBeforePageLeave",
+  "onPageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+];
 async function resolveNormalStoryboardContext(
   contextConf: ContextConf,
   mergedContext: PluginRuntimeContext,
@@ -425,6 +444,28 @@ async function resolveNormalStoryboardContext(
         isLazyResolve = contextConf.resolve.lazy;
         if (!isLazyResolve) {
           value = await load();
+        } else if (isLazyResolve && contextConf.resolve.trigger) {
+          const lifecycleName = contextConf.resolve.trigger;
+          if (
+            supportContextResolveTriggerBrickLifeCycle.includes(lifecycleName)
+          ) {
+            const contextNameArray =
+              storyboardContextWrapper.batchTriggerContextsNamesMap.get(
+                lifecycleName
+              ) || [];
+            contextNameArray.push({
+              name: contextConf.name,
+              type: storyboardContextWrapper.tplContextId ? "state" : "context",
+              tplContextId: storyboardContextWrapper.tplContextId,
+            });
+            storyboardContextWrapper.batchTriggerContextsNamesMap.set(
+              lifecycleName,
+              contextNameArray
+            );
+          } else {
+            // eslint-disable-next-line no-console
+            console.error(`unsupported lifecycle: "${lifecycleName}"`);
+          }
         }
       } else if (!hasOwnProperty(contextConf, "value")) {
         return false;
