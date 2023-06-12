@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.175.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.174.3...@next-core/brick-kit@2.175.0) (2023-06-12)
+
+
+### Bug Fixes
+
+* unset  `FLAGS["migrate-to-brick-next-v3"]` ([fce2c0f](https://github.com/easyops-cn/next-core/commit/fce2c0f8e8a8fe82999bbeddbb4122c151901885))
+
+
+### Features
+
+* context支持Trigger挂载生命周期自动触发 ([2802aea](https://github.com/easyops-cn/next-core/commit/2802aea7231345d61d379fc5631c31045f4251bc))
+
+
+
+
+
 ## [2.174.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.174.2...@next-core/brick-kit@2.174.3) (2023-06-08)
 
 **Note:** Version bump only for package @next-core/brick-kit

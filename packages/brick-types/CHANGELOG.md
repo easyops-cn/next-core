@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.87.1...@next-core/brick-types@2.88.0) (2023-06-12)
+
+
+### Features
+
+* context支持Trigger挂载生命周期自动触发 ([2802aea](https://github.com/easyops-cn/next-core/commit/2802aea7231345d61d379fc5631c31045f4251bc))
+
+
+
+
+
 ## [2.87.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.87.0...@next-core/brick-types@2.87.1) (2023-06-08)
 
 
