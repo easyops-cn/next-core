@@ -14,7 +14,6 @@ import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
-import type { ContextResolveTriggerBrickLifeCycle } from '@next-core/types';
 import type { Contract } from '@next-core/types';
 import type { CustomTemplate } from '@next-core/types';
 import type { CustomTemplateConstructor } from '@next-core/types';

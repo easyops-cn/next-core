@@ -19,12 +19,14 @@ import type {
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 import { childrenToSlots } from "../Renderer.js";
 import { hooks } from "../Runtime.js";
+import type { RendererContext } from "../RendererContext.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
   brickConf: T,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties
+  asyncHostProperties: AsyncProperties,
+  rendererContext: RendererContext
 ): T {
   const tplStateStoreId = uniqueId("tpl-state-");
   const runtimeContext = {
@@ -36,7 +38,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   delete runtimeContext.forEachItem;
   delete runtimeContext.formStateStoreId;
 
-  const tplStateStore = new DataStore("STATE", hostBrick);
+  const tplStateStore = new DataStore("STATE", hostBrick, rendererContext);
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
   if (runtimeContext.tplStateStoreScope) {
     runtimeContext.tplStateStoreScope.push(tplStateStore);

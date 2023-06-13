@@ -401,13 +401,27 @@ describe("renderBrick", () => {
     const renderRoot = {
       tag: RenderTag.ROOT,
     } as RenderRoot;
-    const ctxStore = new DataStore("CTX");
+    const rendererContext = new RendererContext("page");
+    const ctxStore = new DataStore("CTX", undefined, rendererContext);
     const runtimeContext = {
       ctxStore,
-      tplStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("page");
+    ctxStore.define(
+      [
+        {
+          name: "triggerOnPageLoad",
+          value: "unresolved",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "resolved"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+      ],
+      runtimeContext
+    );
     const output = await renderBrick(
       renderRoot,
       {
@@ -507,15 +521,15 @@ describe("renderBrick", () => {
     expect(output.node?.child?.sibling?.sibling).toBe(undefined);
 
     expect(consoleInfo).toBeCalledTimes(0);
-    rendererContext.dispatchBeforePageLoad(runtimeContext);
+    rendererContext.dispatchBeforePageLoad();
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "onBeforePageLoad",
       "page.beforeLoad"
     );
-    rendererContext.dispatchPageLoad(runtimeContext);
+    rendererContext.dispatchPageLoad();
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onPageLoad", "page.load");
-    rendererContext.dispatchAnchorLoad(runtimeContext);
+    rendererContext.dispatchAnchorLoad();
     expect(consoleInfo).toHaveBeenNthCalledWith(
       3,
       "onAnchorUnload",
@@ -529,7 +543,7 @@ describe("renderBrick", () => {
         hash: "#abc",
       },
     });
-    rendererContext.dispatchAnchorLoad(runtimeContext);
+    rendererContext.dispatchAnchorLoad();
     expect(consoleInfo).toHaveBeenNthCalledWith(
       5,
       "onAnchorLoad",
@@ -564,16 +578,23 @@ describe("renderBrick", () => {
       { breakpoint: "large" }
     );
 
-    rendererContext.dispatchBeforePageLeave({}, runtimeContext);
+    rendererContext.dispatchBeforePageLeave({});
     expect(consoleInfo).toHaveBeenNthCalledWith(
       8,
       "onBeforePageLeave",
       "page.beforeLeave"
     );
-    rendererContext.dispatchPageLeave(runtimeContext);
+    rendererContext.dispatchPageLeave();
     expect(consoleInfo).toHaveBeenNthCalledWith(9, "onPageLeave", "page.leave");
     rendererContext.dispatchOnUnmount();
     expect(consoleInfo).toHaveBeenNthCalledWith(10, "onUnmount", "unmount");
+
+    // The trigger ctx is not resolved yet
+    expect(ctxStore.getValue("triggerOnPageLoad")).toBe("unresolved");
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await (global as any).flushPromises();
+    // The trigger ctx is not resolved now
+    expect(ctxStore.getValue("triggerOnPageLoad")).toBe("resolved");
 
     rendererContext.dispose();
     consoleInfo.mockReset();

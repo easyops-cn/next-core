@@ -20,6 +20,16 @@ import type {
   RuntimeContext,
 } from "../interfaces.js";
 import { handleHttpError } from "../../handleHttpError.js";
+import type { RendererContext } from "../RendererContext.js";
+
+const supportContextResolveTriggerBrickLifeCycle = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onBeforePageLeave",
+  "onPageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+] as ContextResolveTriggerBrickLifeCycle[];
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
@@ -41,12 +51,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   public readonly hostBrick?: RuntimeBrick;
   public batchUpdate = false;
   public batchUpdateContextsNames: string[] = [];
-  readonly batchTriggerContextsNamesMap: Map<
-    ContextResolveTriggerBrickLifeCycle,
-    string[]
-  > = new Map();
+  private readonly rendererContext?: RendererContext;
 
-  constructor(type: T, hostBrick?: RuntimeBrick) {
+  // 把 `rendererContext` 放在参数列表的最后，并作为可选，以减少测试文件的调整
+  constructor(
+    type: T,
+    hostBrick?: RuntimeBrick,
+    rendererContext?: RendererContext
+  ) {
     this.type = type;
     this.changeEventType =
       this.type === "FORM_STATE"
@@ -55,6 +67,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         ? "state.change"
         : "context.change";
     this.hostBrick = hostBrick;
+    this.rendererContext = rendererContext;
   }
 
   getValue(name: string): unknown {
@@ -300,20 +313,6 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           isLazyResolve = dataConf.resolve.lazy;
           if (!isLazyResolve) {
             value = await load();
-          } else if (isLazyResolve && dataConf.resolve.trigger) {
-            const lifecycleName = dataConf.resolve.trigger;
-            if (
-              // eslint-disable-next-line @typescript-eslint/no-use-before-define
-              supportContextResolveTriggerBrickLifeCycle.includes(lifecycleName)
-            ) {
-              const contextList =
-                this.batchTriggerContextsNamesMap.get(lifecycleName) || [];
-              contextList.push(dataConf.name);
-              this.batchTriggerContextsNamesMap.set(lifecycleName, contextList);
-            } else {
-              // eslint-disable-next-line no-console
-              console.error(`Unsupported lifecycle: "${lifecycleName}"`);
-            }
           }
         } else if (!hasOwnProperty(dataConf, "value")) {
           return false;
@@ -334,6 +333,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       loaded: !isLazyResolve,
       deps: [],
     };
+
+    if (isLazyResolve) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { trigger } = dataConf.resolve!;
+      if (
+        trigger &&
+        supportContextResolveTriggerBrickLifeCycle.includes(trigger)
+      ) {
+        this.rendererContext?.registerArbitraryLifeCycle(trigger, () => {
+          this.updateValue(dataConf.name, undefined, "load");
+        });
+      }
+    }
 
     if (dataConf.onChange) {
       newData.eventTarget.addEventListener(
@@ -390,19 +402,4 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       listener(event);
     };
   }
-
-  getContextTriggerSetByLifecycle(
-    lifecycle: ContextResolveTriggerBrickLifeCycle
-  ): string[] {
-    return this.batchTriggerContextsNamesMap.get(lifecycle) || [];
-  }
 }
-
-export const supportContextResolveTriggerBrickLifeCycle = [
-  "onBeforePageLoad",
-  "onPageLoad",
-  "onBeforePageLeave",
-  "onPageLeave",
-  "onAnchorLoad",
-  "onAnchorUnload",
-] as ContextResolveTriggerBrickLifeCycle[];

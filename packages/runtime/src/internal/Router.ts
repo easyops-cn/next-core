@@ -107,10 +107,7 @@ export class Router {
   }): string | undefined {
     const history = getHistory();
     const previousMessage = history.getBlockMessage();
-    this.#rendererContext?.dispatchBeforePageLeave(
-      detail,
-      this.getRuntimeContext() as RuntimeContext
-    );
+    this.#rendererContext?.dispatchBeforePageLeave(detail);
     const message = history.getBlockMessage();
     if (!previousMessage && message) {
       // Auto unblock only if new block was introduced by `onBeforePageLeave`.
@@ -179,9 +176,7 @@ export class Router {
       }
       abortPendingRequest();
       this.#prevLocation = location;
-      this.#rendererContext?.dispatchPageLeave(
-        this.getRuntimeContext() as RuntimeContext
-      );
+      this.#rendererContext?.dispatchPageLeave();
       // this.locationContext.messageDispatcher.reset();
 
       if (action === "POP") {
@@ -310,6 +305,10 @@ export class Router {
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
 
+      const rendererContext = (this.#rendererContext = new RendererContext(
+        "page"
+      ));
+
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,
@@ -322,7 +321,7 @@ export class Router {
             brand: getRuntime().getBrandSettings(),
           },
         },
-        ctxStore: new DataStore("CTX"),
+        ctxStore: new DataStore("CTX", undefined, rendererContext),
         pendingPermissionsPreCheck: [
           hooks?.checkPermissions?.preCheckPermissions(storyboard),
         ],
@@ -330,9 +329,6 @@ export class Router {
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       });
 
-      const rendererContext = (this.#rendererContext = new RendererContext(
-        "page"
-      ));
       this.#navConfig = undefined;
 
       registerCustomTemplates(storyboard);
@@ -416,7 +412,7 @@ export class Router {
       if ((output.route && output.route.type !== "routes") || failed) {
         if (!failed) {
           // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
-          rendererContext.dispatchBeforePageLoad(runtimeContext);
+          rendererContext.dispatchBeforePageLoad();
         }
         applyTheme();
         applyMode();
@@ -428,8 +424,8 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
-          rendererContext.dispatchPageLoad(runtimeContext);
-          rendererContext.dispatchAnchorLoad(runtimeContext);
+          rendererContext.dispatchPageLoad();
+          rendererContext.dispatchAnchorLoad();
           rendererContext.dispatchOnMount();
           rendererContext.initializeScrollIntoView();
           rendererContext.initializeMediaChange();
