@@ -402,10 +402,41 @@ describe("renderBrick", () => {
       tag: RenderTag.ROOT,
     } as RenderRoot;
     const ctxStore = new DataStore("CTX");
+    const tplStateStore = new DataStore("STATE");
     const runtimeContext = {
       ctxStore,
+      tplStateStoreMap: new Map().set("tpl-state-1", tplStateStore),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
+
+    ctxStore.define(
+      [
+        {
+          name: "contextTodo",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: ["good"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+        },
+      ],
+      runtimeContext
+    );
+    tplStateStore.define(
+      [
+        {
+          name: "stateTodo",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: ["boy"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+      ],
+      runtimeContext
+    );
     const rendererContext = new RendererContext("page");
     const output = await renderBrick(
       renderRoot,
@@ -479,6 +510,14 @@ describe("renderBrick", () => {
       runtimeContext,
       rendererContext
     );
+
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
     expect(output.blockingList.length).toBe(1);
     expect(output.menuRequests.length).toBe(0);
     expect(enqueueStableLoadBricks).toBeCalledWith(["test.my-brick"], []);
@@ -506,15 +545,15 @@ describe("renderBrick", () => {
     expect(output.node?.child?.sibling?.sibling).toBe(undefined);
 
     expect(consoleInfo).toBeCalledTimes(0);
-    rendererContext.dispatchBeforePageLoad();
+    rendererContext.dispatchBeforePageLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "onBeforePageLoad",
       "page.beforeLoad"
     );
-    rendererContext.dispatchPageLoad();
+    rendererContext.dispatchPageLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onPageLoad", "page.load");
-    rendererContext.dispatchAnchorLoad();
+    rendererContext.dispatchAnchorLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       3,
       "onAnchorUnload",
@@ -528,7 +567,7 @@ describe("renderBrick", () => {
         hash: "#abc",
       },
     });
-    rendererContext.dispatchAnchorLoad();
+    rendererContext.dispatchAnchorLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       5,
       "onAnchorLoad",
@@ -563,13 +602,13 @@ describe("renderBrick", () => {
       { breakpoint: "large" }
     );
 
-    rendererContext.dispatchBeforePageLeave({});
+    rendererContext.dispatchBeforePageLeave({}, runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       8,
       "onBeforePageLeave",
       "page.beforeLeave"
     );
-    rendererContext.dispatchPageLeave();
+    rendererContext.dispatchPageLeave(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(9, "onPageLeave", "page.leave");
     rendererContext.dispatchOnUnmount();
     expect(consoleInfo).toHaveBeenNthCalledWith(10, "onUnmount", "unmount");
@@ -1132,9 +1171,10 @@ describe("renderBrick for tpl", () => {
       createPortal: portal,
     } as RenderRoot;
     const ctxStore = new DataStore("CTX");
+    const tplStateStore = new DataStore("STATE");
     const runtimeContext = {
       ctxStore,
-      tplStateStoreMap: new Map(),
+      tplStateStoreMap: new Map().set("tpl-state-1", tplStateStore),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");

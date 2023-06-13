@@ -130,6 +130,60 @@ describe("DataStore: resolve and wait", () => {
           },
         },
         {
+          name: "i",
+          resolve: {
+            useProvider: provider,
+            args: ["i"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+        {
+          name: "j",
+          resolve: {
+            useProvider: provider,
+            args: ["j"],
+            lazy: true,
+            trigger: "onBeforePageLoad",
+          },
+        },
+        {
+          name: "k",
+          resolve: {
+            useProvider: provider,
+            args: ["k"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+        },
+        {
+          name: "l",
+          resolve: {
+            useProvider: provider,
+            args: ["l"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+        },
+        {
+          name: "m",
+          resolve: {
+            useProvider: provider,
+            args: ["m"],
+            lazy: true,
+            trigger: "onAnchorLoad",
+          },
+        },
+        {
+          name: "n",
+          resolve: {
+            useProvider: provider,
+            args: ["n"],
+            lazy: true,
+            trigger: "onAnchorUnload",
+          },
+        },
+        {
           name: "x",
           resolve: {
             useProvider: provider,
@@ -940,4 +994,211 @@ describe("batchUpdate with resolve should work", () => {
 
     consoleInfo.mockReset();
   });
+});
+
+describe("batchUpdate lifeCycle and context name", () => {
+  const createContextStore = (provider = "my-timeout-provider") => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    // Dependency map:
+    //
+    // ```
+    //      d
+    //     ↙ ↘
+    //   b′|b  c  f
+    //  ↙ ↘ ↓ ↙   ↓
+    // x  a′|a    e
+    // ```
+    //
+    // Explain:
+    //   - d depends on b(or b′) and c.
+    //   - b′ depends on x and a′.
+    //   - b depends on a(or a′).
+    //   - c depends on a(or a′).
+    //   - f depends on e.
+    //
+    // a′ and b′ will be ignored (by a falsy result of `if`).
+    //
+    // Resolve in waterfall:
+    //
+    // ```
+    //     0    100   200   300   400
+    //     ·     ·     ·     ·     ·
+    //   a |====>
+    //   b       |====>
+    //   c       |==========>
+    //   d                   |====>
+    //   e |========>
+    //   f           |====>
+    //   x |==>
+    // ```
+    ctxStore.define(
+      [
+        {
+          name: "a",
+          resolve: {
+            useProvider: provider,
+            args: [100, "False-A"],
+            if: "<% false %>",
+          },
+        },
+        {
+          name: "a",
+          resolve: {
+            useProvider: provider,
+            args: [100, "A"],
+          },
+          if: "<% true %>",
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: provider,
+            args: [100, "<% 'False-B:' + CTX.a + ',' + CTX.x %>"],
+          },
+          if: "<% false %>",
+        },
+        {
+          name: "b",
+          resolve: {
+            useProvider: provider,
+            args: [100, "<% 'B:' + CTX.a + ',1' %>"],
+            if: "<% true %>",
+          },
+        },
+        {
+          name: "c",
+          resolve: {
+            useProvider: provider,
+            args: [200, "<% 'C:' + CTX.a + ',3' %>"],
+          },
+        },
+        {
+          name: "d",
+          resolve: {
+            useProvider: provider,
+            args: [100, "<% 'D:' + CTX.b + ',' + CTX.c %>"],
+          },
+        },
+        {
+          name: "e",
+          resolve: {
+            useProvider: provider,
+            args: [150, "E"],
+          },
+        },
+        {
+          name: "f",
+          resolve: {
+            useProvider: provider,
+            args: [100, "<% 'F:' + CTX.e + ',5' %>"],
+          },
+        },
+        {
+          name: "i",
+          resolve: {
+            useProvider: provider,
+            args: ["i"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+        {
+          name: "j",
+          resolve: {
+            useProvider: provider,
+            args: ["j"],
+            lazy: true,
+            trigger: "onBeforePageLoad",
+          },
+        },
+        {
+          name: "k",
+          resolve: {
+            useProvider: provider,
+            args: ["k"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+        },
+        {
+          name: "l",
+          resolve: {
+            useProvider: provider,
+            args: ["l"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+        },
+        {
+          name: "m",
+          resolve: {
+            useProvider: provider,
+            args: ["m"],
+            lazy: true,
+            trigger: "onAnchorLoad",
+          },
+        },
+        {
+          name: "n",
+          resolve: {
+            useProvider: provider,
+            args: ["n"],
+            lazy: true,
+            trigger: "onAnchorUnload",
+          },
+        },
+        {
+          name: "o",
+          resolve: {
+            useProvider: provider,
+            args: ["o"],
+            lazy: true,
+            trigger: "onPageLeave",
+          },
+        },
+        {
+          name: "x",
+          resolve: {
+            useProvider: provider,
+            args: [50, "X"],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    return {
+      ctxStore,
+      getAllValues() {
+        return Object.fromEntries(
+          ["a", "b", "c", "d", "e", "f", "x"].map((k) => [
+            k,
+            ctxStore.getValue(k),
+          ])
+        );
+      },
+    };
+  };
+
+  const testCases: [string, string[]][] = [
+    ["onBeforePageLoad", ["j"]],
+    ["onPageLoad", ["i"]],
+    ["onBeforePageLeave", ["k", "l"]],
+    ["onAnchorLoad", ["m"]],
+    ["onAnchorUnload", ["n"]],
+    ["onPageLeave", ["o"]],
+  ];
+
+  test.each(testCases)(
+    "should batch context name  %s",
+    async (lifeCycle, contextNameList) => {
+      const { ctxStore } = createContextStore();
+      await ctxStore.waitForAll();
+      expect(ctxStore.getContextTriggerSetByLifecycle(lifeCycle)).toEqual(
+        contextNameList
+      );
+    }
+  );
 });

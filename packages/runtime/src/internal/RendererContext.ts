@@ -3,6 +3,7 @@ import type {
   BrickLifeCycle,
   ScrollIntoViewConf,
   UseBrickLifeCycle,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/types";
 import type { Action } from "history";
 import { isEmpty, remove } from "lodash";
@@ -14,6 +15,7 @@ import type { RenderBrick, RenderNode, RenderRoot } from "./interfaces.js";
 import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { unbindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
+import { RuntimeContext } from "./interfaces.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -128,6 +130,57 @@ export class RendererContext {
     if (!isEmpty((lifeCycle as { useResolves?: unknown }).useResolves)) {
       // eslint-disable-next-line no-console
       console.error("`lifeCycle.useResolves` is dropped in v3:", lifeCycle);
+    }
+  }
+
+  registerContextLifeCycle(
+    lifeCycle: ContextResolveTriggerBrickLifeCycle,
+    runtimeContext: RuntimeContext
+  ) {
+    const contextNameList =
+      runtimeContext.ctxStore.getContextTriggerSetByLifecycle(lifeCycle);
+    if (contextNameList?.length > 0) {
+      const handlers = [] as BrickEventHandler[];
+      for (const contextName of contextNameList) {
+        handlers.push({
+          action: `context.load`,
+          args: [contextName],
+        });
+      }
+
+      this.#memoizedLifeCycle[lifeCycle as "onPageLoad"].push({
+        brick: {
+          runtimeContext,
+        } as RenderBrick,
+        handlers,
+      });
+    }
+
+    for (const [
+      tplStateStoreId,
+      dataStore,
+    ] of runtimeContext.tplStateStoreMap.entries()) {
+      const stateNameList =
+        dataStore.getContextTriggerSetByLifecycle(lifeCycle);
+      if (stateNameList.length > 0) {
+        const handlers = [] as BrickEventHandler[];
+        for (const stateName of stateNameList) {
+          handlers.push({
+            action: `state.load`,
+            args: [stateName],
+          });
+        }
+
+        this.#memoizedLifeCycle[lifeCycle as "onPageLoad"].push({
+          brick: {
+            runtimeContext: {
+              ...runtimeContext,
+              tplStateStoreId,
+            },
+          } as RenderBrick,
+          handlers,
+        });
+      }
     }
   }
 
@@ -365,40 +418,48 @@ export class RendererContext {
     }
   }
 
-  dispatchBeforePageLoad(): void {
+  dispatchBeforePageLoad(runtimeContext: RuntimeContext): void {
+    this.registerContextLifeCycle("onBeforePageLoad", runtimeContext);
     this.#dispatchGeneralLifeCycle(
       "onBeforePageLoad",
       new CustomEvent("page.beforeLoad")
     );
   }
 
-  dispatchPageLoad(): void {
+  dispatchPageLoad(runtimeContext: RuntimeContext): void {
+    this.registerContextLifeCycle("onPageLoad", runtimeContext);
     const event = new CustomEvent("page.load");
     this.#dispatchGeneralLifeCycle("onPageLoad", event);
     // Currently only for e2e testing
     window.dispatchEvent(event);
   }
 
-  dispatchBeforePageLeave(detail: {
-    location?: NextLocation;
-    action?: Action;
-  }): void {
+  dispatchBeforePageLeave(
+    detail: {
+      location?: NextLocation;
+      action?: Action;
+    },
+    runtimeContext: RuntimeContext
+  ): void {
+    this.registerContextLifeCycle("onBeforePageLeave", runtimeContext);
     this.#dispatchGeneralLifeCycle(
       "onBeforePageLeave",
       new CustomEvent("page.beforeLeave", { detail })
     );
   }
 
-  dispatchPageLeave(): void {
+  dispatchPageLeave(runtimeContext: RuntimeContext): void {
+    this.registerContextLifeCycle("onPageLeave", runtimeContext);
     this.#dispatchGeneralLifeCycle(
       "onPageLeave",
       new CustomEvent("page.leave")
     );
   }
 
-  dispatchAnchorLoad(): void {
+  dispatchAnchorLoad(runtimeContext: RuntimeContext): void {
     const { hash } = getHistory().location;
     if (hash && hash !== "#") {
+      this.registerContextLifeCycle("onAnchorLoad", runtimeContext);
       this.#dispatchGeneralLifeCycle(
         "onAnchorLoad",
         new CustomEvent("anchor.load", {
@@ -409,6 +470,7 @@ export class RendererContext {
         })
       );
     } else {
+      this.registerContextLifeCycle("onAnchorUnload", runtimeContext);
       this.#dispatchGeneralLifeCycle(
         "onAnchorUnload",
         new CustomEvent("anchor.unload")

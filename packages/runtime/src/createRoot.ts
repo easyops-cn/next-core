@@ -180,7 +180,7 @@ export function unstable_createRoot(
         setMode("default");
 
         if (!failed) {
-          rendererContext.dispatchBeforePageLoad();
+          rendererContext.dispatchBeforePageLoad(runtimeContext);
         }
 
         applyTheme();
@@ -195,7 +195,7 @@ export function unstable_createRoot(
 
       if (!failed) {
         if (scope === "page") {
-          rendererContext.dispatchPageLoad();
+          rendererContext.dispatchPageLoad(runtimeContext);
           // rendererContext.dispatchAnchorLoad();
         }
         rendererContext.dispatchOnMount();

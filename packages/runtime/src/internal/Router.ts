@@ -107,7 +107,10 @@ export class Router {
   }): string | undefined {
     const history = getHistory();
     const previousMessage = history.getBlockMessage();
-    this.#rendererContext?.dispatchBeforePageLeave(detail);
+    this.#rendererContext?.dispatchBeforePageLeave(
+      detail,
+      this.getRuntimeContext() as RuntimeContext
+    );
     const message = history.getBlockMessage();
     if (!previousMessage && message) {
       // Auto unblock only if new block was introduced by `onBeforePageLeave`.
@@ -176,7 +179,9 @@ export class Router {
       }
       abortPendingRequest();
       this.#prevLocation = location;
-      this.#rendererContext?.dispatchPageLeave();
+      this.#rendererContext?.dispatchPageLeave(
+        this.getRuntimeContext() as RuntimeContext
+      );
       // this.locationContext.messageDispatcher.reset();
 
       if (action === "POP") {
@@ -411,7 +416,7 @@ export class Router {
       if ((output.route && output.route.type !== "routes") || failed) {
         if (!failed) {
           // There is a window to set theme and mode by `lifeCycle.onBeforePageLoad`.
-          rendererContext.dispatchBeforePageLoad();
+          rendererContext.dispatchBeforePageLoad(runtimeContext);
         }
         applyTheme();
         applyMode();
@@ -423,8 +428,8 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
-          rendererContext.dispatchPageLoad();
-          rendererContext.dispatchAnchorLoad();
+          rendererContext.dispatchPageLoad(runtimeContext);
+          rendererContext.dispatchAnchorLoad(runtimeContext);
           rendererContext.dispatchOnMount();
           rendererContext.initializeScrollIntoView();
           rendererContext.initializeMediaChange();
