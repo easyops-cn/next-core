@@ -404,6 +404,7 @@ describe("renderBrick", () => {
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
       ctxStore,
+      tplStateStoreMap: new Map(),
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");
@@ -506,15 +507,15 @@ describe("renderBrick", () => {
     expect(output.node?.child?.sibling?.sibling).toBe(undefined);
 
     expect(consoleInfo).toBeCalledTimes(0);
-    rendererContext.dispatchBeforePageLoad();
+    rendererContext.dispatchBeforePageLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "onBeforePageLoad",
       "page.beforeLoad"
     );
-    rendererContext.dispatchPageLoad();
+    rendererContext.dispatchPageLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onPageLoad", "page.load");
-    rendererContext.dispatchAnchorLoad();
+    rendererContext.dispatchAnchorLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       3,
       "onAnchorUnload",
@@ -528,7 +529,7 @@ describe("renderBrick", () => {
         hash: "#abc",
       },
     });
-    rendererContext.dispatchAnchorLoad();
+    rendererContext.dispatchAnchorLoad(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       5,
       "onAnchorLoad",
@@ -563,13 +564,13 @@ describe("renderBrick", () => {
       { breakpoint: "large" }
     );
 
-    rendererContext.dispatchBeforePageLeave({});
+    rendererContext.dispatchBeforePageLeave({}, runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       8,
       "onBeforePageLeave",
       "page.beforeLeave"
     );
-    rendererContext.dispatchPageLeave();
+    rendererContext.dispatchPageLeave(runtimeContext);
     expect(consoleInfo).toHaveBeenNthCalledWith(9, "onPageLeave", "page.leave");
     rendererContext.dispatchOnUnmount();
     expect(consoleInfo).toHaveBeenNthCalledWith(10, "onUnmount", "unmount");

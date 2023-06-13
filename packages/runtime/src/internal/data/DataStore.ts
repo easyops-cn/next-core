@@ -2,6 +2,7 @@ import type {
   BatchUpdateContextItem,
   BrickEventHandlerCallback,
   ContextConf,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
@@ -40,6 +41,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   public readonly hostBrick?: RuntimeBrick;
   public batchUpdate = false;
   public batchUpdateContextsNames: string[] = [];
+  readonly batchTriggerContextsNamesMap: Map<
+    ContextResolveTriggerBrickLifeCycle,
+    string[]
+  > = new Map();
 
   constructor(type: T, hostBrick?: RuntimeBrick) {
     this.type = type;
@@ -295,6 +300,20 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           isLazyResolve = dataConf.resolve.lazy;
           if (!isLazyResolve) {
             value = await load();
+          } else if (isLazyResolve && dataConf.resolve.trigger) {
+            const lifecycleName = dataConf.resolve.trigger;
+            if (
+              // eslint-disable-next-line @typescript-eslint/no-use-before-define
+              supportContextResolveTriggerBrickLifeCycle.includes(lifecycleName)
+            ) {
+              const contextList =
+                this.batchTriggerContextsNamesMap.get(lifecycleName) || [];
+              contextList.push(dataConf.name);
+              this.batchTriggerContextsNamesMap.set(lifecycleName, contextList);
+            } else {
+              // eslint-disable-next-line no-console
+              console.error(`Unsupported lifecycle: "${lifecycleName}"`);
+            }
           }
         } else if (!hasOwnProperty(dataConf, "value")) {
           return false;
@@ -371,4 +390,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       listener(event);
     };
   }
+
+  getContextTriggerSetByLifecycle(
+    lifecycle: ContextResolveTriggerBrickLifeCycle
+  ): string[] {
+    return this.batchTriggerContextsNamesMap.get(lifecycle) || [];
+  }
 }
+
+export const supportContextResolveTriggerBrickLifeCycle = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onBeforePageLeave",
+  "onPageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+] as ContextResolveTriggerBrickLifeCycle[];

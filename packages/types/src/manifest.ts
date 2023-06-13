@@ -432,7 +432,23 @@ export type ContextResolveConf = ResolveConf & {
    * 需要用户主动通过 `context.refresh` 触发。
    */
   lazy?: boolean;
+  /**
+   * 设置`lazy:true`时，需要用户主动设置 `trigger` 为 `ContextResolveTriggerBrickLifeCycle`中的一个或者多个生命周期，当触发生命周期时主动加载数据
+   *
+   */
+  trigger?: ContextResolveTriggerBrickLifeCycle;
 };
+
+/**
+ * Context 的异步数据处理配置为 `trigger` 时支持的生命周期
+ */
+export declare type ContextResolveTriggerBrickLifeCycle =
+  | "onBeforePageLoad"
+  | "onPageLoad"
+  | "onBeforePageLeave"
+  | "onPageLeave"
+  | "onAnchorLoad"
+  | "onAnchorUnload";
 
 /**
  * 页面切换配置表。
