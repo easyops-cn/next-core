@@ -43,6 +43,18 @@ jest.mock("./Runtime.js", () => ({
         return {};
       },
     },
+    messageDispatcher: {
+      onMessage(channel: string, callback: (detail: unknown) => void) {
+        Promise.resolve().then(() => {
+          callback(`message channel: ${channel}`);
+        });
+      },
+      onClose(callback: () => void) {
+        Promise.resolve().then(() => {
+          callback();
+        });
+      },
+    },
   },
   getRuntime() {
     //
@@ -469,6 +481,17 @@ describe("renderBrick", () => {
             action: "console.info",
             args: ["onPageLeave", "<% EVENT.type %>"],
           },
+          onMessage: {
+            channel: "my-channel",
+            handlers: {
+              action: "console.info",
+              args: ["onMessage", "<% EVENT.type %>"],
+            },
+          },
+          onMessageClose: {
+            action: "console.info",
+            args: ["onMessageClose", "<% EVENT.type %>"],
+          },
         },
         slots: {
           a: {
@@ -607,6 +630,19 @@ describe("renderBrick", () => {
     // The trigger ctx is resolved now
     expect(ctxStore.getValue("triggerOnPageLoad")).toBe("resolved");
     expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("resolved2");
+
+    rendererContext.initializeMessageDispatcher();
+    await (global as any).flushPromises();
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      11,
+      "onMessage",
+      "message.push"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      12,
+      "onMessageClose",
+      "message.close"
+    );
 
     rendererContext.dispose();
     consoleInfo.mockReset();

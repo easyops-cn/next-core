@@ -74,7 +74,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     return this.data.get(name)?.value;
   }
 
-  getAffectListByContext(name: string): string[] {
+  private getAffectListByContext(name: string): string[] {
     const affectNames = [name];
     this.data.forEach((value, key) => {
       if (value.deps) {
@@ -388,7 +388,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     return true;
   }
 
-  batchAddListener(
+  private batchAddListener(
     listener: EventListener,
     contextConf: ContextConf
   ): EventListener {

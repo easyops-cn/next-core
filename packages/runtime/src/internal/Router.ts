@@ -177,7 +177,6 @@ export class Router {
       abortPendingRequest();
       this.#prevLocation = location;
       this.#rendererContext?.dispatchPageLeave();
-      // this.locationContext.messageDispatcher.reset();
 
       if (action === "POP") {
         const storyboard = matchStoryboard(
@@ -278,6 +277,7 @@ export class Router {
         }
       }
       this.#rendererContextTrashCan.clear();
+      hooks?.messageDispatcher?.reset();
 
       setTheme(
         (currentApp &&
@@ -429,6 +429,7 @@ export class Router {
           rendererContext.dispatchOnMount();
           rendererContext.initializeScrollIntoView();
           rendererContext.initializeMediaChange();
+          rendererContext.initializeMessageDispatcher();
         }
 
         return;

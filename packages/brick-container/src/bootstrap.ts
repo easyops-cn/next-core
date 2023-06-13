@@ -8,6 +8,7 @@ import {
   auth,
   checkPermissions,
   menu,
+  messageDispatcher,
 } from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
@@ -96,6 +97,7 @@ const runtime = createRuntime({
     checkInstalledApps,
     menu,
     images: { imagesFactory, widgetImagesFactory },
+    messageDispatcher,
   },
 });
 

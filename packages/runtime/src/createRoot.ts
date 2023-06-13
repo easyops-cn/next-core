@@ -202,6 +202,7 @@ export function unstable_createRoot(
         rendererContext.dispatchOnMount();
         rendererContext.initializeScrollIntoView();
         rendererContext.initializeMediaChange();
+        rendererContext.initializeMessageDispatcher();
       }
     },
     unmount() {
