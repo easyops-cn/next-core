@@ -419,6 +419,16 @@ describe("renderBrick", () => {
             trigger: "onPageLoad",
           },
         },
+        {
+          name: "triggerOnPageLoad2",
+          value: "unresolved2",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "resolved2"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
       ],
       runtimeContext
     );
@@ -591,10 +601,12 @@ describe("renderBrick", () => {
 
     // The trigger ctx is not resolved yet
     expect(ctxStore.getValue("triggerOnPageLoad")).toBe("unresolved");
+    expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("unresolved2");
     await new Promise((resolve) => setTimeout(resolve, 100));
     await (global as any).flushPromises();
-    // The trigger ctx is not resolved now
+    // The trigger ctx is resolved now
     expect(ctxStore.getValue("triggerOnPageLoad")).toBe("resolved");
+    expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("resolved2");
 
     rendererContext.dispose();
     consoleInfo.mockReset();
