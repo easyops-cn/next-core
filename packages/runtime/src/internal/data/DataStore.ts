@@ -2,6 +2,7 @@ import type {
   BatchUpdateContextItem,
   BrickEventHandlerCallback,
   ContextConf,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
@@ -19,6 +20,16 @@ import type {
   RuntimeContext,
 } from "../interfaces.js";
 import { handleHttpError } from "../../handleHttpError.js";
+import type { RendererContext } from "../RendererContext.js";
+
+const supportContextResolveTriggerBrickLifeCycle = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onBeforePageLeave",
+  "onPageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+] as ContextResolveTriggerBrickLifeCycle[];
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
@@ -40,8 +51,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   public readonly hostBrick?: RuntimeBrick;
   public batchUpdate = false;
   public batchUpdateContextsNames: string[] = [];
+  private readonly rendererContext?: RendererContext;
 
-  constructor(type: T, hostBrick?: RuntimeBrick) {
+  // 把 `rendererContext` 放在参数列表的最后，并作为可选，以减少测试文件的调整
+  constructor(
+    type: T,
+    hostBrick?: RuntimeBrick,
+    rendererContext?: RendererContext
+  ) {
     this.type = type;
     this.changeEventType =
       this.type === "FORM_STATE"
@@ -50,6 +67,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         ? "state.change"
         : "context.change";
     this.hostBrick = hostBrick;
+    this.rendererContext = rendererContext;
   }
 
   getValue(name: string): unknown {
@@ -315,6 +333,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       loaded: !isLazyResolve,
       deps: [],
     };
+
+    if (isLazyResolve) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { trigger } = dataConf.resolve!;
+      if (
+        trigger &&
+        supportContextResolveTriggerBrickLifeCycle.includes(trigger)
+      ) {
+        this.rendererContext?.registerArbitraryLifeCycle(trigger, () => {
+          this.updateValue(dataConf.name, undefined, "load");
+        });
+      }
+    }
 
     if (dataConf.onChange) {
       newData.eventTarget.addEventListener(

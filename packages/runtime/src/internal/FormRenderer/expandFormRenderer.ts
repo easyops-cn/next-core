@@ -10,12 +10,14 @@ import type {
 } from "./interfaces.js";
 import { getDefaultProperties } from "./getDefaultProperties.js";
 import { symbolForFormStateStoreId } from "./constants.js";
+import type { RendererContext } from "../RendererContext.js";
 
 export function expandFormRenderer(
   formData: unknown,
   hostBrickConf: BrickConf,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties
+  asyncHostProperties: AsyncProperties,
+  rendererContext: RendererContext
 ): BrickConf {
   const normalizedFormData = (
     typeof formData === "string" ? JSON.parse(formData) : formData
@@ -31,7 +33,11 @@ export function expandFormRenderer(
   delete runtimeContext.forEachItem;
   delete runtimeContext.tplStateStoreId;
 
-  const formStateStore = new DataStore("FORM_STATE");
+  const formStateStore = new DataStore(
+    "FORM_STATE",
+    undefined,
+    rendererContext
+  );
   runtimeContext.formStateStoreMap.set(formStateStoreId, formStateStore);
   if (runtimeContext.formStateStoreScope) {
     runtimeContext.formStateStoreScope.push(formStateStore);

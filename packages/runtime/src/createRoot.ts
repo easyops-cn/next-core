@@ -85,15 +85,16 @@ export function unstable_createRoot(
         );
       }
       const bricks = ([] as BrickConf[]).concat(brick);
+
+      const previousRendererContext = rendererContext;
+      rendererContext = new RendererContext(scope, { unknownBricks });
+
       const runtimeContext = {
-        ctxStore: new DataStore("CTX"),
+        ctxStore: new DataStore("CTX", undefined, rendererContext),
         pendingPermissionsPreCheck: [],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       } as Partial<RuntimeContext> as RuntimeContext;
-
-      const previousRendererContext = rendererContext;
-      rendererContext = new RendererContext(scope, { unknownBricks });
 
       const renderRoot: RenderRoot = {
         tag: RenderTag.ROOT,

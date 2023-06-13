@@ -401,12 +401,37 @@ describe("renderBrick", () => {
     const renderRoot = {
       tag: RenderTag.ROOT,
     } as RenderRoot;
-    const ctxStore = new DataStore("CTX");
+    const rendererContext = new RendererContext("page");
+    const ctxStore = new DataStore("CTX", undefined, rendererContext);
     const runtimeContext = {
       ctxStore,
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("page");
+    ctxStore.define(
+      [
+        {
+          name: "triggerOnPageLoad",
+          value: "unresolved",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "resolved"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+        {
+          name: "triggerOnPageLoad2",
+          value: "unresolved2",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "resolved2"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+      ],
+      runtimeContext
+    );
     const output = await renderBrick(
       renderRoot,
       {
@@ -573,6 +598,15 @@ describe("renderBrick", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(9, "onPageLeave", "page.leave");
     rendererContext.dispatchOnUnmount();
     expect(consoleInfo).toHaveBeenNthCalledWith(10, "onUnmount", "unmount");
+
+    // The trigger ctx is not resolved yet
+    expect(ctxStore.getValue("triggerOnPageLoad")).toBe("unresolved");
+    expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("unresolved2");
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await (global as any).flushPromises();
+    // The trigger ctx is resolved now
+    expect(ctxStore.getValue("triggerOnPageLoad")).toBe("resolved");
+    expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("resolved2");
 
     rendererContext.dispose();
     consoleInfo.mockReset();

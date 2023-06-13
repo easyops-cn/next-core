@@ -91,6 +91,8 @@ export class RendererContext {
   #observers = new Map<RenderBrick, IntersectionObserver[]>();
   #mediaListener: EventListener | undefined;
 
+  #arbitraryLifeCycle = new Map<string, Set<() => void>>();
+
   #memoizedControlNodes?: WeakMap<
     RenderNode,
     Map<
@@ -128,6 +130,15 @@ export class RendererContext {
     if (!isEmpty((lifeCycle as { useResolves?: unknown }).useResolves)) {
       // eslint-disable-next-line no-console
       console.error("`lifeCycle.useResolves` is dropped in v3:", lifeCycle);
+    }
+  }
+
+  registerArbitraryLifeCycle(lifeCycle: string, fn: () => void): void {
+    const arbitraryCallbacks = this.#arbitraryLifeCycle.get(lifeCycle);
+    if (arbitraryCallbacks) {
+      arbitraryCallbacks.add(fn);
+    } else {
+      this.#arbitraryLifeCycle.set(lifeCycle, new Set([fn]));
     }
   }
 
@@ -334,6 +345,7 @@ export class RendererContext {
       this.#mediaListener = undefined;
     }
     this.#memoizedControlNodes = undefined;
+    this.#arbitraryLifeCycle.clear();
   }
 
   // Note: no `onScrollIntoView`
@@ -362,6 +374,12 @@ export class RendererContext {
     }
     for (const { brick, handlers } of this.#memoizedLifeCycle[type]) {
       listenerFactory(handlers, brick.runtimeContext, brick)(event);
+    }
+    const arbitraryCallbacks = this.#arbitraryLifeCycle.get(type);
+    if (arbitraryCallbacks) {
+      for (const fn of arbitraryCallbacks) {
+        fn();
+      }
     }
   }
 

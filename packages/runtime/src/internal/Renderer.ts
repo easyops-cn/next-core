@@ -519,14 +519,16 @@ export async function renderBrick(
       tplTagName,
       brickConf,
       brick,
-      asyncProperties
+      asyncProperties,
+      rendererContext
     );
   } else if (brickName === FORM_RENDERER) {
     expandedBrickConf = expandFormRenderer(
       formData,
       brickConf,
       brick,
-      asyncProperties
+      asyncProperties,
+      rendererContext
     );
   }
 

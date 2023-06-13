@@ -305,6 +305,10 @@ export class Router {
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
 
+      const rendererContext = (this.#rendererContext = new RendererContext(
+        "page"
+      ));
+
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
         location,
@@ -317,7 +321,7 @@ export class Router {
             brand: getRuntime().getBrandSettings(),
           },
         },
-        ctxStore: new DataStore("CTX"),
+        ctxStore: new DataStore("CTX", undefined, rendererContext),
         pendingPermissionsPreCheck: [
           hooks?.checkPermissions?.preCheckPermissions(storyboard),
         ],
@@ -325,9 +329,6 @@ export class Router {
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       });
 
-      const rendererContext = (this.#rendererContext = new RendererContext(
-        "page"
-      ));
       this.#navConfig = undefined;
 
       registerCustomTemplates(storyboard);
