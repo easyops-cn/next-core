@@ -76,8 +76,10 @@ function computeRealSnippetConf(
     try {
       const raw: string = value;
       const ctxOrState = context.rootType === "template" ? "STATE" : "CTX";
+      const ctxOrStateUpdate =
+        context.rootType === "template" ? "state.update" : "context.replace";
 
-      if (/^\s*<%@\s/.test(value)) {
+      if (/^\s*<%@=?\s*/.test(value)) {
         const replacements = [
           { search: "<%@", replace: "<%" },
           { search: /\bCTX_OR_STATE\b/g, replace: ctxOrState },
@@ -103,6 +105,20 @@ function computeRealSnippetConf(
         globalVariables.SNIPPET_PARAMS = context.inputParams;
       }
 
+      const attemptVisitSnippetRootType =
+        attemptToVisitGlobals.has("SNIPPET_ROOT_TYPE");
+
+      if (attemptVisitSnippetRootType) {
+        globalVariables.SNIPPET_ROOT_TYPE = context.rootType;
+      }
+
+      const attemptVisitSnippetDataUpdateMethod =
+        attemptToVisitGlobals.has("DATA_UPDATE_METHOD");
+
+      if (attemptVisitSnippetDataUpdateMethod) {
+        globalVariables.DATA_UPDATE_METHOD = ctxOrStateUpdate;
+      }
+
       const result = cook(expression, source, {
         globalVariables: supply(attemptToVisitGlobals, globalVariables),
       });
@@ -111,7 +127,7 @@ function computeRealSnippetConf(
     } catch (error) {
       /* istanbul ignore next */
       // eslint-disable-next-line no-console
-      console.error("Parse storyboard expression failed:", error);
+      throw new Error(`Parse storyboard expression failed: ${error}`);
     }
   }
 

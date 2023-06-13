@@ -45,7 +45,7 @@ export function shouldAllowRecursiveEvaluations(raw: string): boolean {
 }
 
 export function isSnippetEvaluation(raw: string): boolean {
-  return /^\s*<%[!@]\s/.test(raw) && /\s%>\s*$/.test(raw);
+  return /^\s*<%[!@]=?\s/.test(raw) && /\s%>\s*$/.test(raw);
 }
 
 export function isTrackAll(raw: string): boolean {

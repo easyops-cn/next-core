@@ -50,6 +50,14 @@ describe("snippetEvaluate processor", () => {
                         properties: {
                           textContent: "<% DATA.cellData %>",
                         },
+                        events: {
+                          click: [
+                            {
+                              action: "<%! DATA_UPDATE_METHOD %>",
+                              args: ["test", "new value"],
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -61,13 +69,14 @@ describe("snippetEvaluate processor", () => {
                         brick: "span",
                         properties: {
                           textContent: "<%! SNIPPET_PARAMS.test %>",
+                          dataType: "<%! SNIPPET_ROOT_TYPE %>",
                         },
                       },
                     ],
                   },
                 ],
 
-                dataSource: "<%@ CTX_OR_STATE.dataSourceList %>",
+                dataSource: "<%@= CTX_OR_STATE.dataSourceList %>",
               },
             },
           ],
@@ -101,6 +110,14 @@ describe("snippetEvaluate processor", () => {
                       {
                         brick: "span",
                         properties: { textContent: "<% DATA.cellData %>" },
+                        events: {
+                          click: [
+                            {
+                              action: "context.replace",
+                              args: ["test", "new value"],
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -108,11 +125,14 @@ describe("snippetEvaluate processor", () => {
                     dataIndex: "test",
                     title: "test",
                     useBrick: [
-                      { brick: "span", properties: { textContent: "hello" } },
+                      {
+                        brick: "span",
+                        properties: { textContent: "hello", dataType: "route" },
+                      },
                     ],
                   },
                 ],
-                dataSource: "<% CTX.dataSourceList %>",
+                dataSource: "<%= CTX.dataSourceList %>",
               },
             },
           ],
@@ -126,6 +146,108 @@ describe("snippetEvaluate processor", () => {
               },
             },
           ],
+          params: {
+            test: { defaultValue: "come from snippetParams", type: "string" },
+          },
+        },
+      ],
+      [
+        {
+          brick: "presentational-bricks.brick-table[normal]",
+          params: {
+            test: {
+              type: "string",
+              defaultValue: "come from snippetParams",
+            },
+          },
+          data: [
+            {
+              name: "testGood",
+              value: "<%! SNIPPET_PARAMS.test %>",
+            },
+          ],
+          bricks: [
+            {
+              brick: "presentational-bricks.brick-table",
+              properties: {
+                columns: [
+                  {
+                    title: "Name",
+                    dataIndex: "name",
+                  },
+                  {
+                    title: "ctime",
+                    dataIndex: "ctime",
+                    useBrick: [
+                      {
+                        brick: "span",
+                        properties: {
+                          textContent: "<% DATA.cellData %>",
+                        },
+                        events: {
+                          click: [
+                            {
+                              action: "<%! DATA_UPDATE_METHOD %>",
+                              args: ["test", "new value"],
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                ],
+
+                dataSource: "<%@= CTX_OR_STATE.dataSourceList %>",
+              },
+            },
+          ],
+        },
+        {
+          rootType: "template",
+          rootInstanceId: "abc123",
+          dataList: [],
+          declareParams: {
+            test: {
+              type: "string",
+              defaultValue: "come from snippetParams",
+            },
+          },
+          inputParams: {
+            test: "hello",
+          },
+        },
+        {
+          brick: "presentational-bricks.brick-table[normal]",
+          bricks: [
+            {
+              brick: "presentational-bricks.brick-table",
+              properties: {
+                columns: [
+                  { dataIndex: "name", title: "Name" },
+                  {
+                    dataIndex: "ctime",
+                    title: "ctime",
+                    useBrick: [
+                      {
+                        brick: "span",
+                        events: {
+                          click: [
+                            {
+                              action: "state.update",
+                              args: ["test", "new value"],
+                            },
+                          ],
+                        },
+                        properties: { textContent: "<% DATA.cellData %>" },
+                      },
+                    ],
+                  },
+                ],
+                dataSource: "<%= STATE.dataSourceList %>",
+              },
+            },
+          ],
+          data: [{ name: "testGood", value: "hello" }],
           params: {
             test: { defaultValue: "come from snippetParams", type: "string" },
           },
