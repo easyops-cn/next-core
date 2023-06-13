@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.3.0...@next-core/types@1.4.0) (2023-06-13)
+
+
+### Features
+
+* **V3:** context支持Trigger挂载生命周期自动触发 ([abadbc8](https://github.com/easyops-cn/next-core/commit/abadbc877f2f6af8b61a16f2291e777ba8f0d463))
+
+
+
+
+
 # [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.2.0...@next-core/types@1.3.0) (2023-05-18)
 
 
