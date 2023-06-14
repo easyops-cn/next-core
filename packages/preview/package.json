@@ -20,7 +20,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV='development' node scripts/start.js",
+    "start": "cross-env NODE_ENV='development' build-next-bricks --watch",
     "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "devDependencies": {
