@@ -221,9 +221,9 @@ async function main() {
       insertSpaces: true,
       automaticLayout: true,
     });
-    editor.onDidChangeModelContent(() => {
+    editor.onDidChangeModelContent((e) => {
       sources[type] = editor.getValue();
-      if (saveToLocalStorage) {
+      if (saveToLocalStorage && !e.isFlush) {
         localStorage.setItem(storageKey, sources[type]);
       }
       debouncedRender();
