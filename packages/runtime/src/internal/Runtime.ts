@@ -156,12 +156,12 @@ export class Runtime {
     };
     if (notification !== false) {
       loadNotificationService(
-        notification ?? "shoelace.show-notification",
+        notification ?? "basic.show-notification",
         this.loadBricks
       );
     }
     if (dialog !== false) {
-      loadDialogService(dialog ?? "shoelace.show-dialog", this.loadBricks);
+      loadDialogService(dialog ?? "basic.show-dialog", this.loadBricks);
     }
   }
 
