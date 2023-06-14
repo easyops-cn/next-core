@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.3.1...@next-core/brick-container@3.4.0) (2023-06-14)
+
+
+### Features
+
+* websocket message dispatcher ([74d9e8c](https://github.com/easyops-cn/next-core/commit/74d9e8c992de6755635597a75855383d12b9555e))
+
+
+
+
+
 ## [3.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.3.0...@next-core/brick-container@3.3.1) (2023-06-13)
 
 **Note:** Version bump only for package @next-core/brick-container

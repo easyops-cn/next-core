@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.15.0...@next-core/runtime@1.16.0) (2023-06-14)
+
+
+### Bug Fixes
+
+* use notification bricks in basic instead of shoelace ([66f38bc](https://github.com/easyops-cn/next-core/commit/66f38bc6ac323df719e86b38a1609be940ae269e))
+
+
+### Features
+
+* websocket message dispatcher ([74d9e8c](https://github.com/easyops-cn/next-core/commit/74d9e8c992de6755635597a75855383d12b9555e))
+
+
+
+
+
 # [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.2...@next-core/runtime@1.15.0) (2023-06-13)
 
 

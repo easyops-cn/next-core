@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.4.3...@next-core/easyops-runtime@0.5.0) (2023-06-14)
+
+
+### Bug Fixes
+
+* wildcard match for message push ([fbddd22](https://github.com/easyops-cn/next-core/commit/fbddd221691a83663e3ad67fb8ba32957e82c543))
+
+
+### Features
+
+* websocket message dispatcher ([74d9e8c](https://github.com/easyops-cn/next-core/commit/74d9e8c992de6755635597a75855383d12b9555e))
+
+
+
+
+
 ## [0.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.4.2...@next-core/easyops-runtime@0.4.3) (2023-06-13)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
