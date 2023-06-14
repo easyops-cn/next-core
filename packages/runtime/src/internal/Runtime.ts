@@ -96,6 +96,13 @@ export interface RuntimeHooks {
       widgetVersion?: string
     ): ImagesFactory;
   };
+  messageDispatcher?: {
+    subscribe(...args: unknown[]): Promise<Event>;
+    unsubscribe(...args: unknown[]): Promise<Event>;
+    onMessage(channel: string, listener: (data: unknown) => void): void;
+    onClose(listener: () => void): void;
+    reset(): void;
+  };
 }
 
 export interface RuntimeHooksMenuHelpers {

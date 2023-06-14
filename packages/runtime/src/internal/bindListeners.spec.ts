@@ -14,11 +14,20 @@ import { DataStore } from "./data/DataStore.js";
 import { handleHttpError } from "../handleHttpError.js";
 import { applyTheme, applyMode } from "../themeAndMode.js";
 import { startPoll } from "./poll.js";
+import { hooks } from "./Runtime.js";
 
 jest.mock("../history.js");
 jest.mock("../handleHttpError.js");
 jest.mock("../themeAndMode.js");
 jest.mock("./poll.js");
+jest.mock("./Runtime.js", () => ({
+  hooks: {
+    messageDispatcher: {
+      subscribe: jest.fn(),
+      unsubscribe: jest.fn(),
+    },
+  },
+}));
 
 const consoleLog = jest.spyOn(console, "log");
 const consoleInfo = jest.spyOn(console, "info");
@@ -34,6 +43,9 @@ const mockApplyTheme = applyTheme as jest.MockedFunction<
   typeof handleHttpError
 >;
 const mockApplyMode = applyMode as jest.MockedFunction<typeof handleHttpError>;
+
+const subscribe = hooks?.messageDispatcher?.subscribe as jest.Mock<any>;
+const unsubscribe = hooks?.messageDispatcher?.unsubscribe as jest.Mock<any>;
 
 const myTimeoutProvider = jest.fn(
   (timeout: number, result: string) =>
@@ -1166,7 +1178,7 @@ describe("listenerFactory for unknown handlers", () => {
   });
 });
 
-describe("if/esle condition", () => {
+describe("if/else condition", () => {
   let ctxStore: DataStore<"CTX">;
 
   beforeEach(async () => {
@@ -1321,5 +1333,80 @@ describe("if/esle condition", () => {
       "进入嵌套 provider 逻辑",
       "nest-provider"
     );
+  });
+});
+
+describe("listenerFactory for message dispatcher", () => {
+  test("message.subscribe", async () => {
+    subscribe.mockResolvedValue("ok");
+    listenerFactory(
+      {
+        action: "message.subscribe",
+        args: ["my-channel"],
+        callback: {
+          success: {
+            action: "console.log",
+            args: ["sub success", "<% EVENT.detail %>"],
+          },
+          error: {
+            action: "console.log",
+            args: ["sub error", "<% EVENT.detail %>"],
+          },
+          finally: {
+            action: "console.log",
+            args: ["sub finally"],
+          },
+        },
+      },
+      runtimeContext
+    )(event);
+    expect(subscribe).toBeCalledWith("my-channel");
+    await (global as any).flushPromises();
+    expect(consoleLog).toBeCalledWith("sub success", "ok");
+    expect(consoleLog).toBeCalledWith("sub finally");
+    subscribe.mockReset();
+  });
+
+  test("message.unsubscribe", async () => {
+    unsubscribe.mockRejectedValue("failed");
+    listenerFactory(
+      {
+        action: "message.unsubscribe",
+        args: ["my-channel"],
+        callback: {
+          success: {
+            action: "console.log",
+            args: ["unsub success", "<% EVENT.detail %>"],
+          },
+          error: {
+            action: "console.log",
+            args: ["unsub error", "<% EVENT.detail %>"],
+          },
+          finally: {
+            action: "console.log",
+            args: ["unsub finally"],
+          },
+        },
+      },
+      runtimeContext
+    )(event);
+    expect(unsubscribe).toBeCalledWith("my-channel");
+    await (global as any).flushPromises();
+    expect(consoleLog).toBeCalledWith("unsub error", "failed");
+    expect(consoleLog).toBeCalledWith("unsub finally");
+    unsubscribe.mockReset();
+  });
+
+  test("message.unsubscribe with no callback", async () => {
+    unsubscribe.mockResolvedValue("ok");
+    listenerFactory(
+      {
+        action: "message.unsubscribe",
+        args: ["my-channel-2"],
+      },
+      runtimeContext
+    )(event);
+    expect(unsubscribe).toBeCalledWith("my-channel-2");
+    unsubscribe.mockReset();
   });
 });

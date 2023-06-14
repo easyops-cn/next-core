@@ -5,6 +5,8 @@ import {
   preCheckPermissionsForBrickOrRoute,
 } from "./checkPermissions.js";
 
+import { MessageDispatcher } from "./websocket/MessageDispatcher.js";
+
 export * as checkInstalledApps from "./checkInstalledApps.js";
 export * as flowApi from "./flowApi/index.js";
 export * as auth from "./auth.js";
@@ -15,3 +17,5 @@ export const checkPermissions = Object.freeze({
   preCheckPermissions,
   preCheckPermissionsForBrickOrRoute,
 });
+
+export const messageDispatcher = new MessageDispatcher();

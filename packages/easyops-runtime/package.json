@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.5",
-    "@next-core/test-next": "^1.0.6"
+    "@next-core/test-next": "^1.0.6",
+    "jest-websocket-mock": "^2.4.0"
   }
 }

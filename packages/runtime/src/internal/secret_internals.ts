@@ -127,6 +127,7 @@ export function mountUseBrick(
   rendererContext.dispatchOnMount();
   rendererContext.initializeScrollIntoView();
   rendererContext.initializeMediaChange();
+  rendererContext.initializeMessageDispatcher();
 
   return {
     portal,

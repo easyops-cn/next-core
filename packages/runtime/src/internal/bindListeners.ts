@@ -255,8 +255,17 @@ export function listenerFactory(
             );
             break;
 
-          // case "message.subscribe":
-          // case "message.unsubscribe":
+          case "message.subscribe":
+          case "message.unsubscribe":
+            handleMessageDispatcher(
+              event,
+              method,
+              handler.args,
+              runtimeContext,
+              runtimeBrick,
+              handler.callback
+            );
+            break;
 
           case "theme.setDarkTheme":
           case "theme.setLightTheme":
@@ -740,6 +749,37 @@ function handleMessageAction(
     type: method,
     message: computedArgs[0] as string,
   });
+}
+
+async function handleMessageDispatcher(
+  event: Event,
+  method: "subscribe" | "unsubscribe",
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext,
+  runtimeBrick?: ElementHolder,
+  callback?: BrickEventHandlerCallback
+) {
+  const task = () => {
+    const computedArgs = argsFactory(args, runtimeContext, event);
+    return hooks?.messageDispatcher?.[method](...computedArgs);
+  };
+  if (!callback) {
+    task();
+    return;
+  }
+  const callbackFactory = eventCallbackFactory(
+    callback,
+    runtimeContext,
+    runtimeBrick
+  );
+  try {
+    const result = await task();
+    callbackFactory("success")(result);
+  } catch (error) {
+    callbackFactory("error")(error);
+  } finally {
+    callbackFactory("finally")();
+  }
 }
 
 export function eventCallbackFactory(
