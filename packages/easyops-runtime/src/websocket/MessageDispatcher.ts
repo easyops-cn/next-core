@@ -1,4 +1,5 @@
 import { getBasePath } from "@next-core/runtime";
+import { escapeRegExp } from "lodash";
 import {
   MessageService,
   type MessageListener,
@@ -41,7 +42,7 @@ export class MessageDispatcher {
     return this.#_ms;
   }
 
-  async subscribe(channel: string, payload: MessagePayload): Promise<unknown> {
+  subscribe(channel: string, payload: MessagePayload): Promise<unknown> {
     const stringifiedPayload = JSON.stringify(payload);
     return this.#subOrUnsub("sub", channel, payload, stringifiedPayload);
   }
@@ -83,7 +84,7 @@ export class MessageDispatcher {
     this.#ms.onMessage<MessageResponse>((response) => {
       if (
         response.event === "MESSAGE.PUSH" &&
-        stringifiedPayload === getIdentity(response.payload)
+        matchMessageChannel(stringifiedPayload, response.payload)
       ) {
         listener(response.payload.message);
       }
@@ -147,4 +148,28 @@ export class MessageDispatcher {
 function getIdentity(payload: MessagePayload) {
   const { system, topic } = payload;
   return JSON.stringify({ system, topic });
+}
+
+function matchMessageChannel(
+  stringifiedPayload: string,
+  responsePayload: MessagePayload
+): boolean {
+  const payload = JSON.parse(stringifiedPayload) as MessagePayload;
+  return (
+    payload.system === responsePayload.system &&
+    // Exact match
+    (payload.topic === responsePayload.topic ||
+      // Wildcards match
+      // For `ab.cd.*`:
+      // - Matches `ab.cd.r` or `ab.cd.x.yz`
+      // - DOES NOT match `ab.cd.x/yz` or `ab.x.cd` or `x.ab.cd.yz`
+      (typeof payload.topic === "string" &&
+        payload.topic.includes("*") &&
+        new RegExp(
+          `^${payload.topic.replace(
+            /([^*]*)\*([^*]*)/g,
+            (m, p1, p2) => `${escapeRegExp(p1)}[^/]*${escapeRegExp(p2)}`
+          )}$`
+        ).test(responsePayload.topic)))
+  );
 }

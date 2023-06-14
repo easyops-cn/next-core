@@ -11,8 +11,14 @@ describe("MessageDispatcher", () => {
     const server = new WS(url);
     const client = new MessageDispatcher();
 
-    const subPromise = client.subscribe("c1", { system: "s1", topic: "t1" });
-    const subPromise2 = client.subscribe("c1", { system: "s1", topic: "t1" });
+    const subPromise = client.subscribe("c1", {
+      system: "s1",
+      topic: "ab.cd.*",
+    });
+    const subPromise2 = client.subscribe("c1", {
+      system: "s1",
+      topic: "ab.cd.*",
+    });
     const onMessage = jest.fn();
     const onMessage2 = jest.fn();
     const onClose = jest.fn();
@@ -28,7 +34,7 @@ describe("MessageDispatcher", () => {
         event: "TOPIC.SUB",
         payload: {
           system: "s1",
-          topic: "t1",
+          topic: "ab.cd.*",
         },
       })
     );
@@ -38,7 +44,7 @@ describe("MessageDispatcher", () => {
       payload: {
         source: "",
         system: "s1",
-        topic: "t1",
+        topic: "ab.cd.*",
       },
     };
     server.send(JSON.stringify(subResult));
@@ -56,12 +62,12 @@ describe("MessageDispatcher", () => {
             oops: "yaks",
           },
           system: "s1",
-          topic: "t2",
+          topic: "x.ab.cd.yz",
         },
       })
     );
 
-    // Push message with the subscribed topic
+    // Push message with the subscribed topic (wildcard)
     const message = { hello: "world" };
     server.send(
       JSON.stringify({
@@ -69,13 +75,27 @@ describe("MessageDispatcher", () => {
         payload: {
           message,
           system: "s1",
-          topic: "t1",
+          topic: "ab.cd.x.yz",
         },
       })
     );
 
-    expect(onMessage).toBeCalledTimes(1);
+    // Push message with the subscribed topic (exactly)
+    const message2 = { hello: "world" };
+    server.send(
+      JSON.stringify({
+        event: "MESSAGE.PUSH",
+        payload: {
+          message: message2,
+          system: "s1",
+          topic: "ab.cd.*",
+        },
+      })
+    );
+
+    expect(onMessage).toBeCalledTimes(2);
     expect(onMessage).toBeCalledWith(message);
+    expect(onMessage).toBeCalledWith(message2);
     expect(onMessage2).not.toBeCalled();
 
     const unsubPromise = client.unsubscribe("c1");
@@ -84,7 +104,7 @@ describe("MessageDispatcher", () => {
         event: "TOPIC.UNSUB",
         payload: {
           system: "s1",
-          topic: "t1",
+          topic: "ab.cd.*",
         },
       })
     );
@@ -94,7 +114,7 @@ describe("MessageDispatcher", () => {
       payload: {
         source: "",
         system: "s1",
-        topic: "t1",
+        topic: "ab.cd.*",
       },
     };
     server.send(JSON.stringify(unsubResult));
