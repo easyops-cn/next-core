@@ -128,7 +128,7 @@ src/bootstrap.ts
 - [x] Widgets
 - [x] Notifications
 - [x] Form Renderer
-- [ ] WebSocket Message API
+- [x] WebSocket Message API
 - [ ] Chrome Devtools
 
 ## 新特性

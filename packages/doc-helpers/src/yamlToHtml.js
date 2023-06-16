@@ -59,55 +59,7 @@ export default function yamlToHtml(yaml, manifests) {
           return `${varName}.addEventListener(${JSON.stringify(
             eventType
           )}, (e) => {
-  ${(() => {
-    switch (handler.action) {
-      case "console.log":
-      case "console.info":
-      case "console.warn":
-      case "console.error":
-        return `${handler.action}(${
-          Array.isArray(handler.args)
-            ? handler.args.map(getEventArgument).join(", ")
-            : ""
-        })`;
-      case "message.success":
-      case "message.info":
-      case "message.warn":
-      case "message.error":
-        return `alert(${
-          Array.isArray(handler.args) && handler.args.length > 0
-            ? getEventArgument(handler.args[0])
-            : ""
-        });`;
-    }
-    if (handler.target) {
-      const lines = [
-        handler.target === "_self"
-          ? `const brick = e.target;`
-          : `const brick = document.querySelector(${JSON.stringify(
-              handler.target
-            )});`,
-      ];
-      if (handler.method) {
-        lines.push(
-          `  brick${getAccessor(handler.method)}(${
-            Array.isArray(handler.args)
-              ? handler.args.map(getEventArgument).join(", ")
-              : ""
-          });`
-        );
-      } else if (isObject(handler.properties)) {
-        lines.push(
-          ...Object.entries(handler.properties).map(
-            ([k, v]) =>
-              `  brick${getAccessor(k)} = ${JSON.stringify(v, null, 2)};`
-          )
-        );
-      }
-      return lines.join("\n");
-    }
-    return "// Todo";
-  })()}
+${stringifyHandler(handler)}
 });`;
         })
       ),
@@ -115,6 +67,97 @@ export default function yamlToHtml(yaml, manifests) {
   });
 
   return `${html}\n\n<script>\n${scripts.join("\n\n")}\n</script>`;
+}
+
+function stringifyHandler(handler, e = "e", indent = "  ") {
+  if (handler.action) {
+    switch (handler.action) {
+      case "console.log":
+      case "console.info":
+      case "console.warn":
+      case "console.error":
+        return `${indent}${handler.action}(${
+          Array.isArray(handler.args)
+            ? handler.args.map((arg) => getEventArgument(e, arg)).join(", ")
+            : ""
+        })`;
+      case "message.success":
+      case "message.info":
+      case "message.warn":
+      case "message.error":
+        return [
+          `${indent}const message = document.createElement("basic.show-notification");`,
+          `${indent}message.resolve({ type: "${
+            handler.action.split(".")[1]
+          }", message: ${
+            Array.isArray(handler.args) && handler.args.length > 0
+              ? `${getEventArgument(e, handler.args[0])}`
+              : "undefined"
+          } });`,
+        ].join("\n");
+    }
+  } else if (handler.target) {
+    const lines = [
+      handler.target === "_self"
+        ? `${indent}const brick = ${e}.target;`
+        : `${indent}const brick = document.querySelector(${JSON.stringify(
+            handler.target
+          )});`,
+    ];
+    if (handler.method) {
+      lines.push(
+        `${indent}brick${getAccessor(handler.method)}(${
+          Array.isArray(handler.args)
+            ? handler.args.map((arg) => getEventArgument(e, arg)).join(", ")
+            : ""
+        });`
+      );
+    } else if (isObject(handler.properties)) {
+      lines.push(
+        ...Object.entries(handler.properties).map(
+          ([k, v]) =>
+            `${indent}brick${getAccessor(k)} = ${JSON.stringify(v, null, 2)};`
+        )
+      );
+    }
+    return lines.join("\n");
+  } else if (handler.useProvider) {
+    const lines = [
+      `${indent}const provider = document.createElement(${JSON.stringify(
+        String(handler.useProvider)
+      )});`,
+    ];
+    const resolve = `provider.${
+      handler.method === "saveAs" ? "saveAs" : "resolve"
+    }(${
+      Array.isArray(handler.args)
+        ? handler.args.map((arg) => getEventArgument(e, arg)).join(", ")
+        : ""
+    });`;
+    if (handler.callback) {
+      lines.push(`${indent}const promise = ${resolve}`);
+      const nextE = `e${indent.length / 2 + 1}`;
+      for (const [type, method] of Object.entries({
+        success: "then",
+        error: "catch",
+        finally: "finally",
+      })) {
+        if (handler.callback[type]) {
+          for (const child of [].concat(handler.callback[type])) {
+            lines.push(`${indent}promise.${method}((${
+              type === "finally" ? "" : nextE
+            }) => {
+${stringifyHandler(child, nextE, indent + "  ")}
+${indent}});`);
+          }
+        }
+      }
+    } else {
+      lines.push(`${indent}${resolve}`);
+    }
+    return lines.join("\n");
+  }
+  return `${indent}// Todo`;
 }
 
 /**
@@ -369,16 +412,17 @@ function getAccessor(key) {
 }
 
 /**
+ * @param {string} e
  * @param {string} arg
  * @returns {string}
  */
-function getEventArgument(arg) {
+function getEventArgument(e, arg) {
   if (typeof arg === "string") {
     const matches = arg.match(
       /^\s*<%[~=]?\s+EVENT(?:\s*\.\s*(detail|target))?\s+%>\s*$/
     );
     if (matches) {
-      return `e${matches[1] ? `.${matches[1]}` : ""}`;
+      return `${e}${matches[1] ? `.${matches[1]}` : ""}`;
     }
   }
   return JSON.stringify(arg);
