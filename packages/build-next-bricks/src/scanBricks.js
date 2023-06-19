@@ -5,7 +5,19 @@ import { parse } from "@babel/parser";
 import babelTraverse from "@babel/traverse";
 import _ from "lodash";
 import getCamelPackageName from "./getCamelPackageName.js";
-import makeBrickManifest from "./makeBrickManifest.js";
+import makeBrickManifest, { parseDocComment } from "./makeBrickManifest.js";
+import {
+  BASE_TYPE,
+  TS_KEYWORD_LIST,
+  getKeyName,
+  getTypeAnnotation,
+} from "./utils.js";
+import {
+  isImportDefaultSpecifier,
+  isImportDeclaration,
+  isImportSpecifier,
+  isIdentifier,
+} from "@babel/types";
 
 /**
  * @typedef {import("@next-core/brick-manifest").PackageManifest} PackageManifest
@@ -62,6 +74,10 @@ export default async function scanBricks(packageDir) {
   /** @type {Map<string, Set<string>} */
   const importsMap = new Map();
 
+  const interfaceList = [];
+  const typeList = [];
+  const enumList = [];
+
   /**
    *
    * @param {string} filePath
@@ -69,10 +85,10 @@ export default async function scanBricks(packageDir) {
    */
   async function scanByFile(filePath, overrideImport) {
     if (processedFiles.has(filePath)) {
-      console.warn(
-        "[scan-bricks] warn: the file has already been scanned:",
-        filePath
-      );
+      // console.warn(
+      //   "[scan-bricks] warn: the file has already been scanned:",
+      //   filePath
+      // );
       return;
     }
     processedFiles.add(filePath);
@@ -80,6 +96,8 @@ export default async function scanBricks(packageDir) {
     const extname = path.extname(filePath);
     const content = await readFile(filePath, "utf-8");
 
+    /** @type {import("./makeBrickManifest.js").BrickManifest} */
+    let brickManifest;
     /** @type {ReturnType<typeof import("@babel/parser").parse>} */
     let ast;
     try {
@@ -390,7 +408,9 @@ export default async function scanBricks(packageDir) {
 
           brickSourceFiles.set(fullName, filePath);
 
-          manifest.bricks.push(makeBrickManifest(fullName, nodePath, content));
+          brickManifest = makeBrickManifest(fullName, nodePath, content);
+
+          manifest.bricks.push(brickManifest);
 
           exposes.set(`./${brickName}`, {
             import: `./${path
@@ -401,14 +421,12 @@ export default async function scanBricks(packageDir) {
           });
         }
       },
-      ImportDeclaration({ node: { source, importKind, specifiers } }) {
+      ImportDeclaration({ node: { source } }) {
         // Match `import "..."`
         if (
           source.type === "StringLiteral" &&
           // Ignore import from node modules.
-          (source.value.startsWith("./") || source.value.startsWith("../")) &&
-          // Ignore `import type {...} from "..."`
-          importKind === "value"
+          (source.value.startsWith("./") || source.value.startsWith("../"))
           // Ignore `import { ... } from "..."`
           // && specifiers.length === 0
         ) {
@@ -433,6 +451,78 @@ export default async function scanBricks(packageDir) {
           }
         }
       },
+      TSInterfaceDeclaration({ node }) {
+        const { body, id, extends: extendsItems } = node;
+        if (!id) return;
+        const referenceSet = new Set();
+        const interfaceItem = {
+          name: id.name,
+          properties: body.body.map((item) => {
+            const type = getTypeAnnotation(
+              item.typeAnnotation,
+              content,
+              referenceSet
+            );
+            return {
+              name: getKeyName(item, content),
+              required: !item.optional,
+              description: parseDocComment(item, content),
+              type: type,
+            };
+          }),
+          description: parseDocComment(node, content),
+          refrenece: [...referenceSet],
+          extends: extendsItems?.map((item) => item.expression.name),
+          filePath,
+        };
+        interfaceList.push(interfaceItem);
+      },
+      TSTypeAliasDeclaration({ node }) {
+        const { id, typeAnnotation } = node;
+        const referenceSet = new Set();
+
+        const typeItem = {
+          name: id.name,
+          properties: typeAnnotation.members?.length
+            ? typeAnnotation.members?.map((item) => {
+                const type = getTypeAnnotation(
+                  item.typeAnnotation,
+                  content,
+                  referenceSet
+                );
+                return {
+                  name: getKeyName(item, content),
+                  required: !item.optional,
+                  description: parseDocComment(item, content),
+                  type: type,
+                };
+              })
+            : getTypeAnnotation(typeAnnotation, content, referenceSet),
+          description: parseDocComment(node, content),
+          refrenece: [...referenceSet],
+          filePath,
+        };
+
+        typeList.push(typeItem);
+      },
+      TSEnumDeclaration: ({ node }) => {
+        const { id, members } = node;
+
+        const enumItem = {
+          name: id.name,
+          properties: members?.map((item) => {
+            const { id } = item;
+            return {
+              name: isIdentifier(id) ? id.name : id.value,
+              description: parseDocComment(item, content),
+            };
+          }),
+          description: parseDocComment(node, content),
+          filePath,
+        };
+
+        enumList.push(enumItem);
+      },
     });
 
     await Promise.all(
@@ -440,6 +530,54 @@ export default async function scanBricks(packageDir) {
         scanByImport(item, filePath, nextOverrideImport)
       )
     );
+
+    if (brickManifest && brickManifest.properties) {
+      const specilKeys = brickManifest.properties
+        .map(
+          ({ type }) =>
+            type &&
+            type
+              .match(/\w+/g)
+              .filter(
+                (item) => !(BASE_TYPE[item] || TS_KEYWORD_LIST.includes(item))
+              )
+        )
+        .flat(1);
+
+      if (specilKeys && specilKeys.length) {
+        const imports = ast.program.body
+          .map((item) => {
+            if (isImportDeclaration(item)) {
+              const { source, specifiers } = item;
+              if (
+                source.type === "StringLiteral" &&
+                (source.value.startsWith("./") ||
+                  source.value.startsWith("../"))
+              ) {
+                const importPath = path.resolve(dirname, source.value);
+                const importKeys = [];
+                for (let i = 0; i < specifiers.length; i++) {
+                  const importItem = specifiers[i];
+                  if (isImportSpecifier(importItem)) {
+                    importKeys.push(importItem.imported.name);
+                  } else if (isImportDefaultSpecifier(importItem)) {
+                    importKeys.push(importItem.local.name);
+                  }
+                }
+                return {
+                  keys: importKeys,
+                  path: importPath,
+                };
+              }
+            }
+            return false;
+          })
+          .filter(Boolean);
+
+        brickManifest.imports = imports;
+        brickManifest.filePath = filePath;
+      }
+    }
   }
 
   /**
@@ -517,6 +655,85 @@ export default async function scanBricks(packageDir) {
     if (deps.size > 0) {
       analyzedDeps[brickName] = [...deps];
     }
+  }
+
+  const ingoreField = (obj) => _.omit(obj, ["filePath", "refrenece"]);
+  const isMatch = (importPath, filePath) =>
+    importPath.replace(/\.[^.]+$/, "") === filePath.replace(/\.[^.]+$/, "");
+
+  /**
+   *
+   * @param {string} type
+   * @param {import("@next-core/brick-manifest").BrickManifest} brickDoc
+   * @param {Set<string>} importKeysSet
+   * @returns void
+   */
+  function findType(type, brickDoc, importKeysSet) {
+    if (importKeysSet.has(type)) return;
+    importKeysSet.add(type);
+
+    const { imports, filePath } = brickDoc;
+    const importItem = imports.find((item) => item.keys.includes(type));
+    const importPath = importItem ? importItem.path : filePath;
+
+    const interfaceItem = interfaceList.find(
+      (item) => isMatch(item.filePath, importPath) && item.name === type
+    );
+    if (interfaceItem) {
+      brickDoc.interfaces = (brickDoc.interfaces || []).concat(
+        ingoreField(interfaceItem)
+      );
+      findRefrenceItem(interfaceItem.extends);
+      findRefrenceItem(interfaceItem.refrenece);
+      return;
+    }
+
+    const typeItem = typeList.find(
+      (item) => isMatch(item.filePath, importPath) && item.name === type
+    );
+    if (typeItem) {
+      brickDoc.types = (brickDoc.types || []).concat(ingoreField(typeItem));
+      findRefrenceItem(typeItem.refrenece);
+      return;
+    }
+
+    const enumItem = enumList.find(
+      (item) => isMatch(item.filePath, importPath) && item.name === type
+    );
+    if (enumItem) {
+      brickDoc.enums = (brickDoc.enums || []).concat(ingoreField(enumItem));
+      return;
+    }
+  }
+
+  function findRefrenceItem(list, brickDoc, importKeySet) {
+    if (Array.isArray(list) && list.length) {
+      list.forEach((item) => findType(item, brickDoc, importKeySet));
+    }
+  }
+
+  if (manifest && manifest.bricks.length) {
+    manifest.bricks.forEach((brickDoc) => {
+      const { properties } = brickDoc;
+      const fieldTypes = properties
+        .map(
+          ({ type }) =>
+            type &&
+            type
+              .match(/\w+/g)
+              .filter(
+                (item) => !(BASE_TYPE[item] || TS_KEYWORD_LIST.includes(item))
+              )
+        )
+        .flat(1);
+
+      const importKeysSet = new Set();
+      if (fieldTypes && fieldTypes.length) {
+        fieldTypes.forEach((type) => findType(type, brickDoc, importKeysSet));
+      }
+      delete brickDoc.filePath;
+      delete brickDoc.imports;
+    });
   }
 
   // console.log("exposes:", exposes);
