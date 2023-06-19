@@ -51,6 +51,10 @@ try {
           path.join(distDir, "manifest.json"),
           JSON.stringify(config.manifest, null, 2)
         );
+        await writeFile(
+          path.join(distDir, "types.json"),
+          JSON.stringify(config.types, null, 2)
+        );
       }
     }
   }

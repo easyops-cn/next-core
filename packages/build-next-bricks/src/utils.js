@@ -77,9 +77,7 @@ export const getTypeAnnotation = (
   } else if (isTSTypeReference(typeAnnotation)) {
     const { typeName, typeParameters } = typeAnnotation;
     const name = typeName.name;
-    if (isIdentifier(typeAnnotation)) {
-      reference.add(name);
-    }
+    reference.add(name);
     const params =
       typeParameters?.params &&
       typeParameters.params.map((item) =>

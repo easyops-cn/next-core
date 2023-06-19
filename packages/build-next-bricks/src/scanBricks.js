@@ -38,7 +38,7 @@ const validExposeName = /^[-\w]+$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest}>}
+ * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest; types: Record<string, unknown>}>}
  */
 export default async function scanBricks(packageDir) {
   /** @type {Map<string, Expose>} */
@@ -78,6 +78,8 @@ export default async function scanBricks(packageDir) {
   const typeList = [];
   const enumList = [];
 
+  const bricksImportsInfo = {};
+
   /**
    *
    * @param {string} filePath
@@ -85,10 +87,10 @@ export default async function scanBricks(packageDir) {
    */
   async function scanByFile(filePath, overrideImport) {
     if (processedFiles.has(filePath)) {
-      // console.warn(
-      //   "[scan-bricks] warn: the file has already been scanned:",
-      //   filePath
-      // );
+      console.warn(
+        "[scan-bricks] warn: the file has already been scanned:",
+        filePath
+      );
       return;
     }
     processedFiles.add(filePath);
@@ -96,8 +98,9 @@ export default async function scanBricks(packageDir) {
     const extname = path.extname(filePath);
     const content = await readFile(filePath, "utf-8");
 
-    /** @type {import("./makeBrickManifest.js").BrickManifest} */
-    let brickManifest;
+    /** @type {Record<string, string[]>} */
+    /** @type {string}  */
+    let brickFullName;
     /** @type {ReturnType<typeof import("@babel/parser").parse>} */
     let ast;
     try {
@@ -406,11 +409,11 @@ export default async function scanBricks(packageDir) {
             specifiedDeps[fullName] = deps;
           }
 
+          brickFullName = fullName;
+
           brickSourceFiles.set(fullName, filePath);
 
-          brickManifest = makeBrickManifest(fullName, nodePath, content);
-
-          manifest.bricks.push(brickManifest);
+          manifest.bricks.push(makeBrickManifest(fullName, nodePath, content));
 
           exposes.set(`./${brickName}`, {
             import: `./${path
@@ -421,12 +424,14 @@ export default async function scanBricks(packageDir) {
           });
         }
       },
-      ImportDeclaration({ node: { source } }) {
+      ImportDeclaration({ node: { source, importKind } }) {
         // Match `import "..."`
         if (
           source.type === "StringLiteral" &&
           // Ignore import from node modules.
-          (source.value.startsWith("./") || source.value.startsWith("../"))
+          (source.value.startsWith("./") || source.value.startsWith("../")) &&
+          // Ignore `import type {...} from "..."`
+          importKind === "value"
           // Ignore `import { ... } from "..."`
           // && specifiers.length === 0
         ) {
@@ -531,52 +536,41 @@ export default async function scanBricks(packageDir) {
       )
     );
 
-    if (brickManifest && brickManifest.properties) {
-      const specilKeys = brickManifest.properties
-        .map(
-          ({ type }) =>
-            type &&
-            type
-              .match(/\w+/g)
-              .filter(
-                (item) => !(BASE_TYPE[item] || TS_KEYWORD_LIST.includes(item))
-              )
-        )
-        .flat(1);
-
-      if (specilKeys && specilKeys.length) {
-        const imports = ast.program.body
-          .map((item) => {
-            if (isImportDeclaration(item)) {
-              const { source, specifiers } = item;
-              if (
-                source.type === "StringLiteral" &&
-                (source.value.startsWith("./") ||
-                  source.value.startsWith("../"))
-              ) {
-                const importPath = path.resolve(dirname, source.value);
-                const importKeys = [];
-                for (let i = 0; i < specifiers.length; i++) {
-                  const importItem = specifiers[i];
-                  if (isImportSpecifier(importItem)) {
-                    importKeys.push(importItem.imported.name);
-                  } else if (isImportDefaultSpecifier(importItem)) {
-                    importKeys.push(importItem.local.name);
-                  }
+    if (brickFullName) {
+      const imports = ast.program.body
+        .map((item) => {
+          if (isImportDeclaration(item)) {
+            const { source, specifiers } = item;
+            if (
+              source.type === "StringLiteral" &&
+              (source.value.startsWith("./") ||
+                source.value.startsWith("../")) &&
+              !source.value.endsWith(".css")
+            ) {
+              const importPath = path.resolve(dirname, source.value);
+              const importKeys = [];
+              for (let i = 0; i < specifiers.length; i++) {
+                const importItem = specifiers[i];
+                if (isImportSpecifier(importItem)) {
+                  importKeys.push(importItem.imported.name);
+                } else if (isImportDefaultSpecifier(importItem)) {
+                  importKeys.push(importItem.local.name);
                 }
-                return {
-                  keys: importKeys,
-                  path: importPath,
-                };
               }
+              return {
+                keys: importKeys,
+                path: importPath,
+              };
             }
-            return false;
-          })
-          .filter(Boolean);
+          }
+          return false;
+        })
+        .filter(Boolean);
 
-        brickManifest.imports = imports;
-        brickManifest.filePath = filePath;
-      }
+      bricksImportsInfo[brickFullName] = {
+        imports,
+        filePath,
+      };
     }
   }
 
@@ -621,6 +615,45 @@ export default async function scanBricks(packageDir) {
 
   await scanByFile(bootstrapTsPath);
 
+  async function checkMissLoadFile() {
+    const processedFilesList = [...processedFiles];
+    const files = Object.values(bricksImportsInfo)
+      .map(({ imports }) => {
+        return imports.map(
+          (item) =>
+            !processedFilesList.find((path) => isMatch(path, item.path)) &&
+            item.path
+        );
+      })
+      .flat(1)
+      .filter(Boolean);
+
+    if (files.length) {
+      await Promise.all(
+        [...new Set(files)].map((file) => {
+          const fileName = path.dirname(file);
+          const lastName = path.basename(file);
+          const matchExtension = /\.[tj]sx?$/.test(lastName);
+          const noExtension = !lastName.includes(".");
+          let fileInfo;
+
+          if (matchExtension || noExtension) {
+            fileInfo = [fileName, lastName.replace(/\.[^.]+$/, "")];
+          }
+          if (noExtension && existsSync(file) && statSync(file).isDirectory()) {
+            fileInfo = [fileName, "index"];
+          }
+
+          if (fileInfo) {
+            return scanByImport(fileInfo, "", "");
+          }
+        })
+      );
+    }
+  }
+
+  await checkMissLoadFile();
+
   // console.log("usingWrappedBricks:", usingWrappedBricks);
   // console.log("brickSourceFiles:", brickSourceFiles);
   // console.log("importsMap:", importsMap);
@@ -657,22 +690,27 @@ export default async function scanBricks(packageDir) {
     }
   }
 
-  const ingoreField = (obj) => _.omit(obj, ["filePath", "refrenece"]);
-  const isMatch = (importPath, filePath) =>
-    importPath.replace(/\.[^.]+$/, "") === filePath.replace(/\.[^.]+$/, "");
+  function ingoreField(obj) {
+    return _.omit(obj, ["filePath", "refrenece"]);
+  }
+  function isMatch(importPath, filePath) {
+    return (
+      importPath.replace(/\.[^.]+$/, "") === filePath.replace(/\.[^.]+$/, "")
+    );
+  }
 
   /**
    *
    * @param {string} type
-   * @param {import("@next-core/brick-manifest").BrickManifest} brickDoc
+   * @param {Record<string, unknown} importInfo
    * @param {Set<string>} importKeysSet
    * @returns void
    */
-  function findType(type, brickDoc, importKeysSet) {
+  function findType(type, importInfo, importKeysSet) {
     if (importKeysSet.has(type)) return;
     importKeysSet.add(type);
 
-    const { imports, filePath } = brickDoc;
+    const { imports, filePath } = importInfo;
     const importItem = imports.find((item) => item.keys.includes(type));
     const importPath = importItem ? importItem.path : filePath;
 
@@ -680,11 +718,11 @@ export default async function scanBricks(packageDir) {
       (item) => isMatch(item.filePath, importPath) && item.name === type
     );
     if (interfaceItem) {
-      brickDoc.interfaces = (brickDoc.interfaces || []).concat(
+      importInfo.interfaces = (importInfo.interfaces || []).concat(
         ingoreField(interfaceItem)
       );
-      findRefrenceItem(interfaceItem.extends);
-      findRefrenceItem(interfaceItem.refrenece);
+      findRefrenceItem(interfaceItem.extends, importInfo, importKeysSet);
+      findRefrenceItem(interfaceItem.refrenece, importInfo, importKeysSet);
       return;
     }
 
@@ -692,8 +730,8 @@ export default async function scanBricks(packageDir) {
       (item) => isMatch(item.filePath, importPath) && item.name === type
     );
     if (typeItem) {
-      brickDoc.types = (brickDoc.types || []).concat(ingoreField(typeItem));
-      findRefrenceItem(typeItem.refrenece);
+      importInfo.types = (importInfo.types || []).concat(ingoreField(typeItem));
+      findRefrenceItem(typeItem.refrenece, importInfo, importKeysSet);
       return;
     }
 
@@ -701,20 +739,21 @@ export default async function scanBricks(packageDir) {
       (item) => isMatch(item.filePath, importPath) && item.name === type
     );
     if (enumItem) {
-      brickDoc.enums = (brickDoc.enums || []).concat(ingoreField(enumItem));
+      importInfo.enums = (importInfo.enums || []).concat(ingoreField(enumItem));
       return;
     }
   }
 
-  function findRefrenceItem(list, brickDoc, importKeySet) {
+  function findRefrenceItem(list, importInfo, importKeySet) {
     if (Array.isArray(list) && list.length) {
-      list.forEach((item) => findType(item, brickDoc, importKeySet));
+      list.forEach((item) => findType(item, importInfo, importKeySet));
     }
   }
 
   if (manifest && manifest.bricks.length) {
     manifest.bricks.forEach((brickDoc) => {
-      const { properties } = brickDoc;
+      const { name, properties } = brickDoc;
+      const importInfo = bricksImportsInfo[name];
       const fieldTypes = properties
         .map(
           ({ type }) =>
@@ -729,10 +768,8 @@ export default async function scanBricks(packageDir) {
 
       const importKeysSet = new Set();
       if (fieldTypes && fieldTypes.length) {
-        fieldTypes.forEach((type) => findType(type, brickDoc, importKeysSet));
+        fieldTypes.forEach((type) => findType(type, importInfo, importKeysSet));
       }
-      delete brickDoc.filePath;
-      delete brickDoc.imports;
     });
   }
 
@@ -745,5 +782,10 @@ export default async function scanBricks(packageDir) {
       ...specifiedDeps,
     },
     manifest,
+    types: Object.fromEntries(
+      Object.entries(bricksImportsInfo).map(([k, v]) => {
+        return [k, _.pick(v, ["interfaces", "types", "enums"])];
+      })
+    ),
   };
 }
