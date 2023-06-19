@@ -1,6 +1,6 @@
 {
   "name": "@next-core/doc-helpers",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Doc helpers",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/doc-helpers",
   "license": "GPL-3.0",
