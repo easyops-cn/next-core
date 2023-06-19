@@ -476,7 +476,7 @@ export default async function scanBricks(packageDir) {
             };
           }),
           description: parseDocComment(node, content),
-          refrenece: [...referenceSet],
+          reference: [...referenceSet],
           extends: extendsItems?.map((item) => item.expression.name),
           filePath,
         };
@@ -488,23 +488,9 @@ export default async function scanBricks(packageDir) {
 
         const typeItem = {
           name: id.name,
-          properties: typeAnnotation.members?.length
-            ? typeAnnotation.members?.map((item) => {
-                const type = getTypeAnnotation(
-                  item.typeAnnotation,
-                  content,
-                  referenceSet
-                );
-                return {
-                  name: getKeyName(item, content),
-                  required: !item.optional,
-                  description: parseDocComment(item, content),
-                  type: type,
-                };
-              })
-            : getTypeAnnotation(typeAnnotation, content, referenceSet),
+          properties: getTypeAnnotation(typeAnnotation, content, referenceSet),
           description: parseDocComment(node, content),
-          refrenece: [...referenceSet],
+          reference: [...referenceSet],
           filePath,
         };
 
@@ -717,12 +703,14 @@ export default async function scanBricks(packageDir) {
     const interfaceItem = interfaceList.find(
       (item) => isMatch(item.filePath, importPath) && item.name === type
     );
+
     if (interfaceItem) {
       importInfo.interfaces = (importInfo.interfaces || []).concat(
         ingoreField(interfaceItem)
       );
+      importInfo.filePath = importPath;
       findRefrenceItem(interfaceItem.extends, importInfo, importKeysSet);
-      findRefrenceItem(interfaceItem.refrenece, importInfo, importKeysSet);
+      findRefrenceItem(interfaceItem.reference, importInfo, importKeysSet);
       return;
     }
 
@@ -731,7 +719,8 @@ export default async function scanBricks(packageDir) {
     );
     if (typeItem) {
       importInfo.types = (importInfo.types || []).concat(ingoreField(typeItem));
-      findRefrenceItem(typeItem.refrenece, importInfo, importKeysSet);
+      importInfo.filePath = importPath;
+      findRefrenceItem(typeItem.reference, importInfo, importKeysSet);
       return;
     }
 

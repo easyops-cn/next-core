@@ -1,11 +1,13 @@
 import {
-  isIdentifier,
   isStringLiteral,
   isTSArrayType,
+  isTSIndexedAccessType,
   isTSIntersectionType,
   isTSLiteralType,
+  isTSPropertySignature,
   isTSTupleType,
   isTSTypeAnnotation,
+  isTSTypeLiteral,
   isTSTypeReference,
   isTSUnionType,
 } from "@babel/types";
@@ -65,7 +67,7 @@ function getTSBasicType(annotation) {
  * @param {import("@babel/types").typeAnnotation} typeAnnotation
  * @param {string} source
  * @param {Set<string>} reference
- * @returns string
+ * @returns
  */
 export const getTypeAnnotation = (
   typeAnnotation,
@@ -83,29 +85,67 @@ export const getTypeAnnotation = (
       typeParameters.params.map((item) =>
         getTypeAnnotation(item, source, reference)
       );
-    return params ? `${name}<${params.join(",")}>` : name;
+    // return params ? `${name}<${params.join(",")}>` : name;
+    return {
+      type: "reference",
+      value: name,
+      params: params,
+    };
   } else if (isTSUnionType(typeAnnotation)) {
-    return typeAnnotation.types
-      .map((item) => getTypeAnnotation(item, source, reference))
-      .join("|");
+    return {
+      type: "union",
+      properties: typeAnnotation.types.map((item) =>
+        getTypeAnnotation(item, source, reference)
+      ),
+    };
   } else if (isTSArrayType(typeAnnotation)) {
-    return `${getTypeAnnotation(
-      typeAnnotation.elementType,
-      source,
-      reference
-    )}[]`;
+    return {
+      type: "array",
+      value: getTypeAnnotation(typeAnnotation.elementType, source, reference),
+    };
   } else if (isTSTupleType(typeAnnotation)) {
-    return `${typeAnnotation.elementTypes.map((item) =>
-      getTypeAnnotation(item, source, reference)
-    )}[]`;
+    return {
+      type: "tuple",
+      properties: typeAnnotation.elementTypes.map((item) =>
+        getTypeAnnotation(item, source, reference)
+      ),
+    };
   } else if (isTSIntersectionType(typeAnnotation)) {
-    return `${typeAnnotation.types
-      .map((item) => getTypeAnnotation(item, source, reference))
-      .join("&")}`;
+    return {
+      type: "intersection",
+      properties: typeAnnotation.types.map((item) =>
+        getTypeAnnotation(item, source, reference)
+      ),
+    };
+  } else if (isTSTypeLiteral(typeAnnotation)) {
+    return {
+      type: "typeLiteral",
+      properties: typeAnnotation.members.map((item) =>
+        getTypeAnnotation(item, source, reference)
+      ),
+    };
+  } else if (isTSPropertySignature(typeAnnotation)) {
+    return {
+      type: "propertySignature",
+      name: typeAnnotation.key.name,
+      properties: getTypeAnnotation(typeAnnotation.typeAnnotation),
+    };
+  } else if (isTSIndexedAccessType(typeAnnotation)) {
+    return {
+      type: "indexedAccess",
+      objectType: getTypeAnnotation(
+        typeAnnotation.objectType,
+        source,
+        reference
+      ),
+      indexType: getTypeAnnotation(typeAnnotation.indexType, source, reference),
+    };
   } else if (getTSBasicType(typeAnnotation)) {
-    return getTSBasicType(typeAnnotation);
+    return {
+      type: "stringLiteral",
+      value: getTSBasicType(typeAnnotation),
+    };
   }
-  return source.substring(typeAnnotation.start, typeAnnotation.end);
 };
 
 /**
