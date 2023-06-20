@@ -624,6 +624,8 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
+          locationContext.storyboardContextWrapper.handleAsyncAfterMount();
+
           this.locationContext.handleBrickBindObserver();
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();

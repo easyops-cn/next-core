@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",
-    limit: "125 KB",
+    limit: "126 KB",
   },
   {
     path: "packages/brick-types/dist/index.esm.js",
@@ -53,7 +53,7 @@ module.exports = [
   },
   {
     path: "packages/brick-types/.schema/storyboard.json",
-    limit: "25 KB",
+    limit: "26 KB",
   },
   {
     path: "packages/brick-utils/dist/index.esm.js",

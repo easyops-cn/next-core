@@ -41,6 +41,7 @@ export class LocationContext {
   handleBrickBindObserver = jest.fn();
   storyboardContextWrapper = {
     waitForAllContext: jest.fn().mockResolvedValue(undefined),
+    handleAsyncAfterMount: jest.fn(),
   };
 
   matchStoryboard(): RuntimeStoryboard {

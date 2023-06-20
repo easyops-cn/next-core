@@ -864,6 +864,7 @@ export interface ContextConf {
 
 // @public
 export type ContextResolveConf = ResolveConf & {
+    async?: boolean;
     lazy?: boolean;
     trigger?: ContextResolveTriggerBrickLifeCycle;
 };
@@ -2255,6 +2256,8 @@ export interface StoryboardContextItemBrickProperty {
 //
 // @internal (undocumented)
 export interface StoryboardContextItemFreeVariable {
+    // (undocumented)
+    async?: boolean;
     // (undocumented)
     deps?: string[];
     // (undocumented)
