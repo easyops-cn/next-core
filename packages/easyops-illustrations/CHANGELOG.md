@@ -3,168 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.11.18](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.17...@next-core/illustrations@0.11.18) (2023-06-12)
+## [0.11.19](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.18...@next-core/illustrations@0.11.19) (2023-06-20)
 
 **Note:** Version bump only for package @next-core/illustrations
 
+## [0.11.18](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.17...@next-core/illustrations@0.11.18) (2023-06-12)
 
-
-
+**Note:** Version bump only for package @next-core/illustrations
 
 ## [0.11.17](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.16...@next-core/illustrations@0.11.17) (2023-06-08)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.16](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.15...@next-core/illustrations@0.11.16) (2023-06-08)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.11.15](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.14...@next-core/illustrations@0.11.15) (2023-05-30)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.14](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.13...@next-core/illustrations@0.11.14) (2023-05-29)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.11.13](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.12...@next-core/illustrations@0.11.13) (2023-05-17)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.12](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.11...@next-core/illustrations@0.11.12) (2023-05-12)
-
 
 ### Bug Fixes
 
-* **images:** 增加新插画 ([a48a472](https://github.com/easyops-cn/next-core/commit/a48a47274cff3eed8e84645fc094b0595d7eec20))
-* 增加新插画 ([71b28ce](https://github.com/easyops-cn/next-core/commit/71b28cee8d3995cf3d453447abc7b1983ed4b090))
-
-
-
-
+- **images:** 增加新插画 ([a48a472](https://github.com/easyops-cn/next-core/commit/a48a47274cff3eed8e84645fc094b0595d7eec20))
+- 增加新插画 ([71b28ce](https://github.com/easyops-cn/next-core/commit/71b28cee8d3995cf3d453447abc7b1983ed4b090))
 
 ## [0.11.11](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.10...@next-core/illustrations@0.11.11) (2023-05-12)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.10](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.9...@next-core/illustrations@0.11.10) (2023-05-12)
-
 
 ### Bug Fixes
 
-* 重新打包 ([e67d193](https://github.com/easyops-cn/next-core/commit/e67d1934156014925a894cc6a8784f39eb2cb00a))
-
-
-
-
+- 重新打包 ([e67d193](https://github.com/easyops-cn/next-core/commit/e67d1934156014925a894cc6a8784f39eb2cb00a))
 
 ## [0.11.9](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.8...@next-core/illustrations@0.11.9) (2023-05-11)
 
-
 ### Bug Fixes
 
-* 增加新插画 ([226fc77](https://github.com/easyops-cn/next-core/commit/226fc77b081a9a82215331901be47998e6c8365f))
-
-
-
-
+- 增加新插画 ([226fc77](https://github.com/easyops-cn/next-core/commit/226fc77b081a9a82215331901be47998e6c8365f))
 
 ## [0.11.8](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.7...@next-core/illustrations@0.11.8) (2023-05-10)
 
-
 ### Bug Fixes
 
-* Optimize error message display ([d5c828a](https://github.com/easyops-cn/next-core/commit/d5c828a7fdbe48c63fa1be305731f329079c85b6))
-
-
-
-
+- Optimize error message display ([d5c828a](https://github.com/easyops-cn/next-core/commit/d5c828a7fdbe48c63fa1be305731f329079c85b6))
 
 ## [0.11.7](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.6...@next-core/illustrations@0.11.7) (2023-03-27)
 
-
 ### Bug Fixes
 
-* include images in npm package ([1d53b05](https://github.com/easyops-cn/next-core/commit/1d53b0547c551936a20a9e8c6e941457a1deff8c))
-
-
-
-
+- include images in npm package ([1d53b05](https://github.com/easyops-cn/next-core/commit/1d53b0547c551936a20a9e8c6e941457a1deff8c))
 
 ## [0.11.6](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.5...@next-core/illustrations@0.11.6) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.5](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.4...@next-core/illustrations@0.11.5) (2023-03-03)
-
 
 ### Bug Fixes
 
-* use __webpack_public_path__ instead of hard code ([52e9b64](https://github.com/easyops-cn/next-core/commit/52e9b640de93ae53daffdc062017553de06eadae))
-
-
-
-
+- use **webpack_public_path** instead of hard code ([52e9b64](https://github.com/easyops-cn/next-core/commit/52e9b640de93ae53daffdc062017553de06eadae))
 
 ## [0.11.4](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.3...@next-core/illustrations@0.11.4) (2023-02-16)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.2...@next-core/illustrations@0.11.3) (2023-01-05)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.1...@next-core/illustrations@0.11.2) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.0...@next-core/illustrations@0.11.1) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 # [0.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.10.19...@next-core/illustrations@0.11.0) (2022-11-11)
 

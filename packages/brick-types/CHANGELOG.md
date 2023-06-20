@@ -3,135 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.87.1...@next-core/brick-types@2.88.0) (2023-06-12)
-
+# [2.89.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.88.0...@next-core/brick-types@2.89.0) (2023-06-20)
 
 ### Features
 
-* context支持Trigger挂载生命周期自动触发 ([2802aea](https://github.com/easyops-cn/next-core/commit/2802aea7231345d61d379fc5631c31045f4251bc))
+- support context.resolve.async ([6f18e86](https://github.com/easyops-cn/next-core/commit/6f18e861233ac2db638ceaf7634c79b5f9e90be1))
 
+# [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.87.1...@next-core/brick-types@2.88.0) (2023-06-12)
 
+### Features
 
-
+- context 支持 Trigger 挂载生命周期自动触发 ([2802aea](https://github.com/easyops-cn/next-core/commit/2802aea7231345d61d379fc5631c31045f4251bc))
 
 ## [2.87.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.87.0...@next-core/brick-types@2.87.1) (2023-06-08)
 
-
 ### Bug Fixes
 
-* fix types that causing schema json too large ([79973e2](https://github.com/easyops-cn/next-core/commit/79973e24d0c8e16a34d0e73cd7f716b62f109cf3))
-
-
-
-
+- fix types that causing schema json too large ([79973e2](https://github.com/easyops-cn/next-core/commit/79973e24d0c8e16a34d0e73cd7f716b62f109cf3))
 
 # [2.87.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.86.0...@next-core/brick-types@2.87.0) (2023-06-08)
 
-
 ### Bug Fixes
 
-* standalone模式下小产品图标url错误 ([e4b0b00](https://github.com/easyops-cn/next-core/commit/e4b0b007c068b78a3f352bae5f216ca63ed2e8c2))
-
+- standalone 模式下小产品图标 url 错误 ([e4b0b00](https://github.com/easyops-cn/next-core/commit/e4b0b007c068b78a3f352bae5f216ca63ed2e8c2))
 
 ### Features
 
-* support dynamic snippet preview ([9e1153b](https://github.com/easyops-cn/next-core/commit/9e1153b99e3053b244d5a06dd935888fcd47f9bf))
-
-
-
-
+- support dynamic snippet preview ([9e1153b](https://github.com/easyops-cn/next-core/commit/9e1153b99e3053b244d5a06dd935888fcd47f9bf))
 
 # [2.86.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.85.0...@next-core/brick-types@2.86.0) (2023-05-30)
 
-
 ### Features
 
-* menu支持大于两层(standalone) ([258333f](https://github.com/easyops-cn/next-core/commit/258333fc165dad8448d09971b99d3a40d6dd83c5))
-
-
-
-
+- menu 支持大于两层(standalone) ([258333f](https://github.com/easyops-cn/next-core/commit/258333fc165dad8448d09971b99d3a40d6dd83c5))
 
 # [2.85.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.84.0...@next-core/brick-types@2.85.0) (2023-05-29)
 
-
 ### Features
 
-* menu支持大于两层 ([5401ca5](https://github.com/easyops-cn/next-core/commit/5401ca552c5eac0772db45f3ec6d4ee31db68a11))
-
-
-
-
+- menu 支持大于两层 ([5401ca5](https://github.com/easyops-cn/next-core/commit/5401ca552c5eac0772db45f3ec6d4ee31db68a11))
 
 # [2.84.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.83.0...@next-core/brick-types@2.84.0) (2023-05-17)
 
-
 ### Features
 
-* support batchUpdate context ([bcadcb2](https://github.com/easyops-cn/next-core/commit/bcadcb286c4adab8d4ae94c8a23e2bc626b4b3c5))
-* update compute when update value ([5d51c33](https://github.com/easyops-cn/next-core/commit/5d51c3363c9af4b14edc2479168137985f42c0f8))
-
-
-
-
+- support batchUpdate context ([bcadcb2](https://github.com/easyops-cn/next-core/commit/bcadcb286c4adab8d4ae94c8a23e2bc626b4b3c5))
+- update compute when update value ([5d51c33](https://github.com/easyops-cn/next-core/commit/5d51c3363c9af4b14edc2479168137985f42c0f8))
 
 # [2.83.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.5...@next-core/brick-types@2.83.0) (2023-05-12)
 
-
 ### Features
 
-* support if/esle syntax in v2 ([ea266cc](https://github.com/easyops-cn/next-core/commit/ea266ccf74c641621f5a94f913bab5f71c02ecef))
-
-
-
-
+- support if/esle syntax in v2 ([ea266cc](https://github.com/easyops-cn/next-core/commit/ea266ccf74c641621f5a94f913bab5f71c02ecef))
 
 ## [2.82.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.4...@next-core/brick-types@2.82.5) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 ## [2.82.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.3...@next-core/brick-types@2.82.4) (2023-02-16)
-
 
 ### Bug Fixes
 
-* fix setting favicon not render ([7072323](https://github.com/easyops-cn/next-core/commit/70723230baf7adc176cfe98e8731b62073d09a59))
-
-
-
-
+- fix setting favicon not render ([7072323](https://github.com/easyops-cn/next-core/commit/70723230baf7adc176cfe98e8731b62073d09a59))
 
 ## [2.82.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.2...@next-core/brick-types@2.82.3) (2023-01-05)
 
-
 ### Bug Fixes
 
-* 增加AuthInfo接口userShowValue字段 refs USER-4 ([10f4189](https://github.com/easyops-cn/next-core/commit/10f418976b8108229bcb74c5b3b0a8c2c60bf0b8))
-* 增加AuthInfo接口字段 refs USER-4 ([23d7b2a](https://github.com/easyops-cn/next-core/commit/23d7b2ab02b217cafc84eccf319f335da6ee62fc))
-
-
-
-
+- 增加 AuthInfo 接口 userShowValue 字段 refs USER-4 ([10f4189](https://github.com/easyops-cn/next-core/commit/10f418976b8108229bcb74c5b3b0a8c2c60bf0b8))
+- 增加 AuthInfo 接口字段 refs USER-4 ([23d7b2a](https://github.com/easyops-cn/next-core/commit/23d7b2ab02b217cafc84eccf319f335da6ee62fc))
 
 ## [2.82.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.1...@next-core/brick-types@2.82.2) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 ## [2.82.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.82.0...@next-core/brick-types@2.82.1) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/brick-types
-
-
-
-
 
 # [2.82.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.81.11...@next-core/brick-types@2.82.0) (2022-11-08)
 
