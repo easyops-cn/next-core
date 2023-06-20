@@ -217,7 +217,7 @@ export const getTypeAnnotation = (
       };
     } else if (getTSBasicType(typeAnnotation)) {
       return makeResultWithDocComment({
-        type: "stringLiteral",
+        type: "keyword",
         value: getTSBasicType(typeAnnotation),
       });
     }
