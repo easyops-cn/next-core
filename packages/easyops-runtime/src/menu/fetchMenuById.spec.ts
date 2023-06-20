@@ -38,10 +38,15 @@ const menuList = [
       {
         if: null,
         text: "Menu Item 1",
+        to: "<% APP.homepage %>",
       },
       {
         if: "<% null %>",
         text: "Menu Item 2",
+      },
+      {
+        text: "Menu Item 3",
+        to: 'pathname: <% APP.homepage %>\nkeepCurrentSearch:  \n  - aaa  \n  - <% "bbb" %>',
       },
     ],
     app: [
@@ -416,7 +421,16 @@ describe("fetchMenuById", () => {
       menuItems: [
         {
           children: [],
+          to: "/my-app",
           text: "Menu Item 1",
+        },
+        {
+          children: [],
+          text: "Menu Item 3",
+          to: {
+            pathname: "/my-app",
+            keepCurrentSearch: ["aaa", "bbb"],
+          },
         },
       ],
     });
