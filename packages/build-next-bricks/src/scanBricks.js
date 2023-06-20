@@ -6,6 +6,12 @@ import babelTraverse from "@babel/traverse";
 import _ from "lodash";
 import getCamelPackageName from "./getCamelPackageName.js";
 import makeBrickManifest from "./makeBrickManifest.js";
+import { BASE_TYPE, TS_KEYWORD_LIST, getTypeAnnotation } from "./utils.js";
+import {
+  isImportDefaultSpecifier,
+  isImportDeclaration,
+  isImportSpecifier,
+} from "@babel/types";
 
 /**
  * @typedef {import("@next-core/brick-manifest").PackageManifest} PackageManifest
@@ -26,7 +32,7 @@ const validExposeName = /^[-\w]+$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest}>}
+ * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest; types: Record<string, unknown>}>}
  */
 export default async function scanBricks(packageDir) {
   /** @type {Map<string, Expose>} */
@@ -62,6 +68,10 @@ export default async function scanBricks(packageDir) {
   /** @type {Map<string, Set<string>} */
   const importsMap = new Map();
 
+  const typescriptList = [];
+
+  const bricksImportsInfo = {};
+
   /**
    *
    * @param {string} filePath
@@ -80,6 +90,9 @@ export default async function scanBricks(packageDir) {
     const extname = path.extname(filePath);
     const content = await readFile(filePath, "utf-8");
 
+    /** @type {Record<string, string[]>} */
+    /** @type {string}  */
+    let brickFullName;
     /** @type {ReturnType<typeof import("@babel/parser").parse>} */
     let ast;
     try {
@@ -388,6 +401,8 @@ export default async function scanBricks(packageDir) {
             specifiedDeps[fullName] = deps;
           }
 
+          brickFullName = fullName;
+
           brickSourceFiles.set(fullName, filePath);
 
           manifest.bricks.push(makeBrickManifest(fullName, nodePath, content));
@@ -401,7 +416,7 @@ export default async function scanBricks(packageDir) {
           });
         }
       },
-      ImportDeclaration({ node: { source, importKind, specifiers } }) {
+      ImportDeclaration({ node: { source, importKind } }) {
         // Match `import "..."`
         if (
           source.type === "StringLiteral" &&
@@ -433,6 +448,25 @@ export default async function scanBricks(packageDir) {
           }
         }
       },
+      TSInterfaceDeclaration({ node }) {
+        if (!node.id) return;
+        typescriptList.push({
+          ...(getTypeAnnotation(node, content) || {}),
+          filePath,
+        });
+      },
+      TSTypeAliasDeclaration({ node }) {
+        typescriptList.push({
+          ...(getTypeAnnotation(node, content) || {}),
+          filePath,
+        });
+      },
+      TSEnumDeclaration: ({ node }) => {
+        typescriptList.push({
+          ...(getTypeAnnotation(node, content) || {}),
+          filePath,
+        });
+      },
     });
 
     await Promise.all(
@@ -440,6 +474,43 @@ export default async function scanBricks(packageDir) {
         scanByImport(item, filePath, nextOverrideImport)
       )
     );
+
+    if (brickFullName) {
+      const imports = ast.program.body
+        .map((item) => {
+          if (isImportDeclaration(item)) {
+            const { source, specifiers } = item;
+            if (
+              source.type === "StringLiteral" &&
+              (source.value.startsWith("./") ||
+                source.value.startsWith("../")) &&
+              !source.value.endsWith(".css")
+            ) {
+              const importPath = path.resolve(dirname, source.value);
+              const importKeys = [];
+              for (let i = 0; i < specifiers.length; i++) {
+                const importItem = specifiers[i];
+                if (isImportSpecifier(importItem)) {
+                  importKeys.push(importItem.imported.name);
+                } else if (isImportDefaultSpecifier(importItem)) {
+                  importKeys.push(importItem.local.name);
+                }
+              }
+              return {
+                keys: importKeys,
+                path: importPath,
+              };
+            }
+          }
+          return false;
+        })
+        .filter(Boolean);
+
+      bricksImportsInfo[brickFullName] = {
+        imports,
+        filePath,
+      };
+    }
   }
 
   /**
@@ -483,6 +554,45 @@ export default async function scanBricks(packageDir) {
 
   await scanByFile(bootstrapTsPath);
 
+  async function checkMissLoadFile() {
+    const processedFilesList = [...processedFiles];
+    const files = Object.values(bricksImportsInfo)
+      .map(({ imports }) => {
+        return imports.map(
+          (item) =>
+            !processedFilesList.find((path) => isMatch(path, item.path)) &&
+            item.path
+        );
+      })
+      .flat(1)
+      .filter(Boolean);
+
+    if (files.length) {
+      await Promise.all(
+        [...new Set(files)].map((file) => {
+          const fileName = path.dirname(file);
+          const lastName = path.basename(file);
+          const matchExtension = /\.[tj]sx?$/.test(lastName);
+          const noExtension = !lastName.includes(".");
+          let fileInfo;
+
+          if (matchExtension || noExtension) {
+            fileInfo = [fileName, lastName.replace(/\.[^.]+$/, "")];
+          }
+          if (noExtension && existsSync(file) && statSync(file).isDirectory()) {
+            fileInfo = [fileName, "index"];
+          }
+
+          if (fileInfo) {
+            return scanByImport(fileInfo, "", "");
+          }
+        })
+      );
+    }
+  }
+
+  await checkMissLoadFile();
+
   // console.log("usingWrappedBricks:", usingWrappedBricks);
   // console.log("brickSourceFiles:", brickSourceFiles);
   // console.log("importsMap:", importsMap);
@@ -519,6 +629,91 @@ export default async function scanBricks(packageDir) {
     }
   }
 
+  function ingoreField(obj) {
+    return _.omit(obj, ["filePath", "reference"]);
+  }
+  function isMatch(importPath, filePath) {
+    return (
+      importPath.replace(/\.[^.]+$/, "") === filePath.replace(/\.[^.]+$/, "")
+    );
+  }
+
+  /**
+   *
+   * @param {string} type
+   * @param {Record<string, unknown} importInfo
+   * @param {Set<string>} importKeysSet
+   * @param {string} realFilePath
+   * @returns void
+   */
+  function findType(name, importInfo, importKeysSet, realFilePath = "") {
+    if (importKeysSet.has(name)) return;
+    importKeysSet.add(name);
+
+    const { imports, filePath } = importInfo;
+    const importItem = imports.find((item) => item.keys.includes(name));
+    const importPath = realFilePath
+      ? realFilePath
+      : importItem
+      ? importItem.path
+      : filePath;
+
+    const interfaceItem = typescriptList.find(
+      (item) => isMatch(item.filePath, importPath) && item.name === name
+    );
+
+    if (interfaceItem) {
+      importInfo.types = (importInfo.types || []).concat(
+        ingoreField(interfaceItem)
+      );
+      findRefrenceItem(
+        interfaceItem.extends,
+        importInfo,
+        importKeysSet,
+        importPath
+      );
+      findRefrenceItem(
+        interfaceItem.reference,
+        importInfo,
+        importKeysSet,
+        importPath
+      );
+    }
+  }
+
+  function findRefrenceItem(list, importInfo, importKeySet, realFilePath = "") {
+    if (Array.isArray(list) && list.length) {
+      list.forEach((item) =>
+        findType(item, importInfo, importKeySet, realFilePath)
+      );
+    }
+  }
+
+  if (manifest && manifest.bricks.length) {
+    manifest.bricks.forEach((brickDoc) => {
+      const { name, properties } = brickDoc;
+      const importInfo = bricksImportsInfo[name];
+      const fieldTypes = properties
+        .map(
+          ({ type }) =>
+            type &&
+            type
+              .match(/\w+/g)
+              .filter(
+                (item) => !(BASE_TYPE[item] || TS_KEYWORD_LIST.includes(item))
+              )
+        )
+        .flat(1);
+
+      const importKeysSet = new Set();
+      if (Array.isArray(fieldTypes) && fieldTypes.length) {
+        [...new Set(fieldTypes)].forEach((type) =>
+          findType(type, importInfo, importKeysSet)
+        );
+      }
+    });
+  }
+
   // console.log("exposes:", exposes);
 
   return {
@@ -528,5 +723,10 @@ export default async function scanBricks(packageDir) {
       ...specifiedDeps,
     },
     manifest,
+    types: Object.fromEntries(
+      Object.entries(bricksImportsInfo).map(([k, v]) => {
+        return [k, v.types];
+      })
+    ),
   };
 }

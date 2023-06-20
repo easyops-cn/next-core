@@ -235,7 +235,7 @@ function scanFields(manifest, nodes, source) {
  * @param {Node[]} nodes
  * @param {string} source
  */
-function parseDocComment(node, source) {
+export function parseDocComment(node, source) {
   if (node.leadingComments) {
     const docComment = node.leadingComments.find(
       (comment) => comment.type === "CommentBlock"

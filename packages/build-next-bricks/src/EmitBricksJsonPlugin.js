@@ -17,6 +17,7 @@ export default class EmitBricksJsonPlugin {
     this.processors = options.processors;
     this.dependencies = options.dependencies;
     this.manifest = options.manifest;
+    this.types = options.types;
   }
 
   /**
@@ -69,6 +70,12 @@ export default class EmitBricksJsonPlugin {
           compilation.emitAsset(
             "manifest.json",
             new webpack.sources.RawSource(manifestJson, false)
+          );
+
+          const typesJson = JSON.stringify(this.types, null, 2);
+          compilation.emitAsset(
+            "types.json",
+            new webpack.sources.RawSource(typesJson, false)
           );
 
           console.log("Defined bricks:", this.bricks);
