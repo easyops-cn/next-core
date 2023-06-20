@@ -677,7 +677,7 @@ export default async function scanBricks(packageDir) {
   }
 
   function ingoreField(obj) {
-    return _.omit(obj, ["filePath", "refrenece"]);
+    return _.omit(obj, ["filePath", "reference"]);
   }
   function isMatch(importPath, filePath) {
     return (
@@ -690,15 +690,20 @@ export default async function scanBricks(packageDir) {
    * @param {string} type
    * @param {Record<string, unknown} importInfo
    * @param {Set<string>} importKeysSet
+   * @param {string} realFilePath
    * @returns void
    */
-  function findType(type, importInfo, importKeysSet) {
+  function findType(type, importInfo, importKeysSet, realFilePath = "") {
     if (importKeysSet.has(type)) return;
     importKeysSet.add(type);
 
     const { imports, filePath } = importInfo;
     const importItem = imports.find((item) => item.keys.includes(type));
-    const importPath = importItem ? importItem.path : filePath;
+    const importPath = realFilePath
+      ? realFilePath
+      : importItem
+      ? importItem.path
+      : filePath;
 
     const interfaceItem = interfaceList.find(
       (item) => isMatch(item.filePath, importPath) && item.name === type
@@ -708,9 +713,18 @@ export default async function scanBricks(packageDir) {
       importInfo.interfaces = (importInfo.interfaces || []).concat(
         ingoreField(interfaceItem)
       );
-      importInfo.filePath = importPath;
-      findRefrenceItem(interfaceItem.extends, importInfo, importKeysSet);
-      findRefrenceItem(interfaceItem.reference, importInfo, importKeysSet);
+      findRefrenceItem(
+        interfaceItem.extends,
+        importInfo,
+        importKeysSet,
+        importPath
+      );
+      findRefrenceItem(
+        interfaceItem.reference,
+        importInfo,
+        importKeysSet,
+        importPath
+      );
       return;
     }
 
@@ -719,8 +733,12 @@ export default async function scanBricks(packageDir) {
     );
     if (typeItem) {
       importInfo.types = (importInfo.types || []).concat(ingoreField(typeItem));
-      importInfo.filePath = importPath;
-      findRefrenceItem(typeItem.reference, importInfo, importKeysSet);
+      findRefrenceItem(
+        typeItem.reference,
+        importInfo,
+        importKeysSet,
+        importPath
+      );
       return;
     }
 
@@ -733,9 +751,11 @@ export default async function scanBricks(packageDir) {
     }
   }
 
-  function findRefrenceItem(list, importInfo, importKeySet) {
+  function findRefrenceItem(list, importInfo, importKeySet, realFilePath = "") {
     if (Array.isArray(list) && list.length) {
-      list.forEach((item) => findType(item, importInfo, importKeySet));
+      list.forEach((item) =>
+        findType(item, importInfo, importKeySet, realFilePath)
+      );
     }
   }
 
@@ -756,8 +776,10 @@ export default async function scanBricks(packageDir) {
         .flat(1);
 
       const importKeysSet = new Set();
-      if (fieldTypes && fieldTypes.length) {
-        fieldTypes.forEach((type) => findType(type, importInfo, importKeysSet));
+      if (Array.isArray(fieldTypes) && fieldTypes.length) {
+        [...new Set(fieldTypes)].forEach((type) =>
+          findType(type, importInfo, importKeysSet)
+        );
       }
     });
   }
