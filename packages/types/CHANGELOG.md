@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.4.0...@next-core/types@1.5.0) (2023-06-20)
+
+
+### Features
+
+* support context.resolve.async ([62c9e18](https://github.com/easyops-cn/next-core/commit/62c9e189145e9142ab016828887c7bef0cd43c5d))
+
+
+
+
+
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.3.0...@next-core/types@1.4.0) (2023-06-13)
 
 
