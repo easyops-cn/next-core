@@ -10,6 +10,7 @@ import {
   symbolOverrideApp,
 } from "./constants.js";
 import { isObject } from "@next-core/utils/general";
+import { pipes } from "@next-core/pipes";
 
 type RuntimeMenuRestRawData = Omit<RuntimeMenuRawData, "app" | "items">;
 type RuntimeMenuItemRestRawData = Omit<RuntimeMenuItemRawData, "children">;
@@ -34,6 +35,10 @@ export function computeMenuData<
   if ("if" in data && data.if === null) {
     delete data.if;
   }
+  if ("to" in data) {
+    data.to = data.to ? pipes.yaml(data.to as string) ?? "" : "";
+  }
+
   let newRuntimeContext = runtimeContext;
   if (overrideAppId !== runtimeContext.app.id) {
     const overrideApp = window.STANDALONE_MICRO_APPS
