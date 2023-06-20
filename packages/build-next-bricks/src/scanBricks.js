@@ -5,18 +5,12 @@ import { parse } from "@babel/parser";
 import babelTraverse from "@babel/traverse";
 import _ from "lodash";
 import getCamelPackageName from "./getCamelPackageName.js";
-import makeBrickManifest, { parseDocComment } from "./makeBrickManifest.js";
-import {
-  BASE_TYPE,
-  TS_KEYWORD_LIST,
-  getKeyName,
-  getTypeAnnotation,
-} from "./utils.js";
+import makeBrickManifest from "./makeBrickManifest.js";
+import { BASE_TYPE, TS_KEYWORD_LIST, getTypeAnnotation } from "./utils.js";
 import {
   isImportDefaultSpecifier,
   isImportDeclaration,
   isImportSpecifier,
-  isIdentifier,
 } from "@babel/types";
 
 /**

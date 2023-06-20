@@ -1,7 +1,9 @@
 import {
   isIdentifier,
+  isStringLiteral,
   isTSArrayType,
   isTSEnumDeclaration,
+  isTSEnumMember,
   isTSIndexSignature,
   isTSIndexedAccessType,
   isTSInterfaceDeclaration,
@@ -87,7 +89,7 @@ export const getTypeAnnotation = (
         name: id.name,
         type: "interface",
         typeParameters: typeParameters && walkTypeAnnotation(typeParameters),
-        annotation: body.body.map((item) => walkTypeAnnotation(item)),
+        annotation: body.body.map(walkTypeAnnotation),
         extends: extendsItems?.map((item) => item.expression.name),
         reference: [...reference],
       });
@@ -105,27 +107,25 @@ export const getTypeAnnotation = (
       return makeResultWithDocComment({
         name: id.name,
         type: "enums",
-        members: members?.map((item) => {
-          const { id } = item;
-          return {
-            name: isIdentifier(id) ? id.name : id.value,
-            ...getDocComment(item, source),
-          };
-        }),
+        members: members?.map(walkTypeAnnotation),
         reference: [...reference],
       });
+    } else if (isTSEnumMember(typeAnnotation)) {
+      return {
+        name: walkTypeAnnotation(typeAnnotation.id),
+        value: walkTypeAnnotation(typeAnnotation.initializer),
+      };
     } else if (isTSTypeAnnotation(typeAnnotation)) {
       return walkTypeAnnotation(typeAnnotation.typeAnnotation);
     } else if (isTSTypeReference(typeAnnotation)) {
       const { typeName, typeParameters } = typeAnnotation;
       const qualified = isTSQualifiedName(typeName)
-        ? getTypeAnnotation(typeName)
+        ? walkTypeAnnotation(typeName)
         : undefined;
       const name = typeName.name;
       reference.add(name);
       const params =
-        typeParameters?.params &&
-        typeParameters.params.map((item) => walkTypeAnnotation(item));
+        typeParameters?.params && typeParameters.params.map(walkTypeAnnotation);
       return makeResultWithDocComment({
         type: "reference",
         typeName: name,
@@ -133,19 +133,19 @@ export const getTypeAnnotation = (
         qualified,
       });
     } else if (isTSQualifiedName(typeAnnotation)) {
-      const left = getTypeAnnotation(typeAnnotation.left);
+      const left = walkTypeAnnotation(typeAnnotation.left);
       if (typeof left === "string") {
         reference.add(left);
       }
       return {
         type: "qualifiedName",
         left: left,
-        right: getTypeAnnotation(typeAnnotation.right),
+        right: walkTypeAnnotation(typeAnnotation.right),
       };
     } else if (isTSUnionType(typeAnnotation)) {
       return makeResultWithDocComment({
         type: "union",
-        types: typeAnnotation.types.map((item) => walkTypeAnnotation(item)),
+        types: typeAnnotation.types.map(walkTypeAnnotation),
       });
     } else if (isTSArrayType(typeAnnotation)) {
       return makeResultWithDocComment({
@@ -155,19 +155,17 @@ export const getTypeAnnotation = (
     } else if (isTSTupleType(typeAnnotation)) {
       return makeResultWithDocComment({
         type: "tuple",
-        elementTypes: typeAnnotation.elementTypes.map((item) =>
-          walkTypeAnnotation(item)
-        ),
+        elementTypes: typeAnnotation.elementTypes.map(walkTypeAnnotation),
       });
     } else if (isTSIntersectionType(typeAnnotation)) {
       return makeResultWithDocComment({
         type: "intersection",
-        types: typeAnnotation.types.map((item) => walkTypeAnnotation(item)),
+        types: typeAnnotation.types.map(walkTypeAnnotation),
       });
     } else if (isTSTypeLiteral(typeAnnotation)) {
       return makeResultWithDocComment({
         type: "typeLiteral",
-        members: typeAnnotation.members.map((item) => walkTypeAnnotation(item)),
+        members: typeAnnotation.members.map(walkTypeAnnotation),
       });
     } else if (isTSPropertySignature(typeAnnotation)) {
       return makeResultWithDocComment({
@@ -193,7 +191,7 @@ export const getTypeAnnotation = (
     } else if (isTSTypeParameterDeclaration(typeAnnotation)) {
       return makeResultWithDocComment({
         type: "typeParameterDeclaration",
-        params: typeAnnotation.params.map((item) => walkTypeAnnotation(item)),
+        params: typeAnnotation.params.map(walkTypeAnnotation),
       });
     } else if (isTSTypeParameter(typeAnnotation)) {
       return makeResultWithDocComment({
@@ -208,7 +206,15 @@ export const getTypeAnnotation = (
         value: typeAnnotation.literal.value,
       });
     } else if (isIdentifier(typeAnnotation)) {
-      return typeAnnotation.name;
+      return {
+        type: "identifier",
+        value: typeAnnotation.name,
+      };
+    } else if (isStringLiteral(typeAnnotation)) {
+      return {
+        type: "stringLiteral",
+        value: typeAnnotation.value,
+      };
     } else if (getTSBasicType(typeAnnotation)) {
       return makeResultWithDocComment({
         type: "stringLiteral",
@@ -218,18 +224,4 @@ export const getTypeAnnotation = (
   };
 
   return walkTypeAnnotation(typeAnnotation);
-};
-
-/**
- * @param {import("@babel/types").TSTypeElement} element
- * @param string source
- * @returns string
- */
-export const getKeyName = (element, source) => {
-  if (element.key) {
-    return element.key.name;
-  } else if (element.parameters) {
-    const { start, end } = element.parameters[0];
-    return source.substring(start, end);
-  }
 };
