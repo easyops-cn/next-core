@@ -32,6 +32,7 @@ import {
 import { getI18nNamespace } from "../i18n";
 import i18next from "i18next";
 import { validatePermissions } from "./checkPermissions";
+import { pipes } from "@next-core/pipes";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
@@ -536,6 +537,10 @@ async function computeRealValueWithOverrideApp<
   if ("if" in data && data.if === null) {
     delete data.if;
   }
+  if ("to" in data) {
+    data.to = data.to ? pipes.yaml(data.to as string) ?? "" : "";
+  }
+
   let newContext = context;
   if (
     overrideAppId !== context.app.id &&
