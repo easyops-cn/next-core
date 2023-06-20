@@ -74,9 +74,6 @@ export default async function scanBricks(packageDir) {
   /** @type {Map<string, Set<string>} */
   const importsMap = new Map();
 
-  // const interfaceList = [];
-  // const typeList = [];
-  // const enumList = [];
   const typescriptList = [];
 
   const bricksImportsInfo = {};
@@ -458,65 +455,23 @@ export default async function scanBricks(packageDir) {
         }
       },
       TSInterfaceDeclaration({ node }) {
-        const { body, id, extends: extendsItems } = node;
-        if (!id) return;
-        const referenceSet = new Set();
-        const interfaceItem = {
-          name: id.name,
-          classify: "interface",
-          body: body.body.map((item) => {
-            const type = getTypeAnnotation(
-              item.typeAnnotation,
-              content,
-              referenceSet
-            );
-            return {
-              name: getKeyName(item, content),
-              required: !item.optional,
-              description: parseDocComment(item, content),
-              type: type,
-            };
-          }),
-          description: parseDocComment(node, content),
-          reference: [...referenceSet],
-          extends: extendsItems?.map((item) => item.expression.name),
+        if (!node.id) return;
+        typescriptList.push({
+          ...(getTypeAnnotation(node, content) || {}),
           filePath,
-        };
-        typescriptList.push(interfaceItem);
+        });
       },
       TSTypeAliasDeclaration({ node }) {
-        const { id, typeAnnotation } = node;
-        const referenceSet = new Set();
-
-        const typeItem = {
-          name: id.name,
-          classify: "typeAlias",
-          ...getTypeAnnotation(typeAnnotation, content, referenceSet),
-          description: parseDocComment(node, content),
-          reference: [...referenceSet],
+        typescriptList.push({
+          ...(getTypeAnnotation(node, content) || {}),
           filePath,
-        };
-
-        typescriptList.push(typeItem);
+        });
       },
       TSEnumDeclaration: ({ node }) => {
-        const { id, members } = node;
-
-        const enumItem = {
-          name: id.name,
-          classify: "enum",
-          members: members?.map((item) => {
-            const { id } = item;
-            return {
-              name: isIdentifier(id) ? id.name : id.value,
-              description: parseDocComment(item, content),
-            };
-          }),
-          description: parseDocComment(node, content),
+        typescriptList.push({
+          ...(getTypeAnnotation(node, content) || {}),
           filePath,
-        };
-
-        typescriptList.push(enumItem);
+        });
       },
     });
 

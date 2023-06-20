@@ -1,18 +1,25 @@
 import {
-  isStringLiteral,
+  isIdentifier,
   isTSArrayType,
+  isTSEnumDeclaration,
+  isTSIndexSignature,
   isTSIndexedAccessType,
+  isTSInterfaceDeclaration,
   isTSIntersectionType,
   isTSLiteralType,
   isTSPropertySignature,
   isTSQualifiedName,
   isTSTupleType,
+  isTSTypeAliasDeclaration,
   isTSTypeAnnotation,
   isTSTypeLiteral,
+  isTSTypeParameter,
+  isTSTypeParameterDeclaration,
   isTSTypeReference,
   isTSUnionType,
 } from "@babel/types";
 import _ from "lodash";
+import { parseDocComment } from "./makeBrickManifest.js";
 
 export const BASE_TYPE = {
   any: "any",
@@ -39,8 +46,12 @@ const TS_BASIC_TYPE = {
 };
 
 function getTSBasicType(annotation) {
-  return TS_BASIC_TYPE[annotation.type];
+  return annotation && TS_BASIC_TYPE[annotation.type];
 }
+
+const getDocComment = (typeAnnotation, source) => {
+  return parseDocComment(typeAnnotation, source) || {};
+};
 
 /**
  *
@@ -54,93 +65,159 @@ export const getTypeAnnotation = (
   source,
   reference = new Set()
 ) => {
-  if (isTSTypeAnnotation(typeAnnotation)) {
-    return getTypeAnnotation(typeAnnotation.typeAnnotation, source, reference);
-  } else if (isTSTypeReference(typeAnnotation)) {
-    const { typeName, typeParameters } = typeAnnotation;
-    if (isTSQualifiedName(typeName)) {
-      return {
+  const makeResultWithDocComment = (result) => {
+    return {
+      ...result,
+      ...getDocComment(typeAnnotation, source),
+    };
+  };
+  /**
+   * @param {import("@babel/types").typeAnnotation} typeAnnotation
+   */
+  const walkTypeAnnotation = (typeAnnotation) => {
+    if (isTSInterfaceDeclaration(typeAnnotation)) {
+      const {
+        id,
+        body,
+        extends: extendsItems,
+        typeParameters,
+      } = typeAnnotation;
+      if (!id) return;
+      return makeResultWithDocComment({
+        name: id.name,
+        type: "interface",
+        typeParameters: typeParameters && walkTypeAnnotation(typeParameters),
+        annotation: body.body.map((item) => walkTypeAnnotation(item)),
+        extends: extendsItems?.map((item) => item.expression.name),
+        reference: [...reference],
+      });
+    } else if (isTSTypeAliasDeclaration(typeAnnotation)) {
+      const { id, typeParameters } = typeAnnotation;
+      return makeResultWithDocComment({
+        name: id.name,
+        type: "typeAlias",
+        typeParameters: typeParameters && walkTypeAnnotation(typeParameters),
+        annotation: walkTypeAnnotation(typeAnnotation.typeAnnotation),
+        reference: [...reference],
+      });
+    } else if (isTSEnumDeclaration(typeAnnotation)) {
+      const { id, members } = typeAnnotation;
+      return makeResultWithDocComment({
+        name: id.name,
+        type: "enums",
+        members: members?.map((item) => {
+          const { id } = item;
+          return {
+            name: isIdentifier(id) ? id.name : id.value,
+            ...getDocComment(item, source),
+          };
+        }),
+        reference: [...reference],
+      });
+    } else if (isTSTypeAnnotation(typeAnnotation)) {
+      return walkTypeAnnotation(typeAnnotation.typeAnnotation);
+    } else if (isTSTypeReference(typeAnnotation)) {
+      const { typeName, typeParameters } = typeAnnotation;
+      const qualified = isTSQualifiedName(typeName)
+        ? getTypeAnnotation(typeName)
+        : undefined;
+      const name = typeName.name;
+      reference.add(name);
+      const params =
+        typeParameters?.params &&
+        typeParameters.params.map((item) => walkTypeAnnotation(item));
+      return makeResultWithDocComment({
         type: "reference",
-        left: typeName.left.name,
-        right: typeName.right.name,
+        typeName: name,
+        typeParameters: params,
+        qualified,
+      });
+    } else if (isTSQualifiedName(typeAnnotation)) {
+      const left = getTypeAnnotation(typeAnnotation.left);
+      if (typeof left === "string") {
+        reference.add(left);
+      }
+      return {
+        type: "qualifiedName",
+        left: left,
+        right: getTypeAnnotation(typeAnnotation.right),
       };
+    } else if (isTSUnionType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "union",
+        types: typeAnnotation.types.map((item) => walkTypeAnnotation(item)),
+      });
+    } else if (isTSArrayType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "array",
+        elementType: walkTypeAnnotation(typeAnnotation.elementType),
+      });
+    } else if (isTSTupleType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "tuple",
+        elementTypes: typeAnnotation.elementTypes.map((item) =>
+          walkTypeAnnotation(item)
+        ),
+      });
+    } else if (isTSIntersectionType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "intersection",
+        types: typeAnnotation.types.map((item) => walkTypeAnnotation(item)),
+      });
+    } else if (isTSTypeLiteral(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "typeLiteral",
+        members: typeAnnotation.members.map((item) => walkTypeAnnotation(item)),
+      });
+    } else if (isTSPropertySignature(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "propertySignature",
+        name: typeAnnotation.key.name,
+        property: walkTypeAnnotation(typeAnnotation.typeAnnotation),
+      });
+    } else if (isTSIndexSignature(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "indexSignature",
+        parameters: {
+          name: typeAnnotation.parameters[0].name,
+          ...walkTypeAnnotation(typeAnnotation.parameters[0].typeAnnotation),
+        },
+        property: walkTypeAnnotation(typeAnnotation.typeAnnotation),
+      });
+    } else if (isTSIndexedAccessType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "indexedAccess",
+        objectType: walkTypeAnnotation(typeAnnotation.objectType),
+        indexType: walkTypeAnnotation(typeAnnotation.indexType),
+      });
+    } else if (isTSTypeParameterDeclaration(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "typeParameterDeclaration",
+        params: typeAnnotation.params.map((item) => walkTypeAnnotation(item)),
+      });
+    } else if (isTSTypeParameter(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "typeParameter",
+        value: typeAnnotation.name,
+        default:
+          typeAnnotation.default && walkTypeAnnotation(typeAnnotation.default),
+      });
+    } else if (isTSLiteralType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "literal",
+        value: typeAnnotation.literal.value,
+      });
+    } else if (isIdentifier(typeAnnotation)) {
+      return typeAnnotation.name;
+    } else if (getTSBasicType(typeAnnotation)) {
+      return makeResultWithDocComment({
+        type: "stringLiteral",
+        value: getTSBasicType(typeAnnotation),
+      });
     }
-    const name = typeName.name;
-    reference.add(name);
-    const params =
-      typeParameters?.params &&
-      typeParameters.params.map((item) =>
-        getTypeAnnotation(item, source, reference)
-      );
-    return {
-      type: "reference",
-      typeName: name,
-      typeParameters: params,
-    };
-  } else if (isTSUnionType(typeAnnotation)) {
-    return {
-      type: "union",
-      types: typeAnnotation.types.map((item) =>
-        getTypeAnnotation(item, source, reference)
-      ),
-    };
-  } else if (isTSArrayType(typeAnnotation)) {
-    return {
-      type: "array",
-      elementType: getTypeAnnotation(
-        typeAnnotation.elementType,
-        source,
-        reference
-      ),
-    };
-  } else if (isTSTupleType(typeAnnotation)) {
-    return {
-      type: "tuple",
-      elementTypes: typeAnnotation.elementTypes.map((item) =>
-        getTypeAnnotation(item, source, reference)
-      ),
-    };
-  } else if (isTSIntersectionType(typeAnnotation)) {
-    return {
-      type: "intersection",
-      types: typeAnnotation.types.map((item) =>
-        getTypeAnnotation(item, source, reference)
-      ),
-    };
-  } else if (isTSTypeLiteral(typeAnnotation)) {
-    return {
-      type: "typeLiteral",
-      members: typeAnnotation.members.map((item) =>
-        getTypeAnnotation(item, source, reference)
-      ),
-    };
-  } else if (isTSPropertySignature(typeAnnotation)) {
-    return {
-      type: "propertySignature",
-      name: typeAnnotation.key.name,
-      property: getTypeAnnotation(typeAnnotation.typeAnnotation),
-    };
-  } else if (isTSIndexedAccessType(typeAnnotation)) {
-    return {
-      type: "indexedAccess",
-      objectType: getTypeAnnotation(
-        typeAnnotation.objectType,
-        source,
-        reference
-      ),
-      indexType: getTypeAnnotation(typeAnnotation.indexType, source, reference),
-    };
-  } else if (isTSLiteralType(typeAnnotation)) {
-    return {
-      type: "literal",
-      value: typeAnnotation.literal.value,
-    };
-  } else if (getTSBasicType(typeAnnotation)) {
-    return {
-      type: "stringLiteral",
-      value: getTSBasicType(typeAnnotation),
-    };
-  }
+  };
+
+  return walkTypeAnnotation(typeAnnotation);
 };
 
 /**
