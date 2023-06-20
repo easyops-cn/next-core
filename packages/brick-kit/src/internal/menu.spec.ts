@@ -89,10 +89,15 @@ const mockMenuList: any[] = [
       {
         if: null,
         text: "Menu Item 1",
+        to: "<% APP.homepage %>",
       },
       {
         if: "<% null %>",
         text: "Menu Item 2",
+      },
+      {
+        text: "Menu Item 3",
+        to: 'pathname: <% APP.homepage %>\nkeepCurrentSearch:  \n  - aaa  \n  - <% "bbb" %>',
       },
     ],
     app: [
@@ -594,6 +599,15 @@ describe("constructMenu", () => {
         menuItems: [
           {
             text: "Menu Item 1",
+            to: "/hello",
+            children: [],
+          },
+          {
+            text: "Menu Item 3",
+            to: {
+              pathname: "/hello",
+              keepCurrentSearch: ["aaa", "bbb"],
+            },
             children: [],
           },
         ],
