@@ -131,10 +131,15 @@ export const getTypeAnnotation = (
       indexType: getTypeAnnotation(typeAnnotation.indexType, source, reference),
     };
   } else if (isTSLiteralType(typeAnnotation)) {
+    let value;
     if (isStringLiteral(typeAnnotation.literal)) {
-      return `"${typeAnnotation.literal.value}"`;
+      value = `"${typeAnnotation.literal.value}"`;
     }
-    return typeAnnotation.literal.value;
+    value = typeAnnotation.literal.value;
+    return {
+      type: "literal",
+      value,
+    };
   } else if (getTSBasicType(typeAnnotation)) {
     return {
       type: "stringLiteral",
