@@ -74,9 +74,10 @@ export default async function scanBricks(packageDir) {
   /** @type {Map<string, Set<string>} */
   const importsMap = new Map();
 
-  const interfaceList = [];
-  const typeList = [];
-  const enumList = [];
+  // const interfaceList = [];
+  // const typeList = [];
+  // const enumList = [];
+  const typescriptList = [];
 
   const bricksImportsInfo = {};
 
@@ -462,7 +463,8 @@ export default async function scanBricks(packageDir) {
         const referenceSet = new Set();
         const interfaceItem = {
           name: id.name,
-          properties: body.body.map((item) => {
+          classify: "interface",
+          body: body.body.map((item) => {
             const type = getTypeAnnotation(
               item.typeAnnotation,
               content,
@@ -480,7 +482,7 @@ export default async function scanBricks(packageDir) {
           extends: extendsItems?.map((item) => item.expression.name),
           filePath,
         };
-        interfaceList.push(interfaceItem);
+        typescriptList.push(interfaceItem);
       },
       TSTypeAliasDeclaration({ node }) {
         const { id, typeAnnotation } = node;
@@ -488,20 +490,22 @@ export default async function scanBricks(packageDir) {
 
         const typeItem = {
           name: id.name,
-          properties: getTypeAnnotation(typeAnnotation, content, referenceSet),
+          classify: "typeAlias",
+          ...getTypeAnnotation(typeAnnotation, content, referenceSet),
           description: parseDocComment(node, content),
           reference: [...referenceSet],
           filePath,
         };
 
-        typeList.push(typeItem);
+        typescriptList.push(typeItem);
       },
       TSEnumDeclaration: ({ node }) => {
         const { id, members } = node;
 
         const enumItem = {
           name: id.name,
-          properties: members?.map((item) => {
+          classify: "enum",
+          members: members?.map((item) => {
             const { id } = item;
             return {
               name: isIdentifier(id) ? id.name : id.value,
@@ -512,7 +516,7 @@ export default async function scanBricks(packageDir) {
           filePath,
         };
 
-        enumList.push(enumItem);
+        typescriptList.push(enumItem);
       },
     });
 
@@ -693,24 +697,24 @@ export default async function scanBricks(packageDir) {
    * @param {string} realFilePath
    * @returns void
    */
-  function findType(type, importInfo, importKeysSet, realFilePath = "") {
-    if (importKeysSet.has(type)) return;
-    importKeysSet.add(type);
+  function findType(name, importInfo, importKeysSet, realFilePath = "") {
+    if (importKeysSet.has(name)) return;
+    importKeysSet.add(name);
 
     const { imports, filePath } = importInfo;
-    const importItem = imports.find((item) => item.keys.includes(type));
+    const importItem = imports.find((item) => item.keys.includes(name));
     const importPath = realFilePath
       ? realFilePath
       : importItem
       ? importItem.path
       : filePath;
 
-    const interfaceItem = interfaceList.find(
-      (item) => isMatch(item.filePath, importPath) && item.name === type
+    const interfaceItem = typescriptList.find(
+      (item) => isMatch(item.filePath, importPath) && item.name === name
     );
 
     if (interfaceItem) {
-      importInfo.interfaces = (importInfo.interfaces || []).concat(
+      importInfo.types = (importInfo.types || []).concat(
         ingoreField(interfaceItem)
       );
       findRefrenceItem(
@@ -725,29 +729,6 @@ export default async function scanBricks(packageDir) {
         importKeysSet,
         importPath
       );
-      return;
-    }
-
-    const typeItem = typeList.find(
-      (item) => isMatch(item.filePath, importPath) && item.name === type
-    );
-    if (typeItem) {
-      importInfo.types = (importInfo.types || []).concat(ingoreField(typeItem));
-      findRefrenceItem(
-        typeItem.reference,
-        importInfo,
-        importKeysSet,
-        importPath
-      );
-      return;
-    }
-
-    const enumItem = enumList.find(
-      (item) => isMatch(item.filePath, importPath) && item.name === type
-    );
-    if (enumItem) {
-      importInfo.enums = (importInfo.enums || []).concat(ingoreField(enumItem));
-      return;
     }
   }
 
@@ -795,7 +776,7 @@ export default async function scanBricks(packageDir) {
     manifest,
     types: Object.fromEntries(
       Object.entries(bricksImportsInfo).map(([k, v]) => {
-        return [k, _.pick(v, ["interfaces", "types", "enums"])];
+        return [k, v.types];
       })
     ),
   };

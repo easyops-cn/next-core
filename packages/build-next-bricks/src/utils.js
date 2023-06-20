@@ -74,8 +74,8 @@ export const getTypeAnnotation = (
       );
     return {
       type: "reference",
-      name: name,
-      params: params,
+      typeName: name,
+      typeParameters: params,
     };
   } else if (isTSUnionType(typeAnnotation)) {
     return {
@@ -118,7 +118,7 @@ export const getTypeAnnotation = (
     return {
       type: "propertySignature",
       name: typeAnnotation.key.name,
-      properties: getTypeAnnotation(typeAnnotation.typeAnnotation),
+      property: getTypeAnnotation(typeAnnotation.typeAnnotation),
     };
   } else if (isTSIndexedAccessType(typeAnnotation)) {
     return {
@@ -131,14 +131,9 @@ export const getTypeAnnotation = (
       indexType: getTypeAnnotation(typeAnnotation.indexType, source, reference),
     };
   } else if (isTSLiteralType(typeAnnotation)) {
-    let value;
-    if (isStringLiteral(typeAnnotation.literal)) {
-      value = `"${typeAnnotation.literal.value}"`;
-    }
-    value = typeAnnotation.literal.value;
     return {
       type: "literal",
-      value,
+      value: typeAnnotation.literal.value,
     };
   } else if (getTSBasicType(typeAnnotation)) {
     return {
