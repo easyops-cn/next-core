@@ -131,6 +131,8 @@ export function unstable_createRoot(
 
       let failed = false;
       let output: RenderOutput;
+      let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
+
       try {
         output = await renderBricks(
           renderRoot,
@@ -141,13 +143,16 @@ export function unstable_createRoot(
 
         flushStableLoadBricks();
 
+        stores = [
+          runtimeContext.ctxStore,
+          ...runtimeContext.tplStateStoreMap.values(),
+          ...runtimeContext.formStateStoreMap.values(),
+        ];
+
         await Promise.all([
           ...output.blockingList,
           runtimeContext.ctxStore.waitForAll(),
-          ...[
-            ...runtimeContext.tplStateStoreMap.values(),
-            ...runtimeContext.formStateStoreMap.values(),
-          ].map((store) => store.waitForAll()),
+          ...stores.map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck,
         ]);
       } catch (error) {
@@ -195,6 +200,10 @@ export function unstable_createRoot(
       }
 
       if (!failed) {
+        for (const store of stores) {
+          store.handleAsyncAfterMount();
+        }
+
         if (scope === "page") {
           rendererContext.dispatchPageLoad();
           // rendererContext.dispatchAnchorLoad();

@@ -392,7 +392,7 @@ describe("DataStore", () => {
     expect(stateStore.getValue("b")).toBe(42);
   });
 
-  test("lazy, load and track", async () => {
+  test("lazy/async, load and track", async () => {
     consoleInfo.mockReturnValue();
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
@@ -401,7 +401,7 @@ describe("DataStore", () => {
     ctxStore.define(
       [
         {
-          name: "asyncValue",
+          name: "lazyValue",
           resolve: {
             useProvider: "my-timeout-provider",
             args: [100, "lazily updated"],
@@ -411,19 +411,35 @@ describe("DataStore", () => {
         },
         {
           name: "processedData",
-          value: "<% `processed: ${CTX.asyncValue}` %>",
+          value: "<% `processed: ${CTX.lazyValue}` %>",
           track: true,
+        },
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "async updated"],
+            async: true,
+          },
+          value: "async initial",
         },
       ],
       runtimeContext
     );
     await ctxStore.waitForAll();
-    expect(ctxStore.getValue("asyncValue")).toBe("initial");
+    expect(ctxStore.getValue("lazyValue")).toBe("initial");
     expect(ctxStore.getValue("processedData")).toBe("processed: initial");
-    expect(myTimeoutProvider).not.toBeCalled();
+    expect(ctxStore.getValue("asyncValue")).toBe("async initial");
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+
+    ctxStore.handleAsyncAfterMount();
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100);
+    });
+    expect(ctxStore.getValue("asyncValue")).toBe("async updated");
 
     // Trigger load twice.
-    ctxStore.updateValue("asyncValue", undefined, "load", {
+    ctxStore.updateValue("lazyValue", undefined, "load", {
       success: {
         action: "console.info",
         args: ["[1] success", "<% EVENT.detail %>"],
@@ -433,7 +449,7 @@ describe("DataStore", () => {
         args: ["[1] finally", "<% EVENT.detail %>"],
       },
     });
-    ctxStore.updateValue("asyncValue", undefined, "load", {
+    ctxStore.updateValue("lazyValue", undefined, "load", {
       success: {
         action: "console.info",
         args: ["[2] success", "<% EVENT.detail %>"],
@@ -443,16 +459,16 @@ describe("DataStore", () => {
         args: ["[2] finally", "<% EVENT.detail %>"],
       },
     });
-    expect(ctxStore.getValue("asyncValue")).toBe("initial");
+    expect(ctxStore.getValue("lazyValue")).toBe("initial");
 
     await (global as any).flushPromises();
     // Will not load again if it is already LOADING.
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toBeCalledTimes(2);
     expect(consoleInfo).not.toBeCalled();
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
-    expect(ctxStore.getValue("asyncValue")).toBe("lazily updated");
+    expect(ctxStore.getValue("lazyValue")).toBe("lazily updated");
     expect(ctxStore.getValue("processedData")).toBe(
       "processed: lazily updated"
     );
@@ -467,7 +483,7 @@ describe("DataStore", () => {
     });
     expect(consoleInfo).toHaveBeenNthCalledWith(4, "[2] finally", null);
 
-    ctxStore.updateValue("asyncValue", undefined, "load", {
+    ctxStore.updateValue("lazyValue", undefined, "load", {
       success: {
         action: "console.info",
         args: ["[3] success", "<% EVENT.detail %>"],
@@ -479,7 +495,7 @@ describe("DataStore", () => {
     });
     await (global as any).flushPromises();
     // Will not load again if it is already LOADED.
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toBeCalledTimes(2);
     expect(consoleInfo).toBeCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(5, "[3] success", {
       value: "lazily updated",
