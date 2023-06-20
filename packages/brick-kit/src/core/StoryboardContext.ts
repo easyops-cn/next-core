@@ -294,6 +294,25 @@ export class StoryboardContextWrapper {
     }
   }
 
+  /** After mount, dispatch the change event when an async data is loaded */
+  handleAsyncAfterMount(): void {
+    this.data.forEach((item) => {
+      if (item.type === "free-variable" && item.async) {
+        // An async data always has `loading`
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        item.loading!.then((value) => {
+          item.loaded = true;
+          item.value = value;
+          item.eventTarget.dispatchEvent(
+            new CustomEvent(this.eventName, {
+              detail: value,
+            })
+          );
+        });
+      }
+    });
+  }
+
   deferDefine(
     contextConfs: ContextConf[],
     coreContext: PluginRuntimeContext,
@@ -420,7 +439,8 @@ async function resolveNormalStoryboardContext(
   const isTemplateState = !!storyboardContextWrapper.tplContextId;
   let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
   let load: StoryboardContextItemFreeVariable["load"] = null;
-  let isLazyResolve = false;
+  let loading: Promise<unknown> | undefined;
+  let resolvePolicy: "eager" | "lazy" | "async" = "eager";
   if (value === undefined) {
     if (contextConf.resolve) {
       await storyboardContextWrapper.waitForUsedContext(contextConf.resolve.if);
@@ -441,10 +461,18 @@ async function resolveNormalStoryboardContext(
           );
           return valueConf.value;
         };
-        isLazyResolve = contextConf.resolve.lazy;
-        if (!isLazyResolve) {
+        // `async` take precedence over `lazy`
+        resolvePolicy =
+          contextConf.resolve.async && !isTemplateState
+            ? "async"
+            : contextConf.resolve.lazy
+            ? "lazy"
+            : "eager";
+        if (resolvePolicy === "eager") {
           value = await load();
-        } else if (isLazyResolve && contextConf.resolve.trigger) {
+        } else if (resolvePolicy === "async") {
+          loading = load();
+        } else if (contextConf.resolve.trigger) {
           const lifecycleName = contextConf.resolve.trigger;
           if (
             supportContextResolveTriggerBrickLifeCycle.includes(lifecycleName)
@@ -471,7 +499,10 @@ async function resolveNormalStoryboardContext(
         return false;
       }
     }
-    if ((!load || isLazyResolve) && contextConf.value !== undefined) {
+    if (
+      (!load || resolvePolicy !== "eager") &&
+      contextConf.value !== undefined
+    ) {
       await storyboardContextWrapper.waitForUsedContext(contextConf.value);
       // If the context has no resolve, just use its `value`.
       // Or if the resolve is ignored or lazy, use its `value` as a fallback.
@@ -486,7 +517,9 @@ async function resolveNormalStoryboardContext(
     storyboardContextWrapper,
     brick,
     load,
-    !isLazyResolve
+    resolvePolicy === "eager",
+    loading,
+    resolvePolicy === "async"
   );
   return true;
 }
@@ -542,7 +575,9 @@ function resolveFreeVariableValue(
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick,
   load?: StoryboardContextItemFreeVariable["load"],
-  loaded?: boolean
+  loaded?: boolean,
+  loading?: Promise<unknown>,
+  async?: boolean
 ): void {
   const newContext: StoryboardContextItem = {
     type: "free-variable",
@@ -551,6 +586,8 @@ function resolveFreeVariableValue(
     eventTarget: new EventTarget(),
     load,
     loaded,
+    loading,
+    async,
     deps: [],
   };
 
