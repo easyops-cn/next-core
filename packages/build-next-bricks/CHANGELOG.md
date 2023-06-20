@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.2...@next-core/build-next-bricks@1.8.0) (2023-06-20)
+
+
+### Features
+
+* build brick supports analysis typescript ([46f8ea4](https://github.com/easyops-cn/next-core/commit/46f8ea4f425bc64894406309bce1f9774a343af8))
+* support build with types.json ([b06b8e2](https://github.com/easyops-cn/next-core/commit/b06b8e2a481d464b6d0442a58d4cc9e16bc8815d))
+* update basic type keyword ([064680c](https://github.com/easyops-cn/next-core/commit/064680cabf4a1013cb72726c332f0ee032b9b28a))
+* update code ([5465280](https://github.com/easyops-cn/next-core/commit/54652806267eeaff0296504965d11fabb6214c9b))
+* update code ([98b556f](https://github.com/easyops-cn/next-core/commit/98b556fcd39bf1ef551567ad7e87fa93a28add62))
+* update code ([d8bbac4](https://github.com/easyops-cn/next-core/commit/d8bbac42f8a798d159d266be373e9d406cd0fdf3))
+* update enum type ([afd9929](https://github.com/easyops-cn/next-core/commit/afd992930c3384b67c1d1a1a270a27629e06a38e))
+* update getTypeAnnotation ([3229fad](https://github.com/easyops-cn/next-core/commit/3229fad9bb0b39197c54452eabed8920676a1200))
+* update literal type ([6281a1f](https://github.com/easyops-cn/next-core/commit/6281a1f49791ddde7111ae592c1fd826bcdd691b))
+
+
+
+
+
 ## [1.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.1...@next-core/build-next-bricks@1.7.2) (2023-06-05)
 
 
