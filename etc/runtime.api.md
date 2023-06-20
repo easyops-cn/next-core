@@ -182,7 +182,7 @@ export function logout(): unknown;
 export function matchPath(pathname: string, options: MatchPathOptions): MatchResult | null;
 
 // @public (undocumented)
-function mountUseBrick({ renderRoot, rendererContext }: RenderUseBrickResult, element: HTMLElement): MountUseBrickResult;
+function mountUseBrick({ renderRoot, rendererContext, scopedStores }: RenderUseBrickResult, element: HTMLElement): MountUseBrickResult;
 
 // @public (undocumented)
 interface MountUseBrickResult {
@@ -263,6 +263,8 @@ interface RenderUseBrickResult {
     //
     // (undocumented)
     renderRoot: RenderRoot;
+    // (undocumented)
+    scopedStores: DataStore<"STATE" | "FORM_STATE">[];
     // (undocumented)
     tagName: string | null;
 }
