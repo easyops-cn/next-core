@@ -337,6 +337,8 @@ export class Router {
 
       let failed = false;
       let output: RenderOutput;
+      let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
+
       try {
         output = await renderRoutes(
           renderRoot,
@@ -357,13 +359,15 @@ export class Router {
 
         flushStableLoadBricks();
 
+        stores = [
+          runtimeContext.ctxStore,
+          ...runtimeContext.tplStateStoreMap.values(),
+          ...runtimeContext.formStateStoreMap.values(),
+        ];
+
         await Promise.all([
           ...output.blockingList,
-          ...[
-            runtimeContext.ctxStore,
-            ...runtimeContext.tplStateStoreMap.values(),
-            ...runtimeContext.formStateStoreMap.values(),
-          ].map((store) => store.waitForAll()),
+          ...stores.map((store) => store.waitForAll()),
           // Todo: load processors only when they would used in current rendering.
           // loadProcessorsImperatively(
           //   strictCollectMemberUsage(
@@ -424,6 +428,10 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
+          for (const store of stores) {
+            store.handleAsyncAfterMount();
+          }
+
           rendererContext.dispatchPageLoad();
           rendererContext.dispatchAnchorLoad();
           rendererContext.dispatchOnMount();

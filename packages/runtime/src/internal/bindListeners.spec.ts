@@ -1337,6 +1337,13 @@ describe("if/else condition", () => {
 });
 
 describe("listenerFactory for message dispatcher", () => {
+  beforeEach(() => {
+    consoleInfo.mockReturnValue();
+  });
+  afterEach(() => {
+    consoleInfo.mockReset();
+  });
+
   test("message.subscribe", async () => {
     subscribe.mockResolvedValue("ok");
     listenerFactory(
@@ -1345,15 +1352,15 @@ describe("listenerFactory for message dispatcher", () => {
         args: ["my-channel"],
         callback: {
           success: {
-            action: "console.log",
+            action: "console.info",
             args: ["sub success", "<% EVENT.detail %>"],
           },
           error: {
-            action: "console.log",
+            action: "console.info",
             args: ["sub error", "<% EVENT.detail %>"],
           },
           finally: {
-            action: "console.log",
+            action: "console.info",
             args: ["sub finally"],
           },
         },
@@ -1362,8 +1369,8 @@ describe("listenerFactory for message dispatcher", () => {
     )(event);
     expect(subscribe).toBeCalledWith("my-channel");
     await (global as any).flushPromises();
-    expect(consoleLog).toBeCalledWith("sub success", "ok");
-    expect(consoleLog).toBeCalledWith("sub finally");
+    expect(consoleInfo).toBeCalledWith("sub success", "ok");
+    expect(consoleInfo).toBeCalledWith("sub finally");
     subscribe.mockReset();
   });
 
@@ -1375,15 +1382,15 @@ describe("listenerFactory for message dispatcher", () => {
         args: ["my-channel"],
         callback: {
           success: {
-            action: "console.log",
+            action: "console.info",
             args: ["unsub success", "<% EVENT.detail %>"],
           },
           error: {
-            action: "console.log",
+            action: "console.info",
             args: ["unsub error", "<% EVENT.detail %>"],
           },
           finally: {
-            action: "console.log",
+            action: "console.info",
             args: ["unsub finally"],
           },
         },
@@ -1392,8 +1399,8 @@ describe("listenerFactory for message dispatcher", () => {
     )(event);
     expect(unsubscribe).toBeCalledWith("my-channel");
     await (global as any).flushPromises();
-    expect(consoleLog).toBeCalledWith("unsub error", "failed");
-    expect(consoleLog).toBeCalledWith("unsub finally");
+    expect(consoleInfo).toBeCalledWith("unsub error", "failed");
+    expect(consoleInfo).toBeCalledWith("unsub finally");
     unsubscribe.mockReset();
   });
 

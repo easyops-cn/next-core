@@ -39,6 +39,7 @@ export interface DataStoreItem {
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
+  async?: boolean;
   deps: string[];
 }
 
@@ -277,6 +278,25 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
+  /** After mount, dispatch the change event when an async data is loaded */
+  handleAsyncAfterMount() {
+    this.data.forEach((item) => {
+      if (item.async) {
+        // An async data always has `loading`
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        item.loading!.then((value) => {
+          item.loaded = true;
+          item.value = value;
+          item.eventTarget.dispatchEvent(
+            new CustomEvent(this.changeEventType, {
+              detail: value,
+            })
+          );
+        });
+      }
+    });
+  }
+
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
@@ -296,7 +316,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       }
     }
     let load: DataStoreItem["load"];
-    let isLazyResolve: boolean | undefined = false;
+    let loading: Promise<unknown> | undefined;
+    let resolvePolicy: "eager" | "lazy" | "async" = "eager";
     if (value === undefined) {
       if (dataConf.resolve) {
         const resolveConf = {
@@ -310,15 +331,25 @@ export class DataStore<T extends DataStoreType = "CTX"> {
                 value: unknown;
               }
             ).value;
-          isLazyResolve = dataConf.resolve.lazy;
-          if (!isLazyResolve) {
+          // `async` take precedence over `lazy`
+          resolvePolicy = dataConf.resolve.async
+            ? "async"
+            : dataConf.resolve.lazy
+            ? "lazy"
+            : "eager";
+          if (resolvePolicy === "eager") {
             value = await load();
+          } else if (resolvePolicy === "async") {
+            loading = load();
           }
         } else if (!hasOwnProperty(dataConf, "value")) {
           return false;
         }
       }
-      if ((!load || isLazyResolve) && dataConf.value !== undefined) {
+      if (
+        (!load || resolvePolicy !== "eager") &&
+        dataConf.value !== undefined
+      ) {
         // If the context has no resolve, just use its `value`.
         // Or if the resolve is ignored or lazy, use its `value` as a fallback.
         value = await asyncComputeRealValue(dataConf.value, runtimeContext);
@@ -330,11 +361,13 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       // This is required for tracking context, even if no `onChange` is specified.
       eventTarget: new EventTarget(),
       load,
-      loaded: !isLazyResolve,
+      loaded: resolvePolicy === "eager",
+      loading,
+      async: resolvePolicy === "async",
       deps: [],
     };
 
-    if (isLazyResolve) {
+    if (resolvePolicy === "lazy") {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { trigger } = dataConf.resolve!;
       if (
