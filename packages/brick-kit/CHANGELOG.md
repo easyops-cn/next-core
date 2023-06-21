@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.177.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.176.0...@next-core/brick-kit@2.177.0) (2023-06-21)
+
+
+### Features
+
+* menu to 支持解析 YAML 格式的字符串 ([9957ab0](https://github.com/easyops-cn/next-core/commit/9957ab0ff9ead04edc49dc12c737d6267d2cccb6))
+
+
+
+
+
 # [2.176.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.175.1...@next-core/brick-kit@2.176.0) (2023-06-20)
 
 ### Features
