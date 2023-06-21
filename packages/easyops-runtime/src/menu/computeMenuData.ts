@@ -9,8 +9,9 @@ import {
   symbolMenuI18nNamespace,
   symbolOverrideApp,
 } from "./constants.js";
-import { isObject } from "@next-core/utils/general";
+import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { pipes } from "@next-core/pipes";
+import { isEvaluable } from "@next-core/cook";
 
 type RuntimeMenuRestRawData = Omit<RuntimeMenuRawData, "app" | "items">;
 type RuntimeMenuItemRestRawData = Omit<RuntimeMenuItemRawData, "children">;
@@ -35,8 +36,15 @@ export function computeMenuData<
   if ("if" in data && data.if === null) {
     delete data.if;
   }
-  if ("to" in data) {
-    data.to = data.to ? pipes.yaml(data.to as string) ?? "" : "";
+  if ("to" in data && data.to && !isEvaluable(data.to as string)) {
+    const yaml = pipes.yaml(data.to as string);
+
+    if (
+      isObject(yaml) &&
+      ["pathname", "search", "hash"].some((key) => hasOwnProperty(yaml, key))
+    ) {
+      data.to = yaml;
+    }
   }
 
   let newRuntimeContext = runtimeContext;

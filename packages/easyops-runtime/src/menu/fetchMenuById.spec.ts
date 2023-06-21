@@ -51,7 +51,15 @@ const menuList = [
       },
       {
         text: "Menu Item 4",
-        to: " ",
+        to: '<% true ? APP.homepage : "/false" %>',
+      },
+      {
+        text: "Menu Item 5",
+        to: "<% true ? APP.homepage : false %>",
+      },
+      {
+        text: "Menu Item 6",
+        to: '/${ APP.unknown = ["next","test"] | join : "/" }',
       },
     ],
     app: [
@@ -438,9 +446,19 @@ describe("fetchMenuById", () => {
           },
         },
         {
-          children: [],
-          to: "",
           text: "Menu Item 4",
+          to: "/my-app",
+          children: [],
+        },
+        {
+          text: "Menu Item 5",
+          to: "/my-app",
+          children: [],
+        },
+        {
+          text: "Menu Item 6",
+          to: "/next/test",
+          children: [],
         },
       ],
     });
