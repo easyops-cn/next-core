@@ -308,12 +308,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     let value: unknown;
     if (
       asyncHostProperties &&
-      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE")
+      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE") &&
+      hasOwnProperty(asyncHostProperties, dataConf.name)
     ) {
-      const hostProps = await asyncHostProperties;
-      if (hasOwnProperty(hostProps, dataConf.name)) {
-        value = hostProps[dataConf.name];
-      }
+      value = await asyncHostProperties[dataConf.name];
     }
     let load: DataStoreItem["load"];
     let loading: Promise<unknown> | undefined;

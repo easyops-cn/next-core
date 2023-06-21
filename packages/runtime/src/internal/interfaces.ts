@@ -27,7 +27,9 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   formStateStoreScope?: DataStore<"FORM_STATE">[];
 }
 
-export type AsyncProperties = Promise<Record<string, unknown>>;
+export type AsyncComputedProperties = Promise<Record<string, unknown>>;
+
+export type AsyncProperties = Record<string, Promise<unknown>>;
 
 export interface ElementHolder {
   element?: HTMLElement | null;
@@ -105,7 +107,7 @@ export type TemplateHostBrick = RuntimeBrick & {
 
 export interface TemplateHostContext {
   reversedProxies: ReversedProxies;
-  asyncHostProperties?: AsyncProperties;
+  asyncHostProperties: AsyncProperties;
   externalSlots?: SlotsConfOfBricks;
   tplStateStoreId: string;
   hostBrick: TemplateHostBrick;

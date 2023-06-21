@@ -1,61 +1,68 @@
 import { isObject } from "@next-core/utils/general";
 import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
 import { TrackingContextItem } from "./listenOnTrackingContext.js";
-import type { RuntimeContext } from "../interfaces.js";
+import type { AsyncProperties, RuntimeContext } from "../interfaces.js";
 import { StateOfUseBrick } from "./getNextStateOfUseBrick.js";
 import { getTracks } from "./getTracks.js";
 
-export async function asyncComputeRealProperties(
+export function asyncComputeRealProperties(
   properties: Record<string, unknown> | undefined,
   runtimeContext: RuntimeContext,
   trackingContextList?: TrackingContextItem[]
-): Promise<Record<string, unknown>> {
+): AsyncProperties {
   if (isObject(properties)) {
     return Object.fromEntries(
-      (
-        await Promise.all(
-          Object.entries(properties).map<
-            Promise<[string, unknown] | undefined>
-          >(async ([propName, propValue]) => {
-            if (Array.isArray(trackingContextList)) {
-              const { contextNames, stateNames, formStateNames } =
-                getTracks(propValue);
-              if (contextNames || stateNames || formStateNames) {
-                trackingContextList.push({
-                  contextNames,
-                  stateNames,
-                  formStateNames,
-                  propName,
-                  propValue,
-                });
-              }
+      Object.entries(properties).map<[string, Promise<unknown>]>(
+        ([propName, propValue]) => {
+          if (Array.isArray(trackingContextList)) {
+            const { contextNames, stateNames, formStateNames } =
+              getTracks(propValue);
+            if (contextNames || stateNames || formStateNames) {
+              trackingContextList.push({
+                contextNames,
+                stateNames,
+                formStateNames,
+                propName,
+                propValue,
+              });
             }
-            // Related: https://github.com/facebook/react/issues/11347
-            const realValue = await asyncComputeRealValue(
-              propValue,
-              runtimeContext,
-              {
-                $$lazyForUseBrick: true,
-                $$stateOfUseBrick:
-                  propName === "useBrick"
-                    ? StateOfUseBrick.USE_BRICK
-                    : StateOfUseBrick.INITIAL,
-              }
-            );
-            // For `style` and `dataset`, only object is acceptable.
-            if (
-              (propName !== "style" && propName !== "dataset") ||
-              isObject(realValue)
-            ) {
-              return [propName, realValue];
-            }
-          })
-        )
-      ).filter(Boolean) as [string, unknown][]
+          }
+          // Related: https://github.com/facebook/react/issues/11347
+          const asyncValue = asyncComputeRealValue(propValue, runtimeContext, {
+            $$lazyForUseBrick: true,
+            $$stateOfUseBrick:
+              propName === "useBrick"
+                ? StateOfUseBrick.USE_BRICK
+                : StateOfUseBrick.INITIAL,
+          });
+          return [propName, asyncValue];
+        }
+      )
     );
   }
 
   return {};
+}
+
+export async function constructAsyncProperties(
+  asyncProperties: AsyncProperties
+): Promise<Record<string, unknown>> {
+  return Object.fromEntries(
+    (
+      await Promise.all(
+        Object.entries(asyncProperties).map(async ([propName, asyncValue]) => {
+          const value = await asyncValue;
+          // For `style` and `dataset`, only object is acceptable.
+          if (
+            (propName !== "style" && propName !== "dataset") ||
+            isObject(value)
+          ) {
+            return [propName, value];
+          }
+        })
+      )
+    ).filter(Boolean) as [string, unknown][]
+  );
 }
 
 export function computeRealProperties(

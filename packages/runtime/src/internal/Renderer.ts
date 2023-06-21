@@ -16,7 +16,10 @@ import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { debounce } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
-import { asyncComputeRealProperties } from "./compute/computeRealProperties.js";
+import {
+  asyncComputeRealProperties,
+  constructAsyncProperties,
+} from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import {
@@ -490,16 +493,16 @@ export async function renderBrick(
   const blockingList: Promise<unknown>[] = [];
 
   const trackingContextList: TrackingContextItem[] = [];
+  const asyncProperties = asyncComputeRealProperties(
+    confProps,
+    runtimeContext,
+    trackingContextList
+  );
   const loadProperties = async () => {
-    brick.properties = await asyncComputeRealProperties(
-      confProps,
-      runtimeContext,
-      trackingContextList
-    );
+    brick.properties = await constructAsyncProperties(asyncProperties);
     const computedPropsFromHost =
       brickConf[symbolForAsyncComputedPropsFromHost];
     if (computedPropsFromHost) {
-      brick.properties ??= {};
       const computed = await computedPropsFromHost;
       for (const [propName, propValue] of Object.entries(computed)) {
         brick.properties[propName] = propValue;
@@ -508,8 +511,7 @@ export async function renderBrick(
     listenOnTrackingContext(brick, trackingContextList);
     return brick.properties;
   };
-  const asyncProperties = loadProperties();
-  blockingList.push(asyncProperties);
+  blockingList.push(loadProperties());
 
   rendererContext.registerBrickLifeCycle(brick, brickConf.lifeCycle);
 

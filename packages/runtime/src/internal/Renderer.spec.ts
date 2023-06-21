@@ -1146,6 +1146,14 @@ describe("renderBrick for tpl", () => {
             ref: "d",
             refProperty: "title",
           },
+          willNotSet: {
+            ref: "sp",
+            refProperty: "title",
+          },
+          willBeUndefined: {
+            ref: "sp",
+            refProperty: "oops",
+          },
         },
         slots: {
           "": {
@@ -1216,6 +1224,7 @@ describe("renderBrick for tpl", () => {
           x: "X2",
           y: "Y2",
           innerTitle: "T",
+          willBeUndefined: "<% undefined %>",
         },
         children: [
           {
