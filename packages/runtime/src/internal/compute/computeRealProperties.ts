@@ -8,24 +8,22 @@ import { getTracks } from "./getTracks.js";
 export function asyncComputeRealProperties(
   properties: Record<string, unknown> | undefined,
   runtimeContext: RuntimeContext,
-  trackingContextList?: TrackingContextItem[]
+  trackingContextList: TrackingContextItem[]
 ): AsyncProperties {
   if (isObject(properties)) {
     return Object.fromEntries(
       Object.entries(properties).map<[string, Promise<unknown>]>(
         ([propName, propValue]) => {
-          if (Array.isArray(trackingContextList)) {
-            const { contextNames, stateNames, formStateNames } =
-              getTracks(propValue);
-            if (contextNames || stateNames || formStateNames) {
-              trackingContextList.push({
-                contextNames,
-                stateNames,
-                formStateNames,
-                propName,
-                propValue,
-              });
-            }
+          const { contextNames, stateNames, formStateNames } =
+            getTracks(propValue);
+          if (contextNames || stateNames || formStateNames) {
+            trackingContextList.push({
+              contextNames,
+              stateNames,
+              formStateNames,
+              propName,
+              propValue,
+            });
           }
           // Related: https://github.com/facebook/react/issues/11347
           const asyncValue = asyncComputeRealValue(propValue, runtimeContext, {
@@ -67,26 +65,12 @@ export async function constructAsyncProperties(
 
 export function computeRealProperties(
   properties: Record<string, unknown> | undefined,
-  runtimeContext: RuntimeContext,
-  trackingContextList?: TrackingContextItem[]
+  runtimeContext: RuntimeContext
 ): Record<string, unknown> {
   if (isObject(properties)) {
     return Object.fromEntries(
       Object.entries(properties)
         .map<[string, unknown] | undefined>(([propName, propValue]) => {
-          if (Array.isArray(trackingContextList)) {
-            const { contextNames, stateNames, formStateNames } =
-              getTracks(propValue);
-            if (contextNames || stateNames || formStateNames) {
-              trackingContextList.push({
-                contextNames,
-                stateNames,
-                formStateNames,
-                propName,
-                propValue,
-              });
-            }
-          }
           // Related: https://github.com/facebook/react/issues/11347
           const realValue = computeRealValue(propValue, runtimeContext, {
             $$lazyForUseBrick: true,
