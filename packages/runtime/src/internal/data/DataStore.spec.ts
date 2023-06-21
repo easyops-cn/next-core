@@ -345,6 +345,7 @@ describe("DataStore", () => {
   });
 
   test("state and onChange", async () => {
+    jest.useFakeTimers();
     const tplStateStoreId = "tpl-state-1";
     const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
     const runtimeContext = {
@@ -374,19 +375,32 @@ describe("DataStore", () => {
         {
           name: "d",
         },
+        {
+          name: "e",
+          value: -1,
+          expose: true,
+        },
       ],
       runtimeContext,
-      Promise.resolve({
-        b: 7,
-        c: 8,
-        d: 9,
-      })
+      {
+        b: Promise.resolve(7),
+        c: Promise.resolve(8),
+        d: Promise.resolve(9),
+        e: new Promise((resolve) => setTimeout(() => resolve(10), 100)),
+      }
     );
-    await stateStore.waitForAll();
+    await (global as any).flushPromises();
     expect(stateStore.getValue("a")).toBe(1);
     expect(stateStore.getValue("b")).toBe(0);
     expect(stateStore.getValue("c")).toBe(8);
     expect(stateStore.getValue("d")).toBe(undefined);
+    expect(stateStore.getValue("e")).toBe(undefined);
+    jest.advanceTimersByTime(100);
+    jest.useRealTimers();
+
+    await stateStore.waitForAll();
+    expect(stateStore.getValue("e")).toBe(10);
+
     stateStore.updateValue("a", 2, "replace");
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("b")).toBe(42);
