@@ -11,6 +11,7 @@ import {
 } from "@next-core/brick-types";
 import {
   deepFreeze,
+  hasOwnProperty,
   isEvaluable,
   isObject,
   preevaluate,
@@ -537,8 +538,15 @@ async function computeRealValueWithOverrideApp<
   if ("if" in data && data.if === null) {
     delete data.if;
   }
-  if ("to" in data) {
-    data.to = data.to ? pipes.yaml(data.to as string) ?? "" : "";
+  if ("to" in data && data.to && !isEvaluable(data.to as string)) {
+    const yaml = pipes.yaml(data.to as string);
+
+    if (
+      isObject(yaml) &&
+      ["pathname", "search", "hash"].some((key) => hasOwnProperty(yaml, key))
+    ) {
+      data.to = yaml;
+    }
   }
 
   let newContext = context;
