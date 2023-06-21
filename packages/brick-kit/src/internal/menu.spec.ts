@@ -99,6 +99,18 @@ const mockMenuList: any[] = [
         text: "Menu Item 3",
         to: 'pathname: <% APP.homepage %>\nkeepCurrentSearch:  \n  - aaa  \n  - <% "bbb" %>',
       },
+      {
+        text: "Menu Item 4",
+        to: '<% true ? APP.homepage : "/false" %>',
+      },
+      {
+        text: "Menu Item 5",
+        to: "<% true ? APP.homepage : false %>",
+      },
+      {
+        text: "Menu Item 6",
+        to: '/${ APP.unknown = ["next","test"] | join : "/" }',
+      },
     ],
     app: [
       {
@@ -608,6 +620,21 @@ describe("constructMenu", () => {
               pathname: "/hello",
               keepCurrentSearch: ["aaa", "bbb"],
             },
+            children: [],
+          },
+          {
+            text: "Menu Item 4",
+            to: "/hello",
+            children: [],
+          },
+          {
+            text: "Menu Item 5",
+            to: "/hello",
+            children: [],
+          },
+          {
+            text: "Menu Item 6",
+            to: "/next/test",
             children: [],
           },
         ],
