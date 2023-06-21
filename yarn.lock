@@ -1151,20 +1151,20 @@
     "@csstools/color-helpers" "^2.1.0"
     "@csstools/css-calc" "^1.1.1"
 
-"@csstools/css-parser-algorithms@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/@csstools/css-parser-algorithms/-/css-parser-algorithms-2.1.1.tgz#7b62e6412a468a2d1096ed267edd1e4a7fd4a119"
-  integrity sha512-viRnRh02AgO4mwIQb2xQNJju0i+Fh9roNgmbR5xEuG7J3TGgxjnE95HnBLgsFJOJOksvcfxOUCgODcft6Y07cA==
+"@csstools/css-parser-algorithms@^2.1.1", "@csstools/css-parser-algorithms@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/@csstools/css-parser-algorithms/-/css-parser-algorithms-2.2.0.tgz#1268b07196d1118296443aeff41bca27d94b0981"
+  integrity sha512-9BoQ/jSrPq4vv3b9jjLW+PNNv56KlDH5JMx5yASSNrCtvq70FCNZUjXRvbCeR9hYj9ZyhURtqpU/RFIgg6kiOw==
 
 "@csstools/css-tokenizer@^2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@csstools/css-tokenizer/-/css-tokenizer-2.1.1.tgz#07ae11a0a06365d7ec686549db7b729bc036528e"
   integrity sha512-GbrTj2Z8MCTUv+52GE0RbFGM527xuXZ0Xa5g0Z+YN573uveS4G0qi6WNOMyz3yrFM/jaILTTwJ0+umx81EzqfA==
 
-"@csstools/media-query-list-parser@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@csstools/media-query-list-parser/-/media-query-list-parser-2.1.0.tgz#6e1a5e12e0d103cd13b94bddb88b878bd6866103"
-  integrity sha512-MXkR+TeaS2q9IkpyO6jVCdtA/bfpABJxIrfkLswThFN8EZZgI2RfAHhm6sDNDuYV25d5+b8Lj1fpTccIcSLPsQ==
+"@csstools/media-query-list-parser@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/@csstools/media-query-list-parser/-/media-query-list-parser-2.1.1.tgz#7c92053c957f188c35acb30c0678a90d460a4bb4"
+  integrity sha512-pUjtFbaKbiFNjJo8pprrIaXLvQvWIlwPiFnRI4sEnc4F0NIGTOsw8kaJSR3CmZAKEvV8QYckovgAnWQC0bgLLQ==
 
 "@csstools/postcss-cascade-layers@^3.0.1":
   version "3.0.1"
@@ -1255,24 +1255,24 @@
   dependencies:
     "@csstools/css-tokenizer" "^2.1.1"
 
-"@csstools/postcss-media-minmax@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/@csstools/postcss-media-minmax/-/postcss-media-minmax-1.0.3.tgz#997c03e1060c9cc2d0690e18cbfe1bf0456951d4"
-  integrity sha512-os7qe2HV/qBILKCGa/dl5AbpO6c+MZyunFBWPWJBrEVhulCYo13FgEWbhyERFM5FeJghiqYgJxM54oiJASpBnw==
+"@csstools/postcss-media-minmax@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@csstools/postcss-media-minmax/-/postcss-media-minmax-1.0.4.tgz#5fd5877167259462abad2ffdb2bfef1ddd6f6147"
+  integrity sha512-olnKTQk9+RMzpIpkjv55d44L4Ni02j8ZJoedJezQC5M03a56npcM1hx0apaTRG4Fz1wfPCQ0DBjQ8zsiJFelmA==
   dependencies:
     "@csstools/css-calc" "^1.1.1"
-    "@csstools/css-parser-algorithms" "^2.1.1"
+    "@csstools/css-parser-algorithms" "^2.2.0"
     "@csstools/css-tokenizer" "^2.1.1"
-    "@csstools/media-query-list-parser" "^2.1.0"
+    "@csstools/media-query-list-parser" "^2.1.1"
 
-"@csstools/postcss-media-queries-aspect-ratio-number-values@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/@csstools/postcss-media-queries-aspect-ratio-number-values/-/postcss-media-queries-aspect-ratio-number-values-1.0.3.tgz#2c39191f4dfacfd2277a8d99ab2743fd79f69995"
-  integrity sha512-JHdwBSNZsur/mJXwzuC/gxyekhfSdWJaTiSOhUITk2D8pYRYcjV1MZiCiWupQNfM2Qp2W7w1A/gEU6U/xlpIyA==
+"@csstools/postcss-media-queries-aspect-ratio-number-values@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@csstools/postcss-media-queries-aspect-ratio-number-values/-/postcss-media-queries-aspect-ratio-number-values-1.0.4.tgz#5d0d69a3176d9c7ca131388cef38c80437956e2f"
+  integrity sha512-IwyTbyR8E2y3kh6Fhrs251KjKBJeUPV5GlnUKnpU70PRFEN2DolWbf2V4+o/B9+Oj77P/DullLTulWEQ8uFtAA==
   dependencies:
-    "@csstools/css-parser-algorithms" "^2.1.1"
+    "@csstools/css-parser-algorithms" "^2.2.0"
     "@csstools/css-tokenizer" "^2.1.1"
-    "@csstools/media-query-list-parser" "^2.1.0"
+    "@csstools/media-query-list-parser" "^2.1.1"
 
 "@csstools/postcss-nested-calc@^2.0.2":
   version "2.0.2"
@@ -4028,15 +4028,15 @@ browserify@^17.0.0:
     vm-browserify "^1.0.0"
     xtend "^4.0.0"
 
-browserslist@^4.0.0, browserslist@^4.14.5, browserslist@^4.21.3, browserslist@^4.21.4, browserslist@^4.21.5:
-  version "4.21.5"
-  resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.21.5.tgz#75c5dae60063ee641f977e00edd3cfb2fb7af6a7"
-  integrity sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==
+browserslist@^4.0.0, browserslist@^4.14.5, browserslist@^4.21.3, browserslist@^4.21.4, browserslist@^4.21.5, browserslist@^4.21.9:
+  version "4.21.9"
+  resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.21.9.tgz#e11bdd3c313d7e2a9e87e8b4b0c7872b13897635"
+  integrity sha512-M0MFoZzbUrRU4KNfCrDLnvyE7gub+peetoTid3TBIqtunaDJyXlwhakT+/VkvSXcfIzFfK/nkCs4nmyTmxdNSg==
   dependencies:
-    caniuse-lite "^1.0.30001449"
-    electron-to-chromium "^1.4.284"
-    node-releases "^2.0.8"
-    update-browserslist-db "^1.0.10"
+    caniuse-lite "^1.0.30001503"
+    electron-to-chromium "^1.4.431"
+    node-releases "^2.0.12"
+    update-browserslist-db "^1.0.11"
 
 bser@^2.0.0:
   version "2.0.0"
@@ -4226,10 +4226,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001464:
-  version "1.0.30001469"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001469.tgz#3dd505430c8522fdc9f94b4a19518e330f5c945a"
-  integrity sha512-Rcp7221ScNqQPP3W+lVOYDyjdR6dC+neEQCttoNr5bAyz54AboB4iwpnWgyi8P4YUsPybVzT4LgWiBbI3drL4g==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001464, caniuse-lite@^1.0.30001503:
+  version "1.0.30001506"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001506.tgz#35bd814b310a487970c585430e9e80ee23faf14b"
+  integrity sha512-6XNEcpygZMCKaufIcgpQNZNf00GEqc7VQON+9Rd0K1bMYo8xhMZRAo5zpbnbMNizi4YNgIDAFrdykWsvY3H4Hw==
 
 capital-case@^1.0.4:
   version "1.0.4"
@@ -5599,10 +5599,10 @@ ejs@^3.1.7:
   dependencies:
     jake "^10.8.5"
 
-electron-to-chromium@^1.4.284:
-  version "1.4.340"
-  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.340.tgz#3a6d7414c1fc2dbf84b6f7af3ec24270606c85b8"
-  integrity sha512-zx8hqumOqltKsv/MF50yvdAlPF9S/4PXbyfzJS6ZGhbddGkRegdwImmfSVqCkEziYzrIGZ/TlrzBND4FysfkDg==
+electron-to-chromium@^1.4.431:
+  version "1.4.435"
+  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.435.tgz#761c34300603b9f1234f0b6155870d3002435db6"
+  integrity sha512-B0CBWVFhvoQCW/XtjRzgrmqcgVWg6RXOEM/dK59+wFV93BFGR6AeNKc4OyhM+T3IhJaOOG8o/V+33Y2mwJWtzw==
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -9174,10 +9174,10 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/node-int64/-/node-int64-0.4.0.tgz"
 
-node-releases@^2.0.8:
-  version "2.0.10"
-  resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.10.tgz#c311ebae3b6a148c89b1813fd7c4d3c024ef537f"
-  integrity sha512-5GFldHPXVG/YZmFzJvKK2zDSzPKhEp0+ZR5SVaoSag9fsL5YgHbUHDfnG5494ISANDcK4KwPXAx2xqVEydmd7w==
+node-releases@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.12.tgz#35627cc224a23bfb06fb3380f2b3afaaa7eb1039"
+  integrity sha512-QzsYKWhXTWx8h1kIvqfnC++o0pEmpRQA/aenALsL2F4pqNVr7YzcdMlDij5WBnwftRbJCNJL/O7zdKaxKPHqgQ==
 
 nopt@^5.0.0:
   version "5.0.0"
@@ -10104,15 +10104,15 @@ postcss-convert-values@^6.0.0:
     browserslist "^4.21.4"
     postcss-value-parser "^4.2.0"
 
-postcss-custom-media@^9.1.4:
-  version "9.1.4"
-  resolved "https://registry.npmjs.org/postcss-custom-media/-/postcss-custom-media-9.1.4.tgz#90ea49986b91512f95430775b191d83893142c16"
-  integrity sha512-4A7WEG3iIyKwfpxL5bkuSlHoHHGRTHl0212Z3uvpwJPyVfZJlkZAQNNgVC+oogrJgksDnfKyuuMbG6HafZPW8Q==
+postcss-custom-media@^9.1.5:
+  version "9.1.5"
+  resolved "https://registry.npmjs.org/postcss-custom-media/-/postcss-custom-media-9.1.5.tgz#20c5822dd15155d768f8dd84e07a6ffd5d01b054"
+  integrity sha512-GStyWMz7Qbo/Gtw1xVspzVSX8eipgNg4lpsO3CAeY4/A1mzok+RV6MCv3fg62trWijh/lYEj6vps4o8JcBBpDA==
   dependencies:
     "@csstools/cascade-layer-name-parser" "^1.0.2"
-    "@csstools/css-parser-algorithms" "^2.1.1"
+    "@csstools/css-parser-algorithms" "^2.2.0"
     "@csstools/css-tokenizer" "^2.1.1"
-    "@csstools/media-query-list-parser" "^2.1.0"
+    "@csstools/media-query-list-parser" "^2.1.1"
 
 postcss-custom-properties@^13.2.0:
   version "13.2.0"
@@ -10411,10 +10411,10 @@ postcss-place@^8.0.1:
   dependencies:
     postcss-value-parser "^4.2.0"
 
-postcss-preset-env@^8.5.0:
-  version "8.5.0"
-  resolved "https://registry.npmjs.org/postcss-preset-env/-/postcss-preset-env-8.5.0.tgz#42eacef909fdeb3e501c9afa0c80646df6e66315"
-  integrity sha512-aqAbT5dXqYX5ZvicGKQpaW/eDEZFRfnhV6Hn1Jn2bCKEB9L2MgsTdnIsXsZyFUQflIV2wIs9HTEQgkH5duMCNg==
+postcss-preset-env@^8.5.1:
+  version "8.5.1"
+  resolved "https://registry.npmjs.org/postcss-preset-env/-/postcss-preset-env-8.5.1.tgz#f4f10fb5374514b80cc68b8937deb310a4f07415"
+  integrity sha512-qhWnJJjP6ArLUINWJ38t6Aftxnv9NW6cXK0NuwcLCcRilbuw72dSFLkCVUJeCfHGgJiKzX+pnhkGiki0PEynWg==
   dependencies:
     "@csstools/postcss-cascade-layers" "^3.0.1"
     "@csstools/postcss-color-function" "^2.2.3"
@@ -10427,8 +10427,8 @@ postcss-preset-env@^8.5.0:
     "@csstools/postcss-logical-float-and-clear" "^1.0.1"
     "@csstools/postcss-logical-resize" "^1.0.1"
     "@csstools/postcss-logical-viewport-units" "^1.0.3"
-    "@csstools/postcss-media-minmax" "^1.0.3"
-    "@csstools/postcss-media-queries-aspect-ratio-number-values" "^1.0.3"
+    "@csstools/postcss-media-minmax" "^1.0.4"
+    "@csstools/postcss-media-queries-aspect-ratio-number-values" "^1.0.4"
     "@csstools/postcss-nested-calc" "^2.0.2"
     "@csstools/postcss-normalize-display-values" "^2.0.1"
     "@csstools/postcss-oklab-function" "^2.2.3"
@@ -10440,7 +10440,7 @@ postcss-preset-env@^8.5.0:
     "@csstools/postcss-trigonometric-functions" "^2.1.1"
     "@csstools/postcss-unset-value" "^2.0.1"
     autoprefixer "^10.4.14"
-    browserslist "^4.21.5"
+    browserslist "^4.21.9"
     css-blank-pseudo "^5.0.2"
     css-has-pseudo "^5.0.2"
     css-prefers-color-scheme "^8.0.2"
@@ -10450,7 +10450,7 @@ postcss-preset-env@^8.5.0:
     postcss-color-functional-notation "^5.1.0"
     postcss-color-hex-alpha "^9.0.2"
     postcss-color-rebeccapurple "^8.0.2"
-    postcss-custom-media "^9.1.4"
+    postcss-custom-media "^9.1.5"
     postcss-custom-properties "^13.2.0"
     postcss-custom-selectors "^7.1.3"
     postcss-dir-pseudo-class "^7.0.2"
@@ -12504,10 +12504,10 @@ upath@2.0.1, upath@^2.0.1:
   resolved "https://registry.npmjs.org/upath/-/upath-2.0.1.tgz"
   integrity sha1-UMc96mjW9rmQ9R0nnOYIFmXWGos=
 
-update-browserslist-db@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.0.10.tgz"
-  integrity sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==
+update-browserslist-db@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.0.11.tgz#9a2a641ad2907ae7b3616506f4b977851db5b940"
+  integrity sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
