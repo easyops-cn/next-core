@@ -700,26 +700,51 @@ export default async function scanBricks(packageDir) {
 
   if (manifest && manifest.bricks.length) {
     manifest.bricks.forEach((brickDoc) => {
-      const { name, properties } = brickDoc;
+      const { name, properties = [], events = [], methods = [] } = brickDoc;
       const importInfo = bricksImportsInfo[name];
-      const fieldTypes = properties
-        .map(
-          ({ type }) =>
-            type &&
-            type
-              .match(/\w+/g)
-              .filter(
-                (item) => !(BASE_TYPE[item] || TS_KEYWORD_LIST.includes(item))
-              )
-        )
-        .flat(1);
+      const fieldTypes = new Set();
+
+      properties.forEach((item) => {
+        importInfo.properties = (importInfo.properties || []).concat({
+          name: item.name,
+          types: item.types,
+        });
+        (item.reference || []).forEach((item) => fieldTypes.add(item));
+
+        delete item.types;
+        delete item.reference;
+      });
+
+      events.forEach((item) => {
+        if (item.detail) {
+          importInfo.events = (importInfo.events || []).concat({
+            name: item.name,
+            types: item.detail.types,
+          });
+          (item.detail.reference || []).forEach((item) => fieldTypes.add(item));
+
+          delete item.detail.types;
+          delete item.detail.reference;
+        }
+      });
+
+      methods.forEach((item) => {
+        if (item.return) {
+          importInfo.methods = (importInfo.methods || []).concat({
+            name: item.name,
+            types: item.return.types,
+          });
+          (item.return.reference || []).forEach((item) => fieldTypes.add(item));
+
+          delete item.return.types;
+          delete item.return.reference;
+        }
+      });
 
       const importKeysSet = new Set();
-      if (Array.isArray(fieldTypes) && fieldTypes.length) {
-        [...new Set(fieldTypes)].forEach((type) =>
-          findType(type, importInfo, importKeysSet)
-        );
-      }
+      [...fieldTypes].forEach((type) =>
+        findType(type, importInfo, importKeysSet)
+      );
     });
   }
 
@@ -734,7 +759,15 @@ export default async function scanBricks(packageDir) {
     manifest,
     types: Object.fromEntries(
       Object.entries(bricksImportsInfo).map(([k, v]) => {
-        return [k, v.types];
+        return [
+          k,
+          {
+            properties: v.properties,
+            events: v.events,
+            methods: v.methods,
+            types: v.types,
+          },
+        ];
       })
     ),
   };

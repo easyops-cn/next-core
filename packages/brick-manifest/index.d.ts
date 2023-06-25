@@ -25,6 +25,7 @@ export interface PropertyManifest {
   required?: boolean;
   deprecated?: boolean | string;
   types?: Annotation;
+  reference?: string[];
 }
 
 export interface SlotManifest {
@@ -39,6 +40,7 @@ export interface EventManifest {
   detail?: {
     type?: string;
     types?: Annotation;
+    reference?: string[];
     description?: string;
   };
   deprecated?: boolean | string;
@@ -51,6 +53,7 @@ export interface MethodManifest {
   return?: {
     type?: string;
     types?: Annotation;
+    reference?: string[];
     description?: string;
   };
   deprecated?: boolean | string;
