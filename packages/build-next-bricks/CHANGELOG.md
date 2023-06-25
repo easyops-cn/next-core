@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.8.0...@next-core/build-next-bricks@1.9.0) (2023-06-25)
+
+
+### Features
+
+* provider manifest ([fb96598](https://github.com/easyops-cn/next-core/commit/fb9659896c0f9f87718124a7874d818c68454284))
+
+
+
+
+
 # [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.2...@next-core/build-next-bricks@1.8.0) (2023-06-20)
 
 

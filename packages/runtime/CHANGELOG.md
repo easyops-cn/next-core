@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.0...@next-core/runtime@1.17.1) (2023-06-25)
+
+
+### Bug Fixes
+
+* states will wait for specific host props only ([c7afc07](https://github.com/easyops-cn/next-core/commit/c7afc071d79ecd18f284ffc697b5ac84d1e6277e))
+
+
+
+
+
 # [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.16.0...@next-core/runtime@1.17.0) (2023-06-20)
 
 

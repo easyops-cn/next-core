@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.5.1...@next-core/easyops-runtime@0.6.0) (2023-06-25)
+
+
+### Bug Fixes
+
+* menu to 解析时兼容表达式 ([b488ba8](https://github.com/easyops-cn/next-core/commit/b488ba8ce354d2c2bd89ce68a8e57bf34e081da4))
+
+
+### Features
+
+* menu to 支持解析 YAML 格式的字符串 ([db58f70](https://github.com/easyops-cn/next-core/commit/db58f707c5088e38468b7d7450a591542f96f923))
+
+
+
+
+
 ## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.5.0...@next-core/easyops-runtime@0.5.1) (2023-06-20)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
