@@ -1,4 +1,5 @@
 import { parse } from "doctrine";
+import { getTypeAnnotation } from "./utils.js";
 
 /**
  * @typedef {import("@next-core/brick-manifest").BrickManifest} BrickManifest
@@ -145,6 +146,7 @@ function scanFields(manifest, nodes, source) {
               ) {
                 const { typeAnnotation } = node.typeAnnotation;
                 prop.type = getTypeWithoutUndefined(typeAnnotation, source);
+                prop.types = getTypesWithoutUndefined(typeAnnotation, source);
               }
               if (node.value && !prop.default) {
                 prop.default = source.substring(
@@ -209,6 +211,7 @@ function scanFields(manifest, nodes, source) {
                   const param = typeAnnotation.typeParameters.params[0];
                   event.detail ??= {};
                   event.detail.type = source.substring(param.start, param.end);
+                  event.detail.types = getTypeAnnotation(param);
                 }
               }
               manifest.events.push(event);
@@ -244,6 +247,7 @@ function scanFields(manifest, nodes, source) {
               typeAnnotation.start,
               typeAnnotation.end
             );
+            method.return.types = getTypeAnnotation(typeAnnotation, source);
           }
           manifest.methods.push(method);
         }
@@ -285,6 +289,22 @@ function getTypeWithoutUndefined(node, source) {
     }
   }
   return source.substring(node.start, node.end);
+}
+
+/**
+ * @param {import("@babel/types")/.typeAnnotation} typeAnnotation
+ * @param {string} source
+ */
+function getTypesWithoutUndefined(typeAnnotation, source) {
+  if (typeAnnotation.type === "TSUnionType" && typeAnnotation.types) {
+    return {
+      type: "union",
+      types: typeAnnotation.types
+        .filter((type) => type.type !== "TSUndefinedKeyword")
+        .map((item) => getTypeAnnotation(item, source)),
+    };
+  }
+  return getTypeAnnotation(typeAnnotation, source);
 }
 
 /**
