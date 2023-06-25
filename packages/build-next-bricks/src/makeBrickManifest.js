@@ -5,6 +5,7 @@ import { parse } from "doctrine";
  * @typedef {import("@next-core/brick-manifest").PropertyManifest} PropertyManifest
  * @typedef {import("@next-core/brick-manifest").EventManifest} EventManifest
  * @typedef {import("@next-core/brick-manifest").MethodManifest} MethodManifest
+ * @typedef {import("@next-core/brick-manifest").ProviderManifest} ProviderManifest
  * @typedef {import("@babel/types").Node} Node
  * @typedef {import("@babel/traverse").NodePath} NodePath
  * @typedef {import("@babel/types").ClassDeclaration} ClassDeclaration
@@ -32,6 +33,7 @@ export default function makeBrickManifest(name, nodePath, source) {
   const docComment = findDocComment(nodePath, source);
   if (docComment) {
     manifest.description = docComment.description;
+    manifest.deprecated = getDeprecatedInfo(docComment.tags);
     for (const tag of docComment.tags) {
       if (tag.title === "slot") {
         const match = tag.description.match(/^(?:([-\w]+)\s+-\s+)?(.*)$/);
@@ -50,6 +52,25 @@ export default function makeBrickManifest(name, nodePath, source) {
 
   scanFields(manifest, classPath.node.body.body, source);
 
+  return manifest;
+}
+
+/**
+ * @param {string} name
+ * @param {NodePath} nodePath
+ * @param {string} source
+ * @returns {ProviderManifest}
+ */
+export function makeProviderManifest(name, nodePath, source) {
+  /** @type {ProviderManifest} */
+  const manifest = {
+    name,
+  };
+  const docComment = findDocComment(nodePath, source);
+  if (docComment) {
+    manifest.description = docComment.description;
+    manifest.deprecated = getDeprecatedInfo(docComment.tags);
+  }
   return manifest;
 }
 

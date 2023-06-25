@@ -97,8 +97,8 @@ export interface RuntimeHooks {
     ): ImagesFactory;
   };
   messageDispatcher?: {
-    subscribe(...args: unknown[]): Promise<Event>;
-    unsubscribe(...args: unknown[]): Promise<Event>;
+    subscribe(...args: unknown[]): Promise<unknown>;
+    unsubscribe(...args: unknown[]): Promise<unknown>;
     onMessage(channel: string, listener: (data: unknown) => void): void;
     onClose(listener: () => void): void;
     reset(): void;

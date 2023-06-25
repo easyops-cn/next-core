@@ -66,14 +66,10 @@ export default async function getExamples(bricksDir, manifests) {
         }
         const docsDir = path.join(bricksDir, dir.name, "docs");
         const examplesInMarkdown = await getExamplesInMarkdown(docsDir);
-        /** @type {string | undefined} */
-        let lastHeading;
         for (const item of examplesInMarkdown) {
           const stack = [dir.name, item.name];
-          const heading = item.heading ?? lastHeading;
-          lastHeading = heading;
-          if (heading) {
-            stack.push(heading.trim().toLowerCase());
+          if (item.heading) {
+            stack.push(item.heading.trim().toLowerCase());
           }
           const key = getDeduplicatedKey(stack.join("/"), exampleMap);
           const example = {
@@ -118,10 +114,21 @@ async function getExamplesInMarkdown(docsDir) {
         }
         const filePath = path.join(docsDir, filename);
         const markdown = await readFile(filePath, "utf-8");
-        return extractExamplesInMarkdown(
+        const examples = extractExamplesInMarkdown(
           markdown,
           path.basename(filename, ".md").split(".").pop()
         );
+
+        /** @type {string | undefined} */
+        let lastHeading;
+        return examples.map((item) => {
+          const heading = item.heading ?? lastHeading;
+          lastHeading = heading;
+          return {
+            ...item,
+            heading,
+          };
+        });
       })
     )
   ).flat();
