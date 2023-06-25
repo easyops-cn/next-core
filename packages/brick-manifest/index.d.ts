@@ -3,6 +3,7 @@ export interface PackageManifest {
   package: string;
   name: string;
   bricks: BrickManifest[];
+  providers?: ProviderManifest[];
 }
 
 export interface BrickManifest {
@@ -49,5 +50,11 @@ export interface MethodManifest {
     type?: string;
     description?: string;
   };
+  deprecated?: boolean | string;
+}
+
+export interface ProviderManifest {
+  name: string;
+  description?: string;
   deprecated?: boolean | string;
 }

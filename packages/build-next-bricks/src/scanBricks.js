@@ -5,7 +5,9 @@ import { parse } from "@babel/parser";
 import babelTraverse from "@babel/traverse";
 import _ from "lodash";
 import getCamelPackageName from "./getCamelPackageName.js";
-import makeBrickManifest from "./makeBrickManifest.js";
+import makeBrickManifest, {
+  makeProviderManifest,
+} from "./makeBrickManifest.js";
 import { BASE_TYPE, TS_KEYWORD_LIST, getTypeAnnotation } from "./utils.js";
 import {
   isImportDefaultSpecifier,
@@ -57,6 +59,7 @@ export default async function scanBricks(packageDir) {
     package: packageJson.name,
     name: packageName,
     bricks: [],
+    providers: [],
   };
 
   /** @type {Map<string, Set<string>} */
@@ -216,7 +219,10 @@ export default async function scanBricks(packageDir) {
     }
 
     traverse(ast, {
-      CallExpression({ node: { callee, arguments: args } }) {
+      CallExpression(nodePath) {
+        const {
+          node: { callee, arguments: args },
+        } = nodePath;
         // Match `customProcessors.define(...)`
         // Match `customElements.define(...)`
         if (
@@ -265,6 +271,9 @@ export default async function scanBricks(packageDir) {
           const { type, value: fullName } = args[0];
           if (type === "StringLiteral") {
             collectBrick(fullName);
+            manifest.providers.push(
+              makeProviderManifest(fullName, nodePath, content)
+            );
           } else {
             throw new Error(
               "Please call `customElements.define()` only with literal string"
