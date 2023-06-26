@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.2.0...@next-core/brick-manifest@0.3.0) (2023-06-26)
+
+
+### Features
+
+* support brick manifest fields create type ([6d728d6](https://github.com/easyops-cn/next-core/commit/6d728d6b8ca5a608e58b27f312077ddf641ab798))
+* update brick-manifest.json ([77e38aa](https://github.com/easyops-cn/next-core/commit/77e38aa9da0481af14383bf40f9e83b5a5e909ae))
+* update code ([596eda0](https://github.com/easyops-cn/next-core/commit/596eda00e3c7032d94a2e7960d4c8c05a50b7a8b))
+
+
+
+
+
 # [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.1.0...@next-core/brick-manifest@0.2.0) (2023-06-25)
 
 

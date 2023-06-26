@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.9.0...@next-core/build-next-bricks@1.10.0) (2023-06-26)
+
+
+### Features
+
+* support brick manifest fields create type ([6d728d6](https://github.com/easyops-cn/next-core/commit/6d728d6b8ca5a608e58b27f312077ddf641ab798))
+* update code ([596eda0](https://github.com/easyops-cn/next-core/commit/596eda00e3c7032d94a2e7960d4c8c05a50b7a8b))
+
+
+
+
+
 # [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.8.0...@next-core/build-next-bricks@1.9.0) (2023-06-25)
 
 
