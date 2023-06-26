@@ -16,7 +16,7 @@ const argv = yargs(args).options(options).argv;
 const target = argv._[0];
 
 function runByLerna() {
-  spawn("npx", ["lerna", "run", "test", "--", ...args], {
+  spawn("npx", ["lerna", "run", "test", "--", ...args, "--maxWorkers=1"], {
     stdio: "inherit",
   });
 }
