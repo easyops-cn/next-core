@@ -1,4 +1,5 @@
 import { parse } from "doctrine";
+import { getTypeAnnotation } from "./utils.js";
 
 /**
  * @typedef {import("@next-core/brick-manifest").BrickManifest} BrickManifest
@@ -15,7 +16,8 @@ import { parse } from "doctrine";
 /**
  * @param {string} name
  * @param {NodePath} nodePath
- * @param {string} source
+ * @param {string} source'
+ * @param {Set<string>} referenceSet
  * @returns {BrickManifest}
  */
 export default function makeBrickManifest(name, nodePath, source) {
@@ -94,8 +96,9 @@ function findDocComment({ node, parentPath }, source) {
  * @param {BrickManifest} manifest
  * @param {Node[]} nodes
  * @param {string} source
+ * @param {Set<string>} referenceSet
  */
-function scanFields(manifest, nodes, source) {
+function scanFields(manifest, nodes, source, referenceSet = new Set()) {
   for (const node of nodes) {
     if (node.type === "ClassAccessorProperty" && node.decorators?.length) {
       for (const { expression } of node.decorators) {
@@ -145,6 +148,12 @@ function scanFields(manifest, nodes, source) {
               ) {
                 const { typeAnnotation } = node.typeAnnotation;
                 prop.type = getTypeWithoutUndefined(typeAnnotation, source);
+                prop.types = getTypesWithoutUndefined(
+                  typeAnnotation,
+                  source,
+                  referenceSet
+                );
+                prop.reference = [...referenceSet];
               }
               if (node.value && !prop.default) {
                 prop.default = source.substring(
@@ -209,6 +218,12 @@ function scanFields(manifest, nodes, source) {
                   const param = typeAnnotation.typeParameters.params[0];
                   event.detail ??= {};
                   event.detail.type = source.substring(param.start, param.end);
+                  event.detail.types = getTypeAnnotation(
+                    param,
+                    source,
+                    referenceSet
+                  );
+                  event.detail.reference = [...referenceSet];
                 }
               }
               manifest.events.push(event);
@@ -244,6 +259,12 @@ function scanFields(manifest, nodes, source) {
               typeAnnotation.start,
               typeAnnotation.end
             );
+            method.return.types = getTypeAnnotation(
+              typeAnnotation,
+              source,
+              referenceSet
+            );
+            method.return.reference = [...referenceSet];
           }
           manifest.methods.push(method);
         }
@@ -285,6 +306,23 @@ function getTypeWithoutUndefined(node, source) {
     }
   }
   return source.substring(node.start, node.end);
+}
+
+/**
+ * @param {import("@babel/types")/.typeAnnotation} typeAnnotation
+ * @param {string} source
+ * @param {Set<string} set
+ */
+function getTypesWithoutUndefined(typeAnnotation, source, set) {
+  if (typeAnnotation.type === "TSUnionType" && typeAnnotation.types) {
+    return {
+      type: "union",
+      types: typeAnnotation.types
+        .filter((type) => type.type !== "TSUndefinedKeyword")
+        .map((item) => getTypeAnnotation(item, source, set)),
+    };
+  }
+  return getTypeAnnotation(typeAnnotation, source, set);
 }
 
 /**
