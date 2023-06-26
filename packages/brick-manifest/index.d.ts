@@ -24,8 +24,6 @@ export interface PropertyManifest {
   default?: string;
   required?: boolean;
   deprecated?: boolean | string;
-  types?: Annotation;
-  reference?: string[];
 }
 
 export interface SlotManifest {
@@ -39,8 +37,6 @@ export interface EventManifest {
   description?: string;
   detail?: {
     type?: string;
-    types?: Annotation;
-    reference?: string[];
     description?: string;
   };
   deprecated?: boolean | string;
@@ -52,8 +48,6 @@ export interface MethodManifest {
   params: unknown[];
   return?: {
     type?: string;
-    types?: Annotation;
-    reference?: string[];
     description?: string;
   };
   deprecated?: boolean | string;
