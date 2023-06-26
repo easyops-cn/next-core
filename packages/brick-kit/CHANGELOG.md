@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.177.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.0...@next-core/brick-kit@2.177.1) (2023-06-26)
+
+
+### Bug Fixes
+
+* menu to 解析时兼容表达式 ([0328786](https://github.com/easyops-cn/next-core/commit/0328786def05daed6c2ae171ac9dd082b374f28a))
+
+
+
+
+
 # [2.177.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.176.0...@next-core/brick-kit@2.177.0) (2023-06-21)
 
 
