@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.3.0...@next-core/brick-manifest@0.4.0) (2023-06-28)
+
+
+### Features
+
+* build provider manifest and types ([cef1598](https://github.com/easyops-cn/next-core/commit/cef1598132c9f74d5ab084500ea232b00531d4fa))
+
+
+
+
+
 # [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.2.0...@next-core/brick-manifest@0.3.0) (2023-06-26)
 
 
