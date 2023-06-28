@@ -162,7 +162,11 @@ async function render(
         scripts.push(newScriptTag);
         scriptTag.remove();
       }
-      container.append(...dom.body.childNodes, ...scripts);
+      container.append(
+        ...dom.head.querySelectorAll("style"),
+        ...dom.body.childNodes,
+        ...scripts
+      );
     } else {
       const parsed = yaml
         ? (safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any)
