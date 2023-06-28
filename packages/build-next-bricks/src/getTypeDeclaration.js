@@ -103,7 +103,7 @@ export function getTypeAnnotation(entryNode, source, usedReferences) {
 
       case "TSTypeAnnotation":
         // let a: MyType
-        //        ^^^^^^
+        //      ^^^^^^^^
         return get(node.typeAnnotation);
 
       case "TSTypeReference":
@@ -320,6 +320,29 @@ export function getTypeAnnotation(entryNode, source, usedReferences) {
             (get(node.typeParameters)),
           parameters: node.parameters.map((item) => get(item)),
           annotation: get(node.typeAnnotation),
+        };
+
+      case "TSParenthesizedType":
+        return {
+          type: "parenthesizedType",
+          annotation: get(node.typeAnnotation),
+        };
+
+      case "TSConditionalType":
+        return {
+          type: "conditionalType",
+          checkType: get(node.checkType),
+          extendsType: get(node.extendsType),
+          trueType: get(node.trueType),
+          falseType: get(node.falseType),
+        };
+
+      case "TSInferType":
+        return {
+          type: "inferType",
+          typeParameter:
+            /** @type {AnnotationTypeParameter | undefined} */
+            (get(node.typeParameter)),
         };
 
       case "StringLiteral":

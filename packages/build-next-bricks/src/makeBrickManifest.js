@@ -254,6 +254,29 @@ function scanFields(manifest, nodes, source) {
                     annotation,
                   });
                 }
+              } else if (node.value) {
+                // Infer type annotation from the default value.
+                let inferType;
+                switch (node.value.type) {
+                  case "BooleanLiteral":
+                    inferType = "boolean";
+                    break;
+                  case "StringLiteral":
+                    inferType = "string";
+                    break;
+                  case "NumericLiteral":
+                    inferType = "number";
+                    break;
+                }
+                if (inferType) {
+                  manifest.types.properties.push({
+                    name: prop.name,
+                    annotation: {
+                      type: "keyword",
+                      value: inferType,
+                    },
+                  });
+                }
               }
               if (node.value && !prop.default) {
                 prop.default = source.substring(
