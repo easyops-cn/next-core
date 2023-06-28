@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.11.0...@next-core/build-next-bricks@1.11.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* infer type annotation from the default value ([6da6bd8](https://github.com/easyops-cn/next-core/commit/6da6bd8f55ec1bf5bd904704f0e002ddf2cfe1bc))
+
+
+
+
+
 # [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.10.0...@next-core/build-next-bricks@1.11.0) (2023-06-28)
 
 

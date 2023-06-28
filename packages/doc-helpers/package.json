@@ -1,6 +1,6 @@
 {
   "name": "@next-core/doc-helpers",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Doc helpers",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/doc-helpers",
   "license": "GPL-3.0",
@@ -26,7 +26,7 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@next-core/brick-manifest": "^0.4.0",
+    "@next-core/brick-manifest": "^0.4.1",
     "fast-xml-parser": "^4.2.4",
     "js-yaml": "^3.14.1"
   }

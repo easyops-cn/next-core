@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.4.0...@next-core/brick-manifest@0.4.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* infer type annotation from the default value ([6da6bd8](https://github.com/easyops-cn/next-core/commit/6da6bd8f55ec1bf5bd904704f0e002ddf2cfe1bc))
+
+
+
+
+
 # [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.3.0...@next-core/brick-manifest@0.4.0) (2023-06-28)
 
 

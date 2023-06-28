@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.1...@next-core/runtime@1.17.2) (2023-06-28)
+
+
+### Bug Fixes
+
+* compatible with devtools ([f951b98](https://github.com/easyops-cn/next-core/commit/f951b98f6dd58999212925515b7a36f5c7a7061a))
+
+
+
+
+
 ## [1.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.0...@next-core/runtime@1.17.1) (2023-06-25)
 
 
