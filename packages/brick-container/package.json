@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "2.87.5",
+  "version": "2.87.6",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-container",
   "license": "GPL-3.0",
@@ -62,7 +62,7 @@
     "@next-dll/ace": "^2.0.651",
     "@next-dll/d3": "^2.0.79",
     "@next-dll/echarts": "^2.0.80",
-    "@next-dll/editor-bricks-helper": "^0.36.10",
+    "@next-dll/editor-bricks-helper": "^0.37.0",
     "@next-dll/react-dnd": "^0.1.589",
     "babel-loader": "^8.3.0",
     "clean-webpack-plugin": "^4.0.0",

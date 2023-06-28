@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.36.10...@next-dll/editor-bricks-helper@0.37.0) (2023-06-28)
+
+
+### Features
+
+* update manifest.snapshot.json ([ddc9246](https://github.com/easyops-cn/next-core/commit/ddc9246a4f18bfede68a63d1838d3153bb5d33ff))
+
+
+
+
+
 ## [0.36.10](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.36.9...@next-dll/editor-bricks-helper@0.36.10) (2023-06-26)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
