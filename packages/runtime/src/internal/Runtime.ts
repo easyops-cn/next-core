@@ -24,6 +24,7 @@ import { loadDialogService } from "../Dialog.js";
 import { injectedBrickPackages } from "./injected.js";
 import type { AppForCheck } from "./hasInstalledApp.js";
 import type { RuntimeContext } from "./interfaces.js";
+import { listenDevtoolsEagerly } from "./devtools.js";
 
 let runtime: Runtime;
 
@@ -124,6 +125,7 @@ export function createRuntime(options?: RuntimeOptions) {
   if (runtime) {
     throw new Error("Cannot create multiple runtimes");
   }
+  listenDevtoolsEagerly();
   hooks = options?.hooks;
   initializeI18n(NS, locales);
   moment.locale(i18n.language);
