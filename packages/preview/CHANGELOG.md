@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.21](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.20...@next-core/preview@0.1.21) (2023-06-28)
+
+
+### Bug Fixes
+
+* styles are in head instead of body ([06e54ae](https://github.com/easyops-cn/next-core/commit/06e54ae98e550a7eee762ef7feab67899fa55d7c))
+
+
+
+
+
 ## [0.1.20](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.19...@next-core/preview@0.1.20) (2023-06-28)
 
 **Note:** Version bump only for package @next-core/preview
