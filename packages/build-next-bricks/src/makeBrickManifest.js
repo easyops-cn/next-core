@@ -1,35 +1,67 @@
+// @ts-check
 import { parse } from "doctrine";
-import { getTypeAnnotation } from "./utils.js";
+import { getTypeAnnotation } from "./getTypeDeclaration.js";
 
 /**
  * @typedef {import("@next-core/brick-manifest").BrickManifest} BrickManifest
  * @typedef {import("@next-core/brick-manifest").PropertyManifest} PropertyManifest
  * @typedef {import("@next-core/brick-manifest").EventManifest} EventManifest
  * @typedef {import("@next-core/brick-manifest").MethodManifest} MethodManifest
+ * @typedef {import("@next-core/brick-manifest").MethodParamManifest} MethodParamManifest
  * @typedef {import("@next-core/brick-manifest").ProviderManifest} ProviderManifest
+ * @typedef {import("@next-core/brick-manifest").Annotation} Annotation
  * @typedef {import("@babel/types").Node} Node
  * @typedef {import("@babel/traverse").NodePath} NodePath
  * @typedef {import("@babel/types").ClassDeclaration} ClassDeclaration
+ * @typedef {import("@babel/types").Identifier} Identifier
  * @typedef {import("doctrine").Tag} Tag
+ * @typedef {BrickManifest & { types: BrickTypes; }} BrickManifestAndTypes
+ * @typedef {{ name: string; annotation?: Annotation }} BrickPropertyWithAnnotation
+ * @typedef {{ name: string; detail: { annotation: Annotation } }} BrickEventWithAnnotation
+ * @typedef {{ name: string; params: BrickMethodParamWithAnnotation[]; returns: { annotation?: Annotation } }} BrickMethodWithAnnotation
+ * @typedef {{ name: string; annotation?: Annotation }} BrickMethodParamWithAnnotation
+ * @typedef {{
+ *  properties: BrickPropertyWithAnnotation[];
+ *  events: BrickEventWithAnnotation[];
+ *  methods: BrickMethodWithAnnotation[];
+ *  usedReferences?: Set<string>;
+ * }} BrickTypes
+ * @typedef {ProviderManifest & {
+ *  params: (MethodParamManifest & {
+ *    annotation?: Annotation;
+ *  })[];
+ *  returns?: {
+ *    description?: string;
+ *    annotation?: Annotation;
+ *  };
+ *  typeParameters?: Annotation;
+ *  usedReferences?: Set<string>;
+ * }} ProviderManifestAndTypes
  */
 
 /**
  * @param {string} name
  * @param {NodePath} nodePath
- * @param {string} source'
- * @param {Set<string>} referenceSet
- * @returns {BrickManifest}
+ * @param {string} source
+ * @returns {BrickManifestAndTypes}
  */
 export default function makeBrickManifest(name, nodePath, source) {
-  /** @type {import("@babel/traverse").NodePath<ClassDeclaration>} */
-  const classPath = nodePath.parentPath;
-  /** @type {BrickManifest} */
+  const classPath =
+    /** @type {import("@babel/traverse").NodePath<ClassDeclaration>} */ (
+      nodePath.parentPath
+    );
+  /** @type {BrickManifestAndTypes} */
   const manifest = {
     name,
     properties: [],
     events: [],
     slots: [],
     methods: [],
+    types: {
+      properties: [],
+      events: [],
+      methods: [],
+    },
   };
 
   const docComment = findDocComment(nodePath, source);
@@ -52,7 +84,11 @@ export default function makeBrickManifest(name, nodePath, source) {
     }
   }
 
-  scanFields(manifest, classPath.node.body.body, source);
+  manifest.types.usedReferences = scanFields(
+    manifest,
+    classPath.node.body.body,
+    source
+  );
 
   return manifest;
 }
@@ -61,18 +97,74 @@ export default function makeBrickManifest(name, nodePath, source) {
  * @param {string} name
  * @param {NodePath} nodePath
  * @param {string} source
- * @returns {ProviderManifest}
+ * @returns {ProviderManifestAndTypes}
  */
 export function makeProviderManifest(name, nodePath, source) {
-  /** @type {ProviderManifest} */
+  /**
+   * @type {ProviderManifestAndTypes}
+   */
   const manifest = {
     name,
+    type: "provider",
+    params: [],
+    usedReferences: new Set(),
   };
+
   const docComment = findDocComment(nodePath, source);
   if (docComment) {
     manifest.description = docComment.description;
     manifest.deprecated = getDeprecatedInfo(docComment.tags);
   }
+
+  const fn = /** @type {import("@babel/types").FunctionDeclaration} */ (
+    nodePath.node
+  );
+  let index = 0;
+  for (const param of fn.params) {
+    const annotation = getTypeAnnotation(
+      param.typeAnnotation,
+      source,
+      manifest.usedReferences
+    );
+    if (param.type === "Identifier") {
+      manifest.params.push({
+        name: param.name,
+        description: docComment?.tags.find(
+          (tag) => tag.title === "param" && tag.name === param.name
+        )?.description,
+        annotation,
+      });
+    } else {
+      const paramTag = docComment?.tags.filter(
+        (tag) => tag.title === "param"
+      )?.[index];
+      manifest.params.push({
+        name: paramTag?.name ?? `param_${index + 1}`,
+        description: paramTag?.description,
+        isRestElement: param.type === "RestElement",
+        annotation,
+      });
+    }
+    index++;
+  }
+  const returnAnnotation = getTypeAnnotation(
+    fn.returnType,
+    source,
+    manifest.usedReferences
+  );
+
+  manifest.returns = {
+    description: docComment?.tags.find((tag) => tag.title === "returns")
+      ?.description,
+    annotation: returnAnnotation,
+  };
+
+  manifest.typeParameters = getTypeAnnotation(
+    fn.typeParameters,
+    source,
+    manifest.usedReferences
+  );
+
   return manifest;
 }
 
@@ -93,12 +185,14 @@ function findDocComment({ node, parentPath }, source) {
 }
 
 /**
- * @param {BrickManifest} manifest
+ * @param {BrickManifestAndTypes} manifest
  * @param {Node[]} nodes
  * @param {string} source
- * @param {Set<string>} referenceSet
+ * @returns {Set<string>}
  */
-function scanFields(manifest, nodes, source, referenceSet = new Set()) {
+function scanFields(manifest, nodes, source) {
+  /** @type {Set<string>} */
+  const usedReferences = new Set();
   for (const node of nodes) {
     if (node.type === "ClassAccessorProperty" && node.decorators?.length) {
       for (const { expression } of node.decorators) {
@@ -110,7 +204,7 @@ function scanFields(manifest, nodes, source, referenceSet = new Set()) {
             case "property": {
               /** @type {PropertyManifest} */
               const prop = {
-                name: node.key.name,
+                name: /** @type {Identifier} */ (node.key).name,
               };
               const docComment = parseDocComment(node, source);
               if (docComment) {
@@ -148,12 +242,18 @@ function scanFields(manifest, nodes, source, referenceSet = new Set()) {
               ) {
                 const { typeAnnotation } = node.typeAnnotation;
                 prop.type = getTypeWithoutUndefined(typeAnnotation, source);
-                prop.types = getTypesWithoutUndefined(
-                  typeAnnotation,
+
+                const annotation = getTypeAnnotation(
+                  getNodeWithoutUndefined(typeAnnotation),
                   source,
-                  referenceSet
+                  usedReferences
                 );
-                prop.reference = [...referenceSet];
+                if (annotation) {
+                  manifest.types.properties.push({
+                    name: prop.name,
+                    annotation,
+                  });
+                }
               }
               if (node.value && !prop.default) {
                 prop.default = source.substring(
@@ -167,7 +267,7 @@ function scanFields(manifest, nodes, source, referenceSet = new Set()) {
 
             case "event": {
               /** @type {EventManifest} */
-              const event = {};
+              const event = { name: undefined };
 
               // Find out the `type` option for the event.
               if (expression.arguments.length > 0) {
@@ -190,7 +290,9 @@ function scanFields(manifest, nodes, source, referenceSet = new Set()) {
               }
               if (event.name === undefined) {
                 throw new Error(
-                  `Invalid @event() call: no literal type option in event '${node.key.name}'`
+                  `Invalid @event() call: no literal type option in event '${
+                    /** @type {Identifier} */ (node.key).name
+                  }'`
                 );
               }
               const docComment = parseDocComment(node, source);
@@ -218,12 +320,21 @@ function scanFields(manifest, nodes, source, referenceSet = new Set()) {
                   const param = typeAnnotation.typeParameters.params[0];
                   event.detail ??= {};
                   event.detail.type = source.substring(param.start, param.end);
-                  event.detail.types = getTypeAnnotation(
+
+                  const annotation = getTypeAnnotation(
                     param,
                     source,
-                    referenceSet
+                    usedReferences
                   );
-                  event.detail.reference = [...referenceSet];
+
+                  if (annotation) {
+                    manifest.types.events.push({
+                      name: event.name,
+                      detail: {
+                        annotation,
+                      },
+                    });
+                  }
                 }
               }
               manifest.events.push(event);
@@ -241,40 +352,99 @@ function scanFields(manifest, nodes, source, referenceSet = new Set()) {
         ) {
           /** @type {MethodManifest} */
           const method = {
-            name: node.key.name,
+            name: /** @type {Identifier} */ (node.key).name,
             params: [],
           };
           const docComment = parseDocComment(node, source);
           if (docComment) {
             method.description = docComment.description;
             method.deprecated = getDeprecatedInfo(docComment.tags);
+            method.returns = {
+              description: docComment.tags.find(
+                (tag) => tag.title === "returns"
+              )?.description,
+            };
           }
+
+          let index = 0;
+          /** @type {BrickMethodParamWithAnnotation[]} */
+          const typedParams = [];
           for (const param of node.params) {
-            method.params.push(source.substring(param.start, param.end));
-          }
-          if (node.returnType && node.returnType.type === "TSTypeAnnotation") {
-            const { typeAnnotation } = node.returnType;
-            method.return ??= {};
-            method.return.type = source.substring(
-              typeAnnotation.start,
-              typeAnnotation.end
-            );
-            method.return.types = getTypeAnnotation(
+            const typeAnnotation =
+              /** @type {Identifier} */
+              (param).typeAnnotation;
+            const annotation = getTypeAnnotation(
               typeAnnotation,
               source,
-              referenceSet
+              usedReferences
             );
-            method.return.reference = [...referenceSet];
+            const paramType =
+              typeAnnotation.type === "TSTypeAnnotation"
+                ? source.substring(
+                    typeAnnotation.typeAnnotation.start,
+                    typeAnnotation.typeAnnotation.end
+                  )
+                : undefined;
+            /** @type {string} */
+            let paramName;
+            if (param.type === "Identifier") {
+              paramName = param.name;
+              method.params.push({
+                name: paramName,
+                description: docComment?.tags.find(
+                  (tag) => tag.title === "param" && tag.name === param.name
+                )?.description,
+                type: paramType,
+              });
+            } else {
+              const paramTag = docComment?.tags.filter(
+                (tag) => tag.title === "param"
+              )?.[index];
+              paramName = paramTag?.name ?? `param_${index + 1}`;
+              method.params.push({
+                name: paramName,
+                description: paramTag?.description,
+                type: paramType,
+              });
+            }
+            typedParams.push({
+              name: paramName,
+              annotation,
+            });
+            index++;
           }
+
+          /** @type {{ annotation?: Annotation }} */
+          const typedReturns = {};
+          if (node.returnType && node.returnType.type === "TSTypeAnnotation") {
+            const { typeAnnotation } = node.returnType;
+            method.returns = {
+              ...method.returns,
+              type: source.substring(typeAnnotation.start, typeAnnotation.end),
+            };
+
+            typedReturns.annotation = getTypeAnnotation(
+              typeAnnotation,
+              source,
+              usedReferences
+            );
+          }
+          manifest.types.methods.push({
+            name: method.name,
+            params: typedParams,
+            returns: typedReturns,
+          });
           manifest.methods.push(method);
         }
       }
     }
   }
+
+  return usedReferences;
 }
 
 /**
- * @param {Node[]} nodes
+ * @param {Node} node
  * @param {string} source
  */
 export function parseDocComment(node, source) {
@@ -287,6 +457,21 @@ export function parseDocComment(node, source) {
       const parsed = parse(docSource, { unwrap: true });
       return parsed;
     }
+  }
+}
+
+/**
+ * @param {Node} node
+ * @param {string} source
+ * @returns {undefined | { description?: string; deprecated?: boolean | string; }}
+ */
+export function parseTypeComment(node, source) {
+  const docComment = parseDocComment(node, source);
+  if (docComment) {
+    return {
+      description: docComment.description,
+      deprecated: getDeprecatedInfo(docComment.tags),
+    };
   }
 }
 
@@ -309,20 +494,25 @@ function getTypeWithoutUndefined(node, source) {
 }
 
 /**
- * @param {import("@babel/types")/.typeAnnotation} typeAnnotation
- * @param {string} source
- * @param {Set<string} set
+ * @param {Node} node
+ * @returns {Node}
  */
-function getTypesWithoutUndefined(typeAnnotation, source, set) {
-  if (typeAnnotation.type === "TSUnionType" && typeAnnotation.types) {
-    return {
-      type: "union",
-      types: typeAnnotation.types
-        .filter((type) => type.type !== "TSUndefinedKeyword")
-        .map((item) => getTypeAnnotation(item, source, set)),
-    };
+function getNodeWithoutUndefined(node) {
+  if (node.type === "TSUnionType") {
+    const filteredTypes = node.types.filter(
+      (type) => type.type !== "TSUndefinedKeyword"
+    );
+    if (filteredTypes.length < node.types.length) {
+      if (filteredTypes.length === 1) {
+        return filteredTypes[0];
+      }
+      return {
+        ...node,
+        types: filteredTypes,
+      };
+    }
   }
-  return getTypeAnnotation(typeAnnotation, source, set);
+  return node;
 }
 
 /**
