@@ -26,6 +26,9 @@ export type Annotation =
   | AnnotationIdentifier
   | AnnotationRestElement
   | AnnotationFunctionType
+  | AnnotationParenthesizedType
+  | AnnotationConditionalType
+  | AnnotationInferType
   | AnnotationJsLiteral
   | AnnotationKeyword
   | AnnotationUnsupported;
@@ -204,6 +207,24 @@ export interface AnnotationFunctionType {
   typeParameters?: AnnotationTypeParameterDeclaration;
   parameters: Annotation[];
   annotation?: Annotation;
+}
+
+export interface AnnotationParenthesizedType {
+  type: "parenthesizedType";
+  annotation: Annotation;
+}
+
+export interface AnnotationConditionalType {
+  type: "conditionalType";
+  checkType: Annotation;
+  extendsType: Annotation;
+  trueType: Annotation;
+  falseType: Annotation;
+}
+
+export interface AnnotationInferType {
+  type: "inferType";
+  typeParameter: AnnotationTypeParameter;
 }
 
 export interface AnnotationJsLiteral {
