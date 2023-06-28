@@ -22,4 +22,5 @@ export * from "./hooks/useOutlineEnabled";
 export * from "./hooks/useShowRelatedNodesBasedOnEvents";
 export * from "./processors/getSortedIdsAfterDropped";
 export * from "./assertions";
+export * from "./internal/getUniqueNodeId";
 export type { BuilderDataManager } from "./internal/BuilderDataManager";
