@@ -279,13 +279,6 @@ export class Router {
       this.#rendererContextTrashCan.clear();
       hooks?.messageDispatcher?.reset();
 
-      setTheme(
-        (currentApp &&
-          (getLocalAppsTheme()[currentApp.id] || currentApp.theme)) ||
-          "light"
-      );
-      setMode("default");
-
       if (appChanged) {
         this.#previousApp = previousApp;
         window.dispatchEvent(
@@ -298,6 +291,13 @@ export class Router {
         );
       }
     };
+
+    setTheme(
+      (currentApp &&
+        (getLocalAppsTheme()[currentApp.id] || currentApp.theme)) ||
+        "light"
+    );
+    setMode("default");
 
     if (currentApp) {
       hooks?.checkInstalledApps?.preCheckInstalledApps(

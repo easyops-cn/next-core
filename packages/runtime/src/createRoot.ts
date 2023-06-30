@@ -103,6 +103,9 @@ export function unstable_createRoot(
       };
 
       if (scope === "page") {
+        setTheme(theme ?? "light");
+        setMode("default");
+
         const demoApp = {
           id: "demo",
           homepage: "/demo",
@@ -151,7 +154,6 @@ export function unstable_createRoot(
 
         await Promise.all([
           ...output.blockingList,
-          runtimeContext.ctxStore.waitForAll(),
           ...stores.map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck,
         ]);
@@ -182,9 +184,6 @@ export function unstable_createRoot(
       }
 
       if (scope === "page") {
-        setTheme(theme ?? "light");
-        setMode("default");
-
         if (!failed) {
           rendererContext.dispatchBeforePageLoad();
         }
