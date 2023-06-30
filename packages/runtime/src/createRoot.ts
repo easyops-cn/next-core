@@ -154,7 +154,6 @@ export function unstable_createRoot(
 
         await Promise.all([
           ...output.blockingList,
-          runtimeContext.ctxStore.waitForAll(),
           ...stores.map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck,
         ]);
