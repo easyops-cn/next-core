@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.2...@next-core/runtime@1.17.3) (2023-06-30)
+
+
+### Bug Fixes
+
+* remove unnecessary code ([c3472de](https://github.com/easyops-cn/next-core/commit/c3472de997618c46d628c4588571d5d09f70c7ec))
+* set theme before rendering ([9011a03](https://github.com/easyops-cn/next-core/commit/9011a03adcea4744695b24dcf0ee418e671e2079))
+
+
+
+
+
 ## [1.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.1...@next-core/runtime@1.17.2) (2023-06-28)
 
 
