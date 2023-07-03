@@ -41,11 +41,12 @@ import { getTypeAnnotation } from "./getTypeDeclaration.js";
 
 /**
  * @param {string} name
+ * @param {string[] | undefined} alias
  * @param {NodePath} nodePath
  * @param {string} source
  * @returns {BrickManifestAndTypes}
  */
-export default function makeBrickManifest(name, nodePath, source) {
+export default function makeBrickManifest(name, alias, nodePath, source) {
   const classPath =
     /** @type {import("@babel/traverse").NodePath<ClassDeclaration>} */ (
       nodePath.parentPath
@@ -53,6 +54,7 @@ export default function makeBrickManifest(name, nodePath, source) {
   /** @type {BrickManifestAndTypes} */
   const manifest = {
     name,
+    alias,
     properties: [],
     events: [],
     slots: [],

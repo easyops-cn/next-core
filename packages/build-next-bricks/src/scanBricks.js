@@ -189,8 +189,8 @@ export default async function scanBricks(packageDir) {
       let brickNamespace;
       /** @type string */
       let brickName;
-      let noNamespace = false;
-      if (fullName.includes(".")) {
+      const hasNamespace = fullName.includes(".");
+      if (hasNamespace) {
         [brickNamespace, brickName] = fullName.split(".");
         if (brickNamespace !== packageName) {
           throw new Error(
@@ -212,10 +212,9 @@ export default async function scanBricks(packageDir) {
       } else {
         // For third-party custom elements, there maybe no namespace.
         brickName = fullName;
-        noNamespace = true;
         if (!validCustomElementName.test(brickName)) {
           throw new Error(
-            `Invalid brick: "${fullName}", the brick name must include a \`-\``
+            `Invalid brick: "${brickName}", the brick name must include a \`-\``
           );
         }
       }
@@ -228,7 +227,7 @@ export default async function scanBricks(packageDir) {
           .replace(/\.[^.]+$/, "")
           .replace(/\/index$/, "")}`,
         name: getExposeName(brickName),
-        [Symbol.for("noNamespace")]: noNamespace,
+        [Symbol.for("noNamespace")]: !hasNamespace,
       });
     }
 
@@ -378,29 +377,53 @@ export default async function scanBricks(packageDir) {
             );
           }
 
+          /** @type {string | undefined} */
+          let brickNamespace;
+          /** @type {string} */
+          let brickName;
           const fullName = expression.arguments[0].value;
-          const [brickNamespace, brickName] = fullName.split(".");
+          if (fullName.includes(".")) {
+            [brickNamespace, brickName] = fullName.split(".");
 
-          if (brickNamespace !== packageName) {
-            throw new Error(
-              `Invalid brick: "${fullName}", expecting prefixed with the package name: "${packageName}"`
-            );
-          }
+            if (brickNamespace !== packageName) {
+              throw new Error(
+                `Invalid brick: "${fullName}", expecting prefixed with the package name: "${packageName}"`
+              );
+            }
 
-          if (!validBrickName.test(fullName)) {
-            throw new Error(
-              `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
-            );
-          }
+            if (!validBrickName.test(fullName)) {
+              throw new Error(
+                `Invalid brick: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+              );
+            }
 
-          if (brickName.startsWith("tpl-")) {
-            throw new Error(
-              `Invalid brick: "${fullName}", the brick name cannot be started with "tpl-"`
-            );
+            if (brickName.startsWith("tpl-")) {
+              throw new Error(
+                `Invalid brick: "${fullName}", the brick name cannot be started with "tpl-"`
+              );
+            }
+          } else {
+            brickName = fullName;
+
+            if (!brickName.startsWith("eo-")) {
+              throw new Error(
+                `Invalid brick: "${brickName}", expecting prefixed with "eo-" for brick name without namespace`
+              );
+            }
+
+            if (!validCustomElementName.test(brickName)) {
+              throw new Error(
+                `Invalid brick: "${brickName}", expecting a \`-\` in brick name`
+              );
+            }
           }
 
           const defineOptions = expression.arguments[1];
+          /** @type {string[]} */
           const deps = [];
+          /** @type {string[]} */
+          const aliases = [];
+
           if (defineOptions && defineOptions.type === "ObjectExpression") {
             /** @type {import("@babel/types").ObjectProperty} */
             const brickDeps = defineOptions.properties.find(
@@ -427,6 +450,32 @@ export default async function scanBricks(packageDir) {
                 );
               }
             }
+
+            /** @type {import("@babel/types").ObjectProperty} */
+            const alias = defineOptions.properties.find(
+              (prop) =>
+                prop.type === "ObjectProperty" &&
+                prop.key.type === "Identifier" &&
+                prop.key.name === "alias" &&
+                !prop.computed
+            );
+            if (alias) {
+              if (alias.value.type === "ArrayExpression") {
+                for (const item of alias.value.elements) {
+                  if (item.type === "StringLiteral") {
+                    aliases.push(item.value);
+                  } else {
+                    throw new Error(
+                      `Invalid item in brick dependencies: ${item.type} of brick: "${fullName}", expecting only StringLiteral`
+                    );
+                  }
+                }
+              } else {
+                throw new Error(
+                  `Invalid brick alias: ${alias.value.type} of brick: "${fullName}", expecting only ArrayExpression`
+                );
+              }
+            }
           }
           if (deps.length > 0) {
             specifiedDeps[fullName] = deps;
@@ -436,15 +485,39 @@ export default async function scanBricks(packageDir) {
 
           brickSourceFiles.set(fullName, filePath);
 
-          manifest.bricks.push(makeBrickManifest(fullName, nodePath, content));
+          manifest.bricks.push(
+            makeBrickManifest(
+              fullName,
+              aliases.length > 0 ? aliases : undefined,
+              nodePath,
+              content
+            )
+          );
 
-          exposes.set(`./${brickName}`, {
+          const expose = {
             import: `./${path
               .relative(packageDir, overrideImport || filePath)
               .replace(/\.[^.]+$/, "")
               .replace(/\/index$/, "")}`,
             name: getExposeName(brickName),
-          });
+            [Symbol.for("noNamespace")]: !brickNamespace,
+          };
+
+          exposes.set(`./${brickName}`, expose);
+          for (const alias of aliases) {
+            brickSourceFiles.set(alias, filePath);
+            let lastName;
+            const hasNamespace = alias.includes(".");
+            if (hasNamespace) {
+              [, lastName] = alias.split(".");
+            } else {
+              lastName = alias;
+            }
+            exposes.set(`./${lastName}`, {
+              ...expose,
+              [Symbol.for("noNamespace")]: !hasNamespace,
+            });
+          }
         }
       },
       FunctionDeclaration(nodePath) {

@@ -379,7 +379,7 @@ describe("NextElement", () => {
     expect(render).toBeCalledTimes(1);
   });
 
-  test("methods and events", async () => {
+  test("methods and events", () => {
     const { defineElement, property, method, event } = createDecorators();
     @defineElement("my-element-event")
     class MyElement extends NextElement {
@@ -389,6 +389,10 @@ describe("NextElement", () => {
       @method()
       triggerChange(value: string) {
         this.#_changeEvent.emit(value);
+      }
+
+      overrideEvent() {
+        this.#_changeEvent = null!;
       }
 
       _render() {
@@ -404,6 +408,15 @@ describe("NextElement", () => {
       "change",
     ]);
 
+    // `expect(...).toThrowError()` does not work for decorators.
+    let message: string | undefined;
+    try {
+      element.overrideEvent();
+    } catch (e) {
+      message = (e as Error).message;
+    }
+    expect(message).toBe("Decorated events are readonly");
+
     const listener = jest.fn();
     element.addEventListener("change", listener);
     element.triggerChange("updated");
@@ -416,7 +429,7 @@ describe("NextElement", () => {
     );
   });
 
-  test("methods bound", async () => {
+  test("methods bound", () => {
     const { defineElement, property, method, event } = createDecorators();
     @defineElement("my-element-bound-methods")
     class MyElement extends NextElement {
@@ -449,5 +462,75 @@ describe("NextElement", () => {
     };
     expect(element.getBoundValue.call(newTarget)).toEqual("good");
     expect(element.getUnboundValue.call(newTarget)).toEqual("bad");
+  });
+
+  test("alias", () => {
+    const { defineElement, property, method, event } = createDecorators();
+    @defineElement("my-element-alias", {
+      alias: ["my-element-alias-2"],
+      shadowOptions: false,
+    })
+    class MyElement extends NextElement {
+      @property() accessor value: string | undefined;
+
+      _render() {
+        // Do nothing
+      }
+    }
+
+    const element = document.createElement("my-element-alias") as MyElement;
+    expect((element.constructor as any).__tagName).toEqual("my-element-alias");
+    expect((element.constructor as any).__tagName).toEqual("my-element-alias");
+    expect((element.constructor as any)._dev_only_definedProperties).toEqual([
+      "value",
+    ]);
+
+    const element2 = document.createElement("my-element-alias-2") as MyElement;
+    expect((element2.constructor as any).__tagName).toEqual(
+      "my-element-alias-2"
+    );
+    expect((element2.constructor as any)._dev_only_definedProperties).toEqual([
+      "value",
+    ]);
+  });
+
+  test("specific attribute", async () => {
+    const { defineElement, property, method, event } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-specific-attr", {
+      shadowOptions: false,
+    })
+    class MyElement extends NextElement {
+      @property({ attribute: "val", type: Number }) accessor value:
+        | number
+        | undefined;
+
+      _render() {
+        render();
+        return String(this.value);
+      }
+    }
+
+    const element = document.createElement(
+      "my-element-specific-attr"
+    ) as MyElement;
+    element.value = 12;
+    expect(element.getAttribute("val")).toBe("12");
+
+    document.body.appendChild(element);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(1);
+
+    element.setAttribute("val", "NaN");
+    expect(element.value).toBe(NaN);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(2);
+
+    element.value = NaN;
+    expect(element.value).toBe(NaN);
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(2);
+
+    element.remove();
   });
 });

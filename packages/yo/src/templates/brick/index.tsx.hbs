@@ -12,21 +12,21 @@ import styleText from "./styles.shadow.css";
 const { defineElement, property } = createDecorators();
 
 /**
- * 构件 {{brickName}}
+ * 构件 `{{>tagName}}`
  */
 export
-@defineElement("{{pkgName}}.{{brickName}}", {
+@defineElement("{{>tagName}}", {
   styleTexts: [styleText],
 })
-class {{pascalCase brickName}} extends ReactNextElement {
+class {{>className}} extends ReactNextElement {
   render() {
     return (
-      <{{pascalCase brickName}}Component />
+      <{{>className}}Component />
     );
   }
 }
 
-export function {{pascalCase brickName}}Component() {
+export function {{>className}}Component() {
   // const { t } = useTranslation(NS);
   // const hello = t(K.HELLO);
   return <div>It works!</div>;

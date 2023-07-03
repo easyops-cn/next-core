@@ -9,7 +9,7 @@ const zh: Locale = {
   // HELLO: "你好",
 };
 
-export const NS = "bricks/{{pkgName}}/{{brickName}}";
+export const NS = "bricks/{{pkgName}}/{{>lastTagName}}";
 
 export const locales = { en, zh };
 
