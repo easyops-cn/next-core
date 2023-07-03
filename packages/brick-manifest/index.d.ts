@@ -14,6 +14,7 @@ export interface BrickManifest {
   events: EventManifest[];
   methods: MethodManifest[];
   deprecated?: boolean | string;
+  alias?: string[];
 }
 
 export interface PropertyManifest {

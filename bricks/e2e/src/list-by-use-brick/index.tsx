@@ -6,8 +6,10 @@ import { UseSingleBrickConf } from "@next-core/types";
 
 const { defineElement, property } = createDecorators();
 
+export
 @defineElement("e2e.list-by-use-brick", {
   shadowOptions: false,
+  alias: ["eo-list-by-use-brick"],
 })
 class ListByUseBrick extends ReactNextElement {
   @property({ attribute: false })
