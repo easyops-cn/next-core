@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const validPkgName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+const validPartialBrickName = validPkgName;
 
 const rootDir = process.cwd();
 const bricksDir = path.join(rootDir, "bricks");
@@ -63,6 +64,25 @@ export default function (
   plop.setPartial(
     "libDevDependencies",
     getObjectPartialInPackageJson(libDevDependencies)
+  );
+  plop.setHelper("getTagName", (brickType, pkgName, brickName, lastNameOnly) =>
+    brickType === "common"
+      ? `eo-${brickName}`
+      : lastNameOnly
+      ? brickName
+      : `${pkgName}.${brickName}`
+  );
+  plop.setPartial(
+    "tagName",
+    "{{getTagName brickType pkgName brickName false}}"
+  );
+  plop.setPartial(
+    "lastTagName",
+    "{{getTagName brickType pkgName brickName true}}"
+  );
+  plop.setPartial(
+    "className",
+    "{{pascalCase (getTagName brickType pkgName brickName true)}}"
   );
 
   // create your generators here
@@ -154,6 +174,24 @@ export default function (
         },
       },
       {
+        type: "list",
+        name: "brickType",
+        message: "Select your brick type:",
+        when(data) {
+          return data.type === "brick";
+        },
+        choices: [
+          {
+            name: "Business-specific brick (starts with namespace)",
+            value: "specific",
+          },
+          {
+            name: "Common brick (starts with `eo-`, no namespace)",
+            value: "common",
+          },
+        ],
+      },
+      {
         type: "input",
         name: "brickName",
         message: "Your brick name:",
@@ -161,7 +199,13 @@ export default function (
           return data.type === "brick";
         },
         validate(value, data) {
-          if (!validBrickName.test(value)) {
+          if (
+            !(
+              data.brickType === "common"
+                ? validPartialBrickName
+                : validBrickName
+            ).test(value)
+          ) {
             return "Please enter a lower-kebab-case brick name.";
           }
 
@@ -170,6 +214,12 @@ export default function (
           }
 
           return true;
+        },
+        transformer(input, data) {
+          if (data.brickType === "common") {
+            return `eo-${input}`;
+          }
+          return input;
         },
       },
       {
@@ -218,7 +268,7 @@ export default function (
           },
           {
             type: "add",
-            path: "bricks/{{pkgName}}/docs/{{brickName}}.md",
+            path: "bricks/{{pkgName}}/docs/{{>lastTagName}}.md",
             templateFile: "templates/brick.md.hbs",
           },
         ];

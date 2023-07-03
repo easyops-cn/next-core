@@ -1,13 +1,13 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
 import "./";
-import { {{pascalCase brickName}} } from "./index.js";
+import { {{>className}} } from "./index.js";
 
 jest.mock("@next-core/theme", () => ({}));
 
-describe("{{pkgName}}.{{brickName}}", () => {
+describe("{{>tagName}}", () => {
   test("basic usage", async () => {
-    const element = document.createElement("{{pkgName}}.{{brickName}}") as {{pascalCase brickName}};
+    const element = document.createElement("{{>tagName}}") as {{>className}};
 
     expect(element.shadowRoot).toBeFalsy();
 
