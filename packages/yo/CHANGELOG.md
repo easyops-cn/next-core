@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.2.7...@next-core/yo@1.3.0) (2023-07-03)
+
+
+### Features
+
+* separate common bricks and business-specific bricks ([34899df](https://github.com/easyops-cn/next-core/commit/34899df770e57f76afaa587b22383f089cd2efd8))
+
+
+
+
+
 ## [1.2.7](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.2.6...@next-core/yo@1.2.7) (2023-06-28)
 
 **Note:** Version bump only for package @next-core/yo

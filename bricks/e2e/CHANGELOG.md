@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.62...@next-bricks/e2e@0.1.0) (2023-07-03)
+
+
+### Features
+
+* support brick alias ([993e173](https://github.com/easyops-cn/next-core/commit/993e173e6ebcbd9408ea57458e474dac7b6e9cb4))
+
+
+
+
+
 ## [0.0.62](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.61...@next-bricks/e2e@0.0.62) (2023-06-30)
 
 **Note:** Version bump only for package @next-bricks/e2e
