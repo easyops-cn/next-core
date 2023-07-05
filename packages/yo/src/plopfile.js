@@ -7,7 +7,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const validPkgName = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 const validBrickName = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
-const validPartialBrickName = validPkgName;
 
 const rootDir = process.cwd();
 const bricksDir = path.join(rootDir, "bricks");
@@ -198,19 +197,32 @@ export default function (
         when(data) {
           return data.type === "brick";
         },
-        validate(value, data) {
-          if (
-            !(
-              data.brickType === "common"
-                ? validPartialBrickName
-                : validBrickName
-            ).test(value)
-          ) {
+        async validate(value, data) {
+          const realBrickName =
+            data.brickType === "common" ? `eo-${value}` : value;
+          if (!validBrickName.test(realBrickName)) {
             return "Please enter a lower-kebab-case brick name.";
           }
 
           if (existsSync(path.join(bricksDir, data.pkgName, "src", value))) {
-            return `Brick "${value}" seems to be existed, please enter another name.`;
+            return `Brick "${realBrickName}" seems to be existed, please enter another name.`;
+          }
+
+          const commonBricksJsonFile = path.join(
+            rootDir,
+            "shared/common-bricks/common-bricks.json"
+          );
+          if (data.brickType === "common" && existsSync(commonBricksJsonFile)) {
+            const commonBricksJson = JSON.parse(
+              await readFile(commonBricksJsonFile, "utf-8")
+            );
+            for (const [pkg, commonBricks] of Object.entries(
+              commonBricksJson
+            )) {
+              if (commonBricks.includes(realBrickName)) {
+                return `Brick "${realBrickName}" existed in package "${pkg}", please enter another name.`;
+              }
+            }
           }
 
           return true;
@@ -302,17 +314,15 @@ export default function (
                 commonBricksJson = {};
                 commonBricks = commonBricksJson[answers.pkgName] = [];
               }
-              if (!commonBricks.includes(realBrickName)) {
-                commonBricks.push(realBrickName);
-                await writeFile(
-                  commonBricksJsonFile,
-                  JSON.stringify(commonBricksJson, null, 2)
-                );
-                return plop.renderString(
-                  `added {{pkgName}}: ${realBrickName} in /shared/common-bricks/common-bricks.json`,
-                  answers
-                );
-              }
+              commonBricks.push(realBrickName);
+              await writeFile(
+                commonBricksJsonFile,
+                JSON.stringify(commonBricksJson, null, 2)
+              );
+              return plop.renderString(
+                `added {{pkgName}}: ${realBrickName} in /shared/common-bricks/common-bricks.json`,
+                answers
+              );
             }
           },
         ];

@@ -84,6 +84,21 @@ async function getWebpackConfig(config) {
     const commonBricksJson = JSON.parse(
       await readFile(commonBricksJsonFile, "utf-8")
     );
+
+    /** @type {Set<string, string>} */
+    const commonBricksMap = new Map();
+    for (const [pkg, bricks] of Object.entries(commonBricksJson)) {
+      for (const brick of bricks) {
+        const existedPkg = commonBricksMap.get(brick);
+        if (existedPkg && existedPkg !== pkg) {
+          throw new Error(
+            `Conflicted common brick: "${brick}" in package "${existedPkg}" and "${pkg}"`
+          );
+        }
+        commonBricksMap.set(brick, pkg);
+      }
+    }
+
     commonBricks = Object.prototype.hasOwnProperty.call(
       commonBricksJson,
       packageName
