@@ -86,6 +86,11 @@ describe("scanStoryboard", () => {
               },
               useBrick: {
                 brick: "b-f",
+                children: [
+                  {
+                    brick: "b-g",
+                  },
+                ],
               },
             },
           },
@@ -126,6 +131,7 @@ describe("scanStoryboard", () => {
       "b-c",
       "b-d",
       "b-f",
+      "b-g",
       "b-y",
       "u-m",
       "u-n",
@@ -155,6 +161,7 @@ describe("scanStoryboard", () => {
       "b-c",
       "b-d",
       "b-f",
+      "b-g",
       "b-x",
       "b-y",
       "u-m",
