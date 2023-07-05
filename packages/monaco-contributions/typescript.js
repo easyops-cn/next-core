@@ -411,9 +411,10 @@ export const language = {
  * Register the extended typescript language, with control keywords
  * highlighting supported.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "typescript"
  */
-export function register(languageId = "typescript") {
+export function register(monaco, languageId = "typescript") {
   monaco.languages.register({
     id: languageId,
     extensions: [".ts", ".tsx", ".cts", ".mts"],

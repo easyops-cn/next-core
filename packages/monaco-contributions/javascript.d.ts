@@ -7,6 +7,7 @@ export const language: monaco.languages.IMonarchLanguage;
  * Register the extended javascript language, with control keywords
  * highlighting supported.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "javascript"
  */
-export function register(languageId?: string): void;
+export function register(monaco: monaco, languageId?: string): void;

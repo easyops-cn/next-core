@@ -345,9 +345,10 @@ export const language = {
  * Register the extended yaml language, with Brick Next expression syntax
  * highlighting supported.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "yaml"
  */
-export function register(languageId = "yaml") {
+export function register(monaco, languageId = "yaml") {
   monaco.languages.register({
     id: languageId,
     extensions: [".yaml", ".yml"],
