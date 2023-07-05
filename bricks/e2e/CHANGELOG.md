@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.1.0...@next-bricks/e2e@0.2.0) (2023-07-05)
+
+
+### Features
+
+* check common bricks ([22a566c](https://github.com/easyops-cn/next-core/commit/22a566ce9739b97c3f4d8c25de01c6c0033082b9))
+
+
+
+
+
 # [0.1.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.0.62...@next-bricks/e2e@0.1.0) (2023-07-03)
 
 

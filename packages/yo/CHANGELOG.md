@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.3.0...@next-core/yo@1.4.0) (2023-07-05)
+
+
+### Features
+
+* check common bricks ([22a566c](https://github.com/easyops-cn/next-core/commit/22a566ce9739b97c3f4d8c25de01c6c0033082b9))
+* throw error for conflicted common bricks ([11e6c11](https://github.com/easyops-cn/next-core/commit/11e6c1121ec15541f65f9537d0944c7d05c9399b))
+
+
+
+
+
 # [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.2.7...@next-core/yo@1.3.0) (2023-07-03)
 
 
