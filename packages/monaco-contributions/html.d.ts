@@ -6,6 +6,7 @@ export const language: monaco.languages.IMonarchLanguage;
 /**
  * Register the extended html language, allow dots in tag name.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "html"
  */
-export function register(languageId?: string): void;
+export function register(monaco: monaco, languageId?: string): void;

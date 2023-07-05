@@ -13,10 +13,10 @@ import { register as registerTypeScript } from "@next-core/monaco-contributions/
 import { register as registerYaml } from "@next-core/monaco-contributions/yaml";
 import { register as registerHtml } from "@next-core/monaco-contributions/html";
 
-registerJavaScript();
-registerTypeScript();
-registerYaml();
-registerHtml();
+registerJavaScript(monaco);
+registerTypeScript(monaco);
+registerYaml(monaco);
+registerHtml(monaco);
 
 interface Example extends Sources {
   key: string;

@@ -377,9 +377,10 @@ export const language = {
 /**
  * Register the extended html language, allow dots in tag name.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "html"
  */
-export function register(languageId = "html") {
+export function register(monaco, languageId = "html") {
   monaco.languages.register({
     id: languageId,
     extensions: [
