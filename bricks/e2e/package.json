@@ -16,6 +16,12 @@
   "nx": {
     "targets": {
       "build": {
+        "inputs": [
+          "prod",
+          "^prod",
+          "global",
+          "{workspaceRoot}/shared/common-bricks/common-bricks.json"
+        ],
         "outputs": [
           "{projectRoot}/dist",
           "{projectRoot}/.pkgbuild",
