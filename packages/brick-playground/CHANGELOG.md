@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.15...@next-core/brick-playground@1.10.16) (2023-07-05)
+
+
+### Bug Fixes
+
+* fix usage of monaco-contributions ([0d5e360](https://github.com/easyops-cn/next-core/commit/0d5e360c4ada3ad79610c11ccd56b2ebe24f3cf3))
+
+
+
+
+
 ## [1.10.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.14...@next-core/brick-playground@1.10.15) (2023-07-03)
 
 **Note:** Version bump only for package @next-core/brick-playground
