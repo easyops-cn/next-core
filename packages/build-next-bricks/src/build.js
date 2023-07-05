@@ -1,4 +1,5 @@
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import webpack from "webpack";
@@ -6,6 +7,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import postcssPresetEnv from "postcss-preset-env";
 import cssnano from "cssnano";
 import cssnanoPresetLite from "cssnano-preset-lite";
+import _ from "lodash";
 import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
 import getCamelPackageName from "./getCamelPackageName.js";
 import getSvgrLoaders from "./getSvgrLoaders.js";
@@ -65,12 +67,32 @@ async function getWebpackConfig(config) {
 
   const packageJsonFile = await readFile(
     path.join(packageDir, "package.json"),
-    { encoding: "utf-8" }
+    "utf-8"
   );
   const packageJson = JSON.parse(packageJsonFile);
   const packageName = packageJson.name.split("/").pop();
   const camelPackageName = getCamelPackageName(packageName);
   const libName = isBricks ? `bricks/${packageName}` : config.type;
+
+  /** @type {string[]} */
+  let commonBricks;
+  const commonBricksJsonFile = path.join(
+    packageDir,
+    "../../shared/common-bricks/common-bricks.json"
+  );
+  if (existsSync(commonBricksJsonFile)) {
+    const commonBricksJson = JSON.parse(
+      await readFile(commonBricksJsonFile, "utf-8")
+    );
+    commonBricks = Object.prototype.hasOwnProperty.call(
+      commonBricksJson,
+      packageName
+    )
+      ? commonBricksJson[packageName]
+      : [];
+  } else {
+    commonBricks = [];
+  }
 
   const sharedSingletonPackages = [
     "history",
@@ -179,6 +201,23 @@ async function getWebpackConfig(config) {
         }
       }
     }
+  }
+
+  const invalidElements = _.difference(elements, commonBricks);
+  if (invalidElements.length > 0) {
+    throw new Error(
+      `Find common bricks in \`${packageName}\` which are not in common-bricks.json: ${invalidElements.join(
+        ", "
+      )}`
+    );
+  }
+  const missingElements = _.difference(commonBricks, elements);
+  if (missingElements.length > 0) {
+    throw new Error(
+      `Missing common bricks in \`${packageName}\`: ${missingElements.join(
+        ", "
+      )}`
+    );
   }
 
   /** @type {Record<string, { import: string; name: string; }>} */

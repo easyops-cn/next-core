@@ -1,6 +1,6 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
-import { readFile, readdir } from "node:fs/promises";
+import { readFile, readdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -216,10 +216,9 @@ export default function (
           return true;
         },
         transformer(input, data) {
-          if (data.brickType === "common") {
-            return `eo-${input}`;
-          }
-          return input;
+          return data.brickType === "common"
+            ? `eo-${input}`
+            : `${data.pkgName}.${input}`;
         },
       },
       {
@@ -249,6 +248,9 @@ export default function (
 
           return true;
         },
+        transformer(input, data) {
+          return `${data.pkgName}.${input}`;
+        },
       },
     ],
     actions(data) {
@@ -270,6 +272,48 @@ export default function (
             type: "add",
             path: "bricks/{{pkgName}}/docs/{{>lastTagName}}.md",
             templateFile: "templates/brick.md.hbs",
+          },
+          async function modifyCommonBricksJson(answers) {
+            if (answers.brickType === "common") {
+              const realBrickName = `eo-${answers.brickName}`;
+              const commonBricksJsonFile = path.join(
+                rootDir,
+                "shared/common-bricks/common-bricks.json"
+              );
+              /** @type {Record<string, string[]>} */
+              let commonBricksJson;
+              /** @type {string[]} */
+              let commonBricks;
+              if (existsSync(commonBricksJsonFile)) {
+                commonBricksJson = JSON.parse(
+                  await readFile(commonBricksJsonFile, "utf-8")
+                );
+                if (
+                  Object.prototype.hasOwnProperty.call(
+                    commonBricksJson,
+                    answers.pkgName
+                  )
+                ) {
+                  commonBricks = commonBricksJson[answers.pkgName];
+                } else {
+                  commonBricks = commonBricksJson[answers.pkgName] = [];
+                }
+              } else {
+                commonBricksJson = {};
+                commonBricks = commonBricksJson[answers.pkgName] = [];
+              }
+              if (!commonBricks.includes(realBrickName)) {
+                commonBricks.push(realBrickName);
+                await writeFile(
+                  commonBricksJsonFile,
+                  JSON.stringify(commonBricksJson, null, 2)
+                );
+                return plop.renderString(
+                  `added {{pkgName}}: ${realBrickName} in /shared/common-bricks/common-bricks.json`,
+                  answers
+                );
+              }
+            }
           },
         ];
       } else if (data.type === "provider") {
