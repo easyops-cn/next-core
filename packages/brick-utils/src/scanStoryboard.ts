@@ -12,8 +12,8 @@ import {
   parseStoryboard,
   parseTemplates,
   traverse,
+  StoryboardNodeRoot,
 } from "@next-core/storyboard";
-import { StoryboardNodeRoot } from ".";
 
 export interface ScanBricksOptions {
   keepDuplicates?: boolean;
