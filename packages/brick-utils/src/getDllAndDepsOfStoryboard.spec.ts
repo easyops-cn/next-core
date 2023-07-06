@@ -43,6 +43,7 @@ const brickPackages: BrickPackage[] = [
   {
     id: "bricks/v3",
     filePath: "bricks/v3/dist/index.js",
+    elements: ["eo-button"],
   } as BrickPackage,
 ];
 
@@ -321,14 +322,14 @@ describe("getDllAndDepsByResource", () => {
     expect(
       getDllAndDepsByResource(
         {
-          bricks: ["v3.my-button"],
+          bricks: ["v3.my-button", "eo-button", "eo-undefined"],
         },
         brickPackages
       )
     ).toEqual({
       dll: [],
       deps: [],
-      v3Bricks: ["v3.my-button"],
+      v3Bricks: ["v3.my-button", "eo-button"],
       v3Processors: [],
     });
   });
