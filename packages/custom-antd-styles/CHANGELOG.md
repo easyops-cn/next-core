@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.26](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.25...@next-core/custom-antd-styles@1.25.26) (2023-07-06)
+
+
+### Bug Fixes
+
+* **custom-antd-styles:** antd表格没数据时不能hover ([2b3b6e8](https://github.com/easyops-cn/next-core/commit/2b3b6e8cc31cbb9e3e4d4bf5ea5fcf8014803027))
+
+
+
+
+
 ## [1.25.25](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.24...@next-core/custom-antd-styles@1.25.25) (2023-06-06)
 
 **Note:** Version bump only for package @next-core/custom-antd-styles
