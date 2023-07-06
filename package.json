@@ -34,7 +34,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.22.7",
+    "@babel/core": "^7.22.8",
     "@babel/types": "^7.22.5",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/brick-container": "*",
