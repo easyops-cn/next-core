@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.177.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.2...@next-core/brick-kit@2.177.3) (2023-07-06)
+
+
+### Bug Fixes
+
+* 多层菜单排序失效 ([032f434](https://github.com/easyops-cn/next-core/commit/032f43417b12d263fd97f3d48908db3b967ef252))
+
+
+
+
+
 ## [2.177.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.1...@next-core/brick-kit@2.177.2) (2023-07-06)
 
 **Note:** Version bump only for package @next-core/brick-kit
