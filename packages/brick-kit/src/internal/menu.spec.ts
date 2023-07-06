@@ -111,6 +111,27 @@ const mockMenuList: any[] = [
         text: "Menu Item 6",
         to: '/${ APP.unknown = ["next","test"] | join : "/" }',
       },
+      {
+        text: "Menu Item 7",
+        children: [
+          {
+            text: "Menu Item 7 - 1",
+            children: [
+              {
+                text: "Menu Item 7 - 1",
+              },
+              {
+                text: "Menu Item 7 - 3",
+                sort: 30,
+              },
+              {
+                text: "Menu Item 7 - 2",
+                sort: 20,
+              },
+            ],
+          },
+        ],
+      },
     ],
     app: [
       {
@@ -636,6 +657,32 @@ describe("constructMenu", () => {
             text: "Menu Item 6",
             to: "/next/test",
             children: [],
+          },
+          {
+            title: "Menu Item 7",
+            type: "subMenu",
+            items: [
+              {
+                title: "Menu Item 7 - 1",
+                type: "subMenu",
+                items: [
+                  {
+                    text: "Menu Item 7 - 1",
+                    children: [],
+                  },
+                  {
+                    text: "Menu Item 7 - 2",
+                    sort: 20,
+                    children: [],
+                  },
+                  {
+                    text: "Menu Item 7 - 3",
+                    sort: 30,
+                    children: [],
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
