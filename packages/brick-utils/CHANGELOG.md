@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.0...@next-core/brick-utils@2.51.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* compatible with v3 common bricks ([0faff94](https://github.com/easyops-cn/next-core/commit/0faff94c6b941fa1bf4b8289c2604a0965ea7153))
+
+
+
+
+
 # [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.50.4...@next-core/brick-utils@2.51.0) (2023-07-06)
 
 
