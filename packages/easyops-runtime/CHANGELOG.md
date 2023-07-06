@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.2...@next-core/easyops-runtime@0.6.3) (2023-07-06)
+
+
+### Bug Fixes
+
+* 多层菜单排序失效 ([9d44552](https://github.com/easyops-cn/next-core/commit/9d44552c514336e51fe2749cca4024a2367e1d39))
+
+
+
+
+
 ## [0.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.1...@next-core/easyops-runtime@0.6.2) (2023-06-30)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
