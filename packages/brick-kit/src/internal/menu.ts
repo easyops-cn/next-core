@@ -158,7 +158,7 @@ export async function fetchMenuById(
   if (!menuData) {
     throw new Error(`Menu not found: ${menuId}`);
   }
-  reorderMenuItems(menuData);
+  reorderMenu(menuData);
   menuData[symbolShouldCache] && menuCache.set(menuId, menuData);
   return menuData;
 }
@@ -474,10 +474,14 @@ export function clearMenuCache(): void {
   menuCache.clear();
 }
 
-function reorderMenuItems(menuData: MenuRawData): void {
-  menuData.items = sortMenuItems(menuData.items).map((item) => ({
+function reorderMenu(menuData: MenuRawData): void {
+  menuData.items = reorderMenuItems(menuData.items);
+}
+
+function reorderMenuItems(list: MenuItemRawData[]): MenuItemRawData[] {
+  return sortMenuItems(list).map((item) => ({
     ...item,
-    children: sortMenuItems(item.children) as SidebarMenuSimpleItem[],
+    children: reorderMenuItems(item.children),
   }));
 }
 
