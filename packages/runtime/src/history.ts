@@ -25,7 +25,24 @@ export function createHistory(): NextHistory {
 }
 
 export function getHistory(): NextHistory {
-  return history;
+  return history ?? getV2History();
+}
+
+/**
+ * When using v3 bricks in v2 runtime, return history from v2 runtime.
+ */
+function getV2History() {
+  const { dll } = window as unknown as { dll?: DLL };
+  if (typeof dll === "function") {
+    const LegacyBrickKit = dll("tYg3");
+    return LegacyBrickKit.getHistory();
+  }
+}
+
+interface DLL {
+  (moduleId: "tYg3"): {
+    getHistory(): NextHistory;
+  };
 }
 
 export type NextLocation = Location<NextHistoryState>;
