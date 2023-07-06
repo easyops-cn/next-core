@@ -127,13 +127,21 @@ export function getDllAndDepsByResource(
     editorBricks?.length > 0
   ) {
     const brickMap = getBrickToPackageMap(brickPackages);
+    const v3DefinedBricks = new Set<string>();
+    for (const pkg of brickPackages) {
+      const { id, elements } = pkg as { id?: string; elements?: string[] };
+      if (id && elements?.length) {
+        for (const element of elements) {
+          v3DefinedBricks.add(element);
+        }
+      }
+    }
 
     [
-      ...(bricks ?? []).map((n) => [n]),
+      ...(bricks ?? []).map((n) => [n] as [string]),
       ...(processors ?? []).map((n) => [n, true] as [string, boolean?]),
     ].forEach(([name, isProcessor]) => {
       // ignore custom template
-      // istanbul ignore else
       if (name.includes(".")) {
         let namespace = name.split(".")[0];
         // processor 是 camelCase 格式，转成 brick 的 param-case 格式，统一去判断
@@ -161,6 +169,8 @@ export function getDllAndDepsByResource(
             } \`${name}\` does not match any brick package`
           );
         }
+      } else if (!name.startsWith("tpl-") && v3DefinedBricks.has(name)) {
+        v3Bricks.add(name);
       }
     });
 
