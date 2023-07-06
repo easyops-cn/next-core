@@ -3,7 +3,7 @@ import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
 import { pick } from "lodash";
 import { checkIfOfComputed } from "@next-core/runtime";
 import { mergeMenu } from "./mergeMenu.js";
-import { reorderMenuItems } from "./reorderMenuItems.js";
+import { reorderMenu } from "./reorderMenuItems.js";
 import type {
   MenuRawData,
   RuntimeContext,
@@ -110,7 +110,7 @@ async function _fetchMenuById(
     throw new Error(`Menu not found: ${menuId}`);
   }
 
-  reorderMenuItems(menuData);
+  reorderMenu(menuData);
 
   const { items, app, ...restMenuData } = menuData;
   const newRuntimeContext: RuntimeContext = {
