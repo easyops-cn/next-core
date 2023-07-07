@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.0...@next-core/build-next-bricks@1.13.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* refine svgr options for icon font ([137c74b](https://github.com/easyops-cn/next-core/commit/137c74bb16ce310f999af08ca3bec2ff72f7fb0c))
+
+
+
+
+
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.12.0...@next-core/build-next-bricks@1.13.0) (2023-07-05)
 
 

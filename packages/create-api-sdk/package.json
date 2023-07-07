@@ -1,6 +1,6 @@
 {
   "name": "@next-core/create-api-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Build next bricks",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/create-api-sdk",
   "license": "GPL-3.0",
@@ -54,6 +54,6 @@
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.5",
-    "@next-core/test-next": "^1.0.6"
+    "@next-core/test-next": "^1.0.7"
   }
 }

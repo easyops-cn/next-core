@@ -1,6 +1,6 @@
 {
   "name": "@next-core/cook",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Cook expressions and storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/cook",
   "license": "GPL-3.0",
@@ -52,8 +52,8 @@
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.5",
-    "@next-core/supply": "^2.1.1",
-    "@next-core/test-next": "^1.0.6",
+    "@next-core/supply": "^2.1.2",
+    "@next-core/test-next": "^1.0.7",
     "lodash": "^4.17.21"
   }
 }
