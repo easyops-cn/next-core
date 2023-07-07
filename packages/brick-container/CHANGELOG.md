@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.87.9...@next-core/brick-container@2.88.0) (2023-07-07)
+
+
+### Features
+
+* **custom-antd-styles:** 卡片、抽屉左右内间距调整 ([e356580](https://github.com/easyops-cn/next-core/commit/e356580506c46f9be04082565612f90c202559d3))
+
+
+
+
+
 ## [2.87.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.87.8...@next-core/brick-container@2.87.9) (2023-07-06)
 
 **Note:** Version bump only for package @next-core/brick-container

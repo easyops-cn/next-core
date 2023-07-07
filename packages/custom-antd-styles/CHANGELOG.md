@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.26...@next-core/custom-antd-styles@1.26.0) (2023-07-07)
+
+
+### Features
+
+* **custom-antd-styles:** 卡片、抽屉左右内间距调整 ([e356580](https://github.com/easyops-cn/next-core/commit/e356580506c46f9be04082565612f90c202559d3))
+
+
+
+
+
 ## [1.25.26](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.25...@next-core/custom-antd-styles@1.25.26) (2023-07-06)
 
 
