@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.22.7",
-    "@babel/traverse": "^7.22.7",
+    "@babel/traverse": "^7.22.8",
     "@svgr/webpack": "^8.0.1",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.8.1",
