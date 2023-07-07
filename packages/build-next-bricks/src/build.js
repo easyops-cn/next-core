@@ -241,6 +241,8 @@ async function getWebpackConfig(config) {
   const outputPath = path.join(packageDir, config.outputPath ?? "dist");
   const chunksDir = isBricks ? "chunks/" : "";
 
+  const imageAssetFilename = config.imageAssetFilename ?? "images/[hash][ext]";
+
   return {
     entry: config.entry || {
       main: "./src/index",
@@ -321,7 +323,7 @@ async function getWebpackConfig(config) {
           ),
           type: "asset/resource",
           generator: {
-            filename: config.imageAssetFilename ?? "images/[hash][ext][query]",
+            filename: imageAssetFilename,
           },
         },
         ...(config.svgRules ??
@@ -329,6 +331,29 @@ async function getWebpackConfig(config) {
             ? [
                 {
                   test: /\.svg$/i,
+                  type: "asset/resource",
+                  // Match `xxx.svg?url`
+                  resourceQuery: /url/,
+                  generator: {
+                    filename: imageAssetFilename,
+                  },
+                },
+                {
+                  test: /\.svg$/i,
+                  // Exclude issuer of js files
+                  issuer: {
+                    not: /\.[jt]sx?$/,
+                  },
+                  type: "asset/resource",
+                  generator: {
+                    filename: imageAssetFilename,
+                  },
+                },
+                {
+                  test: /\.svg$/i,
+                  issuer: /\.[jt]sx?$/,
+                  // Exclude `xxx.svg?url`
+                  resourceQuery: { not: /url/ },
                   use: getSvgrLoaders(),
                 },
               ]

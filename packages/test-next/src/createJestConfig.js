@@ -53,6 +53,9 @@ export function createJestConfig({
     ],
     moduleNameMapper: {
       "\\.module\\.css$": "identity-obj-proxy",
+      // Currently we can't use a transformer for imports with resource query.
+      // See https://github.com/jestjs/jest/pull/4549
+      "(.*)\\.svg\\?url$": `${projectRoot}/jest/__mocks__/svg-url.js`,
       ...moduleNameMapper,
     },
     // Ref https://github.com/facebook/jest/issues/2070#issuecomment-431706685

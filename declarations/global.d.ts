@@ -8,29 +8,6 @@ declare module "*.css" {
   export default css;
 }
 
-declare module "*.css?shadow" {
-  const css: string;
-  export default css;
-}
-
-declare module "*.less" {
-  const lessValue: string;
-  export default lessValue;
-}
-
-interface SvgrComponent
-  extends React.FunctionComponent<React.SVGAttributes<SVGElement>> {}
-
-declare module "*.svg" {
-  const svgValue: SvgrComponent;
-  export default svgValue;
-}
-
-declare module "*.png" {
-  const value: any;
-  export = value;
-}
-
 declare module "@ungap/event-target" {
   export default EventTarget;
 }
