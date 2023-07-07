@@ -25,6 +25,10 @@
     "./html": {
       "types": "./html.d.ts",
       "import": "./html.js"
+    },
+    "./common": {
+      "types": "./common.d.ts",
+      "import": "./common.js"
     }
   },
   "devDependencies": {

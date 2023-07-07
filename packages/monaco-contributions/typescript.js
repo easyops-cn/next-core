@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-escape */
 // https://github.com/microsoft/monaco-editor/blob/8270c45a385a180a53fd8ef8e3a189b1471100ed/src/basic-languages/typescript/typescript.ts
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { EVALUATE_KEYWORD } from "./common.js";
 
 /** @type {monaco.languages.LanguageConfiguration} */
 export const conf = {
@@ -269,6 +270,11 @@ export const language = {
           },
         },
       ],
+      [
+        new RegExp(`\\b(${EVALUATE_KEYWORD.join("|")})\\b`),
+        { token: "brick-next-keyword/$#" },
+      ],
+
       [/[A-Z][\w\$]*/, "type.identifier"], // to show class names nicely
       // [/[A-Z][\w\$]*/, 'identifier'],
 

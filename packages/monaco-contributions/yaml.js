@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-escape */
 // https://github.com/microsoft/monaco-editor/blob/8270c45a385a180a53fd8ef8e3a189b1471100ed/src/basic-languages/yaml/yaml.ts
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { EVALUATE_KEYWORD } from "./common.js";
 
 /** @type {monaco.languages.LanguageConfiguration} */
 export const conf = {
@@ -107,6 +108,7 @@ export const language = {
         ["tag", "white", "operators", "white"],
       ],
 
+      { include: "@placeholderExpression" },
       { include: "@flowScalars" },
       { include: "@flowExpression" },
 
@@ -295,12 +297,22 @@ export const language = {
 
     expressionStart: [
       [
-        /(\s*)(<%[~=]?)(\s+)/,
+        new RegExp(
+          `(\\s*)(<%[~=]?)(\\s+)\\b(${EVALUATE_KEYWORD.join("|")})\\b(.*)$`
+        ),
         [
           "white",
           { token: "delimiter", bracket: "@open" },
           {
             token: "white",
+          },
+          {
+            token: "brick-next-keyword/$4",
+            next: "@expressionEmbedded",
+            nextEmbedded: "text/javascript",
+          },
+          {
+            token: "body",
             next: "@expressionEmbedded",
             nextEmbedded: "text/javascript",
           },
@@ -337,6 +349,17 @@ export const language = {
 
     expressionEmbedded: [
       [/%>/, { token: "@rematch", next: "@pop", nextEmbedded: "@pop" }],
+    ],
+
+    placeholderExpression: [
+      [
+        /(["|'][^\s]*)([\$|@]{[^}]+})([^\s]*["|'])/,
+        [
+          { token: "string" },
+          { token: "placeholder-expression" },
+          { token: "string" },
+        ],
+      ],
     ],
   },
 };
