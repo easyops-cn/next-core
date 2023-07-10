@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.88.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.88.0...@next-core/brick-container@2.88.1) (2023-07-10)
+
+
+### Bug Fixes
+
+* **bricks-container:** v8-top-menu-item-hover调整 ([5fe3819](https://github.com/easyops-cn/next-core/commit/5fe3819ec450b35c1dc794b4bbd3c16db5c18a27))
+
+
+
+
+
 # [2.88.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.87.9...@next-core/brick-container@2.88.0) (2023-07-07)
 
 
