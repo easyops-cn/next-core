@@ -173,7 +173,7 @@
 
   /* 8.0 框架 */
   --v8-top-navigation-bg: var(--palette-gray-1);
-  --v8-top-menu-item-hover: var(--palette-gray-3);
+  --v8-top-menu-item-hover: rgba(0, 0, 0, 0.04);
   --v8-dropdown-selected-bg: #f0f6ff;
   --v8-dropdown-selected: #1a7aff;
   --v8-top-menu-item-selected-bg: var(--palette-blue-1);
