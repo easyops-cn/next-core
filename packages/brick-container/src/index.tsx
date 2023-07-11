@@ -13,6 +13,7 @@ import {
   getRuntimeMisc,
   getHistory,
   abortController,
+  createWebSocket,
 } from "@next-core/brick-kit";
 import { FeatureFlags, PluginHistory } from "@next-core/brick-types";
 import {

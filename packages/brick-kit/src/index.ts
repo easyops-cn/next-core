@@ -45,3 +45,4 @@ export * from "./internal/misc";
 export * from "./abortController";
 export * from "./getRealValue";
 export * from "./constructEventListener";
+export * from "./websocket";
