@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.4.11...@next-core/brick-container@3.4.12) (2023-07-11)
+
+
+### Bug Fixes
+
+* polyfill for Element::replaceChildren ([c02ff32](https://github.com/easyops-cn/next-core/commit/c02ff3228ad173b86d14b2a53da9235b1e3d3113))
+
+
+
+
+
 ## [3.4.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.4.10...@next-core/brick-container@3.4.11) (2023-07-07)
 
 **Note:** Version bump only for package @next-core/brick-container
