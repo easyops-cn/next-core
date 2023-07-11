@@ -160,6 +160,11 @@ export function createHistory(): PluginHistory;
 // @internal (undocumented)
 export function createRuntime(): Runtime;
 
+// Warning: (ae-forgotten-export) The symbol "WebSocketService" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const createWebSocket: () => WebSocketService;
+
 // Warning: (ae-internal-missing-underscore) The name "CustomApiDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -380,6 +385,9 @@ export function getRuntime(): Runtime;
 
 // @public (undocumented)
 export function getRuntimeMisc(): RuntimeMisc;
+
+// @public (undocumented)
+export function getWebSocket(): WebSocketService;
 
 // @public
 export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError): ReturnType<ModalFunc>;
@@ -625,6 +633,43 @@ export function useProvider<TData = any>(...args: UseProviderArgs): UseProvider<
 //
 // @internal (undocumented)
 export function useRecentApps(): RecentApps;
+
+// @public (undocumented)
+export class WebsocketMessageRequest {
+    constructor(event: PluginWebSocketMessageEvent, topic: PluginWebSocketMessageTopic);
+    // (undocumented)
+    data: string;
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessageEvent" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    event: PluginWebSocketMessageEvent;
+    // (undocumented)
+    get identity(): string;
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessage" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessageTopic" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    message: PluginWebSocketMessage<PluginWebSocketMessageTopic>;
+    // (undocumented)
+    topic: string;
+}
+
+// @public (undocumented)
+export class WebsocketMessageResponse {
+    constructor(response: string);
+    // (undocumented)
+    data: string;
+    // (undocumented)
+    event: PluginWebSocketMessageEvent;
+    // (undocumented)
+    get identity(): string;
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessageResponsePayload" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    message: PluginWebSocketMessage<PluginWebSocketMessageResponsePayload>;
+    // (undocumented)
+    topic: string;
+}
 
 
 // Warnings were encountered during analysis:
