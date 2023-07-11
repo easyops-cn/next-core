@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.38.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.37.3...@next-dll/editor-bricks-helper@0.38.0) (2023-07-11)
+
+
+### Features
+
+* export websocket client ([5085e00](https://github.com/easyops-cn/next-core/commit/5085e00de189ab097618df7f312dab85ba6f4d06))
+
+
+
+
+
 ## [0.37.3](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.37.2...@next-dll/editor-bricks-helper@0.37.3) (2023-07-06)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper
