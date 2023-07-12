@@ -14,6 +14,7 @@ import {
   isImportSpecifier,
 } from "@babel/types";
 import getTypeDeclaration from "./getTypeDeclaration.js";
+import isDeprecatedV2Packages from "./isDeprecatedV2Packages.js";
 
 /**
  *
@@ -91,10 +92,6 @@ export default async function scanBricks(packageDir) {
    */
   async function scanByFile(filePath, overrideImport) {
     if (processedFiles.has(filePath)) {
-      console.warn(
-        "[scan-bricks] warn: the file has already been scanned:",
-        filePath
-      );
       return;
     }
     processedFiles.add(filePath);
@@ -534,7 +531,6 @@ export default async function scanBricks(packageDir) {
       ImportDeclaration({ node: { source, importKind } }) {
         // Match `import "..."`
         if (
-          source.type === "StringLiteral" &&
           // Ignore import from node modules.
           (source.value.startsWith("./") || source.value.startsWith("../")) &&
           // Ignore `import type {...} from "..."`
@@ -561,6 +557,12 @@ export default async function scanBricks(packageDir) {
             // also look for "./directory/index.*"
             addImportFile(importPath, "index");
           }
+        }
+
+        if (isDeprecatedV2Packages(source.value)) {
+          throw new Error(
+            `Using deprecated v2 packages is prohibited in v3: "${source.value}"`
+          );
         }
       },
       TSInterfaceDeclaration({ node }) {
