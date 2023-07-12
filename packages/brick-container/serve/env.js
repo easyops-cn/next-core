@@ -55,8 +55,6 @@ const cli = meow(
       },
     },
     allowUnknownFlags: false,
-    autoHelp: false,
-    autoVersion: false,
   }
 );
 
