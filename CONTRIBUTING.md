@@ -1,147 +1,62 @@
 # Contribution Guide
 
-项目为基于 [Lerna] + [Yarn Workspace] 的 Monorepo.
-
-更多文档请查看 《[EasyOps 开发者中心](http://docs.developers.easyops.cn/)》
-
-next-core 代码执行流程图 ![next-core代码执行流程图](assets/next-core代码执行流程图.png)
-
-## 安装依赖
-
-`yarn`
-
-## 开发
-
-`yarn start`
-
-> `yarn start` 等同于 `lerna run start --scope=@next-core/brick-container`。
-
-开发服务默认会使用本仓库所在目录的兄弟目录中的 `next-basics` 目录作为构件仓库。也就是默认工作在类似：
-
-```
-/Users/one/easyops/next-core
-/Users/one/easyops/next-basics
-```
-
-如果你希望调试其它地方的构件仓库，你可以在本项目的根目录中添加一个 `dev.config.js` 来配置构件仓库的位置，例如：
-
-```js
-const path = require("path");
-exports.nextRepoDir = path.join(__dirname, "../next-basics");
-```
-
-## 构建
-
-`yarn build`
-
-## 测试
-
-`yarn test`
-
-测试单个文件使用 `yarn test` 加上文件路径即可，例如 `yarn test ./path/to/your.spec.ts`。
-
-## 文件结构
-
-项目包含两个多包工作区：
-
-```bash
-.
-├── dll/*                 # <DLL> Scope: `@next-dll/*`
-├── packages              # <平台库> Scope: `@next-core/*`
-    ├── brick-container   # 新 Console
-    ├── brick-dll         # Vendors dll
-    ├── brick-http        # Http 基础库
-    ├── brick-kit         # 插件运行时
-    ├── brick-scripts     # 用于构件开发的脚本工具
-    └── sdk-scripts       # 用于 SDK 的脚本工具
-```
-
 ## 开发调试
 
-如果你希望调试本地版本的、属于 `@next-core/brick-dll` 的包，例如 `@next-core/brick-kit`，那么你需要依次打开三个终端，并分别运行：
-
-1. `lerna run start --scope @next-core/brick-kit`；
-2. `lerna run start --scope @next-core/brick-dll`；
-3. `yarn start`。
-
-这是由依赖关系决定的 `@next-core/brick-container` ==> `@next-core/brick-dll` ==> `@next-core/brick-kit`。开发其它包如 `@next-core/brick-utils` 同理。
-
-由于目前不支持为 `yarn start` 传递类似 `yarn serve` 传递的 `--subdir` 等参数，需要使用对应的环境变量来设置相关参数。
-
-- `SUBDIR=true` 等于 `--subdir`；
-- `LOCAL_BRICKS=abc,xyz` 等于 `--local-bricks=abc,xyz`；
-- `LOCAL_APPS=abc,xyz` 等于 `--local-apps=abc,xyz`；
-- `NO_MERGE_SETTINGS=true` 等于 `--no-merge-settings`；
-- 以此类推（将 `yarn serve` 支持的参数改为 `大写_常量` 格式作为名称）。
-
-例如：
-
-```shell
-LOCAL_BRICKS=abc yarn start
-# is similar to
-yarn serve --local-bricks=abc
+```bash
+yarn
+yarn build
+yarn serve
 ```
 
-### 独立打包调试
+关于 `yarn serve`：
 
-现在无需再 `dev.config.js` 配置 `standaloneAppsConfig` 即可调试独立打包的微应用。
+- 在 v3 中，默认启用项目中所有本地 `node_modules` 中的构件包（`@next-bricks/*` 和 `@bricks/*`）；
+- 如需禁用本地构件包，可指定 `--local-bricks=no`；
+- 如需引用其他项目的构件包，可以使用 [`yarn link`](https://classic.yarnpkg.com/lang/en/docs/cli/link/)。
+- 运行 `yarn serve --help` 查看帮助详情。
 
-<details>
-<summary>点击查看已废弃的 <code>standaloneAppsConfig</code> 配置</summary>
-使用本地框架调试远端的独立打包：
+运行 `yarn start` 可启动开发模式的 brick-container 服务，其选项参数和 `yarn serve` 一致。
 
-在本项目根目录创建一个文件 `dev.config.js`：
+## Brick playground
 
-```js
-exports.standaloneAppsConfig = [
-  {
-    // 将相关参数替换成调试目标上对应的数据。
-    // 该应用使用 v2 配置，当前默认为 v2。
-    // 在 v2 版本中，框架和构件包被拎了出来，这样不同的微应用之间，如果使用了相同版本的框架或构件包，
-    // 那么可以访问同一路径的资源，以提升缓存命中率。
-    standaloneVersion: 2,
-    appDir: "message-subscribe/",
-    appRoot: "/sa-static/message-subscribe/versions/2.4.16/webroot/",
-    bootstrapHash: "4c732a2e3488e65d",
-    // v2 相对于 v1 多了下面两个配置项：
-    publicPrefix: "/sa-static/-/",
-    coreVersion: "2.76.7",
-  },
-  {
-    // 该应用使用 v1 配置。
-    standaloneVersion: 1,
-    appDir: "auth/",
-    appRoot: "/next/auth/",
-    bootstrapHash: "9467de8737bcfadf",
-  },
-  {
-    standaloneVersion: 1,
-    appDir: "agile-task/",
-    appRoot: "/sa-static/agile-task/versions/1.0.6/webroot/",
-    bootstrapHash: "8d14a6be80273699",
-  },
-  // 可以列出多个应用目录。
-  // 没有出现在该配置列表中的应用将自动使用非独立模式。
-];
+运行 `yarn serve:playground` 可启动 brick-playground 服务。Playground 中的构件资源和示例来自项目中所有本地构件包。
+
+运行 `yarn start:playground` 可启动开发模式的 brick-playground 服务。
+
+## 从 v2 升级到 v3
+
+V3 废弃了一些核心包，包括但不限于：
+
+```bash
+- brick-dll, dll/*
+- brick-kit
+- brick-utils
+- rollup-config-factory
+- webpack-config-factory
+- build-config-factory
+- jest-config-factory
+- custom-antd-styles
+- editor-bricks-helper
+- fontawesome-library
+- brick-types
+- brick-http
 ```
 
-</details>
+新增了一些包，包括但不限于：
 
-运行：
-
-```shell
-yarn serve --subdir --server=https://admin.easyops.local
+```bash
+- runtime            # 相当于新的 brick-kit
+- utils              # 相当于新的 brick-utils
+- loader             # 构件资源文件加载器
+- element            # 构件基础库，包括自定义元素基类和属性事件装饰器等
+- react-element      # 基于 React 的构件基础库
+- react-runtime      # 基于 React 的运行时，包括 UseBrick 等的实现
+- brick-playground   # 用于开发调试构件（脱离核心框架）
+- build-next-bricks  # 打包器，用于构件包、brick-container 和 brick-playground
+- types              # 相当于新的 brick-types
+- http               # 相当于新的 brick-http
 ```
 
-## 常见问题 FAQ
+同时 v3 也废弃了 `@next-libs/*`、`@next-sdk/*`（以及内网对应的 `@libs/*`、`@sdk/*`）。
 
-- CI 错误：
-  - `Warning: You have changed the public API signature for this project`:
-    - 可以为你的 PR 添加一个标签 `eve: update docs etc`，它会告诉我们的机器人 _Eve_ 来更新 docs etc。
-    - 注意：这个错误用于发现提交的代码意外更新了公共 API 的情况，PR 作者及审查者需要关注这些变更是否是预期的。
-  - `Manifest snapshot not match`:
-    - 可以为你的 PR 添加一个标签 `eve: update dll manifest`，它会告诉我们的机器人 _Eve_ 来更新 DLL manifest。
-    - 注意：这个错误用于发现提交的代码意外更新了 DLL exports 的情况，PR 作者及审查者需要关注这些变更是否是预期的。
-
-[lerna]: https://github.com/lerna/lerna
-[yarn workspace]: https://yarnpkg.com/lang/en/docs/workspaces/
+对于 `@next-libs/*`，v3 中可以使用 `@next-shared/*` 进行平替。对于 `@next-sdk/*`，使用 `@next-api-sdk/*` 平替（内网同理）。
