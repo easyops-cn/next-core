@@ -576,7 +576,7 @@ function batchUpdate(
   args: unknown[],
   batch: boolean,
   method: "replace" | "assign",
-  store: DataStore,
+  store: DataStore<"CTX" | "STATE">,
   runtimeContext: RuntimeContext,
   event: CustomEvent | Event
 ): void {
@@ -644,14 +644,12 @@ function handleTplStateAction(
 ) {
   const isBatch = Array.isArray(args) && args.every(isObject);
   if (isBatch && method === "update") {
-    batchUpdate(
-      args,
-      batch,
-      "replace",
-      runtimeContext.ctxStore,
+    const tplStateStore = getTplStateStore(
       runtimeContext,
-      event
+      `state.${method}`,
+      JSON.stringify(args)
     );
+    batchUpdate(args, batch, "replace", tplStateStore, runtimeContext, event);
   } else {
     const [name, value] = argsFactory(args, runtimeContext, event);
     const tplStateStore = getTplStateStore(
