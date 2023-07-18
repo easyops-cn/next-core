@@ -383,7 +383,7 @@ export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, col
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
 
 // @public (undocumented)
-export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
+export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
     render(brick: BrickConf | BrickConf[], { theme, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };

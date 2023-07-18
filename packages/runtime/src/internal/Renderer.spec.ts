@@ -88,6 +88,7 @@ customElements.define(
 );
 
 const formRendererBricks = [
+  "eo-micro-view",
   "basic-bricks.micro-view",
   "forms.general-form",
   "forms.general-input",
@@ -1880,18 +1881,16 @@ describe("renderBrick for form renderer", () => {
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <form-renderer.form-renderer>
-          <basic-bricks.micro-view
+          <eo-micro-view
             style="padding: 12px;"
           >
-            <forms.general-form
-              slot="content"
-            >
+            <forms.general-form>
               <forms.general-input
                 data-testid="string"
                 id="string"
               />
             </forms.general-form>
-          </basic-bricks.micro-view>
+          </eo-micro-view>
         </form-renderer.form-renderer>,
       ]
     `);

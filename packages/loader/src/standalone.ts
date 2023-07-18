@@ -7,7 +7,8 @@ interface BrickPackage {
   dependencies?: Record<string, string[]>;
 }
 
-const brickPackages: BrickPackage[] = [];
+const brickPackages = (window.STANDALONE_BRICK_PACKAGES ??=
+  []) as BrickPackage[];
 
 export function add(pkgList: BrickPackage[], bricksDir?: string): void {
   brickPackages.push(
