@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.4...@next-core/loader@1.3.5) (2023-07-18)
+
+
+### Bug Fixes
+
+* allow global access of brick packages ([451cfa8](https://github.com/easyops-cn/next-core/commit/451cfa877e51df8c11408937a4ecc2e5e452d0bd))
+
+
+
+
+
 ## [1.3.4](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.3...@next-core/loader@1.3.4) (2023-07-07)
 
 **Note:** Version bump only for package @next-core/loader

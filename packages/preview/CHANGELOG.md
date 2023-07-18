@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.29](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.28...@next-core/preview@0.1.29) (2023-07-18)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
 ## [0.1.28](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.27...@next-core/preview@0.1.28) (2023-07-14)
 
 **Note:** Version bump only for package @next-core/preview
