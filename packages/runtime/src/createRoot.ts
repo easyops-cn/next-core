@@ -47,7 +47,7 @@ export interface RenderOptions {
 }
 
 export function unstable_createRoot(
-  container: HTMLElement,
+  container: HTMLElement | DocumentFragment,
   { portal: _portal, scope = "fragment", unknownBricks }: CreateRootOptions = {}
 ) {
   let portal = _portal;
