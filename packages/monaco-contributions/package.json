@@ -31,6 +31,6 @@
     "monaco-editor": "^0.40.0"
   },
   "peerDependencies": {
-    "monaco-editor": ">= 0.38.0"
+    "monaco-editor": ">= 0.40.0"
   }
 }
