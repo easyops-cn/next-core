@@ -50,10 +50,10 @@
     "@next-core/test-next": "^1.0.7",
     "@next-core/theme": "^1.1.1",
     "copy-webpack-plugin": "^11.0.0",
-    "core-js": "^3.30.2",
-    "html-webpack-plugin": "^5.5.1",
+    "core-js": "^3.31.1",
+    "html-webpack-plugin": "^5.5.3",
     "regenerator-runtime": "^0.13.11",
-    "webpack-dev-server": "^4.15.0"
+    "webpack-dev-server": "^4.15.1"
   },
   "peerDependencies": {
     "@next-core/http": "*",

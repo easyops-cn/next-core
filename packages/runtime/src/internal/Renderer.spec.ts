@@ -67,6 +67,7 @@ const { preCheckPermissionsForBrickOrRoute } = hooks!.checkPermissions!;
 
 const consoleError = jest.spyOn(console, "error");
 const consoleInfo = jest.spyOn(console, "info");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const IntersectionObserver = jest.fn((callback: Function) => {
   return {
     observe: jest.fn(),
@@ -626,8 +627,8 @@ describe("renderBrick", () => {
     // The trigger ctx is not resolved yet
     expect(ctxStore.getValue("triggerOnPageLoad")).toBe("unresolved");
     expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("unresolved2");
-    await new Promise((resolve) => setTimeout(resolve, 100));
     await (global as any).flushPromises();
+    await new Promise((resolve) => setTimeout(resolve, 100));
     // The trigger ctx is resolved now
     expect(ctxStore.getValue("triggerOnPageLoad")).toBe("resolved");
     expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("resolved2");
