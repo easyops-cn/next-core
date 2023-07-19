@@ -1,8 +1,8 @@
 import type {
   BrickEventHandler,
   BrickLifeCycle,
+  MessageConf,
   ScrollIntoViewConf,
-  UseBrickLifeCycle,
 } from "@next-core/types";
 import type { Action } from "history";
 import { isEmpty, remove } from "lodash";
@@ -14,6 +14,7 @@ import type { RenderBrick, RenderNode, RenderRoot } from "./interfaces.js";
 import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { unbindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
+import { hooks } from "./Runtime.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -27,6 +28,8 @@ const commonLifeCycles = [
   "onUnmount",
   "onMediaChange",
   "onScrollIntoView",
+  "onMessage",
+  "onMessageClose",
 ] as const;
 
 const pageOnlyLifeCycles = [
@@ -70,9 +73,8 @@ export class RendererContext {
         | "onScrollIntoView"
         | "onMount"
         | "onUnmount"
-        // Omitted:
-        // "onMessage"
-        // "onMessageClose"
+        | "onMessage"
+        | "onMessageClose"
       >
     >
   > = {
@@ -86,10 +88,13 @@ export class RendererContext {
     onScrollIntoView: [],
     onMount: [],
     onUnmount: [],
+    onMessage: [],
+    onMessageClose: [],
   };
-  // #observers: IntersectionObserver[] = [];
   #observers = new Map<RenderBrick, IntersectionObserver[]>();
   #mediaListener: EventListener | undefined;
+
+  #arbitraryLifeCycle = new Map<string, Set<() => void>>();
 
   #memoizedControlNodes?: WeakMap<
     RenderNode,
@@ -106,7 +111,7 @@ export class RendererContext {
 
   registerBrickLifeCycle(
     brick: RenderBrick,
-    lifeCycle: BrickLifeCycle | UseBrickLifeCycle | undefined
+    lifeCycle: BrickLifeCycle | undefined
   ): void {
     if (!lifeCycle) {
       return;
@@ -128,6 +133,15 @@ export class RendererContext {
     if (!isEmpty((lifeCycle as { useResolves?: unknown }).useResolves)) {
       // eslint-disable-next-line no-console
       console.error("`lifeCycle.useResolves` is dropped in v3:", lifeCycle);
+    }
+  }
+
+  registerArbitraryLifeCycle(lifeCycle: string, fn: () => void): void {
+    const arbitraryCallbacks = this.#arbitraryLifeCycle.get(lifeCycle);
+    if (arbitraryCallbacks) {
+      arbitraryCallbacks.add(fn);
+    } else {
+      this.#arbitraryLifeCycle.set(lifeCycle, new Set([fn]));
     }
   }
 
@@ -334,9 +348,10 @@ export class RendererContext {
       this.#mediaListener = undefined;
     }
     this.#memoizedControlNodes = undefined;
+    this.#arbitraryLifeCycle.clear();
   }
 
-  // Note: no `onScrollIntoView`
+  // Note: no `onScrollIntoView` and `onMessage`
   #dispatchGeneralLifeCycle(
     type:
       | "onBeforePageLoad"
@@ -346,9 +361,10 @@ export class RendererContext {
       | "onAnchorLoad"
       | "onAnchorUnload"
       | "onMediaChange"
+      | "onMessageClose"
       | "onMount"
       | "onUnmount",
-    event: CustomEvent
+    event: Event
   ): void {
     // istanbul ignore next
     if (
@@ -362,6 +378,12 @@ export class RendererContext {
     }
     for (const { brick, handlers } of this.#memoizedLifeCycle[type]) {
       listenerFactory(handlers, brick.runtimeContext, brick)(event);
+    }
+    const arbitraryCallbacks = this.#arbitraryLifeCycle.get(type);
+    if (arbitraryCallbacks) {
+      for (const fn of arbitraryCallbacks) {
+        fn();
+      }
     }
   }
 
@@ -463,6 +485,28 @@ export class RendererContext {
       );
     };
     mediaEventTarget.addEventListener("change", this.#mediaListener);
+  }
+
+  initializeMessageDispatcher(): void {
+    for (const { brick, handlers: confList } of this.#memoizedLifeCycle
+      .onMessage) {
+      for (const conf of ([] as MessageConf[]).concat(confList)) {
+        hooks?.messageDispatcher?.onMessage(conf.channel, (detail) => {
+          listenerFactory(
+            conf.handlers,
+            brick.runtimeContext,
+            brick
+          )(new CustomEvent("message.push", { detail }));
+        });
+      }
+    }
+
+    hooks?.messageDispatcher?.onClose(() => {
+      this.#dispatchGeneralLifeCycle(
+        "onMessageClose",
+        new CustomEvent("message.close")
+      );
+    });
   }
 
   dispatchOnMount(): void {

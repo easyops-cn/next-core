@@ -10,7 +10,7 @@ export default function getSvgrLoaders(options = {}) {
       loader: "@svgr/webpack",
       options: {
         babel: false,
-        icon: true,
+        icon: options.icon ?? false,
         svgoConfig: {
           plugins: [
             {
@@ -21,7 +21,7 @@ export default function getSvgrLoaders(options = {}) {
                   removeViewBox: false,
 
                   convertColors: {
-                    currentColor: options.convertCurrentColor ?? false,
+                    currentColor: options.convertCurrentColor ?? !!options.icon,
                   },
                 },
               },

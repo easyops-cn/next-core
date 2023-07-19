@@ -311,9 +311,8 @@ describe("loadBricksImperatively", () => {
     );
   });
 
-  // Todo: cause other tests to faile
-  test.skip("load brick failed", async () => {
-    // consoleError.mockReturnValueOnce();
+  test("load brick failed", async () => {
+    consoleError.mockReturnValueOnce();
     const promise = expect(
       loadBricksImperatively(
         ["unsure.not-existed"],

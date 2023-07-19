@@ -45,11 +45,59 @@ export async function getLocalBrickPackageNames(rootDir, localBricks) {
 }
 
 /**
+ * @param {string} rootDir
+ * @param {string[] | undefined} localBricks
+ * @returns {Promise<unknown[]>}
+ */
+export async function getBrickManifests(rootDir, localBricks) {
+  return (
+    await Promise.all(
+      ["@next-bricks", "@bricks"].map((scope) =>
+        getBrickManifestsInDir(
+          path.join(rootDir, "node_modules", scope),
+          localBricks
+        )
+      )
+    )
+  ).flat();
+}
+
+/**
+ *
  * @param {string} bricksDir
  * @param {string[] | undefined} localBricks
+ * @returns {Promise<unknown[]>}
+ */
+async function getBrickManifestsInDir(bricksDir, localBricks) {
+  return Promise.all(
+    (
+      await getBrickPackageNamesInDir(
+        bricksDir,
+        localBricks,
+        "dist/manifest.json"
+      )
+    ).map(async (dirName) => {
+      const manifestJsonPath = path.join(
+        bricksDir,
+        dirName,
+        "dist/manifest.json"
+      );
+      return JSON.parse(await readFile(manifestJsonPath, "utf-8"));
+    })
+  );
+}
+
+/**
+ * @param {string} bricksDir
+ * @param {string[] | undefined} localBricks
+ * @param {string | undefined} file
  * @returns {Promise<string[]>}
  */
-async function getBrickPackageNamesInDir(bricksDir, localBricks) {
+async function getBrickPackageNamesInDir(
+  bricksDir,
+  localBricks,
+  file = "dist/bricks.json"
+) {
   if (!existsSync(bricksDir)) {
     return [];
   }
@@ -65,11 +113,7 @@ async function getBrickPackageNamesInDir(bricksDir, localBricks) {
             (!localBricks || localBricks.includes(item.name))
         )
         .map(async (dir) => {
-          const bricksJsonPath = path.join(
-            bricksDir,
-            dir.name,
-            "dist/bricks.json"
-          );
+          const bricksJsonPath = path.join(bricksDir, dir.name, file);
           if (existsSync(bricksJsonPath)) {
             return dir.name;
           }

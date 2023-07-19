@@ -10,12 +10,16 @@ import type {
 } from "./interfaces.js";
 import { getDefaultProperties } from "./getDefaultProperties.js";
 import { symbolForFormStateStoreId } from "./constants.js";
+import type { RendererContext } from "../RendererContext.js";
+
+const formContainers = ["forms.general-form", "form.general-form", "eo-form"];
 
 export function expandFormRenderer(
   formData: unknown,
   hostBrickConf: BrickConf,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties
+  asyncHostProperties: AsyncProperties,
+  rendererContext: RendererContext
 ): BrickConf {
   const normalizedFormData = (
     typeof formData === "string" ? JSON.parse(formData) : formData
@@ -31,7 +35,11 @@ export function expandFormRenderer(
   delete runtimeContext.forEachItem;
   delete runtimeContext.tplStateStoreId;
 
-  const formStateStore = new DataStore("FORM_STATE");
+  const formStateStore = new DataStore(
+    "FORM_STATE",
+    undefined,
+    rendererContext
+  );
   runtimeContext.formStateStoreMap.set(formStateStoreId, formStateStore);
   if (runtimeContext.formStateStoreScope) {
     runtimeContext.formStateStoreScope.push(formStateStore);
@@ -51,7 +59,7 @@ export function expandFormRenderer(
     formStateStoreId
   );
 
-  if (formConf.brick === "forms.general-form" && hostBrickConf.events) {
+  if (formContainers.includes(formConf.brick) && hostBrickConf.events) {
     formConf.events = mergeEvents(formConf.events, hostBrickConf.events);
   }
 
@@ -65,11 +73,9 @@ export function expandFormRenderer(
       slots: undefined,
       children: [
         {
-          brick: "basic-bricks.micro-view",
+          brick: "eo-micro-view",
           properties: { style: { padding: "12px" } },
-          slots: {
-            content: { bricks: [formConf], type: "bricks" },
-          },
+          children: [formConf],
         },
       ],
     };

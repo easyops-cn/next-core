@@ -27,7 +27,7 @@ const mockRuntimeStandalone = (
     homepage: "/runtime/homepage",
   },
 });
-(
+const mockRuntimeMicroAppStandalone = (
   RuntimeApi_runtimeMicroAppStandalone as jest.Mock<() => Promise<unknown>>
 ).mockResolvedValue({
   userConfig: {
@@ -78,6 +78,10 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
               userConfig: {
                 userConf: 8,
               },
+              menuIcon: {
+                imgSrc:
+                  "api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.jpeg",
+              },
             },
           },
         ],
@@ -99,6 +103,9 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
             app: {
               id: "app-b",
               name: "App B",
+              menuIcon: {
+                imgSrc: "http://example.com",
+              },
             },
           },
         ],
@@ -112,6 +119,23 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
           homepage: "/bootstrap/homepage",
         },
       };
+    case "bootstrap.app-c.json":
+    case "bootstrap.app-d.json":
+    case "bootstrap.app-e.json":
+    case "bootstrap.app-f.json": {
+      const appId = url.split(".")[1];
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: appId,
+              name: `App ${appId[appId.length - 1].toUpperCase()}`,
+            },
+          },
+        ],
+      };
+    }
     case "app-a/conf.yaml":
       return "";
     case "app-b/conf.yaml":
@@ -122,8 +146,19 @@ sys_settings:
 user_config:
   x: true
 `;
+    case "/sa-static/app-c/versions/1.2.3/conf.yaml":
+      return "a: b: c";
+    case "app-d/conf.yaml":
+    case "app-e/conf.yaml":
+      return `
+user_config_by_apps:
+  app-d:
+    y: 1
+`;
+    case "app-f/conf.yaml":
+      return "{}";
   }
-  throw new Error("oops");
+  throw new Error("Url not found");
 });
 
 describe("loadBootstrapData", () => {
@@ -158,6 +193,10 @@ describe("loadBootstrapData", () => {
             },
             userConfig: {
               userConf: 8,
+            },
+            menuIcon: {
+              imgSrc:
+                "api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/test.jpeg",
             },
           },
         },
@@ -197,6 +236,9 @@ describe("loadBootstrapData", () => {
           defaultConf: 7,
           userConf: 8,
           runtimeUserConf: 9,
+        },
+        menuIcon: {
+          imgSrc: "/app-a/-/micro-apps/app-a/images/test.jpeg",
         },
       },
       meta: {
@@ -242,6 +284,9 @@ describe("loadBootstrapData", () => {
             userConfig: {
               x: true,
             },
+            menuIcon: {
+              imgSrc: "http://example.com",
+            },
           },
         },
       ],
@@ -250,6 +295,95 @@ describe("loadBootstrapData", () => {
           "conf-flag": true,
         },
       },
+    });
+    expect(consoleWarn).toBeCalledTimes(1);
+  });
+
+  test("standalone with invalid conf.yaml", async () => {
+    consoleWarn.mockReturnValueOnce();
+    consoleError.mockReturnValueOnce();
+    mockRuntimeMicroAppStandalone.mockRejectedValueOnce(new Error("oops"));
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_FILE = "bootstrap.app-c.json";
+    window.APP_ROOT = "/sa-static/app-c/versions/1.2.3/";
+    const promise = loadBootstrapData();
+    await expect(promise).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Invalid conf.yaml"`
+    );
+    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+  });
+
+  test("standalone with conf.yaml of user_config_by_apps", async () => {
+    consoleWarn.mockReturnValueOnce();
+    mockRuntimeStandalone.mockRejectedValueOnce(new Error("oops"));
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_FILE = "bootstrap.app-d.json";
+    window.APP_ROOT = "app-d/";
+    const promise = loadBootstrapData();
+    const data = await promise;
+    expect(data).toEqual({
+      brickPackages: [],
+      storyboards: [
+        {
+          app: {
+            id: "app-d",
+            name: "App D",
+            userConfig: {
+              y: 1,
+            },
+          },
+        },
+      ],
+    });
+    expect(consoleWarn).toBeCalledTimes(1);
+  });
+
+  test("standalone with conf.yaml of missing in user_config_by_apps", async () => {
+    consoleWarn.mockReturnValue();
+    mockRuntimeStandalone.mockRejectedValueOnce(new Error("oops"));
+    mockRuntimeMicroAppStandalone.mockRejectedValueOnce(new Error("oops"));
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_FILE = "bootstrap.app-e.json";
+    window.APP_ROOT = "app-e/";
+    const promise = loadBootstrapData();
+    const data = await promise;
+    expect(data).toEqual({
+      brickPackages: [],
+      storyboards: [
+        {
+          app: {
+            id: "app-e",
+            name: "App E",
+          },
+        },
+      ],
+    });
+    expect(consoleWarn).toBeCalledTimes(1);
+    await fulfilStoryboard(data.storyboards[0]);
+    expect(consoleWarn).toBeCalledTimes(2);
+    consoleWarn.mockReset();
+  });
+
+  test("standalone with conf.yaml of empty", async () => {
+    consoleWarn.mockReturnValueOnce();
+    mockRuntimeStandalone.mockRejectedValueOnce(new Error("oops"));
+    window.NO_AUTH_GUARD = true;
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_FILE = "bootstrap.app-f.json";
+    window.APP_ROOT = "app-f/";
+    const promise = loadBootstrapData();
+    const data = await promise;
+    expect(data).toEqual({
+      brickPackages: [],
+      storyboards: [
+        {
+          app: {
+            id: "app-f",
+            name: "App F",
+          },
+        },
+      ],
     });
     expect(consoleWarn).toBeCalledTimes(1);
   });

@@ -34,7 +34,6 @@ import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
-import type { UseBrickLifeCycle } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';
 
 declare namespace __secret_internals {
@@ -158,6 +157,12 @@ export function handleHttpError(error: unknown): void;
 // @public
 export function httpErrorToString(error: unknown): string;
 
+// @public (undocumented)
+export interface ImagesFactory {
+    // (undocumented)
+    get(name: string): string;
+}
+
 // @public @deprecated (undocumented)
 export function isLoggedIn(): boolean | undefined;
 
@@ -177,7 +182,7 @@ export function logout(): unknown;
 export function matchPath(pathname: string, options: MatchPathOptions): MatchResult | null;
 
 // @public (undocumented)
-function mountUseBrick({ renderRoot, rendererContext }: RenderUseBrickResult, element: HTMLElement): MountUseBrickResult;
+function mountUseBrick({ renderRoot, rendererContext, scopedStores }: RenderUseBrickResult, element: HTMLElement): MountUseBrickResult;
 
 // @public (undocumented)
 interface MountUseBrickResult {
@@ -259,6 +264,8 @@ interface RenderUseBrickResult {
     // (undocumented)
     renderRoot: RenderRoot;
     // (undocumented)
+    scopedStores: DataStore<"STATE" | "FORM_STATE">[];
+    // (undocumented)
     tagName: string | null;
 }
 
@@ -322,9 +329,22 @@ export interface RuntimeHooks {
     // (undocumented)
     fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
     // (undocumented)
+    images?: {
+        imagesFactory(appId: string, isBuildPush?: boolean, version?: string): ImagesFactory;
+        widgetImagesFactory(widgetId: string, widgetVersion?: string): ImagesFactory;
+    };
+    // (undocumented)
     menu?: {
         getMenuById(menuId: string): unknown;
         fetchMenuById(menuId: string, runtimeContext: RuntimeContext, runtimeHelpers: RuntimeHooksMenuHelpers): Promise<unknown>;
+    };
+    // (undocumented)
+    messageDispatcher?: {
+        subscribe(...args: unknown[]): Promise<unknown>;
+        unsubscribe(...args: unknown[]): Promise<unknown>;
+        onMessage(channel: string, listener: (data: unknown) => void): void;
+        onClose(listener: () => void): void;
+        reset(): void;
     };
     // (undocumented)
     validatePermissions?: typeof PermissionApi_validatePermissions;
@@ -363,7 +383,7 @@ export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, col
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
 
 // @public (undocumented)
-export function unstable_createRoot(container: HTMLElement, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
+export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
     render(brick: BrickConf | BrickConf[], { theme, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };
@@ -394,7 +414,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
-// dist/types/internal/Runtime.d.ts:26:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:29:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

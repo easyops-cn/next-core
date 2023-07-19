@@ -28,6 +28,7 @@ export interface RenderUseBrickResult {
   tagName: string | null;
   renderRoot: RenderRoot;
   rendererContext: RendererContext;
+  scopedStores: DataStore<"STATE" | "FORM_STATE">[];
 }
 
 export async function renderUseBrick(
@@ -84,12 +85,15 @@ export async function renderUseBrick(
 
   flushStableLoadBricks();
 
+  const scopedStores: DataStore<"STATE" | "FORM_STATE">[] = [
+    ...tplStateStoreScope,
+    ...formStateStoreScope,
+  ];
+
   await Promise.all([
     ...output.blockingList,
     // Wait for local tpl state stores belong to current `useBrick` only.
-    ...[...tplStateStoreScope, ...formStateStoreScope].map((store) =>
-      store.waitForAll()
-    ),
+    ...scopedStores.map((store) => store.waitForAll()),
     ...runtimeContext.pendingPermissionsPreCheck,
   ]);
 
@@ -101,7 +105,7 @@ export async function renderUseBrick(
 
   const tagName = output.node ? output.node.type : null;
 
-  return { tagName, renderRoot, rendererContext };
+  return { tagName, renderRoot, rendererContext, scopedStores };
 }
 
 export interface MountUseBrickResult {
@@ -109,7 +113,7 @@ export interface MountUseBrickResult {
 }
 
 export function mountUseBrick(
-  { renderRoot, rendererContext }: RenderUseBrickResult,
+  { renderRoot, rendererContext, scopedStores }: RenderUseBrickResult,
   element: HTMLElement
 ): MountUseBrickResult {
   let portal: HTMLElement | undefined;
@@ -124,9 +128,14 @@ export function mountUseBrick(
 
   mountTree(renderRoot, element);
 
+  for (const store of scopedStores) {
+    store.handleAsyncAfterMount();
+  }
+
   rendererContext.dispatchOnMount();
   rendererContext.initializeScrollIntoView();
   rendererContext.initializeMediaChange();
+  rendererContext.initializeMessageDispatcher();
 
   return {
     portal,

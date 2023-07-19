@@ -1,15 +1,18 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { initializeI18n } from "@next-core/i18n";
 import {
+  InstanceApi_PostSearchResponseBody,
   InstanceApi_getDetail,
   InstanceApi_postSearch,
 } from "@next-api-sdk/cmdb-sdk";
+import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
 import { createProviderClass } from "@next-core/utils/general";
 import { __test_only } from "@next-core/runtime";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
 import type { RuntimeContext, RuntimeHelpers } from "./interfaces.js";
 
 jest.mock("@next-api-sdk/cmdb-sdk");
+jest.mock("@next-api-sdk/micro-app-sdk");
 
 initializeI18n();
 
@@ -31,6 +34,55 @@ const menuList = [
       objectId: "HOST",
       instanceId: "host-1",
     },
+    items: [
+      {
+        if: null,
+        text: "Menu Item 1",
+        to: "<% APP.homepage %>",
+      },
+      {
+        if: "<% null %>",
+        text: "Menu Item 2",
+        to: "",
+      },
+      {
+        text: "Menu Item 3",
+        to: 'pathname: <% APP.homepage %>\nkeepCurrentSearch:  \n  - aaa  \n  - <% "bbb" %>',
+      },
+      {
+        text: "Menu Item 4",
+        to: '<% true ? APP.homepage : "/false" %>',
+      },
+      {
+        text: "Menu Item 5",
+        to: "<% true ? APP.homepage : false %>",
+      },
+      {
+        text: "Menu Item 6",
+        to: '/${ APP.unknown = ["next","test"] | join : "/" }',
+      },
+      {
+        text: "Menu Item 7",
+        children: [
+          {
+            text: "Menu Item 7 - 1",
+            children: [
+              {
+                text: "Menu Item 7 - 1",
+              },
+              {
+                text: "Menu Item 7 - 3",
+                sort: 30,
+              },
+              {
+                text: "Menu Item 7 - 2",
+                sort: 20,
+              },
+            ],
+          },
+        ],
+      },
+    ],
     app: [
       {
         appId: "my-app",
@@ -127,6 +179,13 @@ const menuList = [
     list: menuList.filter((menu) => menu.menuId === data.query.menuId.$eq),
   };
 });
+(
+  InstalledMicroAppApi_getMenusInfo as jest.Mock<typeof InstanceApi_postSearch>
+).mockImplementation(async (menuId, params) => {
+  return {
+    menus: menuList.filter((menu) => menu.menuId === menuId),
+  } as InstanceApi_PostSearchResponseBody;
+});
 
 (
   InstanceApi_getDetail as jest.Mock<typeof InstanceApi_getDetail>
@@ -167,6 +226,11 @@ describe("fetchMenuById", () => {
                 menuId: "menu-a",
                 instanceId: "menu-instance-1",
                 title: "<% 'Menu A' %>",
+                titleDataSource: {
+                  objectId: "",
+                  instanceId: "",
+                  attributeId: "",
+                },
                 type: "main",
                 items: [
                   {
@@ -304,6 +368,7 @@ describe("fetchMenuById", () => {
         homepage: "/my-app",
       },
       pendingPermissionsPreCheck: [] as unknown[],
+      flags: {},
     } as RuntimeContext;
     await fetchMenuById("menu-a", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-a")).toEqual({
@@ -382,11 +447,67 @@ describe("fetchMenuById", () => {
         homepage: "/my-app",
       },
       pendingPermissionsPreCheck: [] as unknown[],
-    } as RuntimeContext;
+      flags: { "three-level-menu-layout": true },
+    } as unknown as RuntimeContext;
     await fetchMenuById("menu-b", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-b")).toEqual({
       title: "my-host",
-      menuItems: [],
+      menuItems: [
+        {
+          children: [],
+          to: "/my-app",
+          text: "Menu Item 1",
+        },
+        {
+          children: [],
+          text: "Menu Item 3",
+          to: {
+            pathname: "/my-app",
+            keepCurrentSearch: ["aaa", "bbb"],
+          },
+        },
+        {
+          text: "Menu Item 4",
+          to: "/my-app",
+          children: [],
+        },
+        {
+          text: "Menu Item 5",
+          to: "/my-app",
+          children: [],
+        },
+        {
+          text: "Menu Item 6",
+          to: "/next/test",
+          children: [],
+        },
+        {
+          title: "Menu Item 7",
+          type: "subMenu",
+          items: [
+            {
+              title: "Menu Item 7 - 1",
+              type: "subMenu",
+              items: [
+                {
+                  text: "Menu Item 7 - 1",
+                  children: [],
+                },
+                {
+                  text: "Menu Item 7 - 2",
+                  sort: 20,
+                  children: [],
+                },
+                {
+                  text: "Menu Item 7 - 3",
+                  sort: 30,
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -397,6 +518,7 @@ describe("fetchMenuById", () => {
         homepage: "/my-app",
       },
       pendingPermissionsPreCheck: [] as unknown[],
+      flags: {},
     } as RuntimeContext;
     await fetchMenuById("menu-c", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-c")).toEqual({
@@ -422,6 +544,7 @@ describe("fetchMenuById", () => {
         homepage: "/my-app",
       },
       pendingPermissionsPreCheck: [] as unknown[],
+      flags: {},
     } as RuntimeContext;
     await fetchMenuById("menu-d", runtimeContext, runtimeHelpers);
     expect(getMenuById("menu-d")).toEqual({
@@ -480,6 +603,7 @@ describe("fetchMenuById", () => {
         homepage: "/my-app",
       },
       pendingPermissionsPreCheck: [] as unknown[],
+      flags: {},
     } as RuntimeContext;
     const promise = fetchMenuById("menu-c", runtimeContext, runtimeHelpers);
     await expect(promise).rejects.toMatchInlineSnapshot(

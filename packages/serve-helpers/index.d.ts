@@ -5,6 +5,10 @@ export function getBrickPackages(
   publicRootWithVersion?: boolean,
   localBricks?: string[]
 ): Promise<unknown[]>;
+export function getBrickManifests(
+  rootDir: string,
+  localBricks?: string[]
+): Promise<unknown[]>;
 export function getLocalBrickPackageNames(
   rootDir: string,
   localBricks?: string[]

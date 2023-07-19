@@ -1,0 +1,20 @@
+{
+  "name": "@next-core/brick-manifest",
+  "version": "0.5.0",
+  "description": "Brick manifest types for Brick Next V3+",
+  "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-manifest",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "typings": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts"
+    },
+    "./package.json": "./package.json"
+  }
+}

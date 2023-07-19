@@ -177,7 +177,6 @@ export class Router {
       abortPendingRequest();
       this.#prevLocation = location;
       this.#rendererContext?.dispatchPageLeave();
-      // this.locationContext.messageDispatcher.reset();
 
       if (action === "POP") {
         const storyboard = matchStoryboard(
@@ -278,13 +277,7 @@ export class Router {
         }
       }
       this.#rendererContextTrashCan.clear();
-
-      setTheme(
-        (currentApp &&
-          (getLocalAppsTheme()[currentApp.id] || currentApp.theme)) ||
-          "light"
-      );
-      setMode("default");
+      hooks?.messageDispatcher?.reset();
 
       if (appChanged) {
         this.#previousApp = previousApp;
@@ -299,11 +292,22 @@ export class Router {
       }
     };
 
+    setTheme(
+      (currentApp &&
+        (getLocalAppsTheme()[currentApp.id] || currentApp.theme)) ||
+        "light"
+    );
+    setMode("default");
+
     if (currentApp) {
       hooks?.checkInstalledApps?.preCheckInstalledApps(
         storyboard,
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
+
+      const rendererContext = (this.#rendererContext = new RendererContext(
+        "page"
+      ));
 
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
         app: currentApp,
@@ -313,8 +317,11 @@ export class Router {
         sys: {
           ...hooks?.auth?.getAuth(),
           ...getPageInfo(),
+          settings: {
+            brand: getRuntime().getBrandSettings(),
+          },
         },
-        ctxStore: new DataStore("CTX"),
+        ctxStore: new DataStore("CTX", undefined, rendererContext),
         pendingPermissionsPreCheck: [
           hooks?.checkPermissions?.preCheckPermissions(storyboard),
         ],
@@ -322,9 +329,6 @@ export class Router {
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       });
 
-      const rendererContext = (this.#rendererContext = new RendererContext(
-        "page"
-      ));
       this.#navConfig = undefined;
 
       registerCustomTemplates(storyboard);
@@ -333,6 +337,8 @@ export class Router {
 
       let failed = false;
       let output: RenderOutput;
+      let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
+
       try {
         output = await renderRoutes(
           renderRoot,
@@ -353,13 +359,15 @@ export class Router {
 
         flushStableLoadBricks();
 
+        stores = [
+          runtimeContext.ctxStore,
+          ...runtimeContext.tplStateStoreMap.values(),
+          ...runtimeContext.formStateStoreMap.values(),
+        ];
+
         await Promise.all([
           ...output.blockingList,
-          ...[
-            runtimeContext.ctxStore,
-            ...runtimeContext.tplStateStoreMap.values(),
-            ...runtimeContext.formStateStoreMap.values(),
-          ].map((store) => store.waitForAll()),
+          ...stores.map((store) => store.waitForAll()),
           // Todo: load processors only when they would used in current rendering.
           // loadProcessorsImperatively(
           //   strictCollectMemberUsage(
@@ -420,11 +428,16 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
+          for (const store of stores) {
+            store.handleAsyncAfterMount();
+          }
+
           rendererContext.dispatchPageLoad();
           rendererContext.dispatchAnchorLoad();
           rendererContext.dispatchOnMount();
           rendererContext.initializeScrollIntoView();
           rendererContext.initializeMediaChange();
+          rendererContext.initializeMessageDispatcher();
         }
 
         return;

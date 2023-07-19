@@ -7,6 +7,7 @@ export const language: monaco.languages.IMonarchLanguage;
  * Register the extended typescript language, with control keywords
  * highlighting supported.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "typescript"
  */
-export function register(languageId?: string): void;
+export function register(monaco: monaco, languageId?: string): void;

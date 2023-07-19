@@ -1,3 +1,4 @@
+// istanbul ignore file
 import { createRuntime, httpErrorToString } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
@@ -7,11 +8,14 @@ import {
   auth,
   checkPermissions,
   menu,
+  messageDispatcher,
 } from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
 import { loadCheckLogin } from "./loadCheckLogin.js";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
+import { imagesFactory, widgetImagesFactory } from "./images.js";
+import { getSpanId } from "./utils.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
@@ -29,6 +33,11 @@ http.interceptors.request.use((config) => {
   //   config.url = mockInfo.url;
   //   headers.set("easyops-mock-id", mockInfo.mockId);
   // }
+
+  const spanId = getSpanId();
+  headers.set("X-B3-Traceid", `ffffffffffffffff${spanId}`);
+  headers.set("X-B3-Spanid", spanId);
+  headers.set("X-B3-Sampled", "1");
 
   return {
     ...config,
@@ -87,6 +96,8 @@ const runtime = createRuntime({
     flowApi,
     checkInstalledApps,
     menu,
+    images: { imagesFactory, widgetImagesFactory },
+    messageDispatcher,
   },
 });
 

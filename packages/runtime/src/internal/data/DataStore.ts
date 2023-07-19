@@ -2,6 +2,7 @@ import type {
   BatchUpdateContextItem,
   BrickEventHandlerCallback,
   ContextConf,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
@@ -19,6 +20,16 @@ import type {
   RuntimeContext,
 } from "../interfaces.js";
 import { handleHttpError } from "../../handleHttpError.js";
+import type { RendererContext } from "../RendererContext.js";
+
+const supportContextResolveTriggerBrickLifeCycle = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onBeforePageLeave",
+  "onPageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+] as ContextResolveTriggerBrickLifeCycle[];
 
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
@@ -28,6 +39,7 @@ export interface DataStoreItem {
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
+  async?: boolean;
   deps: string[];
 }
 
@@ -40,8 +52,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   public readonly hostBrick?: RuntimeBrick;
   public batchUpdate = false;
   public batchUpdateContextsNames: string[] = [];
+  private readonly rendererContext?: RendererContext;
 
-  constructor(type: T, hostBrick?: RuntimeBrick) {
+  // 把 `rendererContext` 放在参数列表的最后，并作为可选，以减少测试文件的调整
+  constructor(
+    type: T,
+    hostBrick?: RuntimeBrick,
+    rendererContext?: RendererContext
+  ) {
     this.type = type;
     this.changeEventType =
       this.type === "FORM_STATE"
@@ -50,13 +68,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         ? "state.change"
         : "context.change";
     this.hostBrick = hostBrick;
+    this.rendererContext = rendererContext;
   }
 
   getValue(name: string): unknown {
     return this.data.get(name)?.value;
   }
 
-  getAffectListByContext(name: string): string[] {
+  private getAffectListByContext(name: string): string[] {
     const affectNames = [name];
     this.data.forEach((value, key) => {
       if (value.deps) {
@@ -259,6 +278,25 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
+  /** After mount, dispatch the change event when an async data is loaded */
+  handleAsyncAfterMount() {
+    this.data.forEach((item) => {
+      if (item.async) {
+        // An async data always has `loading`
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        item.loading!.then((value) => {
+          item.loaded = true;
+          item.value = value;
+          item.eventTarget.dispatchEvent(
+            new CustomEvent(this.changeEventType, {
+              detail: value,
+            })
+          );
+        });
+      }
+    });
+  }
+
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
@@ -270,15 +308,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     let value: unknown;
     if (
       asyncHostProperties &&
-      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE")
+      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE") &&
+      hasOwnProperty(asyncHostProperties, dataConf.name)
     ) {
-      const hostProps = await asyncHostProperties;
-      if (hasOwnProperty(hostProps, dataConf.name)) {
-        value = hostProps[dataConf.name];
-      }
+      value = await asyncHostProperties[dataConf.name];
     }
     let load: DataStoreItem["load"];
-    let isLazyResolve: boolean | undefined = false;
+    let loading: Promise<unknown> | undefined;
+    let resolvePolicy: "eager" | "lazy" | "async" = "eager";
     if (value === undefined) {
       if (dataConf.resolve) {
         const resolveConf = {
@@ -292,15 +329,25 @@ export class DataStore<T extends DataStoreType = "CTX"> {
                 value: unknown;
               }
             ).value;
-          isLazyResolve = dataConf.resolve.lazy;
-          if (!isLazyResolve) {
+          // `async` take precedence over `lazy`
+          resolvePolicy = dataConf.resolve.async
+            ? "async"
+            : dataConf.resolve.lazy
+            ? "lazy"
+            : "eager";
+          if (resolvePolicy === "eager") {
             value = await load();
+          } else if (resolvePolicy === "async") {
+            loading = load();
           }
         } else if (!hasOwnProperty(dataConf, "value")) {
           return false;
         }
       }
-      if ((!load || isLazyResolve) && dataConf.value !== undefined) {
+      if (
+        (!load || resolvePolicy !== "eager") &&
+        dataConf.value !== undefined
+      ) {
         // If the context has no resolve, just use its `value`.
         // Or if the resolve is ignored or lazy, use its `value` as a fallback.
         value = await asyncComputeRealValue(dataConf.value, runtimeContext);
@@ -312,9 +359,24 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       // This is required for tracking context, even if no `onChange` is specified.
       eventTarget: new EventTarget(),
       load,
-      loaded: !isLazyResolve,
+      loaded: resolvePolicy === "eager",
+      loading,
+      async: resolvePolicy === "async",
       deps: [],
     };
+
+    if (resolvePolicy === "lazy") {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const { trigger } = dataConf.resolve!;
+      if (
+        trigger &&
+        supportContextResolveTriggerBrickLifeCycle.includes(trigger)
+      ) {
+        this.rendererContext?.registerArbitraryLifeCycle(trigger, () => {
+          this.updateValue(dataConf.name, undefined, "load");
+        });
+      }
+    }
 
     if (dataConf.onChange) {
       newData.eventTarget.addEventListener(
@@ -357,7 +419,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     return true;
   }
 
-  batchAddListener(
+  private batchAddListener(
     listener: EventListener,
     contextConf: ContextConf
   ): EventListener {

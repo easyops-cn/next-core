@@ -57,10 +57,6 @@ describe("checkPermissions", () => {
     });
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it("should not request if is not loggedIn", async () => {
     mockIsLoggedIn.mockReturnValue(false);
     await preCheckPermissions(null!);

@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.4...@next-core/utils@1.5.5) (2023-07-07)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.3...@next-core/utils@1.5.4) (2023-06-20)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.2...@next-core/utils@1.5.3) (2023-06-13)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.1...@next-core/utils@1.5.2) (2023-05-26)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
 ## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.0...@next-core/utils@1.5.1) (2023-05-25)
 
 **Note:** Version bump only for package @next-core/utils

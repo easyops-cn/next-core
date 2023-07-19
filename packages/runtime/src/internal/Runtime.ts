@@ -8,6 +8,7 @@ import type {
   BrickConf,
   RouteConf,
   ResolveConf,
+  BrickPackage,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import { loadBricksImperatively } from "@next-core/loader";
@@ -24,6 +25,7 @@ import { loadDialogService } from "../Dialog.js";
 import { injectedBrickPackages } from "./injected.js";
 import type { AppForCheck } from "./hasInstalledApp.js";
 import type { RuntimeContext } from "./interfaces.js";
+import { listenDevtoolsEagerly } from "./devtools.js";
 
 let runtime: Runtime;
 
@@ -33,6 +35,10 @@ let router: Router | undefined;
 
 export interface RuntimeOptions {
   hooks?: RuntimeHooks;
+}
+
+export interface ImagesFactory {
+  get(name: string): string;
 }
 
 export interface RuntimeHooks {
@@ -81,6 +87,24 @@ export interface RuntimeHooks {
       runtimeHelpers: RuntimeHooksMenuHelpers
     ): Promise<unknown>;
   };
+  images?: {
+    imagesFactory(
+      appId: string,
+      isBuildPush?: boolean,
+      version?: string
+    ): ImagesFactory;
+    widgetImagesFactory(
+      widgetId: string,
+      widgetVersion?: string
+    ): ImagesFactory;
+  };
+  messageDispatcher?: {
+    subscribe(...args: unknown[]): Promise<unknown>;
+    unsubscribe(...args: unknown[]): Promise<unknown>;
+    onMessage(channel: string, listener: (data: unknown) => void): void;
+    onClose(listener: () => void): void;
+    reset(): void;
+  };
 }
 
 export interface RuntimeHooksMenuHelpers {
@@ -102,6 +126,7 @@ export function createRuntime(options?: RuntimeOptions) {
   if (runtime) {
     throw new Error("Cannot create multiple runtimes");
   }
+  listenDevtoolsEagerly();
   hooks = options?.hooks;
   initializeI18n(NS, locales);
   moment.locale(i18n.language);
@@ -134,12 +159,12 @@ export class Runtime {
     };
     if (notification !== false) {
       loadNotificationService(
-        notification ?? "shoelace.show-notification",
+        notification ?? "basic.show-notification",
         this.loadBricks
       );
     }
     if (dialog !== false) {
-      loadDialogService(dialog ?? "shoelace.show-dialog", this.loadBricks);
+      loadDialogService(dialog ?? "basic.show-dialog", this.loadBricks);
     }
   }
 
@@ -188,9 +213,6 @@ export class Runtime {
     return {
       base_title: "DevOps 管理专家",
       ...(bootstrapData?.settings?.brand as Record<string, string>),
-      // ...(kernel.getOriginFaviconHref()
-      //   ? { favicon: kernel.getOriginFaviconHref() }
-      //   : {})
     };
   }
 
@@ -258,11 +280,12 @@ function normalizeBootstrapData(data: BootstrapData) {
 }
 
 export function getBrickPackages() {
-  return bootstrapData?.brickPackages ?? injectedBrickPackages;
-}
-
-export function _internalApiLoadBricks(bricks: string[] | Set<string>) {
-  return loadBricksImperatively(bricks, getBrickPackages());
+  return (
+    bootstrapData?.brickPackages ??
+    injectedBrickPackages ??
+    (window.STANDALONE_BRICK_PACKAGES as BrickPackage[]) ??
+    []
+  );
 }
 
 export function _internalApiGetRenderId(): string | undefined {

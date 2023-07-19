@@ -18,6 +18,10 @@ export default function getProxy(env, getRawIndexHtml) {
   if (useRemote) {
     return [
       {
+        ...getBasicProxyOptions(env, "api/websocket_service/"),
+        ws: true,
+      },
+      {
         ...getBasicProxyOptions(env, "api/"),
         selfHandleResponse: true,
         bypass(req) {

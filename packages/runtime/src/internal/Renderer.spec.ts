@@ -43,6 +43,18 @@ jest.mock("./Runtime.js", () => ({
         return {};
       },
     },
+    messageDispatcher: {
+      onMessage(channel: string, callback: (detail: unknown) => void) {
+        Promise.resolve().then(() => {
+          callback(`message channel: ${channel}`);
+        });
+      },
+      onClose(callback: () => void) {
+        Promise.resolve().then(() => {
+          callback();
+        });
+      },
+    },
   },
   getRuntime() {
     //
@@ -76,6 +88,7 @@ customElements.define(
 );
 
 const formRendererBricks = [
+  "eo-micro-view",
   "basic-bricks.micro-view",
   "forms.general-form",
   "forms.general-input",
@@ -401,12 +414,37 @@ describe("renderBrick", () => {
     const renderRoot = {
       tag: RenderTag.ROOT,
     } as RenderRoot;
-    const ctxStore = new DataStore("CTX");
+    const rendererContext = new RendererContext("page");
+    const ctxStore = new DataStore("CTX", undefined, rendererContext);
     const runtimeContext = {
       ctxStore,
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
-    const rendererContext = new RendererContext("page");
+    ctxStore.define(
+      [
+        {
+          name: "triggerOnPageLoad",
+          value: "unresolved",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "resolved"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+        {
+          name: "triggerOnPageLoad2",
+          value: "unresolved2",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, "resolved2"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+        },
+      ],
+      runtimeContext
+    );
     const output = await renderBrick(
       renderRoot,
       {
@@ -443,6 +481,17 @@ describe("renderBrick", () => {
           onPageLeave: {
             action: "console.info",
             args: ["onPageLeave", "<% EVENT.type %>"],
+          },
+          onMessage: {
+            channel: "my-channel",
+            handlers: {
+              action: "console.info",
+              args: ["onMessage", "<% EVENT.type %>"],
+            },
+          },
+          onMessageClose: {
+            action: "console.info",
+            args: ["onMessageClose", "<% EVENT.type %>"],
           },
         },
         slots: {
@@ -573,6 +622,28 @@ describe("renderBrick", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(9, "onPageLeave", "page.leave");
     rendererContext.dispatchOnUnmount();
     expect(consoleInfo).toHaveBeenNthCalledWith(10, "onUnmount", "unmount");
+
+    // The trigger ctx is not resolved yet
+    expect(ctxStore.getValue("triggerOnPageLoad")).toBe("unresolved");
+    expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("unresolved2");
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await (global as any).flushPromises();
+    // The trigger ctx is resolved now
+    expect(ctxStore.getValue("triggerOnPageLoad")).toBe("resolved");
+    expect(ctxStore.getValue("triggerOnPageLoad2")).toBe("resolved2");
+
+    rendererContext.initializeMessageDispatcher();
+    await (global as any).flushPromises();
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      11,
+      "onMessage",
+      "message.push"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      12,
+      "onMessageClose",
+      "message.close"
+    );
 
     rendererContext.dispose();
     consoleInfo.mockReset();
@@ -1076,6 +1147,14 @@ describe("renderBrick for tpl", () => {
             ref: "d",
             refProperty: "title",
           },
+          willNotSet: {
+            ref: "sp",
+            refProperty: "title",
+          },
+          willBeUndefined: {
+            ref: "sp",
+            refProperty: "oops",
+          },
         },
         slots: {
           "": {
@@ -1146,6 +1225,7 @@ describe("renderBrick for tpl", () => {
           x: "X2",
           y: "Y2",
           innerTitle: "T",
+          willBeUndefined: "<% undefined %>",
         },
         children: [
           {
@@ -1801,18 +1881,16 @@ describe("renderBrick for form renderer", () => {
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <form-renderer.form-renderer>
-          <basic-bricks.micro-view
+          <eo-micro-view
             style="padding: 12px;"
           >
-            <forms.general-form
-              slot="content"
-            >
+            <forms.general-form>
               <forms.general-input
                 data-testid="string"
                 id="string"
               />
             </forms.general-form>
-          </basic-bricks.micro-view>
+          </eo-micro-view>
         </form-renderer.form-renderer>,
       ]
     `);

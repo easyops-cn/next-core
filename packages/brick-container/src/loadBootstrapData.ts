@@ -14,6 +14,7 @@ import { deepFreeze, hasOwnProperty } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
+import { imagesFactory } from "./images.js";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -182,21 +183,10 @@ async function safeGetRuntimeMicroAppStandalone(appId: string) {
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
     if (!window.NO_AUTH_GUARD) {
-      let appRuntimeData: RuntimeMicroAppStandaloneData | undefined;
-      try {
-        // Note: the request maybe have fired already during bootstrap.
-        appRuntimeData = await safeGetRuntimeMicroAppStandalone(
-          storyboard.app.id
-        );
-      } catch (error) {
-        // make it not crash when the backend service is not updated.
-        // eslint-disable-next-line no-console
-        console.warn(
-          "request standalone runtime api from micro-app-standalone failed: ",
-          error,
-          ", something might went wrong running standalone micro app"
-        );
-      }
+      // Note: the request maybe have fired already during bootstrap.
+      const appRuntimeData = await safeGetRuntimeMicroAppStandalone(
+        storyboard.app.id
+      );
       if (appRuntimeData) {
         const { userConfig, injectMenus } = appRuntimeData;
         // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
@@ -227,6 +217,7 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
     });
   }
 
+  fixStoryboardImgSrc(storyboard);
   initializeAppConfig(storyboard.app);
 }
 
@@ -243,5 +234,22 @@ function initializeInjectMenus(menus: any[] | undefined) {
     if (menu.overrideApp) {
       initializeAppConfig(menu.overrideApp);
     }
+  }
+}
+
+function fixStoryboardImgSrc(storyboard: RuntimeStoryboard): void {
+  if (
+    storyboard.app.menuIcon &&
+    "imgSrc" in storyboard.app.menuIcon &&
+    storyboard.app.menuIcon.imgSrc?.startsWith("api/")
+  ) {
+    const splittedImgSrc = storyboard.app.menuIcon.imgSrc.split("/");
+    const imgSrc = splittedImgSrc[splittedImgSrc.length - 1];
+    const result = imagesFactory(
+      storyboard.app.id,
+      storyboard.app.isBuildPush,
+      storyboard.app.currentVersion
+    ).get(imgSrc);
+    storyboard.app.menuIcon.imgSrc = result;
   }
 }

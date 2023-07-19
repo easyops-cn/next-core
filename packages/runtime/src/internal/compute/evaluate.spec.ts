@@ -54,6 +54,22 @@ jest.mock("../Runtime.js", () => ({
       },
       fetchMenuById: jest.fn(),
     },
+    images: {
+      imagesFactory(appId: string) {
+        return {
+          get(name: string) {
+            return `/micro-apps/${appId}/images/${name}`;
+          },
+        };
+      },
+      widgetImagesFactory(widgetId: string) {
+        return {
+          get(name: string) {
+            return `bricks/${widgetId}/dist/assets/${name}`;
+          },
+        };
+      },
+    },
   },
   getBrickPackages() {
     return [];
@@ -166,6 +182,11 @@ const runtimeContext: RuntimeContext = {
   },
   sys: {
     username: "tester",
+    settings: {
+      brand: {
+        theme: "light",
+      },
+    },
   },
   data: {
     cellData: "dynamic data",
@@ -228,6 +249,7 @@ describe("evaluate", () => {
     ["<% PARAMS.getAll('b') %>", ["2", "1"]],
     ["<% PARAMS.toString() %>", "a=x&b=2&b=1"],
     ["<% SYS.username %>", "tester"],
+    ["<% SYS.settings.brand.theme %>", "light"],
     ["<% FLAGS.test %>", true],
     ["<% HASH %>", "#readme"],
     ["<% PATH_NAME %>", "/path/name"],

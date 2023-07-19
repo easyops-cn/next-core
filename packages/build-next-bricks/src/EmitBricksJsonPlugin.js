@@ -1,10 +1,14 @@
 import webpack from "webpack";
 
+/**
+ * @typedef {import("@next-core/brick-manifest").PackageManifest} PackageManifest
+ */
+
 const pluginName = "EmitBricksJsonPlugin";
 
 export default class EmitBricksJsonPlugin {
   /**
-   * @param {{ packageName: string; bricks: string[]; processors: string[]; dependencies: Record<string, string[]>; }} options
+   * @param {{ packageName: string; bricks: string[]; processors: string[]; dependencies: Record<string, string[]>; manifest: PackageManifest; }} options
    */
   constructor(options) {
     this.packageName = options.packageName;
@@ -12,6 +16,8 @@ export default class EmitBricksJsonPlugin {
     this.elements = options.elements;
     this.processors = options.processors;
     this.dependencies = options.dependencies;
+    this.manifest = options.manifest;
+    this.types = options.types;
   }
 
   /**
@@ -58,6 +64,18 @@ export default class EmitBricksJsonPlugin {
           compilation.emitAsset(
             "bricks.json",
             new webpack.sources.RawSource(bricksJson, false)
+          );
+
+          const manifestJson = JSON.stringify(this.manifest, null, 2);
+          compilation.emitAsset(
+            "manifest.json",
+            new webpack.sources.RawSource(manifestJson, false)
+          );
+
+          const typesJson = JSON.stringify(this.types, null, 2);
+          compilation.emitAsset(
+            "types.json",
+            new webpack.sources.RawSource(typesJson, false)
           );
 
           console.log("Defined bricks:", this.bricks);

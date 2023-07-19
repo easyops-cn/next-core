@@ -9,8 +9,8 @@ import type {
   RuntimeBrickElement,
 } from "./interfaces.js";
 
-export function unmountTree(mountPoint: HTMLElement) {
-  mountPoint.innerHTML = "";
+export function unmountTree(mountPoint: HTMLElement | DocumentFragment) {
+  mountPoint.replaceChildren();
 }
 
 export function mountTree(

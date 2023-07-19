@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "3.2.1",
+  "version": "3.4.15",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-container",
   "license": "GPL-3.0",
@@ -22,10 +22,12 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV='development' node scripts/start.js",
-    "build": "cross-env NODE_ENV='production' build-next-bricks"
+    "build": "cross-env NODE_ENV='production' build-next-bricks",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/serve-helpers": "^1.0.8",
+    "@next-core/serve-helpers": "^1.1.0",
     "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
     "compression": "^1.7.4",
@@ -40,11 +42,12 @@
   "devDependencies": {
     "@next-api-sdk/api-gateway-sdk": "^1.1.0",
     "@next-api-sdk/micro-app-standalone-sdk": "^1.1.0",
-    "@next-core/build-next-bricks": "^1.5.2",
-    "@next-core/easyops-runtime": "^0.3.0",
-    "@next-core/http": "^1.0.5",
-    "@next-core/i18n": "^1.0.18",
-    "@next-core/runtime": "^1.12.0",
+    "@next-core/build-next-bricks": "^1.13.2",
+    "@next-core/easyops-runtime": "^0.6.6",
+    "@next-core/http": "^1.0.7",
+    "@next-core/i18n": "^1.0.22",
+    "@next-core/runtime": "^1.17.7",
+    "@next-core/test-next": "^1.0.7",
     "@next-core/theme": "^1.1.1",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.31.1",

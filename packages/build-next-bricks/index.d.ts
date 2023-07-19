@@ -1,8 +1,10 @@
 import type { Compiler, Configuration, RuleSetRule, container } from "webpack";
 
 export declare function build(config: BuildNextBricksConfig): Compiler;
-export declare function getSvgrLoaders(options: {
-  /** Set it to true for font icons */
+export declare function getSvgrLoaders(options?: {
+  /** Set it to true for icon font, defaults to false. */
+  icon?: boolean | string | number;
+  /** Defaults to true when `icon` is truthy, otherwise defaults to false. */
   convertCurrentColor?: boolean;
 }): RuleSetRule["use"];
 
@@ -75,9 +77,9 @@ export interface BuildNextBricksConfig {
   extractCss?: boolean;
   /** Treat svg as React component instead of asset */
   svgAsReactComponent?: boolean;
-  /** Customize rules for svg */
+  /** Customize rules for svg, this will take precedence over `svgAsReactComponent` */
   svgRules?: RuleSetRule[];
-  /** By default the image assets are named `images/[hash][ext][query]` */
+  /** By default the image assets are named `images/[hash][ext]` */
   imageAssetFilename?: string | ((pathData: any, assetInfo: any) => string);
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];

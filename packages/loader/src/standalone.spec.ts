@@ -12,6 +12,7 @@ describe("standalone", () => {
         filePath: "bricks/basic/dist/index.abc.js",
       },
     ]);
+    expect(window.STANDALONE_BRICK_PACKAGES?.length).toBe(1);
     add(
       [
         {
@@ -21,6 +22,7 @@ describe("standalone", () => {
       ],
       "/"
     );
+    expect(window.STANDALONE_BRICK_PACKAGES?.length).toBe(2);
     await loadBricks(["basic.general-button"]);
     expect(loadBricksImperatively).toBeCalledWith(
       ["basic.general-button"],

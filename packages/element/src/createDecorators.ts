@@ -65,7 +65,7 @@ export function createDecorators() {
 
   function defineElement(
     name: string,
-    options?: {
+    options: {
       /**
        * The style text list which will be inserted into the shadow DOM.
        *
@@ -88,10 +88,15 @@ export function createDecorators() {
        * In case of that approach not working, specify it exclusively.
        */
       dependencies?: string[];
-    }
+
+      /**
+       * Specify alias for this brick.
+       */
+      alias?: string[];
+    } = {}
   ) {
     return (
-      value: Function,
+      value: Constructable<HTMLElement>,
       {
         kind,
         name: className,
@@ -123,14 +128,14 @@ export function createDecorators() {
           mergedAttributeReflections
         );
 
-        defineReadonlyProperty(this, "styleTexts", options?.styleTexts);
+        defineReadonlyProperty(this, "styleTexts", options.styleTexts);
         defineReadonlyProperty(
           this,
           "shadowOptions",
-          options?.shadowOptions !== false
+          options.shadowOptions !== false
             ? {
                 mode: "open",
-                ...options?.shadowOptions,
+                ...options.shadowOptions,
               }
             : null
         );
@@ -160,6 +165,18 @@ export function createDecorators() {
         defineReadonlyProperty(this, "_dev_only_definedEvents", mergedEvents);
 
         customElements.define(name, this);
+
+        if (Array.isArray(options.alias)) {
+          for (const alias of options.alias) {
+            // Use a parenthesized expression to make the class has no name.
+            const Alias =
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              (0, class extends value {});
+            defineReadonlyProperty(Alias, "__tagName", alias);
+            customElements.define(alias, Alias);
+          }
+        }
       });
     };
   }
@@ -421,7 +438,7 @@ function mergeIterables<T>(list1: Iterable<T>, list2: Iterable<T>): T[] {
 }
 
 function attributeNameForProperty(
-  name: PropertyKey,
+  name: string,
   options: PropertyDeclaration
 ): string | undefined {
   const attribute = options.attribute;
@@ -429,7 +446,5 @@ function attributeNameForProperty(
     ? undefined
     : typeof attribute === "string"
     ? attribute
-    : typeof name === "string"
-    ? name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`)
-    : undefined;
+    : name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
 }

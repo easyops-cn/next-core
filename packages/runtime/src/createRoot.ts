@@ -47,7 +47,7 @@ export interface RenderOptions {
 }
 
 export function unstable_createRoot(
-  container: HTMLElement,
+  container: HTMLElement | DocumentFragment,
   { portal: _portal, scope = "fragment", unknownBricks }: CreateRootOptions = {}
 ) {
   let portal = _portal;
@@ -85,15 +85,16 @@ export function unstable_createRoot(
         );
       }
       const bricks = ([] as BrickConf[]).concat(brick);
+
+      const previousRendererContext = rendererContext;
+      rendererContext = new RendererContext(scope, { unknownBricks });
+
       const runtimeContext = {
-        ctxStore: new DataStore("CTX"),
+        ctxStore: new DataStore("CTX", undefined, rendererContext),
         pendingPermissionsPreCheck: [],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       } as Partial<RuntimeContext> as RuntimeContext;
-
-      const previousRendererContext = rendererContext;
-      rendererContext = new RendererContext(scope, { unknownBricks });
 
       const renderRoot: RenderRoot = {
         tag: RenderTag.ROOT,
@@ -102,6 +103,9 @@ export function unstable_createRoot(
       };
 
       if (scope === "page") {
+        setTheme(theme ?? "light");
+        setMode("default");
+
         const demoApp = {
           id: "demo",
           homepage: "/demo",
@@ -130,6 +134,8 @@ export function unstable_createRoot(
 
       let failed = false;
       let output: RenderOutput;
+      let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
+
       try {
         output = await renderBricks(
           renderRoot,
@@ -140,13 +146,15 @@ export function unstable_createRoot(
 
         flushStableLoadBricks();
 
+        stores = [
+          runtimeContext.ctxStore,
+          ...runtimeContext.tplStateStoreMap.values(),
+          ...runtimeContext.formStateStoreMap.values(),
+        ];
+
         await Promise.all([
           ...output.blockingList,
-          runtimeContext.ctxStore.waitForAll(),
-          ...[
-            ...runtimeContext.tplStateStoreMap.values(),
-            ...runtimeContext.formStateStoreMap.values(),
-          ].map((store) => store.waitForAll()),
+          ...stores.map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck,
         ]);
       } catch (error) {
@@ -176,9 +184,6 @@ export function unstable_createRoot(
       }
 
       if (scope === "page") {
-        setTheme(theme ?? "light");
-        setMode("default");
-
         if (!failed) {
           rendererContext.dispatchBeforePageLoad();
         }
@@ -194,6 +199,10 @@ export function unstable_createRoot(
       }
 
       if (!failed) {
+        for (const store of stores) {
+          store.handleAsyncAfterMount();
+        }
+
         if (scope === "page") {
           rendererContext.dispatchPageLoad();
           // rendererContext.dispatchAnchorLoad();
@@ -201,6 +210,7 @@ export function unstable_createRoot(
         rendererContext.dispatchOnMount();
         rendererContext.initializeScrollIntoView();
         rendererContext.initializeMediaChange();
+        rendererContext.initializeMessageDispatcher();
       }
     },
     unmount() {

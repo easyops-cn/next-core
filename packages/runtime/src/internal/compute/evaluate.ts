@@ -25,7 +25,7 @@ import {
   getDynamicReadOnlyProxy,
   getReadOnlyProxy,
 } from "../proxyFactories.js";
-import { getDevHook } from "../devtools.js";
+import { devtoolsHookEmit, getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
 import {
@@ -38,7 +38,6 @@ import type { DataStore } from "../data/DataStore.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { widgetFunctions } from "./WidgetFunctions.js";
 import { widgetI18nFactory } from "./WidgetI18n.js";
-import { widgetImagesFactory } from "./images.js";
 import { hasInstalledApp } from "../hasInstalledApp.js";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 import { getFormStateStore } from "../FormRenderer/utils.js";
@@ -55,7 +54,6 @@ export interface PreEvaluated {
 
 export interface EvaluateOptions {
   lazy?: boolean;
-  isReEvaluation?: boolean;
   evaluationId?: number;
 }
 
@@ -163,17 +161,8 @@ function lowLevelEvaluate(
     });
   } catch (error: any) {
     const message = `${error.message}, in "${raw}"`;
-    // if (options.isReEvaluation) {
-    //   devtoolsHookEmit("re-evaluation", {
-    //     id: options.evaluationId,
-    //     detail: { raw, context: {} },
-    //     error: message,
-    //   });
-    //   return;
-    // } else {
     const errorConstructor = getCookErrorConstructor(error);
     throw new errorConstructor(message);
-    // }
   }
 
   if (menuUsage.hasNonStaticUsage) {
@@ -477,7 +466,7 @@ function lowLevelEvaluate(
             globalVariables[variableName] = widgetFunctions;
             break;
           case "__WIDGET_IMG__":
-            globalVariables[variableName] = widgetImagesFactory;
+            globalVariables[variableName] = hooks?.images?.widgetImagesFactory;
             break;
           case "__WIDGET_I18N__":
             globalVariables[variableName] = widgetI18nFactory;
@@ -501,28 +490,13 @@ function lowLevelEvaluate(
             globalVariables
           ),
         });
-        // const detail = { raw, context: globalVariables, result };
-        // if (options.isReEvaluation) {
-        //   devtoolsHookEmit("re-evaluation", {
-        //     id: options.evaluationId,
-        //     detail,
-        //   });
-        // } else {
-        //   devtoolsHookEmit("evaluation", detail);
-        // }
+        const detail = { raw, context: globalVariables, result };
+        devtoolsHookEmit("evaluation", detail);
         return result;
       } catch (error: any) {
         const message = `${error.message}, in "${raw}"`;
-        // if (options.isReEvaluation) {
-        //   devtoolsHookEmit("re-evaluation", {
-        //     id: options.evaluationId,
-        //     detail: { raw, context: globalVariables },
-        //     error: message,
-        //   });
-        // } else {
         const errorConstructor = getCookErrorConstructor(error);
         throw new errorConstructor(message);
-        // }
       }
     },
   };

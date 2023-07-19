@@ -6,7 +6,11 @@ import {
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./constants.js";
-import type { AsyncProperties, TemplateHostContext } from "../interfaces.js";
+import type {
+  AsyncComputedProperties,
+  AsyncProperties,
+  TemplateHostContext,
+} from "../interfaces.js";
 
 export function setupTemplateProxy(
   hostContext: TemplateHostContext,
@@ -21,25 +25,27 @@ export function setupTemplateProxy(
     hostBrick,
   } = hostContext;
 
-  let asyncComputedProps: AsyncProperties | undefined;
+  let asyncComputedProps: AsyncComputedProperties | undefined;
 
   if (ref && reversedProxies) {
     const propertyProxies = reversedProxies.properties.get(ref);
     if (propertyProxies) {
-      const getComputedProps = (hostProps: Record<string, unknown>) => {
+      const getComputedProps = async (
+        asyncHostProps: AsyncProperties
+      ): AsyncComputedProperties => {
         const props: Record<string, unknown> = {};
         for (const { from, to } of propertyProxies) {
-          const propValue = hostProps[from];
-          if (propValue !== undefined && to.refProperty) {
-            props[to.refProperty] = propValue;
+          if (hasOwnProperty(asyncHostProps, from) && to.refProperty) {
+            const propValue = await asyncHostProps[from];
+            if (propValue !== undefined) {
+              props[to.refProperty] = propValue;
+            }
           }
         }
         return props;
       };
 
-      asyncComputedProps = (asyncHostProperties as AsyncProperties).then(
-        getComputedProps
-      );
+      asyncComputedProps = getComputedProps(asyncHostProperties);
     }
 
     const slotProxies = reversedProxies.slots.get(ref);

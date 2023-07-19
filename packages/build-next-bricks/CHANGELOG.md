@@ -3,6 +3,167 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.1...@next-core/build-next-bricks@1.13.2) (2023-07-12)
+
+
+### Bug Fixes
+
+* throw error if find importing deprecated v2 packages ([2354ac7](https://github.com/easyops-cn/next-core/commit/2354ac7ce1e4c7b4c4ed3769f5d852bc0ca5902a))
+
+
+
+
+
+## [1.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.0...@next-core/build-next-bricks@1.13.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* refine svgr options for icon font ([137c74b](https://github.com/easyops-cn/next-core/commit/137c74bb16ce310f999af08ca3bec2ff72f7fb0c))
+
+
+
+
+
+# [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.12.0...@next-core/build-next-bricks@1.13.0) (2023-07-05)
+
+
+### Features
+
+* check common bricks ([22a566c](https://github.com/easyops-cn/next-core/commit/22a566ce9739b97c3f4d8c25de01c6c0033082b9))
+* throw error for conflicted common bricks ([11e6c11](https://github.com/easyops-cn/next-core/commit/11e6c1121ec15541f65f9537d0944c7d05c9399b))
+
+
+
+
+
+# [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.11.1...@next-core/build-next-bricks@1.12.0) (2023-07-03)
+
+
+### Features
+
+* support brick alias ([993e173](https://github.com/easyops-cn/next-core/commit/993e173e6ebcbd9408ea57458e474dac7b6e9cb4))
+
+
+
+
+
+## [1.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.11.0...@next-core/build-next-bricks@1.11.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* infer type annotation from the default value ([6da6bd8](https://github.com/easyops-cn/next-core/commit/6da6bd8f55ec1bf5bd904704f0e002ddf2cfe1bc))
+
+
+
+
+
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.10.0...@next-core/build-next-bricks@1.11.0) (2023-06-28)
+
+
+### Features
+
+* build provider manifest and types ([cef1598](https://github.com/easyops-cn/next-core/commit/cef1598132c9f74d5ab084500ea232b00531d4fa))
+
+
+
+
+
+# [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.9.0...@next-core/build-next-bricks@1.10.0) (2023-06-26)
+
+
+### Features
+
+* support brick manifest fields create type ([6d728d6](https://github.com/easyops-cn/next-core/commit/6d728d6b8ca5a608e58b27f312077ddf641ab798))
+* update code ([596eda0](https://github.com/easyops-cn/next-core/commit/596eda00e3c7032d94a2e7960d4c8c05a50b7a8b))
+
+
+
+
+
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.8.0...@next-core/build-next-bricks@1.9.0) (2023-06-25)
+
+
+### Features
+
+* provider manifest ([fb96598](https://github.com/easyops-cn/next-core/commit/fb9659896c0f9f87718124a7874d818c68454284))
+
+
+
+
+
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.2...@next-core/build-next-bricks@1.8.0) (2023-06-20)
+
+
+### Features
+
+* build brick supports analysis typescript ([46f8ea4](https://github.com/easyops-cn/next-core/commit/46f8ea4f425bc64894406309bce1f9774a343af8))
+* support build with types.json ([b06b8e2](https://github.com/easyops-cn/next-core/commit/b06b8e2a481d464b6d0442a58d4cc9e16bc8815d))
+* update basic type keyword ([064680c](https://github.com/easyops-cn/next-core/commit/064680cabf4a1013cb72726c332f0ee032b9b28a))
+* update code ([5465280](https://github.com/easyops-cn/next-core/commit/54652806267eeaff0296504965d11fabb6214c9b))
+* update code ([98b556f](https://github.com/easyops-cn/next-core/commit/98b556fcd39bf1ef551567ad7e87fa93a28add62))
+* update code ([d8bbac4](https://github.com/easyops-cn/next-core/commit/d8bbac42f8a798d159d266be373e9d406cd0fdf3))
+* update enum type ([afd9929](https://github.com/easyops-cn/next-core/commit/afd992930c3384b67c1d1a1a270a27629e06a38e))
+* update getTypeAnnotation ([3229fad](https://github.com/easyops-cn/next-core/commit/3229fad9bb0b39197c54452eabed8920676a1200))
+* update literal type ([6281a1f](https://github.com/easyops-cn/next-core/commit/6281a1f49791ddde7111ae592c1fd826bcdd691b))
+
+
+
+
+
+## [1.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.1...@next-core/build-next-bricks@1.7.2) (2023-06-05)
+
+
+### Bug Fixes
+
+* fix svg rules ([dda07ba](https://github.com/easyops-cn/next-core/commit/dda07ba1dcd5fbb56b4d5de59857e769c997aecc))
+
+
+
+
+
+## [1.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.7.0...@next-core/build-next-bricks@1.7.1) (2023-06-02)
+
+
+### Bug Fixes
+
+* ignore missing imports ([5a4f38f](https://github.com/easyops-cn/next-core/commit/5a4f38f9f8778616e30b9ce06b93a6bb45690030))
+
+
+
+
+
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.6.0...@next-core/build-next-bricks@1.7.0) (2023-06-02)
+
+
+### Features
+
+* support build manifest only ([5288fa8](https://github.com/easyops-cn/next-core/commit/5288fa87f5ba34b306043dfb7ad43e76acdd5871))
+
+
+
+
+
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.3...@next-core/build-next-bricks@1.6.0) (2023-06-01)
+
+
+### Features
+
+* generate brick package manifest ([5609928](https://github.com/easyops-cn/next-core/commit/5609928703a0eea00c0872f1e6a5020e7279f8d7))
+
+
+
+
+
+## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.2...@next-core/build-next-bricks@1.5.3) (2023-05-26)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.5.1...@next-core/build-next-bricks@1.5.2) (2023-05-25)
 
 

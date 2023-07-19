@@ -78,9 +78,10 @@ export const language = {
  * Register the extended javascript language, with control keywords
  * highlighting supported.
  *
+ * @param {monaco} monaco Monaco
  * @param {string} languageId defaults to "javascript"
  */
-export function register(languageId = "javascript") {
+export function register(monaco, languageId = "javascript") {
   monaco.languages.register({
     id: languageId,
     extensions: [".js", ".es6", ".jsx", ".mjs", ".cjs"],

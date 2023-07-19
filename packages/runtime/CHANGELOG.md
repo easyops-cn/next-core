@@ -3,6 +3,171 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.6...@next-core/runtime@1.17.7) (2023-07-18)
+
+
+### Bug Fixes
+
+* refine standalone bricks rendering ([fae99dd](https://github.com/easyops-cn/next-core/commit/fae99ddef015401a2e7fbb8835448c51d1cd1f71))
+
+
+
+
+
+## [1.17.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.5...@next-core/runtime@1.17.6) (2023-07-14)
+
+
+### Bug Fixes
+
+* batch update error in template ([34e5cff](https://github.com/easyops-cn/next-core/commit/34e5cff0b0b94e3c3654f6aa93e110f9fff773cb))
+
+
+
+
+
+## [1.17.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.4...@next-core/runtime@1.17.5) (2023-07-07)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.17.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.3...@next-core/runtime@1.17.4) (2023-07-06)
+
+
+### Bug Fixes
+
+* history fallback to from v2 runtime ([ce231ad](https://github.com/easyops-cn/next-core/commit/ce231ad604298bee09339b86dd18c8daebe25c94))
+
+
+
+
+
+## [1.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.2...@next-core/runtime@1.17.3) (2023-06-30)
+
+
+### Bug Fixes
+
+* remove unnecessary code ([c3472de](https://github.com/easyops-cn/next-core/commit/c3472de997618c46d628c4588571d5d09f70c7ec))
+* set theme before rendering ([9011a03](https://github.com/easyops-cn/next-core/commit/9011a03adcea4744695b24dcf0ee418e671e2079))
+
+
+
+
+
+## [1.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.1...@next-core/runtime@1.17.2) (2023-06-28)
+
+
+### Bug Fixes
+
+* compatible with devtools ([f951b98](https://github.com/easyops-cn/next-core/commit/f951b98f6dd58999212925515b7a36f5c7a7061a))
+
+
+
+
+
+## [1.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.0...@next-core/runtime@1.17.1) (2023-06-25)
+
+
+### Bug Fixes
+
+* states will wait for specific host props only ([c7afc07](https://github.com/easyops-cn/next-core/commit/c7afc071d79ecd18f284ffc697b5ac84d1e6277e))
+
+
+
+
+
+# [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.16.0...@next-core/runtime@1.17.0) (2023-06-20)
+
+
+### Features
+
+* support context.resolve.async ([62c9e18](https://github.com/easyops-cn/next-core/commit/62c9e189145e9142ab016828887c7bef0cd43c5d))
+
+
+
+
+
+# [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.15.0...@next-core/runtime@1.16.0) (2023-06-14)
+
+
+### Bug Fixes
+
+* use notification bricks in basic instead of shoelace ([66f38bc](https://github.com/easyops-cn/next-core/commit/66f38bc6ac323df719e86b38a1609be940ae269e))
+
+
+### Features
+
+* websocket message dispatcher ([74d9e8c](https://github.com/easyops-cn/next-core/commit/74d9e8c992de6755635597a75855383d12b9555e))
+
+
+
+
+
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.2...@next-core/runtime@1.15.0) (2023-06-13)
+
+
+### Features
+
+* **V3:** context支持Trigger挂载生命周期自动触发 ([abadbc8](https://github.com/easyops-cn/next-core/commit/abadbc877f2f6af8b61a16f2291e777ba8f0d463))
+
+
+
+
+
+## [1.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.1...@next-core/runtime@1.14.2) (2023-06-12)
+
+
+### Bug Fixes
+
+* move images code out of runtime ([d6b72d2](https://github.com/easyops-cn/next-core/commit/d6b72d27e8d84937c9c2c90a468141dd4510ff68))
+
+
+
+
+
+## [1.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.14.0...@next-core/runtime@1.14.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* standalone模式下小产品图标url错误 ([0686c76](https://github.com/easyops-cn/next-core/commit/0686c7614a89f72c5b2f4bce643b201a838dd0de))
+
+
+
+
+
+# [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.13.0...@next-core/runtime@1.14.0) (2023-06-01)
+
+
+### Features
+
+* menu支持大于两层 ([f3bd6d4](https://github.com/easyops-cn/next-core/commit/f3bd6d45f6e9f590d05428ba77d40408ba9f0944))
+
+
+
+
+
+# [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.12.1...@next-core/runtime@1.13.0) (2023-05-30)
+
+
+### Features
+
+* sys add settings field&export brand ([2b9175d](https://github.com/easyops-cn/next-core/commit/2b9175d19d9913d8f95d911ce0a35b499d250688))
+
+
+
+
+
+## [1.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.12.0...@next-core/runtime@1.12.1) (2023-05-26)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 # [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.11.1...@next-core/runtime@1.12.0) (2023-05-26)
 
 

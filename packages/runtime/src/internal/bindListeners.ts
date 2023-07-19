@@ -255,8 +255,17 @@ export function listenerFactory(
             );
             break;
 
-          // case "message.subscribe":
-          // case "message.unsubscribe":
+          case "message.subscribe":
+          case "message.unsubscribe":
+            handleMessageDispatcher(
+              event,
+              method,
+              handler.args,
+              runtimeContext,
+              runtimeBrick,
+              handler.callback
+            );
+            break;
 
           case "theme.setDarkTheme":
           case "theme.setLightTheme":
@@ -567,7 +576,7 @@ function batchUpdate(
   args: unknown[],
   batch: boolean,
   method: "replace" | "assign",
-  store: DataStore,
+  store: DataStore<"CTX" | "STATE">,
   runtimeContext: RuntimeContext,
   event: CustomEvent | Event
 ): void {
@@ -635,14 +644,12 @@ function handleTplStateAction(
 ) {
   const isBatch = Array.isArray(args) && args.every(isObject);
   if (isBatch && method === "update") {
-    batchUpdate(
-      args,
-      batch,
-      "replace",
-      runtimeContext.ctxStore,
+    const tplStateStore = getTplStateStore(
       runtimeContext,
-      event
+      `state.${method}`,
+      `: ${JSON.stringify(args)}`
     );
+    batchUpdate(args, batch, "replace", tplStateStore, runtimeContext, event);
   } else {
     const [name, value] = argsFactory(args, runtimeContext, event);
     const tplStateStore = getTplStateStore(
@@ -740,6 +747,37 @@ function handleMessageAction(
     type: method,
     message: computedArgs[0] as string,
   });
+}
+
+async function handleMessageDispatcher(
+  event: Event,
+  method: "subscribe" | "unsubscribe",
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext,
+  runtimeBrick?: ElementHolder,
+  callback?: BrickEventHandlerCallback
+) {
+  const task = () => {
+    const computedArgs = argsFactory(args, runtimeContext, event);
+    return hooks?.messageDispatcher?.[method](...computedArgs);
+  };
+  if (!callback) {
+    task();
+    return;
+  }
+  const callbackFactory = eventCallbackFactory(
+    callback,
+    runtimeContext,
+    runtimeBrick
+  );
+  try {
+    const result = await task();
+    callbackFactory("success")(result);
+  } catch (error) {
+    callbackFactory("error")(error);
+  } finally {
+    callbackFactory("finally")();
+  }
 }
 
 export function eventCallbackFactory(

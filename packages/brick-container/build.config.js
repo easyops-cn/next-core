@@ -2,6 +2,8 @@
 import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
+import webpack from "webpack";
+import packageJson from "./package.json" assert { type: "json" };
 
 const packageDir = process.cwd();
 
@@ -70,6 +72,11 @@ export default {
           to: "assets",
         },
       ],
+    }),
+    new webpack.DefinePlugin({
+      BRICK_NEXT_VERSIONS: JSON.stringify({
+        ["brick-container"]: packageJson.version,
+      }),
     }),
   ],
   optimization: {
