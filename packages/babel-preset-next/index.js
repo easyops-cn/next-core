@@ -26,7 +26,7 @@ module.exports = () => {
               modules: false,
               useBuiltIns: "entry",
               corejs: {
-                version: "3.30",
+                version: "3.31",
               },
             },
       ],
@@ -42,14 +42,14 @@ module.exports = () => {
       [
         proposalDecorators,
         {
-          version: "2022-03",
+          version: "2023-05",
         },
       ],
       [
         transformRuntime,
         {
           // https://github.com/babel/babel/issues/9454#issuecomment-460425922
-          version: "7.20.13",
+          version: "7.22.9",
         },
       ],
     ],
