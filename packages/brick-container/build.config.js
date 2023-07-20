@@ -82,6 +82,23 @@ export default {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        previewVendors: {
+          test(
+            /** @type {{ resource: string }} */
+            module
+          ) {
+            return (
+              /[\\/]node_modules[\\/]html2canvas[\\/]/.test(module.resource) ||
+              // In EasyOps CI, the root dir is `/data/easyops/`
+              /[\\/](?:next-core|data[\\/]easyops)[\\/]packages[\\/]brick-container[\\/]src[\\/]preview[\\/]/.test(
+                module.resource
+              )
+            );
+          },
+          priority: -5,
+          reuseExistingChunk: true,
+          name: "preview",
+        },
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
