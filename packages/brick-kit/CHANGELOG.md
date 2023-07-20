@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.0...@next-core/brick-kit@2.178.1) (2023-07-20)
+
+
+### Bug Fixes
+
+* load processors before compute menu data ([0c9e287](https://github.com/easyops-cn/next-core/commit/0c9e287b4146c23dc0e67af464c962c63b47b8d8))
+
+
+
+
+
 # [2.178.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.4...@next-core/brick-kit@2.178.0) (2023-07-11)
 
 
