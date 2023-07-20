@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.5...@next-core/eslint-config-next@2.0.6) (2023-07-20)
+
+
+### Bug Fixes
+
+* migrate eslint ([fc9ba45](https://github.com/easyops-cn/next-core/commit/fc9ba45285e22ae50dfea386326e29bfc498d0b3))
+
+
+
+
+
 ## [2.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.4...@next-core/eslint-config-next@2.0.5) (2023-05-26)
 
 **Note:** Version bump only for package @next-core/eslint-config-next

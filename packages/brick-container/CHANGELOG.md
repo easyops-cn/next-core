@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.4.15...@next-core/brick-container@3.4.16) (2023-07-20)
+
+
+### Bug Fixes
+
+* put preview helpers in brick-container ([dad8edf](https://github.com/easyops-cn/next-core/commit/dad8edf8dd66f34c8a4fb17b92db806e02e62001))
+
+
+
+
+
 ## [3.4.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.4.14...@next-core/brick-container@3.4.15) (2023-07-18)
 
 **Note:** Version bump only for package @next-core/brick-container

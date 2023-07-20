@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.5...@next-core/babel-preset-next@1.0.6) (2023-07-20)
+
+
+### Bug Fixes
+
+* upgrade babel settings ([435ca71](https://github.com/easyops-cn/next-core/commit/435ca7175b87a805f8998953d9d007e4865ee39e))
+
+
+
+
+
 ## [1.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.4...@next-core/babel-preset-next@1.0.5) (2023-05-26)
 
 **Note:** Version bump only for package @next-core/babel-preset-next
