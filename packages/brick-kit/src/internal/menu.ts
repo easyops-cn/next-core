@@ -16,6 +16,7 @@ import {
   isObject,
   preevaluate,
   scanPermissionActionsInAny,
+  scanProcessorsInAny,
 } from "@next-core/brick-utils";
 import {
   InstanceApi_postSearch,
@@ -584,6 +585,8 @@ async function computeRealValueWithOverrideApp<
       };
     }
   }
+  const processors = scanProcessorsInAny(data);
+  await kernel.loadDynamicBricks([], processors);
   await kernel.router.waitForUsedContext(data);
   return computeRealValue(data, newContext, true, {
     ignoreSymbols: true,

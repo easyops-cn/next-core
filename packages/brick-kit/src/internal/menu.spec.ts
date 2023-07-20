@@ -423,7 +423,10 @@ describe("fetchMenuById", () => {
   });
   const formatData = <T>(item: T): T => JSON.parse(JSON.stringify(item));
   const getFeatureFlags = jest.fn().mockReturnValue({});
-  const fakeKernel = { getFeatureFlags } as unknown as Kernel;
+  const fakeKernel = {
+    getFeatureFlags,
+    loadDynamicBricks: jest.fn(),
+  } as unknown as Kernel;
 
   it("should work", async () => {
     const menu1 = await fetchMenuById("menu-a", fakeKernel);
@@ -594,6 +597,7 @@ describe("constructMenu", () => {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
       getFeatureFlags: jest.fn().mockReturnValue({}),
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -620,6 +624,7 @@ describe("constructMenu", () => {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
       getFeatureFlags: jest.fn().mockReturnValue({}),
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -755,6 +760,7 @@ describe("constructMenu", () => {
       router: {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -814,6 +820,7 @@ describe("constructMenu", () => {
         );
       }),
       getFeatureFlags: jest.fn().mockReturnValue({}),
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     window.STANDALONE_MICRO_APPS = true;
     await constructMenu(menuBar, context, fakeKernel);
@@ -885,6 +892,7 @@ describe("constructMenu", () => {
       router: {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     await constructMenu(menuBar, context, fakeKernel);
     expect(menuBar).toEqual({
@@ -932,6 +940,7 @@ describe("constructMenu", () => {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
       getFeatureFlags: jest.fn().mockReturnValue({}),
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     await preConstructMenus(["menu-c", "menu-d"], context, fakeKernel);
 
@@ -956,6 +965,7 @@ describe("processMenu", () => {
         waitForUsedContext: jest.fn().mockResolvedValue(undefined),
       },
       getFeatureFlags: jest.fn().mockReturnValue({}),
+      loadDynamicBricks: jest.fn(),
     } as unknown as Kernel;
     const menu = await processMenu("menu-h", context, fakeKernel);
     expect(menu).toEqual({
