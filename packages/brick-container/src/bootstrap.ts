@@ -16,6 +16,7 @@ import { loadCheckLogin } from "./loadCheckLogin.js";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
+import type { PreviewMessageContainerStartPreview } from "./preview/interfaces.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
@@ -85,9 +86,6 @@ const requestEnd = (): void => {
 window.addEventListener("request.start", requestStart);
 window.addEventListener("request.end", requestEnd);
 
-let bootstrapStatus: "loading" | "ok" | "failed" = "loading";
-let previewRequested = false;
-
 const runtime = createRuntime({
   hooks: {
     auth,
@@ -108,12 +106,8 @@ async function main() {
       loadBootstrapData(),
     ]);
     await runtime.bootstrap(bootstrapData);
-    bootstrapStatus = "ok";
-    if (previewRequested) {
-      startPreview();
-    }
+    return "ok";
   } catch (error) {
-    bootstrapStatus = "failed";
     // eslint-disable-next-line no-console
     console.error("bootstrap failed:", error);
 
@@ -124,89 +118,36 @@ async function main() {
     document.querySelector(
       "#main-mount-point"
     )!.textContent = `bootstrap failed: ${httpErrorToString(error)}`;
+    return "failed";
   }
 }
 
-main();
-
-let previewStarted = false;
-let previewFromOrigin: string;
-let previewOptions: unknown;
-
-async function startPreview(): Promise<void> {
-  // Start preview once bootstrap is ok and preview message has also been arrived.
-  if (previewStarted || bootstrapStatus === "failed" || !previewFromOrigin) {
-    return;
-  }
-  if (bootstrapStatus === "loading") {
-    previewRequested = true;
-    return;
-  }
-  previewStarted = true;
-  const localhostRegExp = /^https?:\/\/localhost(?:$|:)/;
-  // Make sure preview from the expected origins.
-  let previewAllowed =
-    previewFromOrigin === location.origin ||
-    localhostRegExp.test(previewFromOrigin) ||
-    localhostRegExp.test(location.origin);
-  if (!previewAllowed) {
-    const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
-      allowedPreviewFromOrigins?: string[];
-    };
-    if (Array.isArray(allowedPreviewFromOrigins)) {
-      previewAllowed = allowedPreviewFromOrigins.some(
-        (origin) => origin === previewFromOrigin
-      );
-    }
-    if (!previewAllowed) {
-      // eslint-disable-next-line
-      console.error(
-        `Preview is disallowed, from origin: ${previewFromOrigin}, while allowing: ${JSON.stringify(
-          allowedPreviewFromOrigins
-        )}`
-      );
-    }
-  }
-  if (previewAllowed) {
-    const helperBrickName = "devtools.preview-start";
-    try {
-      await runtime.loadBricks([helperBrickName]);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(`Load ${helperBrickName} failed:`, error);
-    }
-    if (customElements.get(helperBrickName)) {
-      const devtoolsPreviewStart = document.createElement(
-        helperBrickName
-      ) as unknown as {
-        resolve(previewFromOrigin: string, options?: unknown): void;
-      };
-      devtoolsPreviewStart.resolve(previewFromOrigin, previewOptions);
-    }
-  }
-}
+const bootstrapStatus = main();
 
 if (window.parent !== window) {
   const listener = async ({
     data,
     origin,
-  }: MessageEvent<PreviewMessageContainerStartPreview>): Promise<void> => {
-    if (
-      data &&
-      data.sender === "preview-container" &&
-      data.type === "start-preview"
-    ) {
+  }: MessageEvent<unknown>): Promise<void> => {
+    if (isPreviewMessageContainerStartPreview(data)) {
       window.removeEventListener("message", listener);
-      previewFromOrigin = origin;
-      previewOptions = data.options;
-      startPreview();
+      const initialize = (await import("./preview/initialize.js")).default;
+      const ok = await initialize(bootstrapStatus, origin);
+      if (ok) {
+        const connect = (await import("./preview/connect.js")).default;
+        connect(origin, data.options);
+      }
     }
   };
   window.addEventListener("message", listener);
 }
 
-interface PreviewMessageContainerStartPreview {
-  sender: "preview-container";
-  type: "start-preview";
-  options?: unknown;
+function isPreviewMessageContainerStartPreview(
+  data: unknown
+): data is PreviewMessageContainerStartPreview {
+  return (
+    (data as PreviewMessageContainerStartPreview)?.sender ===
+      "preview-container" &&
+    (data as PreviewMessageContainerStartPreview).type === "start-preview"
+  );
 }
