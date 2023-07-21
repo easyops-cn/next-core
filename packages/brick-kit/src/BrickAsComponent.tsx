@@ -1,13 +1,8 @@
+/** @jsx React.createElement */
+/** @jsxFrag React.Fragment */
 import { set } from "lodash";
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React from "react";
+import type _React from "react";
 import { isObject } from "@next-core/brick-utils";
 import {
   UseBrickConf,
@@ -158,38 +153,24 @@ const getCurrentRunTimeBrick = (
   return brick;
 };
 
-/**
- * 可以渲染单个 `useBrick` 的 React 组件。
- *
- * @example
- *
- * ```tsx
- * <BrickAsComponent
- *   useBrick={{
- *     brick: "your.any-brick"
- *   }}
- *   data={yourData}
- * />
- * ```
- *
- * @param props - 属性。
- */
-export const SingleBrickAsComponent = React.memo(
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function SingleBrickAsComponentFactory(React: typeof _React) {
   function SingleBrickAsComponent({
     useBrick,
     data,
     refCallback,
     immediatelyRefCallback,
   }: SingleBrickAsComponentProps): React.ReactElement {
-    const firstRunRef = useRef(true);
-    const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
-    const elementRef = useRef<HTMLElement>();
-    const [expandedBrickConf, setExpandedBrickConf] = useState<BrickConf>(null);
+    const firstRunRef = React.useRef(true);
+    const innerRefCallbackRef = React.useRef<(element: HTMLElement) => void>();
+    const elementRef = React.useRef<HTMLElement>();
+    const [expandedBrickConf, setExpandedBrickConf] =
+      React.useState<BrickConf>(null);
     const tplTagName = getTagNameOfCustomTemplate(
       useBrick.brick,
       _internalApiGetCurrentContext().app?.id
     );
-    const isBrickAvailable = useMemo(() => {
+    const isBrickAvailable = React.useMemo(() => {
       if (isObject(useBrick.if) && !isPreEvaluated(useBrick.if)) {
         // eslint-disable-next-line
         console.warn("Currently resolvable-if in `useBrick` is not supported.");
@@ -208,7 +189,7 @@ export const SingleBrickAsComponent = React.memo(
       return true;
     }, [useBrick, data]);
 
-    const requireSuspense = useMemo(() => {
+    const requireSuspense = React.useMemo(() => {
       let context: ContextConf[];
       if (useBrick.brick === formRenderer) {
         const formData =
@@ -221,9 +202,9 @@ export const SingleBrickAsComponent = React.memo(
       }
       return Array.isArray(context) && context.some((ctx) => !!ctx.resolve);
     }, [tplTagName, useBrick]);
-    const [suspenseReady, setSuspenseReady] = useState(false);
+    const [suspenseReady, setSuspenseReady] = React.useState(false);
 
-    const runtimeBrick = useMemo(async () => {
+    const runtimeBrick = React.useMemo(async () => {
       if (!isBrickAvailable) {
         return null;
       }
@@ -342,7 +323,7 @@ export const SingleBrickAsComponent = React.memo(
       }
     };
 
-    const updateBrick = useCallback(
+    const updateBrick = React.useCallback(
       (brick: RuntimeBrick, element: HTMLElement): void => {
         brick.element = element;
 
@@ -380,7 +361,7 @@ export const SingleBrickAsComponent = React.memo(
       [data, useBrick]
     );
 
-    useEffect(() => {
+    React.useEffect(() => {
       if (firstRunRef.current) {
         firstRunRef.current = false;
         return;
@@ -446,7 +427,7 @@ export const SingleBrickAsComponent = React.memo(
       innerRefCallbackRef.current(element);
     }, []);
 
-    const childConfs = useMemo(
+    const childConfs = React.useMemo(
       () =>
         isBrickAvailable && suspenseReady
           ? slotsToChildren(
@@ -472,7 +453,44 @@ export const SingleBrickAsComponent = React.memo(
       ))
     );
   }
-);
+  return React.memo(SingleBrickAsComponent);
+}
+
+/**
+ * 可以渲染单个 `useBrick` 的 React 组件。
+ *
+ * @example
+ *
+ * ```tsx
+ * <BrickAsComponent
+ *   useBrick={{
+ *     brick: "your.any-brick"
+ *   }}
+ *   data={yourData}
+ * />
+ * ```
+ *
+ * @param props - 属性。
+ */
+export const SingleBrickAsComponent = SingleBrickAsComponentFactory(React);
+
+function BrickAsComponentFactory(React: typeof _React) {
+  return function BrickAsComponent({
+    useBrick,
+    data,
+  }: BrickAsComponentProps): React.ReactElement {
+    if (Array.isArray(useBrick)) {
+      return (
+        <>
+          {useBrick.map((item, index) => (
+            <SingleBrickAsComponent key={index} useBrick={item} data={data} />
+          ))}
+        </>
+      );
+    }
+    return <SingleBrickAsComponent useBrick={useBrick} data={data} />;
+  };
+}
 
 /**
  * 可以渲染 `useBrick` 的 React 组件。
@@ -492,21 +510,7 @@ export const SingleBrickAsComponent = React.memo(
  *
  * @param props - 属性。
  */
-export function BrickAsComponent({
-  useBrick,
-  data,
-}: BrickAsComponentProps): React.ReactElement {
-  if (Array.isArray(useBrick)) {
-    return (
-      <>
-        {useBrick.map((item, index) => (
-          <SingleBrickAsComponent key={index} useBrick={item} data={data} />
-        ))}
-      </>
-    );
-  }
-  return <SingleBrickAsComponent useBrick={useBrick} data={data} />;
-}
+export const BrickAsComponent = BrickAsComponentFactory(React);
 
 function slotsToChildren(slots: UseBrickSlotsConf): UseSingleBrickConf[] {
   if (!slots) {
@@ -539,16 +543,17 @@ function transformEvents(
 /* istanbul ignore next */
 // eslint-disable-next-line react/display-name
 export const ForwardRefSingleBrickAsComponent = React.memo(
-  forwardRef<HTMLElement, SingleBrickAsComponentProps>(
+  React.forwardRef<HTMLElement, SingleBrickAsComponentProps>(
     function LegacySingleBrickAsComponent(
       { useBrick, data, refCallback }: SingleBrickAsComponentProps,
       ref
     ): React.ReactElement {
-      const firstRunRef = useRef(true);
-      const innerRefCallbackRef = useRef<(element: HTMLElement) => void>();
-      const elementRef = useRef<HTMLElement>();
+      const firstRunRef = React.useRef(true);
+      const innerRefCallbackRef =
+        React.useRef<(element: HTMLElement) => void>();
+      const elementRef = React.useRef<HTMLElement>();
       const [expandedBrickConf, setExpandedBrickConf] =
-        useState<BrickConf>(null);
+        React.useState<BrickConf>(null);
       const tplTagName = getTagNameOfCustomTemplate(
         useBrick.brick,
         _internalApiGetCurrentContext().app?.id
@@ -574,7 +579,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         return true;
       }, [useBrick, data]);
 
-      const requireSuspense = useMemo(() => {
+      const requireSuspense = React.useMemo(() => {
         let context: ContextConf[];
         if (useBrick.brick === formRenderer) {
           const formData =
@@ -587,10 +592,10 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
         return Array.isArray(context) && context.some((ctx) => !!ctx.resolve);
       }, [tplTagName, useBrick]);
-      const [suspenseReady, setSuspenseReady] = useState(false);
+      const [suspenseReady, setSuspenseReady] = React.useState(false);
 
       /* istanbul ignore next (never reach in test) */
-      useImperativeHandle(ref, () => {
+      React.useImperativeHandle(ref, () => {
         return elementRef.current;
       });
 
@@ -707,7 +712,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         }
       };
 
-      const updateBrick = useCallback(
+      const updateBrick = React.useCallback(
         (brick: RuntimeBrick, element: HTMLElement): void => {
           brick.element = element;
 
@@ -739,7 +744,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         [data, useBrick]
       );
 
-      useEffect(() => {
+      React.useEffect(() => {
         if (firstRunRef.current) {
           firstRunRef.current = false;
           return;
@@ -804,7 +809,7 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
         innerRefCallbackRef.current(element);
       }, []);
 
-      const childConfs = useMemo(
+      const childConfs = React.useMemo(
         () =>
           isBrickAvailable && suspenseReady
             ? slotsToChildren(
@@ -833,3 +838,6 @@ export const ForwardRefSingleBrickAsComponent = React.memo(
     }
   )
 );
+
+(window as any).BrickAsComponentFactory = BrickAsComponentFactory;
+(window as any).SingleBrickAsComponentFactory = SingleBrickAsComponentFactory;
