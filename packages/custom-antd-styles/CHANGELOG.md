@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.26.0...@next-core/custom-antd-styles@1.26.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* 表格样式错误 ref CD-5314 ([21ae657](https://github.com/easyops-cn/next-core/commit/21ae65775658e8c12aadd61e6e0c3bc71e8bf0d9))
+
+
+
+
+
 # [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.26...@next-core/custom-antd-styles@1.26.0) (2023-07-07)
 
 
