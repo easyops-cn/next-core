@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.38.3](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.38.2...@next-dll/editor-bricks-helper@0.38.3) (2023-07-21)
+
+
+### Bug Fixes
+
+* support v2 use v3 bricks with useBrick ([424092d](https://github.com/easyops-cn/next-core/commit/424092d9586263150d84508da5c48d17f27cc92b))
+
+
+
+
+
 ## [0.38.2](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.38.1...@next-dll/editor-bricks-helper@0.38.2) (2023-07-20)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper

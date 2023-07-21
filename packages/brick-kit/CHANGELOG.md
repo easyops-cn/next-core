@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.1...@next-core/brick-kit@2.178.2) (2023-07-21)
+
+
+### Bug Fixes
+
+* support v2 use v3 bricks with useBrick ([424092d](https://github.com/easyops-cn/next-core/commit/424092d9586263150d84508da5c48d17f27cc92b))
+
+
+
+
+
 ## [2.178.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.0...@next-core/brick-kit@2.178.1) (2023-07-20)
 
 
