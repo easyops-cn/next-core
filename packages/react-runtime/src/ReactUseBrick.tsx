@@ -15,7 +15,7 @@ export interface ReactUseBrickProps {
 
 // Note: always synchronize code in LegacyUseBrick:
 // `bricks/v2-adapter/src/data-providers/legacy-brick-kit/getLegacyUseBrick.ts`
-export function ReactUseBrick({
+let ReactUseBrick = function ReactUseBrick({
   useBrick,
   data,
 }: ReactUseBrickProps): React.ReactElement | null {
@@ -71,7 +71,7 @@ export function ReactUseBrick({
 
   const WebComponent = tagName as any;
   return <WebComponent key={renderKey} ref={refCallback} />;
-}
+};
 
 function getUniqueId(ref: MutableRefObject<number>): number {
   return ++ref.current;
@@ -82,7 +82,7 @@ export interface ReactUseMultipleBricksProps {
   data?: unknown;
 }
 
-export function ReactUseMultipleBricks({
+let ReactUseMultipleBricks = function ReactUseMultipleBricks({
   useBrick,
   data,
 }: ReactUseMultipleBricksProps): React.ReactElement | null {
@@ -96,4 +96,17 @@ export function ReactUseMultipleBricks({
     );
   }
   return <ReactUseBrick useBrick={useBrick} data={data} />;
+};
+
+// istanbul ignore next
+// Make v3 bricks compatible with Brick Next v2.
+if (
+  (window as any).dll &&
+  window.BRICK_NEXT_VERSIONS?.["brick-container"]?.startsWith("2.")
+) {
+  const legacyKit = (window as any).dll("tYg3");
+  ReactUseBrick = legacyKit.SingleBrickAsComponentFactory(React);
+  ReactUseMultipleBricks = legacyKit.BrickAsComponentFactory(React);
 }
+
+export { ReactUseBrick, ReactUseMultipleBricks };
