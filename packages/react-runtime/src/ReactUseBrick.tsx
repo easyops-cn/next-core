@@ -104,9 +104,13 @@ if (
   (window as any).dll &&
   window.BRICK_NEXT_VERSIONS?.["brick-container"]?.startsWith("2.")
 ) {
-  const legacyKit = (window as any).dll("tYg3");
-  ReactUseBrick = legacyKit.SingleBrickAsComponentFactory(React);
-  ReactUseMultipleBricks = legacyKit.BrickAsComponentFactory(React);
+  const { SingleBrickAsComponentFactory, BrickAsComponentFactory } = (
+    window as any
+  ).dll("tYg3");
+  if (SingleBrickAsComponentFactory && BrickAsComponentFactory) {
+    ReactUseBrick = SingleBrickAsComponentFactory(React);
+    ReactUseMultipleBricks = BrickAsComponentFactory(React);
+  }
 }
 
 export { ReactUseBrick, ReactUseMultipleBricks };
