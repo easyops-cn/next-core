@@ -1,8 +1,8 @@
 const path = require("path");
-const { readJson, writeJsonFile, readSelfJson } = require("../utils");
+const { readJson, writeJsonFile } = require("../utils");
 
 function updateRenovateForV2() {
-  const selfJson = readSelfJson();
+  const packageJson = readJson(path.resolve("package.json"));
   const renovateJsonPath = path.resolve("renovate.json");
   const renovateJson = readJson(renovateJsonPath);
 
@@ -16,7 +16,7 @@ function updateRenovateForV2() {
       matchPackagePatterns: ["^@next-core/"],
       matchUpdateTypes: ["minor", "patch"],
       postUpgradeTasks:
-        selfJson.homepage && selfJson.homepage.includes("github.com")
+        packageJson.homepage && packageJson.homepage.includes("github.com")
           ? undefined
           : {
               commands: [
