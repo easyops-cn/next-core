@@ -120,7 +120,7 @@
   &-tbody > tr {
     &.@{table-prefix-cls}-row-hover,
     &:hover {
-      &:not(.@{table-prefix-cls}-expanded-row):not(.@{table-prefix-cls}-row-selected) > td {
+      &:not(.@{table-prefix-cls}-expanded-row):not(.@{table-prefix-cls}-row-selected):not(.@{table-prefix-cls}-empty .@{table-prefix-cls}-placeholder) > td {
         background-color: var(--color-fill-bg-base-1);
       }
     }
@@ -203,8 +203,4 @@
       padding: 4px 8px;
     }
   }
-}
-
-.@{table-prefix-cls}-empty .@{table-prefix-cls}-tbody > tr.@{table-prefix-cls}-placeholder {
-  pointer-events: none;
 }
