@@ -40,6 +40,6 @@
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.5",
     "@next-core/test-next": "^1.0.7",
-    "whatwg-fetch": "^3.6.16"
+    "whatwg-fetch": "^3.6.17"
   }
 }
