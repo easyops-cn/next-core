@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.57](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.56...@next-core/react-runtime@1.0.57) (2023-07-21)
+
+
+### Bug Fixes
+
+* check useBrick factories existence ([ff9f518](https://github.com/easyops-cn/next-core/commit/ff9f518acf19adecb25c90ddd55bb9d5887785d7))
+
+
+
+
+
 ## [1.0.56](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.55...@next-core/react-runtime@1.0.56) (2023-07-21)
 
 
