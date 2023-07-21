@@ -61,6 +61,7 @@ import { PluginHistoryState } from '@next-core/brick-types';
 import { PluginLocation } from '@next-core/brick-types';
 import { PluginRuntimeContext } from '@next-core/brick-types';
 import type { PresetBricksConf } from '@next-core/brick-types';
+import type _React from 'react';
 import { default as React_2 } from 'react';
 import { RefForProxy } from '@next-core/brick-types';
 import { ResolveConf } from '@next-core/brick-types';
@@ -129,7 +130,10 @@ export function batchSetAppsLocalTheme(appsTheme: Record<string, SiteTheme>): vo
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function BrickAsComponent({ useBrick, data, }: BrickAsComponentProps): React_2.ReactElement;
+export const BrickAsComponent: ({ useBrick, data, }: BrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>;
+
+// @public (undocumented)
+export function BrickAsComponentFactory(React: typeof _React): ({ useBrick, data, }: BrickAsComponentProps) => React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
@@ -331,6 +335,9 @@ export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
 // @public (undocumented)
 export const ForwardRefSingleBrickAsComponent: React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
 
+// @public (undocumented)
+export function ForwardRefSingleBrickAsComponentFactory(React: typeof _React): React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
+
 // Warning: (ae-internal-missing-underscore) The name "FunctionCoverageCollector" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -522,7 +529,10 @@ export interface RuntimeStoryboardFunction {
 }
 
 // @public
-export const SingleBrickAsComponent: React_2.NamedExoticComponent<SingleBrickAsComponentProps>;
+export const SingleBrickAsComponent: React_2.MemoExoticComponent<({ useBrick, data, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>>;
+
+// @public (undocumented)
+export function SingleBrickAsComponentFactory(React: typeof _React): React_2.MemoExoticComponent<({ useBrick, data, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps) => React_2.ReactElement>;
 
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionPatch" should be prefixed with an underscore because the declaration is marked as @internal
 //

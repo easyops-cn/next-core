@@ -20,6 +20,9 @@ export {
   BrickAsComponent,
   SingleBrickAsComponent,
   ForwardRefSingleBrickAsComponent,
+  BrickAsComponentFactory,
+  SingleBrickAsComponentFactory,
+  ForwardRefSingleBrickAsComponentFactory,
 } from "./BrickAsComponent";
 export * from "./BrickWrapper";
 export * from "./developHelper";
