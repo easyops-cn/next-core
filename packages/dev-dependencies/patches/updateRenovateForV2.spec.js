@@ -1,5 +1,5 @@
 const updateRenovateForV2 = require("./updateRenovateForV2");
-const { writeJsonFile, readJson, readSelfJson } = require("../utils");
+const { writeJsonFile, readJson } = require("../utils");
 
 jest.mock("../utils");
 
@@ -9,7 +9,7 @@ describe("updateRenovateForV2", () => {
   });
 
   it("should update v2 for repo on github", () => {
-    readSelfJson.mockReturnValueOnce({
+    readJson.mockReturnValueOnce({
       homepage: "https://github.com/easyops-cn/next-basics",
     });
     readJson.mockReturnValueOnce({
@@ -42,7 +42,7 @@ describe("updateRenovateForV2", () => {
   });
 
   it("should update v2 for repo on gitlab", () => {
-    readSelfJson.mockReturnValueOnce({
+    readJson.mockReturnValueOnce({
       homepage: "https://git.easyops.local/easyops-cn/next-basics",
     });
     readJson.mockReturnValueOnce({

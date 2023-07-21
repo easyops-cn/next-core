@@ -200,7 +200,7 @@ module.exports = async function patch() {
     enableLernaWithNx();
   }
 
-  if (semver.lt(currentRenewVersion, "1.17.0")) {
+  if (semver.lt(currentRenewVersion, "1.17.30")) {
     updateRenovateForV2();
   }
 
