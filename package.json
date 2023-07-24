@@ -52,7 +52,7 @@
     "@types/prettier": "^2.7.3",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
     "babel-jest": "^29.6.1",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
