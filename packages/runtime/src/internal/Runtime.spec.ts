@@ -146,6 +146,14 @@ const getBootstrapData = (options?: {
           : [],
       },
     },
+    {
+      app: {
+        id: "app-b",
+        homepage: "/app-b",
+        name: "App B",
+      },
+      routes: [],
+    },
   ],
   brickPackages: [],
   settings: options?.settings
@@ -242,6 +250,7 @@ describe("Runtime", () => {
       previousApp: undefined,
     });
     expect(getRuntime().getCurrentApp()).toMatchObject({ id: "app-a" });
+    expect(getRuntime().hasInstalledApp("app-b")).toBe(true);
     expect(getRuntime().getFeatureFlags()).toEqual({
       "migrate-to-brick-next-v3": true,
       "some-app-feature": true,
