@@ -443,11 +443,10 @@ export class Router {
         } else if (isHttpAbortError(error)) {
           return;
         } else {
-          const user_config: Record<string, any> = JSON.parse(
-            localStorage.getItem("user_config")
-          );
-          if (isUnauthenticatedError(error) && user_config.loginPath) {
-            history.replace(user_config.loginPath);
+          const noAuthGuardLoginPath =
+            getRuntime().getMiscSettings().noAuthGuardLoginPath;
+          if (isUnauthenticatedError(error) && noAuthGuardLoginPath) {
+            history.replace(noAuthGuardLoginPath);
             return;
           }
           await this.kernel.layoutBootstrap(layoutType);
