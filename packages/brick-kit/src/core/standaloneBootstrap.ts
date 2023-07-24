@@ -84,6 +84,7 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
   let settings: Settings;
   if (conf) {
     const { sys_settings, user_config, user_config_by_apps } = conf;
+    localStorage.setItem("user_config", JSON.stringify(user_config));
     if (sys_settings) {
       const { feature_flags: featureFlags, ...rest } = sys_settings;
       settings = {
