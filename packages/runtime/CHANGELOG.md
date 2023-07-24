@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.8...@next-core/runtime@1.18.0) (2023-07-24)
+
+
+### Bug Fixes
+
+* compatible with resolve.field ([9b9172a](https://github.com/easyops-cn/next-core/commit/9b9172ae89c0a67d5eef50de7999b133bd544ea1))
+
+
+### Features
+
+*  runtime export hasInstalledApp ([5f68673](https://github.com/easyops-cn/next-core/commit/5f686735ea2e0b6a9c9ed37aa8a79a3242060592))
+
+
+
+
+
 ## [1.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.7...@next-core/runtime@1.17.8) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/runtime
