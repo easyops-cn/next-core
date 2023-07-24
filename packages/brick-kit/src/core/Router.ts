@@ -443,6 +443,12 @@ export class Router {
         } else if (isHttpAbortError(error)) {
           return;
         } else {
+          const noAuthGuardLoginPath =
+            getRuntime().getMiscSettings().noAuthGuardLoginPath;
+          if (isUnauthenticatedError(error) && noAuthGuardLoginPath) {
+            history.replace(noAuthGuardLoginPath);
+            return;
+          }
           await this.kernel.layoutBootstrap(layoutType);
           const brickPageError = this.kernel.presetBricks.pageError;
           await this.kernel.loadDynamicBricks([brickPageError]);
