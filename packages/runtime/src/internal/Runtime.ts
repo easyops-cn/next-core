@@ -23,7 +23,7 @@ import { NS, locales } from "./i18n.js";
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { injectedBrickPackages } from "./injected.js";
-import type { AppForCheck } from "./hasInstalledApp.js";
+import { type AppForCheck, hasInstalledApp } from "./hasInstalledApp.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { listenDevtoolsEagerly } from "./devtools.js";
 
@@ -186,6 +186,10 @@ export class Runtime {
 
   getCurrentApp() {
     return router?.getRecentApps().currentApp;
+  }
+
+  hasInstalledApp(appId: string, matchVersion?: string): boolean {
+    return hasInstalledApp(appId, matchVersion);
   }
 
   getFeatureFlags(): FeatureFlags {
