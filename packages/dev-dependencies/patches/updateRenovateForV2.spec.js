@@ -27,6 +27,11 @@ describe("updateRenovateForV2", () => {
             enabled: false,
           },
           {
+            matchPackagePatterns: ["^@next-core/"],
+            matchUpdateTypes: ["major"],
+            enabled: false,
+          },
+          {
             groupName: "next-core packages",
             matchPackagePatterns: ["^@next-core/"],
             matchUpdateTypes: ["minor", "patch"],
@@ -56,6 +61,11 @@ describe("updateRenovateForV2", () => {
         packageRules: [
           {
             excludePackagePatterns: ["^@next-core/", "^@next-libs/"],
+            enabled: false,
+          },
+          {
+            matchPackagePatterns: ["^@next-core/"],
+            matchUpdateTypes: ["major"],
             enabled: false,
           },
           {
