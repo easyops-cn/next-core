@@ -1,6 +1,6 @@
 {
   "name": "@next-core/webpack",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Build next bricks",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/webpack",
   "license": "GPL-3.0",
@@ -18,7 +18,7 @@
     "copy-webpack-plugin": "^11.0.0"
   },
   "devDependencies": {
-    "webpack": "^5.78.0"
+    "webpack": "^5.88.2"
   },
   "peerDependencies": {
     "webpack": "5"

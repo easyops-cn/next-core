@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.7...@next-core/runtime@1.17.8) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.6...@next-core/runtime@1.17.7) (2023-07-18)
+
+
+### Bug Fixes
+
+* refine standalone bricks rendering ([fae99dd](https://github.com/easyops-cn/next-core/commit/fae99ddef015401a2e7fbb8835448c51d1cd1f71))
+
+
+
+
+
 ## [1.17.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.5...@next-core/runtime@1.17.6) (2023-07-14)
 
 

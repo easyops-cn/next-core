@@ -647,7 +647,7 @@ function handleTplStateAction(
     const tplStateStore = getTplStateStore(
       runtimeContext,
       `state.${method}`,
-      JSON.stringify(args)
+      `: ${JSON.stringify(args)}`
     );
     batchUpdate(args, batch, "replace", tplStateStore, runtimeContext, event);
   } else {

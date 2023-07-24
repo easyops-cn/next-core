@@ -7,6 +7,9 @@ import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 import type { RuntimeContext } from "../interfaces.js";
 import { hooks } from "../Runtime.js";
+import { markAsComputed } from "../compute/markAsComputed.js";
+import { get } from "lodash";
+import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 
 const cache = new Map<string, Promise<unknown>>();
 
@@ -29,11 +32,24 @@ export async function resolveData(
 ) {
   const { useProvider, method = "resolve", args = [], onReject } = resolveConf;
 
-  const legacyProvider = (resolveConf as { provider?: string }).provider;
+  const { provider: legacyProvider, field: legacyField } = resolveConf as {
+    provider?: string;
+    field?: string | string[];
+  };
   if (legacyProvider && !useProvider) {
     throw new Error(
       `You're using "provider: ${legacyProvider}" which is dropped in v3, please use "useProvider" instead`
     );
+  }
+
+  const hasLegacyField = legacyField !== null && legacyField !== undefined;
+  if (hasLegacyField) {
+    const strict = isStrictMode();
+    warnAboutStrictMode(strict, "`resolve.field`");
+    // istanbul ignore next
+    if (strict) {
+      throw new Error("Using deprecated `resolve.field`");
+    }
   }
 
   const [providerBrick, actualArgs] = await Promise.all([
@@ -56,9 +72,10 @@ export async function resolveData(
   let data: unknown;
 
   try {
-    data = await promise;
+    const value = await promise;
+    data = hasLegacyField ? get(value, legacyField) : value;
     // The fetched data and its inner objects should never be *injected* again.
-    // recursiveMarkAsInjected(data);
+    markAsComputed(data);
   } catch (error) {
     if (isHandleRejectByTransform(onReject)) {
       transform = onReject.transform;

@@ -18,14 +18,15 @@ module.exports = {
     },
   },
   rules: {
+    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-use-before-define": [
       "error",
       { functions: false, classes: false },
     ],
-    "@typescript-eslint/no-parameter-properties": [
+    "@typescript-eslint/parameter-properties": [
       "error",
-      { allows: ["private"] },
+      { allow: ["private"] },
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-interface": [

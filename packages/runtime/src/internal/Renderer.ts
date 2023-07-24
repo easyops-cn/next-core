@@ -694,6 +694,7 @@ function mergeRenderOutput(
   output: RenderOutput,
   newOutput: RenderOutput
 ): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { blockingList, node, menuRequests, hasTrackingControls, ...rest } =
     newOutput;
   output.blockingList.push(...blockingList);

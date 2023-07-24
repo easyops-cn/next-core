@@ -62,6 +62,9 @@ interface Window {
 
   /** Mock global date, currently for sandbox demo website only */
   MOCK_DATE?: string;
+
+  /** For standalone usage of bricks */
+  STANDALONE_BRICK_PACKAGES?: unknown[];
 }
 
 declare const __webpack_public_path__: string;

@@ -12,6 +12,8 @@ import { getDefaultProperties } from "./getDefaultProperties.js";
 import { symbolForFormStateStoreId } from "./constants.js";
 import type { RendererContext } from "../RendererContext.js";
 
+const formContainers = ["forms.general-form", "form.general-form", "eo-form"];
+
 export function expandFormRenderer(
   formData: unknown,
   hostBrickConf: BrickConf,
@@ -57,7 +59,7 @@ export function expandFormRenderer(
     formStateStoreId
   );
 
-  if (formConf.brick === "forms.general-form" && hostBrickConf.events) {
+  if (formContainers.includes(formConf.brick) && hostBrickConf.events) {
     formConf.events = mergeEvents(formConf.events, hostBrickConf.events);
   }
 
@@ -71,11 +73,9 @@ export function expandFormRenderer(
       slots: undefined,
       children: [
         {
-          brick: "basic-bricks.micro-view",
+          brick: "eo-micro-view",
           properties: { style: { padding: "12px" } },
-          slots: {
-            content: { bricks: [formConf], type: "bricks" },
-          },
+          children: [formConf],
         },
       ],
     };

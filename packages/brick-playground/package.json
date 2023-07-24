@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-playground",
-  "version": "1.10.21",
+  "version": "1.10.23",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-playground",
   "license": "GPL-3.0",
   "repository": {
@@ -28,14 +28,14 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.13.2",
-    "@next-core/monaco-contributions": "^0.3.0",
-    "@next-core/preview": "^0.1.28",
+    "@next-core/build-next-bricks": "^1.13.3",
+    "@next-core/monaco-contributions": "^0.3.1",
+    "@next-core/preview": "^0.1.30",
     "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.5.1",
-    "monaco-editor": "^0.38.0",
-    "monaco-editor-webpack-plugin": "^7.0.1",
-    "webpack-dev-server": "^4.15.0"
+    "html-webpack-plugin": "^5.5.3",
+    "monaco-editor": "^0.40.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
+    "webpack-dev-server": "^4.15.1"
   }
 }

@@ -8,6 +8,7 @@ import type {
   BrickConf,
   RouteConf,
   ResolveConf,
+  BrickPackage,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import { loadBricksImperatively } from "@next-core/loader";
@@ -283,11 +284,12 @@ function normalizeBootstrapData(data: BootstrapData) {
 }
 
 export function getBrickPackages() {
-  return bootstrapData?.brickPackages ?? injectedBrickPackages;
-}
-
-export function _internalApiLoadBricks(bricks: string[] | Set<string>) {
-  return loadBricksImperatively(bricks, getBrickPackages());
+  return (
+    bootstrapData?.brickPackages ??
+    injectedBrickPackages ??
+    (window.STANDALONE_BRICK_PACKAGES as BrickPackage[]) ??
+    []
+  );
 }
 
 export function _internalApiGetRenderId(): string | undefined {
