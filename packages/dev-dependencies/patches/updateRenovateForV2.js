@@ -12,6 +12,11 @@ function updateRenovateForV2() {
       enabled: false,
     },
     {
+      matchPackagePatterns: ["^@next-core/"],
+      matchUpdateTypes: ["major"],
+      enabled: false,
+    },
+    {
       groupName: "next-core packages",
       matchPackagePatterns: ["^@next-core/"],
       matchUpdateTypes: ["minor", "patch"],
