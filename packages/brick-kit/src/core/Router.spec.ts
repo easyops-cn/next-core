@@ -84,6 +84,9 @@ const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
     "enable-analyzer": false,
     "support-ui-8.2-compact-layout": true,
   }),
+  getMiscSettings: () => ({
+    noAuthGuardLoginPath: "/easy-core-console/login",
+  }),
 }));
 
 let historyListeners: LocationListener[] = [];
