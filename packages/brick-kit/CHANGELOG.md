@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.2...@next-core/brick-kit@2.178.3) (2023-07-24)
+
+
+### Bug Fixes
+
+* 删除不必要代码 refs EASYCORE-1463 ([2a99db8](https://github.com/easyops-cn/next-core/commit/2a99db801c85ea1db8d0c64e83a00a1544f154c0))
+* 添加nologin模式下需要跳转到指定登陆页逻辑 refs EASYCORE-1463 ([1994659](https://github.com/easyops-cn/next-core/commit/199465969c2f690967c1c5bdac83a47c99a18fcf))
+* 调整指定跳转登陆页逻辑 refs EASYCORE-1463 ([e408cb2](https://github.com/easyops-cn/next-core/commit/e408cb21ce7521073d8bf388a35bb0b0b7103b6a))
+
+
+
+
+
 ## [2.178.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.1...@next-core/brick-kit@2.178.2) (2023-07-21)
 
 
