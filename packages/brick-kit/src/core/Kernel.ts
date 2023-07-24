@@ -12,6 +12,7 @@ import {
   CustomApiInfo,
   deepFreeze,
   snippetEvaluate,
+  scanCustomApisInStoryboard,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
@@ -60,7 +61,13 @@ import {
   registerCustomTemplate,
 } from "./exports";
 import { getHistory } from "../history";
-import { RecentApps, CustomApiDefinition, ThemeSetting } from "./interfaces";
+import {
+  RecentApps,
+  CustomApiDefinition,
+  ThemeSetting,
+  PreviewOption,
+  PreviewStoryboardPatch,
+} from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools, listenDevtoolsEagerly } from "../internal/devtools";
@@ -468,6 +475,10 @@ export class Kernel {
     }
   }
 
+  _dev_only_getSnippetPreviewPath(snippetId: string): string {
+    return `\${APP.homepage}/_dev_only_/snippet-preview/${snippetId}`;
+  }
+
   _dev_only_updateSnippetPreviewSettings(
     appId: string,
     snippetData: RuntimeSnippet,
@@ -476,7 +487,9 @@ export class Kernel {
     const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
-    const previewPath = `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`;
+    const previewPath = this._dev_only_getSnippetPreviewPath(
+      snippetData.snippetId
+    );
     const previewRouteIndex = routes.findIndex(
       (route) => route.path === previewPath
     );
@@ -569,6 +582,10 @@ export class Kernel {
     this._dev_only_updateSnippetPreviewSettings(appId, newSnippet, settings);
   }
 
+  _dev_only_getFormPreviewPath(formId: string): string {
+    return `\${APP.homepage}/_dev_only_/form-preview/${formId}`;
+  }
+
   _dev_only_updateFormPreviewSettings(
     appId: string,
     formId: string,
@@ -577,7 +594,7 @@ export class Kernel {
     const { routes } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
-    const previewPath = `\${APP.homepage}/_dev_only_/form-preview/${formId}`;
+    const previewPath = this._dev_only_getFormPreviewPath(formId);
     const previewRouteIndex = routes.findIndex(
       (route) => route.path === previewPath
     );
@@ -600,6 +617,74 @@ export class Kernel {
     } else {
       routes.splice(previewRouteIndex, 1, newPreviewRoute);
     }
+  }
+
+  _dev_only_getAddedContracts(
+    storyboardPatch: PreviewStoryboardPatch,
+    { appId, updateStoryboardType, formId }: PreviewOption
+  ): string[] {
+    const storyboard = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+
+    let updatedStoryboard;
+
+    // 拿到更新部分的 storyboard 配置，然后扫描一遍，找到新增的 contracts
+    if (updateStoryboardType === "route") {
+      updatedStoryboard = {
+        routes: [storyboardPatch as RouteConf],
+      } as Storyboard;
+    } else if (updateStoryboardType === "template") {
+      updatedStoryboard = {
+        meta: {
+          customTemplates: [storyboardPatch as CustomTemplate],
+        },
+      } as Storyboard;
+    } else if (updateStoryboardType === "snippet") {
+      // snippet 和 form 是放在挂载 route 里预览，通过 previewPath 拿到当前修改 route
+      const snippetPreviewPath = this._dev_only_getSnippetPreviewPath(
+        (storyboardPatch as RuntimeSnippet).snippetId
+      );
+      const currentRoute = storyboard.routes?.find(
+        (route) => route.path === snippetPreviewPath
+      );
+
+      updatedStoryboard = {
+        routes: [currentRoute],
+      } as Storyboard;
+    } else if (updateStoryboardType === "form") {
+      const formPreviewPath = this._dev_only_getFormPreviewPath(formId);
+      const currentRoute = storyboard.routes?.find(
+        (route) => route.path === formPreviewPath
+      );
+
+      updatedStoryboard = {
+        routes: [currentRoute],
+      } as Storyboard;
+    }
+
+    const addedContracts: string[] = [];
+
+    if (updatedStoryboard) {
+      const contractApis = scanCustomApisInStoryboard(
+        updatedStoryboard
+      )?.filter((api) => api.includes(":"));
+
+      contractApis.forEach((api) => {
+        const [_, namespaceId, name] = api.match(/(.*)@(.*):\d\.\d\.\d/);
+
+        if (
+          !storyboard.meta.contracts?.some(
+            (contract) =>
+              contract.namespaceId === namespaceId && contract.name === name
+          )
+        ) {
+          addedContracts.push(api);
+        }
+      });
+    }
+
+    return addedContracts;
   }
 
   private _loadDepsOfStoryboard = async (

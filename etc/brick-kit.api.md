@@ -248,6 +248,7 @@ export const developHelper: {
     updateTemplatePreviewSettings: typeof _dev_only_updateTemplatePreviewSettings;
     updateSnippetPreviewSettings: typeof _dev_only_updateSnippetPreviewSettings;
     updateFormPreviewSettings: typeof _dev_only_updateFormPreviewSettings;
+    getAddedContracts: typeof _dev_only_getAddedContracts;
     getContextValue: typeof _dev_only_getContextValue;
     getAllContextValues: typeof _dev_only_getAllContextValues;
     render: typeof _dev_only_render;
@@ -458,6 +459,21 @@ export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
 //
 // @internal (undocumented)
 export function preprocessTransformProperties(data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: TransformOptions): Record<string, unknown>;
+
+// @public (undocumented)
+export interface PreviewOption {
+    // (undocumented)
+    appId?: string;
+    // (undocumented)
+    formId?: string;
+    // (undocumented)
+    updateStoryboardType?: "route" | "template" | "snippet" | "form";
+}
+
+// Warning: (ae-forgotten-export) The symbol "FormDataProperties" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type PreviewStoryboardPatch = CustomTemplate | RouteConf | RuntimeSnippet | FormDataProperties;
 
 // @public
 export function property(options?: PropertyDeclaration): any;
@@ -684,25 +700,26 @@ export class WebsocketMessageResponse {
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:32:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:33:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:34:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:35:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:36:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:37:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:38:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:39:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:49:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:50:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByRoute" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:51:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByTemplate" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:52:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardBySnippet" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:53:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:54:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:55:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:56:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:32:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:33:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:34:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:35:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:36:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:37:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:38:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:39:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:41:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:50:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:51:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByRoute" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:52:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByTemplate" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:53:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardBySnippet" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:54:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:55:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:56:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_getAddedContracts" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:59:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:60:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
 
 ```

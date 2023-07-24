@@ -22,6 +22,7 @@ import {
   _dev_only_updateStoryboardByRoute,
   _dev_only_updateStoryboardByTemplate,
   _dev_only_updateStoryboardBySnippet,
+  _dev_only_getAddedContracts,
   _dev_only_render,
 } from "./core/exports";
 
@@ -53,6 +54,7 @@ export const developHelper = {
   updateTemplatePreviewSettings: _dev_only_updateTemplatePreviewSettings,
   updateSnippetPreviewSettings: _dev_only_updateSnippetPreviewSettings,
   updateFormPreviewSettings: _dev_only_updateFormPreviewSettings,
+  getAddedContracts: _dev_only_getAddedContracts,
   getContextValue: _dev_only_getContextValue,
   getAllContextValues: _dev_only_getAllContextValues,
   render: _dev_only_render,
