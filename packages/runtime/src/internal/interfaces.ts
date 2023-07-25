@@ -130,3 +130,7 @@ interface ReversedSlotProxy {
 
 export type RuntimeBrickConfWithSymbols = RuntimeBrickConfWithTplSymbols &
   RuntimeBrickConfOfFormSymbols;
+
+export interface DataValueOption {
+  tplStateStoreId?: string;
+}

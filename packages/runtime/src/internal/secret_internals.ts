@@ -14,15 +14,20 @@ import {
 import { renderBrick } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
-import type { RenderRoot, RuntimeContext } from "./interfaces.js";
+import type {
+  DataValueOption,
+  RenderRoot,
+  RuntimeContext,
+} from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
+import { getTplStateStore } from "./CustomTemplates/utils.js";
 
-export type { RuntimeContext } from "./interfaces.js";
+export type { DataValueOption, RuntimeContext } from "./interfaces.js";
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -282,4 +287,43 @@ function _updatePreviewSettings(
   } else {
     routes.splice(previewRouteIndex, 1, newPreviewRoute);
   }
+}
+
+export function getContextValue(
+  name: string,
+  { tplStateStoreId }: DataValueOption
+): unknown {
+  const runtimeContext = _internalApiGetRuntimeContext()!;
+
+  if (tplStateStoreId) {
+    const tplStateStore = getTplStateStore(
+      {
+        ...runtimeContext,
+        tplStateStoreId,
+      },
+      "STATE"
+    );
+    return tplStateStore.getValue(name);
+  }
+
+  return runtimeContext.ctxStore.getValue(name);
+}
+
+export function getAllContextValues({
+  tplStateStoreId,
+}: DataValueOption): Record<string, unknown> {
+  const runtimeContext = _internalApiGetRuntimeContext()!;
+
+  if (tplStateStoreId) {
+    const tplStateStore = getTplStateStore(
+      {
+        ...runtimeContext,
+        tplStateStoreId,
+      },
+      "STATE"
+    );
+    return tplStateStore.getAllValues();
+  }
+
+  return runtimeContext.ctxStore.getAllValues();
 }

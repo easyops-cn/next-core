@@ -71,6 +71,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     this.rendererContext = rendererContext;
   }
 
+  getAllValues(): Record<string, unknown> {
+    return Object.fromEntries(
+      [...this.data.entries()].map(([name, { value }]) => [name, value])
+    );
+  }
+
   getValue(name: string): unknown {
     return this.data.get(name)?.value;
   }

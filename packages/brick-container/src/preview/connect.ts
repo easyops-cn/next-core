@@ -11,7 +11,10 @@ import type {
   BrickOutline,
   HighLightNode,
   Position,
+  PreviewDataOption,
   PreviewMessageFromPreviewer,
+  PreviewMessagePreviewDataValueError,
+  PreviewMessagePreviewDataValueSuccess,
   PreviewMessagePreviewerCaptureFailed,
   PreviewMessagePreviewerCaptureOk,
   PreviewMessagePreviewerHighlightBrick,
@@ -153,6 +156,72 @@ export default async function connect(
     getHistory().reload();
   }; */
 
+  const handlePreviewData = (name: string, option: PreviewDataOption): void => {
+    try {
+      const { dataType } = option;
+      let tplStateStoreId;
+
+      if (dataType === "state") {
+        const mainMountPoint = document.querySelector("#main-mount-point")!;
+
+        tplStateStoreId = (mainMountPoint.firstChild as HTMLElement).dataset
+          .tplStateStoreId;
+
+        if (!tplStateStoreId) {
+          sendMessage<PreviewMessagePreviewDataValueError>({
+            type: "inspect-data-value-error",
+            data: {
+              error: {
+                message:
+                  "tplStateStoreId not found, unable to preview STATE value",
+              },
+            },
+          });
+
+          return;
+        }
+      }
+
+      let value, type: PreviewMessagePreviewDataValueSuccess["type"];
+      if (name) {
+        type = "inspect-single-data-value-success";
+        value = __secret_internals.getContextValue(name, {
+          tplStateStoreId,
+        });
+      } else {
+        type = "inspect-all-data-values-success";
+        value = [];
+        const data = __secret_internals.getAllContextValues({
+          tplStateStoreId,
+        });
+
+        for (const k in data) {
+          value.push({
+            name: k,
+            value: data[k],
+          });
+        }
+      }
+
+      sendMessage<PreviewMessagePreviewDataValueSuccess>({
+        type,
+        data: {
+          name,
+          value,
+        },
+      });
+
+      // istanbul ignore next
+    } catch (error) {
+      sendMessage<PreviewMessagePreviewDataValueError>({
+        type: "inspect-data-value-error",
+        data: {
+          message: (error as Error).message,
+        },
+      });
+    }
+  };
+
   const history = getHistory();
 
   window.addEventListener(
@@ -262,6 +331,9 @@ export default async function connect(
                 });
               }
             );
+            break;
+          case "inspect-data-value":
+            handlePreviewData(data.name, data.option);
             break;
           case "update-preview-url": {
             // Remove origin first.

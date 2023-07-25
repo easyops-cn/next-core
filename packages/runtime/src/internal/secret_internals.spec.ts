@@ -2,6 +2,9 @@ import { jest, describe, test, expect } from "@jest/globals";
 import type { UseSingleBrickConf } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
 import {
+  RuntimeContext,
+  getAllContextValues,
+  getContextValue,
   legacyDoTransform,
   mountUseBrick,
   renderUseBrick,
@@ -16,17 +19,33 @@ import { customTemplates } from "../CustomTemplates.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import {
   _test_only_setBootstrapData,
+  _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
 } from "./Runtime.js";
+import { DataStore } from "./data/DataStore.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../isStrictMode.js");
+jest.mock("./Runtime.js", () => {
+  const originalModule = jest.requireActual("./Runtime.js") as any;
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    _internalApiGetRuntimeContext: jest.fn(),
+  };
+});
+const mockInternalApiGetRuntimeContext =
+  _internalApiGetRuntimeContext as jest.MockedFunction<
+    typeof _internalApiGetRuntimeContext
+  >;
+
 const consoleInfo = jest.spyOn(console, "info");
 const mockIsStrictMode = (
   isStrictMode as jest.MockedFunction<typeof isStrictMode>
 ).mockReturnValue(false);
 
-const IntersectionObserver = jest.fn((callback: Function) => {
+const IntersectionObserver = jest.fn(() => {
   return {
     observe: jest.fn(),
     disconnect: jest.fn(),
@@ -377,7 +396,9 @@ describe("useBrick", () => {
     const mountResult = mountUseBrick(renderResult, root);
 
     expect(root).toMatchInlineSnapshot(`
-      <my.tpl-a>
+      <my.tpl-a
+        data-tpl-state-store-id="tpl-state-1"
+      >
         <div
           title="T"
         >
@@ -411,7 +432,9 @@ describe("useBrick", () => {
     // Wait for debounced re-render for control nodes.
     await new Promise((resolve) => setTimeout(resolve, 1));
     expect(root).toMatchInlineSnapshot(`
-      <my.tpl-a>
+      <my.tpl-a
+        data-tpl-state-store-id="tpl-state-1"
+      >
         <div
           title="T"
         >
@@ -733,5 +756,72 @@ describe("updateStoryboard", () => {
         },
       ],
     });
+  });
+});
+
+describe("getContextValue", () => {
+  let runtimeContext = {} as RuntimeContext;
+  let stateStore: DataStore<"STATE">;
+  let ctxStore: DataStore<"CTX">;
+
+  beforeEach(async () => {
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const tplStateStoreId = "tpl-state-0";
+    stateStore = new DataStore("STATE");
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+    ctxStore = new DataStore("CTX");
+
+    runtimeContext = {
+      tplStateStoreId,
+      tplStateStoreMap,
+      ctxStore,
+    } as RuntimeContext;
+
+    stateStore.define(
+      [
+        {
+          name: "a",
+          value: "1",
+        },
+        {
+          name: "b",
+          value: 2,
+        },
+      ],
+      runtimeContext
+    );
+    ctxStore.define(
+      [
+        {
+          name: "c",
+          value: true,
+        },
+        {
+          name: "d",
+          value: false,
+        },
+      ],
+      runtimeContext
+    );
+    await Promise.all([stateStore.waitForAll(), ctxStore.waitForAll()]);
+
+    mockInternalApiGetRuntimeContext.mockReturnValue(runtimeContext);
+  });
+
+  afterEach(() => {
+    mockInternalApiGetRuntimeContext.mockReturnValue(undefined);
+  });
+
+  test("get single context value", () => {
+    expect(getContextValue("a", { tplStateStoreId: "tpl-state-0" })).toBe("1");
+    expect(getContextValue("c", {})).toBe(true);
+  });
+
+  test("get all context value", () => {
+    expect(getAllContextValues({ tplStateStoreId: "tpl-state-0" })).toEqual({
+      a: "1",
+      b: 2,
+    });
+    expect(getAllContextValues({})).toEqual({ c: true, d: false });
   });
 });
