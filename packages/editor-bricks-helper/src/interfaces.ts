@@ -34,6 +34,7 @@ export type BuilderRuntimeNode<P = Record<string, unknown>> =
     $$delegatedSlots?: Map<string, TemplateDelegatedContext[]>;
     $$normalized?: BrickConf | RouteConf | null;
     $$unreachable?: boolean;
+    $$constantDataSource?: boolean | null;
   };
 
 export interface BuilderRuntimeEdge {

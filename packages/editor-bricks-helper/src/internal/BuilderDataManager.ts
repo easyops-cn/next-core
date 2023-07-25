@@ -6,7 +6,11 @@ import {
   Story,
   BuilderCustomTemplateNode,
 } from "@next-core/brick-types";
-import { computeConstantCondition, JsonStorage } from "@next-core/brick-utils";
+import {
+  computeConstantCondition,
+  getConstantBoolean,
+  JsonStorage,
+} from "@next-core/brick-utils";
 import {
   BuilderCanvasData,
   BuilderContextMenuStatus,
@@ -260,6 +264,7 @@ export class BuilderDataManager {
     const newNodes = nodes.map((item) => {
       if (item.instanceId === instanceId) {
         let unreachable = false;
+        let constantDataSource: boolean | null;
         const normalized = detail.$$normalized;
         if (
           normalized?.if !== undefined &&
@@ -271,10 +276,16 @@ export class BuilderDataManager {
             unreachable = true;
           }
         }
+        if (!unreachable && isBrickNode(item) && item.brick === ":if") {
+          constantDataSource = getConstantBoolean(item.dataSource, item, {
+            loose: true,
+          });
+        }
         return {
           ...item,
           ...detail,
           $$unreachable: unreachable,
+          $$constantDataSource: constantDataSource,
         };
       }
       return item;

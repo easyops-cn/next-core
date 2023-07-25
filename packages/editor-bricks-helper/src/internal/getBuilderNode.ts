@@ -2,6 +2,7 @@ import { cloneDeep, upperFirst } from "lodash";
 import {
   computeConstantCondition,
   normalizeBuilderNode,
+  getConstantBoolean,
 } from "@next-core/brick-utils";
 import { BuilderRouteOrBrickNode } from "@next-core/brick-types";
 import { BuilderRuntimeNode } from "../interfaces";
@@ -70,6 +71,13 @@ export function getBuilderNode(
     }
   }
 
+  let constantDataSource: boolean | null;
+  if (!unreachable && isBrick && nodeData.brick === ":if") {
+    constantDataSource = getConstantBoolean(nodeData.dataSource, nodeData, {
+      loose: true,
+    });
+  }
+
   return Object.fromEntries(
     Object.entries(nodeData)
       .filter((entry) => !nodeIgnoreFields.includes(entry[0]))
@@ -87,6 +95,7 @@ export function getBuilderNode(
         ["$$isTemplateInternalNode", isTemplateInternalNode],
         ["$$normalized", normalized],
         ["$$unreachable", unreachable],
+        ["$$constantDataSource", constantDataSource],
       ])
       .concat(parsedFields)
   ) as BuilderRuntimeNode;

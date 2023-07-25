@@ -1,4 +1,5 @@
 import type {
+  BrickConf,
   CustomTemplateConstructor,
   FeatureFlags,
   RuntimeStoryboard,
@@ -18,6 +19,13 @@ import {
   traverse,
   type StoryboardNode,
 } from "@next-core/storyboard";
+
+interface V3BrickConf extends BrickConf {
+  dataSource?: boolean | string;
+  alias?: string;
+  slot?: string;
+  children?: V3BrickConf[];
+}
 
 export interface RemoveDeadConditionsOptions {
   constantFeatureFlags?: boolean;
@@ -90,6 +98,30 @@ function removeDeadConditionsByAst(
         conditionalNodes = node.children as ConditionalStoryboardNode[];
         rawContainer = node.raw;
         rawKey = node.raw.type === "routes" ? "routes" : "bricks";
+        break;
+      case "Brick":
+        if (node.raw.brick === ":if") {
+          const { dataSource, slots, children } = node.raw as V3BrickConf;
+          const isConstant = typeof dataSource === "boolean";
+          if (isConstant) {
+            const matchedSlot = dataSource ? "" : "else";
+            const removedNodes = remove(
+              node.children,
+              (child) => child.slot !== matchedSlot
+            );
+            if (removedNodes.length > 0) {
+              if (!slots && Array.isArray(children)) {
+                remove(children, (child) => (child.slot ?? "") !== matchedSlot);
+              } else {
+                for (const key of Object.keys(slots)) {
+                  if (key !== matchedSlot) {
+                    delete slots[key];
+                  }
+                }
+              }
+            }
+          }
+        }
         break;
       case "Event":
       case "EventCallback":
@@ -184,62 +216,62 @@ export function computeConstantCondition(
   ifContainer: IfContainer,
   options: RemoveDeadConditionsOptions = {}
 ): void {
-  if (hasOwnProperty(ifContainer, "if")) {
-    if (typeof ifContainer.if === "string" && isEvaluable(ifContainer.if)) {
-      try {
-        const { expression, attemptToVisitGlobals, source } = preevaluate(
-          ifContainer.if
-        );
-        const { constantFeatureFlags, featureFlags } = options;
-        let hasDynamicVariables = false;
-        for (const item of attemptToVisitGlobals) {
-          if (
-            item !== "undefined" &&
-            (!constantFeatureFlags || item !== "FLAGS")
-          ) {
-            hasDynamicVariables = true;
-            break;
-          }
-        }
-        if (hasDynamicVariables) {
-          if (isConstantLogical(expression, false, options)) {
-            if (process.env.NODE_ENV === "development") {
-              // eslint-disable-next-line no-console
-              console.warn("[removed dead if]:", ifContainer.if, ifContainer);
-            }
-            ifContainer.if = false;
-          }
-          return;
-        }
-        const originalIf = ifContainer.if;
-        const globalVariables: Record<string, unknown> = {
-          undefined: undefined,
-        };
-        if (constantFeatureFlags) {
-          globalVariables.FLAGS = featureFlags;
-        }
-        ifContainer.if = !!cook(expression, source, { globalVariables });
-        if (
-          process.env.NODE_ENV === "development" &&
-          ifContainer.if === false
-        ) {
-          // eslint-disable-next-line no-console
-          console.warn("[removed dead if]:", originalIf, ifContainer);
-        }
-      } catch (error) {
+  if (hasOwnProperty(ifContainer, "if") && ifContainer.if !== undefined) {
+    const constant = getConstantBoolean(ifContainer.if, ifContainer, options);
+    if (typeof constant === "boolean") {
+      if (process.env.NODE_ENV === "development" && !constant) {
         // eslint-disable-next-line no-console
-        console.error("Parse storyboard expression failed:", error);
+        console.warn("[removed dead if]:", ifContainer.if, ifContainer);
       }
-    } else if (!ifContainer.if && ifContainer.if !== false) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[potential dead if]:",
-        typeof ifContainer.if,
-        ifContainer.if,
-        ifContainer
-      );
+      ifContainer.if = constant;
     }
   }
+}
+
+export function getConstantBoolean(
+  condition: unknown,
+  context?: unknown,
+  { loose, ...options }: RemoveDeadConditionsOptions & { loose?: boolean } = {}
+): boolean | null {
+  if (typeof condition === "string" && isEvaluable(condition)) {
+    try {
+      const { expression, attemptToVisitGlobals, source } =
+        preevaluate(condition);
+      const { constantFeatureFlags, featureFlags } = options;
+      let hasDynamicVariables = false;
+      for (const item of attemptToVisitGlobals) {
+        if (
+          item !== "undefined" &&
+          (!constantFeatureFlags || item !== "FLAGS")
+        ) {
+          hasDynamicVariables = true;
+          break;
+        }
+      }
+      if (hasDynamicVariables) {
+        return isConstantLogical(expression, false, options)
+          ? false
+          : isConstantLogical(expression, true, options)
+          ? true
+          : null;
+      }
+      const globalVariables: Record<string, unknown> = {
+        undefined: undefined,
+      };
+      if (constantFeatureFlags) {
+        globalVariables.FLAGS = featureFlags;
+      }
+      return !!cook(expression, source, { globalVariables });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Parse storyboard expression failed:", error);
+      return null;
+    }
+  } else if (!condition && condition !== false) {
+    // eslint-disable-next-line no-console
+    console.warn("[potential dead if]:", typeof condition, condition, context);
+  }
+  return loose ? !!condition : null;
 }
 
 /**
