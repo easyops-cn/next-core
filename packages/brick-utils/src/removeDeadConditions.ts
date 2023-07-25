@@ -184,7 +184,7 @@ export function computeConstantCondition(
   ifContainer: IfContainer,
   options: RemoveDeadConditionsOptions = {}
 ): void {
-  if (hasOwnProperty(ifContainer, "if")) {
+  if (hasOwnProperty(ifContainer, "if") && ifContainer.if !== undefined) {
     if (typeof ifContainer.if === "string" && isEvaluable(ifContainer.if)) {
       try {
         const { expression, attemptToVisitGlobals, source } = preevaluate(

@@ -19,11 +19,16 @@ interface DllAndDepsAndBricks extends DllAndDeps {
   eager: DllAndDeps;
 }
 
+interface BrickPackageV3 extends BrickPackage {
+  id?: string;
+  elements?: string[];
+}
+
 const widgetRegExp = /\.tpl-/;
 
 export function getDllAndDepsOfStoryboard(
   storyboard: Storyboard,
-  brickPackages: BrickPackage[],
+  brickPackages: BrickPackageV3[],
   options?: ScanBricksOptions
 ): DllAndDepsAndBricks {
   const { bricks, usedTemplates } = scanStoryboard(storyboard, options);
@@ -52,8 +57,8 @@ export function getDllAndDepsOfStoryboard(
 }
 
 function getBrickToPackageMap(
-  brickPackages: BrickPackage[]
-): Map<string, BrickPackage> {
+  brickPackages: BrickPackageV3[]
+): Map<string, BrickPackageV3> {
   if (isEmpty(brickPackages)) {
     return new Map();
   }
@@ -73,7 +78,7 @@ function getBrickToPackageMap(
 
 export function getDllAndDepsOfBricks(
   bricks: string[],
-  brickPackages: BrickPackage[]
+  brickPackages: BrickPackageV3[]
 ): DllAndDeps {
   const dll = new Set<string>();
   const deps = new Set<string>();
@@ -114,7 +119,7 @@ interface StoryboardResource {
 
 export function getDllAndDepsByResource(
   { bricks, processors, editorBricks }: StoryboardResource,
-  brickPackages: BrickPackage[]
+  brickPackages: BrickPackageV3[]
 ): DllAndDeps {
   const dll = new Set<string>();
   const deps = new Set<string>();
@@ -129,7 +134,7 @@ export function getDllAndDepsByResource(
     const brickMap = getBrickToPackageMap(brickPackages);
     const v3DefinedBricks = new Set<string>();
     for (const pkg of brickPackages) {
-      const { id, elements } = pkg as { id?: string; elements?: string[] };
+      const { id, elements } = pkg;
       if (id && elements?.length) {
         for (const element of elements) {
           v3DefinedBricks.add(element);
@@ -150,7 +155,7 @@ export function getDllAndDepsByResource(
         }
         const find = brickMap.get(namespace);
         if (find) {
-          if ((find as { id?: string }).id) {
+          if (find.id) {
             (isProcessor ? v3Processors : v3Bricks).add(name);
           } else {
             deps.add(find.filePath);

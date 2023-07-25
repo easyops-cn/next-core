@@ -40,6 +40,7 @@ describe("normalizeBuilderNode", () => {
         org: 1,
         previewSettings: {},
         screenshot: "data:image/png,XYZ",
+        hybrid: false,
       },
       {
         alias: "route-a",
@@ -67,17 +68,18 @@ describe("normalizeBuilderNode", () => {
         type: "routes",
         permissionsPreCheck:
           '["<% `cmdb:${QUERY.objectId}_instance_create` %>"]',
-        exact: null,
+        hybrid: true,
         // Ignore when specific fields (such as `alias`) is `null`.
         alias: null,
         context: null,
+        exact: null,
       },
       {
         permissionsPreCheck: ["<% `cmdb:${QUERY.objectId}_instance_create` %>"],
         path: "/b",
         type: "routes",
         iid: "instance-r02",
-        exact: null,
+        hybrid: true,
       },
       0,
     ],
@@ -93,6 +95,7 @@ describe("normalizeBuilderNode", () => {
         permissionsPreCheck: null,
         // Ignore `alias` for brick nodes.
         alias: "brick-a",
+        injectDeep: true,
       },
       {
         brick: "m",
