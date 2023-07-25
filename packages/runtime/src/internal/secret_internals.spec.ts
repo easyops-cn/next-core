@@ -1,5 +1,5 @@
 import { jest, describe, test, expect } from "@jest/globals";
-import type { UseSingleBrickConf } from "@next-core/types";
+import type { BrickPackage, UseSingleBrickConf } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
 import {
   RuntimeContext,
@@ -13,6 +13,7 @@ import {
   updateStoryboardByRoute,
   updateStoryboardBySnippet,
   updateStoryboardByTemplate,
+  getBrickPackagesById,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
@@ -45,7 +46,8 @@ const mockIsStrictMode = (
   isStrictMode as jest.MockedFunction<typeof isStrictMode>
 ).mockReturnValue(false);
 
-const IntersectionObserver = jest.fn(() => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const IntersectionObserver = jest.fn((callback: Function) => {
   return {
     observe: jest.fn(),
     disconnect: jest.fn(),
@@ -823,5 +825,36 @@ describe("getContextValue", () => {
       b: 2,
     });
     expect(getAllContextValues({})).toEqual({ c: true, d: false });
+  });
+});
+
+describe("getBrickPackagesById", () => {
+  beforeEach(() => {
+    _test_only_setBootstrapData({
+      brickPackages: [
+        {
+          id: "bricks/test",
+        },
+        {
+          filePath: "bricks/v2/index.jsw",
+        },
+      ] as unknown as BrickPackage[],
+    });
+  });
+
+  test("found", () => {
+    expect(getBrickPackagesById("bricks/test")).toMatchObject({
+      id: "bricks/test",
+    });
+  });
+
+  test("found v2", () => {
+    expect(getBrickPackagesById("bricks/v2")).toMatchObject({
+      filePath: "bricks/v2/index.jsw",
+    });
+  });
+
+  test("not found", () => {
+    expect(getBrickPackagesById("bricks/oops")).toBe(undefined);
   });
 });

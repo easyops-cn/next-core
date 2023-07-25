@@ -13,6 +13,7 @@ import type { BrickEventHandler } from '@next-core/types';
 import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
+import { BrickPackage } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
 import type { Contract } from '@next-core/types';
 import type { CustomTemplate } from '@next-core/types';
@@ -49,6 +50,7 @@ declare namespace __secret_internals {
         updateStoryboardBySnippet,
         getContextValue,
         getAllContextValues,
+        getBrickPackagesById,
         DataValueOption,
         RuntimeContext,
         RenderUseBrickResult,
@@ -144,6 +146,9 @@ export function getAuth(): object | undefined;
 
 // @public
 export function getBasePath(): string;
+
+// @public (undocumented)
+function getBrickPackagesById(id: string): BrickPackage | undefined;
 
 // @public (undocumented)
 function getContextValue(name: string, { tplStateStoreId }: DataValueOption): unknown;
