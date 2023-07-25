@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.1...@next-core/brick-utils@2.51.2) (2023-07-25)
+
+
+### Bug Fixes
+
+* add v3 types ([bcc7da1](https://github.com/easyops-cn/next-core/commit/bcc7da1d61934eef89960e78a5823e87903c9bf0))
+* ignore unnecessary brick fields ([a6d38e3](https://github.com/easyops-cn/next-core/commit/a6d38e30f27f953640edfa68df76fc2214f21bcf))
+* refine dead condition warning ([afabc1e](https://github.com/easyops-cn/next-core/commit/afabc1e158daee369e11418b2ac2e3ebbd26072f))
+
+
+
+
+
 ## [2.51.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.0...@next-core/brick-utils@2.51.1) (2023-07-06)
 
 
