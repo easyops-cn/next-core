@@ -10,6 +10,7 @@ import { pick } from "lodash";
 import {
   _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
+  getBrickPackages,
 } from "./Runtime.js";
 import { renderBrick } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
@@ -326,4 +327,10 @@ export function getAllContextValues({
   }
 
   return runtimeContext.ctxStore.getAllValues();
+}
+
+export function getBrickPackagesById(id: string) {
+  return getBrickPackages().find((pkg) =>
+    pkg.id ? pkg.id === id : pkg.filePath.startsWith(id)
+  );
 }
