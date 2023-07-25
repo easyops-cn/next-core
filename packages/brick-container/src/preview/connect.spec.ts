@@ -6,7 +6,6 @@ import {
   stopInspecting,
 } from "./inspector.js";
 import connect from "./connect.js";
-
 jest.mock("@next-core/runtime");
 jest.mock("./inspector.js");
 jest.mock("./capture.js");
@@ -54,6 +53,10 @@ jest
   .mockImplementation((pathname, options) =>
     pathname === options.path ? ({} as any) : null
   );
+jest.spyOn(runtime.__secret_internals, "getContextValue").mockImplementation();
+jest
+  .spyOn(runtime.__secret_internals, "getAllContextValues")
+  .mockImplementation();
 const mockCapture = capture as jest.Mock;
 
 delete (window as any).location;
@@ -74,6 +77,15 @@ const addEventListener = jest.spyOn(window, "addEventListener");
 const brick = document.createElement("div");
 brick.dataset.iid = "i-01";
 document.body.appendChild(brick);
+
+const mainElement = document.createElement("div");
+mainElement.setAttribute("id", "main-mount-point");
+
+const span = document.createElement("span");
+span.dataset.tplStateStoreId = "tpl-state-8";
+
+mainElement.appendChild(span);
+document.body.appendChild(mainElement);
 
 describe("connect", () => {
   it("should work", async () => {
@@ -527,5 +539,107 @@ describe("connect", () => {
     } as any);
 
     expect(history.goForward).toBeCalledTimes(1);
+
+    listener({
+      origin: "http://localhost:8081",
+      data: {
+        sender: "preview-container",
+        type: "inspect-data-value",
+        name: "pageSize",
+        option: {
+          dataType: "context",
+        },
+      },
+    } as any);
+
+    expect(runtime.__secret_internals.getContextValue).toHaveBeenLastCalledWith(
+      "pageSize",
+      {
+        tplStateStoreId: undefined,
+      }
+    );
+
+    listener({
+      origin: "http://localhost:8081",
+      data: {
+        sender: "preview-container",
+        type: "inspect-data-value",
+        name: undefined,
+        option: {
+          dataType: "context",
+        },
+      },
+    } as any);
+
+    expect(
+      runtime.__secret_internals.getAllContextValues
+    ).toHaveBeenLastCalledWith({
+      tplStateStoreId: undefined,
+    });
+
+    listener({
+      origin: "http://localhost:8081",
+      data: {
+        sender: "preview-container",
+        type: "inspect-data-value",
+        name: "name",
+        option: {
+          dataType: "state",
+        },
+      },
+    } as any);
+
+    expect(runtime.__secret_internals.getContextValue).toHaveBeenLastCalledWith(
+      "name",
+      {
+        tplStateStoreId: "tpl-state-8",
+      }
+    );
+
+    listener({
+      origin: "http://localhost:8081",
+      data: {
+        sender: "preview-container",
+        type: "inspect-data-value",
+        name: undefined,
+        option: {
+          dataType: "state",
+        },
+      },
+    } as any);
+
+    expect(
+      runtime.__secret_internals.getAllContextValues
+    ).toHaveBeenLastCalledWith({
+      tplStateStoreId: "tpl-state-8",
+    });
+
+    span.dataset.tplStateStoreId = "";
+
+    listener({
+      origin: "http://localhost:8081",
+      data: {
+        sender: "preview-container",
+        type: "inspect-data-value",
+        name: "name",
+        option: {
+          dataType: "state",
+        },
+      },
+    } as any);
+
+    expect(parentPostMessage).toHaveBeenNthCalledWith(
+      16,
+      {
+        sender: "previewer",
+        type: "inspect-data-value-error",
+        data: {
+          error: {
+            message: "tplStateStoreId not found, unable to preview STATE value",
+          },
+        },
+      },
+      "http://localhost:8081"
+    );
   });
 });

@@ -72,6 +72,10 @@ export interface ExcuteProxyMethodResult {
   res: any;
 }
 
+export interface PreviewDataOption {
+  dataType: "state" | "context";
+}
+
 export type PreviewMessageFromPreviewer =
   | PreviewMessagePreviewerHoverOnMain
   | PreviewMessagePreviewerHoverOnBrick
@@ -84,7 +88,9 @@ export type PreviewMessageFromPreviewer =
   | PreviewMessagePreviewerRouteMatchChange
   | PreviewMessagePreviewerScroll
   | PreviewMessagePreviewerCaptureOk
-  | PreviewMessagePreviewerCaptureFailed;
+  | PreviewMessagePreviewerCaptureFailed
+  | PreviewMessagePreviewDataValueSuccess
+  | PreviewMessagePreviewDataValueError;
 
 export type PreviewMessageToPreviewer =
   | PreviewMessageContainerBuilderHoverOnIframe
@@ -99,7 +105,8 @@ export type PreviewMessageToPreviewer =
   | PreviewMessageContainerReload
   | PreviewMessageContainerCapture
   | PreviewMessageContainerUpdatePreviewUrl
-  | PreviewMessageContainerUpdatePreviewRoute;
+  | PreviewMessageContainerUpdatePreviewRoute
+  | PreviewMessageContainerInspectDataValue;
 
 export type PreviewMessageFromContainer =
   | PreviewMessageContainerBuilderHoverOnIframe
@@ -133,7 +140,9 @@ export type PreviewMessageToContainer =
   | PreviewMessagePreviewerScroll
   | PreviewMessagePreviewerCaptureOk
   | PreviewMessagePreviewerCaptureFailed
-  | PreviewMessageContainerMatchApiCache;
+  | PreviewMessageContainerMatchApiCache
+  | PreviewMessagePreviewDataValueSuccess
+  | PreviewMessagePreviewDataValueError;
 
 export type PreviewerMessageToBuilder =
   | PreviewMessageContainerPreviewerHoverOnMain
@@ -232,6 +241,20 @@ export interface PreviewMessagePreviewerCaptureFailed
   type: "capture-failed";
 }
 
+export interface PreviewMessagePreviewDataValueSuccess
+  extends PreviewBaseMessage {
+  sender: "previewer";
+  type: "inspect-single-data-value-success" | "inspect-all-data-values-success";
+  data: unknown;
+}
+
+export interface PreviewMessagePreviewDataValueError
+  extends PreviewBaseMessage {
+  sender: "previewer";
+  type: "inspect-data-value-error";
+  data: unknown;
+}
+
 export interface PreviewMessageContainerStartPreview
   extends PreviewBaseMessage {
   sender: "preview-container";
@@ -300,6 +323,14 @@ export interface PreviewMessageContainerUpdatePreviewRoute
   type: "update-preview-route";
   routePath: string;
   routeExact: boolean;
+}
+
+export interface PreviewMessageContainerInspectDataValue
+  extends PreviewBaseMessage {
+  sender: "preview-container";
+  type: "inspect-data-value";
+  name: string;
+  option: PreviewDataOption;
 }
 
 export interface PreviewMessageContainerMatchApiCache
