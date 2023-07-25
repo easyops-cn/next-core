@@ -8,12 +8,16 @@ import {
   ExtField,
   ContractRequest,
   ContractResponse,
+  CustomTemplate,
+  RouteConf,
+  RuntimeSnippet,
 } from "@next-core/brick-types";
 import {
   ColorThemeOptionsByBrand,
   ColorThemeOptionsByBaseColors,
   ColorThemeOptionsByVariables,
 } from "../internal/applyColorTheme";
+import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { CustomProcessorFunc } from "./exports";
 import { LazyBrickImportFunction } from "./LazyBrickRegistry";
 
@@ -226,3 +230,15 @@ export interface ThemeSetting {
 export interface DataValueOption {
   tplContextId?: string;
 }
+
+export interface PreviewOption {
+  appId?: string;
+  formId?: string;
+  updateStoryboardType?: "route" | "template" | "snippet" | "form";
+}
+
+export type PreviewStoryboardPatch =
+  | CustomTemplate
+  | RouteConf
+  | RuntimeSnippet
+  | FormDataProperties;

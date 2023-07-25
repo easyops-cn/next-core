@@ -8,6 +8,7 @@ import {
   scanBricksInBrickConf,
   deepFreeze,
   snippetEvaluate,
+  scanCustomApisInStoryboard,
 } from "@next-core/brick-utils";
 import { checkLogin } from "@next-sdk/auth-sdk";
 import {
@@ -2110,5 +2111,184 @@ describe("Kernel", () => {
         ],
       },
     ]);
+  });
+
+  it("should get added contracts", async () => {
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          app: {
+            id: "app-b",
+            homepage: "/app-b",
+          },
+          routes: [
+            {
+              alias: "home",
+              path: "${APP.homepage}",
+              bricks: [],
+              context: [],
+            },
+          ],
+          meta: {
+            contracts: [
+              {
+                name: "execute",
+                namespaceId: "easyops.api.micro_app.workflow",
+                serviceName: "logic.micro_app_service",
+                version: "1.0.0",
+              },
+            ],
+          },
+        },
+      ],
+    });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnIsLoggedIn.mockReturnValueOnce(true);
+    await kernel.bootstrap({} as any);
+
+    (scanCustomApisInStoryboard as jest.Mock).mockReturnValueOnce([
+      "easyops.api.cmdb.instance@PostSearchV3:1.1.0",
+    ]);
+
+    expect(
+      kernel._dev_only_getAddedContracts(
+        {
+          path: "${APP.homepage}/demo",
+          alias: "/demo",
+          exact: true,
+          context: [
+            {
+              name: "appList",
+              resolve: {
+                args: [
+                  "APP",
+                  {
+                    fields: ["*"],
+                  },
+                ],
+                useProvider: "easyops.api.cmdb.instance@PostSearchV3:1.1.0",
+              },
+            },
+          ],
+          type: "bricks",
+          bricks: [
+            {
+              brick: "span",
+            },
+          ],
+        },
+        {
+          appId: "app-b",
+          updateStoryboardType: "route",
+        }
+      )
+    ).toEqual(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
+
+    (scanCustomApisInStoryboard as jest.Mock).mockReturnValueOnce([
+      "easyops.api.metadata_center.stream@ReplaceMetricStates:1.0.0",
+    ]);
+    expect(
+      kernel._dev_only_getAddedContracts(
+        {
+          name: "tpl-test-a",
+          bricks: [
+            {
+              brick: "span",
+            },
+          ],
+          state: [
+            {
+              name: "name",
+              value: "easyops",
+            },
+            {
+              name: "instanceData",
+              resolve: {
+                useProvider:
+                  "easyops.api.metadata_center.stream@ReplaceMetricStates:1.0.0",
+              },
+            },
+          ],
+        },
+        {
+          appId: "app-b",
+          updateStoryboardType: "template",
+        }
+      )
+    ).toEqual(["easyops.api.metadata_center.stream@ReplaceMetricStates:1.0.0"]);
+
+    (scanCustomApisInStoryboard as jest.Mock).mockReturnValue([]);
+    expect(
+      kernel._dev_only_getAddedContracts(
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-test",
+          alias: "/snippet-test",
+          exact: true,
+          context: [
+            {
+              name: "workflow",
+              resolve: {
+                args: [
+                  "APP",
+                  {
+                    fields: ["*"],
+                  },
+                ],
+                useProvider: "easyops.api.micro_app.workflow@execute:1.0.0",
+              },
+            },
+          ],
+          type: "bricks",
+          bricks: [
+            {
+              brick: "span",
+            },
+          ],
+        },
+        {
+          appId: "app-b",
+          updateStoryboardType: "snippet",
+        }
+      )
+    ).toEqual([]);
+
+    (scanCustomApisInStoryboard as jest.Mock).mockReturnValue([
+      "easyops.api.micro_app.workflow@viewTodo:1.0.0",
+    ]);
+    expect(
+      kernel._dev_only_getAddedContracts(
+        {
+          path: "${APP.homepage}/_dev_only_/form-preview/basic-form",
+          alias: "/basic-form",
+          exact: true,
+          context: [
+            {
+              name: "workflow",
+              resolve: {
+                args: [
+                  "APP",
+                  {
+                    fields: ["*"],
+                  },
+                ],
+                useProvider: "easyops.api.micro_app.workflow@execute:1.0.0",
+              },
+            },
+          ],
+          type: "bricks",
+          bricks: [
+            {
+              brick: "span",
+            },
+          ],
+        },
+        {
+          appId: "app-b",
+          updateStoryboardType: "form",
+        }
+      )
+    ).toEqual(["easyops.api.micro_app.workflow@viewTodo:1.0.0"]);
   });
 });

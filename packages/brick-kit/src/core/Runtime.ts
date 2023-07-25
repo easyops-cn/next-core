@@ -48,6 +48,8 @@ import {
   CustomApiDefinition,
   AbstractRuntime,
   DataValueOption,
+  PreviewStoryboardPatch,
+  PreviewOption,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
@@ -164,6 +166,14 @@ export function _dev_only_updateStoryboardBySnippet(
   settings?: unknown
 ): void {
   kernel._dev_only_updateStoryboardBySnippet(appId, newSnippet, settings);
+}
+
+/* istanbul ignore next */
+export function _dev_only_getAddedContracts(
+  storyboardPatch: PreviewStoryboardPatch,
+  options: PreviewOption
+): string[] {
+  return kernel._dev_only_getAddedContracts(storyboardPatch, options);
 }
 
 /* istanbul ignore next */
