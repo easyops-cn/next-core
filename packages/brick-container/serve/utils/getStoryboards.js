@@ -42,7 +42,7 @@ export async function getMatchedStoryboard(env, pathname) {
   // This enables two apps with relationship of parent-child of homepage.
   const sortedStoryboards = _.orderBy(
     storyboards,
-    (storyboard) => storyboard.app.homepage.length,
+    (storyboard) => storyboard.app?.homepage.length,
     "desc"
   );
   for (const storyboard of sortedStoryboards) {

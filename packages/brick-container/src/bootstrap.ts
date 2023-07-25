@@ -16,7 +16,7 @@ import { loadCheckLogin } from "./loadCheckLogin.js";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
-import type { PreviewMessageContainerStartPreview } from "./preview/interfaces.js";
+import { listen } from "./preview/listen.js";
 
 http.interceptors.request.use((config) => {
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
@@ -125,29 +125,5 @@ async function main() {
 const bootstrapStatus = main();
 
 if (window.parent !== window) {
-  const listener = async ({
-    data,
-    origin,
-  }: MessageEvent<unknown>): Promise<void> => {
-    if (isPreviewMessageContainerStartPreview(data)) {
-      window.removeEventListener("message", listener);
-      const initialize = (await import("./preview/initialize.js")).default;
-      const ok = await initialize(bootstrapStatus, origin);
-      if (ok) {
-        const connect = (await import("./preview/connect.js")).default;
-        connect(origin, data.options);
-      }
-    }
-  };
-  window.addEventListener("message", listener);
-}
-
-function isPreviewMessageContainerStartPreview(
-  data: unknown
-): data is PreviewMessageContainerStartPreview {
-  return (
-    (data as PreviewMessageContainerStartPreview)?.sender ===
-      "preview-container" &&
-    (data as PreviewMessageContainerStartPreview).type === "start-preview"
-  );
+  listen(bootstrapStatus);
 }
