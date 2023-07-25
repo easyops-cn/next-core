@@ -47,6 +47,9 @@ declare namespace __secret_internals {
         updateStoryboardByTemplate,
         updateTemplatePreviewSettings,
         updateStoryboardBySnippet,
+        getContextValue,
+        getAllContextValues,
+        DataValueOption,
         RuntimeContext,
         RenderUseBrickResult,
         MountUseBrickResult,
@@ -106,6 +109,12 @@ export const customProcessors: CustomProcessorRegistry;
 export const customTemplates: CustomTemplateRegistry;
 
 // @public (undocumented)
+interface DataValueOption {
+    // (undocumented)
+    tplStateStoreId?: string;
+}
+
+// @public (undocumented)
 export const Dialog: Readonly<{
     show: typeof show_2;
 }>;
@@ -127,11 +136,17 @@ export interface DialogOptions {
 // @public (undocumented)
 export function fetchByProvider(provider: string, args: unknown[], options?: ResolveOptions): Promise<unknown>;
 
+// @public (undocumented)
+function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
+
 // @public @deprecated (undocumented)
 export function getAuth(): object | undefined;
 
 // @public
 export function getBasePath(): string;
+
+// @public (undocumented)
+function getContextValue(name: string, { tplStateStoreId }: DataValueOption): unknown;
 
 // @public (undocumented)
 export function getCssPropertyValue(name: string, el?: HTMLElement): string;

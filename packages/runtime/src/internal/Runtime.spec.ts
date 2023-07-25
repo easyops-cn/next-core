@@ -353,7 +353,9 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <app-a.tpl-a>
+          <app-a.tpl-a
+            data-tpl-state-store-id="tpl-state-2"
+          >
             <div>
               I'm Resolved X
             </div>

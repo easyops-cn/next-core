@@ -1268,7 +1268,9 @@ describe("renderBrick for tpl", () => {
     mountTree(renderRoot);
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-a>
+        <my.tpl-a
+          data-tpl-state-store-id="tpl-state-1"
+        >
           <div
             title="T"
           >
@@ -1424,7 +1426,9 @@ describe("renderBrick for tpl", () => {
 
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-b>
+        <my.tpl-b
+          data-tpl-state-store-id="tpl-state-2"
+        >
           <div>
             a
           </div>
@@ -1448,7 +1452,9 @@ describe("renderBrick for tpl", () => {
     (container.firstChild?.firstChild as HTMLElement).title = "mark";
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-b>
+        <my.tpl-b
+          data-tpl-state-store-id="tpl-state-2"
+        >
           <div
             title="mark"
           >
@@ -1482,7 +1488,9 @@ describe("renderBrick for tpl", () => {
     // Note: previous `title="mark"` is removed
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-b>
+        <my.tpl-b
+          data-tpl-state-store-id="tpl-state-2"
+        >
           <div>
             a
           </div>
@@ -1620,7 +1628,9 @@ describe("renderBrick for tpl", () => {
     mountTree(renderRoot);
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-c>
+        <my.tpl-c
+          data-tpl-state-store-id="tpl-state-3"
+        >
           <div
             title="a"
           >
@@ -1637,7 +1647,9 @@ describe("renderBrick for tpl", () => {
             </em>
           </div>
         </my.tpl-c>,
-        <my.tpl-c>
+        <my.tpl-c
+          data-tpl-state-store-id="tpl-state-4"
+        >
           <div
             title="b"
           >

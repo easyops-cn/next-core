@@ -141,39 +141,31 @@ describe("DataStore: resolve and wait", () => {
     );
     return {
       ctxStore,
-      getAllValues() {
-        return Object.fromEntries(
-          ["a", "b", "c", "d", "e", "f", "x"].map((k) => [
-            k,
-            ctxStore.getValue(k),
-          ])
-        );
-      },
     };
   };
 
   test("Resolve sequence", async () => {
     jest.useFakeTimers();
-    const { getAllValues } = createContextStore();
-    expect(getAllValues()).toEqual({});
+    const { ctxStore } = createContextStore();
+    expect(ctxStore.getAllValues()).toEqual({});
 
     await (global as any).flushPromises();
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       x: "X",
     });
 
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       x: "X",
     });
 
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       e: "E",
       x: "X",
@@ -181,7 +173,7 @@ describe("DataStore: resolve and wait", () => {
 
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       e: "E",
@@ -190,7 +182,7 @@ describe("DataStore: resolve and wait", () => {
 
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       e: "E",
@@ -200,7 +192,7 @@ describe("DataStore: resolve and wait", () => {
 
     jest.advanceTimersByTime(50);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       c: "C:A,3",
@@ -211,7 +203,7 @@ describe("DataStore: resolve and wait", () => {
 
     jest.advanceTimersByTime(100);
     await (global as any).flushPromises();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       c: "C:A,3",
@@ -224,29 +216,29 @@ describe("DataStore: resolve and wait", () => {
   });
 
   test("Wait for specific context", async () => {
-    const { ctxStore, getAllValues } = createContextStore();
-    expect(getAllValues()).toEqual({});
+    const { ctxStore } = createContextStore();
+    expect(ctxStore.getAllValues()).toEqual({});
 
     await ctxStore.waitFor(["x"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       x: "X",
     });
 
     await ctxStore.waitFor(["a"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       x: "X",
     });
 
     await ctxStore.waitFor(["e"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       e: "E",
       x: "X",
     });
 
     await ctxStore.waitFor(["b"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       e: "E",
@@ -254,7 +246,7 @@ describe("DataStore: resolve and wait", () => {
     });
 
     await ctxStore.waitFor(["f"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       e: "E",
@@ -263,7 +255,7 @@ describe("DataStore: resolve and wait", () => {
     });
 
     await ctxStore.waitFor(["c"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       c: "C:A,3",
@@ -273,7 +265,7 @@ describe("DataStore: resolve and wait", () => {
     });
 
     await ctxStore.waitFor(["d"]);
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       c: "C:A,3",
@@ -285,10 +277,10 @@ describe("DataStore: resolve and wait", () => {
   });
 
   test("Wait for all", async () => {
-    const { ctxStore, getAllValues } = createContextStore();
-    expect(getAllValues()).toEqual({});
+    const { ctxStore } = createContextStore();
+    expect(ctxStore.getAllValues()).toEqual({});
     await ctxStore.waitForAll();
-    expect(getAllValues()).toEqual({
+    expect(ctxStore.getAllValues()).toEqual({
       a: "A",
       b: "B:A,1",
       c: "C:A,3",
