@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.18.0...@next-core/runtime@1.19.0) (2023-07-25)
+
+
+### Bug Fixes
+
+* expose getBrickPackagesById ([4427226](https://github.com/easyops-cn/next-core/commit/4427226d751cf29679751890a08d420345228ddf))
+
+
+### Features
+
+* support inspect-data-value in v3 ([385040d](https://github.com/easyops-cn/next-core/commit/385040dcf97ffd18503a4574bf039f5ddc6d2cbb))
+
+
+
+
+
 # [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.8...@next-core/runtime@1.18.0) (2023-07-24)
 
 

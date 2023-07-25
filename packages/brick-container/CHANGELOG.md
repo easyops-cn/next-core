@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.4.17...@next-core/brick-container@3.5.0) (2023-07-25)
+
+
+### Features
+
+* let preview agent been injected ([ee2c03f](https://github.com/easyops-cn/next-core/commit/ee2c03febfa39c61468586f4f22f33538b72fdd2))
+* support inspect-data-value in v3 ([385040d](https://github.com/easyops-cn/next-core/commit/385040dcf97ffd18503a4574bf039f5ddc6d2cbb))
+
+
+
+
+
 ## [3.4.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.4.16...@next-core/brick-container@3.4.17) (2023-07-24)
 
 **Note:** Version bump only for package @next-core/brick-container
