@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.89.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.89.7...@next-core/brick-container@2.89.8) (2023-07-26)
+
+
+### Bug Fixes
+
+* add flags to enable preview agent ([f4b039b](https://github.com/easyops-cn/next-core/commit/f4b039bc2227ad30270c3b0c96097445516a9659))
+
+
+
+
+
 ## [2.89.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.89.6...@next-core/brick-container@2.89.7) (2023-07-26)
 
 
