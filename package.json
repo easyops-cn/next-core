@@ -46,7 +46,7 @@
     "@types/jest": "^29.5.3",
     "@types/js-yaml": "^3.12.7",
     "@types/klaw-sync": "^6.0.1",
-    "@types/lodash": "^4.14.195",
+    "@types/lodash": "^4.14.196",
     "@types/meow": "^5.0.0",
     "@types/node": "^16.18.39",
     "@types/prettier": "^2.7.3",
