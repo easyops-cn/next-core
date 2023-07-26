@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.7](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.6...@next-core/loader@1.3.7) (2023-07-26)
+
+
+### Bug Fixes
+
+* fix load script with full URL ([5603357](https://github.com/easyops-cn/next-core/commit/56033573306009e4c39a947426518092a5a27401))
+
+
+
+
+
 ## [1.3.6](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.5...@next-core/loader@1.3.6) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/loader
