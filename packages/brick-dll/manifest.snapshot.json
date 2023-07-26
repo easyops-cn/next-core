@@ -722,6 +722,21 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@easyops/loader/dist/esm/index.js": {
+      "id": "0RJj",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "loadScript",
+          "loadSharedModule",
+          "flushStableLoadBricks",
+          "enqueueStableLoadBricks",
+          "enqueueStableLoadProcessors",
+          "loadBricksImperatively",
+          "loadProcessorsImperatively"
+        ]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/ForkOutlined.js": {
       "id": "0TN8",
       "buildMeta": {
@@ -4191,6 +4206,13 @@
     },
     "./node_modules/@ant-design/icons/es/components/IconBase.js": {
       "id": "CJvt",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/@easyops/loader/dist/esm/loadScript.js": {
+      "id": "CLJi",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -12029,6 +12051,19 @@
       "id": "WbBG",
       "buildMeta": { "providedExports": true }
     },
+    "./node_modules/@easyops/loader/dist/esm/stableLoadBricks.js": {
+      "id": "Wbqp",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "flushStableLoadBricks",
+          "enqueueStableLoadBricks",
+          "enqueueStableLoadProcessors",
+          "loadBricksImperatively",
+          "loadProcessorsImperatively"
+        ]
+      }
+    },
     "./node_modules/@ant-design/icons-svg/es/asn/FastBackwardOutlined.js": {
       "id": "WcZh",
       "buildMeta": {
@@ -15556,6 +15591,13 @@
     },
     "./node_modules/@ant-design/icons/es/icons/TaobaoSquareFilled.js": {
       "id": "iXQ+",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/@easyops/loader/dist/esm/loadSharedModule.js": {
+      "id": "ifls",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
