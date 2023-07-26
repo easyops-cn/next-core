@@ -64,7 +64,7 @@ describe("loadScript", () => {
     loadScript(["http://example.com/a.js", "http://example.com/b.js"]);
     loadScript("c.js", "prefix/");
     // Hit cache
-    loadScript("http://example.com/a.js");
+    loadScript("http://example.com/a.js", "prefix/");
     const scripts = document.querySelectorAll("script");
     expect(scripts.length).toBe(4);
     expect(scripts[0].src).toBe("http://localhost/prefix/c.js");

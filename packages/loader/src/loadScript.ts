@@ -17,7 +17,7 @@ export default function loadScript(
       src.map<Promise<string>>((item) => loadScript(item, prefix))
     );
   }
-  const fixedSrc = prefix ? `${prefix}${src}` : src;
+  const fixedSrc = prefix && !/^https?:/.test(src) ? `${prefix}${src}` : src;
   const cachedPromise = cache.get(fixedSrc);
   if (cachedPromise) {
     return cachedPromise;
