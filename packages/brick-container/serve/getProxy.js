@@ -190,11 +190,21 @@ export default function getProxy(env, getRawIndexHtml) {
             ) {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
+
+              const [storyboards, brickPackages] = await Promise.all([
+                getStoryboards({ rootDir, localMicroApps }, true),
+                getBrickPackages(rootDir, true, localBricks),
+              ]);
+
               result.brickPackages = concatBrickPackages(
-                await getBrickPackages(rootDir, true, localBricks),
+                brickPackages,
                 result.brickPackages
               );
-              delete result.templatePackages;
+              result.storyboards = storyboards.concat(result.storyboards);
+
+              // Make it compatible with v2 apps.
+              // delete result.templatePackages;
+
               removeCacheHeaders(res);
               return JSON.stringify(result);
             }
