@@ -50,7 +50,7 @@
     "@types/meow": "^5.0.0",
     "@types/node": "^16.18.39",
     "@types/prettier": "^2.7.3",
-    "@types/react": "^18.2.16",
+    "@types/react": "^18.2.17",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "babel-jest": "^29.6.1",
@@ -78,7 +78,7 @@
   "resolutions": {
     "@babel/parser": "^7.22.7",
     "@babel/runtime": "^7.22.6",
-    "@types/react": "^18.2.16",
+    "@types/react": "^18.2.17",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
   }
