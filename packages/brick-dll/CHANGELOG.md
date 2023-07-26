@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.45.6...@next-core/brick-dll@2.45.7) (2023-07-26)
+
+
+### Bug Fixes
+
+* update @next-core/loader ([b1ee3ff](https://github.com/easyops-cn/next-core/commit/b1ee3ff6fb5f4feb36de2eb583f7ef2d4c071be2))
+
+
+
+
+
 ## [2.45.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.45.5...@next-core/brick-dll@2.45.6) (2023-07-26)
 
 
