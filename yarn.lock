@@ -2367,10 +2367,10 @@
   resolved "https://registry.npmjs.org/@next-bricks/presentational-bricks/-/presentational-bricks-1.278.0.tgz#1d5e2a3d70983c46bd1b2678a738f06861741916"
   integrity sha512-EOd1hJqQFOTSov5VVP0EWHIBgBc16h+F8b6Bb6wS07meaIpy9iG0JAjp+OHw+JYo3hUG7fY4yvxtC03g0NH7FQ==
 
-"@next-core/loader@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@next-core/loader/-/loader-1.3.0.tgz#7f2cfc430c1d5b04ca0a9ba5a57ae2250316d25f"
-  integrity sha512-OBHTgpUBoyS+jsQQxiiwsZNtNsmtdY+PFKk3ux2U2dgsrGATbH61Q4a6UuqIm8BPQADDIJ3UklNsQO/c292xqQ==
+"@next-core/loader@^1.3.1":
+  version "1.3.7"
+  resolved "https://registry.npmjs.org/@next-core/loader/-/loader-1.3.7.tgz#ca3e2c5e8989b65985f80ffccc778d83f258bf0a"
+  integrity sha512-M5ZeGyM4k71UXa0QjYp8qYrvgeZv2QE195EPKjlDQlLSoeyEmYSoULipE70LxViTg0wOdxv/DXuGo2Z1UM5sqA==
 
 "@next-sdk/api-gateway-sdk@^2.7.0":
   version "2.7.0"
