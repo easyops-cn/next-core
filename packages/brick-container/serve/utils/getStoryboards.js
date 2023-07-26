@@ -5,12 +5,16 @@ import yaml from "js-yaml";
 import _ from "lodash";
 import { getSizeCheckApp } from "./sizeCheck.js";
 
-export function getStoryboards({ rootDir, localMicroApps }) {
+export function getStoryboards({ rootDir, localMicroApps }, full) {
   const storyboards = Promise.all(
     localMicroApps.map(async (appId) => ({
       ...(await getSingleStoryboard(rootDir, appId)),
-      meta: null,
-      routes: null,
+      ...(full
+        ? null
+        : {
+            meta: null,
+            routes: null,
+          }),
     }))
   );
   return storyboards;
