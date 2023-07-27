@@ -63,7 +63,7 @@ const fieldsToRemoveInRoute = [
   "updateAuthorizers",
 ];
 
-const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type", "alias");
+const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type");
 
 // Those fields can be disposed if value is null.
 const disposableNullFields = [
