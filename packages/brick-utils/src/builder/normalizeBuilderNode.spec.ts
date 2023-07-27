@@ -93,8 +93,8 @@ describe("normalizeBuilderNode", () => {
         if: "false",
         lifeCycle: undefined,
         permissionsPreCheck: null,
-        // Ignore `alias` for brick nodes.
         alias: "brick-a",
+        // Ignore `injectDeep`
         injectDeep: true,
       },
       {
@@ -103,6 +103,7 @@ describe("normalizeBuilderNode", () => {
         iid: "instance-b01",
         lifeCycle: undefined,
         permissionsPreCheck: undefined,
+        alias: "brick-a",
       },
       0,
     ],
