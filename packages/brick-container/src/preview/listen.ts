@@ -1,6 +1,6 @@
 import { loadBricksImperatively } from "@next-core/loader";
 import type { BrickPackage } from "@next-core/brick-types";
-import { developHelper, getRuntime } from "@next-core/brick-kit";
+import { developHelper } from "@next-core/brick-kit";
 import { http } from "@next-core/brick-http";
 import initialize from "./initialize";
 
@@ -36,10 +36,7 @@ export function listen(bootstrapStatus: Promise<"ok" | "failed">): void {
             options.clearPreviewRequestCacheIgnoreList || []
           );
 
-          if (
-            !agent?.pkg ||
-            !getRuntime().getFeatureFlags()["visual-builder-preview-agent"]
-          ) {
+          if (!agent?.pkg) {
             return legacyConnect(origin, options);
           }
         } else {

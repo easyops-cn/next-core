@@ -1,7 +1,7 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import { loadBricksImperatively } from "@next-core/loader";
 import { createProviderClass } from "@next-core/brick-utils";
-import { developHelper, getRuntime } from "@next-core/brick-kit";
+import { developHelper } from "@next-core/brick-kit";
 import { listen } from "./listen";
 import initialize from "./initialize";
 
@@ -10,13 +10,6 @@ jest.mock("@next-core/brick-http");
 jest.mock("@next-core/brick-kit", () => ({
   developHelper: {
     loadDynamicBricksInBrickConf: jest.fn(),
-  },
-  getRuntime() {
-    return {
-      getFeatureFlags() {
-        return { "visual-builder-preview-agent": true };
-      },
-    };
   },
 }));
 jest.mock("./initialize");
