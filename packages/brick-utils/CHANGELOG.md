@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.2...@next-core/brick-utils@2.51.3) (2023-07-27)
+
+
+### Bug Fixes
+
+* keep brick alias ([6e8d0e1](https://github.com/easyops-cn/next-core/commit/6e8d0e1e42946fa7e857a8d10c9828beeb40ed65))
+
+
+
+
+
 ## [2.51.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.1...@next-core/brick-utils@2.51.2) (2023-07-25)
 
 
