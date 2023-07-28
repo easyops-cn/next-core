@@ -145,6 +145,13 @@ async function render(
         if (node.tagName.includes("-")) {
           const lowerTagName = node.tagName.toLowerCase();
           bricks.add(lowerTagName);
+        } else if (node.tagName === "SCRIPT") {
+          const bricksInScript = (node as HTMLScriptElement).text.matchAll(
+            /\bdocument\.createElement\(\s*"([a-zA-Z0-9.]+-[-a-zA-Z0-9.]+)"\s*\)/g
+          );
+          for (const match of bricksInScript) {
+            bricks.add(match[1]);
+          }
         }
       }
 
