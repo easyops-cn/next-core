@@ -1,4 +1,5 @@
 import jsYaml from "js-yaml";
+import { format } from "prettier";
 import {
   UNPAIRED_TAGS,
   findPropertyManifests,
@@ -39,7 +40,7 @@ export default function yamlToHtml(yaml, manifests) {
   const html = htmlStringifyNodes(htmlNodes, "");
 
   if (extraScriptsMap.size === 0) {
-    return html;
+    return format(html, { filepath: "demo.html" });
   }
 
   const scripts = [...extraScriptsMap.entries()].map(([id, extraScripts]) => {
@@ -66,20 +67,30 @@ ${stringifyHandler(handler)}
     ].join("\n");
   });
 
-  return `${html}\n\n<script>\n${scripts.join("\n\n")}\n</script>`;
+  return format(`${html}\n\n<script>\n${scripts.join("\n\n")}\n</script>`, {
+    filepath: "demo.html",
+  });
 }
 
-function stringifyHandler(handler, e = "e", indent = "  ") {
+function stringifyHandler(
+  handler,
+  e = "e",
+  indent = "  ",
+  expectEventDetail = false
+) {
   if (handler.action) {
     switch (handler.action) {
       case "console.log":
       case "console.info":
       case "console.warn":
       case "console.error":
+      case "window.open":
         return `${indent}${handler.action}(${
           Array.isArray(handler.args)
-            ? handler.args.map((arg) => getEventArgument(e, arg)).join(", ")
-            : ""
+            ? handler.args
+                .map((arg) => getEventArgument(e, arg, expectEventDetail))
+                .join(", ")
+            : getEventArgument(e, "<% EVENT.detail %>", expectEventDetail)
         })`;
       case "message.success":
       case "message.info":
@@ -91,7 +102,7 @@ function stringifyHandler(handler, e = "e", indent = "  ") {
             handler.action.split(".")[1]
           }", message: ${
             Array.isArray(handler.args) && handler.args.length > 0
-              ? `${getEventArgument(e, handler.args[0])}`
+              ? `${getEventArgument(e, handler.args[0], expectEventDetail)}`
               : "undefined"
           } });`,
         ].join("\n");
@@ -108,7 +119,9 @@ function stringifyHandler(handler, e = "e", indent = "  ") {
       lines.push(
         `${indent}brick${getAccessor(handler.method)}(${
           Array.isArray(handler.args)
-            ? handler.args.map((arg) => getEventArgument(e, arg)).join(", ")
+            ? handler.args
+                .map((arg) => getEventArgument(e, arg, expectEventDetail))
+                .join(", ")
             : ""
         });`
       );
@@ -131,12 +144,14 @@ function stringifyHandler(handler, e = "e", indent = "  ") {
       handler.method === "saveAs" ? "saveAs" : "resolve"
     }(${
       Array.isArray(handler.args)
-        ? handler.args.map((arg) => getEventArgument(e, arg)).join(", ")
+        ? handler.args
+            .map((arg) => getEventArgument(e, arg, expectEventDetail))
+            .join(", ")
         : ""
-    });`;
+    })`;
     if (handler.callback) {
-      lines.push(`${indent}const promise = ${resolve}`);
-      const nextE = `e${indent.length / 2 + 1}`;
+      lines.push(`${indent}const promise = Promise.resolve(${resolve});`);
+      const nextE = `r${indent.length === 2 ? "" : indent.length / 2}`;
       for (const [type, method] of Object.entries({
         success: "then",
         error: "catch",
@@ -147,17 +162,17 @@ function stringifyHandler(handler, e = "e", indent = "  ") {
             lines.push(`${indent}promise.${method}((${
               type === "finally" ? "" : nextE
             }) => {
-${stringifyHandler(child, nextE, indent + "  ")}
+${stringifyHandler(child, nextE, indent + "  ", true)}
 ${indent}});`);
           }
         }
       }
     } else {
-      lines.push(`${indent}${resolve}`);
+      lines.push(`${indent}${resolve};`);
     }
     return lines.join("\n");
   }
-  return `${indent}// Todo`;
+  return `${indent}// WARN: encountered incompatible event handlers in HTML mode, please try YAML.`;
 }
 
 /**
@@ -317,6 +332,9 @@ function htmlStringifyNodes(nodes, indent) {
 }
 
 function htmlStringifyNode(node, indent) {
+  if (node.tagName.startsWith(":")) {
+    return `<!-- WARN: "${node.tagName}" is not supported in HTML mode, please try YAML. -->`;
+  }
   const startTag = `${indent}<${node.tagName}${node.attributes
     .map((attr) => ` ${htmlStringifyAttr(attr)}`)
     .join("")}>`;
@@ -414,15 +432,27 @@ function getAccessor(key) {
 /**
  * @param {string} e
  * @param {string} arg
+ * @param {boolean=} expectEventDetail
  * @returns {string}
  */
-function getEventArgument(e, arg) {
+function getEventArgument(e, arg, expectEventDetail) {
   if (typeof arg === "string") {
     const matches = arg.match(
       /^\s*<%[~=]?\s+EVENT(?:\s*\.\s*(detail|target))?\s+%>\s*$/
     );
     if (matches) {
-      return `${e}${matches[1] ? `.${matches[1]}` : ""}`;
+      if (expectEventDetail) {
+        if (matches[1] === "detail") {
+          return e;
+        }
+      } else {
+        return `${e}${matches[1] ? `.${matches[1]}` : ""}`;
+      }
+    }
+    if (/^\s*<%[~=]?\s/.test(arg) && /\s+%>\s*$/.test(arg)) {
+      return `/* WARN: incompatible expressions in HTML, please try YAML: */\n  ${JSON.stringify(
+        arg
+      )}`;
     }
   }
   return JSON.stringify(arg);
