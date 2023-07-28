@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.89.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.89.11...@next-core/brick-container@2.89.12) (2023-07-28)
+
+
+### Bug Fixes
+
+* polyfill for replaceChildren ([f2e0b3e](https://github.com/easyops-cn/next-core/commit/f2e0b3e65a46cfee902aac7197f8dc2e70d5d495))
+
+
+
+
+
 ## [2.89.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.89.10...@next-core/brick-container@2.89.11) (2023-07-27)
 
 **Note:** Version bump only for package @next-core/brick-container
