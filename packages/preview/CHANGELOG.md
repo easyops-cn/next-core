@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.34](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.33...@next-core/preview@0.1.34) (2023-07-28)
+
+
+### Bug Fixes
+
+* load bricks in scripts ([2ddfa69](https://github.com/easyops-cn/next-core/commit/2ddfa6927cd8654912c2447ea802c8bc2b6b760c))
+
+
+
+
+
 ## [0.1.33](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.32...@next-core/preview@0.1.33) (2023-07-26)
 
 **Note:** Version bump only for package @next-core/preview
