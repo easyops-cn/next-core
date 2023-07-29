@@ -16,6 +16,7 @@ import { getStorageItem } from "./getStorageItem.js";
 import { hasInstalledApp } from "../hasInstalledApp.js";
 import { registerWidgetFunctions } from "./WidgetFunctions.js";
 import { registerStoryboardFunctions } from "./StoryboardFunctions.js";
+import { getDevHook } from "../devtools.js";
 
 jest.mock("@next-core/loader", () => ({
   loadBricksImperatively() {
@@ -75,6 +76,7 @@ jest.mock("../Runtime.js", () => ({
     return [];
   },
 }));
+jest.mock("../devtools.js");
 
 i18n.init({
   fallbackLng: "en",
@@ -150,16 +152,24 @@ registerStoryboardFunctions([
 ]);
 
 const ctxStore = new DataStore("CTX");
+
 const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
 const stateStore = new DataStore("STATE", null!);
 const tplStateStoreId = "tpl-state-0";
 tplStateStoreMap.set(tplStateStoreId, stateStore);
+
+const formStateStoreMap = new Map<string, DataStore<"FORM_STATE">>();
+const formStateStore = new DataStore("FORM_STATE", null!);
+const formStateStoreId = "form-state-0";
+formStateStoreMap.set(formStateStoreId, formStateStore);
+
 const runtimeContext: RuntimeContext = {
   pendingPermissionsPreCheck: [Promise.resolve()],
   ctxStore,
   tplStateStoreId,
   tplStateStoreMap,
-  formStateStoreMap: null!,
+  formStateStoreId,
+  formStateStoreMap,
   app: {
     id: "hello",
     name: "Hello",
@@ -227,6 +237,15 @@ stateStore.define(
   ],
   runtimeContext
 );
+formStateStore.define(
+  [
+    {
+      name: "myFormItem",
+      value: "input",
+    },
+  ],
+  runtimeContext
+);
 
 const consoleError = jest.spyOn(console, "error");
 
@@ -288,6 +307,7 @@ describe("evaluate", () => {
     ["<% BASE_URL %>", ""],
     ["<% ITEM %>", 1],
     ["<% STATE.myState %>", "better"],
+    ["<% FORM_STATE.myFormItem %>", "input"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw, runtimeContext)).toEqual(result);
   });
@@ -325,6 +345,7 @@ describe("evaluate", () => {
 
   test("Use ITEM without in :forEach", () => {
     consoleError.mockImplementationOnce(() => void 0);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { forEachItem, ...rest } = runtimeContext;
     expect(() =>
       evaluate("<% ITEM %>", rest)
@@ -353,6 +374,31 @@ describe("asyncEvaluate", () => {
   ])("asyncEvaluate(%j) should be resolved as %j", async (raw, result) => {
     expect(await asyncEvaluate(raw, runtimeContext)).toEqual(result);
   });
+});
+
+describe("asyncEvaluate with devtools", () => {
+  beforeAll(() => {
+    (getDevHook as jest.Mock).mockReturnValue({});
+  });
+
+  afterAll(() => {
+    (getDevHook as jest.Mock).mockReturnValue(undefined);
+  });
+
+  test.each<[string, unknown]>([
+    [
+      "<% PROCESSORS.brickKit.objectEntries({quality: 'good'}) %>",
+      [["quality", "good"]],
+    ],
+    ["<% CTX.myFreeContext %>", "good"],
+    ["<% STATE.myState %>", "better"],
+    ["<% FORM_STATE.myFormItem %>", "input"],
+  ])(
+    "asyncEvaluate(%j) with devtools should be resolved as %j",
+    async (raw, result) => {
+      expect(await asyncEvaluate(raw, runtimeContext)).toEqual(result);
+    }
+  );
 });
 
 describe("getPreEvaluatedRaw", () => {
