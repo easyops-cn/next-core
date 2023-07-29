@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.19.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.1...@next-core/runtime@1.19.2) (2023-07-29)
+
+
+### Bug Fixes
+
+* fix processors with devtools ([a92e19c](https://github.com/easyops-cn/next-core/commit/a92e19cf53fe8cefd49e938b82c9161e617a6a18))
+
+
+
+
+
 ## [1.19.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.0...@next-core/runtime@1.19.1) (2023-07-26)
 
 **Note:** Version bump only for package @next-core/runtime
