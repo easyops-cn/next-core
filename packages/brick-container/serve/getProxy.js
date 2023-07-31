@@ -14,6 +14,7 @@ export default function getProxy(env, getRawIndexHtml) {
     useRemote,
     useLocalContainer,
     localBricks,
+    localBrickFolders,
   } = env;
   if (useRemote) {
     return [
@@ -43,7 +44,7 @@ export default function getProxy(env, getRawIndexHtml) {
 
               const [storyboards, brickPackages] = await Promise.all([
                 getStoryboards({ rootDir, localMicroApps }),
-                getBrickPackages(rootDir, false, localBricks),
+                getBrickPackages(localBrickFolders, false, localBricks),
               ]);
 
               // Todo: filter out local micro-apps and brick packages
@@ -193,7 +194,7 @@ export default function getProxy(env, getRawIndexHtml) {
 
               const [storyboards, brickPackages] = await Promise.all([
                 getStoryboards({ rootDir, localMicroApps }, true),
-                getBrickPackages(rootDir, true, localBricks),
+                getBrickPackages(localBrickFolders, true, localBricks),
               ]);
 
               result.brickPackages = concatBrickPackages(

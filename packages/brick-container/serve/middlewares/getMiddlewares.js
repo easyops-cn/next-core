@@ -1,4 +1,3 @@
-import path from "node:path";
 import express from "express";
 import bootstrapJson from "./bootstrapJson.js";
 import mockAuth from "./mockAuth.js";
@@ -54,7 +53,7 @@ export function getMiddlewares(env) {
 }
 
 export function getPreMiddlewares(env) {
-  const { rootDir, baseHref, localMicroApps } = env;
+  const { baseHref, localMicroApps, localBrickFolders } = env;
 
   /**
    * @type {import("webpack-dev-server").Middleware[]}
@@ -73,15 +72,12 @@ export function getPreMiddlewares(env) {
     middleware: serveBricksWithVersions(env),
   });
 
-  middlewares.push({
-    path: `${baseHref}bricks/`,
-    middleware: express.static(path.join(rootDir, "node_modules/@next-bricks")),
-  });
-
-  middlewares.push({
-    path: `${baseHref}bricks/`,
-    middleware: express.static(path.join(rootDir, "node_modules/@bricks")),
-  });
+  for (const dir of localBrickFolders) {
+    middlewares.push({
+      path: `${baseHref}bricks/`,
+      middleware: express.static(dir),
+    });
+  }
 
   return middlewares;
 }
