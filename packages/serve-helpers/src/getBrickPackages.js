@@ -3,42 +3,38 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 
 /**
- * @param {string} rootDir
+ * @param {string[]} localBrickFolders
  * @param {boolean | undefined} publicRootWithVersion
  * @param {string[] | undefined} localBricks
  * @returns {Promise<unknown[]>}
  */
 export async function getBrickPackages(
-  rootDir,
+  localBrickFolders,
   publicRootWithVersion,
   localBricks
 ) {
   return (
     await Promise.all(
-      ["@next-bricks", "@bricks"].map((scope) =>
-        getBrickPackagesInDir(
-          path.join(rootDir, "node_modules", scope),
-          publicRootWithVersion,
-          localBricks
-        )
+      localBrickFolders.map((dir) =>
+        getBrickPackagesInDir(dir, publicRootWithVersion, localBricks)
       )
     )
   ).flat();
 }
 
 /**
- * @param {string} rootDir
+ * @param {string[]} localBrickFolders
  * @param {string[] | undefined} localBricks
  * @returns {Promise<string[]>}
  */
-export async function getLocalBrickPackageNames(rootDir, localBricks) {
+export async function getLocalBrickPackageNames(
+  localBrickFolders,
+  localBricks
+) {
   return (
     await Promise.all(
-      ["@next-bricks", "@bricks"].map((scope) =>
-        getBrickPackageNamesInDir(
-          path.join(rootDir, "node_modules", scope),
-          localBricks
-        )
+      localBrickFolders.map((dir) =>
+        getBrickPackageNamesInDir(dir, localBricks)
       )
     )
   ).flat();

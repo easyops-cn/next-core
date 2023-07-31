@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 
 export function getBrickPackages(
-  rootDir: string,
+  localBrickFolders: string[],
   publicRootWithVersion?: boolean,
   localBricks?: string[]
 ): Promise<unknown[]>;
@@ -10,7 +10,7 @@ export function getBrickManifests(
   localBricks?: string[]
 ): Promise<unknown[]>;
 export function getLocalBrickPackageNames(
-  rootDir: string,
+  localBrickFolders: string[],
   localBricks?: string[]
 ): Promise<string[]>;
 export function tryFiles(files: string | string[]): string | undefined;
