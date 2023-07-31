@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.3...@next-core/brick-container@3.5.4) (2023-07-31)
+
+
+### Bug Fixes
+
+* allow set brick folders ([69b754b](https://github.com/easyops-cn/next-core/commit/69b754bb5850713f320b24d695ce00be854dcf59))
+
+
+
+
+
 ## [3.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.2...@next-core/brick-container@3.5.3) (2023-07-29)
 
 **Note:** Version bump only for package @next-core/brick-container
