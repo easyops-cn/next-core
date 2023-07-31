@@ -1,5 +1,8 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import meow from "meow";
 import chalk from "chalk";
+import { glob } from "glob";
 import { getLocalBrickPackageNames } from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
@@ -78,6 +81,17 @@ export async function getEnv(rootDir, runtimeFlags) {
     ...runtimeFlags,
   };
 
+  let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
+  const devConfigMjs = path.join(rootDir, "dev.config.mjs");
+  let configuredBrickFolders = false;
+  if (existsSync(devConfigMjs)) {
+    const devConfig = (await import(devConfigMjs)).default;
+    if (devConfig && Array.isArray(devConfig.brickFolders)) {
+      brickFolders = devConfig.brickFolders;
+      configuredBrickFolders = true;
+    }
+  }
+
   const env = {
     rootDir,
     useSubdir: flags.subdir,
@@ -86,6 +100,9 @@ export async function getEnv(rootDir, runtimeFlags) {
     useLocalContainer: !flags.remote || flags.localContainer,
     localBricks: flags.localBricks ? flags.localBricks.split(",") : undefined,
     localMicroApps: flags.localMicroApps ? flags.localMicroApps.split(",") : [],
+    localBrickFolders: await glob(
+      brickFolders.flatMap((folder) => path.resolve(rootDir, folder))
+    ),
     port: Number(flags.port),
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
@@ -100,8 +117,13 @@ export async function getEnv(rootDir, runtimeFlags) {
     console.log("Configure:", env);
   }
 
+  if (configuredBrickFolders) {
+    console.log();
+    console.log("local brick folders:", env.localBrickFolders);
+  }
+
   const validLocalBricks = await getLocalBrickPackageNames(
-    rootDir,
+    env.localBrickFolders,
     env.localBricks
   );
 

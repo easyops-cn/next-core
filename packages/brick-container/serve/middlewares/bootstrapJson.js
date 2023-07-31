@@ -5,6 +5,7 @@ export default function bootstrapJson({
   rootDir,
   localMicroApps,
   localBricks,
+  localBrickFolders,
 }) {
   /**
    * @param {import("express").Request} req
@@ -14,7 +15,7 @@ export default function bootstrapJson({
     if (req.path === "/" && req.method === "GET") {
       const [storyboards, brickPackages] = await Promise.all([
         getStoryboards({ rootDir, localMicroApps }),
-        getBrickPackages(rootDir, false, localBricks),
+        getBrickPackages(localBrickFolders, false, localBricks),
       ]);
 
       res.json({

@@ -17,6 +17,22 @@ yarn serve
 
 运行 `yarn start` 可启动开发模式的 brick-container 服务，其选项参数和 `yarn serve` 一致。
 
+配置 `dev.config.mjs` 可引用其他仓库的构件包。
+
+```js
+// File: dev.config.mjs
+export default {
+  brickFolders: [
+    // 默认使用 `node_modules/@next-bricks` 及 `node_modules/@bricks` 作为构件包文件夹。
+    "node_modules/@next-bricks",
+    "node_modules/@bricks",
+
+    // 引用其他仓库的构件包。注：可使用通配符，详见 https://github.com/isaacs/node-glob
+    "../next-*/bricks",
+  ],
+};
+```
+
 ## Brick playground
 
 运行 `yarn serve:playground` 可启动 brick-playground 服务。Playground 中的构件资源和示例来自项目中所有本地构件包。
