@@ -59,6 +59,7 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
     events: [],
     slots: [],
     methods: [],
+    parts: [],
     types: {
       properties: [],
       events: [],
@@ -71,17 +72,33 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
     manifest.description = docComment.description;
     manifest.deprecated = getDeprecatedInfo(docComment.tags);
     for (const tag of docComment.tags) {
-      if (tag.title === "slot") {
-        const match = tag.description.match(/^(?:([-\w]+)\s+-\s+)?(.*)$/);
-        if (!match) {
-          throw new Error(
-            `Doc comment for slot is invalid: '${tag.description}'`
-          );
+      switch (tag.title) {
+        case "slot": {
+          const match = tag.description.match(/^(?:([-\w]+)\s+-\s+)?(.*)$/);
+          if (!match) {
+            throw new Error(
+              `Doc comment for slot is invalid: '${tag.description}'`
+            );
+          }
+          manifest.slots.push({
+            name: match[1] ?? null,
+            description: match[2],
+          });
+          break;
         }
-        manifest.slots.push({
-          name: match[1] ?? null,
-          description: match[2],
-        });
+        case "part": {
+          const match = tag.description.match(/^([-\w]+)\s+-\s+(.*)$/);
+          if (!match) {
+            throw new Error(
+              `Doc comment for part is invalid: '${tag.description}'`
+            );
+          }
+          manifest.parts.push({
+            name: match[1],
+            description: match[2],
+          });
+          break;
+        }
       }
     }
   }
