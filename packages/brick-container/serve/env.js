@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import meow from "meow";
 import chalk from "chalk";
-import { glob } from "glob";
+import glob from "glob";
 import { getLocalBrickPackageNames } from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
@@ -100,9 +100,22 @@ export async function getEnv(rootDir, runtimeFlags) {
     useLocalContainer: !flags.remote || flags.localContainer,
     localBricks: flags.localBricks ? flags.localBricks.split(",") : undefined,
     localMicroApps: flags.localMicroApps ? flags.localMicroApps.split(",") : [],
-    localBrickFolders: await glob(
-      brickFolders.flatMap((folder) => path.resolve(rootDir, folder))
-    ),
+    localBrickFolders: (
+      await Promise.all(
+        brickFolders.map(
+          (folder) =>
+            new Promise((resolve, reject) => {
+              glob(path.resolve(rootDir, folder), {}, (err, matches) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(matches);
+                }
+              });
+            })
+        )
+      )
+    ).flat(),
     port: Number(flags.port),
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
