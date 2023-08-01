@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.5...@next-core/brick-container@3.5.6) (2023-08-01)
+
+
+### Bug Fixes
+
+* use a previous version of glob to avoid issues of yarn with package name alias ([69aa6a6](https://github.com/easyops-cn/next-core/commit/69aa6a6d0d25c71a21b11497ee0d14dbc8aa5033))
+
+
+
+
+
 ## [3.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.4...@next-core/brick-container@3.5.5) (2023-08-01)
 
 **Note:** Version bump only for package @next-core/brick-container
