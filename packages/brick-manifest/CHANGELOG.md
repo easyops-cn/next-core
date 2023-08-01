@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.5.0...@next-core/brick-manifest@0.5.1) (2023-08-01)
+
+
+### Bug Fixes
+
+* add parts for brick docs ([086ba2c](https://github.com/easyops-cn/next-core/commit/086ba2c72a54e7966d1c46d43b3e064170f861f1))
+
+
+
+
+
 # [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.4.1...@next-core/brick-manifest@0.5.0) (2023-07-03)
 
 
