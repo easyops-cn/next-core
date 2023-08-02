@@ -65,6 +65,10 @@ export function getPreEvaluatedRaw(pre: PreEvaluated): string {
   return pre[symbolForRaw];
 }
 
+export function getPreEvaluatedContext(pre: PreEvaluated): RuntimeContext {
+  return pre[symbolForContext];
+}
+
 export function shouldDismissMarkingComputed(
   raw: string | PreEvaluated
 ): boolean {
