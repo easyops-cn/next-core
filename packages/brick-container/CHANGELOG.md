@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.7...@next-core/brick-container@3.5.8) (2023-08-02)
+
+
+### Bug Fixes
+
+* support appending "Same-Site: None" for cookies ([fa8afa3](https://github.com/easyops-cn/next-core/commit/fa8afa350e07cde32b2f25d8dfddc8853b2c2be6))
+
+
+
+
+
 ## [3.5.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.6...@next-core/brick-container@3.5.7) (2023-08-02)
 
 **Note:** Version bump only for package @next-core/brick-container

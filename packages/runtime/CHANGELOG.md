@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.19.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.3...@next-core/runtime@1.19.4) (2023-08-02)
+
+
+### Bug Fixes
+
+* fix nested templates with proxy properties ([36f9495](https://github.com/easyops-cn/next-core/commit/36f94952eab87381b8077d9c4f835d79bdff8bc9))
+
+
+
+
+
 ## [1.19.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.2...@next-core/runtime@1.19.3) (2023-08-02)
 
 
