@@ -51,6 +51,7 @@ declare namespace __secret_internals {
         getContextValue,
         getAllContextValues,
         getBrickPackagesById,
+        getRenderId,
         DataValueOption,
         RuntimeContext,
         RenderUseBrickResult,
@@ -167,6 +168,9 @@ export function getHistory(): NextHistory;
 
 // @public (undocumented)
 export function getPageInfo(): PageInfo;
+
+// @public (undocumented)
+function getRenderId(): string | undefined;
 
 // @public (undocumented)
 export function getRuntime(): Runtime;

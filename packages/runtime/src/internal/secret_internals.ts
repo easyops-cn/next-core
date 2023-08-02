@@ -8,6 +8,7 @@ import type {
 import { flushStableLoadBricks } from "@next-core/loader";
 import { pick } from "lodash";
 import {
+  _internalApiGetRenderId,
   _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
   getBrickPackages,
@@ -333,4 +334,8 @@ export function getBrickPackagesById(id: string) {
   return getBrickPackages().find((pkg) =>
     pkg.id ? pkg.id === id : pkg.filePath.startsWith(id)
   );
+}
+
+export function getRenderId() {
+  return _internalApiGetRenderId();
 }

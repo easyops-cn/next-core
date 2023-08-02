@@ -14,6 +14,7 @@ import {
   updateStoryboardBySnippet,
   updateStoryboardByTemplate,
   getBrickPackagesById,
+  getRenderId,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
@@ -856,5 +857,11 @@ describe("getBrickPackagesById", () => {
 
   test("not found", () => {
     expect(getBrickPackagesById("bricks/oops")).toBe(undefined);
+  });
+});
+
+describe("getRenderId", () => {
+  test("getRenderId", () => {
+    expect(getRenderId()).toBe(undefined);
   });
 });

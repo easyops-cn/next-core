@@ -2,6 +2,7 @@ import React, {
   MutableRefObject,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -24,6 +25,7 @@ let ReactUseBrick = function ReactUseBrick({
   const mountResult = useRef<__secret_internals.MountUseBrickResult>();
   const [renderKey, setRenderKey] = useState<number>();
   const IdCounterRef = useRef(0);
+  const initialRenderId = useMemo(() => __secret_internals.getRenderId?.(), []);
 
   useEffect(() => {
     async function init() {
@@ -33,13 +35,20 @@ let ReactUseBrick = function ReactUseBrick({
         );
         setRenderKey(getUniqueId(IdCounterRef));
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error("Render useBrick failed:", useBrick, "with data:", data);
-        handleHttpError(error);
+        if (isTheSameRender(initialRenderId)) {
+          // eslint-disable-next-line no-console
+          console.error(
+            "Render useBrick failed:",
+            useBrick,
+            "with data:",
+            data
+          );
+          handleHttpError(error);
+        }
       }
     }
     init();
-  }, [data, useBrick]);
+  }, [data, useBrick, initialRenderId]);
 
   const refCallback = useCallback(
     (element: HTMLElement | null) => {
@@ -75,6 +84,11 @@ let ReactUseBrick = function ReactUseBrick({
 
 function getUniqueId(ref: MutableRefObject<number>): number {
   return ++ref.current;
+}
+
+function isTheSameRender(initialRenderId: string | undefined): boolean {
+  const newRenderId = __secret_internals.getRenderId?.();
+  return !initialRenderId || !newRenderId || initialRenderId === newRenderId;
 }
 
 export interface ReactUseMultipleBricksProps {
