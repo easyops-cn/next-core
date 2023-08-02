@@ -374,12 +374,13 @@ describe("DataStore", () => {
         },
       ],
       runtimeContext,
-      {
-        b: Promise.resolve(7),
-        c: Promise.resolve(8),
-        d: Promise.resolve(9),
-        e: new Promise((resolve) => setTimeout(() => resolve(10), 100)),
-      }
+      [
+        ["b", Promise.resolve(7)],
+        ["c", Promise.resolve(undefined), true],
+        ["c", Promise.resolve(8), true],
+        ["d", Promise.resolve(9)],
+        ["e", new Promise((resolve) => setTimeout(() => resolve(10), 100))],
+      ]
     );
     await (global as any).flushPromises();
     expect(stateStore.getValue("a")).toBe(1);

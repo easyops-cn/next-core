@@ -6,11 +6,8 @@ import {
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./constants.js";
-import type {
-  AsyncComputedProperties,
-  AsyncProperties,
-  TemplateHostContext,
-} from "../interfaces.js";
+import type { AsyncPropertyEntry, TemplateHostContext } from "../interfaces.js";
+import { computePropertyValue } from "../compute/computeRealProperties.js";
 
 export function setupTemplateProxy(
   hostContext: TemplateHostContext,
@@ -19,33 +16,37 @@ export function setupTemplateProxy(
 ) {
   const {
     reversedProxies,
-    asyncHostProperties,
+    asyncHostPropertyEntries,
     externalSlots,
     tplStateStoreId,
     hostBrick,
   } = hostContext;
 
-  let asyncComputedProps: AsyncComputedProperties | undefined;
+  let asyncComputedProps: AsyncPropertyEntry[] | undefined;
 
   if (ref && reversedProxies) {
     const propertyProxies = reversedProxies.properties.get(ref);
     if (propertyProxies) {
-      const getComputedProps = async (
-        asyncHostProps: AsyncProperties
-      ): AsyncComputedProperties => {
-        const props: Record<string, unknown> = {};
-        for (const { from, to } of propertyProxies) {
-          if (hasOwnProperty(asyncHostProps, from) && to.refProperty) {
-            const propValue = await asyncHostProps[from];
-            if (propValue !== undefined) {
-              props[to.refProperty] = propValue;
+      const getComputedProps = (
+        asyncHostProps: AsyncPropertyEntry[]
+      ): AsyncPropertyEntry[] => {
+        return propertyProxies!
+          .map(({ from, to }) => {
+            const filtered = asyncHostProps.filter(
+              (entry) => entry[0] === from
+            );
+            if (filtered.length > 0 && to.refProperty) {
+              return [
+                to.refProperty,
+                computePropertyValue(filtered, from),
+                true,
+              ];
             }
-          }
-        }
-        return props;
+          })
+          .filter(Boolean) as [string, Promise<unknown>][];
       };
 
-      asyncComputedProps = getComputedProps(asyncHostProperties);
+      asyncComputedProps = getComputedProps(asyncHostPropertyEntries);
     }
 
     const slotProxies = reversedProxies.slots.get(ref);
