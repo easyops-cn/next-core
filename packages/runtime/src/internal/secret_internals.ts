@@ -4,8 +4,12 @@ import type {
   RouteConf,
   Storyboard,
   UseSingleBrickConf,
+  RuntimeSnippet,
 } from "@next-core/types";
-import { flushStableLoadBricks } from "@next-core/loader";
+import {
+  flushStableLoadBricks,
+  loadBricksImperatively,
+} from "@next-core/loader";
 import { pick } from "lodash";
 import {
   _internalApiGetRenderId,
@@ -18,6 +22,8 @@ import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
 import type {
   DataValueOption,
+  PreviewOption,
+  PreviewStoryboardPatch,
   RenderRoot,
   RuntimeContext,
 } from "./interfaces.js";
@@ -255,6 +261,10 @@ export function updateTemplatePreviewSettings(
   );
 }
 
+function getSnippetPreviewPath(snippetId: string): string {
+  return `\${APP.homepage}/_dev_only_/snippet-preview/${snippetId}`;
+}
+
 export function updateStoryboardBySnippet(
   appId: string,
   snippetData: {
@@ -264,7 +274,7 @@ export function updateStoryboardBySnippet(
 ): void {
   _updatePreviewSettings(
     appId,
-    `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`,
+    getSnippetPreviewPath(snippetData.snippetId),
     snippetData.bricks?.length ? snippetData.bricks : [{ brick: "span" }]
   );
 }
@@ -338,4 +348,68 @@ export function getBrickPackagesById(id: string) {
 
 export function getRenderId() {
   return _internalApiGetRenderId();
+}
+
+export async function getAddedContracts(
+  storyboardPatch: PreviewStoryboardPatch,
+  {
+    appId,
+    updateStoryboardType,
+    provider: collectContractProvider,
+  }: PreviewOption
+): Promise<string[]> {
+  const storyboard = _internalApiGetStoryboardInBootstrapData(appId);
+  let updatedStoryboard;
+
+  // 拿到更新部分的 storyboard 配置，然后扫描一遍，找到新增的 contracts
+  if (updateStoryboardType === "route") {
+    updatedStoryboard = {
+      routes: [storyboardPatch as RouteConf],
+    } as Storyboard;
+  } else if (updateStoryboardType === "template") {
+    updatedStoryboard = {
+      meta: {
+        customTemplates: [storyboardPatch as CustomTemplate],
+      },
+    } as Storyboard;
+  } else if (updateStoryboardType === "snippet") {
+    // snippet 是放在挂载 route 里预览，通过 previewPath 拿到当前修改 route
+    const snippetPreviewPath = getSnippetPreviewPath(
+      (storyboardPatch as RuntimeSnippet).snippetId
+    );
+    const currentRoute = storyboard?.routes?.find(
+      (route) => route.path === snippetPreviewPath
+    );
+
+    updatedStoryboard = {
+      routes: [currentRoute],
+    } as Storyboard;
+  }
+
+  const addedContracts: string[] = [];
+
+  if (updatedStoryboard && collectContractProvider) {
+    await loadBricksImperatively([collectContractProvider], getBrickPackages());
+
+    const provider = document.createElement(collectContractProvider) as any;
+    const contractApis = await provider.resolve(updatedStoryboard);
+
+    contractApis.forEach((api: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, namespaceId, name] = api.match(
+        /(.*)@(.*):\d\.\d\.\d/
+      ) as string[];
+
+      if (
+        !storyboard?.meta?.contracts?.some(
+          (contract) =>
+            contract.namespaceId === namespaceId && contract.name === name
+        )
+      ) {
+        addedContracts.push(api);
+      }
+    });
+  }
+
+  return addedContracts;
 }

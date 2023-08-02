@@ -15,6 +15,7 @@ import {
   updateStoryboardByTemplate,
   getBrickPackagesById,
   getRenderId,
+  getAddedContracts,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
@@ -863,5 +864,190 @@ describe("getBrickPackagesById", () => {
 describe("getRenderId", () => {
   test("getRenderId", () => {
     expect(getRenderId()).toBe(undefined);
+  });
+});
+
+describe("getAddedContracts", () => {
+  beforeEach(() => {
+    _test_only_setBootstrapData({
+      storyboards: [
+        {
+          app: {
+            id: "app-b",
+          } as any,
+          routes: [
+            {
+              alias: "/new",
+              context: [
+                {
+                  name: "historyList",
+                  path: "",
+                  relatedId: "",
+                  resolve: {
+                    args: [
+                      {
+                        page: "<% QUERY.page || 1 %>",
+                        pageSize: "<% QUERY.pageSize || 20 %>",
+                        userName: "<% SYS.username %>",
+                      },
+                    ],
+                    useProvider: "easyops.api.micro_app.workflow@Get:1.0.0",
+                  },
+                },
+              ],
+              exact: true,
+              iid: "5fd4e0de0e637",
+              path: "${APP.homepage}/new",
+              type: "bricks",
+              bricks: [
+                {
+                  brick: "basic-bricks.general-modal",
+                  iid: "5fdffa7f5d689",
+                  portal: true,
+                  properties: {
+                    dataset: {
+                      testid: "detail-modal",
+                    },
+                    id: "detail-modal",
+                    modalTitle: "查看",
+                    width: 700,
+                  },
+                },
+              ],
+            },
+          ],
+          meta: {
+            contracts: [
+              {
+                name: "ViewTodo",
+                namespaceId: "easyops.api.micro_app.workflow",
+                version: "1.0.0",
+              },
+            ],
+          },
+        },
+      ],
+    });
+  });
+
+  test("should work with route type", async () => {
+    const storyboardPatch = {
+      path: "${APP.homepage}/demo",
+      alias: "/demo",
+      exact: true,
+      context: [
+        {
+          name: "appList",
+          resolve: {
+            args: [
+              "APP",
+              {
+                fields: ["*"],
+              },
+            ],
+            useProvider: "easyops.api.cmdb.instance@PostSearchV3:1.1.0",
+          },
+        },
+      ],
+      type: "bricks",
+      bricks: [
+        {
+          brick: "span",
+        },
+      ],
+    };
+
+    const provider = document.createElement("test.provider") as any;
+    provider.resolve = jest
+      .fn()
+      .mockResolvedValueOnce(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
+
+    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
+    expect(
+      await getAddedContracts(storyboardPatch, {
+        appId: "app-b",
+        updateStoryboardType: "route",
+        provider: "test.provider",
+      })
+    ).toEqual(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
+  });
+
+  test("should work with template type", async () => {
+    const storyboardPatch = {
+      name: "tpl-test-a",
+      bricks: [
+        {
+          brick: "span",
+        },
+      ],
+      state: [
+        {
+          name: "name",
+          value: "easyops",
+        },
+        {
+          name: "instanceData",
+          resolve: {
+            useProvider: "easyops.api.micro_app.workflow@ViewTodo:1.0.0",
+          },
+        },
+      ],
+    };
+
+    const provider = document.createElement("test.provider") as any;
+    provider.resolve = jest
+      .fn()
+      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@ViewTodo:1.0.0"]);
+
+    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
+    expect(
+      await getAddedContracts(storyboardPatch, {
+        appId: "app-b",
+        updateStoryboardType: "template",
+        provider: "test.provider",
+      })
+    ).toEqual([]);
+  });
+
+  test("should work with snippet type", async () => {
+    const storyboardPatch = {
+      path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-test",
+      alias: "/snippet-test",
+      exact: true,
+      context: [
+        {
+          name: "workflow",
+          resolve: {
+            args: [
+              "APP",
+              {
+                fields: ["*"],
+              },
+            ],
+            useProvider: "easyops.api.micro_app.workflow@execute:1.0.0",
+          },
+        },
+      ],
+      type: "bricks",
+      bricks: [
+        {
+          brick: "span",
+        },
+      ],
+    };
+
+    const provider = document.createElement("test.provider") as any;
+    provider.resolve = jest
+      .fn()
+      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@execute:1.0.0"]);
+
+    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
+    expect(
+      await getAddedContracts(storyboardPatch, {
+        appId: "app-b",
+        updateStoryboardType: "snippet",
+        provider: "test.provider",
+      })
+    ).toEqual(["easyops.api.micro_app.workflow@execute:1.0.0"]);
   });
 });

@@ -30,6 +30,7 @@ import { MicroApp } from '@next-core/types';
 import type { PermissionApi_validatePermissions } from '@next-api-sdk/micro-app-sdk';
 import type { ResolveConf } from '@next-core/types';
 import type { RouteConf } from '@next-core/types';
+import type { RuntimeSnippet } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
@@ -52,6 +53,7 @@ declare namespace __secret_internals {
         getAllContextValues,
         getBrickPackagesById,
         getRenderId,
+        getAddedContracts,
         DataValueOption,
         RuntimeContext,
         RenderUseBrickResult,
@@ -138,6 +140,12 @@ export interface DialogOptions {
 //
 // @public (undocumented)
 export function fetchByProvider(provider: string, args: unknown[], options?: ResolveOptions): Promise<unknown>;
+
+// Warning: (ae-forgotten-export) The symbol "PreviewStoryboardPatch" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "PreviewOption" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, provider: collectContractProvider, }: PreviewOption): Promise<string[]>;
 
 // @public (undocumented)
 function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
