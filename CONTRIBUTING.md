@@ -2,11 +2,11 @@
 
 ## 开发调试
 
-```bash
-yarn
-yarn build
-yarn serve
-```
+1. 运行 `yarn` 安装依赖
+2. 如果项目初次运行或距上次生产构建时间较久，先执行一次全量生产构建 `yarn build`
+3. 按需、按依赖启动相关包的开发构建，例如开发 runtime 代码时：
+   - `npx lerna run start --scope @next-core/runtime`
+   - `yarn start`（等同于启动 `@next-core/brick-container` 的开发构建）
 
 关于 `yarn serve`：
 
