@@ -15,12 +15,13 @@ import {
 import { ResolveOptions, resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import type {
-  AsyncProperties,
+  AsyncPropertyEntry,
   RuntimeBrick,
   RuntimeContext,
 } from "../interfaces.js";
 import { handleHttpError } from "../../handleHttpError.js";
 import type { RendererContext } from "../RendererContext.js";
+import { computePropertyValue } from "../compute/computeRealProperties.js";
 
 const supportContextResolveTriggerBrickLifeCycle = [
   "onBeforePageLoad",
@@ -248,13 +249,13 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   define(
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
-    asyncHostProperties?: AsyncProperties
+    asyncHostPropertyEntries?: AsyncPropertyEntry[]
   ): void {
     if (Array.isArray(dataConfs) && dataConfs.length > 0) {
       const pending = resolveDataStore(
         dataConfs,
         (dataConf: ContextConf) =>
-          this.resolve(dataConf, runtimeContext, asyncHostProperties),
+          this.resolve(dataConf, runtimeContext, asyncHostPropertyEntries),
         this.type
       );
       this.pendingStack.push(pending);
@@ -306,18 +307,20 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
-    asyncHostProperties?: AsyncProperties
+    asyncHostPropertyEntries?: AsyncPropertyEntry[]
   ): Promise<boolean> {
     if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
     }
     let value: unknown;
     if (
-      asyncHostProperties &&
-      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE") &&
-      hasOwnProperty(asyncHostProperties, dataConf.name)
+      asyncHostPropertyEntries &&
+      (this.type === "STATE" ? dataConf.expose : this.type === "FORM_STATE")
     ) {
-      value = await asyncHostProperties[dataConf.name];
+      value = await computePropertyValue(
+        asyncHostPropertyEntries,
+        dataConf.name
+      );
     }
     let load: DataStoreItem["load"];
     let loading: Promise<unknown> | undefined;

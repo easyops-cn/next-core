@@ -2,7 +2,7 @@ import type { BrickConf, BrickEventsMap } from "@next-core/types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { uniqueId } from "lodash";
 import { DataStore } from "../data/DataStore.js";
-import type { AsyncProperties, RuntimeBrick } from "../interfaces.js";
+import type { AsyncPropertyEntry, RuntimeBrick } from "../interfaces.js";
 import type {
   FieldProperties,
   FormDataProperties,
@@ -18,7 +18,7 @@ export function expandFormRenderer(
   formData: unknown,
   hostBrickConf: BrickConf,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties,
+  asyncHostPropertyEntries: AsyncPropertyEntry[],
   rendererContext: RendererContext
 ): BrickConf {
   const normalizedFormData = (
@@ -51,7 +51,7 @@ export function expandFormRenderer(
     context.push({ name: "params" });
   }
 
-  formStateStore.define(context, runtimeContext, asyncHostProperties);
+  formStateStore.define(context, runtimeContext, asyncHostPropertyEntries);
 
   const formConf = formSchemaToBrick(
     normalizedFormData.formSchema,

@@ -20,6 +20,7 @@ const cli = meow(
     --local-container       Use local brick-container instead of remote in remote mode
     --port                  Set local server listening port, defaults to "8081"
     --size-check            Enable size-check mode
+    --cookie-same-site-none Append "Same-Site: none" for cookies
     --verbose               Print verbose logs
     --help                  Show help message
     --version               Show brick container version
@@ -45,6 +46,10 @@ const cli = meow(
       },
       localContainer: {
         type: "boolean",
+      },
+      cookieSameSiteNone: {
+        type: "boolean",
+        default: true,
       },
       port: {
         type: "string",
@@ -116,6 +121,7 @@ export async function getEnv(rootDir, runtimeFlags) {
         )
       )
     ).flat(),
+    cookieSameSiteNone: flags.cookieSameSiteNone,
     port: Number(flags.port),
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,

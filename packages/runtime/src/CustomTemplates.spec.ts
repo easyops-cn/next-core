@@ -126,11 +126,11 @@ describe("customTemplates", () => {
     stateStore.define(
       customTemplates.get("tpl-proxy")!.state,
       hostRuntimeContext,
-      {
-        stateX: Promise.resolve("x2"),
-        stateY: Promise.resolve("y2"),
-        stateZ: Promise.resolve("z2"),
-      }
+      [
+        ["stateX", Promise.resolve("x2")],
+        ["stateY", Promise.resolve("y2")],
+        ["stateZ", Promise.resolve("z2")],
+      ]
     );
     await stateStore.waitForAll();
 

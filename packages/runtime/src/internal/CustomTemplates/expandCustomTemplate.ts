@@ -11,7 +11,7 @@ import { DataStore } from "../data/DataStore.js";
 import { RuntimeBrickConfWithTplSymbols } from "./constants.js";
 import { setupTemplateProxy } from "./setupTemplateProxy.js";
 import type {
-  AsyncProperties,
+  AsyncPropertyEntry,
   RuntimeBrick,
   TemplateHostBrick,
   TemplateHostContext,
@@ -25,7 +25,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
   brickConf: T,
   hostBrick: RuntimeBrick,
-  asyncHostProperties: AsyncProperties,
+  asyncHostPropertyEntries: AsyncPropertyEntry[],
   rendererContext: RendererContext
 ): T {
   const tplStateStoreId = uniqueId("tpl-state-");
@@ -46,7 +46,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
 
   const { bricks, proxy, state, contracts } = customTemplates.get(tplTagName)!;
   hooks?.flowApi?.collectWidgetContract(contracts);
-  tplStateStore.define(state, runtimeContext, asyncHostProperties);
+  tplStateStore.define(state, runtimeContext, asyncHostPropertyEntries);
 
   const {
     slots: originalExternalSlots,
@@ -102,7 +102,7 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
 
   const hostContext: TemplateHostContext = {
     reversedProxies,
-    asyncHostProperties,
+    asyncHostPropertyEntries,
     externalSlots: childrenToSlots(externalChildren, originalExternalSlots) as
       | SlotsConfOfBricks
       | undefined,

@@ -33,7 +33,38 @@ export default function getProxy(env, getRawIndexHtml) {
         },
         onProxyRes: responseInterceptor(
           async (responseBuffer, proxyRes, req, res) => {
-            if (res.statusCode !== 200 || req.method !== "GET") {
+            if (res.statusCode !== 200) {
+              return responseBuffer;
+            }
+
+            const secureCookieFlags = ["SameSite=None", "Secure"];
+            if (
+              env.cookieSameSiteNone &&
+              req.method === "POST" &&
+              req.path === "/next/api/auth/login/v2"
+            ) {
+              const setCookies = res.getHeader("set-cookie");
+              if (Array.isArray(setCookies)) {
+                // Note: it seems that now Chrome (v107) requires `SameSite=None` even for localhost.
+                // However, `Secure` can use used with non-http for localhost.
+                res.setHeader(
+                  "set-cookie",
+                  setCookies.map((cookie) => {
+                    const separator = "; ";
+                    const parts = cookie.split(separator);
+                    for (const part of secureCookieFlags) {
+                      if (!parts.includes(part)) {
+                        parts.push(part);
+                      }
+                    }
+                    return parts.join(separator);
+                  })
+                );
+                console.log("add same site for cookies");
+              }
+            }
+
+            if (req.method !== "GET") {
               return responseBuffer;
             }
 
