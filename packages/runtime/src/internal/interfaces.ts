@@ -2,6 +2,9 @@ import type { LegacyCompatibleRuntimeContext } from "@next-core/inject";
 import type {
   BrickEventHandler,
   BrickEventsMap,
+  CustomTemplate,
+  RouteConf,
+  RuntimeSnippet,
   CustomTemplateProxy,
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
@@ -135,4 +138,16 @@ export type RuntimeBrickConfWithSymbols = RuntimeBrickConfWithTplSymbols &
 
 export interface DataValueOption {
   tplStateStoreId?: string;
+}
+
+export type PreviewStoryboardPatch =
+  | CustomTemplate
+  | RouteConf
+  | RuntimeSnippet;
+
+export interface PreviewOption {
+  appId: string;
+  formId?: string;
+  updateStoryboardType?: "route" | "template" | "snippet";
+  provider?: string;
 }
