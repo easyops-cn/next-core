@@ -61,7 +61,11 @@ export async function asyncComputeRealValue(
     return result;
   }
 
-  if (!isObject(value) || hasBeenComputed(value)) {
+  if (
+    !isObject(value) ||
+    hasBeenComputed(value) ||
+    typeof value === "function"
+  ) {
     return value;
   }
 
@@ -136,7 +140,11 @@ export function computeRealValue(
     return result;
   }
 
-  if (!isObject(value) || hasBeenComputed(value)) {
+  if (
+    !isObject(value) ||
+    hasBeenComputed(value) ||
+    typeof value === "function"
+  ) {
     return value;
   }
 

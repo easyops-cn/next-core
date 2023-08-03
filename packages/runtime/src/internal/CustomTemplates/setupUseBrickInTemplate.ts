@@ -9,7 +9,7 @@ export function setupUseBrickInTemplate<T>(
   hostContext: TemplateHostContext
 ): T {
   function walk<P>(props: P): P {
-    if (!isObject(props)) {
+    if (!isObject(props) || typeof props === "function") {
       return props;
     }
 
