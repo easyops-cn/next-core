@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.0...@next-core/runtime@1.20.1) (2023-08-04)
+
+
+### Bug Fixes
+
+* bypass functions when compute expressions ([f054a13](https://github.com/easyops-cn/next-core/commit/f054a136cca19db36a2efbd233cb1a6c50163dd0))
+
+
+
+
+
 # [1.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.4...@next-core/runtime@1.20.0) (2023-08-03)
 
 
