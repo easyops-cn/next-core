@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.10...@next-core/brick-container@3.5.11) (2023-08-04)
+
+
+### Bug Fixes
+
+* no auth guard for offline usage ([9dab560](https://github.com/easyops-cn/next-core/commit/9dab5609215b53fad7d85f4581d15cb9bbd9f1af))
+
+
+
+
+
 ## [3.5.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.9...@next-core/brick-container@3.5.10) (2023-08-04)
 
 **Note:** Version bump only for package @next-core/brick-container
