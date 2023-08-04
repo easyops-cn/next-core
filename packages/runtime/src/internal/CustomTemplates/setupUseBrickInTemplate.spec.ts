@@ -14,6 +14,7 @@ describe("setupUseBrickInTemplate", () => {
   });
 
   it("should work", () => {
+    const fn = () => {};
     const props = {
       displayBrick: {
         useBrick: {
@@ -21,6 +22,9 @@ describe("setupUseBrickInTemplate", () => {
           properties: {
             useBrick: {
               brick: "my-brick-b",
+              properties: {
+                fn,
+              },
             },
             list: [1],
           },
@@ -74,5 +78,9 @@ describe("setupUseBrickInTemplate", () => {
         (item as RuntimeBrickConfOfTplSymbols)[symbolForTplStateStoreId]
       ).toBe("tpl-state-1");
     }
+
+    expect(
+      returnedProps.displayBrick.useBrick.properties.useBrick.properties.fn
+    ).toBe(fn);
   });
 });

@@ -10,6 +10,7 @@ const runtimeContext = {
   query,
 } as RuntimeContext;
 const runtimeContextWithNoData = { query } as RuntimeContext;
+const fn = () => {};
 
 describe("asyncComputeRealValue", () => {
   test("useBrick", async () => {
@@ -21,6 +22,7 @@ describe("asyncComputeRealValue", () => {
               brick: "div",
               properties: {
                 label: "@{quality},${QUERY.q}",
+                fn,
               },
             },
           },
@@ -33,6 +35,7 @@ describe("asyncComputeRealValue", () => {
           brick: "div",
           properties: {
             label: "good,foo",
+            fn,
           },
         },
       },
@@ -161,6 +164,7 @@ describe("computeRealValue", () => {
               brick: "div",
               transform: {
                 label: "@{quality},${QUERY.q}",
+                fn,
               },
               [Symbol.for("test")]: "bar",
             },
@@ -174,6 +178,7 @@ describe("computeRealValue", () => {
           brick: "div",
           transform: {
             label: "good,foo",
+            fn,
           },
           [Symbol.for("test")]: "bar",
         },
