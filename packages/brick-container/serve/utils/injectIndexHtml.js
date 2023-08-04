@@ -37,6 +37,11 @@ export function injectIndexHtml(env, content, standaloneConfig) {
         "</script></head>",
       ].join("")
     );
+  } else if (!env.useRemote) {
+    content = content.replace(
+      "</head>",
+      "<script>window.NO_AUTH_GUARD=!0</script></head>"
+    );
   }
 
   return content;
