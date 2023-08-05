@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>工作台 8</title>
-    <g id="设计稿" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="导航/菜单项/默认备份-5" transform="translate(-8, -7)" fill="#FFFFFF" fill-rule="nonzero">
-            <g id="工作台" transform="translate(8, 7)">
-                <polygon id="形状" points="14 6.5 8.621875 6.5 7 4.878125 5.378125 6.5 1 6.5 1 2.5 3.5 2.5 3.5 4 13.5 4 13.5 0 3.5 0 3.5 1.5 0 1.5 0 7.5 5.378125 7.5 7 9.121875 8.621875 7.5 13 7.5 13 11.5 11 11.5 11 10 1 10 1 14 11 14 11 12.5 14 12.5"></polygon>
-            </g>
-        </g>
-    </g>
+<svg width="14px" height="14px" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2_57)">
+<path d="M14 6.5H8.62187L7 4.87813L5.37813 6.5H1V2.5H3.5V4H13.5V0H3.5V1.5H0V7.5H5.37813L7 9.12187L8.62187 7.5H13V11.5H11V10H1V14H11V12.5H14V6.5Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_2_57">
+<rect width="14" height="14" fill="white"/>
+</clipPath>
+</defs>
 </svg>
