@@ -52,7 +52,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.32.0",
     "html-webpack-plugin": "^5.5.3",
-    "regenerator-runtime": "^0.13.11",
+    "regenerator-runtime": "^0.14.0",
     "webpack-dev-server": "^4.15.1"
   },
   "peerDependencies": {
