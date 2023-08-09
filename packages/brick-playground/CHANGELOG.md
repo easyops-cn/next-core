@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.35](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.34...@next-core/brick-playground@1.10.35) (2023-08-09)
+
+
+### Bug Fixes
+
+* yarn serve:playground run failed ([5632805](https://github.com/easyops-cn/next-core/commit/563280529b91b809926c2fffc020534c988382bd))
+
+
+
+
+
 ## [1.10.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.33...@next-core/brick-playground@1.10.34) (2023-08-04)
 
 **Note:** Version bump only for package @next-core/brick-playground
