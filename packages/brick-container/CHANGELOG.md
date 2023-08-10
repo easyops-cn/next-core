@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.11...@next-core/brick-container@3.5.12) (2023-08-10)
+
+
+### Bug Fixes
+
+* support live reload (currently only for local micro-apps) ([4816781](https://github.com/easyops-cn/next-core/commit/4816781c252dfd64b324f598a7a4c16bd2d0c965))
+
+
+
+
+
 ## [3.5.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.10...@next-core/brick-container@3.5.11) (2023-08-04)
 
 
