@@ -19,6 +19,8 @@ const cli = meow(
     --local-micro-apps      Specify local micro apps to be used
     --local-container       Use local brick-container instead of remote in remote mode
     --port                  Set local server listening port, defaults to "8081"
+    --ws-port               Set local WebSocket server listening port, defaults to "8090"
+    --live-reload           Enable live reload (currently only for local micro-apps)
     --size-check            Enable size-check mode
     --cookie-same-site-none Append "Same-Site: none" for cookies
     --verbose               Print verbose logs
@@ -51,9 +53,16 @@ const cli = meow(
         type: "boolean",
         default: true,
       },
+      liveReload: {
+        type: "boolean",
+      },
       port: {
         type: "string",
         default: "8081",
+      },
+      wsPort: {
+        type: "string",
+        default: "8090",
       },
       sizeCheck: {
         type: "boolean",
@@ -122,7 +131,9 @@ export async function getEnv(rootDir, runtimeFlags) {
       )
     ).flat(),
     cookieSameSiteNone: flags.cookieSameSiteNone,
+    liveReload: flags.liveReload,
     port: Number(flags.port),
+    wsPort: Number(flags.wsPort),
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
     verbose: flags.verbose,
@@ -168,6 +179,11 @@ export async function getEnv(rootDir, runtimeFlags) {
   console.log(
     chalk.bold.cyan("remote:"),
     env.useRemote || !env.useLocalContainer ? env.server : "N/A"
+  );
+
+  console.log(
+    chalk.bold.cyan("live-reload:"),
+    env.liveReload ? chalk.bgGreen("enabled") : chalk.bgGrey("disabled")
   );
 
   return env;

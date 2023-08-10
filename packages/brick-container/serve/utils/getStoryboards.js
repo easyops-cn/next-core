@@ -50,7 +50,7 @@ export async function getMatchedStoryboard(env, pathname) {
     "desc"
   );
   for (const storyboard of sortedStoryboards) {
-    const homepage = storyboard.app.homepage;
+    const homepage = storyboard.app?.homepage;
     if (typeof homepage === "string" && homepage[0] === "/") {
       if (
         homepage === "/"

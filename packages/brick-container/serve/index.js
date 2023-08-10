@@ -4,6 +4,9 @@ import { readFile } from "node:fs/promises";
 import express from "express";
 import compression from "compression";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import WebSocket, { WebSocketServer } from "ws";
+import { watch } from "chokidar";
+import _ from "lodash";
 import { getEnv } from "./env.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getMatchedStoryboard } from "./utils/getStoryboards.js";
@@ -84,6 +87,29 @@ if (useLocalContainer) {
 app.listen(port);
 
 console.log(`open http://localhost:${port}${baseHref}`);
+
+if (env.liveReload) {
+  const wss = new WebSocketServer({ port: env.wsPort });
+  const watcher = watch(
+    env.localMicroApps.map((appId) =>
+      path.join(env.rootDir, "mock-micro-apps", appId, "storyboard.yaml")
+    )
+  );
+
+  const throttledOnChange = _.throttle(
+    () => {
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send("content change");
+        }
+      });
+    },
+    100,
+    { trailing: false }
+  );
+
+  watcher.on("change", throttledOnChange);
+}
 
 /**
  * @param {import("express").Request} req

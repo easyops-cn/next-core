@@ -44,5 +44,19 @@ export function injectIndexHtml(env, content, standaloneConfig) {
     );
   }
 
+  if (env.liveReload) {
+    content = content.replace(
+      "</body>",
+      `<script>
+  const socket = new WebSocket("ws://localhost:${env.wsPort}");
+  socket.onmessage = function(event) {
+    if (event.data === "content change") {
+      location.reload();
+    }
+  };
+</script></body>`
+    );
+  }
+
   return content;
 }
