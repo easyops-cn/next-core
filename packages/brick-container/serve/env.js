@@ -95,14 +95,19 @@ export async function getEnv(rootDir, runtimeFlags) {
     ...runtimeFlags,
   };
 
+  let localSettings;
+
   let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
   const devConfigMjs = path.join(rootDir, "dev.config.mjs");
   let configuredBrickFolders = false;
   if (existsSync(devConfigMjs)) {
     const devConfig = (await import(devConfigMjs)).default;
-    if (devConfig && Array.isArray(devConfig.brickFolders)) {
-      brickFolders = devConfig.brickFolders;
-      configuredBrickFolders = true;
+    if (devConfig) {
+      if (Array.isArray(devConfig.brickFolders)) {
+        brickFolders = devConfig.brickFolders;
+        configuredBrickFolders = true;
+      }
+      localSettings = devConfig.settings;
     }
   }
 
@@ -132,6 +137,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     ).flat(),
     cookieSameSiteNone: flags.cookieSameSiteNone,
     liveReload: flags.liveReload,
+    localSettings,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     server: getServerPath(flags.server),
@@ -148,8 +154,15 @@ export async function getEnv(rootDir, runtimeFlags) {
   }
 
   if (configuredBrickFolders) {
-    console.log();
     console.log("local brick folders:", env.localBrickFolders);
+  }
+
+  if (localSettings) {
+    console.log("local settings: enabled");
+  }
+
+  if (env.liveReload) {
+    console.log("live-reload: enabled");
   }
 
   const validLocalBricks = await getLocalBrickPackageNames(
@@ -157,11 +170,9 @@ export async function getEnv(rootDir, runtimeFlags) {
     env.localBricks
   );
 
-  console.log();
   console.log("local brick packages:", validLocalBricks);
 
   if (env.localMicroApps.length > 0) {
-    console.log();
     console.log("local micro-apps:", env.localMicroApps);
   }
 
@@ -179,11 +190,6 @@ export async function getEnv(rootDir, runtimeFlags) {
   console.log(
     chalk.bold.cyan("remote:"),
     env.useRemote || !env.useLocalContainer ? env.server : "N/A"
-  );
-
-  console.log(
-    chalk.bold.cyan("live-reload:"),
-    env.liveReload ? chalk.bgGreen("enabled") : chalk.bgGrey("disabled")
   );
 
   return env;

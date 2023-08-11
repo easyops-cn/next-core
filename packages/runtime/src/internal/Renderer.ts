@@ -11,6 +11,8 @@ import type {
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
+  loadScript,
+  loadStyle,
 } from "@next-core/loader";
 import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
@@ -466,6 +468,42 @@ export async function renderBrick(
     }
   }
 
+  let formData: unknown;
+  let confProps: Record<string, unknown> | undefined;
+  if (brickName === FORM_RENDERER) {
+    ({ formData, ...confProps } = brickConf.properties ?? {});
+  } else {
+    confProps = brickConf.properties;
+  }
+
+  const trackingContextList: TrackingContextItem[] = [];
+  const asyncPropertyEntries = asyncComputeRealPropertyEntries(
+    confProps,
+    runtimeContext,
+    trackingContextList
+  );
+
+  const computedPropsFromHost = brickConf[symbolForAsyncComputedPropsFromHost];
+  if (computedPropsFromHost) {
+    asyncPropertyEntries.push(...computedPropsFromHost);
+  }
+
+  const isScript = brickName === "script";
+  if (isScript || brickName === "link") {
+    const props = await constructAsyncProperties(asyncPropertyEntries);
+    if (isScript ? props.src : props.rel === "stylesheet" && props.href) {
+      const prefix = window.PUBLIC_ROOT ?? "";
+      if (isScript) {
+        const { src, ...attrs } = props;
+        await loadScript(src as string, prefix, attrs);
+      } else {
+        const { href, ...attrs } = props;
+        await loadStyle(href as string, prefix, attrs);
+      }
+      return output;
+    }
+  }
+
   const brick: RenderBrick = {
     tag: RenderTag.BRICK,
     type: tplTagName || brickName,
@@ -480,34 +518,12 @@ export async function renderBrick(
 
   output.node = brick;
 
-  // const confProps = brickConf.properties;
-  let formData: unknown;
-  let confProps: Record<string, unknown> | undefined;
-  if (brickName === FORM_RENDERER) {
-    ({ formData, ...confProps } = brickConf.properties ?? {});
-  } else {
-    confProps = brickConf.properties;
-  }
-
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
-
-  const trackingContextList: TrackingContextItem[] = [];
-  const asyncPropertyEntries = asyncComputeRealPropertyEntries(
-    confProps,
-    runtimeContext,
-    trackingContextList
-  );
-
-  const computedPropsFromHost = brickConf[symbolForAsyncComputedPropsFromHost];
-  if (computedPropsFromHost) {
-    asyncPropertyEntries.push(...computedPropsFromHost);
-  }
 
   const loadProperties = async () => {
     brick.properties = await constructAsyncProperties(asyncPropertyEntries);
     listenOnTrackingContext(brick, trackingContextList);
-    return brick.properties;
   };
   blockingList.push(loadProperties());
 

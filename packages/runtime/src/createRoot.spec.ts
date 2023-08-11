@@ -163,8 +163,7 @@ describe("preview", () => {
     expect(consoleError).toBeCalledTimes(2);
     expect(consoleError).toHaveBeenNthCalledWith(
       1,
-      'Load brick "unknown-brick" failed:',
-      expect.any(Error)
+      "Package for unknown-brick not found."
     );
     expect(consoleError).toHaveBeenNthCalledWith(
       2,

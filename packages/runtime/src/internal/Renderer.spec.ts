@@ -9,6 +9,8 @@ import { DataStore } from "./data/DataStore.js";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
+  loadScript,
+  loadStyle,
 } from "@next-core/loader";
 import { mountTree, unmountTree } from "./mount.js";
 import { getHistory } from "../history.js";
@@ -1907,5 +1909,137 @@ describe("renderBrick for form renderer", () => {
         </form-renderer.form-renderer>,
       ]
     `);
+  });
+});
+
+describe("renderBrick for scripts", () => {
+  test("script with src", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "script",
+        properties: {
+          src: "http://example.com/a.js",
+          type: "module",
+        },
+      },
+      runtimeContext,
+      rendererContext
+    );
+    expect(output).toEqual({ blockingList: [], menuRequests: [] });
+    expect(loadScript).toBeCalledTimes(1);
+    expect(loadScript).toBeCalledWith("http://example.com/a.js", "", {
+      type: "module",
+    });
+  });
+
+  test("script without src", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "script",
+        properties: {
+          text: "console.log(1)",
+        },
+      },
+      runtimeContext,
+      rendererContext
+    );
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [],
+      node: expect.objectContaining({
+        type: "script",
+        properties: {
+          text: "console.log(1)",
+        },
+      }),
+    });
+    expect(loadScript).toBeCalledTimes(0);
+  });
+});
+
+describe("renderBrick for stylesheets", () => {
+  test("stylesheet with src", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "link",
+        properties: {
+          rel: "stylesheet",
+          href: "http://example.com/b.css",
+        },
+      },
+      runtimeContext,
+      rendererContext
+    );
+    expect(output).toEqual({ blockingList: [], menuRequests: [] });
+    expect(loadStyle).toBeCalledTimes(1);
+    expect(loadStyle).toBeCalledWith("http://example.com/b.css", "", {
+      rel: "stylesheet",
+    });
+  });
+
+  test("stylesheet with rel other than stylesheet", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "link",
+        properties: {
+          rel: "prefetch",
+          href: "http://example.com/b.css",
+        },
+      },
+      runtimeContext,
+      rendererContext
+    );
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [],
+      node: expect.objectContaining({
+        type: "link",
+        properties: {
+          rel: "prefetch",
+          href: "http://example.com/b.css",
+        },
+      }),
+    });
+    expect(loadStyle).toBeCalledTimes(0);
   });
 });

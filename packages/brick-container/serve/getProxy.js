@@ -88,6 +88,28 @@ export default function getProxy(env, getRawIndexHtml) {
               return JSON.stringify(result);
             }
 
+            if (
+              env.localSettings &&
+              req.path === "/next/api/v1/runtime_standalone"
+            ) {
+              const content = responseBuffer.toString("utf-8");
+              const result = JSON.parse(content);
+              const { data } = result;
+
+              const { featureFlags, homepage, brand, misc } = env.localSettings;
+              data.featureFlags ??= {};
+              data.brand ??= {};
+              data.misc ??= {};
+              Object.assign(data.settings.featureFlags, featureFlags);
+              Object.assign(data.settings.brand, brand);
+              Object.assign(data.settings.misc, misc);
+              if (homepage) {
+                data.settings.homepage = homepage;
+              }
+
+              return JSON.stringify(result);
+            }
+
             const appId = getAppIdFromBootstrapPath(req.path);
             if (appId) {
               if (localMicroApps.includes(appId)) {
