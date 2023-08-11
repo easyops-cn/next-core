@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.0...@next-core/serve-helpers@1.2.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* allow brick package has no `package.json` ([0315aa4](https://github.com/easyops-cn/next-core/commit/0315aa452f334f7ea7fa8e5de11b7519ac44f2ba))
+
+
+
+
+
 # [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.1.0...@next-core/serve-helpers@1.2.0) (2023-07-31)
 
 
