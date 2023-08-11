@@ -95,7 +95,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     ...runtimeFlags,
   };
 
-  let localSettings;
+  let localSettings, localMocks;
 
   let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
   const devConfigMjs = path.join(rootDir, "dev.config.mjs");
@@ -108,6 +108,7 @@ export async function getEnv(rootDir, runtimeFlags) {
         configuredBrickFolders = true;
       }
       localSettings = devConfig.settings;
+      localMocks = devConfig.mocks;
     }
   }
 
@@ -145,6 +146,11 @@ export async function getEnv(rootDir, runtimeFlags) {
     verbose: flags.verbose,
   };
 
+  env.localMocks = localMocks?.map((mock) => ({
+    path: env.baseHref,
+    middleware: mock,
+  }));
+
   if (env.sizeCheck) {
     env.localMicroApps.push(getSizeCheckApp().id);
   }
@@ -159,6 +165,10 @@ export async function getEnv(rootDir, runtimeFlags) {
 
   if (localSettings) {
     console.log("local settings: enabled");
+  }
+
+  if (localMocks?.length) {
+    console.log("local mock: enabled");
   }
 
   if (env.liveReload) {

@@ -42,7 +42,7 @@ export function getMiddlewares(env) {
         res.send({
           code: 0,
           data: {
-            settings: {},
+            settings: env.localSettings ?? {},
           },
         });
       },

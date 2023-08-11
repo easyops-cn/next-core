@@ -35,7 +35,11 @@ if (sizeCheck) {
 
 app.use(compression());
 
-const middlewares = [...getPreMiddlewares(env), ...getMiddlewares(env)];
+const middlewares = [
+  ...(env.localMocks ?? []),
+  ...getPreMiddlewares(env),
+  ...getMiddlewares(env),
+];
 
 for (const middleware of middlewares) {
   if (typeof middleware === "function") {

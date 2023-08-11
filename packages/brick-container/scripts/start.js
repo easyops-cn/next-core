@@ -75,6 +75,10 @@ const server = new WebpackDevServer(
         },
       });
 
+      if (env.localMocks) {
+        middlewares.unshift(...env.localMocks);
+      }
+
       return middlewares;
     },
     watchFiles: [path.join(rootDir, "bricks/*/dist/*")],
