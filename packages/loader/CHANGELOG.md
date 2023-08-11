@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.7...@next-core/loader@1.4.0) (2023-08-11)
+
+
+### Features
+
+* support load style sheets ([40e8338](https://github.com/easyops-cn/next-core/commit/40e8338840cb63482dd58e22f01de13c5ecdbced))
+
+
+
+
+
 ## [1.3.7](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.3.6...@next-core/loader@1.3.7) (2023-07-26)
 
 
