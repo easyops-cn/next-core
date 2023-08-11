@@ -139,10 +139,11 @@ async function getBrickPackagesInDir(
           "dist/bricks.json"
         );
         const bricksJson = JSON.parse(await readFile(bricksJsonPath, "utf-8"));
-        const packageJson = JSON.parse(
-          await readFile(path.join(bricksDir, dirName, "package.json"), "utf-8")
-        );
         if (publicRootWithVersion) {
+          const packageJsonPath = path.join(bricksDir, dirName, "package.json");
+          const packageJson = existsSync(packageJsonPath)
+            ? JSON.parse(await readFile(packageJsonPath, "utf-8"))
+            : { version: "0.0.0" };
           const updatedFilePath = bricksJson.filePath.replace(
             "/dist/",
             `/${packageJson.version}/dist/`
