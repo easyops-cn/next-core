@@ -144,7 +144,24 @@ async function getBrickPackagesInDir(
           const packageJson = existsSync(packageJsonPath)
             ? JSON.parse(await readFile(packageJsonPath, "utf-8"))
             : { version: "0.0.0" };
-          const updatedFilePath = bricksJson.filePath.replace(
+          let { filePath } = bricksJson;
+          if (!filePath) {
+            // `filePath` is not set for some old brick/widget packages.
+            const filesInDist = await readdir(
+              path.join(bricksDir, dirName, "dist"),
+              { withFileTypes: true }
+            );
+            const jsFile = filesInDist.find(
+              (file) => file.isFile() && file.name.endsWith(".js")
+            );
+            if (!jsFile) {
+              throw new Error(
+                `"filePath" not found for brick package ${dirName}`
+              );
+            }
+            filePath = `bricks/${dirName}/dist/${jsFile.name}`;
+          }
+          const updatedFilePath = filePath.replace(
             "/dist/",
             `/${packageJson.version}/dist/`
           );
