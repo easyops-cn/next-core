@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-playground",
-  "version": "1.10.37",
+  "version": "1.10.38",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-playground",
   "license": "GPL-3.0",
   "repository": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@next-core/doc-helpers": "^0.1.10",
-    "@next-core/serve-helpers": "^1.2.1",
+    "@next-core/serve-helpers": "^1.2.2",
     "compression": "^1.7.4",
     "express": "^4.18.2"
   },
