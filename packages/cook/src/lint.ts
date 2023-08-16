@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-  type FunctionDeclaration,
-  SourceLocation,
-  Statement,
-} from "@babel/types";
+import { type FunctionDeclaration, Statement } from "@babel/types";
 import type { CookRules, ParseResultOfFile } from "./interfaces.js";
 import { parseForAnalysis } from "./parseForAnalysis.js";
 import { precook } from "./precook.js";
@@ -16,7 +12,16 @@ export interface LintOptions {
 export interface LintError {
   type: "SyntaxError" | "TypeError";
   message: string;
-  loc: SourceLocation;
+  loc: {
+    start: {
+      line: number;
+      column: number;
+    };
+    end: {
+      line: number;
+      column: number;
+    };
+  };
 }
 
 /** For next-core internal or devtools usage only. */
