@@ -1,7 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import * as changeCase from "change-case";
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { Api, Model } from "./internal.js";
 import { FileWithContent, ContractDoc } from "../interface.js";
 
@@ -21,7 +21,7 @@ export class Context {
     this.serviceSeg = serviceSeg;
   }
 
-  toFiles(sdkRoot: string): FileWithContent[] {
+  async toFiles(sdkRoot: string): Promise<FileWithContent[]> {
     const apiByModelIndexes = Array.from(
       this.apiByModelExportsMap.entries()
     ).map(([modelSeg, apis]) => ({
@@ -64,22 +64,27 @@ export class Context {
       contracts: this.contractList,
     };
 
-    return [
-      ...Array.from(this.apiMap.values()),
-      ...Array.from(this.modelMap.values()),
-      ...apiByModelIndexes,
-      ...modelByServiceIndexes,
-      sdkIndex,
-    ]
-      .map<FileWithContent>((file) => [
-        path.join(sdkRoot, "src", file.filePath + ".ts"),
-        prettier.format(file.toString(), { parser: "typescript" }),
-      ])
-      .concat([
+    return (
+      await Promise.all(
         [
-          path.join(sdkRoot, "contracts.json"),
-          JSON.stringify(contractDoc, null, 2),
-        ],
-      ]);
+          ...Array.from(this.apiMap.values()),
+          ...Array.from(this.modelMap.values()),
+          ...apiByModelIndexes,
+          ...modelByServiceIndexes,
+          sdkIndex,
+        ].map<Promise<FileWithContent>>(async (file) => [
+          path.join(sdkRoot, "src", file.filePath + ".ts"),
+          await prettier.format(file.toString(), {
+            parser: "typescript",
+            trailingComma: "es5",
+          }),
+        ])
+      )
+    ).concat([
+      [
+        path.join(sdkRoot, "contracts.json"),
+        JSON.stringify(contractDoc, null, 2),
+      ],
+    ]);
   }
 }

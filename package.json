@@ -33,6 +33,9 @@
       "extends @next-core/browserslist-config-next/production"
     ]
   },
+  "prettier": {
+    "trailingComma": "es5"
+  },
   "devDependencies": {
     "@babel/core": "^7.22.10",
     "@babel/types": "^7.22.10",
@@ -49,7 +52,6 @@
     "@types/lodash": "^4.14.197",
     "@types/meow": "^5.0.0",
     "@types/node": "^16.18.40",
-    "@types/prettier": "^2.7.3",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",

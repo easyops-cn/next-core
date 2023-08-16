@@ -35,8 +35,8 @@
     "start": "tsc -w",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "cross-env NODE_ENV='test' test-next",
-    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+    "test": "cross-env NODE_ENV='test' NODE_OPTIONS=--experimental-vm-modules test-next",
+    "test:ci": "cross-env NODE_ENV='test' NODE_OPTIONS=--experimental-vm-modules CI=true test-next"
   },
   "dependencies": {
     "@next-core/public-scoped-sdk": "^0.2.13",
