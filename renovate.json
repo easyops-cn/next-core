@@ -47,6 +47,10 @@
     {
       "groupName": "cypress packages",
       "matchPackageNames": ["cypress", "cypress/included"]
+    },
+    {
+      "groupName": "i18next packages",
+      "matchPackageNames": ["i18next", "react-i18next", "i18next-browser-languagedetector"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]
