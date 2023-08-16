@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.2...@next-core/runtime@1.20.3) (2023-08-16)
+
+
+### Bug Fixes
+
+* load processors before mount ([6d58d23](https://github.com/easyops-cn/next-core/commit/6d58d2353cd9802b85395328ce31f80d1939554f))
+
+
+
+
+
 ## [1.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.1...@next-core/runtime@1.20.2) (2023-08-11)
 
 
