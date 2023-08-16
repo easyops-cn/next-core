@@ -368,15 +368,6 @@ export class Router {
         await Promise.all([
           ...output.blockingList,
           ...stores.map((store) => store.waitForAll()),
-          // Todo: load processors only when they would used in current rendering.
-          // loadProcessorsImperatively(
-          //   strictCollectMemberUsage(
-          //     [storyboard.routes, storyboard.meta?.customTemplates],
-          //     "PROCESSORS",
-          //     2
-          //   ),
-          //   getBrickPackages()
-          // ),
           ...runtimeContext.pendingPermissionsPreCheck,
         ]);
 

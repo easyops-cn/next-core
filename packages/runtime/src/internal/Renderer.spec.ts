@@ -9,6 +9,7 @@ import { DataStore } from "./data/DataStore.js";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
+  loadProcessorsImperatively,
   loadScript,
   loadStyle,
 } from "@next-core/loader";
@@ -22,6 +23,7 @@ import { FormDataProperties } from "./FormRenderer/interfaces.js";
 import { FORM_RENDERER } from "./FormRenderer/constants.js";
 import { hooks } from "./Runtime.js";
 import * as compute from "./compute/computeRealValue.js";
+import { customProcessors } from "../CustomProcessors.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../history.js");
@@ -62,6 +64,8 @@ jest.mock("./Runtime.js", () => ({
     //
   },
 }));
+
+customProcessors.define("def.rst", (input: string) => `received: ${input}`);
 
 jest.spyOn(compute, "asyncComputeRealValue");
 
@@ -457,10 +461,12 @@ describe("renderBrick", () => {
             action: "console.info",
             args: ["onBeforePageLoad", "<% EVENT.type %>"],
           },
-          onPageLoad: {
-            action: "console.info",
-            args: ["onPageLoad", "<% EVENT.type %>"],
-          },
+          onPageLoad: [
+            {
+              action: "console.info",
+              args: ["onPageLoad", "<% EVENT.type %>"],
+            },
+          ],
           onAnchorLoad: {
             action: "console.info",
             args: ["onAnchorLoad", "<% EVENT.type %>"],
@@ -492,16 +498,28 @@ describe("renderBrick", () => {
               args: ["onMessage", "<% EVENT.type %>"],
             },
           },
-          onMessageClose: {
-            action: "console.info",
-            args: ["onMessageClose", "<% EVENT.type %>"],
-          },
+          onMessageClose: [
+            {
+              action: "console.info",
+              args: ["onMessageClose", "<% EVENT.type %>"],
+            },
+            {
+              action: "console.info",
+              args: ["PROCESSORS.def.rst", "<% PROCESSORS.def.rst('opq') %>"],
+            },
+          ],
         },
         slots: {
           a: {
             bricks: [
               {
                 brick: "div",
+                events: {
+                  click: {
+                    action: "console.info",
+                    args: ["<% PROCESSORS.abc.xyz() %>"],
+                  },
+                },
                 lifeCycle: {
                   onMediaChange: {
                     action: "console.info",
@@ -531,9 +549,20 @@ describe("renderBrick", () => {
       runtimeContext,
       rendererContext
     );
-    expect(output.blockingList.length).toBe(1);
+    expect(output.blockingList.length).toBe(3);
     expect(output.menuRequests.length).toBe(0);
     expect(enqueueStableLoadBricks).toBeCalledWith(["test.my-brick"], []);
+    expect(loadProcessorsImperatively).toBeCalledTimes(2);
+    expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
+      1,
+      new Set(["def.rst"]),
+      []
+    );
+    expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
+      2,
+      new Set(["abc.xyz"]),
+      []
+    );
     expect(output.node).toMatchObject({
       tag: RenderTag.BRICK,
       type: "test.my-brick",
@@ -647,8 +676,14 @@ describe("renderBrick", () => {
       "onMessageClose",
       "message.close"
     );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      13,
+      "PROCESSORS.def.rst",
+      "received: opq"
+    );
 
     rendererContext.dispose();
+    expect(consoleInfo).toBeCalledTimes(13);
     consoleInfo.mockReset();
     mockGetHistory.mockReset();
   });

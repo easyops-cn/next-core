@@ -11,6 +11,7 @@ import type {
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
+  loadProcessorsImperatively,
   loadScript,
   loadStyle,
 } from "@next-core/loader";
@@ -61,6 +62,7 @@ import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { getPreEvaluatedRaw } from "./compute/evaluate.js";
 import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
+import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -385,21 +387,21 @@ export async function renderBrick(
       let renderId = 0;
       const listener = async () => {
         const currentRenderId = ++renderId;
-        const output = await renderControlNode();
-        output.blockingList.push(
+        const controlOutput = await renderControlNode();
+        controlOutput.blockingList.push(
           ...[
             ...runtimeContext.tplStateStoreMap.values(),
             ...runtimeContext.formStateStoreMap.values(),
           ].map((store) => store.waitForAll()),
           ...runtimeContext.pendingPermissionsPreCheck
         );
-        await Promise.all(output.blockingList);
+        await Promise.all(controlOutput.blockingList);
         // Ignore stale renders
         if (renderId === currentRenderId) {
           rendererContext.rerenderControlNode(
             slotId,
             key as number,
-            output.node,
+            controlOutput.node,
             returnNode
           );
         }
@@ -517,6 +519,18 @@ export async function renderBrick(
   };
 
   output.node = brick;
+
+  // 在最终挂载前，先加载所有可能用到的 processors。
+  const usedProcessors = strictCollectMemberUsage(
+    [brickConf.events, brickConf.lifeCycle],
+    "PROCESSORS",
+    2
+  );
+  if (usedProcessors.size > 0) {
+    output.blockingList.push(
+      loadProcessorsImperatively(usedProcessors, getBrickPackages())
+    );
+  }
 
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
