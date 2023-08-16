@@ -35,16 +35,16 @@ export async function main(tagOrCommit = "", flags?: Flags): Promise<void> {
 
   const modules = getModules(apiDir);
   if (selectedSdk) {
-    create(changeCase.snakeCase(selectedSdk));
+    await create(changeCase.snakeCase(selectedSdk));
   } else {
     const choices = await promptToChooseSdk(modules);
     for (const m of choices) {
-      create(m);
+      await create(m);
     }
   }
 }
 
-export function create(serviceName: string): void {
+async function create(serviceName: string): Promise<void> {
   const paramCaseSdkName = changeCase.paramCase(serviceName);
   const { usePublicScope } = getEasyopsConfig();
   const isPublicScopedSdk = PUBLIC_SCOPED_SDK.includes(paramCaseSdkName);
@@ -67,7 +67,7 @@ export function create(serviceName: string): void {
     sdkVersion = packageJson.version;
   }
   const files = loadTemplate(serviceName, sdkRoot, sdkVersion).concat(
-    loadService(serviceName).toFiles(sdkRoot)
+    await loadService(serviceName).toFiles(sdkRoot)
   );
 
   const changelogMdPath = path.join(sdkRoot, "CHANGELOG.md");

@@ -35,8 +35,8 @@
     "start": "tsc -w",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "cross-env NODE_ENV='test' test-next",
-    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
+    "test": "cross-env NODE_ENV='test' NODE_OPTIONS=--experimental-vm-modules test-next",
+    "test:ci": "cross-env NODE_ENV='test' NODE_OPTIONS=--experimental-vm-modules CI=true test-next"
   },
   "dependencies": {
     "@next-core/public-scoped-sdk": "^0.2.13",
@@ -48,7 +48,7 @@
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
     "meow": "^9.0.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.2",
     "semver": "^7.5.4",
     "tslib": "^2.6.1"
   },

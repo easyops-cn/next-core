@@ -4,13 +4,13 @@ import { loadService } from "./loadService.js";
 jest.mock("./__dirname.js");
 
 describe("loadService", () => {
-  it("should work", () => {
+  it("should work", async () => {
     const context = loadService("cd");
-    expect(context.toFiles("dist")).toMatchSnapshot();
+    expect(await context.toFiles("dist")).toMatchSnapshot();
   });
 
-  it("should work for api_gateway", () => {
+  it("should work for api_gateway", async () => {
     const context = loadService("api_gateway");
-    expect(context.toFiles("dist")).toMatchSnapshot();
+    expect(await context.toFiles("dist")).toMatchSnapshot();
   });
 });
