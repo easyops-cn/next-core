@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.6.0...@next-core/storyboard@0.6.1) (2023-08-17)
+
+**Note:** Version bump only for package @next-core/storyboard
+
+
+
+
+
 # [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.5.6...@next-core/storyboard@0.6.0) (2023-07-06)
 
 

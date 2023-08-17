@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.89.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.0...@next-core/brick-types@2.89.1) (2023-08-17)
+
+
+### Bug Fixes
+
+* theme-template snippet use context instead of data ([2de2544](https://github.com/easyops-cn/next-core/commit/2de254417e695bfe956919187a7df780db5e7e10))
+
+
+
+
+
 # [2.89.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.88.0...@next-core/brick-types@2.89.0) (2023-06-20)
 
 ### Features

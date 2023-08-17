@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.7...@next-core/brick-kit@2.178.8) (2023-08-17)
+
+
+### Bug Fixes
+
+* theme-template snippet use context instead of data ([2de2544](https://github.com/easyops-cn/next-core/commit/2de254417e695bfe956919187a7df780db5e7e10))
+
+
+
+
+
 ## [2.178.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.6...@next-core/brick-kit@2.178.7) (2023-07-27)
 
 **Note:** Version bump only for package @next-core/brick-kit
