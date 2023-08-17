@@ -429,8 +429,9 @@ export async function renderBrick(
 
   // Widgets need to be defined before rendering.
   if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
-    await catchLoadBrick(
+    await catchLoad(
       loadBricksImperatively([brickName], getBrickPackages()),
+      "brick",
       brickName,
       rendererContext.unknownBricks
     );
@@ -461,8 +462,9 @@ export async function renderBrick(
       );
     } else {
       output.blockingList.push(
-        catchLoadBrick(
+        catchLoad(
           enqueueStableLoadBricks([brickName], getBrickPackages()),
+          "brick",
           brickName,
           rendererContext.unknownBricks
         )
@@ -497,10 +499,20 @@ export async function renderBrick(
       const prefix = window.PUBLIC_ROOT ?? "";
       if (isScript) {
         const { src, ...attrs } = props;
-        await loadScript(src as string, prefix, attrs);
+        await catchLoad(
+          loadScript(src as string, prefix, attrs),
+          "script",
+          src as string,
+          "silent"
+        );
       } else {
         const { href, ...attrs } = props;
-        await loadStyle(href as string, prefix, attrs);
+        await catchLoad(
+          loadStyle(href as string, prefix, attrs),
+          "stylesheet",
+          href as string,
+          "silent"
+        );
       }
       return output;
     }
@@ -528,7 +540,12 @@ export async function renderBrick(
   );
   if (usedProcessors.size > 0) {
     output.blockingList.push(
-      loadProcessorsImperatively(usedProcessors, getBrickPackages())
+      catchLoad(
+        loadProcessorsImperatively(usedProcessors, getBrickPackages()),
+        "processors",
+        [...usedProcessors].join(", "),
+        rendererContext.unknownBricks
+      )
     );
   }
 
@@ -777,15 +794,16 @@ export function childrenToSlots(
   return newSlots;
 }
 
-function catchLoadBrick(
+function catchLoad(
   promise: Promise<unknown>,
-  brickName: string,
-  unknownBricks: RendererContext["unknownBricks"]
+  type: "brick" | "processors" | "script" | "stylesheet",
+  name: string,
+  unknownPolicy: RendererContext["unknownBricks"]
 ) {
-  return unknownBricks === "silent"
+  return unknownPolicy === "silent"
     ? promise.catch((e) => {
         // eslint-disable-next-line no-console
-        console.error(`Load brick "${brickName}" failed:`, e);
+        console.error(`Load ${type} "${name}" failed:`, e);
       })
     : promise;
 }
