@@ -1888,6 +1888,8 @@ export interface RuntimeSnippet {
     // (undocumented)
     bricks: BrickConf[];
     // (undocumented)
+    context?: ContextConf[];
+    // (undocumented)
     data?: ContextConf[];
     // (undocumented)
     params?: SnippetDeclareParams;

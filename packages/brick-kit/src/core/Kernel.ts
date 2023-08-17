@@ -512,7 +512,10 @@ export class Kernel {
         menu: false,
         exact: true,
         hybrid: app.legacy === "iframe",
-        context: parsedSnippetData.data || [],
+        context:
+          (parsedSnippetData.context?.length
+            ? parsedSnippetData.context
+            : parsedSnippetData.data) || [],
       };
       if (previewRouteIndex === -1) {
         routes.unshift(newPreviewRoute);
@@ -806,7 +809,7 @@ export class Kernel {
           );
         }
       }
-      // 每个 storyboard 仅注册一次custom-template
+      // 每个 storyboard 仅注册一次 custom-template
       storyboard.$$registerCustomTemplateProcessed = true;
     }
   }
@@ -1015,7 +1018,7 @@ export class Kernel {
       const allMagicBrickConfig = (
         await InstanceApi_postSearch("_BRICK_MAGIC", {
           page: 1,
-          // TODO(Lynette): 暂时设置3000，待后台提供全量接口
+          // TODO(Lynette): 暂时设置 3000，待后台提供全量接口
           page_size: 3000,
           fields: {
             "*": true,

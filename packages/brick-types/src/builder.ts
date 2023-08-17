@@ -79,6 +79,7 @@ export interface RuntimeSnippet {
   brick?: string;
   bricks: BrickConf[];
   data?: ContextConf[];
+  context?: ContextConf[];
   params?: SnippetDeclareParams;
 }
 
