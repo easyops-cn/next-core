@@ -1955,6 +1955,76 @@ describe("Kernel", () => {
         inputParams: { test: "hello" },
       })
     ).toThrowError("error");
+
+    const snippetData4 = {
+      snippetId: "snippet-a",
+      context: [
+        {
+          name: "test",
+          path: "",
+          value: "hello",
+        },
+      ],
+      bricks: [
+        {
+          brick: "button",
+          properties: {
+            buttonName: "234",
+          },
+        },
+      ],
+    };
+    (snippetEvaluate as jest.Mock).mockReturnValueOnce(snippetData4);
+    // Update again.
+    kernel._dev_only_updateSnippetPreviewSettings("app-b", snippetData4);
+    expect(mockStoryBoard).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "app": Object {
+            "config": Object {},
+            "homepage": "/app-a",
+            "id": "app-a",
+            "localeName": undefined,
+          },
+          "routes": Array [],
+        },
+        Object {
+          "app": Object {
+            "config": Object {},
+            "homepage": "/app-b",
+            "id": "app-b",
+            "localeName": undefined,
+          },
+          "routes": Array [
+            Object {
+              "bricks": Array [
+                Object {
+                  "brick": "button",
+                  "properties": Object {
+                    "buttonName": "234",
+                  },
+                },
+              ],
+              "context": Array [
+                Object {
+                  "name": "test",
+                  "path": "",
+                  "value": "hello",
+                },
+              ],
+              "exact": true,
+              "hybrid": false,
+              "menu": false,
+              "path": "\${APP.homepage}/_dev_only_/snippet-preview/snippet-a",
+            },
+            Object {
+              "alias": "home",
+              "path": "\${APP.homepage}",
+            },
+          ],
+        },
+      ]
+    `);
   });
 
   it("should update form preview settings", async () => {
