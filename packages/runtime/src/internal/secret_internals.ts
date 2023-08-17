@@ -5,6 +5,7 @@ import type {
   Storyboard,
   UseSingleBrickConf,
   RuntimeSnippet,
+  ContextConf,
 } from "@next-core/types";
 import {
   flushStableLoadBricks,
@@ -270,12 +271,14 @@ export function updateStoryboardBySnippet(
   snippetData: {
     snippetId: string;
     bricks?: BrickConf[];
+    context?: ContextConf[];
   }
 ): void {
   _updatePreviewSettings(
     appId,
     getSnippetPreviewPath(snippetData.snippetId),
-    snippetData.bricks?.length ? snippetData.bricks : [{ brick: "span" }]
+    snippetData.bricks?.length ? snippetData.bricks : [{ brick: "span" }],
+    snippetData.context
   );
 }
 
@@ -284,13 +287,15 @@ export const updateSnippetPreviewSettings = updateStoryboardBySnippet;
 function _updatePreviewSettings(
   appId: string,
   path: string,
-  bricks: BrickConf[]
+  bricks: BrickConf[],
+  context?: ContextConf[]
 ) {
   const { routes } = _internalApiGetStoryboardInBootstrapData(appId)!;
   const previewRouteIndex = routes.findIndex((route) => route.path === path);
   const newPreviewRoute: RouteConf = {
     path,
     bricks,
+    context,
     menu: false,
     exact: true,
   };

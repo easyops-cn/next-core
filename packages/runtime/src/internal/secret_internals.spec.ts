@@ -706,6 +706,63 @@ describe("updateStoryboard", () => {
       routes: [
         {
           path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          context: undefined,
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "div" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+
+    updateStoryboardBySnippet("hello", {
+      snippetId: "snippet-2",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+      context: [
+        {
+          name: "test",
+          value: "hello",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-2",
+          context: [
+            {
+              name: "test",
+              value: "hello",
+            },
+          ],
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "div" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          context: undefined,
           exact: true,
           menu: false,
           bricks: [{ brick: "div" }],
@@ -740,6 +797,7 @@ describe("updateStoryboard", () => {
       routes: [
         {
           path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          context: undefined,
           exact: true,
           menu: false,
           bricks: [{ brick: "span" }],

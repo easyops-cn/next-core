@@ -433,6 +433,7 @@ function updateStoryboardByRoute(appId: string, newRoute: RouteConf): void;
 function updateStoryboardBySnippet(appId: string, snippetData: {
     snippetId: string;
     bricks?: BrickConf[];
+    context?: ContextConf[];
 }): void;
 
 // @public (undocumented)
