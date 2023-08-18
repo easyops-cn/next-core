@@ -65,6 +65,9 @@ jest.mock("./Runtime.js", () => ({
   },
 }));
 
+(loadScript as jest.Mocked<typeof loadScript>).mockResolvedValue([]);
+(loadStyle as jest.Mocked<typeof loadStyle>).mockResolvedValue([]);
+
 customProcessors.define("def.rst", (input: string) => `received: ${input}`);
 
 jest.spyOn(compute, "asyncComputeRealValue");
@@ -868,7 +871,7 @@ describe("renderBrick for control nodes", () => {
       [
         {
           brick: ":forEach",
-          dataSource: "<% 'track context', CTX.list %>",
+          dataSource: "<%= CTX.list %>",
           children: [
             {
               brick: "div",
@@ -947,6 +950,137 @@ describe("renderBrick for control nodes", () => {
     unmountTree(portal);
     rendererContext.dispose();
     consoleInfo.mockReset();
+  });
+
+  test("nesting :forEach and track", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "value",
+          value: 1,
+        },
+        {
+          name: "constant",
+        },
+      ],
+      runtimeContext
+    );
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [
+        {
+          brick: "h1",
+          properties: {
+            textContent: "Hello",
+          },
+        },
+        {
+          brick: ":forEach",
+          dataSource: "<%= [CTX.constant] %>",
+          children: [
+            {
+              brick: "p",
+              properties: {
+                textContent: "prefix",
+              },
+            },
+            {
+              brick: ":forEach",
+              dataSource: "<%= [CTX.value] %>",
+              children: [
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "<% `ForEach in ForEach [${ITEM}]` %>",
+                  },
+                },
+              ],
+            },
+            {
+              brick: "p",
+              properties: {
+                textContent: "suffix",
+              },
+            },
+          ],
+        },
+        {
+          brick: "p",
+          properties: {
+            textContent: "Goodbye",
+          },
+        },
+      ],
+      runtimeContext,
+      rendererContext,
+      undefined
+    );
+    renderRoot.child = output.node;
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+    mountTree(renderRoot);
+
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <h1>
+          Hello
+        </h1>,
+        <p>
+          prefix
+        </p>,
+        <p>
+          ForEach in ForEach [1]
+        </p>,
+        <p>
+          suffix
+        </p>,
+        <p>
+          Goodbye
+        </p>,
+      ]
+    `);
+
+    ctxStore.updateValue("value", 2, "replace");
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <h1>
+          Hello
+        </h1>,
+        <p>
+          prefix
+        </p>,
+        <p>
+          ForEach in ForEach [2]
+        </p>,
+        <p>
+          suffix
+        </p>,
+        <p>
+          Goodbye
+        </p>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispose();
   });
 
   test(":if", async () => {
@@ -1381,7 +1515,7 @@ describe("renderBrick for tpl", () => {
       bricks: [
         {
           brick: ":forEach",
-          dataSource: "<% 'track state', STATE.list %>",
+          dataSource: "<%= STATE.list %>",
           children: [
             {
               brick: "div",

@@ -182,12 +182,13 @@ export async function renderBricks(
   rendererContext: RendererContext,
   slotId?: string,
   tplStack?: Map<string, number>,
-  noMemoize?: boolean
+  keyPath?: number[]
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
     menuRequests: [],
   };
+  const kPath = keyPath ?? [];
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const rendered = await Promise.all(
     bricks.map((brickConf, index) =>
@@ -197,16 +198,21 @@ export async function renderBricks(
         runtimeContext,
         rendererContext,
         slotId,
-        index,
+        kPath.concat(index),
         tplStack && new Map(tplStack)
       )
     )
   );
 
   rendered.forEach((item, index) => {
-    if (!noMemoize && item.hasTrackingControls) {
+    if (item.hasTrackingControls) {
       // Memoize a render node before it's been merged.
-      rendererContext.memoizeControlNode(slotId, index, item.node, returnNode);
+      rendererContext.memoizeControlNode(
+        slotId,
+        kPath.concat(index),
+        item.node,
+        returnNode
+      );
     }
     mergeRenderOutput(output, item);
   });
@@ -220,7 +226,7 @@ export async function renderBrick(
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId?: string,
-  key?: number,
+  keyPath: number[] = [],
   tplStack = new Map<string, number>()
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
@@ -268,7 +274,7 @@ export async function renderBrick(
       _runtimeContext,
       rendererContext,
       slotId,
-      key,
+      keyPath,
       tplStack
     );
   }
@@ -361,7 +367,8 @@ export async function renderBrick(
             runtimeContext,
             rendererContext,
             slotId,
-            tplStack
+            tplStack,
+            keyPath
           );
         }
         case ":if":
@@ -373,7 +380,7 @@ export async function renderBrick(
             rendererContext,
             slotId,
             tplStack,
-            true
+            keyPath
           );
         }
       }
@@ -400,7 +407,7 @@ export async function renderBrick(
         if (renderId === currentRenderId) {
           rendererContext.rerenderControlNode(
             slotId,
-            key as number,
+            keyPath,
             controlOutput.node,
             returnNode
           );
@@ -672,13 +679,15 @@ async function renderForEach(
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   slotId: string | undefined,
-  tplStack?: Map<string, number>
+  tplStack: Map<string, number>,
+  keyPath: number[]
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
     menuRequests: [],
   };
 
+  const rows = dataSource.length;
   const rendered = await Promise.all(
     dataSource.map((item, i) =>
       Promise.all(
@@ -692,7 +701,7 @@ async function renderForEach(
             },
             rendererContext,
             slotId,
-            i * j,
+            keyPath.concat(i * rows + j),
             tplStack && new Map(tplStack)
           )
         )
@@ -701,9 +710,19 @@ async function renderForEach(
   );
 
   // 多层构件并行异步转换，但转换的结果按原顺序串行合并。
-  for (const item of rendered.flat()) {
+  rendered.flat().forEach((item, index) => {
+    if (item.hasTrackingControls) {
+      // Memoize a render node before it's been merged.
+      rendererContext.memoizeControlNode(
+        slotId,
+        keyPath.concat(index),
+        item.node,
+        returnNode
+      );
+    }
     mergeRenderOutput(output, item);
-  }
+  });
+
   return output;
 }
 

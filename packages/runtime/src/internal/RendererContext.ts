@@ -209,14 +209,14 @@ export class RendererContext {
 
   memoizeControlNode(
     slotId: string | undefined,
-    key: number,
+    keyPath: number[],
     node: RenderBrick | undefined,
     returnNode: RenderNode
   ) {
     if (!this.#memoizedControlNodes) {
       this.#memoizedControlNodes = new WeakMap();
     }
-    const memKey = `${slotId ?? ""}.${key}`;
+    const memKey = [slotId ?? "", ...keyPath].join(".");
     let mem = this.#memoizedControlNodes.get(returnNode);
     if (!mem) {
       mem = new Map();
@@ -233,11 +233,11 @@ export class RendererContext {
 
   rerenderControlNode(
     slotId: string | undefined,
-    key: number,
+    keyPath: number[],
     node: RenderBrick | undefined,
     returnNode: RenderNode
   ) {
-    const memKey = `${slotId ?? ""}.${key}`;
+    const memKey = [slotId ?? "", ...keyPath].join(".");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const memoized = this.#memoizedControlNodes!.get(returnNode)!.get(memKey)!;
     const {
