@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.68...@next-core/react-runtime@1.1.0) (2023-08-18)
+
+
+### Features
+
+* support useRouteRender ([8a33875](https://github.com/easyops-cn/next-core/commit/8a33875fae55693aeba17c9af7d1eab23e703450))
+
+
+
+
+
 ## [1.0.68](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.67...@next-core/react-runtime@1.0.68) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/react-runtime

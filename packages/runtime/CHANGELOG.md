@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.4...@next-core/runtime@1.21.0) (2023-08-18)
+
+
+### Bug Fixes
+
+* catch load errors for scripts and stylesheets ([66c433b](https://github.com/easyops-cn/next-core/commit/66c433bbcf54863124f1212723b9a99ba6cf0aa5))
+* fix control nodes with direct children of control nodes ([dd715eb](https://github.com/easyops-cn/next-core/commit/dd715ebb088cfc6ff9702ce41f4aed676e65819d))
+
+
+### Features
+
+* support useRouteRender ([8a33875](https://github.com/easyops-cn/next-core/commit/8a33875fae55693aeba17c9af7d1eab23e703450))
+
+
+
+
+
 ## [1.20.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.3...@next-core/runtime@1.20.4) (2023-08-17)
 
 
