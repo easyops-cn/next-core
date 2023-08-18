@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.8...@next-core/brick-kit@2.178.9) (2023-08-18)
+
+
+### Bug Fixes
+
+* do not mutate event args ([26fc7ba](https://github.com/easyops-cn/next-core/commit/26fc7bac830675e6e9ddeec26ebf8515a7426b86))
+
+
+
+
+
 ## [2.178.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.7...@next-core/brick-kit@2.178.8) (2023-08-17)
 
 
