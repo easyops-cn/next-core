@@ -139,7 +139,9 @@ export class Router {
     initAbortController();
     const history = getHistory();
     this.#prevLocation = history.location;
-    history.listen((location, action) => {
+    let renderId = 0;
+    history.listen(async (location, action) => {
+      const currentRenderId = ++renderId;
       let ignoreRendering = false;
       const omittedLocationProps: Partial<NextLocation> = {
         hash: undefined,
@@ -170,10 +172,24 @@ export class Router {
         // Ignore rendering if notify is `false`.
         ignoreRendering = true;
       }
+
+      if (!ignoreRendering) {
+        ignoreRendering =
+          (await this.#rendererContext?.didPerformIncrementalRender(
+            location
+          )) ?? false;
+      }
+
+      // Ignore stale renders
+      if (renderId !== currentRenderId) {
+        return;
+      }
+
       if (ignoreRendering) {
         this.#prevLocation = location;
         return;
       }
+
       abortPendingRequest();
       this.#prevLocation = location;
       this.#rendererContext?.dispatchPageLeave();
@@ -346,7 +362,8 @@ export class Router {
           renderRoot,
           insertPreviewRoutes(storyboard.routes),
           runtimeContext,
-          rendererContext
+          rendererContext,
+          []
         );
         if (output.unauthenticated) {
           redirectToLogin();

@@ -24,14 +24,11 @@ export async function matchRoutes(
         `Invalid route with invalid type of path: ${typeof route.path}`
       );
     }
-    const routePath = route.path.replace(
-      /^\$\{APP.homepage\}/,
-      runtimeContext.app.homepage
+    const match = matchRoute(
+      route,
+      runtimeContext.app.homepage,
+      runtimeContext.location.pathname
     );
-    const match = matchPath(runtimeContext.location.pathname, {
-      path: routePath,
-      exact: route.exact,
-    });
     if (match && (await asyncCheckIf(route, runtimeContext))) {
       if (
         runtimeContext.app.noAuthGuard ||
@@ -45,4 +42,16 @@ export async function matchRoutes(
     }
   }
   return "missed";
+}
+
+export function matchRoute(
+  route: RouteConf,
+  homepage: string,
+  pathname: string
+) {
+  const routePath = route.path.replace(/^\$\{APP.homepage\}/, homepage);
+  return matchPath(pathname, {
+    path: routePath,
+    exact: route.exact,
+  });
 }

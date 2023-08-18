@@ -10,6 +10,7 @@ import type {
 } from "@next-core/types";
 import {
   enqueueStableLoadBricks,
+  flushStableLoadBricks,
   loadBricksImperatively,
   loadProcessorsImperatively,
   loadScript,
@@ -17,6 +18,7 @@ import {
 } from "@next-core/loader";
 import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
+import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { debounce } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import {
@@ -30,7 +32,7 @@ import {
   listenOnTrackingContext,
 } from "./compute/listenOnTrackingContext.js";
 import { RendererContext } from "./RendererContext.js";
-import { matchRoutes } from "./matchRoutes.js";
+import { matchRoute, matchRoutes } from "./matchRoutes.js";
 import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachItem,
@@ -62,7 +64,7 @@ import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { getPreEvaluatedRaw } from "./compute/evaluate.js";
 import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
-import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
+import { matchHomepage } from "./matchStoryboard.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -82,6 +84,7 @@ export async function renderRoutes(
   routes: RouteConf[],
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId?: string
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
@@ -153,6 +156,7 @@ export async function renderRoutes(
             route.routes,
             runtimeContext,
             rendererContext,
+            parentRoutes.concat(route),
             slotId
           );
           mergeRenderOutput(output, newOutput);
@@ -165,6 +169,7 @@ export async function renderRoutes(
             route.bricks,
             runtimeContext,
             rendererContext,
+            parentRoutes.concat(route),
             slotId
           );
           mergeRenderOutput(output, newOutput);
@@ -180,6 +185,7 @@ export async function renderBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId?: string,
   tplStack?: Map<string, number>,
   keyPath?: number[]
@@ -197,6 +203,7 @@ export async function renderBricks(
         brickConf,
         runtimeContext,
         rendererContext,
+        parentRoutes,
         slotId,
         kPath.concat(index),
         tplStack && new Map(tplStack)
@@ -207,7 +214,7 @@ export async function renderBricks(
   rendered.forEach((item, index) => {
     if (item.hasTrackingControls) {
       // Memoize a render node before it's been merged.
-      rendererContext.memoizeControlNode(
+      rendererContext.memoize(
         slotId,
         kPath.concat(index),
         item.node,
@@ -225,6 +232,7 @@ export async function renderBrick(
   brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId?: string,
   keyPath: number[] = [],
   tplStack = new Map<string, number>()
@@ -273,6 +281,7 @@ export async function renderBrick(
       },
       _runtimeContext,
       rendererContext,
+      parentRoutes,
       slotId,
       keyPath,
       tplStack
@@ -366,6 +375,7 @@ export async function renderBrick(
             bricks,
             runtimeContext,
             rendererContext,
+            parentRoutes,
             slotId,
             tplStack,
             keyPath
@@ -378,6 +388,7 @@ export async function renderBrick(
             bricks,
             runtimeContext,
             rendererContext,
+            parentRoutes,
             slotId,
             tplStack,
             keyPath
@@ -405,7 +416,7 @@ export async function renderBrick(
         await Promise.all(controlOutput.blockingList);
         // Ignore stale renders
         if (renderId === currentRenderId) {
-          rendererContext.rerenderControlNode(
+          rendererContext.rerender(
             slotId,
             keyPath,
             controlOutput.node,
@@ -610,25 +621,97 @@ export async function renderBrick(
     if (!slots) {
       return;
     }
+    const routeSlotIndexes = new Set<number>();
     const rendered = await Promise.all(
-      Object.entries(slots).map(([childSlotId, slotConf]) =>
-        slotConf.type !== "routes"
-          ? renderBricks(
-              brick,
-              (slotConf as SlotConfOfBricks).bricks,
-              childRuntimeContext,
-              rendererContext,
-              childSlotId,
-              tplStack
+      Object.entries(slots).map(([childSlotId, slotConf], index) => {
+        if (slotConf.type !== "routes") {
+          return renderBricks(
+            brick,
+            (slotConf as SlotConfOfBricks).bricks,
+            childRuntimeContext,
+            rendererContext,
+            parentRoutes,
+            childSlotId,
+            tplStack
+          );
+        }
+        routeSlotIndexes.add(index);
+
+        rendererContext.performIncrementalRender(async (location) => {
+          const { homepage } = childRuntimeContext.app;
+          const { pathname } = location;
+          // Ignore if any one of homepage and parent routes not matched.
+          if (
+            !matchHomepage(homepage, pathname) ||
+            !parentRoutes.every((route) =>
+              matchRoute(route, homepage, pathname)
             )
-          : renderRoutes(
-              brick,
-              slotConf.routes,
-              childRuntimeContext,
-              rendererContext,
-              childSlotId
-            )
-      )
+          ) {
+            return false;
+          }
+
+          // eslint-disable-next-line no-console
+          console.log("incremental rendered");
+
+          const incrementalRuntimeContext = {
+            ...childRuntimeContext,
+            location,
+            query: new URLSearchParams(location.search),
+          };
+
+          // Todo(steve): handle errors
+          const incrementalOutput = await renderRoutes(
+            brick,
+            slotConf.routes,
+            incrementalRuntimeContext,
+            rendererContext,
+            parentRoutes,
+            childSlotId
+          );
+
+          // If all sub-routes are missed, ignore incremental rendering
+          if (!incrementalOutput.route) {
+            return false;
+          }
+
+          // Todo(steve): handle redirect and unauthenticated error
+
+          flushStableLoadBricks();
+
+          // Todo(steve): dispose context.
+          const stores = [
+            incrementalRuntimeContext.ctxStore,
+            ...incrementalRuntimeContext.tplStateStoreMap.values(),
+            ...incrementalRuntimeContext.formStateStoreMap.values(),
+          ];
+
+          await Promise.all([
+            ...incrementalOutput.blockingList,
+            ...stores.map((store) => store.waitForAll()),
+            ...incrementalRuntimeContext.pendingPermissionsPreCheck,
+          ]);
+
+          // Todo(steve): handle menus.
+
+          rendererContext.rerender(
+            childSlotId,
+            [],
+            incrementalOutput.node,
+            brick
+          );
+
+          return true;
+        });
+
+        return renderRoutes(
+          brick,
+          slotConf.routes,
+          childRuntimeContext,
+          rendererContext,
+          parentRoutes,
+          childSlotId
+        );
+      })
     );
 
     const childrenOutput: RenderOutput = {
@@ -636,9 +719,13 @@ export async function renderBrick(
       node: undefined,
       blockingList: [],
     };
-    for (const item of rendered) {
+    rendered.forEach((item, index) => {
+      if (routeSlotIndexes.has(index)) {
+        // Memoize a render node before it's been merged.
+        rendererContext.memoize(slotId, [], item.node, brick);
+      }
       mergeRenderOutput(childrenOutput, item);
-    }
+    });
     if (childrenOutput.node) {
       brick.child = childrenOutput.node;
     }
@@ -678,6 +765,7 @@ async function renderForEach(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId: string | undefined,
   tplStack: Map<string, number>,
   keyPath: number[]
@@ -700,6 +788,7 @@ async function renderForEach(
               forEachItem: item,
             },
             rendererContext,
+            parentRoutes,
             slotId,
             keyPath.concat(i * rows + j),
             tplStack && new Map(tplStack)
@@ -713,7 +802,7 @@ async function renderForEach(
   rendered.flat().forEach((item, index) => {
     if (item.hasTrackingControls) {
       // Memoize a render node before it's been merged.
-      rendererContext.memoizeControlNode(
+      rendererContext.memoize(
         slotId,
         keyPath.concat(index),
         item.node,

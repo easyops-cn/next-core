@@ -4,10 +4,10 @@ import type {
   MessageConf,
   ScrollIntoViewConf,
 } from "@next-core/types";
-import type { Action } from "history";
+import type { Action, Location } from "history";
 import { isEmpty, remove } from "lodash";
 import { listenerFactory } from "./bindListeners.js";
-import { NextLocation, getHistory } from "../history.js";
+import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type { RenderBrick, RenderNode, RenderRoot } from "./interfaces.js";
@@ -22,6 +22,10 @@ type MemoizedLifeCycle<T> = {
     handlers: T[Key];
   }[];
 };
+
+type LocationChangeCallback = (
+  location: Location<NextHistoryState>
+) => Promise<boolean>;
 
 const commonLifeCycles = [
   "onMount",
@@ -96,7 +100,7 @@ export class RendererContext {
 
   #arbitraryLifeCycle = new Map<string, Set<() => void>>();
 
-  #memoizedControlNodes?: WeakMap<
+  #memoized?: WeakMap<
     RenderNode,
     Map<
       string,
@@ -108,6 +112,23 @@ export class RendererContext {
       }
     >
   >;
+
+  #locationChangeCallbacks: LocationChangeCallback[] = [];
+
+  async didPerformIncrementalRender(location: Location<NextHistoryState>) {
+    const results = await Promise.all(
+      this.#locationChangeCallbacks.map((callback) => callback(location))
+    );
+    return results.some((result) => result);
+  }
+
+  /**
+   * When `callback` resolved to `true` which means incremental rendering is performed,
+   * ignore normal rendering.
+   */
+  performIncrementalRender(callback: LocationChangeCallback) {
+    this.#locationChangeCallbacks.push(callback);
+  }
 
   registerBrickLifeCycle(
     brick: RenderBrick,
@@ -207,20 +228,20 @@ export class RendererContext {
     }
   }
 
-  memoizeControlNode(
+  memoize(
     slotId: string | undefined,
     keyPath: number[],
     node: RenderBrick | undefined,
     returnNode: RenderNode
   ) {
-    if (!this.#memoizedControlNodes) {
-      this.#memoizedControlNodes = new WeakMap();
+    if (!this.#memoized) {
+      this.#memoized = new WeakMap();
     }
     const memKey = [slotId ?? "", ...keyPath].join(".");
-    let mem = this.#memoizedControlNodes.get(returnNode);
+    let mem = this.#memoized.get(returnNode);
     if (!mem) {
       mem = new Map();
-      this.#memoizedControlNodes.set(returnNode, mem);
+      this.#memoized.set(returnNode, mem);
     }
 
     mem.set(memKey, {
@@ -231,7 +252,7 @@ export class RendererContext {
     });
   }
 
-  rerenderControlNode(
+  rerender(
     slotId: string | undefined,
     keyPath: number[],
     node: RenderBrick | undefined,
@@ -239,7 +260,7 @@ export class RendererContext {
   ) {
     const memKey = [slotId ?? "", ...keyPath].join(".");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const memoized = this.#memoizedControlNodes!.get(returnNode)!.get(memKey)!;
+    const memoized = this.#memoized!.get(returnNode)!.get(memKey)!;
     const {
       node: prevNode,
       last: prevLast,
@@ -347,8 +368,9 @@ export class RendererContext {
       mediaEventTarget.removeEventListener("change", this.#mediaListener);
       this.#mediaListener = undefined;
     }
-    this.#memoizedControlNodes = undefined;
+    this.#memoized = undefined;
     this.#arbitraryLifeCycle.clear();
+    this.#locationChangeCallbacks.length = 0;
   }
 
   // Note: no `onScrollIntoView` and `onMessage`

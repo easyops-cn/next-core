@@ -17,17 +17,19 @@ export function matchStoryboard(
   for (const storyboard of sortedStoryboards) {
     const homepage = storyboard.app.homepage;
     if (typeof homepage === "string" && homepage[0] === "/") {
-      if (
-        homepage === "/"
-          ? pathname === homepage
-          : `${pathname.replace(/\/+$/, "")}/`.startsWith(
-              `${homepage.replace(/\/+$/, "")}/`
-            )
-      ) {
+      if (matchHomepage(homepage, pathname)) {
         return storyboard;
       }
     }
   }
+}
+
+export function matchHomepage(homepage: string, pathname: string) {
+  return homepage === "/"
+    ? pathname === homepage
+    : `${pathname.replace(/\/+$/, "")}/`.startsWith(
+        `${homepage.replace(/\/+$/, "")}/`
+      );
 }
 
 /**

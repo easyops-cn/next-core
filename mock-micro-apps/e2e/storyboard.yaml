@@ -403,3 +403,71 @@ routes:
           args:
           - value
           - <% 3 - CTX.value %>
+
+- path: '${APP.homepage}/sub-routes'
+  bricks:
+  - brick: div
+    children:
+    - brick: h1
+      properties:
+        textContent: <% `Hello [${Math.random()}]` %>
+  - brick: button
+    properties:
+      textContent: Go sub route 1
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes/1
+  - brick: button
+    properties:
+      textContent: Go sub route 2
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes/2
+  - brick: button
+    properties:
+      textContent: Go sub route 3
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes/3
+  - brick: button
+    properties:
+      textContent: Go other route
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/other-route
+  - brick: div
+    slots:
+      '':
+        type: routes
+        routes:
+        - path: ${APP.homepage}/sub-routes/1
+          bricks:
+          - brick: div
+            properties:
+              textContent: Sub Route 1
+        - path: ${APP.homepage}/sub-routes/2
+          context:
+          - name: v
+          bricks:
+          - brick: div
+            properties:
+              textContent: Sub Route 2
+        - path: ${APP.homepage}/other-route
+          bricks:
+          - brick: div
+            properties:
+              textContent: Fake Other Route
+
+- path: '${APP.homepage}/other-route'
+  bricks:
+  - brick: div
+    properties:
+      textContent: Real Other Route

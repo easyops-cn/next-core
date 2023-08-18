@@ -141,7 +141,8 @@ export function unstable_createRoot(
           renderRoot,
           bricks,
           runtimeContext,
-          rendererContext
+          rendererContext,
+          []
         );
 
         flushStableLoadBricks();

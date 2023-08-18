@@ -94,7 +94,8 @@ export async function renderUseBrick(
           },
         },
     runtimeContext,
-    rendererContext
+    rendererContext,
+    []
   );
 
   flushStableLoadBricks();
