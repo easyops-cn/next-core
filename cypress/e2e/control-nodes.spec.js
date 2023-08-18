@@ -1,4 +1,3 @@
-/* global expect */
 /// <reference types="Cypress" />
 
 for (const port of Cypress.env("ports")) {
@@ -146,6 +145,52 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Toggle").click();
       cy.contains("Data:7");
       cy.expectMainContents(["Toggle", "Data:7"]);
+    });
+
+    it("should render :if with direct child of :if", () => {
+      cy.visit(`${origin}/e2e/control-nodes/6`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+        },
+      });
+
+      cy.contains("If in If <false>");
+      cy.expectMainContents([
+        ["Hello", "prefix", "If in If <false>", "suffix", "Toggle"].join(""),
+      ]);
+
+      cy.get("@console.error").should("not.be.called");
+
+      cy.contains("Toggle").click();
+      cy.contains("If in If <true>");
+      cy.expectMainContents([
+        ["Hello", "prefix", "If in If <true>", "suffix", "Toggle"].join(""),
+      ]);
+    });
+
+    it("should render :forEach with direct child of :forEach", () => {
+      cy.visit(`${origin}/e2e/control-nodes/7`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+        },
+      });
+
+      cy.contains("ForEach in ForEach <1>");
+      cy.expectMainContents([
+        ["Hello", "prefix", "ForEach in ForEach <1>", "suffix", "Toggle"].join(
+          ""
+        ),
+      ]);
+
+      cy.get("@console.error").should("not.be.called");
+
+      cy.contains("Toggle").click();
+      cy.contains("ForEach in ForEach <2>");
+      cy.expectMainContents([
+        ["Hello", "prefix", "ForEach in ForEach <2>", "suffix", "Toggle"].join(
+          ""
+        ),
+      ]);
     });
   });
 }
