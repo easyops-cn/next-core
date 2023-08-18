@@ -6,6 +6,7 @@ import type {
 } from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
+import EventTarget from "@ungap/event-target";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
 import { asyncCheckIf } from "../compute/checkIf.js";
 import {
