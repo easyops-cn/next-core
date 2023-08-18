@@ -225,6 +225,8 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
+    const renderStartTime = performance.now();
+
     const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
     const previousApp = this.#runtimeContext?.app;
@@ -430,6 +432,15 @@ export class Router {
           rendererContext.initializeMediaChange();
           rendererContext.initializeMessageDispatcher();
         }
+
+        const renderTime = performance.now() - renderStartTime;
+        window.dispatchEvent(
+          new CustomEvent("route.render", {
+            detail: {
+              renderTime,
+            },
+          })
+        );
 
         return;
       }
