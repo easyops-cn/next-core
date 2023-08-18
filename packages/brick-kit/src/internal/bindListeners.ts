@@ -1102,8 +1102,7 @@ function builtinMessageListenerFactory(
       content: contentNode,
       className: `ant-message-notice-${method}`,
     } as ArgsProps;
-    processArg[0] = argProp;
-    message[method](...processArg);
+    message[method](argProp, ...(processArg.slice(1) as any[]));
   } as EventListener;
 }
 
