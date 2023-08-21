@@ -291,6 +291,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   }
 
   async waitForAll(): Promise<void> {
+    // Silent each pending contexts, since the error is handled by batched `pendingResult`
+    for (const { pendingContexts } of this.pendingStack) {
+      for (const p of pendingContexts.values()) {
+        p.catch(() => {
+          /* No-op */
+        });
+      }
+    }
     for (const { pendingResult } of this.pendingStack) {
       await pendingResult;
     }
@@ -304,6 +312,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   mountAsyncData(route?: RouteConf) {
     this.data.forEach((item) => {
       if (item.async && (!route || this.routeMap.get(route)?.has(item.name))) {
+        // istanbul ignore next
         if (item.asyncMounted) {
           // eslint-disable-next-line no-console
           console.error(

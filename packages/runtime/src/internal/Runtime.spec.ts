@@ -3,6 +3,10 @@ import { createProviderClass } from "@next-core/utils/general";
 import { loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
 import {
+  HttpResponseError as _HttpResponseError,
+  HttpAbortError as _HttpAbortError,
+} from "@next-core/http";
+import {
   createRuntime as _createRuntime,
   getRuntime as _getRuntime,
   _internalApiGetRenderId as __internalApiGetRenderId,
@@ -124,6 +128,7 @@ const getBootstrapData = (options?: {
           menu: {
             breadcrumb: { items: [{ text: "0" }] },
           },
+          context: [{ name: "subParent" }],
           bricks: [
             {
               brick: "h1",
@@ -142,6 +147,7 @@ const getBootstrapData = (options?: {
                       menu: {
                         breadcrumb: { items: [{ text: "1" }] },
                       },
+                      context: [{ name: "subA" }],
                       bricks: [
                         {
                           brick: "p",
@@ -156,6 +162,7 @@ const getBootstrapData = (options?: {
                       menu: {
                         breadcrumb: { items: [{ text: "2" }] },
                       },
+                      context: [{ name: "subA" }],
                       bricks: [
                         {
                           brick: "p",
@@ -186,6 +193,20 @@ const getBootstrapData = (options?: {
                       },
                       type: "redirect",
                       redirect: "${APP.homepage}/sub-routes/2",
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/5",
+                      menu: {
+                        breadcrumb: { items: [{ text: "5" }], overwrite: true },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 5",
+                          },
+                        },
+                      ],
                     },
                   ],
                 },
@@ -227,6 +248,47 @@ const getBootstrapData = (options?: {
         homepage: "/app-b",
         name: "App B",
       },
+      routes: [
+        {
+          path: "${APP.homepage}",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}/fail",
+          exact: true,
+          bricks: null!,
+        },
+        {
+          path: "${APP.homepage}/unauthenticated",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: { useProvider: "my-unauthenticated-provider" },
+            },
+          ],
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}/aborted",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: { useProvider: "my-abort-provider" },
+            },
+          ],
+          bricks: [],
+        },
+      ],
+    },
+    {
+      app: {
+        id: "auth",
+        homepage: "/auth",
+        name: "Auth",
+      },
       routes: [],
     },
   ],
@@ -265,11 +327,25 @@ customElements.define(
   createProviderClass(myTimeoutProvider)
 );
 
+const myUnauthenticatedProvider = jest.fn<() => Promise<unknown>>();
+customElements.define(
+  "my-unauthenticated-provider",
+  createProviderClass(myUnauthenticatedProvider)
+);
+
+const myAbortProvider = jest.fn<() => Promise<unknown>>();
+customElements.define(
+  "my-abort-provider",
+  createProviderClass(myAbortProvider)
+);
+
 describe("Runtime", () => {
   let createRuntime: typeof _createRuntime;
   let getRuntime: typeof _getRuntime;
   let getHistory: typeof _getHistory;
   let _internalApiGetRenderId: typeof __internalApiGetRenderId;
+  let HttpResponseError: typeof _HttpResponseError;
+  let HttpAbortError: typeof _HttpAbortError;
 
   beforeEach(() => {
     window.NO_AUTH_GUARD = true;
@@ -287,6 +363,10 @@ describe("Runtime", () => {
       const r = require("./Runtime.js");
       createRuntime = r.createRuntime;
       getRuntime = r.getRuntime;
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const p = require("@next-core/http");
+      HttpResponseError = p.HttpResponseError;
+      HttpAbortError = p.HttpAbortError;
       _internalApiGetRenderId = r._internalApiGetRenderId;
     });
   });
@@ -570,6 +650,31 @@ describe("Runtime", () => {
       breadcrumb: [{ text: "0" }, { text: "2" }],
     });
 
+    getHistory().push("/app-a/sub-routes/5");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 5
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "5" }],
+    });
+
     getHistory().push("/app-a/1");
     await (global as any).flushPromises();
     expect(document.body.children).toMatchInlineSnapshot(`
@@ -589,7 +694,7 @@ describe("Runtime", () => {
 
     getHistory().push("/app-a/sub-routes/1");
     await (global as any).flushPromises();
-    getHistory().push("/app-a/sub-routes/5");
+    getHistory().push("/app-a/sub-routes/6");
     await (global as any).flushPromises();
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
@@ -597,7 +702,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [5]
+            Hello [6]
           </h1>
           <div />
         </div>,
@@ -609,6 +714,121 @@ describe("Runtime", () => {
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "0" }],
     });
+  });
+
+  test("unauthenticated", async () => {
+    window.NO_AUTH_GUARD = false;
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return false;
+          },
+          getAuth() {
+            return {};
+          },
+        },
+      },
+    }).initialize(getBootstrapData());
+    getHistory().push("/app-b/");
+    await getRuntime().bootstrap();
+    expect(getHistory().location.pathname).toBe("/auth/login");
+  });
+
+  test("no app matched", async () => {
+    window.NO_AUTH_GUARD = false;
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return false;
+          },
+          getAuth() {
+            return {};
+          },
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "sso-auth",
+            homepage: "/sso-auth",
+            name: "SSO Auth",
+          },
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "sso-enabled": true,
+        },
+      },
+    });
+    getHistory().push("/app-unknown/");
+    await getRuntime().bootstrap();
+    expect(getHistory().location.pathname).toBe("/sso-auth/login");
+  });
+
+  test("failed", async () => {
+    consoleError.mockReturnValueOnce();
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/fail");
+    await getRuntime().bootstrap();
+    expect(consoleError).toBeCalledTimes(1);
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            TypeError: Cannot read properties of null (reading 'map')
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+  });
+
+  test("API unauthenticated", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    myUnauthenticatedProvider.mockRejectedValueOnce(error);
+    window.NO_AUTH_GUARD = false;
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/unauthenticated");
+    await getRuntime().bootstrap();
+    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(getHistory().location.pathname).toBe("/auth/login");
+  });
+
+  test("API aborted", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpAbortError("aborted");
+    myAbortProvider.mockRejectedValueOnce(error);
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/aborted");
+    await getRuntime().bootstrap();
+    expect(myAbortProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        />,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
   });
 
   test("page not found", async () => {

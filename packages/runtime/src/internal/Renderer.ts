@@ -703,7 +703,7 @@ export async function renderBrick(
                 return false;
               }
 
-              // Bailout if redirect of unauthenticated is set
+              // Bailout if redirect or unauthenticated is set
               if (rendererContext.reBailout(incrementalOutput)) {
                 return true;
               }
