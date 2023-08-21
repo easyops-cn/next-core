@@ -34,6 +34,7 @@ const getBootstrapData = (options?: {
           settings: {
             featureFlags: {
               ["some-app-feature"]: true,
+              ["incremental-sub-route-rendering"]: true,
             },
             misc: {
               staff: "cool",
@@ -117,6 +118,80 @@ const getBootstrapData = (options?: {
           type: "redirect",
           exact: true,
           redirect: "${APP.homepage}/r1",
+        },
+        {
+          path: "${APP.homepage}/sub-routes/:sub",
+          menu: {
+            breadcrumb: { items: [{ text: "0" }] },
+          },
+          bricks: [
+            {
+              brick: "h1",
+              properties: {
+                textContent: "<% `Hello [${PATH.sub}]` %>",
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes/1",
+                      menu: {
+                        breadcrumb: { items: [{ text: "1" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 1",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/2",
+                      menu: {
+                        breadcrumb: { items: [{ text: "2" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 2",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/3",
+                      menu: {
+                        breadcrumb: { items: [{ text: "3" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "<% Sub 3 %>",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/4",
+                      menu: {
+                        breadcrumb: { items: [{ text: "4" }] },
+                      },
+                      type: "redirect",
+                      redirect: "${APP.homepage}/sub-routes/2",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
         },
       ],
       meta: {
@@ -252,6 +327,7 @@ describe("Runtime", () => {
     expect(getRuntime().getCurrentApp()).toMatchObject({ id: "app-a" });
     expect(getRuntime().hasInstalledApp("app-b")).toBe(true);
     expect(getRuntime().getFeatureFlags()).toEqual({
+      "incremental-sub-route-rendering": true,
       "migrate-to-brick-next-v3": true,
       "some-app-feature": true,
       "some-global-feature": true,
@@ -389,6 +465,152 @@ describe("Runtime", () => {
     `);
   });
 
+  test("incremental sub-router rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes/1");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 1
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }, { text: "1" }],
+    });
+
+    getHistory().push("/app-a/sub-routes/2");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 2
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }, { text: "2" }],
+    });
+
+    consoleError.mockReturnValueOnce();
+    getHistory().push("/app-a/sub-routes/3");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <div>
+              SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }],
+    });
+
+    getHistory().push("/app-a/sub-routes/4");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 2
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }, { text: "2" }],
+    });
+
+    getHistory().push("/app-a/1");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            I'm page 1 of App A
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+
+    getHistory().push("/app-a/sub-routes/1");
+    await (global as any).flushPromises();
+    getHistory().push("/app-a/sub-routes/5");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [5]
+          </h1>
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }],
+    });
+  });
+
   test("page not found", async () => {
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/not-found");
@@ -409,7 +631,7 @@ describe("Runtime", () => {
     `);
   });
 
-  test.only("infinite redirect", async () => {
+  test("infinite redirect", async () => {
     consoleError.mockReturnValueOnce();
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-a/r1");

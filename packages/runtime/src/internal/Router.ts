@@ -422,6 +422,7 @@ export class Router {
         await postAsyncRender(output, runtimeContext, stores);
 
         await routeHelper.mergeMenus(output.menuRequests);
+        rendererContext.setInitialMenuRequests(output.menuRequests);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);

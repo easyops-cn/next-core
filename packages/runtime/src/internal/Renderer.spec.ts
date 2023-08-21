@@ -354,6 +354,89 @@ describe("renderRoutes", () => {
     expect(ctxStore.getValue("objectId")).toBe("HOST");
   });
 
+  test("sub-routes in brick", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      location: {
+        pathname: "/home/HOST/list",
+      },
+      app: {
+        homepage: "/home",
+        noAuthGuard: true,
+      },
+      pendingPermissionsPreCheck: [] as undefined[],
+      flags: {},
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const brick = { brick: "div" };
+    const subRoute: RouteConf = {
+      path: "${APP.homepage}/:objectId/list",
+      exact: true,
+      bricks: [brick],
+    };
+    const route: RouteConf = {
+      path: "${APP.homepage}/:objectId",
+      exact: false,
+      context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
+      bricks: [
+        {
+          brick: "div",
+          slots: {
+            "": {
+              type: "routes",
+              routes: [subRoute],
+            },
+          },
+        },
+      ],
+    };
+    const output = await renderRoutes(
+      renderRoot,
+      [route],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [undefined, undefined],
+      route: subRoute,
+      node: expect.objectContaining({
+        tag: RenderTag.BRICK,
+        return: renderRoot,
+        type: "div",
+      }),
+    });
+    expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(4);
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      1,
+      route,
+      expect.any(Function)
+    );
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      2,
+      route.bricks[0],
+      expect.any(Function)
+    );
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      3,
+      subRoute,
+      expect.any(Function)
+    );
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      4,
+      brick,
+      expect.any(Function)
+    );
+    expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(4);
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("objectId")).toBe("HOST");
+  });
+
   test("missed", async () => {
     const runtimeContext = {
       location: {

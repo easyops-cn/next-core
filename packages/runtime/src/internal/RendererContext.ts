@@ -133,32 +133,38 @@ export class RendererContext {
       }
     >
   >;
-  #allMenuRequests: Promise<StaticMenuConf>[] = [];
-  #memoizedMenuRequestMap = new WeakMap<RouteConf, Promise<StaticMenuConf>>();
+  #allMenuRequests?: Promise<StaticMenuConf>[];
+  #memoizedMenuRequestMap?: WeakMap<RouteConf, Promise<StaticMenuConf>>;
 
-  memoizeMenuRequest(
-    routePath: RouteConf[],
+  setInitialMenuRequests(menuRequests: Promise<StaticMenuConf>[]) {
+    this.#allMenuRequests = menuRequests;
+  }
+
+  memoizeMenuRequests(
+    route: RouteConf,
     menuRequests: Promise<StaticMenuConf>[]
   ) {
-    if (menuRequests.length > 0) {
-      for (const route of routePath) {
-        this.#memoizedMenuRequestMap.set(route, menuRequests[0]);
-      }
+    if (!this.#memoizedMenuRequestMap) {
+      this.#memoizedMenuRequestMap = new WeakMap();
     }
+    this.#memoizedMenuRequestMap.set(route, menuRequests[0]);
   }
 
   async reMergeMenuRequests(
     routes: RouteConf[],
+    currentRoute: RouteConf | undefined,
     menuRequests: Promise<StaticMenuConf>[]
   ) {
     let previousMenuRequest: Promise<StaticMenuConf> | undefined;
+    let previousRoute: RouteConf | undefined;
     for (const route of routes) {
-      previousMenuRequest = this.#memoizedMenuRequestMap.get(route);
+      previousMenuRequest = this.#memoizedMenuRequestMap!.get(route);
       if (previousMenuRequest) {
+        previousRoute = route;
         break;
       }
     }
-    const mergedMenuRequests = this.#allMenuRequests;
+    const mergedMenuRequests = this.#allMenuRequests!;
     const previousIndex = previousMenuRequest
       ? mergedMenuRequests.indexOf(previousMenuRequest)
       : -1;
@@ -173,6 +179,9 @@ export class RendererContext {
         mergedMenuRequests.length - previousIndex,
         ...menuRequests
       );
+    }
+    if (previousRoute && previousRoute !== currentRoute) {
+      this.#memoizedMenuRequestMap!.delete(previousRoute);
     }
     await this.#routeHelper!.mergeMenus(mergedMenuRequests);
   }
@@ -441,6 +450,8 @@ export class RendererContext {
       this.#mediaListener = undefined;
     }
     this.#memoized = undefined;
+    this.#allMenuRequests = undefined;
+    this.#memoizedMenuRequestMap = undefined;
     this.#arbitraryLifeCycle.clear();
     this.#locationChangeCallbacks.length = 0;
   }

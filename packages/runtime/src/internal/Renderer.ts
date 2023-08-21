@@ -186,7 +186,7 @@ export async function renderRoutes(
         }
 
         if (returnNode.tag === RenderTag.BRICK) {
-          rendererContext.memoizeMenuRequest(routePath, output.menuRequests);
+          rendererContext.memoizeMenuRequests(route, output.menuRequests);
         }
       }
     }
@@ -716,6 +716,7 @@ export async function renderBrick(
 
               await rendererContext.reMergeMenuRequests(
                 slotConf.routes,
+                incrementalOutput.route,
                 incrementalOutput.menuRequests
               );
             } catch (error) {
@@ -727,6 +728,13 @@ export async function renderBrick(
                 return true;
               }
               ({ failed, output: incrementalOutput } = result);
+
+              // Assert: no errors will be throw
+              await rendererContext.reMergeMenuRequests(
+                slotConf.routes,
+                incrementalOutput.route,
+                incrementalOutput.menuRequests
+              );
             }
 
             rendererContext.reRender(
@@ -764,6 +772,7 @@ export async function renderBrick(
       ...output,
       node: undefined,
       blockingList: [],
+      menuRequests: [],
     };
     rendered.forEach((item, index) => {
       if (routeSlotIndexes.has(index)) {
