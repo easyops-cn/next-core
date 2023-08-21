@@ -8,8 +8,12 @@ import type {
   Storyboard,
   StoryboardFunction,
 } from "@next-core/types";
-import { flushStableLoadBricks } from "@next-core/loader";
-import { RenderOutput, renderBricks } from "./internal/Renderer.js";
+import {
+  RenderOutput,
+  getDataStores,
+  postAsyncRender,
+  renderBricks,
+} from "./internal/Renderer.js";
 import { RendererContext } from "./internal/RendererContext.js";
 import { DataStore } from "./internal/data/DataStore.js";
 import type { RenderRoot, RuntimeContext } from "./internal/interfaces.js";
@@ -145,19 +149,8 @@ export function unstable_createRoot(
           []
         );
 
-        flushStableLoadBricks();
-
-        stores = [
-          runtimeContext.ctxStore,
-          ...runtimeContext.tplStateStoreMap.values(),
-          ...runtimeContext.formStateStoreMap.values(),
-        ];
-
-        await Promise.all([
-          ...output.blockingList,
-          ...stores.map((store) => store.waitForAll()),
-          ...runtimeContext.pendingPermissionsPreCheck,
-        ]);
+        stores = getDataStores(runtimeContext);
+        await postAsyncRender(output, runtimeContext, stores);
       } catch (error) {
         failed = true;
         output = {
@@ -201,7 +194,7 @@ export function unstable_createRoot(
 
       if (!failed) {
         for (const store of stores) {
-          store.handleAsyncAfterMount();
+          store.mountAsyncData();
         }
 
         if (scope === "page") {

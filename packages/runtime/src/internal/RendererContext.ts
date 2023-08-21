@@ -2,7 +2,9 @@ import type {
   BrickEventHandler,
   BrickLifeCycle,
   MessageConf,
+  RouteConf,
   ScrollIntoViewConf,
+  StaticMenuConf,
 } from "@next-core/types";
 import type { Action, Location } from "history";
 import { isEmpty, remove } from "lodash";
@@ -15,6 +17,7 @@ import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { unbindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
 import { hooks } from "./Runtime.js";
+import type { RenderOutput } from "./Renderer.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -47,6 +50,21 @@ const pageOnlyLifeCycles = [
 
 export interface RendererContextOptions {
   unknownBricks?: "silent" | "throw";
+  routeHelper?: RouteHelper;
+}
+
+export interface RouteHelper {
+  bailout: (output: RenderOutput) => true | undefined;
+  mergeMenus: (menuRequests: Promise<StaticMenuConf>[]) => Promise<void>;
+  catch: (
+    error: unknown,
+    returnNode: RenderNode
+  ) =>
+    | undefined
+    | {
+        failed: true;
+        output: RenderOutput;
+      };
 }
 
 export class RendererContext {
@@ -58,9 +76,12 @@ export class RendererContext {
 
   public readonly unknownBricks: "silent" | "throw";
 
+  #routeHelper: RouteHelper | undefined;
+
   constructor(scope: "page" | "fragment", options?: RendererContextOptions) {
     this.scope = scope;
     this.unknownBricks = options?.unknownBricks ?? "throw";
+    this.#routeHelper = options?.routeHelper;
   }
 
   #memoizedLifeCycle: MemoizedLifeCycle<
@@ -112,6 +133,57 @@ export class RendererContext {
       }
     >
   >;
+  #allMenuRequests: Promise<StaticMenuConf>[] = [];
+  #memoizedMenuRequestMap = new WeakMap<RouteConf, Promise<StaticMenuConf>>();
+
+  memoizeMenuRequest(
+    routePath: RouteConf[],
+    menuRequests: Promise<StaticMenuConf>[]
+  ) {
+    if (menuRequests.length > 0) {
+      for (const route of routePath) {
+        this.#memoizedMenuRequestMap.set(route, menuRequests[0]);
+      }
+    }
+  }
+
+  async reMergeMenuRequests(
+    routes: RouteConf[],
+    menuRequests: Promise<StaticMenuConf>[]
+  ) {
+    let previousMenuRequest: Promise<StaticMenuConf> | undefined;
+    for (const route of routes) {
+      previousMenuRequest = this.#memoizedMenuRequestMap.get(route);
+      if (previousMenuRequest) {
+        break;
+      }
+    }
+    const mergedMenuRequests = this.#allMenuRequests;
+    const previousIndex = previousMenuRequest
+      ? mergedMenuRequests.indexOf(previousMenuRequest)
+      : -1;
+    if (previousIndex === -1) {
+      if (!menuRequests.length) {
+        return;
+      }
+      mergedMenuRequests.push(...menuRequests);
+    } else {
+      mergedMenuRequests.splice(
+        previousIndex,
+        mergedMenuRequests.length - previousIndex,
+        ...menuRequests
+      );
+    }
+    await this.#routeHelper!.mergeMenus(mergedMenuRequests);
+  }
+
+  reBailout(output: RenderOutput) {
+    return this.#routeHelper!.bailout(output);
+  }
+
+  reCatch(error: unknown, returnNode: RenderNode) {
+    return this.#routeHelper!.catch(error, returnNode);
+  }
 
   #locationChangeCallbacks: LocationChangeCallback[] = [];
 
@@ -252,7 +324,7 @@ export class RendererContext {
     });
   }
 
-  rerender(
+  reRender(
     slotId: string | undefined,
     keyPath: number[],
     node: RenderBrick | undefined,

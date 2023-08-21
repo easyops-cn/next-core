@@ -3,6 +3,7 @@ import type {
   BrickEventHandlerCallback,
   ContextConf,
   ContextResolveTriggerBrickLifeCycle,
+  RouteConf,
 } from "@next-core/types";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
@@ -36,12 +37,14 @@ const supportContextResolveTriggerBrickLifeCycle = [
 export type DataStoreType = "CTX" | "STATE" | "FORM_STATE";
 
 export interface DataStoreItem {
+  name: string;
   value: unknown;
   eventTarget: EventTarget;
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
   async?: boolean;
+  asyncMounted?: boolean;
   deps: string[];
 }
 
@@ -55,6 +58,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   public batchUpdate = false;
   public batchUpdateContextsNames: string[] = [];
   private readonly rendererContext?: RendererContext;
+  private routeMap = new WeakMap<RouteConf, Set<string>>();
 
   // 把 `rendererContext` 放在参数列表的最后，并作为可选，以减少测试文件的调整
   constructor(
@@ -250,13 +254,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   define(
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
-    asyncHostPropertyEntries?: AsyncPropertyEntry[]
+    asyncHostPropertyEntries?: AsyncPropertyEntry[],
+    routePath?: RouteConf[]
   ): void {
     if (Array.isArray(dataConfs) && dataConfs.length > 0) {
       const pending = resolveDataStore(
         dataConfs,
         (dataConf: ContextConf) =>
-          this.resolve(dataConf, runtimeContext, asyncHostPropertyEntries),
+          this.resolve(
+            dataConf,
+            runtimeContext,
+            asyncHostPropertyEntries,
+            routePath
+          ),
         this.type
       );
       this.pendingStack.push(pending);
@@ -286,10 +296,22 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
-  /** After mount, dispatch the change event when an async data is loaded */
-  handleAsyncAfterMount() {
+  /**
+   * After mount, dispatch the change event when an async data is loaded.
+   *
+   * If param `route` is present, handle data defined in that route (or its descendants) only.
+   */
+  mountAsyncData(route?: RouteConf) {
     this.data.forEach((item) => {
-      if (item.async) {
+      if (item.async && (!route || this.routeMap.get(route)?.has(item.name))) {
+        if (item.asyncMounted) {
+          // eslint-disable-next-line no-console
+          console.error(
+            `Async data "${item.name}" already mounted. This is a bug of Brick Next, please report it.`
+          );
+          return;
+        }
+        item.asyncMounted = true;
         // An async data always has `loading`
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         item.loading!.then((value) => {
@@ -308,7 +330,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private async resolve(
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
-    asyncHostPropertyEntries?: AsyncPropertyEntry[]
+    asyncHostPropertyEntries?: AsyncPropertyEntry[],
+    routePath?: RouteConf[]
   ): Promise<boolean> {
     if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
@@ -365,6 +388,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
 
     const newData: DataStoreItem = {
+      name: dataConf.name,
       value,
       // This is required for tracking context, even if no `onChange` is specified.
       eventTarget: new EventTarget(),
@@ -426,7 +450,29 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
     this.data.set(dataConf.name, newData);
 
+    if (Array.isArray(routePath)) {
+      for (const route of routePath) {
+        const names = this.routeMap.get(route);
+        if (names) {
+          names.add(dataConf.name);
+        } else {
+          this.routeMap.set(route, new Set([dataConf.name]));
+        }
+      }
+    }
+
     return true;
+  }
+
+  disposeDataInRoutes(routes: RouteConf[]) {
+    for (const route of routes) {
+      const names = this.routeMap.get(route);
+      if (names !== undefined) {
+        for (const name of names) {
+          this.data.delete(name);
+        }
+      }
+    }
   }
 
   private batchAddListener(

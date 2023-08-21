@@ -40,6 +40,7 @@ Cypress.Commands.add("logout", (origin) => {
 Cypress.Commands.add("expectMainContents", (contents) => {
   cy.get("#main-mount-point > *").then((elements) => {
     const received = elements.map((i, el) => el.textContent).get();
+    expect(received.join(", ")).to.equal(contents.join(", "));
     expect(received).to.deep.equal(contents);
   });
 });

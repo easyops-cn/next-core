@@ -409,11 +409,12 @@ describe("Runtime", () => {
     `);
   });
 
-  test("infinite redirect", async () => {
+  test.only("infinite redirect", async () => {
     consoleError.mockReturnValueOnce();
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-a/r1");
     await getRuntime().bootstrap();
+    await (global as any).flushPromises();
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div

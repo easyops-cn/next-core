@@ -4,6 +4,10 @@ app:
   homepage: /e2e
   noAuthGuard: true
   standaloneMode: true
+  userConfig:
+    settings:
+      featureFlags:
+        incremental-sub-route-rendering: true
 meta:
   customTemplates:
 
@@ -105,6 +109,22 @@ meta:
         data: [2]
         useBrick:
           brick: tpl-c
+
+  - name: tpl-x
+    state:
+    - name: x
+      resolve:
+        useProvider: e2e.return-by-timeout
+        args:
+        - 100
+        - <% STATE.i %>
+        async: true
+    - name: i
+    bricks:
+    - brick: div
+      properties:
+        textContent: |
+          <%= `[i: ${STATE.i}] x: ${STATE.x}` %>
 
 routes:
 
@@ -404,40 +424,29 @@ routes:
           - value
           - <% 3 - CTX.value %>
 
-- path: '${APP.homepage}/sub-routes'
+# Sub-routes incremental rendering
+- path: '${APP.homepage}/sub-routes/:sub'
   bricks:
-  - brick: div
+  - brick: h1
+    properties:
+      textContent: <% `Hello [${PATH.sub}]` %>
+  - brick: tpl-x
+    properties:
+      i: 0
+  - brick: :forEach
+    dataSource: [1, 2, 3, 4, 5]
     children:
-    - brick: h1
+    - brick: button
       properties:
-        textContent: <% `Hello [${Math.random()}]` %>
+        textContent: <% `Go ${ITEM}` %>
+      events:
+        click:
+          action: history.push
+          args:
+          - <% `${APP.homepage}/sub-routes/${ITEM}` %>
   - brick: button
     properties:
-      textContent: Go sub route 1
-    events:
-      click:
-        action: history.push
-        args:
-        - ${APP.homepage}/sub-routes/1
-  - brick: button
-    properties:
-      textContent: Go sub route 2
-    events:
-      click:
-        action: history.push
-        args:
-        - ${APP.homepage}/sub-routes/2
-  - brick: button
-    properties:
-      textContent: Go sub route 3
-    events:
-      click:
-        action: history.push
-        args:
-        - ${APP.homepage}/sub-routes/3
-  - brick: button
-    properties:
-      textContent: Go other route
+      textContent: Go other
     events:
       click:
         action: history.push
@@ -449,17 +458,56 @@ routes:
         type: routes
         routes:
         - path: ${APP.homepage}/sub-routes/1
+          context:
+          - name: v
+            resolve:
+              useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - 1
+              async: true
           bricks:
           - brick: div
             properties:
-              textContent: Sub Route 1
+              textContent: |
+                <%= `Sub Route 1 [${CTX.v}]` %>
+          - brick: tpl-x
+            properties:
+              i: 1
         - path: ${APP.homepage}/sub-routes/2
           context:
           - name: v
+            resolve:
+              useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - 2
+              async: true
           bricks:
           - brick: div
             properties:
-              textContent: Sub Route 2
+              textContent: |
+                <%= `Sub Route 2 [${CTX.v}]` %>
+          - brick: tpl-x
+            properties:
+              i: 2
+        - path: ${APP.homepage}/sub-routes/3
+          context:
+          - name: v
+            resolve:
+              useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - 3
+          bricks: []
+        - path: ${APP.homepage}/sub-routes/4
+          bricks:
+          - brick: div
+            properties:
+              t: <% CTX. %>
+        - path: ${APP.homepage}/sub-routes/5
+          type: redirect
+          redirect: ${APP.homepage}/sub-routes/2
         - path: ${APP.homepage}/other-route
           bricks:
           - brick: div

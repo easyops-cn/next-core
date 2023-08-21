@@ -144,7 +144,8 @@ describe("renderRoutes", () => {
       renderRoot,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -198,7 +199,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -234,7 +236,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -271,7 +274,7 @@ describe("renderRoutes", () => {
       },
     };
     await expect(
-      renderRoutes(null!, [route], runtimeContext, rendererContext)
+      renderRoutes(null!, [route], runtimeContext, rendererContext, [])
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unexpected type of redirect result: undefined]`
     );
@@ -317,7 +320,8 @@ describe("renderRoutes", () => {
       renderRoot,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -369,7 +373,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -395,7 +400,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -405,7 +411,7 @@ describe("renderRoutes", () => {
   });
 
   test("empty routes", async () => {
-    const output = await renderRoutes(null!, [], null!, null!);
+    const output = await renderRoutes(null!, [], null!, null!, []);
     expect(output).toEqual({
       blockingList: [],
       menuRequests: [],
@@ -550,7 +556,8 @@ describe("renderBrick", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output.blockingList.length).toBe(3);
     expect(output.menuRequests.length).toBe(0);
@@ -708,7 +715,8 @@ describe("renderBrick", () => {
         if: false,
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -722,7 +730,7 @@ describe("renderBrick", () => {
     const brick: any = {
       template: "legacy-template",
     };
-    const output = await renderBrick(null!, brick, null!, null!);
+    const output = await renderBrick(null!, brick, null!, null!, []);
     expect(output).toEqual({
       blockingList: [],
       menuRequests: [],
@@ -739,7 +747,7 @@ describe("renderBrick", () => {
     const brick: any = {
       foo: "bar",
     };
-    const output = await renderBrick(null!, brick, null!, null!);
+    const output = await renderBrick(null!, brick, null!, null!, []);
     expect(output).toEqual({
       blockingList: [],
       menuRequests: [],
@@ -788,7 +796,8 @@ describe("renderBrick for control nodes", () => {
           ],
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
       renderBrick(
         renderRoot,
@@ -806,7 +815,8 @@ describe("renderBrick for control nodes", () => {
           ],
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
     ]);
     expect(output1).toEqual({
@@ -913,7 +923,7 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      undefined
+      []
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1028,7 +1038,7 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      undefined
+      []
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1136,7 +1146,8 @@ describe("renderBrick for control nodes", () => {
           slots,
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
       renderBrick(
         renderRoot,
@@ -1146,7 +1157,8 @@ describe("renderBrick for control nodes", () => {
           slots,
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
       renderBrick(
         renderRoot,
@@ -1158,7 +1170,8 @@ describe("renderBrick for control nodes", () => {
           },
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
     ]);
     expect(output1).toEqual({
@@ -1245,7 +1258,8 @@ describe("renderBrick for control nodes", () => {
         ],
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -1281,7 +1295,8 @@ describe("renderBrick for control nodes", () => {
           children: [{ brick: "div" }],
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       )
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unknown storyboard control node: ":unknown"]`
@@ -1422,7 +1437,8 @@ describe("renderBrick for tpl", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
     const { tplStateStoreId } = output.node!.tplHostMetadata!;
@@ -1577,7 +1593,7 @@ describe("renderBrick for tpl", () => {
       [{ brick: "my.tpl-b" }],
       runtimeContext,
       rendererContext,
-      undefined
+      []
     );
     renderRoot.child = output.node;
     await Promise.all([
@@ -1784,7 +1800,8 @@ describe("renderBrick for tpl", () => {
         ],
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
 
@@ -1900,7 +1917,8 @@ describe("renderBrick for form renderer", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
 
@@ -2049,7 +2067,8 @@ describe("renderBrick for form renderer", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
 
@@ -2102,7 +2121,8 @@ describe("renderBrick for scripts", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({ blockingList: [], menuRequests: [] });
     expect(loadScript).toBeCalledTimes(1);
@@ -2130,7 +2150,8 @@ describe("renderBrick for scripts", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -2167,7 +2188,8 @@ describe("renderBrick for stylesheets", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({ blockingList: [], menuRequests: [] });
     expect(loadStyle).toBeCalledTimes(1);
@@ -2196,7 +2218,8 @@ describe("renderBrick for stylesheets", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
