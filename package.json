@@ -54,7 +54,7 @@
     "@types/node": "^16.18.41",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
     "babel-jest": "^29.6.3",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
