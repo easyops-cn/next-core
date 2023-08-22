@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.0...@next-core/runtime@1.21.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* handle menus when incremental rendering ([2ab9341](https://github.com/easyops-cn/next-core/commit/2ab93413d7f04514b75605f115b72c092ca74296))
+* incremental rendering for sub-routes in brick ([9e6f490](https://github.com/easyops-cn/next-core/commit/9e6f490c038729887c6aa08bf2e7d3c90693961b))
+* refine incremental rendering ([68fe1cd](https://github.com/easyops-cn/next-core/commit/68fe1cd97a941793618a52e779127873c5d53a41))
+* use EventTarget polyfill ([336cb90](https://github.com/easyops-cn/next-core/commit/336cb90485dd0c12ed8dad10600ad3f84101351e))
+
+
+
+
+
 # [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.4...@next-core/runtime@1.21.0) (2023-08-18)
 
 
