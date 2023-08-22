@@ -7,10 +7,7 @@ import type {
   RuntimeSnippet,
   ContextConf,
 } from "@next-core/types";
-import {
-  flushStableLoadBricks,
-  loadBricksImperatively,
-} from "@next-core/loader";
+import { loadBricksImperatively } from "@next-core/loader";
 import { pick } from "lodash";
 import {
   _internalApiGetRenderId,
@@ -18,7 +15,11 @@ import {
   _internalApiGetStoryboardInBootstrapData,
   getBrickPackages,
 } from "./Runtime.js";
-import { renderBrick } from "./Renderer.js";
+import {
+  createScopedRuntimeContext,
+  postAsyncRender,
+  renderBrick,
+} from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
 import type {
@@ -26,7 +27,6 @@ import type {
   PreviewOption,
   PreviewStoryboardPatch,
   RenderRoot,
-  RuntimeContext,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -49,18 +49,15 @@ export async function renderUseBrick(
   useBrick: UseSingleBrickConf,
   data: unknown
 ): Promise<RenderUseBrickResult> {
-  const tplStateStoreScope: DataStore<"STATE">[] = [];
-  const formStateStoreScope: DataStore<"FORM_STATE">[] = [];
-  const runtimeContext: RuntimeContext = {
-    ..._internalApiGetRuntimeContext()!,
-    data,
-    pendingPermissionsPreCheck: [],
-    tplStateStoreScope,
-    formStateStoreScope,
-  };
+  const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
+    createScopedRuntimeContext({
+      ..._internalApiGetRuntimeContext()!,
+      data,
+      pendingPermissionsPreCheck: [],
+    });
 
-  runtimeContext.tplStateStoreMap ??= new Map();
-  runtimeContext.formStateStoreMap ??= new Map();
+  scopedRuntimeContext.tplStateStoreMap ??= new Map();
+  scopedRuntimeContext.formStateStoreMap ??= new Map();
 
   const rendererContext = new RendererContext("fragment");
 
@@ -93,23 +90,14 @@ export async function renderUseBrick(
             ...transform,
           },
         },
-    runtimeContext,
-    rendererContext
+    scopedRuntimeContext,
+    rendererContext,
+    []
   );
 
-  flushStableLoadBricks();
+  const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
 
-  const scopedStores: DataStore<"STATE" | "FORM_STATE">[] = [
-    ...tplStateStoreScope,
-    ...formStateStoreScope,
-  ];
-
-  await Promise.all([
-    ...output.blockingList,
-    // Wait for local tpl state stores belong to current `useBrick` only.
-    ...scopedStores.map((store) => store.waitForAll()),
-    ...runtimeContext.pendingPermissionsPreCheck,
-  ]);
+  await postAsyncRender(output, scopedRuntimeContext, scopedStores);
 
   if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
@@ -142,14 +130,14 @@ export function mountUseBrick(
 
   mountTree(renderRoot, element);
 
-  for (const store of scopedStores) {
-    store.handleAsyncAfterMount();
-  }
-
   rendererContext.dispatchOnMount();
   rendererContext.initializeScrollIntoView();
   rendererContext.initializeMediaChange();
   rendererContext.initializeMessageDispatcher();
+
+  for (const store of scopedStores) {
+    store.mountAsyncData();
+  }
 
   return {
     portal,

@@ -34,6 +34,7 @@ import type { RuntimeSnippet } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
+import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';

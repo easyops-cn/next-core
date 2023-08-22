@@ -11,25 +11,28 @@ export function matchStoryboard(
   // This enables two apps with relationship of parent-child of homepage.
   const sortedStoryboards = orderBy(
     storyboards,
-    (storyboard) => storyboard.app?.homepage?.length ?? 0,
+    (storyboard) => storyboard.app.homepage?.length ?? 0,
     "desc"
   );
   for (const storyboard of sortedStoryboards) {
     const homepage = storyboard.app.homepage;
     if (typeof homepage === "string" && homepage[0] === "/") {
-      if (
-        homepage === "/"
-          ? pathname === homepage
-          : `${pathname.replace(/\/+$/, "")}/`.startsWith(
-              `${homepage.replace(/\/+$/, "")}/`
-            )
-      ) {
+      if (matchHomepage(homepage, pathname)) {
         return storyboard;
       }
     }
   }
 }
 
+export function matchHomepage(homepage: string, pathname: string) {
+  return homepage === "/"
+    ? pathname === homepage
+    : `${pathname.replace(/\/+$/, "")}/`.startsWith(
+        `${homepage.replace(/\/+$/, "")}/`
+      );
+}
+
+// istanbul ignore next
 /**
  * We say it's an outside app when at least one of the below conditions are true:
  *   - target app is not found.

@@ -439,7 +439,7 @@ describe("DataStore", () => {
     expect(ctxStore.getValue("asyncValue")).toBe("async initial");
     expect(myTimeoutProvider).toBeCalledTimes(1);
 
-    ctxStore.handleAsyncAfterMount();
+    ctxStore.mountAsyncData();
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
