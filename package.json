@@ -67,7 +67,7 @@
     "jest-environment-jsdom": "^29.6.2",
     "jest-websocket-mock": "^2.4.1",
     "lerna": "^6.6.2",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.2",
     "rimraf": "^3.0.2",
     "ts-jest-resolver": "^2.0.1",
