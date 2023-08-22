@@ -1,6 +1,6 @@
 {
   "name": "@next-core/yo",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Generator for next v3",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/yo",
   "license": "GPL-3.0",

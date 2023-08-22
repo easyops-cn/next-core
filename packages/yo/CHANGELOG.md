@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.5...@next-core/yo@1.4.6) (2023-08-22)
+
+
+### Bug Fixes
+
+* fix exports for shared libs ([9cdeac1](https://github.com/easyops-cn/next-core/commit/9cdeac1a383c8e9a4d7a2e30f14ad9d5158eb55d))
+
+
+
+
+
 ## [1.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.4...@next-core/yo@1.4.5) (2023-08-03)
 
 **Note:** Version bump only for package @next-core/yo
