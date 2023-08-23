@@ -11,6 +11,92 @@ app:
 meta:
   customTemplates:
 
+  # 正确示例
+  - name: tpl-dynamic-table
+    state:
+    - name: fields
+    - name: data
+    - name: useBrick
+    bricks:
+    - brick: e2e.simple-table
+      properties:
+        data: <%= STATE.data %>
+        columns: |
+          <%~
+            'track state',
+            STATE.fields.map((field) => ({
+              dataIndex: field,
+              useBrick: STATE.useBrick
+            }))
+          %>
+
+  - name: tpl-use-brick-in-expr
+    state:
+    - name: fields
+    - name: data
+    - name: test
+      value: Test
+    bricks:
+    - brick: tpl-dynamic-table
+      properties:
+        fields: <%= STATE.fields %>
+        data: <%= STATE.data %>
+        useBrick:
+          brick: span
+          properties:
+            textContent: '<%= `${STATE.test}: ${DATA}` %>'
+          events:
+            click:
+            - action: tpl.dispatchEvent
+              args:
+              - something
+              - detail: happened
+            - useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - C
+              callback:
+                success:
+                  action: state.update
+                  args:
+                  - test
+                  - New Test
+
+  # 错误示例
+  - name: tpl-use-brick-in-expr-wrong
+    state:
+    - name: fields
+    - name: data
+    - name: test
+      value: Test
+    bricks:
+    - brick: e2e.simple-table
+      properties:
+        data: <%= STATE.data %>
+        columns: |
+          <%~
+            'track state',
+            STATE.fields.map((field) => ({
+              dataIndex: field,
+              useBrick: {
+                brick: 'span',
+                properties: {
+                  // Error: Using "STATE" outside of a custom template
+                  textContent: '<% `${STATE.test}: ${DATA}` %>'
+                },
+                events: {
+                  click: {
+                    action: 'tpl.dispatchEvent',
+                    args: [
+                      'something',
+                      { detail: 'happened' }
+                    ]
+                  }
+                }
+              }
+            }))
+          %>
+
   - name: tpl-a
     state:
     - name: x
@@ -185,8 +271,24 @@ routes:
   bricks:
   - brick: tpl-c
 
-# Nested `useBrick` and tpl can access the template refs.
 - path: '${APP.homepage}/use-brick/3'
+  bricks:
+  - brick: tpl-use-brick-in-expr
+    properties:
+      fields:
+      - name
+      - age
+      data:
+      - name: Tom
+        age: 15
+      - name: Jim
+        age: 14
+    events:
+      something:
+        action: console.log
+
+# Nested `useBrick` and tpl can access the template refs.
+- path: '${APP.homepage}/use-brick/4'
   bricks:
   - brick: tpl-d
 
