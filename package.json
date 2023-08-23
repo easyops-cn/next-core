@@ -46,13 +46,13 @@
     "@types/fs-extra": "^9.0.13",
     "@types/history": "^4.7.11",
     "@types/inquirer": "^7.3.3",
-    "@types/jest": "^29.5.3",
+    "@types/jest": "^29.5.4",
     "@types/js-yaml": "^3.12.7",
     "@types/klaw-sync": "^6.0.1",
     "@types/lodash": "^4.14.197",
     "@types/meow": "^5.0.0",
-    "@types/node": "^16.18.42",
-    "@types/react": "^18.2.20",
+    "@types/node": "^16.18.43",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "babel-jest": "^29.6.3",
@@ -80,7 +80,7 @@
   "resolutions": {
     "@babel/parser": "^7.22.10",
     "@babel/runtime": "^7.22.10",
-    "@types/react": "^18.2.20",
+    "@types/react": "^18.2.21",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
   }
