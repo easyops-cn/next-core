@@ -46,6 +46,76 @@ def get_snippets_from_stories(stories_content):
     return ret_snippets
 
 
+def get_v3_story(br):
+    story_id = br.get("name", "")
+    if not story_id:
+        return
+    story = { "storyId": story_id, "v3Brick": True, "type": "brick" }
+    desc = br.get("description")
+    if type(desc) != dict:
+        desc = {"en": desc, "zh": desc}
+    story["description"] = desc
+
+    text = br.get("text")
+    if not text:
+        text = desc
+    story["text"] = text
+
+    story["category"] = br.get("category", "other")
+    story["alias"] = br.get("alias", [])
+    story["icon"] = br.get("icon")
+
+    doc = br.get("doc", {})
+    properties = br.get("properties")
+    events = br.get("events")
+    slots = br.get("slots")
+    methods = br.get("methods")
+    parts = br.get("parts")
+    if "id" not in doc:
+        doc["id"] = story_id
+    if "name" not in doc:
+        doc["name"] = story_id
+    if "docKink" not in doc:
+        doc["docKink"] = "brick"
+    if "description" not in doc:
+        doc["description"] = desc
+    if "properties" not in doc:
+        doc["properties"] = properties
+    if "events" not in doc:
+        doc["events"] = events
+    if "methods" not in doc:
+        doc["methods"] = methods
+    if "parts" not in doc:
+        doc["parts"] = parts
+    # TODO: interface in doc
+    story["doc"] = doc
+
+    # TODO: conf
+
+    return story
+
+
+def collect_stories(install_path):
+    stories_path = os.path.join(install_path, "dist", "stories.json")
+    manifest_path = os.path.join(install_path, "dist", "manifest.json")
+    # v2 brick
+    if os.path.exists(stories_path):
+        with open(stories_path) as stories_file:
+            stories_content = simplejson.load(stories_file)
+            return stories_content
+    # v3 brick
+    elif os.path.exists(manifest_path):
+        with open(manifest_path) as manifest_file:
+            manifest_content = simplejson.load(manifest_file)
+            stories_content = []
+            for br in manifest_content.get("bricks", []):
+                story = get_v3_story(br)
+                if story:
+                    stories_content.append(story)
+            return stories_content
+    return []
+
+
 def collect(install_path):
     if not os.path.exists(install_path):
         raise Exception("could not find install path {}".format(install_path))
@@ -60,10 +130,7 @@ def collect(install_path):
     stories_path = os.path.join(install_path, "dist", "stories.json")
     with open(bricks_path) as bricks_file:
         bricks_content = simplejson.load(bricks_file)
-    stories_content = []
-    if os.path.exists(stories_path):
-        with open(stories_path) as stories_file:
-            stories_content = simplejson.load(stories_file)
+    stories_content = collect_stories(install_path)
     snippets_from_stories = get_snippets_from_stories(stories_content)
     snippets_path = os.path.join(install_path, "dist", "snippets.json")
     snippets_content = {"snippets": []}
@@ -237,3 +304,4 @@ if __name__ == "__main__":
         report_nt(org, install_path)
     else:
         sys.exit(0)
+
