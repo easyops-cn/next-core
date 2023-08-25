@@ -20,7 +20,6 @@ export interface HttpResponse<T = unknown> {
   status: number;
   statusText: string;
   headers: Headers;
-  config: HttpRequestConfig;
 }
 
 export interface HttpError {
@@ -137,7 +136,6 @@ const request = async <T>(
     }
 
     const res: HttpResponse<T> = {
-      config,
       status: response.status,
       statusText: response.statusText,
       headers: response.headers,
@@ -214,11 +212,13 @@ const simpleRequest = <T = unknown>(
 ): Promise<HttpResponse<T>> => {
   const {
     params,
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     responseType,
     interceptorParams,
     observe,
     noAbortOnRouteChange,
     useCache,
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     ...requestInit
   } = config.options || {};
   return request<T>(
@@ -239,12 +239,14 @@ const requestWithBody = <T = unknown>(
 ): Promise<HttpResponse<T>> => {
   const {
     params,
+    headers,
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     responseType,
     interceptorParams,
     observe,
     noAbortOnRouteChange,
     useCache,
-    headers,
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     ...requestInit
   } = config.options || {};
   return request<T>(
@@ -273,7 +275,7 @@ const defaultAdapter: HttpAdapter = <T>(config: HttpRequestConfig) => {
 class Http {
   public readonly interceptors: {
     request: InterceptorManager<HttpRequestConfig>;
-    response: InterceptorManager<HttpResponse>;
+    response: InterceptorManager<HttpResponse, HttpRequestConfig>;
   };
 
   #adapter: HttpAdapter = defaultAdapter;
@@ -331,12 +333,15 @@ class Http {
     chain.push((config: HttpRequestConfig) => this.#adapter(config), undefined);
 
     this.interceptors.response.forEach((interceptor) => {
-      chain.push(interceptor.fulfilled, interceptor.rejected);
+      chain.push(
+        (res: HttpResponse) => interceptor.fulfilled?.(res, config),
+        (error: HttpError) => interceptor.rejected?.(error, config)
+      );
     });
 
     chain.push(
       (response: HttpResponse) => {
-        return response.config.options?.observe === "response"
+        return config.options?.observe === "response"
           ? response
           : response.data;
       },
