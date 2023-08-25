@@ -1,6 +1,6 @@
 // istanbul ignore file
 import { createRuntime, httpErrorToString } from "@next-core/runtime";
-import { http, HttpError, HttpResponse } from "@next-core/http";
+import { HttpRequestConfig, http } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
 import {
   flowApi,
@@ -19,9 +19,7 @@ import { getSpanId } from "./utils.js";
 import { listen } from "./preview/listen.js";
 
 http.interceptors.request.use((config) => {
-  if (!config.options?.interceptorParams?.ignoreLoadingBar) {
-    window.dispatchEvent(new Event("request.start"));
-  }
+  dispatchRequestEventByConfig("request.start", config);
 
   const headers = new Headers(config.options?.headers || {});
 
@@ -50,15 +48,21 @@ http.interceptors.request.use((config) => {
 });
 
 http.interceptors.response.use(
-  function (response: HttpResponse) {
-    window.dispatchEvent(new Event("request.end"));
+  function (response, config) {
+    dispatchRequestEventByConfig("request.end", config);
     return response;
   },
-  function (error: HttpError) {
-    window.dispatchEvent(new Event("request.end"));
+  function (error, config) {
+    dispatchRequestEventByConfig("request.end", config);
     return Promise.reject(error);
   }
 );
+
+function dispatchRequestEventByConfig(type: string, config: HttpRequestConfig) {
+  if (!config.options?.interceptorParams?.ignoreLoadingBar) {
+    window.dispatchEvent(new Event(type));
+  }
+}
 
 const loadingBar = document.querySelector("#global-loading-bar")!;
 loadingBar.classList.add("rendered");
