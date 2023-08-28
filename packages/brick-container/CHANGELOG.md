@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.20...@next-core/brick-container@3.5.21) (2023-08-28)
+
+
+### Bug Fixes
+
+* ignore loading bar accordingly ([51b68bf](https://github.com/easyops-cn/next-core/commit/51b68bfe4dfe28f563ac55d5e9a4b9616aea41b4))
+
+
+
+
+
 ## [3.5.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.19...@next-core/brick-container@3.5.20) (2023-08-25)
 
 
