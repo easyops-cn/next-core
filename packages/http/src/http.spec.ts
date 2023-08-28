@@ -25,9 +25,24 @@ type TestItem =
   return "<URLSearchParams> " + this.toString();
 };
 
+const requestInterceptor = jest.fn((conf) => conf);
+const responseInterceptor = jest.fn((response) => response);
+const responseRejectInterceptor = jest.fn((error) => Promise.reject(error));
+
 describe("http", () => {
-  afterEach(() => {
-    spyOnFetch.mockClear();
+  let requestInterceptorId: number;
+  let responseInterceptorId: number;
+  beforeAll(() => {
+    requestInterceptorId = http.interceptors.request.use(requestInterceptor);
+    responseInterceptorId = http.interceptors.response.use(
+      responseInterceptor,
+      responseRejectInterceptor
+    );
+  });
+
+  afterAll(() => {
+    http.interceptors.request.eject(requestInterceptorId);
+    http.interceptors.response.eject(responseInterceptorId);
   });
 
   const formData = new FormData();
@@ -127,6 +142,27 @@ describe("http", () => {
     });
 
     expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
+    expect(requestInterceptor).toBeCalledTimes(1);
+    expect(responseInterceptor).toBeCalledTimes(1);
+    expect(responseRejectInterceptor).not.toBeCalled();
+    expect(requestInterceptor).toBeCalledWith({
+      url: "http://example.com/for-good",
+      method: "GET",
+      options: {},
+    });
+    expect(responseInterceptor).toBeCalledWith(
+      {
+        status: 200,
+        statusText: "",
+        data: {},
+        headers: expect.any(Headers),
+      },
+      {
+        url: "http://example.com/for-good",
+        method: "GET",
+        options: {},
+      }
+    );
   });
 
   it("should work with getUrlWithParams", () => {
@@ -209,11 +245,19 @@ describe("http", () => {
 
   it("should throw a HttpParseError", async () => {
     __setReturnValue(Promise.resolve(new Response("non-json")));
-    expect.assertions(1);
+    expect.assertions(4);
     try {
       await http.get("http://example.com");
     } catch (e) {
       expect(e).toBeInstanceOf(HttpParseError);
+      expect(responseInterceptor).not.toBeCalled();
+      expect(responseRejectInterceptor).toBeCalledTimes(1);
+      expect(responseRejectInterceptor).toBeCalledWith(
+        e,
+        expect.objectContaining({
+          url: "http://example.com",
+        })
+      );
     }
   });
 
