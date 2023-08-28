@@ -350,6 +350,12 @@ export class Router {
             this.#rendererContextTrashCan.add(prevRendererContext);
             return;
           } else {
+            const noAuthGuardLoginPath =
+              getRuntime().getMiscSettings().noAuthGuardLoginPath;
+            if (noAuthGuardLoginPath) {
+              history.replace(noAuthGuardLoginPath);
+              return;
+            }
             return {
               failed: true,
               output: {
