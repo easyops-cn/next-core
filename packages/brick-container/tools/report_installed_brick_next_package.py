@@ -87,6 +87,8 @@ def get_v3_story(br):
         doc["methods"] = methods
     if "parts" not in doc:
         doc["parts"] = parts
+    if "slots" not in doc:
+        doc["slots"] = slots
     # TODO: interface in doc
     story["doc"] = doc
 
