@@ -1,6 +1,6 @@
 {
   "name": "@next-bricks/e2e",
-  "version": "0.2.23",
+  "version": "0.2.24",
   "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/bricks/e2e",
   "repository": {
@@ -45,7 +45,7 @@
     "react": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.13.4",
+    "@next-core/build-next-bricks": "^1.13.5",
     "@next-core/test-next": "^1.0.8"
   }
 }

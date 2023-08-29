@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.4...@next-core/build-next-bricks@1.13.5) (2023-08-29)
+
+
+### Bug Fixes
+
+* enable css nesting rules ([89af02b](https://github.com/easyops-cn/next-core/commit/89af02b1727037f25b562898fea2f509ebdd4719))
+
+
+
+
+
 ## [1.13.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.3...@next-core/build-next-bricks@1.13.4) (2023-08-01)
 
 
