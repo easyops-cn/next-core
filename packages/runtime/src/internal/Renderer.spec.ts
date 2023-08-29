@@ -1054,7 +1054,24 @@ describe("renderBrick for control nodes", () => {
 
     unmountTree(container);
     unmountTree(portal);
+    rendererContext.dispatchOnUnmount();
     rendererContext.dispose();
+
+    expect(consoleInfo).toBeCalledTimes(12);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      10,
+      "onUnmount",
+      "unmount",
+      "a"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      11,
+      "onUnmount",
+      "unmount",
+      "c"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(12, ":forEach unmount");
+
     consoleInfo.mockReset();
   });
 
