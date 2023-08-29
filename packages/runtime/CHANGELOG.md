@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.0...@next-core/runtime@1.22.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* dispatch onUnmount for control nodes when root unmount ([81627a2](https://github.com/easyops-cn/next-core/commit/81627a25cd4116ba8579a8dadfb41bf2c91ab080))
+
+
+
+
+
 # [1.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.2...@next-core/runtime@1.22.0) (2023-08-29)
 
 
