@@ -353,7 +353,7 @@ export class Router {
             const noAuthGuardLoginPath =
               getRuntime().getMiscSettings().noAuthGuardLoginPath;
             if (isUnauthenticatedError(error) && noAuthGuardLoginPath) {
-              history.replace(noAuthGuardLoginPath);
+              redirectTo(noAuthGuardLoginPath as string, { from: location });
               return;
             }
             return {
