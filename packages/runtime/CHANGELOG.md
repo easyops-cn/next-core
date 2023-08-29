@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.1...@next-core/runtime@1.22.2) (2023-08-29)
+
+
+### Bug Fixes
+
+* 增加自定义登陆页跳转逻辑 refs EASYCORE-1757 ([4cf1ff5](https://github.com/easyops-cn/next-core/commit/4cf1ff54ae760e507a35512a7b8807ad54e87d1a))
+
+
+
+
+
 ## [1.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.0...@next-core/runtime@1.22.1) (2023-08-29)
 
 
