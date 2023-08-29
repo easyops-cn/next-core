@@ -1002,6 +1002,16 @@ describe("renderBrick for control nodes", () => {
               portal: true,
             },
           ],
+          lifeCycle: {
+            onMount: {
+              action: "console.info",
+              args: [":forEach mount", "<% EVENT.detail.rerender %>"],
+            },
+            onUnmount: {
+              action: "console.info",
+              args: [":forEach unmount"],
+            },
+          },
         },
       ],
       runtimeContext,
@@ -1014,9 +1024,10 @@ describe("renderBrick for control nodes", () => {
     expect(consoleInfo).not.toBeCalled();
     rendererContext.dispatchOnMount();
     rendererContext.initializeScrollIntoView();
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledTimes(3);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, ":forEach mount", false);
 
     expect(container.innerHTML).toBe("<div>a</div><div>b</div>");
     expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:b</p>");
@@ -1025,15 +1036,17 @@ describe("renderBrick for control nodes", () => {
     expect(container.innerHTML).toBe('<div title="mark">a</div><div>b</div>');
 
     ctxStore.updateValue("list", ["a", "c"], "replace");
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledTimes(3);
     // Wait for `_.debounce()`
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(consoleInfo).toBeCalledTimes(6);
-    expect(consoleInfo).toHaveBeenNthCalledWith(3, "onUnmount", "unmount", "a");
-    expect(consoleInfo).toHaveBeenNthCalledWith(4, "onUnmount", "unmount", "b");
-    expect(consoleInfo).toHaveBeenNthCalledWith(5, "onMount", "mount", "a");
-    expect(consoleInfo).toHaveBeenNthCalledWith(6, "onMount", "mount", "c");
+    expect(consoleInfo).toBeCalledTimes(9);
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, ":forEach unmount");
+    expect(consoleInfo).toHaveBeenNthCalledWith(5, "onUnmount", "unmount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(6, "onUnmount", "unmount", "b");
+    expect(consoleInfo).toHaveBeenNthCalledWith(7, "onMount", "mount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(8, "onMount", "mount", "c");
+    expect(consoleInfo).toHaveBeenNthCalledWith(9, ":forEach mount", true);
 
     // Note: previous `title="mark"` is removed
     expect(container.innerHTML).toBe("<div>a</div><div>c</div>");

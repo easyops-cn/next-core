@@ -393,6 +393,8 @@ routes:
   - name: value
     value: 1
   - name: constant
+  - name: messages
+    value: []
   bricks:
   - brick: div
     children:
@@ -407,6 +409,23 @@ routes:
           textContent: prefix
       - brick: :forEach
         dataSource: <%= [CTX.value] %>
+        lifeCycle:
+          onMount:
+            action: context.replace
+            args:
+            - messages
+            - |
+              <%
+                CTX.messages.concat(`[forEach mount] ${EVENT.detail.rerender} ${CTX.value}`)
+              %>
+          onUnmount:
+            action: context.replace
+            args:
+            - messages
+            - |
+              <%
+                CTX.messages.concat(`[forEach unmount] ${CTX.value}`)
+              %>
         children:
         - brick: p
           properties:
@@ -423,6 +442,9 @@ routes:
           args:
           - value
           - <% 3 - CTX.value %>
+  - brick: p
+    properties:
+      textContent: <%= CTX.messages.join(", ") %>
 
 # Sub-routes incremental rendering
 - path: '${APP.homepage}/sub-routes/:sub'

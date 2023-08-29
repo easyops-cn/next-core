@@ -180,6 +180,7 @@ for (const port of Cypress.env("ports")) {
         ["Hello", "prefix", "ForEach in ForEach <1>", "suffix", "Toggle"].join(
           ""
         ),
+        "[forEach mount] false 1",
       ]);
 
       cy.get("@console.error").should("not.be.called");
@@ -190,6 +191,7 @@ for (const port of Cypress.env("ports")) {
         ["Hello", "prefix", "ForEach in ForEach <2>", "suffix", "Toggle"].join(
           ""
         ),
+        "[forEach mount] false 1, [forEach unmount] 2, [forEach mount] true 2",
       ]);
     });
   });
