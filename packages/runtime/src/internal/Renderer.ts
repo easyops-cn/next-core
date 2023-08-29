@@ -440,7 +440,7 @@ export async function renderBrick(
             listenerFactory(
               onUnmount,
               runtimeContext
-            )(new CustomEvent("unmount"));
+            )(new CustomEvent("unmount", { detail: { rerender: true } }));
           }
 
           rendererContext.reRender(
@@ -486,6 +486,15 @@ export async function renderBrick(
           onMount,
           runtimeContext
         )(new CustomEvent("mount", { detail: { rerender: false } }));
+      });
+    }
+
+    if (onUnmount) {
+      rendererContext.registerArbitraryLifeCycle("onUnmount", () => {
+        listenerFactory(
+          onUnmount,
+          runtimeContext
+        )(new CustomEvent("unmount", { detail: { rerender: false } }));
       });
     }
 
