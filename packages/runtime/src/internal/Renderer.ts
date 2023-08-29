@@ -66,6 +66,7 @@ import { getPreEvaluatedRaw } from "./compute/evaluate.js";
 import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
 import { matchHomepage } from "./matchStoryboard.js";
 import type { DataStore, DataStoreType } from "./data/DataStore.js";
+import { listenerFactory } from "./bindListeners.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -413,6 +414,7 @@ export async function renderBrick(
     };
 
     const controlledOutput = await renderControlNode(runtimeContext);
+    const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
     const { contextNames, stateNames } = getTracks(dataSource);
     if (contextNames || stateNames) {
@@ -434,12 +436,26 @@ export async function renderBrick(
 
         // Ignore stale renders
         if (renderId === currentRenderId) {
+          if (onUnmount) {
+            listenerFactory(
+              onUnmount,
+              runtimeContext
+            )(new CustomEvent("unmount"));
+          }
+
           rendererContext.reRender(
             slotId,
             keyPath,
             controlOutput.node,
             returnNode
           );
+
+          if (onMount) {
+            listenerFactory(
+              onMount,
+              scopedRuntimeContext
+            )(new CustomEvent("mount", { detail: { rerender: true } }));
+          }
 
           for (const store of scopedStores) {
             store.mountAsyncData();
@@ -462,6 +478,15 @@ export async function renderBrick(
           tplStateStore.onChange(contextName, debouncedListener);
         }
       }
+    }
+
+    if (onMount) {
+      rendererContext.registerArbitraryLifeCycle("onMount", () => {
+        listenerFactory(
+          onMount,
+          runtimeContext
+        )(new CustomEvent("mount", { detail: { rerender: false } }));
+      });
     }
 
     return controlledOutput;
