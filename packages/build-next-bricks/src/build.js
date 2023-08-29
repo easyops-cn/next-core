@@ -121,6 +121,7 @@ async function getWebpackConfig(config) {
     "js-yaml",
     "i18next-browser-languagedetector",
     "react-i18next",
+    "@babel/parser",
     "@easyops-cn/brick-next-pipes",
     "@next-core/pipes",
     "@next-core/runtime",
