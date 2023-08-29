@@ -124,6 +124,17 @@ const getBootstrapData = (options?: {
           redirect: "${APP.homepage}/r1",
         },
         {
+          path: "${APP.homepage}/unauthenticated",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: { useProvider: "my-unauthenticated-provider" },
+            },
+          ],
+          bricks: [],
+        },
+        {
           path: "${APP.homepage}/sub-routes/:sub",
           menu: {
             breadcrumb: { items: [{ text: "0" }] },
@@ -829,6 +840,26 @@ describe("Runtime", () => {
         />,
       ]
     `);
+  });
+
+  test("redirect to other login page  if not logged in", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    myUnauthenticatedProvider.mockRejectedValueOnce(error);
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = true;
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/unauthenticated");
+    jest.spyOn(getRuntime(), "getMiscSettings").mockImplementation(() => {
+      return { noAuthGuardLoginPath: "/easy-core-console/login" };
+    });
+    await getRuntime().bootstrap();
+    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(getHistory().location.pathname).toBe("/easy-core-console/login");
   });
 
   test("page not found", async () => {
