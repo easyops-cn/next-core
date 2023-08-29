@@ -42,6 +42,9 @@ const getCssLoaders = (cssOptions) => [
         plugins: [
           postcssPresetEnv({
             stage: 3,
+            features: {
+              "nesting-rules": true,
+            },
           }),
           cssnano({
             preset: cssnanoPresetLite({
