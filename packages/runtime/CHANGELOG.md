@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.2...@next-core/runtime@1.22.0) (2023-08-29)
+
+
+### Features
+
+* support lifeCycle.onMount/onUnmount for control nodes ([d6ef1b6](https://github.com/easyops-cn/next-core/commit/d6ef1b6567cf26a5e4758f68c580f52b613e555d))
+
+
+
+
+
 ## [1.21.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.1...@next-core/runtime@1.21.2) (2023-08-28)
 
 **Note:** Version bump only for package @next-core/runtime
