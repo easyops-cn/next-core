@@ -809,6 +809,28 @@ describe("Runtime", () => {
     expect(getHistory().location.pathname).toBe("/auth/login");
   });
 
+  test("redirect to other login page  if not logged in", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    myUnauthenticatedProvider.mockRejectedValueOnce(error);
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = true;
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/unauthenticated");
+    await getRuntime().bootstrap();
+    jest.spyOn(getRuntime(), "getMiscSettings").mockImplementation(() => {
+      return { noAuthGuardLoginPath: "/easy-core-console/login" };
+    });
+    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(getRuntime().getMiscSettings().noAuthGuardLoginPath).toBe(
+      "/easy-core-console/login"
+    );
+  });
+
   test("API aborted", async () => {
     consoleError.mockReturnValueOnce();
     const error = new HttpAbortError("aborted");
