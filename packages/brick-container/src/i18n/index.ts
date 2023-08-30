@@ -12,6 +12,7 @@ import zh from "./locales/zh";
 // so we listen on language change before initialization.
 i18n.on("languageChanged", function (lng) {
   moment.locale(lng);
+  document.documentElement.setAttribute("lang", lng);
 });
 
 i18n
