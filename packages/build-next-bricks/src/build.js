@@ -452,6 +452,7 @@ async function getWebpackConfig(config) {
               dependencies: config.dependencies,
               manifest: config.manifest,
               types: config.types,
+              examples: config.examples,
             }),
           ]
         : []),
