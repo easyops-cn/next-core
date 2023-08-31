@@ -55,6 +55,10 @@ try {
           path.join(distDir, "types.json"),
           JSON.stringify(config.types, null, 2)
         );
+        await writeFile(
+          path.join(distDir, "examples.json"),
+          JSON.stringify(config.examples, null, 2)
+        );
       }
     }
   }
