@@ -91,7 +91,6 @@ export default {
             ) {
               return buf
                 .toString()
-                .replace("BASE_HREF", "/next/")
                 .replace("./bootstrap.hash.json", "../api/auth/v2/bootstrap");
             }
             return buf;
