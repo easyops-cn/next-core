@@ -125,6 +125,24 @@ describe("removeDeadConditions", () => {
               },
             },
           },
+          keydown: {
+            if: "<% false && CTX.abc %>",
+            then: {
+              action: "console.log",
+            },
+            else: {
+              action: "console.info",
+            },
+          },
+          keyup: {
+            if: "<% true || CTX.abc %>",
+            then: {
+              action: "console.log",
+            },
+            else: {
+              action: "console.info",
+            },
+          },
           oops: null,
         },
       },
@@ -145,6 +163,17 @@ describe("removeDeadConditions", () => {
                 action: "console.log",
                 if: true,
               },
+            },
+          },
+          keydown: {
+            then: {
+              action: "console.info",
+            },
+          },
+          keyup: {
+            if: true,
+            then: {
+              action: "console.log",
             },
           },
           oops: null,
