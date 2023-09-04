@@ -13,6 +13,7 @@ import type {
   RenderOptions,
   PreviewWindow,
 } from "../types.d.ts";
+import { get } from "lodash";
 
 interface RenderRequest {
   type: RenderType;
@@ -75,11 +76,15 @@ const root = unstable_createRoot(container, {
 });
 
 const bootstrap = http
-  .get<BootstrapData>(window.BOOTSTRAP_FILE, {
+  .get<any>(window.BOOTSTRAP_FILE, {
     responseType: "json",
   })
   .then((data) => {
-    runtime.initialize(data);
+    runtime.initialize(
+      (window.BOOTSTRAP_FILE_FIELD
+        ? get(data, window.BOOTSTRAP_FILE_FIELD)
+        : data) as BootstrapData
+    );
   });
 
 let rendering = false;
