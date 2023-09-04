@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.52...@next-core/preview@0.2.0) (2023-09-04)
+
+
+### Features
+
+* support preview in brick-container ([b5b3814](https://github.com/easyops-cn/next-core/commit/b5b3814ba62e4ca065678ce8d03c3ef2a429ee80))
+
+
+
+
+
 ## [0.1.52](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.1.51...@next-core/preview@0.1.52) (2023-08-31)
 
 **Note:** Version bump only for package @next-core/preview
