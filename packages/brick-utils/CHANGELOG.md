@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.4...@next-core/brick-utils@2.51.5) (2023-09-04)
+
+
+### Bug Fixes
+
+* handle dead conditions with then/else ([4529c26](https://github.com/easyops-cn/next-core/commit/4529c26f1898afe2699694854bdc6e483fbe18aa))
+
+
+
+
+
 ## [2.51.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.3...@next-core/brick-utils@2.51.4) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
