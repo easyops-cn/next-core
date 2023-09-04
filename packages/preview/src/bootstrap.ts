@@ -79,7 +79,7 @@ const bootstrap = http
     responseType: "json",
   })
   .then((data) => {
-    runtime.initialize(data);
+    runtime.initialize(data.data);
   });
 
 let rendering = false;

@@ -1,9 +1,12 @@
 // @ts-check
 import path from "node:path";
+import { createRequire } from "node:module";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import webpack from "webpack";
 import packageJson from "./package.json" assert { type: "json" };
+
+const require = createRequire(import.meta.url);
 
 const packageDir = process.cwd();
 
@@ -70,6 +73,29 @@ export default {
         {
           from: path.join(packageDir, "assets"),
           to: "assets",
+        },
+        {
+          from: path.join(
+            require.resolve("@next-core/preview/package.json"),
+            "../dist"
+          ),
+          to: "preview",
+          transform(buf, filePath) {
+            if (
+              filePath ===
+              path.join(
+                require.resolve("@next-core/preview/package.json"),
+                "../dist",
+                "index.html"
+              )
+            ) {
+              return buf
+                .toString()
+                .replace("BASE_HREF", "/next/")
+                .replace("./bootstrap.hash.json", "../api/auth/v2/bootstrap");
+            }
+            return buf;
+          },
         },
       ],
     }),
