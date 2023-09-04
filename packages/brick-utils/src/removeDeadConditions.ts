@@ -1,4 +1,5 @@
 import type {
+  ConditionalEventHandler,
   CustomTemplateConstructor,
   FeatureFlags,
   RuntimeStoryboard,
@@ -10,13 +11,14 @@ import {
   isEvaluable,
   preevaluate,
 } from "@next-core/cook";
-import { remove } from "lodash";
+import { pull } from "lodash";
 import { hasOwnProperty } from "./hasOwnProperty";
 import {
   parseStoryboard,
   parseTemplate,
   traverse,
   type StoryboardNode,
+  StoryboardNodeEventHandler,
 } from "@next-core/storyboard";
 
 export interface RemoveDeadConditionsOptions {
@@ -69,93 +71,126 @@ function removeDeadConditionsByAst(
 
   // Then, we remove dead conditions accordingly.
   traverse(ast, (node) => {
-    let rawContainer: any;
-    let conditionalNodes: ConditionalStoryboardNode[];
-    let rawKey: string;
-    let deleteEmptyArray = false;
+    // let conditionalNodes: ConditionalStoryboardNode[];
+    // let rawContainer: any;
+    // let rawKey: string;
+    // let deleteEmptyArray = false;
+    // let isUseBrickEntry = false;
+    // let keepConditionalHandlers = false;
 
     switch (node.type) {
       case "Root":
-        conditionalNodes = node.routes;
-        rawContainer = node.raw;
-        rawKey = "routes";
+        shakeConditionalNodes(node.routes, node.raw, "routes");
         break;
       case "Template":
-        conditionalNodes = node.bricks as ConditionalStoryboardNode[];
-        rawContainer = node.raw;
-        rawKey = "bricks";
+        shakeConditionalNodes(
+          node.bricks as ConditionalStoryboardNode[],
+          node.raw,
+          "bricks"
+        );
         break;
       case "Route":
       case "Slot":
-        conditionalNodes = node.children as ConditionalStoryboardNode[];
-        rawContainer = node.raw;
-        rawKey = node.raw.type === "routes" ? "routes" : "bricks";
+        shakeConditionalNodes(
+          node.children as ConditionalStoryboardNode[],
+          node.raw,
+          node.raw.type === "routes" ? "routes" : "bricks"
+        );
         break;
       case "Event":
       case "EventCallback":
       case "SimpleLifeCycle":
       case "ConditionalEvent":
-        conditionalNodes = node.handlers;
-        rawContainer = node.rawContainer;
-        rawKey = node.rawKey;
-        deleteEmptyArray = true;
+        shakeConditionalNodes(node.handlers, node.rawContainer, node.rawKey, {
+          deleteEmptyArray: true,
+          keepConditionalHandlers: true,
+        });
         break;
       case "ResolveLifeCycle":
-        conditionalNodes = node.resolves;
-        rawContainer = node.rawContainer;
-        rawKey = node.rawKey;
-        deleteEmptyArray = true;
+        shakeConditionalNodes(node.resolves, node.rawContainer, node.rawKey, {
+          deleteEmptyArray: true,
+        });
         break;
       case "UseBrickEntry":
-        conditionalNodes = node.children as ConditionalStoryboardNode[];
-        rawContainer = node.rawContainer;
-        rawKey = node.rawKey;
+        shakeConditionalNodes(
+          node.children as ConditionalStoryboardNode[],
+          node.rawContainer,
+          node.rawKey,
+          {
+            isUseBrickEntry: true,
+          }
+        );
+        break;
+      case "EventHandler":
+        shakeConditionalNodes(node.then, node.raw, "then");
+        shakeConditionalNodes(node.else, node.raw, "else");
         break;
     }
 
-    shakeConditionalNodes(
-      node,
-      rawContainer,
-      conditionalNodes,
-      rawKey,
-      deleteEmptyArray
-    );
-
     // Remove unreachable context/state.
-    deleteEmptyArray = false;
     switch (node.type) {
       case "Route":
       case "Brick":
       case "Template":
-        rawContainer = node.raw;
-        rawKey = node.type === "Template" ? "state" : "context";
-        conditionalNodes = node.context;
-        break;
+        shakeConditionalNodes(
+          node.context,
+          node.raw,
+          node.type === "Template" ? "state" : "context"
+        );
     }
-
-    shakeConditionalNodes(
-      node,
-      rawContainer,
-      conditionalNodes,
-      rawKey,
-      deleteEmptyArray
-    );
   });
 }
 
 function shakeConditionalNodes(
-  node: StoryboardNode,
-  rawContainer: any,
   conditionalNodes: ConditionalStoryboardNode[],
+  rawContainer: any,
   rawKey: string,
-  deleteEmptyArray?: boolean
+  {
+    deleteEmptyArray,
+    isUseBrickEntry,
+    keepConditionalHandlers,
+  }: {
+    deleteEmptyArray?: boolean;
+    isUseBrickEntry?: boolean;
+    keepConditionalHandlers?: boolean;
+  } = {}
 ): void {
-  const removedNodes = remove(
-    conditionalNodes,
-    (node) => node.raw.if === false
-  );
+  const removedNodes: ConditionalStoryboardNode[] = [];
+  if (Array.isArray(conditionalNodes)) {
+    for (const node of conditionalNodes) {
+      if (
+        keepConditionalHandlers &&
+        (node as StoryboardNodeEventHandler).else?.length
+      ) {
+        switch (node.raw.if) {
+          case false:
+            (node as StoryboardNodeEventHandler).then = (
+              node as StoryboardNodeEventHandler
+            ).else;
+            (node as StoryboardNodeEventHandler).else = [];
+            (node.raw as ConditionalEventHandler).then = (
+              node.raw as ConditionalEventHandler
+            ).else;
+            delete (node.raw as ConditionalEventHandler).else;
+            delete node.raw.if;
+            continue;
+          case true:
+          case undefined:
+            (node as StoryboardNodeEventHandler).else = [];
+            delete (node.raw as ConditionalEventHandler).else;
+            continue;
+        }
+      }
+      if (node.raw.if === false) {
+        removedNodes.push(node);
+      }
+    }
+  }
+
+  pull(conditionalNodes, ...removedNodes);
+
   if (removedNodes.length > 0) {
-    if (node.type === "UseBrickEntry" && !Array.isArray(rawContainer[rawKey])) {
+    if (isUseBrickEntry && !Array.isArray(rawContainer[rawKey])) {
       rawContainer[rawKey] = { brick: "div", if: false };
     } else if (deleteEmptyArray && conditionalNodes.length === 0) {
       delete rawContainer[rawKey];
@@ -208,6 +243,8 @@ export function computeConstantCondition(
               console.warn("[removed dead if]:", ifContainer.if, ifContainer);
             }
             ifContainer.if = false;
+          } else if (isConstantLogical(expression, true, options)) {
+            ifContainer.if = true;
           }
           return;
         }
