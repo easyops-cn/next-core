@@ -33,7 +33,7 @@ export default async function getExamples(bricksDir, manifests) {
       [mode]: content,
     };
     if (isYaml) {
-      example.html = yamlToHtml(content, manifests);
+      example.html = await yamlToHtml(content, manifests);
     } else {
       example.yaml = htmlToYaml(content, manifests);
     }

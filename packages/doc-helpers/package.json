@@ -29,6 +29,6 @@
     "@next-core/brick-manifest": "^0.5.1",
     "fast-xml-parser": "^4.2.7",
     "js-yaml": "^3.14.1",
-    "prettier": "^2.8.8"
+    "prettier": "^3.0.3"
   }
 }

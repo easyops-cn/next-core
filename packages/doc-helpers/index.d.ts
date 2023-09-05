@@ -28,6 +28,9 @@ export function extractExamplesInMarkdown(
 
 export function htmlToYaml(html: string, manifests: PackageManifest[]): string;
 
-export function yamlToHtml(yaml: string, manifests: PackageManifest[]): string;
+export function yamlToHtml(
+  yaml: string,
+  manifests: PackageManifest[]
+): Promise<string>;
 
 export function htmlTagEntity(raw: string): string;
