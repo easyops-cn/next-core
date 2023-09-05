@@ -311,6 +311,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     // (undocumented)
     ctxStore: DataStore<"CTX">;
     // (undocumented)
+    forEachIndex?: number;
+    // (undocumented)
     forEachItem?: unknown;
     // (undocumented)
     formStateStoreId?: string;

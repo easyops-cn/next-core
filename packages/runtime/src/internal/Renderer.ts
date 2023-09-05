@@ -35,6 +35,7 @@ import { RendererContext } from "./RendererContext.js";
 import { matchRoute, matchRoutes } from "./matchRoutes.js";
 import {
   symbolForAsyncComputedPropsFromHost,
+  symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
@@ -313,9 +314,10 @@ export async function renderBrick(
   };
 
   if (hasOwnProperty(brickConf, symbolForTPlExternalForEachItem)) {
-    // The external bricks of a template should restore their `forEachItem`
-    // from their host.
+    // The external bricks of a template should restore their `forEachItem` and
+    // `forEachIndex` from their host.
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
+    runtimeContext.forEachIndex = brickConf[symbolForTPlExternalForEachIndex];
   }
 
   const { context } = brickConf as { context?: ContextConf[] };
@@ -665,6 +667,7 @@ export async function renderBrick(
       ...runtimeContext,
     };
     delete childRuntimeContext.forEachItem;
+    delete childRuntimeContext.forEachIndex;
   } else {
     childRuntimeContext = runtimeContext;
   }
@@ -875,6 +878,7 @@ async function renderForEach(
             {
               ...runtimeContext,
               forEachItem: item,
+              forEachIndex: i,
             },
             rendererContext,
             parentRoutes,
@@ -931,7 +935,7 @@ export function createScopedRuntimeContext(
 ): [
   scopedRuntimeContext: RuntimeContext,
   tplStateStoreScope: DataStore<"STATE">[],
-  formStateStoreScope: DataStore<"FORM_STATE">[]
+  formStateStoreScope: DataStore<"FORM_STATE">[],
 ] {
   const tplStateStoreScope: DataStore<"STATE">[] = [];
   const formStateStoreScope: DataStore<"FORM_STATE">[] = [];

@@ -23,6 +23,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   // `useBrick` has a local tpl state store scope
   tplStateStoreScope?: DataStore<"STATE">[];
   forEachItem?: unknown;
+  forEachIndex?: number;
   appendI18nNamespace?: string;
 
   formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
@@ -33,7 +34,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
 export type AsyncPropertyEntry = [
   name: string,
   value: Promise<unknown>,
-  ignoreUndefined?: boolean
+  ignoreUndefined?: boolean,
 ];
 
 export interface ElementHolder {
@@ -82,7 +83,7 @@ export type MetaInfoOfEventListener = [
   string,
   // For compatibility of devtools, leave the second argument there.
   null | undefined,
-  BrickEventHandler
+  BrickEventHandler,
 ];
 
 export type RememberedEventListener = [string, EventListener];
