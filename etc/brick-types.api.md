@@ -2186,11 +2186,13 @@ export interface Story {
     // (undocumented)
     actions?: Action[];
     // (undocumented)
+    alias?: string[];
+    // (undocumented)
     author?: string;
     // (undocumented)
     category: string;
     // (undocumented)
-    conf: StoryConf | StoryConf[] | mixConf[];
+    conf: StoryConf | StoryConf[] | mixConf[] | V3StoryConf;
     // (undocumented)
     deprecated?: boolean;
     // (undocumented)
@@ -2208,6 +2210,8 @@ export interface Story {
     // (undocumented)
     previewColumns?: number;
     // (undocumented)
+    source?: string;
+    // (undocumented)
     storyId: string;
     // (undocumented)
     tags?: I18nData[];
@@ -2217,6 +2221,8 @@ export interface Story {
     type: "brick" | "template";
     // (undocumented)
     useWidget?: string[];
+    // (undocumented)
+    v3Brick?: boolean;
 }
 
 // @public
@@ -2662,6 +2668,14 @@ export interface UseSingleBrickConf {
     slots?: UseBrickSlotsConf;
     transform?: GeneralTransform;
     transformFrom?: string | string[];
+}
+
+// Warning: (ae-internal-missing-underscore) The name "V3StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface V3StoryConf {
+    // (undocumented)
+    doc?: string;
 }
 
 
