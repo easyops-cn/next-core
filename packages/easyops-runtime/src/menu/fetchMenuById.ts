@@ -122,6 +122,7 @@ async function _fetchMenuById(
   };
   delete newRuntimeContext.tplStateStoreId;
   delete newRuntimeContext.forEachItem;
+  delete newRuntimeContext.forEachIndex;
   const rootAppId = app[0].appId;
 
   const [computedMenuData, computedMenuItems] = await Promise.all([

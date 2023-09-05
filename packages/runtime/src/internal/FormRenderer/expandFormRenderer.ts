@@ -33,6 +33,7 @@ export function expandFormRenderer(
 
   // There is a boundary for `forEachItem` and `STATE` between form internals and externals.
   delete runtimeContext.forEachItem;
+  delete runtimeContext.forEachIndex;
   delete runtimeContext.tplStateStoreId;
 
   const formStateStore = new DataStore(

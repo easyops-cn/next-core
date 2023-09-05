@@ -366,15 +366,19 @@ function lowLevelEvaluate(
             });
             break;
           case "ITEM":
-            if (!hasOwnProperty(runtimeContext, "forEachItem")) {
+          case "INDEX": {
+            const property =
+              variableName === "ITEM" ? "forEachItem" : "forEachIndex";
+            if (!hasOwnProperty(runtimeContext, property)) {
               // eslint-disable-next-line no-console
               console.error(
-                `Using \`ITEM\` but no \`:forEach\` is found, check your expression: "${raw}"`
+                `Using \`${variableName}\` but no \`:forEach\` is found, check your expression: "${raw}"`
               );
             } else {
-              globalVariables[variableName] = runtimeContext.forEachItem;
+              globalVariables[variableName] = runtimeContext[property];
             }
             break;
+          }
           case "LOCAL_STORAGE":
             globalVariables[variableName] = getReadOnlyProxy({
               getItem: getStorageItem("local"),

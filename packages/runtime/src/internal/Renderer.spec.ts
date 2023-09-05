@@ -874,6 +874,7 @@ describe("renderBrick for control nodes", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
+                title: "<% INDEX %>",
               },
             },
           ],
@@ -911,6 +912,7 @@ describe("renderBrick for control nodes", () => {
         type: "div",
         properties: {
           textContent: "a",
+          title: 0,
         },
         slotId: undefined,
         sibling: expect.objectContaining({
@@ -919,6 +921,7 @@ describe("renderBrick for control nodes", () => {
           type: "div",
           properties: {
             textContent: "b",
+            title: 1,
           },
           slotId: undefined,
         }),
@@ -970,6 +973,7 @@ describe("renderBrick for control nodes", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
+                title: "<% INDEX %>",
               },
               lifeCycle: {
                 onMount: {
@@ -1029,11 +1033,15 @@ describe("renderBrick for control nodes", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
     expect(consoleInfo).toHaveBeenNthCalledWith(3, ":forEach mount", false);
 
-    expect(container.innerHTML).toBe("<div>a</div><div>b</div>");
+    expect(container.innerHTML).toBe(
+      '<div title="0">a</div><div title="1">b</div>'
+    );
     expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:b</p>");
 
     (container.firstChild as HTMLElement).title = "mark";
-    expect(container.innerHTML).toBe('<div title="mark">a</div><div>b</div>');
+    expect(container.innerHTML).toBe(
+      '<div title="mark">a</div><div title="1">b</div>'
+    );
 
     ctxStore.updateValue("list", ["a", "c"], "replace");
     expect(consoleInfo).toBeCalledTimes(3);
@@ -1049,7 +1057,9 @@ describe("renderBrick for control nodes", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(9, ":forEach mount", true);
 
     // Note: previous `title="mark"` is removed
-    expect(container.innerHTML).toBe("<div>a</div><div>c</div>");
+    expect(container.innerHTML).toBe(
+      '<div title="0">a</div><div title="1">c</div>'
+    );
     expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:c</p>");
 
     unmountTree(container);
@@ -1650,6 +1660,7 @@ describe("renderBrick for tpl", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
+                title: "<% INDEX %>",
               },
               lifeCycle: {
                 onMount: {
@@ -1729,10 +1740,14 @@ describe("renderBrick for tpl", () => {
         <my.tpl-b
           data-tpl-state-store-id="tpl-state-2"
         >
-          <div>
+          <div
+            title="0"
+          >
             a
           </div>
-          <div>
+          <div
+            title="1"
+          >
             b
           </div>
         </my.tpl-b>,
@@ -1760,7 +1775,9 @@ describe("renderBrick for tpl", () => {
           >
             a
           </div>
-          <div>
+          <div
+            title="1"
+          >
             b
           </div>
         </my.tpl-b>,
@@ -1791,10 +1808,14 @@ describe("renderBrick for tpl", () => {
         <my.tpl-b
           data-tpl-state-store-id="tpl-state-2"
         >
-          <div>
+          <div
+            title="0"
+          >
             a
           </div>
-          <div>
+          <div
+            title="1"
+          >
             c
           </div>
         </my.tpl-b>,
