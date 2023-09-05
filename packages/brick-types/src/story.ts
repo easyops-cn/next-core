@@ -47,13 +47,18 @@ export interface SnippetConf {
 export type mixConf = StoryConf | SnippetConf;
 
 /** @internal */
+export interface V3StoryConf {
+  doc?: string;
+}
+
+/** @internal */
 export interface Story {
   category: string;
   storyId: string;
   deprecated?: boolean;
   type: "brick" | "template";
   text: I18nData;
-  conf: StoryConf | StoryConf[] | mixConf[];
+  conf: StoryConf | StoryConf[] | mixConf[] | V3StoryConf;
   description?: I18nData;
   tags?: I18nData[];
   doc?: string | StoryDoc;
@@ -65,6 +70,9 @@ export interface Story {
   originData?: BuilderCustomTemplateNode;
   isCustomTemplate?: boolean;
   useWidget?: string[];
+  v3Brick?: boolean;
+  source?: string;
+  alias?: string[];
 }
 
 /** @internal */
