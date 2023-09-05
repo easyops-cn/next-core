@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.0...@next-core/brick-container@3.6.1) (2023-09-05)
+
+
+### Bug Fixes
+
+* bricks上报脚本调整, 增加v3构件的示例conf和接口interface ([10a49a8](https://github.com/easyops-cn/next-core/commit/10a49a825f58cb9031b6345d6202d289fd50c592))
+
+
+
+
+
 # [3.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.5.28...@next-core/brick-container@3.6.0) (2023-09-04)
 
 

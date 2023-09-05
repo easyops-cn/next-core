@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.4...@next-core/cook@2.2.5) (2023-09-05)
+
+
+### Bug Fixes
+
+* fix types after upgrade babel ([6a0b62d](https://github.com/easyops-cn/next-core/commit/6a0b62d8422cbdb6935f7482ca3c4b451586ffb6))
+
+
+
+
+
 ## [2.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.3...@next-core/cook@2.2.4) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/cook
