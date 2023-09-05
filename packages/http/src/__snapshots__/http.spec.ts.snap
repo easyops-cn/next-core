@@ -398,13 +398,6 @@ exports[`http requestWithBody or simpleRequest PUT http://example.com with [] sh
 
 exports[`http should return http response object  1`] = `
 {
-  "config": {
-    "method": "GET",
-    "options": {
-      "observe": "response",
-    },
-    "url": "http://example.com",
-  },
   "data": {
     "foo": "bar",
   },

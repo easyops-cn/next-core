@@ -13,6 +13,7 @@ import type { BrickEventHandler } from '@next-core/types';
 import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
+import { BrickPackage } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
 import type { Contract } from '@next-core/types';
 import type { CustomTemplate } from '@next-core/types';
@@ -29,9 +30,11 @@ import { MicroApp } from '@next-core/types';
 import type { PermissionApi_validatePermissions } from '@next-api-sdk/micro-app-sdk';
 import type { ResolveConf } from '@next-core/types';
 import type { RouteConf } from '@next-core/types';
+import type { RuntimeSnippet } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
+import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';
@@ -47,6 +50,12 @@ declare namespace __secret_internals {
         updateStoryboardByTemplate,
         updateTemplatePreviewSettings,
         updateStoryboardBySnippet,
+        getContextValue,
+        getAllContextValues,
+        getBrickPackagesById,
+        getRenderId,
+        getAddedContracts,
+        DataValueOption,
         RuntimeContext,
         RenderUseBrickResult,
         MountUseBrickResult,
@@ -106,6 +115,12 @@ export const customProcessors: CustomProcessorRegistry;
 export const customTemplates: CustomTemplateRegistry;
 
 // @public (undocumented)
+interface DataValueOption {
+    // (undocumented)
+    tplStateStoreId?: string;
+}
+
+// @public (undocumented)
 export const Dialog: Readonly<{
     show: typeof show_2;
 }>;
@@ -127,11 +142,26 @@ export interface DialogOptions {
 // @public (undocumented)
 export function fetchByProvider(provider: string, args: unknown[], options?: ResolveOptions): Promise<unknown>;
 
+// Warning: (ae-forgotten-export) The symbol "PreviewStoryboardPatch" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "PreviewOption" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, provider: collectContractProvider, }: PreviewOption): Promise<string[]>;
+
+// @public (undocumented)
+function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
+
 // @public @deprecated (undocumented)
 export function getAuth(): object | undefined;
 
 // @public
 export function getBasePath(): string;
+
+// @public (undocumented)
+function getBrickPackagesById(id: string): BrickPackage | undefined;
+
+// @public (undocumented)
+function getContextValue(name: string, { tplStateStoreId }: DataValueOption): unknown;
 
 // @public (undocumented)
 export function getCssPropertyValue(name: string, el?: HTMLElement): string;
@@ -147,6 +177,9 @@ export function getHistory(): NextHistory;
 
 // @public (undocumented)
 export function getPageInfo(): PageInfo;
+
+// @public (undocumented)
+function getRenderId(): string | undefined;
 
 // @public (undocumented)
 export function getRuntime(): Runtime;
@@ -401,6 +434,7 @@ function updateStoryboardByRoute(appId: string, newRoute: RouteConf): void;
 function updateStoryboardBySnippet(appId: string, snippetData: {
     snippetId: string;
     bricks?: BrickConf[];
+    context?: ContextConf[];
 }): void;
 
 // @public (undocumented)

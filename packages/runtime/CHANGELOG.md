@@ -3,6 +3,214 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.1...@next-core/runtime@1.22.2) (2023-08-29)
+
+
+### Bug Fixes
+
+* 增加自定义登陆页跳转逻辑 refs EASYCORE-1757 ([4cf1ff5](https://github.com/easyops-cn/next-core/commit/4cf1ff54ae760e507a35512a7b8807ad54e87d1a))
+
+
+
+
+
+## [1.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.0...@next-core/runtime@1.22.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* dispatch onUnmount for control nodes when root unmount ([81627a2](https://github.com/easyops-cn/next-core/commit/81627a25cd4116ba8579a8dadfb41bf2c91ab080))
+
+
+
+
+
+# [1.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.2...@next-core/runtime@1.22.0) (2023-08-29)
+
+
+### Features
+
+* support lifeCycle.onMount/onUnmount for control nodes ([d6ef1b6](https://github.com/easyops-cn/next-core/commit/d6ef1b6567cf26a5e4758f68c580f52b613e555d))
+
+
+
+
+
+## [1.21.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.1...@next-core/runtime@1.21.2) (2023-08-28)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.21.0...@next-core/runtime@1.21.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* handle menus when incremental rendering ([2ab9341](https://github.com/easyops-cn/next-core/commit/2ab93413d7f04514b75605f115b72c092ca74296))
+* incremental rendering for sub-routes in brick ([9e6f490](https://github.com/easyops-cn/next-core/commit/9e6f490c038729887c6aa08bf2e7d3c90693961b))
+* refine incremental rendering ([68fe1cd](https://github.com/easyops-cn/next-core/commit/68fe1cd97a941793618a52e779127873c5d53a41))
+* use EventTarget polyfill ([336cb90](https://github.com/easyops-cn/next-core/commit/336cb90485dd0c12ed8dad10600ad3f84101351e))
+
+
+
+
+
+# [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.4...@next-core/runtime@1.21.0) (2023-08-18)
+
+
+### Bug Fixes
+
+* catch load errors for scripts and stylesheets ([66c433b](https://github.com/easyops-cn/next-core/commit/66c433bbcf54863124f1212723b9a99ba6cf0aa5))
+* fix control nodes with direct children of control nodes ([dd715eb](https://github.com/easyops-cn/next-core/commit/dd715ebb088cfc6ff9702ce41f4aed676e65819d))
+
+
+### Features
+
+* support useRouteRender ([8a33875](https://github.com/easyops-cn/next-core/commit/8a33875fae55693aeba17c9af7d1eab23e703450))
+
+
+
+
+
+## [1.20.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.3...@next-core/runtime@1.20.4) (2023-08-17)
+
+
+### Bug Fixes
+
+* theme-template snippet use context instead of data ([0d11efa](https://github.com/easyops-cn/next-core/commit/0d11efa33b6cc7e73c7182ada86a1fd9150a3287))
+
+
+
+
+
+## [1.20.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.2...@next-core/runtime@1.20.3) (2023-08-16)
+
+
+### Bug Fixes
+
+* load processors before mount ([6d58d23](https://github.com/easyops-cn/next-core/commit/6d58d2353cd9802b85395328ce31f80d1939554f))
+
+
+
+
+
+## [1.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.1...@next-core/runtime@1.20.2) (2023-08-11)
+
+
+### Bug Fixes
+
+* render scripts and style sheet links ([51dbab9](https://github.com/easyops-cn/next-core/commit/51dbab9f05397582a14e7e9c90f2e70875ca33ca))
+
+
+
+
+
+## [1.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.20.0...@next-core/runtime@1.20.1) (2023-08-04)
+
+
+### Bug Fixes
+
+* bypass functions when compute expressions ([f054a13](https://github.com/easyops-cn/next-core/commit/f054a136cca19db36a2efbd233cb1a6c50163dd0))
+
+
+
+
+
+# [1.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.4...@next-core/runtime@1.20.0) (2023-08-03)
+
+
+### Features
+
+* v3 support auto build & push in preivew ([4d94b94](https://github.com/easyops-cn/next-core/commit/4d94b949c1bcb863e57f4d3d7b293cd2ff1444db))
+
+
+
+
+
+## [1.19.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.3...@next-core/runtime@1.19.4) (2023-08-02)
+
+
+### Bug Fixes
+
+* fix nested templates with proxy properties ([36f9495](https://github.com/easyops-cn/next-core/commit/36f94952eab87381b8077d9c4f835d79bdff8bc9))
+
+
+
+
+
+## [1.19.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.2...@next-core/runtime@1.19.3) (2023-08-02)
+
+
+### Bug Fixes
+
+* ignore fails of useBrick rendering when render id changed ([b407ae6](https://github.com/easyops-cn/next-core/commit/b407ae621701d407ceeab2c1a7b645322c2b7ca0))
+
+
+
+
+
+## [1.19.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.1...@next-core/runtime@1.19.2) (2023-07-29)
+
+
+### Bug Fixes
+
+* fix processors with devtools ([a92e19c](https://github.com/easyops-cn/next-core/commit/a92e19cf53fe8cefd49e938b82c9161e617a6a18))
+
+
+
+
+
+## [1.19.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.19.0...@next-core/runtime@1.19.1) (2023-07-26)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.18.0...@next-core/runtime@1.19.0) (2023-07-25)
+
+
+### Bug Fixes
+
+* expose getBrickPackagesById ([4427226](https://github.com/easyops-cn/next-core/commit/4427226d751cf29679751890a08d420345228ddf))
+
+
+### Features
+
+* support inspect-data-value in v3 ([385040d](https://github.com/easyops-cn/next-core/commit/385040dcf97ffd18503a4574bf039f5ddc6d2cbb))
+
+
+
+
+
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.8...@next-core/runtime@1.18.0) (2023-07-24)
+
+
+### Bug Fixes
+
+* compatible with resolve.field ([9b9172a](https://github.com/easyops-cn/next-core/commit/9b9172ae89c0a67d5eef50de7999b133bd544ea1))
+
+
+### Features
+
+*  runtime export hasInstalledApp ([5f68673](https://github.com/easyops-cn/next-core/commit/5f686735ea2e0b6a9c9ed37aa8a79a3242060592))
+
+
+
+
+
+## [1.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.7...@next-core/runtime@1.17.8) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.17.6...@next-core/runtime@1.17.7) (2023-07-18)
 
 

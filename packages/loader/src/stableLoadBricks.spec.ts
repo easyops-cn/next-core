@@ -10,16 +10,14 @@ import {
 const consoleError = jest.spyOn(console, "error");
 const consoleInfo = jest.spyOn(console, "info").mockReturnValue();
 let requestsCount = 0;
-const dispatchEvent = jest
-  .spyOn(window, "dispatchEvent")
-  .mockImplementation((event) => {
-    if (event.type === "request.start") {
-      requestsCount++;
-    } else {
-      requestsCount--;
-    }
-    return true;
-  });
+jest.spyOn(window, "dispatchEvent").mockImplementation((event) => {
+  if (event.type === "request.start") {
+    requestsCount++;
+  } else {
+    requestsCount--;
+  }
+  return true;
+});
 
 jest.mock("./loadScript.js", () => ({
   __esModule: true,
@@ -309,6 +307,23 @@ describe("loadBricksImperatively", () => {
       "bricks/shoelace",
       "./sl-alert"
     );
+  });
+
+  test("load unknown brick", async () => {
+    consoleError.mockReturnValueOnce();
+    const promise = loadBricksImperatively(
+      ["sl-alert"],
+      [
+        {
+          id: "bricks/shoelace",
+          filePath: "bricks/shoelace/dist/index.hash.js",
+        },
+      ]
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleError).toBeCalledTimes(1);
   });
 
   test("load brick failed", async () => {

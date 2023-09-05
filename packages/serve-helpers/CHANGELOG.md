@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.1...@next-core/serve-helpers@1.2.2) (2023-08-14)
+
+
+### Bug Fixes
+
+* compatible with no filePath in bricks.json ([e2b1751](https://github.com/easyops-cn/next-core/commit/e2b17515db3d2f07adc8bef942ea122866190a31))
+
+
+
+
+
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.0...@next-core/serve-helpers@1.2.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* allow brick package has no `package.json` ([0315aa4](https://github.com/easyops-cn/next-core/commit/0315aa452f334f7ea7fa8e5de11b7519ac44f2ba))
+
+
+
+
+
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.1.0...@next-core/serve-helpers@1.2.0) (2023-07-31)
+
+
+### Features
+
+* specify localBrickFolders instead of rootDir ([94957b9](https://github.com/easyops-cn/next-core/commit/94957b907b53d2bcc4226c1df94a33a42bc6856e))
+
+
+
+
+
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.0.8...@next-core/serve-helpers@1.1.0) (2023-06-07)
 
 

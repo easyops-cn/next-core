@@ -9,6 +9,7 @@ import { ReactUseBrick, ReactUseMultipleBricks } from "./ReactUseBrick.js";
 const mockRenderUseBrick = __secret_internals.renderUseBrick as jest.Mock;
 const mockMountUseBrick = __secret_internals.mountUseBrick as jest.Mock;
 const mockUnmountUseBrick = __secret_internals.unmountUseBrick as jest.Mock;
+const mockGetRenderId = __secret_internals.getRenderId as jest.Mock;
 const mockHandleHttpError = handleHttpError as jest.Mock;
 
 jest.mock("@next-core/runtime", () => ({
@@ -16,6 +17,7 @@ jest.mock("@next-core/runtime", () => ({
     renderUseBrick: jest.fn(),
     mountUseBrick: jest.fn((renderResult: any) => renderResult.args[1]),
     unmountUseBrick: jest.fn(),
+    getRenderId: jest.fn(),
   },
   handleHttpError: jest.fn(),
 }));
@@ -172,6 +174,26 @@ describe("ReactUseBrick", () => {
     unmount();
     expect(mockMountUseBrick).not.toBeCalled();
     expect(mockUnmountUseBrick).not.toBeCalled();
+  });
+
+  test("render failed but render id changed", async () => {
+    let renderId = 1;
+    mockGetRenderId.mockImplementation(() => `render-${renderId++}`);
+    const error = new Error("oops");
+    mockRenderUseBrick.mockImplementation(() => Promise.reject(error));
+    const useBrick = { brick: "div" };
+    const { unmount } = render(
+      <ListByUseBrick useBrick={useBrick} data={["a"]} />
+    );
+
+    await act(() => (global as any).flushPromises());
+    expect(consoleError).toBeCalledTimes(0);
+    expect(mockHandleHttpError).not.toBeCalled();
+
+    unmount();
+    expect(mockMountUseBrick).not.toBeCalled();
+    expect(mockUnmountUseBrick).not.toBeCalled();
+    mockGetRenderId.mockReset();
   });
 });
 

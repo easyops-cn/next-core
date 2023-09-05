@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.0.8...@next-core/http@1.1.0) (2023-08-28)
+
+
+### Bug Fixes
+
+* ignore loading bar accordingly ([51b68bf](https://github.com/easyops-cn/next-core/commit/51b68bfe4dfe28f563ac55d5e9a4b9616aea41b4))
+
+
+### Features
+
+* allow http response interceptor to access request config ([ca53f6d](https://github.com/easyops-cn/next-core/commit/ca53f6d9a0e0338d20b51dbe51f37c8d6f4d4ad6))
+
+
+
+
+
+## [1.0.8](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.0.7...@next-core/http@1.0.8) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/http
+
+
+
+
+
 ## [1.0.7](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.0.6...@next-core/http@1.0.7) (2023-07-07)
 
 **Note:** Version bump only for package @next-core/http

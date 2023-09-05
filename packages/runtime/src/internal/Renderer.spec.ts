@@ -9,6 +9,9 @@ import { DataStore } from "./data/DataStore.js";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
+  loadProcessorsImperatively,
+  loadScript,
+  loadStyle,
 } from "@next-core/loader";
 import { mountTree, unmountTree } from "./mount.js";
 import { getHistory } from "../history.js";
@@ -20,6 +23,7 @@ import { FormDataProperties } from "./FormRenderer/interfaces.js";
 import { FORM_RENDERER } from "./FormRenderer/constants.js";
 import { hooks } from "./Runtime.js";
 import * as compute from "./compute/computeRealValue.js";
+import { customProcessors } from "../CustomProcessors.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../history.js");
@@ -60,6 +64,11 @@ jest.mock("./Runtime.js", () => ({
     //
   },
 }));
+
+(loadScript as jest.Mocked<typeof loadScript>).mockResolvedValue([]);
+(loadStyle as jest.Mocked<typeof loadStyle>).mockResolvedValue([]);
+
+customProcessors.define("def.rst", (input: string) => `received: ${input}`);
 
 jest.spyOn(compute, "asyncComputeRealValue");
 
@@ -135,7 +144,8 @@ describe("renderRoutes", () => {
       renderRoot,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -189,7 +199,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -225,7 +236,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -262,7 +274,7 @@ describe("renderRoutes", () => {
       },
     };
     await expect(
-      renderRoutes(null!, [route], runtimeContext, rendererContext)
+      renderRoutes(null!, [route], runtimeContext, rendererContext, [])
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unexpected type of redirect result: undefined]`
     );
@@ -308,7 +320,8 @@ describe("renderRoutes", () => {
       renderRoot,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -341,6 +354,89 @@ describe("renderRoutes", () => {
     expect(ctxStore.getValue("objectId")).toBe("HOST");
   });
 
+  test("sub-routes in brick", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      location: {
+        pathname: "/home/HOST/list",
+      },
+      app: {
+        homepage: "/home",
+        noAuthGuard: true,
+      },
+      pendingPermissionsPreCheck: [] as undefined[],
+      flags: {},
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const brick = { brick: "div" };
+    const subRoute: RouteConf = {
+      path: "${APP.homepage}/:objectId/list",
+      exact: true,
+      bricks: [brick],
+    };
+    const route: RouteConf = {
+      path: "${APP.homepage}/:objectId",
+      exact: false,
+      context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
+      bricks: [
+        {
+          brick: "div",
+          slots: {
+            "": {
+              type: "routes",
+              routes: [subRoute],
+            },
+          },
+        },
+      ],
+    };
+    const output = await renderRoutes(
+      renderRoot,
+      [route],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [undefined, undefined],
+      route: subRoute,
+      node: expect.objectContaining({
+        tag: RenderTag.BRICK,
+        return: renderRoot,
+        type: "div",
+      }),
+    });
+    expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(4);
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      1,
+      route,
+      expect.any(Function)
+    );
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      2,
+      route.bricks[0],
+      expect.any(Function)
+    );
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      3,
+      subRoute,
+      expect.any(Function)
+    );
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
+      4,
+      brick,
+      expect.any(Function)
+    );
+    expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(4);
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("objectId")).toBe("HOST");
+  });
+
   test("missed", async () => {
     const runtimeContext = {
       location: {
@@ -360,7 +456,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -386,7 +483,8 @@ describe("renderRoutes", () => {
       null!,
       [route],
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -396,7 +494,7 @@ describe("renderRoutes", () => {
   });
 
   test("empty routes", async () => {
-    const output = await renderRoutes(null!, [], null!, null!);
+    const output = await renderRoutes(null!, [], null!, null!, []);
     expect(output).toEqual({
       blockingList: [],
       menuRequests: [],
@@ -455,10 +553,12 @@ describe("renderBrick", () => {
             action: "console.info",
             args: ["onBeforePageLoad", "<% EVENT.type %>"],
           },
-          onPageLoad: {
-            action: "console.info",
-            args: ["onPageLoad", "<% EVENT.type %>"],
-          },
+          onPageLoad: [
+            {
+              action: "console.info",
+              args: ["onPageLoad", "<% EVENT.type %>"],
+            },
+          ],
           onAnchorLoad: {
             action: "console.info",
             args: ["onAnchorLoad", "<% EVENT.type %>"],
@@ -490,16 +590,28 @@ describe("renderBrick", () => {
               args: ["onMessage", "<% EVENT.type %>"],
             },
           },
-          onMessageClose: {
-            action: "console.info",
-            args: ["onMessageClose", "<% EVENT.type %>"],
-          },
+          onMessageClose: [
+            {
+              action: "console.info",
+              args: ["onMessageClose", "<% EVENT.type %>"],
+            },
+            {
+              action: "console.info",
+              args: ["PROCESSORS.def.rst", "<% PROCESSORS.def.rst('opq') %>"],
+            },
+          ],
         },
         slots: {
           a: {
             bricks: [
               {
                 brick: "div",
+                events: {
+                  click: {
+                    action: "console.info",
+                    args: ["<% PROCESSORS.abc.xyz() %>"],
+                  },
+                },
                 lifeCycle: {
                   onMediaChange: {
                     action: "console.info",
@@ -527,11 +639,23 @@ describe("renderBrick", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
-    expect(output.blockingList.length).toBe(1);
+    expect(output.blockingList.length).toBe(3);
     expect(output.menuRequests.length).toBe(0);
     expect(enqueueStableLoadBricks).toBeCalledWith(["test.my-brick"], []);
+    expect(loadProcessorsImperatively).toBeCalledTimes(2);
+    expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
+      1,
+      new Set(["def.rst"]),
+      []
+    );
+    expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
+      2,
+      new Set(["abc.xyz"]),
+      []
+    );
     expect(output.node).toMatchObject({
       tag: RenderTag.BRICK,
       type: "test.my-brick",
@@ -645,8 +769,14 @@ describe("renderBrick", () => {
       "onMessageClose",
       "message.close"
     );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      13,
+      "PROCESSORS.def.rst",
+      "received: opq"
+    );
 
     rendererContext.dispose();
+    expect(consoleInfo).toBeCalledTimes(13);
     consoleInfo.mockReset();
     mockGetHistory.mockReset();
   });
@@ -668,7 +798,8 @@ describe("renderBrick", () => {
         if: false,
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -682,7 +813,7 @@ describe("renderBrick", () => {
     const brick: any = {
       template: "legacy-template",
     };
-    const output = await renderBrick(null!, brick, null!, null!);
+    const output = await renderBrick(null!, brick, null!, null!, []);
     expect(output).toEqual({
       blockingList: [],
       menuRequests: [],
@@ -699,7 +830,7 @@ describe("renderBrick", () => {
     const brick: any = {
       foo: "bar",
     };
-    const output = await renderBrick(null!, brick, null!, null!);
+    const output = await renderBrick(null!, brick, null!, null!, []);
     expect(output).toEqual({
       blockingList: [],
       menuRequests: [],
@@ -748,7 +879,8 @@ describe("renderBrick for control nodes", () => {
           ],
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
       renderBrick(
         renderRoot,
@@ -766,7 +898,8 @@ describe("renderBrick for control nodes", () => {
           ],
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
     ]);
     expect(output1).toEqual({
@@ -831,7 +964,7 @@ describe("renderBrick for control nodes", () => {
       [
         {
           brick: ":forEach",
-          dataSource: "<% 'track context', CTX.list %>",
+          dataSource: "<%= CTX.list %>",
           children: [
             {
               brick: "div",
@@ -869,11 +1002,21 @@ describe("renderBrick for control nodes", () => {
               portal: true,
             },
           ],
+          lifeCycle: {
+            onMount: {
+              action: "console.info",
+              args: [":forEach mount", "<% EVENT.detail.rerender %>"],
+            },
+            onUnmount: {
+              action: "console.info",
+              args: [":forEach unmount"],
+            },
+          },
         },
       ],
       runtimeContext,
       rendererContext,
-      undefined
+      []
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -881,9 +1024,10 @@ describe("renderBrick for control nodes", () => {
     expect(consoleInfo).not.toBeCalled();
     rendererContext.dispatchOnMount();
     rendererContext.initializeScrollIntoView();
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledTimes(3);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, ":forEach mount", false);
 
     expect(container.innerHTML).toBe("<div>a</div><div>b</div>");
     expect(portal.innerHTML).toBe("<p>portal:a</p><p>portal:b</p>");
@@ -892,15 +1036,17 @@ describe("renderBrick for control nodes", () => {
     expect(container.innerHTML).toBe('<div title="mark">a</div><div>b</div>');
 
     ctxStore.updateValue("list", ["a", "c"], "replace");
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toBeCalledTimes(3);
     // Wait for `_.debounce()`
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(consoleInfo).toBeCalledTimes(6);
-    expect(consoleInfo).toHaveBeenNthCalledWith(3, "onUnmount", "unmount", "a");
-    expect(consoleInfo).toHaveBeenNthCalledWith(4, "onUnmount", "unmount", "b");
-    expect(consoleInfo).toHaveBeenNthCalledWith(5, "onMount", "mount", "a");
-    expect(consoleInfo).toHaveBeenNthCalledWith(6, "onMount", "mount", "c");
+    expect(consoleInfo).toBeCalledTimes(9);
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, ":forEach unmount");
+    expect(consoleInfo).toHaveBeenNthCalledWith(5, "onUnmount", "unmount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(6, "onUnmount", "unmount", "b");
+    expect(consoleInfo).toHaveBeenNthCalledWith(7, "onMount", "mount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(8, "onMount", "mount", "c");
+    expect(consoleInfo).toHaveBeenNthCalledWith(9, ":forEach mount", true);
 
     // Note: previous `title="mark"` is removed
     expect(container.innerHTML).toBe("<div>a</div><div>c</div>");
@@ -908,8 +1054,156 @@ describe("renderBrick for control nodes", () => {
 
     unmountTree(container);
     unmountTree(portal);
+    rendererContext.dispatchOnUnmount();
     rendererContext.dispose();
+
+    expect(consoleInfo).toBeCalledTimes(12);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      10,
+      "onUnmount",
+      "unmount",
+      "a"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      11,
+      "onUnmount",
+      "unmount",
+      "c"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(12, ":forEach unmount");
+
     consoleInfo.mockReset();
+  });
+
+  test("nesting :forEach and track", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "value",
+          value: 1,
+        },
+        {
+          name: "constant",
+        },
+      ],
+      runtimeContext
+    );
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [
+        {
+          brick: "h1",
+          properties: {
+            textContent: "Hello",
+          },
+        },
+        {
+          brick: ":forEach",
+          dataSource: "<%= [CTX.constant] %>",
+          children: [
+            {
+              brick: "p",
+              properties: {
+                textContent: "prefix",
+              },
+            },
+            {
+              brick: ":forEach",
+              dataSource: "<%= [CTX.value] %>",
+              children: [
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "<% `ForEach in ForEach [${ITEM}]` %>",
+                  },
+                },
+              ],
+            },
+            {
+              brick: "p",
+              properties: {
+                textContent: "suffix",
+              },
+            },
+          ],
+        },
+        {
+          brick: "p",
+          properties: {
+            textContent: "Goodbye",
+          },
+        },
+      ],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    renderRoot.child = output.node;
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+    mountTree(renderRoot);
+
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <h1>
+          Hello
+        </h1>,
+        <p>
+          prefix
+        </p>,
+        <p>
+          ForEach in ForEach [1]
+        </p>,
+        <p>
+          suffix
+        </p>,
+        <p>
+          Goodbye
+        </p>,
+      ]
+    `);
+
+    ctxStore.updateValue("value", 2, "replace");
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <h1>
+          Hello
+        </h1>,
+        <p>
+          prefix
+        </p>,
+        <p>
+          ForEach in ForEach [2]
+        </p>,
+        <p>
+          suffix
+        </p>,
+        <p>
+          Goodbye
+        </p>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispose();
   });
 
   test(":if", async () => {
@@ -965,7 +1259,8 @@ describe("renderBrick for control nodes", () => {
           slots,
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
       renderBrick(
         renderRoot,
@@ -975,7 +1270,8 @@ describe("renderBrick for control nodes", () => {
           slots,
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
       renderBrick(
         renderRoot,
@@ -987,7 +1283,8 @@ describe("renderBrick for control nodes", () => {
           },
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       ),
     ]);
     expect(output1).toEqual({
@@ -1074,7 +1371,8 @@ describe("renderBrick for control nodes", () => {
         ],
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     expect(output).toEqual({
       blockingList: [],
@@ -1110,7 +1408,8 @@ describe("renderBrick for control nodes", () => {
           children: [{ brick: "div" }],
         },
         runtimeContext,
-        rendererContext
+        rendererContext,
+        []
       )
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unknown storyboard control node: ":unknown"]`
@@ -1251,7 +1550,8 @@ describe("renderBrick for tpl", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
     const { tplStateStoreId } = output.node!.tplHostMetadata!;
@@ -1268,7 +1568,9 @@ describe("renderBrick for tpl", () => {
     mountTree(renderRoot);
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-a>
+        <my.tpl-a
+          data-tpl-state-store-id="tpl-state-1"
+        >
           <div
             title="T"
           >
@@ -1342,7 +1644,7 @@ describe("renderBrick for tpl", () => {
       bricks: [
         {
           brick: ":forEach",
-          dataSource: "<% 'track state', STATE.list %>",
+          dataSource: "<%= STATE.list %>",
           children: [
             {
               brick: "div",
@@ -1404,7 +1706,7 @@ describe("renderBrick for tpl", () => {
       [{ brick: "my.tpl-b" }],
       runtimeContext,
       rendererContext,
-      undefined
+      []
     );
     renderRoot.child = output.node;
     await Promise.all([
@@ -1424,7 +1726,9 @@ describe("renderBrick for tpl", () => {
 
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-b>
+        <my.tpl-b
+          data-tpl-state-store-id="tpl-state-2"
+        >
           <div>
             a
           </div>
@@ -1448,7 +1752,9 @@ describe("renderBrick for tpl", () => {
     (container.firstChild?.firstChild as HTMLElement).title = "mark";
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-b>
+        <my.tpl-b
+          data-tpl-state-store-id="tpl-state-2"
+        >
           <div
             title="mark"
           >
@@ -1482,7 +1788,9 @@ describe("renderBrick for tpl", () => {
     // Note: previous `title="mark"` is removed
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-b>
+        <my.tpl-b
+          data-tpl-state-store-id="tpl-state-2"
+        >
           <div>
             a
           </div>
@@ -1605,7 +1913,8 @@ describe("renderBrick for tpl", () => {
         ],
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
 
@@ -1620,7 +1929,9 @@ describe("renderBrick for tpl", () => {
     mountTree(renderRoot);
     expect(container.children).toMatchInlineSnapshot(`
       HTMLCollection [
-        <my.tpl-c>
+        <my.tpl-c
+          data-tpl-state-store-id="tpl-state-3"
+        >
           <div
             title="a"
           >
@@ -1637,7 +1948,9 @@ describe("renderBrick for tpl", () => {
             </em>
           </div>
         </my.tpl-c>,
-        <my.tpl-c>
+        <my.tpl-c
+          data-tpl-state-store-id="tpl-state-4"
+        >
           <div
             title="b"
           >
@@ -1717,7 +2030,8 @@ describe("renderBrick for form renderer", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
 
@@ -1866,7 +2180,8 @@ describe("renderBrick for form renderer", () => {
         },
       },
       runtimeContext,
-      rendererContext
+      rendererContext,
+      []
     );
     renderRoot.child = output.node;
 
@@ -1895,5 +2210,141 @@ describe("renderBrick for form renderer", () => {
         </form-renderer.form-renderer>,
       ]
     `);
+  });
+});
+
+describe("renderBrick for scripts", () => {
+  test("script with src", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "script",
+        properties: {
+          src: "http://example.com/a.js",
+          type: "module",
+        },
+      },
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toEqual({ blockingList: [], menuRequests: [] });
+    expect(loadScript).toBeCalledTimes(1);
+    expect(loadScript).toBeCalledWith("http://example.com/a.js", "", {
+      type: "module",
+    });
+  });
+
+  test("script without src", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "script",
+        properties: {
+          text: "console.log(1)",
+        },
+      },
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [],
+      node: expect.objectContaining({
+        type: "script",
+        properties: {
+          text: "console.log(1)",
+        },
+      }),
+    });
+    expect(loadScript).toBeCalledTimes(0);
+  });
+});
+
+describe("renderBrick for stylesheets", () => {
+  test("stylesheet with src", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "link",
+        properties: {
+          rel: "stylesheet",
+          href: "http://example.com/b.css",
+        },
+      },
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toEqual({ blockingList: [], menuRequests: [] });
+    expect(loadStyle).toBeCalledTimes(1);
+    expect(loadStyle).toBeCalledWith("http://example.com/b.css", "", {
+      rel: "stylesheet",
+    });
+  });
+
+  test("stylesheet with rel other than stylesheet", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "link",
+        properties: {
+          rel: "prefetch",
+          href: "http://example.com/b.css",
+        },
+      },
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toEqual({
+      blockingList: [],
+      menuRequests: [],
+      node: expect.objectContaining({
+        type: "link",
+        properties: {
+          rel: "prefetch",
+          href: "http://example.com/b.css",
+        },
+      }),
+    });
+    expect(loadStyle).toBeCalledTimes(0);
   });
 });

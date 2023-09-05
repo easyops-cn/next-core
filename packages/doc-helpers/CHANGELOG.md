@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.10](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.1.9...@next-core/doc-helpers@0.1.10) (2023-08-01)
+
+**Note:** Version bump only for package @next-core/doc-helpers
+
+
+
+
+
+## [0.1.9](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.1.8...@next-core/doc-helpers@0.1.9) (2023-07-28)
+
+
+### Bug Fixes
+
+* fix provider callback and format ([0e8b47a](https://github.com/easyops-cn/next-core/commit/0e8b47aa48714da7dfe831b0706a5049116ab0a9))
+
+
+
+
+
 ## [0.1.8](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.1.7...@next-core/doc-helpers@0.1.8) (2023-07-03)
 
 **Note:** Version bump only for package @next-core/doc-helpers

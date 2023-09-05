@@ -3,6 +3,10 @@ import { createProviderClass } from "@next-core/utils/general";
 import { loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
 import {
+  HttpResponseError as _HttpResponseError,
+  HttpAbortError as _HttpAbortError,
+} from "@next-core/http";
+import {
   createRuntime as _createRuntime,
   getRuntime as _getRuntime,
   _internalApiGetRenderId as __internalApiGetRenderId,
@@ -34,6 +38,7 @@ const getBootstrapData = (options?: {
           settings: {
             featureFlags: {
               ["some-app-feature"]: true,
+              ["incremental-sub-route-rendering"]: true,
             },
             misc: {
               staff: "cool",
@@ -118,6 +123,108 @@ const getBootstrapData = (options?: {
           exact: true,
           redirect: "${APP.homepage}/r1",
         },
+        {
+          path: "${APP.homepage}/unauthenticated",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: { useProvider: "my-unauthenticated-provider" },
+            },
+          ],
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}/sub-routes/:sub",
+          menu: {
+            breadcrumb: { items: [{ text: "0" }] },
+          },
+          context: [{ name: "subParent" }],
+          bricks: [
+            {
+              brick: "h1",
+              properties: {
+                textContent: "<% `Hello [${PATH.sub}]` %>",
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes/1",
+                      menu: {
+                        breadcrumb: { items: [{ text: "1" }] },
+                      },
+                      context: [{ name: "subA" }],
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 1",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/2",
+                      menu: {
+                        breadcrumb: { items: [{ text: "2" }] },
+                      },
+                      context: [{ name: "subA" }],
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 2",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/3",
+                      menu: {
+                        breadcrumb: { items: [{ text: "3" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "<% Sub 3 %>",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/4",
+                      menu: {
+                        breadcrumb: { items: [{ text: "4" }] },
+                      },
+                      type: "redirect",
+                      redirect: "${APP.homepage}/sub-routes/2",
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/5",
+                      menu: {
+                        breadcrumb: { items: [{ text: "5" }], overwrite: true },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 5",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
       ],
       meta: {
         customTemplates: options?.templates
@@ -145,6 +252,55 @@ const getBootstrapData = (options?: {
             ]
           : [],
       },
+    },
+    {
+      app: {
+        id: "app-b",
+        homepage: "/app-b",
+        name: "App B",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}/fail",
+          exact: true,
+          bricks: null!,
+        },
+        {
+          path: "${APP.homepage}/unauthenticated",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: { useProvider: "my-unauthenticated-provider" },
+            },
+          ],
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}/aborted",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: { useProvider: "my-abort-provider" },
+            },
+          ],
+          bricks: [],
+        },
+      ],
+    },
+    {
+      app: {
+        id: "auth",
+        homepage: "/auth",
+        name: "Auth",
+      },
+      routes: [],
     },
   ],
   brickPackages: [],
@@ -182,11 +338,25 @@ customElements.define(
   createProviderClass(myTimeoutProvider)
 );
 
+const myUnauthenticatedProvider = jest.fn<() => Promise<unknown>>();
+customElements.define(
+  "my-unauthenticated-provider",
+  createProviderClass(myUnauthenticatedProvider)
+);
+
+const myAbortProvider = jest.fn<() => Promise<unknown>>();
+customElements.define(
+  "my-abort-provider",
+  createProviderClass(myAbortProvider)
+);
+
 describe("Runtime", () => {
   let createRuntime: typeof _createRuntime;
   let getRuntime: typeof _getRuntime;
   let getHistory: typeof _getHistory;
   let _internalApiGetRenderId: typeof __internalApiGetRenderId;
+  let HttpResponseError: typeof _HttpResponseError;
+  let HttpAbortError: typeof _HttpAbortError;
 
   beforeEach(() => {
     window.NO_AUTH_GUARD = true;
@@ -204,6 +374,10 @@ describe("Runtime", () => {
       const r = require("./Runtime.js");
       createRuntime = r.createRuntime;
       getRuntime = r.getRuntime;
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const p = require("@next-core/http");
+      HttpResponseError = p.HttpResponseError;
+      HttpAbortError = p.HttpAbortError;
       _internalApiGetRenderId = r._internalApiGetRenderId;
     });
   });
@@ -242,7 +416,9 @@ describe("Runtime", () => {
       previousApp: undefined,
     });
     expect(getRuntime().getCurrentApp()).toMatchObject({ id: "app-a" });
+    expect(getRuntime().hasInstalledApp("app-b")).toBe(true);
     expect(getRuntime().getFeatureFlags()).toEqual({
+      "incremental-sub-route-rendering": true,
       "migrate-to-brick-next-v3": true,
       "some-app-feature": true,
       "some-global-feature": true,
@@ -344,7 +520,9 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <app-a.tpl-a>
+          <app-a.tpl-a
+            data-tpl-state-store-id="tpl-state-2"
+          >
             <div>
               I'm Resolved X
             </div>
@@ -378,6 +556,312 @@ describe("Runtime", () => {
     `);
   });
 
+  test("incremental sub-router rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes/1");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 1
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }, { text: "1" }],
+    });
+
+    getHistory().push("/app-a/sub-routes/2");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 2
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }, { text: "2" }],
+    });
+
+    consoleError.mockReturnValueOnce();
+    getHistory().push("/app-a/sub-routes/3");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <div>
+              SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }],
+    });
+
+    getHistory().push("/app-a/sub-routes/4");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 2
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }, { text: "2" }],
+    });
+
+    getHistory().push("/app-a/sub-routes/5");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [1]
+          </h1>
+          <div>
+            <p>
+              Sub 5
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "5" }],
+    });
+
+    getHistory().push("/app-a/1");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            I'm page 1 of App A
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+
+    getHistory().push("/app-a/sub-routes/1");
+    await (global as any).flushPromises();
+    getHistory().push("/app-a/sub-routes/6");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [6]
+          </h1>
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "0" }],
+    });
+  });
+
+  test("unauthenticated", async () => {
+    window.NO_AUTH_GUARD = false;
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return false;
+          },
+          getAuth() {
+            return {};
+          },
+        },
+      },
+    }).initialize(getBootstrapData());
+    getHistory().push("/app-b/");
+    await getRuntime().bootstrap();
+    expect(getHistory().location.pathname).toBe("/auth/login");
+  });
+
+  test("no app matched", async () => {
+    window.NO_AUTH_GUARD = false;
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return false;
+          },
+          getAuth() {
+            return {};
+          },
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "sso-auth",
+            homepage: "/sso-auth",
+            name: "SSO Auth",
+          },
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "sso-enabled": true,
+        },
+      },
+    });
+    getHistory().push("/app-unknown/");
+    await getRuntime().bootstrap();
+    expect(getHistory().location.pathname).toBe("/sso-auth/login");
+  });
+
+  test("failed", async () => {
+    consoleError.mockReturnValueOnce();
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/fail");
+    await getRuntime().bootstrap();
+    expect(consoleError).toBeCalledTimes(1);
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            TypeError: Cannot read properties of null (reading 'map')
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+  });
+
+  test("API unauthenticated", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    myUnauthenticatedProvider.mockRejectedValueOnce(error);
+    window.NO_AUTH_GUARD = false;
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/unauthenticated");
+    await getRuntime().bootstrap();
+    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(getHistory().location.pathname).toBe("/auth/login");
+  });
+
+  test("API aborted", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpAbortError("aborted");
+    myAbortProvider.mockRejectedValueOnce(error);
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-b/aborted");
+    await getRuntime().bootstrap();
+    expect(myAbortProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        />,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+  });
+
+  test("redirect to other login page  if not logged in", async () => {
+    consoleError.mockReturnValueOnce();
+    const error = new HttpResponseError({ status: 401 } as any, {
+      code: 100003,
+    });
+    myUnauthenticatedProvider.mockRejectedValueOnce(error);
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = true;
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/unauthenticated");
+    jest.spyOn(getRuntime(), "getMiscSettings").mockImplementation(() => {
+      return { noAuthGuardLoginPath: "/easy-core-console/login" };
+    });
+    await getRuntime().bootstrap();
+    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(getHistory().location.pathname).toBe("/easy-core-console/login");
+  });
+
   test("page not found", async () => {
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/not-found");
@@ -403,6 +887,7 @@ describe("Runtime", () => {
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-a/r1");
     await getRuntime().bootstrap();
+    await (global as any).flushPromises();
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div

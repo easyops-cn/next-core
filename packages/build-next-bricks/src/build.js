@@ -42,6 +42,9 @@ const getCssLoaders = (cssOptions) => [
         plugins: [
           postcssPresetEnv({
             stage: 3,
+            features: {
+              "nesting-rules": true,
+            },
           }),
           cssnano({
             preset: cssnanoPresetLite({
@@ -118,6 +121,7 @@ async function getWebpackConfig(config) {
     "js-yaml",
     "i18next-browser-languagedetector",
     "react-i18next",
+    "@babel/parser",
     "@easyops-cn/brick-next-pipes",
     "@next-core/pipes",
     "@next-core/runtime",
@@ -448,6 +452,7 @@ async function getWebpackConfig(config) {
               dependencies: config.dependencies,
               manifest: config.manifest,
               types: config.types,
+              examples: config.examples,
             }),
           ]
         : []),

@@ -4,25 +4,39 @@ import type {
   RouteConf,
   Storyboard,
   UseSingleBrickConf,
+  RuntimeSnippet,
+  ContextConf,
 } from "@next-core/types";
-import { flushStableLoadBricks } from "@next-core/loader";
+import { loadBricksImperatively } from "@next-core/loader";
 import { pick } from "lodash";
 import {
+  _internalApiGetRenderId,
   _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
+  getBrickPackages,
 } from "./Runtime.js";
-import { renderBrick } from "./Renderer.js";
+import {
+  createScopedRuntimeContext,
+  postAsyncRender,
+  renderBrick,
+} from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
-import type { RenderRoot, RuntimeContext } from "./interfaces.js";
+import type {
+  DataValueOption,
+  PreviewOption,
+  PreviewStoryboardPatch,
+  RenderRoot,
+} from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
+import { getTplStateStore } from "./CustomTemplates/utils.js";
 
-export type { RuntimeContext } from "./interfaces.js";
+export type { DataValueOption, RuntimeContext } from "./interfaces.js";
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -35,18 +49,15 @@ export async function renderUseBrick(
   useBrick: UseSingleBrickConf,
   data: unknown
 ): Promise<RenderUseBrickResult> {
-  const tplStateStoreScope: DataStore<"STATE">[] = [];
-  const formStateStoreScope: DataStore<"FORM_STATE">[] = [];
-  const runtimeContext: RuntimeContext = {
-    ..._internalApiGetRuntimeContext()!,
-    data,
-    pendingPermissionsPreCheck: [],
-    tplStateStoreScope,
-    formStateStoreScope,
-  };
+  const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
+    createScopedRuntimeContext({
+      ..._internalApiGetRuntimeContext()!,
+      data,
+      pendingPermissionsPreCheck: [],
+    });
 
-  runtimeContext.tplStateStoreMap ??= new Map();
-  runtimeContext.formStateStoreMap ??= new Map();
+  scopedRuntimeContext.tplStateStoreMap ??= new Map();
+  scopedRuntimeContext.formStateStoreMap ??= new Map();
 
   const rendererContext = new RendererContext("fragment");
 
@@ -79,23 +90,14 @@ export async function renderUseBrick(
             ...transform,
           },
         },
-    runtimeContext,
-    rendererContext
+    scopedRuntimeContext,
+    rendererContext,
+    []
   );
 
-  flushStableLoadBricks();
+  const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
 
-  const scopedStores: DataStore<"STATE" | "FORM_STATE">[] = [
-    ...tplStateStoreScope,
-    ...formStateStoreScope,
-  ];
-
-  await Promise.all([
-    ...output.blockingList,
-    // Wait for local tpl state stores belong to current `useBrick` only.
-    ...scopedStores.map((store) => store.waitForAll()),
-    ...runtimeContext.pendingPermissionsPreCheck,
-  ]);
+  await postAsyncRender(output, scopedRuntimeContext, scopedStores);
 
   if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
@@ -128,14 +130,14 @@ export function mountUseBrick(
 
   mountTree(renderRoot, element);
 
-  for (const store of scopedStores) {
-    store.handleAsyncAfterMount();
-  }
-
   rendererContext.dispatchOnMount();
   rendererContext.initializeScrollIntoView();
   rendererContext.initializeMediaChange();
   rendererContext.initializeMessageDispatcher();
+
+  for (const store of scopedStores) {
+    store.mountAsyncData();
+  }
 
   return {
     portal,
@@ -248,17 +250,23 @@ export function updateTemplatePreviewSettings(
   );
 }
 
+function getSnippetPreviewPath(snippetId: string): string {
+  return `\${APP.homepage}/_dev_only_/snippet-preview/${snippetId}`;
+}
+
 export function updateStoryboardBySnippet(
   appId: string,
   snippetData: {
     snippetId: string;
     bricks?: BrickConf[];
+    context?: ContextConf[];
   }
 ): void {
   _updatePreviewSettings(
     appId,
-    `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`,
-    snippetData.bricks?.length ? snippetData.bricks : [{ brick: "span" }]
+    getSnippetPreviewPath(snippetData.snippetId),
+    snippetData.bricks?.length ? snippetData.bricks : [{ brick: "span" }],
+    snippetData.context
   );
 }
 
@@ -267,13 +275,15 @@ export const updateSnippetPreviewSettings = updateStoryboardBySnippet;
 function _updatePreviewSettings(
   appId: string,
   path: string,
-  bricks: BrickConf[]
+  bricks: BrickConf[],
+  context?: ContextConf[]
 ) {
   const { routes } = _internalApiGetStoryboardInBootstrapData(appId)!;
   const previewRouteIndex = routes.findIndex((route) => route.path === path);
   const newPreviewRoute: RouteConf = {
     path,
     bricks,
+    context,
     menu: false,
     exact: true,
   };
@@ -282,4 +292,117 @@ function _updatePreviewSettings(
   } else {
     routes.splice(previewRouteIndex, 1, newPreviewRoute);
   }
+}
+
+export function getContextValue(
+  name: string,
+  { tplStateStoreId }: DataValueOption
+): unknown {
+  const runtimeContext = _internalApiGetRuntimeContext()!;
+
+  if (tplStateStoreId) {
+    const tplStateStore = getTplStateStore(
+      {
+        ...runtimeContext,
+        tplStateStoreId,
+      },
+      "STATE"
+    );
+    return tplStateStore.getValue(name);
+  }
+
+  return runtimeContext.ctxStore.getValue(name);
+}
+
+export function getAllContextValues({
+  tplStateStoreId,
+}: DataValueOption): Record<string, unknown> {
+  const runtimeContext = _internalApiGetRuntimeContext()!;
+
+  if (tplStateStoreId) {
+    const tplStateStore = getTplStateStore(
+      {
+        ...runtimeContext,
+        tplStateStoreId,
+      },
+      "STATE"
+    );
+    return tplStateStore.getAllValues();
+  }
+
+  return runtimeContext.ctxStore.getAllValues();
+}
+
+export function getBrickPackagesById(id: string) {
+  return getBrickPackages().find((pkg) =>
+    pkg.id ? pkg.id === id : pkg.filePath.startsWith(id)
+  );
+}
+
+export function getRenderId() {
+  return _internalApiGetRenderId();
+}
+
+export async function getAddedContracts(
+  storyboardPatch: PreviewStoryboardPatch,
+  {
+    appId,
+    updateStoryboardType,
+    provider: collectContractProvider,
+  }: PreviewOption
+): Promise<string[]> {
+  const storyboard = _internalApiGetStoryboardInBootstrapData(appId);
+  let updatedStoryboard;
+
+  // 拿到更新部分的 storyboard 配置，然后扫描一遍，找到新增的 contracts
+  if (updateStoryboardType === "route") {
+    updatedStoryboard = {
+      routes: [storyboardPatch as RouteConf],
+    } as Storyboard;
+  } else if (updateStoryboardType === "template") {
+    updatedStoryboard = {
+      meta: {
+        customTemplates: [storyboardPatch as CustomTemplate],
+      },
+    } as Storyboard;
+  } else if (updateStoryboardType === "snippet") {
+    // snippet 是放在挂载 route 里预览，通过 previewPath 拿到当前修改 route
+    const snippetPreviewPath = getSnippetPreviewPath(
+      (storyboardPatch as RuntimeSnippet).snippetId
+    );
+    const currentRoute = storyboard?.routes?.find(
+      (route) => route.path === snippetPreviewPath
+    );
+
+    updatedStoryboard = {
+      routes: [currentRoute],
+    } as Storyboard;
+  }
+
+  const addedContracts: string[] = [];
+
+  if (updatedStoryboard && collectContractProvider) {
+    await loadBricksImperatively([collectContractProvider], getBrickPackages());
+
+    const provider = document.createElement(collectContractProvider) as any;
+    const contractApis = await provider.resolve(updatedStoryboard);
+
+    contractApis.forEach((api: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, namespaceId, name] = api.match(
+        /(.*)@(.*):\d\.\d\.\d/
+      ) as string[];
+
+      if (
+        !storyboard?.meta?.contracts?.some(
+          (contract) =>
+            contract.namespaceId === namespaceId && contract.name === name
+        )
+      ) {
+        addedContracts.push(api);
+      }
+    });
+  }
+
+  return addedContracts;
 }

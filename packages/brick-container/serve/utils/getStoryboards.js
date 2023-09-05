@@ -5,12 +5,16 @@ import yaml from "js-yaml";
 import _ from "lodash";
 import { getSizeCheckApp } from "./sizeCheck.js";
 
-export function getStoryboards({ rootDir, localMicroApps }) {
+export function getStoryboards({ rootDir, localMicroApps }, full) {
   const storyboards = Promise.all(
     localMicroApps.map(async (appId) => ({
       ...(await getSingleStoryboard(rootDir, appId)),
-      meta: null,
-      routes: null,
+      ...(full
+        ? null
+        : {
+            meta: null,
+            routes: null,
+          }),
     }))
   );
   return storyboards;
@@ -42,11 +46,11 @@ export async function getMatchedStoryboard(env, pathname) {
   // This enables two apps with relationship of parent-child of homepage.
   const sortedStoryboards = _.orderBy(
     storyboards,
-    (storyboard) => storyboard.app.homepage.length,
+    (storyboard) => storyboard.app?.homepage.length,
     "desc"
   );
   for (const storyboard of sortedStoryboards) {
-    const homepage = storyboard.app.homepage;
+    const homepage = storyboard.app?.homepage;
     if (typeof homepage === "string" && homepage[0] === "/") {
       if (
         homepage === "/"

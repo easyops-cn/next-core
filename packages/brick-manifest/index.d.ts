@@ -13,6 +13,7 @@ export interface BrickManifest {
   slots: SlotManifest[];
   events: EventManifest[];
   methods: MethodManifest[];
+  parts?: PartManifest[];
   deprecated?: boolean | string;
   alias?: string[];
 }
@@ -59,6 +60,11 @@ export interface MethodParamManifest {
   type?: string;
   description?: string;
   isRestElement?: boolean;
+}
+
+export interface PartManifest {
+  name: string;
+  description?: string;
 }
 
 export interface ProviderManifest {

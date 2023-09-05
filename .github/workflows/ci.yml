@@ -76,18 +76,18 @@ jobs:
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx-master-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-nx-master-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx-master-
+          ${{ runner.os }}-nx-master-${{ hashFiles('yarn.lock', 'package.json') }}-
       if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
 
     - name: Cache for nx (v3)
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx-v3-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-nx-v3-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx-v3-
+          ${{ runner.os }}-nx-v3-${{ hashFiles('yarn.lock', 'package.json') }}-
       if: (github.event_name == 'pull_request' && github.base_ref == 'v3') || (github.event_name == 'push' && github.ref_name == 'v3')
 
     - name: Cache for npx
@@ -149,3 +149,4 @@ jobs:
     - name: Sync taobao npm mirror
       run: npx lerna exec -- curl -sLX PUT 'https://npm.taobao.org/sync/$LERNA_PACKAGE_NAME?sync_upstream=true'
       if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'v3') && steps.next-publish-from-tags.outputs.has-tags
+      continue-on-error: true

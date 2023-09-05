@@ -1,5 +1,4 @@
 import { Action, locationsAreEqual } from "history";
-import { flushStableLoadBricks } from "@next-core/loader";
 import type {
   BreadcrumbItemConf,
   MicroApp,
@@ -9,13 +8,18 @@ import type {
 import { HttpAbortError } from "@next-core/http";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
-import { RenderOutput, renderRoutes } from "./Renderer.js";
+import {
+  RenderOutput,
+  getDataStores,
+  postAsyncRender,
+  renderRoutes,
+} from "./Renderer.js";
 import { DataStore } from "./data/DataStore.js";
 import { clearResolveCache } from "./data/resolveData.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard.js";
 import { registerStoryboardFunctions } from "./compute/StoryboardFunctions.js";
-import { RendererContext } from "./RendererContext.js";
+import { RendererContext, RouteHelper } from "./RendererContext.js";
 import {
   applyMode,
   applyTheme,
@@ -139,8 +143,10 @@ export class Router {
     initAbortController();
     const history = getHistory();
     this.#prevLocation = history.location;
-    history.listen((location, action) => {
-      let ignoreRendering = false;
+    let renderId = 0;
+    history.listen(async (location, action) => {
+      const currentRenderId = ++renderId;
+      let ignoreRendering: boolean | undefined;
       const omittedLocationProps: Partial<NextLocation> = {
         hash: undefined,
         state: undefined,
@@ -170,10 +176,22 @@ export class Router {
         // Ignore rendering if notify is `false`.
         ignoreRendering = true;
       }
+
+      if (!ignoreRendering) {
+        ignoreRendering =
+          await this.#rendererContext?.didPerformIncrementalRender(location);
+      }
+
+      // Ignore stale renders
+      if (renderId !== currentRenderId) {
+        return;
+      }
+
       if (ignoreRendering) {
         this.#prevLocation = location;
         return;
       }
+
       abortPendingRequest();
       this.#prevLocation = location;
       this.#rendererContext?.dispatchPageLeave();
@@ -224,6 +242,8 @@ export class Router {
 
     const history = getHistory();
     history.unblock();
+
+    const renderStartTime = performance.now();
 
     const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
@@ -305,8 +325,60 @@ export class Router {
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
 
+      const routeHelper: RouteHelper = {
+        bailout: (output) => {
+          if (output.unauthenticated) {
+            redirectToLogin();
+            return true;
+          }
+          if (output.redirect) {
+            redirectTo(output.redirect.path, output.redirect.state);
+            return true;
+          }
+          // Reset redirect count if no redirect is set.
+          this.#redirectCount = 0;
+        },
+        mergeMenus: async (menuRequests) => {
+          const menuConfs = await Promise.all(menuRequests);
+          this.#navConfig = mergeMenuConfs(menuConfs);
+        },
+        catch: (error, returnNode) => {
+          if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
+            redirectToLogin();
+            return;
+          } else if (error instanceof HttpAbortError) {
+            this.#rendererContextTrashCan.add(prevRendererContext);
+            return;
+          } else {
+            const noAuthGuardLoginPath =
+              getRuntime().getMiscSettings().noAuthGuardLoginPath;
+            if (isUnauthenticatedError(error) && noAuthGuardLoginPath) {
+              redirectTo(noAuthGuardLoginPath as string, { from: location });
+              return;
+            }
+            return {
+              failed: true,
+              output: {
+                node: {
+                  tag: RenderTag.BRICK,
+                  type: "div",
+                  properties: {
+                    textContent: httpErrorToString(error),
+                  },
+                  runtimeContext: null!,
+                  return: returnNode,
+                },
+                blockingList: [],
+                menuRequests: [],
+              },
+            };
+          }
+        },
+      };
+
       const rendererContext = (this.#rendererContext = new RendererContext(
-        "page"
+        "page",
+        { routeHelper }
       ));
 
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
@@ -344,70 +416,28 @@ export class Router {
           renderRoot,
           insertPreviewRoutes(storyboard.routes),
           runtimeContext,
-          rendererContext
+          rendererContext,
+          []
         );
-        if (output.unauthenticated) {
-          redirectToLogin();
+        if (routeHelper.bailout(output)) {
           return;
         }
-        if (output.redirect) {
-          redirectTo(output.redirect.path, output.redirect.state);
-          return;
-        }
-        // Reset redirect count if no redirect is set.
-        this.#redirectCount = 0;
 
-        flushStableLoadBricks();
+        stores = getDataStores(runtimeContext);
 
-        stores = [
-          runtimeContext.ctxStore,
-          ...runtimeContext.tplStateStoreMap.values(),
-          ...runtimeContext.formStateStoreMap.values(),
-        ];
+        await postAsyncRender(output, runtimeContext, stores);
 
-        await Promise.all([
-          ...output.blockingList,
-          ...stores.map((store) => store.waitForAll()),
-          // Todo: load processors only when they would used in current rendering.
-          // loadProcessorsImperatively(
-          //   strictCollectMemberUsage(
-          //     [storyboard.routes, storyboard.meta?.customTemplates],
-          //     "PROCESSORS",
-          //     2
-          //   ),
-          //   getBrickPackages()
-          // ),
-          ...runtimeContext.pendingPermissionsPreCheck,
-        ]);
-
-        const menuConfs = await Promise.all(output.menuRequests);
-        this.#navConfig = mergeMenuConfs(menuConfs);
+        await routeHelper.mergeMenus(output.menuRequests);
+        rendererContext.setInitialMenuRequests(output.menuRequests);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
 
-        if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
-          redirectToLogin();
+        const result = routeHelper.catch(error, renderRoot);
+        if (!result) {
           return;
-        } else if (error instanceof HttpAbortError) {
-          this.#rendererContextTrashCan.add(prevRendererContext);
-          return;
-        } else {
-          failed = true;
-          output = {
-            node: {
-              tag: RenderTag.BRICK,
-              type: "div",
-              properties: {
-                textContent: httpErrorToString(error),
-              },
-              runtimeContext: null!,
-              return: renderRoot,
-            },
-            blockingList: [],
-            menuRequests: [],
-          };
         }
+        ({ failed, output } = result);
       }
       renderRoot.child = output.node;
 
@@ -428,17 +458,26 @@ export class Router {
         window.scrollTo(0, 0);
 
         if (!failed) {
-          for (const store of stores) {
-            store.handleAsyncAfterMount();
-          }
-
           rendererContext.dispatchPageLoad();
           rendererContext.dispatchAnchorLoad();
           rendererContext.dispatchOnMount();
           rendererContext.initializeScrollIntoView();
           rendererContext.initializeMediaChange();
           rendererContext.initializeMessageDispatcher();
+
+          for (const store of stores) {
+            store.mountAsyncData();
+          }
         }
+
+        const renderTime = performance.now() - renderStartTime;
+        window.dispatchEvent(
+          new CustomEvent("route.render", {
+            detail: {
+              renderTime,
+            },
+          })
+        );
 
         return;
       }
@@ -476,19 +515,17 @@ export class Router {
   }
 }
 
-function mergeMenuConfs(menuConfs: (StaticMenuConf | undefined)[]) {
+function mergeMenuConfs(menuConfs: StaticMenuConf[]) {
   const navConfig = {
     breadcrumb: [] as BreadcrumbItemConf[],
   };
   for (const menuConf of menuConfs) {
-    if (menuConf) {
-      const { breadcrumb } = menuConf;
-      if (breadcrumb) {
-        if (breadcrumb.overwrite) {
-          navConfig.breadcrumb = breadcrumb.items;
-        } else {
-          navConfig.breadcrumb.push(...breadcrumb.items);
-        }
+    const { breadcrumb } = menuConf;
+    if (breadcrumb) {
+      if (breadcrumb.overwrite) {
+        navConfig.breadcrumb = breadcrumb.items;
+      } else {
+        navConfig.breadcrumb.push(...breadcrumb.items);
       }
     }
   }

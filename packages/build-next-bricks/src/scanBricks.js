@@ -15,6 +15,7 @@ import {
 } from "@babel/types";
 import getTypeDeclaration from "./getTypeDeclaration.js";
 import isDeprecatedV2Packages from "./isDeprecatedV2Packages.js";
+import { handleExamplesInMarkdown } from "./getDocs.js";
 
 /**
  *
@@ -40,7 +41,7 @@ const validExposeName = /^[-\w]+$/;
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
- * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest; types: Record<string, unknown>}>}
+ * @returns {Promise<{exposes: Exposes; dependencies: Record<string, string[]>; manifest: PackageManifest; types: Record<string, unknown>; examples: Record<string, {doc: string}>}>}
  */
 export default async function scanBricks(packageDir) {
   /** @type {Map<string, Expose>} */
@@ -839,6 +840,36 @@ export default async function scanBricks(packageDir) {
     delete providerDoc.usedReferences;
   }
 
+  /** @type {Record<string, {doc: string}>} */
+  const examples = {};
+  const srcDocsDir = path.join(packageDir, "docs");
+
+  for (const brick of manifest.bricks.concat(manifest.providers ?? [])) {
+    const lastName = brick.name.split(".").pop();
+
+    const srcFilePath = path.join(srcDocsDir, `${brick.name}.md`);
+    const srcFilePathAlt = path.join(srcDocsDir, `${lastName}.md`);
+
+    /** @type {string} */
+    let brickDoc;
+    if (existsSync(srcFilePath)) {
+      brickDoc = handleExamplesInMarkdown(
+        await readFile(srcFilePath, "utf-8"),
+        [manifest]
+      );
+    } else if (existsSync(srcFilePathAlt)) {
+      brickDoc = handleExamplesInMarkdown(
+        await readFile(srcFilePathAlt, "utf-8"),
+        [manifest]
+      );
+    }
+    if (brickDoc) {
+      examples[brick.name] = {
+        doc: brickDoc,
+      };
+    }
+  }
+
   // console.log("exposes:", exposes);
 
   return {
@@ -871,5 +902,6 @@ export default async function scanBricks(packageDir) {
           ])
         )
     ),
+    examples,
   };
 }

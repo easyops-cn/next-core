@@ -2,6 +2,9 @@ import type { LegacyCompatibleRuntimeContext } from "@next-core/inject";
 import type {
   BrickEventHandler,
   BrickEventsMap,
+  CustomTemplate,
+  RouteConf,
+  RuntimeSnippet,
   CustomTemplateProxy,
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
@@ -27,9 +30,11 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   formStateStoreScope?: DataStore<"FORM_STATE">[];
 }
 
-export type AsyncComputedProperties = Promise<Record<string, unknown>>;
-
-export type AsyncProperties = Record<string, Promise<unknown>>;
+export type AsyncPropertyEntry = [
+  name: string,
+  value: Promise<unknown>,
+  ignoreUndefined?: boolean
+];
 
 export interface ElementHolder {
   element?: HTMLElement | null;
@@ -107,7 +112,7 @@ export type TemplateHostBrick = RuntimeBrick & {
 
 export interface TemplateHostContext {
   reversedProxies: ReversedProxies;
-  asyncHostProperties: AsyncProperties;
+  asyncHostPropertyEntries: AsyncPropertyEntry[];
   externalSlots?: SlotsConfOfBricks;
   tplStateStoreId: string;
   hostBrick: TemplateHostBrick;
@@ -130,3 +135,19 @@ interface ReversedSlotProxy {
 
 export type RuntimeBrickConfWithSymbols = RuntimeBrickConfWithTplSymbols &
   RuntimeBrickConfOfFormSymbols;
+
+export interface DataValueOption {
+  tplStateStoreId?: string;
+}
+
+export type PreviewStoryboardPatch =
+  | CustomTemplate
+  | RouteConf
+  | RuntimeSnippet;
+
+export interface PreviewOption {
+  appId: string;
+  formId?: string;
+  updateStoryboardType?: "route" | "template" | "snippet";
+  provider?: string;
+}

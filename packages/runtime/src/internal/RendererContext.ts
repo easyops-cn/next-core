@@ -2,12 +2,14 @@ import type {
   BrickEventHandler,
   BrickLifeCycle,
   MessageConf,
+  RouteConf,
   ScrollIntoViewConf,
+  StaticMenuConf,
 } from "@next-core/types";
-import type { Action } from "history";
+import type { Action, Location } from "history";
 import { isEmpty, remove } from "lodash";
 import { listenerFactory } from "./bindListeners.js";
-import { NextLocation, getHistory } from "../history.js";
+import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type { RenderBrick, RenderNode, RenderRoot } from "./interfaces.js";
@@ -15,6 +17,7 @@ import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { unbindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
 import { hooks } from "./Runtime.js";
+import type { RenderOutput } from "./Renderer.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
@@ -22,6 +25,10 @@ type MemoizedLifeCycle<T> = {
     handlers: T[Key];
   }[];
 };
+
+type LocationChangeCallback = (
+  location: Location<NextHistoryState>
+) => Promise<boolean>;
 
 const commonLifeCycles = [
   "onMount",
@@ -43,6 +50,21 @@ const pageOnlyLifeCycles = [
 
 export interface RendererContextOptions {
   unknownBricks?: "silent" | "throw";
+  routeHelper?: RouteHelper;
+}
+
+export interface RouteHelper {
+  bailout: (output: RenderOutput) => true | undefined;
+  mergeMenus: (menuRequests: Promise<StaticMenuConf>[]) => Promise<void>;
+  catch: (
+    error: unknown,
+    returnNode: RenderNode
+  ) =>
+    | undefined
+    | {
+        failed: true;
+        output: RenderOutput;
+      };
 }
 
 export class RendererContext {
@@ -54,9 +76,12 @@ export class RendererContext {
 
   public readonly unknownBricks: "silent" | "throw";
 
+  #routeHelper: RouteHelper | undefined;
+
   constructor(scope: "page" | "fragment", options?: RendererContextOptions) {
     this.scope = scope;
     this.unknownBricks = options?.unknownBricks ?? "throw";
+    this.#routeHelper = options?.routeHelper;
   }
 
   #memoizedLifeCycle: MemoizedLifeCycle<
@@ -96,7 +121,7 @@ export class RendererContext {
 
   #arbitraryLifeCycle = new Map<string, Set<() => void>>();
 
-  #memoizedControlNodes?: WeakMap<
+  #memoized?: WeakMap<
     RenderNode,
     Map<
       string,
@@ -108,6 +133,83 @@ export class RendererContext {
       }
     >
   >;
+  #allMenuRequests?: Promise<StaticMenuConf>[];
+  #memoizedMenuRequestMap?: WeakMap<RouteConf, Promise<StaticMenuConf>>;
+
+  setInitialMenuRequests(menuRequests: Promise<StaticMenuConf>[]) {
+    this.#allMenuRequests = menuRequests;
+  }
+
+  memoizeMenuRequests(
+    route: RouteConf,
+    menuRequests: Promise<StaticMenuConf>[]
+  ) {
+    if (!this.#memoizedMenuRequestMap) {
+      this.#memoizedMenuRequestMap = new WeakMap();
+    }
+    this.#memoizedMenuRequestMap.set(route, menuRequests[0]);
+  }
+
+  async reMergeMenuRequests(
+    routes: RouteConf[],
+    currentRoute: RouteConf | undefined,
+    menuRequests: Promise<StaticMenuConf>[]
+  ) {
+    let previousMenuRequest: Promise<StaticMenuConf> | undefined;
+    let previousRoute: RouteConf | undefined;
+    for (const route of routes) {
+      previousMenuRequest = this.#memoizedMenuRequestMap!.get(route);
+      if (previousMenuRequest) {
+        previousRoute = route;
+        break;
+      }
+    }
+    const mergedMenuRequests = this.#allMenuRequests!;
+    const previousIndex = previousMenuRequest
+      ? mergedMenuRequests.indexOf(previousMenuRequest)
+      : -1;
+    if (previousIndex === -1) {
+      if (!menuRequests.length) {
+        return;
+      }
+      mergedMenuRequests.push(...menuRequests);
+    } else {
+      mergedMenuRequests.splice(
+        previousIndex,
+        mergedMenuRequests.length - previousIndex,
+        ...menuRequests
+      );
+    }
+    if (previousRoute && previousRoute !== currentRoute) {
+      this.#memoizedMenuRequestMap!.delete(previousRoute);
+    }
+    await this.#routeHelper!.mergeMenus(mergedMenuRequests);
+  }
+
+  reBailout(output: RenderOutput) {
+    return this.#routeHelper!.bailout(output);
+  }
+
+  reCatch(error: unknown, returnNode: RenderNode) {
+    return this.#routeHelper!.catch(error, returnNode);
+  }
+
+  #locationChangeCallbacks: LocationChangeCallback[] = [];
+
+  async didPerformIncrementalRender(location: Location<NextHistoryState>) {
+    const results = await Promise.all(
+      this.#locationChangeCallbacks.map((callback) => callback(location))
+    );
+    return results.some((result) => result);
+  }
+
+  /**
+   * When `callback` resolved to `true` which means incremental rendering is performed,
+   * ignore normal rendering.
+   */
+  performIncrementalRender(callback: LocationChangeCallback) {
+    this.#locationChangeCallbacks.push(callback);
+  }
 
   registerBrickLifeCycle(
     brick: RenderBrick,
@@ -207,20 +309,20 @@ export class RendererContext {
     }
   }
 
-  memoizeControlNode(
+  memoize(
     slotId: string | undefined,
-    key: number,
+    keyPath: number[],
     node: RenderBrick | undefined,
     returnNode: RenderNode
   ) {
-    if (!this.#memoizedControlNodes) {
-      this.#memoizedControlNodes = new WeakMap();
+    if (!this.#memoized) {
+      this.#memoized = new WeakMap();
     }
-    const memKey = `${slotId ?? ""}.${key}`;
-    let mem = this.#memoizedControlNodes.get(returnNode);
+    const memKey = [slotId ?? "", ...keyPath].join(".");
+    let mem = this.#memoized.get(returnNode);
     if (!mem) {
       mem = new Map();
-      this.#memoizedControlNodes.set(returnNode, mem);
+      this.#memoized.set(returnNode, mem);
     }
 
     mem.set(memKey, {
@@ -231,15 +333,15 @@ export class RendererContext {
     });
   }
 
-  rerenderControlNode(
+  reRender(
     slotId: string | undefined,
-    key: number,
+    keyPath: number[],
     node: RenderBrick | undefined,
     returnNode: RenderNode
   ) {
-    const memKey = `${slotId ?? ""}.${key}`;
+    const memKey = [slotId ?? "", ...keyPath].join(".");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const memoized = this.#memoizedControlNodes!.get(returnNode)!.get(memKey)!;
+    const memoized = this.#memoized!.get(returnNode)!.get(memKey)!;
     const {
       node: prevNode,
       last: prevLast,
@@ -347,8 +449,11 @@ export class RendererContext {
       mediaEventTarget.removeEventListener("change", this.#mediaListener);
       this.#mediaListener = undefined;
     }
-    this.#memoizedControlNodes = undefined;
+    this.#memoized = undefined;
+    this.#allMenuRequests = undefined;
+    this.#memoizedMenuRequestMap = undefined;
     this.#arbitraryLifeCycle.clear();
+    this.#locationChangeCallbacks.length = 0;
   }
 
   // Note: no `onScrollIntoView` and `onMessage`

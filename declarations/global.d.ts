@@ -60,6 +60,9 @@ interface Window {
   /** The bootstrap filename, E.g. "hello-world/-/bootstrap.abc123.json" */
   BOOTSTRAP_FILE?: string;
 
+  /** The response field of bootstrap file */
+  BOOTSTRAP_FILE_FIELD?: string;
+
   /** Mock global date, currently for sandbox demo website only */
   MOCK_DATE?: string;
 

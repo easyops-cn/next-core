@@ -1,6 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
 import {
-  asyncComputeRealProperties,
+  asyncComputeRealPropertyEntries,
   computeRealProperties,
   constructAsyncProperties,
 } from "./computeRealProperties.js";
@@ -24,7 +24,7 @@ describe("computeRealProperties", () => {
     );
 
     const props = await constructAsyncProperties(
-      asyncComputeRealProperties(
+      asyncComputeRealPropertyEntries(
         {
           title: "<%= CTX.quality %>",
           style: {

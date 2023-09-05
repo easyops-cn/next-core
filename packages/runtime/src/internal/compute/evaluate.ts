@@ -13,8 +13,8 @@ import {
   collectInstalledAppsHasUsage,
   MemberCallUsage,
 } from "@next-core/utils/storyboard";
-import type { RuntimeContext } from "../interfaces.js";
 import { cloneDeep, omit } from "lodash";
+import type { RuntimeContext } from "../interfaces.js";
 import { customProcessors } from "../../CustomProcessors.js";
 import {
   checkPermissionsUsage,
@@ -418,7 +418,12 @@ function lowLevelEvaluate(
                 });
               },
               ownKeys() {
-                return Array.from(usedProcessors);
+                const keys = new Set<string>();
+                for (const processor of usedProcessors) {
+                  const namespace = processor.split(".")[0];
+                  keys.add(namespace);
+                }
+                return Array.from(keys);
               },
             });
             break;

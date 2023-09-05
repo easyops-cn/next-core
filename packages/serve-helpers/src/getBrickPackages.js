@@ -3,42 +3,38 @@ import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 
 /**
- * @param {string} rootDir
+ * @param {string[]} localBrickFolders
  * @param {boolean | undefined} publicRootWithVersion
  * @param {string[] | undefined} localBricks
  * @returns {Promise<unknown[]>}
  */
 export async function getBrickPackages(
-  rootDir,
+  localBrickFolders,
   publicRootWithVersion,
   localBricks
 ) {
   return (
     await Promise.all(
-      ["@next-bricks", "@bricks"].map((scope) =>
-        getBrickPackagesInDir(
-          path.join(rootDir, "node_modules", scope),
-          publicRootWithVersion,
-          localBricks
-        )
+      localBrickFolders.map((dir) =>
+        getBrickPackagesInDir(dir, publicRootWithVersion, localBricks)
       )
     )
   ).flat();
 }
 
 /**
- * @param {string} rootDir
+ * @param {string[]} localBrickFolders
  * @param {string[] | undefined} localBricks
  * @returns {Promise<string[]>}
  */
-export async function getLocalBrickPackageNames(rootDir, localBricks) {
+export async function getLocalBrickPackageNames(
+  localBrickFolders,
+  localBricks
+) {
   return (
     await Promise.all(
-      ["@next-bricks", "@bricks"].map((scope) =>
-        getBrickPackageNamesInDir(
-          path.join(rootDir, "node_modules", scope),
-          localBricks
-        )
+      localBrickFolders.map((dir) =>
+        getBrickPackageNamesInDir(dir, localBricks)
       )
     )
   ).flat();
@@ -143,11 +139,29 @@ async function getBrickPackagesInDir(
           "dist/bricks.json"
         );
         const bricksJson = JSON.parse(await readFile(bricksJsonPath, "utf-8"));
-        const packageJson = JSON.parse(
-          await readFile(path.join(bricksDir, dirName, "package.json"), "utf-8")
-        );
         if (publicRootWithVersion) {
-          const updatedFilePath = bricksJson.filePath.replace(
+          const packageJsonPath = path.join(bricksDir, dirName, "package.json");
+          const packageJson = existsSync(packageJsonPath)
+            ? JSON.parse(await readFile(packageJsonPath, "utf-8"))
+            : { version: "0.0.0" };
+          let { filePath } = bricksJson;
+          if (!filePath) {
+            // `filePath` is not set for some old brick/widget packages.
+            const filesInDist = await readdir(
+              path.join(bricksDir, dirName, "dist"),
+              { withFileTypes: true }
+            );
+            const jsFile = filesInDist.find(
+              (file) => file.isFile() && file.name.endsWith(".js")
+            );
+            if (!jsFile) {
+              throw new Error(
+                `"filePath" not found for brick package ${dirName}`
+              );
+            }
+            filePath = `bricks/${dirName}/dist/${jsFile.name}`;
+          }
+          const updatedFilePath = filePath.replace(
             "/dist/",
             `/${packageJson.version}/dist/`
           );

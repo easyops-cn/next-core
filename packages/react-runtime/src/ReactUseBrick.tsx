@@ -2,6 +2,7 @@ import React, {
   MutableRefObject,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -15,7 +16,7 @@ export interface ReactUseBrickProps {
 
 // Note: always synchronize code in LegacyUseBrick:
 // `bricks/v2-adapter/src/data-providers/legacy-brick-kit/getLegacyUseBrick.ts`
-export function ReactUseBrick({
+let ReactUseBrick = function ReactUseBrick({
   useBrick,
   data,
 }: ReactUseBrickProps): React.ReactElement | null {
@@ -24,6 +25,7 @@ export function ReactUseBrick({
   const mountResult = useRef<__secret_internals.MountUseBrickResult>();
   const [renderKey, setRenderKey] = useState<number>();
   const IdCounterRef = useRef(0);
+  const initialRenderId = useMemo(() => __secret_internals.getRenderId?.(), []);
 
   useEffect(() => {
     async function init() {
@@ -33,13 +35,20 @@ export function ReactUseBrick({
         );
         setRenderKey(getUniqueId(IdCounterRef));
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error("Render useBrick failed:", useBrick, "with data:", data);
-        handleHttpError(error);
+        if (isTheSameRender(initialRenderId)) {
+          // eslint-disable-next-line no-console
+          console.error(
+            "Render useBrick failed:",
+            useBrick,
+            "with data:",
+            data
+          );
+          handleHttpError(error);
+        }
       }
     }
     init();
-  }, [data, useBrick]);
+  }, [data, useBrick, initialRenderId]);
 
   const refCallback = useCallback(
     (element: HTMLElement | null) => {
@@ -71,10 +80,15 @@ export function ReactUseBrick({
 
   const WebComponent = tagName as any;
   return <WebComponent key={renderKey} ref={refCallback} />;
-}
+};
 
 function getUniqueId(ref: MutableRefObject<number>): number {
   return ++ref.current;
+}
+
+function isTheSameRender(initialRenderId: string | undefined): boolean {
+  const newRenderId = __secret_internals.getRenderId?.();
+  return !initialRenderId || !newRenderId || initialRenderId === newRenderId;
 }
 
 export interface ReactUseMultipleBricksProps {
@@ -82,7 +96,7 @@ export interface ReactUseMultipleBricksProps {
   data?: unknown;
 }
 
-export function ReactUseMultipleBricks({
+let ReactUseMultipleBricks = function ReactUseMultipleBricks({
   useBrick,
   data,
 }: ReactUseMultipleBricksProps): React.ReactElement | null {
@@ -96,4 +110,21 @@ export function ReactUseMultipleBricks({
     );
   }
   return <ReactUseBrick useBrick={useBrick} data={data} />;
+};
+
+// istanbul ignore next
+// Make v3 bricks compatible with Brick Next v2.
+if (
+  (window as any).dll &&
+  window.BRICK_NEXT_VERSIONS?.["brick-container"]?.startsWith("2.")
+) {
+  const { SingleBrickAsComponentFactory, BrickAsComponentFactory } = (
+    window as any
+  ).dll("tYg3");
+  if (SingleBrickAsComponentFactory && BrickAsComponentFactory) {
+    ReactUseBrick = SingleBrickAsComponentFactory(React);
+    ReactUseMultipleBricks = BrickAsComponentFactory(React);
+  }
 }
+
+export { ReactUseBrick, ReactUseMultipleBricks };

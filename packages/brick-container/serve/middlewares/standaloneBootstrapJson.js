@@ -3,7 +3,7 @@ import { getSingleStoryboard } from "../utils/getStoryboards.js";
 import { getSizeCheckStoryboards } from "../utils/sizeCheck.js";
 
 export default function standaloneBootstrapJson(
-  { rootDir, localBricks },
+  { rootDir, localBricks, localBrickFolders },
   appId
 ) {
   /**
@@ -14,7 +14,7 @@ export default function standaloneBootstrapJson(
     if (req.path === "/" && req.method === "GET") {
       const [storyboard, brickPackages] = await Promise.all([
         getSingleStoryboard(rootDir, appId),
-        getBrickPackages(rootDir, true, localBricks),
+        getBrickPackages(localBrickFolders, true, localBricks),
       ]);
 
       if (appId === "-size-check-") {

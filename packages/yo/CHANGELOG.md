@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.8...@next-core/yo@1.4.9) (2023-08-31)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.7...@next-core/yo@1.4.8) (2023-08-29)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.6...@next-core/yo@1.4.7) (2023-08-29)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.5...@next-core/yo@1.4.6) (2023-08-22)
+
+
+### Bug Fixes
+
+* fix exports for shared libs ([9cdeac1](https://github.com/easyops-cn/next-core/commit/9cdeac1a383c8e9a4d7a2e30f14ad9d5158eb55d))
+
+
+
+
+
+## [1.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.4...@next-core/yo@1.4.5) (2023-08-03)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.3...@next-core/yo@1.4.4) (2023-08-01)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.2...@next-core/yo@1.4.3) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.1...@next-core/yo@1.4.2) (2023-07-12)
 
 **Note:** Version bump only for package @next-core/yo

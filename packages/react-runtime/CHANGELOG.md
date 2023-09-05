@@ -3,6 +3,178 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.4...@next-core/react-runtime@1.1.5) (2023-08-29)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.4](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.3...@next-core/react-runtime@1.1.4) (2023-08-29)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.3](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.2...@next-core/react-runtime@1.1.3) (2023-08-29)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.1...@next-core/react-runtime@1.1.2) (2023-08-28)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.0...@next-core/react-runtime@1.1.1) (2023-08-22)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.68...@next-core/react-runtime@1.1.0) (2023-08-18)
+
+
+### Features
+
+* support useRouteRender ([8a33875](https://github.com/easyops-cn/next-core/commit/8a33875fae55693aeba17c9af7d1eab23e703450))
+
+
+
+
+
+## [1.0.68](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.67...@next-core/react-runtime@1.0.68) (2023-08-17)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.67](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.66...@next-core/react-runtime@1.0.67) (2023-08-16)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.66](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.65...@next-core/react-runtime@1.0.66) (2023-08-11)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.65](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.64...@next-core/react-runtime@1.0.65) (2023-08-04)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.64](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.63...@next-core/react-runtime@1.0.64) (2023-08-03)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.63](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.62...@next-core/react-runtime@1.0.63) (2023-08-02)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.62](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.61...@next-core/react-runtime@1.0.62) (2023-08-02)
+
+
+### Bug Fixes
+
+* ignore fails of useBrick rendering when render id changed ([b407ae6](https://github.com/easyops-cn/next-core/commit/b407ae621701d407ceeab2c1a7b645322c2b7ca0))
+
+
+
+
+
+## [1.0.61](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.60...@next-core/react-runtime@1.0.61) (2023-07-29)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.60](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.59...@next-core/react-runtime@1.0.60) (2023-07-26)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.59](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.58...@next-core/react-runtime@1.0.59) (2023-07-25)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.58](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.57...@next-core/react-runtime@1.0.58) (2023-07-24)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.0.57](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.56...@next-core/react-runtime@1.0.57) (2023-07-21)
+
+
+### Bug Fixes
+
+* check useBrick factories existence ([ff9f518](https://github.com/easyops-cn/next-core/commit/ff9f518acf19adecb25c90ddd55bb9d5887785d7))
+
+
+
+
+
+## [1.0.56](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.55...@next-core/react-runtime@1.0.56) (2023-07-21)
+
+
+### Bug Fixes
+
+* make v3 bricks compatible with Brick Next v2 ([759ab01](https://github.com/easyops-cn/next-core/commit/759ab01c8c4331d589a4ec283fde1927ab511a92))
+
+
+
+
+
+## [1.0.55](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.54...@next-core/react-runtime@1.0.55) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
 ## [1.0.54](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.0.53...@next-core/react-runtime@1.0.54) (2023-07-18)
 
 **Note:** Version bump only for package @next-core/react-runtime

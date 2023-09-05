@@ -47,6 +47,9 @@ export function mountTree(
     if (current.iid) {
       element.dataset.iid = current.iid;
     }
+    if (current.tplHostMetadata?.tplStateStoreId) {
+      element.dataset.tplStateStoreId = current.tplHostMetadata.tplStateStoreId;
+    }
     setRealProperties(element, current.properties);
     bindListeners(element, current.events, current.runtimeContext);
     if (current.tplHostMetadata) {

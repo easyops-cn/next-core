@@ -1,7 +1,10 @@
 import { jest, describe, test, expect } from "@jest/globals";
-import type { UseSingleBrickConf } from "@next-core/types";
+import type { BrickPackage, UseSingleBrickConf } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
 import {
+  RuntimeContext,
+  getAllContextValues,
+  getContextValue,
   legacyDoTransform,
   mountUseBrick,
   renderUseBrick,
@@ -10,22 +13,42 @@ import {
   updateStoryboardByRoute,
   updateStoryboardBySnippet,
   updateStoryboardByTemplate,
+  getBrickPackagesById,
+  getRenderId,
+  getAddedContracts,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import {
   _test_only_setBootstrapData,
+  _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
 } from "./Runtime.js";
+import { DataStore } from "./data/DataStore.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../isStrictMode.js");
+jest.mock("./Runtime.js", () => {
+  const originalModule = jest.requireActual("./Runtime.js") as any;
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    _internalApiGetRuntimeContext: jest.fn(),
+  };
+});
+const mockInternalApiGetRuntimeContext =
+  _internalApiGetRuntimeContext as jest.MockedFunction<
+    typeof _internalApiGetRuntimeContext
+  >;
+
 const consoleInfo = jest.spyOn(console, "info");
 const mockIsStrictMode = (
   isStrictMode as jest.MockedFunction<typeof isStrictMode>
 ).mockReturnValue(false);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const IntersectionObserver = jest.fn((callback: Function) => {
   return {
     observe: jest.fn(),
@@ -377,7 +400,9 @@ describe("useBrick", () => {
     const mountResult = mountUseBrick(renderResult, root);
 
     expect(root).toMatchInlineSnapshot(`
-      <my.tpl-a>
+      <my.tpl-a
+        data-tpl-state-store-id="tpl-state-1"
+      >
         <div
           title="T"
         >
@@ -411,7 +436,9 @@ describe("useBrick", () => {
     // Wait for debounced re-render for control nodes.
     await new Promise((resolve) => setTimeout(resolve, 1));
     expect(root).toMatchInlineSnapshot(`
-      <my.tpl-a>
+      <my.tpl-a
+        data-tpl-state-store-id="tpl-state-1"
+      >
         <div
           title="T"
         >
@@ -679,6 +706,63 @@ describe("updateStoryboard", () => {
       routes: [
         {
           path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          context: undefined,
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "div" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+      ],
+    });
+
+    updateStoryboardBySnippet("hello", {
+      snippetId: "snippet-2",
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+      context: [
+        {
+          name: "test",
+          value: "hello",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-2",
+          context: [
+            {
+              name: "test",
+              value: "hello",
+            },
+          ],
+          exact: true,
+          menu: false,
+          bricks: [{ brick: "div" }],
+        },
+        {
+          path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          context: undefined,
           exact: true,
           menu: false,
           bricks: [{ brick: "div" }],
@@ -713,6 +797,7 @@ describe("updateStoryboard", () => {
       routes: [
         {
           path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-1",
+          context: undefined,
           exact: true,
           menu: false,
           bricks: [{ brick: "span" }],
@@ -733,5 +818,294 @@ describe("updateStoryboard", () => {
         },
       ],
     });
+  });
+});
+
+describe("getContextValue", () => {
+  let runtimeContext = {} as RuntimeContext;
+  let stateStore: DataStore<"STATE">;
+  let ctxStore: DataStore<"CTX">;
+
+  beforeEach(async () => {
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const tplStateStoreId = "tpl-state-0";
+    stateStore = new DataStore("STATE");
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+    ctxStore = new DataStore("CTX");
+
+    runtimeContext = {
+      tplStateStoreId,
+      tplStateStoreMap,
+      ctxStore,
+    } as RuntimeContext;
+
+    stateStore.define(
+      [
+        {
+          name: "a",
+          value: "1",
+        },
+        {
+          name: "b",
+          value: 2,
+        },
+      ],
+      runtimeContext
+    );
+    ctxStore.define(
+      [
+        {
+          name: "c",
+          value: true,
+        },
+        {
+          name: "d",
+          value: false,
+        },
+      ],
+      runtimeContext
+    );
+    await Promise.all([stateStore.waitForAll(), ctxStore.waitForAll()]);
+
+    mockInternalApiGetRuntimeContext.mockReturnValue(runtimeContext);
+  });
+
+  afterEach(() => {
+    mockInternalApiGetRuntimeContext.mockReturnValue(undefined);
+  });
+
+  test("get single context value", () => {
+    expect(getContextValue("a", { tplStateStoreId: "tpl-state-0" })).toBe("1");
+    expect(getContextValue("c", {})).toBe(true);
+  });
+
+  test("get all context value", () => {
+    expect(getAllContextValues({ tplStateStoreId: "tpl-state-0" })).toEqual({
+      a: "1",
+      b: 2,
+    });
+    expect(getAllContextValues({})).toEqual({ c: true, d: false });
+  });
+});
+
+describe("getBrickPackagesById", () => {
+  beforeEach(() => {
+    _test_only_setBootstrapData({
+      brickPackages: [
+        {
+          id: "bricks/test",
+        },
+        {
+          filePath: "bricks/v2/index.jsw",
+        },
+      ] as unknown as BrickPackage[],
+    });
+  });
+
+  test("found", () => {
+    expect(getBrickPackagesById("bricks/test")).toMatchObject({
+      id: "bricks/test",
+    });
+  });
+
+  test("found v2", () => {
+    expect(getBrickPackagesById("bricks/v2")).toMatchObject({
+      filePath: "bricks/v2/index.jsw",
+    });
+  });
+
+  test("not found", () => {
+    expect(getBrickPackagesById("bricks/oops")).toBe(undefined);
+  });
+});
+
+describe("getRenderId", () => {
+  test("getRenderId", () => {
+    expect(getRenderId()).toBe(undefined);
+  });
+});
+
+describe("getAddedContracts", () => {
+  beforeEach(() => {
+    _test_only_setBootstrapData({
+      storyboards: [
+        {
+          app: {
+            id: "app-b",
+          } as any,
+          routes: [
+            {
+              alias: "/new",
+              context: [
+                {
+                  name: "historyList",
+                  path: "",
+                  relatedId: "",
+                  resolve: {
+                    args: [
+                      {
+                        page: "<% QUERY.page || 1 %>",
+                        pageSize: "<% QUERY.pageSize || 20 %>",
+                        userName: "<% SYS.username %>",
+                      },
+                    ],
+                    useProvider: "easyops.api.micro_app.workflow@Get:1.0.0",
+                  },
+                },
+              ],
+              exact: true,
+              iid: "5fd4e0de0e637",
+              path: "${APP.homepage}/new",
+              type: "bricks",
+              bricks: [
+                {
+                  brick: "basic-bricks.general-modal",
+                  iid: "5fdffa7f5d689",
+                  portal: true,
+                  properties: {
+                    dataset: {
+                      testid: "detail-modal",
+                    },
+                    id: "detail-modal",
+                    modalTitle: "查看",
+                    width: 700,
+                  },
+                },
+              ],
+            },
+          ],
+          meta: {
+            contracts: [
+              {
+                name: "ViewTodo",
+                namespaceId: "easyops.api.micro_app.workflow",
+                version: "1.0.0",
+              },
+            ],
+          },
+        },
+      ],
+    });
+  });
+
+  test("should work with route type", async () => {
+    const storyboardPatch = {
+      path: "${APP.homepage}/demo",
+      alias: "/demo",
+      exact: true,
+      context: [
+        {
+          name: "appList",
+          resolve: {
+            args: [
+              "APP",
+              {
+                fields: ["*"],
+              },
+            ],
+            useProvider: "easyops.api.cmdb.instance@PostSearchV3:1.1.0",
+          },
+        },
+      ],
+      type: "bricks",
+      bricks: [
+        {
+          brick: "span",
+        },
+      ],
+    };
+
+    const provider = document.createElement("test.provider") as any;
+    provider.resolve = jest
+      .fn()
+      .mockResolvedValueOnce(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
+
+    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
+    expect(
+      await getAddedContracts(storyboardPatch, {
+        appId: "app-b",
+        updateStoryboardType: "route",
+        provider: "test.provider",
+      })
+    ).toEqual(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
+  });
+
+  test("should work with template type", async () => {
+    const storyboardPatch = {
+      name: "tpl-test-a",
+      bricks: [
+        {
+          brick: "span",
+        },
+      ],
+      state: [
+        {
+          name: "name",
+          value: "easyops",
+        },
+        {
+          name: "instanceData",
+          resolve: {
+            useProvider: "easyops.api.micro_app.workflow@ViewTodo:1.0.0",
+          },
+        },
+      ],
+    };
+
+    const provider = document.createElement("test.provider") as any;
+    provider.resolve = jest
+      .fn()
+      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@ViewTodo:1.0.0"]);
+
+    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
+    expect(
+      await getAddedContracts(storyboardPatch, {
+        appId: "app-b",
+        updateStoryboardType: "template",
+        provider: "test.provider",
+      })
+    ).toEqual([]);
+  });
+
+  test("should work with snippet type", async () => {
+    const storyboardPatch = {
+      path: "${APP.homepage}/_dev_only_/snippet-preview/snippet-test",
+      alias: "/snippet-test",
+      exact: true,
+      context: [
+        {
+          name: "workflow",
+          resolve: {
+            args: [
+              "APP",
+              {
+                fields: ["*"],
+              },
+            ],
+            useProvider: "easyops.api.micro_app.workflow@execute:1.0.0",
+          },
+        },
+      ],
+      type: "bricks",
+      bricks: [
+        {
+          brick: "span",
+        },
+      ],
+    };
+
+    const provider = document.createElement("test.provider") as any;
+    provider.resolve = jest
+      .fn()
+      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@execute:1.0.0"]);
+
+    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
+    expect(
+      await getAddedContracts(storyboardPatch, {
+        appId: "app-b",
+        updateStoryboardType: "snippet",
+        provider: "test.provider",
+      })
+    ).toEqual(["easyops.api.micro_app.workflow@execute:1.0.0"]);
   });
 });

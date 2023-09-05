@@ -20,7 +20,6 @@ export interface HttpResponse<T = unknown> {
   status: number;
   statusText: string;
   headers: Headers;
-  config: HttpRequestConfig;
 }
 
 export interface HttpError {
@@ -35,8 +34,6 @@ export interface HttpAdapter {
 export interface HttpConstructorOptions {
   adapter?: HttpAdapter;
 }
-
-// type NotNil<T> = T extends null ? never : T;
 
 function isNil(value: unknown): value is null | undefined {
   return value === undefined || value === null;
@@ -67,16 +64,6 @@ export type HttpOptions = HttpCustomOptions & RequestInit;
 export const isHttpAbortError = (error: any) =>
   error instanceof DOMException && error.code === 20;
 
-const createError = (
-  error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError,
-  config: HttpRequestConfig
-): HttpError => {
-  return {
-    error,
-    config,
-  };
-};
-
 const request = async <T>(
   url: string,
   init: RequestInit,
@@ -98,12 +85,9 @@ const request = async <T>(
       response = await fetch(url, init);
     } catch (e: any) {
       reject(
-        createError(
-          isHttpAbortError(e)
-            ? new HttpAbortError(e.toString())
-            : new HttpFetchError(e.toString()),
-          config
-        )
+        isHttpAbortError(e)
+          ? new HttpAbortError(e.toString())
+          : new HttpFetchError(e.toString())
       );
       return;
     }
@@ -115,9 +99,7 @@ const request = async <T>(
       } catch (e) {
         // Do nothing.
       }
-      reject(
-        createError(new HttpResponseError(response, responseJson), config)
-      );
+      reject(new HttpResponseError(response, responseJson));
       return;
     }
 
@@ -126,18 +108,14 @@ const request = async <T>(
       data = await response[responseType]();
     } catch (e: any) {
       reject(
-        createError(
-          isHttpAbortError(e)
-            ? new HttpAbortError(e.toString())
-            : new HttpParseError(response),
-          config
-        )
+        isHttpAbortError(e)
+          ? new HttpAbortError(e.toString())
+          : new HttpParseError(response)
       );
       return;
     }
 
     const res: HttpResponse<T> = {
-      config,
       status: response.status,
       statusText: response.statusText,
       headers: response.headers,
@@ -214,11 +192,13 @@ const simpleRequest = <T = unknown>(
 ): Promise<HttpResponse<T>> => {
   const {
     params,
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     responseType,
     interceptorParams,
     observe,
     noAbortOnRouteChange,
     useCache,
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     ...requestInit
   } = config.options || {};
   return request<T>(
@@ -239,12 +219,14 @@ const requestWithBody = <T = unknown>(
 ): Promise<HttpResponse<T>> => {
   const {
     params,
+    headers,
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     responseType,
     interceptorParams,
     observe,
     noAbortOnRouteChange,
     useCache,
-    headers,
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     ...requestInit
   } = config.options || {};
   return request<T>(
@@ -273,7 +255,7 @@ const defaultAdapter: HttpAdapter = <T>(config: HttpRequestConfig) => {
 class Http {
   public readonly interceptors: {
     request: InterceptorManager<HttpRequestConfig>;
-    response: InterceptorManager<HttpResponse>;
+    response: InterceptorManager<HttpResponse, HttpRequestConfig>;
   };
 
   #adapter: HttpAdapter = defaultAdapter;
@@ -331,19 +313,15 @@ class Http {
     chain.push((config: HttpRequestConfig) => this.#adapter(config), undefined);
 
     this.interceptors.response.forEach((interceptor) => {
-      chain.push(interceptor.fulfilled, interceptor.rejected);
+      chain.push(
+        (res: HttpResponse) => interceptor.fulfilled?.(res, config),
+        (error: HttpError) => interceptor.rejected?.(error, config)
+      );
     });
 
-    chain.push(
-      (response: HttpResponse) => {
-        return response.config.options?.observe === "response"
-          ? response
-          : response.data;
-      },
-      (error: HttpError) => {
-        return Promise.reject(error.error);
-      }
-    );
+    chain.push((response: HttpResponse) => {
+      return config.options?.observe === "response" ? response : response.data;
+    }, undefined);
 
     while (chain.length) {
       promise = promise.then(chain.shift(), chain.shift());

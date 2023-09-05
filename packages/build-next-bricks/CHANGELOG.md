@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.6...@next-core/build-next-bricks@1.14.0) (2023-08-31)
+
+
+### Features
+
+* build brick generate examples.json ([eae8de9](https://github.com/easyops-cn/next-core/commit/eae8de9408c9eaf40b249f9e4da363b69a47e617))
+
+
+
+
+
+## [1.13.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.5...@next-core/build-next-bricks@1.13.6) (2023-08-29)
+
+
+### Bug Fixes
+
+* **module-federation:** mark @babel/parser as shared ([f09d8c1](https://github.com/easyops-cn/next-core/commit/f09d8c11391044c292cb600237d3ac0791d7eee7))
+
+
+
+
+
+## [1.13.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.4...@next-core/build-next-bricks@1.13.5) (2023-08-29)
+
+
+### Bug Fixes
+
+* enable css nesting rules ([89af02b](https://github.com/easyops-cn/next-core/commit/89af02b1727037f25b562898fea2f509ebdd4719))
+
+
+
+
+
+## [1.13.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.3...@next-core/build-next-bricks@1.13.4) (2023-08-01)
+
+
+### Bug Fixes
+
+* add parts for brick docs ([086ba2c](https://github.com/easyops-cn/next-core/commit/086ba2c72a54e7966d1c46d43b3e064170f861f1))
+
+
+
+
+
+## [1.13.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.2...@next-core/build-next-bricks@1.13.3) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.13.1...@next-core/build-next-bricks@1.13.2) (2023-07-12)
 
 

@@ -115,7 +115,7 @@ describe("preview", () => {
     await root.render(bricks, options);
 
     expect(container.innerHTML).toBe(
-      "<demo.tpl-test><div>Goodbye Preview</div></demo.tpl-test>"
+      '<demo.tpl-test data-tpl-state-store-id="tpl-state-1"><div>Goodbye Preview</div></demo.tpl-test>'
     );
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
     expect(applyTheme).toBeCalledTimes(1);
@@ -132,7 +132,7 @@ describe("preview", () => {
       },
     });
     expect(container.innerHTML).toBe(
-      "<demo.tpl-test><div>再见 Preview</div></demo.tpl-test>"
+      '<demo.tpl-test data-tpl-state-store-id="tpl-state-2"><div>再见 Preview</div></demo.tpl-test>'
     );
 
     root.unmount();
@@ -163,8 +163,7 @@ describe("preview", () => {
     expect(consoleError).toBeCalledTimes(2);
     expect(consoleError).toHaveBeenNthCalledWith(
       1,
-      'Load brick "unknown-brick" failed:',
-      expect.any(Error)
+      "Package for unknown-brick not found."
     );
     expect(consoleError).toHaveBeenNthCalledWith(
       2,

@@ -18,6 +18,8 @@ customElements.define(
   createProviderClass(myTimeoutProvider)
 );
 
+const consoleWarn = jest.spyOn(console, "warn");
+
 describe("resolveData", () => {
   test("general", async () => {
     const runtimeContext = {} as RuntimeContext;
@@ -164,6 +166,24 @@ describe("resolveData", () => {
       )
     ).rejects.toMatchInlineSnapshot(
       `[Error: You're using "provider: my\\.legacy-provider" which is dropped in v3, please use "useProvider" instead]`
+    );
+  });
+
+  test("use legacy field", async () => {
+    consoleWarn.mockReturnValueOnce();
+    const runtimeContext = {} as RuntimeContext;
+    const result = await resolveData(
+      {
+        useProvider: "my-timeout-provider",
+        args: [30, { message: "cool" }],
+        field: "message",
+      } as any,
+      runtimeContext
+    );
+    expect(result).toEqual("cool");
+    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toBeCalledWith(
+      expect.stringContaining("resolve.field")
     );
   });
 });

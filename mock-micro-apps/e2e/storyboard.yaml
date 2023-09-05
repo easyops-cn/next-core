@@ -4,6 +4,10 @@ app:
   homepage: /e2e
   noAuthGuard: true
   standaloneMode: true
+  userConfig:
+    settings:
+      featureFlags:
+        incremental-sub-route-rendering: true
 meta:
   customTemplates:
 
@@ -106,6 +110,22 @@ meta:
         useBrick:
           brick: tpl-c
 
+  - name: tpl-x
+    state:
+    - name: x
+      resolve:
+        useProvider: e2e.return-by-timeout
+        args:
+        - 100
+        - <% STATE.i %>
+        async: true
+    - name: i
+    bricks:
+    - brick: div
+      properties:
+        textContent: |
+          <%= `[i: ${STATE.i}] x: ${STATE.x}` %>
+
 routes:
 
 - path: '${APP.homepage}/use-brick/1'
@@ -170,6 +190,7 @@ routes:
   bricks:
   - brick: tpl-d
 
+# ForEach
 - path: '${APP.homepage}/control-nodes/1'
   bricks:
   - brick: div
@@ -198,6 +219,7 @@ routes:
       properties:
         textContent: "World"
 
+# Nesting forEach
 - path: '${APP.homepage}/control-nodes/2'
   bricks:
   - brick: div
@@ -222,6 +244,7 @@ routes:
     properties:
       textContent: "Goodbye"
 
+# ForEach with template with useBrick, and binding enabled
 - path: '${APP.homepage}/control-nodes/3'
   context:
   - name: list
@@ -257,6 +280,7 @@ routes:
         - list
         - [3, 4]
 
+# ForEach with template, and binding enabled
 - path: '${APP.homepage}/control-nodes/4'
   context:
   - name: list
@@ -292,6 +316,7 @@ routes:
         - list
         - [3, 4]
 
+# Convert binding condition
 - path: '${APP.homepage}/control-nodes/5'
   context:
   - name: target
@@ -320,3 +345,199 @@ routes:
           brick: div
           properties:
             textContent: '<% `Data:${DATA}` %>'
+
+# If with direct child of If
+- path: '${APP.homepage}/control-nodes/6'
+  context:
+  - name: value
+    value: 1
+  - name: constant
+  bricks:
+  - brick: div
+    children:
+    - brick: h1
+      properties:
+        textContent: Hello
+    - brick: :if
+      dataSource: <%= CTX.constant, true %>
+      children:
+      - brick: p
+        properties:
+          textContent: prefix
+      - brick: :if
+        dataSource: <%= CTX.value === 2 %>
+        children:
+        - brick: p
+          properties:
+            textContent: If in If <true>
+        - brick: p
+          slot: else
+          properties:
+            textContent: If in If <false>
+      - brick: p
+        properties:
+          textContent: suffix
+    - brick: button
+      properties:
+        textContent: Toggle
+      events:
+        click:
+          action: context.replace
+          args:
+          - value
+          - <% 3 - CTX.value %>
+
+# ForEach in ForEach
+- path: '${APP.homepage}/control-nodes/7'
+  context:
+  - name: value
+    value: 1
+  - name: constant
+  - name: messages
+    value: []
+  bricks:
+  - brick: div
+    children:
+    - brick: h1
+      properties:
+        textContent: Hello
+    - brick: :forEach
+      dataSource: <%= [CTX.constant] %>
+      children:
+      - brick: p
+        properties:
+          textContent: prefix
+      - brick: :forEach
+        dataSource: <%= [CTX.value] %>
+        lifeCycle:
+          onMount:
+            action: context.replace
+            args:
+            - messages
+            - |
+              <%
+                CTX.messages.concat(`[forEach mount] ${EVENT.detail.rerender} ${CTX.value}`)
+              %>
+          onUnmount:
+            action: context.replace
+            args:
+            - messages
+            - |
+              <%
+                CTX.messages.concat(`[forEach unmount] ${CTX.value}`)
+              %>
+        children:
+        - brick: p
+          properties:
+            textContent: <% `ForEach in ForEach <${ITEM}>` %>
+      - brick: p
+        properties:
+          textContent: suffix
+    - brick: button
+      properties:
+        textContent: Toggle
+      events:
+        click:
+          action: context.replace
+          args:
+          - value
+          - <% 3 - CTX.value %>
+  - brick: p
+    properties:
+      textContent: <%= CTX.messages.join(", ") %>
+
+# Sub-routes incremental rendering
+- path: '${APP.homepage}/sub-routes/:sub'
+  bricks:
+  - brick: h1
+    properties:
+      textContent: <% `Hello [${PATH.sub}]` %>
+  - brick: tpl-x
+    properties:
+      i: 0
+  - brick: :forEach
+    dataSource: [1, 2, 3, 4, 5]
+    children:
+    - brick: button
+      properties:
+        textContent: <% `Go ${ITEM}` %>
+      events:
+        click:
+          action: history.push
+          args:
+          - <% `${APP.homepage}/sub-routes/${ITEM}` %>
+  - brick: button
+    properties:
+      textContent: Go other
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/other-route
+  - brick: div
+    slots:
+      '':
+        type: routes
+        routes:
+        - path: ${APP.homepage}/sub-routes/1
+          context:
+          - name: v
+            resolve:
+              useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - 1
+              async: true
+          bricks:
+          - brick: div
+            properties:
+              textContent: |
+                <%= `Sub Route 1 [${CTX.v}]` %>
+          - brick: tpl-x
+            properties:
+              i: 1
+        - path: ${APP.homepage}/sub-routes/2
+          context:
+          - name: v
+            resolve:
+              useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - 2
+              async: true
+          bricks:
+          - brick: div
+            properties:
+              textContent: |
+                <%= `Sub Route 2 [${CTX.v}]` %>
+          - brick: tpl-x
+            properties:
+              i: 2
+        - path: ${APP.homepage}/sub-routes/3
+          context:
+          - name: v
+            resolve:
+              useProvider: e2e.return-by-timeout
+              args:
+              - 100
+              - 3
+          bricks: []
+        - path: ${APP.homepage}/sub-routes/4
+          bricks:
+          - brick: div
+            properties:
+              t: <% CTX. %>
+        - path: ${APP.homepage}/sub-routes/5
+          type: redirect
+          redirect: ${APP.homepage}/sub-routes/2
+        - path: ${APP.homepage}/other-route
+          bricks:
+          - brick: div
+            properties:
+              textContent: Fake Other Route
+
+- path: '${APP.homepage}/other-route'
+  bricks:
+  - brick: div
+    properties:
+      textContent: Real Other Route

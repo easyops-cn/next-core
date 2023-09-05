@@ -1548,3 +1548,18 @@ export type SiteMode = "default" | "dashboard";
 export interface I18nData {
   [language: string]: string;
 }
+
+export interface SnippetParamField {
+  type: string;
+  defaultValue?: unknown;
+}
+
+export type SnippetDeclareParams = Record<string, SnippetParamField>;
+
+export interface RuntimeSnippet {
+  snippetId: string;
+  brick?: string;
+  bricks: BrickConf[];
+  data?: ContextConf[];
+  params?: SnippetDeclareParams;
+}

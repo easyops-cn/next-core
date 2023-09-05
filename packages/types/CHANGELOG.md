@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.5.1...@next-core/types@1.6.0) (2023-08-03)
+
+
+### Features
+
+* v3 support auto build & push in preivew ([4d94b94](https://github.com/easyops-cn/next-core/commit/4d94b949c1bcb863e57f4d3d7b293cd2ff1444db))
+
+
+
+
+
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.5.0...@next-core/types@1.5.1) (2023-07-20)
+
+**Note:** Version bump only for package @next-core/types
+
+
+
+
+
 # [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.4.0...@next-core/types@1.5.0) (2023-06-20)
 
 

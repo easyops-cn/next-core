@@ -15,7 +15,11 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["^@next-core/", "^@next-bricks/", "^@next-api-sdk/"],
+      "matchPackagePatterns": [
+        "^@next-core/",
+        "^@next-bricks/",
+        "^@next-api-sdk/"
+      ],
       "enabled": false
     },
     {
@@ -47,6 +51,18 @@
     {
       "groupName": "cypress packages",
       "matchPackageNames": ["cypress", "cypress/included"]
+    },
+    {
+      "groupName": "i18next packages",
+      "matchPackageNames": [
+        "i18next",
+        "react-i18next",
+        "i18next-browser-languagedetector"
+      ]
+    },
+    {
+      "groupName": "jest packages",
+      "matchPackageNames": ["jest", "babel-jest", "jest-environment-jsdom"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]

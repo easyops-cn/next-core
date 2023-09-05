@@ -10,14 +10,19 @@ import type {
 } from "@next-core/types";
 import {
   enqueueStableLoadBricks,
+  flushStableLoadBricks,
   loadBricksImperatively,
+  loadProcessorsImperatively,
+  loadScript,
+  loadStyle,
 } from "@next-core/loader";
 import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
+import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import { debounce } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import {
-  asyncComputeRealProperties,
+  asyncComputeRealPropertyEntries,
   constructAsyncProperties,
 } from "./compute/computeRealProperties.js";
 import { resolveData } from "./data/resolveData.js";
@@ -27,7 +32,7 @@ import {
   listenOnTrackingContext,
 } from "./compute/listenOnTrackingContext.js";
 import { RendererContext } from "./RendererContext.js";
-import { matchRoutes } from "./matchRoutes.js";
+import { matchRoute, matchRoutes } from "./matchRoutes.js";
 import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachItem,
@@ -59,6 +64,9 @@ import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { getPreEvaluatedRaw } from "./compute/evaluate.js";
 import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
+import { matchHomepage } from "./matchStoryboard.js";
+import type { DataStore, DataStoreType } from "./data/DataStore.js";
+import { listenerFactory } from "./bindListeners.js";
 
 export interface RenderOutput {
   node?: RenderBrick;
@@ -69,7 +77,7 @@ export interface RenderOutput {
   };
   route?: RouteConf;
   blockingList: (Promise<unknown> | undefined)[];
-  menuRequests: (Promise<StaticMenuConf | undefined> | undefined)[];
+  menuRequests: Promise<StaticMenuConf>[];
   hasTrackingControls?: boolean;
 }
 
@@ -78,7 +86,9 @@ export async function renderRoutes(
   routes: RouteConf[],
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  slotId?: string
+  parentRoutes: RouteConf[],
+  slotId?: string,
+  isIncremental?: boolean
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
   const output: RenderOutput = {
@@ -97,7 +107,16 @@ export async function renderRoutes(
         ..._runtimeContext,
         match: matched.match,
       };
-      runtimeContext.ctxStore.define(route.context, runtimeContext);
+      if (isIncremental) {
+        runtimeContext.ctxStore.disposeDataInRoutes(routes);
+      }
+      const routePath = parentRoutes.concat(route);
+      runtimeContext.ctxStore.define(
+        route.context,
+        runtimeContext,
+        undefined,
+        routePath
+      );
       runtimeContext.pendingPermissionsPreCheck.push(
         hooks?.checkPermissions?.preCheckPermissionsForBrickOrRoute(
           route,
@@ -114,60 +133,66 @@ export async function renderRoutes(
         );
       }
 
-      switch (route.type) {
-        case "redirect": {
-          let redirectTo: unknown;
-          if (typeof route.redirect === "string") {
-            redirectTo = await asyncComputeRealValue(
-              route.redirect,
-              runtimeContext
-            );
-          } else {
-            const resolved = (await resolveData(
-              {
-                transform: "redirect",
-                ...route.redirect,
-              },
-              runtimeContext
-            )) as { redirect?: unknown };
-            redirectTo = resolved.redirect;
-          }
-          if (typeof redirectTo !== "string") {
-            // eslint-disable-next-line no-console
-            console.error("Unexpected redirect result:", redirectTo);
-            throw new Error(
-              `Unexpected type of redirect result: ${typeof redirectTo}`
-            );
-          }
-          output.redirect = { path: redirectTo };
-          break;
+      if (route.type === "redirect") {
+        let redirectTo: unknown;
+        if (typeof route.redirect === "string") {
+          redirectTo = await asyncComputeRealValue(
+            route.redirect,
+            runtimeContext
+          );
+        } else {
+          const resolved = (await resolveData(
+            {
+              transform: "redirect",
+              ...route.redirect,
+            },
+            runtimeContext
+          )) as { redirect?: unknown };
+          redirectTo = resolved.redirect;
         }
-        case "routes": {
-          output.menuRequests.push(loadMenu(route.menu, runtimeContext));
+        if (typeof redirectTo !== "string") {
+          // eslint-disable-next-line no-console
+          console.error("Unexpected redirect result:", redirectTo);
+          throw new Error(
+            `Unexpected type of redirect result: ${typeof redirectTo}`
+          );
+        }
+        output.redirect = { path: redirectTo };
+      } else {
+        const menuRequest = loadMenu(route.menu, runtimeContext);
+        if (menuRequest) {
+          output.menuRequests.push(menuRequest);
+        }
+
+        if (route.type === "routes") {
           const newOutput = await renderRoutes(
             returnNode,
             route.routes,
             runtimeContext,
             rendererContext,
+            routePath,
             slotId
           );
           mergeRenderOutput(output, newOutput);
-          break;
-        }
-        default: {
-          output.menuRequests.push(loadMenu(route.menu, runtimeContext));
+        } else {
           const newOutput = await renderBricks(
             returnNode,
             route.bricks,
             runtimeContext,
             rendererContext,
+            routePath,
             slotId
           );
           mergeRenderOutput(output, newOutput);
         }
+
+        if (returnNode.tag === RenderTag.BRICK) {
+          rendererContext.memoizeMenuRequests(route, output.menuRequests);
+        }
       }
     }
   }
+
   return output;
 }
 
@@ -176,14 +201,16 @@ export async function renderBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId?: string,
   tplStack?: Map<string, number>,
-  noMemoize?: boolean
+  keyPath?: number[]
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
     menuRequests: [],
   };
+  const kPath = keyPath ?? [];
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const rendered = await Promise.all(
     bricks.map((brickConf, index) =>
@@ -192,17 +219,23 @@ export async function renderBricks(
         brickConf,
         runtimeContext,
         rendererContext,
+        parentRoutes,
         slotId,
-        index,
+        kPath.concat(index),
         tplStack && new Map(tplStack)
       )
     )
   );
 
   rendered.forEach((item, index) => {
-    if (!noMemoize && item.hasTrackingControls) {
+    if (item.hasTrackingControls) {
       // Memoize a render node before it's been merged.
-      rendererContext.memoizeControlNode(slotId, index, item.node, returnNode);
+      rendererContext.memoize(
+        slotId,
+        kPath.concat(index),
+        item.node,
+        returnNode
+      );
     }
     mergeRenderOutput(output, item);
   });
@@ -215,8 +248,9 @@ export async function renderBrick(
   brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId?: string,
-  key?: number,
+  keyPath: number[] = [],
   tplStack = new Map<string, number>()
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
@@ -263,8 +297,9 @@ export async function renderBrick(
       },
       _runtimeContext,
       rendererContext,
+      parentRoutes,
       slotId,
-      key,
+      keyPath,
       tplStack
     );
   }
@@ -315,7 +350,7 @@ export async function renderBrick(
 
     const { dataSource } = brickConf;
 
-    const renderControlNode = async () => {
+    const renderControlNode = async (runtimeContext: RuntimeContext) => {
       // First, compute the `dataSource`
       const computedDataSource = await asyncComputeRealValue(
         dataSource,
@@ -356,8 +391,10 @@ export async function renderBrick(
             bricks,
             runtimeContext,
             rendererContext,
+            parentRoutes,
             slotId,
-            tplStack
+            tplStack,
+            keyPath
           );
         }
         case ":if":
@@ -367,15 +404,17 @@ export async function renderBrick(
             bricks,
             runtimeContext,
             rendererContext,
+            parentRoutes,
             slotId,
             tplStack,
-            true
+            keyPath
           );
         }
       }
     };
 
-    const controlledOutput = await renderControlNode();
+    const controlledOutput = await renderControlNode(runtimeContext);
+    const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
     const { contextNames, stateNames } = getTracks(dataSource);
     if (contextNames || stateNames) {
@@ -383,23 +422,44 @@ export async function renderBrick(
       let renderId = 0;
       const listener = async () => {
         const currentRenderId = ++renderId;
-        const output = await renderControlNode();
-        output.blockingList.push(
-          ...[
-            ...runtimeContext.tplStateStoreMap.values(),
-            ...runtimeContext.formStateStoreMap.values(),
-          ].map((store) => store.waitForAll()),
-          ...runtimeContext.pendingPermissionsPreCheck
+        const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
+          createScopedRuntimeContext(runtimeContext);
+
+        const controlOutput = await renderControlNode(scopedRuntimeContext);
+
+        const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
+        await postAsyncRender(
+          controlOutput,
+          scopedRuntimeContext,
+          scopedStores
         );
-        await Promise.all(output.blockingList);
+
         // Ignore stale renders
         if (renderId === currentRenderId) {
-          rendererContext.rerenderControlNode(
+          if (onUnmount) {
+            listenerFactory(
+              onUnmount,
+              runtimeContext
+            )(new CustomEvent("unmount", { detail: { rerender: true } }));
+          }
+
+          rendererContext.reRender(
             slotId,
-            key as number,
-            output.node,
+            keyPath,
+            controlOutput.node,
             returnNode
           );
+
+          if (onMount) {
+            listenerFactory(
+              onMount,
+              scopedRuntimeContext
+            )(new CustomEvent("mount", { detail: { rerender: true } }));
+          }
+
+          for (const store of scopedStores) {
+            store.mountAsyncData();
+          }
         }
       };
       const debouncedListener = debounce(listener);
@@ -420,13 +480,32 @@ export async function renderBrick(
       }
     }
 
+    if (onMount) {
+      rendererContext.registerArbitraryLifeCycle("onMount", () => {
+        listenerFactory(
+          onMount,
+          runtimeContext
+        )(new CustomEvent("mount", { detail: { rerender: false } }));
+      });
+    }
+
+    if (onUnmount) {
+      rendererContext.registerArbitraryLifeCycle("onUnmount", () => {
+        listenerFactory(
+          onUnmount,
+          runtimeContext
+        )(new CustomEvent("unmount", { detail: { rerender: false } }));
+      });
+    }
+
     return controlledOutput;
   }
 
   // Widgets need to be defined before rendering.
   if (/\.tpl-/.test(brickName) && !customTemplates.get(brickName)) {
-    await catchLoadBrick(
+    await catchLoad(
       loadBricksImperatively([brickName], getBrickPackages()),
+      "brick",
       brickName,
       rendererContext.unknownBricks
     );
@@ -457,12 +536,59 @@ export async function renderBrick(
       );
     } else {
       output.blockingList.push(
-        catchLoadBrick(
+        catchLoad(
           enqueueStableLoadBricks([brickName], getBrickPackages()),
+          "brick",
           brickName,
           rendererContext.unknownBricks
         )
       );
+    }
+  }
+
+  let formData: unknown;
+  let confProps: Record<string, unknown> | undefined;
+  if (brickName === FORM_RENDERER) {
+    ({ formData, ...confProps } = brickConf.properties ?? {});
+  } else {
+    confProps = brickConf.properties;
+  }
+
+  const trackingContextList: TrackingContextItem[] = [];
+  const asyncPropertyEntries = asyncComputeRealPropertyEntries(
+    confProps,
+    runtimeContext,
+    trackingContextList
+  );
+
+  const computedPropsFromHost = brickConf[symbolForAsyncComputedPropsFromHost];
+  if (computedPropsFromHost) {
+    asyncPropertyEntries.push(...computedPropsFromHost);
+  }
+
+  const isScript = brickName === "script";
+  if (isScript || brickName === "link") {
+    const props = await constructAsyncProperties(asyncPropertyEntries);
+    if (isScript ? props.src : props.rel === "stylesheet" && props.href) {
+      const prefix = window.PUBLIC_ROOT ?? "";
+      if (isScript) {
+        const { src, ...attrs } = props;
+        await catchLoad(
+          loadScript(src as string, prefix, attrs),
+          "script",
+          src as string,
+          "silent"
+        );
+      } else {
+        const { href, ...attrs } = props;
+        await catchLoad(
+          loadStyle(href as string, prefix, attrs),
+          "stylesheet",
+          href as string,
+          "silent"
+        );
+      }
+      return output;
     }
   }
 
@@ -480,36 +606,29 @@ export async function renderBrick(
 
   output.node = brick;
 
-  // const confProps = brickConf.properties;
-  let formData: unknown;
-  let confProps: Record<string, unknown> | undefined;
-  if (brickName === FORM_RENDERER) {
-    ({ formData, ...confProps } = brickConf.properties ?? {});
-  } else {
-    confProps = brickConf.properties;
+  // 在最终挂载前，先加载所有可能用到的 processors。
+  const usedProcessors = strictCollectMemberUsage(
+    [brickConf.events, brickConf.lifeCycle],
+    "PROCESSORS",
+    2
+  );
+  if (usedProcessors.size > 0) {
+    output.blockingList.push(
+      catchLoad(
+        loadProcessorsImperatively(usedProcessors, getBrickPackages()),
+        "processors",
+        [...usedProcessors].join(", "),
+        rendererContext.unknownBricks
+      )
+    );
   }
 
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
 
-  const trackingContextList: TrackingContextItem[] = [];
-  const asyncProperties = asyncComputeRealProperties(
-    confProps,
-    runtimeContext,
-    trackingContextList
-  );
   const loadProperties = async () => {
-    brick.properties = await constructAsyncProperties(asyncProperties);
-    const computedPropsFromHost =
-      brickConf[symbolForAsyncComputedPropsFromHost];
-    if (computedPropsFromHost) {
-      const computed = await computedPropsFromHost;
-      for (const [propName, propValue] of Object.entries(computed)) {
-        brick.properties[propName] = propValue;
-      }
-    }
+    brick.properties = await constructAsyncProperties(asyncPropertyEntries);
     listenOnTrackingContext(brick, trackingContextList);
-    return brick.properties;
   };
   blockingList.push(loadProperties());
 
@@ -521,7 +640,7 @@ export async function renderBrick(
       tplTagName,
       brickConf,
       brick,
-      asyncProperties,
+      asyncPropertyEntries,
       rendererContext
     );
   } else if (brickName === FORM_RENDERER) {
@@ -529,7 +648,7 @@ export async function renderBrick(
       formData,
       brickConf,
       brick,
-      asyncProperties,
+      asyncPropertyEntries,
       rendererContext
     );
   }
@@ -558,35 +677,144 @@ export async function renderBrick(
     if (!slots) {
       return;
     }
+    const routeSlotIndexes = new Set<number>();
     const rendered = await Promise.all(
-      Object.entries(slots).map(([childSlotId, slotConf]) =>
-        slotConf.type !== "routes"
-          ? renderBricks(
-              brick,
-              (slotConf as SlotConfOfBricks).bricks,
-              childRuntimeContext,
-              rendererContext,
+      Object.entries(slots).map(([childSlotId, slotConf], index) => {
+        if (slotConf.type !== "routes") {
+          return renderBricks(
+            brick,
+            (slotConf as SlotConfOfBricks).bricks,
+            childRuntimeContext,
+            rendererContext,
+            parentRoutes,
+            childSlotId,
+            tplStack
+          );
+        }
+
+        if (runtimeContext.flags["incremental-sub-route-rendering"]) {
+          routeSlotIndexes.add(index);
+          rendererContext.performIncrementalRender(async (location) => {
+            const { homepage } = childRuntimeContext.app;
+            const { pathname } = location;
+            // Ignore if any one of homepage and parent routes not matched.
+            if (
+              !matchHomepage(homepage, pathname) ||
+              !parentRoutes.every((route) =>
+                matchRoute(route, homepage, pathname)
+              )
+            ) {
+              return false;
+            }
+
+            const [
+              scopedRuntimeContext,
+              tplStateStoreScope,
+              formStateStoreScope,
+            ] = createScopedRuntimeContext({
+              ...childRuntimeContext,
+              location,
+              query: new URLSearchParams(location.search),
+            });
+
+            let failed = false;
+            let incrementalOutput: RenderOutput;
+            let scopedStores: DataStore<"STATE" | "FORM_STATE">[] = [];
+
+            try {
+              incrementalOutput = await renderRoutes(
+                brick,
+                slotConf.routes,
+                scopedRuntimeContext,
+                rendererContext,
+                parentRoutes,
+                childSlotId,
+                true
+              );
+
+              // If all sub-routes are missed, ignore incremental rendering
+              if (!incrementalOutput.route) {
+                return false;
+              }
+
+              // Bailout if redirect or unauthenticated is set
+              if (rendererContext.reBailout(incrementalOutput)) {
+                return true;
+              }
+
+              scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
+              await postAsyncRender(incrementalOutput, scopedRuntimeContext, [
+                scopedRuntimeContext.ctxStore,
+                ...scopedStores,
+              ]);
+
+              await rendererContext.reMergeMenuRequests(
+                slotConf.routes,
+                incrementalOutput.route,
+                incrementalOutput.menuRequests
+              );
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.error("Incremental sub-router failed:", error);
+
+              const result = rendererContext.reCatch(error, brick);
+              if (!result) {
+                return true;
+              }
+              ({ failed, output: incrementalOutput } = result);
+
+              // Assert: no errors will be throw
+              await rendererContext.reMergeMenuRequests(
+                slotConf.routes,
+                incrementalOutput.route,
+                incrementalOutput.menuRequests
+              );
+            }
+
+            rendererContext.reRender(
               childSlotId,
-              tplStack
-            )
-          : renderRoutes(
-              brick,
-              slotConf.routes,
-              childRuntimeContext,
-              rendererContext,
-              childSlotId
-            )
-      )
+              [],
+              incrementalOutput.node,
+              brick
+            );
+
+            if (!failed) {
+              scopedRuntimeContext.ctxStore.mountAsyncData(
+                incrementalOutput.route
+              );
+              for (const store of scopedStores) {
+                store.mountAsyncData();
+              }
+            }
+
+            return true;
+          });
+        }
+
+        return renderRoutes(
+          brick,
+          slotConf.routes,
+          childRuntimeContext,
+          rendererContext,
+          parentRoutes,
+          childSlotId
+        );
+      })
     );
 
     const childrenOutput: RenderOutput = {
       ...output,
       node: undefined,
       blockingList: [],
+      menuRequests: [],
     };
-    for (const item of rendered) {
+    rendered.forEach((item, index) => {
+      if (routeSlotIndexes.has(index)) {
+        // Memoize a render node before it's been merged.
+        rendererContext.memoize(slotId, [], item.node, brick);
+      }
       mergeRenderOutput(childrenOutput, item);
-    }
+    });
     if (childrenOutput.node) {
       brick.child = childrenOutput.node;
     }
@@ -626,14 +854,17 @@ async function renderForEach(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
   slotId: string | undefined,
-  tplStack?: Map<string, number>
+  tplStack: Map<string, number>,
+  keyPath: number[]
 ): Promise<RenderOutput> {
   const output: RenderOutput = {
     blockingList: [],
     menuRequests: [],
   };
 
+  const rows = dataSource.length;
   const rendered = await Promise.all(
     dataSource.map((item, i) =>
       Promise.all(
@@ -646,8 +877,9 @@ async function renderForEach(
               forEachItem: item,
             },
             rendererContext,
+            parentRoutes,
             slotId,
-            i * j,
+            keyPath.concat(i * rows + j),
             tplStack && new Map(tplStack)
           )
         )
@@ -656,10 +888,59 @@ async function renderForEach(
   );
 
   // 多层构件并行异步转换，但转换的结果按原顺序串行合并。
-  for (const item of rendered.flat()) {
+  rendered.flat().forEach((item, index) => {
+    if (item.hasTrackingControls) {
+      // Memoize a render node before it's been merged.
+      rendererContext.memoize(
+        slotId,
+        keyPath.concat(index),
+        item.node,
+        returnNode
+      );
+    }
     mergeRenderOutput(output, item);
-  }
+  });
+
   return output;
+}
+
+export function getDataStores(runtimeContext: RuntimeContext) {
+  return [
+    runtimeContext.ctxStore,
+    ...runtimeContext.tplStateStoreMap.values(),
+    ...runtimeContext.formStateStoreMap.values(),
+  ];
+}
+
+export function postAsyncRender(
+  output: RenderOutput,
+  runtimeContext: RuntimeContext,
+  stores: DataStore<DataStoreType>[]
+) {
+  flushStableLoadBricks();
+
+  return Promise.all([
+    ...output.blockingList,
+    ...stores.map((store) => store.waitForAll()),
+    ...runtimeContext.pendingPermissionsPreCheck,
+  ]);
+}
+
+export function createScopedRuntimeContext(
+  runtimeContext: RuntimeContext
+): [
+  scopedRuntimeContext: RuntimeContext,
+  tplStateStoreScope: DataStore<"STATE">[],
+  formStateStoreScope: DataStore<"FORM_STATE">[]
+] {
+  const tplStateStoreScope: DataStore<"STATE">[] = [];
+  const formStateStoreScope: DataStore<"FORM_STATE">[] = [];
+  const scopedRuntimeContext: RuntimeContext = {
+    ...runtimeContext,
+    tplStateStoreScope,
+    formStateStoreScope,
+  };
+  return [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope];
 }
 
 function loadMenu(
@@ -694,6 +975,7 @@ function mergeRenderOutput(
   output: RenderOutput,
   newOutput: RenderOutput
 ): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { blockingList, node, menuRequests, hasTrackingControls, ...rest } =
     newOutput;
   output.blockingList.push(...blockingList);
@@ -748,15 +1030,16 @@ export function childrenToSlots(
   return newSlots;
 }
 
-function catchLoadBrick(
+function catchLoad(
   promise: Promise<unknown>,
-  brickName: string,
-  unknownBricks: RendererContext["unknownBricks"]
+  type: "brick" | "processors" | "script" | "stylesheet",
+  name: string,
+  unknownPolicy: RendererContext["unknownBricks"]
 ) {
-  return unknownBricks === "silent"
+  return unknownPolicy === "silent"
     ? promise.catch((e) => {
         // eslint-disable-next-line no-console
-        console.error(`Load brick "${brickName}" failed:`, e);
+        console.error(`Load ${type} "${name}" failed:`, e);
       })
     : promise;
 }

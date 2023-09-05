@@ -44,7 +44,7 @@ export function bindTemplateProxy(brick: RuntimeBrick) {
 export function unbindTemplateProxy(brick: RuntimeBrick) {
   const { ref, runtimeContext, element } = brick;
 
-  if (!runtimeContext.tplStateStoreId || !ref) {
+  if (!runtimeContext?.tplStateStoreId || !ref) {
     return;
   }
 

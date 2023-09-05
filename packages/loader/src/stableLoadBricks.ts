@@ -112,7 +112,9 @@ function getItemsByPkg(
     }
 
     if (!pkg) {
-      throw new Error(`Package for ${item} not found.`);
+      // eslint-disable-next-line no-console
+      console.error(`Package for ${item} not found.`);
+      return;
     }
 
     let groupItems = itemsByPkg.get(pkg);

@@ -2,11 +2,11 @@
 
 ## 开发调试
 
-```bash
-yarn
-yarn build
-yarn serve
-```
+1. 运行 `yarn` 安装依赖
+2. 如果项目初次运行或距上次生产构建时间较久，先执行一次全量生产构建 `yarn build`
+3. 按需、按依赖启动相关包的开发构建，例如开发 runtime 代码时：
+   - `npx lerna run start --scope @next-core/runtime`
+   - `yarn start`（等同于启动 `@next-core/brick-container` 的开发构建）
 
 关于 `yarn serve`：
 
@@ -16,6 +16,22 @@ yarn serve
 - 运行 `yarn serve --help` 查看帮助详情。
 
 运行 `yarn start` 可启动开发模式的 brick-container 服务，其选项参数和 `yarn serve` 一致。
+
+配置 `dev.config.mjs` 可引用其他仓库的构件包。
+
+```js
+// File: dev.config.mjs
+export default {
+  brickFolders: [
+    // 默认使用 `node_modules/@next-bricks` 及 `node_modules/@bricks` 作为构件包文件夹。
+    "node_modules/@next-bricks",
+    "node_modules/@bricks",
+
+    // 引用其他仓库的构件包。注：可使用通配符，详见 https://github.com/isaacs/node-glob
+    "../next-*/bricks",
+  ],
+};
+```
 
 ## Brick playground
 

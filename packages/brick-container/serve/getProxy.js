@@ -14,6 +14,7 @@ export default function getProxy(env, getRawIndexHtml) {
     useRemote,
     useLocalContainer,
     localBricks,
+    localBrickFolders,
   } = env;
   if (useRemote) {
     return [
@@ -32,7 +33,38 @@ export default function getProxy(env, getRawIndexHtml) {
         },
         onProxyRes: responseInterceptor(
           async (responseBuffer, proxyRes, req, res) => {
-            if (res.statusCode !== 200 || req.method !== "GET") {
+            if (res.statusCode !== 200) {
+              return responseBuffer;
+            }
+
+            const secureCookieFlags = ["SameSite=None", "Secure"];
+            if (
+              env.cookieSameSiteNone &&
+              req.method === "POST" &&
+              req.path === "/next/api/auth/login/v2"
+            ) {
+              const setCookies = res.getHeader("set-cookie");
+              if (Array.isArray(setCookies)) {
+                // Note: it seems that now Chrome (v107) requires `SameSite=None` even for localhost.
+                // However, `Secure` can use used with non-http for localhost.
+                res.setHeader(
+                  "set-cookie",
+                  setCookies.map((cookie) => {
+                    const separator = "; ";
+                    const parts = cookie.split(separator);
+                    for (const part of secureCookieFlags) {
+                      if (!parts.includes(part)) {
+                        parts.push(part);
+                      }
+                    }
+                    return parts.join(separator);
+                  })
+                );
+                console.log("add same site for cookies");
+              }
+            }
+
+            if (req.method !== "GET") {
               return responseBuffer;
             }
 
@@ -43,7 +75,7 @@ export default function getProxy(env, getRawIndexHtml) {
 
               const [storyboards, brickPackages] = await Promise.all([
                 getStoryboards({ rootDir, localMicroApps }),
-                getBrickPackages(rootDir, false, localBricks),
+                getBrickPackages(localBrickFolders, false, localBricks),
               ]);
 
               // Todo: filter out local micro-apps and brick packages
@@ -53,6 +85,28 @@ export default function getProxy(env, getRawIndexHtml) {
                 data.brickPackages
               );
               removeCacheHeaders(res);
+              return JSON.stringify(result);
+            }
+
+            if (
+              env.localSettings &&
+              req.path === "/next/api/v1/runtime_standalone"
+            ) {
+              const content = responseBuffer.toString("utf-8");
+              const result = JSON.parse(content);
+              const { data } = result;
+
+              const { featureFlags, homepage, brand, misc } = env.localSettings;
+              data.featureFlags ??= {};
+              data.brand ??= {};
+              data.misc ??= {};
+              Object.assign(data.settings.featureFlags, featureFlags);
+              Object.assign(data.settings.brand, brand);
+              Object.assign(data.settings.misc, misc);
+              if (homepage) {
+                data.settings.homepage = homepage;
+              }
+
               return JSON.stringify(result);
             }
 
@@ -190,11 +244,21 @@ export default function getProxy(env, getRawIndexHtml) {
             ) {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
+
+              const [storyboards, brickPackages] = await Promise.all([
+                getStoryboards({ rootDir, localMicroApps }, true),
+                getBrickPackages(localBrickFolders, true, localBricks),
+              ]);
+
               result.brickPackages = concatBrickPackages(
-                await getBrickPackages(rootDir, true, localBricks),
+                brickPackages,
                 result.brickPackages
               );
-              delete result.templatePackages;
+              result.storyboards = storyboards.concat(result.storyboards);
+
+              // Make it compatible with v2 apps.
+              // delete result.templatePackages;
+
               removeCacheHeaders(res);
               return JSON.stringify(result);
             }

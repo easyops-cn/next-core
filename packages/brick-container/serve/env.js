@@ -1,5 +1,8 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import meow from "meow";
 import chalk from "chalk";
+import glob from "glob";
 import { getLocalBrickPackageNames } from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
@@ -16,7 +19,10 @@ const cli = meow(
     --local-micro-apps      Specify local micro apps to be used
     --local-container       Use local brick-container instead of remote in remote mode
     --port                  Set local server listening port, defaults to "8081"
+    --ws-port               Set local WebSocket server listening port, defaults to "8090"
+    --live-reload           Enable live reload (currently only for local micro-apps)
     --size-check            Enable size-check mode
+    --cookie-same-site-none Append "Same-Site: none" for cookies
     --verbose               Print verbose logs
     --help                  Show help message
     --version               Show brick container version
@@ -43,9 +49,20 @@ const cli = meow(
       localContainer: {
         type: "boolean",
       },
+      cookieSameSiteNone: {
+        type: "boolean",
+        default: true,
+      },
+      liveReload: {
+        type: "boolean",
+      },
       port: {
         type: "string",
         default: "8081",
+      },
+      wsPort: {
+        type: "string",
+        default: "8090",
       },
       sizeCheck: {
         type: "boolean",
@@ -78,6 +95,23 @@ export async function getEnv(rootDir, runtimeFlags) {
     ...runtimeFlags,
   };
 
+  let localSettings, localMocks;
+
+  let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
+  const devConfigMjs = path.join(rootDir, "dev.config.mjs");
+  let configuredBrickFolders = false;
+  if (existsSync(devConfigMjs)) {
+    const devConfig = (await import(devConfigMjs)).default;
+    if (devConfig) {
+      if (Array.isArray(devConfig.brickFolders)) {
+        brickFolders = devConfig.brickFolders;
+        configuredBrickFolders = true;
+      }
+      localSettings = devConfig.settings;
+      localMocks = devConfig.mocks;
+    }
+  }
+
   const env = {
     rootDir,
     useSubdir: flags.subdir,
@@ -86,11 +120,36 @@ export async function getEnv(rootDir, runtimeFlags) {
     useLocalContainer: !flags.remote || flags.localContainer,
     localBricks: flags.localBricks ? flags.localBricks.split(",") : undefined,
     localMicroApps: flags.localMicroApps ? flags.localMicroApps.split(",") : [],
+    localBrickFolders: (
+      await Promise.all(
+        brickFolders.map(
+          (folder) =>
+            new Promise((resolve, reject) => {
+              glob(path.resolve(rootDir, folder), {}, (err, matches) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(matches);
+                }
+              });
+            })
+        )
+      )
+    ).flat(),
+    cookieSameSiteNone: flags.cookieSameSiteNone,
+    liveReload: flags.liveReload,
+    localSettings,
     port: Number(flags.port),
+    wsPort: Number(flags.wsPort),
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
     verbose: flags.verbose,
   };
+
+  env.localMocks = localMocks?.map((mock) => ({
+    path: env.baseHref,
+    middleware: mock,
+  }));
 
   if (env.sizeCheck) {
     env.localMicroApps.push(getSizeCheckApp().id);
@@ -100,16 +159,30 @@ export async function getEnv(rootDir, runtimeFlags) {
     console.log("Configure:", env);
   }
 
+  if (configuredBrickFolders) {
+    console.log("local brick folders:", env.localBrickFolders);
+  }
+
+  if (localSettings) {
+    console.log("local settings: enabled");
+  }
+
+  if (localMocks?.length) {
+    console.log("local mock: enabled");
+  }
+
+  if (env.liveReload) {
+    console.log("live-reload: enabled");
+  }
+
   const validLocalBricks = await getLocalBrickPackageNames(
-    rootDir,
+    env.localBrickFolders,
     env.localBricks
   );
 
-  console.log();
   console.log("local brick packages:", validLocalBricks);
 
   if (env.localMicroApps.length > 0) {
-    console.log();
     console.log("local micro-apps:", env.localMicroApps);
   }
 
