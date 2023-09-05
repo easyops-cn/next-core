@@ -46,7 +46,7 @@ def get_snippets_from_stories(stories_content):
     return ret_snippets
 
 
-def get_v3_story(br):
+def get_v3_story(br, examples_content, types_content):
     story_id = br.get("name", "")
     if not story_id:
         return
@@ -65,7 +65,12 @@ def get_v3_story(br):
     story["alias"] = br.get("alias", [])
     story["icon"] = br.get("icon")
 
+    if story_id in examples_content:
+        story["conf"] = examples_content[story_id]
+
     doc = br.get("doc", {})
+    if story_id in types_content:
+        doc["interface"] = types_content[story_id]
     properties = br.get("properties")
     events = br.get("events")
     slots = br.get("slots")
@@ -100,6 +105,8 @@ def get_v3_story(br):
 def collect_stories(install_path):
     stories_path = os.path.join(install_path, "dist", "stories.json")
     manifest_path = os.path.join(install_path, "dist", "manifest.json")
+    examples_path = os.path.join(install_path, "dist", "examples.json")
+    types_path = os.path.join(install_path, "dist", "types.json")
     # v2 brick
     if os.path.exists(stories_path):
         with open(stories_path) as stories_file:
@@ -107,14 +114,22 @@ def collect_stories(install_path):
             return stories_content
     # v3 brick
     elif os.path.exists(manifest_path):
+        stories_content = []
         with open(manifest_path) as manifest_file:
             manifest_content = simplejson.load(manifest_file)
-            stories_content = []
+            examples_content = {}
+            if os.path.exists(examples_path):
+                with open(examples_path) as examples_file:
+                    examples_content = simplejson.load(examples_file)
+            types_content = {}
+            if os.path.exists(types_path):
+                with open(types_path) as types_file:
+                    types_content = simplejson.load(types_file)
             for br in manifest_content.get("bricks", []):
-                story = get_v3_story(br)
+                story = get_v3_story(br, examples_content, types_content)
                 if story:
                     stories_content.append(story)
-            return stories_content
+        return stories_content
     return []
 
 
@@ -306,4 +321,3 @@ if __name__ == "__main__":
         report_nt(org, install_path)
     else:
         sys.exit(0)
-
