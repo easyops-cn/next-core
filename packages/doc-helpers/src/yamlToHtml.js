@@ -1,5 +1,5 @@
 import jsYaml from "js-yaml";
-import { format } from "prettier";
+import * as prettier from "prettier";
 import {
   UNPAIRED_TAGS,
   findPropertyManifests,
@@ -20,9 +20,9 @@ const { safeLoad, JSON_SCHEMA } = jsYaml;
 /**
  * @param {string} yaml
  * @param {PackageManifest[]} manifests
- * @returns {string}
+ * @returns {Promise<string>}
  */
-export default function yamlToHtml(yaml, manifests) {
+export default async function yamlToHtml(yaml, manifests) {
   const node = safeLoad(yaml, { schema: JSON_SCHEMA, json: true });
   const nodes = Array.isArray(node) ? node : [node];
 
@@ -40,7 +40,10 @@ export default function yamlToHtml(yaml, manifests) {
   const html = htmlStringifyNodes(htmlNodes, "");
 
   if (extraScriptsMap.size === 0) {
-    return format(html, { filepath: "demo.html" });
+    return await prettier.format(html, {
+      filepath: "demo.html",
+      trailingComma: "es5",
+    });
   }
 
   const scripts = [...extraScriptsMap.entries()].map(([id, extraScripts]) => {
@@ -67,9 +70,13 @@ ${stringifyHandler(handler)}
     ].join("\n");
   });
 
-  return format(`${html}\n\n<script>\n${scripts.join("\n\n")}\n</script>`, {
-    filepath: "demo.html",
-  });
+  return await prettier.format(
+    `${html}\n\n<script>\n${scripts.join("\n\n")}\n</script>`,
+    {
+      filepath: "demo.html",
+      trailingComma: "es5",
+    }
+  );
 }
 
 function stringifyHandler(

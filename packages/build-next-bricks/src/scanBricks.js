@@ -853,12 +853,12 @@ export default async function scanBricks(packageDir) {
     /** @type {string} */
     let brickDoc;
     if (existsSync(srcFilePath)) {
-      brickDoc = handleExamplesInMarkdown(
+      brickDoc = await handleExamplesInMarkdown(
         await readFile(srcFilePath, "utf-8"),
         [manifest]
       );
     } else if (existsSync(srcFilePathAlt)) {
-      brickDoc = handleExamplesInMarkdown(
+      brickDoc = await handleExamplesInMarkdown(
         await readFile(srcFilePathAlt, "utf-8"),
         [manifest]
       );
