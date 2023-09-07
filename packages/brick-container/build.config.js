@@ -111,6 +111,13 @@ export default {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        mockdate: {
+          test: /[\\/]node_modules[\\/]mockdate[\\/]/,
+          priority: -5,
+          reuseExistingChunk: true,
+          name: "mockdate",
+          minSize: 100,
+        },
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
