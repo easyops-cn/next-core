@@ -46,6 +46,49 @@ def get_snippets_from_stories(stories_content):
     return ret_snippets
 
 
+def get_v3_story_provider(pr, examples_content, types_content):
+    story_id = pr.get("name", "")
+    if not story_id:
+        return
+    story = { "storyId": story_id, "v3Brick": True, "type": "provider" }
+    desc = pr.get("description")
+    if type(desc) != dict:
+        desc = {"en": desc, "zh": desc}
+    story["description"] = desc
+
+    text = pr.get("text")
+    if not text:
+        text = desc
+    story["text"] = text
+
+    story["category"] = pr.get("category", "other")
+    story["alias"] = pr.get("alias", [])
+    story["icon"] = pr.get("icon")
+
+    if story_id in examples_content:
+        story["conf"] = examples_content[story_id]
+
+    doc = pr.get("doc", {})
+    if story_id in types_content:
+        doc["interface"] = types_content[story_id]
+    if "id" not in doc:
+        doc["id"] = story_id
+    if "name" not in doc:
+        doc["name"] = story_id
+    if "docKind" not in doc:
+        doc["docKind"] = "provider"
+    if "description" not in doc:
+        doc["description"] = desc
+    doc["properties"] = []
+    doc["events"] = []
+    doc["slots"] = []
+    doc["methods"] = []
+    doc["parts"] = []
+    story["doc"] = doc
+
+    return story
+
+
 def get_v3_story(br, examples_content, types_content):
     story_id = br.get("name", "")
     if not story_id:
@@ -80,8 +123,8 @@ def get_v3_story(br, examples_content, types_content):
         doc["id"] = story_id
     if "name" not in doc:
         doc["name"] = story_id
-    if "docKink" not in doc:
-        doc["docKink"] = "brick"
+    if "docKind" not in doc:
+        doc["docKind"] = "brick"
     if "description" not in doc:
         doc["description"] = desc
     if "properties" not in doc:
@@ -94,10 +137,7 @@ def get_v3_story(br, examples_content, types_content):
         doc["parts"] = parts
     if "slots" not in doc:
         doc["slots"] = slots
-    # TODO: interface in doc
     story["doc"] = doc
-
-    # TODO: conf
 
     return story
 
@@ -127,6 +167,10 @@ def collect_stories(install_path):
                     types_content = simplejson.load(types_file)
             for br in manifest_content.get("bricks", []):
                 story = get_v3_story(br, examples_content, types_content)
+                if story:
+                    stories_content.append(story)
+            for pr in manifest_content.get("providers", []):
+                story = get_v3_story_provider(pr, examples_content, types_content)
                 if story:
                     stories_content.append(story)
         return stories_content
@@ -242,12 +286,23 @@ def remove_tar_gz_file(nb_targz_path):
     os.remove(nb_targz_path)
 
 
+def get_version(install_path):
+    version_file = os.path.join(install_path, "version.ini")
+    package_version = "0.0.0"
+    try:
+        with open(version_file, "r") as f:
+            lines = f.readlines()
+            package_version = str.strip(lines[1])
+    except:
+        print "version.ini read error, use version", package_version
+    return package_version
+
+
+
 def report_brick_next(org, install_path):
     # 读取版本信息
-    version_file = os.path.join(install_path, "version.ini")
-    with open(version_file, "r") as f:
-        lines = f.readlines()
-        package_version = str.strip(lines[1])
+    package_version = get_version(install_path)
+
     targz_name = "brick_next.tar.gz"
     brick_targz_path = os.path.join(install_path, targz_name)
     if not mk_nb_tar_gz(brick_targz_path, install_path):
@@ -260,10 +315,7 @@ def report_brick_next(org, install_path):
 
 def report_nb(org, install_path):
     # 读取版本信息
-    version_file = os.path.join(install_path, "version.ini")
-    with open(version_file, "r") as f:
-        lines = f.readlines()
-        package_version = str.strip(lines[1])
+    package_version = get_version(install_path)
 
     package_name, bricks_content, stories_content, snippets_content, contract_content = collect(
         install_path)
@@ -281,10 +333,7 @@ def report_nb(org, install_path):
 
 def report_nt(org, install_path):
     # 读取版本信息
-    version_file = os.path.join(install_path, "version.ini")
-    with open(version_file, "r") as f:
-        lines = f.readlines()
-        package_version = str.strip(lines[1])
+    package_version = get_version(install_path)
 
     package_name = os.path.basename(install_path)
     if package_name:
