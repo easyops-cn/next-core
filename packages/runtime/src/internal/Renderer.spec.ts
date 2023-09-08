@@ -1,7 +1,7 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import type { RouteConf, RouteConfOfBricks } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
-import { RenderRoot, RuntimeContext } from "./interfaces.js";
+import { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
 import { RenderTag } from "./enums.js";
 import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
@@ -928,6 +928,12 @@ describe("renderBrick for control nodes", () => {
       }),
     });
     expect(output2).toEqual({
+      node: {
+        tag: RenderTag.PLACEHOLDER,
+        return: {
+          tag: RenderTag.ROOT,
+        },
+      },
       blockingList: [],
       menuRequests: [],
     });
@@ -1081,6 +1087,156 @@ describe("renderBrick for control nodes", () => {
       "c"
     );
     expect(consoleInfo).toHaveBeenNthCalledWith(12, ":forEach unmount");
+
+    consoleInfo.mockReset();
+  });
+
+  test(":forEach and track with empty initial", async () => {
+    consoleInfo.mockReturnValue();
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "list",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [100, null],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [
+        {
+          brick: "h1",
+          properties: {
+            textContent: "Before",
+          },
+        },
+        {
+          brick: "hr",
+          portal: true,
+        },
+        {
+          brick: ":forEach",
+          dataSource: "<%= CTX.list %>",
+          children: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "<% ITEM %>",
+                title: "<% INDEX %>",
+              },
+              lifeCycle: {
+                onMount: {
+                  action: "console.info",
+                  args: ["onMount", "<% EVENT.type %>", "<% ITEM %>"],
+                },
+                onUnmount: {
+                  action: "console.info",
+                  args: ["onUnmount", "<% EVENT.type %>", "<% ITEM %>"],
+                },
+                onScrollIntoView: {
+                  handlers: [
+                    {
+                      action: "console.info",
+                      args: [
+                        "onScrollIntoView",
+                        "<% EVENT.type %>",
+                        "<% ITEM %>",
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              brick: "p",
+              properties: {
+                textContent: "<% `portal:${ITEM}` %>",
+              },
+              portal: true,
+            },
+          ],
+          lifeCycle: {
+            onMount: {
+              action: "console.info",
+              args: [":forEach mount", "<% EVENT.detail.rerender %>"],
+            },
+            onUnmount: {
+              action: "console.info",
+              args: [":forEach unmount"],
+            },
+          },
+        },
+        {
+          brick: "h2",
+          properties: {
+            textContent: "After",
+          },
+        },
+        {
+          brick: "br",
+          portal: true,
+        },
+      ],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    renderRoot.child = output.node;
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+    mountTree(renderRoot);
+    expect(consoleInfo).not.toBeCalled();
+    rendererContext.dispatchOnMount();
+    rendererContext.initializeScrollIntoView();
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, ":forEach mount", false);
+
+    expect(container.innerHTML).toBe("<h1>Before</h1><h2>After</h2>");
+    expect(portal.innerHTML).toBe("<hr><br>");
+
+    ctxStore.updateValue("list", ["a", "c"], "replace");
+    expect(consoleInfo).toBeCalledTimes(1);
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(consoleInfo).toBeCalledTimes(5);
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, ":forEach unmount");
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "onMount", "mount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "onMount", "mount", "c");
+    expect(consoleInfo).toHaveBeenNthCalledWith(5, ":forEach mount", true);
+
+    expect(container.innerHTML).toBe(
+      '<h1>Before</h1><div title="0">a</div><div title="1">c</div><h2>After</h2>'
+    );
+    expect(portal.innerHTML).toBe("<hr><p>portal:a</p><p>portal:c</p><br>");
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispatchOnUnmount();
+    rendererContext.dispose();
+
+    expect(consoleInfo).toBeCalledTimes(8);
+    expect(consoleInfo).toHaveBeenNthCalledWith(6, "onUnmount", "unmount", "a");
+    expect(consoleInfo).toHaveBeenNthCalledWith(7, "onUnmount", "unmount", "c");
+    expect(consoleInfo).toHaveBeenNthCalledWith(8, ":forEach unmount");
 
     consoleInfo.mockReset();
   });
@@ -1324,9 +1480,109 @@ describe("renderBrick for control nodes", () => {
       }),
     });
     expect(output3).toEqual({
+      node: {
+        tag: RenderTag.PLACEHOLDER,
+        return: {
+          tag: RenderTag.ROOT,
+        },
+      },
       blockingList: [],
       menuRequests: [],
     });
+  });
+
+  test(":if and track with empty initial and no next siblings", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "quality",
+          value: "good",
+        },
+      ],
+      runtimeContext
+    );
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [
+        {
+          brick: "h1",
+          properties: {
+            textContent: "Before",
+          },
+        },
+        {
+          iid: "if-a",
+          brick: ":if",
+          dataSource: "<%= CTX.quality === 'bad' %>",
+          children: [
+            {
+              brick: "h2",
+              properties: {
+                textContent: "Warning",
+              },
+            },
+          ],
+        },
+        {
+          iid: "if:b",
+          brick: ":if",
+          dataSource: "<%= CTX.quality === 'bad' %>",
+          children: [
+            {
+              brick: "p",
+              properties: {
+                textContent: "Not good",
+              },
+            },
+          ],
+        },
+      ],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    renderRoot.child = output.node;
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+    mountTree(renderRoot);
+    rendererContext.dispatchOnMount();
+    rendererContext.initializeScrollIntoView();
+
+    expect(container.innerHTML).toBe("<h1>Before</h1>");
+
+    // Scenario: two empty renders in a row with two control nodes
+    ctxStore.updateValue("quality", "better", "replace");
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(container.innerHTML).toBe("<h1>Before</h1>");
+
+    ctxStore.updateValue("quality", "bad", "replace");
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(container.innerHTML).toBe(
+      "<h1>Before</h1><h2>Warning</h2><p>Not good</p>"
+    );
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispatchOnUnmount();
+    rendererContext.dispose();
   });
 
   test(":switch", async () => {
@@ -1564,7 +1820,7 @@ describe("renderBrick for tpl", () => {
       []
     );
     renderRoot.child = output.node;
-    const { tplStateStoreId } = output.node!.tplHostMetadata!;
+    const { tplStateStoreId } = (output.node as RenderBrick)!.tplHostMetadata!;
     expect(tplStateStoreId).toBeDefined();
 
     await Promise.all([
@@ -1786,7 +2042,8 @@ describe("renderBrick for tpl", () => {
 
     const stateStore = getTplStateStore(
       {
-        tplStateStoreId: output.node?.tplHostMetadata?.tplStateStoreId,
+        tplStateStoreId: (output.node as RenderBrick)?.tplHostMetadata
+          ?.tplStateStoreId,
         tplStateStoreMap: runtimeContext.tplStateStoreMap,
       },
       "test"

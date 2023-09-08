@@ -194,5 +194,45 @@ for (const port of Cypress.env("ports")) {
         "[forEach mount] false 1, [forEach unmount] 2, [forEach mount] true 2",
       ]);
     });
+
+    it("should render :forEach with empty initial", () => {
+      cy.visit(`${origin}/e2e/control-nodes/8`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+        },
+      });
+
+      cy.contains("[a]");
+      cy.contains("[b]");
+      cy.expectMainContents([
+        ["Hello", "[a] 0: 1", "[b] 0: 2", "World"].join(""),
+        "Add",
+      ]);
+
+      cy.get("@console.error").should("not.be.called");
+
+      cy.contains("Add").click();
+      cy.contains("3");
+      cy.contains("4");
+      cy.expectMainContents([
+        ["Hello", "[a] 0: 1", "[a] 1: 3", "[b] 0: 2", "[b] 1: 4", "World"].join(
+          ""
+        ),
+        "Add",
+      ]);
+
+      cy.contains("Add").click();
+      cy.contains("[a]").should("not.exist");
+      cy.contains("[b]").should("not.exist");
+      cy.expectMainContents([["Hello", "World"].join(""), "Add"]);
+
+      cy.contains("Add").click();
+      cy.contains("[a]");
+      cy.contains("[b]");
+      cy.expectMainContents([
+        ["Hello", "[a] 0: 5", "[b] 0: 6", "World"].join(""),
+        "Add",
+      ]);
+    });
   });
 }
