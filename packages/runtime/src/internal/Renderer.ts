@@ -42,7 +42,8 @@ import {
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
 import type {
   RenderBrick,
-  RenderNode,
+  RenderChildNode,
+  RenderReturnNode,
   RuntimeBrickConfWithSymbols,
   RuntimeContext,
 } from "./interfaces.js";
@@ -70,7 +71,7 @@ import type { DataStore, DataStoreType } from "./data/DataStore.js";
 import { listenerFactory } from "./bindListeners.js";
 
 export interface RenderOutput {
-  node?: RenderBrick;
+  node?: RenderChildNode;
   unauthenticated?: boolean;
   redirect?: {
     path: string;
@@ -83,7 +84,7 @@ export interface RenderOutput {
 }
 
 export async function renderRoutes(
-  returnNode: RenderNode,
+  returnNode: RenderReturnNode,
   routes: RouteConf[],
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
@@ -92,10 +93,7 @@ export async function renderRoutes(
   isIncremental?: boolean
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
-  const output: RenderOutput = {
-    blockingList: [],
-    menuRequests: [],
-  };
+  const output = getEmptyRenderOutput();
   switch (matched) {
     case "missed":
       break;
@@ -198,7 +196,7 @@ export async function renderRoutes(
 }
 
 export async function renderBricks(
-  returnNode: RenderNode,
+  returnNode: RenderReturnNode,
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
@@ -207,10 +205,7 @@ export async function renderBricks(
   tplStack?: Map<string, number>,
   keyPath?: number[]
 ): Promise<RenderOutput> {
-  const output: RenderOutput = {
-    blockingList: [],
-    menuRequests: [],
-  };
+  const output = getEmptyRenderOutput();
   const kPath = keyPath ?? [];
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。
   const rendered = await Promise.all(
@@ -245,7 +240,7 @@ export async function renderBricks(
 }
 
 export async function renderBrick(
-  returnNode: RenderNode,
+  returnNode: RenderReturnNode,
   brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
@@ -254,10 +249,7 @@ export async function renderBrick(
   keyPath: number[] = [],
   tplStack = new Map<string, number>()
 ): Promise<RenderOutput> {
-  const output: RenderOutput = {
-    blockingList: [],
-    menuRequests: [],
-  };
+  const output = getEmptyRenderOutput();
 
   if (!brickConf.brick) {
     if ((brickConf as { template?: string }).template) {
@@ -352,7 +344,9 @@ export async function renderBrick(
 
     const { dataSource } = brickConf;
 
-    const renderControlNode = async (runtimeContext: RuntimeContext) => {
+    const lowerLevelRenderControlNode = async (
+      runtimeContext: RuntimeContext
+    ) => {
       // First, compute the `dataSource`
       const computedDataSource = await asyncComputeRealValue(
         dataSource,
@@ -379,13 +373,13 @@ export async function renderBrick(
         (slots[slot] as SlotConfOfBricks)?.bricks;
 
       if (!Array.isArray(bricks)) {
-        return output;
+        return getEmptyRenderOutput();
       }
 
       switch (brickName) {
         case ":forEach": {
           if (!Array.isArray(computedDataSource)) {
-            return output;
+            return getEmptyRenderOutput();
           }
           return renderForEach(
             returnNode,
@@ -415,6 +409,15 @@ export async function renderBrick(
       }
     };
 
+    const renderControlNode = async (runtimeContext: RuntimeContext) => {
+      const rawOutput = await lowerLevelRenderControlNode(runtimeContext);
+      rawOutput.node ??= {
+        tag: RenderTag.PLACEHOLDER,
+        return: returnNode,
+      };
+      return rawOutput;
+    };
+
     const controlledOutput = await renderControlNode(runtimeContext);
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
@@ -427,11 +430,12 @@ export async function renderBrick(
         const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
           createScopedRuntimeContext(runtimeContext);
 
-        const controlOutput = await renderControlNode(scopedRuntimeContext);
+        const reControlledOutput =
+          await renderControlNode(scopedRuntimeContext);
 
         const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
         await postAsyncRender(
-          controlOutput,
+          reControlledOutput,
           scopedRuntimeContext,
           scopedStores
         );
@@ -448,7 +452,7 @@ export async function renderBrick(
           rendererContext.reRender(
             slotId,
             keyPath,
-            controlOutput.node,
+            reControlledOutput.node,
             returnNode
           );
 
@@ -852,7 +856,7 @@ function ensureValidControlBrick(
 }
 
 async function renderForEach(
-  returnNode: RenderNode,
+  returnNode: RenderReturnNode,
   dataSource: unknown[],
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
@@ -862,10 +866,7 @@ async function renderForEach(
   tplStack: Map<string, number>,
   keyPath: number[]
 ): Promise<RenderOutput> {
-  const output: RenderOutput = {
-    blockingList: [],
-    menuRequests: [],
-  };
+  const output = getEmptyRenderOutput();
 
   const rows = dataSource.length;
   const rendered = await Promise.all(
@@ -998,6 +999,13 @@ function mergeRenderOutput(
   }
 
   Object.assign(output, rest);
+}
+
+function getEmptyRenderOutput(): RenderOutput {
+  return {
+    blockingList: [],
+    menuRequests: [],
+  };
 }
 
 export function childrenToSlots(

@@ -52,19 +52,27 @@ export interface RenderRoot extends BaseRenderNode {
 
 export interface RenderBrick extends BaseRenderNode, RuntimeBrick {
   tag: RenderTag.BRICK;
-  return: RenderNode;
+  return: RenderReturnNode;
   hasTrackingControls?: boolean;
+}
+
+export interface RenderPlaceholder extends BaseRenderNode {
+  tag: RenderTag.PLACEHOLDER;
+  return: RenderReturnNode;
 }
 
 export interface BaseRenderNode {
   tag: RenderTag;
-  child?: RenderBrick;
-  sibling?: RenderBrick;
-  return?: RenderNode | null;
+  child?: RenderChildNode;
+  sibling?: RenderChildNode;
+  return?: RenderReturnNode | null;
   childElements?: HTMLElement[];
 }
 
-export type RenderNode = RenderRoot | RenderBrick;
+export type RenderNode = RenderRoot | RenderBrick | RenderPlaceholder;
+
+export type RenderChildNode = RenderBrick | RenderPlaceholder;
+export type RenderReturnNode = RenderRoot | RenderBrick;
 
 export interface RuntimeBrick {
   type: string;

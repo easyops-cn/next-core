@@ -99,6 +99,12 @@ export async function renderUseBrick(
 
   await postAsyncRender(output, scopedRuntimeContext, scopedStores);
 
+  if (output.node?.tag === RenderTag.PLACEHOLDER) {
+    throw new Error(
+      "The root brick of useBrick cannot be an ignored control node"
+    );
+  }
+
   if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
   }

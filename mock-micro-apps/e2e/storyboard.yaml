@@ -126,6 +126,13 @@ meta:
         textContent: |
           <%= `[i: ${STATE.i}] x: ${STATE.x}` %>
 
+  functions:
+  - name: increaseCounter
+    source: |
+      function increaseCounter(counter) {
+        return counter.value++;
+      }
+
 routes:
 
 - path: '${APP.homepage}/use-brick/1'
@@ -445,6 +452,76 @@ routes:
   - brick: p
     properties:
       textContent: <%= CTX.messages.join(", ") %>
+
+- path: '${APP.homepage}/control-nodes/8'
+  context:
+  - name: counter
+    value:
+      value: 1
+  - name: list
+  - name: list2
+  bricks:
+  - brick: div
+    lifeCycle:
+      onMount:
+        useProvider: e2e.return-by-timeout
+        args:
+        - 200
+        - 1
+        callback:
+          success:
+          - action: context.replace
+            args:
+            - list
+            - <% (CTX.list ?? []).concat(FN.increaseCounter(CTX.counter)) %>
+          - action: context.replace
+            args:
+            - list2
+            - <% (CTX.list2 ?? []).concat(FN.increaseCounter(CTX.counter)) %>
+    children:
+    - brick: h1
+      properties:
+        textContent: Hello
+    - brick: :forEach
+      dataSource: <%= CTX.list %>
+      children:
+      - brick: p
+        properties:
+          textContent: |
+            <% `[a] ${INDEX}: ${ITEM}` %>
+    - brick: :forEach
+      dataSource: <%= CTX.list2 %>
+      children:
+      - brick: p
+        properties:
+          textContent: |
+            <% `[b] ${INDEX}: ${ITEM}` %>
+    - brick: h1
+      properties:
+        textContent: World
+  - brick: button
+    properties:
+      textContent: Add
+    events:
+      click:
+      - action: context.replace
+        args:
+        - list
+        - |
+          <%
+            CTX.list?.length === 2
+              ? []
+              : (CTX.list ?? []).concat(FN.increaseCounter(CTX.counter))
+          %>
+      - action: context.replace
+        args:
+        - list2
+        - |
+          <%
+            CTX.list2?.length === 2
+              ? []
+              : (CTX.list2 ?? []).concat(FN.increaseCounter(CTX.counter))
+          %>
 
 # Sub-routes incremental rendering
 - path: '${APP.homepage}/sub-routes/:sub'
