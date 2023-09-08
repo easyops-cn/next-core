@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.2...@next-core/brick-container@3.6.3) (2023-09-08)
+
+
+### Bug Fixes
+
+* refine preview bootstrap url ([95dfdd1](https://github.com/easyops-cn/next-core/commit/95dfdd1c77f7bb9a626e4bcfe5d902a01f23e0cc))
+* support mock date in v3 ([c4a7b35](https://github.com/easyops-cn/next-core/commit/c4a7b3575223eed6f09e97b720029840e305ac25))
+
+
+
+
+
 ## [3.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.1...@next-core/brick-container@3.6.2) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/brick-container
