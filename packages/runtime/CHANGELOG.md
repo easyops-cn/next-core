@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.4...@next-core/runtime@1.22.5) (2023-09-08)
+
+
+### Bug Fixes
+
+* fix rerender of control nodes with empty initial ([a025b63](https://github.com/easyops-cn/next-core/commit/a025b6348d1121b736e701f1528621eb4e7b6d6c))
+
+
+
+
+
 ## [1.22.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.3...@next-core/runtime@1.22.4) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/runtime
