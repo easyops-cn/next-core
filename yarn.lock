@@ -8285,13 +8285,13 @@ jest-watcher@^29.6.4:
     jest-util "^29.6.3"
     string-length "^4.0.1"
 
-jest-websocket-mock@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.npmjs.org/jest-websocket-mock/-/jest-websocket-mock-2.4.1.tgz#e8ed6001cbeff7739b9ee4a74f5937ec1c339408"
-  integrity sha512-M/T3U5qYGoX69846gj1fFUCx8GeaOQRly2zu9mUzxDKU4iXceBwn4AHxxeCc7W6Wn98WxQNtfO+0gr7LYUGrzg==
+jest-websocket-mock@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.npmjs.org/jest-websocket-mock/-/jest-websocket-mock-2.5.0.tgz#9e0b07e270bed0224a6d3269fc62625eaa4d465c"
+  integrity sha512-a+UJGfowNIWvtIKIQBHoEWIUqRxxQHFx4CXT+R5KxxKBtEQ5rS3pPOV/5299sHzqbmeCzxxY5qE4+yfXePePig==
   dependencies:
     jest-diff "^29.2.0"
-    mock-socket "^9.1.0"
+    mock-socket "^9.3.0"
 
 jest-worker@^27.4.5:
   version "27.5.1"
@@ -9349,10 +9349,10 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   integrity sha1-PrXtYmInVteaXw4qIh3+utdcL34=
 
-mock-socket@^9.1.0:
-  version "9.2.1"
-  resolved "https://registry.npmjs.org/mock-socket/-/mock-socket-9.2.1.tgz"
-  integrity sha512-aw9F9T9G2zpGipLLhSNh6ZpgUyUl4frcVmRN08uE1NWPWg43Wx6+sGPDbQ7E5iFZZDJW5b5bypMeAEHqTbIFag==
+mock-socket@^9.3.0:
+  version "9.3.0"
+  resolved "https://registry.npmjs.org/mock-socket/-/mock-socket-9.3.0.tgz#f98286c3d5a0d3633a9a88bb61e2d258190f2755"
+  integrity sha512-TFaQaIxXbzNke3z9nhSnMJFQn8l7QPmF+Luhh8MPHqkmr6B4fPquOTSILCjGUyxDBPv9AFxuaTGmRINDHDmkdQ==
 
 mockdate@^3.0.5:
   version "3.0.5"
