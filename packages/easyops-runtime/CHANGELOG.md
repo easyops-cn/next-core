@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.29](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.28...@next-core/easyops-runtime@0.6.29) (2023-09-11)
+
+
+### Bug Fixes
+
+* fix missing time in page analytics ([54db81e](https://github.com/easyops-cn/next-core/commit/54db81e4b063744a8a36f85d4ad736e9d647a262))
+
+
+
+
+
 ## [0.6.28](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.27...@next-core/easyops-runtime@0.6.28) (2023-09-11)
 
 
