@@ -11,8 +11,8 @@ export interface HttpRequestConfig {
   url: string;
   method: string;
   data?: unknown;
-  meta?: unknown;
   options?: HttpOptions;
+  [key: symbol]: unknown;
 }
 
 export interface HttpResponse<T = unknown> {
@@ -22,10 +22,11 @@ export interface HttpResponse<T = unknown> {
   headers: Headers;
 }
 
-export interface HttpError {
-  config: HttpRequestConfig;
-  error: HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError;
-}
+export type HttpError =
+  | HttpFetchError
+  | HttpResponseError
+  | HttpParseError
+  | HttpAbortError;
 
 export interface HttpAdapter {
   (config: HttpRequestConfig): Promise<HttpResponse<unknown>>;
