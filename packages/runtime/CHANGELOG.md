@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.5...@next-core/runtime@1.22.6) (2023-09-11)
+
+
+### Bug Fixes
+
+* support api and page-view analytics ([f95243d](https://github.com/easyops-cn/next-core/commit/f95243d1ff58eb370753d512a359cc3f993ac4f9))
+
+
+
+
+
 ## [1.22.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.4...@next-core/runtime@1.22.5) (2023-09-08)
 
 

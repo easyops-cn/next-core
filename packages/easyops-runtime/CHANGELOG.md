@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.28](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.27...@next-core/easyops-runtime@0.6.28) (2023-09-11)
+
+
+### Bug Fixes
+
+* support api and page-view analytics ([f95243d](https://github.com/easyops-cn/next-core/commit/f95243d1ff58eb370753d512a359cc3f993ac4f9))
+
+
+
+
+
 ## [0.6.27](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.26...@next-core/easyops-runtime@0.6.27) (2023-09-08)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
