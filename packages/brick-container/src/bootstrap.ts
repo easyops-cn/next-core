@@ -1,5 +1,9 @@
 // istanbul ignore file
-import { createRuntime, httpErrorToString } from "@next-core/runtime";
+import {
+  createRuntime,
+  getBasePath,
+  httpErrorToString,
+} from "@next-core/runtime";
 import { HttpRequestConfig, http } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
 import {
@@ -9,6 +13,7 @@ import {
   checkPermissions,
   menu,
   messageDispatcher,
+  analytics,
 } from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import "./XMLHttpRequest.js";
@@ -17,6 +22,12 @@ import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
 import { listen } from "./preview/listen.js";
+
+analytics.initialize(
+  `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
+);
+
+http.interceptors.request.use(analytics.http.onRequest);
 
 http.interceptors.request.use((config) => {
   dispatchRequestEventByConfig("request.start", config);
@@ -56,6 +67,11 @@ http.interceptors.response.use(
     dispatchRequestEventByConfig("request.end", config);
     return Promise.reject(error);
   }
+);
+
+http.interceptors.response.use(
+  analytics.http.onResponse,
+  analytics.http.onResponseError
 );
 
 function dispatchRequestEventByConfig(type: string, config: HttpRequestConfig) {
@@ -100,6 +116,7 @@ const runtime = createRuntime({
     menu,
     images: { imagesFactory, widgetImagesFactory },
     messageDispatcher,
+    pageView: analytics.pageView,
   },
 });
 

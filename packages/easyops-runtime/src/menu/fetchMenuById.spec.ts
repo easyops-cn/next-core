@@ -8,6 +8,7 @@ import {
 import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
 import { createProviderClass } from "@next-core/utils/general";
 import { __test_only } from "@next-core/runtime";
+import { YAMLException } from "js-yaml";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
 import type { RuntimeContext, RuntimeHelpers } from "./interfaces.js";
 
@@ -181,7 +182,7 @@ const menuList = [
 });
 (
   InstalledMicroAppApi_getMenusInfo as jest.Mock<typeof InstanceApi_postSearch>
-).mockImplementation(async (menuId, params) => {
+).mockImplementation(async (menuId) => {
   return {
     menus: menuList.filter((menu) => menu.menuId === menuId),
   } as InstanceApi_PostSearchResponseBody;
@@ -205,6 +206,8 @@ const menuList = [
 });
 
 const runtimeHelpers: RuntimeHelpers = __test_only;
+
+const consoleError = jest.spyOn(console, "error");
 
 describe("fetchMenuById", () => {
   beforeEach(() => {
@@ -441,6 +444,7 @@ describe("fetchMenuById", () => {
   });
 
   test("non-standalone", async () => {
+    consoleError.mockReturnValue();
     const runtimeContext = {
       app: {
         id: "my-app",
@@ -509,6 +513,9 @@ describe("fetchMenuById", () => {
         },
       ],
     });
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith(expect.any(YAMLException));
+    consoleError.mockReset();
   });
 
   test("showKey", async () => {

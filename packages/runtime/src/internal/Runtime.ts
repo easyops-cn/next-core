@@ -41,6 +41,12 @@ export interface ImagesFactory {
   get(name: string): string;
 }
 
+export interface PageViewInfo {
+  status: "ok" | "failed" | "redirected" | "not-found";
+  path?: string;
+  pageTitle?: string;
+}
+
 export interface RuntimeHooks {
   auth?: {
     getAuth(): object;
@@ -104,6 +110,9 @@ export interface RuntimeHooks {
     onMessage(channel: string, listener: (data: unknown) => void): void;
     onClose(listener: () => void): void;
     reset(): void;
+  };
+  pageView?: {
+    create(): (info: PageViewInfo) => void;
   };
 }
 

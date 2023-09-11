@@ -78,6 +78,7 @@ export interface RenderOutput {
     state?: NextHistoryState;
   };
   route?: RouteConf;
+  path?: string;
   blockingList: (Promise<unknown> | undefined)[];
   menuRequests: Promise<StaticMenuConf>[];
   hasTrackingControls?: boolean;
@@ -102,6 +103,7 @@ export async function renderRoutes(
       break;
     default: {
       const route = (output.route = matched.route);
+      output.path = matched.match.path;
       const runtimeContext = {
         ..._runtimeContext,
         match: matched.match,

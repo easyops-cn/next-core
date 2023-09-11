@@ -156,6 +156,7 @@ describe("renderRoutes", () => {
         return: renderRoot,
         type: "div",
       }),
+      path: "/home/:objectId",
     });
     expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(2);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
@@ -207,6 +208,7 @@ describe("renderRoutes", () => {
       menuRequests: [],
       route,
       redirect: { path: "/home/HOST/list" },
+      path: "/home/:objectId",
     });
   });
 
@@ -244,6 +246,7 @@ describe("renderRoutes", () => {
       menuRequests: [],
       route,
       redirect: { path: "/outside" },
+      path: "/home/:objectId",
     });
   });
 
@@ -332,6 +335,7 @@ describe("renderRoutes", () => {
         return: renderRoot,
         type: "div",
       }),
+      path: "/home/:objectId/list",
     });
     expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(3);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
@@ -410,6 +414,7 @@ describe("renderRoutes", () => {
         return: renderRoot,
         type: "div",
       }),
+      path: "/home/:objectId/list",
     });
     expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(4);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
