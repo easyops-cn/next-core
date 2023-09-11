@@ -138,5 +138,32 @@ describe("analytics", () => {
         },
       ],
     });
+
+    createPageView();
+    // Page view finish again
+    finishPageView({
+      type: "page",
+      route: "/home/another",
+      lt: 60,
+    } as any);
+
+    window.dispatchEvent(new Event("beforeunload"));
+    expect(sendBeacon).toBeCalledTimes(3);
+    const blob3 = sendBeacon.mock.calls[2][1] as Blob;
+    expect(JSON.parse(await blob3.text())).toEqual({
+      model: "easyops.FRONTEND_STAT",
+      columns: expect.arrayContaining(["lt"]),
+      data: [
+        {
+          apiCount: 0,
+          lt: 60,
+          maxApiTimeCost: 0,
+          pageId: "abc-def",
+          route: "/home/another",
+          size: 0,
+          type: "page",
+        },
+      ],
+    });
   });
 });
