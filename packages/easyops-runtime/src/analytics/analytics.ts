@@ -19,6 +19,9 @@ export function initialize(api: string) {
   initialized = true;
 
   function upload() {
+    if (allMetrics.length === 0) {
+      return;
+    }
     const headers = {
       type: "application/json",
     };

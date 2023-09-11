@@ -25,6 +25,7 @@ export function create() {
       type: "page",
       page: location.href,
       _ver: startTime,
+      time: Math.round(startTime / 1000),
       st: startTime,
       et: endTime,
       lt: renderTime,
