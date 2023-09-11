@@ -54,6 +54,7 @@ describe("analytics.pageView", () => {
       pageTitle: "DevOps 管理专家",
       route: "/home/:objectId",
       st: 1694414400456,
+      time: 1694414400,
       type: "page",
       username: "easyops",
     });

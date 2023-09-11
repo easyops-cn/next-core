@@ -23,6 +23,10 @@ describe("analytics", () => {
     // Initialize twice
     initialize("http://localhost/api/stat/2");
 
+    // No metrics yet
+    window.dispatchEvent(new Event("beforeunload"));
+    expect(sendBeacon).not.toBeCalled();
+
     // API requests before page view
     pushApiMetric({
       type: "api",

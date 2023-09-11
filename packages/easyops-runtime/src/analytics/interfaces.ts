@@ -7,7 +7,6 @@ export interface HttpAnalyticsMeta {
 export interface ApiMetric extends BaseMetric {
   type: "api" | "apiRequest";
   uid: string | undefined;
-  time: number;
   duration: number;
   api: string;
   code: number;
@@ -35,6 +34,7 @@ export type ApiPageState = Pick<PageViewMetric, "lt" | "route" | "pageId">;
 
 export interface BaseMetric {
   type: string;
+  time: number;
   st: number;
   et: number;
   _ver: number;
