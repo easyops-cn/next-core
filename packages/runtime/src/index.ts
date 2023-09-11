@@ -14,6 +14,7 @@ export {
   type RuntimeHooks,
   type RuntimeHooksMenuHelpers,
   type ImagesFactory,
+  type PageViewInfo,
 } from "./internal/Runtime.js";
 import * as __secret_internals from "./internal/secret_internals.js";
 export { __secret_internals };

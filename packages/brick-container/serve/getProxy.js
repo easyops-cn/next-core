@@ -242,25 +242,29 @@ export default function getProxy(env, getRawIndexHtml) {
                 req.path
               )
             ) {
-              const content = responseBuffer.toString("utf-8");
-              const result = JSON.parse(content);
+              try {
+                const content = responseBuffer.toString("utf-8");
+                const result = JSON.parse(content);
 
-              const [storyboards, brickPackages] = await Promise.all([
-                getStoryboards({ rootDir, localMicroApps }, true),
-                getBrickPackages(localBrickFolders, true, localBricks),
-              ]);
+                const [storyboards, brickPackages] = await Promise.all([
+                  getStoryboards({ rootDir, localMicroApps }, true),
+                  getBrickPackages(localBrickFolders, true, localBricks),
+                ]);
 
-              result.brickPackages = concatBrickPackages(
-                brickPackages,
-                result.brickPackages
-              );
-              result.storyboards = storyboards.concat(result.storyboards);
+                result.brickPackages = concatBrickPackages(
+                  brickPackages,
+                  result.brickPackages
+                );
+                result.storyboards = storyboards.concat(result.storyboards);
 
-              // Make it compatible with v2 apps.
-              // delete result.templatePackages;
+                // Make it compatible with v2 apps.
+                // delete result.templatePackages;
 
-              removeCacheHeaders(res);
-              return JSON.stringify(result);
+                removeCacheHeaders(res);
+                return JSON.stringify(result);
+              } catch (error) {
+                console.error("Stub bootstrap.json failed:", error);
+              }
             }
             return responseBuffer;
           }

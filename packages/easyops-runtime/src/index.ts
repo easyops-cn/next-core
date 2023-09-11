@@ -11,6 +11,7 @@ export * as checkInstalledApps from "./checkInstalledApps.js";
 export * as flowApi from "./flowApi/index.js";
 export * as auth from "./auth.js";
 export * as menu from "./menu/index.js";
+export * as analytics from "./analytics/index.js";
 
 export const checkPermissions = Object.freeze({
   checkPermissions: _checkPermissions,

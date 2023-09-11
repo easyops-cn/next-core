@@ -243,7 +243,8 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
-    const renderStartTime = performance.now();
+    // const renderStartTime = performance.now();
+    const finishPageView = hooks?.pageView?.create();
 
     const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
@@ -266,6 +267,9 @@ export class Router {
     const prevRendererContext = this.#rendererContext;
 
     const redirectTo = (to: string, state?: NextHistoryState): void => {
+      finishPageView?.({
+        status: "redirected",
+      });
       this.#rendererContextTrashCan.add(prevRendererContext);
       this.#safeRedirect(to, state, location);
     };
@@ -468,16 +472,15 @@ export class Router {
           for (const store of stores) {
             store.mountAsyncData();
           }
-        }
 
-        const renderTime = performance.now() - renderStartTime;
-        window.dispatchEvent(
-          new CustomEvent("route.render", {
-            detail: {
-              renderTime,
-            },
-          })
-        );
+          finishPageView?.({
+            status: "ok",
+            path: output.path,
+            pageTitle: document.title,
+          });
+        } else {
+          finishPageView?.({ status: "failed" });
+        }
 
         return;
       }
@@ -512,6 +515,7 @@ export class Router {
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);
+    finishPageView?.({ status: "not-found" });
   }
 }
 
