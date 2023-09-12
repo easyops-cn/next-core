@@ -1,7 +1,7 @@
 import type { MicroApp, StoryboardFunction } from "@next-core/types";
 import { cook, precookFunction, EstreeNode } from "@next-core/cook";
 import { supply } from "@next-core/supply";
-import { strictCollectMemberUsageInFunction } from "@next-core/utils/storyboard";
+import { collectMemberUsageInFunction } from "@next-core/utils/storyboard";
 import { getGeneralGlobals } from "./internal/compute/getGeneralGlobals.js";
 
 /** @internal */
@@ -87,10 +87,11 @@ export function StoryboardFunctionRegistryFactory({
     registeredFunctions.clear();
     if (Array.isArray(functions)) {
       for (const fn of functions) {
-        const deps = strictCollectMemberUsageInFunction(fn, "FN");
-        const hasPermissionsCheck = strictCollectMemberUsageInFunction(
+        const deps = collectMemberUsageInFunction(fn, "FN", !!collectCoverage);
+        const hasPermissionsCheck = collectMemberUsageInFunction(
           fn,
-          "PERMISSIONS"
+          "PERMISSIONS",
+          !!collectCoverage
         ).has("check");
         registeredFunctions.set(fn.name, {
           source: fn.source,
@@ -157,10 +158,11 @@ export function StoryboardFunctionRegistryFactory({
         ...data,
         name,
       };
-      const deps = strictCollectMemberUsageInFunction(newFn, "FN");
-      const hasPermissionsCheck = strictCollectMemberUsageInFunction(
+      const deps = collectMemberUsageInFunction(newFn, "FN", true);
+      const hasPermissionsCheck = collectMemberUsageInFunction(
         newFn,
-        "PERMISSIONS"
+        "PERMISSIONS",
+        true
       ).has("check");
       registeredFunctions.set(name, {
         source: data.source,

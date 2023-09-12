@@ -5,29 +5,12 @@ import {
 } from "../expressions/beforeVisitGlobalMember.js";
 import { traverseStoryboardFunction } from "./traverse.js";
 
-export function strictCollectMemberUsageInFunction(
-  fn: StoryboardFunction,
-  objectName: string,
-  level: 1 | 2 = 1
-): Set<string> {
-  const { hasNonStaticUsage, usedProperties } = collectMemberUsageInFunction(
-    fn,
-    objectName,
-    level
-  );
-  if (hasNonStaticUsage) {
-    throw new Error(
-      `Non-static usage of ${objectName} is prohibited, check your function: "${fn.name}"`
-    );
-  }
-  return usedProperties;
-}
-
 export function collectMemberUsageInFunction(
   fn: StoryboardFunction,
   objectName: string,
+  silentErrors?: boolean,
   level: 1 | 2 = 1
-): MemberUsage {
+): Set<string> {
   const usage: MemberUsage = {
     usedProperties: new Set(),
     hasNonStaticUsage: false,
@@ -35,10 +18,17 @@ export function collectMemberUsageInFunction(
 
   traverseStoryboardFunction(
     fn,
-    beforeVisitGlobalMember(usage, objectName, level)
+    beforeVisitGlobalMember(usage, objectName, level),
+    silentErrors
   );
+
+  if (usage.hasNonStaticUsage && !silentErrors) {
+    throw new Error(
+      `Non-static usage of ${objectName} is prohibited, check your function: "${fn.name}"`
+    );
+  }
 
   usage.usedProperties.delete(fn.name);
 
-  return usage;
+  return usage.usedProperties;
 }
