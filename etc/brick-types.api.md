@@ -1380,11 +1380,12 @@ export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
     children?: MenuItemRawData[];
     type?: "default" | "group";
-    childLayout?: "default" | "category";
+    childLayout?: "default" | "category" | "siteMap";
     sort?: number;
     if?: string | boolean;
     defaultExpanded?: boolean;
     groupId?: string;
+    groupFrom?: string;
 };
 
 // @public
@@ -1976,8 +1977,10 @@ export interface SidebarMenu {
 
 // @public
 export interface SidebarMenuGroup {
-    childLayout?: "default" | "category";
+    childLayout?: "default" | "category" | "siteMap";
     defaultExpanded?: boolean;
+    groupFrom?: string;
+    groupId?: string;
     icon?: MenuIcon;
     items: SidebarMenuItem[];
     // @internal (undocumented)
