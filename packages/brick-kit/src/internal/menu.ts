@@ -338,6 +338,8 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
             childLayout: item.childLayout,
             title: item.text,
             items: children,
+            groupId: item.groupId,
+            groupFrom: item.groupFrom,
           }
         : children?.length
         ? {
