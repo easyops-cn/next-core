@@ -1028,17 +1028,13 @@ describe("getAddedContracts", () => {
       ],
     };
 
-    const provider = document.createElement("test.provider") as any;
-    provider.resolve = jest
-      .fn<() => Promise<string[]>>()
-      .mockResolvedValueOnce(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
-
-    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
     expect(
       await getAddedContracts(storyboardPatch as any, {
         appId: "app-b",
         updateStoryboardType: "route",
-        provider: "test.provider",
+        collectUsedContracts() {
+          return ["easyops.api.cmdb.instance@PostSearchV3:1.1.0"];
+        },
       })
     ).toEqual(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
   });
@@ -1065,17 +1061,13 @@ describe("getAddedContracts", () => {
       ],
     };
 
-    const provider = document.createElement("test.provider") as any;
-    provider.resolve = jest
-      .fn<() => Promise<string[]>>()
-      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@ViewTodo:1.0.0"]);
-
-    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
     expect(
       await getAddedContracts(storyboardPatch, {
         appId: "app-b",
         updateStoryboardType: "template",
-        provider: "test.provider",
+        collectUsedContracts() {
+          return ["easyops.api.micro_app.workflow@ViewTodo:1.0.0"];
+        },
       })
     ).toEqual([]);
   });
@@ -1107,17 +1099,13 @@ describe("getAddedContracts", () => {
       ],
     };
 
-    const provider = document.createElement("test.provider") as any;
-    provider.resolve = jest
-      .fn<() => Promise<string[]>>()
-      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@execute:1.0.0"]);
-
-    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
     expect(
       await getAddedContracts(storyboardPatch as any, {
         appId: "app-b",
         updateStoryboardType: "snippet",
-        provider: "test.provider",
+        collectUsedContracts() {
+          return ["easyops.api.micro_app.workflow@execute:1.0.0"];
+        },
       })
     ).toEqual(["easyops.api.micro_app.workflow@execute:1.0.0"]);
   });
