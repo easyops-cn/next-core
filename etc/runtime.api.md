@@ -146,7 +146,7 @@ export function fetchByProvider(provider: string, args: unknown[], options?: Res
 // Warning: (ae-forgotten-export) The symbol "PreviewOption" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, provider: collectContractProvider, }: PreviewOption): Promise<string[]>;
+function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, collectUsedContracts }: PreviewOption): Promise<string[]>;
 
 // @public (undocumented)
 function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
