@@ -9,6 +9,7 @@ import type {
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
   SlotsConfOfBricks,
+  Storyboard,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
@@ -158,5 +159,5 @@ export interface PreviewOption {
   appId: string;
   formId?: string;
   updateStoryboardType?: "route" | "template" | "snippet";
-  provider?: string;
+  collectUsedContracts?(storyboard: Storyboard): string[] | Promise<string[]>;
 }
