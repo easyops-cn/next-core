@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.11...@next-core/brick-kit@2.178.12) (2023-09-12)
+
+
+### Bug Fixes
+
+* support menu field ([caac041](https://github.com/easyops-cn/next-core/commit/caac0411b2a0bfec5ae3ec870572920443881f78))
+
+
+
+
+
 ## [2.178.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.10...@next-core/brick-kit@2.178.11) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/brick-kit
