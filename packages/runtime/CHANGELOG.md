@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.7...@next-core/runtime@1.22.8) (2023-09-12)
+
+
+### Bug Fixes
+
+* silent errors when editing and testing functions ([526ea39](https://github.com/easyops-cn/next-core/commit/526ea3928fed8f4d76438999707f45f6513e3f5f))
+
+
+
+
+
 ## [1.22.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.6...@next-core/runtime@1.22.7) (2023-09-12)
 
 

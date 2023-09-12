@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.10](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.9...@next-core/test-next@1.0.10) (2023-09-12)
+
+
+### Bug Fixes
+
+* set prettierPath to null temporarily ([9cc2b41](https://github.com/easyops-cn/next-core/commit/9cc2b41d45a7e67f4e7410a5005386f27504fdb4))
+
+
+
+
+
 ## [1.0.9](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.8...@next-core/test-next@1.0.9) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/test-next

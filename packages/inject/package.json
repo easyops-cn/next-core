@@ -1,6 +1,6 @@
 {
   "name": "@next-core/inject",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/inject",
   "license": "GPL-3.0",
   "repository": {
@@ -36,7 +36,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/pipes": "^2.0.9",
+    "@next-core/pipes": "^2.0.10",
     "@next-core/types": "^1.6.1",
     "lodash": "^4.17.21"
   },
