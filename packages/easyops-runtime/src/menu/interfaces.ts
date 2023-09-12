@@ -40,11 +40,12 @@ export interface MenuRawData {
 export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   children?: MenuItemRawData[];
   type?: "default" | "group";
-  childLayout?: "default" | "category";
+  childLayout?: "default" | "category" | "siteMap";
   sort?: number;
   if?: string | boolean;
   defaultExpanded?: boolean;
   groupId?: string;
+  groupFrom?: string;
 };
 
 interface TitleDataSource {

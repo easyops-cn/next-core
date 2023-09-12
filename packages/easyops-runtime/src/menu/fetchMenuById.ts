@@ -28,6 +28,8 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): unknown[] {
           title: item.text,
           childLayout: item.childLayout,
           items: children,
+          groupId: item.groupId,
+          groupFrom: item.groupFrom,
         }
       : children?.length
       ? {
