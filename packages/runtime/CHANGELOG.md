@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.6...@next-core/runtime@1.22.7) (2023-09-12)
+
+
+### Bug Fixes
+
+* receive collectUsedContracts as a function ([53b105a](https://github.com/easyops-cn/next-core/commit/53b105a0173f328bafafd3814e02287ddf3f8409))
+
+
+
+
+
 ## [1.22.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.5...@next-core/runtime@1.22.6) (2023-09-11)
 
 
