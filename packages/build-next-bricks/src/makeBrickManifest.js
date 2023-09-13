@@ -227,6 +227,9 @@ function scanFields(manifest, nodes, source) {
               };
               const docComment = parseDocComment(node, source);
               if (docComment) {
+                if (findTag(docComment.tags, "internal")) {
+                  break;
+                }
                 prop.description = docComment.description;
                 prop.required = getBooleanTag(docComment.tags, "required");
                 prop.deprecated = getDeprecatedInfo(docComment.tags);
