@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.1...@next-core/build-next-bricks@1.14.2) (2023-09-13)
+
+
+### Bug Fixes
+
+* allow mark internal props ([67714b7](https://github.com/easyops-cn/next-core/commit/67714b70404815122986e74a8b5e8efd23a7eb2e))
+
+
+
+
+
 ## [1.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.0...@next-core/build-next-bricks@1.14.1) (2023-09-05)
 
 
