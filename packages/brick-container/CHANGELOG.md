@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.10...@next-core/brick-container@3.6.11) (2023-09-14)
+
+
+### Bug Fixes
+
+* support override user config by apps ([ebb7829](https://github.com/easyops-cn/next-core/commit/ebb7829ddb7fe3ea331cc32428dd59013ed0cf0a))
+
+
+
+
+
 ## [3.6.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.9...@next-core/brick-container@3.6.10) (2023-09-13)
 
 **Note:** Version bump only for package @next-core/brick-container
