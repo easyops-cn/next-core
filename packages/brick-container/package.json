@@ -14,8 +14,15 @@
     "deploy",
     "dist",
     "tools",
-    "serve"
+    "serve",
+    "index.d.ts"
   ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:easyops-cn/next-core.git"

@@ -100,6 +100,7 @@ export async function getEnv(rootDir, runtimeFlags) {
   let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
   const devConfigMjs = path.join(rootDir, "dev.config.mjs");
   let configuredBrickFolders = false;
+  let userConfigByApps;
   if (existsSync(devConfigMjs)) {
     const devConfig = (await import(devConfigMjs)).default;
     if (devConfig) {
@@ -109,6 +110,7 @@ export async function getEnv(rootDir, runtimeFlags) {
       }
       localSettings = devConfig.settings;
       localMocks = devConfig.mocks;
+      userConfigByApps = devConfig.userConfigByApps;
     }
   }
 
@@ -139,6 +141,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     cookieSameSiteNone: flags.cookieSameSiteNone,
     liveReload: flags.liveReload,
     localSettings,
+    userConfigByApps,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     server: getServerPath(flags.server),
@@ -165,6 +168,11 @@ export async function getEnv(rootDir, runtimeFlags) {
 
   if (localSettings) {
     console.log("local settings: enabled");
+  }
+
+  const configuredApps = Object.keys(userConfigByApps ?? {});
+  if (configuredApps.length) {
+    console.log(`Override user config for apps: ${configuredApps.join(", ")}`);
   }
 
   if (localMocks?.length) {

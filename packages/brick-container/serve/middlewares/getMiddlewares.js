@@ -1,9 +1,12 @@
 import express from "express";
+import jsYaml from "js-yaml";
 import bootstrapJson from "./bootstrapJson.js";
 import mockAuth from "./mockAuth.js";
 import singleAppBootstrapJson from "./singleAppBootstrapJson.js";
 import standaloneBootstrapJson from "./standaloneBootstrapJson.js";
 import serveBricksWithVersions from "./serveBricksWithVersions.js";
+
+const { safeDump, JSON_SCHEMA } = jsYaml;
 
 export function getMiddlewares(env) {
   const { baseHref, useRemote, localMicroApps } = env;
@@ -17,13 +20,6 @@ export function getMiddlewares(env) {
     middlewares.push({
       path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/bootstrap.hash.json`,
       middleware: standaloneBootstrapJson(env, appId),
-    });
-    middlewares.push({
-      path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/conf.yaml`,
-      middleware(req, res) {
-        res.status(204);
-        res.send();
-      },
     });
   }
 
@@ -53,7 +49,7 @@ export function getMiddlewares(env) {
 }
 
 export function getPreMiddlewares(env) {
-  const { baseHref, localMicroApps, localBrickFolders } = env;
+  const { baseHref, localMicroApps, localBrickFolders, userConfigByApps } = env;
 
   /**
    * @type {import("webpack-dev-server").Middleware[]}
@@ -64,6 +60,28 @@ export function getPreMiddlewares(env) {
     middlewares.push({
       path: `${baseHref}api/auth/v2/bootstrap/${appId}`,
       middleware: singleAppBootstrapJson(env, appId),
+    });
+    middlewares.push({
+      path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/conf.yaml`,
+      middleware(req, res) {
+        if (userConfigByApps) {
+          const conf = {
+            user_config_by_apps: userConfigByApps,
+          };
+          const content = safeDump(conf, {
+            indent: 2,
+            schema: JSON_SCHEMA,
+            skipInvalid: true,
+            noRefs: true,
+            noCompatMode: true,
+          });
+          res.type(".yaml");
+          res.send(content);
+        } else {
+          res.status(204);
+          res.send();
+        }
+      },
     });
   }
 
