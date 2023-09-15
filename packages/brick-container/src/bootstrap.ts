@@ -22,6 +22,7 @@ import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
 import { listen } from "./preview/listen.js";
+import { getMock } from "./mocks.js";
 
 analytics.initialize(
   `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
@@ -38,11 +39,11 @@ http.interceptors.request.use((config) => {
   const { csrfToken } = auth.getAuth();
   csrfToken && headers.set("X-CSRF-Token", csrfToken);
 
-  // const mockInfo = getMockInfo(config.url, config.method);
-  // if (mockInfo) {
-  //   config.url = mockInfo.url;
-  //   headers.set("easyops-mock-id", mockInfo.mockId);
-  // }
+  const mock = getMock(config.url, config.method);
+  if (mock) {
+    config.url = mock.url;
+    headers.set("easyops-mock-id", mock.mockId);
+  }
 
   const spanId = getSpanId();
   headers.set("X-B3-Traceid", `ffffffffffffffff${spanId}`);
