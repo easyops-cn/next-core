@@ -238,7 +238,7 @@ function processGroupInject(
       ...item,
       children: (
         processGroupInject(
-          item.children,
+          item.children || (item as { items?: MenuItemRawData[] }).items,
           menu,
           injectWithMenus,
           menuWithI18n
@@ -331,12 +331,14 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
       looseCheckIfOfComputed
     )
     .map((item) => {
-      const children = walkMenuItems(item.children);
+      const children = walkMenuItems(
+        item.children || (item as { items?: MenuItemRawData[] }).items
+      );
       return item.type === "group"
         ? {
             type: "group",
             childLayout: item.childLayout,
-            title: item.text,
+            title: item.text || (item as { title?: string }).title,
             items: children,
             groupId: item.groupId,
             groupFrom: item.groupFrom,
@@ -345,7 +347,7 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
         ? {
             type: "subMenu",
             childLayout: item.childLayout,
-            title: item.text,
+            title: item.text || (item as { title?: string }).title,
             icon: item.icon,
             items: children,
             defaultExpanded: item.defaultExpanded,
