@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.32.0...@next-core/brick-icons@2.33.0) (2023-09-15)
+
+
+### Features
+
+* 新增menu icon ([a017d36](https://github.com/easyops-cn/next-core/commit/a017d36881b94b68d87cd5f5544722ecbe361c3b))
+
+
+
+
+
 # [2.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-icons@2.31.76...@next-core/brick-icons@2.32.0) (2023-09-15)
 
 
