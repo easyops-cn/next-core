@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.12...@next-core/brick-kit@2.178.13) (2023-09-15)
+
+
+### Bug Fixes
+
+* make menu compatible with `items/children` and `text/title` ([16b9d2e](https://github.com/easyops-cn/next-core/commit/16b9d2e54ec7f32f9cb569bf392c46923d298282))
+
+
+
+
+
 ## [2.178.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.11...@next-core/brick-kit@2.178.12) (2023-09-12)
 
 
