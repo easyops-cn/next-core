@@ -2761,18 +2761,18 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^29.5.4":
-  version "29.5.4"
-  resolved "https://registry.npmjs.org/@types/jest/-/jest-29.5.4.tgz#9d0a16edaa009a71e6a71a999acd582514dab566"
-  integrity sha512-PhglGmhWeD46FYOVLt3X7TiWjzwuVGW9wG/4qocPevXMjCmrIc5b6db9WjeGE4QYVpUAWMDv3v0IiBwObY289A==
+"@types/jest@^29.5.5":
+  version "29.5.5"
+  resolved "https://registry.npmjs.org/@types/jest/-/jest-29.5.5.tgz#727204e06228fe24373df9bae76b90f3e8236a2a"
+  integrity sha512-ebylz2hnsWR9mYvmBFbXJXr+33UPc4+ZdxyDXh5w0FlPBTfCVN3wPL+kuOiQt3xvrK419v7XWeAs+AeOksafXg==
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
 
-"@types/js-yaml@^3.12.7":
-  version "3.12.7"
-  resolved "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-3.12.7.tgz"
-  integrity sha512-S6+8JAYTE1qdsc9HMVsfY7+SgSuUU/Tp6TYTmITW0PZxiyIMvol3Gy//y69Wkhs0ti4py5qgR3uZH6uz/DNzJQ==
+"@types/js-yaml@^3.12.8":
+  version "3.12.8"
+  resolved "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-3.12.8.tgz#d47f0ceac930a644266001979d07d7b94808a5c8"
+  integrity sha512-6McoI148SFmiE2m2Y9lpzwN238grgzEn2J1mHoc8UWwDKvAUsjl100jjqoj5ORVqDwWuEmD+zlOES0+jI7fZCA==
 
 "@types/jsdom@^20.0.0":
   version "20.0.0"
@@ -2788,10 +2788,10 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.12.tgz#d70faba7039d5fca54c83c7dbab41051d2b6f6cb"
   integrity sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==
 
-"@types/klaw-sync@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/@types/klaw-sync/-/klaw-sync-6.0.1.tgz"
-  integrity sha512-hqWJe0mMSxC5fiQjCJzziko2Xxh2HjDAPZNk7Zwv+Uo56XlViXR6p1RzjUCQvFvLd+IXEGeyVHTaAibrbyU1Rw==
+"@types/klaw-sync@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.npmjs.org/@types/klaw-sync/-/klaw-sync-6.0.2.tgz#eec73eadbdb79e8b350a0c1b9ebb5f4f9a6239dc"
+  integrity sha512-FRKjpSKOfXN1CMwAeLWEpYoIApG9J8pmFUd6+FSo+yhArVIVxNq+hdzmVKUlZb4MTgP+HGdA6a/OL8A87HyBcA==
   dependencies:
     "@types/node" "*"
 
@@ -2842,10 +2842,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-18.17.15.tgz#31301a273b9ca7d568fe6d1c35ae52e0fb3f8d6a"
   integrity sha512-2yrWpBk32tvV/JAd3HNHWuZn/VDN1P+72hWirHnvsvTGSqbANi+kSeuQR9yAHnbvaBvHDsoTdXV0Fe+iRtHLKA==
 
-"@types/node@^16.18.50", "@types/node@^16.9.2":
-  version "16.18.50"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.50.tgz#93003cf0251a2ecd26dad6dc757168d648519805"
-  integrity sha512-OiDU5xRgYTJ203v4cprTs0RwOCd5c5Zjv+K5P8KSqfiCsB1W3LcamTUMcnQarpq5kOYbhHfSOgIEJvdPyb5xyw==
+"@types/node@^16.18.52", "@types/node@^16.9.2":
+  version "16.18.52"
+  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.52.tgz#70c56b55d0d7e15fafa875127e95a92605c59c9b"
+  integrity sha512-sm2aph6cRSsTMFYFgI+RpPLunXO9ClJkpizUVdT7KmGeyfQ14xnjTMT/f3MHcfKqevXqGT6BgVFzW8wcEoDUtA==
 
 "@types/normalize-package-data@^2.4.0", "@types/normalize-package-data@^2.4.1":
   version "2.4.1"
