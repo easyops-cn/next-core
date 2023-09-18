@@ -135,6 +135,12 @@ meta:
 
 routes:
 
+- path: '${APP.homepage}/size-check'
+  bricks:
+  - brick: h1
+    properties:
+      textContent: This is size check!
+
 - path: '${APP.homepage}/use-brick/1'
   context:
   - name: stage
