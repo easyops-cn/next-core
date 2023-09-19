@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.2.0...@next-core/doc-helpers@0.2.1) (2023-09-19)
+
+
+### Bug Fixes
+
+* fix transpile html ([f70defd](https://github.com/easyops-cn/next-core/commit/f70defd599145cb2f6c6c43aa0fffb68055d3760))
+
+
+
+
+
 # [0.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/doc-helpers@0.1.10...@next-core/doc-helpers@0.2.0) (2023-09-05)
 
 
