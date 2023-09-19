@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.13](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.12...@next-core/yo@1.4.13) (2023-09-19)
+
+
+### Bug Fixes
+
+* refine i18n locale types ([bb49f73](https://github.com/easyops-cn/next-core/commit/bb49f73637fb9d94bf2af02b5f832764dddec100))
+
+
+
+
+
 ## [1.4.12](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.11...@next-core/yo@1.4.12) (2023-09-13)
 
 **Note:** Version bump only for package @next-core/yo
