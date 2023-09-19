@@ -38,7 +38,7 @@ jest.mock("./loadSharedModule.js", () => ({
     (scope: string, module: string) =>
       new Promise<void>((resolve, reject) =>
         setTimeout(() => {
-          if (module === "./not-existed") {
+          if (module === "./not-existed" || module === "./eo-will-fail") {
             // eslint-disable-next-line no-console
             console.info("loadSharedModule failed:", scope, module);
             reject(new Error("oops"));
@@ -356,6 +356,41 @@ describe("loadBricksImperatively", () => {
       "loadSharedModule failed:",
       "bricks/unsure",
       "./not-existed"
+    );
+    expect(consoleError).toBeCalledTimes(1);
+  });
+
+  test("load brick (with no namespace) failed", async () => {
+    consoleError.mockReturnValueOnce();
+    const promise = expect(
+      loadBricksImperatively(
+        ["eo-will-fail"],
+        [
+          {
+            id: "bricks/basic",
+            filePath: "bricks/basic/dist/index.hash.js",
+            elements: ["eo-will-fail"],
+          },
+        ]
+      )
+    ).rejects.toMatchInlineSnapshot(
+      `[Error: Load bricks of "eo-will-fail" failed]`
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      1,
+      "loadScript done:",
+      "bricks/basic/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      2,
+      "loadSharedModule failed:",
+      "bricks/basic",
+      "./eo-will-fail"
     );
     expect(consoleError).toBeCalledTimes(1);
   });
