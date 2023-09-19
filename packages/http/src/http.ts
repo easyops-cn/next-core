@@ -61,7 +61,11 @@ export type HttpCustomOptions = RequestCustomOptions & {
 
 export type HttpOptions = HttpCustomOptions & RequestInit;
 
-// https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+/**
+ * Detect whether the input is a native browser abort error.
+ *
+ * @ref https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+ */
 export const isHttpAbortError = (error: any) =>
   error instanceof DOMException && error.code === 20;
 
