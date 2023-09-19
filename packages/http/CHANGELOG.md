@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.1.3...@next-core/http@1.1.4) (2023-09-19)
+
+
+### Bug Fixes
+
+* use v2 http module for v3 bricks in v2 container ([219a305](https://github.com/easyops-cn/next-core/commit/219a30514f300563bed7ed932c7de2cc29b5114a))
+
+
+
+
+
 ## [1.1.3](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.1.2...@next-core/http@1.1.3) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/http
