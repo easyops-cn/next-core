@@ -77,7 +77,7 @@ export default async function getExamples(bricksDir, manifests) {
             [item.mode]: item.code,
           };
           if (item.mode === "yaml") {
-            example.html = yamlToHtml(item.code, manifests ?? []);
+            example.html = await yamlToHtml(item.code, manifests ?? []);
           } else {
             example.yaml = htmlToYaml(item.code, manifests ?? []);
           }
