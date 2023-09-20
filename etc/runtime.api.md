@@ -83,7 +83,7 @@ export function batchSetAppsLocalTheme(appsTheme: AppThemes): void;
 // Warning: (ae-forgotten-export) The symbol "IfContainer" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function checkIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
+export const checkIfByTransform: (ifContainer: IfContainer, data: unknown) => boolean;
 
 // @public (undocumented)
 export function checkIfOfComputed(ifContainer: IfContainer): boolean;
@@ -173,7 +173,7 @@ export function getCurrentMode(): SiteMode;
 export function getCurrentTheme(): SiteTheme;
 
 // @public (undocumented)
-export function getHistory(): NextHistory;
+export const getHistory: () => NextHistory;
 
 // @public (undocumented)
 export function getPageInfo(): PageInfo;
@@ -182,7 +182,12 @@ export function getPageInfo(): PageInfo;
 function getRenderId(): string | undefined;
 
 // @public (undocumented)
-export function getRuntime(): Runtime;
+export const getRuntime: () => Runtime;
+
+// Warning: (ae-forgotten-export) The symbol "Kit" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function getV2RuntimeFromDll(): Kit | undefined;
 
 // @public
 export function handleHttpError(error: unknown): void;
@@ -274,10 +279,10 @@ export interface PageViewInfo {
 }
 
 // @public (undocumented)
-export function registerWidgetFunctions(widgetId: string, functions: StoryboardFunction[], widgetVersion?: string): void;
+export const registerWidgetFunctions: (widgetId: string, functions: StoryboardFunction[], widgetVersion?: string | undefined) => void;
 
 // @public (undocumented)
-export function registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
+export const registerWidgetI18n: (widgetId: string, i18nData: MetaI18n) => void;
 
 // @public (undocumented)
 export interface RenderOptions {

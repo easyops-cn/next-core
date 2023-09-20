@@ -1,3 +1,5 @@
+import { getV2RuntimeFromDll } from "./getV2RuntimeFromDll.js";
+
 class CustomProcessorRegistry {
   readonly #registry = new Map<string, Map<string, Function>>();
 
@@ -23,4 +25,20 @@ class CustomProcessorRegistry {
   }
 }
 
-export const customProcessors = new CustomProcessorRegistry();
+// istanbul ignore next
+function getCustomProcessorsV2() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return Object.freeze({
+      define(processorFullName: string, processorFunc: Function) {
+        return v2Kit
+          .getRuntime()
+          .registerCustomProcessor(processorFullName, processorFunc);
+      },
+    }) as CustomProcessorRegistry;
+  }
+}
+
+// istanbul ignore next
+export const customProcessors =
+  getCustomProcessorsV2() || new CustomProcessorRegistry();

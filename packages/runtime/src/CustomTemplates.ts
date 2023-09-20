@@ -7,6 +7,7 @@ import type {
 import { uniq } from "lodash";
 import type { RuntimeBrickElement } from "./internal/interfaces.js";
 import { isStrictMode, warnAboutStrictMode } from "./isStrictMode.js";
+import { getV2RuntimeFromDll } from "./getV2RuntimeFromDll.js";
 
 // Note: `prefix` is a native prop on Element, but it's only used in XML documents.
 const allowedNativeProps = new Set(["prefix"]);
@@ -236,11 +237,25 @@ class CustomTemplateRegistry {
   }
 }
 
-export const customTemplates = new CustomTemplateRegistry();
-
 function getExposedStates(state: ContextConf[] | undefined): string[] {
   // Allow duplicated state names which maybe mutually exclusive.
   return uniq(
     state?.filter((item) => item.expose).map((item) => item.name) ?? []
   );
 }
+
+// istanbul ignore next
+function getCustomTemplatesV2() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return Object.freeze({
+      define(tagName: string, constructor: CustomTemplateConstructor) {
+        return v2Kit.getRuntime().registerCustomTemplate(tagName, constructor);
+      },
+    }) as CustomTemplateRegistry;
+  }
+}
+
+// istanbul ignore next
+export const customTemplates =
+  getCustomTemplatesV2() || new CustomTemplateRegistry();

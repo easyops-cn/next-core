@@ -26,6 +26,7 @@ import { injectedBrickPackages } from "./injected.js";
 import { type AppForCheck, hasInstalledApp } from "./hasInstalledApp.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { listenDevtoolsEagerly } from "./devtools.js";
+import { getV2RuntimeFromDll } from "../getV2RuntimeFromDll.js";
 
 let runtime: Runtime;
 
@@ -147,9 +148,40 @@ export function createRuntime(options?: RuntimeOptions) {
   return runtime;
 }
 
-export function getRuntime() {
+function getRuntimeV3() {
   return runtime;
 }
+
+// istanbul ignore next
+function getRuntimeV2Factory() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return function getRuntimeV2() {
+      return new Proxy(v2Kit.getRuntime(), {
+        get(...args) {
+          const key = args[1];
+          switch (key) {
+            case "getCurrentApp":
+            case "hasInstalledApp":
+            case "getDesktops":
+            case "getLaunchpadSettings":
+            case "getLaunchpadSiteMap":
+            case "toggleLaunchpadEffect":
+            case "applyPageTitle":
+            case "getNavConfig":
+            case "getFeatureFlags":
+            case "getMiscSettings":
+            case "getBrandSettings":
+              return Reflect.get(...args);
+          }
+        },
+      }) as unknown as Runtime;
+    };
+  }
+}
+
+// istanbul ignore next
+export const getRuntime = getRuntimeV2Factory() || getRuntimeV3;
 
 export class Runtime {
   #initialized = false;
