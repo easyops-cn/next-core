@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.34](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.33...@next-core/easyops-runtime@0.6.34) (2023-09-20)
+
+
+### Bug Fixes
+
+* fallback runtime to v2 for v3 bricks in v2 container ([0a2e379](https://github.com/easyops-cn/next-core/commit/0a2e379e0a9b8608c2740a09b419f92102f6bd92))
+
+
+
+
+
 ## [0.6.33](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.32...@next-core/easyops-runtime@0.6.33) (2023-09-19)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

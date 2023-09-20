@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.11](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.10...@next-core/runtime@1.22.11) (2023-09-20)
+
+
+### Bug Fixes
+
+* fallback runtime to v2 for v3 bricks in v2 container ([0a2e379](https://github.com/easyops-cn/next-core/commit/0a2e379e0a9b8608c2740a09b419f92102f6bd92))
+
+
+
+
+
 ## [1.22.10](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.9...@next-core/runtime@1.22.10) (2023-09-19)
 
 **Note:** Version bump only for package @next-core/runtime

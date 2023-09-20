@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.14](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.13...@next-core/react-runtime@1.1.14) (2023-09-20)
+
+
+### Bug Fixes
+
+* fallback runtime to v2 for v3 bricks in v2 container ([0a2e379](https://github.com/easyops-cn/next-core/commit/0a2e379e0a9b8608c2740a09b419f92102f6bd92))
+
+
+
+
+
 ## [1.1.13](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.12...@next-core/react-runtime@1.1.13) (2023-09-19)
 
 **Note:** Version bump only for package @next-core/react-runtime
