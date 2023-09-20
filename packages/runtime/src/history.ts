@@ -6,6 +6,7 @@ import {
   historyExtended,
   NextHistoryState,
 } from "./internal/historyExtended.js";
+import { getV2RuntimeFromDll } from "./getV2RuntimeFromDll.js";
 
 export type NextHistory = History<NextHistoryState> & ExtendedHistory;
 
@@ -24,26 +25,21 @@ export function createHistory(): NextHistory {
   return history;
 }
 
-export function getHistory(): NextHistory {
-  return history ?? getV2History();
+function getHistoryV3(): NextHistory {
+  return history;
 }
 
 /**
- * When using v3 bricks in v2 runtime, return history from v2 runtime.
+ * When using v3 bricks in v2 container, return history from v2 container.
  */
-function getV2History() {
-  const { dll } = window as unknown as { dll?: DLL };
-  if (typeof dll === "function") {
-    const LegacyBrickKit = dll("tYg3");
-    return LegacyBrickKit.getHistory();
+function getHistoryV2Factory() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return v2Kit.getHistory;
   }
 }
 
-interface DLL {
-  (moduleId: "tYg3"): {
-    getHistory(): NextHistory;
-  };
-}
+export const getHistory = getHistoryV2Factory() || getHistoryV3;
 
 export type NextLocation = Location<NextHistoryState>;
 
