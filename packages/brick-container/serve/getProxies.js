@@ -71,6 +71,7 @@ module.exports = (env) => {
 
     proxyPaths.push(
       "(/next)?/sa-static/:appId/versions/:appVersion/webroot/-/",
+      "/next/:appId/-/",
       "/sa-static/"
     );
 
@@ -88,7 +89,8 @@ module.exports = (env) => {
       if (!reqIsBootstrap) {
         const regex =
           /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap\.[^.]+\.json$/;
-        if (regex.test(req.path)) {
+        const regexLegacy = /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/;
+        if (regex.test(req.path) || regexLegacy.test(req.path)) {
           reqIsBootstrap = true;
           isStandalone = true;
           publicRootWithVersion = true;
