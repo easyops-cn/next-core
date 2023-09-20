@@ -50,7 +50,9 @@ i18next.init({
 });
 
 jest.mock("@next-core/brick-utils");
-jest.mock("@next-core/loader");
+jest.mock("@next-core/loader", () => ({
+  loadBricksImperatively: jest.fn(() => Promise.resolve()),
+}));
 jest.mock("@next-sdk/auth-sdk");
 jest.mock("@next-sdk/user-service-sdk");
 jest.mock("@next-sdk/api-gateway-sdk");
@@ -247,7 +249,7 @@ describe("Kernel", () => {
       eager: {
         dll: ["ace.js"],
         deps: ["processors.js"],
-        v3Bricks: ["v3-widgets.my-widget"],
+        v3Bricks: ["v3-widgets.tpl-my-widget"],
       },
     });
     spyOnGetTemplateDepsOfStoryboard.mockReturnValueOnce(["layout.js"]);
@@ -300,10 +302,15 @@ describe("Kernel", () => {
       "app-a",
       true
     );
-    expect(loadBricksImperatively).toBeCalledTimes(1);
+    expect(loadBricksImperatively).toBeCalledTimes(2);
     expect(loadBricksImperatively).toHaveBeenNthCalledWith(
       1,
-      ["v3-widgets.my-widget"],
+      ["basic.v3-widget-mate"],
+      expect.any(Array)
+    );
+    expect(loadBricksImperatively).toHaveBeenNthCalledWith(
+      2,
+      ["v3-widgets.tpl-my-widget"],
       expect.any(Array)
     );
 
@@ -311,9 +318,9 @@ describe("Kernel", () => {
     expect(loadLazyBricks).toBeCalledTimes(1);
     expect(loadLazyBricks).toBeCalledWith(["my-brick"]);
     expect(loadAllLazyBricks).not.toBeCalled();
-    expect(loadBricksImperatively).toBeCalledTimes(2);
+    expect(loadBricksImperatively).toBeCalledTimes(3);
     expect(loadBricksImperatively).toHaveBeenNthCalledWith(
-      2,
+      3,
       ["v3.my-brick"],
       expect.any(Array)
     );
