@@ -1,12 +1,19 @@
+// @ts-check
+
+/**
+ * @typedef {import("@next-core/doc-helpers").MarkdownExample} MarkdownExample
+ */
+
 const REGEX_EXAMPLES_IN_MARKDOWN =
   /(?<leading>(?:^###\s+(?<heading>.+?)(?:\s+\{.*\})?\n[\s\S]*?)?^(```+)(?<mode>html|yaml)(?<meta>\s.*)?\n)(?<code>[\s\S]*?)\3/gm;
 
 /**
  * @param {string} markdown
  * @param {string} name
- * @returns {unknown[]}
+ * @returns {MarkdownExample[]}
  */
 export default function extractExamplesInMarkdown(markdown, name) {
+  /** @type {MarkdownExample[]} */
   const examplesInMarkdown = [];
   /** @type {null|RegExpExecArray} */
   let matches;
@@ -17,6 +24,8 @@ export default function extractExamplesInMarkdown(markdown, name) {
       examplesInMarkdown.push({
         name,
         heading,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         mode,
         meta,
         code,

@@ -1,3 +1,4 @@
+// @ts-check
 import path from "node:path";
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
@@ -7,6 +8,7 @@ import yamlToHtml from "./yamlToHtml.js";
 import extractExamplesInMarkdown from "./extractExamplesInMarkdown.js";
 
 /**
+ * @typedef {import("@next-core/doc-helpers").Example} Example
  * @typedef {import("@next-core/brick-manifest").PackageManifest} PackageManifest
  */
 
@@ -21,13 +23,20 @@ export default async function getExamples(bricksDir, manifests) {
     return [];
   }
 
+  /** @type {Promise<unknown>[]} */
   const exampleTasks = [];
+  /** @type {Map<string, Partial<Example>>} */
   const exampleMap = new Map();
 
+  /**
+   * @param {string} filePath
+   * @param {string} key
+   */
   const parseExample = async (filePath, key) => {
     const content = await readFile(filePath, "utf-8");
     const isYaml = filePath.endsWith("yaml");
     const mode = isYaml ? "yaml" : "html";
+    /** @type {Partial<Example>} */
     const example = {
       mode,
       [mode]: content,
@@ -41,6 +50,10 @@ export default async function getExamples(bricksDir, manifests) {
   };
 
   const visitExamples = {
+    /**
+     * @param {string} absolutePath
+     * @param {string[]} stack
+     */
     file(absolutePath, stack) {
       if (stack.length >= 3) {
         const filename = stack[stack.length - 1];
@@ -72,6 +85,7 @@ export default async function getExamples(bricksDir, manifests) {
             stack.push(item.heading.trim().toLowerCase());
           }
           const key = getDeduplicatedKey(stack.join("/"), exampleMap);
+          /** @type {Partial<Example>} */
           const example = {
             mode: item.mode,
             [item.mode]: item.code,
