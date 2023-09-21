@@ -18,6 +18,8 @@ registerTypeScript(monaco);
 registerYaml(monaco);
 registerHtml(monaco);
 
+const GZIP_HASH_PREFIX = "#gzip,";
+
 interface Example extends Sources {
   key: string;
   mode: "html" | "yaml";
@@ -179,9 +181,23 @@ async function main() {
   if (matchedExample) {
     initEditorsWith(matchedExample);
   } else if (codeFromHash) {
+    let decompressedExampleString: string | undefined;
+    if (location.hash.startsWith(GZIP_HASH_PREFIX)) {
+      try {
+        decompressedExampleString = await decompress(
+          location.hash.substring(GZIP_HASH_PREFIX.length)
+        );
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Decompress shared example failed:", e);
+      }
+    }
+
     let pastedSources: Example;
     try {
-      pastedSources = JSON.parse(b64DecodeUnicode(location.hash.slice(1)));
+      pastedSources = JSON.parse(
+        decompressedExampleString ?? b64DecodeUnicode(location.hash.slice(1))
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Parse pasted sources failed:", error);
@@ -238,6 +254,9 @@ async function main() {
       previewWin = iframe.contentWindow as unknown as PreviewWindow;
       resolve();
     });
+    iframe.addEventListener("error", (reason) => {
+      reject(reason);
+    });
   });
 
   iframe.src = "./preview/";
@@ -283,20 +302,26 @@ async function main() {
   const shareButton = document.querySelector("#brick-playground-button-share");
   const shareResult = document.querySelector("#brick-playground-share-result");
   let shareButtonResetTimeout = -1;
-  shareButton.addEventListener("click", () => {
+  shareButton.addEventListener("click", async () => {
     if (shareButtonResetTimeout !== -1) {
       shareResult.textContent = "";
       clearTimeout(shareButtonResetTimeout);
     }
-    history.replaceState(
-      null,
-      "",
-      `?mode=${mode}#${b64EncodeUnicode(
-        JSON.stringify({ [mode]: sources[mode] })
-      )}`
-    );
-    const result = copy(location.href);
-    shareResult.textContent = result ? "URL copied" : "Failed to copy URL";
+    let ok = false;
+    try {
+      history.replaceState(
+        null,
+        "",
+        `?mode=${mode}${GZIP_HASH_PREFIX}${await compress(
+          JSON.stringify({ [mode]: sources[mode] })
+        )}`
+      );
+      ok = copy(location.href);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("Compress shared example failed:", e);
+    }
+    shareResult.textContent = ok ? "URL copied" : "Failed to copy URL";
     shareButtonResetTimeout = setTimeout(() => {
       shareButtonResetTimeout = -1;
       shareResult.textContent = "";
@@ -304,25 +329,33 @@ async function main() {
   });
 }
 
-function b64EncodeUnicode(str: string) {
-  // first we use encodeURIComponent to get percent-encoded UTF-8,
-  // then we convert the percent encodings into raw bytes which
-  // can be fed into btoa.
-  return btoa(
-    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
-      return String.fromCharCode(parseInt(p1, 16));
-    })
-  );
+function base64ToBytes(base64: string): Uint8Array {
+  const binString = atob(base64);
+  return Uint8Array.from(binString, (m) => m.codePointAt(0));
 }
 
-function b64DecodeUnicode(str: string) {
-  return decodeURIComponent(
-    [...atob(str)]
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
+function bytesToBase64(bytes: Uint8Array): string {
+  const binString = Array.from(bytes, (x) => String.fromCodePoint(x)).join("");
+  return btoa(binString);
+}
+
+async function compress(str: string) {
+  const blob = new Blob([str], { type: "text/plain" });
+  const stream = blob.stream().pipeThrough(new CompressionStream("gzip"));
+  const compressedBlob = await new Response(stream).blob();
+  return bytesToBase64(new Uint8Array(await compressedBlob.arrayBuffer()));
+}
+
+async function decompress(str: string) {
+  const bytes = base64ToBytes(str);
+  const blob = new Blob([bytes], { type: "text/plain" });
+  const stream = blob.stream().pipeThrough(new DecompressionStream("gzip"));
+  const decompressedBlob = await new Response(stream).blob();
+  return decompressedBlob.text();
+}
+
+function b64DecodeUnicode(str: string): string {
+  return new TextDecoder().decode(base64ToBytes(str));
 }
 
 function decorateAltCode(code: string, mode: string, altMode: string): string {
