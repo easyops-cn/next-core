@@ -94,6 +94,8 @@ import { customTemplateRegistry } from "./CustomTemplates";
 import { getRuntimeMisc } from "../internal/misc";
 import { imagesFactory } from "../internal/images";
 
+const V3WidgetMates = ["basic.v3-widget-mate"];
+
 export class Kernel {
   public mountPoints: MountPoints;
   public bootstrapData: RuntimeBootstrapData;
@@ -731,6 +733,11 @@ export class Kernel {
       await loadScriptOfDll(eager.dll);
       await loadScriptOfBricksOrTemplates(eager.deps);
       if (eager.v3Bricks?.length) {
+        await catchLoad(
+          loadBricksImperatively(V3WidgetMates, brickPackages as any),
+          "brick",
+          V3WidgetMates[0]
+        );
         await loadBricksImperatively(eager.v3Bricks, brickPackages as any);
       }
       // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
@@ -846,15 +853,26 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
+
+    const loadV3Bricks = async (): Promise<void> => {
+      if (v3Bricks?.some((brick) => brick.includes(".tpl-"))) {
+        await catchLoad(
+          loadBricksImperatively(V3WidgetMates, brickPackages as any),
+          "brick",
+          V3WidgetMates[0]
+        );
+      }
+      await Promise.all([
+        v3Bricks?.length &&
+          loadBricksImperatively(v3Bricks, brickPackages as any),
+        v3Processors?.length &&
+          loadProcessorsImperatively(v3Processors, brickPackages as any),
+      ]);
+    };
+
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);
-    await Promise.all([
-      loadLazyBricks(filteredBricks),
-      v3Bricks?.length &&
-        loadBricksImperatively(v3Bricks, brickPackages as any),
-      v3Processors?.length &&
-        loadProcessorsImperatively(v3Processors, brickPackages as any),
-    ]);
+    await Promise.all([loadLazyBricks(filteredBricks), loadV3Bricks()]);
   };
 
   loadDynamicBricks(bricks: string[], processors?: string[]): Promise<void> {
@@ -1186,4 +1204,15 @@ function generateColorTheme(theme: ThemeSetting): void {
       ...theme.variables,
     });
   }
+}
+
+function catchLoad(
+  promise: Promise<unknown>,
+  type: string,
+  name: string
+): Promise<unknown> {
+  return promise.catch((e) => {
+    // eslint-disable-next-line no-console
+    console.error(`Load ${type} "${name}" failed:`, e);
+  });
 }
