@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.13...@next-core/brick-kit@2.178.14) (2023-09-21)
+
+
+### Bug Fixes
+
+* load v3-widget-mate before load v3 widgets in v2 container ([d2ea80c](https://github.com/easyops-cn/next-core/commit/d2ea80c364039876df27208eba058e3ed8fea531))
+
+
+
+
+
 ## [2.178.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.12...@next-core/brick-kit@2.178.13) (2023-09-15)
 
 
