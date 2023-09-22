@@ -1,5 +1,10 @@
 const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
-const devServerOptions = require("../dev-server");
+const {
+  setupMiddlewares,
+  watchFiles,
+  proxy,
+  liveReload,
+} = require("../dev-server");
 
 const servePublicPath = process.env.SET_SUBDIR
   ? `/${process.env.SET_SUBDIR.replace(/^\/|\/$/, "")}/`
@@ -28,7 +33,9 @@ module.exports = () => ({
       // Ref https://github.com/webpack/webpack-dev-server/issues/216#issuecomment-309436276
       index: servePublicPath,
     },
-    ...devServerOptions,
+    setupMiddlewares,
+    watchFiles,
+    proxy,
   },
   module: {
     rules: [
@@ -58,3 +65,5 @@ module.exports = () => ({
     ],
   },
 });
+
+liveReload();

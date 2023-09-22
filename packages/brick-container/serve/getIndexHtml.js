@@ -9,10 +9,7 @@ const distDir = path.dirname(
 
 exports.distDir = distDir;
 
-const getIndexHtml = (standaloneConfig, env) => {
-  const indexHtml = path.join(distDir, "index.html");
-  let content = fs.readFileSync(indexHtml, "utf8");
-
+const injectIndexHtml = (standaloneConfig, env, content) => {
   if (env.liveReload) {
     content = appendLiveReloadScript(content, env);
   }
@@ -90,4 +87,16 @@ const getIndexHtml = (standaloneConfig, env) => {
   return content;
 };
 
+const getRawIndexHtml = () => {
+  const indexHtml = path.join(distDir, "index.html");
+  return fs.readFileSync(indexHtml, "utf8");
+};
+
+const getIndexHtml = (standaloneConfig, env) => {
+  const content = getRawIndexHtml(standaloneConfig, env);
+  return injectIndexHtml(standaloneConfig, env, content);
+};
+
+exports.injectIndexHtml = injectIndexHtml;
+exports.getRawIndexHtml = getRawIndexHtml;
 exports.getIndexHtml = getIndexHtml;

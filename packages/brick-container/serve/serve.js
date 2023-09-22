@@ -3,16 +3,14 @@ const fs = require("fs");
 const https = require("https");
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const { throttle, escapeRegExp } = require("lodash");
-const chokidar = require("chokidar");
+const { escapeRegExp } = require("lodash");
 const chalk = require("chalk");
-const WebSocket = require("ws");
 const yaml = require("js-yaml");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
-const { getPatternsToWatch } = require("./utils");
-const { getIndexHtml, distDir } = require("./getIndexHtml");
+const { getIndexHtml, distDir, getRawIndexHtml } = require("./getIndexHtml");
+const liveReload = require("./liveReload");
 
 module.exports = function serve(runtimeFlags) {
   const env = getEnv(runtimeFlags);
@@ -89,7 +87,7 @@ module.exports = function serve(runtimeFlags) {
   }
 
   // Using proxies.
-  const proxies = getProxies(env);
+  const proxies = getProxies(env, getRawIndexHtml);
   if (proxies) {
     for (const [path, options] of Object.entries(proxies)) {
       app.use(
@@ -179,24 +177,5 @@ module.exports = function serve(runtimeFlags) {
     `http${env.https ? "s" : ""}://${env.host}:${env.port}${env.baseHref}`
   );
 
-  // 建立 websocket 连接支持自动刷新
-  if (env.liveReload) {
-    const wss = new WebSocket.Server({ port: env.wsPort });
-
-    const watcher = chokidar.watch(getPatternsToWatch(env));
-
-    const throttledOnChange = throttle(
-      () => {
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send("content change");
-          }
-        });
-      },
-      100,
-      { trailing: false }
-    );
-
-    watcher.on("change", throttledOnChange);
-  }
+  liveReload(env);
 };
