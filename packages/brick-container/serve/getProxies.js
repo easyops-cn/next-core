@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
 const { escapeRegExp } = require("lodash");
+const { responseInterceptor } = require("http-proxy-middleware");
 const modifyResponse = require("./modifyResponse");
 const {
   getSingleBrickPackage,
@@ -15,9 +16,9 @@ const {
   tryFiles,
   removeCacheHeaders,
 } = require("./utils");
-const { getIndexHtml } = require("./getIndexHtml");
+const { injectIndexHtml } = require("./getIndexHtml");
 
-module.exports = (env) => {
+module.exports = (env, getRawIndexHtml) => {
   const {
     useOffline,
     useSubdir,
@@ -375,30 +376,21 @@ module.exports = (env) => {
   const rootProxyOptions = {};
   if (useRemote && !env.asCdn) {
     proxyPaths.push("");
-    if (process.env.WEBPACK_SERVE) {
-      // For webpack-dev-server, bypass initial browser html requests.
-      // On the other hand, we manually serve static assets for other use cases.
-      rootProxyOptions.bypass = (req) => {
+    rootProxyOptions.selfHandleResponse = true;
+    rootProxyOptions.onProxyRes = responseInterceptor(
+      async (responseBuffer, proxyRes, req, res) => {
         if (
           req.method === "GET" &&
           (req.get("accept") || "").includes("text/html")
         ) {
-          return req.path === `${env.baseHref}browse-happy.html`
-            ? "/browse-happy.html"
-            : "/index.html";
-        }
-      };
-    }
-    rootProxyOptions.onProxyRes = (proxyRes, req, res) => {
-      if (
-        req.method === "GET" &&
-        (req.get("accept") || "").includes("text/html")
-      ) {
-        if (res.statusCode === 200) {
-          // Disable cache for standalone runtime for development.
-          removeCacheHeaders(proxyRes);
-        }
-        modifyResponse(res, proxyRes, (raw) => {
+          if (res.statusCode === 200) {
+            // Disable cache for standalone runtime for development.
+            res.removeHeader("cache-control");
+            res.removeHeader("expires");
+            res.removeHeader("etag");
+            res.removeHeader("last-modified");
+          }
+          const raw = responseBuffer.toString("utf-8");
           if (
             !(
               res.statusCode === 200 &&
@@ -409,6 +401,7 @@ module.exports = (env) => {
             return raw;
           }
           if (useLocalContainer) {
+            const rawIndexHtml = await getRawIndexHtml();
             const pathname = useSubdir
               ? req.path.replace(/^\/next\//, "/")
               : req.path;
@@ -463,7 +456,7 @@ module.exports = (env) => {
                 // const coreVersion = JSON.parse(coreVersionMatches[0]).split("/")[1];
                 const coreVersion = "0.0.0";
 
-                return getIndexHtml(
+                return injectIndexHtml(
                   {
                     appId,
                     appDir,
@@ -474,10 +467,11 @@ module.exports = (env) => {
                     noAuthGuard,
                     standaloneVersion: 2,
                   },
-                  env
+                  env,
+                  rawIndexHtml
                 );
               }
-              return getIndexHtml(
+              return injectIndexHtml(
                 {
                   appDir,
                   appRoot,
@@ -485,18 +479,20 @@ module.exports = (env) => {
                   noAuthGuard,
                   standaloneVersion: 1,
                 },
-                env
+                env,
+                rawIndexHtml
               );
             }
-            return getIndexHtml(null, env);
+            return injectIndexHtml(null, env, rawIndexHtml);
           }
           const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
           return env.liveReload
             ? appendLiveReloadScript(content, env)
             : content;
-        });
+        }
+        return responseBuffer;
       }
-    };
+    );
   }
 
   return useOffline
