@@ -17,7 +17,7 @@ type RuntimeMenuRestRawData = Omit<RuntimeMenuRawData, "app" | "items">;
 type RuntimeMenuItemRestRawData = Omit<RuntimeMenuItemRawData, "children">;
 
 export function computeMenuData<
-  T extends RuntimeMenuRestRawData | RuntimeMenuItemRestRawData
+  T extends RuntimeMenuRestRawData | RuntimeMenuItemRestRawData,
 >(
   data: T,
   overrideAppId: string,
@@ -28,7 +28,7 @@ export function computeMenuData<
     "titleDataSource" in data &&
     isObject(data.titleDataSource) &&
     Object.entries(data.titleDataSource).every(
-      ([key, value]) => value === null || value === ""
+      ([, value]) => value === null || value === ""
     )
   ) {
     delete data.titleDataSource;

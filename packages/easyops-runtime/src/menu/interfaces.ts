@@ -20,7 +20,7 @@ export interface MenuRawData {
   app: [
     {
       appId: string;
-    }
+    },
   ];
   icon?: unknown;
   link?: string;
@@ -45,6 +45,7 @@ export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   if?: string | boolean;
   defaultExpanded?: boolean;
   groupId?: string;
+  groupFrom?: string;
 };
 
 interface TitleDataSource {
@@ -102,4 +103,52 @@ export interface RuntimeMenuRawData extends MenuRawData {
   // [symbolShouldCache]?: boolean;
   [symbolMenuI18nNamespace]?: string;
   [symbolOverrideApp]?: MicroApp;
+}
+
+export interface SidebarMenu {
+  /** 菜单标题。 */
+  title: string;
+  /** 菜单标题对应的图标。 */
+  icon?: unknown;
+  /** 菜单标题对应的链接地址。 */
+  link?: unknown;
+  /** 是否默认折叠。 */
+  defaultCollapsed?: boolean;
+  /** 针对小于特定尺寸的屏幕（例如 1600px），是否默认折叠。 */
+  defaultCollapsedBreakpoint?: number;
+  /** 菜单项列表。 */
+  menuItems: SidebarMenuItem[];
+}
+
+/** 侧边栏菜单项配置。 */
+export type SidebarMenuItem = SidebarMenuSimpleItem | SidebarMenuGroup;
+
+/** 侧边栏分组菜单项的配置。 */
+export interface SidebarMenuGroup {
+  /** 分组 Id。 */
+  groupId?: string;
+
+  /** 分组来源。 */
+  groupFrom?: string;
+
+  /** 分组类型。 */
+  type: "group" | "subMenu";
+
+  /** 分组标题。 */
+  title: string;
+
+  /** {@inheritDoc SidebarMenuSimpleItem.icon } */
+  icon?: unknown;
+
+  /** 该分组下的子菜单项列表。 */
+  items?: SidebarMenuItem[];
+
+  /** @internal */
+  key?: string;
+
+  /** 该分组下的子菜单是否默认展开。 */
+  defaultExpanded?: boolean;
+
+  /** 子菜单项的布局方式。 */
+  childLayout?: "default" | "category" | "siteMap";
 }

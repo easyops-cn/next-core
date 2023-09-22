@@ -6,13 +6,14 @@ const menuTitleCache = new Map<string, string>();
 
 export async function fetchMenuTitle(
   menuData: Pick<MenuRawData, "title" | "titleDataSource">
-) {
+): Promise<string> {
   if (menuData.title || isEmpty(menuData.titleDataSource)) {
     return menuData.title;
   }
   const cacheKey = JSON.stringify(menuData.titleDataSource);
-  if (menuTitleCache.has(cacheKey)) {
-    return menuTitleCache.get(cacheKey);
+  const cachedTitle = menuTitleCache.get(cacheKey);
+  if (cachedTitle !== undefined) {
+    return cachedTitle;
   }
   const { objectId, instanceId, attributeId } = menuData.titleDataSource;
   const attr = attributeId ?? "name";

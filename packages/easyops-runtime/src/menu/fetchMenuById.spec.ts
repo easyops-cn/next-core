@@ -137,6 +137,8 @@ const menuList = [
           },
           {
             text: "Dynamic Item 2",
+            type: "subMenu",
+            items: [],
           },
         ],
       ],
@@ -158,6 +160,11 @@ const menuList = [
           },
           {
             text: "Dynamic Item 4",
+            children: [
+              {
+                text: "Dynamic Item 4 - 1",
+              },
+            ],
           },
         ],
       ],
@@ -249,6 +256,7 @@ describe("fetchMenuById", () => {
                     text: "Menu A - Group X",
                     type: "group",
                     groupId: "group-x",
+                    groupFrom: "group-x-from",
                     sort: 30,
                     children: [
                       {
@@ -380,46 +388,40 @@ describe("fetchMenuById", () => {
         {
           text: "Menu A - Item 0",
           to: "/other-app/a/0",
-          children: [],
         },
         {
           text: "Menu A - Item 1",
           to: "/my-app/a/1",
           sort: 10,
-          children: [],
         },
         {
           text: "Menu A - Item 1.1",
           sort: 15,
-          children: [],
         },
         {
           text: "Menu A - Item 2",
           sort: 20,
-          children: [],
         },
         {
           text: "Menu A - Item 2.1",
           sort: 25,
-          children: [],
         },
         {
           title: "Menu A - Group X",
           type: "group",
+          groupId: "group-x",
+          groupFrom: "group-x-from",
           items: [
             {
               text: "Group X - i",
-              children: [],
             },
             {
               text: "Group X - ii",
               sort: 1,
-              children: [],
             },
             {
               text: "Group X - iii",
               sort: 2,
-              children: [],
             },
           ],
         },
@@ -427,7 +429,6 @@ describe("fetchMenuById", () => {
           text: "Dynamic Item 9",
           to: "/other-app/dynamic/9",
           sort: 35,
-          children: [],
         },
         {
           title: "Menu A - Sub",
@@ -435,7 +436,6 @@ describe("fetchMenuById", () => {
           items: [
             {
               text: "Sub",
-              children: [],
             },
           ],
         },
@@ -458,12 +458,10 @@ describe("fetchMenuById", () => {
       title: "my-host",
       menuItems: [
         {
-          children: [],
           to: "/my-app",
           text: "Menu Item 1",
         },
         {
-          children: [],
           text: "Menu Item 3",
           to: {
             pathname: "/my-app",
@@ -473,17 +471,14 @@ describe("fetchMenuById", () => {
         {
           text: "Menu Item 4",
           to: "/my-app",
-          children: [],
         },
         {
           text: "Menu Item 5",
           to: "/my-app",
-          children: [],
         },
         {
           text: "Menu Item 6",
           to: "/next/test",
-          children: [],
         },
         {
           title: "Menu Item 7",
@@ -495,17 +490,14 @@ describe("fetchMenuById", () => {
               items: [
                 {
                   text: "Menu Item 7 - 1",
-                  children: [],
                 },
                 {
                   text: "Menu Item 7 - 2",
                   sort: 20,
-                  children: [],
                 },
                 {
                   text: "Menu Item 7 - 3",
                   sort: 30,
-                  children: [],
                 },
               ],
             },
@@ -560,20 +552,18 @@ describe("fetchMenuById", () => {
         {
           text: "Dynamic Item 1",
           to: "/my-app/dynamic/1",
-          children: [],
         },
         {
           text: "Dynamic Item 2",
-          children: [],
         },
         {
           text: "Dynamic Item 3",
           to: "/other-app/dynamic/3",
-          children: [],
         },
         {
-          text: "Dynamic Item 4",
-          children: [],
+          type: "subMenu",
+          title: "Dynamic Item 4",
+          items: [{ text: "Dynamic Item 4 - 1" }],
         },
       ],
     });

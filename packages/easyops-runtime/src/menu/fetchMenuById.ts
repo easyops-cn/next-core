@@ -1,6 +1,6 @@
 import { InstanceApi_postSearch } from "@next-api-sdk/cmdb-sdk";
 import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
-import { pick } from "lodash";
+import { omit, pick } from "lodash";
 import { checkIfOfComputed } from "@next-core/runtime";
 import { mergeMenu } from "./mergeMenu.js";
 import { reorderMenu } from "./reorderMenuItems.js";
@@ -9,6 +9,8 @@ import type {
   RuntimeContext,
   RuntimeHelpers,
   RuntimeMenuItemRawData,
+  SidebarMenu,
+  SidebarMenuItem,
 } from "./interfaces.js";
 import { computeMenuItems, computeMenuData } from "./computeMenuData.js";
 import { fetchMenuTitle } from "./fetchMenuTitle.js";
@@ -17,28 +19,34 @@ import { preCheckPermissionsForAny } from "../checkPermissions.js";
 
 const menuPromises = new Map<string, Promise<void>>();
 
-const menuCache = new Map<string, unknown>();
+const menuCache = new Map<string, SidebarMenu>();
 
-function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): unknown[] {
+function transformMenuItems(
+  menuItems: RuntimeMenuItemRawData[] | undefined
+): SidebarMenuItem[] | undefined {
   return menuItems?.filter(checkIfOfComputed).map((item) => {
-    const children = walkMenuItems(item.children!);
-    return item.type === "group"
-      ? {
-          type: "group",
-          title: item.text,
-          childLayout: item.childLayout,
-          items: children,
-        }
-      : children?.length
-      ? {
-          type: "subMenu",
-          childLayout: item.childLayout,
-          title: item.text,
-          icon: item.icon,
-          items: children,
-          defaultExpanded: item.defaultExpanded,
-        }
-      : item;
+    const children = transformMenuItems(item.children);
+    const transformedMenuItem: SidebarMenuItem =
+      item.type === "group"
+        ? {
+            type: "group",
+            title: item.text,
+            childLayout: item.childLayout,
+            items: children,
+            groupId: item.groupId,
+            groupFrom: item.groupFrom,
+          }
+        : children?.length
+        ? {
+            type: "subMenu",
+            childLayout: item.childLayout,
+            title: item.text,
+            icon: item.icon,
+            items: children,
+            defaultExpanded: item.defaultExpanded,
+          }
+        : (omit(item, ["type", "items", "children"]) as SidebarMenuItem);
+    return transformedMenuItem;
   });
 }
 
@@ -130,7 +138,7 @@ async function _fetchMenuById(
     computeMenuItems(items, newRuntimeContext, helpers),
   ]);
 
-  const finalMenuData = {
+  const finalMenuData: SidebarMenu = {
     title: await fetchMenuTitle(computedMenuData),
     ...pick(computedMenuData, [
       "icon",
@@ -138,7 +146,7 @@ async function _fetchMenuById(
       "defaultCollapsed",
       "defaultCollapsedBreakpoint",
     ]),
-    menuItems: walkMenuItems(computedMenuItems),
+    menuItems: transformMenuItems(computedMenuItems)!,
   };
 
   // Todo(steve): reconsider the menu cache strategy
