@@ -65,9 +65,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: .cache
-        key: ${{ runner.os }}-nx-master-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-nx-master-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
         restore-keys: |
-          ${{ runner.os }}-nx-master-
+          ${{ runner.os }}-nx-master-${{ hashFiles('yarn.lock', 'package.json') }}-
       if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
 
     - name: Cache for npx
