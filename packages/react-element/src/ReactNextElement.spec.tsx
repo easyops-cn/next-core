@@ -62,7 +62,7 @@ describe("ReactNextElement", () => {
   });
 
   test("basic element as parsed DOM", async () => {
-    const { defineElement, property, method, event } = createDecorators();
+    const { defineElement, property } = createDecorators();
     @defineElement("my-element-parsed")
     class MyElement extends ReactNextElement {
       @property() accessor stringAttr: string | undefined;

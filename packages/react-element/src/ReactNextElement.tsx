@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot, type Root } from "react-dom/client";
+import { flushSync } from "react-dom";
 import { NextElement, supportsAdoptingStyleSheets } from "@next-core/element";
 
 export abstract class ReactNextElement extends NextElement {
@@ -41,24 +42,26 @@ export abstract class ReactNextElement extends NextElement {
   }
 
   protected _render() {
-    if (!this.isConnected || !this.#root) {
-      return;
-    }
-    const ctor = this.constructor as typeof ReactNextElement;
-    if (ctor.shadowOptions) {
-      this.#root.render(
-        supportsAdoptingStyleSheets() || !ctor.styleTexts?.length ? (
-          this.render()
-        ) : (
-          <>
-            <style>{ctor.styleTexts.join("\n")}</style>
-            {this.render()}
-          </>
-        )
-      );
-    } else {
-      this.#root.render(this.render());
-    }
+    flushSync(() => {
+      if (!this.isConnected || !this.#root) {
+        return;
+      }
+      const ctor = this.constructor as typeof ReactNextElement;
+      if (ctor.shadowOptions) {
+        this.#root.render(
+          supportsAdoptingStyleSheets() || !ctor.styleTexts?.length ? (
+            this.render()
+          ) : (
+            <>
+              <style>{ctor.styleTexts.join("\n")}</style>
+              {this.render()}
+            </>
+          )
+        );
+      } else {
+        this.#root.render(this.render());
+      }
+    });
   }
 
   abstract render(): React.ReactNode;
