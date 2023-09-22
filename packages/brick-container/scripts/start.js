@@ -12,6 +12,7 @@ import {
   getMiddlewares,
   getPreMiddlewares,
 } from "../serve/middlewares/getMiddlewares.js";
+import liveReloadServer from "../serve/utils/liveReloadServer.js";
 
 const env = await getEnv(path.join(process.cwd(), "../.."));
 const { rootDir, baseHref, port } = env;
@@ -93,6 +94,8 @@ const runServer = async () => {
 };
 
 await runServer();
+
+liveReloadServer(env);
 
 const ready = new Promise((resolve) => {
   server.middleware.waitUntilValid(resolve);
