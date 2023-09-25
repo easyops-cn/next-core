@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.15...@next-core/brick-container@3.6.16) (2023-09-25)
+
+
+### Bug Fixes
+
+* support live reload in start mode ([33dd556](https://github.com/easyops-cn/next-core/commit/33dd556bb70a0e6f541364897a73ab077779ae50))
+
+
+
+
+
 ## [3.6.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.14...@next-core/brick-container@3.6.15) (2023-09-20)
 
 **Note:** Version bump only for package @next-core/brick-container

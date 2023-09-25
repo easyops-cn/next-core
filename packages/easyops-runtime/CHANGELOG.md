@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.35](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.34...@next-core/easyops-runtime@0.6.35) (2023-09-25)
+
+
+### Bug Fixes
+
+* restrict structure of dynamic menu items ([2d7ac0d](https://github.com/easyops-cn/next-core/commit/2d7ac0dec8246575bd8bda1a745133d46645dba0))
+
+
+
+
+
 ## [0.6.34](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.33...@next-core/easyops-runtime@0.6.34) (2023-09-20)
 
 
