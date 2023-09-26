@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.11...@next-core/runtime@1.22.12) (2023-09-26)
+
+
+### Bug Fixes
+
+* v3 widget not work well in v2Kit ([fd6f112](https://github.com/easyops-cn/next-core/commit/fd6f112378aa75b7327569fc77543e283a19c9d1))
+
+
+
+
+
 ## [1.22.11](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.10...@next-core/runtime@1.22.11) (2023-09-20)
 
 
