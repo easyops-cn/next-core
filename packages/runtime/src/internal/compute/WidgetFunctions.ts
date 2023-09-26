@@ -32,7 +32,15 @@ function registerWidgetFunctionsV3(
 function registerWidgetFunctionsV2Factory() {
   const v2Kit = getV2RuntimeFromDll();
   if (v2Kit) {
-    return v2Kit.registerWidgetFunctions;
+    return function (
+      widgetId: string,
+      functions: StoryboardFunction[],
+      widgetVersion?: string
+    ) {
+      return v2Kit
+        .getRuntime()
+        .registerWidgetFunctions(widgetId, functions, widgetVersion);
+    };
   }
 }
 

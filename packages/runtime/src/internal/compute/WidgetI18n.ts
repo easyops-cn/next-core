@@ -18,7 +18,9 @@ export function widgetI18nFactory(widgetId: string) {
 function registerWidgetI18nV2Factory() {
   const v2Kit = getV2RuntimeFromDll();
   if (v2Kit) {
-    return v2Kit.registerWidgetI18n;
+    return function (widgetId: string, i18nData: MetaI18n) {
+      return v2Kit.getRuntime().registerWidgetI18n(widgetId, i18nData);
+    };
   }
 }
 

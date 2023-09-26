@@ -20,14 +20,14 @@ interface Kit {
       processorFullName: string,
       processorFunc: Function
     ): void;
+    registerWidgetFunctions(
+      widgetId: string,
+      functions: StoryboardFunction[],
+      widgetVersion?: string
+    ): void;
+    registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
   };
   getHistory(): NextHistory;
-  registerWidgetFunctions(
-    widgetId: string,
-    functions: StoryboardFunction[],
-    widgetVersion?: string
-  ): void;
-  registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
   looseCheckIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
   SingleBrickAsComponentFactory: any;
   BrickAsComponentFactory: any;
