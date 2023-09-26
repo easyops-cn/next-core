@@ -279,7 +279,7 @@ export interface PageViewInfo {
 }
 
 // @public (undocumented)
-export const registerWidgetFunctions: (widgetId: string, functions: StoryboardFunction[], widgetVersion?: string | undefined) => void;
+export const registerWidgetFunctions: (widgetId: string, functions: StoryboardFunction[], widgetVersion?: string) => void;
 
 // @public (undocumented)
 export const registerWidgetI18n: (widgetId: string, i18nData: MetaI18n) => void;
