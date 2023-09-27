@@ -41,6 +41,7 @@ import {
   isUnauthenticatedError,
 } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
+import { setLoginStateCookie } from "../setLoginStateCookie.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
 import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
@@ -276,6 +277,7 @@ export class Router {
 
     const redirectToLogin = (): void => {
       const to = flags["sso-enabled"] ? "/sso-auth/login" : "/auth/login";
+      setLoginStateCookie(location);
       redirectTo(to, { from: location });
     };
 

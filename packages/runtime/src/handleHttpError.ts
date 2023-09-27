@@ -8,6 +8,7 @@ import { getRuntime } from "./internal/Runtime.js";
 import { getHistory } from "./history.js";
 import { K, NS } from "./internal/i18n.js";
 import { Dialog } from "./Dialog.js";
+import { setLoginStateCookie } from "./setLoginStateCookie.js";
 
 /**
  * 将 http 请求错误转换为可读的字符串。
@@ -110,6 +111,7 @@ export function handleHttpError(error: unknown) {
 function redirectToLogin() {
   const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
   const history = getHistory();
+  setLoginStateCookie(history.location);
   history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
     from: {
       ...history.location,
