@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.14...@next-core/brick-kit@2.178.15) (2023-09-27)
+
+
+### Bug Fixes
+
+* login success return to the original page instead of the homepage after login in timeout ([7b5ad3c](https://github.com/easyops-cn/next-core/commit/7b5ad3c0a5edb3b46203952b98b82fc841871d5d))
+
+
+
+
+
 ## [2.178.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.13...@next-core/brick-kit@2.178.14) (2023-09-21)
 
 
