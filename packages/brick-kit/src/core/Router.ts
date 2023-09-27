@@ -74,6 +74,7 @@ import { computeRealValue } from "../internal/setProperties";
 import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
+import { setLoginStateCookie } from "../setLoginStateCookie";
 import { httpCacheRecord } from "./HttpCache";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
@@ -370,6 +371,7 @@ export class Router {
     unmountTree(mountPoints.bg as MountableElement);
 
     const redirectToLogin = (): void => {
+      setLoginStateCookie(location);
       history.replace(
         this.kernel.getFeatureFlags()["sso-enabled"]
           ? "/sso-auth/login"

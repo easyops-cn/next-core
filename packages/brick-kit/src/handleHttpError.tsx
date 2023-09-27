@@ -14,6 +14,7 @@ import { getHistory } from "./history";
 import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getRuntime } from "./runtime";
 import { isHttpAbortError } from "./internal/isHttpAbortError";
+import { setLoginStateCookie } from "./setLoginStateCookie";
 
 interface ErrorIllustrationConf {
   title: string;
@@ -89,6 +90,7 @@ export function handleHttpError(
       onOk: () => {
         const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
         const history = getHistory();
+        setLoginStateCookie(history.location);
         history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
           from: {
             ...history.location,
