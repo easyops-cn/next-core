@@ -162,6 +162,7 @@ function getRuntimeV2Factory() {
           const key = args[1];
           switch (key) {
             case "getCurrentApp":
+            case "getRecentApps":
             case "hasInstalledApp":
             case "getDesktops":
             case "getLaunchpadSettings":
