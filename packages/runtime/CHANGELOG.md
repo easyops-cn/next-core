@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.13](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.12...@next-core/runtime@1.22.13) (2023-09-28)
+
+
+### Bug Fixes
+
+* missing getRecentApps in fallback runtime ([c2e654e](https://github.com/easyops-cn/next-core/commit/c2e654e2e361eece6b68361d9dff720d1cacae51))
+
+
+
+
+
 ## [1.22.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.11...@next-core/runtime@1.22.12) (2023-09-26)
 
 
