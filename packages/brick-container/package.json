@@ -55,7 +55,7 @@
     "@next-core/theme": "^1.1.1",
     "@next-core/types": "^1.6.0",
     "copy-webpack-plugin": "^11.0.0",
-    "core-js": "^3.32.2",
+    "core-js": "^3.33.0",
     "html-webpack-plugin": "^5.5.3",
     "regenerator-runtime": "^0.14.0",
     "webpack-dev-server": "^4.15.1"
