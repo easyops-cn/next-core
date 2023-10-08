@@ -45,6 +45,7 @@ import { registerCustomTemplates } from "./registerCustomTemplates.js";
 import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
+import { devtoolsHookEmit } from "./devtools.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -212,7 +213,7 @@ export class Router {
       if (this.#rendering) {
         this.#nextLocation = location;
       } else {
-        // devtoolsHookEmit("locationChange");
+        devtoolsHookEmit("locationChange");
         this.#queuedRender(location).catch(handleHttpError);
       }
     });
@@ -481,6 +482,7 @@ export class Router {
         } else {
           finishPageView?.({ status: "failed" });
         }
+        devtoolsHookEmit("rendered");
 
         return;
       }
@@ -516,6 +518,7 @@ export class Router {
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);
     finishPageView?.({ status: "not-found" });
+    devtoolsHookEmit("rendered");
   }
 }
 
