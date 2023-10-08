@@ -366,7 +366,7 @@ const mockMenuList: any[] = [
     title: "Menu i",
     dynamicItems: true,
     itemsResolve: {
-      args: ["<% PATH.objectId %>"],
+      args: ["<% PATH.objectId %>", "<% PERMISSIONS.check('x:y') %>"],
       useProvider: "my.fake-provider",
     },
     items: [
@@ -472,6 +472,8 @@ describe("fetchMenuById", () => {
   it("menu should not cache cache", async () => {
     await fetchMenuById("menu-i", fakeKernel);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(1);
+    expect(validatePermissions).toBeCalledTimes(1);
+    expect(validatePermissions).toBeCalledWith(["x:y"]);
     await fetchMenuById("menu-i", fakeKernel);
     expect(InstanceApi_postSearch).toHaveBeenCalledTimes(2);
   });

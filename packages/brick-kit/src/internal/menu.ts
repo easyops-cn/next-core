@@ -302,6 +302,10 @@ async function loadDynamicMenuItems(
         };
       }
     }
+
+    const usedActions = scanPermissionActionsInAny(menu.itemsResolve);
+    await validatePermissions(usedActions);
+
     await _internalApiGetResolver().resolveOne(
       "reference",
       {
