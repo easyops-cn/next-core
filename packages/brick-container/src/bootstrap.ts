@@ -3,6 +3,7 @@ import {
   createRuntime,
   getBasePath,
   httpErrorToString,
+  __secret_internals,
 } from "@next-core/runtime";
 import { HttpRequestConfig, http } from "@next-core/http";
 import { i18n } from "@next-core/i18n";
@@ -149,3 +150,6 @@ const bootstrapStatus = main();
 if (window.parent !== window) {
   listen(bootstrapStatus);
 }
+
+// For brick next devtools only
+window.__dev_only_getAllContextValues = __secret_internals.getAllContextValues;
