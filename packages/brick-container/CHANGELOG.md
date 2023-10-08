@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.18...@next-core/brick-container@3.6.19) (2023-10-08)
+
+
+### Bug Fixes
+
+* emit router events for devtools ([0ea8288](https://github.com/easyops-cn/next-core/commit/0ea82884062c405b9fcf4571b0627ba2883a15ee))
+
+
+
+
+
 ## [3.6.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.17...@next-core/brick-container@3.6.18) (2023-09-28)
 
 **Note:** Version bump only for package @next-core/brick-container

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.14](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.13...@next-core/runtime@1.22.14) (2023-10-08)
+
+
+### Bug Fixes
+
+* emit router events for devtools ([0ea8288](https://github.com/easyops-cn/next-core/commit/0ea82884062c405b9fcf4571b0627ba2883a15ee))
+
+
+
+
+
 ## [1.22.13](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.12...@next-core/runtime@1.22.13) (2023-09-28)
 
 
