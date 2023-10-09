@@ -42,7 +42,7 @@ export abstract class ReactNextElement extends NextElement {
   }
 
   protected _render() {
-    flushSync(() => {
+    const render = () => {
       if (!this.isConnected || !this.#root) {
         return;
       }
@@ -61,7 +61,12 @@ export abstract class ReactNextElement extends NextElement {
       } else {
         this.#root.render(this.render());
       }
-    });
+    };
+    if (window.REACT_FLUSH_SYNC) {
+      flushSync(render);
+    } else {
+      render();
+    }
   }
 
   abstract render(): React.ReactNode;

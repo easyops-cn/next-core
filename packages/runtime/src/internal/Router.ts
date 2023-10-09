@@ -456,7 +456,11 @@ export class Router {
         applyTheme();
         applyMode();
 
+        window.REACT_FLUSH_SYNC = true;
         mountTree(renderRoot);
+        setTimeout(() => {
+          window.REACT_FLUSH_SYNC = false;
+        });
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
