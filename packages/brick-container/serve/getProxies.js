@@ -70,11 +70,20 @@ module.exports = (env, getRawIndexHtml) => {
       }
     }
 
-    proxyPaths.push(
-      "(/next)?/sa-static/:appId/versions/:appVersion/webroot/-/",
-      "/next/:appId/-/",
-      "/sa-static/"
-    );
+    if (env.isWebpackServe) {
+      proxyPaths.push(
+        "/next/sa-static/*/versions/*/webroot/-/**",
+        "/sa-static/*/versions/*/webroot/-/**",
+        "/next/auth/-/**",
+        "/sa-static/**"
+      );
+    } else {
+      proxyPaths.push(
+        "(/next)?/sa-static/:appId/versions/:appVersion/webroot/-/",
+        "/next/:appId/-/",
+        "/sa-static/"
+      );
+    }
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (env.asCdn) {
@@ -376,6 +385,12 @@ module.exports = (env, getRawIndexHtml) => {
   const rootProxyOptions = {};
   if (useRemote && !env.asCdn) {
     proxyPaths.push("");
+    rootProxyOptions.bypass = (req) => {
+      const corePathRegExp = new RegExp("^(/next)?/sa-static/-/core/[^/]+/");
+      if (corePathRegExp.test(req.path)) {
+        return `${baseHref}${req.path.replace(corePathRegExp, "")}`;
+      }
+    };
     rootProxyOptions.selfHandleResponse = true;
     rootProxyOptions.onProxyRes = responseInterceptor(
       async (responseBuffer, proxyRes, req, res) => {
@@ -542,7 +557,7 @@ module.exports = (env, getRawIndexHtml) => {
             secure: false,
             changeOrigin: true,
             pathRewrite: pathRewriteFactory(seg),
-            ...(seg === "api" || seg.endsWith("/-/")
+            ...(seg === "api" || seg.endsWith("/-/") || seg.endsWith("/-/**")
               ? apiProxyOptions
               : seg === ""
               ? rootProxyOptions

@@ -393,6 +393,7 @@ module.exports = (runtimeFlags) => {
     mockDate: flags.mockDate,
     publicCdn: flags.publicCdn,
     asCdn: flags.asCdn,
+    isWebpackServe,
   };
 
   checkLocalPackages(env);
