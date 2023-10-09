@@ -22,6 +22,7 @@ const mockSupportsAdoptingStyleSheets =
 
 describe("ReactNextElement", () => {
   test("basic element", async () => {
+    window.BRICK_NEXT_VERSIONS = {};
     const { defineElement, property } = createDecorators();
     @defineElement("my-element")
     class MyElement extends ReactNextElement {
@@ -59,6 +60,8 @@ describe("ReactNextElement", () => {
       document.body.removeChild(element);
     });
     expect(element.shadowRoot?.childNodes.length).toBe(0);
+
+    delete window.BRICK_NEXT_VERSIONS;
   });
 
   test("basic element as parsed DOM", async () => {

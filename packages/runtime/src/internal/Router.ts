@@ -456,10 +456,10 @@ export class Router {
         applyTheme();
         applyMode();
 
-        window.REACT_FLUSH_SYNC = true;
+        window.DISABLE_REACT_FLUSH_SYNC = false;
         mountTree(renderRoot);
         setTimeout(() => {
-          window.REACT_FLUSH_SYNC = false;
+          window.DISABLE_REACT_FLUSH_SYNC = true;
         });
 
         // Scroll to top after each rendering.
