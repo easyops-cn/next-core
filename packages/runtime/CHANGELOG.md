@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.15](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.14...@next-core/runtime@1.22.15) (2023-10-10)
+
+
+### Bug Fixes
+
+* only flush sync for the initial mount ([fffea5e](https://github.com/easyops-cn/next-core/commit/fffea5eff483b37674e27ef08ef40273cb195619))
+
+
+
+
+
 ## [1.22.14](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.13...@next-core/runtime@1.22.14) (2023-10-08)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.14](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.13...@next-core/react-element@1.0.14) (2023-10-10)
+
+
+### Bug Fixes
+
+* only flush sync for the initial mount ([fffea5e](https://github.com/easyops-cn/next-core/commit/fffea5eff483b37674e27ef08ef40273cb195619))
+
+
+
+
+
 ## [1.0.13](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.12...@next-core/react-element@1.0.13) (2023-09-22)
 
 
