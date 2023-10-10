@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.178.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.16...@next-core/brick-kit@2.178.17) (2023-10-10)
+
+
+### Bug Fixes
+
+* only flush sync for the initial mount ([dfa0ba5](https://github.com/easyops-cn/next-core/commit/dfa0ba5e2ec255bac9df53f1cb9f78a8ed0cd83c))
+
+
+
+
+
 ## [2.178.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.15...@next-core/brick-kit@2.178.16) (2023-10-08)
 
 
