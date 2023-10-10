@@ -73,6 +73,8 @@ interface Window {
 
   /** Mock global date, currently for sandbox demo website only */
   MOCK_DATE?: string;
+
+  DISABLE_REACT_FLUSH_SYNC?: boolean;
 }
 
 declare const __webpack_public_path__: string;

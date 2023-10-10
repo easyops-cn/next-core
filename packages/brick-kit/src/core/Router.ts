@@ -618,6 +618,8 @@ export class Router {
       // we say *page found*, otherwise, *page not found*.
       if ((route && route.type !== "routes") || failed) {
         await pendingTask;
+        window.DISABLE_REACT_FLUSH_SYNC = false;
+
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
@@ -626,6 +628,10 @@ export class Router {
         afterMountTree(mountPoints.main as MountableElement);
         afterMountTree(mountPoints.portal as MountableElement);
         afterMountTree(mountPoints.bg as MountableElement);
+
+        setTimeout(() => {
+          window.DISABLE_REACT_FLUSH_SYNC = true;
+        });
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
