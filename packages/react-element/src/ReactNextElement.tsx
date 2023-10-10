@@ -42,7 +42,7 @@ export abstract class ReactNextElement extends NextElement {
   }
 
   protected _render() {
-    flushSync(() => {
+    const render = () => {
       if (!this.isConnected || !this.#root) {
         return;
       }
@@ -61,7 +61,16 @@ export abstract class ReactNextElement extends NextElement {
       } else {
         this.#root.render(this.render());
       }
-    });
+    };
+
+    // In brick next container, enable flush sync for the initial mount of
+    // each page, in order to avoid menu flickering.
+    // Otherwise, avoid using flush sync as possible.
+    if (window.BRICK_NEXT_VERSIONS && !window.DISABLE_REACT_FLUSH_SYNC) {
+      flushSync(render);
+    } else {
+      render();
+    }
   }
 
   abstract render(): React.ReactNode;

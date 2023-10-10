@@ -328,7 +328,7 @@ const getBootstrapData = (options?: {
 });
 
 const myTimeoutProvider = jest.fn(
-  (timeout: number, result: unknown) =>
+  (timeout: number, result?: unknown) =>
     new Promise((resolve) => {
       setTimeout(() => resolve(result), timeout);
     })
@@ -360,6 +360,7 @@ describe("Runtime", () => {
 
   beforeEach(() => {
     window.NO_AUTH_GUARD = true;
+    delete window.DISABLE_REACT_FLUSH_SYNC;
     const main = document.createElement("div");
     main.id = "main-mount-point";
     const portal = document.createElement("div");
@@ -391,6 +392,7 @@ describe("Runtime", () => {
       getBootstrapData({ settings: true, locales: true })
     );
     getHistory().push("/app-a");
+    expect(window.DISABLE_REACT_FLUSH_SYNC).toBeFalsy();
     await getRuntime().bootstrap();
     expect(loadNotificationService).not.toBeCalled();
     expect(loadDialogService).not.toBeCalled();
@@ -452,6 +454,10 @@ describe("Runtime", () => {
     expect(document.title).toBe("Hello - DevOps 管理专家");
     getRuntime().applyPageTitle("");
     expect(document.title).toBe("DevOps 管理专家");
+
+    expect(window.DISABLE_REACT_FLUSH_SYNC).toBeFalsy();
+    await myTimeoutProvider(0);
+    expect(window.DISABLE_REACT_FLUSH_SYNC).toBeTruthy();
 
     // Go to a redirect page
     getHistory().push("/app-a/0");

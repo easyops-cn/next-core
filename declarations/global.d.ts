@@ -66,6 +66,8 @@ interface Window {
   /** For standalone usage of bricks */
   STANDALONE_BRICK_PACKAGES?: unknown[];
 
+  DISABLE_REACT_FLUSH_SYNC?: boolean;
+
   /** For brick next devtools only */
   __dev_only_getAllContextValues(options: {
     tplStateStoreId?: string;
