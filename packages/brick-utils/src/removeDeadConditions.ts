@@ -192,6 +192,8 @@ function shakeConditionalNodes(
   if (removedNodes.length > 0) {
     if (isUseBrickEntry && !Array.isArray(rawContainer[rawKey])) {
       rawContainer[rawKey] = { brick: "div", if: false };
+    } else if (isUseBrickEntry && conditionalNodes.length === 1) {
+      rawContainer[rawKey] = conditionalNodes[0].raw;
     } else if (deleteEmptyArray && conditionalNodes.length === 0) {
       delete rawContainer[rawKey];
     } else {
