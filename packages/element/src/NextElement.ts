@@ -1,6 +1,7 @@
 import type { AttributeReflection } from "./interfaces.js";
 import {
   symbolOfAttributeHasBeenSet,
+  symbolOfMarkAttributeHasBeenSet,
   symbolOfStopAttributeChangedCallback,
 } from "./internal/symbols.js";
 
@@ -35,6 +36,10 @@ export abstract class NextElement extends HTMLElement {
 
   [symbolOfAttributeHasBeenSet](name: string): boolean {
     return this.#attributesBeenSet.has(name);
+  }
+
+  [symbolOfMarkAttributeHasBeenSet](name: string): void {
+    this.#attributesBeenSet.add(name);
   }
 
   /** Whether to process attributeChangedCallback. */

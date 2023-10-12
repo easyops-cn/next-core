@@ -349,6 +349,7 @@ describe("NextElement", () => {
     const { defineElement, property } = createDecorators();
     const render = jest.fn();
     @defineElement("my-element-parsed")
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     class MyElement extends NextElement {
       @property() accessor stringAttr: string | undefined;
       @property({ type: Boolean }) accessor booleanAttr: boolean | undefined;
@@ -430,7 +431,7 @@ describe("NextElement", () => {
   });
 
   test("methods bound", () => {
-    const { defineElement, property, method, event } = createDecorators();
+    const { defineElement, property, method } = createDecorators();
     @defineElement("my-element-bound-methods")
     class MyElement extends NextElement {
       @property() accessor value: string | undefined;
@@ -465,7 +466,7 @@ describe("NextElement", () => {
   });
 
   test("alias", () => {
-    const { defineElement, property, method, event } = createDecorators();
+    const { defineElement, property } = createDecorators();
     @defineElement("my-element-alias", {
       alias: ["my-element-alias-2"],
       shadowOptions: false,
@@ -495,7 +496,7 @@ describe("NextElement", () => {
   });
 
   test("specific attribute", async () => {
-    const { defineElement, property, method, event } = createDecorators();
+    const { defineElement, property } = createDecorators();
     const render = jest.fn();
     @defineElement("my-element-specific-attr", {
       shadowOptions: false,
@@ -532,5 +533,35 @@ describe("NextElement", () => {
     expect(render).toBeCalledTimes(2);
 
     element.remove();
+  });
+
+  test("boolean property defaults to true", async () => {
+    const { defineElement, property } = createDecorators();
+    @defineElement("my-element-prop-default-true", {
+      shadowOptions: false,
+    })
+    class MyElement extends NextElement {
+      @property({ type: Boolean }) accessor booleanAttr = true;
+      @property() accessor stringAttr: string | undefined;
+
+      _render() {
+        return String(this.booleanAttr);
+      }
+    }
+
+    const element = document.createElement(
+      "my-element-prop-default-true"
+    ) as MyElement;
+    element.booleanAttr = false;
+    expect(element.getAttribute("boolean-attr")).toBe(null);
+
+    document.body.appendChild(element);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(element.getAttribute("boolean-attr")).toBe(null);
+
+    element.stringAttr = "update";
+    expect(element.booleanAttr).toBe(false);
+    expect(element.getAttribute("boolean-attr")).toBe(null);
   });
 });
