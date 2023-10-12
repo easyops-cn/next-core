@@ -350,6 +350,8 @@ customElements.define(
   createProviderClass(myAbortProvider)
 );
 
+customElements.define("basic.apply-ui-version", createProviderClass(jest.fn()));
+
 describe("Runtime", () => {
   let createRuntime: typeof _createRuntime;
   let getRuntime: typeof _getRuntime;
