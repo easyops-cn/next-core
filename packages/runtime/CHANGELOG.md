@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.15...@next-core/runtime@1.23.0) (2023-10-12)
+
+
+### Features
+
+* support load ui-patch from v3 bricks ([6814226](https://github.com/easyops-cn/next-core/commit/6814226c58325546c5476a7694050edbf0112488))
+
+
+
+
+
 ## [1.22.15](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.14...@next-core/runtime@1.22.15) (2023-10-10)
 
 
