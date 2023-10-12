@@ -195,10 +195,7 @@ export class Runtime {
     this.#initialized = true;
     normalizeBootstrapData(data);
     bootstrapData = data;
-    const { notification, dialog } = (data.settings?.presetBricks ?? {}) as {
-      notification?: string | false;
-      dialog?: string | false;
-    };
+    const { notification, dialog } = this.getPreseBricks();
     if (notification !== false) {
       loadNotificationService(
         notification ?? "basic.show-notification",
@@ -293,6 +290,14 @@ export class Runtime {
 
   loadBricks(bricks: string[] | Set<string>) {
     return loadBricksImperatively(bricks, getBrickPackages());
+  }
+
+  getPreseBricks() {
+    return (bootstrapData?.settings?.presetBricks ?? {}) as {
+      notification?: string | false;
+      dialog?: string | false;
+      uiPatch?: boolean;
+    };
   }
 }
 
