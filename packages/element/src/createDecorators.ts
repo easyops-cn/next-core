@@ -10,6 +10,7 @@ import type {
 import { NextElement } from "./NextElement.js";
 import {
   symbolOfAttributeHasBeenSet,
+  symbolOfMarkAttributeHasBeenSet,
   symbolOfStopAttributeChangedCallback,
 } from "./internal/symbols.js";
 
@@ -260,6 +261,7 @@ export function createDecorators() {
               } else {
                 this.setAttribute(attrName, attrValue as string);
               }
+              this[symbolOfMarkAttributeHasBeenSet](attrName);
               this[symbolOfStopAttributeChangedCallback](false);
             }
             this._requestRender();
