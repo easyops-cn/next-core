@@ -266,10 +266,16 @@ describe("removeDeadConditions", () => {
               properties: {
                 b1: [
                   {
-                    useBrick: {
-                      brick: "c",
-                      if: true,
-                    },
+                    useBrick: [
+                      {
+                        brick: "c",
+                        if: true,
+                      },
+                      {
+                        brick: "c-1",
+                        if: false,
+                      },
+                    ],
                   },
                 ],
                 b2: {
