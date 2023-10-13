@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.7...@next-core/brick-utils@2.51.8) (2023-10-13)
+
+
+### Bug Fixes
+
+* covert useBrick if it is an array of size 1 ([b8b432f](https://github.com/easyops-cn/next-core/commit/b8b432f6524490ae5a123490aa38c94a2e1301ba))
+
+
+
+
+
 ## [2.51.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.6...@next-core/brick-utils@2.51.7) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/brick-utils
