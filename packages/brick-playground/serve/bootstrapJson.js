@@ -13,6 +13,11 @@ export default function bootstrapJson(rootDir) {
           path.join(rootDir, "node_modules", scope)
         )
       ),
+      settings: {
+        misc: {
+          weather_api_key: "9e08e5e99e0c4b4c89023605231804",
+        },
+      },
     });
   };
 }
