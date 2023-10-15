@@ -46,7 +46,7 @@
     "postcss-preset-env": "^9.2.0",
     "style-loader": "^3.3.3",
     "typescript": "^5.2.2",
-    "webpack": "^5.88.2"
+    "webpack": "^5.89.0"
   },
   "devDependencies": {
     "@next-core/brick-manifest": "^0.5.1"
