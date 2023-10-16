@@ -57,6 +57,6 @@
     "@next-core/build-next-libs": "^1.0.7",
     "@next-core/test-next": "^1.0.10",
     "jest-websocket-mock": "^2.5.0",
-    "whatwg-fetch": "^3.6.18"
+    "whatwg-fetch": "^3.6.19"
   }
 }
