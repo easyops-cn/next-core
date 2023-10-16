@@ -34,7 +34,7 @@
     "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^11.0.0",
     "html-webpack-plugin": "^5.5.3",
-    "monaco-editor": "^0.41.0",
+    "monaco-editor": "^0.44.0",
     "monaco-editor-webpack-plugin": "^7.1.0",
     "webpack-dev-server": "^4.15.1"
   }
