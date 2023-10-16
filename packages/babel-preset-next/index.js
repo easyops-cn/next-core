@@ -26,7 +26,7 @@ module.exports = () => {
               modules: false,
               useBuiltIns: "entry",
               corejs: {
-                version: "3.31",
+                version: "3.33",
               },
             },
       ],
@@ -49,7 +49,7 @@ module.exports = () => {
         transformRuntime,
         {
           // https://github.com/babel/babel/issues/9454#issuecomment-460425922
-          version: "7.22.9",
+          version: "7.23.2",
         },
       ],
     ],
