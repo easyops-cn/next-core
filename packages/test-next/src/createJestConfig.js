@@ -62,5 +62,7 @@ export function createJestConfig({
     // Todo(steve): remove next line when issue fixed.
     modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
     clearMocks: true,
+    // https://github.com/jestjs/jest/issues/14305
+    prettierPath: null,
   };
 }

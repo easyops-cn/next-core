@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.6.0...@next-core/utils@1.6.1) (2023-10-12)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.8...@next-core/utils@1.6.0) (2023-09-12)
+
+
+### Features
+
+* refactor collectMemberUsageInFunction ([10cb21a](https://github.com/easyops-cn/next-core/commit/10cb21ae8203d4f7ca73589152bb6d77550de2c5))
+
+
+
+
+
+## [1.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.7...@next-core/utils@1.5.8) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
 ## [1.5.7](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.5.6...@next-core/utils@1.5.7) (2023-08-03)
 
 **Note:** Version bump only for package @next-core/utils

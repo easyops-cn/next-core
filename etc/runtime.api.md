@@ -83,7 +83,7 @@ export function batchSetAppsLocalTheme(appsTheme: AppThemes): void;
 // Warning: (ae-forgotten-export) The symbol "IfContainer" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function checkIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
+export const checkIfByTransform: (ifContainer: IfContainer, data: unknown) => boolean;
 
 // @public (undocumented)
 export function checkIfOfComputed(ifContainer: IfContainer): boolean;
@@ -146,7 +146,7 @@ export function fetchByProvider(provider: string, args: unknown[], options?: Res
 // Warning: (ae-forgotten-export) The symbol "PreviewOption" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, provider: collectContractProvider, }: PreviewOption): Promise<string[]>;
+function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, collectUsedContracts }: PreviewOption): Promise<string[]>;
 
 // @public (undocumented)
 function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
@@ -173,7 +173,7 @@ export function getCurrentMode(): SiteMode;
 export function getCurrentTheme(): SiteTheme;
 
 // @public (undocumented)
-export function getHistory(): NextHistory;
+export const getHistory: () => NextHistory;
 
 // @public (undocumented)
 export function getPageInfo(): PageInfo;
@@ -182,7 +182,12 @@ export function getPageInfo(): PageInfo;
 function getRenderId(): string | undefined;
 
 // @public (undocumented)
-export function getRuntime(): Runtime;
+export const getRuntime: () => Runtime;
+
+// Warning: (ae-forgotten-export) The symbol "Kit" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function getV2RuntimeFromDll(): Kit | undefined;
 
 // @public
 export function handleHttpError(error: unknown): void;
@@ -264,10 +269,20 @@ export interface PageInfo {
 }
 
 // @public (undocumented)
-export function registerWidgetFunctions(widgetId: string, functions: StoryboardFunction[], widgetVersion?: string): void;
+export interface PageViewInfo {
+    // (undocumented)
+    pageTitle?: string;
+    // (undocumented)
+    path?: string;
+    // (undocumented)
+    status: "ok" | "failed" | "redirected" | "not-found";
+}
 
 // @public (undocumented)
-export function registerWidgetI18n(widgetId: string, i18nData: MetaI18n): void;
+export const registerWidgetFunctions: (widgetId: string, functions: StoryboardFunction[], widgetVersion?: string) => void;
+
+// @public (undocumented)
+export const registerWidgetI18n: (widgetId: string, i18nData: MetaI18n) => void;
 
 // @public (undocumented)
 export interface RenderOptions {
@@ -310,6 +325,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     //
     // (undocumented)
     ctxStore: DataStore<"CTX">;
+    // (undocumented)
+    forEachIndex?: number;
     // (undocumented)
     forEachItem?: unknown;
     // (undocumented)
@@ -380,6 +397,10 @@ export interface RuntimeHooks {
         reset(): void;
     };
     // (undocumented)
+    pageView?: {
+        create(): (info: PageViewInfo) => void;
+    };
+    // (undocumented)
     validatePermissions?: typeof PermissionApi_validatePermissions;
 }
 
@@ -448,7 +469,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
-// dist/types/internal/Runtime.d.ts:29:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:34:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

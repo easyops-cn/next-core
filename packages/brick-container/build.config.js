@@ -91,7 +91,7 @@ export default {
             ) {
               return buf
                 .toString()
-                .replace("./bootstrap.hash.json", "../api/auth/v2/bootstrap")
+                .replace("./bootstrap.hash.json", "/next/api/auth/v2/bootstrap")
                 .replace(
                   "</head>",
                   "<script>window.PUBLIC_ROOT='/next/';window.BOOTSTRAP_FILE_FIELD='data'</script></head>"
@@ -111,6 +111,13 @@ export default {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        mockdate: {
+          test: /[\\/]node_modules[\\/]mockdate[\\/]/,
+          priority: -5,
+          reuseExistingChunk: true,
+          name: "mockdate",
+          minSize: 100,
+        },
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,

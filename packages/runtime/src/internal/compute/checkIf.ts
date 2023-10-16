@@ -4,6 +4,7 @@ import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
 import { isPreEvaluated } from "./evaluate.js";
 import { resolveData } from "../data/resolveData.js";
 import type { RuntimeContext } from "../interfaces.js";
+import { getV2RuntimeFromDll } from "../../getV2RuntimeFromDll.js";
 
 /**
  * 包含 `if` 条件判断的对象。
@@ -64,6 +65,18 @@ export async function asyncCheckBrickIf(
   return asyncCheckIf(brickConf, runtimeContext);
 }
 
-export function checkIfByTransform(ifContainer: IfContainer, data: unknown) {
+function checkIfByTransformV3(ifContainer: IfContainer, data: unknown) {
   return checkIf(ifContainer, { data } as RuntimeContext);
 }
+
+// istanbul ignore next
+function checkIfByTransformV2Factory() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return v2Kit.looseCheckIfByTransform;
+  }
+}
+
+// istanbul ignore next
+export const checkIfByTransform =
+  checkIfByTransformV2Factory() || checkIfByTransformV3;

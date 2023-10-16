@@ -13,4 +13,6 @@ export const NS = "bricks/{{pkgName}}/{{>lastTagName}}";
 
 export const locales = { en, zh };
 
-type Locale = { [key in K]: string };
+type Locale = { [k in K]: string } & {
+  [k in K as `${k}_plural`]?: string;
+};

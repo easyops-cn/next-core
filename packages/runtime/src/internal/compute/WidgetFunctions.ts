@@ -3,6 +3,7 @@ import {
   ReadonlyStoryboardFunctions,
   StoryboardFunctionRegistryFactory,
 } from "../../StoryboardFunctionRegistry.js";
+import { getV2RuntimeFromDll } from "../../getV2RuntimeFromDll.js";
 
 const widgetFunctionRegistry = new Map<string, ReadonlyStoryboardFunctions>();
 
@@ -12,7 +13,7 @@ export const widgetFunctions = new Proxy(Object.freeze({}), {
   },
 }) as Readonly<Record<string, ReadonlyStoryboardFunctions>>;
 
-export function registerWidgetFunctions(
+function registerWidgetFunctionsV3(
   widgetId: string,
   functions: StoryboardFunction[],
   widgetVersion?: string
@@ -26,3 +27,23 @@ export function registerWidgetFunctions(
   widgetFunctionRegistry.set(widgetId, storyboardFunctions);
   registerStoryboardFunctions(functions);
 }
+
+// istanbul ignore next
+function registerWidgetFunctionsV2Factory() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return function (
+      widgetId: string,
+      functions: StoryboardFunction[],
+      widgetVersion?: string
+    ) {
+      return v2Kit
+        .getRuntime()
+        .registerWidgetFunctions(widgetId, functions, widgetVersion);
+    };
+  }
+}
+
+// istanbul ignore next
+export const registerWidgetFunctions =
+  registerWidgetFunctionsV2Factory() || registerWidgetFunctionsV3;

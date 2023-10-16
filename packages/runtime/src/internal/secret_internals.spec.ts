@@ -477,6 +477,21 @@ describe("useBrick", () => {
       `[Error: The root brick of useBrick cannot be a portal brick]`
     );
   });
+
+  test("root as an ignored control node", async () => {
+    const useBrick: UseSingleBrickConf = {
+      brick: ":if",
+      dataSource: false,
+      children: [
+        {
+          brick: "div",
+        },
+      ],
+    };
+    await expect(renderUseBrick(useBrick, "a")).rejects.toMatchInlineSnapshot(
+      `[Error: The root brick of useBrick cannot be an ignored control node]`
+    );
+  });
 });
 
 describe("legacyDoTransform", () => {
@@ -939,8 +954,6 @@ describe("getAddedContracts", () => {
               context: [
                 {
                   name: "historyList",
-                  path: "",
-                  relatedId: "",
                   resolve: {
                     args: [
                       {
@@ -980,7 +993,7 @@ describe("getAddedContracts", () => {
                 name: "ViewTodo",
                 namespaceId: "easyops.api.micro_app.workflow",
                 version: "1.0.0",
-              },
+              } as any,
             ],
           },
         },
@@ -1015,17 +1028,13 @@ describe("getAddedContracts", () => {
       ],
     };
 
-    const provider = document.createElement("test.provider") as any;
-    provider.resolve = jest
-      .fn()
-      .mockResolvedValueOnce(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
-
-    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
     expect(
-      await getAddedContracts(storyboardPatch, {
+      await getAddedContracts(storyboardPatch as any, {
         appId: "app-b",
         updateStoryboardType: "route",
-        provider: "test.provider",
+        collectUsedContracts() {
+          return ["easyops.api.cmdb.instance@PostSearchV3:1.1.0"];
+        },
       })
     ).toEqual(["easyops.api.cmdb.instance@PostSearchV3:1.1.0"]);
   });
@@ -1052,17 +1061,13 @@ describe("getAddedContracts", () => {
       ],
     };
 
-    const provider = document.createElement("test.provider") as any;
-    provider.resolve = jest
-      .fn()
-      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@ViewTodo:1.0.0"]);
-
-    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
     expect(
       await getAddedContracts(storyboardPatch, {
         appId: "app-b",
         updateStoryboardType: "template",
-        provider: "test.provider",
+        collectUsedContracts() {
+          return ["easyops.api.micro_app.workflow@ViewTodo:1.0.0"];
+        },
       })
     ).toEqual([]);
   });
@@ -1094,17 +1099,13 @@ describe("getAddedContracts", () => {
       ],
     };
 
-    const provider = document.createElement("test.provider") as any;
-    provider.resolve = jest
-      .fn()
-      .mockResolvedValueOnce(["easyops.api.micro_app.workflow@execute:1.0.0"]);
-
-    jest.spyOn(document, "createElement").mockReturnValueOnce(provider);
     expect(
-      await getAddedContracts(storyboardPatch, {
+      await getAddedContracts(storyboardPatch as any, {
         appId: "app-b",
         updateStoryboardType: "snippet",
-        provider: "test.provider",
+        collectUsedContracts() {
+          return ["easyops.api.micro_app.workflow@execute:1.0.0"];
+        },
       })
     ).toEqual(["easyops.api.micro_app.workflow@execute:1.0.0"]);
   });

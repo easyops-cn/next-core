@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.6.1...@next-core/types@1.7.0) (2023-10-12)
+
+
+### Features
+
+* support load ui-patch from v3 bricks ([6814226](https://github.com/easyops-cn/next-core/commit/6814226c58325546c5476a7694050edbf0112488))
+
+
+
+
+
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.6.0...@next-core/types@1.6.1) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/types
+
+
+
+
+
 # [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.5.1...@next-core/types@1.6.0) (2023-08-03)
 
 

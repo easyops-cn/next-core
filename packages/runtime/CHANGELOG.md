@@ -3,6 +3,148 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.15...@next-core/runtime@1.23.0) (2023-10-12)
+
+
+### Features
+
+* support load ui-patch from v3 bricks ([6814226](https://github.com/easyops-cn/next-core/commit/6814226c58325546c5476a7694050edbf0112488))
+
+
+
+
+
+## [1.22.15](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.14...@next-core/runtime@1.22.15) (2023-10-10)
+
+
+### Bug Fixes
+
+* only flush sync for the initial mount ([fffea5e](https://github.com/easyops-cn/next-core/commit/fffea5eff483b37674e27ef08ef40273cb195619))
+
+
+
+
+
+## [1.22.14](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.13...@next-core/runtime@1.22.14) (2023-10-08)
+
+
+### Bug Fixes
+
+* emit router events for devtools ([0ea8288](https://github.com/easyops-cn/next-core/commit/0ea82884062c405b9fcf4571b0627ba2883a15ee))
+
+
+
+
+
+## [1.22.13](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.12...@next-core/runtime@1.22.13) (2023-09-28)
+
+
+### Bug Fixes
+
+* missing getRecentApps in fallback runtime ([c2e654e](https://github.com/easyops-cn/next-core/commit/c2e654e2e361eece6b68361d9dff720d1cacae51))
+
+
+
+
+
+## [1.22.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.11...@next-core/runtime@1.22.12) (2023-09-26)
+
+
+### Bug Fixes
+
+* v3 widget not work well in v2Kit ([fd6f112](https://github.com/easyops-cn/next-core/commit/fd6f112378aa75b7327569fc77543e283a19c9d1))
+
+
+
+
+
+## [1.22.11](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.10...@next-core/runtime@1.22.11) (2023-09-20)
+
+
+### Bug Fixes
+
+* fallback runtime to v2 for v3 bricks in v2 container ([0a2e379](https://github.com/easyops-cn/next-core/commit/0a2e379e0a9b8608c2740a09b419f92102f6bd92))
+
+
+
+
+
+## [1.22.10](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.9...@next-core/runtime@1.22.10) (2023-09-19)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.22.9](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.8...@next-core/runtime@1.22.9) (2023-09-19)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.22.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.7...@next-core/runtime@1.22.8) (2023-09-12)
+
+
+### Bug Fixes
+
+* silent errors when editing and testing functions ([526ea39](https://github.com/easyops-cn/next-core/commit/526ea3928fed8f4d76438999707f45f6513e3f5f))
+
+
+
+
+
+## [1.22.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.6...@next-core/runtime@1.22.7) (2023-09-12)
+
+
+### Bug Fixes
+
+* receive collectUsedContracts as a function ([53b105a](https://github.com/easyops-cn/next-core/commit/53b105a0173f328bafafd3814e02287ddf3f8409))
+
+
+
+
+
+## [1.22.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.5...@next-core/runtime@1.22.6) (2023-09-11)
+
+
+### Bug Fixes
+
+* support api and page-view analytics ([f95243d](https://github.com/easyops-cn/next-core/commit/f95243d1ff58eb370753d512a359cc3f993ac4f9))
+
+
+
+
+
+## [1.22.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.4...@next-core/runtime@1.22.5) (2023-09-08)
+
+
+### Bug Fixes
+
+* fix rerender of control nodes with empty initial ([a025b63](https://github.com/easyops-cn/next-core/commit/a025b6348d1121b736e701f1528621eb4e7b6d6c))
+
+
+
+
+
+## [1.22.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.3...@next-core/runtime@1.22.4) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.22.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.2...@next-core/runtime@1.22.3) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.22.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.1...@next-core/runtime@1.22.2) (2023-08-29)
 
 

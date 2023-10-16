@@ -46,7 +46,50 @@ def get_snippets_from_stories(stories_content):
     return ret_snippets
 
 
-def get_v3_story(br):
+def get_v3_story_provider(pr, examples_content, types_content):
+    story_id = pr.get("name", "")
+    if not story_id:
+        return
+    story = { "storyId": story_id, "v3Brick": True, "type": "provider" }
+    desc = pr.get("description")
+    if type(desc) != dict:
+        desc = {"en": desc, "zh": desc}
+    story["description"] = desc
+
+    text = pr.get("text")
+    if not text:
+        text = desc
+    story["text"] = text
+
+    story["category"] = pr.get("category", "other")
+    story["alias"] = pr.get("alias", [])
+    story["icon"] = pr.get("icon")
+
+    if story_id in examples_content:
+        story["conf"] = examples_content[story_id]
+
+    doc = pr.get("doc", {})
+    if story_id in types_content:
+        doc["interface"] = types_content[story_id]
+    if "id" not in doc:
+        doc["id"] = story_id
+    if "name" not in doc:
+        doc["name"] = story_id
+    if "docKind" not in doc:
+        doc["docKind"] = "provider"
+    if "description" not in doc:
+        doc["description"] = desc
+    doc["properties"] = []
+    doc["events"] = []
+    doc["slots"] = []
+    doc["methods"] = []
+    doc["parts"] = []
+    story["doc"] = doc
+
+    return story
+
+
+def get_v3_story(br, examples_content, types_content):
     story_id = br.get("name", "")
     if not story_id:
         return
@@ -65,7 +108,12 @@ def get_v3_story(br):
     story["alias"] = br.get("alias", [])
     story["icon"] = br.get("icon")
 
+    if story_id in examples_content:
+        story["conf"] = examples_content[story_id]
+
     doc = br.get("doc", {})
+    if story_id in types_content:
+        doc["interface"] = types_content[story_id]
     properties = br.get("properties")
     events = br.get("events")
     slots = br.get("slots")
@@ -75,8 +123,8 @@ def get_v3_story(br):
         doc["id"] = story_id
     if "name" not in doc:
         doc["name"] = story_id
-    if "docKink" not in doc:
-        doc["docKink"] = "brick"
+    if "docKind" not in doc:
+        doc["docKind"] = "brick"
     if "description" not in doc:
         doc["description"] = desc
     if "properties" not in doc:
@@ -89,10 +137,7 @@ def get_v3_story(br):
         doc["parts"] = parts
     if "slots" not in doc:
         doc["slots"] = slots
-    # TODO: interface in doc
     story["doc"] = doc
-
-    # TODO: conf
 
     return story
 
@@ -100,6 +145,8 @@ def get_v3_story(br):
 def collect_stories(install_path):
     stories_path = os.path.join(install_path, "dist", "stories.json")
     manifest_path = os.path.join(install_path, "dist", "manifest.json")
+    examples_path = os.path.join(install_path, "dist", "examples.json")
+    types_path = os.path.join(install_path, "dist", "types.json")
     # v2 brick
     if os.path.exists(stories_path):
         with open(stories_path) as stories_file:
@@ -107,14 +154,26 @@ def collect_stories(install_path):
             return stories_content
     # v3 brick
     elif os.path.exists(manifest_path):
+        stories_content = []
         with open(manifest_path) as manifest_file:
             manifest_content = simplejson.load(manifest_file)
-            stories_content = []
+            examples_content = {}
+            if os.path.exists(examples_path):
+                with open(examples_path) as examples_file:
+                    examples_content = simplejson.load(examples_file)
+            types_content = {}
+            if os.path.exists(types_path):
+                with open(types_path) as types_file:
+                    types_content = simplejson.load(types_file)
             for br in manifest_content.get("bricks", []):
-                story = get_v3_story(br)
+                story = get_v3_story(br, examples_content, types_content)
                 if story:
                     stories_content.append(story)
-            return stories_content
+            for pr in manifest_content.get("providers", []):
+                story = get_v3_story_provider(pr, examples_content, types_content)
+                if story:
+                    stories_content.append(story)
+        return stories_content
     return []
 
 
@@ -227,12 +286,23 @@ def remove_tar_gz_file(nb_targz_path):
     os.remove(nb_targz_path)
 
 
+def get_version(install_path):
+    version_file = os.path.join(install_path, "version.ini")
+    package_version = "0.0.0"
+    try:
+        with open(version_file, "r") as f:
+            lines = f.readlines()
+            package_version = str.strip(lines[1])
+    except:
+        print "version.ini read error, use version", package_version
+    return package_version
+
+
+
 def report_brick_next(org, install_path):
     # 读取版本信息
-    version_file = os.path.join(install_path, "version.ini")
-    with open(version_file, "r") as f:
-        lines = f.readlines()
-        package_version = str.strip(lines[1])
+    package_version = get_version(install_path)
+
     targz_name = "brick_next.tar.gz"
     brick_targz_path = os.path.join(install_path, targz_name)
     if not mk_nb_tar_gz(brick_targz_path, install_path):
@@ -245,10 +315,7 @@ def report_brick_next(org, install_path):
 
 def report_nb(org, install_path):
     # 读取版本信息
-    version_file = os.path.join(install_path, "version.ini")
-    with open(version_file, "r") as f:
-        lines = f.readlines()
-        package_version = str.strip(lines[1])
+    package_version = get_version(install_path)
 
     package_name, bricks_content, stories_content, snippets_content, contract_content = collect(
         install_path)
@@ -266,10 +333,7 @@ def report_nb(org, install_path):
 
 def report_nt(org, install_path):
     # 读取版本信息
-    version_file = os.path.join(install_path, "version.ini")
-    with open(version_file, "r") as f:
-        lines = f.readlines()
-        package_version = str.strip(lines[1])
+    package_version = get_version(install_path)
 
     package_name = os.path.basename(install_path)
     if package_name:
@@ -306,4 +370,3 @@ if __name__ == "__main__":
         report_nt(org, install_path)
     else:
         sys.exit(0)
-

@@ -328,7 +328,7 @@ const getBootstrapData = (options?: {
 });
 
 const myTimeoutProvider = jest.fn(
-  (timeout: number, result: unknown) =>
+  (timeout: number, result?: unknown) =>
     new Promise((resolve) => {
       setTimeout(() => resolve(result), timeout);
     })
@@ -350,6 +350,8 @@ customElements.define(
   createProviderClass(myAbortProvider)
 );
 
+customElements.define("basic.apply-ui-version", createProviderClass(jest.fn()));
+
 describe("Runtime", () => {
   let createRuntime: typeof _createRuntime;
   let getRuntime: typeof _getRuntime;
@@ -360,6 +362,7 @@ describe("Runtime", () => {
 
   beforeEach(() => {
     window.NO_AUTH_GUARD = true;
+    delete window.DISABLE_REACT_FLUSH_SYNC;
     const main = document.createElement("div");
     main.id = "main-mount-point";
     const portal = document.createElement("div");
@@ -391,6 +394,7 @@ describe("Runtime", () => {
       getBootstrapData({ settings: true, locales: true })
     );
     getHistory().push("/app-a");
+    expect(window.DISABLE_REACT_FLUSH_SYNC).toBeFalsy();
     await getRuntime().bootstrap();
     expect(loadNotificationService).not.toBeCalled();
     expect(loadDialogService).not.toBeCalled();
@@ -452,6 +456,10 @@ describe("Runtime", () => {
     expect(document.title).toBe("Hello - DevOps 管理专家");
     getRuntime().applyPageTitle("");
     expect(document.title).toBe("DevOps 管理专家");
+
+    expect(window.DISABLE_REACT_FLUSH_SYNC).toBeFalsy();
+    await myTimeoutProvider(0);
+    expect(window.DISABLE_REACT_FLUSH_SYNC).toBeTruthy();
 
     // Go to a redirect page
     getHistory().push("/app-a/0");
@@ -536,7 +544,14 @@ describe("Runtime", () => {
   });
 
   test("single portal brick", async () => {
-    createRuntime().initialize(getBootstrapData());
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize(getBootstrapData());
 
     getHistory().push("/app-a/3");
     await getRuntime().bootstrap();
@@ -554,6 +569,12 @@ describe("Runtime", () => {
         </div>,
       ]
     `);
+    expect(finishPageView).toBeCalledTimes(1);
+    expect(finishPageView).toBeCalledWith({
+      status: "ok",
+      path: "/app-a/3",
+      pageTitle: "DevOps 管理专家",
+    });
   });
 
   test("incremental sub-router rendering", async () => {
@@ -729,6 +750,7 @@ describe("Runtime", () => {
 
   test("unauthenticated", async () => {
     window.NO_AUTH_GUARD = false;
+    const finishPageView = jest.fn();
     createRuntime({
       hooks: {
         auth: {
@@ -739,15 +761,21 @@ describe("Runtime", () => {
             return {};
           },
         },
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
       },
     }).initialize(getBootstrapData());
     getHistory().push("/app-b/");
     await getRuntime().bootstrap();
     expect(getHistory().location.pathname).toBe("/auth/login");
+    expect(finishPageView).toBeCalledTimes(1);
+    expect(finishPageView).toBeCalledWith({ status: "redirected" });
   });
 
   test("no app matched", async () => {
     window.NO_AUTH_GUARD = false;
+    const finishPageView = jest.fn();
     createRuntime({
       hooks: {
         auth: {
@@ -757,6 +785,9 @@ describe("Runtime", () => {
           getAuth() {
             return {};
           },
+        },
+        pageView: {
+          create: jest.fn(() => finishPageView),
         },
       },
     }).initialize({
@@ -780,11 +811,21 @@ describe("Runtime", () => {
     getHistory().push("/app-unknown/");
     await getRuntime().bootstrap();
     expect(getHistory().location.pathname).toBe("/sso-auth/login");
+    expect(finishPageView).toBeCalledTimes(2);
+    expect(finishPageView).toHaveBeenNthCalledWith(1, { status: "redirected" });
+    expect(finishPageView).toHaveBeenNthCalledWith(2, { status: "not-found" });
   });
 
   test("failed", async () => {
     consoleError.mockReturnValueOnce();
-    createRuntime().initialize(getBootstrapData());
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize(getBootstrapData());
     getHistory().push("/app-b/fail");
     await getRuntime().bootstrap();
     expect(consoleError).toBeCalledTimes(1);
@@ -802,6 +843,10 @@ describe("Runtime", () => {
         />,
       ]
     `);
+    expect(finishPageView).toBeCalledTimes(1);
+    expect(finishPageView).toBeCalledWith({
+      status: "failed",
+    });
   });
 
   test("API unauthenticated", async () => {

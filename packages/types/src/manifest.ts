@@ -169,6 +169,11 @@ export interface MicroApp {
    * 该应用是否是独立打包应用
    */
   standaloneMode?: boolean;
+
+  /**
+   * UI 版本
+   */
+  uiVersion?: string;
 }
 
 /**

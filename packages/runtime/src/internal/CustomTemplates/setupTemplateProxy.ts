@@ -3,6 +3,7 @@ import { hasOwnProperty } from "@next-core/utils/general";
 import { clamp } from "lodash";
 import {
   symbolForAsyncComputedPropsFromHost,
+  symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
   symbolForTplStateStoreId,
 } from "./constants.js";
@@ -85,7 +86,8 @@ export function setupTemplateProxy(
           ...(hasOwnProperty(hostBrick.runtimeContext, "forEachItem")
             ? setupTemplateExternalBricks(
                 insertBricks,
-                hostBrick.runtimeContext.forEachItem
+                hostBrick.runtimeContext.forEachItem,
+                hostBrick.runtimeContext.forEachIndex!
               )
             : insertBricks)
         );
@@ -121,24 +123,31 @@ export function setupTemplateProxy(
 // External bricks of a template, have the same forEachItem context as their host.
 function setupTemplateExternalBricks(
   bricks: BrickConf[],
-  forEachItem: unknown
+  forEachItem: unknown,
+  forEachIndex: number
 ): BrickConf[] {
   return bricks.map((brick) => ({
     ...brick,
     [symbolForTPlExternalForEachItem]: forEachItem,
+    [symbolForTPlExternalForEachIndex]: forEachIndex,
     slots: Object.fromEntries(
       Object.entries(brick.slots ?? {}).map(([slotName, slotConf]) => [
         slotName,
         slotConf.type === "routes"
           ? {
               type: "routes",
-              routes: setupTemplateExternalRoutes(slotConf.routes, forEachItem),
+              routes: setupTemplateExternalRoutes(
+                slotConf.routes,
+                forEachItem,
+                forEachIndex
+              ),
             }
           : {
               type: "bricks",
               bricks: setupTemplateExternalBricks(
                 slotConf.bricks ?? [],
-                forEachItem
+                forEachItem,
+                forEachIndex
               ),
             },
       ])
@@ -148,14 +157,19 @@ function setupTemplateExternalBricks(
 
 function setupTemplateExternalRoutes(
   routes: RouteConf[],
-  forEachItem: unknown
+  forEachItem: unknown,
+  forEachIndex: number
 ): RouteConf[] {
   return routes.map((route) =>
     route.type && route.type !== "bricks"
       ? route
       : {
           ...route,
-          bricks: setupTemplateExternalBricks(route.bricks, forEachItem),
+          bricks: setupTemplateExternalBricks(
+            route.bricks,
+            forEachItem,
+            forEachIndex
+          ),
         }
   );
 }

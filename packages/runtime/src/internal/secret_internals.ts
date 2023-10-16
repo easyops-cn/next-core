@@ -7,7 +7,6 @@ import type {
   RuntimeSnippet,
   ContextConf,
 } from "@next-core/types";
-import { loadBricksImperatively } from "@next-core/loader";
 import { pick } from "lodash";
 import {
   _internalApiGetRenderId,
@@ -98,6 +97,12 @@ export async function renderUseBrick(
   const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
 
   await postAsyncRender(output, scopedRuntimeContext, scopedStores);
+
+  if (output.node?.tag === RenderTag.PLACEHOLDER) {
+    throw new Error(
+      "The root brick of useBrick cannot be an ignored control node"
+    );
+  }
 
   if (output.node?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
@@ -345,11 +350,7 @@ export function getRenderId() {
 
 export async function getAddedContracts(
   storyboardPatch: PreviewStoryboardPatch,
-  {
-    appId,
-    updateStoryboardType,
-    provider: collectContractProvider,
-  }: PreviewOption
+  { appId, updateStoryboardType, collectUsedContracts }: PreviewOption
 ): Promise<string[]> {
   const storyboard = _internalApiGetStoryboardInBootstrapData(appId);
   let updatedStoryboard;
@@ -381,11 +382,8 @@ export async function getAddedContracts(
 
   const addedContracts: string[] = [];
 
-  if (updatedStoryboard && collectContractProvider) {
-    await loadBricksImperatively([collectContractProvider], getBrickPackages());
-
-    const provider = document.createElement(collectContractProvider) as any;
-    const contractApis = await provider.resolve(updatedStoryboard);
+  if (updatedStoryboard && collectUsedContracts) {
+    const contractApis = await collectUsedContracts(updatedStoryboard);
 
     contractApis.forEach((api: string) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

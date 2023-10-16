@@ -9,6 +9,7 @@ import type {
   CustomTemplateProxyBasicProperty,
   CustomTemplateProxySlot,
   SlotsConfOfBricks,
+  Storyboard,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
@@ -23,6 +24,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   // `useBrick` has a local tpl state store scope
   tplStateStoreScope?: DataStore<"STATE">[];
   forEachItem?: unknown;
+  forEachIndex?: number;
   appendI18nNamespace?: string;
 
   formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
@@ -33,7 +35,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
 export type AsyncPropertyEntry = [
   name: string,
   value: Promise<unknown>,
-  ignoreUndefined?: boolean
+  ignoreUndefined?: boolean,
 ];
 
 export interface ElementHolder {
@@ -51,19 +53,27 @@ export interface RenderRoot extends BaseRenderNode {
 
 export interface RenderBrick extends BaseRenderNode, RuntimeBrick {
   tag: RenderTag.BRICK;
-  return: RenderNode;
+  return: RenderReturnNode;
   hasTrackingControls?: boolean;
+}
+
+export interface RenderPlaceholder extends BaseRenderNode {
+  tag: RenderTag.PLACEHOLDER;
+  return: RenderReturnNode;
 }
 
 export interface BaseRenderNode {
   tag: RenderTag;
-  child?: RenderBrick;
-  sibling?: RenderBrick;
-  return?: RenderNode | null;
+  child?: RenderChildNode;
+  sibling?: RenderChildNode;
+  return?: RenderReturnNode | null;
   childElements?: HTMLElement[];
 }
 
-export type RenderNode = RenderRoot | RenderBrick;
+export type RenderNode = RenderRoot | RenderBrick | RenderPlaceholder;
+
+export type RenderChildNode = RenderBrick | RenderPlaceholder;
+export type RenderReturnNode = RenderRoot | RenderBrick;
 
 export interface RuntimeBrick {
   type: string;
@@ -82,7 +92,7 @@ export type MetaInfoOfEventListener = [
   string,
   // For compatibility of devtools, leave the second argument there.
   null | undefined,
-  BrickEventHandler
+  BrickEventHandler,
 ];
 
 export type RememberedEventListener = [string, EventListener];
@@ -149,5 +159,5 @@ export interface PreviewOption {
   appId: string;
   formId?: string;
   updateStoryboardType?: "route" | "template" | "snippet";
-  provider?: string;
+  collectUsedContracts?(storyboard: Storyboard): string[] | Promise<string[]>;
 }

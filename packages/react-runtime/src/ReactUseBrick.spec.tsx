@@ -20,6 +20,7 @@ jest.mock("@next-core/runtime", () => ({
     getRenderId: jest.fn(),
   },
   handleHttpError: jest.fn(),
+  getV2RuntimeFromDll: jest.fn(),
 }));
 
 export function ListByUseBrick({

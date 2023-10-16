@@ -13,9 +13,6 @@ declare module "@ungap/event-target" {
 }
 
 interface Window {
-  /** For Google Analytics. */
-  dataLayer?: IArguments[];
-
   /** A map of versions of core packages. */
   BRICK_NEXT_VERSIONS?: Record<string, string>;
 
@@ -68,6 +65,13 @@ interface Window {
 
   /** For standalone usage of bricks */
   STANDALONE_BRICK_PACKAGES?: unknown[];
+
+  DISABLE_REACT_FLUSH_SYNC?: boolean;
+
+  /** For brick next devtools only */
+  __dev_only_getAllContextValues(options: {
+    tplStateStoreId?: string;
+  }): Record<string, unknown>;
 }
 
 declare const __webpack_public_path__: string;

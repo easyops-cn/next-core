@@ -15,7 +15,8 @@ export function traverseStoryboardFunctions(
 
 export function traverseStoryboardFunction(
   fn: StoryboardFunction,
-  beforeVisitGlobal: BeforeVisitGlobal
+  beforeVisitGlobal: BeforeVisitGlobal,
+  silentErrors?: boolean
 ): void {
   try {
     precookFunction(fn.source, {
@@ -24,7 +25,9 @@ export function traverseStoryboardFunction(
       hooks: { beforeVisitGlobal },
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(`Parse storyboard function "${fn.name}" failed:`, error);
+    if (!silentErrors) {
+      // eslint-disable-next-line no-console
+      console.error(`Parse storyboard function "${fn.name}" failed:`, error);
+    }
   }
 }

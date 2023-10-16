@@ -7,10 +7,12 @@ import {
 } from "@next-api-sdk/api-gateway-sdk";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
+import { registerMocks } from "./mocks.js";
 
 jest.mock("@next-core/http");
 jest.mock("@next-api-sdk/api-gateway-sdk");
 jest.mock("@next-api-sdk/micro-app-standalone-sdk");
+jest.mock("./mocks.js");
 const consoleError = jest.spyOn(console, "error");
 const consoleWarn = jest.spyOn(console, "warn");
 
@@ -216,6 +218,7 @@ describe("loadBootstrapData", () => {
 
     await fulfilStoryboard(data.storyboards[0]);
     expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(1);
+    expect(registerMocks).toBeCalledTimes(1);
 
     expect(data.storyboards[0]).toEqual({
       app: {

@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.1.4...@next-core/element@1.1.5) (2023-10-12)
+
+
+### Bug Fixes
+
+* fix boolean property defaults to true ([29e547e](https://github.com/easyops-cn/next-core/commit/29e547ecb3c523fb7c870efd6fc28ae5e0b628a1))
+
+
+
+
+
+## [1.1.4](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.1.3...@next-core/element@1.1.4) (2023-09-12)
+
+**Note:** Version bump only for package @next-core/element
+
+
+
+
+
+## [1.1.3](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.1.2...@next-core/element@1.1.3) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/element
+
+
+
+
+
 ## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.1.1...@next-core/element@1.1.2) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/element

@@ -8,6 +8,7 @@ import {
 import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
 import { createProviderClass } from "@next-core/utils/general";
 import { __test_only } from "@next-core/runtime";
+import { YAMLException } from "js-yaml";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
 import type { RuntimeContext, RuntimeHelpers } from "./interfaces.js";
 
@@ -136,6 +137,8 @@ const menuList = [
           },
           {
             text: "Dynamic Item 2",
+            type: "subMenu",
+            items: [],
           },
         ],
       ],
@@ -157,6 +160,11 @@ const menuList = [
           },
           {
             text: "Dynamic Item 4",
+            children: [
+              {
+                text: "Dynamic Item 4 - 1",
+              },
+            ],
           },
         ],
       ],
@@ -181,7 +189,7 @@ const menuList = [
 });
 (
   InstalledMicroAppApi_getMenusInfo as jest.Mock<typeof InstanceApi_postSearch>
-).mockImplementation(async (menuId, params) => {
+).mockImplementation(async (menuId) => {
   return {
     menus: menuList.filter((menu) => menu.menuId === menuId),
   } as InstanceApi_PostSearchResponseBody;
@@ -205,6 +213,8 @@ const menuList = [
 });
 
 const runtimeHelpers: RuntimeHelpers = __test_only;
+
+const consoleError = jest.spyOn(console, "error");
 
 describe("fetchMenuById", () => {
   beforeEach(() => {
@@ -246,6 +256,7 @@ describe("fetchMenuById", () => {
                     text: "Menu A - Group X",
                     type: "group",
                     groupId: "group-x",
+                    groupFrom: "group-x-from",
                     sort: 30,
                     children: [
                       {
@@ -377,46 +388,40 @@ describe("fetchMenuById", () => {
         {
           text: "Menu A - Item 0",
           to: "/other-app/a/0",
-          children: [],
         },
         {
           text: "Menu A - Item 1",
           to: "/my-app/a/1",
           sort: 10,
-          children: [],
         },
         {
           text: "Menu A - Item 1.1",
           sort: 15,
-          children: [],
         },
         {
           text: "Menu A - Item 2",
           sort: 20,
-          children: [],
         },
         {
           text: "Menu A - Item 2.1",
           sort: 25,
-          children: [],
         },
         {
           title: "Menu A - Group X",
           type: "group",
+          groupId: "group-x",
+          groupFrom: "group-x-from",
           items: [
             {
               text: "Group X - i",
-              children: [],
             },
             {
               text: "Group X - ii",
               sort: 1,
-              children: [],
             },
             {
               text: "Group X - iii",
               sort: 2,
-              children: [],
             },
           ],
         },
@@ -424,7 +429,6 @@ describe("fetchMenuById", () => {
           text: "Dynamic Item 9",
           to: "/other-app/dynamic/9",
           sort: 35,
-          children: [],
         },
         {
           title: "Menu A - Sub",
@@ -432,7 +436,6 @@ describe("fetchMenuById", () => {
           items: [
             {
               text: "Sub",
-              children: [],
             },
           ],
         },
@@ -441,6 +444,7 @@ describe("fetchMenuById", () => {
   });
 
   test("non-standalone", async () => {
+    consoleError.mockReturnValue();
     const runtimeContext = {
       app: {
         id: "my-app",
@@ -454,12 +458,10 @@ describe("fetchMenuById", () => {
       title: "my-host",
       menuItems: [
         {
-          children: [],
           to: "/my-app",
           text: "Menu Item 1",
         },
         {
-          children: [],
           text: "Menu Item 3",
           to: {
             pathname: "/my-app",
@@ -469,17 +471,14 @@ describe("fetchMenuById", () => {
         {
           text: "Menu Item 4",
           to: "/my-app",
-          children: [],
         },
         {
           text: "Menu Item 5",
           to: "/my-app",
-          children: [],
         },
         {
           text: "Menu Item 6",
           to: "/next/test",
-          children: [],
         },
         {
           title: "Menu Item 7",
@@ -491,17 +490,14 @@ describe("fetchMenuById", () => {
               items: [
                 {
                   text: "Menu Item 7 - 1",
-                  children: [],
                 },
                 {
                   text: "Menu Item 7 - 2",
                   sort: 20,
-                  children: [],
                 },
                 {
                   text: "Menu Item 7 - 3",
                   sort: 30,
-                  children: [],
                 },
               ],
             },
@@ -509,6 +505,9 @@ describe("fetchMenuById", () => {
         },
       ],
     });
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith(expect.any(YAMLException));
+    consoleError.mockReset();
   });
 
   test("showKey", async () => {
@@ -553,20 +552,18 @@ describe("fetchMenuById", () => {
         {
           text: "Dynamic Item 1",
           to: "/my-app/dynamic/1",
-          children: [],
         },
         {
           text: "Dynamic Item 2",
-          children: [],
         },
         {
           text: "Dynamic Item 3",
           to: "/other-app/dynamic/3",
-          children: [],
         },
         {
-          text: "Dynamic Item 4",
-          children: [],
+          type: "subMenu",
+          title: "Dynamic Item 4",
+          items: [{ text: "Dynamic Item 4 - 1" }],
         },
       ],
     });

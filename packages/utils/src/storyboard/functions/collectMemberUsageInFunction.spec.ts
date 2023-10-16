@@ -1,12 +1,11 @@
 import { describe, test, expect } from "@jest/globals";
-import {
-  strictCollectMemberUsageInFunction,
-  collectMemberUsageInFunction,
-} from "./collectMemberUsageInFunction.js";
+import { collectMemberUsageInFunction } from "./collectMemberUsageInFunction.js";
 
-describe("strictCollectMemberUsageInFunction", () => {
+const consoleError = jest.spyOn(console, "error");
+
+describe("collectMemberUsageInFunction", () => {
   test("basic usage", () => {
-    const used = strictCollectMemberUsageInFunction(
+    const used = collectMemberUsageInFunction(
       {
         name: "test",
         source: `function test() {
@@ -20,7 +19,7 @@ describe("strictCollectMemberUsageInFunction", () => {
 
   test("with non static usage", () => {
     expect(() => {
-      strictCollectMemberUsageInFunction(
+      collectMemberUsageInFunction(
         {
           name: "test",
           source: `function test(input) {
@@ -33,34 +32,68 @@ describe("strictCollectMemberUsageInFunction", () => {
       `"Non-static usage of FN is prohibited, check your function: "test""`
     );
   });
+
+  test("parse error", () => {
+    consoleError.mockReturnValueOnce();
+    const used = collectMemberUsageInFunction(
+      {
+        name: "test",
+        source: `function test(input) {
+          return abc - ;
+        }`,
+      },
+      "FN"
+    );
+    expect([...used]).toEqual([]);
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith(
+      'Parse storyboard function "test" failed:',
+      expect.anything()
+    );
+  });
 });
 
-describe("collectMemberUsageInFunction", () => {
+describe("collectMemberUsageInFunction with silent errors", () => {
   test("basic usage", () => {
-    const usage = collectMemberUsageInFunction(
+    const used = collectMemberUsageInFunction(
       {
         name: "test",
         source: `function test() {
           return FN.hello(), FN.goodbye();
         }`,
       },
-      "FN"
+      "FN",
+      true
     );
-    expect([...usage.usedProperties]).toEqual(["hello", "goodbye"]);
-    expect(usage.hasNonStaticUsage).toBe(false);
+    expect([...used]).toEqual(["hello", "goodbye"]);
   });
 
   test("with non static usage", () => {
-    const usage = collectMemberUsageInFunction(
+    const used = collectMemberUsageInFunction(
       {
         name: "test",
         source: `function test(input) {
           return FN.hello(), FN[input]();
         }`,
       },
-      "FN"
+      "FN",
+      true
     );
-    expect([...usage.usedProperties]).toEqual(["hello"]);
-    expect(usage.hasNonStaticUsage).toBe(true);
+    expect([...used]).toEqual(["hello"]);
+  });
+
+  test("parse error", () => {
+    const used = collectMemberUsageInFunction(
+      {
+        name: "test",
+        source: `function test(input) {
+          return abc - ;
+        }`,
+      },
+      "FN",
+      true
+    );
+    expect([...used]).toEqual([]);
+    expect(consoleError).not.toBeCalled();
   });
 });

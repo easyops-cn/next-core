@@ -5,6 +5,7 @@ export interface Example {
   mode: "html" | "yaml";
   html: string;
   yaml: string;
+  gap?: boolean;
 }
 
 export function getExamples(

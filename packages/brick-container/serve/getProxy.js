@@ -1,10 +1,13 @@
 import { responseInterceptor } from "http-proxy-middleware";
 import _ from "lodash";
+import jsYaml from "js-yaml";
 import { getBrickPackages } from "@next-core/serve-helpers";
 import { getStoryboards } from "./utils/getStoryboards.js";
 import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
+
+const { safeDump, JSON_SCHEMA } = jsYaml;
 
 export default function getProxy(env, getRawIndexHtml) {
   const {
@@ -15,6 +18,7 @@ export default function getProxy(env, getRawIndexHtml) {
     useLocalContainer,
     localBricks,
     localBrickFolders,
+    userConfigByApps,
   } = env;
   if (useRemote) {
     return [
@@ -151,7 +155,10 @@ export default function getProxy(env, getRawIndexHtml) {
               );
               return responseBuffer;
             }
-            if (res.statusCode !== 200 && req.method !== "GET") {
+            if (
+              res.statusCode < 200 ||
+              (res.statusCode >= 300 && req.method !== "GET")
+            ) {
               return responseBuffer;
             }
             if ((res.getHeader("content-type") || "").includes("text/html")) {
@@ -242,26 +249,56 @@ export default function getProxy(env, getRawIndexHtml) {
                 req.path
               )
             ) {
-              const content = responseBuffer.toString("utf-8");
-              const result = JSON.parse(content);
+              try {
+                const content = responseBuffer.toString("utf-8");
+                const result = JSON.parse(content);
 
-              const [storyboards, brickPackages] = await Promise.all([
-                getStoryboards({ rootDir, localMicroApps }, true),
-                getBrickPackages(localBrickFolders, true, localBricks),
-              ]);
+                const [storyboards, brickPackages] = await Promise.all([
+                  getStoryboards({ rootDir, localMicroApps }, true),
+                  getBrickPackages(localBrickFolders, true, localBricks),
+                ]);
 
-              result.brickPackages = concatBrickPackages(
-                brickPackages,
-                result.brickPackages
-              );
-              result.storyboards = storyboards.concat(result.storyboards);
+                result.brickPackages = concatBrickPackages(
+                  brickPackages,
+                  result.brickPackages
+                );
+                result.storyboards = storyboards.concat(result.storyboards);
 
-              // Make it compatible with v2 apps.
-              // delete result.templatePackages;
+                // Make it compatible with v2 apps.
+                // delete result.templatePackages;
 
-              removeCacheHeaders(res);
-              return JSON.stringify(result);
+                removeCacheHeaders(res);
+                return JSON.stringify(result);
+              } catch (error) {
+                console.error("Stub bootstrap.json failed:", error);
+              }
             }
+
+            if (
+              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/conf\.yaml$/.test(
+                req.path
+              ) ||
+              /^\/next\/[^/]+\/conf\.yaml$/.test(req.path)
+            ) {
+              removeCacheHeaders(res);
+              if (userConfigByApps) {
+                if (res.statusCode === 204) {
+                  res.statusCode = 200;
+                  res.statusMessage = "OK";
+                }
+                const conf = {
+                  user_config_by_apps: userConfigByApps,
+                };
+                return safeDump(conf, {
+                  indent: 2,
+                  schema: JSON_SCHEMA,
+                  skipInvalid: true,
+                  noRefs: true,
+                  noCompatMode: true,
+                });
+              }
+            }
+
             return responseBuffer;
           }
         ),

@@ -26,6 +26,7 @@ import { injectedBrickPackages } from "./injected.js";
 import { type AppForCheck, hasInstalledApp } from "./hasInstalledApp.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { listenDevtoolsEagerly } from "./devtools.js";
+import { getV2RuntimeFromDll } from "../getV2RuntimeFromDll.js";
 
 let runtime: Runtime;
 
@@ -39,6 +40,12 @@ export interface RuntimeOptions {
 
 export interface ImagesFactory {
   get(name: string): string;
+}
+
+export interface PageViewInfo {
+  status: "ok" | "failed" | "redirected" | "not-found";
+  path?: string;
+  pageTitle?: string;
 }
 
 export interface RuntimeHooks {
@@ -105,6 +112,9 @@ export interface RuntimeHooks {
     onClose(listener: () => void): void;
     reset(): void;
   };
+  pageView?: {
+    create(): (info: PageViewInfo) => void;
+  };
 }
 
 export interface RuntimeHooksMenuHelpers {
@@ -138,9 +148,41 @@ export function createRuntime(options?: RuntimeOptions) {
   return runtime;
 }
 
-export function getRuntime() {
+function getRuntimeV3() {
   return runtime;
 }
+
+// istanbul ignore next
+function getRuntimeV2Factory() {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return function getRuntimeV2() {
+      return new Proxy(v2Kit.getRuntime(), {
+        get(...args) {
+          const key = args[1];
+          switch (key) {
+            case "getCurrentApp":
+            case "getRecentApps":
+            case "hasInstalledApp":
+            case "getDesktops":
+            case "getLaunchpadSettings":
+            case "getLaunchpadSiteMap":
+            case "toggleLaunchpadEffect":
+            case "applyPageTitle":
+            case "getNavConfig":
+            case "getFeatureFlags":
+            case "getMiscSettings":
+            case "getBrandSettings":
+              return Reflect.get(...args);
+          }
+        },
+      }) as unknown as Runtime;
+    };
+  }
+}
+
+// istanbul ignore next
+export const getRuntime = getRuntimeV2Factory() || getRuntimeV3;
 
 export class Runtime {
   #initialized = false;
@@ -153,10 +195,7 @@ export class Runtime {
     this.#initialized = true;
     normalizeBootstrapData(data);
     bootstrapData = data;
-    const { notification, dialog } = (data.settings?.presetBricks ?? {}) as {
-      notification?: string | false;
-      dialog?: string | false;
-    };
+    const { notification, dialog } = this.getPreseBricks();
     if (notification !== false) {
       loadNotificationService(
         notification ?? "basic.show-notification",
@@ -251,6 +290,14 @@ export class Runtime {
 
   loadBricks(bricks: string[] | Set<string>) {
     return loadBricksImperatively(bricks, getBrickPackages());
+  }
+
+  getPreseBricks() {
+    return (bootstrapData?.settings?.presetBricks ?? {}) as {
+      notification?: string | false;
+      dialog?: string | false;
+      uiPatch?: boolean;
+    };
   }
 }
 

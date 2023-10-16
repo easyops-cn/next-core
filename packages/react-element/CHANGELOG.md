@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.15](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.14...@next-core/react-element@1.0.15) (2023-10-12)
+
+**Note:** Version bump only for package @next-core/react-element
+
+
+
+
+
+## [1.0.14](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.13...@next-core/react-element@1.0.14) (2023-10-10)
+
+
+### Bug Fixes
+
+* only flush sync for the initial mount ([fffea5e](https://github.com/easyops-cn/next-core/commit/fffea5eff483b37674e27ef08ef40273cb195619))
+
+
+
+
+
+## [1.0.13](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.12...@next-core/react-element@1.0.13) (2023-09-22)
+
+
+### Bug Fixes
+
+* flush sync ([09de161](https://github.com/easyops-cn/next-core/commit/09de161e2053ab1bae14867f1f13e1907a74835f))
+
+
+
+
+
+## [1.0.12](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.11...@next-core/react-element@1.0.12) (2023-09-12)
+
+**Note:** Version bump only for package @next-core/react-element
+
+
+
+
+
+## [1.0.11](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.10...@next-core/react-element@1.0.11) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/react-element
+
+
+
+
+
 ## [1.0.10](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.9...@next-core/react-element@1.0.10) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/react-element

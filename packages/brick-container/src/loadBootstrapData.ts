@@ -15,6 +15,7 @@ import { merge } from "lodash";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
 import { imagesFactory } from "./images.js";
+import { registerMocks } from "./mocks.js";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -81,9 +82,8 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
     }
   }
 
-  const [bootstrapResult, confString, runtimeData] = await Promise.all(
-    requests
-  );
+  const [bootstrapResult, confString, runtimeData] =
+    await Promise.all(requests);
 
   mergeConf(bootstrapResult, confString);
 
@@ -219,6 +219,7 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
 
   fixStoryboardImgSrc(storyboard);
   initializeAppConfig(storyboard.app);
+  registerMocks(storyboard.meta?.mocks);
 }
 
 function initializeAppConfig(app: MicroApp) {

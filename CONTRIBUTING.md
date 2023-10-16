@@ -21,6 +21,8 @@
 
 ```js
 // File: dev.config.mjs
+// @ts-check
+/** @type {import("@next-core/brick-container").DevConfig} */
 export default {
   brickFolders: [
     // 默认使用 `node_modules/@next-bricks` 及 `node_modules/@bricks` 作为构件包文件夹。
@@ -30,7 +32,54 @@ export default {
     // 引用其他仓库的构件包。注：可使用通配符，详见 https://github.com/isaacs/node-glob
     "../next-*/bricks",
   ],
+
+  /** 服务端设置（特性开关和杂项配置等） */
+  /* settings: {
+    featureFlags: {
+      "my-flag": true,
+    }
+    misc: {
+      "myMisc": "anything",
+    },
+  }, */
+
+  /** 微应用配置 */
+  /* userConfigByApps: {
+    "my-app-id": {
+      myAnyAppConfig: "anything",
+    },
+    // ...
+  }, */
+
+  /** API mocks */
+  /* mocks: [
+    (req, res, next) => {
+      switch (`${req.method} ${req.path}`) {
+        case "GET /api/xxx":
+          res.send("fake response");
+          return;
+      }
+      next();
+    },
+    // ...
+  ], */
 };
+```
+
+配置 `conf.yaml` 可以覆盖远端配置：
+
+```yaml
+sys_settings:
+  # 特性开关
+  feature_flags:
+    my-flag: true
+  # 杂项配置
+  misc:
+    myMiscConfig: as you wish
+# 微应用配置
+user_config_by_apps:
+  my-app:
+    myAppConfig: anything
 ```
 
 ## Brick playground

@@ -79,13 +79,18 @@ interface V2AdapterBrick {
 let v2AdapterPromise: Promise<V2AdapterBrick> | undefined;
 const V2_ADAPTER_LOAD_BRICKS = "v2-adapter.load-bricks";
 
+interface BrickItem {
+  fullName: string;
+  lastName: string;
+}
+
 // Get brick/processor items including their dependencies
 function getItemsByPkg(
   type: "bricks" | "processors",
   list: string[] | Set<string>,
   brickPackagesMap: Map<string, BrickPackage>
 ) {
-  const itemsByPkg = new Map<BrickPackage, string[]>();
+  const itemsByPkg = new Map<BrickPackage, BrickItem[]>();
   const listToLoad = new Set<string>();
   const add = (item: string) => {
     if (listToLoad.has(item)) {
@@ -94,17 +99,17 @@ function getItemsByPkg(
     listToLoad.add(item);
     let pkg: BrickPackage | undefined;
     let namespace: string;
-    let itemName: string | undefined;
+    let lastName: string | undefined;
     if (type === "processors" || item.includes(".")) {
-      [namespace, itemName] = item.split(".");
+      [namespace, lastName] = item.split(".");
       const pkgId = `bricks/${
         type === "processors" ? getProcessorPackageName(namespace) : namespace
       }`;
       pkg = brickPackagesMap.get(pkgId);
     } else {
-      itemName = item;
+      lastName = item;
       for (const p of brickPackagesMap.values()) {
-        if (p.elements?.some((e) => e === itemName)) {
+        if (p.elements?.some((e) => e === lastName)) {
           pkg = p;
           break;
         }
@@ -122,7 +127,7 @@ function getItemsByPkg(
       groupItems = [];
       itemsByPkg.set(pkg, groupItems);
     }
-    groupItems.push(itemName!);
+    groupItems.push({ fullName: item, lastName });
 
     // Load their dependencies too
     const deps = pkg.dependencies?.[item];
@@ -141,37 +146,31 @@ function getItemsByPkg(
 async function loadBrickModule(
   type: "bricks" | "processors",
   pkgId: string,
-  itemName: string
+  item: BrickItem
 ) {
-  const moduleName = `${
-    type === "processors" ? "./processors/" : "./"
-  }${itemName}`;
+  const moduleName = `${type === "processors" ? "./processors/" : "./"}${
+    item.lastName
+  }`;
   try {
     await loadSharedModule(pkgId, moduleName);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    throw new Error(
-      `Load ${type} of "${pkgId.split("/").pop()}.${moduleName
-        .split("/")
-        .pop()}" failed`
-    );
+    throw new Error(`Load ${type} of "${item.fullName}" failed`);
   }
 }
 
 function loadRestBricks(
   type: "bricks" | "processors",
   pkgs: BrickPackage[],
-  itemsMap: Map<BrickPackage, string[]>
+  itemsMap: Map<BrickPackage, BrickItem[]>
 ) {
   return pkgs.map(async (pkg) => {
     await loadScript(pkg.filePath, window.PUBLIC_ROOT ?? "");
     await waitBasicPkg;
     return Promise.all(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      itemsMap
-        .get(pkg)!
-        .map((itemName) => loadBrickModule(type, pkg.id, itemName))
+      itemsMap.get(pkg)!.map((item) => loadBrickModule(type, pkg.id, item))
     );
   });
 }
@@ -226,7 +225,7 @@ async function enqueueStableLoad(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         itemsByPkg
           .get(basicPkg)!
-          .map((itemName) => loadBrickModule(type, basicPkg.id, itemName))
+          .map((item) => loadBrickModule(type, basicPkg.id, item))
       )
     );
   }
@@ -269,7 +268,7 @@ async function enqueueStableLoad(
                 ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   itemsByPkg
                     .get(pkg)!
-                    .map((itemName) => `${pkgNamespace}.${itemName}`)
+                    .map((item) => `${pkgNamespace}.${item.lastName}`)
                 : [],
               (pkg as { dll?: string[] }).dll,
               // Todo: remove `brickPackages` as an argument

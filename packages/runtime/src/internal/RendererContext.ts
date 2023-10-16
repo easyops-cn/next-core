@@ -12,7 +12,13 @@ import { listenerFactory } from "./bindListeners.js";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
-import type { RenderBrick, RenderNode, RenderRoot } from "./interfaces.js";
+import type {
+  RenderBrick,
+  RenderChildNode,
+  RenderNode,
+  RenderReturnNode,
+  RenderRoot,
+} from "./interfaces.js";
 import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { unbindTemplateProxy } from "./CustomTemplates/bindTemplateProxy.js";
@@ -58,7 +64,7 @@ export interface RouteHelper {
   mergeMenus: (menuRequests: Promise<StaticMenuConf>[]) => Promise<void>;
   catch: (
     error: unknown,
-    returnNode: RenderNode
+    returnNode: RenderReturnNode
   ) =>
     | undefined
     | {
@@ -126,8 +132,8 @@ export class RendererContext {
     Map<
       string,
       {
-        node?: RenderBrick;
-        last?: RenderBrick;
+        node?: RenderChildNode;
+        last?: RenderChildNode;
         lastNormal?: RenderBrick | undefined;
         lastPortal?: RenderBrick | undefined;
       }
@@ -190,7 +196,7 @@ export class RendererContext {
     return this.#routeHelper!.bailout(output);
   }
 
-  reCatch(error: unknown, returnNode: RenderNode) {
+  reCatch(error: unknown, returnNode: RenderReturnNode) {
     return this.#routeHelper!.catch(error, returnNode);
   }
 
@@ -312,8 +318,8 @@ export class RendererContext {
   memoize(
     slotId: string | undefined,
     keyPath: number[],
-    node: RenderBrick | undefined,
-    returnNode: RenderNode
+    node: RenderChildNode | undefined,
+    returnNode: RenderReturnNode
   ) {
     if (!this.#memoized) {
       this.#memoized = new WeakMap();
@@ -336,8 +342,8 @@ export class RendererContext {
   reRender(
     slotId: string | undefined,
     keyPath: number[],
-    node: RenderBrick | undefined,
-    returnNode: RenderNode
+    node: RenderChildNode | undefined,
+    returnNode: RenderReturnNode
   ) {
     const memKey = [slotId ?? "", ...keyPath].join(".");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -349,9 +355,15 @@ export class RendererContext {
       lastPortal: prevLastPortal,
     } = memoized;
 
-    const insertBeforeChild = prevLastNormal?.element?.nextSibling ?? null;
-    const insertPortalBeforeChild =
-      prevLastPortal?.element?.nextSibling ?? null;
+    let insertBeforeChild: ChildNode | null;
+    let insertPortalBeforeChild: ChildNode | null;
+    if (prevNode?.tag === RenderTag.PLACEHOLDER) {
+      insertBeforeChild = getNextNormalNode(prevNode)?.element ?? null;
+      insertPortalBeforeChild = getNextPortalNode(prevNode)?.element ?? null;
+    } else {
+      insertBeforeChild = prevLastNormal?.element?.nextSibling ?? null;
+      insertPortalBeforeChild = prevLastPortal?.element?.nextSibling ?? null;
+    }
 
     const last = getLastNode(node);
     memoized.node = node;
@@ -360,7 +372,7 @@ export class RendererContext {
     memoized.lastPortal = getLastPortalNode(node);
 
     // Figure out the unchanged prev sibling and next sibling
-    let prevSibling: RenderBrick | undefined;
+    let prevSibling: RenderChildNode | undefined;
     let current = returnNode.child;
     while (current && current !== prevLast) {
       if (current.sibling === prevNode) {
@@ -420,8 +432,11 @@ export class RendererContext {
       while (root && root.return) {
         root = root.return;
       }
+      // istanbul ignore next
       if (root?.tag !== RenderTag.ROOT) {
-        throw new Error("Cannot find render root node");
+        throw new Error(
+          "Cannot find render root node. This is a bug of Brick Next, please report it."
+        );
       }
       const portal =
         typeof root.createPortal === "function"
@@ -623,7 +638,9 @@ export class RendererContext {
   }
 }
 
-function getLastNode(node: RenderBrick | undefined): RenderBrick | undefined {
+function getLastNode(
+  node: RenderChildNode | undefined
+): RenderChildNode | undefined {
   let last = node;
   while (last?.sibling) {
     last = last.sibling;
@@ -632,12 +649,28 @@ function getLastNode(node: RenderBrick | undefined): RenderBrick | undefined {
 }
 
 function getLastNormalNode(
-  node: RenderBrick | undefined
+  node: RenderChildNode | undefined
+): RenderBrick | undefined {
+  return getSpecifiedNormalNode(node, false);
+}
+
+function getNextNormalNode(
+  node: RenderChildNode | undefined
+): RenderBrick | undefined {
+  return getSpecifiedNormalNode(node, true);
+}
+
+function getSpecifiedNormalNode(
+  node: RenderChildNode | undefined,
+  next: boolean
 ): RenderBrick | undefined {
   let last: RenderBrick | undefined;
   let current = node;
   while (current) {
-    if (!current.portal) {
+    if (current.tag === RenderTag.BRICK && !current.portal) {
+      if (next) {
+        return current;
+      }
       last = current;
     }
     current = current.sibling;
@@ -646,12 +679,28 @@ function getLastNormalNode(
 }
 
 function getLastPortalNode(
-  node: RenderBrick | undefined
+  node: RenderChildNode | undefined
+): RenderBrick | undefined {
+  return getSpecifiedPortalNode(node, false);
+}
+
+function getNextPortalNode(
+  node: RenderChildNode | undefined
+): RenderBrick | undefined {
+  return getSpecifiedPortalNode(node, true);
+}
+
+function getSpecifiedPortalNode(
+  node: RenderChildNode | undefined,
+  next: boolean
 ): RenderBrick | undefined {
   let last: RenderBrick | undefined;
   let current = node;
   while (current) {
-    if (current.portal) {
+    if (current.tag === RenderTag.BRICK && current.portal) {
+      if (next) {
+        return current;
+      }
       last = current;
     }
     if (current.child) {
@@ -659,7 +708,7 @@ function getLastPortalNode(
     } else if (current.sibling) {
       current = current.sibling;
     } else {
-      let currentReturn: RenderNode | null | undefined = current.return;
+      let currentReturn: RenderReturnNode | null | undefined = current.return;
       while (currentReturn) {
         if (currentReturn.sibling) {
           break;
@@ -673,13 +722,15 @@ function getLastPortalNode(
 }
 
 function getBrickRange(
-  from: RenderBrick | undefined,
-  to: RenderBrick | undefined
+  from: RenderChildNode | undefined,
+  to: RenderChildNode | undefined
 ): Set<RenderBrick> {
   const range = new Set<RenderBrick>();
   let current = from;
   while (current) {
-    range.add(current);
+    if (current.tag === RenderTag.BRICK) {
+      range.add(current);
+    }
     if (current.child) {
       current = current.child;
     } else if (current === to) {
@@ -687,7 +738,7 @@ function getBrickRange(
     } else if (current.sibling) {
       current = current.sibling;
     } else {
-      let currentReturn: RenderNode | null | undefined = current.return;
+      let currentReturn: RenderReturnNode | null | undefined = current.return;
       while (currentReturn && currentReturn !== to) {
         if (currentReturn.sibling) {
           break;

@@ -45,6 +45,8 @@ import { registerCustomTemplates } from "./registerCustomTemplates.js";
 import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
+import { devtoolsHookEmit } from "./devtools.js";
+import { loadUIPatch } from "../UIPatch.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -212,7 +214,7 @@ export class Router {
       if (this.#rendering) {
         this.#nextLocation = location;
       } else {
-        // devtoolsHookEmit("locationChange");
+        devtoolsHookEmit("locationChange");
         this.#queuedRender(location).catch(handleHttpError);
       }
     });
@@ -243,7 +245,8 @@ export class Router {
     const history = getHistory();
     history.unblock();
 
-    const renderStartTime = performance.now();
+    // const renderStartTime = performance.now();
+    const finishPageView = hooks?.pageView?.create();
 
     const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
@@ -266,6 +269,9 @@ export class Router {
     const prevRendererContext = this.#rendererContext;
 
     const redirectTo = (to: string, state?: NextHistoryState): void => {
+      finishPageView?.({
+        status: "redirected",
+      });
       this.#rendererContextTrashCan.add(prevRendererContext);
       this.#safeRedirect(to, state, location);
     };
@@ -324,6 +330,10 @@ export class Router {
         storyboard,
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
+
+      const { uiPatch: allowUIPatch } = getRuntime().getPreseBricks();
+
+      const uiPatch = loadUIPatch(currentApp.uiVersion ?? "8.0", allowUIPatch);
 
       const routeHelper: RouteHelper = {
         bailout: (output) => {
@@ -423,6 +433,8 @@ export class Router {
           return;
         }
 
+        output.blockingList.push(uiPatch);
+
         stores = getDataStores(runtimeContext);
 
         await postAsyncRender(output, runtimeContext, stores);
@@ -451,7 +463,11 @@ export class Router {
         applyTheme();
         applyMode();
 
+        window.DISABLE_REACT_FLUSH_SYNC = false;
         mountTree(renderRoot);
+        setTimeout(() => {
+          window.DISABLE_REACT_FLUSH_SYNC = true;
+        });
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
@@ -468,16 +484,16 @@ export class Router {
           for (const store of stores) {
             store.mountAsyncData();
           }
-        }
 
-        const renderTime = performance.now() - renderStartTime;
-        window.dispatchEvent(
-          new CustomEvent("route.render", {
-            detail: {
-              renderTime,
-            },
-          })
-        );
+          finishPageView?.({
+            status: "ok",
+            path: output.path,
+            pageTitle: document.title,
+          });
+        } else {
+          finishPageView?.({ status: "failed" });
+        }
+        devtoolsHookEmit("rendered");
 
         return;
       }
@@ -512,6 +528,8 @@ export class Router {
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);
+    finishPageView?.({ status: "not-found" });
+    devtoolsHookEmit("rendered");
   }
 }
 

@@ -7,7 +7,11 @@ import React, {
   useState,
 } from "react";
 import type { UseSingleBrickConf } from "@next-core/types";
-import { __secret_internals, handleHttpError } from "@next-core/runtime";
+import {
+  __secret_internals,
+  handleHttpError,
+  getV2RuntimeFromDll,
+} from "@next-core/runtime";
 
 export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
@@ -112,15 +116,12 @@ let ReactUseMultipleBricks = function ReactUseMultipleBricks({
   return <ReactUseBrick useBrick={useBrick} data={data} />;
 };
 
-// istanbul ignore next
 // Make v3 bricks compatible with Brick Next v2.
-if (
-  (window as any).dll &&
-  window.BRICK_NEXT_VERSIONS?.["brick-container"]?.startsWith("2.")
-) {
-  const { SingleBrickAsComponentFactory, BrickAsComponentFactory } = (
-    window as any
-  ).dll("tYg3");
+// istanbul ignore next
+const v2Kit = getV2RuntimeFromDll();
+// istanbul ignore next
+if (v2Kit) {
+  const { SingleBrickAsComponentFactory, BrickAsComponentFactory } = v2Kit;
   if (SingleBrickAsComponentFactory && BrickAsComponentFactory) {
     ReactUseBrick = SingleBrickAsComponentFactory(React);
     ReactUseMultipleBricks = BrickAsComponentFactory(React);
