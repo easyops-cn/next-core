@@ -5,7 +5,7 @@ const { lessReplacePlugin } = require("@next-core/less-plugin-css-variables");
 
 module.exports = {
   entry: {
-    main: path.join(__dirname, "src/index.less"),
+    main: path.join(__dirname, "src/index.js"),
     global: path.join(__dirname, "src/global.less"),
   },
   output: {
