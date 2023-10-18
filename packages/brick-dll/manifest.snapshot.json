@@ -728,6 +728,7 @@
         "exportsType": "namespace",
         "providedExports": [
           "loadScript",
+          "loadStyle",
           "loadSharedModule",
           "flushStableLoadBricks",
           "enqueueStableLoadBricks",
@@ -3705,6 +3706,13 @@
           "volcano",
           "yellow"
         ]
+      }
+    },
+    "./node_modules/@easyops/loader/dist/esm/loadScriptOrStyle.js": {
+      "id": "ALpG",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
       }
     },
     "./node_modules/rc-steps/es/Step.js": {
@@ -11130,6 +11138,13 @@
     "./node_modules/@babel/runtime/helpers/interopRequireDefault.js": {
       "id": "TqRt",
       "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@easyops/loader/dist/esm/loadStyle.js": {
+      "id": "TrV2",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
     },
     "./node_modules/babel-runtime/node_modules/core-js/library/modules/_is-array.js": {
       "id": "Trx6",
