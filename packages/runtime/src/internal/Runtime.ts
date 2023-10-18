@@ -296,7 +296,6 @@ export class Runtime {
     return (bootstrapData?.settings?.presetBricks ?? {}) as {
       notification?: string | false;
       dialog?: string | false;
-      uiPatch?: boolean;
     };
   }
 }

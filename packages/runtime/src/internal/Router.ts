@@ -47,7 +47,7 @@ import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
-import { loadUIPatch } from "../UIPatch.js";
+import { setUIClassName } from "../setUIClassName.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -333,9 +333,7 @@ export class Router {
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
 
-      const { uiPatch: allowUIPatch } = getRuntime().getPreseBricks();
-
-      const uiPatch = loadUIPatch(currentApp.uiVersion ?? "8.0", allowUIPatch);
+      setUIClassName(currentApp?.uiVersion);
 
       const routeHelper: RouteHelper = {
         bailout: (output) => {
@@ -434,8 +432,6 @@ export class Router {
         if (routeHelper.bailout(output)) {
           return;
         }
-
-        output.blockingList.push(uiPatch);
 
         stores = getDataStores(runtimeContext);
 
