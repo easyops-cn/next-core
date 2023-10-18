@@ -41,7 +41,7 @@
   "dependencies": {
     "@next-core/types": "^1.7.0",
     "@next-core/utils": "^1.6.1",
-    "i18next": "^23.5.1",
+    "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
     "react-i18next": "^13.3.0"
   },
