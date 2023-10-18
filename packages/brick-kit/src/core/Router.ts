@@ -79,6 +79,7 @@ import { httpCacheRecord } from "./HttpCache";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
 import { getRuntime } from "../runtime";
+import { setUIClassName } from "./setUIClassName";
 
 export class Router {
   private defaultCollapsed = false;
@@ -356,6 +357,8 @@ export class Router {
       transform: "translateY(-100px)",
       height: "calc(100vh - var(--app-bar-height))",
     };
+
+    setUIClassName(currentApp?.uiVersion);
 
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
