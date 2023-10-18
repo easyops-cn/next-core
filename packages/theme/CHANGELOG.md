@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.1.1...@next-core/theme@1.2.0) (2023-10-18)
+
+
+### Features
+
+* remove ui-patch and add version in theme ([8900f6b](https://github.com/easyops-cn/next-core/commit/8900f6bd9b7432de19c22d595720fbeefb2dcd63))
+
+
+
+
+
 ## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.1.0...@next-core/theme@1.1.1) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/theme

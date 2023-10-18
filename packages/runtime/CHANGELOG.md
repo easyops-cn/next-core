@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.23.0...@next-core/runtime@1.24.0) (2023-10-18)
+
+
+### Bug Fixes
+
+* login success return to the original page instead of the homepage after login in timeout ([0cfff0e](https://github.com/easyops-cn/next-core/commit/0cfff0ea8faf8ddebfdaaf637a687bb31d13dbbf))
+
+
+### Features
+
+* remove ui-patch and add version in theme ([8900f6b](https://github.com/easyops-cn/next-core/commit/8900f6bd9b7432de19c22d595720fbeefb2dcd63))
+
+
+
+
+
 # [1.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.15...@next-core/runtime@1.23.0) (2023-10-12)
 
 

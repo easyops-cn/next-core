@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.7.0...@next-core/brick-container@3.8.0) (2023-10-18)
+
+
+### Features
+
+* remove ui-patch and add version in theme ([8900f6b](https://github.com/easyops-cn/next-core/commit/8900f6bd9b7432de19c22d595720fbeefb2dcd63))
+
+
+
+
+
 # [3.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.20...@next-core/brick-container@3.7.0) (2023-10-12)
 
 

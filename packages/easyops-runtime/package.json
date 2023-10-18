@@ -1,6 +1,6 @@
 {
   "name": "@next-core/easyops-runtime",
-  "version": "0.6.40",
+  "version": "0.6.41",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/easyops-runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -44,18 +44,18 @@
     "@next-api-sdk/cmdb-sdk": "^1.1.0",
     "@next-api-sdk/micro-app-sdk": "^1.2.1",
     "@next-api-sdk/micro-app-standalone-sdk": "^1.1.0",
-    "@next-core/cook": "^2.2.6",
-    "@next-core/http": "^1.1.4",
-    "@next-core/pipes": "^2.0.10",
-    "@next-core/runtime": "^1.23.0",
-    "@next-core/types": "^1.7.0",
-    "@next-core/utils": "^1.6.1",
+    "@next-core/cook": "^2.2.7",
+    "@next-core/http": "^1.1.5",
+    "@next-core/pipes": "^2.0.11",
+    "@next-core/runtime": "^1.24.0",
+    "@next-core/types": "^1.7.1",
+    "@next-core/utils": "^1.6.2",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.7",
-    "@next-core/test-next": "^1.0.10",
+    "@next-core/build-next-libs": "^1.0.8",
+    "@next-core/test-next": "^1.0.11",
     "jest-websocket-mock": "^2.5.0",
     "whatwg-fetch": "^3.6.19"
   }

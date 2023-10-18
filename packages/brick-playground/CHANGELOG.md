@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.69](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.68...@next-core/brick-playground@1.10.69) (2023-10-18)
+
+
+### Bug Fixes
+
+* add weather api key for playground ([4eb9132](https://github.com/easyops-cn/next-core/commit/4eb91328a7bf05710a68568c4c577e9a1a67fa90))
+
+
+
+
+
 ## [1.10.68](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.67...@next-core/brick-playground@1.10.68) (2023-10-12)
 
 **Note:** Version bump only for package @next-core/brick-playground
