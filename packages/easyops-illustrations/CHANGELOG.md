@@ -7,33 +7,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.22](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.21...@next-core/illustrations@0.11.22) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.11.21](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.20...@next-core/illustrations@0.11.21) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/illustrations
 
-
-
-
-
 ## [0.11.20](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.19...@next-core/illustrations@0.11.20) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/illustrations
-
-
-
-
 
 ## [0.11.19](https://github.com/easyops-cn/next-core/compare/@next-core/illustrations@0.11.18...@next-core/illustrations@0.11.19) (2023-06-20)
 

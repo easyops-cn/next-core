@@ -7,305 +7,153 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.624](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.623...@next-dll/react-dnd@0.1.624) (2023-10-19)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.623](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.622...@next-dll/react-dnd@0.1.623) (2023-10-19)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.622](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.621...@next-dll/react-dnd@0.1.622) (2023-10-13)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.621](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.620...@next-dll/react-dnd@0.1.621) (2023-10-10)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.620](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.619...@next-dll/react-dnd@0.1.620) (2023-10-08)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.619](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.618...@next-dll/react-dnd@0.1.619) (2023-10-07)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.618](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.617...@next-dll/react-dnd@0.1.618) (2023-09-27)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.617](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.616...@next-dll/react-dnd@0.1.617) (2023-09-25)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.616](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.615...@next-dll/react-dnd@0.1.616) (2023-09-21)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.615](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.614...@next-dll/react-dnd@0.1.615) (2023-09-15)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.614](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.613...@next-dll/react-dnd@0.1.614) (2023-09-15)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.613](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.612...@next-dll/react-dnd@0.1.613) (2023-09-15)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.612](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.611...@next-dll/react-dnd@0.1.612) (2023-09-12)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.611](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.610...@next-dll/react-dnd@0.1.611) (2023-09-05)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.610](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.609...@next-dll/react-dnd@0.1.610) (2023-09-04)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.609](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.608...@next-dll/react-dnd@0.1.609) (2023-08-25)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.608](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.607...@next-dll/react-dnd@0.1.608) (2023-08-18)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.607](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.606...@next-dll/react-dnd@0.1.607) (2023-08-17)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.606](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.605...@next-dll/react-dnd@0.1.606) (2023-08-16)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.605](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.604...@next-dll/react-dnd@0.1.605) (2023-08-09)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.604](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.603...@next-dll/react-dnd@0.1.604) (2023-08-05)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.603](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.602...@next-dll/react-dnd@0.1.603) (2023-08-04)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.602](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.601...@next-dll/react-dnd@0.1.602) (2023-07-31)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.601](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.600...@next-dll/react-dnd@0.1.601) (2023-07-27)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.600](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.599...@next-dll/react-dnd@0.1.600) (2023-07-26)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.599](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.598...@next-dll/react-dnd@0.1.599) (2023-07-26)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.598](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.597...@next-dll/react-dnd@0.1.598) (2023-07-25)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.597](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.596...@next-dll/react-dnd@0.1.597) (2023-07-24)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.596](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.595...@next-dll/react-dnd@0.1.596) (2023-07-21)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.595](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.594...@next-dll/react-dnd@0.1.595) (2023-07-20)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.594](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.593...@next-dll/react-dnd@0.1.594) (2023-07-17)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.593](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.592...@next-dll/react-dnd@0.1.593) (2023-07-11)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.592](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.591...@next-dll/react-dnd@0.1.592) (2023-07-06)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.591](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.590...@next-dll/react-dnd@0.1.591) (2023-07-06)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.590](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.589...@next-dll/react-dnd@0.1.590) (2023-07-06)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.589](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.588...@next-dll/react-dnd@0.1.589) (2023-06-26)
 
 **Note:** Version bump only for package @next-dll/react-dnd
 
-
-
-
-
 ## [0.1.588](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.587...@next-dll/react-dnd@0.1.588) (2023-06-21)
 
 **Note:** Version bump only for package @next-dll/react-dnd
-
-
-
-
 
 ## [0.1.587](https://github.com/easyops-cn/next-core/compare/@next-dll/react-dnd@0.1.586...@next-dll/react-dnd@0.1.587) (2023-06-20)
 

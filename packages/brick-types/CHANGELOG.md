@@ -5,44 +5,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.90.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.3...@next-core/brick-types@2.90.0) (2023-10-19)
 
-
 ### Features
 
-* support ui-version ([3947e9f](https://github.com/easyops-cn/next-core/commit/3947e9fe8884702fe284f6f31c1e27d222213cf4))
-
-
-
-
+- support ui-version ([3947e9f](https://github.com/easyops-cn/next-core/commit/3947e9fe8884702fe284f6f31c1e27d222213cf4))
 
 ## [2.89.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.2...@next-core/brick-types@2.89.3) (2023-09-12)
 
-
 ### Bug Fixes
 
-* support menu field ([caac041](https://github.com/easyops-cn/next-core/commit/caac0411b2a0bfec5ae3ec870572920443881f78))
-
-
-
-
+- support menu field ([caac041](https://github.com/easyops-cn/next-core/commit/caac0411b2a0bfec5ae3ec870572920443881f78))
 
 ## [2.89.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.1...@next-core/brick-types@2.89.2) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/brick-types
 
-
-
-
-
 ## [2.89.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.0...@next-core/brick-types@2.89.1) (2023-08-17)
-
 
 ### Bug Fixes
 
-* theme-template snippet use context instead of data ([2de2544](https://github.com/easyops-cn/next-core/commit/2de254417e695bfe956919187a7df780db5e7e10))
-
-
-
-
+- theme-template snippet use context instead of data ([2de2544](https://github.com/easyops-cn/next-core/commit/2de254417e695bfe956919187a7df780db5e7e10))
 
 # [2.89.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.88.0...@next-core/brick-types@2.89.0) (2023-06-20)
 

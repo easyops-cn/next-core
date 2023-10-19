@@ -7,33 +7,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.1.9](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.1.8...@next-core/supply@1.1.9) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [1.1.8](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.1.7...@next-core/supply@1.1.8) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [1.1.7](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.1.6...@next-core/supply@1.1.7) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [1.1.6](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.1.5...@next-core/supply@1.1.6) (2023-06-20)
 

@@ -7,101 +7,55 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.51.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.7...@next-core/brick-utils@2.51.8) (2023-10-13)
-
 
 ### Bug Fixes
 
-* covert useBrick if it is an array of size 1 ([b8b432f](https://github.com/easyops-cn/next-core/commit/b8b432f6524490ae5a123490aa38c94a2e1301ba))
-
-
-
-
+- covert useBrick if it is an array of size 1 ([b8b432f](https://github.com/easyops-cn/next-core/commit/b8b432f6524490ae5a123490aa38c94a2e1301ba))
 
 ## [2.51.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.6...@next-core/brick-utils@2.51.7) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.51.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.5...@next-core/brick-utils@2.51.6) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.51.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.4...@next-core/brick-utils@2.51.5) (2023-09-04)
-
 
 ### Bug Fixes
 
-* handle dead conditions with then/else ([4529c26](https://github.com/easyops-cn/next-core/commit/4529c26f1898afe2699694854bdc6e483fbe18aa))
-
-
-
-
+- handle dead conditions with then/else ([4529c26](https://github.com/easyops-cn/next-core/commit/4529c26f1898afe2699694854bdc6e483fbe18aa))
 
 ## [2.51.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.3...@next-core/brick-utils@2.51.4) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
 
-
-
-
-
 ## [2.51.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.2...@next-core/brick-utils@2.51.3) (2023-07-27)
-
 
 ### Bug Fixes
 
-* keep brick alias ([6e8d0e1](https://github.com/easyops-cn/next-core/commit/6e8d0e1e42946fa7e857a8d10c9828beeb40ed65))
-
-
-
-
+- keep brick alias ([6e8d0e1](https://github.com/easyops-cn/next-core/commit/6e8d0e1e42946fa7e857a8d10c9828beeb40ed65))
 
 ## [2.51.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.1...@next-core/brick-utils@2.51.2) (2023-07-25)
 
-
 ### Bug Fixes
 
-* add v3 types ([bcc7da1](https://github.com/easyops-cn/next-core/commit/bcc7da1d61934eef89960e78a5823e87903c9bf0))
-* ignore unnecessary brick fields ([a6d38e3](https://github.com/easyops-cn/next-core/commit/a6d38e30f27f953640edfa68df76fc2214f21bcf))
-* refine dead condition warning ([afabc1e](https://github.com/easyops-cn/next-core/commit/afabc1e158daee369e11418b2ac2e3ebbd26072f))
-
-
-
-
+- add v3 types ([bcc7da1](https://github.com/easyops-cn/next-core/commit/bcc7da1d61934eef89960e78a5823e87903c9bf0))
+- ignore unnecessary brick fields ([a6d38e3](https://github.com/easyops-cn/next-core/commit/a6d38e30f27f953640edfa68df76fc2214f21bcf))
+- refine dead condition warning ([afabc1e](https://github.com/easyops-cn/next-core/commit/afabc1e158daee369e11418b2ac2e3ebbd26072f))
 
 ## [2.51.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.0...@next-core/brick-utils@2.51.1) (2023-07-06)
 
-
 ### Bug Fixes
 
-* compatible with v3 common bricks ([0faff94](https://github.com/easyops-cn/next-core/commit/0faff94c6b941fa1bf4b8289c2604a0965ea7153))
-
-
-
-
+- compatible with v3 common bricks ([0faff94](https://github.com/easyops-cn/next-core/commit/0faff94c6b941fa1bf4b8289c2604a0965ea7153))
 
 # [2.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.50.4...@next-core/brick-utils@2.51.0) (2023-07-06)
 
-
 ### Features
 
-* support parsing brick children ([b0f9647](https://github.com/easyops-cn/next-core/commit/b0f964770050c6e703b70a0b095218b8ebfbc1ec))
-
-
-
-
+- support parsing brick children ([b0f9647](https://github.com/easyops-cn/next-core/commit/b0f964770050c6e703b70a0b095218b8ebfbc1ec))
 
 ## [2.50.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.50.3...@next-core/brick-utils@2.50.4) (2023-06-20)
 

@@ -7,81 +7,41 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
 
-
-
-
-
 ## [0.2.27](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.26...@next-core/brick-kit-v3@0.2.27) (2023-10-13)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
-
-
-
-
 
 ## [0.2.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.25...@next-core/brick-kit-v3@0.2.26) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
 
-
-
-
-
 ## [0.2.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.24...@next-core/brick-kit-v3@0.2.25) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
-
-
-
-
 
 ## [0.2.24](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.23...@next-core/brick-kit-v3@0.2.24) (2023-09-04)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
 
-
-
-
-
 ## [0.2.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.22...@next-core/brick-kit-v3@0.2.23) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
-
-
-
-
 
 ## [0.2.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.21...@next-core/brick-kit-v3@0.2.22) (2023-07-27)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
 
-
-
-
-
 ## [0.2.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.20...@next-core/brick-kit-v3@0.2.21) (2023-07-25)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
-
-
-
-
 
 ## [0.2.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.19...@next-core/brick-kit-v3@0.2.20) (2023-07-06)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
 
-
-
-
-
 ## [0.2.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.18...@next-core/brick-kit-v3@0.2.19) (2023-07-06)
 
 **Note:** Version bump only for package @next-core/brick-kit-v3
-
-
-
-
 
 ## [0.2.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit-v3@0.2.17...@next-core/brick-kit-v3@0.2.18) (2023-06-20)
 

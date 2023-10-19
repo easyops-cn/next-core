@@ -7,44 +7,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @next-core/storyboard
 
-
-
-
-
 ## [0.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.6.2...@next-core/storyboard@0.6.3) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/storyboard
-
-
-
-
 
 ## [0.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.6.1...@next-core/storyboard@0.6.2) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/storyboard
 
-
-
-
-
 ## [0.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.6.0...@next-core/storyboard@0.6.1) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/storyboard
 
-
-
-
-
 # [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.5.6...@next-core/storyboard@0.6.0) (2023-07-06)
-
 
 ### Features
 
-* support parsing brick children ([b0f9647](https://github.com/easyops-cn/next-core/commit/b0f964770050c6e703b70a0b095218b8ebfbc1ec))
-
-
-
-
+- support parsing brick children ([b0f9647](https://github.com/easyops-cn/next-core/commit/b0f964770050c6e703b70a0b095218b8ebfbc1ec))
 
 ## [0.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/storyboard@0.5.5...@next-core/storyboard@0.5.6) (2023-06-20)
 
