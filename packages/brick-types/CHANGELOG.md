@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.90.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.3...@next-core/brick-types@2.90.0) (2023-10-19)
+
+
+### Features
+
+* support ui-version ([3947e9f](https://github.com/easyops-cn/next-core/commit/3947e9fe8884702fe284f6f31c1e27d222213cf4))
+
+
+
+
+
 ## [2.89.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.89.2...@next-core/brick-types@2.89.3) (2023-09-12)
 
 

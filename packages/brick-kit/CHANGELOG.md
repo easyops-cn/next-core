@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.179.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.18...@next-core/brick-kit@2.179.0) (2023-10-19)
+
+
+### Features
+
+* move setUIClassname after unMoutTree ([ad8cb85](https://github.com/easyops-cn/next-core/commit/ad8cb854755a0d3eabc03617fca92341e61e9a8e))
+* support ui-version ([3947e9f](https://github.com/easyops-cn/next-core/commit/3947e9fe8884702fe284f6f31c1e27d222213cf4))
+
+
+
+
+
 ## [2.178.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.17...@next-core/brick-kit@2.178.18) (2023-10-13)
 
 **Note:** Version bump only for package @next-core/brick-kit
