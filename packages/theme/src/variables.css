@@ -154,6 +154,7 @@
   --description-content-padding: 6px 24px;
   --description-border-bottom-color: transparent;
 
+  --tab-header-padding: 0 16px;
   --tab-content-padding: 16px 20px;
   --tab-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.04);
 

@@ -3,8 +3,8 @@ body.ui-v8-2 {
   --body-background: var(--color-fill-global-bg-1);
   --page-title-padding: 16px 24px 0 24px;
   --page-title-margin-top: 0px;
-  --page-title-margin-bottom: 16px;
-  --page-title-with-breadcrumb-margin-top: 10px;
+  --page-title-margin-bottom: 9px;
+  --page-title-with-breadcrumb-margin-top: 9px;
   --page-title-font-size: 24px;
   --page-title-font-weight: 500;
   --page-title-line-height: 28px;
@@ -22,12 +22,13 @@ body.ui-v8-2 {
   --side-bar-width: 220px;
   --tab-shadow: none;
 
-  --card-head-padding: 12px 0 0 0;
+  --card-head-padding: 12px 0;
   --card-body-padding: 16px 0;
   --card-footer-padding: 8px 0;
-  --card-border-color-split: transparent;
+  --card-border-color-split: rgba(232, 232, 232, 0.6);
   --card-footer-shadow: transparent;
 
+  --tab-header-padding: 0;
   --tab-content-padding: 16px 0;
 
   --description-header-padding: 20px 0 0 0;
