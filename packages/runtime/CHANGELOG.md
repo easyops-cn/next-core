@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.0...@next-core/runtime@1.24.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* set word-break for handleHttpError ([4bc0fe8](https://github.com/easyops-cn/next-core/commit/4bc0fe83aee2ce506fa5c858be52ebc6581da0a9))
+
+
+
+
+
 # [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.23.0...@next-core/runtime@1.24.0) (2023-10-18)
 
 
