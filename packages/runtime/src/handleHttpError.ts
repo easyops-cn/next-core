@@ -100,6 +100,7 @@ export function handleHttpError(error: unknown) {
       content: message,
       contentStyle: {
         whiteSpace: "pre-wrap",
+        wordBreak: "break-word",
       },
     }).then(() => {
       lastErrorMessage = undefined;
