@@ -3,29 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.9.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.7...@next-core/cook@1.9.8) (2023-09-12)
+## [1.9.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.8...@next-core/cook@1.9.9) (2023-10-19)
 
 **Note:** Version bump only for package @next-core/cook
 
+## [1.9.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.7...@next-core/cook@1.9.8) (2023-09-12)
 
-
-
+**Note:** Version bump only for package @next-core/cook
 
 ## [1.9.7](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.6...@next-core/cook@1.9.7) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [1.9.6](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.5...@next-core/cook@1.9.6) (2023-08-17)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [1.9.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.4...@next-core/cook@1.9.5) (2023-06-20)
 

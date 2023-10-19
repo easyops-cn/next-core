@@ -1472,6 +1472,7 @@ export interface MicroApp {
     standaloneMode?: boolean;
     status?: "developing" | "enabled" | "disabled";
     theme?: "light" | "dark-v2";
+    uiVersion?: string;
     userConfig?: Record<string, unknown>;
 }
 
