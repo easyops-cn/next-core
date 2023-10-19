@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.44](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.43...@next-core/easyops-runtime@0.6.44) (2023-10-19)
+
+
+### Bug Fixes
+
+* fix cache strategy for multi-rendering ([ae63e38](https://github.com/easyops-cn/next-core/commit/ae63e38b2bec97827c96a275fa5fde5794776be2))
+
+
+
+
+
 ## [0.6.43](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.42...@next-core/easyops-runtime@0.6.43) (2023-10-19)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

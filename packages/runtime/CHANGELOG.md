@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.2...@next-core/runtime@1.24.3) (2023-10-19)
+
+
+### Bug Fixes
+
+* fix cache strategy for multi-rendering ([ae63e38](https://github.com/easyops-cn/next-core/commit/ae63e38b2bec97827c96a275fa5fde5794776be2))
+
+
+
+
+
 ## [1.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.1...@next-core/runtime@1.24.2) (2023-10-19)
 
 
