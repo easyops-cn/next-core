@@ -195,7 +195,7 @@ export class Runtime {
     this.#initialized = true;
     normalizeBootstrapData(data);
     bootstrapData = data;
-    const { notification, dialog } = this.getPreseBricks();
+    const { notification, dialog } = this.#getPresetBricks();
     if (notification !== false) {
       loadNotificationService(
         notification ?? "basic.show-notification",
@@ -292,7 +292,7 @@ export class Runtime {
     return loadBricksImperatively(bricks, getBrickPackages());
   }
 
-  getPreseBricks() {
+  #getPresetBricks() {
     return (bootstrapData?.settings?.presetBricks ?? {}) as {
       notification?: string | false;
       dialog?: string | false;

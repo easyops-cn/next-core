@@ -3,9 +3,9 @@ import { ContractApi_searchSingleContract } from "@next-api-sdk/api-gateway-sdk"
 import { ContractRequest, ContractResponse, ExtField } from "@next-core/types";
 import { getContract } from "./CollectContracts.js";
 
-const flowApiDefinitionPromiseMap = new Map<
+const remoteContractCache = new Map<
   string,
-  Promise<CustomApiDefinition | undefined>
+  Promise<CustomApiDefinition | null>
 >();
 
 // Legacy Custom API: `${namespace}@${name}`
@@ -28,7 +28,9 @@ export async function getArgsOfFlowApi(
   const apiDefinition = await fetchFlowApiDefinition(provider);
 
   if (!apiDefinition) {
-    throw new Error(`Flow API not found: "${provider}"`);
+    throw new Error(`Flow API not found: "${provider}"`, {
+      cause: "FLOW_API_NOT_FOUND",
+    });
   }
 
   const apiProfile = getApiProfileFromApiDefinition(provider, apiDefinition);
@@ -140,23 +142,14 @@ function getApiProfileFromApiDefinition(
   };
 }
 
-function fetchFlowApiDefinition(
+async function fetchFlowApiDefinition(
   provider: string
-): Promise<CustomApiDefinition | undefined> {
-  let promise = flowApiDefinitionPromiseMap.get(provider);
-  if (!promise) {
-    promise = _fetchFlowApiDefinition(provider);
-    flowApiDefinitionPromiseMap.set(provider, promise);
-  }
-  return promise;
-}
-
-async function _fetchFlowApiDefinition(
-  provider: string
-): Promise<CustomApiDefinition | undefined> {
+): Promise<CustomApiDefinition | null> {
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
 
+  // Do not cache the result of `geContract`, which will lead to no contract
+  // will be found when render twice immediately.
   const contract = getContract(`${namespaceName}.${name}`);
   if (contract) {
     return {
@@ -170,15 +163,28 @@ async function _fetchFlowApiDefinition(
         request: contract.request,
       },
     };
-  } else {
-    const { contractData } = await ContractApi_searchSingleContract({
-      contractName: `${namespaceName}.${name}`,
-      version,
-    });
+  }
+  let promise = remoteContractCache.get(provider);
+  if (!promise) {
+    promise = fetchFlowApiDefinitionFromRemote(namespaceName, name, version);
+    remoteContractCache.set(provider, promise);
+  }
+  return promise;
+}
 
-    // return undefined if don't found contract
-    if (contractData) {
-      return {
+async function fetchFlowApiDefinitionFromRemote(
+  namespace: string,
+  name: string,
+  version: string
+): Promise<CustomApiDefinition | null> {
+  const { contractData } = await ContractApi_searchSingleContract({
+    contractName: `${namespace}.${name}`,
+    version,
+  });
+
+  // return undefined if don't found contract
+  return contractData
+    ? {
         name: contractData.name,
         namespace: contractData.namespace?.[0]?.name,
         serviceName: contractData.serviceName,
@@ -188,9 +194,8 @@ async function _fetchFlowApiDefinition(
           response: contractData.response,
           request: contractData.request,
         },
-      };
-    }
-  }
+      }
+    : null;
 }
 
 export interface CustomApiDefinition {

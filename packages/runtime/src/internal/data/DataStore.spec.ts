@@ -1,17 +1,25 @@
 import { jest, describe, test, expect, afterEach } from "@jest/globals";
 import { createProviderClass } from "@next-core/utils/general";
+import { BatchUpdateContextItem } from "@next-core/types";
 import type { RuntimeContext } from "../interfaces.js";
 import { DataStore } from "./DataStore.js";
 import { clearResolveCache } from "./resolveData.js";
-import { BatchUpdateContextItem } from "@next-core/types";
+import { handleHttpError } from "../../handleHttpError.js";
+import { _internalApiGetRenderId } from "../Runtime.js";
+import { RendererContext } from "../RendererContext.js";
+
+jest.mock("../../handleHttpError.js");
+jest.mock("../Runtime.js");
 
 const consoleWarn = jest.spyOn(console, "warn");
 const consoleInfo = jest.spyOn(console, "info");
 
+const mockGetRenderId = _internalApiGetRenderId as jest.Mock;
+
 const myTimeoutProvider = jest.fn(
-  (timeout: number, result: string) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(result), timeout);
+  (timeout: number, result?: string, error?: unknown) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => (error ? reject(error) : resolve(result)), timeout);
     })
 );
 customElements.define(
@@ -510,6 +518,104 @@ describe("DataStore", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(6, "[3] finally", null);
 
     consoleInfo.mockReset();
+  });
+
+  test("error handling", async () => {
+    consoleInfo.mockReturnValue();
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "willFail",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [10, null, "oops"],
+            lazy: true,
+          },
+          value: "initial",
+        },
+        {
+          name: "willFail2",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [10, null, "oops-2"],
+            lazy: true,
+          },
+          value: "initial-2",
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    ctxStore.updateValue("willFail", undefined, "load", {
+      error: {
+        action: "console.info",
+        args: ["error", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["finally", "<% EVENT.detail %>"],
+      },
+    });
+    await (global as any).flushPromises();
+    await new Promise((resolve) => {
+      setTimeout(resolve, 10);
+    });
+
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(handleHttpError).not.toBeCalled();
+
+    ctxStore.updateValue("willFail2", undefined, "load", {
+      finally: {
+        action: "console.info",
+        args: ["finally", "<% EVENT.detail %>"],
+      },
+    });
+    await (global as any).flushPromises();
+    await new Promise((resolve) => {
+      setTimeout(resolve, 10);
+    });
+
+    expect(consoleInfo).toBeCalledTimes(3);
+    expect(handleHttpError).toBeCalledTimes(1);
+
+    consoleInfo.mockReset();
+  });
+
+  test("dismiss flow api not found", async () => {
+    const rendererContext = new RendererContext("page", {
+      renderId: "render-id-1",
+    });
+    mockGetRenderId.mockReturnValue("render-id-2");
+    const ctxStore = new DataStore("CTX", undefined, rendererContext);
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "willFail",
+          resolve: {
+            useProvider: "my-timeout-provider",
+            args: [10, null, '<% { cause: "FLOW_API_NOT_FOUND" } %>'],
+            lazy: true,
+          },
+          value: "initial",
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    ctxStore.updateValue("willFail", undefined, "load");
+    await (global as any).flushPromises();
+    await new Promise((resolve) => {
+      setTimeout(resolve, 10);
+    });
+
+    expect(handleHttpError).not.toBeCalled();
   });
 
   test("load context without resolve", async () => {

@@ -57,6 +57,7 @@ const pageOnlyLifeCycles = [
 export interface RendererContextOptions {
   unknownBricks?: "silent" | "throw";
   routeHelper?: RouteHelper;
+  renderId?: string;
 }
 
 export interface RouteHelper {
@@ -82,12 +83,15 @@ export class RendererContext {
 
   public readonly unknownBricks: "silent" | "throw";
 
+  public readonly renderId: string | undefined;
+
   #routeHelper: RouteHelper | undefined;
 
   constructor(scope: "page" | "fragment", options?: RendererContextOptions) {
     this.scope = scope;
     this.unknownBricks = options?.unknownBricks ?? "throw";
     this.#routeHelper = options?.routeHelper;
+    this.renderId = options?.renderId;
   }
 
   #memoizedLifeCycle: MemoizedLifeCycle<

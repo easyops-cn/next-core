@@ -6,7 +6,7 @@ import type {
 import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
 import type { RuntimeContext } from "../interfaces.js";
-import { hooks } from "../Runtime.js";
+import { _internalApiGetRenderId, hooks } from "../Runtime.js";
 import { markAsComputed } from "../compute/markAsComputed.js";
 import { get } from "lodash";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
@@ -23,6 +23,7 @@ export interface ResolveOptions {
    * - `reload`: Without looking for a matching cache.
    */
   cache?: "default" | "reload";
+  renderId?: string;
 }
 
 export async function resolveData(
@@ -59,13 +60,19 @@ export async function resolveData(
     asyncComputeRealValue(args, runtimeContext) as Promise<unknown[]>,
   ]);
 
+  // `clearResolveCache` maybe cleared during the above promise being
+  // fulfilled, so we manually mark it as stale for this case.
+  const renderId = options?.renderId;
+  const stale = !!renderId && renderId !== _internalApiGetRenderId();
+
   const promise = resolveByProvider(
     providerBrick,
     useProvider,
     method,
     actualArgs,
     options,
-    args
+    args,
+    stale
   );
 
   let { transform } = resolveConf;
@@ -107,7 +114,8 @@ export async function resolveByProvider(
   method: string,
   args: unknown[],
   options?: ResolveOptions,
-  originalArgs?: unknown[]
+  originalArgs?: unknown[],
+  stale?: boolean
 ) {
   let cacheKey: string;
   try {
@@ -141,7 +149,9 @@ export async function resolveByProvider(
       return brick.resolve(...finalArgs);
     })();
 
-    cache.set(cacheKey, promise);
+    if (!stale) {
+      cache.set(cacheKey, promise);
+    }
   }
 
   return promise;

@@ -114,8 +114,8 @@ describe("preview", () => {
     };
     await root.render(bricks, options);
 
-    expect(container.innerHTML).toBe(
-      '<demo.tpl-test data-tpl-state-store-id="tpl-state-1"><div>Goodbye Preview</div></demo.tpl-test>'
+    expect(container.firstElementChild?.innerHTML).toBe(
+      "<div>Goodbye Preview</div>"
     );
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
     expect(applyTheme).toBeCalledTimes(1);
@@ -131,8 +131,8 @@ describe("preview", () => {
         },
       },
     });
-    expect(container.innerHTML).toBe(
-      '<demo.tpl-test data-tpl-state-store-id="tpl-state-2"><div>再见 Preview</div></demo.tpl-test>'
+    expect(container.firstElementChild?.innerHTML).toBe(
+      "<div>再见 Preview</div>"
     );
 
     root.unmount();
