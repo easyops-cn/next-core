@@ -333,8 +333,6 @@ export class Router {
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
 
-      setUIClassName(currentApp?.uiVersion);
-
       const routeHelper: RouteHelper = {
         bailout: (output) => {
           if (output.unauthenticated) {
@@ -462,6 +460,7 @@ export class Router {
         applyMode();
 
         window.DISABLE_REACT_FLUSH_SYNC = false;
+        setUIClassName(currentApp?.uiVersion);
         mountTree(renderRoot);
         setTimeout(() => {
           window.DISABLE_REACT_FLUSH_SYNC = true;
