@@ -42,7 +42,7 @@ module.exports = (env, app) => {
     }))
     .concat(
       {
-        publicRoot: "(/next)?/sa-static/-/",
+        publicRoot: "(?:/next)?/sa-static/-/",
         publicRootAsRegExpRaw: "(?:/next)?/sa-static/-/",
         isStandalone: true,
         publicRootWithVersion: true,
