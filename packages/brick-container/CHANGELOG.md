@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.90.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.2...@next-core/brick-container@2.90.3) (2023-10-19)
+
+
+### Bug Fixes
+
+* fix a problem when serve with local templates ([673f3ff](https://github.com/easyops-cn/next-core/commit/673f3ff9d5266bfdbf5552ac1b8595213c70d9f5))
+
+
+
+
+
 ## [2.90.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.1...@next-core/brick-container@2.90.2) (2023-10-19)
 
 **Note:** Version bump only for package @next-core/brick-container
