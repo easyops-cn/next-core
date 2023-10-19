@@ -358,8 +358,6 @@ export class Router {
       height: "calc(100vh - var(--app-bar-height))",
     };
 
-    setUIClassName(currentApp?.uiVersion);
-
     setTheme(
       getLocalAppsTheme()?.[currentApp?.id] || currentApp?.theme || "light"
     );
@@ -623,6 +621,7 @@ export class Router {
         await pendingTask;
         window.DISABLE_REACT_FLUSH_SYNC = false;
 
+        setUIClassName(currentApp?.uiVersion);
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
