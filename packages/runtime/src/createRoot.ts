@@ -8,6 +8,7 @@ import type {
   Storyboard,
   StoryboardFunction,
 } from "@next-core/types";
+import { uniqueId } from "lodash";
 import {
   RenderOutput,
   getDataStores,
@@ -91,7 +92,8 @@ export function unstable_createRoot(
       const bricks = ([] as BrickConf[]).concat(brick);
 
       const previousRendererContext = rendererContext;
-      rendererContext = new RendererContext(scope, { unknownBricks });
+      const renderId = uniqueId("render-id-");
+      rendererContext = new RendererContext(scope, { unknownBricks, renderId });
 
       const runtimeContext = {
         ctxStore: new DataStore("CTX", undefined, rendererContext),

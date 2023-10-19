@@ -237,7 +237,7 @@ export class Router {
   }
 
   async #render(location: NextLocation): Promise<void> {
-    this.#renderId = uniqueId("render-id-1");
+    const renderId = (this.#renderId = uniqueId("render-id-"));
 
     resetAllComputedMarks();
     clearResolveCache();
@@ -386,7 +386,7 @@ export class Router {
 
       const rendererContext = (this.#rendererContext = new RendererContext(
         "page",
-        { routeHelper }
+        { routeHelper, renderId }
       ));
 
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
