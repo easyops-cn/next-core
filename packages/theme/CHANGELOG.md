@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.2.0...@next-core/theme@1.3.0) (2023-10-19)
+
+
+### Features
+
+* **theme:** update css variable ([5c76acd](https://github.com/easyops-cn/next-core/commit/5c76acde851ea9489b733bc79dc002f5068df85b))
+
+
+
+
+
 # [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.1.1...@next-core/theme@1.2.0) (2023-10-18)
 
 
