@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.1...@next-core/runtime@1.24.2) (2023-10-19)
+
+
+### Bug Fixes
+
+* move setUIClassName before mountTree ([45b5a56](https://github.com/easyops-cn/next-core/commit/45b5a567d175fc5414afc3ea6c20904abc53ee54))
+
+
+
+
+
 ## [1.24.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.0...@next-core/runtime@1.24.1) (2023-10-19)
 
 
