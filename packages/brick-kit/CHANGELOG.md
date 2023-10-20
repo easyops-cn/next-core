@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.179.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.1...@next-core/brick-kit@2.179.2) (2023-10-20)
+
+
+### Bug Fixes
+
+* fix error handling for multi-rendering ([9dba3e0](https://github.com/easyops-cn/next-core/commit/9dba3e01c356eceb12d144519d7aae1b803635b2))
+* make new error class instead of use `cause` ([c2bc094](https://github.com/easyops-cn/next-core/commit/c2bc0945fb99cee7eb55b34cab4cd9f62085fa18))
+
+
+
+
+
 ## [2.179.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.0...@next-core/brick-kit@2.179.1) (2023-10-20)
 
 
