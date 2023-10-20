@@ -342,17 +342,17 @@ export class LocationContext {
           }
         }
 
-        await this.mountMenu(route.menu, matched.match, mountRoutesResult);
-
         if (route.documentId) {
           mountRoutesResult.appBar.documentId = route.documentId;
         }
 
         if (isRouteConfOfRoutes(route) && Array.isArray(route.routes)) {
           await this.preFetchMenu(route.context);
+          await this.mountMenu(route.menu, matched.match, mountRoutesResult);
           await this.mountRoutes(route.routes, slotId, mountRoutesResult);
         } else if (isRouteConfOfBricks(route) && Array.isArray(route.bricks)) {
           await this.preFetchMenu(route);
+          await this.mountMenu(route.menu, matched.match, mountRoutesResult);
           await this.mountBricks(
             route.bricks,
             matched.match,
