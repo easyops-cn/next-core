@@ -57,7 +57,11 @@
   --launchpad-backdrop-transition: filter 100ms ease-out;
 
   --page-padding: 24px;
-  --page-title-padding: 24px 24px 0 24px;
+  --page-padding-top: 24px;
+  --page-padding-right: 24px;
+  --page-padding-bottom: 24px;
+  --page-padding-left: 24px;
+
   --page-title-font-size: 24px;
   --page-title-font-weight: 500;
   --page-title-line-height: 28px;
@@ -66,8 +70,6 @@
   --page-title-margin-top: 9px;
   --page-title-margin-bottom: 9px;
   --toolbar-button-gap: 8px;
-
-  --page-content-padding: 0 24px 24px 24px;
 
   /* easy-view gap */
   --easy-view-gap: 16px;

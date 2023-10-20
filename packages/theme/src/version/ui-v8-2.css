@@ -1,7 +1,6 @@
 /* common */
 body.ui-v8-2 {
   --body-background: var(--color-fill-global-bg-1);
-  --page-title-padding: 16px 24px 0 24px;
   --page-title-margin-top: 9px;
   --page-title-margin-bottom: 9px;
   --page-title-font-size: 24px;
@@ -9,9 +8,11 @@ body.ui-v8-2 {
   --page-title-line-height: 28px;
   --page-title-toolbar-height: 28px;
 
-  --page-content-padding: 0 24px 24px 24px;
-
   --page-padding: 16px 24px 24px 24px;
+  --page-padding-top: 16px;
+  --page-padding-right: 24px;
+  --page-padding-bottom: 24px;
+  --page-padding-left: 24px;
 
   --wide-color: "#F4F6F9";
 
