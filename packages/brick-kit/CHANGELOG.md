@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.179.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.2...@next-core/brick-kit@2.179.3) (2023-10-20)
+
+
+### Bug Fixes
+
+* mount menu after pre-fetch ([3d933d3](https://github.com/easyops-cn/next-core/commit/3d933d3512de3ef2d417159b840d9d705f47c458))
+
+
+
+
+
 ## [2.179.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.1...@next-core/brick-kit@2.179.2) (2023-10-20)
 
 
