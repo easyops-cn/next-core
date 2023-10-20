@@ -167,11 +167,22 @@ export class LocationContext {
   private currentMatch: MatchResult;
   readonly storyboardContextWrapper = new StoryboardContextWrapper();
   private observersList: BrickIntersectionObserver[] = [];
+  readonly renderId?: string;
 
-  constructor(private kernel: Kernel, private location: PluginLocation) {
+  constructor(
+    private kernel: Kernel,
+    private location: PluginLocation,
+    renderId?: string
+  ) {
     this.resolver = new Resolver(kernel, this);
     this.query = new URLSearchParams(location.search);
     this.messageDispatcher = getMessageDispatcher();
+    this.storyboardContextWrapper = new StoryboardContextWrapper(
+      undefined,
+      undefined,
+      renderId
+    );
+    this.renderId = renderId;
   }
 
   private getContext({

@@ -10,9 +10,9 @@ export class CustomTemplateContext {
   readonly state: StoryboardContextWrapper;
   readonly id = uniqueId("tpl-ctx-");
 
-  constructor(private brick: RuntimeBrick) {
+  constructor(private brick: RuntimeBrick, renderId?: string) {
     tplContextMap.set(this.id, this);
-    this.state = new StoryboardContextWrapper(this.id);
+    this.state = new StoryboardContextWrapper(this.id, undefined, renderId);
     brick.tplContextId = this.id;
   }
 

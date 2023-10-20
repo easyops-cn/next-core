@@ -37,7 +37,7 @@ export async function AsyncExpandCustomForm(
   context?: PluginRuntimeContext,
   locationContext?: LocationContext
 ): Promise<BrickConf> {
-  const formContext = new CustomFormContext();
+  const formContext = new CustomFormContext(locationContext?.renderId);
   formData = initFormContext(formData, brickConf, isPreview);
   if (Array.isArray(formData.context)) {
     if (locationContext) {

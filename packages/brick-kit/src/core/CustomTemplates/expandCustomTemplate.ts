@@ -73,7 +73,10 @@ export async function asyncExpandCustomTemplate(
   context: PluginRuntimeContext,
   locationContext?: LocationContext
 ): Promise<RuntimeBrickConf> {
-  const tplContext = new CustomTemplateContext(proxyBrick);
+  const tplContext = new CustomTemplateContext(
+    proxyBrick,
+    locationContext?.renderId
+  );
   const template = customTemplateRegistry.get(brickConf.brick);
   if (template.contracts) {
     collectWidgetContract(template.contracts);
