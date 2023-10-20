@@ -28,9 +28,7 @@ export async function getArgsOfFlowApi(
   const apiDefinition = await fetchFlowApiDefinition(provider);
 
   if (!apiDefinition) {
-    throw new Error(`Flow API not found: "${provider}"`, {
-      cause: "FLOW_API_NOT_FOUND",
-    });
+    throw new FlowApiNotFoundError(`Flow API not found: "${provider}"`);
   }
 
   const apiProfile = getApiProfileFromApiDefinition(provider, apiDefinition);
@@ -239,4 +237,19 @@ export interface CustomApiProfile {
   isFileType?: boolean;
   ext_fields?: ExtField[];
   request?: ContractRequest;
+}
+
+class FlowApiNotFoundError extends Error {
+  constructor(message: string) {
+    // Pass remaining arguments (including vendor specific ones) to parent constructor
+    super(message);
+
+    this.name = "FlowApiNotFoundError";
+
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, FlowApiNotFoundError);
+    }
+  }
 }
