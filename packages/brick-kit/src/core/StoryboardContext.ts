@@ -208,10 +208,10 @@ export class StoryboardContextWrapper {
       const shouldDismiss = (error: unknown): boolean => {
         // If render twice immediately, flow API contracts maybe cleared before
         // the second rendering, while the page load handlers of the first
-        // rendering can't be cancelled, which causes `FLOW_API_NOT_FOUND`. So
-        // we ignore error reporting for this case.
+        // rendering can't be cancelled, which throws `FlowApiNotFoundError`.
+        // So we ignore error reporting for this case.
         return (
-          (error as Error)?.cause === "FLOW_API_NOT_FOUND" &&
+          (error as Error)?.name === "FlowApiNotFoundError" &&
           this.renderId &&
           this.renderId !== _internalApiGetRouterRenderId()
         );

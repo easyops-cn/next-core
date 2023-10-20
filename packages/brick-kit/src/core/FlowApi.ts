@@ -28,9 +28,8 @@ export async function getArgsOfCustomApi(
     : (await _internalApiGetMicroAppApiOrchestrationMap()).get(provider);
 
   if (!apiDefinition) {
-    throw new Error(
-      `${isFlowApi ? "Flow" : "Legacy Custom"} API not found: "${provider}"`,
-      { cause: "FLOW_API_NOT_FOUND" }
+    throw new FlowApiNotFoundError(
+      `${isFlowApi ? "Flow" : "Legacy Custom"} API not found: "${provider}"`
     );
   }
 
@@ -197,4 +196,19 @@ async function fetchFlowApiDefinitionFromRemote(
         },
       }
     : null;
+}
+
+class FlowApiNotFoundError extends Error {
+  constructor(message: string) {
+    // Pass remaining arguments (including vendor specific ones) to parent constructor
+    super(message);
+
+    this.name = "FlowApiNotFoundError";
+
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, FlowApiNotFoundError);
+    }
+  }
 }
