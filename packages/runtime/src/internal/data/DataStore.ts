@@ -186,11 +186,11 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       const shouldDismiss = (error: unknown) => {
         // If render twice immediately, flow API contracts maybe cleared before
         // the second rendering, while the page load handlers of the first
-        // rendering can't be cancelled, which causes `FLOW_API_NOT_FOUND`. So
-        // we ignore error reporting for this case.
+        // rendering can't be cancelled, which throws `FlowApiNotFoundError`.
+        // So we ignore error reporting for this case.
         let renderId: string | undefined;
         return (
-          (error as Error)?.cause === "FLOW_API_NOT_FOUND" &&
+          (error as Error)?.name === "FlowApiNotFoundError" &&
           !!(renderId = this.rendererContext?.renderId) &&
           renderId !== _internalApiGetRenderId()
         );

@@ -600,7 +600,7 @@ describe("DataStore", () => {
           name: "willFail",
           resolve: {
             useProvider: "my-timeout-provider",
-            args: [10, null, '<% { cause: "FLOW_API_NOT_FOUND" } %>'],
+            args: [10, null, '<% { name: "FlowApiNotFoundError" } %>'],
             lazy: true,
           },
           value: "initial",
