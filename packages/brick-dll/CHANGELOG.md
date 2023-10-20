@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.45.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.45.32...@next-core/brick-dll@2.45.33) (2023-10-20)
+
+
+### Bug Fixes
+
+* update v3 brick loader which refined error log ([aca2ffb](https://github.com/easyops-cn/next-core/commit/aca2ffb6ebc8af303bec8a17af8b993437f4c9fd))
+
+
+
+
+
 ## [2.45.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.45.31...@next-core/brick-dll@2.45.32) (2023-10-19)
 
 **Note:** Version bump only for package @next-core/brick-dll

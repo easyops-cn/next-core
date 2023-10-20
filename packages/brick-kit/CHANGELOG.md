@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.179.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.0...@next-core/brick-kit@2.179.1) (2023-10-20)
+
+
+### Bug Fixes
+
+* update v3 brick loader which refined error log ([aca2ffb](https://github.com/easyops-cn/next-core/commit/aca2ffb6ebc8af303bec8a17af8b993437f4c9fd))
+
+
+
+
+
 # [2.179.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.18...@next-core/brick-kit@2.179.0) (2023-10-19)
 
 ### Features
