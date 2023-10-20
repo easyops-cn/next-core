@@ -2,25 +2,26 @@
 body.ui-v8-2 {
   --body-background: var(--color-fill-global-bg-1);
   --page-title-padding: 16px 24px 0 24px;
-  --page-title-margin-top: 0px;
+  --page-title-margin-top: 9px;
   --page-title-margin-bottom: 9px;
-  --page-title-with-breadcrumb-margin-top: 9px;
   --page-title-font-size: 24px;
   --page-title-font-weight: 500;
   --page-title-line-height: 28px;
   --page-title-toolbar-height: 28px;
 
+  --page-content-padding: 0 24px 24px 24px;
+
   --page-padding: 16px 24px 24px 24px;
-  --page-padding-top-with-wide-line: 5px;
 
   --wide-color: "#F4F6F9";
 
   --page-card-gap: 32px;
 
   --tab-content-padding: 16px 24px 24px 24px;
+  --tab-shadow: none;
 
   --side-bar-width: 220px;
-  --tab-shadow: none;
+  --sidebar-bg: #f7f8fa;
 
   --card-head-padding: 12px 0;
   --card-body-padding: 16px 0;
