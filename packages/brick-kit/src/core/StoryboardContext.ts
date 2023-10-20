@@ -27,7 +27,11 @@ import {
   listenerFactory,
 } from "../internal/bindListeners";
 import { computeRealValue } from "../internal/setProperties";
-import { RuntimeBrick, _internalApiGetCurrentContext } from "./exports";
+import {
+  RuntimeBrick,
+  _internalApiGetCurrentContext,
+  _internalApiGetRouterRenderId,
+} from "./exports";
 import { _internalApiGetResolver } from "./Runtime";
 import { handleHttpError } from "../handleHttpError";
 
@@ -45,8 +49,13 @@ export class StoryboardContextWrapper {
   readonly pendingStack: Array<
     ReturnType<typeof deferResolveContextConcurrently>
   > = [];
+  readonly renderId: string;
 
-  constructor(tplContextId?: string, formContextId?: string) {
+  constructor(
+    tplContextId?: string,
+    formContextId?: string,
+    renderId?: string
+  ) {
     this.tplContextId = tplContextId;
     this.formContextId = formContextId;
     this.eventName = this.formContextId
@@ -54,6 +63,7 @@ export class StoryboardContextWrapper {
       : this.tplContextId
       ? "state.change"
       : "context.change";
+    this.renderId = renderId;
   }
 
   set(name: string, item: StoryboardContextItem): void {
@@ -195,6 +205,18 @@ export class StoryboardContextWrapper {
         }
       }
 
+      const shouldDismiss = (error: unknown): boolean => {
+        // If render twice immediately, flow API contracts maybe cleared before
+        // the second rendering, while the page load handlers of the first
+        // rendering can't be cancelled, which causes `FLOW_API_NOT_FOUND`. So
+        // we ignore error reporting for this case.
+        return (
+          (error as Error)?.cause === "FLOW_API_NOT_FOUND" &&
+          this.renderId &&
+          this.renderId !== _internalApiGetRouterRenderId()
+        );
+      };
+
       if (!promise) {
         promise = item.loading = item.load({
           cache: method === "load" ? "default" : "reload",
@@ -213,7 +235,7 @@ export class StoryboardContextWrapper {
           },
           (err) => {
             // Let users to override error handling.
-            if (!callback?.error) {
+            if (!shouldDismiss(err) && !callback?.error) {
               handleHttpError(err);
             }
           }
@@ -235,7 +257,9 @@ export class StoryboardContextWrapper {
             callbackFactory("finally")();
           },
           (err) => {
-            callbackFactory("error")(err);
+            if (!shouldDismiss(err) && callback.error) {
+              callbackFactory("error")(err);
+            }
             callbackFactory("finally")();
           }
         );

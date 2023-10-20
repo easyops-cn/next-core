@@ -232,7 +232,7 @@ export class Router {
 
   private async render(location: PluginLocation): Promise<void> {
     this.state = "initial";
-    this.renderId = uniqueId("render-id-");
+    const renderId = (this.renderId = uniqueId("render-id-"));
 
     resetAllInjected();
     clearPollTimeout();
@@ -253,7 +253,8 @@ export class Router {
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
-      location
+      location,
+      renderId
     ));
 
     if ((window as any).DEVELOPER_PREVIEW) {
