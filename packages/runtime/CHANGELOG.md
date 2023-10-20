@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.3...@next-core/runtime@1.24.4) (2023-10-20)
+
+
+### Bug Fixes
+
+* make new error class instead of use `cause` ([9d04c25](https://github.com/easyops-cn/next-core/commit/9d04c252600d5ff045a127d5dbf28220853be3e9))
+
+
+
+
+
 ## [1.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.2...@next-core/runtime@1.24.3) (2023-10-19)
 
 
