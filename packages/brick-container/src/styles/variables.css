@@ -57,6 +57,11 @@
   --launchpad-backdrop-transition: filter 100ms ease-out;
 
   --page-padding: 24px;
+  --page-padding-top: 24px;
+  --page-padding-right: 24px;
+  --page-padding-bottom: 24px;
+  --page-padding-left: 24px;
+
   --page-title-with-breadcrumb-margin-top: 12px;
   --page-title-padding: 24px 24px 0 24px;
   --page-title-font-weight: 500;
