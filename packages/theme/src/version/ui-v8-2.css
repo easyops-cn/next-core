@@ -10,9 +10,7 @@ body.ui-v8-2 {
 
   --page-padding: 16px 24px 24px 24px;
   --page-padding-top: 16px;
-  --page-padding-right: 24px;
-  --page-padding-bottom: 24px;
-  --page-padding-left: 24px;
+  /* Other page paddings are the same as default */
 
   --wide-color: "#F4F6F9";
 
