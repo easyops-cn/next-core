@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.2...@next-core/theme@1.3.3) (2023-10-26)
+
+
+### Bug Fixes
+
+* **css:** update --slide-up-shadow ([89ccd51](https://github.com/easyops-cn/next-core/commit/89ccd51d7f5e9acad95118216d243a53ed6d9b5b))
+
+
+
+
+
 ## [1.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.1...@next-core/theme@1.3.2) (2023-10-20)
 
 **Note:** Version bump only for package @next-core/theme
