@@ -88,6 +88,11 @@ export default function getProxy(env, getRawIndexHtml) {
                 brickPackages,
                 data.brickPackages
               );
+
+              if (env.localSettings) {
+                mergeLocalSettings(data, env.localSettings);
+              }
+
               removeCacheHeaders(res);
               return JSON.stringify(result);
             }
@@ -100,16 +105,7 @@ export default function getProxy(env, getRawIndexHtml) {
               const result = JSON.parse(content);
               const { data } = result;
 
-              const { featureFlags, homepage, brand, misc } = env.localSettings;
-              data.featureFlags ??= {};
-              data.brand ??= {};
-              data.misc ??= {};
-              Object.assign(data.settings.featureFlags, featureFlags);
-              Object.assign(data.settings.brand, brand);
-              Object.assign(data.settings.misc, misc);
-              if (homepage) {
-                data.settings.homepage = homepage;
-              }
+              mergeLocalSettings(data, env.localSettings);
 
               return JSON.stringify(result);
             }
@@ -349,4 +345,17 @@ function getAppIdFromBootstrapPath(reqPath) {
  */
 function acceptTextHtml(req) {
   return /(?:^|,|;)text\/html(?:,|;|$)/.test(req.headers["accept"] || "");
+}
+
+function mergeLocalSettings(data, localSettings) {
+  const { featureFlags, homepage, brand, misc } = localSettings;
+  data.featureFlags ??= {};
+  data.brand ??= {};
+  data.misc ??= {};
+  Object.assign(data.settings.featureFlags, featureFlags);
+  Object.assign(data.settings.brand, brand);
+  Object.assign(data.settings.misc, misc);
+  if (homepage) {
+    data.settings.homepage = homepage;
+  }
 }
