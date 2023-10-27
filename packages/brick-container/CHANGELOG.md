@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.7...@next-core/brick-container@3.8.8) (2023-10-27)
+
+
+### Bug Fixes
+
+* handle local settings for non-standalone apps ([096db76](https://github.com/easyops-cn/next-core/commit/096db76d58230334fc809d933b428bbaeeac7c37))
+
+
+
+
+
 ## [3.8.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.6...@next-core/brick-container@3.8.7) (2023-10-26)
 
 **Note:** Version bump only for package @next-core/brick-container
