@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.22...@next-core/yo@1.5.0) (2023-10-27)
+
+
+### Features
+
+* cli创建brick模板时支持自由选择是否使用国际化，以便加载不同的模板 ([ec136ff](https://github.com/easyops-cn/next-core/commit/ec136ff682e07d0a338311eaeb5f7160e6c08ce0))
+
+
+
+
+
 ## [1.4.22](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.21...@next-core/yo@1.4.22) (2023-10-26)
 
 **Note:** Version bump only for package @next-core/yo
