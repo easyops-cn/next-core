@@ -234,6 +234,14 @@ export default function (
         },
       },
       {
+        type: "confirm",
+        name: "useI18n",
+        message: "Use i18n with this brick?",
+        when(data) {
+          return data.type === "brick";
+        },
+      },
+      {
         type: "input",
         name: "providerName",
         message: "Your provider name:",
@@ -272,7 +280,9 @@ export default function (
             type: "addMany",
             destination: "bricks/{{pkgName}}/src/{{brickName}}",
             base: "templates/brick",
-            templateFiles: "templates/brick",
+            templateFiles: data.useI18n
+              ? "templates/brick"
+              : "templates/brick/!(i18n.ts)",
           },
           {
             type: "append",
