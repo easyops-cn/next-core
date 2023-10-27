@@ -3,11 +3,11 @@ import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import "@next-core/theme";
 import styleText from "./styles.shadow.css";
-
-// --- NOTE: uncomment these lines below to enable i18n for your brick ---
-// import { useTranslation, initializeReactI18n } from "@next-core/i18n/react";
-// import { K, NS, locales } from "./i18n.js";
-// initializeReactI18n(NS, locales);
+{{#if useI18n}}
+import { useTranslation, initializeReactI18n } from "@next-core/i18n/react";
+import { K, NS, locales } from "./i18n.js";
+initializeReactI18n(NS, locales);
+{{/if}}
 
 const { defineElement, property } = createDecorators();
 
@@ -26,8 +26,19 @@ class {{>className}} extends ReactNextElement {
   }
 }
 
-export function {{>className}}Component() {
-  // const { t } = useTranslation(NS);
-  // const hello = t(K.HELLO);
-  return <div>It works!</div>;
+export interface {{>className}}Props {
+  // Define props here.
+}
+export function {{>className}}Component(props: {{>className}}Props) {
+{{#if useI18n}}
+  const { t } = useTranslation(NS);
+  const hello = t(K.HELLO);
+{{/if}}
+  return <div>
+    {{#if useI18n}}
+      {hello} word!
+    {{else}}
+      It works!
+    {{/if}}
+  </div>;
 }
