@@ -11,8 +11,15 @@
 
   &-head {
     border-bottom-color: var(--antd-card-head-border-bottom-color);
+    padding: 0 var(--card-head-padding-horizontal, 20px);
+
+    &-title {
+      padding: var(--card-head-padding-vertical, 12px) 0;
+    }
   }
+
   &-body {
-    padding: 16px 24px;
+    padding: var(--card-body-padding, 16px 24px);
   }
 }
+

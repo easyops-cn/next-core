@@ -17,7 +17,6 @@ import {
   CustomApiInfo,
   removeDeadConditions,
 } from "@next-core/brick-utils";
-import { HttpResponseError } from "@next-core/brick-http";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
@@ -79,7 +78,7 @@ import { httpCacheRecord } from "./HttpCache";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
 import { getRuntime } from "../runtime";
-import { setUIClassName } from "./setUIClassName";
+import { setUIVersion } from "./setUIVersion";
 
 export class Router {
   private defaultCollapsed = false;
@@ -622,7 +621,7 @@ export class Router {
         await pendingTask;
         window.DISABLE_REACT_FLUSH_SYNC = false;
 
-        setUIClassName(currentApp?.uiVersion);
+        setUIVersion(currentApp?.uiVersion);
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
