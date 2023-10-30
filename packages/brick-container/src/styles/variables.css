@@ -31,7 +31,7 @@
 
   --text-color-default: #595959;
   --text-color-title: #262626;
-  --text-color-secondary: #8c8c8c;
+  --text-color-secondary: #322929;
   --text-color-link: var(--antd-link-color);
 
   /* ui-v5 use menuBar and has subMenuBar, ui-v8 use sideBar. */
@@ -150,6 +150,18 @@
 
   --card-hover-border-color: transparent;
   --card-hover-box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  --card-head-padding-vertical: 12px;
+  --card-head-padding-horizontal-base: 20px;
+  --card-head-padding-horizontal: var(--card-head-padding-horizontal-base);
+  --card-head-padding: var(--card-head-padding-vertical)
+    var(--card-head-padding-horizontal);
+  --card-body-padding-vertical: 16px;
+  --card-body-padding-horizontal-base: 24px;
+  --card-body-padding-horizontal: var(--card-body-padding-horizontal-base);
+  --card-body-padding: var(--card-body-padding-vertical)
+    var(--card-body-padding-horizontal);
+  --card-border-color-split: var(--antd-border-color-split);
 
   --theme-slategray-color-rgb-channel: 101, 119, 154;
   --theme-slategray-color: rgb(var(--theme-slategray-color-rgb-channel));
