@@ -47,7 +47,7 @@ import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
-import { setUIClassName } from "../setUIClassName.js";
+import { setUIVersion } from "../setUIVersion.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -460,7 +460,7 @@ export class Router {
         applyMode();
 
         window.DISABLE_REACT_FLUSH_SYNC = false;
-        setUIClassName(currentApp?.uiVersion);
+        setUIVersion(currentApp?.uiVersion);
         mountTree(renderRoot);
         setTimeout(() => {
           window.DISABLE_REACT_FLUSH_SYNC = true;
