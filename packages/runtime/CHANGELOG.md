@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.4...@next-core/runtime@1.24.5) (2023-10-30)
+
+
+### Bug Fixes
+
+* set ui v8-2 on html instead of body ([0a029f9](https://github.com/easyops-cn/next-core/commit/0a029f939a215ea180fd36fc4f21223d4b5787ae))
+
+
+
+
+
 ## [1.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.3...@next-core/runtime@1.24.4) (2023-10-20)
 
 
