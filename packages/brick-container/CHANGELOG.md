@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.90.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.10...@next-core/brick-container@2.90.11) (2023-10-30)
+
+
+### Bug Fixes
+
+* set ui v8-2 on html instead of body ([0017bca](https://github.com/easyops-cn/next-core/commit/0017bcaa2933cde4fcef0111cb9a80744d8b4006))
+
+
+
+
+
 ## [2.90.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.9...@next-core/brick-container@2.90.10) (2023-10-26)
 
 
