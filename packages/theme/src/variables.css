@@ -71,6 +71,9 @@
   --page-title-margin-bottom: 9px;
   --toolbar-button-gap: 8px;
 
+  --grid-card-gap: 16px;
+  --grid-card-gap-large: 16px;
+
   /* easy-view gap */
   --easy-view-gap: 16px;
 
