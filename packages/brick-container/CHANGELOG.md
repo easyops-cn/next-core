@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.90.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.13...@next-core/brick-container@2.90.14) (2023-11-01)
+
+
+### Bug Fixes
+
+* fix --tabs-outlined-content-padding ([e4464bd](https://github.com/easyops-cn/next-core/commit/e4464bd84628eb59f5be32ab557903451a67f2da))
+
+
+
+
+
 ## [2.90.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.12...@next-core/brick-container@2.90.13) (2023-11-01)
 
 
