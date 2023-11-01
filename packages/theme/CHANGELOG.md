@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.7](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.6...@next-core/theme@1.3.7) (2023-11-01)
+
+
+### Bug Fixes
+
+* add new css variables: --grid-card-gap ([ae18899](https://github.com/easyops-cn/next-core/commit/ae188995ebf0b718d6008ee42a4ebb0da64d3fc2))
+
+
+
+
+
 ## [1.3.6](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.5...@next-core/theme@1.3.6) (2023-11-01)
 
 
