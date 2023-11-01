@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.90.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.14...@next-core/brick-container@2.90.15) (2023-11-01)
+
+
+### Bug Fixes
+
+* add new css variables: --grid-card-gap ([87c4874](https://github.com/easyops-cn/next-core/commit/87c48745e99893e1b3e63595d2fd53fbe5925be2))
+
+
+
+
+
 ## [2.90.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.13...@next-core/brick-container@2.90.14) (2023-11-01)
 
 
