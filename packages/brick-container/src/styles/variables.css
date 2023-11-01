@@ -74,6 +74,9 @@
 
   --page-content-padding: 0px 24px 24px 24px;
 
+  --grid-card-gap: 16px;
+  --grid-card-gap-large: 16px;
+
   /* easy-view gap */
   --easy-view-gap: 16px;
 
