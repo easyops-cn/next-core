@@ -168,7 +168,7 @@
   --tabs-header-padding: 0;
   --tabs-content-padding: 16px 0;
   --tabs-outlined-header-padding: 0 16px;
-  --tabs-outlined-content-padding: 16px var(--page-card-gap);
+  --tabs-outlined-content-padding: 16px;
   --tabs-outlined-border-radius: 6px;
   --tabs-outlined-background: var(--antd-tabs-title-wrapper-bg);
   --tabs-outlined-shadow: var(--antd-tabs-shadow);
