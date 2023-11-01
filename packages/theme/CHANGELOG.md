@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.4...@next-core/theme@1.3.5) (2023-11-01)
+
+
+### Bug Fixes
+
+* add new css variables for tabs ([1b0a72c](https://github.com/easyops-cn/next-core/commit/1b0a72c22d5c7537c39ed17ba761c4dc47f22169))
+
+
+
+
+
 ## [1.3.4](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.3...@next-core/theme@1.3.4) (2023-10-30)
 
 
