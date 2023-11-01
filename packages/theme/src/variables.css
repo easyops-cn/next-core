@@ -164,9 +164,16 @@
   --description-content-padding: 6px 24px;
   --description-border-bottom-color: transparent;
 
-  --tab-header-padding: 0 16px;
-  --tab-content-padding: 16px 20px;
-  --tab-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.04);
+  /* Tabs may or may not be outlined */
+  --tabs-header-padding: 0;
+  --tabs-content-padding: 16px 0;
+  --tabs-outlined-header-padding: 0 16px;
+  --tabs-outlined-content-padding: 16px var(--page-card-gap);
+  --tabs-outlined-border-radius: 6px;
+  --tabs-outlined-background: var(--antd-tabs-title-wrapper-bg);
+  --tabs-outlined-shadow: var(--antd-tabs-shadow);
+
+  --tabs-shadow: var(--antd-tabs-shadow);
 
   --theme-slategray-color-rgb-channel: 101, 119, 154;
   --theme-slategray-color: rgb(var(--theme-slategray-color-rgb-channel));
