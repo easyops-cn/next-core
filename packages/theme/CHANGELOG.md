@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.6](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.5...@next-core/theme@1.3.6) (2023-11-01)
+
+
+### Bug Fixes
+
+* fix --tabs-outlined-content-padding ([e4804c1](https://github.com/easyops-cn/next-core/commit/e4804c138c43b104e57269de060e8cad40ab4898))
+
+
+
+
+
 ## [1.3.5](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.4...@next-core/theme@1.3.5) (2023-11-01)
 
 
