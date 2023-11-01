@@ -294,6 +294,23 @@ async function getWebpackConfig(config) {
           ],
         },
         {
+          test: /\.shadow\.less$/,
+          use: [
+            ...getCssLoaders({
+              exportType: "string",
+            }),
+            {
+              loader: "less-loader",
+              options: {
+                lessOptions: {
+                  sourceMap: false,
+                  javascriptEnabled: true,
+                },
+              },
+            },
+          ],
+        },
+        {
           test: /\.module\.css$/,
           sideEffects: true,
           use: [
