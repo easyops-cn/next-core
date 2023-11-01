@@ -163,6 +163,14 @@
     var(--card-body-padding-horizontal);
   --card-border-color-split: var(--antd-border-color-split);
 
+  --tabs-header-padding: 0;
+  --tabs-content-padding: 16px 0;
+  --tabs-outlined-header-padding: 0 16px;
+  --tabs-outlined-content-padding: 16px var(--page-card-gap);
+  --tabs-outlined-border-radius: 6px;
+  --tabs-outlined-background: var(--antd-tabs-title-wrapper-bg);
+  --tabs-outlined-shadow: var(--antd-tabs-shadow);
+
   --theme-slategray-color-rgb-channel: 101, 119, 154;
   --theme-slategray-color: rgb(var(--theme-slategray-color-rgb-channel));
 

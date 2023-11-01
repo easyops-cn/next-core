@@ -377,7 +377,8 @@ module.exports = (runtimeFlags) => {
     port: Number(flags.port || "8081"),
     wsPort: Number(flags.wsPort || "8090"),
     https: flags.https,
-    cookieSameSiteNone: flags.cookieSameSiteNone,
+    cookieSameSiteNone:
+      flags.cookieSameSiteNone || process.env.COOKIE_SAME_SITE_NONE === "true",
     server,
     legacyConsole,
     consoleServer,

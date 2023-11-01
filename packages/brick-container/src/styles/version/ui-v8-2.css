@@ -16,14 +16,12 @@ html[data-ui="v8-2"] {
 
   --page-card-gap: 32px;
 
-  --tab-content-padding: 16px 24px 24px 24px;
-
   --side-bar-width: 220px;
 
   --card-head-padding-horizontal: 0;
   --card-body-padding-horizontal: 0;
 
-  --tab-content-padding: 16px 0;
+  --tabs-outlined-shadow: var(--connected-overlay-shadow);
 
   --description-header-padding: 20px 0 0 0;
   --description-content-padding: 0;
@@ -34,8 +32,6 @@ html[data-ui="v8-2"] [data-override-theme="light"] {
   --body-background: var(--color-fill-global-bg-1);
 
   --sidebar-bg: #f7f8fa;
-
-  --tab-shadow: none;
 
   --description-border-bottom-color: rgba(232, 232, 232, 0.6);
 
