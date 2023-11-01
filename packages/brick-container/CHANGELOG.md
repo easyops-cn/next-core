@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.90.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.12...@next-core/brick-container@2.90.13) (2023-11-01)
+
+
+### Bug Fixes
+
+* add new css variables for tabs ([d94681a](https://github.com/easyops-cn/next-core/commit/d94681a728c79574e9924abf90678435f07d47b6))
+* **serve:** allow set COOKIE_SAME_SITE_NONE ([6a2f66a](https://github.com/easyops-cn/next-core/commit/6a2f66aebd07582596560a0d3551cec29318e41d))
+
+
+
+
+
 ## [2.90.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.11...@next-core/brick-container@2.90.12) (2023-11-01)
 
 **Note:** Version bump only for package @next-core/brick-container
