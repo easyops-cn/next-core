@@ -16,6 +16,8 @@ html[data-ui="v8-2"] {
 
   --page-card-gap: 32px;
 
+  --grid-card-gap: 12px;
+
   --side-bar-width: 220px;
 
   --card-head-padding-horizontal: 0;
