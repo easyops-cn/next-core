@@ -167,6 +167,10 @@
   --description-content-padding: 6px 24px;
   --description-border-bottom-color: transparent;
 
+  --category-item-padding: 0;
+  --category-header-padding: 32px 20px 0 20px;
+  --category-content-padding: 24px 20px 24px 31px;
+
   /* Tabs may or may not be outlined */
   --tabs-header-padding: 0;
   --tabs-content-padding: 16px 0;
