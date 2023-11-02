@@ -27,6 +27,10 @@ html[data-ui="v8-2"] {
 
   --description-header-padding: 20px 0 0 0;
   --description-content-padding: 0;
+
+  --category-item-padding: 16px 0;
+  --category-header-padding: 0 0 16px;
+  --category-content-padding: 0 10px;
 }
 
 html[data-ui="v8-2"],
