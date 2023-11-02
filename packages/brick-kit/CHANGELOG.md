@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.179.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.4...@next-core/brick-kit@2.179.5) (2023-11-02)
+
+
+### Bug Fixes
+
+* allow to set slots for template preview ([c2ec7fa](https://github.com/easyops-cn/next-core/commit/c2ec7fa6eea4513ce13d37efdb51f74c5b5be838))
+
+
+
+
+
 ## [2.179.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.3...@next-core/brick-kit@2.179.4) (2023-10-30)
 
 
