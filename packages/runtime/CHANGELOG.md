@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.24.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.5...@next-core/runtime@1.24.6) (2023-11-02)
+
+
+### Bug Fixes
+
+* allow to set slots/children for template preview ([75ea890](https://github.com/easyops-cn/next-core/commit/75ea89007b81b2a54ff05233ac222e98bcbc116a))
+
+
+
+
+
 ## [1.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.4...@next-core/runtime@1.24.5) (2023-10-30)
 
 
