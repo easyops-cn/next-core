@@ -20,6 +20,13 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@ant-design/colors@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/@ant-design/colors/-/colors-6.0.0.tgz#9b9366257cffcc47db42b9d0203bb592c13c0298"
+  integrity sha512-qAZRvPzfdWHtfameEGP2Qvuf838NhergR35o+EuVyB5XvSA98xod5r4utvi4TJ3ywmevm290g9nsCG5MryrdWQ==
+  dependencies:
+    "@ctrl/tinycolor" "^3.4.0"
+
 "@babel/cli@^7.23.0":
   version "7.23.0"
   resolved "https://registry.npmjs.org/@babel/cli/-/cli-7.23.0.tgz#1d7f37c44d4117c67df46749e0c86e11a58cc64b"
@@ -1368,6 +1375,11 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-3.0.0.tgz#798622546b63847e82389e473fd67f2707d82247"
   integrity sha512-hBI9tfBtuPIi885ZsZ32IMEU/5nlZH/KOVYJCOh7gyMxaVLGmLedYqFN6Ui1LXkI8JlC8IsuC0rF0btcRZKd5g==
 
+"@ctrl/tinycolor@^3.4.0":
+  version "3.6.1"
+  resolved "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.6.1.tgz#b6c75a56a1947cc916ea058772d666a2c8932f31"
+  integrity sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==
+
 "@cypress/browserify-preprocessor@^3.0.2":
   version "3.0.2"
   resolved "https://registry.npmjs.org/@cypress/browserify-preprocessor/-/browserify-preprocessor-3.0.2.tgz"
@@ -1940,6 +1952,13 @@
   integrity sha512-FHeVX83d5otNWwBzaja6kftK3fW6iGSxkoTSNXMxHVh39v8+E1Tk2OFA9OvBaOBCKi6ULgH9MYLlHpFDiIKLYw==
   dependencies:
     "@next-core/http" "^1.0.0"
+
+"@next-core/color-theme@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.npmjs.org/@next-core/color-theme/-/color-theme-0.4.8.tgz#aee66c3e2b6176afefc513e9e54a4c123eab87fe"
+  integrity sha512-z/iHDM9m/khLM87dv3yTRqIm/kPaMURuD2KgE/lDAcbB3xL3awxLR4byHo+P7USDI5OKnX6f1X/ukEgG3U9IrQ==
+  dependencies:
+    "@ant-design/colors" "^6.0.0"
 
 "@next-core/public-scoped-sdk@^0.2.13":
   version "0.2.13"

@@ -27,6 +27,7 @@ import { type AppForCheck, hasInstalledApp } from "./hasInstalledApp.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { listenDevtoolsEagerly } from "./devtools.js";
 import { getV2RuntimeFromDll } from "../getV2RuntimeFromDll.js";
+import { ThemeSettings, customizeColorTheme } from "./customizeColorTheme.js";
 
 let runtime: Runtime;
 
@@ -205,6 +206,7 @@ export class Runtime {
     if (dialog !== false) {
       loadDialogService(dialog ?? "basic.show-dialog", this.loadBricks);
     }
+    customizeColorTheme(data.settings?.misc?.theme as ThemeSettings);
   }
 
   async bootstrap(data?: BootstrapData) {
