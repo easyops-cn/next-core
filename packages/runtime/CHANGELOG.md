@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.6...@next-core/runtime@1.25.0) (2023-11-03)
+
+
+### Features
+
+* support customizing color theme ([df71dea](https://github.com/easyops-cn/next-core/commit/df71deacae1702518b75b24c8c8df37cc639da20))
+
+
+
+
+
 ## [1.24.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.5...@next-core/runtime@1.24.6) (2023-11-02)
 
 
