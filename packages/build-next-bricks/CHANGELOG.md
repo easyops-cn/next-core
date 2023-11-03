@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.4...@next-core/build-next-bricks@1.14.5) (2023-11-03)
+
+
+### Bug Fixes
+
+* fix scan bricks on unexpected files ([879e287](https://github.com/easyops-cn/next-core/commit/879e287f33836236dbfe43e65bed9820d23b6037))
+
+
+
+
+
 ## [1.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.3...@next-core/build-next-bricks@1.14.4) (2023-11-02)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
