@@ -43,6 +43,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
+    "@next-core/color-theme": "^0.4.8",
     "@next-core/cook": "^2.2.7",
     "@next-core/http": "^1.1.5",
     "@next-core/i18n": "^1.0.28",
