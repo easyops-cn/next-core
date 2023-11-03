@@ -719,17 +719,18 @@ export default async function scanBricks(packageDir) {
     if (files.length) {
       await Promise.all(
         [...new Set(files)].map((file) => {
-          const fileName = path.dirname(file);
+          const dirName = path.dirname(file);
           const lastName = path.basename(file);
           const matchExtension = /\.[tj]sx?$/.test(lastName);
           const noExtension = !lastName.includes(".");
+          /** @type {[string, Set<string>]} */
           let fileInfo;
 
           if (matchExtension || noExtension) {
-            fileInfo = [fileName, lastName.replace(/\.[^.]+$/, "")];
+            fileInfo = [dirName, new Set([lastName.replace(/\.[^.]+$/, "")])];
           }
           if (noExtension && existsSync(file) && statSync(file).isDirectory()) {
-            fileInfo = [fileName, "index"];
+            fileInfo = [dirName, new Set(["index"])];
           }
 
           if (fileInfo) {
