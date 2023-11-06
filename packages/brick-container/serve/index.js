@@ -19,7 +19,7 @@ import liveReloadServer from "./utils/liveReloadServer.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const env = await getEnv(process.cwd());
-const { baseHref, useLocalContainer, port, sizeCheck } = env;
+const { baseHref, useLocalContainer, host, port, sizeCheck } = env;
 const distDir = path.join(__dirname, "../dist");
 
 const app = express();
@@ -86,9 +86,9 @@ if (useLocalContainer) {
   });
 }
 
-app.listen(port);
+app.listen(port, host);
 
-console.log(`open http://localhost:${port}${baseHref}`);
+console.log(`open http://${host}:${port}${baseHref}`);
 
 liveReloadServer(env);
 

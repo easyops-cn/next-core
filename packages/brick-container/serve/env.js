@@ -18,6 +18,7 @@ const cli = meow(
     --local-bricks          Specify local brick packages to be used, defaults to use all local ones
     --local-micro-apps      Specify local micro apps to be used
     --local-container       Use local brick-container instead of remote in remote mode
+    --host                  Set local server listening host, defaults to "localhost"
     --port                  Set local server listening port, defaults to "8081"
     --ws-port               Set local WebSocket server listening port, defaults to "8090"
     --live-reload           Enable live reload (currently only for local micro-apps)
@@ -55,6 +56,10 @@ const cli = meow(
       },
       liveReload: {
         type: "boolean",
+      },
+      host: {
+        type: "string",
+        default: "localhost",
       },
       port: {
         type: "string",
@@ -142,6 +147,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     liveReload: flags.liveReload,
     localSettings,
     userConfigByApps,
+    host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
     server: getServerPath(flags.server),
