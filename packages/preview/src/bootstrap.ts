@@ -1,6 +1,7 @@
 import {
   createRuntime,
   applyTheme,
+  setUIVersion,
   unstable_createRoot,
 } from "@next-core/runtime";
 import { http, HttpError, HttpResponse } from "@next-core/http";
@@ -125,6 +126,7 @@ async function render(
   { yaml, html }: Sources,
   {
     theme,
+    uiVersion,
     context,
     functions,
     templates,
@@ -142,6 +144,7 @@ async function render(
     document.body.classList.remove("bootstrap-error");
     if (type === "html") {
       applyTheme(theme === "light" ? theme : "dark-v2");
+      setUIVersion(uiVersion);
       // Note: if use DOMParser, script tags will not be executed, while using
       const parser = new DOMParser();
       const dom = parser.parseFromString(html, "text/html");
@@ -205,6 +208,7 @@ async function render(
       await bootstrap;
       await root.render(bricks, {
         theme: theme === "light" ? theme : "dark-v2",
+        uiVersion,
         context: parsedContext,
         functions: parsedFunctions,
         templates: parsedTemplates,
