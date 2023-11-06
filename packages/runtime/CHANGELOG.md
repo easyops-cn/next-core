@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.0...@next-core/runtime@1.25.1) (2023-11-06)
+
+
+### Bug Fixes
+
+* set ui version in docs and playground ([bed4722](https://github.com/easyops-cn/next-core/commit/bed4722221696310eebe067ea07f2d9ef0c85161))
+
+
+
+
+
 # [1.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.6...@next-core/runtime@1.25.0) (2023-11-03)
 
 
