@@ -266,6 +266,9 @@ async function main() {
   const selectTheme = document.querySelector(
     "#brick-playground-select-theme"
   ) as HTMLSelectElement;
+  const selectUIVersion = document.querySelector(
+    "#brick-playground-select-ui-version"
+  ) as HTMLSelectElement;
   const buttonRun = document.querySelector("#brick-playground-button-run");
 
   const themeStorageKey = "brick-playground-theme";
@@ -276,10 +279,19 @@ async function main() {
     selectTheme.value = storedTheme;
   }
 
+  const uiVersionStorageKey = "brick-playground-ui-version";
+  let currentUIVersion = "8.2";
+  const storedUIVersion = localStorage.getItem(uiVersionStorageKey) ?? "8.2";
+  if (storedUIVersion !== currentUIVersion) {
+    setCurrentUIVersion(storedUIVersion);
+    selectUIVersion.value = storedUIVersion;
+  }
+
   async function render(): Promise<void> {
     await iframeReady;
     previewWin._preview_only_render(mode, sources, {
       theme: currentTheme.toLowerCase(),
+      uiVersion: currentUIVersion,
     });
   }
 
@@ -294,6 +306,18 @@ async function main() {
 
   selectTheme.addEventListener("change", (event) => {
     setCurrentTheme((event.target as HTMLSelectElement).value, true);
+    render();
+  });
+
+  function setCurrentUIVersion(version: string, store?: boolean) {
+    currentUIVersion = version;
+    if (store) {
+      localStorage.setItem(uiVersionStorageKey, version);
+    }
+  }
+
+  selectUIVersion.addEventListener("change", (event) => {
+    setCurrentUIVersion((event.target as HTMLSelectElement).value, true);
     render();
   });
 

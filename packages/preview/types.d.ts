@@ -7,6 +7,7 @@ export interface Sources {
 
 export interface RenderOptions {
   theme?: string;
+  uiVersion?: string;
   context?: string | unknown[];
   templates?: string | unknown[];
   functions?: string | unknown[];
