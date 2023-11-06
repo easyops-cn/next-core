@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.18...@next-core/brick-container@3.8.19) (2023-11-06)
+
+
+### Bug Fixes
+
+* polyfill DocumentFragment:replaceChildren ([8a4731a](https://github.com/easyops-cn/next-core/commit/8a4731ae759118c84c3f2f71a4da8decd01cb4dd))
+* **serve:** allow setting host, and fix cookie flags ([f88fb94](https://github.com/easyops-cn/next-core/commit/f88fb94c97fb7333942d13ffc0f45b07d9900955))
+
+
+
+
+
 ## [3.8.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.17...@next-core/brick-container@3.8.18) (2023-11-03)
 
 **Note:** Version bump only for package @next-core/brick-container
