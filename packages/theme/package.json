@@ -24,7 +24,7 @@
     "build": "node scripts/build.js"
   },
   "dependencies": {
-    "@next-core/styles-v3": "^0.2.14"
+    "@next-core/styles-v3": "^0.3.3"
   },
   "devDependencies": {
     "@next-core/color-theme": "^0.4.8"

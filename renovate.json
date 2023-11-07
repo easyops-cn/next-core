@@ -23,6 +23,12 @@
       "enabled": false
     },
     {
+      "matchPackageNames": ["@next-core/styles-v3", "@next-core/color-theme"],
+      "groupName": "v2 packages",
+      "baseBranches": ["v3"],
+      "enabled": true
+    },
+    {
       "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
       "baseBranches": ["master", "v3"]
     },
