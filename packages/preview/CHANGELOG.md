@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.35](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.34...@next-core/preview@0.2.35) (2023-11-07)
+
+
+### Bug Fixes
+
+* refine loading bar ([da2bd08](https://github.com/easyops-cn/next-core/commit/da2bd08c53da2fbdac87476624f3793af229a558))
+
+
+
+
+
 ## [0.2.34](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.33...@next-core/preview@0.2.34) (2023-11-06)
 
 

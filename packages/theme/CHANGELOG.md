@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.10](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.9...@next-core/theme@1.3.10) (2023-11-07)
+
+
+### Bug Fixes
+
+* build generated.css ([9aac2fa](https://github.com/easyops-cn/next-core/commit/9aac2fa9fc1d78247fbd00bec7bade0e3a6ba143))
+* remove generated.css ([00cd626](https://github.com/easyops-cn/next-core/commit/00cd6260863c65acd8a68415153a4b3a1b11430a))
+* unify theme css variables ([33c010f](https://github.com/easyops-cn/next-core/commit/33c010f353e5687c48709f157eeab33369995ef4))
+
+
+
+
+
 ## [1.3.9](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.8...@next-core/theme@1.3.9) (2023-11-02)
 
 **Note:** Version bump only for package @next-core/theme
