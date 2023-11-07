@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.11](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.10...@next-core/theme@1.3.11) (2023-11-07)
+
+
+### Bug Fixes
+
+* do not ignore generated.css in npm ([79366d0](https://github.com/easyops-cn/next-core/commit/79366d07f35b38a1f3491e8113407c1fb12134db))
+
+
+
+
+
 ## [1.3.10](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.9...@next-core/theme@1.3.10) (2023-11-07)
 
 
