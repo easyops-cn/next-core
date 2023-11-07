@@ -11,7 +11,22 @@
     "./loading.css": "./src/loading.css",
     "./package.json": "./package.json"
   },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/src/generated.css"
+        ]
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
   "dependencies": {
     "@next-core/styles-v3": "^0.2.14"
+  },
+  "devDependencies": {
+    "@next-core/color-theme": "^0.4.8"
   }
 }
