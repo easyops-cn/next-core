@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.90.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.19...@next-core/brick-container@2.90.20) (2023-11-07)
+
+
+### Bug Fixes
+
+* unify theme css variables ([35dac75](https://github.com/easyops-cn/next-core/commit/35dac75fc49476cde546566b07ecde9cc90fc2d9))
+
+
+
+
+
 ## [2.90.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.90.18...@next-core/brick-container@2.90.19) (2023-11-06)
 
 
