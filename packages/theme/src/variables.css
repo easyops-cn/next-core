@@ -181,8 +181,6 @@
   --tabs-outlined-background: var(--antd-tabs-title-wrapper-bg);
   --tabs-outlined-shadow: var(--antd-tabs-shadow);
 
-  --tabs-shadow: var(--antd-tabs-shadow);
-
   --theme-slategray-color-rgb-channel: 101, 119, 154;
   --theme-slategray-color: rgb(var(--theme-slategray-color-rgb-channel));
 
@@ -336,4 +334,8 @@ html[data-theme="dark"],
   --color-fill-bg-container-4: var(--antd-component-background);
   --antd-popover-color: var(--antd-text-color);
   --antd-modal-mask-bg: rgba(11, 26, 47, 0.45);
+}
+
+html:not([data-theme="dark-v2"]) body.compact-layout {
+  --page-card-gap: 10px;
 }

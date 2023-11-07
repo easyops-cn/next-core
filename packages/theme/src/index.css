@@ -2,5 +2,6 @@
 @import "./default.css";
 @import "./dark.css";
 @import "./variables.css";
+@import "./business-variables.css";
 @import "./editor-bricks-variables.css";
 @import "./version/index.css";
