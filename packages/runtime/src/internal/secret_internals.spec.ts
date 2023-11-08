@@ -575,6 +575,7 @@ describe("updateStoryboard", () => {
           bricks: [],
         },
       ],
+      meta: {},
       $$fulfilling: null,
       $$fulfilled: true,
       $$registerCustomTemplateProcessed: false,
