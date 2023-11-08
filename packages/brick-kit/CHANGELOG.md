@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.179.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.5...@next-core/brick-kit@2.179.6) (2023-11-08)
+
+
+### Bug Fixes
+
+* keep runtime injected menus when update ([d98d2c0](https://github.com/easyops-cn/next-core/commit/d98d2c0e7decf43930f96bc7623ba13bee4e7f79))
+
+
+
+
+
 ## [2.179.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.4...@next-core/brick-kit@2.179.5) (2023-11-02)
 
 
