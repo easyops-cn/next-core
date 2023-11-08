@@ -42,13 +42,19 @@ export default function getProxy(env, getRawIndexHtml) {
             }
 
             const secureCookieFlags = ["SameSite=None", "Secure"];
+            const setCookies = res.getHeader("set-cookie");
             if (
-              env.cookieSameSiteNone &&
               req.method === "POST" &&
-              req.path === "/next/api/auth/login/v2"
+              req.path === "/next/api/auth/login/v2" &&
+              Array.isArray(setCookies)
             ) {
-              const setCookies = res.getHeader("set-cookie");
-              if (Array.isArray(setCookies)) {
+              const strategy =
+                env.cookieSameSiteNone && env.host === "localhost"
+                  ? "add"
+                  : env.https
+                  ? null
+                  : "clear";
+              if (strategy) {
                 // Note: it seems that now Chrome (v107) requires `SameSite=None` even for localhost.
                 // However, `Secure` can use used with non-http for localhost.
                 res.setHeader(
@@ -56,15 +62,28 @@ export default function getProxy(env, getRawIndexHtml) {
                   setCookies.map((cookie) => {
                     const separator = "; ";
                     const parts = cookie.split(separator);
-                    for (const part of secureCookieFlags) {
-                      if (!parts.includes(part)) {
-                        parts.push(part);
+
+                    // Add "SameSite=None; Secure"
+                    if (strategy === "add") {
+                      for (const part of secureCookieFlags) {
+                        if (!parts.includes(part)) {
+                          parts.push(part);
+                        }
+                      }
+                      return parts.join(separator);
+                    }
+
+                    // Clear "SameSite=None; Secure"
+                    const filteredParts = [];
+                    for (const part of parts) {
+                      if (!secureCookieFlags.includes(part)) {
+                        filteredParts.push(part);
                       }
                     }
-                    return parts.join(separator);
+                    return filteredParts.join(separator);
                   })
                 );
-                console.log("add same site for cookies");
+                console.log(`${strategy} same site for cookies`);
               }
             }
 
@@ -88,6 +107,11 @@ export default function getProxy(env, getRawIndexHtml) {
                 brickPackages,
                 data.brickPackages
               );
+
+              if (env.localSettings) {
+                mergeLocalSettings(data, env.localSettings);
+              }
+
               removeCacheHeaders(res);
               return JSON.stringify(result);
             }
@@ -100,16 +124,7 @@ export default function getProxy(env, getRawIndexHtml) {
               const result = JSON.parse(content);
               const { data } = result;
 
-              const { featureFlags, homepage, brand, misc } = env.localSettings;
-              data.featureFlags ??= {};
-              data.brand ??= {};
-              data.misc ??= {};
-              Object.assign(data.settings.featureFlags, featureFlags);
-              Object.assign(data.settings.brand, brand);
-              Object.assign(data.settings.misc, misc);
-              if (homepage) {
-                data.settings.homepage = homepage;
-              }
+              mergeLocalSettings(data, env.localSettings);
 
               return JSON.stringify(result);
             }
@@ -349,4 +364,17 @@ function getAppIdFromBootstrapPath(reqPath) {
  */
 function acceptTextHtml(req) {
   return /(?:^|,|;)text\/html(?:,|;|$)/.test(req.headers["accept"] || "");
+}
+
+function mergeLocalSettings(data, localSettings) {
+  const { featureFlags, homepage, brand, misc } = localSettings;
+  data.featureFlags ??= {};
+  data.brand ??= {};
+  data.misc ??= {};
+  Object.assign(data.settings.featureFlags, featureFlags);
+  Object.assign(data.settings.brand, brand);
+  Object.assign(data.settings.misc, misc);
+  if (homepage) {
+    data.settings.homepage = homepage;
+  }
 }

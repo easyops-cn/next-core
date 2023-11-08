@@ -122,7 +122,7 @@
   --connected-overlay-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
   --fullscreen-overlay-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
   --hover-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
-  --slide-up-shadow: 0px -4px 12px 0px rgba(0, 0, 0, 0.15);
+  --slide-up-shadow: 0px -2px 8px 0px rgba(0, 0, 0, 0.08);
   --menu-shadow: 2px 0px 0px 0px rgba(0, 0, 0, 0.24);
   --input-shadow: 0px 0px 0px 2px rgba(189, 225, 255, 1);
   --input-success-shadow: 0px 0px 0px 2px rgba(229, 255, 199, 1);
@@ -173,7 +173,7 @@
 
   /* 8.0 框架 */
   --v8-top-navigation-bg: var(--palette-gray-1);
-  --v8-top-menu-item-hover: var(--palette-gray-3);
+  --v8-top-menu-item-hover: rgba(0, 0, 0, 0.04);
   --v8-dropdown-selected-bg: #f0f6ff;
   --v8-dropdown-selected: #1a7aff;
   --v8-top-menu-item-selected-bg: var(--palette-blue-1);
@@ -188,6 +188,7 @@
     rgba(255, 255, 255, 0) 100%
   );
   --v8-left-sidebar-item-normal: #3c4875;
+  --v8-left-secondary-text: #7f8ba6;
 
   /* component CSS variables */
 
@@ -431,7 +432,7 @@
   --antd-pagination-total-strong-text: var(--text-color-default);
   --antd-pagination-item-hover: var(--color-brand);
   --antd-pagination-item-active-bg: transparent;
-  --antd-pagination-item-active-border: var(--color-brand);
+  --antd-pagination-item-active-border: var(--palette-blue-3);
   --antd-pagination-item-active-text-color: var(--color-brand);
   --antd-pagination-item-selected-hover-text-color: #2893f7;
   --antd-pagination-item-selected-hover-border-color: var(

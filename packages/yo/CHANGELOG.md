@@ -3,6 +3,137 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.10](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.9...@next-core/yo@1.5.10) (2023-11-07)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.9](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.8...@next-core/yo@1.5.9) (2023-11-07)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.7...@next-core/yo@1.5.8) (2023-11-03)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.7](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.6...@next-core/yo@1.5.7) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.5...@next-core/yo@1.5.6) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.4...@next-core/yo@1.5.5) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.3...@next-core/yo@1.5.4) (2023-11-01)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.2...@next-core/yo@1.5.3) (2023-11-01)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.1...@next-core/yo@1.5.2) (2023-11-01)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.0...@next-core/yo@1.5.1) (2023-10-30)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.22...@next-core/yo@1.5.0) (2023-10-27)
+
+
+### Features
+
+* cli创建brick模板时支持自由选择是否使用国际化，以便加载不同的模板 ([ec136ff](https://github.com/easyops-cn/next-core/commit/ec136ff682e07d0a338311eaeb5f7160e6c08ce0))
+
+
+
+
+
+## [1.4.22](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.21...@next-core/yo@1.4.22) (2023-10-26)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.21](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.20...@next-core/yo@1.4.21) (2023-10-20)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.20](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.19...@next-core/yo@1.4.20) (2023-10-20)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.19](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.18...@next-core/yo@1.4.19) (2023-10-19)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.4.18](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.17...@next-core/yo@1.4.18) (2023-10-18)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.4.17](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.4.16...@next-core/yo@1.4.17) (2023-10-12)
 
 **Note:** Version bump only for package @next-core/yo

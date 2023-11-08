@@ -192,6 +192,11 @@ export function updateStoryboard(
   const storyboard = _internalApiGetStoryboardInBootstrapData(appId)!;
   Object.assign(storyboard, {
     ...storyboardPatch,
+    meta: {
+      // Keep runtime fields such as `injectMenus`
+      ...storyboard.meta,
+      ...storyboardPatch.meta,
+    },
     $$fulfilling: null,
     $$fulfilled: true,
     $$registerCustomTemplateProcessed: false,
@@ -249,7 +254,15 @@ export function updateTemplatePreviewSettings(
     [
       {
         brick: templateId,
-        ...pick(settings, "properties", "events", "lifeCycle", "context"),
+        ...pick(
+          settings,
+          "properties",
+          "events",
+          "lifeCycle",
+          "context",
+          "slots",
+          "children"
+        ),
       },
     ]
   );

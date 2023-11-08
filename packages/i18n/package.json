@@ -1,6 +1,6 @@
 {
   "name": "@next-core/i18n",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/i18n",
   "license": "GPL-3.0",
   "repository": {
@@ -39,14 +39,14 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/types": "^1.7.0",
-    "@next-core/utils": "^1.6.1",
+    "@next-core/types": "^1.7.1",
+    "@next-core/utils": "^1.6.2",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
     "react-i18next": "^13.3.1"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.7",
-    "@next-core/test-next": "^1.0.10"
+    "@next-core/build-next-libs": "^1.0.8",
+    "@next-core/test-next": "^1.0.11"
   }
 }

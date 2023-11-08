@@ -3,6 +3,208 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.22...@next-core/brick-container@3.8.23) (2023-11-08)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.21...@next-core/brick-container@3.8.22) (2023-11-07)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.20...@next-core/brick-container@3.8.21) (2023-11-07)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.19...@next-core/brick-container@3.8.20) (2023-11-06)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.18...@next-core/brick-container@3.8.19) (2023-11-06)
+
+
+### Bug Fixes
+
+* polyfill DocumentFragment:replaceChildren ([8a4731a](https://github.com/easyops-cn/next-core/commit/8a4731ae759118c84c3f2f71a4da8decd01cb4dd))
+* **serve:** allow setting host, and fix cookie flags ([f88fb94](https://github.com/easyops-cn/next-core/commit/f88fb94c97fb7333942d13ffc0f45b07d9900955))
+
+
+
+
+
+## [3.8.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.17...@next-core/brick-container@3.8.18) (2023-11-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.16...@next-core/brick-container@3.8.17) (2023-11-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.15...@next-core/brick-container@3.8.16) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.14...@next-core/brick-container@3.8.15) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.13...@next-core/brick-container@3.8.14) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.12...@next-core/brick-container@3.8.13) (2023-11-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.11...@next-core/brick-container@3.8.12) (2023-11-01)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.10...@next-core/brick-container@3.8.11) (2023-11-01)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.9...@next-core/brick-container@3.8.10) (2023-11-01)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.8...@next-core/brick-container@3.8.9) (2023-10-30)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.7...@next-core/brick-container@3.8.8) (2023-10-27)
+
+
+### Bug Fixes
+
+* handle local settings for non-standalone apps ([096db76](https://github.com/easyops-cn/next-core/commit/096db76d58230334fc809d933b428bbaeeac7c37))
+
+
+
+
+
+## [3.8.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.6...@next-core/brick-container@3.8.7) (2023-10-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.5...@next-core/brick-container@3.8.6) (2023-10-20)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.4...@next-core/brick-container@3.8.5) (2023-10-20)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.3...@next-core/brick-container@3.8.4) (2023-10-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.2...@next-core/brick-container@3.8.3) (2023-10-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.1...@next-core/brick-container@3.8.2) (2023-10-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.0...@next-core/brick-container@3.8.1) (2023-10-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+# [3.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.7.0...@next-core/brick-container@3.8.0) (2023-10-18)
+
+
+### Features
+
+* remove ui-patch and add version in theme ([8900f6b](https://github.com/easyops-cn/next-core/commit/8900f6bd9b7432de19c22d595720fbeefb2dcd63))
+
+
+
+
+
 # [3.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.6.20...@next-core/brick-container@3.7.0) (2023-10-12)
 
 

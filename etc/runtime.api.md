@@ -296,6 +296,8 @@ export interface RenderOptions {
     templates?: CustomTemplate[];
     // (undocumented)
     theme?: SiteTheme;
+    // (undocumented)
+    uiVersion?: string;
 }
 
 // @public (undocumented)
@@ -423,6 +425,9 @@ export interface RuntimeOptions {
     hooks?: RuntimeHooks;
 }
 
+// @public (undocumented)
+export function setUIVersion(version: string | undefined | null): void;
+
 // Warning: (ae-forgotten-export) The symbol "StoryboardFunctionRegistry" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -438,7 +443,7 @@ function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult:
 
 // @public (undocumented)
 export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
-    render(brick: BrickConf | BrickConf[], { theme, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
+    render(brick: BrickConf | BrickConf[], { theme, uiVersion, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };
 

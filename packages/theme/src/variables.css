@@ -47,6 +47,7 @@
   --side-bar-collapsed-width: 60px;
   --side-bar-collapse-transition-duration: 400ms;
   --side-bar-collapse-transition-timing-function: ease;
+  --sidebar-bg: #f7f8fa;
 
   /* ui-v5 use appBar, ui-v8 use navBar. */
   --app-bar-height: 54px;
@@ -56,11 +57,22 @@
   --launchpad-backdrop-transition: filter 100ms ease-out;
 
   --page-padding: 24px;
+  --page-padding-top: 24px;
+  --page-padding-right: 24px;
+  --page-padding-bottom: 24px;
+  --page-padding-left: 24px;
+
+  --page-title-font-size: 24px;
+  --page-title-font-weight: 500;
+  --page-title-line-height: 28px;
   --page-title-height: 32px;
   --page-card-gap: 20px;
-  --page-title-margin-top: 16px;
-  --page-title-margin-bottom: 18px;
+  --page-title-margin-top: 9px;
+  --page-title-margin-bottom: 9px;
   --toolbar-button-gap: 8px;
+
+  --grid-card-gap: 16px;
+  --grid-card-gap-large: 16px;
 
   /* easy-view gap */
   --easy-view-gap: 16px;
@@ -138,6 +150,36 @@
 
   --card-hover-border-color: transparent;
   --card-hover-box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  --card-head-padding-vertical: 12px;
+  --card-head-padding-horizontal-base: 20px;
+  --card-head-padding-horizontal: var(--card-head-padding-horizontal-base);
+  --card-head-padding: var(--card-head-padding-vertical)
+    var(--card-head-padding-horizontal);
+  --card-body-padding-vertical: 16px;
+  --card-body-padding-horizontal-base: 24px;
+  --card-body-padding-horizontal: var(--card-body-padding-horizontal-base);
+  --card-body-padding: var(--card-body-padding-vertical)
+    var(--card-body-padding-horizontal);
+  --card-border-color-split: var(--antd-border-color-split);
+
+  --description-header-padding: 20px 20px 0 20px;
+  --description-content-padding: 6px 24px;
+  --description-border-bottom-color: transparent;
+
+  --category-item-padding: 0;
+  --category-header-padding: 32px 20px 0 20px;
+  --category-content-padding: 24px 20px 24px 31px;
+  --category-split-margin: 0 20px;
+
+  /* Tabs may or may not be outlined */
+  --tabs-header-padding: 0;
+  --tabs-content-padding: 16px 0;
+  --tabs-outlined-header-padding: 0 16px;
+  --tabs-outlined-content-padding: 16px;
+  --tabs-outlined-border-radius: 6px;
+  --tabs-outlined-background: var(--antd-tabs-title-wrapper-bg);
+  --tabs-outlined-shadow: var(--antd-tabs-shadow);
 
   --theme-slategray-color-rgb-channel: 101, 119, 154;
   --theme-slategray-color: rgb(var(--theme-slategray-color-rgb-channel));
@@ -292,4 +334,8 @@ html[data-theme="dark"],
   --color-fill-bg-container-4: var(--antd-component-background);
   --antd-popover-color: var(--antd-text-color);
   --antd-modal-mask-bg: rgba(11, 26, 47, 0.45);
+}
+
+html:not([data-theme="dark-v2"]) body.compact-layout {
+  --page-card-gap: 10px;
 }

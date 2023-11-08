@@ -3,6 +3,121 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.1...@next-core/runtime@1.25.2) (2023-11-08)
+
+
+### Bug Fixes
+
+* keep runtime injected menus when update ([7af5d69](https://github.com/easyops-cn/next-core/commit/7af5d69941af7c609ea5a1e922395c3f940f430a))
+
+
+
+
+
+## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.0...@next-core/runtime@1.25.1) (2023-11-06)
+
+
+### Bug Fixes
+
+* set ui version in docs and playground ([bed4722](https://github.com/easyops-cn/next-core/commit/bed4722221696310eebe067ea07f2d9ef0c85161))
+
+
+
+
+
+# [1.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.6...@next-core/runtime@1.25.0) (2023-11-03)
+
+
+### Features
+
+* support customizing color theme ([df71dea](https://github.com/easyops-cn/next-core/commit/df71deacae1702518b75b24c8c8df37cc639da20))
+
+
+
+
+
+## [1.24.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.5...@next-core/runtime@1.24.6) (2023-11-02)
+
+
+### Bug Fixes
+
+* allow to set slots/children for template preview ([75ea890](https://github.com/easyops-cn/next-core/commit/75ea89007b81b2a54ff05233ac222e98bcbc116a))
+
+
+
+
+
+## [1.24.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.4...@next-core/runtime@1.24.5) (2023-10-30)
+
+
+### Bug Fixes
+
+* set ui v8-2 on html instead of body ([0a029f9](https://github.com/easyops-cn/next-core/commit/0a029f939a215ea180fd36fc4f21223d4b5787ae))
+
+
+
+
+
+## [1.24.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.3...@next-core/runtime@1.24.4) (2023-10-20)
+
+
+### Bug Fixes
+
+* make new error class instead of use `cause` ([9d04c25](https://github.com/easyops-cn/next-core/commit/9d04c252600d5ff045a127d5dbf28220853be3e9))
+
+
+
+
+
+## [1.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.2...@next-core/runtime@1.24.3) (2023-10-19)
+
+
+### Bug Fixes
+
+* fix cache strategy for multi-rendering ([ae63e38](https://github.com/easyops-cn/next-core/commit/ae63e38b2bec97827c96a275fa5fde5794776be2))
+
+
+
+
+
+## [1.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.1...@next-core/runtime@1.24.2) (2023-10-19)
+
+
+### Bug Fixes
+
+* move setUIClassName before mountTree ([45b5a56](https://github.com/easyops-cn/next-core/commit/45b5a567d175fc5414afc3ea6c20904abc53ee54))
+
+
+
+
+
+## [1.24.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.24.0...@next-core/runtime@1.24.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* set word-break for handleHttpError ([4bc0fe8](https://github.com/easyops-cn/next-core/commit/4bc0fe83aee2ce506fa5c858be52ebc6581da0a9))
+
+
+
+
+
+# [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.23.0...@next-core/runtime@1.24.0) (2023-10-18)
+
+
+### Bug Fixes
+
+* login success return to the original page instead of the homepage after login in timeout ([0cfff0e](https://github.com/easyops-cn/next-core/commit/0cfff0ea8faf8ddebfdaaf637a687bb31d13dbbf))
+
+
+### Features
+
+* remove ui-patch and add version in theme ([8900f6b](https://github.com/easyops-cn/next-core/commit/8900f6bd9b7432de19c22d595720fbeefb2dcd63))
+
+
+
+
+
 # [1.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.22.15...@next-core/runtime@1.23.0) (2023-10-12)
 
 

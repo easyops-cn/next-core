@@ -24,6 +24,7 @@ import type {
 import { handleHttpError } from "../../handleHttpError.js";
 import type { RendererContext } from "../RendererContext.js";
 import { computePropertyValue } from "../compute/computeRealProperties.js";
+import { _internalApiGetRenderId } from "../Runtime.js";
 
 const supportContextResolveTriggerBrickLifeCycle = [
   "onBeforePageLoad",
@@ -182,6 +183,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         }
       }
 
+      const shouldDismiss = (error: unknown) => {
+        // If render twice immediately, flow API contracts maybe cleared before
+        // the second rendering, while the page load handlers of the first
+        // rendering can't be cancelled, which throws `FlowApiNotFoundError`.
+        // So we ignore error reporting for this case.
+        let renderId: string | undefined;
+        return (
+          (error as Error)?.name === "FlowApiNotFoundError" &&
+          !!(renderId = this.rendererContext?.renderId) &&
+          renderId !== _internalApiGetRenderId()
+        );
+      };
+
       if (!promise) {
         promise = item.loading = item.load({
           cache: method === "load" ? "default" : "reload",
@@ -200,7 +214,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           },
           (err) => {
             // Let users override error handling.
-            if (!callback?.error) {
+            if (!shouldDismiss(err) && !callback?.error) {
               handleHttpError(err);
             }
           }
@@ -219,7 +233,9 @@ export class DataStore<T extends DataStoreType = "CTX"> {
             callbackFactory("finally")();
           },
           (err) => {
-            callbackFactory("error")(err);
+            if (!shouldDismiss(err) && callback.error) {
+              callbackFactory("error")(err);
+            }
             callbackFactory("finally")();
           }
         );
@@ -367,7 +383,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         if (await asyncCheckIf(dataConf.resolve, runtimeContext)) {
           load = async (options) =>
             (
-              (await resolveData(resolveConf, runtimeContext, options)) as {
+              (await resolveData(resolveConf, runtimeContext, {
+                ...options,
+                renderId: this.rendererContext?.renderId,
+              })) as {
                 value: unknown;
               }
             ).value;

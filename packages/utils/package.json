@@ -1,6 +1,6 @@
 {
   "name": "@next-core/utils",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/utils",
   "license": "GPL-3.0",
   "repository": {
@@ -38,12 +38,12 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/cook": "^2.2.6",
-    "@next-core/types": "^1.7.0",
+    "@next-core/cook": "^2.2.7",
+    "@next-core/types": "^1.7.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.7",
-    "@next-core/test-next": "^1.0.10"
+    "@next-core/build-next-libs": "^1.0.8",
+    "@next-core/test-next": "^1.0.11"
   }
 }

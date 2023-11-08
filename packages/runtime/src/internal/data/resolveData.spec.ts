@@ -3,6 +3,9 @@ import { createProviderClass } from "@next-core/utils/general";
 import { resolveData } from "./resolveData.js";
 import type { RuntimeContext } from "../interfaces.js";
 import { DataStore } from "./DataStore.js";
+import { _internalApiGetRenderId } from "../Runtime.js";
+
+jest.mock("../Runtime.js");
 
 const myTimeoutProvider = jest.fn(
   (timeout: number, result?: unknown, throwError?: unknown) =>
@@ -19,6 +22,8 @@ customElements.define(
 );
 
 const consoleWarn = jest.spyOn(console, "warn");
+
+const mockGetRenderId = _internalApiGetRenderId as jest.Mock;
 
 describe("resolveData", () => {
   test("general", async () => {
@@ -185,5 +190,35 @@ describe("resolveData", () => {
     expect(consoleWarn).toBeCalledWith(
       expect.stringContaining("resolve.field")
     );
+  });
+
+  test("stale", async () => {
+    const runtimeContext = {} as RuntimeContext;
+    mockGetRenderId.mockReturnValue("render-id-2");
+    const result1 = await resolveData(
+      {
+        useProvider: "my-timeout-provider",
+        args: [30, "should-not-cache"],
+      },
+      runtimeContext,
+      {
+        renderId: "render-id-1",
+      }
+    );
+    expect(result1).toEqual("should-not-cache");
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+
+    const result2 = await resolveData(
+      {
+        useProvider: "my-timeout-provider",
+        args: [30, "should-not-cache"],
+      },
+      runtimeContext,
+      {
+        renderId: "render-id-2",
+      }
+    );
+    expect(result2).toEqual("should-not-cache");
+    expect(myTimeoutProvider).toBeCalledTimes(2);
   });
 });

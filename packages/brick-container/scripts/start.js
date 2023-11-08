@@ -15,14 +15,14 @@ import {
 import liveReloadServer from "../serve/utils/liveReloadServer.js";
 
 const env = await getEnv(path.join(process.cwd(), "../.."));
-const { rootDir, baseHref, port } = env;
+const { rootDir, baseHref, host, port } = env;
 const distDir = path.join(process.cwd(), "dist");
 
 const compiler = await build(config);
 const server = new WebpackDevServer(
   {
     open: [baseHref],
-    host: "localhost",
+    host,
     port,
     hot: true,
     client: {

@@ -41,12 +41,13 @@ import {
   isUnauthenticatedError,
 } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
+import { setLoginStateCookie } from "../setLoginStateCookie.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
 import { fulfilStoryboard } from "./fulfilStoryboard.js";
 import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
-import { loadUIPatch } from "../UIPatch.js";
+import { setUIVersion } from "../setUIVersion.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -236,7 +237,7 @@ export class Router {
   }
 
   async #render(location: NextLocation): Promise<void> {
-    this.#renderId = uniqueId("render-id-1");
+    const renderId = (this.#renderId = uniqueId("render-id-"));
 
     resetAllComputedMarks();
     clearResolveCache();
@@ -278,6 +279,7 @@ export class Router {
 
     const redirectToLogin = (): void => {
       const to = flags["sso-enabled"] ? "/sso-auth/login" : "/auth/login";
+      setLoginStateCookie(location);
       redirectTo(to, { from: location });
     };
 
@@ -330,10 +332,6 @@ export class Router {
         storyboard,
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
       );
-
-      const { uiPatch: allowUIPatch } = getRuntime().getPreseBricks();
-
-      const uiPatch = loadUIPatch(currentApp.uiVersion ?? "8.0", allowUIPatch);
 
       const routeHelper: RouteHelper = {
         bailout: (output) => {
@@ -388,7 +386,7 @@ export class Router {
 
       const rendererContext = (this.#rendererContext = new RendererContext(
         "page",
-        { routeHelper }
+        { routeHelper, renderId }
       ));
 
       const runtimeContext: RuntimeContext = (this.#runtimeContext = {
@@ -433,8 +431,6 @@ export class Router {
           return;
         }
 
-        output.blockingList.push(uiPatch);
-
         stores = getDataStores(runtimeContext);
 
         await postAsyncRender(output, runtimeContext, stores);
@@ -464,6 +460,7 @@ export class Router {
         applyMode();
 
         window.DISABLE_REACT_FLUSH_SYNC = false;
+        setUIVersion(currentApp?.uiVersion);
         mountTree(renderRoot);
         setTimeout(() => {
           window.DISABLE_REACT_FLUSH_SYNC = true;

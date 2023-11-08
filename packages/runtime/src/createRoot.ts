@@ -8,6 +8,7 @@ import type {
   Storyboard,
   StoryboardFunction,
 } from "@next-core/types";
+import { uniqueId } from "lodash";
 import {
   RenderOutput,
   getDataStores,
@@ -24,6 +25,7 @@ import { RenderTag } from "./internal/enums.js";
 import { registerStoryboardFunctions } from "./internal/compute/StoryboardFunctions.js";
 import { registerAppI18n } from "./internal/registerAppI18n.js";
 import { registerCustomTemplates } from "./internal/registerCustomTemplates.js";
+import { setUIVersion } from "./setUIVersion.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
@@ -44,6 +46,7 @@ export interface CreateRootOptions {
 
 export interface RenderOptions {
   theme?: SiteTheme;
+  uiVersion?: string;
   context?: ContextConf[];
   functions?: StoryboardFunction[];
   templates?: CustomTemplate[];
@@ -77,6 +80,7 @@ export function unstable_createRoot(
       brick: BrickConf | BrickConf[],
       {
         theme,
+        uiVersion,
         context,
         functions,
         templates,
@@ -91,7 +95,8 @@ export function unstable_createRoot(
       const bricks = ([] as BrickConf[]).concat(brick);
 
       const previousRendererContext = rendererContext;
-      rendererContext = new RendererContext(scope, { unknownBricks });
+      const renderId = uniqueId("render-id-");
+      rendererContext = new RendererContext(scope, { unknownBricks, renderId });
 
       const runtimeContext = {
         ctxStore: new DataStore("CTX", undefined, rendererContext),
@@ -109,6 +114,7 @@ export function unstable_createRoot(
       if (scope === "page") {
         setTheme(theme ?? "light");
         setMode("default");
+        setUIVersion(uiVersion);
 
         const demoApp = {
           id: "demo",
