@@ -1452,6 +1452,7 @@ describe("Kernel", () => {
             bricks: [],
           },
         ],
+        meta: {},
         $$fulfilling: null,
         $$fulfilled: true,
         $$registerCustomTemplateProcessed: false,
