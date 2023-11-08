@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.1...@next-core/runtime@1.25.2) (2023-11-08)
+
+
+### Bug Fixes
+
+* keep runtime injected menus when update ([7af5d69](https://github.com/easyops-cn/next-core/commit/7af5d69941af7c609ea5a1e922395c3f940f430a))
+
+
+
+
+
 ## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.0...@next-core/runtime@1.25.1) (2023-11-06)
 
 
