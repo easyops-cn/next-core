@@ -438,6 +438,11 @@ export class Kernel {
     );
     Object.assign(storyboard, {
       ...storyboardPatch,
+      meta: {
+        // Keep runtime fields such as `injectMenus`
+        ...storyboard.meta,
+        ...storyboardPatch.meta,
+      },
       $$fulfilling: null,
       $$fulfilled: true,
       $$registerCustomTemplateProcessed: false,
