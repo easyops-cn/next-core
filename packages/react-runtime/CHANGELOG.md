@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.30](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.29...@next-core/react-runtime@1.1.30) (2023-11-09)
+
+
+### Bug Fixes
+
+* ignore stale useBrick render ([93d2298](https://github.com/easyops-cn/next-core/commit/93d229890018a74913fc46d81456e6dc945f8f90))
+
+
+
+
+
 ## [1.1.29](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.28...@next-core/react-runtime@1.1.29) (2023-11-08)
 
 **Note:** Version bump only for package @next-core/react-runtime
