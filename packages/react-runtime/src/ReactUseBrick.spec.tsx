@@ -133,6 +133,69 @@ describe("ReactUseBrick", () => {
     );
   });
 
+  test("ignore stale render", async () => {
+    jest.useFakeTimers();
+    mockRenderUseBrick.mockImplementation(
+      (...args) =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              tagName: "div",
+              args,
+            });
+          }, 200);
+        })
+    );
+    const useBrick = { brick: "div" };
+    const { rerender, unmount } = render(
+      <ListByUseBrick useBrick={useBrick} data={["a"]} />
+    );
+
+    expect(mockRenderUseBrick).toBeCalledTimes(1);
+    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(1, useBrick, "a");
+    expect(mockMountUseBrick).not.toBeCalled();
+
+    jest.advanceTimersByTime(200);
+    await act(() => (global as any).flushPromises());
+
+    expect(mockMountUseBrick).toBeCalledTimes(1);
+    expect(mockMountUseBrick).toBeCalledWith(
+      {
+        tagName: "div",
+        args: [useBrick, "a"],
+      },
+      expect.any(HTMLDivElement)
+    );
+
+    // Re-render useBrick with the latter one props updated.
+    rerender(<ListByUseBrick useBrick={useBrick} data={["b"]} />);
+
+    jest.advanceTimersByTime(100);
+    await act(() => (global as any).flushPromises());
+
+    expect(mockMountUseBrick).toBeCalledTimes(1);
+
+    // Re-render useBrick with the latter one props updated.
+    rerender(<ListByUseBrick useBrick={useBrick} data={["c"]} />);
+
+    jest.advanceTimersByTime(200);
+    await act(() => (global as any).flushPromises());
+
+    expect(mockMountUseBrick).toBeCalledTimes(2);
+    expect(mockMountUseBrick).toHaveBeenNthCalledWith(
+      2,
+      {
+        tagName: "div",
+        args: [useBrick, "c"],
+      },
+      expect.any(HTMLDivElement)
+    );
+
+    unmount();
+
+    jest.useRealTimers();
+  });
+
   test("render nothing", async () => {
     mockRenderUseBrick.mockImplementation(() =>
       Promise.resolve({
