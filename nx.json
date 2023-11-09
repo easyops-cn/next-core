@@ -11,7 +11,7 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*"],
-    "prod": ["!{projectRoot}/**/*.spec.*"],
+    "prod": ["default", "!{projectRoot}/**/*.spec.*"],
     "global": [
       "{workspaceRoot}/package.json",
       "{workspaceRoot}/yarn.lock",
