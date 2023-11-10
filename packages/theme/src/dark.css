@@ -140,7 +140,7 @@ html[data-theme="dark-v2"],
 
   --custom-form-item-wrapper-bg: var(--color-fill-bg-base-4);
 
-  /* 8.0 框架 */
+  /* @deprecated start */
   --v8-top-navigation-bg: #323237;
   --v8-top-menu-item-hover: var(--palette-rgba-gray-2);
   --v8-top-menu-item-selected-bg: var(--palette-rgba-gray-4);
@@ -156,6 +156,24 @@ html[data-theme="dark-v2"],
   );
   --v8-left-sidebar-item-normal: #c5cbd4;
   --v8-left-secondary-text: var(--palette-rgba-gray-7);
+  /** @deprecated end */
+
+  --top-navigation-bg: #323237;
+  --top-menu-item-hover-bg: var(--palette-rgba-gray-2);
+  --top-menu-item-selected-bg: var(--palette-rgba-gray-4);
+
+  --left-menu-bg: #141414;
+  --left-menu-hover-bg: #141414;
+  --left-sidebar-item--selected-hover-bg: var(--palette-blue-5);
+  --left-sidebar-item-hover-bg: var(--palette-rgba-gray-2);
+  --left-sidebar-item-selected-color: var(--palette-gray-10);
+  --left-secondary-text-color: #757d89;
+  --left-sidebar-large-title-color: var(--palette-rgba-gray-9);
+  --left-sidebar-border-right: var(--palette-rgba-gray-4);
+
+  --third-menu-default-bg: #202024;
+  --third-menu-item-selected-bg: var(--palette-blue-2);
+  --third-menu-item-hover-bg: var(--palette-rgba-gray-2);
 
   /* component CSS variables */
 
