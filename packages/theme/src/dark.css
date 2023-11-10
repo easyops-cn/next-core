@@ -164,7 +164,7 @@ html[data-theme="dark-v2"],
 
   --left-menu-bg: #141414;
   --left-menu-hover-bg: #141414;
-  --left-sidebar-item--selected-hover-bg: var(--palette-blue-5);
+  --left-sidebar-item-selected-hover-bg: var(--palette-blue-5);
   --left-sidebar-item-hover-bg: var(--palette-rgba-gray-2);
   --left-sidebar-item-selected-color: var(--palette-gray-10);
   --left-secondary-text-color: #757d89;
