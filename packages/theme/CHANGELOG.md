@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.4.0...@next-core/theme@1.4.1) (2023-11-10)
+
+
+### Bug Fixes
+
+* fix sidebar css variables ([5acd0b2](https://github.com/easyops-cn/next-core/commit/5acd0b2a5e7107e0fc3265a0240b163e30b2472b))
+
+
+
+
+
 # [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.11...@next-core/theme@1.4.0) (2023-11-10)
 
 
