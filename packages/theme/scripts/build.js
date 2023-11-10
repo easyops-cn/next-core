@@ -20,6 +20,8 @@ await fs.writeFile(
       purple: "#893ad8",
       pink: "#ff1a79",
       indigo: "#3844e8",
+      "deep-purple": "#6641f9",
+      "gray-blue": "#778dc3",
     }),
     getStyleByBaseColors(
       "dark",
@@ -35,6 +37,8 @@ await fs.writeFile(
         purple: "#8a3bda",
         pink: "#ff1a7c",
         indigo: "#3946ea",
+        "deep-purple": "#6743fb",
+        "gray-blue": "#798fc5",
       },
       "#17171a"
     ),
