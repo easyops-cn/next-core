@@ -1,6 +1,6 @@
 {
   "name": "@next-core/theme",
-  "version": "1.3.11",
+  "version": "1.4.0",
   "license": "GPL-3.0",
   "description": "> TODO: description",
   "main": "src/index.css",

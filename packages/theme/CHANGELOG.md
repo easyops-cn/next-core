@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.11...@next-core/theme@1.4.0) (2023-11-10)
+
+
+### Features
+
+* **theme:** update color ([fbc2c59](https://github.com/easyops-cn/next-core/commit/fbc2c598232f45dfe0b2bf005e02af9310facbe6))
+
+
+
+
+
 ## [1.3.11](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.3.10...@next-core/theme@1.3.11) (2023-11-07)
 
 
