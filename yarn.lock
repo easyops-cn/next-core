@@ -2372,10 +2372,10 @@
   resolved "https://registry.npmjs.org/@next-core/loader/-/loader-1.4.3.tgz#f1da881f29d9f4794ec20a50ad4ba5712a172c31"
   integrity sha512-8pZZ07GBz9ZKiO97+cR/LNJNxLlCW6ffPSVuETROuE2hMCYr4aaoTNPcQH/ECJq+A5kxi/QPwUguWxpWw/UzYw==
 
-"@next-core/theme@^1.3.11":
-  version "1.3.11"
-  resolved "https://registry.npmjs.org/@next-core/theme/-/theme-1.3.11.tgz#f505282d3bb77b4974c01ba9c165092596bad77d"
-  integrity sha512-9SnhcTszaRfwHtriw0FmJOEByWnkWxVElvLzhR9/OkKLk2QjbK96oZ5ZxWdAxKhOwIVjPTdTuqUw2rH//usBxA==
+"@next-core/theme@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@next-core/theme/-/theme-1.4.1.tgz#e5b243423850683d234f0ec4721f686932ae13a3"
+  integrity sha512-9/6LEdn/zVbXPoLAtR+e+SgfyWOwajb3gHtqxqnatyc2tOAuUk0cT1+Qpdwxp6/va86mec9WCd82ONn+7ZR61g==
   dependencies:
     "@next-core/styles-v3" "^0.3.3"
 
