@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.6...@next-core/build-next-bricks@1.15.0) (2023-11-15)
+
+
+### Features
+
+* support build bricks with category ([456d3e3](https://github.com/easyops-cn/next-core/commit/456d3e3595935ea3b726712e87f0c488bc0c1fea))
+
+
+
+
+
 ## [1.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.5...@next-core/build-next-bricks@1.14.6) (2023-11-09)
 
 **Note:** Version bump only for package @next-core/build-next-bricks

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.30](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.29...@next-core/i18n@1.0.30) (2023-11-15)
+
+
+### Bug Fixes
+
+* refine types ([8db85ad](https://github.com/easyops-cn/next-core/commit/8db85ad449192935c5ecf9fe1bf70bb03f1f67f4))
+
+
+
+
+
 ## [1.0.29](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.28...@next-core/i18n@1.0.29) (2023-11-09)
 
 **Note:** Version bump only for package @next-core/i18n
