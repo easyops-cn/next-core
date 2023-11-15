@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.15.0...@next-core/build-next-bricks@1.15.1) (2023-11-15)
+
+
+### Bug Fixes
+
+* fix import path in Windows ([6c6fbcc](https://github.com/easyops-cn/next-core/commit/6c6fbcc345c9a6ae8a18d595c864313057ab1aba))
+
+
+
+
+
 # [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.6...@next-core/build-next-bricks@1.15.0) (2023-11-15)
 
 
