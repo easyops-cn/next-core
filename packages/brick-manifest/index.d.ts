@@ -16,6 +16,7 @@ export interface BrickManifest {
   parts?: PartManifest[];
   deprecated?: boolean | string;
   alias?: string[];
+  category?: string;
 }
 
 export interface PropertyManifest {
