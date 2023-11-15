@@ -167,7 +167,7 @@ describe("ReactUseBrick", () => {
       expect.any(HTMLDivElement)
     );
 
-    // Re-render useBrick with the latter one props updated.
+    // First re-render.
     rerender(<ListByUseBrick useBrick={useBrick} data={["b"]} />);
 
     jest.advanceTimersByTime(100);
@@ -175,10 +175,15 @@ describe("ReactUseBrick", () => {
 
     expect(mockMountUseBrick).toBeCalledTimes(1);
 
-    // Re-render useBrick with the latter one props updated.
+    // Second re-render before the first one completes.
     rerender(<ListByUseBrick useBrick={useBrick} data={["c"]} />);
 
-    jest.advanceTimersByTime(200);
+    // The first re-render should be ignored.
+    jest.advanceTimersByTime(100);
+    await act(() => (global as any).flushPromises());
+    expect(mockMountUseBrick).toBeCalledTimes(1);
+
+    jest.advanceTimersByTime(100);
     await act(() => (global as any).flushPromises());
 
     expect(mockMountUseBrick).toBeCalledTimes(2);
@@ -191,9 +196,8 @@ describe("ReactUseBrick", () => {
       expect.any(HTMLDivElement)
     );
 
-    unmount();
-
     jest.useRealTimers();
+    unmount();
   });
 
   test("render nothing", async () => {
