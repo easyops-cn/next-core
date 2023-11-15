@@ -99,6 +99,12 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
           });
           break;
         }
+        case "category": {
+          if (tag.description) {
+            manifest.category = tag.description;
+          }
+          break;
+        }
       }
     }
   }
