@@ -2,6 +2,7 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 import build from "../src/build.js";
 import scanBricks from "../src/scanBricks.js";
 import generatePkgBuild from "../src/generatePkgBuild.js";
@@ -24,7 +25,7 @@ try {
   /** @type {MaybeArray<BuildNextBricksConfig>} */
   let rawConfig = {};
   if (existsSync(configJs)) {
-    rawConfig = (await import(configJs)).default;
+    rawConfig = (await import(pathToFileURL(configJs))).default;
   }
 
   /** @type {Array<BuildNextBricksConfig>} */
