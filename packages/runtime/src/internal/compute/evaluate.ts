@@ -487,7 +487,7 @@ function lowLevelEvaluate(
         globalVariables,
         getGeneralGlobals(precooked.attemptToVisitGlobals, {
           storyboardFunctions,
-          app: runtimeContext.app,
+          app: app,
           appendI18nNamespace: runtimeContext.appendI18nNamespace,
         })
       );
