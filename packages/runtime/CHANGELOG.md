@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.4...@next-core/runtime@1.25.5) (2023-11-16)
+
+
+### Bug Fixes
+
+* menu overrideApp load img icon fail ([b736aa8](https://github.com/easyops-cn/next-core/commit/b736aa85ee7975d896296f841100067ba7ea5efa))
+
+
+
+
+
 ## [1.25.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.3...@next-core/runtime@1.25.4) (2023-11-15)
 
 **Note:** Version bump only for package @next-core/runtime
