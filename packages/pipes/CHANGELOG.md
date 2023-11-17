@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.12](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@2.0.11...@next-core/pipes@2.0.12) (2023-11-17)
+
+
+### Bug Fixes
+
+* update pipes which target to es5 ([74885d0](https://github.com/easyops-cn/next-core/commit/74885d02d8a1eb72d43cd1575a13ea4aa022cf2b))
+
+
+
+
+
 ## [2.0.11](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@2.0.10...@next-core/pipes@2.0.11) (2023-10-18)
 
 **Note:** Version bump only for package @next-core/pipes
