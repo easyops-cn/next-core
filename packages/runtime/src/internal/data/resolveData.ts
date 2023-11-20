@@ -146,7 +146,7 @@ export async function resolveByProvider(
       const finalArgs = hooks?.flowApi?.isFlowApiProvider(useProvider)
         ? await hooks.flowApi.getArgsOfFlowApi(useProvider, args, method)
         : args;
-      return brick.resolve(...finalArgs);
+      return brick[method](...finalArgs);
     })();
 
     if (!stale) {

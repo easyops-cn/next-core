@@ -1,5 +1,8 @@
+import { saveAs } from "file-saver";
+
 interface ProviderElement<T extends unknown[], U> extends HTMLElement {
   resolve(...args: T): U;
+  saveAs(filename: string, ...args: T): Promise<void>;
 }
 
 interface ProviderConstructor<T extends unknown[], U> {
@@ -16,6 +19,11 @@ export function createProviderClass<T extends unknown[], U>(
 
     resolve(...args: T): U {
       return api(...args);
+    }
+
+    async saveAs(filename: string, ...args: T): Promise<void> {
+      const blob = await api(...args);
+      saveAs(blob as unknown as Blob, filename);
     }
   };
 }
