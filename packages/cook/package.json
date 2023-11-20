@@ -48,7 +48,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/parser": "^7.23.3"
+    "@babel/parser": "^7.23.4"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.8",
