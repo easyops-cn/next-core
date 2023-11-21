@@ -212,7 +212,7 @@
   --left-sidebar-group-border-color: var(--palette-gray-blue-3);
   --left-sidebar-border-right: var(--palette-gray-4);
 
-  --third-menu-default-bg: var(--palette-gray-1);
+  --third-menu-default-bg: #f7f8fa;
   --third-menu-item-selected-bg: var(--palette-blue-1);
   --third-menu-item-hover-bg: var(--palette-gray-3);
 
