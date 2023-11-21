@@ -40,6 +40,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "pascal-case": "^3.1.2",
     "ts-jest-resolver": "^2.0.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   }
 }
