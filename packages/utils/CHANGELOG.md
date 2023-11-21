@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.4](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.6.3...@next-core/utils@1.6.4) (2023-11-21)
+
+
+### Bug Fixes
+
+* missing saveAs method ([9208628](https://github.com/easyops-cn/next-core/commit/9208628709f759f76104cb15b45319ea0ab6874d))
+
+
+
+
+
 ## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.6.2...@next-core/utils@1.6.3) (2023-11-17)
 
 **Note:** Version bump only for package @next-core/utils

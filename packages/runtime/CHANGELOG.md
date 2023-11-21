@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.6...@next-core/runtime@1.25.7) (2023-11-21)
+
+
+### Bug Fixes
+
+* missing saveAs method ([9208628](https://github.com/easyops-cn/next-core/commit/9208628709f759f76104cb15b45319ea0ab6874d))
+
+
+
+
+
 ## [1.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.5...@next-core/runtime@1.25.6) (2023-11-17)
 
 **Note:** Version bump only for package @next-core/runtime
