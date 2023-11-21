@@ -40,9 +40,11 @@
   "dependencies": {
     "@next-core/cook": "^2.2.8",
     "@next-core/types": "^1.7.1",
+    "file-saver": "^2.0.5",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@next-core/build-next-libs": "^1.0.8",
     "@next-core/test-next": "^1.0.11"
   }
