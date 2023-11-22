@@ -7,7 +7,9 @@
   "type": "module",
   "typings": "./index.d.ts",
   "bin": {
-    "build-next-bricks": "./bin/build-next-bricks.js"
+    "build-next-bricks": "./bin/build-next-bricks.js",
+    "pre-build-next-bricks": "./bin/pre-build-next-bricks.js",
+    "post-build-next-bricks": "./bin/post-build-next-bricks.js"
   },
   "files": [
     "bin",
@@ -46,6 +48,7 @@
     "postcss": "^8.4.31",
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^9.3.0",
+    "prettier": "^3.0.3",
     "style-loader": "^3.3.3",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0"
