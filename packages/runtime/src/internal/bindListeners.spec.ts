@@ -1311,8 +1311,14 @@ describe("if/else condition", () => {
       runtimeContext
     )(event);
 
-    await new Promise((resolve) => setTimeout(resolve, 30));
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(myTimeoutProvider).toBeCalledTimes(1);
 
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(myTimeoutProvider).toBeCalledTimes(2);
+    expect(consoleLog).toBeCalledTimes(6);
+
+    await new Promise((resolve) => setTimeout(resolve, 10));
     expect(myTimeoutProvider).toBeCalledTimes(2);
     expect(consoleLog).toBeCalledTimes(7);
 

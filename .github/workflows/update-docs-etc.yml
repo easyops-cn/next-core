@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20.x]
 
     # Only if it contains a certain label.
     if: "contains( github.event.pull_request.labels.*.name, 'eve: update docs etc')"
@@ -19,7 +19,7 @@ jobs:
     steps:
 
     - name: Update labels
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |
@@ -36,7 +36,7 @@ jobs:
             labels: ['[bot]: updating docs etc'],
           });
 
-    - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+    - uses: actions/checkout@v4
       with:
         token: ${{ secrets.GH_TOKEN_EVE }}
         fetch-depth: 0
@@ -77,7 +77,7 @@ jobs:
         git push
 
     - name: Post update labels
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         github-token: ${{ secrets.GH_TOKEN_EVE }}
         script: |

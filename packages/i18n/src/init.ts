@@ -17,8 +17,10 @@ export function initializeI18n(NS?: string, locales?: Locales) {
       // learn more: https://github.com/i18next/i18next-browser-languageDetector
       .use(
         process.env.NODE_ENV === "test"
-          ? (LanguageDetector as unknown as LanguageDetector.default)
-          : /* istanbul ignore next */ LanguageDetector.default
+          ? LanguageDetector
+          : /* istanbul ignore next */ (
+              LanguageDetector as unknown as { default: LanguageDetector }
+            ).default
       )
       // for all options read: https://www.i18next.com/overview/configuration-options
       .init({
