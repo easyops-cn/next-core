@@ -670,7 +670,16 @@ export class Router {
           return `${key}:${org}`;
         };
 
-        const renderTime = performance.now() - renderStartTime;
+        const renderTime = Math.round(performance.now() - renderStartTime);
+        // For bricks which would take actions with render time.
+        window.dispatchEvent(
+          new CustomEvent("route.render", {
+            detail: {
+              renderTime,
+            },
+          })
+        );
+
         const { loadTime = 0, loadInfoPage } =
           this.kernel.bootstrapData.settings?.misc ?? {};
         if (currentApp.isBuildPush && loadTime > 0 && renderTime > loadTime) {
