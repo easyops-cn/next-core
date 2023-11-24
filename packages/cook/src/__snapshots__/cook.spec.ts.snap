@@ -96,7 +96,7 @@ exports[`evaluate should throw: expression: (fn => fn(2,1)+fn())((a=b,b)=>a) 1`]
 
 exports[`evaluate should throw: expression: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\u{/u"`;
 
-exports[`evaluate should throw: expression: [...DATA] 1`] = `"Found non-callable @@iterator"`;
+exports[`evaluate should throw: expression: [...DATA] 1`] = `"Spread syntax requires ...iterable[Symbol.iterator] to be a function"`;
 
 exports[`evaluate should throw: expression: [...null] 1`] = `"spreadValues is not iterable (cannot read property null)"`;
 
@@ -156,7 +156,7 @@ exports[`evaluate should throw: expression-only: (fn => fn(2,1)+fn())((a=b,b)=>a
 
 exports[`evaluate should throw: expression-only: /bc\\u{/u.test('dcba') 1`] = `"Invalid regular expression: /bc\\u{/u"`;
 
-exports[`evaluate should throw: expression-only: [...DATA] 1`] = `"Found non-callable @@iterator"`;
+exports[`evaluate should throw: expression-only: [...DATA] 1`] = `"Spread syntax requires ...iterable[Symbol.iterator] to be a function"`;
 
 exports[`evaluate should throw: expression-only: [...null] 1`] = `"spreadValues is not iterable (cannot read property null)"`;
 
