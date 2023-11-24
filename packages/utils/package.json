@@ -46,6 +46,6 @@
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.8",
     "@next-core/test-next": "^1.0.11",
-    "@types/file-saver": "^2.0.5"
+    "@types/file-saver": "^2.0.7"
   }
 }
