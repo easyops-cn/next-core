@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.19](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.18...@next-core/yo@1.5.19) (2023-11-22)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.18](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.17...@next-core/yo@1.5.18) (2023-11-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.17](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.16...@next-core/yo@1.5.17) (2023-11-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.16](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.15...@next-core/yo@1.5.16) (2023-11-17)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.15](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.14...@next-core/yo@1.5.15) (2023-11-15)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.14](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.13...@next-core/yo@1.5.14) (2023-11-15)
+
+
+### Bug Fixes
+
+* refine brick template ([fb61f74](https://github.com/easyops-cn/next-core/commit/fb61f7411237d19493b8cfe3061c421ebbf83ec6))
+
+
+
+
+
+## [1.5.13](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.12...@next-core/yo@1.5.13) (2023-11-10)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.12](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.11...@next-core/yo@1.5.12) (2023-11-10)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.11](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.10...@next-core/yo@1.5.11) (2023-11-09)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.10](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.9...@next-core/yo@1.5.10) (2023-11-07)
 
 **Note:** Version bump only for package @next-core/yo

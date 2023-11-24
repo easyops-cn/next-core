@@ -2,10 +2,13 @@ import React from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import "@next-core/theme";
-import styleText from "./styles.shadow.css";
 {{#if useI18n}}
 import { useTranslation, initializeReactI18n } from "@next-core/i18n/react";
 import { K, NS, locales } from "./i18n.js";
+{{/if}}
+import styleText from "./styles.shadow.css";
+
+{{#if useI18n}}
 initializeReactI18n(NS, locales);
 {{/if}}
 
@@ -29,16 +32,13 @@ class {{>className}} extends ReactNextElement {
 export interface {{>className}}Props {
   // Define props here.
 }
+
 export function {{>className}}Component(props: {{>className}}Props) {
 {{#if useI18n}}
   const { t } = useTranslation(NS);
   const hello = t(K.HELLO);
+  return <div>{hello} world!</div>;
+{{else}}
+  return <div>It works!</div>;
 {{/if}}
-  return <div>
-    {{#if useI18n}}
-      {hello} word!
-    {{else}}
-      It works!
-    {{/if}}
-  </div>;
 }

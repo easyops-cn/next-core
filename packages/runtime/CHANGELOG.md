@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.6...@next-core/runtime@1.25.7) (2023-11-21)
+
+
+### Bug Fixes
+
+* missing saveAs method ([9208628](https://github.com/easyops-cn/next-core/commit/9208628709f759f76104cb15b45319ea0ab6874d))
+
+
+
+
+
+## [1.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.5...@next-core/runtime@1.25.6) (2023-11-17)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.25.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.4...@next-core/runtime@1.25.5) (2023-11-16)
+
+
+### Bug Fixes
+
+* menu overrideApp load img icon fail ([b736aa8](https://github.com/easyops-cn/next-core/commit/b736aa85ee7975d896296f841100067ba7ea5efa))
+
+
+
+
+
+## [1.25.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.3...@next-core/runtime@1.25.4) (2023-11-15)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.2...@next-core/runtime@1.25.3) (2023-11-09)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.1...@next-core/runtime@1.25.2) (2023-11-08)
 
 

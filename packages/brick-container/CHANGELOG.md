@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.32...@next-core/brick-container@3.8.33) (2023-11-22)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.31...@next-core/brick-container@3.8.32) (2023-11-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.31](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.30...@next-core/brick-container@3.8.31) (2023-11-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.30](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.29...@next-core/brick-container@3.8.30) (2023-11-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.29](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.28...@next-core/brick-container@3.8.29) (2023-11-16)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.28](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.27...@next-core/brick-container@3.8.28) (2023-11-15)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.27](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.26...@next-core/brick-container@3.8.27) (2023-11-15)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.26](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.25...@next-core/brick-container@3.8.26) (2023-11-10)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.25](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.24...@next-core/brick-container@3.8.25) (2023-11-10)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.24](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.23...@next-core/brick-container@3.8.24) (2023-11-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.8.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.22...@next-core/brick-container@3.8.23) (2023-11-08)
 
 **Note:** Version bump only for package @next-core/brick-container

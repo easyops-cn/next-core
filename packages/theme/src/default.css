@@ -171,7 +171,7 @@
 
   --custom-form-item-wrapper-bg: rgb(245, 245, 245);
 
-  /* 8.0 框架 */
+  /* @deprecated start */
   --v8-top-navigation-bg: var(--palette-gray-1);
   --v8-top-menu-item-hover: rgba(0, 0, 0, 0.04);
   --v8-dropdown-selected-bg: #f0f6ff;
@@ -189,6 +189,32 @@
   );
   --v8-left-sidebar-item-normal: #3c4875;
   --v8-left-secondary-text: #7f8ba6;
+  /** @deprecated end */
+
+  --dropdown-selected-bg: #f0f6ff;
+  --dropdown-selected: #1a7aff;
+
+  --top-navigation-bg: var(--palette-gray-1);
+  --top-menu-item-hover-bg: rgba(0, 0, 0, 0.04);
+
+  --left-menu-bg: #f7f8fa;
+  --left-menu-hover-bg: #f7f8fa;
+  --left-sidebar-item-selected-bg: var(--palette-blue-6);
+  --left-sidebar-item-selected-hover-bg: var(--palette-blue-4);
+  --left-sidebar-item-hover-bg: rgba(0, 0, 0, 0.04);
+  --left-sidebar-item-normal-color: var(--palette-gray-blue-8);
+  --left-sidebar-item-collapsed-color: var(--palette-gray-blue-7);
+  --left-sidebar-item-selected-color: var(--palette-gray-1);
+  --left-secondary-text-color: #7f8ba6;
+  --left-sidebar-large-title-color: var(--palette-gray-blue-9);
+  --left-sidebar-item-collapsed-icon-color: var(--palette-gray-blue-7);
+  --left-sidebar-item-arrow-color: var(--palette-gray-blue-8);
+  --left-sidebar-group-border-color: var(--palette-gray-blue-3);
+  --left-sidebar-border-right: var(--palette-gray-4);
+
+  --third-menu-default-bg: #f7f8fa;
+  --third-menu-item-selected-bg: var(--palette-blue-1);
+  --third-menu-item-hover-bg: var(--palette-gray-3);
 
   /* component CSS variables */
 

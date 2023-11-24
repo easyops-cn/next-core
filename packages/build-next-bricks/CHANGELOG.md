@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.15.1...@next-core/build-next-bricks@1.16.0) (2023-11-22)
+
+
+### Features
+
+* treat other bricks as peer dependencies ([1025577](https://github.com/easyops-cn/next-core/commit/10255779edc6b38cd99999d21fb896ba2fed1c3a))
+
+
+
+
+
+## [1.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.15.0...@next-core/build-next-bricks@1.15.1) (2023-11-15)
+
+
+### Bug Fixes
+
+* fix import path in Windows ([6c6fbcc](https://github.com/easyops-cn/next-core/commit/6c6fbcc345c9a6ae8a18d595c864313057ab1aba))
+
+
+
+
+
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.6...@next-core/build-next-bricks@1.15.0) (2023-11-15)
+
+
+### Features
+
+* support build bricks with category ([456d3e3](https://github.com/easyops-cn/next-core/commit/456d3e3595935ea3b726712e87f0c488bc0c1fea))
+
+
+
+
+
+## [1.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.5...@next-core/build-next-bricks@1.14.6) (2023-11-09)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.14.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.14.4...@next-core/build-next-bricks@1.14.5) (2023-11-03)
 
 

@@ -1,13 +1,15 @@
 {
   "name": "@next-core/build-next-bricks",
-  "version": "1.14.5",
+  "version": "1.16.0",
   "description": "Build next bricks",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-bricks",
   "license": "GPL-3.0",
   "type": "module",
   "typings": "./index.d.ts",
   "bin": {
-    "build-next-bricks": "./bin/build-next-bricks.js"
+    "build-next-bricks": "./bin/build-next-bricks.js",
+    "pre-build-next-bricks": "./bin/pre-build-next-bricks.js",
+    "post-build-next-bricks": "./bin/post-build-next-bricks.js"
   },
   "files": [
     "bin",
@@ -46,11 +48,12 @@
     "postcss": "^8.4.31",
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^9.3.0",
+    "prettier": "^3.0.3",
     "style-loader": "^3.3.3",
     "typescript": "^5.3.2",
     "webpack": "^5.89.0"
   },
   "devDependencies": {
-    "@next-core/brick-manifest": "^0.5.1"
+    "@next-core/brick-manifest": "^0.6.0"
   }
 }

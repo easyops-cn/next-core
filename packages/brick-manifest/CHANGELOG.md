@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.5.1...@next-core/brick-manifest@0.6.0) (2023-11-15)
+
+
+### Features
+
+* support build bricks with category ([456d3e3](https://github.com/easyops-cn/next-core/commit/456d3e3595935ea3b726712e87f0c488bc0c1fea))
+
+
+
+
+
 ## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.5.0...@next-core/brick-manifest@0.5.1) (2023-08-01)
 
 

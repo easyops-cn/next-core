@@ -4,7 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 let initialized = false;
 const initializedNamespaces = new Set<string>();
 
-export type Locales = Record<string, Record<string, string>>;
+export type Locales = Record<string, Record<string, string | undefined>>;
 
 export function initializeI18n(): void;
 export function initializeI18n(NS: string, locales: Locales): void;
