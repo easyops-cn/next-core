@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.179.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.6...@next-core/brick-kit@2.179.7) (2023-11-24)
+
+
+### Bug Fixes
+
+* dispatch route.render in v2 as well ([57e19ab](https://github.com/easyops-cn/next-core/commit/57e19abb7213bb6596153f7ced0bd56e0a46fe66))
+
+
+
+
+
 ## [2.179.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.5...@next-core/brick-kit@2.179.6) (2023-11-08)
 
 
