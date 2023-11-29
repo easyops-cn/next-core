@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.33...@next-core/brick-container@3.8.34) (2023-11-29)
+
+
+### Bug Fixes
+
+* fix i18next types, update tsconfig module resolution ([d256243](https://github.com/easyops-cn/next-core/commit/d25624314b6f8f05f0624c6a9285041e4b975fd0))
+
+
+
+
+
 ## [3.8.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.32...@next-core/brick-container@3.8.33) (2023-11-22)
 
 **Note:** Version bump only for package @next-core/brick-container

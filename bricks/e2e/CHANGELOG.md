@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.66](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.2.65...@next-bricks/e2e@0.2.66) (2023-11-29)
+
+
+### Bug Fixes
+
+* fix i18next types, update tsconfig module resolution ([d256243](https://github.com/easyops-cn/next-core/commit/d25624314b6f8f05f0624c6a9285041e4b975fd0))
+
+
+
+
+
 ## [0.2.65](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.2.64...@next-bricks/e2e@0.2.65) (2023-11-22)
 
 **Note:** Version bump only for package @next-bricks/e2e
