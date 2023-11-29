@@ -260,8 +260,8 @@ export interface RouteConfOfBricks extends BaseRouteConf {
   /** 构件列表。 */
   bricks: BrickConf[];
 
-  /** 分析数据。 */
-  analyticsData?: Record<string, unknown> | string;
+  /** 是否启用子路由增量渲染。 */
+  incrementalSubRoutes?: boolean;
 }
 
 /**
