@@ -4,10 +4,7 @@ app:
   homepage: /e2e
   noAuthGuard: true
   standaloneMode: true
-  userConfig:
-    settings:
-      featureFlags:
-        incremental-sub-route-rendering: true
+
 meta:
   customTemplates:
 
@@ -134,6 +131,63 @@ meta:
       }
 
 routes:
+
+- path: '${APP.homepage}/temp'
+  incrementalSubRoutes: true
+  context:
+  - name: status
+    value: |
+      <% PATH_NAME.includes('/temp/detail/') ? 'detail' : 'index' %>
+  bricks:
+  - brick: div
+    properties:
+      style:
+        display: flex
+        flexDirection: column
+        gap: 1em
+    children:
+    - brick: input
+      properties:
+        placeholder: Search...
+    - brick: :switch
+      dataSource: <%= CTX.status %>
+      children:
+      - brick: button
+        slot: index
+        properties:
+          textContent: Show Detail
+        events:
+          click:
+          - action: history.push
+            args:
+              - '${APP.homepage}/temp/detail/cool'
+          - action: context.replace
+            args:
+              - status
+              - detail
+      - brick: button
+        slot: detail
+        properties:
+          textContent: Show Index
+        events:
+          click:
+          - action: history.push
+            args:
+              - '${APP.homepage}/temp'
+          - action: context.replace
+            args:
+              - status
+              - index
+    - brick: div
+      slots:
+        '':
+          type: routes
+          routes:
+          - path: '${APP.homepage}/temp/detail/:id'
+            bricks:
+            - brick: h2
+              properties:
+                textContent: '<% _.upperFirst(PATH.id) %>'
 
 - path: '${APP.homepage}/size-check'
   bricks:
@@ -531,6 +585,7 @@ routes:
 
 # Sub-routes incremental rendering
 - path: '${APP.homepage}/sub-routes/:sub'
+  incrementalSubRoutes: true
   bricks:
   - brick: h1
     properties:
