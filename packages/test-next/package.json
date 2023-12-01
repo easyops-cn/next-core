@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.23.5",
-    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "babel-jest": "^29.7.0",
     "identity-obj-proxy": "^3.0.0",
