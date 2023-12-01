@@ -91,9 +91,19 @@ try {
           if (err || stats.hasErrors()) {
             console.error("Failed to build bricks:");
             reject(err || stats.toString());
-          } else {
-            resolve();
           }
+          // Webpack 5 requires calling close() so that persistent caching works
+          // See https://github.com/webpack/webpack.js.org/pull/4775
+          compiler.close((errClose) => {
+            if (errClose) {
+              console.error(
+                `Error while closing Webpack compiler: ${errClose}`
+              );
+              reject(errClose);
+            } else {
+              resolve();
+            }
+          });
         });
       });
 

@@ -9,6 +9,7 @@ node_modules
 .schema
 .cache
 .nx
+.webpack-cache
 *.log
 report.*.json
 

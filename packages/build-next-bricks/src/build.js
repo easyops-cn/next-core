@@ -274,6 +274,19 @@ async function getWebpackConfig(config) {
         ".js": [".ts", ".tsx", ".js", ".jsx"],
       },
     },
+    cache:
+      mode === "development"
+        ? true
+        : {
+            type: "filesystem",
+            store: "pack",
+            cacheDirectory: path.resolve(packageDir, "../../.webpack-cache"),
+            name: isBricks
+              ? `brick-${packageName}`
+              : config.type === "container"
+                ? "container"
+                : "playground",
+          },
     module: {
       rules: [
         {
