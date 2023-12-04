@@ -39,7 +39,8 @@ export function expandFormRenderer(
   const formStateStore = new DataStore(
     "FORM_STATE",
     undefined,
-    rendererContext
+    rendererContext,
+    formStateStoreId
   );
   runtimeContext.formStateStoreMap.set(formStateStoreId, formStateStore);
   if (runtimeContext.formStateStoreScope) {

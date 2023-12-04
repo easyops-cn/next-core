@@ -25,6 +25,10 @@ import { handleHttpError } from "../../handleHttpError.js";
 import type { RendererContext } from "../RendererContext.js";
 import { computePropertyValue } from "../compute/computeRealProperties.js";
 import { _internalApiGetRenderId } from "../Runtime.js";
+import {
+  callRealTimeDataInspectHooks,
+  realTimeDataInspectRoot,
+} from "./realTimeDataInspect.js";
 
 const supportContextResolveTriggerBrickLifeCycle = [
   "onBeforePageLoad",
@@ -56,6 +60,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private readonly pendingStack: Array<ReturnType<typeof resolveDataStore>> =
     [];
   public readonly hostBrick?: RuntimeBrick;
+  private readonly stateStoreId?: string;
   public batchUpdate = false;
   public batchUpdateContextsNames: string[] = [];
   private readonly rendererContext?: RendererContext;
@@ -65,17 +70,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   constructor(
     type: T,
     hostBrick?: RuntimeBrick,
-    rendererContext?: RendererContext
+    rendererContext?: RendererContext,
+    stateStoreId?: string
   ) {
     this.type = type;
     this.changeEventType =
       this.type === "FORM_STATE"
         ? "formstate.change"
         : this.type === "STATE"
-        ? "state.change"
-        : "context.change";
+          ? "state.change"
+          : "context.change";
     this.hostBrick = hostBrick;
     this.rendererContext = rendererContext;
+    this.stateStoreId = stateStoreId;
   }
 
   getAllValues(): Record<string, unknown> {
@@ -86,6 +93,26 @@ export class DataStore<T extends DataStoreType = "CTX"> {
 
   getValue(name: string): unknown {
     return this.data.get(name)?.value;
+  }
+
+  private notifyRealTimeDataChange(name: string, value: unknown) {
+    if (realTimeDataInspectRoot) {
+      const { tplStateStoreId } = realTimeDataInspectRoot;
+      if (
+        tplStateStoreId
+          ? this.type === "STATE" && this.stateStoreId === tplStateStoreId
+          : this.type === "CTX"
+      ) {
+        callRealTimeDataInspectHooks({
+          changeType: "update",
+          tplStateStoreId,
+          detail: {
+            name,
+            value,
+          },
+        });
+      }
+    }
   }
 
   private getAffectListByContext(name: string): string[] {
@@ -394,8 +421,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
           resolvePolicy = dataConf.resolve.async
             ? "async"
             : dataConf.resolve.lazy
-            ? "lazy"
-            : "eager";
+              ? "lazy"
+              : "eager";
           if (resolvePolicy === "eager") {
             value = await load();
           } else if (resolvePolicy === "async") {
@@ -413,6 +440,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         // Or if the resolve is ignored or lazy, use its `value` as a fallback.
         value = await asyncComputeRealValue(dataConf.value, runtimeContext);
       }
+    }
+
+    if (this.data.has(dataConf.name)) {
+      throw new Error(
+        `${this.type} '${dataConf.name}' has already been declared`
+      );
     }
 
     const newData: DataStoreItem = {
@@ -471,11 +504,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       }
     }
 
-    if (this.data.has(dataConf.name)) {
-      throw new Error(
-        `${this.type} '${dataConf.name}' has already been declared`
-      );
-    }
+    newData.eventTarget.addEventListener(this.changeEventType, (e) => {
+      this.notifyRealTimeDataChange(dataConf.name, (e as CustomEvent).detail);
+    });
+
     this.data.set(dataConf.name, newData);
 
     if (Array.isArray(routePath)) {
