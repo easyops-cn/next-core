@@ -34,6 +34,10 @@ import {
 } from "./exports";
 import { _internalApiGetResolver } from "./Runtime";
 import { handleHttpError } from "../handleHttpError";
+import {
+  callRealTimeDataInspectHooks,
+  realTimeDataInspectRoot,
+} from "./realTimeDataInspect";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
@@ -83,6 +87,26 @@ export class StoryboardContextWrapper {
   /** Get value of free-variable only. */
   getValue(name: string): unknown {
     return (this.data.get(name) as StoryboardContextItemFreeVariable)?.value;
+  }
+
+  notifyRealTimeDataChange(name: string, value: unknown): void {
+    if (realTimeDataInspectRoot) {
+      const { tplStateStoreId } = realTimeDataInspectRoot;
+      if (
+        tplStateStoreId
+          ? this.tplContextId === tplStateStoreId
+          : !this.tplContextId && !this.formContextId
+      ) {
+        callRealTimeDataInspectHooks({
+          changeType: "update",
+          tplStateStoreId,
+          detail: {
+            name,
+            value,
+          },
+        });
+      }
+    }
   }
 
   getAffectListByContext(name: string): string[] {
@@ -631,6 +655,13 @@ function resolveFreeVariableValue(
       );
     }
   }
+
+  newContext.eventTarget.addEventListener(eventName, (e) => {
+    storyboardContextWrapper.notifyRealTimeDataChange(
+      contextConf.name,
+      (e as CustomEvent).detail
+    );
+  });
 
   if (contextConf.track) {
     const isTemplateState = !!storyboardContextWrapper.tplContextId;
