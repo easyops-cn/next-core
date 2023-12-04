@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.8...@next-core/runtime@1.26.0) (2023-12-04)
+
+
+### Features
+
+* support real time data inspect ([c97eb47](https://github.com/easyops-cn/next-core/commit/c97eb47bef1cc7c9e33911093186bb8206485d49))
+
+
+
+
+
 ## [1.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.7...@next-core/runtime@1.25.8) (2023-11-29)
 
 
