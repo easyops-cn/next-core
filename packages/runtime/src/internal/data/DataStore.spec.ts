@@ -7,14 +7,33 @@ import { clearResolveCache } from "./resolveData.js";
 import { handleHttpError } from "../../handleHttpError.js";
 import { _internalApiGetRenderId } from "../Runtime.js";
 import { RendererContext } from "../RendererContext.js";
+import {
+  callRealTimeDataInspectHooks,
+  setRealTimeDataInspectRoot,
+} from "./realTimeDataInspect.js";
 
 jest.mock("../../handleHttpError.js");
 jest.mock("../Runtime.js");
+jest.mock("./realTimeDataInspect.js", () => {
+  let realTimeDataInspectRoot: any;
+  return {
+    get realTimeDataInspectRoot() {
+      return realTimeDataInspectRoot;
+    },
+    setRealTimeDataInspectRoot(root: any) {
+      realTimeDataInspectRoot = root;
+    },
+    callRealTimeDataInspectHooks: jest.fn(),
+  };
+});
 
 const consoleWarn = jest.spyOn(console, "warn");
 const consoleInfo = jest.spyOn(console, "info");
 
 const mockGetRenderId = _internalApiGetRenderId as jest.Mock;
+
+const mockCallRealTimeDataInspectHooks =
+  callRealTimeDataInspectHooks as jest.Mock;
 
 const myTimeoutProvider = jest.fn(
   (timeout: number, result?: string, error?: unknown) =>
@@ -301,7 +320,12 @@ describe("DataStore: resolve and wait", () => {
 });
 
 describe("DataStore", () => {
+  beforeEach(() => {
+    setRealTimeDataInspectRoot(undefined!);
+  });
+
   test("context.assign", async () => {
+    setRealTimeDataInspectRoot({});
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
       ctxStore,
@@ -342,17 +366,25 @@ describe("DataStore", () => {
     expect(ctxStore.getValue("primitive")).toEqual({ amount: 42 });
     expect(consoleWarn).toBeCalledTimes(1);
     expect(consoleWarn).toBeCalledWith(expect.stringContaining("Non-object"));
+
+    expect(mockCallRealTimeDataInspectHooks).toBeCalledTimes(2);
   });
 
   test("state and onChange", async () => {
     jest.useFakeTimers();
     const tplStateStoreId = "tpl-state-1";
+    setRealTimeDataInspectRoot({ tplStateStoreId });
     const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
     const runtimeContext = {
       tplStateStoreId,
       tplStateStoreMap,
     } as Partial<RuntimeContext> as RuntimeContext;
-    const stateStore = new DataStore("STATE");
+    const stateStore = new DataStore(
+      "STATE",
+      undefined,
+      undefined,
+      tplStateStoreId
+    );
     tplStateStoreMap.set(tplStateStoreId, stateStore);
     stateStore.define(
       [
@@ -405,6 +437,24 @@ describe("DataStore", () => {
     stateStore.updateValue("a", 2, "replace");
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("b")).toBe(42);
+
+    expect(mockCallRealTimeDataInspectHooks).toBeCalledTimes(2);
+    expect(mockCallRealTimeDataInspectHooks).toHaveBeenNthCalledWith(1, {
+      changeType: "update",
+      tplStateStoreId,
+      detail: {
+        name: "b",
+        value: 42,
+      },
+    });
+    expect(mockCallRealTimeDataInspectHooks).toHaveBeenNthCalledWith(2, {
+      changeType: "update",
+      tplStateStoreId,
+      detail: {
+        name: "a",
+        value: 2,
+      },
+    });
   });
 
   test("lazy/async, load and track", async () => {

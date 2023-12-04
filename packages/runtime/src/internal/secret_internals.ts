@@ -417,3 +417,8 @@ export async function getAddedContracts(
 
   return addedContracts;
 }
+
+export {
+  setRealTimeDataInspectRoot,
+  addRealTimeDataInspectHook,
+} from "./data/realTimeDataInspect.js";
