@@ -458,6 +458,9 @@ describe("DataStore", () => {
   });
 
   test("lazy/async, load and track", async () => {
+    setRealTimeDataInspectRoot({
+      tplStateStoreId: "tpl-state-999",
+    });
     consoleInfo.mockReturnValue();
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
