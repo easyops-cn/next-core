@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.180.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.7...@next-core/brick-kit@2.180.0) (2023-12-04)
+
+
+### Features
+
+* support real time data inspect ([f78a6ae](https://github.com/easyops-cn/next-core/commit/f78a6ae7f102aead313dbdec36d2592ca64fb826))
+
+
+
+
+
 ## [2.179.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.6...@next-core/brick-kit@2.179.7) (2023-11-24)
 
 
