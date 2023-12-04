@@ -21,7 +21,6 @@ import {
   StoryConf,
   RuntimeBrickConf,
   StoryboardContextItem,
-  ContextConf,
   RuntimeSnippet,
 } from "@next-core/brick-types";
 import { compare, type CompareOperator } from "compare-versions";
