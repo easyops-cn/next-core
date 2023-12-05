@@ -17,6 +17,7 @@ export interface BrickManifest {
   deprecated?: boolean | string;
   alias?: string[];
   category?: string;
+  insider?: boolean;
 }
 
 export interface PropertyManifest {

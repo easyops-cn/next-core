@@ -105,6 +105,9 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
           }
           break;
         }
+        case "insider": {
+          manifest.insider = true;
+        }
       }
     }
   }
