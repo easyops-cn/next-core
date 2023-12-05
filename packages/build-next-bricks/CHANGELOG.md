@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.16.1...@next-core/build-next-bricks@1.17.0) (2023-12-05)
+
+
+### Features
+
+* build bricks with insider tag ([5bee240](https://github.com/easyops-cn/next-core/commit/5bee240f2710db3b686538b37b383b7e96a63897))
+
+
+
+
+
 ## [1.16.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.16.0...@next-core/build-next-bricks@1.16.1) (2023-11-29)
 
 **Note:** Version bump only for package @next-core/build-next-bricks

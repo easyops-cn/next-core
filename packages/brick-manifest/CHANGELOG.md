@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.6.0...@next-core/brick-manifest@0.7.0) (2023-12-05)
+
+
+### Features
+
+* build bricks with insider tag ([5bee240](https://github.com/easyops-cn/next-core/commit/5bee240f2710db3b686538b37b383b7e96a63897))
+
+
+
+
+
 # [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.5.1...@next-core/brick-manifest@0.6.0) (2023-11-15)
 
 
