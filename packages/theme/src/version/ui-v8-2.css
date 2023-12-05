@@ -1,5 +1,8 @@
 /* default size */
 html[data-ui="v8-2"] {
+  --small-border-radius: 3px;
+  --chart-border-radius: 4px;
+
   --page-title-margin-top: 9px;
   --page-title-margin-bottom: 9px;
   --page-title-font-size: 24px;
@@ -29,11 +32,30 @@ html[data-ui="v8-2"] {
   --category-header-padding: 0 0 16px;
   --category-content-padding: 0;
   --category-split-margin: 0;
+
+  --special-title-font-size-small: 24px;
+  --title-font-size-larger: 18px;
+  --sub-menu-title-font-size: 16px;
+  --title-font-size: 14px;
 }
 
 /* default colors */
 html[data-ui="v8-2"],
 html[data-ui="v8-2"] [data-override-theme="light"] {
+  --color-brand: #1a7aff;
+  --color-fill-global-bg-1: var(--palette-gray-1);
+  --color-fill-global-bg-2: var(--palette-gray-1);
+  --color-fill-global-bg-3: var(--palette-gray-1);
+  --color-fill-bg-container-1: var(--palette-gray-1);
+  --color-fill-bg-base-4: #f7f8fa;
+  --color-fill-bg-base-6: #f7f8fa;
+  --color-fill-bg-base-7: var(--palette-gray-3);
+
+  --color-success-bg: var(--palette-green-1);
+  --color-info-bg: var(--palette-blue-1);
+  --color-warn-bg: var(--palette-amber-1);
+  --color-error-bg: var(--palette-red-1);
+
   --body-background: var(--color-fill-global-bg-1);
 
   --wide-color: "#F4F6F9";
@@ -42,9 +64,11 @@ html[data-ui="v8-2"] [data-override-theme="light"] {
 
   --description-border-bottom-color: rgba(232, 232, 232, 0.6);
 
-  --color-fill-global-bg-1: #ffffff;
-  --color-fill-global-bg-2: #ffffff;
-  --color-fill-bg-container-1: #ffffff;
+  --mask-blur: 0;
+  --base-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+  --connected-overlay-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12) 0px 6px 16px 0px
+    rgba(0, 0, 0, 0.08) 0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+  --second-menu-selected-shadow: 0px 2px 12px 0px rgba(26, 122, 255, 0.3);
 }
 
 /* dark colors */
@@ -54,5 +78,20 @@ html[data-ui="v8-2"] [data-override-theme="dark"],
 html[data-ui="v8-2"] [data-override-theme="dark-v2"] {
   --color-fill-global-bg-1: #202024;
   --color-fill-global-bg-2: #202024;
+  --color-fill-global-bg-3: #202024;
   --color-fill-bg-container-1: #202024;
+  --color-fill-bg-base-4: var(--palette-rgba-gray-3);
+  --color-fill-bg-base-5: var(--palette-rgba-gray-3);
+  --color-fill-bg-base-6: #323236;
+  --color-fill-bg-base-7: #323236;
+
+  --color-success-bg: var(--palette-green-2);
+  --color-info-bg: var(--palette-blue-2);
+  --color-warning-bg: var(--palette-amber-2);
+  --color-error-bg: var(--palette-red-2);
+
+  --mask-bg: rgba(23, 23, 26, 0.7);
+  --mask-blur: 1;
+  --base-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.1);
+  --second-menu-selected-shadow: 0px 2px 12px 0px rgba(63, 117, 221, 0.3);
 }
