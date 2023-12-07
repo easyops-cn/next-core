@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.37](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.36...@next-core/brick-container@3.8.37) (2023-12-07)
+
+
+### Bug Fixes
+
+* mock some builtin API calls in no-remote mode ([5059eb4](https://github.com/easyops-cn/next-core/commit/5059eb4c95f05f94b0829288651959da401c9325))
+
+
+
+
+
 ## [3.8.36](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.35...@next-core/brick-container@3.8.36) (2023-12-05)
 
 **Note:** Version bump only for package @next-core/brick-container
