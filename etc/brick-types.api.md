@@ -713,9 +713,13 @@ export interface BuilderSnippetNode extends BuilderBaseNode {
     // (undocumented)
     category?: string;
     // (undocumented)
+    data?: ContextConf[];
+    // (undocumented)
     description?: I18nData;
     // (undocumented)
     layerType?: LayerType;
+    // (undocumented)
+    params?: SnippetDeclareParams;
     // (undocumented)
     snippetId: string;
     // (undocumented)
@@ -860,8 +864,13 @@ export interface ContextConf {
 
 // @public
 export type ContextResolveConf = ResolveConf & {
+    async?: boolean;
     lazy?: boolean;
+    trigger?: ContextResolveTriggerBrickLifeCycle;
 };
+
+// @public
+export type ContextResolveTriggerBrickLifeCycle = "onBeforePageLoad" | "onPageLoad" | "onBeforePageLeave" | "onPageLeave" | "onAnchorLoad" | "onAnchorUnload";
 
 // @public (undocumented)
 export interface Contract {
@@ -1371,11 +1380,12 @@ export type MenuIcon = AntdIcon | FaIcon | EasyopsIcon;
 export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
     children?: MenuItemRawData[];
     type?: "default" | "group";
-    childLayout?: "default" | "category";
+    childLayout?: "default" | "category" | "siteMap";
     sort?: number;
     if?: string | boolean;
     defaultExpanded?: boolean;
     groupId?: string;
+    groupFrom?: string;
 };
 
 // @public
@@ -1452,13 +1462,17 @@ export interface MicroApp {
     legacy?: "iframe";
     localeName?: string;
     locales?: AppLocales;
-    menuIcon?: MenuIcon;
+    menuIcon?: MenuIcon | {
+        imgSrc?: string;
+        imgStyle?: Record<string, any>;
+    };
     name: string;
     noAuthGuard?: boolean;
     private?: boolean;
     standaloneMode?: boolean;
     status?: "developing" | "enabled" | "disabled";
     theme?: "light" | "dark-v2";
+    uiVersion?: string;
     userConfig?: Record<string, unknown>;
 }
 
@@ -1869,6 +1883,22 @@ export interface RuntimeMisc {
     isInIframeOfVisualBuilder: boolean;
 }
 
+// @public (undocumented)
+export interface RuntimeSnippet {
+    // (undocumented)
+    brick?: string;
+    // (undocumented)
+    bricks: BrickConf[];
+    // (undocumented)
+    context?: ContextConf[];
+    // (undocumented)
+    data?: ContextConf[];
+    // (undocumented)
+    params?: SnippetDeclareParams;
+    // (undocumented)
+    snippetId?: string;
+}
+
 // Warning: (ae-internal-missing-underscore) The name "RuntimeStoryboard" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -1948,8 +1978,10 @@ export interface SidebarMenu {
 
 // @public
 export interface SidebarMenuGroup {
-    childLayout?: "default" | "category";
+    childLayout?: "default" | "category" | "siteMap";
     defaultExpanded?: boolean;
+    groupFrom?: string;
+    groupId?: string;
     icon?: MenuIcon;
     items: SidebarMenuItem[];
     // @internal (undocumented)
@@ -2077,6 +2109,21 @@ export interface SnippetConf {
     title: I18nData;
 }
 
+// @public (undocumented)
+export interface SnippetContext {
+    // (undocumented)
+    declareParams?: SnippetDeclareParams;
+    // (undocumented)
+    inputParams?: Record<string, unknown>;
+    // (undocumented)
+    rootType?: string;
+}
+
+// Warning: (ae-incompatible-release-tags) The symbol "SnippetDeclareParams" is marked as @public, but its signature references "SnippetParamField" which is marked as @internal
+//
+// @public (undocumented)
+export type SnippetDeclareParams = Record<string, SnippetParamField>;
+
 // Warning: (ae-internal-missing-underscore) The name "SnippetDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
@@ -2097,6 +2144,16 @@ export interface SnippetDefinition {
     text?: I18nData;
     // (undocumented)
     thumbnail?: string;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "SnippetParamField" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface SnippetParamField {
+    // (undocumented)
+    defaultValue?: unknown;
+    // (undocumented)
+    type: string;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "SrcIcon" should be prefixed with an underscore because the declaration is marked as @internal
@@ -2133,11 +2190,13 @@ export interface Story {
     // (undocumented)
     actions?: Action[];
     // (undocumented)
+    alias?: string[];
+    // (undocumented)
     author?: string;
     // (undocumented)
     category: string;
     // (undocumented)
-    conf: StoryConf | StoryConf[] | mixConf[];
+    conf: StoryConf | StoryConf[] | mixConf[] | V3StoryConf;
     // (undocumented)
     deprecated?: boolean;
     // (undocumented)
@@ -2155,6 +2214,8 @@ export interface Story {
     // (undocumented)
     previewColumns?: number;
     // (undocumented)
+    source?: string;
+    // (undocumented)
     storyId: string;
     // (undocumented)
     tags?: I18nData[];
@@ -2164,6 +2225,8 @@ export interface Story {
     type: "brick" | "template";
     // (undocumented)
     useWidget?: string[];
+    // (undocumented)
+    v3Brick?: boolean;
 }
 
 // @public
@@ -2205,6 +2268,8 @@ export interface StoryboardContextItemBrickProperty {
 //
 // @internal (undocumented)
 export interface StoryboardContextItemFreeVariable {
+    // (undocumented)
+    async?: boolean;
     // (undocumented)
     deps?: string[];
     // (undocumented)
@@ -2607,6 +2672,14 @@ export interface UseSingleBrickConf {
     slots?: UseBrickSlotsConf;
     transform?: GeneralTransform;
     transformFrom?: string | string[];
+}
+
+// Warning: (ae-internal-missing-underscore) The name "V3StoryConf" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface V3StoryConf {
+    // (undocumented)
+    doc?: string;
 }
 
 

@@ -1,6 +1,7 @@
 import { uniqueId } from "lodash";
 import { RuntimeBrick } from "../BrickNode";
 import { StoryboardContextWrapper } from "../StoryboardContext";
+import { ContextResolveTriggerBrickLifeCycle } from "@next-core/brick-types";
 
 const tplContextMap = new Map<string, CustomTemplateContext>();
 
@@ -9,9 +10,9 @@ export class CustomTemplateContext {
   readonly state: StoryboardContextWrapper;
   readonly id = uniqueId("tpl-ctx-");
 
-  constructor(private brick: RuntimeBrick) {
+  constructor(private brick: RuntimeBrick, renderId?: string) {
     tplContextMap.set(this.id, this);
-    this.state = new StoryboardContextWrapper(this.id);
+    this.state = new StoryboardContextWrapper(this.id, undefined, renderId);
     brick.tplContextId = this.id;
   }
 
@@ -42,4 +43,15 @@ export function getCustomTemplateContext(
   tplContextId: string
 ): CustomTemplateContext {
   return tplContextMap.get(tplContextId);
+}
+
+export function getCustomContextTriggerListByLifecycle(
+  lifecycle: ContextResolveTriggerBrickLifeCycle
+): { type: "context" | "state"; name: string; tplContextId: string }[] {
+  return [...tplContextMap.values()]
+    .map((tplContext) =>
+      tplContext.state.getContextTriggerSetByLifecycle(lifecycle)
+    )
+    .filter((trigger) => trigger.length > 0)
+    .flat(1);
 }

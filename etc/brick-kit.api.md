@@ -19,6 +19,7 @@ import { BrickLifeCycle } from '@next-core/brick-types';
 import { BrickPackage } from '@next-core/brick-types';
 import { BrickTemplateFactory } from '@next-core/brick-types';
 import { ContextConf } from '@next-core/brick-types';
+import { ContextResolveTriggerBrickLifeCycle } from '@next-core/brick-types';
 import { ContractRequest } from '@next-core/brick-types';
 import { ContractResponse } from '@next-core/brick-types';
 import { CustomApiInfo } from '@next-core/brick-utils';
@@ -60,6 +61,7 @@ import { PluginHistoryState } from '@next-core/brick-types';
 import { PluginLocation } from '@next-core/brick-types';
 import { PluginRuntimeContext } from '@next-core/brick-types';
 import type { PresetBricksConf } from '@next-core/brick-types';
+import type _React from 'react';
 import { default as React_2 } from 'react';
 import { RefForProxy } from '@next-core/brick-types';
 import { ResolveConf } from '@next-core/brick-types';
@@ -67,6 +69,7 @@ import { ResolveOptions } from '@next-core/brick-types';
 import { RouteConf } from '@next-core/brick-types';
 import type { RuntimeBootstrapData } from '@next-core/brick-types';
 import type { RuntimeMisc } from '@next-core/brick-types';
+import { RuntimeSnippet } from '@next-core/brick-types';
 import { RuntimeStoryboard } from '@next-core/brick-types';
 import { SidebarMenu } from '@next-core/brick-types';
 import { SidebarSubMenu } from '@next-core/brick-types';
@@ -127,7 +130,10 @@ export function batchSetAppsLocalTheme(appsTheme: Record<string, SiteTheme>): vo
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function BrickAsComponent({ useBrick, data, }: BrickAsComponentProps): React_2.ReactElement;
+export const BrickAsComponent: ({ useBrick, data, }: BrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>;
+
+// @public (undocumented)
+export function BrickAsComponentFactory(React: typeof _React): ({ useBrick, data, }: BrickAsComponentProps) => React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
@@ -157,6 +163,11 @@ export function createHistory(): PluginHistory;
 //
 // @internal (undocumented)
 export function createRuntime(): Runtime;
+
+// Warning: (ae-forgotten-export) The symbol "WebSocketService" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const createWebSocket: () => WebSocketService;
 
 // Warning: (ae-internal-missing-underscore) The name "CustomApiDefinition" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -237,9 +248,12 @@ export const developHelper: {
     updateTemplatePreviewSettings: typeof _dev_only_updateTemplatePreviewSettings;
     updateSnippetPreviewSettings: typeof _dev_only_updateSnippetPreviewSettings;
     updateFormPreviewSettings: typeof _dev_only_updateFormPreviewSettings;
+    getAddedContracts: typeof _dev_only_getAddedContracts;
     getContextValue: typeof _dev_only_getContextValue;
     getAllContextValues: typeof _dev_only_getAllContextValues;
     render: typeof _dev_only_render;
+    setRealTimeDataInspectRoot: typeof setRealTimeDataInspectRoot;
+    addRealTimeDataInspectHook: typeof addRealTimeDataInspectHook;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -324,6 +338,9 @@ export const FeatureFlagsProvider: React_2.Provider<FeatureFlags>;
 // @public (undocumented)
 export const ForwardRefSingleBrickAsComponent: React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
 
+// @public (undocumented)
+export function ForwardRefSingleBrickAsComponentFactory(React: typeof _React): React_2.MemoExoticComponent<React_2.ForwardRefExoticComponent<SingleBrickAsComponentProps & React_2.RefAttributes<HTMLElement>>>;
+
 // Warning: (ae-internal-missing-underscore) The name "FunctionCoverageCollector" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
@@ -378,6 +395,9 @@ export function getRuntime(): Runtime;
 
 // @public (undocumented)
 export function getRuntimeMisc(): RuntimeMisc;
+
+// @public (undocumented)
+export function getWebSocket(): WebSocketService;
 
 // @public
 export function handleHttpError(error: Error | HttpFetchError | HttpResponseError | HttpParseError | HttpAbortError): ReturnType<ModalFunc>;
@@ -441,6 +461,21 @@ export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
 //
 // @internal (undocumented)
 export function preprocessTransformProperties(data: unknown, to: GeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: TransformOptions): Record<string, unknown>;
+
+// @public (undocumented)
+export interface PreviewOption {
+    // (undocumented)
+    appId?: string;
+    // (undocumented)
+    formId?: string;
+    // (undocumented)
+    updateStoryboardType?: "route" | "template" | "snippet" | "form";
+}
+
+// Warning: (ae-forgotten-export) The symbol "FormDataProperties" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type PreviewStoryboardPatch = CustomTemplate | RouteConf | RuntimeSnippet | FormDataProperties;
 
 // @public
 export function property(options?: PropertyDeclaration): any;
@@ -512,7 +547,10 @@ export interface RuntimeStoryboardFunction {
 }
 
 // @public
-export const SingleBrickAsComponent: React_2.NamedExoticComponent<SingleBrickAsComponentProps>;
+export const SingleBrickAsComponent: React_2.MemoExoticComponent<({ useBrick, data, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>>;
+
+// @public (undocumented)
+export function SingleBrickAsComponentFactory(React: typeof _React): React_2.MemoExoticComponent<({ useBrick, data, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps) => React_2.ReactElement>;
 
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionPatch" should be prefixed with an underscore because the declaration is marked as @internal
 //
@@ -624,28 +662,68 @@ export function useProvider<TData = any>(...args: UseProviderArgs): UseProvider<
 // @internal (undocumented)
 export function useRecentApps(): RecentApps;
 
+// @public (undocumented)
+export class WebsocketMessageRequest {
+    constructor(event: PluginWebSocketMessageEvent, topic: PluginWebSocketMessageTopic);
+    // (undocumented)
+    data: string;
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessageEvent" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    event: PluginWebSocketMessageEvent;
+    // (undocumented)
+    get identity(): string;
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessage" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessageTopic" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    message: PluginWebSocketMessage<PluginWebSocketMessageTopic>;
+    // (undocumented)
+    topic: string;
+}
+
+// @public (undocumented)
+export class WebsocketMessageResponse {
+    constructor(response: string);
+    // (undocumented)
+    data: string;
+    // (undocumented)
+    event: PluginWebSocketMessageEvent;
+    // (undocumented)
+    get identity(): string;
+    // Warning: (ae-forgotten-export) The symbol "PluginWebSocketMessageResponsePayload" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    message: PluginWebSocketMessage<PluginWebSocketMessageResponsePayload>;
+    // (undocumented)
+    topic: string;
+}
+
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:31:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:32:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:33:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:34:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:35:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:36:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:37:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:38:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:39:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:49:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:50:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByRoute" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:51:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByTemplate" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:52:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardBySnippet" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:53:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:54:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:55:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:56:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:36:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:37:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:38:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:39:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:41:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:42:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:43:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:44:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:45:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:54:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:55:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByRoute" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:56:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByTemplate" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardBySnippet" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:59:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:60:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:61:3 - (ae-forgotten-export) The symbol "_dev_only_getAddedContracts" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:62:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:63:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:64:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:65:3 - (ae-forgotten-export) The symbol "setRealTimeDataInspectRoot" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:66:3 - (ae-forgotten-export) The symbol "addRealTimeDataInspectHook" needs to be exported by the entry point index.d.ts
 
 ```

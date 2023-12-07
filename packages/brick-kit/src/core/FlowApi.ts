@@ -4,10 +4,7 @@ import { CustomApiDefinition, CustomApiProfile } from "./interfaces";
 import { _internalApiGetMicroAppApiOrchestrationMap } from "./Runtime";
 import { getContract } from "./CollectContracts";
 
-const flowApiDefinitionPromiseMap = new Map<
-  string,
-  Promise<CustomApiDefinition>
->();
+const remoteContractCache = new Map<string, Promise<CustomApiDefinition>>();
 
 // Legacy Custom API: `${namespace}@${name}`
 // Flow API: `${namespace}@${name}:${version}`
@@ -31,7 +28,7 @@ export async function getArgsOfCustomApi(
     : (await _internalApiGetMicroAppApiOrchestrationMap()).get(provider);
 
   if (!apiDefinition) {
-    throw new Error(
+    throw new FlowApiNotFoundError(
       `${isFlowApi ? "Flow" : "Legacy Custom"} API not found: "${provider}"`
     );
   }
@@ -145,25 +142,16 @@ function getApiProfileFromApiDefinition(
   };
 }
 
-function fetchFlowApiDefinition(
-  provider: string
-): Promise<CustomApiDefinition> {
-  let promise = flowApiDefinitionPromiseMap.get(provider);
-  if (!promise) {
-    promise = _fetchFlowApiDefinition(provider);
-    flowApiDefinitionPromiseMap.set(provider, promise);
-  }
-  return promise;
-}
-
-async function _fetchFlowApiDefinition(
+async function fetchFlowApiDefinition(
   provider: string
 ): Promise<CustomApiDefinition> {
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
 
-  let contract;
-  if ((contract = getContract(`${namespaceName}.${name}`))) {
+  // Do not cache the result of `geContract`, which will lead to no contract
+  // will be found when render twice immediately.
+  const contract = getContract(`${namespaceName}.${name}`);
+  if (contract) {
     return {
       name: contract.name,
       namespace: contract.namespaceId,
@@ -175,15 +163,28 @@ async function _fetchFlowApiDefinition(
         request: contract.request,
       },
     };
-  } else {
-    const { contractData } = await ContractApi_searchSingleContract({
-      contractName: `${namespaceName}.${name}`,
-      version,
-    });
+  }
+  let promise = remoteContractCache.get(provider);
+  if (!promise) {
+    promise = fetchFlowApiDefinitionFromRemote(namespaceName, name, version);
+    remoteContractCache.set(provider, promise);
+  }
+  return promise;
+}
 
-    // return undefined if don't found contract
-    if (contractData) {
-      return {
+async function fetchFlowApiDefinitionFromRemote(
+  namespace: string,
+  name: string,
+  version: string
+): Promise<CustomApiDefinition> {
+  const { contractData } = await ContractApi_searchSingleContract({
+    contractName: `${namespace}.${name}`,
+    version,
+  });
+
+  // return null if didn't find contract
+  return contractData
+    ? {
         name: contractData.name,
         namespace: contractData.namespace?.[0]?.name,
         serviceName: contractData.serviceName,
@@ -193,7 +194,21 @@ async function _fetchFlowApiDefinition(
           response: contractData.response,
           request: contractData.request,
         },
-      };
+      }
+    : null;
+}
+
+class FlowApiNotFoundError extends Error {
+  constructor(message: string) {
+    // Pass remaining arguments (including vendor specific ones) to parent constructor
+    super(message);
+
+    this.name = "FlowApiNotFoundError";
+
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, FlowApiNotFoundError);
     }
   }
 }

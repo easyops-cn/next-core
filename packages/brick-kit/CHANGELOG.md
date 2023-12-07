@@ -3,598 +3,613 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.173.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.173.0...@next-core/brick-kit@2.173.1) (2023-05-31)
+# [2.180.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.7...@next-core/brick-kit@2.180.0) (2023-12-04)
+
+
+### Features
+
+* support real time data inspect ([f78a6ae](https://github.com/easyops-cn/next-core/commit/f78a6ae7f102aead313dbdec36d2592ca64fb826))
+
+
+
+
+
+## [2.179.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.6...@next-core/brick-kit@2.179.7) (2023-11-24)
 
 
 ### Bug Fixes
 
-* menu新接口结构体字段会默认填充所有结构体ID导致空判断出错 ([f6d3ade](https://github.com/easyops-cn/next-core/commit/f6d3aded99b5ddadb77795f57259fcd4708702c1))
+* dispatch route.render in v2 as well ([57e19ab](https://github.com/easyops-cn/next-core/commit/57e19abb7213bb6596153f7ced0bd56e0a46fe66))
 
 
 
 
+
+## [2.179.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.5...@next-core/brick-kit@2.179.6) (2023-11-08)
+
+
+### Bug Fixes
+
+* keep runtime injected menus when update ([d98d2c0](https://github.com/easyops-cn/next-core/commit/d98d2c0e7decf43930f96bc7623ba13bee4e7f79))
+
+
+
+
+
+## [2.179.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.4...@next-core/brick-kit@2.179.5) (2023-11-02)
+
+
+### Bug Fixes
+
+* allow to set slots for template preview ([c2ec7fa](https://github.com/easyops-cn/next-core/commit/c2ec7fa6eea4513ce13d37efdb51f74c5b5be838))
+
+
+
+
+
+## [2.179.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.3...@next-core/brick-kit@2.179.4) (2023-10-30)
+
+
+### Bug Fixes
+
+* set ui v8-2 on html instead of body ([0017bca](https://github.com/easyops-cn/next-core/commit/0017bcaa2933cde4fcef0111cb9a80744d8b4006))
+
+
+
+
+
+## [2.179.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.2...@next-core/brick-kit@2.179.3) (2023-10-20)
+
+
+### Bug Fixes
+
+* mount menu after pre-fetch ([3d933d3](https://github.com/easyops-cn/next-core/commit/3d933d3512de3ef2d417159b840d9d705f47c458))
+
+
+
+
+
+## [2.179.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.1...@next-core/brick-kit@2.179.2) (2023-10-20)
+
+
+### Bug Fixes
+
+* fix error handling for multi-rendering ([9dba3e0](https://github.com/easyops-cn/next-core/commit/9dba3e01c356eceb12d144519d7aae1b803635b2))
+* make new error class instead of use `cause` ([c2bc094](https://github.com/easyops-cn/next-core/commit/c2bc0945fb99cee7eb55b34cab4cd9f62085fa18))
+
+
+
+
+
+## [2.179.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.179.0...@next-core/brick-kit@2.179.1) (2023-10-20)
+
+
+### Bug Fixes
+
+* update v3 brick loader which refined error log ([aca2ffb](https://github.com/easyops-cn/next-core/commit/aca2ffb6ebc8af303bec8a17af8b993437f4c9fd))
+
+
+
+
+
+# [2.179.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.18...@next-core/brick-kit@2.179.0) (2023-10-19)
+
+### Features
+
+- move setUIClassname after unMoutTree ([ad8cb85](https://github.com/easyops-cn/next-core/commit/ad8cb854755a0d3eabc03617fca92341e61e9a8e))
+- support ui-version ([3947e9f](https://github.com/easyops-cn/next-core/commit/3947e9fe8884702fe284f6f31c1e27d222213cf4))
+
+## [2.178.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.17...@next-core/brick-kit@2.178.18) (2023-10-13)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.178.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.16...@next-core/brick-kit@2.178.17) (2023-10-10)
+
+### Bug Fixes
+
+- only flush sync for the initial mount ([dfa0ba5](https://github.com/easyops-cn/next-core/commit/dfa0ba5e2ec255bac9df53f1cb9f78a8ed0cd83c))
+
+## [2.178.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.15...@next-core/brick-kit@2.178.16) (2023-10-08)
+
+### Bug Fixes
+
+- fix permissions check within dynamic menu ([d7a0e71](https://github.com/easyops-cn/next-core/commit/d7a0e7191c939f226c9df959ced4a7b5cefc5247))
+
+## [2.178.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.14...@next-core/brick-kit@2.178.15) (2023-09-27)
+
+### Bug Fixes
+
+- login success return to the original page instead of the homepage after login in timeout ([7b5ad3c](https://github.com/easyops-cn/next-core/commit/7b5ad3c0a5edb3b46203952b98b82fc841871d5d))
+
+## [2.178.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.13...@next-core/brick-kit@2.178.14) (2023-09-21)
+
+### Bug Fixes
+
+- load v3-widget-mate before load v3 widgets in v2 container ([d2ea80c](https://github.com/easyops-cn/next-core/commit/d2ea80c364039876df27208eba058e3ed8fea531))
+
+## [2.178.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.12...@next-core/brick-kit@2.178.13) (2023-09-15)
+
+### Bug Fixes
+
+- make menu compatible with `items/children` and `text/title` ([16b9d2e](https://github.com/easyops-cn/next-core/commit/16b9d2e54ec7f32f9cb569bf392c46923d298282))
+
+## [2.178.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.11...@next-core/brick-kit@2.178.12) (2023-09-12)
+
+### Bug Fixes
+
+- support menu field ([caac041](https://github.com/easyops-cn/next-core/commit/caac0411b2a0bfec5ae3ec870572920443881f78))
+
+## [2.178.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.10...@next-core/brick-kit@2.178.11) (2023-09-05)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.178.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.9...@next-core/brick-kit@2.178.10) (2023-09-04)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.178.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.8...@next-core/brick-kit@2.178.9) (2023-08-18)
+
+### Bug Fixes
+
+- do not mutate event args ([26fc7ba](https://github.com/easyops-cn/next-core/commit/26fc7bac830675e6e9ddeec26ebf8515a7426b86))
+
+## [2.178.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.7...@next-core/brick-kit@2.178.8) (2023-08-17)
+
+### Bug Fixes
+
+- theme-template snippet use context instead of data ([2de2544](https://github.com/easyops-cn/next-core/commit/2de254417e695bfe956919187a7df780db5e7e10))
+
+## [2.178.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.6...@next-core/brick-kit@2.178.7) (2023-07-27)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.178.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.5...@next-core/brick-kit@2.178.6) (2023-07-26)
+
+### Bug Fixes
+
+- update @next-core/loader ([b1ee3ff](https://github.com/easyops-cn/next-core/commit/b1ee3ff6fb5f4feb36de2eb583f7ef2d4c071be2))
+
+## [2.178.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.4...@next-core/brick-kit@2.178.5) (2023-07-26)
+
+### Bug Fixes
+
+- refine preview ([2c1b757](https://github.com/easyops-cn/next-core/commit/2c1b7576e088a68910b18878efb4c5634180c5b0))
+
+## [2.178.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.3...@next-core/brick-kit@2.178.4) (2023-07-25)
+
+### Bug Fixes
+
+- support contract collect with preview ([c48b8c9](https://github.com/easyops-cn/next-core/commit/c48b8c99bbc1f62256f91038444ffc1011bb4df7))
+
+## [2.178.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.2...@next-core/brick-kit@2.178.3) (2023-07-24)
+
+### Bug Fixes
+
+- 删除不必要代码 refs EASYCORE-1463 ([2a99db8](https://github.com/easyops-cn/next-core/commit/2a99db801c85ea1db8d0c64e83a00a1544f154c0))
+- 添加 nologin 模式下需要跳转到指定登陆页逻辑 refs EASYCORE-1463 ([1994659](https://github.com/easyops-cn/next-core/commit/199465969c2f690967c1c5bdac83a47c99a18fcf))
+- 调整指定跳转登陆页逻辑 refs EASYCORE-1463 ([e408cb2](https://github.com/easyops-cn/next-core/commit/e408cb21ce7521073d8bf388a35bb0b0b7103b6a))
+
+## [2.178.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.1...@next-core/brick-kit@2.178.2) (2023-07-21)
+
+### Bug Fixes
+
+- support v2 use v3 bricks with useBrick ([424092d](https://github.com/easyops-cn/next-core/commit/424092d9586263150d84508da5c48d17f27cc92b))
+
+## [2.178.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.178.0...@next-core/brick-kit@2.178.1) (2023-07-20)
+
+### Bug Fixes
+
+- load processors before compute menu data ([0c9e287](https://github.com/easyops-cn/next-core/commit/0c9e287b4146c23dc0e67af464c962c63b47b8d8))
+
+# [2.178.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.4...@next-core/brick-kit@2.178.0) (2023-07-11)
+
+### Features
+
+- export websocket client ([5085e00](https://github.com/easyops-cn/next-core/commit/5085e00de189ab097618df7f312dab85ba6f4d06))
+
+## [2.177.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.3...@next-core/brick-kit@2.177.4) (2023-07-06)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.177.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.2...@next-core/brick-kit@2.177.3) (2023-07-06)
+
+### Bug Fixes
+
+- 多层菜单排序失效 ([032f434](https://github.com/easyops-cn/next-core/commit/032f43417b12d263fd97f3d48908db3b967ef252))
+
+## [2.177.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.1...@next-core/brick-kit@2.177.2) (2023-07-06)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.177.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.177.0...@next-core/brick-kit@2.177.1) (2023-06-26)
+
+### Bug Fixes
+
+- menu to 解析时兼容表达式 ([0328786](https://github.com/easyops-cn/next-core/commit/0328786def05daed6c2ae171ac9dd082b374f28a))
+
+# [2.177.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.176.0...@next-core/brick-kit@2.177.0) (2023-06-21)
+
+### Features
+
+- menu to 支持解析 YAML 格式的字符串 ([9957ab0](https://github.com/easyops-cn/next-core/commit/9957ab0ff9ead04edc49dc12c737d6267d2cccb6))
+
+# [2.176.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.175.1...@next-core/brick-kit@2.176.0) (2023-06-20)
+
+### Features
+
+- support context.resolve.async ([6f18e86](https://github.com/easyops-cn/next-core/commit/6f18e861233ac2db638ceaf7634c79b5f9e90be1))
+
+## [2.175.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.175.0...@next-core/brick-kit@2.175.1) (2023-06-14)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+# [2.175.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.174.3...@next-core/brick-kit@2.175.0) (2023-06-12)
+
+### Bug Fixes
+
+- unset `FLAGS["migrate-to-brick-next-v3"]` ([fce2c0f](https://github.com/easyops-cn/next-core/commit/fce2c0f8e8a8fe82999bbeddbb4122c151901885))
+
+### Features
+
+- context 支持 Trigger 挂载生命周期自动触发 ([2802aea](https://github.com/easyops-cn/next-core/commit/2802aea7231345d61d379fc5631c31045f4251bc))
+
+## [2.174.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.174.2...@next-core/brick-kit@2.174.3) (2023-06-08)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.174.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.174.1...@next-core/brick-kit@2.174.2) (2023-06-08)
+
+### Bug Fixes
+
+- settings as optional params ([648fdba](https://github.com/easyops-cn/next-core/commit/648fdbaf8c85aca93203210caef7e613a1566d33))
+
+## [2.174.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.174.0...@next-core/brick-kit@2.174.1) (2023-06-08)
+
+### Bug Fixes
+
+- settings as optionals ([a73044f](https://github.com/easyops-cn/next-core/commit/a73044fb87f79e1e555906a5d0060db23bbd1af4))
+
+# [2.174.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.173.2...@next-core/brick-kit@2.174.0) (2023-06-08)
+
+### Bug Fixes
+
+- standalone 模式下小产品图标 url 错误 ([e4b0b00](https://github.com/easyops-cn/next-core/commit/e4b0b007c068b78a3f352bae5f216ca63ed2e8c2))
+
+### Features
+
+- support dynamic snippet preview ([9e1153b](https://github.com/easyops-cn/next-core/commit/9e1153b99e3053b244d5a06dd935888fcd47f9bf))
+
+## [2.173.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.173.1...@next-core/brick-kit@2.173.2) (2023-06-05)
+
+**Note:** Version bump only for package @next-core/brick-kit
+
+## [2.173.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.173.0...@next-core/brick-kit@2.173.1) (2023-05-31)
+
+### Bug Fixes
+
+- menu 新接口结构体字段会默认填充所有结构体 ID 导致空判断出错 ([f6d3ade](https://github.com/easyops-cn/next-core/commit/f6d3aded99b5ddadb77795f57259fcd4708702c1))
 
 # [2.173.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.172.0...@next-core/brick-kit@2.173.0) (2023-05-30)
 
-
 ### Features
 
-* menu支持大于两层(standalone) ([258333f](https://github.com/easyops-cn/next-core/commit/258333fc165dad8448d09971b99d3a40d6dd83c5))
-
-
-
-
+- menu 支持大于两层(standalone) ([258333f](https://github.com/easyops-cn/next-core/commit/258333fc165dad8448d09971b99d3a40d6dd83c5))
 
 # [2.172.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.171.4...@next-core/brick-kit@2.172.0) (2023-05-29)
 
-
 ### Features
 
-* menu支持大于两层 ([5401ca5](https://github.com/easyops-cn/next-core/commit/5401ca552c5eac0772db45f3ec6d4ee31db68a11))
-
-
-
-
+- menu 支持大于两层 ([5401ca5](https://github.com/easyops-cn/next-core/commit/5401ca552c5eac0772db45f3ec6d4ee31db68a11))
 
 ## [2.171.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.171.3...@next-core/brick-kit@2.171.4) (2023-05-25)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.171.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.171.2...@next-core/brick-kit@2.171.3) (2023-05-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.171.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.171.1...@next-core/brick-kit@2.171.2) (2023-05-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.171.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.171.0...@next-core/brick-kit@2.171.1) (2023-05-18)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.171.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.170.0...@next-core/brick-kit@2.171.0) (2023-05-17)
-
 
 ### Features
 
-* batchUpdate not emit resolve item ([fffc09b](https://github.com/easyops-cn/next-core/commit/fffc09be2ca03f5844956f2bf691c4406e7a8ade))
-* support batchUpdate context ([bcadcb2](https://github.com/easyops-cn/next-core/commit/bcadcb286c4adab8d4ae94c8a23e2bc626b4b3c5))
-* update compute when update value ([5d51c33](https://github.com/easyops-cn/next-core/commit/5d51c3363c9af4b14edc2479168137985f42c0f8))
-
-
-
-
+- batchUpdate not emit resolve item ([fffc09b](https://github.com/easyops-cn/next-core/commit/fffc09be2ca03f5844956f2bf691c4406e7a8ade))
+- support batchUpdate context ([bcadcb2](https://github.com/easyops-cn/next-core/commit/bcadcb286c4adab8d4ae94c8a23e2bc626b4b3c5))
+- update compute when update value ([5d51c33](https://github.com/easyops-cn/next-core/commit/5d51c3363c9af4b14edc2479168137985f42c0f8))
 
 # [2.170.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.169.1...@next-core/brick-kit@2.170.0) (2023-05-16)
 
-
 ### Bug Fixes
 
-* refactor preview value ([dc31655](https://github.com/easyops-cn/next-core/commit/dc316552e13cbba19cf63bdfbf4dc1cc327cf55e))
-
+- refactor preview value ([dc31655](https://github.com/easyops-cn/next-core/commit/dc316552e13cbba19cf63bdfbf4dc1cc327cf55e))
 
 ### Features
 
-* support preview context/state value ([15b6f3e](https://github.com/easyops-cn/next-core/commit/15b6f3e49740bcfa9c9bf166c4009cdb975d485b))
-
-
-
-
+- support preview context/state value ([15b6f3e](https://github.com/easyops-cn/next-core/commit/15b6f3e49740bcfa9c9bf166c4009cdb975d485b))
 
 ## [2.169.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.169.0...@next-core/brick-kit@2.169.1) (2023-05-12)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.169.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.168.2...@next-core/brick-kit@2.169.0) (2023-05-12)
-
 
 ### Features
 
-* support if/esle syntax in v2 ([ea266cc](https://github.com/easyops-cn/next-core/commit/ea266ccf74c641621f5a94f913bab5f71c02ecef))
-
-
-
-
+- support if/esle syntax in v2 ([ea266cc](https://github.com/easyops-cn/next-core/commit/ea266ccf74c641621f5a94f913bab5f71c02ecef))
 
 ## [2.168.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.168.1...@next-core/brick-kit@2.168.2) (2023-05-12)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.168.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.168.0...@next-core/brick-kit@2.168.1) (2023-05-11)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.168.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.167.1...@next-core/brick-kit@2.168.0) (2023-05-10)
-
 
 ### Bug Fixes
 
-* Optimize error message display ([d5c828a](https://github.com/easyops-cn/next-core/commit/d5c828a7fdbe48c63fa1be305731f329079c85b6))
-
+- Optimize error message display ([d5c828a](https://github.com/easyops-cn/next-core/commit/d5c828a7fdbe48c63fa1be305731f329079c85b6))
 
 ### Features
 
-* support track syntax sugar in v2 ([0539348](https://github.com/easyops-cn/next-core/commit/0539348c3a509fb66ce3f94667d413131986ac4f))
-* update snapshot.json ([7ee1bd8](https://github.com/easyops-cn/next-core/commit/7ee1bd820ddf141f364335bab172a1692e3cb42d))
-* update transformProperties code ([9af1970](https://github.com/easyops-cn/next-core/commit/9af1970dc419f1df18a06ba8edd9af3d0bcd79bd))
-
-
-
-
+- support track syntax sugar in v2 ([0539348](https://github.com/easyops-cn/next-core/commit/0539348c3a509fb66ce3f94667d413131986ac4f))
+- update snapshot.json ([7ee1bd8](https://github.com/easyops-cn/next-core/commit/7ee1bd820ddf141f364335bab172a1692e3cb42d))
+- update transformProperties code ([9af1970](https://github.com/easyops-cn/next-core/commit/9af1970dc419f1df18a06ba8edd9af3d0bcd79bd))
 
 ## [2.167.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.167.0...@next-core/brick-kit@2.167.1) (2023-05-09)
 
-
 ### Bug Fixes
 
-* ignore non-plain object in props when setup useBrick ([63219be](https://github.com/easyops-cn/next-core/commit/63219beacf47466206d8e86e00636c135d294cc6))
-
-
-
-
+- ignore non-plain object in props when setup useBrick ([63219be](https://github.com/easyops-cn/next-core/commit/63219beacf47466206d8e86e00636c135d294cc6))
 
 # [2.167.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.166.1...@next-core/brick-kit@2.167.0) (2023-05-05)
 
-
 ### Features
 
-* support using v3 bricks in v2 container ([df7d736](https://github.com/easyops-cn/next-core/commit/df7d73688bb570441315b1d5676eb064bcd7f5e0))
-
-
-
-
+- support using v3 bricks in v2 container ([df7d736](https://github.com/easyops-cn/next-core/commit/df7d73688bb570441315b1d5676eb064bcd7f5e0))
 
 ## [2.166.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.166.0...@next-core/brick-kit@2.166.1) (2023-05-05)
 
-
 ### Bug Fixes
 
-* fix set props of useBrick ([96bb15d](https://github.com/easyops-cn/next-core/commit/96bb15d7521853a473543c4ab0199a07f74c4479))
-
-
-
-
+- fix set props of useBrick ([96bb15d](https://github.com/easyops-cn/next-core/commit/96bb15d7521853a473543c4ab0199a07f74c4479))
 
 # [2.166.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.7...@next-core/brick-kit@2.166.0) (2023-04-27)
 
-
 ### Features
 
-* support Menu Image ([e5b6c3c](https://github.com/easyops-cn/next-core/commit/e5b6c3c08c0e647ee805e53ee2585b59032b8c6d))
-* update code ([56bd9ed](https://github.com/easyops-cn/next-core/commit/56bd9ed10cfe8a84074fe08e98fa7a1a6ae71559))
-* update unit test ([7ba1090](https://github.com/easyops-cn/next-core/commit/7ba10909c7e60a296855d093586bedd9c1cea70b))
-
-
-
-
+- support Menu Image ([e5b6c3c](https://github.com/easyops-cn/next-core/commit/e5b6c3c08c0e647ee805e53ee2585b59032b8c6d))
+- update code ([56bd9ed](https://github.com/easyops-cn/next-core/commit/56bd9ed10cfe8a84074fe08e98fa7a1a6ae71559))
+- update unit test ([7ba1090](https://github.com/easyops-cn/next-core/commit/7ba10909c7e60a296855d093586bedd9c1cea70b))
 
 ## [2.165.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.6...@next-core/brick-kit@2.165.7) (2023-04-23)
 
-
 ### Bug Fixes
 
-* fix multi-instance of useBrick state conflict ([bca409b](https://github.com/easyops-cn/next-core/commit/bca409bd1470edb302381ab190762d291de5a25d))
-
-
-
-
+- fix multi-instance of useBrick state conflict ([bca409b](https://github.com/easyops-cn/next-core/commit/bca409bd1470edb302381ab190762d291de5a25d))
 
 ## [2.165.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.5...@next-core/brick-kit@2.165.6) (2023-04-14)
 
-
 ### Bug Fixes
 
-* fix isOutsideApp ([cbfbbc5](https://github.com/easyops-cn/next-core/commit/cbfbbc512ebd52899aeb799fd6b8b94d3df505ec))
-
-
-
-
+- fix isOutsideApp ([cbfbbc5](https://github.com/easyops-cn/next-core/commit/cbfbbc512ebd52899aeb799fd6b8b94d3df505ec))
 
 ## [2.165.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.4...@next-core/brick-kit@2.165.5) (2023-04-14)
 
-
 ### Bug Fixes
 
-* fix loading processors in widgets ([0f7377f](https://github.com/easyops-cn/next-core/commit/0f7377f4f16d26652d5cffac36a0eed6869ef837))
-
-
-
-
+- fix loading processors in widgets ([0f7377f](https://github.com/easyops-cn/next-core/commit/0f7377f4f16d26652d5cffac36a0eed6869ef837))
 
 ## [2.165.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.3...@next-core/brick-kit@2.165.4) (2023-04-11)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.165.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.2...@next-core/brick-kit@2.165.3) (2023-03-27)
 
 **Note:** Version bump only for package @next-core/brick-kit
-
-
-
-
 
 ## [2.165.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.1...@next-core/brick-kit@2.165.2) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.165.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.165.0...@next-core/brick-kit@2.165.1) (2023-03-09)
-
 
 ### Bug Fixes
 
-* fix menu update when  dynamic arg ([bd0cf53](https://github.com/easyops-cn/next-core/commit/bd0cf53bcebb77b88564f707b03dcb448e8fa776))
-* update field ([4650362](https://github.com/easyops-cn/next-core/commit/465036257d157670623d73abdd73f53c9e9910fa))
-
-
-
-
+- fix menu update when dynamic arg ([bd0cf53](https://github.com/easyops-cn/next-core/commit/bd0cf53bcebb77b88564f707b03dcb448e8fa776))
+- update field ([4650362](https://github.com/easyops-cn/next-core/commit/465036257d157670623d73abdd73f53c9e9910fa))
 
 # [2.165.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.6...@next-core/brick-kit@2.165.0) (2023-03-09)
 
-
 ### Features
 
-* **router:** support-ui-8.2-compact-layout background ([#2787](https://github.com/easyops-cn/next-core/issues/2787)) ([31c92b0](https://github.com/easyops-cn/next-core/commit/31c92b052a3f8bffb60f3644da0cd54cddd79e17))
-
-
-
-
+- **router:** support-ui-8.2-compact-layout background ([#2787](https://github.com/easyops-cn/next-core/issues/2787)) ([31c92b0](https://github.com/easyops-cn/next-core/commit/31c92b052a3f8bffb60f3644da0cd54cddd79e17))
 
 ## [2.164.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.5...@next-core/brick-kit@2.164.6) (2023-03-03)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.164.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.4...@next-core/brick-kit@2.164.5) (2023-03-02)
-
 
 ### Bug Fixes
 
-* refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
-
-
-
-
+- refine dll to adopt v3 ([ab73b12](https://github.com/easyops-cn/next-core/commit/ab73b128253af0d67ac8895b96435a8230311fd3))
 
 ## [2.164.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.3...@next-core/brick-kit@2.164.4) (2023-02-20)
 
-
 ### Bug Fixes
 
-* 修复formstate中conf设置track:true无法生效,refs:FORM_BUILDER-217 ([ed68b7c](https://github.com/easyops-cn/next-core/commit/ed68b7c4feef99e48c527285c42176fd7da3eb7e))
-
-
-
-
+- 修复 formstate 中 conf 设置 track:true 无法生效,refs:FORM_BUILDER-217 ([ed68b7c](https://github.com/easyops-cn/next-core/commit/ed68b7c4feef99e48c527285c42176fd7da3eb7e))
 
 ## [2.164.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.2...@next-core/brick-kit@2.164.3) (2023-02-16)
 
-
 ### Bug Fixes
 
-* fix setting favicon not render ([7072323](https://github.com/easyops-cn/next-core/commit/70723230baf7adc176cfe98e8731b62073d09a59))
-
-
-
-
+- fix setting favicon not render ([7072323](https://github.com/easyops-cn/next-core/commit/70723230baf7adc176cfe98e8731b62073d09a59))
 
 ## [2.164.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.1...@next-core/brick-kit@2.164.2) (2023-02-07)
 
-
 ### Bug Fixes
 
-* **useBrick:** wait for brick being loaded before rendering ([9f43d88](https://github.com/easyops-cn/next-core/commit/9f43d88fe08e8048f8d0021572f824ab5888619f))
-
-
-
-
+- **useBrick:** wait for brick being loaded before rendering ([9f43d88](https://github.com/easyops-cn/next-core/commit/9f43d88fe08e8048f8d0021572f824ab5888619f))
 
 ## [2.164.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.164.0...@next-core/brick-kit@2.164.1) (2023-02-07)
 
-
 ### Bug Fixes
 
-* optimization ([7f638dc](https://github.com/easyops-cn/next-core/commit/7f638dc093e35f54694f046199bd34887a8a8879))
-* refactor brick preview ([cb93c9f](https://github.com/easyops-cn/next-core/commit/cb93c9fb33c45a00dcc97c0c1553813c7142bf2a))
-* undo previous code ([c54eb7c](https://github.com/easyops-cn/next-core/commit/c54eb7cc35f13a1ebb87a3f6549490bc06eaa9cf))
-
-
-
-
+- optimization ([7f638dc](https://github.com/easyops-cn/next-core/commit/7f638dc093e35f54694f046199bd34887a8a8879))
+- refactor brick preview ([cb93c9f](https://github.com/easyops-cn/next-core/commit/cb93c9fb33c45a00dcc97c0c1553813c7142bf2a))
+- undo previous code ([c54eb7c](https://github.com/easyops-cn/next-core/commit/c54eb7cc35f13a1ebb87a3f6549490bc06eaa9cf))
 
 # [2.164.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.163.0...@next-core/brick-kit@2.164.0) (2023-01-30)
 
-
 ### Features
 
-* support devloper brick preview ([9ad79ff](https://github.com/easyops-cn/next-core/commit/9ad79ffeebfb97b332f3640785cae19f249cf28f))
-
-
-
-
+- support devloper brick preview ([9ad79ff](https://github.com/easyops-cn/next-core/commit/9ad79ffeebfb97b332f3640785cae19f249cf28f))
 
 # [2.163.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.1...@next-core/brick-kit@2.163.0) (2023-01-16)
 
-
 ### Bug Fixes
 
-* 修复overrideApp没有合并defaultConfig和userConfig的问题 ([47ab41c](https://github.com/easyops-cn/next-core/commit/47ab41cfefd6701cfe6075f123d2946fcce50a53))
-
+- 修复 overrideApp 没有合并 defaultConfig 和 userConfig 的问题 ([47ab41c](https://github.com/easyops-cn/next-core/commit/47ab41cfefd6701cfe6075f123d2946fcce50a53))
 
 ### Features
 
-* **FORMBUILDER:** 新增params内置formstate，废弃condition功能 ([5cab4f5](https://github.com/easyops-cn/next-core/commit/5cab4f5410c4db035f5cd46bf7b12b408d2b14eb))
-
-
-
-
+- **FORMBUILDER:** 新增 params 内置 formstate，废弃 condition 功能 ([5cab4f5](https://github.com/easyops-cn/next-core/commit/5cab4f5410c4db035f5cd46bf7b12b408d2b14eb))
 
 ## [2.162.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.162.0...@next-core/brick-kit@2.162.1) (2023-01-15)
 
-
 ### Bug Fixes
 
-* fix loading widgets ([3807dec](https://github.com/easyops-cn/next-core/commit/3807dec8ed3b489ae970535ede60357adcee2e08))
-
-
-
-
+- fix loading widgets ([3807dec](https://github.com/easyops-cn/next-core/commit/3807dec8ed3b489ae970535ede60357adcee2e08))
 
 # [2.162.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.161.0...@next-core/brick-kit@2.162.0) (2023-01-12)
 
-
 ### Bug Fixes
 
-* 代码调整 ([ebce470](https://github.com/easyops-cn/next-core/commit/ebce470fd2237d1cb2224d2f7707893b007f141f))
-
+- 代码调整 ([ebce470](https://github.com/easyops-cn/next-core/commit/ebce470fd2237d1cb2224d2f7707893b007f141f))
 
 ### Features
 
-* 支持formschema渲染不携带根容器，refs: ITSERVICE_NEXT-5472 ([88c8a93](https://github.com/easyops-cn/next-core/commit/88c8a938643198c16cdbae743203cd8f25ecbed8))
-
-
-
-
+- 支持 formschema 渲染不携带根容器，refs: ITSERVICE_NEXT-5472 ([88c8a93](https://github.com/easyops-cn/next-core/commit/88c8a938643198c16cdbae743203cd8f25ecbed8))
 
 # [2.161.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.3...@next-core/brick-kit@2.161.0) (2023-01-12)
 
-
 ### Features
 
-* support brick preview in iframe ([cc0e55e](https://github.com/easyops-cn/next-core/commit/cc0e55ed92f8bff0d8e151a133b259cd4ee15d74))
-
-
-
-
+- support brick preview in iframe ([cc0e55e](https://github.com/easyops-cn/next-core/commit/cc0e55ed92f8bff0d8e151a133b259cd4ee15d74))
 
 ## [2.160.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.2...@next-core/brick-kit@2.160.3) (2023-01-12)
 
-
 ### Bug Fixes
 
-* fix brick preview with provider ([45db61d](https://github.com/easyops-cn/next-core/commit/45db61d0749b4f692b66b7c90442028d9a1ed3cc))
-
-
-
-
+- fix brick preview with provider ([45db61d](https://github.com/easyops-cn/next-core/commit/45db61d0749b4f692b66b7c90442028d9a1ed3cc))
 
 ## [2.160.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.1...@next-core/brick-kit@2.160.2) (2023-01-11)
 
-
 ### Bug Fixes
 
-* fetch menu and subMenu in parallel ([a2133f3](https://github.com/easyops-cn/next-core/commit/a2133f3e12790ba4bd9e9f8ca65fcc01843dd27d))
-* fix parallel context for nested routes ([840bbe4](https://github.com/easyops-cn/next-core/commit/840bbe4c21bd7060f8a54e2a82edc114e41b862a))
-
-
-
-
+- fetch menu and subMenu in parallel ([a2133f3](https://github.com/easyops-cn/next-core/commit/a2133f3e12790ba4bd9e9f8ca65fcc01843dd27d))
+- fix parallel context for nested routes ([840bbe4](https://github.com/easyops-cn/next-core/commit/840bbe4c21bd7060f8a54e2a82edc114e41b862a))
 
 ## [2.160.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.160.0...@next-core/brick-kit@2.160.1) (2023-01-11)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.160.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.5...@next-core/brick-kit@2.160.0) (2023-01-11)
-
 
 ### Features
 
-* brickAsComponent支持form_state表达式解析，refs: ITSERVICE_NEXT-5450 ([255918d](https://github.com/easyops-cn/next-core/commit/255918da7e4bc779dfe003238dc46e4190f154d8))
-
-
-
-
+- brickAsComponent 支持 form_state 表达式解析，refs: ITSERVICE_NEXT-5450 ([255918d](https://github.com/easyops-cn/next-core/commit/255918da7e4bc779dfe003238dc46e4190f154d8))
 
 ## [2.159.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.4...@next-core/brick-kit@2.159.5) (2023-01-10)
 
-
 ### Bug Fixes
 
-* fix concurrently load bricks and business apis ([04759bb](https://github.com/easyops-cn/next-core/commit/04759bb926b40d3828b651f1448a1d5c9a0e1520))
-
-
-
-
+- fix concurrently load bricks and business apis ([04759bb](https://github.com/easyops-cn/next-core/commit/04759bb926b40d3828b651f1448a1d5c9a0e1520))
 
 ## [2.159.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.3...@next-core/brick-kit@2.159.4) (2023-01-09)
 
-
 ### Bug Fixes
 
-* concurrently load bricks and business apis ([efd45af](https://github.com/easyops-cn/next-core/commit/efd45af0144713758d775777f47dc9070e4cc0b3))
-
-
-
-
+- concurrently load bricks and business apis ([efd45af](https://github.com/easyops-cn/next-core/commit/efd45af0144713758d775777f47dc9070e4cc0b3))
 
 ## [2.159.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.2...@next-core/brick-kit@2.159.3) (2023-01-09)
 
-
 ### Bug Fixes
 
-* 增加userShowValue字段 refs USER-4 ([7a7192c](https://github.com/easyops-cn/next-core/commit/7a7192c5f2114941e7fe158fe7d8215c1f12dd79))
-
-
-
-
+- 增加 userShowValue 字段 refs USER-4 ([7a7192c](https://github.com/easyops-cn/next-core/commit/7a7192c5f2114941e7fe158fe7d8215c1f12dd79))
 
 ## [2.159.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.1...@next-core/brick-kit@2.159.2) (2023-01-09)
 
-
 ### Bug Fixes
 
-* favicon repeat render ([eac17eb](https://github.com/easyops-cn/next-core/commit/eac17eb0aa59b900cd9981f6c3d7d9c53cfff60a))
-
-
-
-
+- favicon repeat render ([eac17eb](https://github.com/easyops-cn/next-core/commit/eac17eb0aa59b900cd9981f6c3d7d9c53cfff60a))
 
 ## [2.159.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.159.0...@next-core/brick-kit@2.159.1) (2023-01-06)
 
-
 ### Bug Fixes
 
-* fix menu with PERMISSIONS.check ([16a1717](https://github.com/easyops-cn/next-core/commit/16a1717594f6fcde11ba006758655daf00853f5c))
-
-
-
-
+- fix menu with PERMISSIONS.check ([16a1717](https://github.com/easyops-cn/next-core/commit/16a1717594f6fcde11ba006758655daf00853f5c))
 
 # [2.159.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.2...@next-core/brick-kit@2.159.0) (2023-01-05)
 
-
 ### Features
 
-* support useBrick with tpl resolve state ([0ce2e22](https://github.com/easyops-cn/next-core/commit/0ce2e228e2c19200c2e68ba960743c5ded2dd82f))
-
-
-
-
+- support useBrick with tpl resolve state ([0ce2e22](https://github.com/easyops-cn/next-core/commit/0ce2e228e2c19200c2e68ba960743c5ded2dd82f))
 
 ## [2.158.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.1...@next-core/brick-kit@2.158.2) (2023-01-05)
 
-
 ### Bug Fixes
 
-* 修复formRender中properties的表达式无法解析 ([df4a0ed](https://github.com/easyops-cn/next-core/commit/df4a0ed5c93f6f1b14cb2caa4367202c6d79545f))
-
-
-
-
+- 修复 formRender 中 properties 的表达式无法解析 ([df4a0ed](https://github.com/easyops-cn/next-core/commit/df4a0ed5c93f6f1b14cb2caa4367202c6d79545f))
 
 ## [2.158.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.158.0...@next-core/brick-kit@2.158.1) (2023-01-05)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 # [2.158.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.4...@next-core/brick-kit@2.158.0) (2023-01-04)
-
 
 ### Features
 
-* update pageNotFound page style ([#2570](https://github.com/easyops-cn/next-core/issues/2570)) ([35c8d14](https://github.com/easyops-cn/next-core/commit/35c8d1418d1b23317004e6af4c5b6d5ed22e2083))
-
-
-
-
+- update pageNotFound page style ([#2570](https://github.com/easyops-cn/next-core/issues/2570)) ([35c8d14](https://github.com/easyops-cn/next-core/commit/35c8d1418d1b23317004e6af4c5b6d5ed22e2083))
 
 ## [2.157.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.3...@next-core/brick-kit@2.157.4) (2023-01-03)
 
-
 ### Bug Fixes
 
-* fix standalone bootstrap failed to inject menus ([d48bde9](https://github.com/easyops-cn/next-core/commit/d48bde9c75737856eb5c4c9675407d9e830d0206))
-
-
-
-
+- fix standalone bootstrap failed to inject menus ([d48bde9](https://github.com/easyops-cn/next-core/commit/d48bde9c75737856eb5c4c9675407d9e830d0206))
 
 ## [2.157.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.2...@next-core/brick-kit@2.157.3) (2022-12-28)
 
-
 ### Bug Fixes
 
-* 修复预览状态下，除表单校验外，其他表单事件无法生效问题 ([adfabb9](https://github.com/easyops-cn/next-core/commit/adfabb911522707bee9daeb08ad461e6cdbd5fde))
-
-
-
-
+- 修复预览状态下，除表单校验外，其他表单事件无法生效问题 ([adfabb9](https://github.com/easyops-cn/next-core/commit/adfabb911522707bee9daeb08ad461e6cdbd5fde))
 
 ## [2.157.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.1...@next-core/brick-kit@2.157.2) (2022-12-19)
 
 **Note:** Version bump only for package @next-core/brick-kit
 
-
-
-
-
 ## [2.157.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.157.0...@next-core/brick-kit@2.157.1) (2022-12-13)
-
 
 ### Bug Fixes
 
-* make parallel requests for runtime api ([5d455d9](https://github.com/easyops-cn/next-core/commit/5d455d9be67fcdbf40794b978cfef09bf2807018))
-
-
-
-
+- make parallel requests for runtime api ([5d455d9](https://github.com/easyops-cn/next-core/commit/5d455d9be67fcdbf40794b978cfef09bf2807018))
 
 # [2.157.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.10...@next-core/brick-kit@2.157.0) (2022-12-09)
 
-
 ### Features
 
-* cache http request by cacheAdapter ([aced70a](https://github.com/easyops-cn/next-core/commit/aced70a16444c1042158803a61c61e17cfa58266))
-
-
-
-
+- cache http request by cacheAdapter ([aced70a](https://github.com/easyops-cn/next-core/commit/aced70a16444c1042158803a61c61e17cfa58266))
 
 ## [2.156.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.156.9...@next-core/brick-kit@2.156.10) (2022-12-08)
 

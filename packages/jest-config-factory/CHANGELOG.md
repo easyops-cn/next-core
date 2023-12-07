@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.14](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.13...@next-core/jest-config-factory@0.4.14) (2023-06-26)
+
+
+### Bug Fixes
+
+* **next-jest:**  set maxWorkers to 1 when run by lerna ([4ec4fda](https://github.com/easyops-cn/next-core/commit/4ec4fda9cd942993559a60f7bb1feda70873cedd))
+
+
+
+
+
 ## [0.4.13](https://github.com/easyops-cn/next-core/compare/@next-core/jest-config-factory@0.4.12...@next-core/jest-config-factory@0.4.13) (2023-03-02)
 
 

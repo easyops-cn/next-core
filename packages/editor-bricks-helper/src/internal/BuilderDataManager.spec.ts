@@ -146,6 +146,7 @@ describe("BuilderDataManager for route of bricks", () => {
               "brick-a",
             ],
             "$$normalized": Object {
+              "alias": "alias-a",
               "brick": "brick-a",
             },
             "$$parsedEvents": Object {},
@@ -887,6 +888,7 @@ describe("BuilderDataManager for route of bricks", () => {
               "brick-a",
             ],
             "$$normalized": Object {
+              "alias": "alias-a",
               "brick": "brick-a",
             },
             "$$parsedEvents": Object {},

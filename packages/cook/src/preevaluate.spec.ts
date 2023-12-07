@@ -3,6 +3,7 @@ import {
   isTrackAll,
   preevaluate,
   shouldAllowRecursiveEvaluations,
+  isSnippetEvaluation,
 } from "./preevaluate";
 
 describe("isEvaluable", () => {
@@ -66,6 +67,15 @@ describe("shouldAllowRecursiveEvaluations", () => {
 
   it("should return true", () => {
     expect(shouldAllowRecursiveEvaluations("<%~ DATA %>")).toBe(true);
+  });
+});
+
+describe("isSnippetEvaluation", () => {
+  it.each([
+    ["<%! CTX.a %>", true],
+    ["<%@ STATE.a %>", true],
+  ])("should work", (params, result) => {
+    expect(isSnippetEvaluation(params)).toEqual(result);
   });
 });
 

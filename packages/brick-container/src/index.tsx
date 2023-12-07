@@ -8,7 +8,6 @@ import {
   getAuth,
   httpErrorToString,
   getMockInfo,
-  developHelper,
   getRuntime,
   getRuntimeMisc,
   getHistory,
@@ -20,7 +19,6 @@ import {
   HttpRequestConfig,
   HttpResponse,
   HttpError,
-  ClearRequestCacheListConfig,
   createHttpInstance,
   defaultAdapter,
 } from "@next-core/brick-http";
@@ -28,10 +26,7 @@ import { initializeLibrary } from "@next-core/fontawesome-library";
 import { apiAnalyzer } from "@next-core/easyops-analytics";
 import "./XMLHttpRequest";
 import "./antd";
-import "./styles/theme/index.css";
-import "./styles/variables.css";
-import "./styles/business-variables.css";
-import "./styles/editor-bricks-variables.css";
+import "@next-core/theme";
 import "./styles/antd.less";
 import "./styles/antd-compatible.less";
 import "./styles/default.css";
@@ -39,6 +34,8 @@ import "@next-core/brick-icons/dist/styles/index.css";
 import i18n from "./i18n";
 import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
 import { httpCacheAdapter } from "./httpCacheAdapter";
+import { getSpanId } from "./utils";
+import { listen } from "./preview/listen";
 
 initializeLibrary();
 
@@ -98,6 +95,10 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
     config.url = mockInfo.url;
     headers.set("easyops-mock-id", mockInfo.mockId);
   }
+  const spanId = getSpanId();
+  headers.set("X-B3-Traceid", `ffffffffffffffff${spanId}`);
+  headers.set("X-B3-Spanid", spanId);
+  headers.set("X-B3-Sampled", "1");
   return {
     ...config,
     options: {
@@ -152,89 +153,6 @@ http.interceptors.response.use(
   }
 );
 
-let bootstrapStatus: "loading" | "ok" | "failed" = "loading";
-let previewStarted = false;
-let previewFromOrigin: string;
-let previewOptions: PreviewStartOptions;
-
-async function startPreview(): Promise<void> {
-  // Start preview once bootstrap is ok and preview message has also been arrived.
-  if (previewStarted || bootstrapStatus !== "ok" || !previewFromOrigin) {
-    return;
-  }
-  previewStarted = true;
-  const localhostRegExp = /^https?:\/\/localhost(?:$|:)/;
-  // Make sure preview from the expected origins.
-  let previewAllowed =
-    previewFromOrigin === location.origin ||
-    localhostRegExp.test(previewFromOrigin) ||
-    localhostRegExp.test(location.origin);
-  if (!previewAllowed) {
-    const { allowedPreviewFromOrigins } = runtime.getMiscSettings() as {
-      allowedPreviewFromOrigins?: string[];
-    };
-    if (Array.isArray(allowedPreviewFromOrigins)) {
-      previewAllowed = allowedPreviewFromOrigins.some(
-        (origin) => origin === previewFromOrigin
-      );
-    }
-    if (!previewAllowed) {
-      // eslint-disable-next-line
-      console.error(
-        `Preview is disallowed, from origin: ${previewFromOrigin}, while allowing: ${JSON.stringify(
-          allowedPreviewFromOrigins
-        )}`
-      );
-    }
-  }
-  if (previewAllowed) {
-    const helperBrickName = "next-previewer.preview-helper";
-    await developHelper.loadDynamicBricksInBrickConf({
-      brick: helperBrickName,
-    });
-    if (customElements.get(helperBrickName)) {
-      const helper = document.createElement(
-        helperBrickName
-      ) as unknown as PreviewHelperBrick;
-      helper.start(previewFromOrigin, previewOptions);
-    }
-  }
-}
-
-if (window.parent) {
-  const listener = async ({
-    data,
-    origin,
-  }: MessageEvent<PreviewMessageContainerStartPreview>): Promise<void> => {
-    if (
-      data &&
-      data.sender === "preview-container" &&
-      data.type === "start-preview"
-    ) {
-      window.removeEventListener("message", listener);
-      previewFromOrigin = origin;
-      previewOptions = data.options;
-      http.enableCache(true);
-      http.on("match-api-cache", (num: number) => {
-        window.parent.postMessage(
-          {
-            type: "match-api-cache",
-            sender: "previewer",
-            forwardedFor: "builder",
-            num,
-          },
-          origin
-        );
-      });
-      http.setClearCacheIgnoreList(
-        previewOptions.clearPreviewRequestCacheIgnoreList || []
-      );
-      startPreview();
-    }
-  };
-  window.addEventListener("message", listener);
-}
-
 if ((window as CypressContainer).Cypress) {
   (window as CypressContainer).__test_only_getHistory = getHistory;
   (window as CypressContainer).__test_only_getBasePath =
@@ -243,7 +161,7 @@ if ((window as CypressContainer).Cypress) {
     getRuntime().getFeatureFlags;
 }
 
-async function bootstrap(): Promise<void> {
+async function main(): Promise<"ok" | "failed"> {
   try {
     if (window.MOCK_DATE) {
       // For rare scenarios only, so load it on demand.
@@ -255,9 +173,8 @@ async function bootstrap(): Promise<void> {
     }
 
     await runtime.bootstrap(mountPoints);
-    bootstrapStatus = "ok";
+    return "ok";
   } catch (e) {
-    bootstrapStatus = "failed";
     // eslint-disable-next-line no-console
     console.error(e);
 
@@ -272,12 +189,16 @@ async function bootstrap(): Promise<void> {
       />,
       mountPoints.main
     );
-  }
 
-  startPreview();
+    return "failed";
+  }
 }
 
-bootstrap();
+const bootstrapStatus = main();
+
+if (window.parent !== window) {
+  listen(bootstrapStatus);
+}
 
 type CypressContainer = Window &
   typeof globalThis & {
@@ -286,22 +207,3 @@ type CypressContainer = Window &
     __test_only_getBasePath?(): string;
     __test_only_getFeatureFlags?(): FeatureFlags;
   };
-
-export interface PreviewHelperBrick {
-  start(previewFromOrigin: string, options?: PreviewStartOptions): void;
-}
-
-export interface PreviewMessageContainerStartPreview {
-  sender: "preview-container";
-  type: "start-preview";
-  options?: PreviewStartOptions;
-}
-
-export interface PreviewStartOptions {
-  appId: string;
-  templateId: string;
-  settings?: {
-    properties?: Record<string, unknown>;
-  };
-  clearPreviewRequestCacheIgnoreList?: ClearRequestCacheListConfig[];
-}

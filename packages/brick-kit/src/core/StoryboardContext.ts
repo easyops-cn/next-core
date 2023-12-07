@@ -8,6 +8,7 @@ import {
   ResolveOptions,
   StoryboardContextItem,
   StoryboardContextItemFreeVariable,
+  ContextResolveTriggerBrickLifeCycle,
 } from "@next-core/brick-types";
 import {
   hasOwnProperty,
@@ -26,22 +27,39 @@ import {
   listenerFactory,
 } from "../internal/bindListeners";
 import { computeRealValue } from "../internal/setProperties";
-import { RuntimeBrick, _internalApiGetCurrentContext } from "./exports";
+import {
+  RuntimeBrick,
+  _internalApiGetCurrentContext,
+  _internalApiGetRouterRenderId,
+} from "./exports";
 import { _internalApiGetResolver } from "./Runtime";
 import { handleHttpError } from "../handleHttpError";
+import {
+  callRealTimeDataInspectHooks,
+  realTimeDataInspectRoot,
+} from "./realTimeDataInspect";
 
 export class StoryboardContextWrapper {
   private readonly data = new Map<string, StoryboardContextItem>();
   batchUpdate = false;
   batchUpdateContextsNames: string[] = [];
+  readonly batchTriggerContextsNamesMap: Map<
+    ContextResolveTriggerBrickLifeCycle,
+    { type: "context" | "state"; name: string; tplContextId: string }[]
+  > = new Map();
   readonly tplContextId: string;
   readonly formContextId: string;
   readonly eventName: string;
   readonly pendingStack: Array<
     ReturnType<typeof deferResolveContextConcurrently>
   > = [];
+  readonly renderId: string;
 
-  constructor(tplContextId?: string, formContextId?: string) {
+  constructor(
+    tplContextId?: string,
+    formContextId?: string,
+    renderId?: string
+  ) {
     this.tplContextId = tplContextId;
     this.formContextId = formContextId;
     this.eventName = this.formContextId
@@ -49,6 +67,7 @@ export class StoryboardContextWrapper {
       : this.tplContextId
       ? "state.change"
       : "context.change";
+    this.renderId = renderId;
   }
 
   set(name: string, item: StoryboardContextItem): void {
@@ -68,6 +87,26 @@ export class StoryboardContextWrapper {
   /** Get value of free-variable only. */
   getValue(name: string): unknown {
     return (this.data.get(name) as StoryboardContextItemFreeVariable)?.value;
+  }
+
+  notifyRealTimeDataChange(name: string, value: unknown): void {
+    if (realTimeDataInspectRoot) {
+      const { tplStateStoreId } = realTimeDataInspectRoot;
+      if (
+        tplStateStoreId
+          ? this.tplContextId === tplStateStoreId
+          : !this.tplContextId && !this.formContextId
+      ) {
+        callRealTimeDataInspectHooks({
+          changeType: "update",
+          tplStateStoreId,
+          detail: {
+            name,
+            value,
+          },
+        });
+      }
+    }
   }
 
   getAffectListByContext(name: string): string[] {
@@ -190,6 +229,18 @@ export class StoryboardContextWrapper {
         }
       }
 
+      const shouldDismiss = (error: unknown): boolean => {
+        // If render twice immediately, flow API contracts maybe cleared before
+        // the second rendering, while the page load handlers of the first
+        // rendering can't be cancelled, which throws `FlowApiNotFoundError`.
+        // So we ignore error reporting for this case.
+        return (
+          (error as Error)?.name === "FlowApiNotFoundError" &&
+          this.renderId &&
+          this.renderId !== _internalApiGetRouterRenderId()
+        );
+      };
+
       if (!promise) {
         promise = item.loading = item.load({
           cache: method === "load" ? "default" : "reload",
@@ -208,7 +259,7 @@ export class StoryboardContextWrapper {
           },
           (err) => {
             // Let users to override error handling.
-            if (!callback?.error) {
+            if (!shouldDismiss(err) && !callback?.error) {
               handleHttpError(err);
             }
           }
@@ -230,7 +281,9 @@ export class StoryboardContextWrapper {
             callbackFactory("finally")();
           },
           (err) => {
-            callbackFactory("error")(err);
+            if (!shouldDismiss(err) && callback.error) {
+              callbackFactory("error")(err);
+            }
             callbackFactory("finally")();
           }
         );
@@ -287,6 +340,25 @@ export class StoryboardContextWrapper {
     for (const pending of this.pendingStack) {
       await pending.pendingResult;
     }
+  }
+
+  /** After mount, dispatch the change event when an async data is loaded */
+  handleAsyncAfterMount(): void {
+    this.data.forEach((item) => {
+      if (item.type === "free-variable" && item.async) {
+        // An async data always has `loading`
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        item.loading!.then((value) => {
+          item.loaded = true;
+          item.value = value;
+          item.eventTarget.dispatchEvent(
+            new CustomEvent(this.eventName, {
+              detail: value,
+            })
+          );
+        });
+      }
+    });
   }
 
   deferDefine(
@@ -357,6 +429,12 @@ export class StoryboardContextWrapper {
           keyword: "CTX",
         };
   }
+
+  getContextTriggerSetByLifecycle(
+    lifecycle: ContextResolveTriggerBrickLifeCycle
+  ): { type: "context" | "state"; name: string; tplContextId: string }[] {
+    return this.batchTriggerContextsNamesMap.get(lifecycle) || [];
+  }
 }
 
 async function resolveStoryboardContext(
@@ -388,6 +466,14 @@ async function resolveStoryboardContext(
   );
 }
 
+const supportContextResolveTriggerBrickLifeCycle = [
+  "onBeforePageLoad",
+  "onPageLoad",
+  "onBeforePageLeave",
+  "onPageLeave",
+  "onAnchorLoad",
+  "onAnchorUnload",
+];
 async function resolveNormalStoryboardContext(
   contextConf: ContextConf,
   mergedContext: PluginRuntimeContext,
@@ -401,7 +487,8 @@ async function resolveNormalStoryboardContext(
   const isTemplateState = !!storyboardContextWrapper.tplContextId;
   let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
   let load: StoryboardContextItemFreeVariable["load"] = null;
-  let isLazyResolve = false;
+  let loading: Promise<unknown> | undefined;
+  let resolvePolicy: "eager" | "lazy" | "async" = "eager";
   if (value === undefined) {
     if (contextConf.resolve) {
       await storyboardContextWrapper.waitForUsedContext(contextConf.resolve.if);
@@ -422,15 +509,48 @@ async function resolveNormalStoryboardContext(
           );
           return valueConf.value;
         };
-        isLazyResolve = contextConf.resolve.lazy;
-        if (!isLazyResolve) {
+        // `async` take precedence over `lazy`
+        resolvePolicy =
+          contextConf.resolve.async && !isTemplateState
+            ? "async"
+            : contextConf.resolve.lazy
+            ? "lazy"
+            : "eager";
+        if (resolvePolicy === "eager") {
           value = await load();
+        } else if (resolvePolicy === "async") {
+          loading = load();
+        } else if (contextConf.resolve.trigger) {
+          const lifecycleName = contextConf.resolve.trigger;
+          if (
+            supportContextResolveTriggerBrickLifeCycle.includes(lifecycleName)
+          ) {
+            const contextNameArray =
+              storyboardContextWrapper.batchTriggerContextsNamesMap.get(
+                lifecycleName
+              ) || [];
+            contextNameArray.push({
+              name: contextConf.name,
+              type: storyboardContextWrapper.tplContextId ? "state" : "context",
+              tplContextId: storyboardContextWrapper.tplContextId,
+            });
+            storyboardContextWrapper.batchTriggerContextsNamesMap.set(
+              lifecycleName,
+              contextNameArray
+            );
+          } else {
+            // eslint-disable-next-line no-console
+            console.error(`unsupported lifecycle: "${lifecycleName}"`);
+          }
         }
       } else if (!hasOwnProperty(contextConf, "value")) {
         return false;
       }
     }
-    if ((!load || isLazyResolve) && contextConf.value !== undefined) {
+    if (
+      (!load || resolvePolicy !== "eager") &&
+      contextConf.value !== undefined
+    ) {
       await storyboardContextWrapper.waitForUsedContext(contextConf.value);
       // If the context has no resolve, just use its `value`.
       // Or if the resolve is ignored or lazy, use its `value` as a fallback.
@@ -445,7 +565,9 @@ async function resolveNormalStoryboardContext(
     storyboardContextWrapper,
     brick,
     load,
-    !isLazyResolve
+    resolvePolicy === "eager",
+    loading,
+    resolvePolicy === "async"
   );
   return true;
 }
@@ -501,7 +623,9 @@ function resolveFreeVariableValue(
   storyboardContextWrapper: StoryboardContextWrapper,
   brick?: RuntimeBrick,
   load?: StoryboardContextItemFreeVariable["load"],
-  loaded?: boolean
+  loaded?: boolean,
+  loading?: Promise<unknown>,
+  async?: boolean
 ): void {
   const newContext: StoryboardContextItem = {
     type: "free-variable",
@@ -510,6 +634,8 @@ function resolveFreeVariableValue(
     eventTarget: new EventTarget(),
     load,
     loaded,
+    loading,
+    async,
     deps: [],
   };
 
@@ -529,6 +655,13 @@ function resolveFreeVariableValue(
       );
     }
   }
+
+  newContext.eventTarget.addEventListener(eventName, (e) => {
+    storyboardContextWrapper.notifyRealTimeDataChange(
+      contextConf.name,
+      (e as CustomEvent).detail
+    );
+  });
 
   if (contextConf.track) {
     const isTemplateState = !!storyboardContextWrapper.tplContextId;

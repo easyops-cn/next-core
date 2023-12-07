@@ -722,6 +722,22 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@easyops/loader/dist/esm/index.js": {
+      "id": "0RJj",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "loadScript",
+          "loadStyle",
+          "loadSharedModule",
+          "flushStableLoadBricks",
+          "enqueueStableLoadBricks",
+          "enqueueStableLoadProcessors",
+          "loadBricksImperatively",
+          "loadProcessorsImperatively"
+        ]
+      }
+    },
     "./node_modules/@ant-design/icons/es/icons/ForkOutlined.js": {
       "id": "0TN8",
       "buildMeta": {
@@ -3529,6 +3545,7 @@
           "isEvaluable",
           "isObject",
           "isRouteNode",
+          "isSnippetEvaluation",
           "isSnippetNode",
           "isTrackAll",
           "lint",
@@ -3571,6 +3588,7 @@
           "scanTemplatesInStoryboard",
           "shouldAllowRecursiveEvaluations",
           "smartDisplayForEvaluableString",
+          "snippetEvaluate",
           "syncResolveContextConcurrently",
           "toPath",
           "tokTypes",
@@ -3688,6 +3706,13 @@
           "volcano",
           "yellow"
         ]
+      }
+    },
+    "./node_modules/@easyops/loader/dist/esm/loadScriptOrStyle.js": {
+      "id": "ALpG",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
       }
     },
     "./node_modules/rc-steps/es/Step.js": {
@@ -4189,6 +4214,13 @@
     },
     "./node_modules/@ant-design/icons/es/components/IconBase.js": {
       "id": "CJvt",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
+    "./node_modules/@easyops/loader/dist/esm/loadScript.js": {
+      "id": "CLJi",
       "buildMeta": {
         "exportsType": "namespace",
         "providedExports": ["default"]
@@ -11107,6 +11139,13 @@
       "id": "TqRt",
       "buildMeta": { "providedExports": true }
     },
+    "./node_modules/@easyops/loader/dist/esm/loadStyle.js": {
+      "id": "TrV2",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/babel-runtime/node_modules/core-js/library/modules/_is-array.js": {
       "id": "Trx6",
       "buildMeta": { "providedExports": true }
@@ -12026,6 +12065,19 @@
     "./node_modules/prop-types/lib/ReactPropTypesSecret.js": {
       "id": "WbBG",
       "buildMeta": { "providedExports": true }
+    },
+    "./node_modules/@easyops/loader/dist/esm/stableLoadBricks.js": {
+      "id": "Wbqp",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": [
+          "flushStableLoadBricks",
+          "enqueueStableLoadBricks",
+          "enqueueStableLoadProcessors",
+          "loadBricksImperatively",
+          "loadProcessorsImperatively"
+        ]
+      }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/FastBackwardOutlined.js": {
       "id": "WcZh",
@@ -15559,6 +15611,13 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/@easyops/loader/dist/esm/loadSharedModule.js": {
+      "id": "ifls",
+      "buildMeta": {
+        "exportsType": "namespace",
+        "providedExports": ["default"]
+      }
+    },
     "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iterators.js": {
       "id": "ig3W",
       "buildMeta": { "providedExports": true }
@@ -18567,16 +18626,21 @@
         "exportsType": "namespace",
         "providedExports": [
           "BrickAsComponent",
+          "BrickAsComponentFactory",
           "BrickWrapper",
           "DisplayByFeatureFlags",
           "EasyopsEmpty",
           "ErrorBoundary",
           "FeatureFlagsProvider",
           "ForwardRefSingleBrickAsComponent",
+          "ForwardRefSingleBrickAsComponentFactory",
           "ModalElement",
           "SingleBrickAsComponent",
+          "SingleBrickAsComponentFactory",
           "StoryboardFunctionRegistryFactory",
           "UpdatingElement",
+          "WebsocketMessageRequest",
+          "WebsocketMessageResponse",
           "abortController",
           "applyTheme",
           "authenticate",
@@ -18586,6 +18650,7 @@
           "constructEventListener",
           "createHistory",
           "createRuntime",
+          "createWebSocket",
           "developHelper",
           "doTransform",
           "event",
@@ -18597,6 +18662,7 @@
           "getRealValue",
           "getRuntime",
           "getRuntimeMisc",
+          "getWebSocket",
           "handleHttpError",
           "httpErrorToString",
           "i18nText",

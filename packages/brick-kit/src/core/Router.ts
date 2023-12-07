@@ -17,7 +17,6 @@ import {
   CustomApiInfo,
   removeDeadConditions,
 } from "@next-core/brick-utils";
-import { HttpResponseError } from "@next-core/brick-http";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
   LocationContext,
@@ -74,10 +73,12 @@ import { computeRealValue } from "../internal/setProperties";
 import { abortController } from "../abortController";
 import { isHttpAbortError } from "../internal/isHttpAbortError";
 import { isOutsideApp, matchStoryboard } from "./matchStoryboard";
+import { setLoginStateCookie } from "../setLoginStateCookie";
 import { httpCacheRecord } from "./HttpCache";
 import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
 import { getRuntime } from "../runtime";
+import { setUIVersion } from "./setUIVersion";
 
 export class Router {
   private defaultCollapsed = false;
@@ -230,7 +231,7 @@ export class Router {
 
   private async render(location: PluginLocation): Promise<void> {
     this.state = "initial";
-    this.renderId = uniqueId("render-id-");
+    const renderId = (this.renderId = uniqueId("render-id-"));
 
     resetAllInjected();
     clearPollTimeout();
@@ -251,7 +252,8 @@ export class Router {
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,
-      location
+      location,
+      renderId
     ));
 
     if ((window as any).DEVELOPER_PREVIEW) {
@@ -370,6 +372,7 @@ export class Router {
     unmountTree(mountPoints.bg as MountableElement);
 
     const redirectToLogin = (): void => {
+      setLoginStateCookie(location);
       history.replace(
         this.kernel.getFeatureFlags()["sso-enabled"]
           ? "/sso-auth/login"
@@ -443,6 +446,12 @@ export class Router {
         } else if (isHttpAbortError(error)) {
           return;
         } else {
+          const noAuthGuardLoginPath =
+            getRuntime().getMiscSettings().noAuthGuardLoginPath;
+          if (isUnauthenticatedError(error) && noAuthGuardLoginPath) {
+            history.replace(noAuthGuardLoginPath);
+            return;
+          }
           await this.kernel.layoutBootstrap(layoutType);
           const brickPageError = this.kernel.presetBricks.pageError;
           await this.kernel.loadDynamicBricks([brickPageError]);
@@ -610,6 +619,9 @@ export class Router {
       // we say *page found*, otherwise, *page not found*.
       if ((route && route.type !== "routes") || failed) {
         await pendingTask;
+        window.DISABLE_REACT_FLUSH_SYNC = false;
+
+        setUIVersion(currentApp?.uiVersion);
         main.length > 0 &&
           mountTree(main, mountPoints.main as MountableElement);
         portal.length > 0 &&
@@ -619,11 +631,17 @@ export class Router {
         afterMountTree(mountPoints.portal as MountableElement);
         afterMountTree(mountPoints.bg as MountableElement);
 
+        setTimeout(() => {
+          window.DISABLE_REACT_FLUSH_SYNC = true;
+        });
+
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
         window.scrollTo(0, 0);
 
         if (!failed) {
+          locationContext.storyboardContextWrapper.handleAsyncAfterMount();
+
           this.locationContext.handleBrickBindObserver();
           this.locationContext.handlePageLoad();
           this.locationContext.handleAnchorLoad();
@@ -652,7 +670,16 @@ export class Router {
           return `${key}:${org}`;
         };
 
-        const renderTime = performance.now() - renderStartTime;
+        const renderTime = Math.round(performance.now() - renderStartTime);
+        // For bricks which would take actions with render time.
+        window.dispatchEvent(
+          new CustomEvent("route.render", {
+            detail: {
+              renderTime,
+            },
+          })
+        );
+
         const { loadTime = 0, loadInfoPage } =
           this.kernel.bootstrapData.settings?.misc ?? {};
         if (currentApp.isBuildPush && loadTime > 0 && renderTime > loadTime) {

@@ -16,6 +16,7 @@ import type {
   RouteConf,
   RouteConfOfBricks,
   ScrollIntoViewConf,
+  SlotConfOfBricks,
   SlotsConf,
   Storyboard,
   UseProviderEventHandler,
@@ -136,7 +137,13 @@ export function parseBrick(
           ...parseBrickProperties(brick.properties),
           context: parseContext((brick as BrickConf).context),
         }),
-    children: parseSlots(brick.slots as SlotsConf, options),
+    children: parseSlots(
+      childrenToSlots(
+        (brick as { children?: BrickConf[] }).children,
+        brick.slots as SlotsConf
+      ),
+      options
+    ),
   } as StoryboardNodeBrick;
 }
 
@@ -255,6 +262,40 @@ function parseLifeCycles(lifeCycle: BrickLifeCycle): StoryboardNodeLifeCycle[] {
       }
     );
   }
+}
+
+function childrenToSlots(
+  children: BrickConf[] | undefined,
+  originalSlots: SlotsConf | undefined
+): SlotsConf | undefined {
+  let newSlots = originalSlots;
+  // istanbul ignore next
+  if (
+    process.env.NODE_ENV === "development" &&
+    children &&
+    !Array.isArray(children)
+  ) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "Specified brick children but not array:",
+      `<${typeof children}>`,
+      children
+    );
+  }
+  if (Array.isArray(children) && !newSlots) {
+    newSlots = {};
+    for (const child of children) {
+      const slot = (child as { slot?: string }).slot ?? "";
+      if (!Object.prototype.hasOwnProperty.call(newSlots, slot)) {
+        newSlots[slot] = {
+          type: "bricks",
+          bricks: [],
+        };
+      }
+      (newSlots[slot] as SlotConfOfBricks).bricks.push(child);
+    }
+  }
+  return newSlots;
 }
 
 function parseSlots(

@@ -81,6 +81,12 @@ export interface SidebarMenuSimpleItem {
 
 /** 侧边栏分组菜单项的配置。 */
 export interface SidebarMenuGroup {
+  /** 分组 Id。 */
+  groupId?: string;
+
+  /** 分组来源。 */
+  groupFrom?: string;
+
   /** 分组类型。 */
   type: "group" | "subMenu";
 
@@ -94,7 +100,7 @@ export interface SidebarMenuGroup {
   items: SidebarMenuItem[];
 
   /** 子菜单项的布局方式。 */
-  childLayout?: "default" | "category";
+  childLayout?: "default" | "category" | "siteMap";
 
   /** @internal */
   key?: string;
@@ -175,11 +181,12 @@ export interface MenuRawData {
 export type MenuItemRawData = Omit<SidebarMenuSimpleItem, "type"> & {
   children?: MenuItemRawData[];
   type?: "default" | "group";
-  childLayout?: "default" | "category";
+  childLayout?: "default" | "category" | "siteMap";
   sort?: number;
   if?: string | boolean;
   defaultExpanded?: boolean;
   groupId?: string;
+  groupFrom?: string;
   // [symbolAppId]?: string;
 };
 

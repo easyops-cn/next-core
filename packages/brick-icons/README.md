@@ -2,43 +2,14 @@
 
 自研图标库。
 
-## Usage
+## 新增图标
 
-在 Storyboard 中可以如下配置菜单图标：
+只需将文件拖入 `src/icons` 目录，并重新执行开发构建即可。请注意命名规范（`lower-kebab-case`）和表达准确。
 
-#### 其它图标
+直接放置在 `src/icons` 下的图标为默认分类 `default`，放置在其中子目录的图标，以子目录作为分类。
 
-```json
-{
-  "icon": {
-    "lib": "easyops",
-    "icon": "firewall"
-  }
-}
-```
+注意区分三种类型的图标：
 
-#### 小产品图标
-
-```json
-{
-  "icon": {
-    "lib": "easyops",
-    "category": "app",
-    "icon": "mysql-resource"
-  }
-}
-```
-
-## Descriptions
-
-`src/icons/app/*.svg` 存放小产品图标，`src/icons/*.svg` 存放其它图标。
-
-## Development
-
-`lerna run start --scope=@next-core/brick-dll`
-
-`lerna run start --scope=@next-core/brick-icons`
-
-## New Icons
-
-只需将文件拖入 `src/icons` 目录，并重新执行开发构建即可。请注意命名规范（使用小写羊肉串）和表达准确。
+- 默认都是「字体图标」，和字体一样，本身不提供颜色，而是跟随页面文本颜色的设定；
+- 带颜色的图标，需要放置在特定的分类下（以 `colored-`` 开头），这些图标只有固定的颜色，不能由消费端指定其他颜色；
+- 让一个图标中的一部分内容带有透明度设置，变相实现类似「双色」的能力（一深一浅）。

@@ -126,7 +126,12 @@ export interface MicroApp {
   /**
    * 应用在菜单中显示的图标。
    */
-  menuIcon?: MenuIcon;
+  menuIcon?:
+    | MenuIcon
+    | {
+        imgSrc?: string;
+        imgStyle?: Record<string, any>;
+      };
 
   /** {@inheritDoc LayoutType} */
   layoutType?: LayoutType;
@@ -185,6 +190,11 @@ export interface MicroApp {
    * 该应用是否是独立打包应用
    */
   standaloneMode?: boolean;
+
+  /**
+   * UI 版本
+   */
+  uiVersion?: string;
 }
 
 /**
@@ -522,11 +532,37 @@ export interface ContextConf {
  */
 export type ContextResolveConf = ResolveConf & {
   /**
+   * 启用异步加载时，系统会尽早发起请求，但不会阻塞页面继续渲染。
+   *
+   * 根据数据加载完成的时机，有两种情况：
+   *   a) 数据在 mount 之前加载完成，则将统一在 mount 之后触发一次数据变更事件（设置了追踪标记的属性将会更新）
+   *   b) 数据在 mount 之后加载完成，则在加载完成时立即触发一次数据变更事件（设置了追踪标记的属性将会更新）
+   */
+  async?: boolean;
+
+  /**
    * 启用懒加载时，系统不再主动加载该异步数据（此时默认的 `value` 为 `null`），
-   * 需要用户主动通过 `context.refresh` 触发。
+   * 需要用户主动通过 `context.refresh` 或者使用 `trigger` 触发。
    */
   lazy?: boolean;
+
+  /**
+   * 设置`lazy:true`时，需要用户主动设置 `trigger` 为 `ContextResolveTriggerBrickLifeCycle`中的一个或者多个生命周期，当触发生命周期时主动加载数据
+   *
+   */
+  trigger?: ContextResolveTriggerBrickLifeCycle;
 };
+
+/**
+ * Context 的异步数据处理配置为 `trigger` 时支持的生命周期
+ */
+export type ContextResolveTriggerBrickLifeCycle =
+  | "onBeforePageLoad"
+  | "onPageLoad"
+  | "onBeforePageLeave"
+  | "onPageLeave"
+  | "onAnchorLoad"
+  | "onAnchorUnload";
 
 /**
  * 页面切换配置表。

@@ -227,7 +227,7 @@ describe("StoryboardContextWrapper", () => {
     await ctx.define(
       [
         {
-          name: "asyncValue",
+          name: "lazyValue",
           resolve: {
             useProvider: "my-provider",
             lazy: true,
@@ -236,7 +236,7 @@ describe("StoryboardContextWrapper", () => {
         },
         {
           name: "processedData",
-          value: "<% `processed: ${STATE.asyncValue}` %>",
+          value: "<% `processed: ${STATE.lazyValue}` %>",
           track: true,
         },
       ],
@@ -246,10 +246,10 @@ describe("StoryboardContextWrapper", () => {
       brick
     );
 
-    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("lazyValue")).toBe("initial");
     expect(ctx.getValue("processedData")).toBe("processed: initial");
     // Trigger load twice.
-    ctx.updateValue("asyncValue", undefined, "load", {
+    ctx.updateValue("lazyValue", undefined, "load", {
       success: {
         action: "console.info",
         args: ["[1] success", "<% EVENT.detail %>"],
@@ -259,7 +259,7 @@ describe("StoryboardContextWrapper", () => {
         args: ["[1] finally", "<% EVENT.detail %>"],
       },
     });
-    ctx.updateValue("asyncValue", undefined, "load", {
+    ctx.updateValue("lazyValue", undefined, "load", {
       success: {
         action: "console.info",
         args: ["[2] success", "<% EVENT.detail %>"],
@@ -269,13 +269,13 @@ describe("StoryboardContextWrapper", () => {
         args: ["[2] finally", "<% EVENT.detail %>"],
       },
     });
-    expect(ctx.getValue("asyncValue")).toBe("initial");
+    expect(ctx.getValue("lazyValue")).toBe("initial");
     expect(consoleInfo).not.toBeCalled();
 
     await (global as any).flushPromises();
     // Will not load again if it is already LOADING.
     expect(resolveOne).toBeCalledTimes(1);
-    expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
+    expect(ctx.getValue("lazyValue")).toBe("[cache:default] lazily updated");
     expect(ctx.getValue("processedData")).toBe(
       "processed: [cache:default] lazily updated"
     );
@@ -289,7 +289,7 @@ describe("StoryboardContextWrapper", () => {
     });
     expect(consoleInfo).toHaveBeenNthCalledWith(4, "[2] finally", null);
 
-    ctx.updateValue("asyncValue", undefined, "load", {
+    ctx.updateValue("lazyValue", undefined, "load", {
       success: {
         action: "console.info",
         args: ["[3] success", "<% EVENT.detail %>"],
@@ -302,6 +302,99 @@ describe("StoryboardContextWrapper", () => {
     await (global as any).flushPromises();
     // Will not load again if it is already LOADED.
     expect(resolveOne).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledTimes(6);
+    expect(consoleInfo).toHaveBeenNthCalledWith(5, "[3] success", {
+      value: "[cache:default] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(6, "[3] finally", null);
+  });
+
+  it("should handle async", async () => {
+    const brick = { properties: {} };
+    const ctx = new StoryboardContextWrapper();
+    await ctx.define(
+      [
+        {
+          name: "lazyValue",
+          resolve: {
+            useProvider: "my-provider",
+            lazy: true,
+          },
+          value: "initial",
+        },
+        {
+          name: "asyncValue",
+          resolve: {
+            useProvider: "my-provider",
+            async: true,
+          },
+          value: "async initial",
+        },
+      ],
+      {} as any,
+      brick
+    );
+
+    expect(ctx.getValue("lazyValue")).toBe("initial");
+    expect(ctx.getValue("asyncValue")).toBe("async initial");
+
+    expect(resolveOne).toBeCalledTimes(1);
+
+    ctx.handleAsyncAfterMount();
+    await (global as any).flushPromises();
+    expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
+
+    // Trigger load twice.
+    ctx.updateValue("lazyValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["[1] success", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["[1] finally", "<% EVENT.detail %>"],
+      },
+    });
+    ctx.updateValue("lazyValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["[2] success", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["[2] finally", "<% EVENT.detail %>"],
+      },
+    });
+    expect(ctx.getValue("lazyValue")).toBe("initial");
+    expect(consoleInfo).not.toBeCalled();
+
+    await (global as any).flushPromises();
+    // Will not load again if it is already LOADING.
+    expect(resolveOne).toBeCalledTimes(2);
+    expect(ctx.getValue("lazyValue")).toBe("[cache:default] lazily updated");
+    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "[1] success", {
+      value: "[cache:default] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(2, "[1] finally", null);
+    expect(consoleInfo).toHaveBeenNthCalledWith(3, "[2] success", {
+      value: "[cache:default] lazily updated",
+    });
+    expect(consoleInfo).toHaveBeenNthCalledWith(4, "[2] finally", null);
+
+    ctx.updateValue("lazyValue", undefined, "load", {
+      success: {
+        action: "console.info",
+        args: ["[3] success", "<% EVENT.detail %>"],
+      },
+      finally: {
+        action: "console.info",
+        args: ["[3] finally", "<% EVENT.detail %>"],
+      },
+    });
+    await (global as any).flushPromises();
+    // Will not load again if it is already LOADED.
+    expect(resolveOne).toBeCalledTimes(2);
     expect(consoleInfo).toBeCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(5, "[3] success", {
       value: "[cache:default] lazily updated",
@@ -1076,5 +1169,381 @@ describe("batchUpdate with resolve should work", () => {
     expect(ctx.getValue("e")).toBe("resolved:1");
     expect(consoleLog).toBeCalledTimes(4);
     expect(consoleLog).toHaveBeenNthCalledWith(4, "e change", "resolved:1");
+  });
+});
+
+describe("batch context resolve with trigger should work", () => {
+  const consoleError = jest.spyOn(console, "error").mockImplementation();
+
+  beforeEach(async () => {
+    jest.spyOn(runtime, "_internalApiGetResolver").mockReturnValue({
+      async resolveOne(
+        type: unknown,
+        resolveConf: unknown,
+        conf: Record<string, unknown>
+      ) {
+        await Promise.resolve();
+      },
+    } as any);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should batch lifecycle and context name when resolve has been set Trigger ", async () => {
+    const brick = { properties: {} };
+    const ctx = new StoryboardContextWrapper();
+    await ctx.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        // Note: this is a state with resolve
+        {
+          name: "b",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["b1"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "c",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% c1 %>"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "d",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% d1 %>"],
+            lazy: true,
+            trigger: "onPageLeave",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "e",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% e1 %>"],
+            lazy: true,
+            trigger: "onAnchorLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "f",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% f1 %>"],
+            lazy: true,
+            trigger: "onAnchorUnload",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "g",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% g1 %>"],
+            lazy: true,
+            trigger: "onScrollIntoView" as any,
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "h",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% h1 %>"],
+            lazy: true,
+            trigger: "onMediaChange" as any,
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "i",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["i1"],
+            lazy: true,
+            trigger: "onBeforePageLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "j",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["j1"],
+            lazy: true,
+            trigger: "onBeforePageLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+      ],
+      {
+        tplContextId: "tpl-ctx-1",
+      } as any,
+      brick
+    );
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onPageLoad"))
+    ).toEqual([{ name: "b", tplContextId: undefined, type: "context" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onBeforePageLoad"))
+    ).toEqual([
+      { name: "i", tplContextId: undefined, type: "context" },
+      { name: "j", tplContextId: undefined, type: "context" },
+    ]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onBeforePageLeave"))
+    ).toEqual([{ name: "c", tplContextId: undefined, type: "context" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onPageLeave"))
+    ).toEqual([{ name: "d", tplContextId: undefined, type: "context" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onAnchorLoad"))
+    ).toEqual([{ name: "e", tplContextId: undefined, type: "context" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onAnchorUnload"))
+    ).toEqual([{ name: "f", tplContextId: undefined, type: "context" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onScrollIntoView" as any))
+    ).toHaveLength(0);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onMediaChange" as any))
+    ).toHaveLength(0);
+
+    expect(consoleError).toHaveBeenNthCalledWith(
+      1,
+      `unsupported lifecycle: "onScrollIntoView"`
+    );
+    expect(consoleError).toHaveBeenNthCalledWith(
+      2,
+      `unsupported lifecycle: "onMediaChange"`
+    );
+  });
+
+  it("should batch lifecycle and context name when  resolve has been set Trigger for tpl context ", async () => {
+    const brick = { properties: {} };
+    const ctx = new StoryboardContextWrapper("tpl-ctx-1");
+    await ctx.define(
+      [
+        {
+          name: "a",
+          value: 1,
+          track: true,
+          onChange: [
+            {
+              action: "console.log",
+              args: ["a change", "<% EVENT.detail %>"],
+            },
+          ],
+        },
+        // Note: this is a state with resolve
+        {
+          name: "b",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["b1"],
+            lazy: true,
+            trigger: "onPageLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "c",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% c1 %>"],
+            lazy: true,
+            trigger: "onBeforePageLeave",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "d",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% d1 %>"],
+            lazy: true,
+            trigger: "onPageLeave",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "e",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% e1 %>"],
+            lazy: true,
+            trigger: "onAnchorLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "f",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% f1 %>"],
+            lazy: true,
+            trigger: "onAnchorUnload",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "g",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% g1 %>"],
+            lazy: true,
+            trigger: "onScrollIntoView" as any,
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "h",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["<% h1 %>"],
+            lazy: true,
+            trigger: "onMediaChange" as any,
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "i",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["i1"],
+            lazy: true,
+            trigger: "onBeforePageLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+        {
+          name: "j",
+          resolve: {
+            useProvider: "my-provider",
+            args: ["j1"],
+            lazy: true,
+            trigger: "onBeforePageLoad",
+          },
+          onChange: {
+            action: "console.log",
+            args: ["e change", "<% EVENT.detail %>"],
+          },
+        },
+      ],
+      {
+        tplContextId: "tpl-ctx-1",
+      } as any,
+      brick
+    );
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onPageLoad"))
+    ).toEqual([{ name: "b", tplContextId: "tpl-ctx-1", type: "state" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onBeforePageLoad"))
+    ).toEqual([
+      { name: "i", tplContextId: "tpl-ctx-1", type: "state" },
+      { name: "j", tplContextId: "tpl-ctx-1", type: "state" },
+    ]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onBeforePageLeave"))
+    ).toEqual([{ name: "c", tplContextId: "tpl-ctx-1", type: "state" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onPageLeave"))
+    ).toEqual([{ name: "d", tplContextId: "tpl-ctx-1", type: "state" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onAnchorLoad"))
+    ).toEqual([{ name: "e", tplContextId: "tpl-ctx-1", type: "state" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onAnchorUnload"))
+    ).toEqual([{ name: "f", tplContextId: "tpl-ctx-1", type: "state" }]);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onScrollIntoView" as any))
+    ).toHaveLength(0);
+    expect(
+      Array.from(ctx.getContextTriggerSetByLifecycle("onMediaChange" as any))
+    ).toHaveLength(0);
+
+    expect(consoleError).toHaveBeenNthCalledWith(
+      1,
+      `unsupported lifecycle: "onScrollIntoView"`
+    );
+    expect(consoleError).toHaveBeenNthCalledWith(
+      2,
+      `unsupported lifecycle: "onMediaChange"`
+    );
   });
 });

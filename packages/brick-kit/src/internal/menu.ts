@@ -11,10 +11,12 @@ import {
 } from "@next-core/brick-types";
 import {
   deepFreeze,
+  hasOwnProperty,
   isEvaluable,
   isObject,
   preevaluate,
   scanPermissionActionsInAny,
+  scanProcessorsInAny,
 } from "@next-core/brick-utils";
 import {
   InstanceApi_postSearch,
@@ -32,6 +34,7 @@ import {
 import { getI18nNamespace } from "../i18n";
 import i18next from "i18next";
 import { validatePermissions } from "./checkPermissions";
+import { pipes } from "@next-core/pipes";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
@@ -156,7 +159,7 @@ export async function fetchMenuById(
   if (!menuData) {
     throw new Error(`Menu not found: ${menuId}`);
   }
-  reorderMenuItems(menuData);
+  reorderMenu(menuData);
   menuData[symbolShouldCache] && menuCache.set(menuId, menuData);
   return menuData;
 }
@@ -235,7 +238,7 @@ function processGroupInject(
       ...item,
       children: (
         processGroupInject(
-          item.children,
+          item.children || (item as { items?: MenuItemRawData[] }).items,
           menu,
           injectWithMenus,
           menuWithI18n
@@ -299,6 +302,10 @@ async function loadDynamicMenuItems(
         };
       }
     }
+
+    const usedActions = scanPermissionActionsInAny(menu.itemsResolve);
+    await validatePermissions(usedActions);
+
     await _internalApiGetResolver().resolveOne(
       "reference",
       {
@@ -328,19 +335,23 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
       looseCheckIfOfComputed
     )
     .map((item) => {
-      const children = walkMenuItems(item.children);
+      const children = walkMenuItems(
+        item.children || (item as { items?: MenuItemRawData[] }).items
+      );
       return item.type === "group"
         ? {
             type: "group",
             childLayout: item.childLayout,
-            title: item.text,
+            title: item.text || (item as { title?: string }).title,
             items: children,
+            groupId: item.groupId,
+            groupFrom: item.groupFrom,
           }
         : children?.length
         ? {
             type: "subMenu",
             childLayout: item.childLayout,
-            title: item.text,
+            title: item.text || (item as { title?: string }).title,
             icon: item.icon,
             items: children,
             defaultExpanded: item.defaultExpanded,
@@ -472,10 +483,14 @@ export function clearMenuCache(): void {
   menuCache.clear();
 }
 
-function reorderMenuItems(menuData: MenuRawData): void {
-  menuData.items = sortMenuItems(menuData.items).map((item) => ({
+function reorderMenu(menuData: MenuRawData): void {
+  menuData.items = reorderMenuItems(menuData.items);
+}
+
+function reorderMenuItems(list: MenuItemRawData[]): MenuItemRawData[] {
+  return sortMenuItems(list).map((item) => ({
     ...item,
-    children: sortMenuItems(item.children) as SidebarMenuSimpleItem[],
+    children: reorderMenuItems(item.children),
   }));
 }
 
@@ -536,6 +551,17 @@ async function computeRealValueWithOverrideApp<
   if ("if" in data && data.if === null) {
     delete data.if;
   }
+  if ("to" in data && data.to && !isEvaluable(data.to as string)) {
+    const yaml = pipes.yaml(data.to as string);
+
+    if (
+      isObject(yaml) &&
+      ["pathname", "search", "hash"].some((key) => hasOwnProperty(yaml, key))
+    ) {
+      data.to = yaml;
+    }
+  }
+
   let newContext = context;
   if (
     overrideAppId !== context.app.id &&
@@ -567,6 +593,8 @@ async function computeRealValueWithOverrideApp<
       };
     }
   }
+  const processors = scanProcessorsInAny(data);
+  await kernel.loadDynamicBricks([], processors);
   await kernel.router.waitForUsedContext(data);
   return computeRealValue(data, newContext, true, {
     ignoreSymbols: true,

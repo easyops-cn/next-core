@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.3.2...@next-core/styles-v3@0.3.3) (2023-10-30)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
+## [0.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.3.1...@next-core/styles-v3@0.3.2) (2023-10-18)
+
+
+### Bug Fixes
+
+* separate `ant-compatible.less` otherwise it will override `[@mention-prefix-cls](https://github.com/mention-prefix-cls)` ([a8565b1](https://github.com/easyops-cn/next-core/commit/a8565b1ff32299745ebb8b8c2ea438d25179171f))
+
+
+
+
+
+## [0.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.3.0...@next-core/styles-v3@0.3.1) (2023-07-21)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.23...@next-core/styles-v3@0.3.0) (2023-07-07)
+
+
+### Features
+
+* **custom-antd-styles:** 卡片、抽屉左右内间距调整 ([e356580](https://github.com/easyops-cn/next-core/commit/e356580506c46f9be04082565612f90c202559d3))
+
+
+
+
+
+## [0.2.23](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.22...@next-core/styles-v3@0.2.23) (2023-07-06)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
+## [0.2.22](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.21...@next-core/styles-v3@0.2.22) (2023-06-06)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
+## [0.2.21](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.20...@next-core/styles-v3@0.2.21) (2023-06-02)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
+## [0.2.20](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.19...@next-core/styles-v3@0.2.20) (2023-06-02)
+
+**Note:** Version bump only for package @next-core/styles-v3
+
+
+
+
+
 ## [0.2.19](https://github.com/easyops-cn/next-core/compare/@next-core/styles-v3@0.2.18...@next-core/styles-v3@0.2.19) (2023-05-23)
 
 **Note:** Version bump only for package @next-core/styles-v3

@@ -67,11 +67,11 @@ jobs:
 
     - name: Build and update docs etc
       run: >-
-        lerna run build --scope @next-core/brick-types --include-dependencies
-        || lerna run docs:dev --scope @next-core/brick-types
+        npx lerna run build --scope @next-core/brick-types --include-dependencies
+        || npx lerna run docs:dev --scope @next-core/brick-types
 
-        lerna run build --scope @next-core/brick-kit --include-dependencies
-        || lerna run docs:dev --scope @next-core/brick-kit
+        npx lerna run build --scope @next-core/brick-kit --include-dependencies
+        || npx lerna run docs:dev --scope @next-core/brick-kit
 
     - name: Git commit and push
       run: |

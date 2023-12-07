@@ -7,9 +7,9 @@ export class CustomFormContext {
   readonly formState: StoryboardContextWrapper;
   readonly id = uniqueId("form-ctx-");
 
-  constructor() {
+  constructor(renderId?: string) {
     FormContextMap.set(this.id, this);
-    this.formState = new StoryboardContextWrapper(undefined, this.id);
+    this.formState = new StoryboardContextWrapper(undefined, this.id, renderId);
   }
 }
 

@@ -11,6 +11,8 @@ import {
   scanProcessorsInAny,
   CustomApiInfo,
   deepFreeze,
+  snippetEvaluate,
+  scanCustomApisInStoryboard,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
 import * as AuthSdk from "@next-sdk/auth-sdk";
@@ -44,6 +46,7 @@ import type {
   SimpleFunction,
   CustomTemplate,
   MetaI18n,
+  RuntimeSnippet,
 } from "@next-core/brick-types";
 import {
   loadBricksImperatively,
@@ -58,7 +61,13 @@ import {
   registerCustomTemplate,
 } from "./exports";
 import { getHistory } from "../history";
-import { RecentApps, CustomApiDefinition, ThemeSetting } from "./interfaces";
+import {
+  RecentApps,
+  CustomApiDefinition,
+  ThemeSetting,
+  PreviewOption,
+  PreviewStoryboardPatch,
+} from "./interfaces";
 import { processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools, listenDevtoolsEagerly } from "../internal/devtools";
@@ -83,6 +92,9 @@ import { FormDataProperties } from "./CustomForms/ExpandCustomForm";
 import { formRenderer } from "./CustomForms/constants";
 import { customTemplateRegistry } from "./CustomTemplates";
 import { getRuntimeMisc } from "../internal/misc";
+import { imagesFactory } from "../internal/images";
+
+const V3WidgetMates = ["basic.v3-widget-mate"];
 
 export class Kernel {
   public mountPoints: MountPoints;
@@ -332,7 +344,25 @@ export class Kernel {
 
   private postProcessStoryboard(storyboard: RuntimeStoryboard): void {
     storyboard.app.$$routeAliasMap = scanRouteAliasInStoryboard(storyboard);
+    this.postProcessStoryboardImgSrc(storyboard);
     this.postProcessStoryboardI18n(storyboard);
+  }
+
+  private postProcessStoryboardImgSrc(storyboard: RuntimeStoryboard): void {
+    if (
+      storyboard.app.menuIcon &&
+      "imgSrc" in storyboard.app.menuIcon &&
+      storyboard.app.menuIcon.imgSrc?.startsWith("api/")
+    ) {
+      const splittedImgSrc = storyboard.app.menuIcon.imgSrc.split("/");
+      const imgSrc = splittedImgSrc[splittedImgSrc.length - 1];
+      const result = imagesFactory(
+        storyboard.app.id,
+        storyboard.app.isBuildPush,
+        storyboard.app.currentVersion
+      ).get(imgSrc);
+      storyboard.app.menuIcon.imgSrc = result;
+    }
   }
 
   private postProcessStoryboardI18n(storyboard: RuntimeStoryboard): void {
@@ -408,6 +438,11 @@ export class Kernel {
     );
     Object.assign(storyboard, {
       ...storyboardPatch,
+      meta: {
+        // Keep runtime fields such as `injectMenus`
+        ...storyboard.meta,
+        ...storyboardPatch.meta,
+      },
       $$fulfilling: null,
       $$fulfilled: true,
       $$registerCustomTemplateProcessed: false,
@@ -433,7 +468,14 @@ export class Kernel {
       bricks: [
         {
           brick: templateId,
-          ...pick(settings, "properties", "events", "lifeCycle", "context"),
+          ...pick(
+            settings,
+            "properties",
+            "events",
+            "lifeCycle",
+            "context",
+            "slots"
+          ),
         },
       ],
       menu: false,
@@ -447,34 +489,56 @@ export class Kernel {
     }
   }
 
+  _dev_only_getSnippetPreviewPath(snippetId: string): string {
+    return `\${APP.homepage}/_dev_only_/snippet-preview/${snippetId}`;
+  }
+
   _dev_only_updateSnippetPreviewSettings(
     appId: string,
-    snippetData: {
-      snippetId: string;
-      bricks: BrickConf[];
-    }
+    snippetData: RuntimeSnippet,
+    settings?: unknown
   ): void {
     const { routes, app } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
-    const previewPath = `\${APP.homepage}/_dev_only_/snippet-preview/${snippetData.snippetId}`;
+    const previewPath = this._dev_only_getSnippetPreviewPath(
+      snippetData.snippetId
+    );
     const previewRouteIndex = routes.findIndex(
       (route) => route.path === previewPath
     );
-    const newPreviewRoute: RouteConf = {
-      path: previewPath,
-      bricks:
-        snippetData.bricks?.length > 0
-          ? snippetData.bricks
-          : [{ brick: "span" }],
-      menu: false,
-      exact: true,
-      hybrid: app.legacy === "iframe",
-    };
-    if (previewRouteIndex === -1) {
-      routes.unshift(newPreviewRoute);
-    } else {
-      routes.splice(previewRouteIndex, 1, newPreviewRoute);
+
+    try {
+      const { params: declareParams, ...nodeData } = snippetData;
+
+      const parsedSnippetData = snippetEvaluate(nodeData, {
+        rootType: "route",
+        inputParams: (settings as any)?.params,
+        declareParams,
+      }) as RuntimeSnippet;
+
+      const newPreviewRoute: RouteConf = {
+        path: previewPath,
+        bricks:
+          parsedSnippetData.bricks?.length > 0
+            ? parsedSnippetData.bricks
+            : [{ brick: "span" }],
+        menu: false,
+        exact: true,
+        hybrid: app.legacy === "iframe",
+        context:
+          (parsedSnippetData.context?.length
+            ? parsedSnippetData.context
+            : parsedSnippetData.data) || [],
+      };
+      if (previewRouteIndex === -1) {
+        routes.unshift(newPreviewRoute);
+      } else {
+        routes.splice(previewRouteIndex, 1, newPreviewRoute);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      throw new Error(error);
     }
   }
 
@@ -529,12 +593,14 @@ export class Kernel {
 
   _dev_only_updateStoryboardBySnippet(
     appId: string,
-    newSnippet: {
-      snippetId: string;
-      bricks: BrickConf[];
-    }
+    newSnippet: RuntimeSnippet,
+    settings: unknown
   ): void {
-    this._dev_only_updateSnippetPreviewSettings(appId, newSnippet);
+    this._dev_only_updateSnippetPreviewSettings(appId, newSnippet, settings);
+  }
+
+  _dev_only_getFormPreviewPath(formId: string): string {
+    return `\${APP.homepage}/_dev_only_/form-preview/${formId}`;
   }
 
   _dev_only_updateFormPreviewSettings(
@@ -545,7 +611,7 @@ export class Kernel {
     const { routes } = this.bootstrapData.storyboards.find(
       (item) => item.app.id === appId
     );
-    const previewPath = `\${APP.homepage}/_dev_only_/form-preview/${formId}`;
+    const previewPath = this._dev_only_getFormPreviewPath(formId);
     const previewRouteIndex = routes.findIndex(
       (route) => route.path === previewPath
     );
@@ -568,6 +634,74 @@ export class Kernel {
     } else {
       routes.splice(previewRouteIndex, 1, newPreviewRoute);
     }
+  }
+
+  _dev_only_getAddedContracts(
+    storyboardPatch: PreviewStoryboardPatch,
+    { appId, updateStoryboardType, formId }: PreviewOption
+  ): string[] {
+    const storyboard = this.bootstrapData.storyboards.find(
+      (item) => item.app.id === appId
+    );
+
+    let updatedStoryboard;
+
+    // 拿到更新部分的 storyboard 配置，然后扫描一遍，找到新增的 contracts
+    if (updateStoryboardType === "route") {
+      updatedStoryboard = {
+        routes: [storyboardPatch as RouteConf],
+      } as Storyboard;
+    } else if (updateStoryboardType === "template") {
+      updatedStoryboard = {
+        meta: {
+          customTemplates: [storyboardPatch as CustomTemplate],
+        },
+      } as Storyboard;
+    } else if (updateStoryboardType === "snippet") {
+      // snippet 和 form 是放在挂载 route 里预览，通过 previewPath 拿到当前修改 route
+      const snippetPreviewPath = this._dev_only_getSnippetPreviewPath(
+        (storyboardPatch as RuntimeSnippet).snippetId
+      );
+      const currentRoute = storyboard.routes?.find(
+        (route) => route.path === snippetPreviewPath
+      );
+
+      updatedStoryboard = {
+        routes: [currentRoute],
+      } as Storyboard;
+    } else if (updateStoryboardType === "form") {
+      const formPreviewPath = this._dev_only_getFormPreviewPath(formId);
+      const currentRoute = storyboard.routes?.find(
+        (route) => route.path === formPreviewPath
+      );
+
+      updatedStoryboard = {
+        routes: [currentRoute],
+      } as Storyboard;
+    }
+
+    const addedContracts: string[] = [];
+
+    if (updatedStoryboard) {
+      const contractApis = scanCustomApisInStoryboard(
+        updatedStoryboard
+      )?.filter((api) => api.includes(":"));
+
+      contractApis.forEach((api) => {
+        const [_, namespaceId, name] = api.match(/(.*)@(.*):\d\.\d\.\d/);
+
+        if (
+          !storyboard.meta.contracts?.some(
+            (contract) =>
+              contract.namespaceId === namespaceId && contract.name === name
+          )
+        ) {
+          addedContracts.push(api);
+        }
+      });
+    }
+
+    return addedContracts;
   }
 
   private _loadDepsOfStoryboard = async (
@@ -611,6 +745,11 @@ export class Kernel {
       await loadScriptOfDll(eager.dll);
       await loadScriptOfBricksOrTemplates(eager.deps);
       if (eager.v3Bricks?.length) {
+        await catchLoad(
+          loadBricksImperatively(V3WidgetMates, brickPackages as any),
+          "brick",
+          V3WidgetMates[0]
+        );
         await loadBricksImperatively(eager.v3Bricks, brickPackages as any);
       }
       // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
@@ -689,7 +828,7 @@ export class Kernel {
           );
         }
       }
-      // 每个 storyboard 仅注册一次custom-template
+      // 每个 storyboard 仅注册一次 custom-template
       storyboard.$$registerCustomTemplateProcessed = true;
     }
   }
@@ -726,15 +865,26 @@ export class Kernel {
       },
       this.bootstrapData.brickPackages
     );
+
+    const loadV3Bricks = async (): Promise<void> => {
+      if (v3Bricks?.some((brick) => brick.includes(".tpl-"))) {
+        await catchLoad(
+          loadBricksImperatively(V3WidgetMates, brickPackages as any),
+          "brick",
+          V3WidgetMates[0]
+        );
+      }
+      await Promise.all([
+        v3Bricks?.length &&
+          loadBricksImperatively(v3Bricks, brickPackages as any),
+        v3Processors?.length &&
+          loadProcessorsImperatively(v3Processors, brickPackages as any),
+      ]);
+    };
+
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);
-    await Promise.all([
-      loadLazyBricks(filteredBricks),
-      v3Bricks?.length &&
-        loadBricksImperatively(v3Bricks, brickPackages as any),
-      v3Processors?.length &&
-        loadProcessorsImperatively(v3Processors, brickPackages as any),
-    ]);
+    await Promise.all([loadLazyBricks(filteredBricks), loadV3Bricks()]);
   };
 
   loadDynamicBricks(bricks: string[], processors?: string[]): Promise<void> {
@@ -898,7 +1048,7 @@ export class Kernel {
       const allMagicBrickConfig = (
         await InstanceApi_postSearch("_BRICK_MAGIC", {
           page: 1,
-          // TODO(Lynette): 暂时设置3000，待后台提供全量接口
+          // TODO(Lynette): 暂时设置 3000，待后台提供全量接口
           page_size: 3000,
           fields: {
             "*": true,
@@ -923,11 +1073,12 @@ export class Kernel {
   }
 
   getFeatureFlags(): FeatureFlags {
-    return Object.assign(
-      {},
-      this.bootstrapData?.settings?.featureFlags,
-      (this.nextApp?.config?.settings as any)?.featureFlags
-    );
+    const flags = {
+      ...this.bootstrapData?.settings?.featureFlags,
+      ...(this.nextApp?.config?.settings as any)?.featureFlags,
+    };
+    delete flags["migrate-to-brick-next-v3"];
+    return flags;
   }
 
   async getStandaloneMenus(
@@ -1065,4 +1216,15 @@ function generateColorTheme(theme: ThemeSetting): void {
       ...theme.variables,
     });
   }
+}
+
+function catchLoad(
+  promise: Promise<unknown>,
+  type: string,
+  name: string
+): Promise<unknown> {
+  return promise.catch((e) => {
+    // eslint-disable-next-line no-console
+    console.error(`Load ${type} "${name}" failed:`, e);
+  });
 }

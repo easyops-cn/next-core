@@ -64,6 +64,7 @@ describe("getBuilderNode", () => {
       $$matchedSelectors: ["my\\.any-brick"],
       $$isTemplateInternalNode: true,
       $$normalized: {
+        alias: "preset-alias",
         brick: "my.any-brick",
       },
       $$unreachable: false,
@@ -259,6 +260,7 @@ describe("getBuilderNode", () => {
       $$parsedLifeCycle: {},
       $$matchedSelectors: ["my\\.any-brick", "#myBrick"],
       $$normalized: {
+        alias: "any-brick",
         brick: "my.any-brick",
         properties: {
           id: "myBrick",

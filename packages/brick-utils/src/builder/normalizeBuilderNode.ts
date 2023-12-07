@@ -56,25 +56,31 @@ const fieldsToRemoveInRoute = [
   "providers_bak",
   "previewSettings",
   "screenshot",
+  "lock",
 
   "deleteAuthorizers",
   "readAuthorizers",
   "updateAuthorizers",
 ];
 
-const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type", "alias");
+const fieldsToRemoveInBrick = fieldsToRemoveInRoute.concat("type");
 
 // Those fields can be disposed if value is null.
 const disposableNullFields = [
   "alias",
   "documentId",
-  "hybrid",
-  "bg",
   "context",
   "exports",
   "ref",
-  "portal",
   "analyticsData",
+];
+
+const disposableFalseOrNullFields = [
+  "hybrid",
+  "bg",
+  "portal",
+  "public",
+  "exact",
 ];
 
 export function normalizeBuilderNode(node: BuilderBrickNode): BrickConf;
@@ -125,7 +131,10 @@ function normalize(
           !(
             key[0] === "_" ||
             fieldsToRemove.includes(key) ||
-            (value === null && disposableNullFields.includes(key))
+            ((value === false || value === null) &&
+              disposableFalseOrNullFields.includes(key)) ||
+            (value === null && disposableNullFields.includes(key)) ||
+            (value === true && key === "injectDeep")
           )
       )
       // Parse specific fields.

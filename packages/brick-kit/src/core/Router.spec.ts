@@ -84,6 +84,9 @@ const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
     "enable-analyzer": false,
     "support-ui-8.2-compact-layout": true,
   }),
+  getMiscSettings: () => ({
+    noAuthGuardLoginPath: "",
+  }),
 }));
 
 let historyListeners: LocationListener[] = [];
@@ -832,5 +835,35 @@ describe("Router", () => {
     router = new Router(kernel);
     await router.bootstrap();
     expect(document.body.className).toContain("compact-layout");
+  });
+  it("should redirect to other login page  if not logged in", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.NO_AUTH_GUARD = true;
+    (getRuntime as jest.Mock).mockImplementation(() => ({
+      getFeatureFlags: () => ({
+        "enable-analyzer": false,
+        "support-ui-8.2-compact-layout": true,
+      }),
+      getMiscSettings: () => ({
+        noAuthGuardLoginPath: "/easy-core-console/login",
+      }),
+    }));
+    __setMatchedStoryboard({
+      app: {
+        id: "hello",
+      },
+      dependsAll: true,
+      routes: [],
+    });
+    __setMountRoutesResults(
+      null,
+      new HttpResponseError(new Response("", { status: 401 }), {
+        code: 100003,
+      })
+    );
+    await router.bootstrap();
+    expect(spyOnHistory.replace.mock.calls[0]).toEqual([
+      "/easy-core-console/login",
+    ]);
   });
 });

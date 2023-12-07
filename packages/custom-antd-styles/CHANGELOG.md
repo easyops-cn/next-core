@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.26.1...@next-core/custom-antd-styles@1.26.2) (2023-10-30)
+
+
+### Bug Fixes
+
+* set ui v8-2 on html instead of body ([0017bca](https://github.com/easyops-cn/next-core/commit/0017bcaa2933cde4fcef0111cb9a80744d8b4006))
+
+
+
+
+
+## [1.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.26.0...@next-core/custom-antd-styles@1.26.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* 表格样式错误 ref CD-5314 ([21ae657](https://github.com/easyops-cn/next-core/commit/21ae65775658e8c12aadd61e6e0c3bc71e8bf0d9))
+
+
+
+
+
+# [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.26...@next-core/custom-antd-styles@1.26.0) (2023-07-07)
+
+
+### Features
+
+* **custom-antd-styles:** 卡片、抽屉左右内间距调整 ([e356580](https://github.com/easyops-cn/next-core/commit/e356580506c46f9be04082565612f90c202559d3))
+
+
+
+
+
+## [1.25.26](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.25...@next-core/custom-antd-styles@1.25.26) (2023-07-06)
+
+
+### Bug Fixes
+
+* **custom-antd-styles:** antd表格没数据时不能hover ([2b3b6e8](https://github.com/easyops-cn/next-core/commit/2b3b6e8cc31cbb9e3e4d4bf5ea5fcf8014803027))
+
+
+
+
+
+## [1.25.25](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.24...@next-core/custom-antd-styles@1.25.25) (2023-06-06)
+
+**Note:** Version bump only for package @next-core/custom-antd-styles
+
+
+
+
+
+## [1.25.24](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.23...@next-core/custom-antd-styles@1.25.24) (2023-06-02)
+
+
+### Bug Fixes
+
+* **table:** 修改table间距 ([6fbcef4](https://github.com/easyops-cn/next-core/commit/6fbcef40a7d27bc192c40a689ebc81257a6eabaa))
+
+
+
+
+
+## [1.25.23](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.22...@next-core/custom-antd-styles@1.25.23) (2023-06-02)
+
+
+### Bug Fixes
+
+* 修改table及timeline样式 ([8570bcc](https://github.com/easyops-cn/next-core/commit/8570bcc2e6e9a16c8d751238e2254ad3c50b0cc2))
+
+
+
+
+
 ## [1.25.22](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.25.21...@next-core/custom-antd-styles@1.25.22) (2023-05-23)
 
 

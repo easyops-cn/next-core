@@ -373,11 +373,12 @@ module.exports = (runtimeFlags) => {
     bootstrapHash: flags.bootstrapHash,
     legacyStandaloneAppsConfig,
     legacyAllAppsConfig: legacyStandaloneAppsConfig.concat(null),
-    host: flags.host,
-    port: Number(flags.port),
-    wsPort: Number(flags.wsPort),
+    host: flags.host || "localhost",
+    port: Number(flags.port || "8081"),
+    wsPort: Number(flags.wsPort || "8090"),
     https: flags.https,
-    cookieSameSiteNone: flags.cookieSameSiteNone,
+    cookieSameSiteNone:
+      flags.cookieSameSiteNone || process.env.COOKIE_SAME_SITE_NONE === "true",
     server,
     legacyConsole,
     consoleServer,
@@ -393,6 +394,7 @@ module.exports = (runtimeFlags) => {
     mockDate: flags.mockDate,
     publicCdn: flags.publicCdn,
     asCdn: flags.asCdn,
+    isWebpackServe,
   };
 
   checkLocalPackages(env);
