@@ -43,6 +43,24 @@ export function getMiddlewares(env) {
         });
       },
     });
+    middlewares.push({
+      path: `${baseHref}api/gateway/micro_app_standalone.runtime.RuntimeMicroAppStandalone/api/v1/micro_app_standalone/runtime/:appId`,
+      middleware(req, res) {
+        res.send({
+          code: 0,
+          data: null,
+        });
+      },
+    });
+    middlewares.push({
+      path: `${baseHref}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`,
+      middleware(req, res) {
+        res.send({
+          code: 0,
+          data: null,
+        });
+      },
+    });
   }
 
   return middlewares;
