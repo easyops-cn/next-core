@@ -646,6 +646,11 @@ export interface BrickLifeCycle {
    * 定义构件在卸载时的动作。
    */
   onUnmount?: BrickEventHandler | BrickEventHandler[];
+
+  /**
+   * 定义当页面地址变更被忽略时的动作，即：使用 `history.*` 动作并设置选项 `notify: false` 时。
+   */
+  onLocationChangeIgnored?: BrickEventHandler | BrickEventHandler[];
 }
 
 /**
@@ -1202,7 +1207,12 @@ export interface UseBrickSlotConf {
  */
 export type UseBrickLifeCycle = Pick<
   BrickLifeCycle,
-  "onMount" | "onUnmount" | "onScrollIntoView" | "onMediaChange"
+  | "onMount"
+  | "onUnmount"
+  | "onScrollIntoView"
+  | "onMediaChange"
+  | "onMessage"
+  | "onMessageClose"
 >;
 
 /**

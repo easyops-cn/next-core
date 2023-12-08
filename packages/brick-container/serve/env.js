@@ -222,10 +222,12 @@ export async function getEnv(rootDir, runtimeFlags) {
 function getServerPath(server) {
   if (server) {
     if (!server.startsWith("http://") && !server.startsWith("https://")) {
-      server = `http://${server}`;
+      server = /^[-\d\w]+$/.test(server)
+        ? `https://${server}.easyops.local`
+        : `http://${server}`;
     }
   } else {
-    server = "https://dev.easyops.local";
+    server = "https://dev-sa.easyops.local";
   }
 
   return server;

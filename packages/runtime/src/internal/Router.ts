@@ -191,6 +191,11 @@ export class Router {
       }
 
       if (ignoreRendering) {
+        this.#rendererContext?.dispatchLocationChangeIgnored({
+          action,
+          location,
+          previousLocation: this.#prevLocation,
+        });
         this.#prevLocation = location;
         return;
       }

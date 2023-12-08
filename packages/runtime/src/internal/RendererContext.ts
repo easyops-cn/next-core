@@ -52,6 +52,7 @@ const pageOnlyLifeCycles = [
   "onBeforePageLeave",
   "onAnchorLoad",
   "onAnchorUnload",
+  "onLocationChangeIgnored",
 ] as const;
 
 export interface RendererContextOptions {
@@ -110,6 +111,7 @@ export class RendererContext {
         | "onUnmount"
         | "onMessage"
         | "onMessageClose"
+        | "onLocationChangeIgnored"
       >
     >
   > = {
@@ -125,6 +127,7 @@ export class RendererContext {
     onUnmount: [],
     onMessage: [],
     onMessageClose: [],
+    onLocationChangeIgnored: [],
   };
   #observers = new Map<RenderBrick, IntersectionObserver[]>();
   #mediaListener: EventListener | undefined;
@@ -487,7 +490,8 @@ export class RendererContext {
       | "onMediaChange"
       | "onMessageClose"
       | "onMount"
-      | "onUnmount",
+      | "onUnmount"
+      | "onLocationChangeIgnored",
     event: Event
   ): void {
     // istanbul ignore next
@@ -539,6 +543,17 @@ export class RendererContext {
     this.#dispatchGeneralLifeCycle(
       "onPageLeave",
       new CustomEvent("page.leave")
+    );
+  }
+
+  dispatchLocationChangeIgnored(detail: {
+    action: string;
+    location: NextLocation;
+    previousLocation: NextLocation;
+  }): void {
+    this.#dispatchGeneralLifeCycle(
+      "onLocationChangeIgnored",
+      new CustomEvent("location.change.ignored", { detail })
     );
   }
 
