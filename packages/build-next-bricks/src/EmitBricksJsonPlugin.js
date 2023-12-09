@@ -19,6 +19,7 @@ export default class EmitBricksJsonPlugin {
     this.manifest = options.manifest;
     this.types = options.types;
     this.examples = options.examples;
+    this.deprecatedElements = options.deprecatedElements;
   }
 
   /**
@@ -57,6 +58,7 @@ export default class EmitBricksJsonPlugin {
               processors: this.processors,
               dependencies: this.dependencies,
               filePath: jsFilePath,
+              deprecatedElements: this.deprecatedElements,
             },
             null,
             2
@@ -89,6 +91,7 @@ export default class EmitBricksJsonPlugin {
           console.log("Defined elements:", this.elements);
           console.log("Defined processors:", this.processors);
           console.log("Found dependencies:", this.dependencies);
+          console.log("Found deprecated elements:", this.deprecatedElements);
           callback();
         }
       );

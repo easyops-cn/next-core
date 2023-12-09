@@ -6,6 +6,7 @@ interface BrickPackage {
   filePath: string;
   elements?: string[];
   dependencies?: Record<string, string[]>;
+  deprecatedElements?: string[];
 }
 
 let resolveBasicPkg: () => void;
@@ -108,11 +109,19 @@ function getItemsByPkg(
       pkg = brickPackagesMap.get(pkgId);
     } else {
       lastName = item;
+      let deprecatedBrickInThisPkg;
       for (const p of brickPackagesMap.values()) {
         if (p.elements?.some((e) => e === lastName)) {
-          pkg = p;
-          break;
+          if (p.deprecatedElements?.includes(item)) {
+            deprecatedBrickInThisPkg = p;
+          } else {
+            pkg = p;
+            break;
+          }
         }
+      }
+      if (!pkg && deprecatedBrickInThisPkg) {
+        pkg = deprecatedBrickInThisPkg;
       }
     }
 
