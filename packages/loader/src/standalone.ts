@@ -5,6 +5,7 @@ interface BrickPackage {
   filePath: string;
   elements?: string[];
   dependencies?: Record<string, string[]>;
+  deprecatedElements?: string[];
 }
 
 const brickPackages = (window.STANDALONE_BRICK_PACKAGES ??=
