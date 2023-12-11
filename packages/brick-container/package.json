@@ -46,7 +46,7 @@
     "@next-core/custom-antd-styles": "^1.26.2",
     "@next-core/illustrations": "^0.11.24",
     "@next-core/less-plugin-css-variables": "^0.2.8",
-    "@next-core/theme": "^1.4.1",
+    "@next-core/theme": "^1.4.4",
     "@next-core/webpack-config-factory": "^2.22.0",
     "@next-dll/ace": "^2.0.705",
     "@next-dll/d3": "^2.0.79",
