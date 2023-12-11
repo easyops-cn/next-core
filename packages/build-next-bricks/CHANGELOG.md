@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.17.0...@next-core/build-next-bricks@1.18.0) (2023-12-11)
+
+
+### Features
+
+* support load deprecated brick ([78a50fa](https://github.com/easyops-cn/next-core/commit/78a50fa8bc695f0bd45199ee5e1a3103037419b4))
+
+
+
+
+
 # [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.16.1...@next-core/build-next-bricks@1.17.0) (2023-12-05)
 
 

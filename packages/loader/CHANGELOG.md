@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.4.5...@next-core/loader@1.5.0) (2023-12-11)
+
+
+### Features
+
+* support load deprecated brick ([78a50fa](https://github.com/easyops-cn/next-core/commit/78a50fa8bc695f0bd45199ee5e1a3103037419b4))
+
+
+
+
+
 ## [1.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.4.4...@next-core/loader@1.4.5) (2023-11-29)
 
 **Note:** Version bump only for package @next-core/loader
