@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.18.0...@next-core/build-next-bricks@1.19.0) (2023-12-12)
+
+
+### Features
+
+* support build brick with stories ([a2d4f55](https://github.com/easyops-cn/next-core/commit/a2d4f55aad3673bf50cfefff5c8c8bdb18bd3d6d))
+
+
+
+
+
 # [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.17.0...@next-core/build-next-bricks@1.18.0) (2023-12-11)
 
 
