@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import build from "../src/build.js";
+import buildStories from "../src/buildStories.js";
 import scanBricks from "../src/scanBricks.js";
 import generatePkgBuild from "../src/generatePkgBuild.js";
 
@@ -100,6 +101,7 @@ try {
       if (
         configList.some((config) => !config.type || config.type === "bricks")
       ) {
+        await buildStories(packageDir);
         await generatePkgBuild(packageDir);
       }
 
