@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.59](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.58...@next-core/easyops-runtime@0.6.59) (2023-12-14)
+
+
+### Bug Fixes
+
+* fix permission check in dynamic menu items ([c8da10d](https://github.com/easyops-cn/next-core/commit/c8da10d2e40d65ad0f85db588b68f0d4ed072ecf))
+
+
+
+
+
 ## [0.6.58](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.57...@next-core/easyops-runtime@0.6.58) (2023-12-11)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

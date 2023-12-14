@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.1...@next-core/runtime@1.26.2) (2023-12-14)
+
+
+### Bug Fixes
+
+* use substitution strings for console.* ([e575419](https://github.com/easyops-cn/next-core/commit/e57541968b58a2542c1b75d842e11f5108944bc3))
+
+
+
+
+
 ## [1.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.0...@next-core/runtime@1.26.1) (2023-12-11)
 
 **Note:** Version bump only for package @next-core/runtime
