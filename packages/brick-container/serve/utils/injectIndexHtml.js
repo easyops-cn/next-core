@@ -32,7 +32,7 @@ export function injectIndexHtml(env, content, standaloneConfig) {
         `var d=${JSON.stringify(standaloneConfig.publicPrefix)};`,
         'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d;',
         `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/";`,
-        `w.BOOTSTRAP_FILE=a+"-/bootstrap.${standaloneConfig.bootstrapHash}.json";`,
+        `w.BOOTSTRAP_FILE=a+"-/bootstrap.${standaloneConfig.bootstrapHash}${standaloneConfig.bootstrapPathSuffix}.json";`,
         "})(window)",
         "</script></head>",
       ].join("")
