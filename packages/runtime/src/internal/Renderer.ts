@@ -1055,7 +1055,7 @@ function catchLoad(
   return unknownPolicy === "silent"
     ? promise.catch((e) => {
         // eslint-disable-next-line no-console
-        console.error(`Load ${type} "${name}" failed:`, e);
+        console.error(`Load %s "%s" failed:`, type, name, e);
       })
     : promise;
 }
