@@ -1,3 +1,4 @@
+import { preCheckPermissionsForAny } from "../checkPermissions.js";
 import type {
   RuntimeContext,
   MenuItemRawData,
@@ -13,17 +14,20 @@ export async function loadDynamicMenuItems(
 ): Promise<void> {
   if (menu.dynamicItems && menu.itemsResolve) {
     const overrideAppId = menu.app[0].appId;
-    let newRuntimeContext = runtimeContext;
+    const newRuntimeContext = {
+      ...runtimeContext,
+      pendingPermissionsPreCheck: [
+        ...runtimeContext.pendingPermissionsPreCheck,
+        preCheckPermissionsForAny(menu.itemsResolve),
+      ],
+    };
     if (overrideAppId !== runtimeContext.app.id) {
-      const overrideApp = window.STANDALONE_MICRO_APPS
+      newRuntimeContext.overrideApp = window.STANDALONE_MICRO_APPS
         ? menu.overrideApp
         : helpers.getStoryboardByAppId(overrideAppId)?.app;
-      newRuntimeContext = {
-        ...runtimeContext,
-        overrideApp,
-        appendI18nNamespace: menuWithI18n.get(menu),
-      };
+      newRuntimeContext.appendI18nNamespace = menuWithI18n.get(menu);
     }
+
     const resolved = (await helpers.resolveData(
       {
         transform: "items",
