@@ -5037,20 +5037,20 @@ cssnano-preset-default@^6.0.1:
     postcss-svgo "^6.0.0"
     postcss-unique-selectors "^6.0.0"
 
-cssnano-preset-lite@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-3.0.0.tgz#f041cc10bf8e99b60179ed02f7d24e6897224f15"
-  integrity sha512-De6qjkM/QJUXOGv9nsP8/CajHC4mvvtRmvBLYL51AzqLHpYbegW3EJzZHYmxAPzaaMPtdJ5GEXmAUbBorcTqBQ==
+cssnano-preset-lite@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-3.0.1.tgz#94fdeaff5e248acfa963d7974dd92d38dbfbef0c"
+  integrity sha512-e9uxTfzMghulpu9yWSW3jGCbfz1YnQaKQBa0U1aIoWMNNFbeTKLW4lpwGP5ktx8shcIbyCpQ+XUZIl0CIbIKiQ==
   dependencies:
-    cssnano-utils "^4.0.0"
-    postcss-discard-comments "^6.0.0"
-    postcss-discard-empty "^6.0.0"
-    postcss-normalize-whitespace "^6.0.0"
+    cssnano-utils "^4.0.1"
+    postcss-discard-comments "^6.0.1"
+    postcss-discard-empty "^6.0.1"
+    postcss-normalize-whitespace "^6.0.1"
 
-cssnano-utils@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/cssnano-utils/-/cssnano-utils-4.0.0.tgz#d1da885ec04003ab19505ff0e62e029708d36b08"
-  integrity sha512-Z39TLP+1E0KUcd7LGyF4qMfu8ZufI0rDzhdyAMsa/8UyNUU8wpS0fhdBxbQbv32r64ea00h4878gommRVg2BHw==
+cssnano-utils@^4.0.0, cssnano-utils@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/cssnano-utils/-/cssnano-utils-4.0.1.tgz#fd18b42f95938bf55ab47967705355d6047bf1da"
+  integrity sha512-6qQuYDqsGoiXssZ3zct6dcMxiqfT6epy7x4R0TQJadd4LWO3sPR6JH6ZByOvVLoZ6EdwPGgd7+DR1EmX3tiXQQ==
 
 cssnano@^6.0.1:
   version "6.0.1"
@@ -10350,20 +10350,20 @@ postcss-dir-pseudo-class@^8.0.0:
   dependencies:
     postcss-selector-parser "^6.0.13"
 
-postcss-discard-comments@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-6.0.0.tgz#9ca335e8b68919f301b24ba47dde226a42e535fe"
-  integrity sha512-p2skSGqzPMZkEQvJsgnkBhCn8gI7NzRH2683EEjrIkoMiwRELx68yoUJ3q3DGSGuQ8Ug9Gsn+OuDr46yfO+eFw==
+postcss-discard-comments@^6.0.0, postcss-discard-comments@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-6.0.1.tgz#46176212bd9c3e5f48aa4b8b4868786726c41d36"
+  integrity sha512-f1KYNPtqYLUeZGCHQPKzzFtsHaRuECe6jLakf/RjSRqvF5XHLZnM2+fXLhb8Qh/HBFHs3M4cSLb1k3B899RYIg==
 
 postcss-discard-duplicates@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/postcss-discard-duplicates/-/postcss-discard-duplicates-6.0.0.tgz#c26177a6c33070922e67e9a92c0fd23d443d1355"
   integrity sha512-bU1SXIizMLtDW4oSsi5C/xHKbhLlhek/0/yCnoMQany9k3nPBq+Ctsv/9oMmyqbR96HYHxZcHyK2HR5P/mqoGA==
 
-postcss-discard-empty@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/postcss-discard-empty/-/postcss-discard-empty-6.0.0.tgz#06c1c4fce09e22d2a99e667c8550eb8a3a1b9aee"
-  integrity sha512-b+h1S1VT6dNhpcg+LpyiUrdnEZfICF0my7HAKgJixJLW7BnNmpRH34+uw/etf5AhOlIhIAuXApSzzDzMI9K/gQ==
+postcss-discard-empty@^6.0.0, postcss-discard-empty@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/postcss-discard-empty/-/postcss-discard-empty-6.0.1.tgz#b34cb45ec891246da4506b53e352390fdef126c4"
+  integrity sha512-yitcmKwmVWtNsrrRqGJ7/C0YRy53i0mjexBDQ9zYxDwTWVBgbU4+C9jIZLmQlTDT9zhml+u0OMFJh8+31krmOg==
 
 postcss-discard-overridden@^6.0.0:
   version "6.0.0"
@@ -10576,10 +10576,10 @@ postcss-normalize-url@^6.0.0:
   dependencies:
     postcss-value-parser "^4.2.0"
 
-postcss-normalize-whitespace@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/postcss-normalize-whitespace/-/postcss-normalize-whitespace-6.0.0.tgz#accb961caa42e25ca4179b60855b79b1f7129d4d"
-  integrity sha512-7cfE1AyLiK0+ZBG6FmLziJzqQCpTQY+8XjMhMAz8WSBSCsCNNUKujgIgjCAmDT3cJ+3zjTXFkoD15ZPsckArVw==
+postcss-normalize-whitespace@^6.0.0, postcss-normalize-whitespace@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/postcss-normalize-whitespace/-/postcss-normalize-whitespace-6.0.1.tgz#b5933750b938814c028d3d2b2e5c0199e0037b53"
+  integrity sha512-76i3NpWf6bB8UHlVuLRxG4zW2YykF9CTEcq/9LGAiz2qBuX5cBStadkk0jSkg9a9TCIXbMQz7yzrygKoCW9JuA==
   dependencies:
     postcss-value-parser "^4.2.0"
 
