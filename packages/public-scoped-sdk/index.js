@@ -11,4 +11,5 @@ exports.PUBLIC_SCOPED_SDK = [
   "air-admin-service",
   "api-gateway",
   "form-builder-service",
+  "sys-setting-sdk",
 ];
