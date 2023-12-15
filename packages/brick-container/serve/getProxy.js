@@ -52,8 +52,8 @@ export default function getProxy(env, getRawIndexHtml) {
                 env.cookieSameSiteNone && env.host === "localhost"
                   ? "add"
                   : env.https
-                  ? null
-                  : "clear";
+                    ? null
+                    : "clear";
               if (strategy) {
                 // Note: it seems that now Chrome (v107) requires `SameSite=None` even for localhost.
                 // However, `Secure` can use used with non-http for localhost.
@@ -199,14 +199,18 @@ export default function getProxy(env, getRawIndexHtml) {
                     const appRoot = JSON.parse(appRootMatches[1]);
 
                     const bootstrapHashMatches = content.match(
-                      /\bbootstrap\.([^."]+)\.json\b/
+                      /\bbootstrap(\.publicDeps)?\.([^."]+)\.json\b/
                     );
                     if (!bootstrapHashMatches) {
                       const message = "Unexpected: bootstrapHash is not found";
                       console.log(message, content);
                       throw new Error(message);
                     }
-                    const bootstrapHash = bootstrapHashMatches[1];
+                    const reverseBootstrapMatches =
+                      bootstrapHashMatches.reverse();
+                    const bootstrapHash = reverseBootstrapMatches[0];
+
+                    const bootstrapPathPrefix = reverseBootstrapMatches[1];
 
                     const noAuthGuard =
                       /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(content);
@@ -248,6 +252,7 @@ export default function getProxy(env, getRawIndexHtml) {
                       appRoot,
                       publicPrefix,
                       bootstrapHash,
+                      bootstrapPathPrefix,
                       coreVersion,
                       noAuthGuard,
                     });
@@ -260,7 +265,7 @@ export default function getProxy(env, getRawIndexHtml) {
             }
             if (
               /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/.test(req.path) ||
-              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap\.[^.]+\.json$/.test(
+              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:\.publicDeps)?\.[^.]+\.json$/.test(
                 req.path
               )
             ) {
