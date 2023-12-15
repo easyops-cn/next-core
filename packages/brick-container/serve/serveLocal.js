@@ -108,7 +108,7 @@ module.exports = (env, app) => {
               publicRootAsRegExpRaw || escapeRegExp(publicRoot)
             }${escapeRegExp(
               `bricks/${pkgId}/`
-            )}(?:\\d+(?:\\.\\d+)*/)?(?!dist/editors/)(.+)`
+            )}(?:(?:\\d+(?:\\.\\d+)*|-)/)?(?!dist/editors/)(.+)`
           ),
           (req, res) => {
             tryServeFiles(

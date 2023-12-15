@@ -98,7 +98,7 @@ module.exports = (env, getRawIndexHtml) => {
       let publicRootWithVersion = false;
       if (!reqIsBootstrap) {
         const regex =
-          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap\.[^.]+\.json$/;
+          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:\.publicDeps)?\.[^.]+\.json$/;
         const regexLegacy = /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/;
         if (regex.test(req.path) || regexLegacy.test(req.path)) {
           reqIsBootstrap = true;
@@ -441,14 +441,17 @@ module.exports = (env, getRawIndexHtml) => {
               const appRoot = JSON.parse(appRootMatches[1]);
 
               const bootstrapHashMatches = raw.match(
-                /\bbootstrap\.([^."]+)\.json\b/
+                /\bbootstrap(\.publicDeps)?\.([^."]+)\.json\b/
               );
               if (!bootstrapHashMatches) {
                 const message = "Unexpected: bootstrapHash is not found";
                 console.log(message, raw);
                 throw new Error(message);
               }
-              const bootstrapHash = bootstrapHashMatches[1];
+              const reverseBootstrapMatches = bootstrapHashMatches.reverse();
+              const bootstrapHash = reverseBootstrapMatches[0];
+
+              const bootstrapPathPrefix = reverseBootstrapMatches[1];
 
               const noAuthGuard = /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(raw);
 
@@ -478,6 +481,7 @@ module.exports = (env, getRawIndexHtml) => {
                     appRoot,
                     publicPrefix,
                     bootstrapHash,
+                    bootstrapPathPrefix,
                     coreVersion,
                     noAuthGuard,
                     standaloneVersion: 2,
@@ -491,6 +495,7 @@ module.exports = (env, getRawIndexHtml) => {
                   appDir,
                   appRoot,
                   bootstrapHash,
+                  bootstrapPathPrefix,
                   noAuthGuard,
                   standaloneVersion: 1,
                 },
