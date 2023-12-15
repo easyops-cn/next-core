@@ -67,13 +67,17 @@ const injectIndexHtml = (standaloneConfig, env, content) => {
               `var d=${JSON.stringify(standaloneConfig.publicPrefix)}`,
               'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
               `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/"`,
-              `w.BOOTSTRAP_FILE=a+"-/bootstrap.${standaloneConfig.bootstrapHash}.json"`,
+              `w.BOOTSTRAP_FILE=a+"-/bootstrap${
+                standaloneConfig.bootstrapPathPrefix ?? ""
+              }.${standaloneConfig.bootstrapHash}.json"`,
             ]
           : [
               'var d=a+"-/"',
               'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d',
               'w.CORE_ROOT=p+"core/"',
-              `w.BOOTSTRAP_FILE=d+"bootstrap.${standaloneConfig.bootstrapHash}.json"`,
+              `w.BOOTSTRAP_FILE=d+"bootstrap${
+                standaloneConfig.bootstrapPathPrefix ?? ""
+              }.${standaloneConfig.bootstrapHash}.json"`,
             ]
         )
           .filter(Boolean)
