@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.42](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.41...@next-core/brick-container@3.8.42) (2023-12-15)
+
+
+### Bug Fixes
+
+* debugger with public dependencies mode ([3af08cf](https://github.com/easyops-cn/next-core/commit/3af08cf4f276c7f2d203a4008cec20bcc9eb7887))
+
+
+
+
+
 ## [3.8.41](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.40...@next-core/brick-container@3.8.41) (2023-12-14)
 
 **Note:** Version bump only for package @next-core/brick-container
