@@ -52,7 +52,8 @@ function getApiArgsFromApiProfile(
   originalArgs: unknown[],
   method?: string
 ): unknown[] {
-  const isDownload = isFileType && method === "saveAs";
+  // `saveAs` requires the first argument to be the filename.
+  const isDownload = method === "saveAs";
   let fileName: string | undefined;
   if (isDownload) {
     fileName = originalArgs.shift() as string;
