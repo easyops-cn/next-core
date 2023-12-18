@@ -49,6 +49,15 @@ jest.mock("./mediaQuery", () => ({
     breakpoint: "xLarge",
   }),
 }));
+jest.mock("../history", () => ({
+  getHistory() {
+    return {
+      location: {
+        search: "?a=y&b=4&b=3",
+      },
+    };
+  },
+}));
 
 i18next.init({
   fallbackLng: "en",
@@ -294,6 +303,15 @@ describe("evaluate", () => {
     (getDevHook as jest.Mock).mockReturnValue({});
     expect(evaluate(raw)).toEqual(result);
     (getDevHook as jest.Mock).mockReturnValue(undefined);
+  });
+
+  it("should use real time query", () => {
+    expect(
+      evaluate("<% QUERY.a %>", undefined, { useRealTimeQuery: true })
+    ).toBe("y");
+    expect(
+      evaluate("<% QUERY_ARRAY.b %>", undefined, { useRealTimeQuery: true })
+    ).toEqual(["4", "3"]);
   });
 
   it("should throw while override CTX", () => {

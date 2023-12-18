@@ -11,11 +11,18 @@ import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
  * @param value - Any value which may contains evaluations or placeholders.
  * @returns Computed real value.
  */
-export function getRealValue(value: unknown): unknown {
+export function getRealValue(
+  value: unknown,
+  {
+    useRealTimeQuery,
+  }: {
+    useRealTimeQuery?: boolean;
+  } = {}
+): unknown {
   const compute = (data: unknown, ctx: PluginRuntimeContext): unknown => {
     if (typeof data === "string") {
       if (isEvaluable(data)) {
-        const result = evaluate(data);
+        const result = evaluate(data, undefined, { useRealTimeQuery });
         recursiveMarkAsInjected(result);
         return result;
       }

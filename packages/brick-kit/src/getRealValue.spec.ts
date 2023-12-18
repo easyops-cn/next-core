@@ -2,6 +2,16 @@ import { PluginRuntimeContext } from "@next-core/brick-types";
 import * as runtime from "./core/Runtime";
 import { getRealValue } from "./getRealValue";
 
+jest.mock("./history", () => ({
+  getHistory() {
+    return {
+      location: {
+        search: "?time=real",
+      },
+    };
+  },
+}));
+
 const mockCurrentContext = jest.spyOn(runtime, "_internalApiGetCurrentContext");
 
 describe("getRealValue", () => {
@@ -31,5 +41,11 @@ describe("getRealValue", () => {
   ])("test getRealValue(%j)", (input, output) => {
     const result = getRealValue(input);
     expect(result).toEqual(output);
+  });
+
+  it("should use real time query", () => {
+    expect(getRealValue("<% QUERY.time %>", { useRealTimeQuery: true })).toBe(
+      "real"
+    );
   });
 });
