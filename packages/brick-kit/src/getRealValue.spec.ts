@@ -47,5 +47,8 @@ describe("getRealValue", () => {
     expect(getRealValue("<% QUERY.time %>", { useRealTimeQuery: true })).toBe(
       "real"
     );
+    expect(getRealValue("${QUERY.time}", { useRealTimeQuery: true })).toBe(
+      "real"
+    );
   });
 });

@@ -305,15 +305,6 @@ describe("evaluate", () => {
     (getDevHook as jest.Mock).mockReturnValue(undefined);
   });
 
-  it("should use real time query", () => {
-    expect(
-      evaluate("<% QUERY.a %>", undefined, { useRealTimeQuery: true })
-    ).toBe("y");
-    expect(
-      evaluate("<% QUERY_ARRAY.b %>", undefined, { useRealTimeQuery: true })
-    ).toEqual(["4", "3"]);
-  });
-
   it("should throw while override CTX", () => {
     const ctx = evaluate("<% CTX %>") as any;
     expect(ctx).toBeTruthy();
