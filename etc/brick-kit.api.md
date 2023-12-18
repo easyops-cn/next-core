@@ -388,7 +388,9 @@ export const getMockInfo: (requestUrl: string, method: string) => {
 } | undefined;
 
 // @public
-export function getRealValue(value: unknown): unknown;
+export function getRealValue(value: unknown, { useRealTimeQuery, }?: {
+    useRealTimeQuery?: boolean;
+}): unknown;
 
 // @public
 export function getRuntime(): Runtime;
