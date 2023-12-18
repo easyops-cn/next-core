@@ -245,7 +245,6 @@ describe("loadBricksImperatively", () => {
   });
 
   test("load v2 bricks without v2-adapter", async () => {
-    consoleError.mockReturnValueOnce();
     const promise = loadBricksImperatively(
       ["legacy.some-brick", "basic.general-button"],
       [
@@ -259,25 +258,11 @@ describe("loadBricksImperatively", () => {
       ]
     );
     expect(requestsCount).toBe(1);
-    await promise;
+    await expect(promise).rejects.toMatchInlineSnapshot(
+      `[Error: Using v2 bricks, but v2-adapter not found]`
+    );
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toHaveBeenNthCalledWith(
-      1,
-      "loadScript done:",
-      "bricks/basic/dist/index.hash.js",
-      ""
-    );
-    expect(consoleInfo).toHaveBeenNthCalledWith(
-      2,
-      "loadSharedModule done:",
-      "bricks/basic",
-      "./general-button"
-    );
-    expect(consoleInfo).toBeCalledTimes(2);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
-      "Using v2 bricks, but v2-adapter not found"
-    );
+    expect(consoleInfo).toBeCalledTimes(0);
   });
 
   test("load third-party bricks with no namespace", async () => {
