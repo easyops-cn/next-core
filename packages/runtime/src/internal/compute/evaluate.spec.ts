@@ -77,6 +77,15 @@ jest.mock("../Runtime.js", () => ({
   },
 }));
 jest.mock("../devtools.js");
+jest.mock("../../history.js", () => ({
+  getHistory() {
+    return {
+      location: {
+        search: "?a=y&b=4&b=3",
+      },
+    };
+  },
+}));
 
 i18n.init({
   fallbackLng: "en",
@@ -264,6 +273,8 @@ describe("evaluate", () => {
     ["<% _.isEmpty(QUERY) %> ", false],
     [" <% QUERY_ARRAY.b %> ", ["2", "1"]],
     ["<% QUERY_ARRAY.x %> ", undefined],
+    [" <% RT_QUERY.a %>", "y"],
+    [" <% RT_QUERY_ARRAY.b %>", ["4", "3"]],
     ["<% _.isEmpty(QUERY_ARRAY) %> ", false],
     ["\n\t<% PARAMS.get('b') %>\n\t", "2"],
     ["<% PARAMS.getAll('b') %>", ["2", "1"]],

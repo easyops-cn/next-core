@@ -43,6 +43,7 @@ import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
 import { getFormStateStore } from "../FormRenderer/utils.js";
 import { resolveData } from "../data/resolveData.js";
 import { asyncComputeRealValue } from "./computeRealValue.js";
+import { getHistory } from "../../history.js";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -432,16 +433,30 @@ function lowLevelEvaluate(
             });
             break;
           case "QUERY":
+          case "RT_QUERY": {
+            // RT: RealTime
+            const params =
+              variableName === "QUERY"
+                ? query
+                : new URLSearchParams(getHistory().location.search);
             globalVariables[variableName] = Object.fromEntries(
-              Array.from(query.keys()).map((key) => [key, query.get(key)])
+              Array.from(params.keys()).map((key) => [key, params.get(key)])
             );
             break;
+          }
           case "QUERY_ARRAY":
+          case "RT_QUERY_ARRAY": {
+            // RT: RealTime
+            const params =
+              variableName === "QUERY_ARRAY"
+                ? query
+                : new URLSearchParams(getHistory().location.search);
             globalVariables[variableName] = Object.fromEntries(
-              Array.from(query.keys()).map((key) => [key, query.getAll(key)])
+              Array.from(params.keys()).map((key) => [key, params.getAll(key)])
             );
-            // case "SEGUE":
             break;
+          }
+          // case "SEGUE":
           case "SESSION_STORAGE":
             globalVariables[variableName] = getReadOnlyProxy({
               getItem: getStorageItem("session"),
