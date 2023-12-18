@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.181.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.181.0...@next-core/brick-kit@2.181.1) (2023-12-18)
+
+
+### Bug Fixes
+
+* Provider::saveAs requires the first argument to be the filename ([72bdc14](https://github.com/easyops-cn/next-core/commit/72bdc146929b4cae9240082357050529d47750ef))
+
+
+
+
+
 # [2.181.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.180.0...@next-core/brick-kit@2.181.0) (2023-12-18)
 
 
