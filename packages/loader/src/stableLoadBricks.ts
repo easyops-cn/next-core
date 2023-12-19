@@ -213,8 +213,7 @@ async function enqueueStableLoad(
       v2Packages.push(pkg);
       maybeV2Adapter = brickPackagesMap.get("bricks/v2-adapter");
       if (!maybeV2Adapter) {
-        // eslint-disable-next-line no-console
-        console.error("Using v2 bricks, but v2-adapter not found");
+        throw new Error("Using v2 bricks, but v2-adapter not found");
       }
     }
   }
