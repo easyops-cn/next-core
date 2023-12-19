@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.91.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.90.1...@next-core/brick-types@2.91.0) (2023-12-19)
+
+
+### Features
+
+* track conditional resolve ([6555df8](https://github.com/easyops-cn/next-core/commit/6555df89a907c89f33435266499d3e195371f7d3))
+
+
+
+
+
 ## [2.90.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.90.0...@next-core/brick-types@2.90.1) (2023-10-20)
 
 **Note:** Version bump only for package @next-core/brick-types
