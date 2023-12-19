@@ -28,7 +28,12 @@ def get_snippets_from_stories(stories_content):
     ret_snippets = []
     for story in stories_content:
         story_category = story.get("category", "other")
-        story_conf = story.get("conf")  # 获取示例数据
+
+        # 获取示例数据
+        if "conf" in story and isinstance(story['conf'], dict) and "snippet" in story["conf"]:
+            story_conf = story["conf"]["snippet"]
+        else:
+            story_conf = story.get("conf")
         if isinstance(story_conf, list) and len(story_conf) > 0:
             for conf in story_conf:
                 if conf.get("snippetId"):  # 有snippetId的示例，需要上报到snippet
@@ -88,8 +93,13 @@ def get_v3_story_provider(pr, examples_content, types_content):
 
     return story
 
+def find_item_by_story_id(lst, story_id):
+    for item in lst:
+        if item.get('storyId') == story_id:
+            return item
+    return None
 
-def get_v3_story(br, examples_content, types_content):
+def get_v3_story(br, examples_content, types_content, stories_content):
     story_id = br.get("name", "")
     if not story_id:
         return
@@ -108,8 +118,16 @@ def get_v3_story(br, examples_content, types_content):
     story["alias"] = br.get("alias", [])
     story["icon"] = br.get("icon")
 
+    story_item = find_item_by_story_id(stories_content, story_id)
+
     if story_id in examples_content:
-        story["conf"] = examples_content[story_id]
+      story["conf"] = examples_content[story_id]
+
+    if story_item != None:
+      if "conf" not in story:
+        story["conf"] = {}
+      story["conf"]["snippet"] = story_item.get("conf", [])
+      story["icon"] = story_item.get("icon")
 
     doc = br.get("doc", {})
     if story_id in types_content:
@@ -147,14 +165,18 @@ def collect_stories(install_path):
     manifest_path = os.path.join(install_path, "dist", "manifest.json")
     examples_path = os.path.join(install_path, "dist", "examples.json")
     types_path = os.path.join(install_path, "dist", "types.json")
+    bricks_path = os.path.join(install_path, "dist", "bricks.json")
+    with open(bricks_path) as bricks_file:
+        bricks_content = simplejson.load(bricks_file)
+    isV3Brick = "id" in bricks_content
+    with open(stories_path) as stories_file:
+        stories_content = simplejson.load(stories_file)
     # v2 brick
-    if os.path.exists(stories_path):
-        with open(stories_path) as stories_file:
-            stories_content = simplejson.load(stories_file)
-            return stories_content
+    if isV3Brick == False:
+        return stories_content
     # v3 brick
-    elif os.path.exists(manifest_path):
-        stories_content = []
+    elif isV3Brick:
+        stories_list = []
         with open(manifest_path) as manifest_file:
             manifest_content = simplejson.load(manifest_file)
             examples_content = {}
@@ -166,14 +188,14 @@ def collect_stories(install_path):
                 with open(types_path) as types_file:
                     types_content = simplejson.load(types_file)
             for br in manifest_content.get("bricks", []):
-                story = get_v3_story(br, examples_content, types_content)
+                story = get_v3_story(br, examples_content, types_content, stories_content)
                 if story:
-                    stories_content.append(story)
+                    stories_list.append(story)
             for pr in manifest_content.get("providers", []):
                 story = get_v3_story_provider(pr, examples_content, types_content)
                 if story:
-                    stories_content.append(story)
-        return stories_content
+                    stories_list.append(story)
+        return stories_list
     return []
 
 
