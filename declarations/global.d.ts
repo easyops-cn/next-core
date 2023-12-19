@@ -60,6 +60,9 @@ interface Window {
   /** The response field of bootstrap file */
   BOOTSTRAP_FILE_FIELD?: string;
 
+  /** the union bootstrap filename  */
+  BOOTSTRAP_UNION_FILE?: string;
+
   /** Mock global date, currently for sandbox demo website only */
   MOCK_DATE?: string;
 

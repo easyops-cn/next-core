@@ -252,9 +252,21 @@ export class Router {
     const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
     const previousApp = this.#runtimeContext?.app;
+    const currentAppId = storyboard?.app?.id;
+    //  dynamically change the value of the APP variable, if it's union app
+    if (
+      window.BOOTSTRAP_UNION_FILE &&
+      currentAppId &&
+      currentAppId !== previousApp?.id
+    ) {
+      window.APP_ID = currentAppId;
+      window.APP_ROOT = `sa-static/${currentAppId}/versions/${storyboard.app.currentVersion}/webroot/`;
+    }
+
     if (storyboard?.app) {
       await fulfilStoryboard(storyboard);
     }
+
     const currentApp = (this.#currentApp = storyboard?.app);
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.

@@ -199,7 +199,7 @@ export default function getProxy(env, getRawIndexHtml) {
                     const appRoot = JSON.parse(appRootMatches[1]);
 
                     const bootstrapHashMatches = content.match(
-                      /\bbootstrap(\.publicDeps)?\.([^."]+)\.json\b/
+                      /\bbootstrap((?:-union)?\.[^."]+)?\.([^."]+)\.json\b/
                     );
                     if (!bootstrapHashMatches) {
                       const message = "Unexpected: bootstrapHash is not found";
@@ -265,7 +265,7 @@ export default function getProxy(env, getRawIndexHtml) {
             }
             if (
               /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/.test(req.path) ||
-              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:\.publicDeps)?\.[^.]+\.json$/.test(
+              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:(?:-union)?\.[^.]+)?\.[^.]+\.json$/.test(
                 req.path
               )
             ) {

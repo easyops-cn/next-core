@@ -51,10 +51,14 @@ export function loadBootstrapData(): Promise<BootstrapDataWithStoryboards> {
 async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
   const requests = [
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!),
-    http.get<string>(`${window.APP_ROOT}conf.yaml`, {
-      responseType: "text",
-    }),
+    window.BOOTSTRAP_UNION_FILE
+      ? http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_UNION_FILE!)
+      : http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!),
+    window.BOOTSTRAP_UNION_FILE
+      ? Promise.resolve("")
+      : http.get<string>(`${window.APP_ROOT}conf.yaml`, {
+          responseType: "text",
+        }),
     BootstrapStandaloneApi_runtimeStandalone().catch((error) => {
       // make it not crash when the backend service is not updated.
       // eslint-disable-next-line no-console
@@ -182,6 +186,19 @@ async function safeGetRuntimeMicroAppStandalone(appId: string) {
 
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
+    if (window.BOOTSTRAP_UNION_FILE) {
+      const { storyboards } = await http.get<BootstrapDataWithStoryboards>(
+        storyboard.bootstrapFile!
+      );
+      const { routes, meta, app } = storyboards[0];
+
+      Object.assign(storyboard, {
+        routes,
+        meta,
+        app: { ...storyboard.app, ...app },
+      });
+    }
+
     if (!window.NO_AUTH_GUARD) {
       // Note: the request maybe have fired already during bootstrap.
       const appRuntimeData = await safeGetRuntimeMicroAppStandalone(
