@@ -220,6 +220,105 @@ describe("StoryboardContextWrapper", () => {
     expect(ctx.getValue("asyncValue")).toBe("[cache:default] lazily updated");
   });
 
+  it("should track conditional resolve (initial with fallback)", async () => {
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+
+    resolveValue = "initial";
+
+    await ctx.define(
+      [
+        {
+          name: "remote",
+          value: false,
+        },
+        {
+          name: "fallback",
+          value: "from fallback",
+        },
+        {
+          name: "conditionalValue",
+          resolve: {
+            if: "<% STATE.remote %>",
+            useProvider: "my-provider",
+            args: ["from remote"],
+          },
+          value: "<% STATE.fallback %>",
+          track: true,
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+
+    expect(ctx.getValue("conditionalValue")).toBe("from fallback");
+
+    ctx.updateValue("fallback", "fallback updated", "replace");
+    expect(ctx.getValue("conditionalValue")).toBe("fallback updated");
+
+    ctx.updateValue("remote", true, "replace");
+    await (global as any).flushPromises();
+    expect(ctx.getValue("conditionalValue")).toBe("[cache:default] initial");
+
+    // Updating deps of fallback value after the data has switched to using
+    // resolve, will be ignored.
+    ctx.updateValue("fallback", "fallback updated again", "replace");
+    expect(ctx.getValue("conditionalValue")).toBe("[cache:default] initial");
+  });
+
+  it("should track conditional resolve (initial with resolve)", async () => {
+    const brick = { properties: {} };
+    const tplContext = new CustomTemplateContext(brick);
+    const ctx = tplContext.state;
+
+    resolveValue = "initial";
+
+    await ctx.define(
+      [
+        {
+          name: "remote",
+          value: true,
+        },
+        {
+          name: "fallback",
+          value: "from fallback",
+        },
+        {
+          name: "conditionalValue",
+          resolve: {
+            if: "<% STATE.remote %>",
+            useProvider: "my-provider",
+            args: ["from remote"],
+          },
+          value: "<% STATE.fallback %>",
+          track: true,
+        },
+      ],
+      {
+        tplContextId: tplContext.id,
+      } as any,
+      brick
+    );
+
+    expect(ctx.getValue("conditionalValue")).toBe("[cache:default] initial");
+
+    ctx.updateValue("fallback", "fallback updated", "replace");
+    expect(ctx.getValue("conditionalValue")).toBe("[cache:default] initial");
+
+    ctx.updateValue("remote", false, "replace");
+    expect(ctx.getValue("conditionalValue")).toBe("fallback updated");
+
+    // Await and make sure resolve is ignored.
+    await (global as any).flushPromises();
+    expect(ctx.getValue("conditionalValue")).toBe("fallback updated");
+
+    ctx.updateValue("fallback", "fallback updated again", "replace");
+    expect(ctx.getValue("conditionalValue")).toBe("fallback updated again");
+  });
+
   it("should load", async () => {
     const brick = { properties: {} };
     const tplContext = new CustomTemplateContext(brick);

@@ -213,9 +213,9 @@ export class StoryboardContextWrapper {
     }
 
     if (method === "refresh" || method === "load") {
-      if (!item.load) {
+      if (!item.useResolve) {
         throw new Error(
-          `You can not ${method} the storyboard context "${name}" which has no resolve.`
+          `You can not ${method} the storyboard context "${name}" which is not using resolve.`
         );
       }
 
@@ -249,13 +249,7 @@ export class StoryboardContextWrapper {
         // Do not use the chained promise, since the callbacks need the original promise.
         promise.then(
           (val) => {
-            item.loaded = true;
-            item.value = val;
-            item.eventTarget?.dispatchEvent(
-              new CustomEvent(this.eventName, {
-                detail: item.value,
-              })
-            );
+            this.finishLoad(item, val);
           },
           (err) => {
             // Let users to override error handling.
@@ -315,6 +309,25 @@ export class StoryboardContextWrapper {
     );
   }
 
+  private finishLoad(
+    item: StoryboardContextItemFreeVariable,
+    value: unknown
+  ): void {
+    if (!item.useResolve) {
+      // This happens when a tracked conditional resolve switches from
+      // resolve to fallback after an dep update triggered refresh but
+      // before it's been resolved.
+      return;
+    }
+    item.loaded = true;
+    item.value = value;
+    item.eventTarget?.dispatchEvent(
+      new CustomEvent(this.eventName, {
+        detail: value,
+      })
+    );
+  }
+
   async waitForUsedContext(data: unknown): Promise<void> {
     if (this.tplContextId || this.formContextId) {
       return;
@@ -349,13 +362,7 @@ export class StoryboardContextWrapper {
         // An async data always has `loading`
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         item.loading!.then((value) => {
-          item.loaded = true;
-          item.value = value;
-          item.eventTarget.dispatchEvent(
-            new CustomEvent(this.eventName, {
-              detail: value,
-            })
-          );
+          this.finishLoad(item, value);
         });
       }
     });
@@ -485,14 +492,32 @@ async function resolveNormalStoryboardContext(
     return false;
   }
   const isTemplateState = !!storyboardContextWrapper.tplContextId;
+  const isFormState = !!storyboardContextWrapper.formContextId;
   let value = getDefinedTemplateState(isTemplateState, contextConf, brick);
   let load: StoryboardContextItemFreeVariable["load"] = null;
   let loading: Promise<unknown> | undefined;
-  let resolvePolicy: "eager" | "lazy" | "async" = "eager";
+  let useResolve: boolean | undefined;
+  let trackConditionalResolve: boolean | undefined;
+  let resolvePolicy: "eager" | "lazy" | "async" | undefined;
   if (value === undefined) {
     if (contextConf.resolve) {
+      const hasFallbackValue = hasOwnProperty(contextConf, "value");
+      // Track conditional resolve only if all matches:
+      //   - Track enabled
+      //   - Has fallback value
+      //   - Referencing other data in `resolve.if`
+      trackConditionalResolve =
+        contextConf.track &&
+        hasFallbackValue &&
+        hasOwnProperty(contextConf.resolve, "if") &&
+        collectContextUsage(
+          contextConf.resolve.if,
+          isTemplateState ? "STATE" : isFormState ? "FORM_STATE" : "CTX"
+        ).usedContexts.length > 0;
+
       await storyboardContextWrapper.waitForUsedContext(contextConf.resolve.if);
-      if (looseCheckIf(contextConf.resolve, mergedContext)) {
+      useResolve = looseCheckIf(contextConf.resolve, mergedContext);
+      if (useResolve || trackConditionalResolve) {
         load = async (options) => {
           const valueConf: Record<string, unknown> = {};
           await _internalApiGetResolver().resolveOne(
@@ -509,6 +534,8 @@ async function resolveNormalStoryboardContext(
           );
           return valueConf.value;
         };
+      }
+      if (useResolve) {
         // `async` take precedence over `lazy`
         resolvePolicy =
           contextConf.resolve.async && !isTemplateState
@@ -543,12 +570,12 @@ async function resolveNormalStoryboardContext(
             console.error(`unsupported lifecycle: "${lifecycleName}"`);
           }
         }
-      } else if (!hasOwnProperty(contextConf, "value")) {
+      } else if (!hasFallbackValue) {
         return false;
       }
     }
     if (
-      (!load || resolvePolicy !== "eager") &&
+      (!useResolve || resolvePolicy !== "eager") &&
       contextConf.value !== undefined
     ) {
       await storyboardContextWrapper.waitForUsedContext(contextConf.value);
@@ -567,7 +594,9 @@ async function resolveNormalStoryboardContext(
     load,
     resolvePolicy === "eager",
     loading,
-    resolvePolicy === "async"
+    resolvePolicy === "async",
+    useResolve,
+    trackConditionalResolve
   );
   return true;
 }
@@ -625,13 +654,16 @@ function resolveFreeVariableValue(
   load?: StoryboardContextItemFreeVariable["load"],
   loaded?: boolean,
   loading?: Promise<unknown>,
-  async?: boolean
+  async?: boolean,
+  useResolve?: boolean,
+  trackConditionalResolve?: boolean
 ): void {
-  const newContext: StoryboardContextItem = {
+  const newContext: StoryboardContextItemFreeVariable = {
     type: "free-variable",
     value,
     // This is required for tracking context, even if no `onChange` is specified.
     eventTarget: new EventTarget(),
+    useResolve,
     load,
     loaded,
     loading,
@@ -673,15 +705,26 @@ function resolveFreeVariableValue(
         : isTemplateState
         ? trackUsedState
         : trackUsedContext
-    )(load ? contextConf.resolve : contextConf.value);
+    )(
+      trackConditionalResolve
+        ? [contextConf.resolve, contextConf.value]
+        : load
+        ? contextConf.resolve
+        : contextConf.value
+    );
+
     !load && (newContext.deps = deps);
+
     for (const dep of deps) {
       const ctx = storyboardContextWrapper.get().get(dep);
       (ctx as StoryboardContextItemFreeVariable)?.eventTarget?.addEventListener(
         eventName,
         batchAddListener(
           () => {
-            if (load) {
+            newContext.useResolve = trackConditionalResolve
+              ? looseCheckIf(contextConf.resolve, mergedContext)
+              : !!load;
+            if (newContext.useResolve) {
               storyboardContextWrapper.updateValue(
                 contextConf.name,
                 { cache: "default" },

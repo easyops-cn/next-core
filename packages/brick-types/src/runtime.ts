@@ -237,6 +237,7 @@ export interface StoryboardContextItemFreeVariable {
   type: "free-variable";
   value: unknown;
   eventTarget?: EventTarget;
+  useResolve?: boolean;
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
