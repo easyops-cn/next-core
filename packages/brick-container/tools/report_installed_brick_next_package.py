@@ -28,7 +28,12 @@ def get_snippets_from_stories(stories_content):
     ret_snippets = []
     for story in stories_content:
         story_category = story.get("category", "other")
-        story_conf = story.get("conf")  # 获取示例数据
+
+        # 获取示例数据
+        if "conf" in story and "snippet" in story["conf"]:
+            story_conf = story["conf"]["snippet"]
+        else:
+            story_conf = story.get("conf")
         if isinstance(story_conf, list) and len(story_conf) > 0:
             for conf in story_conf:
                 if conf.get("snippetId"):  # 有snippetId的示例，需要上报到snippet
@@ -115,8 +120,11 @@ def get_v3_story(br, examples_content, types_content, stories_content):
 
     story_item = find_item_by_story_id(stories_content, story_id)
 
+    if story_id in examples_content:
+      story["conf"] = examples_content[story_id]
+
     if story_item != None:
-      story["conf"] = story_item.get("conf", [])
+      story["conf"]["snippet"] = story_item.get("conf", [])
       story["icon"] = story_item.get("icon")
 
     doc = br.get("doc", {})
@@ -158,7 +166,7 @@ def collect_stories(install_path):
     bricks_path = os.path.join(install_path, "dist", "bricks.json")
     with open(bricks_path) as bricks_file:
         bricks_content = simplejson.load(bricks_file)
-    isV3Brick = bricks_content.get("id", False)
+    isV3Brick = "id" in bricks_content
     with open(stories_path) as stories_file:
         stories_content = simplejson.load(stories_file)
     # v2 brick
