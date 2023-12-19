@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.3...@next-core/runtime@1.27.0) (2023-12-19)
+
+
+### Features
+
+* track conditional resolve ([4cdf8d6](https://github.com/easyops-cn/next-core/commit/4cdf8d64ae9e52dd54ad24fc2376d7bf56be00a1))
+
+
+
+
+
 ## [1.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.2...@next-core/runtime@1.26.3) (2023-12-19)
 
 **Note:** Version bump only for package @next-core/runtime
