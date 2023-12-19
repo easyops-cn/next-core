@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.181.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.181.1...@next-core/brick-kit@2.181.2) (2023-12-19)
+
+
+### Bug Fixes
+
+* optional use real time query in placeholders ([7d23ab8](https://github.com/easyops-cn/next-core/commit/7d23ab8c7b1914a57231a4a04e42eaafe3cd0e3b))
+
+
+
+
+
 ## [2.181.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.181.0...@next-core/brick-kit@2.181.1) (2023-12-18)
 
 
