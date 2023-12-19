@@ -124,6 +124,8 @@ def get_v3_story(br, examples_content, types_content, stories_content):
       story["conf"] = examples_content[story_id]
 
     if story_item != None:
+      if "conf" not in story:
+        story["conf"] = {}
       story["conf"]["snippet"] = story_item.get("conf", [])
       story["icon"] = story_item.get("icon")
 
