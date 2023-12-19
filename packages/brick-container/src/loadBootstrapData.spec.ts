@@ -138,6 +138,24 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
         ],
       };
     }
+    case "bootstrap.mini.a.json":
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: "app-a",
+              name: "App A",
+              locales: {
+                zh: { name: "应用 A" },
+                en: { name: "Application A" },
+              },
+            },
+            meta: [],
+            routes: [],
+          },
+        ],
+      };
     case "bootstrap.mini.g.json":
       return {
         brickPackages: [],
@@ -152,6 +170,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
                 en: { name: "Application G" },
               },
             },
+            meta: [],
             routes: [
               {
                 path: "${app.homepage}/test",
@@ -361,6 +380,7 @@ describe("loadBootstrapData", () => {
           bootstrapFile: "bootstrap.mini.b.json",
         },
         {
+          $$fullMerged: true,
           app: {
             homepage: "/app-g",
             id: "app-g",
@@ -368,6 +388,8 @@ describe("loadBootstrapData", () => {
             name: "App G",
           },
           bootstrapFile: "bootstrap.mini.g.json",
+          meta: [],
+          routes: [{ path: "${app.homepage}/test" }],
         },
       ],
     });
@@ -377,6 +399,7 @@ describe("loadBootstrapData", () => {
     expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledWith("app-g");
 
     expect(data.storyboards[2]).toEqual({
+      $$fullMerged: true,
       app: {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
@@ -400,6 +423,35 @@ describe("loadBootstrapData", () => {
         ],
       },
       routes: [{ path: "${app.homepage}/test" }],
+    });
+
+    await fulfilStoryboard(data.storyboards[0]);
+
+    expect(data.storyboards[0]).toEqual({
+      $$fullMerged: true,
+      app: {
+        config: { runtimeUserConf: 9 },
+        homepage: "/app-a",
+        id: "app-a",
+        locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
+        name: "App A",
+        userConfig: { runtimeUserConf: 9 },
+      },
+      bootstrapFile: "bootstrap.mini.a.json",
+      meta: {
+        injectMenus: [
+          { title: "Menu 1" },
+          {
+            overrideApp: {
+              config: { overrideDefault: 4, overrideUser: 5 },
+              defaultConfig: { overrideDefault: 4 },
+              userConfig: { overrideUser: 5 },
+            },
+            title: "Menu 2",
+          },
+        ],
+      },
+      routes: [],
     });
   });
 

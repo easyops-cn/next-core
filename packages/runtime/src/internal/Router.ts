@@ -48,6 +48,7 @@ import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
 import { setUIVersion } from "../setUIVersion.js";
+import { setAppVariable } from "../setAppVariable.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -259,8 +260,10 @@ export class Router {
       currentAppId &&
       currentAppId !== previousApp?.id
     ) {
-      window.APP_ID = currentAppId;
-      window.APP_ROOT = `sa-static/${currentAppId}/versions/${storyboard.app.currentVersion}/webroot/`;
+      setAppVariable({
+        appId: currentAppId,
+        version: storyboard.app.currentVersion!,
+      });
     }
 
     if (storyboard?.app) {

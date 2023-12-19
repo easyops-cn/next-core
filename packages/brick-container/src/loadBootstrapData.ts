@@ -52,7 +52,7 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
   const requests = [
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     window.BOOTSTRAP_UNION_FILE
-      ? http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_UNION_FILE!)
+      ? http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_UNION_FILE)
       : http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!),
     window.BOOTSTRAP_UNION_FILE
       ? Promise.resolve("")
@@ -68,6 +68,10 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
         ", something might went wrong running standalone micro app"
       );
     }),
+
+    window.BOOTSTRAP_UNION_FILE
+      ? http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!)
+      : Promise.resolve(undefined),
   ] as const;
 
   if (!window.NO_AUTH_GUARD) {
@@ -86,12 +90,14 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
     }
   }
 
-  const [bootstrapResult, confString, runtimeData] =
+  const [bootstrapResult, confString, runtimeData, fullBootstrapDetail] =
     await Promise.all(requests);
 
   mergeConf(bootstrapResult, confString);
 
   mergeRuntimeSettings(bootstrapResult, runtimeData?.settings);
+
+  mergeFullBootstrapDetail(bootstrapResult, fullBootstrapDetail);
 
   return bootstrapResult;
 }
@@ -131,6 +137,29 @@ function mergeConf(
           app.userConfig = user_config_by_apps[app.id];
         }
       }
+    }
+  }
+}
+
+function mergeFullBootstrapDetail(
+  bootstrapResult: BootstrapDataWithStoryboards,
+  fullBootstrapDetail: BootstrapDataWithStoryboards | undefined
+) {
+  if (fullBootstrapDetail) {
+    const { storyboards } = fullBootstrapDetail;
+    const { routes, meta, app } = storyboards[0];
+
+    const matchedStoryboard = bootstrapResult.storyboards.find(
+      (item) => item.app.id === app.id
+    );
+
+    if (matchedStoryboard) {
+      Object.assign(matchedStoryboard, {
+        routes,
+        meta,
+        app: { ...matchedStoryboard.app, ...app },
+        $$fullMerged: true,
+      });
     }
   }
 }
@@ -186,7 +215,7 @@ async function safeGetRuntimeMicroAppStandalone(appId: string) {
 
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
-    if (window.BOOTSTRAP_UNION_FILE) {
+    if (window.BOOTSTRAP_UNION_FILE && !storyboard.$$fullMerged) {
       const { storyboards } = await http.get<BootstrapDataWithStoryboards>(
         storyboard.bootstrapFile!
       );
@@ -196,6 +225,7 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
         routes,
         meta,
         app: { ...storyboard.app, ...app },
+        $$fullMerged: true,
       });
     }
 
