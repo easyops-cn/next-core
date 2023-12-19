@@ -63,7 +63,7 @@
     "@next-core/types": "^1.7.1",
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.34.0",
-    "html-webpack-plugin": "^5.5.4",
+    "html-webpack-plugin": "^5.6.0",
     "regenerator-runtime": "^0.14.1",
     "webpack-dev-server": "^4.15.1"
   },
