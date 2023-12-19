@@ -29,7 +29,7 @@
     "@next-core/runtime": "^1.25.7",
     "@next-core/theme": "^1.4.2",
     "@next-core/types": "^1.7.1",
-    "html-webpack-plugin": "^5.5.4",
+    "html-webpack-plugin": "^5.6.0",
     "js-yaml": "^3.14.1"
   }
 }
