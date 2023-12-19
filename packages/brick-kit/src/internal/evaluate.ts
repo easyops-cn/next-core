@@ -26,7 +26,6 @@ import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplate
 import { getMenu } from "./menu";
 import { getMedia } from "./mediaQuery";
 import { getCustomFormContext } from "../core/CustomForms/CustomFormContext";
-import { getHistory } from "../history";
 
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
@@ -40,7 +39,6 @@ export interface EvaluateOptions {
   lazy?: boolean;
   isReEvaluation?: boolean;
   evaluationId?: number;
-  useRealTimeQuery?: boolean;
 }
 
 export type EvaluateRuntimeContext = Omit<
@@ -308,22 +306,14 @@ export function evaluate(
             return Array.from(customProcessorRegistry.keys());
           },
         });
-      case "QUERY": {
-        const params = options.useRealTimeQuery
-          ? new URLSearchParams(getHistory().location.search)
-          : query;
+      case "QUERY":
         return Object.fromEntries(
-          Array.from(params.keys()).map((key) => [key, params.get(key)])
+          Array.from(query.keys()).map((key) => [key, query.get(key)])
         );
-      }
-      case "QUERY_ARRAY": {
-        const params = options.useRealTimeQuery
-          ? new URLSearchParams(getHistory().location.search)
-          : query;
+      case "QUERY_ARRAY":
         return Object.fromEntries(
-          Array.from(params.keys()).map((key) => [key, params.getAll(key)])
+          Array.from(query.keys()).map((key) => [key, query.getAll(key)])
         );
-      }
       case "SEGUE":
         return {
           getUrl: getUrlBySegueFactory(app, segues),

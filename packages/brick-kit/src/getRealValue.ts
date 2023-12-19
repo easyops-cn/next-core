@@ -1,8 +1,8 @@
-import type { PluginRuntimeContext } from "@next-core/brick-types";
 import { inject, isEvaluable, isObject } from "@next-core/brick-utils";
 import { _internalApiGetCurrentContext } from "./core/exports";
 import { evaluate } from "./internal/evaluate";
 import { haveBeenInjected, recursiveMarkAsInjected } from "./internal/injected";
+import { getHistory } from "./history";
 
 /**
  * An equivalent of `computeRealValue` but for external usages, with no custom
@@ -19,10 +19,17 @@ export function getRealValue(
     useRealTimeQuery?: boolean;
   } = {}
 ): unknown {
-  const compute = (data: unknown, ctx: PluginRuntimeContext): unknown => {
+  const ctx = {
+    ..._internalApiGetCurrentContext(),
+  };
+  if (useRealTimeQuery) {
+    ctx.query = new URLSearchParams(getHistory().location.search);
+  }
+
+  const compute = (data: unknown): unknown => {
     if (typeof data === "string") {
       if (isEvaluable(data)) {
-        const result = evaluate(data, undefined, { useRealTimeQuery });
+        const result = evaluate(data, ctx);
         recursiveMarkAsInjected(result);
         return result;
       }
@@ -34,13 +41,13 @@ export function getRealValue(
     }
 
     if (Array.isArray(data)) {
-      return data.map((v) => compute(v, ctx));
+      return data.map((v) => compute(v));
     }
 
     return Object.fromEntries(
-      Object.entries(data).map(([k, v]) => [compute(k, ctx), compute(v, ctx)])
+      Object.entries(data).map(([k, v]) => [compute(k), compute(v)])
     );
   };
 
-  return compute(value, _internalApiGetCurrentContext());
+  return compute(value);
 }
