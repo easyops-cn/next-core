@@ -51,12 +51,6 @@ afterEach(() => {
 });
 
 describe("DataStore: resolve and wait", () => {
-  // Sometimes `waitFor` will be stuck and multi macro tasks will be executed
-  // in a batch, so we set a retry.
-  jest.retryTimes(2, {
-    logErrorsBeforeRetry: true,
-  });
-
   const createContextStore = (provider = "my-timeout-provider") => {
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
@@ -170,6 +164,18 @@ describe("DataStore: resolve and wait", () => {
       ctxStore,
     };
   };
+
+  beforeAll(() => {
+    // Sometimes `waitFor` will be stuck and multi macro tasks will be executed
+    // in a batch, so we set a retry.
+    jest.retryTimes(2, {
+      logErrorsBeforeRetry: true,
+    });
+  });
+
+  afterAll(() => {
+    jest.retryTimes(0);
+  });
 
   test("Resolve sequence", async () => {
     jest.useFakeTimers();
@@ -573,6 +579,115 @@ describe("DataStore", () => {
     consoleInfo.mockReset();
   });
 
+  test("track conditional resolve (initial with fallback)", async () => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "remote",
+          value: false,
+        },
+        {
+          name: "fallback",
+          value: "from fallback",
+        },
+        {
+          name: "conditionalValue",
+          resolve: {
+            if: "<% CTX.remote %>",
+            useProvider: "my-timeout-provider",
+            args: [1, "from remote"],
+          },
+          value: "<% CTX.fallback %>",
+          track: true,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("conditionalValue")).toBe("from fallback");
+    expect(myTimeoutProvider).not.toBeCalled();
+
+    ctxStore.updateValue("fallback", "fallback updated", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
+
+    ctxStore.updateValue("remote", true, "replace");
+    await (global as any).flushPromises();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1);
+    });
+
+    // Updating deps of fallback value after the data has switched to using
+    // resolve, will be ignored.
+    ctxStore.updateValue("fallback", "fallback updated again", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+  });
+
+  test("track conditional resolve (initial with resolve)", async () => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "remote",
+          value: true,
+        },
+        {
+          name: "fallback",
+          value: "from fallback",
+        },
+        {
+          name: "conditionalValue",
+          resolve: {
+            if: "<% CTX.remote %>",
+            useProvider: "my-timeout-provider",
+            args: [1, "from remote"],
+          },
+          value: "<% CTX.fallback %>",
+          track: true,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+
+    ctxStore.updateValue("fallback", "fallback updated", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+
+    ctxStore.updateValue("remote", false, "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
+
+    // Await and make sure resolve is ignored.
+    await (global as any).flushPromises();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1);
+    });
+    expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
+
+    ctxStore.updateValue("fallback", "fallback updated again", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe(
+      "fallback updated again"
+    );
+
+    // Resume remote again.
+    ctxStore.updateValue("remote", true, "replace");
+    await (global as any).flushPromises();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1);
+    });
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+  });
+
   test("error handling", async () => {
     consoleInfo.mockReturnValue();
     const ctxStore = new DataStore("CTX");
@@ -681,7 +796,7 @@ describe("DataStore", () => {
     expect(() => {
       ctxStore.updateValue("a", undefined, "load");
     }).toThrowErrorMatchingInlineSnapshot(
-      `"You can not load "CTX.a" which has no resolve"`
+      `"You can not load "CTX.a" which is not using resolve"`
     );
   });
 

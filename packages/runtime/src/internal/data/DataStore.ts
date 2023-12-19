@@ -9,7 +9,7 @@ import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import EventTarget from "@ungap/event-target";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
-import { asyncCheckIf } from "../compute/checkIf.js";
+import { asyncCheckIf, checkIf } from "../compute/checkIf.js";
 import {
   asyncComputeRealValue,
   computeRealValue,
@@ -45,6 +45,7 @@ export interface DataStoreItem {
   name: string;
   value: unknown;
   eventTarget: EventTarget;
+  useResolve?: boolean;
   loaded?: boolean;
   loading?: Promise<unknown>;
   load?: (options?: ResolveOptions) => Promise<unknown>;
@@ -61,8 +62,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     [];
   public readonly hostBrick?: RuntimeBrick;
   private readonly stateStoreId?: string;
-  public batchUpdate = false;
-  public batchUpdateContextsNames: string[] = [];
+  private batchUpdate = false;
+  private batchUpdateContextsNames: string[] = [];
   private readonly rendererContext?: RendererContext;
   private routeMap = new WeakMap<RouteConf, Set<string>>();
 
@@ -194,9 +195,9 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
 
     if (method === "refresh" || method === "load") {
-      if (!item.load) {
+      if (!item.useResolve) {
         throw new Error(
-          `You can not ${method} "${this.type}.${name}" which has no resolve`
+          `You can not ${method} "${this.type}.${name}" which is not using resolve`
         );
       }
 
@@ -224,24 +225,18 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       };
 
       if (!promise) {
-        promise = item.loading = item.load({
+        promise = item.loading = item.load!({
           cache: method === "load" ? "default" : "reload",
           ...(value as ResolveOptions),
         });
         // Do not use the chained promise, since the callbacks need the original promise.
         promise.then(
           (val) => {
-            item.loaded = true;
-            item.value = val;
-            item.eventTarget.dispatchEvent(
-              new CustomEvent(this.changeEventType, {
-                detail: item.value,
-              })
-            );
+            this.finishLoad(item, val);
           },
           (err) => {
             // Let users override error handling.
-            if (!shouldDismiss(err) && !callback?.error) {
+            if (item.useResolve && !shouldDismiss(err) && !callback?.error) {
               handleHttpError(err);
             }
           }
@@ -290,6 +285,22 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     item.eventTarget.dispatchEvent(
       new CustomEvent(this.changeEventType, {
         detail: item.value,
+      })
+    );
+  }
+
+  private finishLoad(item: DataStoreItem, value: unknown) {
+    if (!item.useResolve) {
+      // This happens when a tracked conditional resolve switches from
+      // resolve to fallback after an dep update triggered refresh but
+      // before it's been resolved.
+      return;
+    }
+    item.loaded = true;
+    item.value = value;
+    item.eventTarget.dispatchEvent(
+      new CustomEvent(this.changeEventType, {
+        detail: value,
       })
     );
   }
@@ -367,13 +378,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         // An async data always has `loading`
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         item.loading!.then((value) => {
-          item.loaded = true;
-          item.value = value;
-          item.eventTarget.dispatchEvent(
-            new CustomEvent(this.changeEventType, {
-              detail: value,
-            })
-          );
+          this.finishLoad(item, value);
         });
       }
     });
@@ -400,14 +405,27 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
     let load: DataStoreItem["load"];
     let loading: Promise<unknown> | undefined;
-    let resolvePolicy: "eager" | "lazy" | "async" = "eager";
+    let useResolve: boolean | undefined;
+    let trackConditionalResolve: boolean | undefined;
+    let resolvePolicy: "eager" | "lazy" | "async" | undefined;
     if (value === undefined) {
       if (dataConf.resolve) {
+        const hasFallbackValue = hasOwnProperty(dataConf, "value");
+        // Track conditional resolve only if all matches:
+        //   - Track enabled
+        //   - Has fallback value
+        //   - Referencing other data in `resolve.if`
+        trackConditionalResolve =
+          dataConf.track &&
+          hasFallbackValue &&
+          hasOwnProperty(dataConf.resolve, "if") &&
+          strictCollectMemberUsage(dataConf.resolve.if, this.type).size > 0;
         const resolveConf = {
           transform: "value",
           ...dataConf.resolve,
         };
-        if (await asyncCheckIf(dataConf.resolve, runtimeContext)) {
+        useResolve = await asyncCheckIf(dataConf.resolve, runtimeContext);
+        if (useResolve || trackConditionalResolve) {
           load = async (options) =>
             (
               (await resolveData(resolveConf, runtimeContext, {
@@ -417,6 +435,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
                 value: unknown;
               }
             ).value;
+        }
+        if (useResolve) {
           // `async` take precedence over `lazy`
           resolvePolicy = dataConf.resolve.async
             ? "async"
@@ -424,16 +444,16 @@ export class DataStore<T extends DataStoreType = "CTX"> {
               ? "lazy"
               : "eager";
           if (resolvePolicy === "eager") {
-            value = await load();
+            value = await load!();
           } else if (resolvePolicy === "async") {
-            loading = load();
+            loading = load!();
           }
-        } else if (!hasOwnProperty(dataConf, "value")) {
+        } else if (!hasFallbackValue) {
           return false;
         }
       }
       if (
-        (!load || resolvePolicy !== "eager") &&
+        (!useResolve || resolvePolicy !== "eager") &&
         dataConf.value !== undefined
       ) {
         // If the context has no resolve, just use its `value`.
@@ -453,6 +473,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       value,
       // This is required for tracking context, even if no `onChange` is specified.
       eventTarget: new EventTarget(),
+      useResolve,
       load,
       loaded: resolvePolicy === "eager",
       loading,
@@ -482,7 +503,11 @@ export class DataStore<T extends DataStoreType = "CTX"> {
 
     if (dataConf.track) {
       const deps = strictCollectMemberUsage(
-        load ? dataConf.resolve : dataConf.value,
+        trackConditionalResolve
+          ? [dataConf.resolve, dataConf.value]
+          : load
+            ? dataConf.resolve
+            : dataConf.value,
         this.type
       );
       !load && (newData.deps = [...deps]);
@@ -490,7 +515,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         this.onChange(
           dep,
           this.batchAddListener(() => {
-            if (load) {
+            newData.useResolve = trackConditionalResolve
+              ? checkIf(dataConf.resolve!, runtimeContext)
+              : !!load;
+            if (newData.useResolve) {
               this.updateValue(dataConf.name, { cache: "default" }, "refresh");
             } else {
               this.updateValue(
