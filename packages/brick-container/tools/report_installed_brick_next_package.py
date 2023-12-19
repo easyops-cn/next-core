@@ -30,7 +30,7 @@ def get_snippets_from_stories(stories_content):
         story_category = story.get("category", "other")
 
         # 获取示例数据
-        if "conf" in story and "snippet" in story["conf"]:
+        if "conf" in story and isinstance(story['conf'], dict) and "snippet" in story["conf"]:
             story_conf = story["conf"]["snippet"]
         else:
             story_conf = story.get("conf")
@@ -124,6 +124,8 @@ def get_v3_story(br, examples_content, types_content, stories_content):
       story["conf"] = examples_content[story_id]
 
     if story_item != None:
+      if "conf" not in story:
+        story["conf"] = {}
       story["conf"]["snippet"] = story_item.get("conf", [])
       story["icon"] = story_item.get("icon")
 
