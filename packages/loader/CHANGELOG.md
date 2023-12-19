@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.0...@next-core/loader@1.5.1) (2023-12-19)
+
+
+### Bug Fixes
+
+* throw when v2-adapter not found if using v2 bricks ([426b70f](https://github.com/easyops-cn/next-core/commit/426b70f21146dc92bcf49cfd74557b32789d8e78))
+
+
+
+
+
 # [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.4.5...@next-core/loader@1.5.0) (2023-12-11)
 
 
