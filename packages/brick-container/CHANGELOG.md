@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.43...@next-core/brick-container@3.9.0) (2023-12-19)
+
+
+### Features
+
+* update reportInstalledBrickNextPackage.py ([1eb0a15](https://github.com/easyops-cn/next-core/commit/1eb0a15b6b3c97d967eea9d535cc84d14ccc0efd))
+
+
+
+
+
 ## [3.8.43](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.42...@next-core/brick-container@3.8.43) (2023-12-19)
 
 **Note:** Version bump only for package @next-core/brick-container
