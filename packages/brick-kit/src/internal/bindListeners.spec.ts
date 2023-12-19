@@ -271,6 +271,7 @@ describe("bindListeners", () => {
         {
           type: "free-variable",
           value: "initial",
+          useResolve: true,
           load(options) {
             return Promise.resolve(
               `[cache:${options.cache ?? "default"}] lazily updated`
@@ -1087,6 +1088,7 @@ describe("bindListeners", () => {
     tplContext.state.set("myLazyState", {
       type: "free-variable",
       value: "initial",
+      useResolve: true,
       load(options) {
         return Promise.resolve(
           `[cache:${options.cache ?? "default"}] lazily updated`

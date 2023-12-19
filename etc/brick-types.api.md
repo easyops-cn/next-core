@@ -2283,6 +2283,8 @@ export interface StoryboardContextItemFreeVariable {
     // (undocumented)
     type: "free-variable";
     // (undocumented)
+    useResolve?: boolean;
+    // (undocumented)
     value: unknown;
 }
 
