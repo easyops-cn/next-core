@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.27.0...@next-core/runtime@1.28.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* debug refactor ([2f04a76](https://github.com/easyops-cn/next-core/commit/2f04a76f27323ae2e653f95f5346e32e089db666))
+
+
+### Features
+
+* support union app mode ([467dccb](https://github.com/easyops-cn/next-core/commit/467dccb43197c431158b6bdd966fdb34f9e5257a))
+
+
+
+
+
 # [1.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.3...@next-core/runtime@1.27.0) (2023-12-19)
 
 

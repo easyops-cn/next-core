@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.9.1...@next-core/brick-container@3.10.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* debug refactor ([2f04a76](https://github.com/easyops-cn/next-core/commit/2f04a76f27323ae2e653f95f5346e32e089db666))
+
+
+### Features
+
+* support union app mode ([467dccb](https://github.com/easyops-cn/next-core/commit/467dccb43197c431158b6bdd966fdb34f9e5257a))
+
+
+
+
+
 ## [3.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.9.0...@next-core/brick-container@3.9.1) (2023-12-19)
 
 **Note:** Version bump only for package @next-core/brick-container
