@@ -216,9 +216,9 @@ async function safeGetRuntimeMicroAppStandalone(appId: string) {
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
     if (window.BOOTSTRAP_UNION_FILE && !storyboard.$$fullMerged) {
-      const { storyboards } = await http.get<BootstrapDataWithStoryboards>(
-        storyboard.bootstrapFile!
-      );
+      const fullBootstrapPath = `${window.APP_ROOT}-/${storyboard.bootstrapFile}`;
+      const { storyboards } =
+        await http.get<BootstrapDataWithStoryboards>(fullBootstrapPath);
       const { routes, meta, app } = storyboards[0];
 
       Object.assign(storyboard, {

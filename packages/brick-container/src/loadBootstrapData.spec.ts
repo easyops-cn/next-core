@@ -138,7 +138,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
         ],
       };
     }
-    case "bootstrap.mini.a.json":
+    case "sa-static/app/-/bootstrap.mini.a.json":
       return {
         brickPackages: [],
         storyboards: [
@@ -352,6 +352,7 @@ describe("loadBootstrapData", () => {
   test("standalone with union app", async () => {
     window.STANDALONE_MICRO_APPS = true;
     window.BOOTSTRAP_UNION_FILE = "bootstrap-union.cmdb.abg.json";
+    window.APP_ROOT = "sa-static/app/";
     window.BOOTSTRAP_FILE = "bootstrap.mini.g.json";
 
     const promise = loadBootstrapData();
