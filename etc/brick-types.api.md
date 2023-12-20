@@ -1912,6 +1912,8 @@ export interface RuntimeStoryboard extends Storyboard {
     // (undocumented)
     $$fulfilling?: Promise<void>;
     // (undocumented)
+    $$fullMerged?: boolean;
+    // (undocumented)
     $$i18nFulfilled?: boolean;
     // (undocumented)
     $$registerCustomTemplateProcessed?: boolean;
@@ -2232,6 +2234,7 @@ export interface Story {
 // @public
 export interface Storyboard {
     app: MicroApp;
+    bootstrapFile?: string;
     // @internal @deprecated (undocumented)
     dependsAll?: boolean;
     // @internal (undocumented)

@@ -33,12 +33,17 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
   const requests: [
     Promise<BootstrapData>,
     Promise<string>,
-    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>
+    Promise<BootstrapStandaloneApi_RuntimeStandaloneResponseBody | void>,
+    Promise<BootstrapData | undefined>
   ] = [
-    http.get<BootstrapData>(window.BOOTSTRAP_FILE),
-    http.get<string>(`${window.APP_ROOT}conf.yaml`, {
-      responseType: "text",
-    }),
+    window.BOOTSTRAP_UNION_FILE
+      ? http.get<BootstrapData>(window.BOOTSTRAP_UNION_FILE)
+      : http.get<BootstrapData>(window.BOOTSTRAP_FILE),
+    window.BOOTSTRAP_UNION_FILE
+      ? Promise.resolve("")
+      : http.get<string>(`${window.APP_ROOT}conf.yaml`, {
+          responseType: "text",
+        }),
     BootstrapStandaloneApi_runtimeStandalone().catch(function (error) {
       // make it not crash when the backend service is not updated.
       // eslint-disable-next-line no-console
@@ -49,7 +54,11 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       );
       return;
     }),
+    window.BOOTSTRAP_UNION_FILE
+      ? http.get<BootstrapData>(window.BOOTSTRAP_FILE)
+      : Promise.resolve(undefined),
   ];
+
   if (!window.NO_AUTH_GUARD) {
     let matches: string[] | null;
     const appId =
@@ -65,9 +74,8 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
       safeGetRuntimeMicroAppStandalone(appId);
     }
   }
-  const [bootstrapResult, confString, runtimeData] = await Promise.all(
-    requests
-  );
+  const [bootstrapResult, confString, runtimeData, fullBootstrapDetail] =
+    await Promise.all(requests);
   let conf: StandaloneConf;
   try {
     conf = confString
@@ -123,10 +131,35 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
     }
   }
 
+  mergeFullBootstrapDetail(bootstrapResult, fullBootstrapDetail);
+
   return {
     ...bootstrapResult,
     settings,
   };
+}
+
+function mergeFullBootstrapDetail(
+  bootstrapResult: BootstrapData,
+  fullBootstrapDetail: BootstrapData | undefined
+): void {
+  if (fullBootstrapDetail) {
+    const { storyboards } = fullBootstrapDetail;
+    const { routes, meta, app } = storyboards[0];
+
+    const matchedStoryboard = bootstrapResult.storyboards.find(
+      (item) => item.app.id === app.id
+    );
+
+    if (matchedStoryboard) {
+      Object.assign(matchedStoryboard, {
+        routes,
+        meta,
+        app: { ...matchedStoryboard.app, ...app },
+        $$fullMerged: true,
+      });
+    }
+  }
 }
 
 const appRuntimeDataMap = new Map<

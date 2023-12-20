@@ -15,6 +15,7 @@ import {
   scanCustomApisInStoryboard,
 } from "@next-core/brick-utils";
 import i18next from "i18next";
+import { http } from "@next-core/brick-http";
 import * as AuthSdk from "@next-sdk/auth-sdk";
 import {
   BootstrapV2Api_bootstrapV2,
@@ -294,6 +295,23 @@ export class Kernel {
         $$fulfilled: true,
         $$fulfilling: null,
       });
+
+      if (window.BOOTSTRAP_UNION_FILE && !storyboard.$$fullMerged) {
+        const fullBootstrapPath = `${window.APP_ROOT}-/${storyboard.bootstrapFile}`;
+        const { storyboards } = await http.get<BootstrapData>(
+          fullBootstrapPath
+        );
+        const { routes, meta, app } = storyboards[0];
+
+        Object.assign(storyboard, {
+          routes,
+          meta,
+          app: { ...storyboard.app, ...app },
+
+          $$fullMerged: true,
+        });
+      }
+
       if (!window.NO_AUTH_GUARD) {
         let appRuntimeData: RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void;
         try {
