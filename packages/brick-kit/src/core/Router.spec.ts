@@ -328,6 +328,74 @@ describe("Router", () => {
     expect(kernel.prefetchDepsOfStoryboard).toBeCalled();
   });
 
+  it("should work with union app mode", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_UNION_FILE = "bootstrap-union.cmdb.abg.json";
+    window.APP_ROOT_TPL = "sa-static/{id}/versions/{version}/webroot/";
+    window.NO_AUTH_GUARD = false;
+    const analyticsData = {
+      prop1: "value",
+    };
+
+    __setMatchedStoryboard({
+      app: {
+        id: "app-a",
+        homepage: "/app-a",
+        name: "App A",
+        currentVersion: "1.0.0",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "homepage",
+              },
+            },
+          ],
+          menu: {
+            breadcrumb: {
+              items: [{ text: "Home" }],
+            },
+          },
+        },
+        {
+          path: "${APP.homepage}/0",
+          type: "redirect",
+          exact: true,
+          redirect: "${APP.homepage}/1",
+        },
+      ],
+    });
+
+    __setMountRoutesResults(
+      {
+        route: {
+          alias: "route alias",
+        },
+        main: [
+          {
+            type: "p",
+          },
+        ],
+        menuBar: {
+          title: "menu",
+        },
+        appBar: {
+          title: "app",
+        },
+        analyticsData,
+      },
+      null
+    );
+    await router.bootstrap();
+
+    expect(window.APP_ROOT).toEqual("sa-static/app-a/versions/1.0.0/webroot/");
+  });
+
   it("should redirect to login page if not logged in.", async () => {
     __setMatchedStoryboard({
       app: {
