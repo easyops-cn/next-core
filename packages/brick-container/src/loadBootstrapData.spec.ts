@@ -138,6 +138,85 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
         ],
       };
     }
+    case "bootstrap.mini.a.json":
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: "app-a",
+              name: "App A",
+              locales: {
+                zh: { name: "应用 A" },
+                en: { name: "Application A" },
+              },
+            },
+            meta: [],
+            routes: [],
+          },
+        ],
+      };
+    case "bootstrap.mini.g.json":
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: "app-g",
+              name: "App G",
+              homepage: "/app-g",
+              locales: {
+                zh: { name: "应用 G" },
+                en: { name: "Application G" },
+              },
+            },
+            meta: [],
+            routes: [
+              {
+                path: "${app.homepage}/test",
+              },
+            ],
+          },
+        ],
+      };
+    case "bootstrap-union.cmdb.abg.json":
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: "app-a",
+              name: "App A",
+              homepage: "/app-a",
+              locales: {
+                zh: { name: "应用 A" },
+                en: { name: "Application A" },
+              },
+            },
+            bootstrapFile: "bootstrap.mini.a.json",
+          },
+          {
+            app: {
+              id: "app-b",
+              homepage: "/app-b",
+              name: "App B",
+            },
+            bootstrapFile: "bootstrap.mini.b.json",
+          },
+          {
+            app: {
+              id: "app-g",
+              name: "App G",
+              homepage: "/app-g",
+              locales: {
+                zh: { name: "应用 G" },
+                en: { name: "Application G" },
+              },
+            },
+            bootstrapFile: "bootstrap.mini.g.json",
+          },
+        ],
+      };
     case "app-a/conf.yaml":
       return "";
     case "app-b/conf.yaml":
@@ -167,6 +246,7 @@ describe("loadBootstrapData", () => {
   beforeEach(() => {
     delete window.STANDALONE_MICRO_APPS;
     delete window.BOOTSTRAP_FILE;
+    delete window.BOOTSTRAP_UNION_FILE;
     delete window.APP_ID;
     delete window.APP_ROOT;
   });
@@ -266,6 +346,112 @@ describe("loadBootstrapData", () => {
           },
         ],
       },
+    });
+  });
+
+  test("standalone with union app", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_UNION_FILE = "bootstrap-union.cmdb.abg.json";
+    window.BOOTSTRAP_FILE = "bootstrap.mini.g.json";
+
+    const promise = loadBootstrapData();
+    expect(RuntimeApi_runtimeMicroAppStandalone).not.toBeCalled();
+
+    const data = await promise;
+    expect(data).toEqual({
+      brickPackages: [],
+      settings: {
+        featureFlags: { "runtime-flag": true },
+        homepage: "/runtime/homepage",
+        misc: { runtimeMisc: 2 },
+      },
+      storyboards: [
+        {
+          app: {
+            homepage: "/app-a",
+            id: "app-a",
+            locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
+            name: "App A",
+          },
+          bootstrapFile: "bootstrap.mini.a.json",
+        },
+        {
+          app: { homepage: "/app-b", id: "app-b", name: "App B" },
+          bootstrapFile: "bootstrap.mini.b.json",
+        },
+        {
+          $$fullMerged: true,
+          app: {
+            homepage: "/app-g",
+            id: "app-g",
+            locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
+            name: "App G",
+          },
+          bootstrapFile: "bootstrap.mini.g.json",
+          meta: [],
+          routes: [{ path: "${app.homepage}/test" }],
+        },
+      ],
+    });
+
+    await fulfilStoryboard(data.storyboards[2]);
+
+    expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledWith("app-g");
+
+    expect(data.storyboards[2]).toEqual({
+      $$fullMerged: true,
+      app: {
+        config: { runtimeUserConf: 9 },
+        homepage: "/app-g",
+        id: "app-g",
+        locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
+        name: "App G",
+        userConfig: { runtimeUserConf: 9 },
+      },
+      bootstrapFile: "bootstrap.mini.g.json",
+      meta: {
+        injectMenus: [
+          { title: "Menu 1" },
+          {
+            overrideApp: {
+              config: { overrideDefault: 4, overrideUser: 5 },
+              defaultConfig: { overrideDefault: 4 },
+              userConfig: { overrideUser: 5 },
+            },
+            title: "Menu 2",
+          },
+        ],
+      },
+      routes: [{ path: "${app.homepage}/test" }],
+    });
+
+    await fulfilStoryboard(data.storyboards[0]);
+
+    expect(data.storyboards[0]).toEqual({
+      $$fullMerged: true,
+      app: {
+        config: { runtimeUserConf: 9 },
+        homepage: "/app-a",
+        id: "app-a",
+        locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
+        name: "App A",
+        userConfig: { runtimeUserConf: 9 },
+      },
+      bootstrapFile: "bootstrap.mini.a.json",
+      meta: {
+        injectMenus: [
+          { title: "Menu 1" },
+          {
+            overrideApp: {
+              config: { overrideDefault: 4, overrideUser: 5 },
+              defaultConfig: { overrideDefault: 4 },
+              userConfig: { overrideUser: 5 },
+            },
+            title: "Menu 2",
+          },
+        ],
+      },
+      routes: [],
     });
   });
 

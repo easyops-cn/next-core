@@ -42,6 +42,9 @@ interface Window {
   /** The app root, E.g. "hello-world/" */
   APP_ROOT?: string;
 
+  /** The app root template, E.g. "sa-static/{id}/versions/{version}/webroot/" */
+  APP_ROOT_TPL?: string;
+
   /** The public cdn, E.g. "https://my.cdn.site/" */
   PUBLIC_CDN?: string;
 
@@ -59,6 +62,9 @@ interface Window {
 
   /** The response field of bootstrap file */
   BOOTSTRAP_FILE_FIELD?: string;
+
+  /** the union bootstrap filename  */
+  BOOTSTRAP_UNION_FILE?: string;
 
   /** Mock global date, currently for sandbox demo website only */
   MOCK_DATE?: string;

@@ -977,4 +977,50 @@ describe("Runtime", () => {
       `[Error: The runtime cannot be bootstrapped more than once]`
     );
   });
+
+  test("union app", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_UNION_FILE = "bootstrap-union.abc.json";
+    window.APP_ROOT_TPL = "sa-static/{id}/versions/{version}/webroot/";
+    createRuntime().initialize({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+            name: "App A",
+            currentVersion: "1.0.0",
+          },
+          routes: [
+            {
+              path: "${APP.homepage}",
+              exact: true,
+              bricks: [
+                {
+                  brick: "div",
+                  properties: {
+                    textContent: "homepage",
+                  },
+                },
+              ],
+              menu: {
+                breadcrumb: {
+                  items: [{ text: "Home" }],
+                },
+              },
+            },
+            {
+              path: "${APP.homepage}/0",
+              type: "redirect",
+              exact: true,
+              redirect: "${APP.homepage}/1",
+            },
+          ],
+        },
+      ],
+    });
+    getHistory().push("/app-a");
+    await getRuntime().bootstrap();
+    expect(window.APP_ROOT).toBe("sa-static/app-a/versions/1.0.0/webroot/");
+  });
 });

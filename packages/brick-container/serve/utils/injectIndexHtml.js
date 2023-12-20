@@ -35,6 +35,14 @@ export function injectIndexHtml(env, content, standaloneConfig) {
         `w.BOOTSTRAP_FILE=a+"-/bootstrap${
           standaloneConfig.bootstrapPathPrefix ?? ""
         }.${standaloneConfig.bootstrapHash}.json";`,
+        standaloneConfig.bootstrapUnionFilePath
+          ? `w.BOOTSTRAP_UNION_FILE= d + ${JSON.stringify(
+              standaloneConfig.bootstrapUnionFilePath
+            )};`
+          : "",
+        standaloneConfig.bootstrapUnionFilePath
+          ? `w.APP_ROOT_TPL="sa-static/{id}/versions/{version}/webroot/";`
+          : "",
         "})(window)",
         "</script></head>",
       ].join("")

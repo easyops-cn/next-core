@@ -198,8 +198,14 @@ export default function getProxy(env, getRawIndexHtml) {
                     }
                     const appRoot = JSON.parse(appRootMatches[1]);
 
+                    const bootstrapUnionMatches = content.match(
+                      /\b(merge_apps\/[^."]+\/(?:v2|v3)\/bootstrap-union\.[^."]+\.json)\b/
+                    );
+
+                    const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
+
                     const bootstrapHashMatches = content.match(
-                      /\bbootstrap(\.publicDeps)?\.([^."]+)\.json\b/
+                      /\bbootstrap(-publicDeps|-mini)?\.([^."]+)\.json\b/
                     );
                     if (!bootstrapHashMatches) {
                       const message = "Unexpected: bootstrapHash is not found";
@@ -255,6 +261,7 @@ export default function getProxy(env, getRawIndexHtml) {
                       bootstrapPathPrefix,
                       coreVersion,
                       noAuthGuard,
+                      bootstrapUnionFilePath,
                     });
                   }
                   return injectIndexHtml(env, rawIndexHtml);
@@ -265,7 +272,11 @@ export default function getProxy(env, getRawIndexHtml) {
             }
             if (
               /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/.test(req.path) ||
-              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:\.publicDeps)?\.[^.]+\.json$/.test(
+              //ignore bootstrap.mini.ac3eb.json, because it has no brickPackages information
+              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-publicDeps)?\.[^.]+\.json$/.test(
+                req.path
+              ) ||
+              /^\/next\/sa-static\/[^/]+\/merge_apps\/[^/]+\/(?:v2|v3)\/bootstrap-union\.[^.]+\.json/.test(
                 req.path
               )
             ) {
