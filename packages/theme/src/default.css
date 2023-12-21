@@ -204,7 +204,10 @@
   --left-sidebar-item-selected-hover-bg: var(--palette-blue-4);
   --left-sidebar-item-hover-bg: rgba(0, 0, 0, 0.04);
   --left-sidebar-item-normal-color: var(--palette-gray-blue-8);
-  --left-sidebar-item-collapsed-color: var(--palette-gray-blue-7);
+  --left-sidebar-item-collapsed-color: rgba(
+    var(--palette-gray-blue-7-channel),
+    0.85
+  );
   --left-sidebar-item-selected-color: var(--palette-gray-1);
   --left-secondary-text-color: #7f8ba6;
   --left-sidebar-large-title-color: var(--palette-gray-blue-9);
@@ -213,9 +216,9 @@
   --left-sidebar-group-border-color: var(--palette-gray-blue-3);
   --left-sidebar-border-right: var(--palette-gray-4);
 
-  --third-menu-default-bg: #f7f8fa;
+  --third-menu-default-bg: #ffffff;
   --third-menu-item-selected-bg: var(--palette-blue-1);
-  --third-menu-item-hover-bg: var(--palette-gray-3);
+  --third-menu-item-hover-bg: rgba(255, 255, 255, 0.04);
 
   /* component CSS variables */
 
