@@ -10,6 +10,7 @@ import {
   snippetEvaluate,
   scanCustomApisInStoryboard,
 } from "@next-core/brick-utils";
+import { http } from "@next-core/brick-http";
 import { checkLogin } from "@next-sdk/auth-sdk";
 import {
   BootstrapV2Api_bootstrapV2,
@@ -169,6 +170,7 @@ describe("Kernel", () => {
     kernel = new Kernel();
     window.STANDALONE_MICRO_APPS = undefined;
     window.NO_AUTH_GUARD = undefined;
+    window.BOOTSTRAP_UNION_FILE = undefined;
   });
 
   afterEach(() => {
@@ -552,6 +554,103 @@ describe("Kernel", () => {
 
     await kernel.fulfilStoryboard(appHello);
     expect(spyOnGetAppStoryboard).not.toBeCalled();
+  });
+
+  it("should bootstrap for standalone union apps", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.APP_ROOT = "sa-static/app/";
+    window.BOOTSTRAP_UNION_FILE = "bootstrap-union.cmdb.abg.json";
+    const mountPoints: MountPoints = {
+      appBar: document.createElement("div") as any,
+      menuBar: document.createElement("div") as any,
+      loadingBar: document.createElement("div") as any,
+      main: document.createElement("div") as any,
+      bg: document.createElement("div") as any,
+      portal: document.createElement("div") as any,
+    };
+
+    const testApp: any = {
+      app: {
+        config: { runtimeUserConf: 9 },
+        homepage: "/app-g",
+        id: "app-g",
+        locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
+        name: "App G",
+        userConfig: { runtimeUserConf: 9 },
+      },
+      bootstrapFile: "bootstrap.mini.g.json",
+      meta: {
+        injectMenus: [
+          { title: "Menu 1" },
+          {
+            overrideApp: {
+              config: { overrideDefault: 4, overrideUser: 5 },
+              defaultConfig: { overrideDefault: 4 },
+              userConfig: { overrideUser: 5 },
+            },
+            title: "Menu 2",
+          },
+        ],
+      },
+      routes: [{ path: "${app.homepage}/test" }],
+    };
+    mockStandaloneBootstrap.mockResolvedValueOnce({
+      storyboards: [testApp],
+    });
+
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+
+    jest.spyOn(http, "get").mockImplementationOnce((url) => {
+      if (url === "sa-static/app/-/bootstrap.mini.g.json")
+        return Promise.resolve({
+          brickPackages: [],
+          storyboards: [
+            {
+              app: {
+                id: "app-g",
+                name: "App G",
+                homepage: "/app-g",
+                locales: {
+                  zh: { name: "应用 G" },
+                  en: { name: "Application G" },
+                },
+              },
+              meta: [],
+              routes: [
+                {
+                  path: "${app.homepage}/test",
+                },
+              ],
+            },
+          ],
+        });
+    });
+
+    await kernel.bootstrap(mountPoints);
+    expect(mockStandaloneBootstrap).toBeCalledTimes(1);
+
+    await kernel.fulfilStoryboard(testApp);
+
+    expect(testApp).toEqual({
+      $$fulfilled: true,
+      $$fulfilling: expect.anything(),
+      $$fullMerged: true,
+      app: {
+        $$routeAliasMap: undefined,
+        config: { runtimeUserConf: 9 },
+        homepage: "/app-g",
+        id: "app-g",
+        localeName: "Application G",
+        locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
+        name: "App G",
+        userConfig: { runtimeUserConf: 9 },
+      },
+      bootstrapFile: "bootstrap.mini.g.json",
+      meta: [],
+      routes: [{ path: "${app.homepage}/test" }],
+    });
   });
 
   it("should bootstrap for standalone micro-apps, without no auth guard", async () => {

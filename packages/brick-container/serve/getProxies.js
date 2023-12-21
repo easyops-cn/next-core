@@ -98,9 +98,16 @@ module.exports = (env, getRawIndexHtml) => {
       let publicRootWithVersion = false;
       if (!reqIsBootstrap) {
         const regex =
-          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:\.publicDeps)?\.[^.]+\.json$/;
+          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-publicDeps)?\.[^.]+\.json$/;
         const regexLegacy = /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/;
-        if (regex.test(req.path) || regexLegacy.test(req.path)) {
+
+        const unionRegex =
+          /^\/next\/sa-static\/[^/]+\/merge_apps\/[^/]+\/(?:v2|v3)\/bootstrap-union\.[^.]+\.json/;
+        if (
+          regex.test(req.path) ||
+          regexLegacy.test(req.path) ||
+          unionRegex.test(req.path)
+        ) {
           reqIsBootstrap = true;
           isStandalone = true;
           publicRootWithVersion = true;
@@ -440,8 +447,14 @@ module.exports = (env, getRawIndexHtml) => {
               }
               const appRoot = JSON.parse(appRootMatches[1]);
 
+              const bootstrapUnionMatches = raw.match(
+                /\b(merge_apps\/[^."]+\/(?:v2|v3)\/bootstrap-union\.[^."]+\.json)\b/
+              );
+
+              const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
+
               const bootstrapHashMatches = raw.match(
-                /\bbootstrap(\.publicDeps)?\.([^."]+)\.json\b/
+                /\bbootstrap(-publicDeps|-mini)?\.([^."]+)\.json\b/
               );
               if (!bootstrapHashMatches) {
                 const message = "Unexpected: bootstrapHash is not found";
@@ -482,6 +495,7 @@ module.exports = (env, getRawIndexHtml) => {
                     publicPrefix,
                     bootstrapHash,
                     bootstrapPathPrefix,
+                    bootstrapUnionFilePath,
                     coreVersion,
                     noAuthGuard,
                     standaloneVersion: 2,
@@ -496,6 +510,7 @@ module.exports = (env, getRawIndexHtml) => {
                   appRoot,
                   bootstrapHash,
                   bootstrapPathPrefix,
+                  bootstrapUnionFilePath,
                   noAuthGuard,
                   standaloneVersion: 1,
                 },

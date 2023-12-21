@@ -79,6 +79,7 @@ import i18next from "i18next";
 import { K, NS_BRICK_KIT } from "../i18n/constants";
 import { getRuntime } from "../runtime";
 import { setUIVersion } from "./setUIVersion";
+import { setAppVariable } from "../setAppVariable";
 
 export class Router {
   private defaultCollapsed = false;
@@ -263,6 +264,19 @@ export class Router {
     const storyboard = locationContext.matchStoryboard(
       this.kernel.bootstrapData.storyboards
     );
+
+    const currentAppId = storyboard?.app?.id;
+    //  dynamically change the value of the APP variable, if it's union app
+    if (
+      window.BOOTSTRAP_UNION_FILE &&
+      currentAppId &&
+      currentAppId !== this.kernel.previousApp?.id
+    ) {
+      setAppVariable({
+        appId: currentAppId,
+        version: storyboard.app.currentVersion,
+      });
+    }
 
     /** Pending task for loading bricks */
     let pendingTask: Promise<void>;

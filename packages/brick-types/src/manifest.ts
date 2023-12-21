@@ -298,6 +298,11 @@ export interface Storyboard {
 
   /** {@inheritDoc StoryboardMeta} */
   meta?: StoryboardMeta;
+
+  /**
+   * 该 app 请求 bootstrap json 的地址，仅针对是联合 app 时才有该字段
+   */
+  bootstrapFile?: string;
 }
 
 /** @internal */
@@ -308,6 +313,7 @@ export interface RuntimeStoryboard extends Storyboard {
   $$fulfilling?: Promise<void>;
   $$i18nFulfilled?: boolean;
   $$deadConditionsRemoved?: boolean;
+  $$fullMerged?: boolean;
 }
 
 export function isRouteConfOfBricks(

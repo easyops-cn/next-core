@@ -35,6 +35,7 @@ describe("standaloneBootstrap", () => {
     window.APP_ROOT = "";
     window.NO_AUTH_GUARD = false;
     window.DEVELOPER_PREVIEW = false;
+    window.BOOTSTRAP_UNION_FILE = undefined;
   });
 
   it.each<
@@ -363,6 +364,118 @@ describe("standaloneBootstrap", () => {
     expect(await standaloneBootstrap()).toEqual(result);
     expect(consoleWarn).toBeCalledTimes(runtimeApiReturn === "oops" ? 1 : 0);
     expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(0);
+  });
+
+  it("standalone with union app", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_UNION_FILE = "bootstrap-union.cmdb.abg.json";
+    window.BOOTSTRAP_FILE = "bootstrap.mini.g.json";
+
+    (
+      BootstrapStandaloneApi_runtimeStandalone as jest.Mock
+    ).mockResolvedValueOnce(undefined);
+    mockHttpGet.mockImplementation((url) => {
+      if (url === "conf.yaml") {
+        return Promise.resolve("");
+      }
+
+      if (url === "bootstrap-union.cmdb.abg.json") {
+        return Promise.resolve({
+          brickPackages: [],
+          storyboards: [
+            {
+              app: {
+                id: "app-a",
+                name: "App A",
+                homepage: "/app-a",
+                locales: {
+                  zh: { name: "应用 A" },
+                  en: { name: "Application A" },
+                },
+              },
+              bootstrapFile: "bootstrap.mini.a.json",
+            },
+            {
+              app: {
+                id: "app-b",
+                homepage: "/app-b",
+                name: "App B",
+              },
+              bootstrapFile: "bootstrap.mini.b.json",
+            },
+            {
+              app: {
+                id: "app-g",
+                name: "App G",
+                homepage: "/app-g",
+                locales: {
+                  zh: { name: "应用 G" },
+                  en: { name: "Application G" },
+                },
+              },
+              bootstrapFile: "bootstrap.mini.g.json",
+            },
+          ],
+        });
+      }
+
+      if (url === "bootstrap.mini.g.json") {
+        return Promise.resolve({
+          brickPackages: [],
+          storyboards: [
+            {
+              app: {
+                id: "app-g",
+                name: "App G",
+                homepage: "/app-g",
+                locales: {
+                  zh: { name: "应用 G" },
+                  en: { name: "Application G" },
+                },
+              },
+              meta: [],
+              routes: [
+                {
+                  path: "${app.homepage}/test",
+                },
+              ],
+            },
+          ],
+        });
+      }
+    });
+
+    expect(await standaloneBootstrap()).toEqual({
+      brickPackages: [],
+      settings: undefined,
+      storyboards: [
+        {
+          app: {
+            homepage: "/app-a",
+            id: "app-a",
+            locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
+            name: "App A",
+          },
+          bootstrapFile: "bootstrap.mini.a.json",
+        },
+        {
+          app: { homepage: "/app-b", id: "app-b", name: "App B" },
+          bootstrapFile: "bootstrap.mini.b.json",
+        },
+        {
+          $$fullMerged: true,
+          app: {
+            homepage: "/app-g",
+            id: "app-g",
+            locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
+            name: "App G",
+          },
+          bootstrapFile: "bootstrap.mini.g.json",
+          meta: [],
+          routes: [{ path: "${app.homepage}/test" }],
+        },
+      ],
+    });
   });
 
   it("should fire a request of RuntimeApi_runtimeMicroAppStandalone", async () => {
