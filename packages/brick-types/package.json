@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-types",
-  "version": "2.91.0",
+  "version": "2.92.0",
   "description": "Pure types for Brick Next",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-types",
   "license": "GPL-3.0",

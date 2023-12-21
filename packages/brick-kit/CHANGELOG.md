@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.183.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.182.0...@next-core/brick-kit@2.183.0) (2023-12-21)
+
+
+### Features
+
+* support union app mode ([5c8ce9c](https://github.com/easyops-cn/next-core/commit/5c8ce9cbedcdb1814cc58ac5ca73cb9b745ab32b))
+
+
+
+
+
 # [2.182.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.181.2...@next-core/brick-kit@2.182.0) (2023-12-19)
 
 
