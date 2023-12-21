@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.0...@next-core/brick-container@3.10.1) (2023-12-21)
+
+
+### Bug Fixes
+
+* add bootstrapFile path prefix ([0da2073](https://github.com/easyops-cn/next-core/commit/0da20735f91292728ebd4c92f22ca7ee62837244))
+
+
+
+
+
 # [3.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.9.1...@next-core/brick-container@3.10.0) (2023-12-20)
 
 

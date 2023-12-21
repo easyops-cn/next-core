@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.7.2...@next-core/types@1.7.3) (2023-12-21)
+
+
+### Bug Fixes
+
+* add bootstrapFile path prefix ([0da2073](https://github.com/easyops-cn/next-core/commit/0da20735f91292728ebd4c92f22ca7ee62837244))
+
+
+
+
+
 ## [1.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.7.1...@next-core/types@1.7.2) (2023-11-29)
 
 

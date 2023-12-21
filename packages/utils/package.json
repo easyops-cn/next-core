@@ -1,6 +1,6 @@
 {
   "name": "@next-core/utils",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/utils",
   "license": "GPL-3.0",
   "repository": {
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@next-core/cook": "^2.2.9",
-    "@next-core/types": "^1.7.2",
+    "@next-core/types": "^1.7.3",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21"
   },
