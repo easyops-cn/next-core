@@ -43,7 +43,7 @@
     "@next-core/repo-config": "^0.2.5",
     "chalk": "^4.1.2",
     "change-case": "^4.1.2",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.2.0",
     "inquirer": "^8.2.6",
     "js-yaml": "^3.14.1",
     "klaw-sync": "^6.0.0",
