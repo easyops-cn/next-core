@@ -7,8 +7,12 @@
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
-  "baseBranches": ["next"],
+  "baseBranches": ["next", "v3", "master"],
   "packageRules": [
+    {
+      "baseBranches": ["v3", "master"],
+      "enabled": false
+    },
     {
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
@@ -30,7 +34,13 @@
     },
     {
       "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
-      "baseBranches": ["master", "v3"]
+      "baseBranches": ["master", "v3"],
+      "enabled": true
+    },
+    {
+      "matchPackageNames": ["@next-shared/icons"],
+      "baseBranches": ["master"],
+      "enabled": true
     },
     {
       "groupName": "size-limit packages",
