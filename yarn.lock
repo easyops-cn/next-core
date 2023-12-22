@@ -2414,6 +2414,11 @@
   resolved "https://registry.npmjs.org/@next-sdk/user-service-sdk/-/user-service-sdk-2.1.1.tgz#44ef1a59bf2d5a50ab0d3a62860cb39379018c5c"
   integrity sha512-eGbCuSwZmzbz5AJdDLCM36euD7iTEfcnLmPVTk3UrbV0HT8b5xQdYj4KD0Jl4kldy3PlSat3XhT/mDpMg0V9XQ==
 
+"@next-shared/icons@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@next-shared/icons/-/icons-0.1.0.tgz#4e847ca18e94bc2b51e9479c917547cabb899607"
+  integrity sha512-5h8aGUqNyk2udRo8usa0qqDUqop98FCNbYuzGVj3NosF6aPgAzm1bpgYim/h5Mu4KmI86xARHn51s6zBToS4vw==
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>low-load-second-menu</title>
-    <g id="low-load-second-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
-        <path d="M17.963,16 L17.9493358,16.0794974 C17.7237915,17.1682577 16.7496797,17.9985001 15.5987251,17.9985001 L4.39977502,17.9985001 C3.24882043,17.9985001 2.27470862,17.1682577 2.04916434,16.0794974 L2.036,16 L17.963,16 Z" id="形状结合" fill="#57689C" fill-rule="nonzero"></path>
-        <path d="M15.5987251,2 C16.9141018,2 17.9985001,3.08439833 17.9985001,4.39977502 L17.9985001,16 L2,16 L2,4.39977502 C2,3.08439834 3.08439834,2 4.39977502,2 Z M9.336,5.232 L7.64,5.232 L7.64,14.2 L14.052,14.2 L14.052,12.684 L9.335,12.684 L9.336,5.232 Z" id="形状结合" fill="#57689C" fill-rule="nonzero" opacity="0.550000012"></path>
-    </g>
-</svg>

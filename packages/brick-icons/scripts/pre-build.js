@@ -6,7 +6,13 @@ const changeCase = require("change-case");
 const prettier = require("prettier");
 const _ = require("lodash");
 
+const sharedIconsDir = path.join(
+  require.resolve("@next-shared/icons/package.json"),
+  "../src/icons"
+);
 const iconsDir = path.join(process.cwd(), "src/icons");
+
+fs.copySync(sharedIconsDir, iconsDir);
 
 const flattenIcons = klawSync(iconsDir, {
   depthLimit: 2,
@@ -22,12 +28,6 @@ const flattenIcons = klawSync(iconsDir, {
   const category = relativePath.includes("/")
     ? relativePath.split("/")[0]
     : "default";
-  const lowerKebabCase = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
-  if (!(lowerKebabCase.test(category) && lowerKebabCase.test(basename))) {
-    throw new Error(
-      `Icon category and filename should always be in lower-kebab-case: ${category}/${basename}`
-    );
-  }
   return { category, relativePath, basename };
 });
 

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>sprint-follow-up-second-menu</title>
-    <g id="sprint-follow-up-second-menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="矩形" x="2" y="2" width="16" height="16"></rect>
-        <path d="M17,2 C17.5522847,2 18,2.44771525 18,3 L18,17 C18,17.5522847 17.5522847,18 17,18 L3,18 C2.44771525,18 2,17.5522847 2,17 L2,3 C2,2.44771525 2.44771525,2 3,2 L17,2 Z M8,4 L5,4 C4.72385763,4 4.5,4.22385763 4.5,4.5 L4.5,14.5 C4.5,14.7761424 4.72385763,15 5,15 L8,15 C8.27614237,15 8.5,14.7761424 8.5,14.5 L8.5,4.5 C8.5,4.22385763 8.27614237,4 8,4 Z M15,4 L12,4 C11.7238576,4 11.5,4.22385763 11.5,4.5 L11.5,9.5 C11.5,9.77614237 11.7238576,10 12,10 L15,10 C15.2761424,10 15.5,9.77614237 15.5,9.5 L15.5,4.5 C15.5,4.22385763 15.2761424,4 15,4 Z" id="形状结合" fill="#57689C" fill-rule="nonzero"></path>
-    </g>
-</svg>

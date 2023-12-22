@@ -15,7 +15,8 @@
       "build": {
         "outputs": [
           "{projectRoot}/dist",
-          "{projectRoot}/src/generated"
+          "{projectRoot}/src/generated",
+          "{projectRoot}/src/icons"
         ]
       }
     }
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@next-core/brick-utils": "^2.51.12",
     "@next-core/rollup-config-factory": "^2.7.0",
+    "@next-shared/icons": "^0.1.0",
     "@svgr/rollup": "^5.5.0",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",
