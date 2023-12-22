@@ -8251,7 +8251,7 @@ js-yaml@4.1.0, js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
-js-yaml@^3.10.0, js-yaml@^3.13.1, js-yaml@^3.14.1:
+js-yaml@^3.10.0, js-yaml@^3.13.1:
   version "3.14.1"
   resolved "https://registry.npmjs.org/js-yaml/-/js-yaml-3.14.1.tgz"
   integrity sha1-2ugS/bOCX6MGYJqHFzg8UMNqBTc=
