@@ -218,7 +218,7 @@
 
   --third-menu-default-bg: #ffffff;
   --third-menu-item-selected-bg: var(--palette-blue-1);
-  --third-menu-item-hover-bg: rgba(255, 255, 255, 0.04);
+  --third-menu-item-hover-bg: rgba(0, 0, 0, 0.04);
 
   /* component CSS variables */
 

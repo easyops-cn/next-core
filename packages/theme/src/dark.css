@@ -173,7 +173,7 @@ html[data-theme="dark-v2"],
 
   --third-menu-default-bg: #202024;
   --third-menu-item-selected-bg: var(--palette-blue-2);
-  --third-menu-item-hover-bg: rgba(0, 0, 0, 0.04);
+  --third-menu-item-hover-bg: rgba(255, 255, 255, 0.04);
 
   /* component CSS variables */
 
