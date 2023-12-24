@@ -1300,10 +1300,10 @@
     js-yaml "^3.13.1"
     resolve "^1.17.0"
 
-"@easyops-cn/brick-next-pipes@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.4.0.tgz#b08a0511852e181262839be69cdb9629cf5f35bf"
-  integrity sha512-ZyQkIGzeasDGj0pWHI0y9W5R/UlngEHp9cHRqFzR3HidvYTNYv22hSaqag7Xs3ngvltWOE99Kb0goJVfvQnwxA==
+"@easyops-cn/brick-next-pipes@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.6.0.tgz#75fa4c9986383a3118067485e0d6c7ca9ce30c80"
+  integrity sha512-nAZzLaB1eS5Z5Mfy0iszhUWqWKF2aj5CzpH2I2I5UmKX2lNra8Osc0qKahGlzXmTsWKnSySkHRpP1dwPrOwSMQ==
 
 "@eslint/eslintrc@^1.3.3":
   version "1.3.3"
@@ -2394,12 +2394,7 @@
   resolved "https://registry.npmjs.org/@next-sdk/cmdb-sdk/-/cmdb-sdk-2.1.1.tgz#8522f75b71ae3c5772b8631528fe4bcaff9f0e70"
   integrity sha512-4F9psdHnmSUZg9BK0sSzgmoerhsMucsXdMGhRASaf+kGyh6foKMa2+Lp7lOpIjROUJbqBua1GkwPOtj6AexpsQ==
 
-"@next-sdk/micro-app-sdk@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.5.0.tgz#228712e392523163c65b6e2d6311f9155edb0b0e"
-  integrity sha512-uLrFGcBahmb+8OjTSPDxsWEUH+EGImhH9OtsKlT8qJ4V2h3G1vAsDTuwcMzT/zBFNRTK/g/MTKDsgmzPiv32BQ==
-
-"@next-sdk/micro-app-sdk@^2.6.1":
+"@next-sdk/micro-app-sdk@^2.5.0", "@next-sdk/micro-app-sdk@^2.6.1":
   version "2.6.1"
   resolved "https://registry.npmjs.org/@next-sdk/micro-app-sdk/-/micro-app-sdk-2.6.1.tgz#ca5f4a8d402e69f311146ff1208a437923f936e3"
   integrity sha512-fmUuikvnCj3o73Uaso4cMx07H5I21hBc79vyT/X+LZxVBXOiHqUktxm/jq0bjnMaF/LrEXhOcUB5mSeZtJ+sPQ==
