@@ -31,7 +31,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@easyops-cn/brick-next-pipes": "^0.4.0",
+    "@easyops-cn/brick-next-pipes": "^0.6.0",
     "@next-core/brick-kit": "^2.183.0",
     "@next-core/brick-types": "^2.92.0",
     "fs-extra": "^10.1.0"
