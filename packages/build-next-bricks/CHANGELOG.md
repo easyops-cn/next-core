@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.18.0...@next-core/build-next-bricks@1.19.0) (2023-12-12)
+
+
+### Features
+
+* support build brick with stories ([a2d4f55](https://github.com/easyops-cn/next-core/commit/a2d4f55aad3673bf50cfefff5c8c8bdb18bd3d6d))
+
+
+
+
+
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.17.0...@next-core/build-next-bricks@1.18.0) (2023-12-11)
+
+
+### Features
+
+* support load deprecated brick ([78a50fa](https://github.com/easyops-cn/next-core/commit/78a50fa8bc695f0bd45199ee5e1a3103037419b4))
+
+
+
+
+
+# [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.16.1...@next-core/build-next-bricks@1.17.0) (2023-12-05)
+
+
+### Features
+
+* build bricks with insider tag ([5bee240](https://github.com/easyops-cn/next-core/commit/5bee240f2710db3b686538b37b383b7e96a63897))
+
+
+
+
+
+## [1.16.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.16.0...@next-core/build-next-bricks@1.16.1) (2023-11-29)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 # [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.15.1...@next-core/build-next-bricks@1.16.0) (2023-11-22)
 
 

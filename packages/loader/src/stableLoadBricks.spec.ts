@@ -245,7 +245,6 @@ describe("loadBricksImperatively", () => {
   });
 
   test("load v2 bricks without v2-adapter", async () => {
-    consoleError.mockReturnValueOnce();
     const promise = loadBricksImperatively(
       ["legacy.some-brick", "basic.general-button"],
       [
@@ -259,25 +258,11 @@ describe("loadBricksImperatively", () => {
       ]
     );
     expect(requestsCount).toBe(1);
-    await promise;
+    await expect(promise).rejects.toMatchInlineSnapshot(
+      `[Error: Using v2 bricks, but v2-adapter not found]`
+    );
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toHaveBeenNthCalledWith(
-      1,
-      "loadScript done:",
-      "bricks/basic/dist/index.hash.js",
-      ""
-    );
-    expect(consoleInfo).toHaveBeenNthCalledWith(
-      2,
-      "loadSharedModule done:",
-      "bricks/basic",
-      "./general-button"
-    );
-    expect(consoleInfo).toBeCalledTimes(2);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
-      "Using v2 bricks, but v2-adapter not found"
-    );
+    expect(consoleInfo).toBeCalledTimes(0);
   });
 
   test("load third-party bricks with no namespace", async () => {
@@ -358,6 +343,71 @@ describe("loadBricksImperatively", () => {
       "./not-existed"
     );
     expect(consoleError).toBeCalledTimes(1);
+  });
+
+  test("load brick (with no namespace) with only deprecated element", async () => {
+    const promise = loadBricksImperatively(
+      ["eo-sidebar"],
+      [
+        {
+          id: "bricks/basic",
+          filePath: "bricks/basic/dist/index.hash.js",
+          elements: ["eo-sidebar", "eo-button", "eo-link"],
+          deprecatedElements: ["eo-sidebar"],
+        },
+      ]
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      1,
+      "loadScript done:",
+      "bricks/basic/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      2,
+      "loadSharedModule done:",
+      "bricks/basic",
+      "./eo-sidebar"
+    );
+  });
+
+  test("load brick (with no namespace) with deprecated brick and new brick", async () => {
+    const promise = loadBricksImperatively(
+      ["eo-sidebar"],
+      [
+        {
+          id: "bricks/basic",
+          filePath: "bricks/basic/dist/index.hash.js",
+          elements: ["eo-sidebar", "eo-button", "eo-link"],
+          deprecatedElements: ["eo-sidebar"],
+        },
+        {
+          id: "bricks/nav",
+          filePath: "bricks/nav/dist/index.hash.js",
+          elements: ["eo-sidebar", "eo-launchpad-button"],
+        },
+      ]
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      1,
+      "loadScript done:",
+      "bricks/nav/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      2,
+      "loadSharedModule done:",
+      "bricks/nav",
+      "./eo-sidebar"
+    );
   });
 
   test("load brick (with no namespace) failed", async () => {

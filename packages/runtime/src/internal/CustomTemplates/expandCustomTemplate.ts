@@ -39,7 +39,12 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   delete runtimeContext.forEachIndex;
   delete runtimeContext.formStateStoreId;
 
-  const tplStateStore = new DataStore("STATE", hostBrick, rendererContext);
+  const tplStateStore = new DataStore(
+    "STATE",
+    hostBrick,
+    rendererContext,
+    tplStateStoreId
+  );
   runtimeContext.tplStateStoreMap.set(tplStateStoreId, tplStateStore);
   if (runtimeContext.tplStateStoreScope) {
     runtimeContext.tplStateStoreScope.push(tplStateStore);

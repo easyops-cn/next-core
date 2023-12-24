@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.28](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.27...@next-core/yo@1.5.28) (2023-12-22)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.27](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.26...@next-core/yo@1.5.27) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.26](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.25...@next-core/yo@1.5.26) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.25](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.24...@next-core/yo@1.5.25) (2023-12-12)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.24](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.23...@next-core/yo@1.5.24) (2023-12-11)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.23](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.22...@next-core/yo@1.5.23) (2023-12-08)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.22](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.21...@next-core/yo@1.5.22) (2023-12-07)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.21](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.20...@next-core/yo@1.5.21) (2023-12-05)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.20](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.19...@next-core/yo@1.5.20) (2023-11-29)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.19](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.18...@next-core/yo@1.5.19) (2023-11-22)
 
 **Note:** Version bump only for package @next-core/yo

@@ -51,10 +51,14 @@ export function loadBootstrapData(): Promise<BootstrapDataWithStoryboards> {
 async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
   const requests = [
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!),
-    http.get<string>(`${window.APP_ROOT}conf.yaml`, {
-      responseType: "text",
-    }),
+    window.BOOTSTRAP_UNION_FILE
+      ? http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_UNION_FILE)
+      : http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!),
+    window.BOOTSTRAP_UNION_FILE
+      ? Promise.resolve("")
+      : http.get<string>(`${window.APP_ROOT}conf.yaml`, {
+          responseType: "text",
+        }),
     BootstrapStandaloneApi_runtimeStandalone().catch((error) => {
       // make it not crash when the backend service is not updated.
       // eslint-disable-next-line no-console
@@ -64,6 +68,10 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
         ", something might went wrong running standalone micro app"
       );
     }),
+
+    window.BOOTSTRAP_UNION_FILE
+      ? http.get<BootstrapDataWithStoryboards>(window.BOOTSTRAP_FILE!)
+      : Promise.resolve(undefined),
   ] as const;
 
   if (!window.NO_AUTH_GUARD) {
@@ -82,12 +90,14 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
     }
   }
 
-  const [bootstrapResult, confString, runtimeData] =
+  const [bootstrapResult, confString, runtimeData, fullBootstrapDetail] =
     await Promise.all(requests);
 
   mergeConf(bootstrapResult, confString);
 
   mergeRuntimeSettings(bootstrapResult, runtimeData?.settings);
+
+  mergeFullBootstrapDetail(bootstrapResult, fullBootstrapDetail);
 
   return bootstrapResult;
 }
@@ -127,6 +137,29 @@ function mergeConf(
           app.userConfig = user_config_by_apps[app.id];
         }
       }
+    }
+  }
+}
+
+function mergeFullBootstrapDetail(
+  bootstrapResult: BootstrapDataWithStoryboards,
+  fullBootstrapDetail: BootstrapDataWithStoryboards | undefined
+) {
+  if (fullBootstrapDetail) {
+    const { storyboards } = fullBootstrapDetail;
+    const { routes, meta, app } = storyboards[0];
+
+    const matchedStoryboard = bootstrapResult.storyboards.find(
+      (item) => item.app.id === app.id
+    );
+
+    if (matchedStoryboard) {
+      Object.assign(matchedStoryboard, {
+        routes,
+        meta,
+        app: { ...matchedStoryboard.app, ...app },
+        $$fullMerged: true,
+      });
     }
   }
 }
@@ -182,6 +215,20 @@ async function safeGetRuntimeMicroAppStandalone(appId: string) {
 
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
+    if (window.BOOTSTRAP_UNION_FILE && !storyboard.$$fullMerged) {
+      const fullBootstrapPath = `${window.APP_ROOT}-/${storyboard.bootstrapFile}`;
+      const { storyboards } =
+        await http.get<BootstrapDataWithStoryboards>(fullBootstrapPath);
+      const { routes, meta, app } = storyboards[0];
+
+      Object.assign(storyboard, {
+        routes,
+        meta,
+        app: { ...storyboard.app, ...app },
+        $$fullMerged: true,
+      });
+    }
+
     if (!window.NO_AUTH_GUARD) {
       // Note: the request maybe have fired already during bootstrap.
       const appRuntimeData = await safeGetRuntimeMicroAppStandalone(

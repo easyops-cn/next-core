@@ -48,6 +48,7 @@ import { RenderTag } from "./enums.js";
 import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
 import { setUIVersion } from "../setUIVersion.js";
+import { setAppVariable } from "../setAppVariable.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -252,9 +253,23 @@ export class Router {
     const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
     const previousApp = this.#runtimeContext?.app;
+    const currentAppId = storyboard?.app?.id;
+    //  dynamically change the value of the APP variable, if it's union app
+    if (
+      window.BOOTSTRAP_UNION_FILE &&
+      currentAppId &&
+      currentAppId !== previousApp?.id
+    ) {
+      setAppVariable({
+        appId: currentAppId,
+        version: storyboard.app.currentVersion!,
+      });
+    }
+
     if (storyboard?.app) {
       await fulfilStoryboard(storyboard);
     }
+
     const currentApp = (this.#currentApp = storyboard?.app);
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.

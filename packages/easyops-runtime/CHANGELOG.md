@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.63](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.62...@next-core/easyops-runtime@0.6.63) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.62](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.61...@next-core/easyops-runtime@0.6.62) (2023-12-20)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.61](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.60...@next-core/easyops-runtime@0.6.61) (2023-12-19)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.60](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.59...@next-core/easyops-runtime@0.6.60) (2023-12-19)
+
+
+### Bug Fixes
+
+* Provider::saveAs requires the first argument to be the filename ([13f0798](https://github.com/easyops-cn/next-core/commit/13f07984ed2b45306dcbc081ce49cc66836a1736))
+
+
+
+
+
+## [0.6.59](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.58...@next-core/easyops-runtime@0.6.59) (2023-12-14)
+
+
+### Bug Fixes
+
+* fix permission check in dynamic menu items ([c8da10d](https://github.com/easyops-cn/next-core/commit/c8da10d2e40d65ad0f85db588b68f0d4ed072ecf))
+
+
+
+
+
+## [0.6.58](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.57...@next-core/easyops-runtime@0.6.58) (2023-12-11)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.57](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.56...@next-core/easyops-runtime@0.6.57) (2023-12-04)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.56](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.55...@next-core/easyops-runtime@0.6.56) (2023-11-29)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
 ## [0.6.55](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.54...@next-core/easyops-runtime@0.6.55) (2023-11-21)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

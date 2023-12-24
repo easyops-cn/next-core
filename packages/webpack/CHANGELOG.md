@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/webpack@0.4.4...@next-core/webpack@0.4.5) (2023-12-07)
+
+
+### Bug Fixes
+
+* add @babel/parser as shared singleton package ([d8ba651](https://github.com/easyops-cn/next-core/commit/d8ba651eda66c43803bb8add4a3a6f260f435cfc))
+
+
+
+
+
 ## [0.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/webpack@0.4.3...@next-core/webpack@0.4.4) (2023-10-18)
 
 **Note:** Version bump only for package @next-core/webpack

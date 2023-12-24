@@ -38,7 +38,6 @@ const getBootstrapData = (options?: {
           settings: {
             featureFlags: {
               ["some-app-feature"]: true,
-              ["incremental-sub-route-rendering"]: true,
             },
             misc: {
               staff: "cool",
@@ -136,6 +135,7 @@ const getBootstrapData = (options?: {
         },
         {
           path: "${APP.homepage}/sub-routes/:sub",
+          incrementalSubRoutes: true,
           menu: {
             breadcrumb: { items: [{ text: "0" }] },
           },
@@ -420,7 +420,6 @@ describe("Runtime", () => {
     expect(getRuntime().getCurrentApp()).toMatchObject({ id: "app-a" });
     expect(getRuntime().hasInstalledApp("app-b")).toBe(true);
     expect(getRuntime().getFeatureFlags()).toEqual({
-      "incremental-sub-route-rendering": true,
       "migrate-to-brick-next-v3": true,
       "some-app-feature": true,
       "some-global-feature": true,
@@ -726,13 +725,14 @@ describe("Runtime", () => {
     await (global as any).flushPromises();
     getHistory().push("/app-a/sub-routes/6");
     await (global as any).flushPromises();
+    // All incremental sub-routes missed
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div
           id="main-mount-point"
         >
           <h1>
-            Hello [6]
+            Hello [1]
           </h1>
           <div />
         </div>,
@@ -976,5 +976,51 @@ describe("Runtime", () => {
     expect(runtime.bootstrap()).rejects.toMatchInlineSnapshot(
       `[Error: The runtime cannot be bootstrapped more than once]`
     );
+  });
+
+  test("union app", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_UNION_FILE = "bootstrap-union.abc.json";
+    window.APP_ROOT_TPL = "sa-static/{id}/versions/{version}/webroot/";
+    createRuntime().initialize({
+      storyboards: [
+        {
+          app: {
+            id: "app-a",
+            homepage: "/app-a",
+            name: "App A",
+            currentVersion: "1.0.0",
+          },
+          routes: [
+            {
+              path: "${APP.homepage}",
+              exact: true,
+              bricks: [
+                {
+                  brick: "div",
+                  properties: {
+                    textContent: "homepage",
+                  },
+                },
+              ],
+              menu: {
+                breadcrumb: {
+                  items: [{ text: "Home" }],
+                },
+              },
+            },
+            {
+              path: "${APP.homepage}/0",
+              type: "redirect",
+              exact: true,
+              redirect: "${APP.homepage}/1",
+            },
+          ],
+        },
+      ],
+    });
+    getHistory().push("/app-a");
+    await getRuntime().bootstrap();
+    expect(window.APP_ROOT).toBe("sa-static/app-a/versions/1.0.0/webroot/");
   });
 });

@@ -3,6 +3,157 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.2...@next-core/brick-container@3.10.3) (2023-12-22)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.1...@next-core/brick-container@3.10.2) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.0...@next-core/brick-container@3.10.1) (2023-12-21)
+
+
+### Bug Fixes
+
+* add bootstrapFile path prefix ([0da2073](https://github.com/easyops-cn/next-core/commit/0da20735f91292728ebd4c92f22ca7ee62837244))
+
+
+
+
+
+# [3.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.9.1...@next-core/brick-container@3.10.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* debug refactor ([2f04a76](https://github.com/easyops-cn/next-core/commit/2f04a76f27323ae2e653f95f5346e32e089db666))
+
+
+### Features
+
+* support union app mode ([467dccb](https://github.com/easyops-cn/next-core/commit/467dccb43197c431158b6bdd966fdb34f9e5257a))
+
+
+
+
+
+## [3.9.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.9.0...@next-core/brick-container@3.9.1) (2023-12-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+# [3.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.43...@next-core/brick-container@3.9.0) (2023-12-19)
+
+
+### Features
+
+* update reportInstalledBrickNextPackage.py ([1eb0a15](https://github.com/easyops-cn/next-core/commit/1eb0a15b6b3c97d967eea9d535cc84d14ccc0efd))
+
+
+
+
+
+## [3.8.43](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.42...@next-core/brick-container@3.8.43) (2023-12-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.42](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.41...@next-core/brick-container@3.8.42) (2023-12-15)
+
+
+### Bug Fixes
+
+* debugger with public dependencies mode ([3af08cf](https://github.com/easyops-cn/next-core/commit/3af08cf4f276c7f2d203a4008cec20bcc9eb7887))
+
+
+
+
+
+## [3.8.41](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.40...@next-core/brick-container@3.8.41) (2023-12-14)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.40](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.39...@next-core/brick-container@3.8.40) (2023-12-12)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.39](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.38...@next-core/brick-container@3.8.39) (2023-12-11)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.38](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.37...@next-core/brick-container@3.8.38) (2023-12-08)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.37](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.36...@next-core/brick-container@3.8.37) (2023-12-07)
+
+
+### Bug Fixes
+
+* mock some builtin API calls in no-remote mode ([5059eb4](https://github.com/easyops-cn/next-core/commit/5059eb4c95f05f94b0829288651959da401c9325))
+
+
+
+
+
+## [3.8.36](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.35...@next-core/brick-container@3.8.36) (2023-12-05)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.35](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.34...@next-core/brick-container@3.8.35) (2023-12-04)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.8.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.33...@next-core/brick-container@3.8.34) (2023-11-29)
+
+
+### Bug Fixes
+
+* fix i18next types, update tsconfig module resolution ([d256243](https://github.com/easyops-cn/next-core/commit/d25624314b6f8f05f0624c6a9285041e4b975fd0))
+
+
+
+
+
 ## [3.8.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.8.32...@next-core/brick-container@3.8.33) (2023-11-22)
 
 **Note:** Version bump only for package @next-core/brick-container

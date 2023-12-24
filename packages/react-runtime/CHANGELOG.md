@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.42](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.41...@next-core/react-runtime@1.1.42) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.41](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.40...@next-core/react-runtime@1.1.41) (2023-12-20)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.40](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.39...@next-core/react-runtime@1.1.40) (2023-12-19)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.39](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.38...@next-core/react-runtime@1.1.39) (2023-12-19)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.38](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.37...@next-core/react-runtime@1.1.38) (2023-12-14)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.37](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.36...@next-core/react-runtime@1.1.37) (2023-12-11)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.36](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.35...@next-core/react-runtime@1.1.36) (2023-12-04)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.1.35](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.34...@next-core/react-runtime@1.1.35) (2023-11-29)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
 ## [1.1.34](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.33...@next-core/react-runtime@1.1.34) (2023-11-21)
 
 **Note:** Version bump only for package @next-core/react-runtime

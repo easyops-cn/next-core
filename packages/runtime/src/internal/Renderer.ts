@@ -4,6 +4,7 @@ import type {
   ContextConf,
   MenuConf,
   RouteConf,
+  RouteConfOfBricks,
   SlotConfOfBricks,
   SlotsConf,
   StaticMenuConf,
@@ -360,10 +361,10 @@ export async function renderBrick(
         brickName === ":forEach"
           ? ""
           : brickName === ":switch"
-          ? String(computedDataSource)
-          : computedDataSource
-          ? ""
-          : "else";
+            ? String(computedDataSource)
+            : computedDataSource
+              ? ""
+              : "else";
 
       // Don't forget to transpile children to slots.
       const slots = childrenToSlots(brickConf.children, brickConf.slots);
@@ -701,7 +702,10 @@ export async function renderBrick(
           );
         }
 
-        if (runtimeContext.flags["incremental-sub-route-rendering"]) {
+        if (
+          (parentRoutes[parentRoutes.length - 1] as RouteConfOfBricks)
+            ?.incrementalSubRoutes
+        ) {
           routeSlotIndexes.add(index);
           rendererContext.performIncrementalRender(async (location) => {
             const { homepage } = childRuntimeContext.app;
@@ -741,10 +745,8 @@ export async function renderBrick(
                 true
               );
 
-              // If all sub-routes are missed, ignore incremental rendering
-              if (!incrementalOutput.route) {
-                return false;
-              }
+              // Do not ignore incremental rendering even if all sub-routes are missed.
+              // Since parent route is matched.
 
               // Bailout if redirect or unauthenticated is set
               if (rendererContext.reBailout(incrementalOutput)) {
@@ -1053,7 +1055,7 @@ function catchLoad(
   return unknownPolicy === "silent"
     ? promise.catch((e) => {
         // eslint-disable-next-line no-console
-        console.error(`Load ${type} "${name}" failed:`, e);
+        console.error(`Load %s "%s" failed:`, type, name, e);
       })
     : promise;
 }

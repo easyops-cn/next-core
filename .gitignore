@@ -8,6 +8,7 @@ node_modules
 .DS_Store
 .schema
 .cache
+.nx
 *.log
 report.*.json
 

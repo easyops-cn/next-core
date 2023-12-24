@@ -7,13 +7,42 @@ import {
 } from "@next-api-sdk/cmdb-sdk";
 import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
 import { createProviderClass } from "@next-core/utils/general";
-import { __test_only } from "@next-core/runtime";
+import { __test_only, createRuntime } from "@next-core/runtime";
 import { YAMLException } from "js-yaml";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
 import type { RuntimeContext, RuntimeHelpers } from "./interfaces.js";
+import * as auth from "../auth.js";
+import {
+  checkPermissions,
+  preCheckPermissionsForAny,
+} from "../checkPermissions.js";
 
 jest.mock("@next-api-sdk/cmdb-sdk");
 jest.mock("@next-api-sdk/micro-app-sdk");
+jest.mock("../checkPermissions.js", () => ({
+  checkPermissions() {
+    return true;
+  },
+  preCheckPermissionsForAny: jest.fn(),
+}));
+jest.mock("../auth.js", () => ({
+  isLoggedIn() {
+    return true;
+  },
+  isAdmin() {
+    return false;
+  },
+}));
+
+createRuntime({
+  hooks: {
+    auth,
+    checkPermissions: {
+      checkPermissions,
+      preCheckPermissionsForAny,
+    },
+  },
+} as any);
 
 initializeI18n();
 
@@ -342,6 +371,7 @@ describe("fetchMenuById", () => {
                     1,
                     [
                       {
+                        if: "<% PERMISSIONS.check('my:action') %>",
                         text: "<% `Dynamic ${I18N('ITEM_9')}` %>",
                         to: "<% `${APP.homepage}/dynamic/9` %>",
                         sort: 35,
@@ -426,6 +456,7 @@ describe("fetchMenuById", () => {
           ],
         },
         {
+          if: true,
           text: "Dynamic Item 9",
           to: "/other-app/dynamic/9",
           sort: 35,
@@ -441,6 +472,12 @@ describe("fetchMenuById", () => {
         },
       ],
     });
+    expect(preCheckPermissionsForAny).toBeCalledWith(
+      expect.objectContaining({
+        useProvider: "my-timeout-provider",
+      })
+    );
+    expect(preCheckPermissionsForAny).toBeCalledWith(expect.any(Array));
   });
 
   test("non-standalone", async () => {

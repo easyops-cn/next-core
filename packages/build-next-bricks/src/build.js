@@ -83,20 +83,53 @@ async function getWebpackConfig(config) {
     packageDir,
     "../../shared/common-bricks/common-bricks.json"
   );
+
+  const deprecatedBricksJsonFile = path.join(
+    packageDir,
+    "../../shared/common-bricks/deprecated-bricks.json"
+  );
+
+  const deprecatedBricksJson = existsSync(deprecatedBricksJsonFile)
+    ? JSON.parse(await readFile(deprecatedBricksJsonFile, "utf-8"))
+    : {};
+
   if (existsSync(commonBricksJsonFile)) {
     const commonBricksJson = JSON.parse(
       await readFile(commonBricksJsonFile, "utf-8")
     );
 
-    /** @type {Set<string, string>} */
+    /** @type {Map<string, string | string[]>} */
     const commonBricksMap = new Map();
     for (const [pkg, bricks] of Object.entries(commonBricksJson)) {
       for (const brick of bricks) {
         const existedPkg = commonBricksMap.get(brick);
         if (existedPkg && existedPkg !== pkg) {
-          throw new Error(
-            `Conflicted common brick: "${brick}" in package "${existedPkg}" and "${pkg}"`
-          );
+          if (Array.isArray(existedPkg)) {
+            const pkgs = existedPkg.concat(pkg);
+
+            const othersPkgs = pkgs.filter(
+              (p) => !deprecatedBricksJson[p]?.includes(brick)
+            );
+
+            throw new Error(
+              `Conflicted common brick: "${brick}" in package "${othersPkgs[0]}" and "${othersPkgs[1]}"`
+            );
+          } else {
+            const existedPkgDeprecated = deprecatedBricksJson[existedPkg];
+            const pkgDeprecated = deprecatedBricksJson[pkg];
+
+            if (
+              (existedPkgDeprecated && existedPkgDeprecated.includes(brick)) ||
+              (pkgDeprecated && pkgDeprecated.includes(brick))
+            ) {
+              commonBricksMap.set(brick, [pkg].concat(existedPkg));
+              continue;
+            }
+
+            throw new Error(
+              `Conflicted common brick: "${brick}" in package "${existedPkg}" and "${pkg}"`
+            );
+          }
         }
         commonBricksMap.set(brick, pkg);
       }
@@ -470,6 +503,12 @@ async function getWebpackConfig(config) {
               manifest: config.manifest,
               types: config.types,
               examples: config.examples,
+              deprecatedElements: Object.prototype.hasOwnProperty.call(
+                deprecatedBricksJson,
+                packageName
+              )
+                ? deprecatedBricksJson[packageName]
+                : undefined,
             }),
           ]
         : []),

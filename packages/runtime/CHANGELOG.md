@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.28.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.28.0...@next-core/runtime@1.28.1) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.27.0...@next-core/runtime@1.28.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* debug refactor ([2f04a76](https://github.com/easyops-cn/next-core/commit/2f04a76f27323ae2e653f95f5346e32e089db666))
+
+
+### Features
+
+* support union app mode ([467dccb](https://github.com/easyops-cn/next-core/commit/467dccb43197c431158b6bdd966fdb34f9e5257a))
+
+
+
+
+
+# [1.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.3...@next-core/runtime@1.27.0) (2023-12-19)
+
+
+### Features
+
+* track conditional resolve ([4cdf8d6](https://github.com/easyops-cn/next-core/commit/4cdf8d64ae9e52dd54ad24fc2376d7bf56be00a1))
+
+
+
+
+
+## [1.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.2...@next-core/runtime@1.26.3) (2023-12-19)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.1...@next-core/runtime@1.26.2) (2023-12-14)
+
+
+### Bug Fixes
+
+* use substitution strings for console.* ([e575419](https://github.com/easyops-cn/next-core/commit/e57541968b58a2542c1b75d842e11f5108944bc3))
+
+
+
+
+
+## [1.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.26.0...@next-core/runtime@1.26.1) (2023-12-11)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.8...@next-core/runtime@1.26.0) (2023-12-04)
+
+
+### Features
+
+* support real time data inspect ([c97eb47](https://github.com/easyops-cn/next-core/commit/c97eb47bef1cc7c9e33911093186bb8206485d49))
+
+
+
+
+
+## [1.25.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.7...@next-core/runtime@1.25.8) (2023-11-29)
+
+
+### Bug Fixes
+
+* fix i18next types, update tsconfig module resolution ([d256243](https://github.com/easyops-cn/next-core/commit/d25624314b6f8f05f0624c6a9285041e4b975fd0))
+* use prop instead of flags to enable incremental sub-routes ([20cb7fb](https://github.com/easyops-cn/next-core/commit/20cb7fb210e1334d7ec2bc9856e769671166041f))
+
+
+
+
+
 ## [1.25.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.25.6...@next-core/runtime@1.25.7) (2023-11-21)
 
 

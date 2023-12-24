@@ -7,14 +7,33 @@ import { clearResolveCache } from "./resolveData.js";
 import { handleHttpError } from "../../handleHttpError.js";
 import { _internalApiGetRenderId } from "../Runtime.js";
 import { RendererContext } from "../RendererContext.js";
+import {
+  callRealTimeDataInspectHooks,
+  setRealTimeDataInspectRoot,
+} from "./realTimeDataInspect.js";
 
 jest.mock("../../handleHttpError.js");
 jest.mock("../Runtime.js");
+jest.mock("./realTimeDataInspect.js", () => {
+  let realTimeDataInspectRoot: any;
+  return {
+    get realTimeDataInspectRoot() {
+      return realTimeDataInspectRoot;
+    },
+    setRealTimeDataInspectRoot(root: any) {
+      realTimeDataInspectRoot = root;
+    },
+    callRealTimeDataInspectHooks: jest.fn(),
+  };
+});
 
 const consoleWarn = jest.spyOn(console, "warn");
 const consoleInfo = jest.spyOn(console, "info");
 
 const mockGetRenderId = _internalApiGetRenderId as jest.Mock;
+
+const mockCallRealTimeDataInspectHooks =
+  callRealTimeDataInspectHooks as jest.Mock;
 
 const myTimeoutProvider = jest.fn(
   (timeout: number, result?: string, error?: unknown) =>
@@ -32,12 +51,6 @@ afterEach(() => {
 });
 
 describe("DataStore: resolve and wait", () => {
-  // Sometimes `waitFor` will be stuck and multi macro tasks will be executed
-  // in a batch, so we set a retry.
-  jest.retryTimes(2, {
-    logErrorsBeforeRetry: true,
-  });
-
   const createContextStore = (provider = "my-timeout-provider") => {
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
@@ -151,6 +164,18 @@ describe("DataStore: resolve and wait", () => {
       ctxStore,
     };
   };
+
+  beforeAll(() => {
+    // Sometimes `waitFor` will be stuck and multi macro tasks will be executed
+    // in a batch, so we set a retry.
+    jest.retryTimes(2, {
+      logErrorsBeforeRetry: true,
+    });
+  });
+
+  afterAll(() => {
+    jest.retryTimes(0);
+  });
 
   test("Resolve sequence", async () => {
     jest.useFakeTimers();
@@ -301,7 +326,12 @@ describe("DataStore: resolve and wait", () => {
 });
 
 describe("DataStore", () => {
+  beforeEach(() => {
+    setRealTimeDataInspectRoot(undefined!);
+  });
+
   test("context.assign", async () => {
+    setRealTimeDataInspectRoot({});
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
       ctxStore,
@@ -342,17 +372,25 @@ describe("DataStore", () => {
     expect(ctxStore.getValue("primitive")).toEqual({ amount: 42 });
     expect(consoleWarn).toBeCalledTimes(1);
     expect(consoleWarn).toBeCalledWith(expect.stringContaining("Non-object"));
+
+    expect(mockCallRealTimeDataInspectHooks).toBeCalledTimes(2);
   });
 
   test("state and onChange", async () => {
     jest.useFakeTimers();
     const tplStateStoreId = "tpl-state-1";
+    setRealTimeDataInspectRoot({ tplStateStoreId });
     const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
     const runtimeContext = {
       tplStateStoreId,
       tplStateStoreMap,
     } as Partial<RuntimeContext> as RuntimeContext;
-    const stateStore = new DataStore("STATE");
+    const stateStore = new DataStore(
+      "STATE",
+      undefined,
+      undefined,
+      tplStateStoreId
+    );
     tplStateStoreMap.set(tplStateStoreId, stateStore);
     stateStore.define(
       [
@@ -405,9 +443,30 @@ describe("DataStore", () => {
     stateStore.updateValue("a", 2, "replace");
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("b")).toBe(42);
+
+    expect(mockCallRealTimeDataInspectHooks).toBeCalledTimes(2);
+    expect(mockCallRealTimeDataInspectHooks).toHaveBeenNthCalledWith(1, {
+      changeType: "update",
+      tplStateStoreId,
+      detail: {
+        name: "b",
+        value: 42,
+      },
+    });
+    expect(mockCallRealTimeDataInspectHooks).toHaveBeenNthCalledWith(2, {
+      changeType: "update",
+      tplStateStoreId,
+      detail: {
+        name: "a",
+        value: 2,
+      },
+    });
   });
 
   test("lazy/async, load and track", async () => {
+    setRealTimeDataInspectRoot({
+      tplStateStoreId: "tpl-state-999",
+    });
     consoleInfo.mockReturnValue();
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
@@ -520,6 +579,115 @@ describe("DataStore", () => {
     consoleInfo.mockReset();
   });
 
+  test("track conditional resolve (initial with fallback)", async () => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "remote",
+          value: false,
+        },
+        {
+          name: "fallback",
+          value: "from fallback",
+        },
+        {
+          name: "conditionalValue",
+          resolve: {
+            if: "<% CTX.remote %>",
+            useProvider: "my-timeout-provider",
+            args: [1, "from remote"],
+          },
+          value: "<% CTX.fallback %>",
+          track: true,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("conditionalValue")).toBe("from fallback");
+    expect(myTimeoutProvider).not.toBeCalled();
+
+    ctxStore.updateValue("fallback", "fallback updated", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
+
+    ctxStore.updateValue("remote", true, "replace");
+    await (global as any).flushPromises();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1);
+    });
+
+    // Updating deps of fallback value after the data has switched to using
+    // resolve, will be ignored.
+    ctxStore.updateValue("fallback", "fallback updated again", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+  });
+
+  test("track conditional resolve (initial with resolve)", async () => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "remote",
+          value: true,
+        },
+        {
+          name: "fallback",
+          value: "from fallback",
+        },
+        {
+          name: "conditionalValue",
+          resolve: {
+            if: "<% CTX.remote %>",
+            useProvider: "my-timeout-provider",
+            args: [1, "from remote"],
+          },
+          value: "<% CTX.fallback %>",
+          track: true,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+
+    ctxStore.updateValue("fallback", "fallback updated", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+
+    ctxStore.updateValue("remote", false, "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
+
+    // Await and make sure resolve is ignored.
+    await (global as any).flushPromises();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1);
+    });
+    expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
+
+    ctxStore.updateValue("fallback", "fallback updated again", "replace");
+    expect(ctxStore.getValue("conditionalValue")).toBe(
+      "fallback updated again"
+    );
+
+    // Resume remote again.
+    ctxStore.updateValue("remote", true, "replace");
+    await (global as any).flushPromises();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1);
+    });
+    expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
+  });
+
   test("error handling", async () => {
     consoleInfo.mockReturnValue();
     const ctxStore = new DataStore("CTX");
@@ -628,7 +796,7 @@ describe("DataStore", () => {
     expect(() => {
       ctxStore.updateValue("a", undefined, "load");
     }).toThrowErrorMatchingInlineSnapshot(
-      `"You can not load "CTX.a" which has no resolve"`
+      `"You can not load "CTX.a" which is not using resolve"`
     );
   });
 

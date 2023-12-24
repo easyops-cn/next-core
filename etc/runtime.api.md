@@ -59,7 +59,9 @@ declare namespace __secret_internals {
         RuntimeContext,
         RenderUseBrickResult,
         MountUseBrickResult,
-        updateSnippetPreviewSettings
+        updateSnippetPreviewSettings,
+        setRealTimeDataInspectRoot,
+        addRealTimeDataInspectHook
     }
 }
 export { __secret_internals }
@@ -68,6 +70,11 @@ export { __secret_internals }
 export let __test_only: RuntimeHooksMenuHelpers & {
     setBootstrapData(data: BootstrapData): void;
 };
+
+// Warning: (ae-forgotten-export) The symbol "RealTimeDataInspectHook" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+function addRealTimeDataInspectHook(hook: RealTimeDataInspectHook): void;
 
 // @public (undocumented)
 export function applyTheme(value?: SiteTheme): void;
@@ -424,6 +431,11 @@ export interface RuntimeOptions {
     // (undocumented)
     hooks?: RuntimeHooks;
 }
+
+// Warning: (ae-forgotten-export) The symbol "RealTimeDataInspectRoot" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+function setRealTimeDataInspectRoot(root: RealTimeDataInspectRoot): void;
 
 // @public (undocumented)
 export function setUIVersion(version: string | undefined | null): void;

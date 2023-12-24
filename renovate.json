@@ -7,8 +7,12 @@
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
-  "baseBranches": ["next"],
+  "baseBranches": ["next", "v3", "master"],
   "packageRules": [
+    {
+      "matchBaseBranches": ["v3", "master"],
+      "enabled": false
+    },
     {
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
@@ -25,12 +29,18 @@
     {
       "matchPackageNames": ["@next-core/styles-v3", "@next-core/color-theme"],
       "groupName": "v2 packages",
-      "baseBranches": ["v3"],
+      "matchBaseBranches": ["v3"],
       "enabled": true
     },
     {
       "matchPackageNames": ["@easyops-cn/brick-next-pipes"],
-      "baseBranches": ["master", "v3"]
+      "matchBaseBranches": ["master", "v3"],
+      "enabled": true
+    },
+    {
+      "matchPackageNames": ["@next-shared/icons"],
+      "matchBaseBranches": ["master"],
+      "enabled": true
     },
     {
       "groupName": "size-limit packages",

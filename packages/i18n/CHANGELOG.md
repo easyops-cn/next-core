@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.34](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.33...@next-core/i18n@1.0.34) (2023-12-21)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.33](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.32...@next-core/i18n@1.0.33) (2023-11-29)
+
+
+### Bug Fixes
+
+* fix i18next types, update tsconfig module resolution ([d256243](https://github.com/easyops-cn/next-core/commit/d25624314b6f8f05f0624c6a9285041e4b975fd0))
+
+
+
+
+
 ## [1.0.32](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.31...@next-core/i18n@1.0.32) (2023-11-21)
 
 **Note:** Version bump only for package @next-core/i18n
