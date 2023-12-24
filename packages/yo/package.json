@@ -31,6 +31,6 @@
     "@next-core/react-element": "^1.0.17",
     "@next-core/test-next": "^1.0.12",
     "@next-core/theme": "^1.4.6",
-    "react": "0.0.0-experimental-ee8509801-20230117"
+    "react": "18.2.0"
   }
 }

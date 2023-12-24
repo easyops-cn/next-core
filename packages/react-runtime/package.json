@@ -39,8 +39,8 @@
   "dependencies": {
     "@next-core/runtime": "^1.28.1",
     "@next-core/types": "^1.7.3",
-    "react": "0.0.0-experimental-ee8509801-20230117",
-    "react-dom": "0.0.0-experimental-ee8509801-20230117"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.9",

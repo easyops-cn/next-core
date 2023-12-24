@@ -42,7 +42,7 @@
     "@next-core/runtime": "^1.28.1",
     "@next-core/types": "^1.7.3",
     "@next-core/utils": "^1.6.6",
-    "react": "0.0.0-experimental-ee8509801-20230117"
+    "react": "18.2.0"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.19.0",
