@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.35](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.34...@next-core/i18n@1.0.35) (2023-12-25)
+
+
+### Bug Fixes
+
+* fallback i18next to v22, which supports old browsers (es5) ([c85f551](https://github.com/easyops-cn/next-core/commit/c85f5515737853763ddac7c21c10dd77ded64d83))
+
+
+
+
+
 ## [1.0.34](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.33...@next-core/i18n@1.0.34) (2023-12-21)
 
 **Note:** Version bump only for package @next-core/i18n

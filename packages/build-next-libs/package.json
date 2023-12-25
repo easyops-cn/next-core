@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-next-libs",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Build next libs (and some next-core libs)",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-libs",
   "license": "GPL-3.0",
