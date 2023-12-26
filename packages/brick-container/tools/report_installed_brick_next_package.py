@@ -166,16 +166,13 @@ def collect_stories(install_path):
     examples_path = os.path.join(install_path, "dist", "examples.json")
     types_path = os.path.join(install_path, "dist", "types.json")
     bricks_path = os.path.join(install_path, "dist", "bricks.json")
-    with open(bricks_path) as bricks_file:
-        bricks_content = simplejson.load(bricks_file)
-    isV3Brick = "id" in bricks_content
     with open(stories_path) as stories_file:
         stories_content = simplejson.load(stories_file)
     # v2 brick
-    if isV3Brick == False:
+    if not os.path.exists(manifest_path):
         return stories_content
     # v3 brick
-    elif isV3Brick:
+    elif os.path.exists(manifest_path):
         stories_list = []
         with open(manifest_path) as manifest_file:
             manifest_content = simplejson.load(manifest_file)
