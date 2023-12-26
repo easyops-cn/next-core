@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.92.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.92.2...@next-core/brick-container@2.92.3) (2023-12-26)
+
+
+### Bug Fixes
+
+* fix v3 widget upload error ([12e5508](https://github.com/easyops-cn/next-core/commit/12e550861c6cf864152fe44bc6511727ce6b2327))
+
+
+
+
+
 ## [2.92.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.92.1...@next-core/brick-container@2.92.2) (2023-12-26)
 
 **Note:** Version bump only for package @next-core/brick-container
