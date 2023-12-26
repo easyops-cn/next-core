@@ -16,6 +16,7 @@ import {
   getBrickPackagesById,
   getRenderId,
   getAddedContracts,
+  symbolForRootRuntimeContext,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
@@ -491,6 +492,31 @@ describe("useBrick", () => {
     await expect(renderUseBrick(useBrick, "a")).rejects.toMatchInlineSnapshot(
       `[Error: The root brick of useBrick cannot be an ignored control node]`
     );
+  });
+
+  test("with root runtime context symbol", async () => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as RuntimeContext;
+    const useBrick: any = {
+      brick: "div",
+      properties: {
+        title: "<% `${CTX.prop}:${DATA}` %>",
+      },
+      [symbolForRootRuntimeContext]: runtimeContext,
+    };
+    ctxStore.define([{ name: "prop", value: "Prop" }], runtimeContext);
+
+    const renderResult = await renderUseBrick(useBrick, "ok");
+    const root = document.createElement("div");
+    const mountResult = mountUseBrick(renderResult, root);
+    expect(root).toMatchInlineSnapshot(`
+      <div
+        title="Prop:ok"
+      />
+    `);
+    unmountUseBrick(renderResult, mountResult);
   });
 });
 

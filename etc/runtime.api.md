@@ -57,6 +57,8 @@ declare namespace __secret_internals {
         getAddedContracts,
         DataValueOption,
         RuntimeContext,
+        symbolForRootRuntimeContext,
+        RuntimeUseBrickConfWithRootSymbols,
         RenderUseBrickResult,
         MountUseBrickResult,
         updateSnippetPreviewSettings,
@@ -308,7 +310,7 @@ export interface RenderOptions {
 }
 
 // @public (undocumented)
-function renderUseBrick(useBrick: UseSingleBrickConf, data: unknown): Promise<RenderUseBrickResult>;
+function renderUseBrick(useBrick: RuntimeUseBrickConfWithRootSymbols, data: unknown): Promise<RenderUseBrickResult>;
 
 // @public (undocumented)
 interface RenderUseBrickResult {
@@ -432,6 +434,12 @@ export interface RuntimeOptions {
     hooks?: RuntimeHooks;
 }
 
+// @public (undocumented)
+interface RuntimeUseBrickConfWithRootSymbols extends UseSingleBrickConf {
+    // (undocumented)
+    [symbolForRootRuntimeContext]?: RuntimeContext;
+}
+
 // Warning: (ae-forgotten-export) The symbol "RealTimeDataInspectRoot" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -449,6 +457,9 @@ export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, col
     widgetVersion?: string;
     collectCoverage?: FunctionCoverageSettings;
 }): StoryboardFunctionRegistry;
+
+// @public (undocumented)
+const symbolForRootRuntimeContext: unique symbol;
 
 // @public (undocumented)
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
