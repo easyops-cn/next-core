@@ -46,7 +46,7 @@
     "lodash": "^4.17.21",
     "meow": "^11.0.0",
     "mockdate": "^3.0.5",
-    "ws": "^8.15.1"
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@next-api-sdk/api-gateway-sdk": "^1.1.0",
