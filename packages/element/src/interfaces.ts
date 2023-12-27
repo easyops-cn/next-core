@@ -15,7 +15,7 @@ export type AllowedTypeHint = typeof String | typeof Number | typeof Boolean;
  */
 export interface PropertyDeclaration<
   Type = unknown,
-  TypeHint = AllowedTypeHint
+  TypeHint = AllowedTypeHint,
 > {
   /**
    * When set to `true`, indicates the property is internal private state. The
@@ -63,7 +63,15 @@ export interface PropertyDeclaration<
    * property option and the value of the property converted using the rules
    * from the `converter` property option.
    */
-  readonly reflect?: boolean;
+  // readonly reflect?: boolean;
+
+  /**
+   * Whether to trigger re-rendering when this property changed, defaults to `true`.
+   * Typically we should set it to `false` when this property only affects css.
+   *
+   * @default true
+   */
+  readonly render?: boolean;
 
   /**
    * A function that indicates if a property should be considered changed when
