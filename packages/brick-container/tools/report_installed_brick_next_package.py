@@ -383,7 +383,7 @@ if __name__ == "__main__":
     if install_path.endswith(os.sep):
         install_path = install_path[:-1]
 
-    if install_path.endswith("brick_next"):
+    if install_path.endswith(("brick_next_v3", "brick_next")):
         report_brick_next(org, install_path)
     elif install_path.endswith("-NB"):
         report_nb(org, install_path)
