@@ -166,6 +166,8 @@ def collect_stories(install_path):
     examples_path = os.path.join(install_path, "dist", "examples.json")
     types_path = os.path.join(install_path, "dist", "types.json")
     bricks_path = os.path.join(install_path, "dist", "bricks.json")
+    if not os.path.exists(stories_path):
+      return []
     with open(stories_path) as stories_file:
         stories_content = simplejson.load(stories_file)
     # v2 brick
