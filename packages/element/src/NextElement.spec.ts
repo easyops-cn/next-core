@@ -564,4 +564,33 @@ describe("NextElement", () => {
     expect(element.booleanAttr).toBe(false);
     expect(element.getAttribute("boolean-attr")).toBe(null);
   });
+
+  test("property with render: false", async () => {
+    const { defineElement, property } = createDecorators();
+    const render = jest.fn();
+    @defineElement("my-element-render-false")
+    class MyElement extends NextElement {
+      @property({ render: false }) accessor stringAttr: string | undefined;
+
+      _render() {
+        render(this.stringAttr);
+      }
+    }
+
+    const element = document.createElement(
+      "my-element-render-false"
+    ) as MyElement;
+    element.stringAttr = "hi";
+    expect(render).toBeCalledTimes(0);
+    document.body.appendChild(element);
+    expect(render).toHaveBeenNthCalledWith(1, "hi");
+    expect(element.getAttribute("string-attr")).toBe("hi");
+    expect(render).toBeCalledTimes(1);
+
+    element.stringAttr = "halo";
+    await (global as any).flushPromises();
+    expect(render).toBeCalledTimes(1);
+
+    element.remove();
+  });
 });

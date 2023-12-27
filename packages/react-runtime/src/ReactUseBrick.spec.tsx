@@ -26,14 +26,24 @@ jest.mock("@next-core/runtime", () => ({
 export function ListByUseBrick({
   useBrick,
   data,
+  refCallback,
+  ignoredCallback,
 }: {
   useBrick: UseSingleBrickConf;
   data: unknown[];
+  refCallback?: (element: HTMLElement | null) => void;
+  ignoredCallback?: () => void;
 }) {
   return (
     <>
       {data.map((datum, index) => (
-        <ReactUseBrick useBrick={useBrick} data={datum} key={index} />
+        <ReactUseBrick
+          useBrick={useBrick}
+          data={datum}
+          key={index}
+          refCallback={refCallback}
+          ignoredCallback={ignoredCallback}
+        />
       ))}
     </>
   );
@@ -207,11 +217,17 @@ describe("ReactUseBrick", () => {
       })
     );
     const useBrick = { brick: "div" };
+    const ignoredCallback = jest.fn();
     const { unmount } = render(
-      <ListByUseBrick useBrick={useBrick} data={["a", "b"]} />
+      <ListByUseBrick
+        useBrick={useBrick}
+        data={["a", "b"]}
+        ignoredCallback={ignoredCallback}
+      />
     );
 
     await act(() => (global as any).flushPromises());
+    expect(ignoredCallback).toBeCalledTimes(2);
 
     unmount();
     expect(mockHandleHttpError).not.toBeCalled();
@@ -262,6 +278,34 @@ describe("ReactUseBrick", () => {
     expect(mockMountUseBrick).not.toBeCalled();
     expect(mockUnmountUseBrick).not.toBeCalled();
     mockGetRenderId.mockReset();
+  });
+
+  test("refCallback", async () => {
+    mockRenderUseBrick.mockImplementation((...args) =>
+      Promise.resolve({
+        tagName: "div",
+        args,
+      })
+    );
+    const useBrick = { brick: "div" };
+    const refCallback = jest.fn();
+    const { unmount } = render(
+      <ListByUseBrick
+        useBrick={useBrick}
+        data={["a", "b"]}
+        refCallback={refCallback}
+      />
+    );
+
+    await act(() => (global as any).flushPromises());
+    expect(refCallback).toBeCalledTimes(2);
+    expect(refCallback).toHaveBeenNthCalledWith(1, expect.any(HTMLDivElement));
+    expect(refCallback).toHaveBeenNthCalledWith(2, expect.any(HTMLDivElement));
+
+    unmount();
+    expect(refCallback).toBeCalledTimes(4);
+    expect(refCallback).toHaveBeenNthCalledWith(3, null);
+    expect(refCallback).toHaveBeenNthCalledWith(4, null);
   });
 });
 
