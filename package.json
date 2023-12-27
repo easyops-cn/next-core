@@ -82,6 +82,6 @@
     "@babel/runtime": "^7.23.6",
     "@types/react": "^18.2.45",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4"
+    "moment": "^2.30.1"
   }
 }
