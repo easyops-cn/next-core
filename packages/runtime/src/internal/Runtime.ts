@@ -189,6 +189,8 @@ export class Runtime {
   #initialized = false;
   #bootstrapped = false;
 
+  readonly version: number | undefined = 3;
+
   initialize(data: BootstrapData) {
     if (this.#initialized) {
       throw new Error("The runtime cannot be initialized more than once");
