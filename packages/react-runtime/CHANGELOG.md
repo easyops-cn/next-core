@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.44](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.43...@next-core/react-runtime@1.1.44) (2023-12-27)
+
+
+### Bug Fixes
+
+* use correct runtime context for useBrick within createRoot ([6b79bc1](https://github.com/easyops-cn/next-core/commit/6b79bc1177b750778fb0384fd3db513e41a2f130))
+
+
+
+
+
 ## [1.1.43](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.42...@next-core/react-runtime@1.1.43) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/react-runtime

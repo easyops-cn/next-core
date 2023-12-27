@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.65](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.64...@next-core/easyops-runtime@0.6.65) (2023-12-27)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
 ## [0.6.64](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.63...@next-core/easyops-runtime@0.6.64) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

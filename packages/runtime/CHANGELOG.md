@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.28.2...@next-core/runtime@1.29.0) (2023-12-27)
+
+
+### Bug Fixes
+
+* use correct runtime context for useBrick within createRoot ([6b79bc1](https://github.com/easyops-cn/next-core/commit/6b79bc1177b750778fb0384fd3db513e41a2f130))
+
+
+### Features
+
+* **runtime:** add a readonly field: version ([2da94f5](https://github.com/easyops-cn/next-core/commit/2da94f5f98017cfbb290216c4fe8b37c7d4df963))
+
+
+
+
+
 ## [1.28.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.28.1...@next-core/runtime@1.28.2) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/runtime

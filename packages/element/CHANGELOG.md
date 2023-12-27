@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.1.8...@next-core/element@1.2.0) (2023-12-27)
+
+
+### Features
+
+* allow property to ignore re-rendering ([4f6f936](https://github.com/easyops-cn/next-core/commit/4f6f936810090a14a528e2c7e028b1a4663175d1))
+
+
+
+
+
 ## [1.1.8](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.1.7...@next-core/element@1.1.8) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/element
