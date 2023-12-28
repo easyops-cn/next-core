@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.19.1...@next-core/build-next-bricks@1.20.0) (2023-12-28)
+
+
+### Features
+
+* before build bricks, remove their peerDependencies ([252ddcc](https://github.com/easyops-cn/next-core/commit/252ddcc2380d8106b6a9b9d9ea0a7f6a360a457a))
+
+
+
+
+
 ## [1.19.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.19.0...@next-core/build-next-bricks@1.19.1) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
