@@ -8,8 +8,11 @@ const bricksDir = path.join(process.cwd(), "bricks");
 
 const matchBrickPackages = (key) => /^@(?:next-)?bricks\//.test(key);
 
+// Before build bricks, remove peerDependencies from brick packages.
+// `build:main` doesn't depend on peerDependencies, while `build:types` does.
 try {
   const dirents = await readdir(bricksDir, { withFileTypes: true });
+  let count = 0;
 
   await Promise.all(
     dirents.map(async (item) => {
@@ -27,29 +30,6 @@ try {
 
       const dependencies = packageJson.dependencies || {};
       const devDependencies = packageJson.devDependencies || {};
-      const peerDependencies = packageJson.peerDependencies || {};
-
-      // If error was thrown when building, thus pre-build was performed but post-build wasn't,
-      // so we handle this situation: remove deps that is copied when pre-building.
-      let changed = false;
-      for (const [dep, version] of Object.entries(peerDependencies)) {
-        if (dependencies[dep] === version) {
-          delete dependencies[dep];
-          changed = true;
-        }
-        if (devDependencies[dep] === version) {
-          delete devDependencies[dep];
-          changed = true;
-        }
-      }
-      if (changed) {
-        await writeFile(
-          packageJsonPath,
-          await prettier.format(JSON.stringify(packageJson, null, 2), {
-            filepath: packageJsonPath,
-          })
-        );
-      }
 
       // If there were still "@next-bricks/*" in dependencies or devDependencies,
       // throw an error. Should put them into peerDependencies.
@@ -89,11 +69,8 @@ try {
       // Make a copy as backup file.
       await copyFile(packageJsonPath, packageJsonBakPath);
 
-      // Copy "@next-bricks/*" from peerDependencies to devDependencies.
-      const devDependencies = (packageJson.devDependencies ??= {});
-      for (const dep of bricksPeerDependencies) {
-        devDependencies[dep] = peerDependencies[dep];
-      }
+      // Remove peerDependencies.
+      delete packageJson.peerDependencies;
 
       await writeFile(
         packageJsonPath,
@@ -101,8 +78,11 @@ try {
           filepath: packageJsonPath,
         })
       );
+      count++;
     })
   );
+
+  console.log("Removed peerDependencies from %d brick packages", count);
 } catch (e) {
   console.error(e);
   process.exitCode = 1;
