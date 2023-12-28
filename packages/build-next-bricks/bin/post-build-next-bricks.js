@@ -7,6 +7,7 @@ const bricksDir = path.join(process.cwd(), "bricks");
 
 try {
   const dirents = await readdir(bricksDir, { withFileTypes: true });
+  let count = 0;
 
   await Promise.all(
     dirents.map(async (item) => {
@@ -24,8 +25,12 @@ try {
       // Resume backed-up package.json.
       await copyFile(packageJsonBakPath, packageJsonPath);
       await rm(packageJsonBakPath);
+
+      count++;
     })
   );
+
+  console.log("Resumed peerDependencies for %d brick packages", count);
 } catch (e) {
   console.error(e);
   process.exitCode = 1;
