@@ -9,6 +9,9 @@ import simplejson
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+class NameServiceError(Exception):
+  pass
+
 def join_host_port(host, port):
     template = "%s:%s"
     host_requires_bracketing = ':' in host or '%' in host
