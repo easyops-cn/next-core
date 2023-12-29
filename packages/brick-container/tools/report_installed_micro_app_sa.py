@@ -6,8 +6,8 @@ import ens_api
 import requests
 import simplejson
 
-class NameServiceError(Exception):
-    pass
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 def join_host_port(host, port):
     template = "%s:%s"
@@ -15,6 +15,16 @@ def join_host_port(host, port):
     if host_requires_bracketing:
         template = "[%s]:%s"
     return template % (host, port)
+
+session_id, ip, port = ens_api.get_service_by_name("", "logic.micro_app_service")
+if session_id <= 0:
+    raise Exception("get name service logic.micro_app_service failed, no session_id")
+MICRO_APP_ADDR = join_host_port("127.0.0.1", port)
+
+session_id, ip, port = ens_api.get_service_by_name("", "logic.micro_app_standalone_service")
+if session_id <= 0:
+    raise NameServiceError("get nameservice logic.micro_app_standalone error, session_id={}".format(session_id))
+MICRO_APP_SA_ADDR = join_host_port("127.0.0.1", port)
 
 def get_version(install_path):
     # 开发环境没有version.ini文件，直接返回0.0.0
@@ -81,12 +91,8 @@ def report(org, app):
         raise e
 
 def create_or_update_micro_app_sa(org, app):
-    session_id, ip, port = ens_api.get_service_by_name("logic.micro_app_standalone_service", "logic.micro_app_standalone_service")
-    if session_id <= 0:
-        raise NameServiceError("get nameservice logic.micro_app_standalone error, session_id={}".format(session_id))
-    address = join_host_port(ip, port)
     headers = {"org": str(org), "user": "defaultUser"}
-    url = "http://{}/api/v1/micro_app_standalone/report".format(address)
+    url = "http://{}/api/v1/micro_app_standalone/report".format(MICRO_APP_SA_ADDR)
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
     print "report app end"
@@ -97,12 +103,8 @@ def import_micro_app_permissions(install_path, version, org):
         print "could not find permission path {}, will not import permissions".format(permission_path)
         return
 
-    session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
-    if session_id <= 0:
-        raise NameServiceError("get nameservice logic.object_store_service error, session_id={}".format(session_id))
-    address = join_host_port(ip, port)
     headers = {"org": str(org), "user": "defaultUser"}
-    url = "http://{}/api/micro_app/v1/permission/import".format(address)
+    url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
 
     with open(permission_path) as f:
         p_f_content = f.read()
