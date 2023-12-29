@@ -17,6 +17,9 @@ logger = logging.getLogger("report_installed_brick_next_package")
 logging.basicConfig(level=logging.DEBUG,
                     filename="./report_installed_brick_next_package.log")
 
+class NameServiceError(Exception):
+  pass
+
 def join_host_port(host, port):
     template = "%s:%s"
     host_requires_bracketing = ':' in host or '%' in host
