@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 import logging
 import os
@@ -11,17 +10,24 @@ import tarfile
 
 from copy import deepcopy
 
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 logger = logging.getLogger("report_installed_brick_next_package")
 logging.basicConfig(level=logging.DEBUG,
                     filename="./report_installed_brick_next_package.log")
 
+def join_host_port(host, port):
+    template = "%s:%s"
+    host_requires_bracketing = ':' in host or '%' in host
+    if host_requires_bracketing:
+        template = "[%s]:%s"
+    return template % (host, port)
 
-# 1. 获取到当前的需要处理的包处理到包名
-# 2. 拿到包下面的三个文件 bricks.json stories.json contracts.json
-# 3. 读取三个文件的内容
-# 4. 调用接口，发送文件内容
-class NameServiceError(Exception):
-    pass
+session_id, ip, port = ens_api.get_service_by_name("", "logic.micro_app_service")
+if session_id <= 0:
+    raise Exception("get name service logic.micro_app_service failed, no session_id")
+MICRO_APP_ADDR = join_host_port("127.0.0.1", port)
 
 
 def get_snippets_from_stories(stories_content):
@@ -230,15 +236,9 @@ def collect(install_path):
 
 def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks_content, stories_content,
                        snippets_content):
-    session_id, ip, port = ens_api.get_service_by_name(
-        "web.brick_next", "logic.micro_app_service")
-    if session_id <= 0:
-        raise NameServiceError(
-            "get nameservice logic.micro_app_service error, session_id={}".format(session_id))
-    address = "{}:{}".format(ip, port)
     headers = {"org": str(org), "user": "defaultUser"}
     # report atom
-    atom_url = "http://{}/api/v1/brick/atom/import".format(address)
+    atom_url = "http://{}/api/v1/brick/atom/import".format(MICRO_APP_ADDR)
     data_dict = {"stories": stories_content, "bricks": bricks_content}
     data_str = simplejson.dumps(data_dict)
     data = {"packageName": package_name,
@@ -247,7 +247,7 @@ def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks
                         "file": open(nb_targz_path, "rb")})
     rsp.raise_for_status()
     # report snippet
-    snippet_url = "http://{}/api/v1/brick/snippet/import".format(address)
+    snippet_url = "http://{}/api/v1/brick/snippet/import".format(MICRO_APP_ADDR)
     snippet_param = {"packageName": package_name, "snippets": snippets_content}
     rsp = requests.post(snippet_url, json=snippet_param, headers=headers)
     rsp.raise_for_status()
@@ -255,15 +255,9 @@ def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks
 
 def report_brick_next_package(org, brick_targz_path, package_name, package_version):
     # report brick_next or NT
-    session_id, ip, port = ens_api.get_service_by_name(
-        "web.brick_next", "logic.micro_app_service")
-    if session_id <= 0:
-        raise NameServiceError(
-            "get nameservice logic.micro_app_service error, session_id={}".format(session_id))
-    address = "{}:{}".format(ip, port)
     headers = {"org": str(org), "user": "defaultUser"}
     # report atom
-    atom_url = "http://{}/api/v1/brick_next/report".format(address)
+    atom_url = "http://{}/api/v1/brick_next/report".format(MICRO_APP_ADDR)
     data = {"packageName": package_name, "packageVersion": package_version}
     rsp = requests.post(atom_url, data=data, headers=headers, files={
                         "file": open(brick_targz_path, "rb")})
@@ -271,16 +265,9 @@ def report_brick_next_package(org, brick_targz_path, package_name, package_versi
 
 
 def report_provider_into_contract(org, package_name, contract_content):
-    session_id, ip, port = ens_api.get_service_by_name(
-        "web.brick_next", "logic.micro_app_service")
-    if session_id <= 0:
-        raise NameServiceError(
-            "get nameservice logic.micro_app_service error, session_id={}".format(session_id))
-    address = "{}:{}".format(ip, port)
     headers = {"org": str(org), "user": "defaultUser"}
     # report contract
-    url = "http://{}/api/v1/brick/provider/import_into_contract".format(
-        address)
+    url = "http://{}/api/v1/brick/provider/import_into_contract".format(MICRO_APP_ADDR)
     param = {"packageName": package_name, "data": {
         "contractInfo": contract_content}}
     rsp = requests.post(url, json=param, headers=headers)
