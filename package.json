@@ -37,7 +37,7 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.6",
+    "@babel/core": "^7.23.7",
     "@babel/types": "^7.23.6",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/brick-container": "*",
@@ -79,7 +79,7 @@
   ],
   "resolutions": {
     "@babel/parser": "^7.23.6",
-    "@babel/runtime": "^7.23.6",
+    "@babel/runtime": "^7.23.7",
     "@types/react": "^18.2.45",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
