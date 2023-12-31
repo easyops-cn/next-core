@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.12...@next-core/brick-container@3.10.13) (2023-12-31)
+
+
+### Bug Fixes
+
+* python脚本多删除了class ([e688976](https://github.com/easyops-cn/next-core/commit/e68897604dbdd3bf55e9f5891130cb24fab09e92))
+
+
+
+
+
 ## [3.10.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.11...@next-core/brick-container@3.10.12) (2023-12-29)
 
 
