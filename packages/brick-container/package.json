@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "2.92.5",
+  "version": "2.92.6",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/brick-container",
   "license": "GPL-3.0",
