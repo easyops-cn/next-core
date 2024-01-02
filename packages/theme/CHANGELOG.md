@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.4.6...@next-core/theme@1.4.7) (2023-12-26)
+
+**Note:** Version bump only for package @next-core/theme
+
+
+
+
+
 ## [1.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.4.5...@next-core/theme@1.4.6) (2023-12-22)
 
 **Note:** Version bump only for package @next-core/theme

@@ -26,6 +26,7 @@ import { registerStoryboardFunctions } from "./internal/compute/StoryboardFuncti
 import { registerAppI18n } from "./internal/registerAppI18n.js";
 import { registerCustomTemplates } from "./internal/registerCustomTemplates.js";
 import { setUIVersion } from "./setUIVersion.js";
+import { setupRootRuntimeContext } from "./internal/setupRootRuntimeContext.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
@@ -112,6 +113,7 @@ export function unstable_createRoot(
       };
 
       if (scope === "page") {
+        setupRootRuntimeContext(bricks, runtimeContext);
         setTheme(theme ?? "light");
         setMode("default");
         setUIVersion(uiVersion);

@@ -13,9 +13,13 @@ import {
   getV2RuntimeFromDll,
 } from "@next-core/runtime";
 
+export type { UseSingleBrickConf };
+
 export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
   data?: unknown;
+  refCallback?: (element: HTMLElement | null) => void;
+  ignoredCallback?: () => void;
 }
 
 // Note: always synchronize code in LegacyUseBrick:
@@ -23,6 +27,8 @@ export interface ReactUseBrickProps {
 let ReactUseBrick = function ReactUseBrick({
   useBrick,
   data,
+  refCallback,
+  ignoredCallback,
 }: ReactUseBrickProps): React.ReactElement | null {
   const [renderResult, setRenderResult] =
     useState<__secret_internals.RenderUseBrickResult | null>(null);
@@ -63,7 +69,7 @@ let ReactUseBrick = function ReactUseBrick({
     };
   }, [data, useBrick, initialRenderId]);
 
-  const refCallback = useCallback(
+  const _refCallback = useCallback(
     (element: HTMLElement | null) => {
       if (element) {
         mountResult.current = __secret_internals.mountUseBrick(
@@ -76,8 +82,9 @@ let ReactUseBrick = function ReactUseBrick({
         __secret_internals.unmountUseBrick(renderResult!, mountResult.current!);
         mountResult.current = undefined;
       }
+      refCallback?.(element);
     },
-    [renderResult]
+    [refCallback, renderResult]
   );
 
   if (!renderResult) {
@@ -88,11 +95,12 @@ let ReactUseBrick = function ReactUseBrick({
 
   const { tagName } = renderResult;
   if (tagName === null) {
+    ignoredCallback?.();
     return null;
   }
 
   const WebComponent = tagName as any;
-  return <WebComponent key={renderKey} ref={refCallback} />;
+  return <WebComponent key={renderKey} ref={_refCallback} />;
 };
 
 function getUniqueId(ref: MutableRefObject<number>): number {

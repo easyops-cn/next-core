@@ -26,6 +26,7 @@ import type {
   PreviewOption,
   PreviewStoryboardPatch,
   RenderRoot,
+  RuntimeContext,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -35,7 +36,13 @@ import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
 
-export type { DataValueOption, RuntimeContext } from "./interfaces.js";
+export type { DataValueOption, RuntimeContext };
+
+export const symbolForRootRuntimeContext = Symbol.for("root.runtimeContext");
+
+export interface RuntimeUseBrickConfWithRootSymbols extends UseSingleBrickConf {
+  [symbolForRootRuntimeContext]?: RuntimeContext;
+}
 
 export interface RenderUseBrickResult {
   tagName: string | null;
@@ -45,12 +52,13 @@ export interface RenderUseBrickResult {
 }
 
 export async function renderUseBrick(
-  useBrick: UseSingleBrickConf,
+  useBrick: RuntimeUseBrickConfWithRootSymbols,
   data: unknown
 ): Promise<RenderUseBrickResult> {
   const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
     createScopedRuntimeContext({
-      ..._internalApiGetRuntimeContext()!,
+      ...(useBrick[symbolForRootRuntimeContext] ??
+        _internalApiGetRuntimeContext()!),
       data,
       pendingPermissionsPreCheck: [],
     });

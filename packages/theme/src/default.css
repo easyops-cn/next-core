@@ -152,8 +152,8 @@
   --app-submenu-bg: var(--palette-gray-1);
   --app-submenu-active-bg: #e0eeff;
 
-  --checkbox-bg-hover: #ebf3fd;
-  --checkbox-bg-active: var(--palette-gray-3);
+  --checkbox-bg-hover: var(--palette-gray-3);
+  --checkbox-bg-active: var(--palette-blue-1);
   --input-outline-hover: var(--palette-blue-6);
   --input-outline-focus: var(--palette-blue-6);
   --input-fill-bg: var(--palette-gray-3);

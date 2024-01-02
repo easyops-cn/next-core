@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.12...@next-core/brick-container@3.10.13) (2023-12-31)
+
+
+### Bug Fixes
+
+* python脚本多删除了class ([e688976](https://github.com/easyops-cn/next-core/commit/e68897604dbdd3bf55e9f5891130cb24fab09e92))
+
+
+
+
+
+## [3.10.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.11...@next-core/brick-container@3.10.12) (2023-12-29)
+
+
+### Bug Fixes
+
+* brick_next脚本修改， ([54f0c38](https://github.com/easyops-cn/next-core/commit/54f0c3896ecc257008bb23af4c0f4b3871408eed))
+
+
+
+
+
+## [3.10.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.10...@next-core/brick-container@3.10.11) (2023-12-28)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.9...@next-core/brick-container@3.10.10) (2023-12-28)
+
+
+### Bug Fixes
+
+* brick_next_v3相关脚本修改， ([69dd3c3](https://github.com/easyops-cn/next-core/commit/69dd3c3fcf1ff8d2b2cb0472179306e4e278abe3))
+
+
+
+
+
+## [3.10.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.8...@next-core/brick-container@3.10.9) (2023-12-27)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.7...@next-core/brick-container@3.10.8) (2023-12-27)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.6...@next-core/brick-container@3.10.7) (2023-12-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.5...@next-core/brick-container@3.10.6) (2023-12-26)
+
+
+### Bug Fixes
+
+* fix v3 widget upload error ([46f4854](https://github.com/easyops-cn/next-core/commit/46f4854e0dfcec1af270deaecbf5dc2217bcc370))
+
+
+
+
+
+## [3.10.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.4...@next-core/brick-container@3.10.5) (2023-12-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.10.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.3...@next-core/brick-container@3.10.4) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/brick-container

@@ -51,7 +51,8 @@ const defaultPropertyDeclaration: Required<PropertyDeclaration> = {
   attribute: true,
   type: String,
   converter: defaultConverter,
-  reflect: true,
+  // reflect: true,
+  render: true,
   hasChanged: notEqual,
 };
 
@@ -264,7 +265,9 @@ export function createDecorators() {
               this[symbolOfMarkAttributeHasBeenSet](attrName);
               this[symbolOfStopAttributeChangedCallback](false);
             }
-            this._requestRender();
+            if (_options.render) {
+              this._requestRender();
+            }
           }
         },
         init(this, initialValue) {
@@ -447,6 +450,6 @@ function attributeNameForProperty(
   return attribute === false
     ? undefined
     : typeof attribute === "string"
-    ? attribute
-    : name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
+      ? attribute
+      : name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
 }
