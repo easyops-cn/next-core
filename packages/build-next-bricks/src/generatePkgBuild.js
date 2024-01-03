@@ -25,7 +25,7 @@ export default async function generatePkgBuild(packageDir) {
       path.join(__dirname, "../template/.pkgbuild/PKGBUILD"),
       path.join(targetPkgBuildDir, "PKGBUILD")
     ),
-    [
+    ...[
       "install_postscript.sh",
       "update_postscript.sh",
       "update_prescript.sh",
