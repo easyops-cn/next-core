@@ -205,7 +205,7 @@ export default function getProxy(env, getRawIndexHtml) {
                     const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
 
                     const bootstrapHashMatches = content.match(
-                      /\bbootstrap(-publicDeps|-mini)?\.([^."]+)\.json\b/
+                      /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
                     );
                     if (!bootstrapHashMatches) {
                       const message = "Unexpected: bootstrapHash is not found";
@@ -273,7 +273,7 @@ export default function getProxy(env, getRawIndexHtml) {
             if (
               /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/.test(req.path) ||
               //ignore bootstrap.mini.ac3eb.json, because it has no brickPackages information
-              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-publicDeps)?\.[^.]+\.json$/.test(
+              /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-pubDeps)?\.[^.]+\.json$/.test(
                 req.path
               ) ||
               /^\/next\/sa-static\/[^/]+\/merge_apps\/[^/]+\/(?:v2|v3)\/bootstrap-union\.[^.]+\.json/.test(
