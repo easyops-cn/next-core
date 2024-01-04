@@ -197,6 +197,7 @@
 
   --top-navigation-bg: var(--palette-gray-1);
   --top-menu-item-hover-bg: rgba(0, 0, 0, 0.04);
+  --top-menu-item-selected-bg: var(--palette-blue-1);
 
   --left-menu-bg: #f7f8fa;
   --left-menu-hover-bg: #f7f8fa;
