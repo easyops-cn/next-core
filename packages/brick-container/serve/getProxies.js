@@ -98,7 +98,7 @@ module.exports = (env, getRawIndexHtml) => {
       let publicRootWithVersion = false;
       if (!reqIsBootstrap) {
         const regex =
-          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-publicDeps)?\.[^.]+\.json$/;
+          /^(?:\/next)?\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-pubDeps)?\.[^.]+\.json$/;
         const regexLegacy = /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/;
 
         const unionRegex =
@@ -454,7 +454,7 @@ module.exports = (env, getRawIndexHtml) => {
               const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
 
               const bootstrapHashMatches = raw.match(
-                /\bbootstrap(-publicDeps|-mini)?\.([^."]+)\.json\b/
+                /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
               );
               if (!bootstrapHashMatches) {
                 const message = "Unexpected: bootstrapHash is not found";
