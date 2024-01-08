@@ -79,7 +79,7 @@
   ],
   "resolutions": {
     "@babel/parser": "^7.23.6",
-    "@babel/runtime": "^7.23.7",
+    "@babel/runtime": "^7.23.8",
     "@types/react": "^18.2.47",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
