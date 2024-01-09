@@ -130,10 +130,10 @@ export function batchSetAppsLocalTheme(appsTheme: Record<string, SiteTheme>): vo
 // Warning: (ae-forgotten-export) The symbol "BrickAsComponentProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const BrickAsComponent: ({ useBrick, data, }: BrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>;
+export const BrickAsComponent: (props: BrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>;
 
 // @public (undocumented)
-export function BrickAsComponentFactory(React: typeof _React): ({ useBrick, data, }: BrickAsComponentProps) => React_2.ReactElement;
+export function BrickAsComponentFactory(React: typeof _React): (props: BrickAsComponentProps) => React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "BrickWrapperProps" needs to be exported by the entry point index.d.ts
 //
