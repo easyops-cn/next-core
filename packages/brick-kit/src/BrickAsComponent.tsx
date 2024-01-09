@@ -474,7 +474,10 @@ export function SingleBrickAsComponentFactory(React: typeof _React) {
  */
 export const SingleBrickAsComponent = SingleBrickAsComponentFactory(React);
 
-export function BrickAsComponentFactory(React: typeof _React) {
+export function BrickAsComponentFactory(
+  React: typeof _React
+): (props: BrickAsComponentProps) => React.ReactElement {
+  const SingleBrickAsComponent = SingleBrickAsComponentFactory(React);
   return function BrickAsComponent({
     useBrick,
     data,
