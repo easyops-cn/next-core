@@ -1,6 +1,6 @@
 {
   "name": "@next-core/babel-preset-prismjs",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "babel preset for packages using prismjs",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/packages/babel-preset-prismjs",
   "license": "GPL-3.0",
