@@ -22,13 +22,14 @@ const prismjsPluginConfig = [
       "sql",
       "typescript",
       "vim",
-      "yaml"
+      "yaml",
+      "perl",
     ],
     plugins: ["line-numbers"],
-    css: true
-  }
+    css: true,
+  },
 ];
 
 module.exports = () => ({
-  plugins: [prismjsPluginConfig]
+  plugins: [prismjsPluginConfig],
 });
