@@ -20,7 +20,7 @@ import {
 import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { debounce } from "lodash";
+import { debounce, isEqual } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import {
   asyncComputeRealPropertyEntries,
@@ -702,20 +702,27 @@ export async function renderBrick(
           );
         }
 
-        if (
-          (parentRoutes[parentRoutes.length - 1] as RouteConfOfBricks)
-            ?.incrementalSubRoutes
-        ) {
+        const parentRoute = parentRoutes[parentRoutes.length - 1] as
+          | RouteConfOfBricks
+          | undefined;
+        if (parentRoute?.incrementalSubRoutes) {
           routeSlotIndexes.add(index);
           rendererContext.performIncrementalRender(async (location) => {
             const { homepage } = childRuntimeContext.app;
             const { pathname } = location;
+            const previousParams = childRuntimeContext.match?.params;
             // Ignore if any one of homepage and parent routes not matched.
             if (
               !matchHomepage(homepage, pathname) ||
-              !parentRoutes.every((route) =>
-                matchRoute(route, homepage, pathname)
-              )
+              !parentRoutes.every((route) => {
+                const newMatch = matchRoute(route, homepage, pathname);
+                // Ignore if the direct parent route params changed
+                return (
+                  newMatch &&
+                  (route !== parentRoute ||
+                    isEqual(previousParams, newMatch.params))
+                );
+              })
             ) {
               return false;
             }

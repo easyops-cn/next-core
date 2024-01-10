@@ -584,12 +584,13 @@ routes:
           %>
 
 # Sub-routes incremental rendering
-- path: '${APP.homepage}/sub-routes/:sub'
+- path: '${APP.homepage}/sub-routes'
+  exact: false
   incrementalSubRoutes: true
   bricks:
   - brick: h1
     properties:
-      textContent: <% `Hello [${PATH.sub}]` %>
+      textContent: Hello
   - brick: tpl-x
     properties:
       i: 0

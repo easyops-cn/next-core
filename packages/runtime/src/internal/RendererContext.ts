@@ -168,7 +168,9 @@ export class RendererContext {
     let previousMenuRequest: Promise<StaticMenuConf> | undefined;
     let previousRoute: RouteConf | undefined;
     for (const route of routes) {
-      previousMenuRequest = this.#memoizedMenuRequestMap!.get(route);
+      // If the sub-routes doesn't match, then `this.memoizeMenuRequests` will
+      // not be called, thus `this.#memoizedMenuRequestMap` is not set.
+      previousMenuRequest = this.#memoizedMenuRequestMap?.get(route);
       if (previousMenuRequest) {
         previousRoute = route;
         break;
@@ -191,7 +193,7 @@ export class RendererContext {
       );
     }
     if (previousRoute && previousRoute !== currentRoute) {
-      this.#memoizedMenuRequestMap!.delete(previousRoute);
+      this.#memoizedMenuRequestMap?.delete(previousRoute);
     }
     await this.#routeHelper!.mergeMenus(mergedMenuRequests);
   }
