@@ -101,6 +101,8 @@ export function historyExtended(
           ...browserHistory.location.state,
           // Always notify
           notify: true,
+          // Do not use incremental sub routes
+          noIncremental: true,
         },
       },
       undefined,
@@ -187,6 +189,7 @@ function historyOverridden(
 export interface NextHistoryState {
   notify?: boolean;
   from?: LocationDescriptor<NextHistoryState>;
+  noIncremental?: boolean;
 }
 
 /**

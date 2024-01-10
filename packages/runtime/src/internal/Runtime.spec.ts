@@ -134,17 +134,17 @@ const getBootstrapData = (options?: {
           bricks: [],
         },
         {
-          path: "${APP.homepage}/sub-routes/:sub",
+          path: "${APP.homepage}/sub-routes",
+          exact: false,
           incrementalSubRoutes: true,
           menu: {
             breadcrumb: { items: [{ text: "0" }] },
           },
-          context: [{ name: "subParent" }],
           bricks: [
             {
               brick: "h1",
               properties: {
-                textContent: "<% `Hello [${PATH.sub}]` %>",
+                textContent: "Hello",
               },
             },
             {
@@ -215,6 +215,48 @@ const getBootstrapData = (options?: {
                           brick: "p",
                           properties: {
                             textContent: "Sub 5",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/sub-routes-alt/:moduleId",
+          exact: false,
+          incrementalSubRoutes: true,
+          menu: {
+            breadcrumb: { items: [{ text: "<% PATH.moduleId %>" }] },
+          },
+          bricks: [
+            {
+              brick: "h1",
+              properties: {
+                textContent: "<% `Hello [${PATH.moduleId}]` %>",
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-alt/:moduleId/detail/:detailId",
+                      menu: {
+                        breadcrumb: {
+                          items: [{ text: "<% PATH.detailId %>" }],
+                        },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "<% `Sub [${PATH.detailId}]` %>",
                           },
                         },
                       ],
@@ -585,7 +627,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [1]
+            Hello
           </h1>
           <div>
             <p>
@@ -610,7 +652,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [1]
+            Hello
           </h1>
           <div>
             <p>
@@ -636,7 +678,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [1]
+            Hello
           </h1>
           <div>
             <div>
@@ -662,7 +704,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [1]
+            Hello
           </h1>
           <div>
             <p>
@@ -687,7 +729,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [1]
+            Hello
           </h1>
           <div>
             <p>
@@ -732,7 +774,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <h1>
-            Hello [1]
+            Hello
           </h1>
           <div />
         </div>,
@@ -743,6 +785,77 @@ describe("Runtime", () => {
     `);
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "0" }],
+    });
+  });
+
+  test("incremental sub-routes rendering alternative", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes-alt/abc");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [abc]
+          </h1>
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "abc" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-alt/xyz");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [xyz]
+          </h1>
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "xyz" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-alt/xyz/detail/123");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Hello [xyz]
+          </h1>
+          <div>
+            <p>
+              Sub [123]
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "xyz" }, { text: "123" }],
     });
   });
 

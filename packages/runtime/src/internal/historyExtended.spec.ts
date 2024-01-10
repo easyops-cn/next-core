@@ -238,6 +238,7 @@ describe("historyExtended", () => {
         state: {
           from: "e",
           notify: true,
+          noIncremental: true,
         },
       },
       undefined
@@ -266,7 +267,7 @@ describe("historyExtended", () => {
     [
       "push" | "replace",
       Parameters<History<NextHistoryState>["push"]>,
-      [unknown, NextHistoryState?]
+      [unknown, NextHistoryState?],
     ]
   >([
     ["push", ["/my-app"], ["/my-app", undefined]],

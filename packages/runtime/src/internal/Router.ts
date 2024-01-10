@@ -181,7 +181,7 @@ export class Router {
         ignoreRendering = true;
       }
 
-      if (!ignoreRendering) {
+      if (!ignoreRendering && !location.state?.noIncremental) {
         ignoreRendering =
           await this.#rendererContext?.didPerformIncrementalRender(location);
       }

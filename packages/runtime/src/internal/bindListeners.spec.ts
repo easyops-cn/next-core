@@ -662,6 +662,18 @@ describe("listenerFactory for event.*", () => {
     )(event);
     expect(event.preventDefault).toBeCalledWith();
   });
+
+  test("event.stopPropagation", () => {
+    const event = { stopPropagation: jest.fn() } as any;
+    listenerFactory(
+      {
+        action: "event.stopPropagation",
+        args: ["<% EVENT.detail %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(event.stopPropagation).toBeCalledWith();
+  });
 });
 
 describe("listenerFactory for console.*", () => {

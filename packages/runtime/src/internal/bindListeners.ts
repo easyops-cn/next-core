@@ -185,6 +185,9 @@ export function listenerFactory(
           case "event.preventDefault":
             event.preventDefault();
             break;
+          case "event.stopPropagation":
+            event.stopPropagation();
+            break;
 
           case "console.log":
           case "console.error":
@@ -567,7 +570,7 @@ function handleWindowAction(
   const [url, target, features] = argsFactory(args, runtimeContext, event) as [
     string,
     string,
-    string
+    string,
   ];
   window.open(url, target || "_self", features);
 }
@@ -827,8 +830,8 @@ function argsFactory(
         event,
       }) as unknown[])
     : options.useEventAsDefault
-    ? [event]
-    : options.useEventDetailAsDefault
-    ? [(event as CustomEvent).detail]
-    : [];
+      ? [event]
+      : options.useEventDetailAsDefault
+        ? [(event as CustomEvent).detail]
+        : [];
 }
