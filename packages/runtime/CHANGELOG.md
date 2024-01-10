@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.29.1...@next-core/runtime@1.30.0) (2024-01-10)
+
+
+### Bug Fixes
+
+* ignore incremental rendering if the direct parent route params changed ([9e2d4be](https://github.com/easyops-cn/next-core/commit/9e2d4be013dd351d19b748b276d07a1c447b903a))
+
+
+### Features
+
+* add new action: event.stopPropagation ([0f6897c](https://github.com/easyops-cn/next-core/commit/0f6897c592e936348a2fbcccd2eb9b64806df20b))
+
+
+
+
+
 ## [1.29.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.29.0...@next-core/runtime@1.29.1) (2024-01-02)
 
 **Note:** Version bump only for package @next-core/runtime

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/yo",
-  "version": "1.5.35",
+  "version": "1.5.36",
   "description": "Generator for next v3",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/yo",
   "license": "GPL-3.0",
@@ -27,7 +27,7 @@
     "@next-core/build-next-bricks": "^1.20.2",
     "@next-core/build-next-libs": "^1.0.11",
     "@next-core/element": "^1.2.1",
-    "@next-core/i18n": "^1.0.36",
+    "@next-core/i18n": "^1.0.37",
     "@next-core/react-element": "^1.0.20",
     "@next-core/test-next": "^1.0.14",
     "@next-core/theme": "^1.4.8",
