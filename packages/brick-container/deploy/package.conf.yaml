@@ -34,3 +34,4 @@ dependencies:
 start_dependencies:
   - name: logic.api.gateway # 依赖服务名
   - name: logic.micro_app_service
+  - name: logic.micro_app_standalone_service
