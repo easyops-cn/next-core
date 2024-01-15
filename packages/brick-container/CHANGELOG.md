@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.10.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.19...@next-core/brick-container@3.10.20) (2024-01-15)
+
+
+### Bug Fixes
+
+* brick_next依赖micro_app_standalone_service ([eea5247](https://github.com/easyops-cn/next-core/commit/eea5247440e415149c1df01702f9c2a5d0ef65f2))
+* brick_next依赖micro_app_standalone_service ([d859336](https://github.com/easyops-cn/next-core/commit/d859336c071176f36ca9e86b57c216435b858ee3))
+
+
+
+
+
 ## [3.10.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.18...@next-core/brick-container@3.10.19) (2024-01-15)
 
 **Note:** Version bump only for package @next-core/brick-container
