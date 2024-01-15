@@ -20,7 +20,7 @@ function check_service_availability() {
 }
 
 function check_service() {
-  associated_service=("logic.micro_app_service" "logic.user_service" "logic.artifact")
+  associated_service=("logic.micro_app_service" "logic.micro_app_standalone_service" "logic.user_service" "logic.artifact")
   check_service_availability "${associated_service[*]}"
   if [[ `echo $?` -eq 1 ]]; then
       sleep 15
