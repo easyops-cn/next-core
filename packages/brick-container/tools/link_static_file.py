@@ -5,6 +5,7 @@ import traceback
 import yaml
 import sys
 import errno
+import fcntl
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -129,7 +130,6 @@ def get_static_file_map(path):
         for filename in files:
             file_path = os.path.join(root, filename)
             if os.path.islink(file_path):
-                print u"current file is link: {}".format(file_path)
                 continue
             file_map[root].append(filename)
 
@@ -158,7 +158,7 @@ def link_install_app_static_file(install_app_path, plugin_name, app_version):
 
 
 # 硬链
-def link_dependency_static_file(install_app_path, app_version):
+def link_dependency_static_file(install_app_path, app_version, is_sa_na_dep_dir_present):
     dependency_apps = read_dependencies_yaml(install_app_path)
     # 依赖的路径树
     dependencies_path_tree = build_dependencies_path_tree(dependency_apps)  # type: dict
@@ -176,27 +176,32 @@ def link_dependency_static_file(install_app_path, app_version):
             dependency_dir_inside_base = os.path.join(install_app_path, "versions",
                                                       app_version, "webroot", "-", _CORE_FOLDER)
 
-        print u"---------------------------------------------"
-        print dependency_type, dependency_name, "\n\t", dependency_dir_inside_base, "\n\t", dependency_dir_public
-
-        static_file_map = get_static_file_map(dependency_dir_inside_base)
-        for file_path_base, files in static_file_map.items():
-            _link_static_file(files, file_path_base, dependency_dir_inside_base, dependency_dir_public)
+        # 如果sa-na目录下没有bricks/template/core目录(说明是体积精简)，从dependencies_lock 硬链到sa-na目录
+        #  否则， 从sa-na硬链接到dependencies_lock下
+        if is_sa_na_dep_dir_present:
+            static_file_map = get_static_file_map(dependency_dir_inside_base)
+            for file_path_base, files in static_file_map.items():
+                _link_static_file(files, file_path_base, dependency_dir_inside_base, dependency_dir_public)
+        else:
+            static_file_map = get_static_file_map(dependency_dir_public)
+            for file_path_base, files in static_file_map.items():
+                _link_static_file(files, file_path_base, dependency_dir_public, dependency_dir_inside_base)
 
 
 def _link_static_file(files, file_path_base, dependency_dir_inside_base, dependency_dir_public):
-    print "\tfile count: {}".format(len(files))
     for filename in files:
         file_path = os.path.join(file_path_base, filename)
         file_path_backup = file_path + ".back"
+        file_lock_path = file_path + ".lock"
 
         link_file_path = file_path.replace(dependency_dir_inside_base, dependency_dir_public)
         link_file_path_base = link_file_path.replace(filename, "")
 
-        print u"\t\tfile_path: ", file_path
-        print u"\t\tlink_file_path: ", link_file_path
-
         try:
+            # Acquire file lock
+            with open(file_lock_path, 'w') as lock_file:
+                fcntl.flock(lock_file, fcntl.LOCK_EX)
+
             if not os.path.exists(link_file_path_base):
                 os.makedirs(link_file_path_base)
             # 先备份文件
@@ -220,6 +225,16 @@ def _link_static_file(files, file_path_base, dependency_dir_inside_base, depende
             # 确保被删除
             if os.path.exists(file_path_backup):
                 os.remove(file_path_backup)
+            # Release file lock
+            if os.path.exists(file_lock_path):
+                os.remove(file_lock_path)
+
+
+def check_standalone_na_dep_dir(install_app_path, app_version):
+    bricks_dir = os.path.join(install_app_path, "versions", app_version, "webroot", "-", _BRICKS_FOLDER)
+    templates_dir = os.path.join(install_app_path, "versions", app_version, "webroot", "-", _TEMPLATES_FOLDER)
+    core_dir = os.path.join(install_app_path, "versions", app_version, "webroot", "-", _CORE_FOLDER)
+    return os.path.exists(bricks_dir) and os.path.exists(templates_dir) and os.path.exists(core_dir)
 
 
 if __name__ == "__main__":
@@ -230,16 +245,14 @@ if __name__ == "__main__":
     plugin_name = sys.argv[2]
     version = sys.argv[3]
 
-    """
-    本地测试实例：
-        python2 symlink_dependencies.py /usr/local/easyops/applications_sa/easy-agile-standalone-NA 1.0.13
-    """
-
     # must init
     init_dependencies_lock_dir()
 
     # 硬链当前APP
     link_install_app_static_file(install_path, plugin_name, version)
 
+    # 通过判断standalone-na目录下是否存在bricks/core/templates目录来判断是否需要体积精简
+    is_sa_na_dep_dir_present = check_standalone_na_dep_dir(install_path, version)
+
     # 硬链依赖APP
-    link_dependency_static_file(install_path, version)
+    link_dependency_static_file(install_path, version, is_sa_na_dep_dir_present)
