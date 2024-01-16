@@ -29,6 +29,39 @@ function gatherContractComments({ provider, brickName, contractsEntries }) {
   contractsEntries.set(fileName, [...contracts, comment]);
 }
 
+function collectExpression(expression, parser, contractsEntries, printWarning) {
+  const data = [];
+  if (expression?.type === "Literal") {
+    data.push(expression.value);
+  } else if (expression?.type === "ConditionalExpression") {
+    // someVar.query(a ? "provider-a" : "provider-b") Or  useProvider(a ? "provider-a" : "provider-b")
+    data.push(expression.consequent.value);
+    data.push(expression.alternate.value);
+  }
+
+  if (data.length) {
+    data.forEach((item) => {
+      if (
+        validSDKProviderName.test(item) ||
+        validFlowApiProviderName.test(item)
+      ) {
+        const brickName = Object.keys(parser.state.options.entry)[0];
+        gatherContractComments({
+          provider: item,
+          brickName,
+          contractsEntries,
+        });
+      }
+    });
+    return;
+  }
+
+  printWarning &&
+    console.warn(
+      "[useProvider] Here it is recommended to use string or conditional expression as the provider name。"
+    );
+}
+
 module.exports = class ScanUseProviderHookContractsPlugin {
   constructor(options = {}) {
     this.options = options;
@@ -50,25 +83,12 @@ module.exports = class ScanUseProviderHookContractsPlugin {
               callee.name === "useProvider" &&
               expression.arguments.length
             ) {
-              const firstArg = expression.arguments[0];
-              if (firstArg?.type === "Literal") {
-                if (
-                  validSDKProviderName.test(firstArg.value) ||
-                  validFlowApiProviderName.test(firstArg.value)
-                ) {
-                  const brickName = Object.keys(parser.state.options.entry)[0];
-                  gatherContractComments({
-                    provider: firstArg.value,
-                    brickName,
-                    contractsEntries,
-                  });
-                }
-                return;
-              }
-              printWarning &&
-                console.warn(
-                  "[useProvider] Here it is recommended to use string as the provider name。"
-                );
+              collectExpression(
+                expression.arguments[0],
+                parser,
+                contractsEntries,
+                printWarning
+              );
             }
           });
 
@@ -84,25 +104,12 @@ module.exports = class ScanUseProviderHookContractsPlugin {
             expression.callee.property.name === "query" &&
             expression.arguments.length
           ) {
-            const firstArg = expression.arguments[0];
-            if (firstArg?.type === "Literal") {
-              if (
-                validSDKProviderName.test(firstArg.value) ||
-                validFlowApiProviderName.test(firstArg.value)
-              ) {
-                const brickName = Object.keys(parser.state.options.entry)[0];
-                gatherContractComments({
-                  provider: firstArg.value,
-                  brickName,
-                  contractsEntries,
-                });
-              }
-              return;
-            }
-            printWarning &&
-              console.warn(
-                "[useProvider] Here it is recommended to use string as the provider name。"
-              );
+            collectExpression(
+              expression.arguments[0],
+              parser,
+              contractsEntries,
+              printWarning
+            );
           }
         });
       });
