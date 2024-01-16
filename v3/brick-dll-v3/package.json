@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-dll-v3",
-  "version": "0.7.19",
+  "version": "0.7.20",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/v3/brick-dll-v3",
   "license": "GPL-3.0",
@@ -36,7 +36,7 @@
     "@next-core/moment-v3": "^0.1.0",
     "@next-core/pipes": "^1.0.17",
     "@next-core/react-fontawesome-v3": "^0.1.0",
-    "@next-core/webpack-config-factory": "^2.22.0",
+    "@next-core/webpack-config-factory": "^2.23.0",
     "antd": "~4.12.3",
     "buffer": "^4.9.2",
     "react": "^16.14.0",

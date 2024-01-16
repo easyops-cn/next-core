@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.22.0...@next-core/webpack-config-factory@2.23.0) (2024-01-16)
+
+
+### Features
+
+* userProviderHook使用conditional expression时契约可以被收集 ([49e3b1c](https://github.com/easyops-cn/next-core/commit/49e3b1cb83a08cea44d542fb6c9eb57f61e053c0))
+
+
+
+
+
 # [2.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.21.0...@next-core/webpack-config-factory@2.22.0) (2023-03-28)
 
 
