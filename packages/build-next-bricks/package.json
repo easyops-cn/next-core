@@ -46,7 +46,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.7",
     "postcss": "^8.4.33",
-    "postcss-loader": "^7.3.4",
+    "postcss-loader": "^8.0.0",
     "postcss-preset-env": "^9.3.0",
     "prettier": "^3.2.2",
     "style-loader": "^3.3.4",
