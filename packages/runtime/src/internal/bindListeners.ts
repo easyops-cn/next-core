@@ -161,7 +161,8 @@ export function listenerFactory(
           // case "alias.replace":
 
           case "window.open":
-            handleWindowAction(event, handler.args, runtimeContext);
+          case "window.close":
+            handleWindowAction(event, method, handler.args, runtimeContext);
             break;
 
           case "location.reload":
@@ -564,15 +565,21 @@ function handleHistoryAction(
 
 function handleWindowAction(
   event: Event,
+  method: "open" | "close",
   args: unknown[] | undefined,
   runtimeContext: RuntimeContext
 ) {
-  const [url, target, features] = argsFactory(args, runtimeContext, event) as [
-    string,
-    string,
-    string,
-  ];
-  window.open(url, target || "_self", features);
+  if (method === "open") {
+    const [url, target, features] = argsFactory(
+      args,
+      runtimeContext,
+      event
+    ) as [string, string, string];
+    window.open(url, target || "_self", features);
+  }
+  if (method === "close") {
+    window.close();
+  }
 }
 
 function batchUpdate(
