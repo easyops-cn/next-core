@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.92.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.92.13...@next-core/brick-container@2.92.14) (2024-01-17)
+
+
+### Bug Fixes
+
+* sa-na上报调整，软链接时， 如果standalone-na目录下bricks/core目录为空 说明需要体积精简, ([4aaf762](https://github.com/easyops-cn/next-core/commit/4aaf7627e63cd825ab385ca65fd135cca8905f86))
+
+
+
+
+
 ## [2.92.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.92.12...@next-core/brick-container@2.92.13) (2024-01-17)
 
 **Note:** Version bump only for package @next-core/brick-container
