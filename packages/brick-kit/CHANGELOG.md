@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.184.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.183.2...@next-core/brick-kit@2.184.0) (2024-01-17)
+
+
+### Features
+
+* add window.close event ([e0b37fd](https://github.com/easyops-cn/next-core/commit/e0b37fd4ca9fffa97dfddf9229f7c4151829aa84))
+
+
+
+
+
 ## [2.183.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.183.1...@next-core/brick-kit@2.183.2) (2024-01-09)
 
 

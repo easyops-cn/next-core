@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.93.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.92.0...@next-core/brick-types@2.93.0) (2024-01-17)
+
+
+### Features
+
+* add window.close event ([e0b37fd](https://github.com/easyops-cn/next-core/commit/e0b37fd4ca9fffa97dfddf9229f7c4151829aa84))
+
+
+
+
+
 # [2.92.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.91.0...@next-core/brick-types@2.92.0) (2023-12-21)
 
 
