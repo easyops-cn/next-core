@@ -233,7 +233,9 @@ export function listenerFactory(
           runtimeBrick
         );
       case "window.open":
+      case "window.close":
         return builtinWindowListenerFactory(
+          method,
           handler.args,
           handler,
           context,
@@ -740,6 +742,7 @@ function builtinIframeListenerFactory(
 }
 
 function builtinWindowListenerFactory(
+  method: "open" | "close",
   args: unknown[],
   ifContainer: IfContainer,
   context: PluginRuntimeContext,
@@ -749,12 +752,17 @@ function builtinWindowListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
-    const [url, target, features] = argsFactory(args, context, event) as [
-      string,
-      string,
-      string
-    ];
-    window.open(url, target || "_self", features);
+    if (method === "open") {
+      const [url, target, features] = argsFactory(args, context, event) as [
+        string,
+        string,
+        string
+      ];
+      window.open(url, target || "_self", features);
+    }
+    if (method === "close") {
+      window.close();
+    }
   } as EventListener;
 }
 
