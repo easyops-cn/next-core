@@ -5,7 +5,7 @@ import traceback
 import yaml
 import sys
 import errno
-import fcntl
+import shutil
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -172,6 +172,7 @@ def link_dependency_static_file(install_app_path, app_version, is_sa_na_dep_dir_
         # /usr/local/easyops/applications_sa/easy-agile-standalone-NA/versions/1.0.13/webroot/-/templates/general-list
         dependency_dir_inside_base = os.path.join(install_app_path, "versions", app_version, "webroot", "-",
                                                   dependency_type, un_suffix_name)
+        webroot_dir = os.path.join(install_app_path, "versions", app_version, "webroot", "-")
         if un_suffix_name == _BRICK_NEXT_FOLDER:
             dependency_dir_inside_base = os.path.join(install_app_path, "versions",
                                                       app_version, "webroot", "-", _CORE_FOLDER)
@@ -185,22 +186,55 @@ def link_dependency_static_file(install_app_path, app_version, is_sa_na_dep_dir_
         else:
             static_file_map = get_static_file_map(dependency_dir_public)
             for file_path_base, files in static_file_map.items():
-                _link_static_file(files, file_path_base, dependency_dir_public, dependency_dir_inside_base)
+                _link_static_file_to_sa_na(files, file_path_base, dependency_dir_inside_base, dependency_dir_public,
+                                           webroot_dir)
+
+
+def _link_static_file_to_sa_na(files, file_path_base, dependency_dir_inside_base, dependency_dir_public,
+                               app_webroot_dir):
+    for filename in files:
+        file_path = os.path.join(file_path_base, filename)
+        link_file_path = file_path.replace(dependency_dir_public, dependency_dir_inside_base)
+        link_file_path_base = os.path.dirname(link_file_path)
+
+        try:
+            if not os.path.exists(link_file_path_base):
+                os.makedirs(link_file_path_base)
+
+            # 创建硬链接, src存在， dst不存在
+            if not os.path.exists(link_file_path):
+                print("link src: {} dst: {}".format(file_path, link_file_path))
+                os.link(file_path, link_file_path)
+            else:
+                print("hard link already exists for {}".format(link_file_path))
+
+        except Exception as e:
+            # sa-na下bricks/core/templates目录为空， 走到这个函数， 如果link了一半报错，要删除这些目录， 保证下次还能link
+            remove_sa_na_deps_dir(app_webroot_dir)
+            raise RuntimeError("link file to sa_na dir err: {}".format(e))
+
+
+def remove_sa_na_deps_dir(webroot_dir):
+    deps_dir = [
+        os.path.join(webroot_dir, _BRICKS_FOLDER),
+        os.path.join(webroot_dir, _TEMPLATES_FOLDER),
+        os.path.join(webroot_dir, _CORE_FOLDER)
+    ]
+    for dep_dir in deps_dir:
+        if os.path.exists(dep_dir):
+            # 目录非空也要删除
+            shutil.rmtree(dep_dir)
 
 
 def _link_static_file(files, file_path_base, dependency_dir_inside_base, dependency_dir_public):
     for filename in files:
         file_path = os.path.join(file_path_base, filename)
         file_path_backup = file_path + ".back"
-        file_lock_path = file_path + ".lock"
 
         link_file_path = file_path.replace(dependency_dir_inside_base, dependency_dir_public)
         link_file_path_base = link_file_path.replace(filename, "")
 
         try:
-            # Acquire file lock
-            with open(file_lock_path, 'w') as lock_file:
-                fcntl.flock(lock_file, fcntl.LOCK_EX)
 
             if not os.path.exists(link_file_path_base):
                 os.makedirs(link_file_path_base)
@@ -225,9 +259,6 @@ def _link_static_file(files, file_path_base, dependency_dir_inside_base, depende
             # 确保被删除
             if os.path.exists(file_path_backup):
                 os.remove(file_path_backup)
-            # Release file lock
-            if os.path.exists(file_lock_path):
-                os.remove(file_lock_path)
 
 
 def check_standalone_na_dep_dir(install_app_path, app_version):
