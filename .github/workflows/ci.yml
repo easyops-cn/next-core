@@ -41,7 +41,7 @@ jobs:
       run: echo "::set-output name=dir::$(yarn cache dir)"
 
     - name: Cache for yarn (master)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: node-cache-${{ runner.os }}-yarn-master-${{ hashFiles('yarn.lock') }}
@@ -50,7 +50,7 @@ jobs:
       if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
 
     - name: Cache for yarn (v3)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: node-cache-${{ runner.os }}-yarn-v3-${{ hashFiles('yarn.lock') }}
@@ -64,7 +64,7 @@ jobs:
       if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
 
     - name: Cache for yarn (next)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: node-cache-${{ runner.os }}-yarn-next-${{ steps.week-number.outputs.num }}
@@ -73,7 +73,7 @@ jobs:
       if: (github.event_name == 'pull_request' && github.base_ref == 'next') || (github.event_name == 'push' && github.ref_name == 'next')
 
     - name: Cache for nx (master)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: .cache
         key: ${{ runner.os }}-nx-master-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
@@ -82,7 +82,7 @@ jobs:
       if: (github.event_name == 'pull_request' && github.base_ref == 'master') || (github.event_name == 'push' && github.ref_name == 'master')
 
     - name: Cache for nx (v3)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: .cache
         key: ${{ runner.os }}-nx-v3-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
@@ -91,7 +91,7 @@ jobs:
       if: (github.event_name == 'pull_request' && github.base_ref == 'v3') || (github.event_name == 'push' && github.ref_name == 'v3')
 
     - name: Cache for npx
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.npm
         key: ${{ runner.os }}-wait-on--start-serve-and-test
@@ -103,7 +103,7 @@ jobs:
       run: echo "::set-output name=ver::$(cat package.json|grep '\"cypress\":'|awk -F '[:,\"]' '{print $5}')"
 
     - name: Cache for cypress
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/Cypress
         key: cypress-${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.ver }}
