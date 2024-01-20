@@ -1,11 +1,23 @@
+import { ProviderPollOptions } from "@next-core/brick-types";
 import * as runtime from "../core/Runtime";
 import { clearPollTimeout, startPoll } from "./poll";
+import { StoryboardContextWrapper } from "../core/StoryboardContext";
 
 const mockApiGetRouterRenderId = jest
   .spyOn(runtime, "_internalApiGetRouterRenderId")
   .mockReturnValue("render-id-1");
 
 const dispatchEvent = jest.spyOn(window, "dispatchEvent");
+
+const storyboardContextWrapper = new StoryboardContextWrapper();
+const storyboardContext = storyboardContextWrapper.get() as Map<string, any>;
+
+jest.spyOn(runtime, "_internalApiGetCurrentContext").mockReturnValue({
+  storyboardContext,
+} as any);
+jest
+  .spyOn(runtime, "_internalApiGetStoryboardContextWrapper")
+  .mockReturnValue(storyboardContextWrapper);
 
 describe("poll", () => {
   afterEach(() => {
@@ -34,7 +46,8 @@ describe("poll", () => {
       {
         expectPollEnd,
         delegateLoadingBar: true,
-      }
+      },
+      {}
     );
 
     expect(dispatchEvent).toHaveBeenNthCalledWith(
@@ -86,7 +99,8 @@ describe("poll", () => {
       {
         expectPollEnd,
         leadingRequestDelay: 1000,
-      }
+      },
+      {}
     );
 
     jest.advanceTimersByTime(0);
@@ -122,7 +136,8 @@ describe("poll", () => {
       },
       {
         expectPollEnd,
-      }
+      },
+      {}
     );
 
     jest.advanceTimersByTime(0);
@@ -159,7 +174,8 @@ describe("poll", () => {
       {
         expectPollEnd,
         continueOnError: true,
-      }
+      },
+      {}
     );
 
     jest.advanceTimersByTime(0);
@@ -196,7 +212,8 @@ describe("poll", () => {
       },
       {
         expectPollEnd,
-      }
+      },
+      {}
     );
 
     jest.advanceTimersByTime(0);
@@ -234,7 +251,8 @@ describe("poll", () => {
       {
         expectPollEnd,
         delegateLoadingBar: true,
-      }
+      },
+      {}
     );
 
     expect(dispatchEvent).toHaveBeenNthCalledWith(
@@ -280,7 +298,8 @@ describe("poll", () => {
       },
       {
         expectPollEnd,
-      }
+      },
+      {}
     );
 
     jest.advanceTimersByTime(0);
@@ -317,7 +336,8 @@ describe("poll", () => {
         expectPollEnd,
         expectPollStopImmediately,
         delegateLoadingBar: true,
-      }
+      },
+      {}
     );
 
     expect(dispatchEvent).toHaveBeenNthCalledWith(
@@ -373,7 +393,8 @@ describe("poll", () => {
         expectPollEnd,
         expectPollStopImmediately,
         delegateLoadingBar: true,
-      }
+      },
+      {}
     );
 
     expect(dispatchEvent).toHaveBeenNthCalledWith(
@@ -398,6 +419,67 @@ describe("poll", () => {
     expect(success).not.toBeCalled();
     expect(error).not.toBeCalled();
     expect(finallyCallback).not.toBeCalled();
+    expect(dispatchEvent).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        type: "request.end",
+      })
+    );
+  });
+
+  it("should stop based on the value of context", async () => {
+    const task = jest.fn().mockResolvedValueOnce({ loaded: true });
+    const progress = jest.fn();
+    const success = jest.fn();
+    const error = jest.fn();
+    const finallyCallback = jest.fn();
+
+    storyboardContextWrapper.set("flag", {
+      type: "free-variable",
+      value: 0,
+    });
+
+    startPoll(
+      task,
+      {
+        progress,
+        success,
+        error,
+        finally: finallyCallback,
+      },
+      {
+        interval: 1000,
+        expectPollEnd: "<% () => EVENT.detail + CTX.flag > 1 %>",
+        delegateLoadingBar: true,
+      } as unknown as ProviderPollOptions,
+      {
+        event: { detail: 1 } as CustomEvent<any>,
+      }
+    );
+
+    expect(dispatchEvent).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        type: "request.start",
+      })
+    );
+
+    jest.advanceTimersByTime(0);
+    expect(task).toBeCalledTimes(1);
+
+    await (global as any).flushPromises();
+    expect(progress).toBeCalledWith({ loaded: true });
+
+    jest.advanceTimersByTime(1000);
+    expect(task).toBeCalledTimes(2);
+
+    storyboardContextWrapper.updateValue("flag", 1, "replace");
+    await (global as any).flushPromises();
+
+    expect(progress).toBeCalledTimes(2);
+    expect(success).toBeCalledTimes(1);
+    expect(error).not.toBeCalled();
+    expect(finallyCallback).toBeCalledTimes(1);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({

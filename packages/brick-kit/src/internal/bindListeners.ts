@@ -13,7 +13,6 @@ import {
   SetPropsCustomBrickEventHandler,
   RuntimeBrickElement,
   UseProviderEventHandler,
-  ProviderPollOptions,
   SiteTheme,
   ConditionalEventHandler,
   BatchUpdateContextItem,
@@ -981,23 +980,29 @@ async function brickCallback(
     finally: callbackFactory("finally"),
   };
 
-  let poll: ProviderPollOptions;
   if (isUseProviderHandler(handler)) {
-    poll = computeRealValue(handler.poll, { ...context, event }, true);
+    const runtimeContext = { ...context, event };
+    const pollEnabled = computeRealValue(
+      handler.poll?.enabled,
+      runtimeContext,
+      true
+    ) as boolean;
+
+    if (pollEnabled) {
+      startPoll(task, pollableCallback, handler.poll, runtimeContext);
+
+      return;
+    }
   }
 
-  if (poll?.enabled) {
-    startPoll(task, pollableCallback, poll);
-  } else {
-    try {
-      // Try to catch synchronized tasks too.
-      const result = await task();
-      pollableCallback.success(result);
-    } catch (err) {
-      pollableCallback.error(err);
-    } finally {
-      pollableCallback["finally"]();
-    }
+  try {
+    // Try to catch synchronized tasks too.
+    const result = await task();
+    pollableCallback.success(result);
+  } catch (err) {
+    pollableCallback.error(err);
+  } finally {
+    pollableCallback["finally"]();
   }
 }
 
