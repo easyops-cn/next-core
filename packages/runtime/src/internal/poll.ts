@@ -1,5 +1,8 @@
 import type { ProviderPollOptions } from "@next-core/types";
+import { pick } from "lodash";
 import { _internalApiGetRenderId } from "./Runtime.js";
+import { computeRealValue } from "./compute/computeRealValue.js";
+import { RuntimeContext } from "./interfaces.js";
 
 export type PollableCallbackFunction = (result?: unknown) => unknown;
 
@@ -15,33 +18,51 @@ const timeoutIdList = new Set<number>();
 export function startPoll(
   task: () => unknown,
   { progress, success, error, finally: finallyCallback }: PollableCallback,
-  {
-    interval,
-    leadingRequestDelay,
-    continueOnError,
-    delegateLoadingBar,
-    expectPollEnd,
-    expectPollStopImmediately,
-  }: ProviderPollOptions
+  pollOptions: ProviderPollOptions,
+  runtimeContext: RuntimeContext
 ): void {
+  const { expectPollStopImmediately, expectPollEnd } = pollOptions;
+  const { interval, leadingRequestDelay, continueOnError, delegateLoadingBar } =
+    computeRealValue(
+      pick(pollOptions, [
+        "interval",
+        "leadingRequestDelay",
+        "continueOnError",
+        "delegateLoadingBar",
+      ]),
+      runtimeContext
+    ) as ProviderPollOptions;
   const currentRenderId = _internalApiGetRenderId();
   let currentTimeoutId: number;
   async function poll(): Promise<void> {
     timeoutIdList.delete(currentTimeoutId);
     let shouldStop: boolean | undefined;
     try {
-      shouldStop = expectPollStopImmediately?.();
+      shouldStop = (
+        computeRealValue(expectPollStopImmediately, runtimeContext) as
+          | (() => boolean)
+          | undefined
+      )?.();
       // Stop polling immediately when the expectation is match before task.
       if (!shouldStop) {
         const result = await task();
         // Stop polling immediately when the expectation is match or a different router
         // is rendering after the task processed.
         shouldStop =
-          expectPollStopImmediately?.() ||
-          currentRenderId !== _internalApiGetRenderId();
+          (
+            computeRealValue(expectPollStopImmediately, runtimeContext) as
+              | (() => boolean)
+              | undefined
+          )?.() || currentRenderId !== _internalApiGetRenderId();
         if (!shouldStop) {
           progress?.(result);
-          if (expectPollEnd?.(result)) {
+          if (
+            (
+              computeRealValue(expectPollEnd, runtimeContext) as
+                | ((result: unknown) => boolean)
+                | undefined
+            )?.(result)
+          ) {
             if (delegateLoadingBar) {
               window.dispatchEvent(new Event("request.end"));
             }
@@ -56,8 +77,11 @@ export function startPoll(
       // Stop polling immediately when the expectation is match or a different router
       // is rendering after the task processed.
       shouldStop =
-        expectPollStopImmediately?.() ||
-        currentRenderId !== _internalApiGetRenderId();
+        (
+          computeRealValue(expectPollStopImmediately, runtimeContext) as
+            | (() => boolean)
+            | undefined
+        )?.() || currentRenderId !== _internalApiGetRenderId();
       if (!shouldStop) {
         error?.(e);
         if (continueOnError) {
