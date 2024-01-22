@@ -7,6 +7,14 @@ import {
 
 let instance: ApiAnalysisService;
 
+const MAX_WAITING_TIME = 5000;
+
+const sendNextTime =
+  window.requestIdleCallback ||
+  window.requestAnimationFrame ||
+  ((callback: (data: Record<string, any>) => void) =>
+    setTimeout(callback, MAX_WAITING_TIME));
+
 const apiAnalyzer = {
   create: function createApiAnalyses(
     props: ApiAnalysisServiceProps
@@ -66,7 +74,11 @@ export type PageMetric = Pick<
 };
 export type MixMetric = ApiMetric | PageMetric;
 type PageBasicInfo = Pick<PageMetric, "lt" | "route" | "pageId">;
-
+type TransportData = {
+  model: string;
+  columns: string[];
+  data: MixMetric[];
+};
 interface ApiAnalysisServiceProps {
   api: string;
 }
@@ -77,16 +89,19 @@ class ApiAnalysisService {
   private initialized = false;
   private pageBasicInfo: PageBasicInfo = null;
   private tracePageState: "start" | "end" = "start";
+  private transportData: TransportData;
   constructor(props: ApiAnalysisServiceProps) {
     this.api = props.api;
     this.initialized = true;
-    window.addEventListener("beforeunload", this.upload.bind(this), false);
+    window.addEventListener(
+      "beforeunload",
+      () => this.flushTransportData(),
+      false
+    );
   }
-  private upload(): void {
-    const headers = {
-      type: "application/json",
-    };
-    const data = {
+  private buildTransportData(): TransportData {
+    if (!this.logs.length) return null;
+    return {
       model: "easyops.FRONTEND_STAT",
       columns: [
         "_ver",
@@ -112,11 +127,8 @@ class ApiAnalysisService {
         "apiSizeCost",
         "pageTitle",
       ],
-      data: this.logs,
+      data: this.logs.splice(0, this.logs.length),
     };
-    const blob = new Blob([JSON.stringify(data)], headers);
-
-    window.navigator.sendBeacon(this.api, blob);
   }
 
   analyses(response: HttpResponse | HttpError) {
@@ -205,6 +217,7 @@ class ApiAnalysisService {
       }));
       this.logs.push(...queuedApiList);
       this.tracePageState = "end";
+      this.sendTransportData();
     };
   }
 
@@ -286,5 +299,24 @@ class ApiAnalysisService {
       size,
     };
   }
+
+  private sendBeacon(): void {
+    const processedTransportData = this.buildTransportData();
+
+    if (!processedTransportData) return;
+    const blob = new Blob([JSON.stringify(processedTransportData)], {
+      type: "application/json",
+    });
+    window.navigator.sendBeacon(this.api, blob);
+  }
+
+  public sendTransportData(): void {
+    sendNextTime(this.sendBeacon.bind(this));
+  }
+
+  public flushTransportData(): void {
+    this.sendBeacon();
+  }
 }
+
 export { apiAnalyzer };
