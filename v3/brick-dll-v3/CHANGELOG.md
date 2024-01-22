@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll-v3@0.7.21...@next-core/brick-dll-v3@0.8.0) (2024-01-22)
+
+
+### Features
+
+* 优化框架性能数据发送时机, 不要最后一起发送 ([d708645](https://github.com/easyops-cn/next-core/commit/d7086451a9f2fad49d746ce6d4a27e100844eb78))
+
+
+
+
+
 ## [0.7.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll-v3@0.7.20...@next-core/brick-dll-v3@0.7.21) (2024-01-17)
 
 **Note:** Version bump only for package @next-core/brick-dll-v3

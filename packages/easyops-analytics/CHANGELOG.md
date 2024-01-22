@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.10.9...@next-core/easyops-analytics@0.11.0) (2024-01-22)
+
+
+### Features
+
+* 优化框架性能数据发送时机, 不要最后一起发送 ([d708645](https://github.com/easyops-cn/next-core/commit/d7086451a9f2fad49d746ce6d4a27e100844eb78))
+
+
+
+
+
 ## [0.10.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.10.8...@next-core/easyops-analytics@0.10.9) (2023-03-14)
 
 **Note:** Version bump only for package @next-core/easyops-analytics
