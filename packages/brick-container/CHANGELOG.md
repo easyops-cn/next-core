@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.20...@next-core/brick-container@3.11.0) (2024-01-23)
+
+
+### Features
+
+* brick_next中sa-na脚本修改， 支持sa-na体积精简\n Ref: UC-668 ([1a42b50](https://github.com/easyops-cn/next-core/commit/1a42b50a902fb32931b00cfde6a680a5945b7954))
+
+
+
+
+
 ## [3.10.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.19...@next-core/brick-container@3.10.20) (2024-01-15)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.30.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.0...@next-core/runtime@1.30.1) (2024-01-23)
+
+
+### Bug Fixes
+
+* **startPoll:** compute real value of expectPollEnd and expectPollStopImmediately before calling ([a803cb9](https://github.com/easyops-cn/next-core/commit/a803cb92733f1ad26030e978a14d08e48ccdad85))
+
+
+
+
+
 # [1.30.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.29.1...@next-core/runtime@1.30.0) (2024-01-10)
 
 
