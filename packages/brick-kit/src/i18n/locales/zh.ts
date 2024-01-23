@@ -13,6 +13,7 @@ const locale: Locale = {
   [K.NO_PERMISSION]: "没有权限，无法获取页面所需要的资源",
   [K.OTHER_ERROR]: "糟糕！页面出现了一些问题",
   [K.GO_BACK_PREVIOUS_PAGE]: "回到上一页",
+  [K.GO_BACK_HOME_PAGE]: "回到首页",
 };
 
 export default locale;

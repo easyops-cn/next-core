@@ -802,6 +802,29 @@ export class Router {
             style: illustrationStyle,
             ...(storyboard ? notFoundPageConfig : notFoundAppConfig),
           },
+          children: [
+            {
+              type: "a",
+              properties: {
+                textContent: i18next.t(
+                  `${NS_BRICK_KIT}:${K.GO_BACK_HOME_PAGE}`
+                ),
+                style: {
+                  display: "block",
+                  textAlign: "center",
+                },
+              },
+              slotId: "content",
+              events: {
+                click: [
+                  {
+                    action: "history.push",
+                    args: [storyboard?.app?.homepage ?? "/"],
+                  },
+                ],
+              },
+            },
+          ],
           events: {},
         },
       ],
