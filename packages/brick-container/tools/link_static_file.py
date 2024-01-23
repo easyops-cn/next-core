@@ -285,7 +285,7 @@ def check_standalone_na_dep_dir(install_app_path, app_version):
         install_app_path, "versions", app_version, "webroot", "-", _TEMPLATES_FOLDER)
     core_dir = os.path.join(install_app_path, "versions",
                             app_version, "webroot", "-", _CORE_FOLDER)
-    return os.path.exists(bricks_dir) and os.path.exists(templates_dir) and os.path.exists(core_dir)
+    return os.path.exists(bricks_dir) or os.path.exists(templates_dir) or os.path.exists(core_dir)
 
 
 if __name__ == "__main__":
