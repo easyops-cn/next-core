@@ -17,6 +17,7 @@ const locale: Locale = {
     "Unauthorized access, unable to retrieve the required resources for this page",
   [K.OTHER_ERROR]: "Oops! Something went wrong",
   [K.GO_BACK_PREVIOUS_PAGE]: "Go back to previous page",
+  [K.GO_BACK_HOME_PAGE]: "Back to home page",
 };
 
 export default locale;

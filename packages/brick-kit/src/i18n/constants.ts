@@ -13,6 +13,7 @@ export enum K {
   NO_PERMISSION = "NO_PERMISSION",
   OTHER_ERROR = "OTHER_ERROR",
   GO_BACK_PREVIOUS_PAGE = "GO_BACK_PREVIOUS_PAGE",
+  GO_BACK_HOME_PAGE = "GO_BACK_HOME_PAGE",
 }
 
 export type Locale = { [key in K]: string };
