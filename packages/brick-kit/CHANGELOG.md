@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.184.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.184.1...@next-core/brick-kit@2.184.2) (2024-01-23)
+
+
+### Bug Fixes
+
+* **startPoll:** compute real value of expectPollEnd and expectPollStopImmediately before calling ([073357a](https://github.com/easyops-cn/next-core/commit/073357a785bf8e23081d2030020dbf19c2a3377d))
+
+
+
+
+
 ## [2.184.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.184.0...@next-core/brick-kit@2.184.1) (2024-01-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
