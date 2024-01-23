@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.185.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.184.2...@next-core/brick-kit@2.185.0) (2024-01-23)
+
+
+### Features
+
+* **router:** brickPageNotFound support go back to homepage ([9ab7bb1](https://github.com/easyops-cn/next-core/commit/9ab7bb142bbfda791c0b8060d98216d2eac1539a))
+
+
+
+
+
 ## [2.184.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.184.1...@next-core/brick-kit@2.184.2) (2024-01-23)
 
 
