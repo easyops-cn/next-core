@@ -84,6 +84,8 @@ def collect(install_path, report_app_id, version, set_active_version):
                     "locales": story_board["app"].get("locales", {}),
                     "usePublicDependencies": story_board["app"].get("usePublicDependencies"),
                     "unionTags": story_board["app"].get("unionTags", []),
+                    "description": story_board["app"].get("description"),
+                    "author": story_board["app"].get("author"),
                 }
                 return app
 
