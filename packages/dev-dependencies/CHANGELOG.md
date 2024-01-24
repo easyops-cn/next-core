@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.133](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.17.132...@next-core/dev-dependencies@1.17.133) (2024-01-24)
+
+
+### Bug Fixes
+
+* lock lint-staged to ~13.0.4, since newer versions require Node 16+ ([7247f0a](https://github.com/easyops-cn/next-core/commit/7247f0a8d958815a828c1638b9fc3d5e06ed52f8))
+
+
+
+
+
 ## [1.17.132](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.17.131...@next-core/dev-dependencies@1.17.132) (2024-01-24)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
