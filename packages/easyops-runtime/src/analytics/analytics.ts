@@ -1,65 +1,27 @@
 import type {
   ApiMetric,
   ApiPageState,
-  PageViewMetric,
   PartialPageViewMetric,
 } from "./interfaces.js";
+import { createTransport, events, TransportOptions } from "./transport.js";
 
 let initialized = false;
+let transport: ReturnType<typeof createTransport>;
 let pageState: ApiPageState | null = null;
 let isFirstPageView = true;
 const stashedApiMetrics: ApiMetric[] = [];
 
-const allMetrics: (ApiMetric | PageViewMetric)[] = [];
+type Options = Partial<TransportOptions>;
 
-export function initialize(api: string) {
+export function initialize(api: string, options: Options = {}) {
   if (initialized) {
     return;
   }
   initialized = true;
-
-  function upload() {
-    if (allMetrics.length === 0) {
-      return;
-    }
-    const headers = {
-      type: "application/json",
-    };
-    const data = {
-      model: "easyops.FRONTEND_STAT",
-      columns: [
-        "_ver",
-        "st",
-        "et",
-        "lt",
-        "size",
-        "time",
-        "traceId",
-        "code",
-        "duration",
-        "page",
-        "uid",
-        "username",
-        "api",
-        "type",
-        "msg",
-        "status",
-        "pageId",
-        "route",
-        "apiCount",
-        "maxApiTimeCost",
-        "apiSizeCost",
-        "pageTitle",
-      ],
-      data: allMetrics,
-    };
-    const blob = new Blob([JSON.stringify(data)], headers);
-    allMetrics.length = 0;
-
-    window.navigator.sendBeacon(api, blob);
+  if (!transport) {
+    transport = createTransport(api, options);
+    transport.sendOnExit();
   }
-
-  window.addEventListener("beforeunload", upload, false);
 }
 
 export function createPageView() {
@@ -72,7 +34,7 @@ export function finishPageView(metric: PartialPageViewMetric) {
   const { lt, route } = metric;
   pageState = { lt, route, pageId };
 
-  allMetrics.push({
+  events.push({
     ...metric,
     pageId,
     apiCount: stashedApiMetrics.length,
@@ -87,22 +49,24 @@ export function finishPageView(metric: PartialPageViewMetric) {
   });
 
   for (const item of stashedApiMetrics) {
-    allMetrics.push({
+    events.push({
       ...item,
       ...pageState,
     });
   }
   stashedApiMetrics.length = 0;
+
+  transport.emit();
 }
 
 export function earlyFinishPageView() {
-  allMetrics.push(...stashedApiMetrics);
+  events.push(...stashedApiMetrics);
   stashedApiMetrics.length = 0;
 }
 
 export function pushApiMetric(metric: ApiMetric) {
   if (pageState) {
-    allMetrics.push({
+    events.push({
       ...metric,
       type: "apiRequest",
       ...pageState,
