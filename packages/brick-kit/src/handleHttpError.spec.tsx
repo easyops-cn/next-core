@@ -43,6 +43,13 @@ const spyOnHistoryPush = jest.fn();
 (window as any).Event = class {};
 (window as any).HTMLScriptElement = class {};
 
+class ChunkLoadError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ChunkLoadError";
+  }
+}
+
 describe("httpErrorToString", () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -241,6 +248,13 @@ describe("getRefinedErrorConf", () => {
       {
         illustration: { category: "easyops2", name: "license-expired" },
         title: "brick-kit:LICENSE_EXPIRED",
+      },
+    ],
+    [
+      new ChunkLoadError("oops"),
+      {
+        illustration: { category: "easyops2", name: "internet-disconnected" },
+        title: "brick-kit:NETWORK_ERROR",
       },
     ],
   ])("should work", (error, result) => {

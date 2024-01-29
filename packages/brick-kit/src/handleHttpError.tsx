@@ -127,52 +127,58 @@ export function LoginTimeoutMessage(): React.ReactElement {
   return <div>{i18next.t(`${NS_BRICK_KIT}:${K.LOGIN_TIMEOUT_MESSAGE}`)}</div>;
 }
 
-export function getConfOfHttpStatus(
-  error: HttpResponseError
-): ErrorIllustrationConf {
-  switch (error.response?.status) {
-    case 403:
-      return {
-        showBackLink: true,
-        title: i18next.t(`${NS_BRICK_KIT}:${K.NO_PERMISSION}`),
-        illustration: {
-          name: "no-permission",
-          category: "easyops2",
-        },
-      };
-    default:
-      return null;
+export function getConfOfHttpStatus(error: unknown): ErrorIllustrationConf {
+  if (error instanceof HttpResponseError && error.response?.status === 403) {
+    return {
+      showBackLink: true,
+      title: i18next.t(`${NS_BRICK_KIT}:${K.NO_PERMISSION}`),
+      illustration: {
+        name: "no-permission",
+        category: "easyops2",
+      },
+    };
   }
+  return null;
 }
 
-export function getConfOfHttpCode(
-  error: HttpResponseError
-): ErrorIllustrationConf {
-  switch (error.responseJson?.code) {
-    case "200000":
-      return {
-        title: i18next.t(`${NS_BRICK_KIT}:${K.LICENSE_EXPIRED}`),
-        illustration: {
-          name: "license-expired",
-          category: "easyops2",
-        },
-      };
-    default:
-      return {
-        showBackLink: true,
-        title: i18next.t(`${NS_BRICK_KIT}:${K.OTHER_ERROR}`),
-        illustration: {
-          name: "unknown-error",
-          category: "easyops2",
-        },
-      };
+export function getConfOfHttpCode(error: unknown): ErrorIllustrationConf {
+  if (
+    error instanceof HttpResponseError &&
+    error.responseJson?.code === "200000"
+  ) {
+    return {
+      title: i18next.t(`${NS_BRICK_KIT}:${K.LICENSE_EXPIRED}`),
+      illustration: {
+        name: "license-expired",
+        category: "easyops2",
+      },
+    };
   }
+  return {
+    showBackLink: true,
+    title: i18next.t(`${NS_BRICK_KIT}:${K.OTHER_ERROR}`),
+    illustration: {
+      name: "unknown-error",
+      category: "easyops2",
+    },
+  };
 }
 
-export function getRefinedErrorConf(
-  error: HttpResponseError
-): ErrorIllustrationConf {
-  return [getConfOfHttpStatus, getConfOfHttpCode].reduce(
+export function getConfOfSpecialError(error: unknown): ErrorIllustrationConf {
+  if (error instanceof Error && error.name === "ChunkLoadError") {
+    return {
+      title: i18next.t(`${NS_BRICK_KIT}:${K.NETWORK_ERROR}`),
+      illustration: {
+        name: "internet-disconnected",
+        category: "easyops2",
+      },
+    };
+  }
+  return null;
+}
+
+export function getRefinedErrorConf(error: unknown): ErrorIllustrationConf {
+  return [getConfOfSpecialError, getConfOfHttpStatus, getConfOfHttpCode].reduce(
     (result: ErrorIllustrationConf, method) =>
       result ? result : method(error),
     null
