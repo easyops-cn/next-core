@@ -9,11 +9,14 @@ let instance: ApiAnalysisService;
 
 const MAX_WAITING_TIME = 5000;
 
-const sendNextTime =
-  window.requestIdleCallback ||
-  window.requestAnimationFrame ||
-  ((callback: (data: Record<string, any>) => void) =>
-    setTimeout(callback, MAX_WAITING_TIME));
+function sendNextTime(callback: (data: unknown) => void): unknown {
+  return (
+    window.requestIdleCallback ||
+    window.requestAnimationFrame ||
+    ((cb: (data: Record<string, any>) => void) =>
+      setTimeout(cb, MAX_WAITING_TIME))
+  )(callback);
+}
 
 const apiAnalyzer = {
   create: function createApiAnalyses(
