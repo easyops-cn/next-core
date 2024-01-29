@@ -632,7 +632,9 @@ export class Router {
       // When we have a matched route other than an abstract route,
       // we say *page found*, otherwise, *page not found*.
       if ((route && route.type !== "routes") || failed) {
-        await pendingTask;
+        if (!failed) {
+          await pendingTask;
+        }
         window.DISABLE_REACT_FLUSH_SYNC = false;
 
         setUIVersion(currentApp?.uiVersion);

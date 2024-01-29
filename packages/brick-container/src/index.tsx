@@ -181,14 +181,25 @@ async function main(): Promise<"ok" | "failed"> {
     // `.bootstrap-error` makes loading-bar invisible.
     document.body.classList.add("bootstrap-error", "bars-hidden");
 
-    ReactDOM.render(
-      <Result
-        status="error"
-        title={i18n.t(`${NS_BRICK_CONTAINER}:${K.BOOTSTRAP_ERROR}`)}
-        subTitle={httpErrorToString(e)}
-      />,
-      mountPoints.main
-    );
+    if (e instanceof Error && e.name === "ChunkLoadError") {
+      ReactDOM.render(
+        <Result
+          status="error"
+          title={i18n.t(`${NS_BRICK_CONTAINER}:${K.NETWORK_ERROR}`)}
+          subTitle={httpErrorToString(e)}
+        />,
+        mountPoints.main
+      );
+    } else {
+      ReactDOM.render(
+        <Result
+          status="error"
+          title={i18n.t(`${NS_BRICK_CONTAINER}:${K.BOOTSTRAP_ERROR}`)}
+          subTitle={httpErrorToString(e)}
+        />,
+        mountPoints.main
+      );
+    }
 
     return "failed";
   }
