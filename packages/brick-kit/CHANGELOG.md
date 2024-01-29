@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.185.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.185.1...@next-core/brick-kit@2.185.2) (2024-01-29)
+
+
+### Bug Fixes
+
+* handle special error ([58c4216](https://github.com/easyops-cn/next-core/commit/58c42163aec591efd1ec96cd77b8d0b8fb5b440c))
+
+
+
+
+
 ## [2.185.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.185.0...@next-core/brick-kit@2.185.1) (2024-01-25)
 
 **Note:** Version bump only for package @next-core/brick-kit
