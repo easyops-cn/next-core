@@ -6,7 +6,7 @@ const MAXIMUM_WAITING_TIME = 5 * 1000;
 const MAXIMUM_LOGGED_EVENTS = 10;
 let timer: any = null;
 
-export const transportOptions = {
+const transportOptions = {
   maxWaitingTime: MAXIMUM_WAITING_TIME,
   maxLoggedEvents: MAXIMUM_LOGGED_EVENTS,
 } as TransportOptions;

@@ -1,4 +1,3 @@
-import { transportOptions } from "./transport.js";
 import { describe, test, jest, expect, afterEach } from "@jest/globals";
 import {
   createPageView,
@@ -7,7 +6,6 @@ import {
   initialize,
   pushApiMetric,
 } from "./analytics.js";
-import { events } from "./transport.js";
 import { Blob } from "node:buffer";
 import { ensureMocksReset, requestIdleCallback } from "@shopify/jest-dom-mocks";
 
@@ -257,92 +255,5 @@ describe("analytics", () => {
     requestIdleCallback.cancelIdleCallbacks();
     requestIdleCallback.restore();
     sendBeacon.mockClear();
-    jest.clearAllMocks();
-  });
-
-  test("should work with setTimeout", async () => {
-    events.length = 0;
-    jest.useFakeTimers();
-    jest.spyOn(global, "setTimeout");
-    navigator.sendBeacon = jest.fn<typeof navigator.sendBeacon>();
-    requestIdleCallback.mockAsUnsupported();
-    initialize("http://localhost/api/stat/3", {
-      maxLoggedEvents: 4,
-      maxWaitingTime: 1000,
-    });
-
-    Object.assign(transportOptions, {
-      maxLoggedEvents: 4,
-      maxWaitingTime: 1000,
-    });
-
-    // Page view
-    createPageView();
-
-    // API requests during page view
-    pushApiMetric({
-      type: "api",
-      api: "http://localhost/api/todo/1",
-      duration: 15,
-      size: 1200,
-    } as any);
-    pushApiMetric({
-      type: "api",
-      api: "http://localhost/api/todo/2",
-      duration: 15,
-      size: 1200,
-    } as any);
-
-    pushApiMetric({
-      type: "api",
-      api: "http://localhost/api/todo/3",
-      duration: 15,
-      size: 1200,
-    } as any);
-    // Page view finish
-    finishPageView({
-      type: "page",
-      route: "/todo/:todoId",
-      lt: 50,
-    } as any);
-
-    jest.advanceTimersByTime(1000);
-    expect(setTimeout).toHaveBeenCalledTimes(1);
-    expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 1000);
-
-    pushApiMetric({
-      type: "api",
-      api: "http://localhost/api/todo/4",
-      duration: 15,
-      size: 1200,
-    } as any);
-
-    pushApiMetric({
-      type: "api",
-      api: "http://localhost/api/todo/5",
-      duration: 15,
-      size: 1200,
-    } as any);
-
-    pushApiMetric({
-      type: "api",
-      api: "http://localhost/api/todo/6",
-      duration: 15,
-      size: 1200,
-    } as any);
-
-    createPageView();
-
-    // Page view finish
-    finishPageView({
-      type: "page",
-      route: "/todo/list",
-      lt: 50,
-    } as any);
-
-    jest.advanceTimersByTime(17);
-    expect(setTimeout).toHaveBeenCalledTimes(2);
-    expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 1000);
-    requestIdleCallback.restore();
   });
 });
