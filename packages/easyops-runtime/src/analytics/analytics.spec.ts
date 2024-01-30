@@ -1,5 +1,11 @@
-import { transportOptions } from "./transport.js";
-import { describe, test, jest, expect, afterEach } from "@jest/globals";
+import {
+  describe,
+  test,
+  jest,
+  expect,
+  afterEach,
+  beforeEach,
+} from "@jest/globals";
 import {
   createPageView,
   earlyFinishPageView,
@@ -7,26 +13,28 @@ import {
   initialize,
   pushApiMetric,
 } from "./analytics.js";
-import { events } from "./transport.js";
+import { transportOptions, events } from "./transport.js";
 import { Blob } from "node:buffer";
-import { ensureMocksReset, requestIdleCallback } from "@shopify/jest-dom-mocks";
-
-(global as any).Blob = Blob;
-
 const sendBeacon = (navigator.sendBeacon =
   jest.fn<typeof navigator.sendBeacon>());
 URL.createObjectURL = jest.fn<typeof URL.createObjectURL>(
   () => "http://localhost/abc-def"
 );
 URL.revokeObjectURL = jest.fn();
+(global as any).Blob = Blob;
 
 describe("analytics", () => {
+  beforeEach(() => {
+    (window as any).requestIdleCallback = undefined;
+    (window as any).requestAnimationFrame = jest.fn((fn) =>
+      setTimeout(fn as Function, 100)
+    );
+  });
+
   afterEach(function () {
-    ensureMocksReset();
     sendBeacon.mockClear();
   });
   test("should work", async () => {
-    requestIdleCallback.mock();
     initialize("http://localhost/api/stat", { maxLoggedEvents: 2 });
     // Initialize twice
     initialize("http://localhost/api/stat/2");
@@ -97,7 +105,6 @@ describe("analytics", () => {
       duration: 30,
       size: -1,
     } as any);
-    requestIdleCallback.runIdleCallbacks();
     expect(sendBeacon).toBeCalledTimes(1);
 
     const blob_1 = sendBeacon.mock.calls[0][1] as Blob;
@@ -254,18 +261,16 @@ describe("analytics", () => {
       ],
     });
 
-    requestIdleCallback.cancelIdleCallbacks();
-    requestIdleCallback.restore();
     sendBeacon.mockClear();
     jest.clearAllMocks();
   });
 
   test("should work with setTimeout", async () => {
+    (window as any).requestAnimationFrame = undefined;
     events.length = 0;
     jest.useFakeTimers();
     jest.spyOn(global, "setTimeout");
     navigator.sendBeacon = jest.fn<typeof navigator.sendBeacon>();
-    requestIdleCallback.mockAsUnsupported();
     initialize("http://localhost/api/stat/3", {
       maxLoggedEvents: 4,
       maxWaitingTime: 1000,
@@ -343,6 +348,5 @@ describe("analytics", () => {
     jest.advanceTimersByTime(17);
     expect(setTimeout).toHaveBeenCalledTimes(2);
     expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 1000);
-    requestIdleCallback.restore();
   });
 });
