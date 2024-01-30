@@ -37,7 +37,7 @@
     "@babel/traverse": "^7.23.9",
     "@svgr/webpack": "^8.1.0",
     "babel-loader": "^9.1.3",
-    "css-loader": "^6.9.1",
+    "css-loader": "^6.10.0",
     "cssnano": "^6.0.3",
     "cssnano-preset-lite": "^3.0.1",
     "doctrine": "^3.0.0",
