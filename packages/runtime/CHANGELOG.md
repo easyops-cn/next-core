@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.30.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.1...@next-core/runtime@1.30.2) (2024-01-31)
+
+
+### Bug Fixes
+
+* always sync render when mount ([00dd32f](https://github.com/easyops-cn/next-core/commit/00dd32ffe0a97d2b6f47a672b15eb850d9b5d592))
+
+
+
+
+
 ## [1.30.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.0...@next-core/runtime@1.30.1) (2024-01-23)
 
 
