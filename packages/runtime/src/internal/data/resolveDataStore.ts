@@ -9,12 +9,17 @@ export interface DeferredContext {
 export function resolveDataStore(
   contextConfs: ContextConf[],
   resolveContext: (contextConf: ContextConf) => Promise<boolean>,
-  keyword = "CTX"
+  keyword = "CTX",
+  strict?: boolean
 ): {
   pendingResult: Promise<void>;
   pendingContexts: Map<string, Promise<void>>;
 } {
-  const dependencyMap = getDependencyMapOfContext(contextConfs, keyword);
+  const dependencyMap = getDependencyMapOfContext(
+    contextConfs,
+    keyword,
+    strict
+  );
   // There maybe multiple context confs for a specific name, since there are conditional contexts.
   // This is a map of how many pending context confs for each context name.
   const pendingDeps = new Map<string, number>();
@@ -123,14 +128,23 @@ function predicateNextResolveFactory(
 
 export function getDependencyMapOfContext(
   contextConfs: ContextConf[],
-  keyword = "CTX"
+  keyword = "CTX",
+  strict?: boolean
 ): Map<ContextConf, MemberUsage> {
   const depsMap = new Map<ContextConf, MemberUsage>();
   for (const contextConf of contextConfs) {
-    const stats = collectMemberUsage(
-      [contextConf.if, contextConf.value, contextConf.resolve],
-      keyword
-    );
+    const data = [contextConf.if, contextConf.value, contextConf.resolve];
+    const stats = collectMemberUsage(data, keyword);
+    if (!strict && keyword === "STATE") {
+      const legacyTplStats = collectMemberUsage(data, "TPL");
+      // Merge stats with legacyTplStats
+      for (const prop of legacyTplStats.usedProperties) {
+        stats.usedProperties.add(prop);
+      }
+      if (legacyTplStats.hasNonStaticUsage) {
+        stats.hasNonStaticUsage = true;
+      }
+    }
     depsMap.set(contextConf, stats);
   }
   return depsMap;

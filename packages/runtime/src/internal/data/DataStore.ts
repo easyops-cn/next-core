@@ -29,6 +29,7 @@ import {
   callRealTimeDataInspectHooks,
   realTimeDataInspectRoot,
 } from "./realTimeDataInspect.js";
+import { isStrictMode } from "../../isStrictMode.js";
 
 const supportContextResolveTriggerBrickLifeCycle = [
   "onBeforePageLoad",
@@ -321,7 +322,8 @@ export class DataStore<T extends DataStoreType = "CTX"> {
             asyncHostPropertyEntries,
             routePath
           ),
-        this.type
+        this.type,
+        isStrictMode(runtimeContext)
       );
       this.pendingStack.push(pending);
     }
