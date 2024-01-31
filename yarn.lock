@@ -8629,10 +8629,10 @@ lerna@^8.0.2:
     yargs "17.7.2"
     yargs-parser "21.1.1"
 
-less-loader@^12.1.0:
-  version "12.1.0"
-  resolved "https://registry.npmjs.org/less-loader/-/less-loader-12.1.0.tgz#d13878ed094c0fef87f12bb616c760eb5b366fca"
-  integrity sha512-N/MRZA9iILOW+TQ9xoDptsSPbtBJDWshOj3LNqL+UJAYDhtoraLECiBa93DeLJUfR4m/VE6bWuxaVs40+wBXYw==
+less-loader@^12.2.0:
+  version "12.2.0"
+  resolved "https://registry.npmjs.org/less-loader/-/less-loader-12.2.0.tgz#e1e94522f6abe9e064ef396c29a3151bc6c1b6cc"
+  integrity sha512-MYUxjSQSBUQmowc0l5nPieOYwMzGPUaTzB6inNW/bdPEG9zOL3eAAD1Qw5ZxSPk7we5dMojHwNODYMV1hq4EVg==
 
 less@^4.2.0:
   version "4.2.0"
