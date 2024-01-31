@@ -2825,10 +2825,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-18.17.15.tgz#31301a273b9ca7d568fe6d1c35ae52e0fb3f8d6a"
   integrity sha512-2yrWpBk32tvV/JAd3HNHWuZn/VDN1P+72hWirHnvsvTGSqbANi+kSeuQR9yAHnbvaBvHDsoTdXV0Fe+iRtHLKA==
 
-"@types/node@^16.18.77", "@types/node@^16.9.2":
-  version "16.18.77"
-  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.77.tgz#85b3b0a7026d9c9caea0e201c78b4433b876ae55"
-  integrity sha512-zwqAbRkHjGlxH9PBv8i9dmeaDpBRgfQDSFuREMF2Z+WUi8uc13gfRquMV/8LxBqwm+7jBz+doTVkEEA1CIWOnQ==
+"@types/node@^16.18.78", "@types/node@^16.9.2":
+  version "16.18.78"
+  resolved "https://registry.npmjs.org/@types/node/-/node-16.18.78.tgz#3d97264128712f2eb59f1f8456bcfc5d56d8105c"
+  integrity sha512-2poPMDdsGfvhcLmgJZ85QrIfN6z3PijYRMiV0FWIEUiQW/t/lzH7BEm4vN+HMhjZXbtIKssMcAxTcgu4Rm83YA==
 
 "@types/normalize-package-data@^2.4.0", "@types/normalize-package-data@^2.4.1":
   version "2.4.1"
