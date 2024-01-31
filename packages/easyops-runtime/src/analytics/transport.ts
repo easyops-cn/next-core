@@ -33,10 +33,14 @@ export function createTransport(
     emit,
   };
 }
-const nextTime =
-  window.requestIdleCallback ||
-  window.requestAnimationFrame ||
-  ((callback) => setTimeout(callback, 17));
+
+function nextTime(callback: (data: unknown) => void): unknown {
+  return (
+    window.requestIdleCallback ||
+    window.requestAnimationFrame ||
+    ((cb: (data: Record<string, any>) => void) => setTimeout(cb, 17))
+  )(callback);
+}
 
 function emit() {
   clearTimeout(timer);

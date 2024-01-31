@@ -10,7 +10,6 @@ import { jest } from "@jest/globals";
     flushMicroTasks(resolve);
   });
 
-(global as any).requestAnimationFrame = undefined;
 if (!window.matchMedia) {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
