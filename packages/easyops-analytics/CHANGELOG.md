@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.11.0...@next-core/easyops-analytics@0.11.1) (2024-01-31)
+
+
+### Bug Fixes
+
+* revert yarn.lock and refine analysis tests ([9ae873d](https://github.com/easyops-cn/next-core/commit/9ae873d7739e2a69ed59ea50bb75dd97a731ca3b))
+
+
+
+
+
 # [0.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.10.9...@next-core/easyops-analytics@0.11.0) (2024-01-22)
 
 

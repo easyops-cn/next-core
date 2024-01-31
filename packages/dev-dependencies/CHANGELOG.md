@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.136](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.17.135...@next-core/dev-dependencies@1.17.136) (2024-01-31)
+
+
+### Bug Fixes
+
+* handle errors when running yarn info ([e98cfa1](https://github.com/easyops-cn/next-core/commit/e98cfa195ff58c35ced36088da4e0830586fa965))
+
+
+
+
+
 ## [1.17.135](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.17.134...@next-core/dev-dependencies@1.17.135) (2024-01-29)
 
 **Note:** Version bump only for package @next-core/dev-dependencies
