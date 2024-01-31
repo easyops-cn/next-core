@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.0...@next-core/easyops-runtime@0.7.1) (2024-01-31)
+
+
+### Bug Fixes
+
+* revert yarn.lock and refine analysis tests ([548a7c0](https://github.com/easyops-cn/next-core/commit/548a7c0ca40d6fb24770533c645f9cc930b30ee1))
+
+
+
+
+
 # [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.68...@next-core/easyops-runtime@0.7.0) (2024-01-24)
 
 
