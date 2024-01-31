@@ -283,7 +283,7 @@ export function getTypeAnnotation(entryNode, source, usedReferences) {
         //                     ^^^^
         return {
           type: "expressionWithTypeArguments",
-          expression: get(node.expression),
+          expression: get(node.expression, true),
           typeParameters:
             /** @type {AnnotationTypeParameterInstantiation | undefined} */
             (get(node.typeParameters)),
