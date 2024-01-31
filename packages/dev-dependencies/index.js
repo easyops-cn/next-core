@@ -29,14 +29,23 @@ function updateSelf() {
     const currentRange = rootPackageJson.devDependencies[selfPackageName];
     if (currentRange) {
       // https://classic.yarnpkg.com/en/docs/cli/info
-      const versions = JSON.parse(
-        execa.sync("yarn", ["info", selfPackageName, "versions", "--json"])
-          .stdout
-      ).data;
-      tag = `@^${semver.maxSatisfying(
-        versions,
-        currentRange.startsWith("^0.") ? "< 1" : currentRange
-      )}`;
+      const result = execa.sync("yarn", [
+        "info",
+        selfPackageName,
+        "versions",
+        "--json",
+      ]);
+      const content = result.stdout;
+      if (content) {
+        const versions = JSON.parse(content).data;
+        tag = `@^${semver.maxSatisfying(
+          versions,
+          currentRange.startsWith("^0.") ? "< 1" : currentRange
+        )}`;
+      } else {
+        console.error("yarn info failed:", result.stderr);
+        tag = currentRange.startsWith("^0.") ? "@0.x" : "@latest";
+      }
     }
   }
   console.log(
