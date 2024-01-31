@@ -42,7 +42,7 @@
     "cssnano-preset-lite": "^3.0.1",
     "doctrine": "^3.0.0",
     "less": "^4.2.0",
-    "less-loader": "^12.1.0",
+    "less-loader": "^12.2.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.7",
     "postcss": "^8.4.33",
