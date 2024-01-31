@@ -135,7 +135,7 @@ jobs:
         NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
 
     - name: Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: packages/*/.coverage/cobertura-coverage.xml,bricks/*/.coverage/cobertura-coverage.xml,!.cache/**/*
