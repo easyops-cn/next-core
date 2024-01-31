@@ -17,6 +17,7 @@ export function mountTree(
   root: RenderRoot,
   initializedElement?: RuntimeBrickElement
 ): void {
+  window.DISABLE_REACT_FLUSH_SYNC = false;
   let current = root.child;
   const portalElements: RuntimeBrickElement[] = [];
   while (current) {
@@ -111,4 +112,7 @@ export function mountTree(
       current = currentReturn?.sibling;
     }
   }
+  setTimeout(() => {
+    window.DISABLE_REACT_FLUSH_SYNC = true;
+  });
 }
