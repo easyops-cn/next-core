@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.2...@next-core/build-next-bricks@1.20.3) (2024-01-31)
+
+
+### Bug Fixes
+
+* record references when using extends ([e29d72a](https://github.com/easyops-cn/next-core/commit/e29d72ac24babd8e03d0b5e79c1916de474b3219))
+
+
+
+
+
+## [1.20.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.1...@next-core/build-next-bricks@1.20.2) (2024-01-03)
+
+
+### Bug Fixes
+
+* fix async copyFile ([2fdeb99](https://github.com/easyops-cn/next-core/commit/2fdeb99273f17205147f3b4192e62ce5e17e07c1))
+
+
+
+
+
+## [1.20.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.0...@next-core/build-next-bricks@1.20.1) (2024-01-02)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 # [1.20.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.19.1...@next-core/build-next-bricks@1.20.0) (2023-12-28)
 
 

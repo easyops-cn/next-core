@@ -187,7 +187,7 @@ html[data-theme="dark-v2"],
   --antd-label-color: var(--antd-heading-color);
   --antd-component-background: var(--color-fill-bg-container-1);
   --antd-border-color-base: var(--color-border-divider-line);
-  --antd-background-color-light: (--palette-rgba-gray-2);
+  --antd-background-color-light: var(--palette-rgba-gray-2);
 
   --text-color-disabled: var(--color-disabled-text);
   --antd-background-color-base: var(--color-fill-bg-base-1);

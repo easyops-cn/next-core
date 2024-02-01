@@ -937,6 +937,7 @@ export interface BuiltinBrickEventHandler {
     | "location.assign"
     | "window.open"
     | "event.preventDefault"
+    | "event.stopPropagation"
     | "console.log"
     | "console.error"
     | "console.warn"

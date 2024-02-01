@@ -3,6 +3,123 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.11.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.4...@next-core/brick-container@3.11.5) (2024-01-31)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.11.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.3...@next-core/brick-container@3.11.4) (2024-01-31)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.2...@next-core/brick-container@3.11.3) (2024-01-24)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.1...@next-core/brick-container@3.11.2) (2024-01-23)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.0...@next-core/brick-container@3.11.1) (2024-01-23)
+
+
+### Bug Fixes
+
+* report增加author/description字段 ([9411aa2](https://github.com/easyops-cn/next-core/commit/9411aa24b5a42a77060359fda24618c8ae0cdc64))
+
+
+
+
+
+# [3.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.20...@next-core/brick-container@3.11.0) (2024-01-23)
+
+
+### Features
+
+* brick_next中sa-na脚本修改， 支持sa-na体积精简\n Ref: UC-668 ([1a42b50](https://github.com/easyops-cn/next-core/commit/1a42b50a902fb32931b00cfde6a680a5945b7954))
+
+
+
+
+
+## [3.10.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.19...@next-core/brick-container@3.10.20) (2024-01-15)
+
+
+### Bug Fixes
+
+* brick_next依赖micro_app_standalone_service ([eea5247](https://github.com/easyops-cn/next-core/commit/eea5247440e415149c1df01702f9c2a5d0ef65f2))
+* brick_next依赖micro_app_standalone_service ([d859336](https://github.com/easyops-cn/next-core/commit/d859336c071176f36ca9e86b57c216435b858ee3))
+
+
+
+
+
+## [3.10.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.18...@next-core/brick-container@3.10.19) (2024-01-15)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.17...@next-core/brick-container@3.10.18) (2024-01-10)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.16...@next-core/brick-container@3.10.17) (2024-01-04)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.15...@next-core/brick-container@3.10.16) (2024-01-04)
+
+
+### Bug Fixes
+
+* fix bootstrap.json match RegExp ([4fde55e](https://github.com/easyops-cn/next-core/commit/4fde55e8ea9b69050a08910e22ca3fa47e5e3576))
+
+
+
+
+
+## [3.10.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.14...@next-core/brick-container@3.10.15) (2024-01-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.10.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.13...@next-core/brick-container@3.10.14) (2024-01-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.10.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.10.12...@next-core/brick-container@3.10.13) (2023-12-31)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/test-next",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Test next packages",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/test-next",
   "license": "GPL-3.0",

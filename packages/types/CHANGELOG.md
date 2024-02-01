@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.7.3...@next-core/types@1.8.0) (2024-01-10)
+
+
+### Features
+
+* add new action: event.stopPropagation ([0f6897c](https://github.com/easyops-cn/next-core/commit/0f6897c592e936348a2fbcccd2eb9b64806df20b))
+
+
+
+
+
 ## [1.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.7.2...@next-core/types@1.7.3) (2023-12-21)
 
 

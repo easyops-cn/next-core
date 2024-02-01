@@ -38,7 +38,11 @@
       "enabled": true
     },
     {
-      "matchPackageNames": ["@next-shared/icons"],
+      "matchPackageNames": [
+        "@next-core/loader",
+        "@next-core/theme",
+        "@next-shared/icons"
+      ],
       "matchBaseBranches": ["master"],
       "enabled": true
     },

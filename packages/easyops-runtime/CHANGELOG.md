@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.1...@next-core/easyops-runtime@0.7.2) (2024-01-31)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.0...@next-core/easyops-runtime@0.7.1) (2024-01-31)
+
+
+### Bug Fixes
+
+* revert yarn.lock and refine analysis tests ([548a7c0](https://github.com/easyops-cn/next-core/commit/548a7c0ca40d6fb24770533c645f9cc930b30ee1))
+
+
+
+
+
+# [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.68...@next-core/easyops-runtime@0.7.0) (2024-01-24)
+
+
+### Features
+
+* next-v3框架前端指标发送优化 ([d75dd76](https://github.com/easyops-cn/next-core/commit/d75dd76d573d95858b5073d9f156f97bea09d16b))
+
+
+
+
+
+## [0.6.68](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.67...@next-core/easyops-runtime@0.6.68) (2024-01-23)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.67](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.66...@next-core/easyops-runtime@0.6.67) (2024-01-10)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.6.66](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.65...@next-core/easyops-runtime@0.6.66) (2024-01-02)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
 ## [0.6.65](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.6.64...@next-core/easyops-runtime@0.6.65) (2023-12-27)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

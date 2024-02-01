@@ -14,7 +14,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Sub Route 1 [1]");
 
       cy.expectMainContents([
-        "Hello [1]",
+        "Hello",
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
@@ -29,7 +29,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Go 2").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2");
       cy.expectMainContents([
-        "Hello [1]",
+        "Hello",
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
@@ -44,7 +44,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Go 3").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2").should("not.exist");
       cy.expectMainContents([
-        "Hello [1]",
+        "Hello",
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
@@ -61,7 +61,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Go 4").click();
       cy.contains("SyntaxError");
       cy.expectMainContents([
-        "Hello [1]",
+        "Hello",
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
@@ -78,7 +78,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Go 5").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2");
       cy.expectMainContents([
-        "Hello [1]",
+        "Hello",
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",

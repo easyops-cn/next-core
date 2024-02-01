@@ -181,7 +181,7 @@ export class Router {
         ignoreRendering = true;
       }
 
-      if (!ignoreRendering) {
+      if (!ignoreRendering && !location.state?.noIncremental) {
         ignoreRendering =
           await this.#rendererContext?.didPerformIncrementalRender(location);
       }
@@ -474,12 +474,8 @@ export class Router {
         applyTheme();
         applyMode();
 
-        window.DISABLE_REACT_FLUSH_SYNC = false;
         setUIVersion(currentApp?.uiVersion);
         mountTree(renderRoot);
-        setTimeout(() => {
-          window.DISABLE_REACT_FLUSH_SYNC = true;
-        });
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md

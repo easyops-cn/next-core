@@ -53,7 +53,7 @@ def collect(install_path, report_app_id, version, set_active_version):
         raise Exception("could not find webroot path {}".format(webroot_dir))
     bootstrap_file_name = ""
     for f in os.listdir(webroot_dir):
-        if f.startswith("bootstrap") and f.endswith(".json"):
+        if f.startswith("bootstrap.") and f.endswith(".json"):
             bootstrap_file_name = f
     if bootstrap_file_name is "" :
         raise Exception("bootstrap.***.json not found in dir {}".format(webroot_dir))
@@ -82,6 +82,10 @@ def collect(install_path, report_app_id, version, set_active_version):
                     "icons": story_board["app"].get("icons", {}),
                     "menuIcon": story_board["app"].get("menuIcon", {}),
                     "locales": story_board["app"].get("locales", {}),
+                    "usePublicDependencies": story_board["app"].get("usePublicDependencies"),
+                    "unionTags": story_board["app"].get("unionTags", []),
+                    "description": story_board["app"].get("description"),
+                    "author": story_board["app"].get("author"),
                 }
                 return app
 
@@ -127,6 +131,10 @@ if __name__ == "__main__":
     set_active_version = sys.argv[5]
     app = collect(install_path, report_app_id, version, set_active_version)
     if app:
-        print "app found, start report"
+        usePublicDependenciesFlag = app.get("usePublicDependencies")
+        unionTags = app.get("unionTags")
+        if not usePublicDependenciesFlag and unionTags:
+            print "union package must use common dependencies, please modify the config[usePublicDependencies] or config[unionTags]"
+            sys.exit(1)
         report(org, app)
         import_micro_app_permissions(install_path, version, org)

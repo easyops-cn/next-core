@@ -185,6 +185,9 @@ export function listenerFactory(
           case "event.preventDefault":
             event.preventDefault();
             break;
+          case "event.stopPropagation":
+            event.stopPropagation();
+            break;
 
           case "console.log":
           case "console.error":
@@ -477,25 +480,36 @@ async function brickCallback(
     finally: callbackFactory("finally"),
   };
 
-  let poll: ProviderPollOptions | undefined;
   if (isUseProviderHandler(handler)) {
-    poll = computeRealValue(handler.poll, { ...runtimeContext, event }) as
-      | ProviderPollOptions
-      | undefined;
+    const pollRuntimeContext = {
+      ...runtimeContext,
+      event,
+    };
+    const pollEnabled = computeRealValue(
+      handler.poll?.enabled,
+      pollRuntimeContext
+    ) as boolean | undefined;
+
+    if (pollEnabled) {
+      startPoll(
+        task,
+        pollableCallback,
+        handler.poll as ProviderPollOptions,
+        pollRuntimeContext
+      );
+
+      return;
+    }
   }
 
-  if (poll?.enabled) {
-    startPoll(task, pollableCallback, poll);
-  } else {
-    try {
-      // Try to catch synchronized tasks too.
-      const result = await task();
-      pollableCallback.success(result);
-    } catch (err) {
-      pollableCallback.error(err);
-    } finally {
-      pollableCallback["finally"]();
-    }
+  try {
+    // Try to catch synchronized tasks too.
+    const result = await task();
+    pollableCallback.success(result);
+  } catch (err) {
+    pollableCallback.error(err);
+  } finally {
+    pollableCallback["finally"]();
   }
 }
 
@@ -567,7 +581,7 @@ function handleWindowAction(
   const [url, target, features] = argsFactory(args, runtimeContext, event) as [
     string,
     string,
-    string
+    string,
   ];
   window.open(url, target || "_self", features);
 }
@@ -827,8 +841,8 @@ function argsFactory(
         event,
       }) as unknown[])
     : options.useEventAsDefault
-    ? [event]
-    : options.useEventDetailAsDefault
-    ? [(event as CustomEvent).detail]
-    : [];
+      ? [event]
+      : options.useEventDetailAsDefault
+        ? [(event as CustomEvent).detail]
+        : [];
 }

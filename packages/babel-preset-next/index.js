@@ -17,18 +17,18 @@ module.exports = () => {
               },
             }
           : env === "commonjs"
-          ? {
-              targets: {
-                node: "12",
+            ? {
+                targets: {
+                  node: "12",
+                },
+              }
+            : {
+                modules: false,
+                useBuiltIns: "entry",
+                corejs: {
+                  version: "3.35",
+                },
               },
-            }
-          : {
-              modules: false,
-              useBuiltIns: "entry",
-              corejs: {
-                version: "3.33",
-              },
-            },
       ],
       presetReact,
       [
@@ -49,7 +49,7 @@ module.exports = () => {
         transformRuntime,
         {
           // https://github.com/babel/babel/issues/9454#issuecomment-460425922
-          version: "7.23.2",
+          version: "7.23.7",
         },
       ],
     ],
