@@ -38,7 +38,7 @@
   "dependencies": {
     "@next-core/pipes": "^2.0.15",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4"
+    "moment": "^2.30.1"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.11",
