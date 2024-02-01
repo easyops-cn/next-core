@@ -75,6 +75,7 @@ jobs:
     - name: Cache for nx (master)
       uses: actions/cache@v4
       with:
+        save-always: true
         path: .cache
         key: ${{ runner.os }}-nx-master-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
         restore-keys: |
@@ -84,6 +85,7 @@ jobs:
     - name: Cache for nx (v3)
       uses: actions/cache@v4
       with:
+        save-always: true
         path: .cache
         key: ${{ runner.os }}-nx-v3-${{ hashFiles('yarn.lock', 'package.json') }}-${{ hashFiles('**/package.json') }}
         restore-keys: |
