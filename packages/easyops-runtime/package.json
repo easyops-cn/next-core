@@ -1,6 +1,6 @@
 {
   "name": "@next-core/easyops-runtime",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/easyops-runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -47,7 +47,7 @@
     "@next-core/cook": "^2.2.11",
     "@next-core/http": "^1.1.8",
     "@next-core/pipes": "^2.0.15",
-    "@next-core/runtime": "^1.30.2",
+    "@next-core/runtime": "^1.30.3",
     "@next-core/types": "^1.8.0",
     "@next-core/utils": "^1.6.9",
     "js-yaml": "^3.14.1",
