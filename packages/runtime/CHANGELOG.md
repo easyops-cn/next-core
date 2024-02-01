@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.2...@next-core/runtime@1.30.3) (2024-02-01)
+
+
+### Bug Fixes
+
+* handle circular STATE with TPL ([04fe3e4](https://github.com/easyops-cn/next-core/commit/04fe3e45c307fa54287bf6c9f44e5c64184a913d))
+
+
+
+
+
 ## [1.30.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.1...@next-core/runtime@1.30.2) (2024-01-31)
 
 
