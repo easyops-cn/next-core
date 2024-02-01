@@ -474,6 +474,66 @@ describe("resolveDataStore", () => {
     );
   });
 
+  test("should throw if circular STATE or TPL detected", async () => {
+    const { pendingResult, pendingContexts } = resolveDataStore(
+      [
+        {
+          name: "abc",
+          value: "<% TPL.abc %>",
+        },
+      ],
+      asyncProcess,
+      "STATE",
+      false
+    );
+
+    // Avoid unhandled promise rejection warning
+    pendingResult.catch(() => {
+      // ignore
+    });
+    for (const promise of pendingContexts.values()) {
+      promise.catch(() => {
+        // ignore
+      });
+    }
+
+    await (global as any).flushPromises();
+    await expect(pendingResult).rejects.toMatchInlineSnapshot(
+      `[ReferenceError: Circular STATE detected: abc]`
+    );
+  });
+
+  test("should handle non-static usage of TPL", async () => {
+    const { pendingResult, pendingContexts } = resolveDataStore(
+      [
+        {
+          name: "abc",
+          value: "<% TPL[TPL.xyz] %>",
+        },
+        {
+          name: "xyz",
+          value: "later",
+        },
+      ],
+      asyncProcess,
+      "STATE",
+      false
+    );
+
+    // Avoid unhandled promise rejection warning
+    pendingResult.catch(() => {
+      // ignore
+    });
+    for (const promise of pendingContexts.values()) {
+      promise.catch(() => {
+        // ignore
+      });
+    }
+
+    await (global as any).flushPromises();
+    await expect(pendingResult).resolves.toBeUndefined();
+  });
+
   test("should throw if duplicated context defined", async () => {
     const { pendingResult, pendingContexts } = resolveDataStore(
       [
