@@ -69,7 +69,6 @@ body[data-loading] {
 .brick-playground-toolbar-column {
   display: flex;
   gap: 10px;
-  flex: 1;
   justify-content: center;
   min-width: 0;
 }
@@ -84,6 +83,7 @@ body[data-loading] {
 
 .brick-playground-toolbar-column:first-child {
   justify-content: flex-start;
+  flex-shrink: 0;
 }
 
 #brick-playground-share-result {
@@ -91,4 +91,8 @@ body[data-loading] {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+#brick-playground-select-example {
+  min-width: 0;
 }
