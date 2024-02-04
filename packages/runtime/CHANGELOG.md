@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.30.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.3...@next-core/runtime@1.30.4) (2024-02-04)
+
+
+### Bug Fixes
+
+* fix useBrick with portal dynamic nodes rerender ([50f8df8](https://github.com/easyops-cn/next-core/commit/50f8df88eb62a33230ac9698caf672c99d0d9a5e))
+
+
+
+
+
 ## [1.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.2...@next-core/runtime@1.30.3) (2024-02-01)
 
 
