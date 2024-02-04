@@ -29,6 +29,7 @@ const {
   onlyAutoMergePatchVersions,
   enableLernaWithNx,
   updateRenovateForV2,
+  updateRenovatePostExecutionMode,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -202,6 +203,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.17.32")) {
     updateRenovateForV2();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.18.0")) {
+    updateRenovatePostExecutionMode();
   }
 
   updateDevDependenciesVersion();

@@ -18,19 +18,23 @@ describe("patchInternalRenovate", () => {
     mockFsReadJsonSync.mockReturnValueOnce({
       packageRules: [
         {
-          matchDepTypes: ["devDependencies"],
-          matchUpdateTypes: ["minor", "patch"],
-          automerge: true,
-        },
-        {
-          groupName: "next-core packages",
-          matchPackagePatterns: ["^@next-core/"],
-          automerge: false,
+          excludePackagePatterns: ["^@next-core/", "^@next-libs/"],
+          enabled: false,
         },
         {
           matchPackagePatterns: ["^@next-core/"],
           matchUpdateTypes: ["major"],
           enabled: false,
+        },
+        {
+          groupName: "next-core packages",
+          matchPackagePatterns: ["^@next-core/"],
+          matchUpdateTypes: ["minor", "patch"],
+        },
+        {
+          groupName: "next-libs packages",
+          matchPackagePatterns: ["^@next-libs/"],
+          separateMajorMinor: false,
         },
       ],
     });
@@ -49,14 +53,18 @@ describe("patchInternalRenovate", () => {
       {
         packageRules: [
           {
-            matchDepTypes: ["devDependencies"],
-            matchUpdateTypes: ["minor", "patch"],
-            automerge: true,
+            excludePackagePatterns: ["^@next-core/", "^@next-libs/"],
+            enabled: false,
+          },
+          {
+            matchPackagePatterns: ["^@next-core/"],
+            matchUpdateTypes: ["major"],
+            enabled: false,
           },
           {
             groupName: "next-core packages",
             matchPackagePatterns: ["^@next-core/"],
-            automerge: false,
+            matchUpdateTypes: ["minor", "patch"],
             postUpgradeTasks: {
               commands: [
                 "yarn renew",
@@ -65,6 +73,7 @@ describe("patchInternalRenovate", () => {
                 "yarn-deduplicate yarn.lock",
                 "yarn",
               ],
+              executionMode: "branch",
               fileFilters: [
                 "**/*",
                 ".gitignore",
@@ -76,9 +85,9 @@ describe("patchInternalRenovate", () => {
             },
           },
           {
-            matchPackagePatterns: ["^@next-core/"],
-            matchUpdateTypes: ["major"],
-            enabled: false,
+            groupName: "next-libs packages",
+            matchPackagePatterns: ["^@next-libs/"],
+            separateMajorMinor: false,
           },
         ],
       },

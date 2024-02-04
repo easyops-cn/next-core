@@ -80,6 +80,7 @@ describe("updateRenovateForV2", () => {
                 "yarn-deduplicate yarn.lock",
                 "yarn",
               ],
+              executionMode: "branch",
               fileFilters: [
                 "**/*",
                 ".gitignore",
