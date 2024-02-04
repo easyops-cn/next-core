@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.17.136...@next-core/dev-dependencies@1.18.0) (2024-02-04)
+
+
+### Features
+
+* patch renovate post execution mode ([8eef82c](https://github.com/easyops-cn/next-core/commit/8eef82ce69326521f87dc1ac36ba9d490c64ed33))
+
+
+
+
+
 ## [1.17.136](https://github.com/easyops-cn/next-core/compare/@next-core/dev-dependencies@1.17.135...@next-core/dev-dependencies@1.17.136) (2024-01-31)
 
 

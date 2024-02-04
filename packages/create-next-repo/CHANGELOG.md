@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.17...@next-core/create-next-repo@1.5.0) (2024-02-04)
+
+
+### Features
+
+* patch renovate post execution mode ([8eef82c](https://github.com/easyops-cn/next-core/commit/8eef82ce69326521f87dc1ac36ba9d490c64ed33))
+
+
+
+
+
 ## [1.4.17](https://github.com/easyops-cn/next-core/compare/@next-core/create-next-repo@1.4.16...@next-core/create-next-repo@1.4.17) (2022-12-09)
 
 **Note:** Version bump only for package @next-core/create-next-repo
