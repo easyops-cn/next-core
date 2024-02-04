@@ -24,6 +24,7 @@ import { FORM_RENDERER } from "./FormRenderer/constants.js";
 import { hooks } from "./Runtime.js";
 import * as compute from "./compute/computeRealValue.js";
 import { customProcessors } from "../CustomProcessors.js";
+import * as __secret_internals from "./secret_internals.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../history.js");
@@ -63,6 +64,9 @@ jest.mock("./Runtime.js", () => ({
   getRuntime() {
     //
   },
+  _internalApiGetRuntimeContext() {
+    return {};
+  },
 }));
 
 (loadScript as jest.Mocked<typeof loadScript>).mockResolvedValue([]);
@@ -95,6 +99,50 @@ const myTimeoutProvider = jest.fn(
 customElements.define(
   "my-timeout-provider",
   createProviderClass(myTimeoutProvider)
+);
+
+customElements.define(
+  "my-use-brick",
+  class MyUseBrick extends HTMLElement {
+    #mountResult: __secret_internals.MountUseBrickResult | undefined;
+    #renderResult: __secret_internals.RenderUseBrickResult | undefined;
+    async connectedCallback() {
+      const div = document.createElement("div");
+      this.#renderResult = await __secret_internals.renderUseBrick(
+        {
+          brick: "div",
+          children: [
+            {
+              brick: "em",
+              properties: {
+                textContent: "Main in useBrick",
+              },
+            },
+            {
+              brick: "dialog",
+              properties: {
+                textContent: "Portal in useBrick",
+              },
+              portal: true,
+            },
+          ],
+        },
+        null
+      );
+      this.#mountResult = __secret_internals.mountUseBrick(
+        this.#renderResult,
+        div
+      );
+    }
+    disconnectedCallback() {
+      if (this.#mountResult && this.#renderResult) {
+        __secret_internals.unmountUseBrick(
+          this.#renderResult,
+          this.#mountResult
+        );
+      }
+    }
+  }
 );
 
 const formRendererBricks = [
@@ -1582,6 +1630,128 @@ describe("renderBrick for control nodes", () => {
 
     expect(container.innerHTML).toBe(
       "<h1>Before</h1><h2>Warning</h2><p>Not good</p>"
+    );
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispatchOnUnmount();
+    rendererContext.dispose();
+  });
+
+  test("re-render dynamic nodes with portal bricks from useBrick", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    portal.id = "portal-mount-point";
+    document.body.append(container, portal);
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "list",
+          value: ["A"],
+        },
+      ],
+      runtimeContext
+    );
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [
+        {
+          brick: "h1",
+          properties: {
+            textContent: "Main",
+          },
+        },
+        {
+          brick: "p",
+          properties: {
+            textContent: "Portal",
+          },
+          portal: true,
+        },
+        {
+          brick: ":forEach",
+          dataSource: "<%= CTX.list %>",
+          children: [
+            {
+              brick: "strong",
+              properties: {
+                textContent: "<% `Title: ${ITEM}` %>",
+              },
+              portal: true,
+            },
+          ],
+        },
+        {
+          brick: ":forEach",
+          dataSource: "<%= CTX.list %>",
+          children: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "<% `Main: ${ITEM}` %>",
+              },
+              children: [
+                {
+                  brick: "dialog",
+                  properties: {
+                    textContent: "<% `Portal: ${ITEM}` %>",
+                  },
+                  portal: true,
+                },
+              ],
+            },
+            {
+              brick: "my-use-brick",
+            },
+          ],
+        },
+      ],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    renderRoot.child = output.node;
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+    mountTree(renderRoot);
+    rendererContext.dispatchOnMount();
+    rendererContext.initializeScrollIntoView();
+
+    expect(container.innerHTML).toBe(
+      "<h1>Main</h1><div>Main: A</div><my-use-brick></my-use-brick>"
+    );
+    expect(portal.innerHTML).toBe(
+      "<p>Portal</p><strong>Title: A</strong><dialog>Portal: A</dialog>"
+    );
+
+    // Wait for useBrick
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(portal.innerHTML).toBe(
+      "<p>Portal</p><strong>Title: A</strong><dialog>Portal: A</dialog><div><dialog>Portal in useBrick</dialog></div>"
+    );
+
+    // Scenario: Re-render dynamic nodes with portal bricks from useBrick.
+    ctxStore.updateValue("list", ["B"], "replace");
+    // Wait for `_.debounce()`
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(container.innerHTML).toBe(
+      "<h1>Main</h1><div>Main: B</div><my-use-brick></my-use-brick>"
+    );
+    expect(portal.innerHTML).toBe(
+      "<p>Portal</p><strong>Title: B</strong><dialog>Portal: B</dialog><div><dialog>Portal in useBrick</dialog></div>"
     );
 
     unmountTree(container);
