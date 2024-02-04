@@ -22,3 +22,4 @@ exports.migrateLazyBricksWithJest = require("./migrateLazyBricksWithJest");
 exports.onlyAutoMergePatchVersions = require("./onlyAutoMergePatchVersions");
 exports.enableLernaWithNx = require("./enableLernaWithNx");
 exports.updateRenovateForV2 = require("./updateRenovateForV2");
+exports.updateRenovatePostExecutionMode = require("./updateRenovatePostExecutionMode");

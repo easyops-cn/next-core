@@ -25,6 +25,7 @@ export function patchInternalRenovate(dest: string): Promise<void> {
         "yarn-deduplicate yarn.lock",
         "yarn",
       ],
+      executionMode: "branch",
       fileFilters: [
         "**/*",
         ".gitignore",
