@@ -591,6 +591,15 @@ routes:
   - brick: h1
     properties:
       textContent: Hello
+    lifeCycle:
+      onMount:
+        action: console.info
+        args:
+          - "Mounted Root"
+      onUnmount:
+        action: console.info
+        args:
+          - "Unmounted Root"
   - brick: tpl-x
     properties:
       i: 0
@@ -605,6 +614,24 @@ routes:
           action: history.push
           args:
           - <% `${APP.homepage}/sub-routes/${ITEM}` %>
+    - if: <% ITEM === 2 %>
+      brick: button
+      properties:
+        textContent: Go 2/x
+      events:
+        click:
+          action: history.push
+          args:
+          - <% `${APP.homepage}/sub-routes/2/x` %>
+    - if: <% ITEM === 2 %>
+      brick: button
+      properties:
+        textContent: Go 2/y
+      events:
+        click:
+          action: history.push
+          args:
+          - <% `${APP.homepage}/sub-routes/2/y` %>
   - brick: button
     properties:
       textContent: Go other
@@ -636,6 +663,7 @@ routes:
             properties:
               i: 1
         - path: ${APP.homepage}/sub-routes/2
+          incrementalSubRoutes: true
           context:
           - name: v
             resolve:
@@ -647,11 +675,56 @@ routes:
           bricks:
           - brick: div
             properties:
+              # textContent: |
+              #   <%= `Sub Route 2 [${CTX.v}] <${Math.random()}>` %>
               textContent: |
                 <%= `Sub Route 2 [${CTX.v}]` %>
+            lifeCycle:
+              onMount:
+                action: console.info
+                args:
+                  - "Mounted 2"
+              onUnmount:
+                action: console.info
+                args:
+                  - "Unmounted 2"
           - brick: tpl-x
             properties:
               i: 2
+          - brick: div
+            slots:
+              '':
+                type: routes
+                routes:
+                - path: ${APP.homepage}/sub-routes/2/x
+                  bricks:
+                  - brick: h3
+                    properties:
+                      textContent: "X"
+                    lifeCycle:
+                      onMount:
+                        action: console.info
+                        args:
+                          - "Mounted X"
+                      onUnmount:
+                        action: console.info
+                        args:
+                          - "Unmounted X"
+                - path: ${APP.homepage}/sub-routes/2/y
+                  bricks:
+                  - brick: h3
+                    properties:
+                      textContent: "Y"
+                    lifeCycle:
+                      onMount:
+                        action: console.info
+                        args:
+                          - "Mounted Y"
+                      onUnmount:
+                        action: console.info
+                        args:
+                          - "Unmounted Y"
+
         - path: ${APP.homepage}/sub-routes/3
           context:
           - name: v
