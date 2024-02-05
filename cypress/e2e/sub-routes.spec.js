@@ -8,6 +8,7 @@ for (const port of Cypress.env("ports")) {
       cy.visit(`${origin}/e2e/sub-routes/1`, {
         onBeforeLoad(win) {
           cy.spy(win.console, "error").as("console.error");
+          cy.spy(win.console, "info").as("console.info");
         },
       });
 
@@ -18,12 +19,17 @@ for (const port of Cypress.env("ports")) {
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
+        "Go 2/x",
+        "Go 2/y",
         "Go 3",
         "Go 4",
         "Go 5",
         "Go other",
         "Sub Route 1 [1][i: 1] x: 1",
       ]);
+
+      cy.get("@console.info").should("be.calledWith", "Mounted Root");
+      cy.get("@console.info").should("have.callCount", 1);
 
       // Incremental rendering
       cy.contains("Go 2").click();
@@ -33,12 +39,17 @@ for (const port of Cypress.env("ports")) {
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
+        "Go 2/x",
+        "Go 2/y",
         "Go 3",
         "Go 4",
         "Go 5",
         "Go other",
         "Sub Route 2 [2][i: 2] x: 2",
       ]);
+
+      cy.get("@console.info").should("be.calledWith", "Mounted 2");
+      cy.get("@console.info").should("have.callCount", 2);
 
       // Empty sub-route
       cy.contains("Go 3").click();
@@ -48,12 +59,17 @@ for (const port of Cypress.env("ports")) {
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
+        "Go 2/x",
+        "Go 2/y",
         "Go 3",
         "Go 4",
         "Go 5",
         "Go other",
         "",
       ]);
+
+      cy.get("@console.info").should("be.calledWith", "Unmounted 2");
+      cy.get("@console.info").should("have.callCount", 3);
 
       cy.get("@console.error").should("not.be.called");
 
@@ -65,6 +81,8 @@ for (const port of Cypress.env("ports")) {
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
+        "Go 2/x",
+        "Go 2/y",
         "Go 3",
         "Go 4",
         "Go 5",
@@ -82,6 +100,8 @@ for (const port of Cypress.env("ports")) {
         "[i: 0] x: 0",
         "Go 1",
         "Go 2",
+        "Go 2/x",
+        "Go 2/y",
         "Go 3",
         "Go 4",
         "Go 5",
@@ -89,10 +109,59 @@ for (const port of Cypress.env("ports")) {
         "Sub Route 2 [2][i: 2] x: 2",
       ]);
 
+      // cy.get("@console.info").should("be.calledWith", "Mounted 2");
+      cy.get("@console.info").should("have.callCount", 4);
+
+      // Inner nested sub-route
+      cy.contains("Go 2/x").click();
+      cy.contains("Sub Route 2 [2][i: 2] x: 2");
+      cy.expectMainContents([
+        "Hello",
+        "[i: 0] x: 0",
+        "Go 1",
+        "Go 2",
+        "Go 2/x",
+        "Go 2/y",
+        "Go 3",
+        "Go 4",
+        "Go 5",
+        "Go other",
+        "Sub Route 2 [2][i: 2] x: 2X",
+      ]);
+
+      cy.get("@console.info").should("be.calledWith", "Mounted X");
+      cy.get("@console.info").should("have.callCount", 5);
+
+      // Inner nested sub-route
+      cy.contains("Go 2/y").click();
+      cy.contains("Sub Route 2 [2][i: 2] x: 2");
+      cy.expectMainContents([
+        "Hello",
+        "[i: 0] x: 0",
+        "Go 1",
+        "Go 2",
+        "Go 2/x",
+        "Go 2/y",
+        "Go 3",
+        "Go 4",
+        "Go 5",
+        "Go other",
+        "Sub Route 2 [2][i: 2] x: 2Y",
+      ]);
+
+      cy.get("@console.info").should("be.calledWith", "Unmounted X");
+      cy.get("@console.info").should("be.calledWith", "Mounted Y");
+      cy.get("@console.info").should("have.callCount", 7);
+
       // Outside route
       cy.contains("Go other").click();
       cy.contains("Real Other Route");
       cy.contains("Hello").should("not.exist");
+
+      cy.get("@console.info").should("be.calledWith", "Unmounted Y");
+      cy.get("@console.info").should("be.calledWith", "Unmounted 2");
+      cy.get("@console.info").should("be.calledWith", "Unmounted Root");
+      cy.get("@console.info").should("have.callCount", 10);
     });
   });
 }

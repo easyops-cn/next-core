@@ -183,7 +183,10 @@ export class Router {
 
       if (!ignoreRendering && !location.state?.noIncremental) {
         ignoreRendering =
-          await this.#rendererContext?.didPerformIncrementalRender(location);
+          await this.#rendererContext?.didPerformIncrementalRender(
+            location,
+            this.#prevLocation
+          );
       }
 
       // Ignore stale renders

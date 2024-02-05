@@ -33,7 +33,8 @@ type MemoizedLifeCycle<T> = {
 };
 
 type LocationChangeCallback = (
-  location: Location<NextHistoryState>
+  location: Location<NextHistoryState>,
+  prevLocation: Location<NextHistoryState>
 ) => Promise<boolean>;
 
 const commonLifeCycles = [
@@ -208,11 +209,19 @@ export class RendererContext {
 
   #locationChangeCallbacks: LocationChangeCallback[] = [];
 
-  async didPerformIncrementalRender(location: Location<NextHistoryState>) {
-    const results = await Promise.all(
-      this.#locationChangeCallbacks.map((callback) => callback(location))
-    );
-    return results.some((result) => result);
+  async didPerformIncrementalRender(
+    location: Location<NextHistoryState>,
+    prevLocation: Location<NextHistoryState>
+  ) {
+    // Perform incremental rendering from inside out.
+    // This allows nested incremental sub-routes.
+    for (let i = this.#locationChangeCallbacks.length - 1; i >= 0; i--) {
+      const callback = this.#locationChangeCallbacks[i];
+      if (await callback(location, prevLocation)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
