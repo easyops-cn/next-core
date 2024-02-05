@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.4...@next-core/runtime@1.31.0) (2024-02-05)
+
+
+### Features
+
+* support nesting incremental sub-routes ([d7bb955](https://github.com/easyops-cn/next-core/commit/d7bb955b966a087fce3ed45c48aa2c49e08e6e6f))
+
+
+
+
+
 ## [1.30.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.3...@next-core/runtime@1.30.4) (2024-02-04)
 
 
