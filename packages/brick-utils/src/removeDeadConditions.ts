@@ -59,6 +59,7 @@ function removeDeadConditionsByAst(
       case "Brick":
       case "EventHandler":
       case "Context":
+      case "MetaMenuItem":
         computeConstantCondition(node.raw, options);
         break;
       case "Resolvable":
@@ -124,6 +125,12 @@ function removeDeadConditionsByAst(
       case "EventHandler":
         shakeConditionalNodes(node.then, node.raw, "then");
         shakeConditionalNodes(node.else, node.raw, "else");
+        break;
+      case "MetaMenu":
+        shakeConditionalNodes(node.items, node.raw, "items");
+        break;
+      case "MetaMenuItem":
+        shakeConditionalNodes(node.children, node.raw, "children");
         break;
     }
 

@@ -52,6 +52,7 @@ function traverseNode(
     case "Root":
       traverseNodes(node.routes, callback, childPath);
       traverseNodes(node.templates, callback, childPath);
+      traverseNodes(node.menus, callback, childPath);
       break;
     case "Route":
       traverseNodes(node.context, callback, childPath);
@@ -106,6 +107,12 @@ function traverseNode(
       break;
     case "BrickMenu":
       traverseNode(node.brick, callback, childPath);
+      break;
+    case "MetaMenu":
+      traverseNodes(node.items, callback, childPath);
+      break;
+    case "MetaMenuItem":
+      traverseNodes(node.children, callback, childPath);
       break;
     case "Resolvable":
     case "FalseMenu":
