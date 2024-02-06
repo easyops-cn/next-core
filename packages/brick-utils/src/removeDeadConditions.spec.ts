@@ -495,6 +495,82 @@ describe("removeDeadConditions", () => {
     });
   });
 
+  it("should work for menus", () => {
+    const menus = [
+      {
+        menuId: "test-1",
+        items: [
+          {
+            text: "item-1-1",
+          },
+          {
+            text: "item-1-2",
+            children: [
+              {
+                text: "item-1-2-1",
+                if: '<% FLAGS["disabled"] %>',
+              },
+              {
+                text: "item-1-2-2",
+                if: '<% FLAGS["enabled"] %>',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        menuId: "test-2",
+        items: [
+          {
+            text: "item-2-1",
+            if: "<% CTX.any %>",
+          },
+          {
+            text: "item-2-2",
+            if: "<% CTX.any || false %>",
+          },
+          {
+            text: "item-2-3",
+            if: "<% CTX.any && false %>",
+          },
+        ],
+      },
+    ];
+
+    const storyboard = {
+      meta: {
+        menus,
+      },
+    } as RuntimeStoryboard;
+
+    removeDeadConditions(storyboard, {
+      constantFeatureFlags: true,
+      featureFlags: {
+        enabled: true,
+      },
+    });
+
+    expect(menus).toEqual([
+      {
+        items: [
+          { text: "item-1-1" },
+          {
+            children: [{ if: true, text: "item-1-2-2" }],
+            text: "item-1-2",
+          },
+        ],
+        menuId: "test-1",
+      },
+      {
+        items: [
+          { if: "<% CTX.any %>", text: "item-2-1" },
+          { if: "<% CTX.any || false %>", text: "item-2-2" },
+        ],
+        menuId: "test-2",
+      },
+    ]);
+  });
+
   it("should warn for potential dead if", () => {
     const tplConstructor = {
       bricks: [{ brick: "a", if: null }],

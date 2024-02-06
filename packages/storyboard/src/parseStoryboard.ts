@@ -10,6 +10,8 @@ import type {
   CustomTemplateConstructor,
   CustomTemplateState,
   MenuConf,
+  MenuItemRawData,
+  MenuRawData,
   MessageConf,
   ProviderConf,
   ResolveConf,
@@ -32,6 +34,8 @@ import type {
   StoryboardNodeEventHandler,
   StoryboardNodeLifeCycle,
   StoryboardNodeMenu,
+  StoryboardNodeMetaMenu,
+  StoryboardNodeMetaMenuItem,
   StoryboardNodeResolvable,
   StoryboardNodeRoot,
   StoryboardNodeRoute,
@@ -48,6 +52,7 @@ export function parseStoryboard(storyboard: Storyboard): StoryboardNodeRoot {
     raw: storyboard,
     routes: parseRoutes(storyboard.routes),
     templates: parseTemplates(storyboard.meta?.customTemplates),
+    menus: parseMetaMenus(storyboard.meta?.menus),
   };
 }
 
@@ -428,4 +433,36 @@ function parseRouteProviders(
 function isObject(value: unknown): value is Record<string, any> {
   const type = typeof value;
   return value != null && (type == "object" || type == "function");
+}
+
+function parseMetaMenus(menus: MenuRawData[]): StoryboardNodeMetaMenu[] {
+  if (Array.isArray(menus)) {
+    return menus.map<StoryboardNodeMetaMenu>(parseMetaMenu);
+  }
+  return [];
+}
+
+function parseMetaMenu(menu: MenuRawData): StoryboardNodeMetaMenu {
+  return {
+    type: "MetaMenu",
+    raw: menu,
+    items: parseMetaItems(menu.items),
+  };
+}
+
+function parseMetaItems(
+  menuItems: MenuItemRawData[]
+): StoryboardNodeMetaMenuItem[] {
+  if (Array.isArray(menuItems)) {
+    return menuItems.map<StoryboardNodeMetaMenuItem>(parseMetaItem);
+  }
+  return [];
+}
+
+function parseMetaItem(menuItem: MenuItemRawData): StoryboardNodeMetaMenuItem {
+  return {
+    type: "MetaMenuItem",
+    raw: menuItem,
+    children: parseMetaItems(menuItem.children),
+  };
 }

@@ -9,6 +9,8 @@ import type {
   CustomTemplate,
   CustomTemplateConstructor,
   CustomTemplateState,
+  MenuItemRawData,
+  MenuRawData,
   MessageConf,
   ResolveConf,
   RouteConf,
@@ -34,13 +36,16 @@ export type StoryboardNode =
   | StoryboardNodeEventCallback
   | StoryboardNodeCondition
   | StoryboardNodeUseBrickEntry
-  | StoryboardNodeUseBackendEntry;
+  | StoryboardNodeUseBackendEntry
+  | StoryboardNodeMetaMenu
+  | StoryboardNodeMetaMenuItem;
 
 export interface StoryboardNodeRoot {
   type: "Root";
   raw: Storyboard;
   routes: StoryboardNodeRoute[];
   templates: StoryboardNodeTemplate[];
+  menus: StoryboardNodeMetaMenu[];
 }
 
 export interface StoryboardNodeTemplate {
@@ -232,4 +237,16 @@ export interface StoryboardNodeEventCallback {
   rawContainer: BrickEventHandlerCallback;
   rawKey: string;
   handlers: StoryboardNodeEventHandler[] | undefined;
+}
+
+export interface StoryboardNodeMetaMenu {
+  type: "MetaMenu";
+  raw: MenuRawData;
+  items?: StoryboardNodeMetaMenuItem[];
+}
+
+export interface StoryboardNodeMetaMenuItem {
+  type: "MetaMenuItem";
+  raw: MenuItemRawData;
+  children?: StoryboardNodeMetaMenuItem[];
 }
