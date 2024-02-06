@@ -688,7 +688,7 @@ export async function renderBrick(
     if (!slots) {
       return;
     }
-    const routeSlotIndexes = new Set<number>();
+    const routeSlotFromIndexToSlotId = new Map<number, string>();
     const rendered = await Promise.all(
       Object.entries(slots).map(([childSlotId, slotConf], index) => {
         if (slotConf.type !== "routes") {
@@ -707,7 +707,7 @@ export async function renderBrick(
           | RouteConfOfBricks
           | undefined;
         if (parentRoute?.incrementalSubRoutes) {
-          routeSlotIndexes.add(index);
+          routeSlotFromIndexToSlotId.set(index, childSlotId);
           rendererContext.performIncrementalRender(
             async (location, prevLocation) => {
               const { homepage } = childRuntimeContext.app;
@@ -834,9 +834,14 @@ export async function renderBrick(
       menuRequests: [],
     };
     rendered.forEach((item, index) => {
-      if (routeSlotIndexes.has(index)) {
+      if (routeSlotFromIndexToSlotId.has(index)) {
         // Memoize a render node before it's been merged.
-        rendererContext.memoize(slotId, [], item.node, brick);
+        rendererContext.memoize(
+          routeSlotFromIndexToSlotId.get(index),
+          [],
+          item.node,
+          brick
+        );
       }
       mergeRenderOutput(childrenOutput, item);
     });

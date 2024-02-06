@@ -309,41 +309,47 @@ const getBootstrapData = (options?: {
                         },
                         {
                           brick: "div",
-                          slots: {
-                            "": {
-                              type: "routes",
-                              routes: [
-                                {
-                                  path: "${APP.homepage}/sub-routes-nested/2/x",
-                                  menu: {
-                                    breadcrumb: { items: [{ text: "X" }] },
-                                  },
-                                  bricks: [
+                          children: [
+                            {
+                              brick: "div",
+                              slot: "content",
+                              slots: {
+                                "": {
+                                  type: "routes",
+                                  routes: [
                                     {
-                                      brick: "p",
-                                      properties: {
-                                        textContent: "Sub 2 - X",
+                                      path: "${APP.homepage}/sub-routes-nested/2/x",
+                                      menu: {
+                                        breadcrumb: { items: [{ text: "X" }] },
                                       },
+                                      bricks: [
+                                        {
+                                          brick: "p",
+                                          properties: {
+                                            textContent: "Sub 2 - X",
+                                          },
+                                        },
+                                      ],
+                                    },
+                                    {
+                                      path: "${APP.homepage}/sub-routes-nested/2/y",
+                                      menu: {
+                                        breadcrumb: { items: [{ text: "Y" }] },
+                                      },
+                                      bricks: [
+                                        {
+                                          brick: "p",
+                                          properties: {
+                                            textContent: "Sub 2 - Y",
+                                          },
+                                        },
+                                      ],
                                     },
                                   ],
                                 },
-                                {
-                                  path: "${APP.homepage}/sub-routes-nested/2/y",
-                                  menu: {
-                                    breadcrumb: { items: [{ text: "Y" }] },
-                                  },
-                                  bricks: [
-                                    {
-                                      brick: "p",
-                                      properties: {
-                                        textContent: "Sub 2 - Y",
-                                      },
-                                    },
-                                  ],
-                                },
-                              ],
+                              },
                             },
-                          },
+                          ],
                         },
                       ],
                     },
@@ -988,7 +994,11 @@ describe("Runtime", () => {
             <p>
               Sub 2
             </p>
-            <div />
+            <div>
+              <div
+                slot="content"
+              />
+            </div>
           </div>
         </div>,
         <div
@@ -1012,9 +1022,13 @@ describe("Runtime", () => {
               Sub 2
             </p>
             <div>
-              <p>
-                Sub 2 - X
-              </p>
+              <div
+                slot="content"
+              >
+                <p>
+                  Sub 2 - X
+                </p>
+              </div>
             </div>
           </div>
         </div>,
@@ -1039,9 +1053,13 @@ describe("Runtime", () => {
               Sub 2
             </p>
             <div>
-              <p>
-                Sub 2 - Y
-              </p>
+              <div
+                slot="content"
+              >
+                <p>
+                  Sub 2 - Y
+                </p>
+              </div>
             </div>
           </div>
         </div>,
