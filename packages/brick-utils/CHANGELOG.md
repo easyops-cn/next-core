@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.14...@next-core/brick-utils@2.51.15) (2024-02-06)
+
+
+### Bug Fixes
+
+* handle dead conditions with menu ([4e3f4ae](https://github.com/easyops-cn/next-core/commit/4e3f4ae8b7404c75df3e402b6ae900fc8cebf0e7))
+
+
+
+
+
 ## [2.51.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.13...@next-core/brick-utils@2.51.14) (2024-01-17)
 
 **Note:** Version bump only for package @next-core/brick-utils
