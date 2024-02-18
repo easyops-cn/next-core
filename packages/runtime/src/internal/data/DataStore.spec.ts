@@ -463,6 +463,64 @@ describe("DataStore", () => {
     });
   });
 
+  test("nesting track states", async () => {
+    consoleInfo.mockReturnValue();
+    const tplStateStoreId = "tpl-state-1";
+    setRealTimeDataInspectRoot({ tplStateStoreId });
+    const tplStateStoreMap = new Map<string, DataStore<"STATE">>();
+    const runtimeContext = {
+      tplStateStoreId,
+      tplStateStoreMap,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    const stateStore = new DataStore(
+      "STATE",
+      undefined,
+      undefined,
+      tplStateStoreId
+    );
+    tplStateStoreMap.set(tplStateStoreId, stateStore);
+    stateStore.define(
+      [
+        {
+          name: "a",
+          value: 1,
+        },
+        {
+          name: "b",
+          value: "<% STATE.a * 10 %>",
+          track: true,
+        },
+        {
+          name: "c",
+          value: "<% STATE.b + STATE.a %>",
+          track: true,
+          onChange: {
+            action: "console.info",
+            args: ["c", "<% EVENT.detail %>"],
+          },
+        },
+      ],
+      runtimeContext
+    );
+    await (global as any).flushPromises();
+    expect(stateStore.getValue("a")).toBe(1);
+    expect(stateStore.getValue("b")).toBe(10);
+    expect(stateStore.getValue("c")).toBe(11);
+    expect(consoleInfo).toBeCalledTimes(0);
+
+    stateStore.updateValue("a", 2, "replace");
+    // stateStore.updateValues([{ name: "a", value:2}], "replace", (arg: any[]) => arg[0]);
+    expect(stateStore.getValue("a")).toBe(2);
+    expect(stateStore.getValue("b")).toBe(20);
+    expect(stateStore.getValue("c")).toBe(22);
+
+    // `c` should be updated only once
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toHaveBeenNthCalledWith(1, "c", 22);
+    // expect(consoleInfo).toHaveBeenNthCalledWith(2, "c", 22);
+    consoleInfo.mockReset();
+  });
+
   test("lazy/async, load and track", async () => {
     setRealTimeDataInspectRoot({
       tplStateStoreId: "tpl-state-999",
