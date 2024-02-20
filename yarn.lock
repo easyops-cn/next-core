@@ -1896,24 +1896,24 @@
   dependencies:
     call-bind "^1.0.2"
 
-"@microsoft/api-extractor-model@7.28.11":
-  version "7.28.11"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.28.11.tgz#f6621c0f4249d627db5dd0fa6c37b7508b7eba49"
-  integrity sha512-iyYqSH4gI3dFj4GLTTvi4Usgd5bILc9bbB5m2xul5tJ0JQ9G9lc1rY67rSD6O0hU62E1WRHOai9GUUVXMgCTdA==
+"@microsoft/api-extractor-model@7.28.12":
+  version "7.28.12"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.28.12.tgz#1f9dded05021e10bd80d3937fe4707e980b0cac2"
+  integrity sha512-h/gR7+VVp3KO/++YXodpIUKEznTznyawNugwTQka1RwchLwjPEFXmpT1UZ3Cnu8kt3CsNERw9ZUFajBHwUxW7w==
   dependencies:
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "~0.16.1"
-    "@rushstack/node-core-library" "4.0.0"
+    "@rushstack/node-core-library" "4.0.1"
 
-"@microsoft/api-extractor@^7.40.3":
-  version "7.40.3"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.40.3.tgz#d22d95783bf1a72674bdb5224ef9888a2d09da25"
-  integrity sha512-mh1BTKFxowAcArjUG3ryKN7seUEQt5BawAWCEtVq7nJYT2w2lBRGBmMBy93fnrWUxnvatXdtWgNi++Dl5R+7sQ==
+"@microsoft/api-extractor@^7.40.4":
+  version "7.40.4"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.40.4.tgz#9c77fb1155677e04a0cf8d62f3309b5b3b8d1333"
+  integrity sha512-ig7cORKVSJA4UOv5uDKdfSVSWPw7NSFgPmNAl42nS++01LDKZPoaCIk05njR+HNGTCd7GijCsTjpaCeVRMVjfg==
   dependencies:
-    "@microsoft/api-extractor-model" "7.28.11"
+    "@microsoft/api-extractor-model" "7.28.12"
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "~0.16.1"
-    "@rushstack/node-core-library" "4.0.0"
+    "@rushstack/node-core-library" "4.0.1"
     "@rushstack/rig-package" "0.5.2"
     "@rushstack/ts-command-line" "4.17.2"
     colors "~1.2.1"
@@ -2291,12 +2291,11 @@
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rushstack/node-core-library@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-4.0.0.tgz#8ee3549e6a98519326a6e868c1b1df4fbbe41fdf"
-  integrity sha512-4ocU3K2NtpILEWG6LjSMRSwrb0CjvYOioVTzqvIOj6vc5yD0BcscfpVp5dkHGLZxnqdmkBrTKvyg6AmqhWnw1w==
+"@rushstack/node-core-library@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-4.0.1.tgz#a281f9d075e708a0a6a81c57d143b3917d69c54e"
+  integrity sha512-wBGR9S/o/Q/7qVghqdfyocLz/Xc+VpjBTYzA8dAPNqHVSZNiEOWB37GPQWAUpHPWD1m8X7GUio8YMh8oe+uV0w==
   dependencies:
-    colors "~1.2.1"
     fs-extra "~7.0.1"
     import-lazy "~4.0.0"
     jju "~1.4.0"
