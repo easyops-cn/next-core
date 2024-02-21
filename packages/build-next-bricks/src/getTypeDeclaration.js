@@ -43,6 +43,24 @@ export default function getTypeDeclaration(node, source, usedReferences) {
       };
 
     case "TSTypeAliasDeclaration":
+      if (node.typeAnnotation.type === "TSTypeLiteral") {
+        // type A = { prop: number }
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^
+        return {
+          // Treat type literal as interface.
+          type: "interface",
+          name: node.id.name,
+          typeParameters:
+            /** @type {AnnotationTypeParameterDeclaration | undefined} */
+            (getTypeAnnotation(node.typeParameters, source, usedReferences)),
+          body: node.typeAnnotation.members.map(
+            (item) =>
+              /** @type {AnnotationPropertySignature} */
+              (getTypeAnnotation(item, source, usedReferences))
+          ),
+          ...parseTypeComment(node, source),
+        };
+      }
       // type A = B
       return {
         type: "typeAlias",

@@ -89,9 +89,14 @@ export function getSizeCheckStoryboards(brickPackages) {
         {
           path: `\${APP.homepage}/all`,
           exact: true,
-          preLoadBricks: brickPackages.flatMap((pkg) =>
-            pkg.bricks.concat(pkg.elements ?? [])
-          ),
+          preLoadBricks: brickPackages
+            .flatMap((pkg) => pkg.bricks.concat(pkg.elements ?? []))
+            .filter(
+              (brick) =>
+                // This brick is an alias of a deprecated brick.
+                // Ignore it otherwise it will cause custom element conflict.
+                brick !== "basic.app-bar-wrapper"
+            ),
           bricks: [
             {
               brick: "p",

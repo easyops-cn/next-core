@@ -33,7 +33,8 @@ type MemoizedLifeCycle<T> = {
 };
 
 type LocationChangeCallback = (
-  location: Location<NextHistoryState>
+  location: Location<NextHistoryState>,
+  prevLocation: Location<NextHistoryState>
 ) => Promise<boolean>;
 
 const commonLifeCycles = [
@@ -208,11 +209,19 @@ export class RendererContext {
 
   #locationChangeCallbacks: LocationChangeCallback[] = [];
 
-  async didPerformIncrementalRender(location: Location<NextHistoryState>) {
-    const results = await Promise.all(
-      this.#locationChangeCallbacks.map((callback) => callback(location))
-    );
-    return results.some((result) => result);
+  async didPerformIncrementalRender(
+    location: Location<NextHistoryState>,
+    prevLocation: Location<NextHistoryState>
+  ) {
+    // Perform incremental rendering from inside out.
+    // This allows nested incremental sub-routes.
+    for (let i = this.#locationChangeCallbacks.length - 1; i >= 0; i--) {
+      const callback = this.#locationChangeCallbacks[i];
+      if (await callback(location, prevLocation)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -362,13 +371,29 @@ export class RendererContext {
     } = memoized;
 
     let insertBeforeChild: ChildNode | null;
-    let insertPortalBeforeChild: ChildNode | null;
+    const insertPortalBeforeChildCandidates: ChildNode[] = [];
     if (prevNode?.tag === RenderTag.PLACEHOLDER) {
       insertBeforeChild = getNextNormalNode(prevNode)?.element ?? null;
-      insertPortalBeforeChild = getNextPortalNode(prevNode)?.element ?? null;
+      // Todo(steve): handle portal bricks from useBrick.
+      const nextSibling = getNextPortalNode(prevNode)?.element;
+      if (nextSibling) {
+        insertPortalBeforeChildCandidates.push(nextSibling);
+      }
     } else {
       insertBeforeChild = prevLastNormal?.element?.nextSibling ?? null;
-      insertPortalBeforeChild = prevLastPortal?.element?.nextSibling ?? null;
+      let nextSibling = prevLastPortal?.element?.nextSibling;
+      while (nextSibling) {
+        insertPortalBeforeChildCandidates.push(nextSibling);
+        // Collect all portal bricks from useBrick, until found a normal portal
+        // brick other than from useBrick.
+        // Because useBrick could be removed during unmount.
+        if (
+          !(nextSibling instanceof HTMLElement && nextSibling.tagName === "DIV")
+        ) {
+          break;
+        }
+        nextSibling = nextSibling.nextSibling;
+      }
     }
 
     const last = getLastNode(node);
@@ -448,6 +473,15 @@ export class RendererContext {
         typeof root.createPortal === "function"
           ? root.createPortal()
           : root.createPortal;
+      let insertPortalBeforeChild: ChildNode | null = null;
+      for (const candidate of insertPortalBeforeChildCandidates) {
+        // Those candidates from useBrick could be removed during unmount.
+        // So we need to check if they are still in the portal.
+        if (portal.contains(candidate)) {
+          insertPortalBeforeChild = candidate;
+          break;
+        }
+      }
       portal.insertBefore(portalFragment, insertPortalBeforeChild);
     }
 

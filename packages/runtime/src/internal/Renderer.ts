@@ -70,6 +70,7 @@ import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
 import { matchHomepage } from "./matchStoryboard.js";
 import type { DataStore, DataStoreType } from "./data/DataStore.js";
 import { listenerFactory } from "./bindListeners.js";
+import type { MatchResult } from "./matchPath.js";
 
 export interface RenderOutput {
   node?: RenderChildNode;
@@ -687,7 +688,7 @@ export async function renderBrick(
     if (!slots) {
       return;
     }
-    const routeSlotIndexes = new Set<number>();
+    const routeSlotFromIndexToSlotId = new Map<number, string>();
     const rendered = await Promise.all(
       Object.entries(slots).map(([childSlotId, slotConf], index) => {
         if (slotConf.type !== "routes") {
@@ -706,107 +707,113 @@ export async function renderBrick(
           | RouteConfOfBricks
           | undefined;
         if (parentRoute?.incrementalSubRoutes) {
-          routeSlotIndexes.add(index);
-          rendererContext.performIncrementalRender(async (location) => {
-            const { homepage } = childRuntimeContext.app;
-            const { pathname } = location;
-            const previousParams = childRuntimeContext.match?.params;
-            // Ignore if any one of homepage and parent routes not matched.
-            if (
-              !matchHomepage(homepage, pathname) ||
-              !parentRoutes.every((route) => {
-                const newMatch = matchRoute(route, homepage, pathname);
-                // Ignore if the direct parent route params changed
-                return (
-                  newMatch &&
-                  (route !== parentRoute ||
-                    isEqual(previousParams, newMatch.params))
-                );
-              })
-            ) {
-              return false;
-            }
+          routeSlotFromIndexToSlotId.set(index, childSlotId);
+          rendererContext.performIncrementalRender(
+            async (location, prevLocation) => {
+              const { homepage } = childRuntimeContext.app;
+              const { pathname } = location;
+              // Ignore if any one of homepage and parent routes not matched.
+              if (
+                !matchHomepage(homepage, pathname) ||
+                !parentRoutes.every((route) => {
+                  let prevMatch: MatchResult | null;
+                  let newMatch: MatchResult | null;
+                  return (
+                    (prevMatch = matchRoute(
+                      route,
+                      homepage,
+                      prevLocation.pathname
+                    )) &&
+                    (newMatch = matchRoute(route, homepage, pathname)) &&
+                    (route !== parentRoute ||
+                      isEqual(prevMatch.params, newMatch.params))
+                  );
+                })
+              ) {
+                return false;
+              }
 
-            const [
-              scopedRuntimeContext,
-              tplStateStoreScope,
-              formStateStoreScope,
-            ] = createScopedRuntimeContext({
-              ...childRuntimeContext,
-              location,
-              query: new URLSearchParams(location.search),
-            });
-
-            let failed = false;
-            let incrementalOutput: RenderOutput;
-            let scopedStores: DataStore<"STATE" | "FORM_STATE">[] = [];
-
-            try {
-              incrementalOutput = await renderRoutes(
-                brick,
-                slotConf.routes,
+              const [
                 scopedRuntimeContext,
-                rendererContext,
-                parentRoutes,
+                tplStateStoreScope,
+                formStateStoreScope,
+              ] = createScopedRuntimeContext({
+                ...childRuntimeContext,
+                location,
+                query: new URLSearchParams(location.search),
+              });
+
+              let failed = false;
+              let incrementalOutput: RenderOutput;
+              let scopedStores: DataStore<"STATE" | "FORM_STATE">[] = [];
+
+              try {
+                incrementalOutput = await renderRoutes(
+                  brick,
+                  slotConf.routes,
+                  scopedRuntimeContext,
+                  rendererContext,
+                  parentRoutes,
+                  childSlotId,
+                  true
+                );
+
+                // Do not ignore incremental rendering even if all sub-routes are missed.
+                // Since parent route is matched.
+
+                // Bailout if redirect or unauthenticated is set
+                if (rendererContext.reBailout(incrementalOutput)) {
+                  return true;
+                }
+
+                scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
+                await postAsyncRender(incrementalOutput, scopedRuntimeContext, [
+                  scopedRuntimeContext.ctxStore,
+                  ...scopedStores,
+                ]);
+
+                await rendererContext.reMergeMenuRequests(
+                  slotConf.routes,
+                  incrementalOutput.route,
+                  incrementalOutput.menuRequests
+                );
+              } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error("Incremental sub-router failed:", error);
+
+                const result = rendererContext.reCatch(error, brick);
+                if (!result) {
+                  return true;
+                }
+                ({ failed, output: incrementalOutput } = result);
+
+                // Assert: no errors will be throw
+                await rendererContext.reMergeMenuRequests(
+                  slotConf.routes,
+                  incrementalOutput.route,
+                  incrementalOutput.menuRequests
+                );
+              }
+
+              rendererContext.reRender(
                 childSlotId,
-                true
+                [],
+                incrementalOutput.node,
+                brick
               );
 
-              // Do not ignore incremental rendering even if all sub-routes are missed.
-              // Since parent route is matched.
-
-              // Bailout if redirect or unauthenticated is set
-              if (rendererContext.reBailout(incrementalOutput)) {
-                return true;
+              if (!failed) {
+                scopedRuntimeContext.ctxStore.mountAsyncData(
+                  incrementalOutput.route
+                );
+                for (const store of scopedStores) {
+                  store.mountAsyncData();
+                }
               }
 
-              scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
-              await postAsyncRender(incrementalOutput, scopedRuntimeContext, [
-                scopedRuntimeContext.ctxStore,
-                ...scopedStores,
-              ]);
-
-              await rendererContext.reMergeMenuRequests(
-                slotConf.routes,
-                incrementalOutput.route,
-                incrementalOutput.menuRequests
-              );
-            } catch (error) {
-              // eslint-disable-next-line no-console
-              console.error("Incremental sub-router failed:", error);
-
-              const result = rendererContext.reCatch(error, brick);
-              if (!result) {
-                return true;
-              }
-              ({ failed, output: incrementalOutput } = result);
-
-              // Assert: no errors will be throw
-              await rendererContext.reMergeMenuRequests(
-                slotConf.routes,
-                incrementalOutput.route,
-                incrementalOutput.menuRequests
-              );
+              return true;
             }
-
-            rendererContext.reRender(
-              childSlotId,
-              [],
-              incrementalOutput.node,
-              brick
-            );
-
-            if (!failed) {
-              scopedRuntimeContext.ctxStore.mountAsyncData(
-                incrementalOutput.route
-              );
-              for (const store of scopedStores) {
-                store.mountAsyncData();
-              }
-            }
-
-            return true;
-          });
+          );
         }
 
         return renderRoutes(
@@ -827,9 +834,14 @@ export async function renderBrick(
       menuRequests: [],
     };
     rendered.forEach((item, index) => {
-      if (routeSlotIndexes.has(index)) {
+      if (routeSlotFromIndexToSlotId.has(index)) {
         // Memoize a render node before it's been merged.
-        rendererContext.memoize(slotId, [], item.node, brick);
+        rendererContext.memoize(
+          routeSlotFromIndexToSlotId.get(index),
+          [],
+          item.node,
+          brick
+        );
       }
       mergeRenderOutput(childrenOutput, item);
     });

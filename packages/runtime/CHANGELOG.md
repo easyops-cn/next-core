@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.31.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.31.0...@next-core/runtime@1.31.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* fix memoized route slot ([773eeb5](https://github.com/easyops-cn/next-core/commit/773eeb52d198a81bf573ef07be420de5eee80d75))
+
+
+
+
+
+# [1.31.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.4...@next-core/runtime@1.31.0) (2024-02-05)
+
+
+### Features
+
+* support nesting incremental sub-routes ([d7bb955](https://github.com/easyops-cn/next-core/commit/d7bb955b966a087fce3ed45c48aa2c49e08e6e6f))
+
+
+
+
+
+## [1.30.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.3...@next-core/runtime@1.30.4) (2024-02-04)
+
+
+### Bug Fixes
+
+* fix useBrick with portal dynamic nodes rerender ([50f8df8](https://github.com/easyops-cn/next-core/commit/50f8df88eb62a33230ac9698caf672c99d0d9a5e))
+
+
+
+
+
 ## [1.30.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.30.2...@next-core/runtime@1.30.3) (2024-02-01)
 
 

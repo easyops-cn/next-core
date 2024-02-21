@@ -267,6 +267,98 @@ const getBootstrapData = (options?: {
             },
           ],
         },
+        {
+          path: "${APP.homepage}/sub-routes-nested",
+          incrementalSubRoutes: true,
+          menu: {
+            breadcrumb: { items: [{ text: "Nested" }] },
+          },
+          bricks: [
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-nested/1",
+                      menu: {
+                        breadcrumb: { items: [{ text: "1" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 1",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes-nested/2",
+                      incrementalSubRoutes: true,
+                      menu: {
+                        breadcrumb: { items: [{ text: "2" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub 2",
+                          },
+                        },
+                        {
+                          brick: "div",
+                          children: [
+                            {
+                              brick: "div",
+                              slot: "content",
+                              slots: {
+                                "": {
+                                  type: "routes",
+                                  routes: [
+                                    {
+                                      path: "${APP.homepage}/sub-routes-nested/2/x",
+                                      menu: {
+                                        breadcrumb: { items: [{ text: "X" }] },
+                                      },
+                                      bricks: [
+                                        {
+                                          brick: "p",
+                                          properties: {
+                                            textContent: "Sub 2 - X",
+                                          },
+                                        },
+                                      ],
+                                    },
+                                    {
+                                      path: "${APP.homepage}/sub-routes-nested/2/y",
+                                      menu: {
+                                        breadcrumb: { items: [{ text: "Y" }] },
+                                      },
+                                      bricks: [
+                                        {
+                                          brick: "p",
+                                          properties: {
+                                            textContent: "Sub 2 - Y",
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                              },
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
       ],
       meta: {
         customTemplates: options?.templates
@@ -341,8 +433,15 @@ const getBootstrapData = (options?: {
         id: "auth",
         homepage: "/auth",
         name: "Auth",
+        noAuthGuard: true,
       },
-      routes: [],
+      routes: [
+        {
+          path: "${APP.homepage}/login",
+          exact: true,
+          bricks: [],
+        },
+      ],
     },
   ],
   brickPackages: [],
@@ -859,6 +958,121 @@ describe("Runtime", () => {
     });
   });
 
+  test("nested incremental sub-routes rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes-nested/1");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 1
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "1" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-nested/2");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 2
+            </p>
+            <div>
+              <div
+                slot="content"
+              />
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "2" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-nested/2/x");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 2
+            </p>
+            <div>
+              <div
+                slot="content"
+              >
+                <p>
+                  Sub 2 - X
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "2" }, { text: "X" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-nested/2/y");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 2
+            </p>
+            <div>
+              <div
+                slot="content"
+              >
+                <p>
+                  Sub 2 - Y
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "2" }, { text: "Y" }],
+    });
+  });
+
   test("unauthenticated", async () => {
     window.NO_AUTH_GUARD = false;
     const finishPageView = jest.fn();
@@ -880,8 +1094,13 @@ describe("Runtime", () => {
     getHistory().push("/app-b/");
     await getRuntime().bootstrap();
     expect(getHistory().location.pathname).toBe("/auth/login");
-    expect(finishPageView).toBeCalledTimes(1);
-    expect(finishPageView).toBeCalledWith({ status: "redirected" });
+    expect(finishPageView).toBeCalledTimes(2);
+    expect(finishPageView).toHaveBeenNthCalledWith(1, { status: "redirected" });
+    expect(finishPageView).toHaveBeenNthCalledWith(2, {
+      status: "ok",
+      path: "/auth/login",
+      pageTitle: "DevOps 管理专家",
+    });
   });
 
   test("no app matched", async () => {
