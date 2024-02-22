@@ -1896,27 +1896,27 @@
   dependencies:
     call-bind "^1.0.2"
 
-"@microsoft/api-extractor-model@7.28.12":
-  version "7.28.12"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.28.12.tgz#1f9dded05021e10bd80d3937fe4707e980b0cac2"
-  integrity sha512-h/gR7+VVp3KO/++YXodpIUKEznTznyawNugwTQka1RwchLwjPEFXmpT1UZ3Cnu8kt3CsNERw9ZUFajBHwUxW7w==
+"@microsoft/api-extractor-model@7.28.13":
+  version "7.28.13"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.28.13.tgz#96fbc52155e0d07e0eabbd9699065b77702fe33a"
+  integrity sha512-39v/JyldX4MS9uzHcdfmjjfS6cYGAoXV+io8B5a338pkHiSt+gy2eXQ0Q7cGFJ7quSa1VqqlMdlPrB6sLR/cAw==
   dependencies:
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "~0.16.1"
-    "@rushstack/node-core-library" "4.0.1"
+    "@rushstack/node-core-library" "4.0.2"
 
-"@microsoft/api-extractor@^7.40.4":
-  version "7.40.4"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.40.4.tgz#9c77fb1155677e04a0cf8d62f3309b5b3b8d1333"
-  integrity sha512-ig7cORKVSJA4UOv5uDKdfSVSWPw7NSFgPmNAl42nS++01LDKZPoaCIk05njR+HNGTCd7GijCsTjpaCeVRMVjfg==
+"@microsoft/api-extractor@^7.40.6":
+  version "7.40.6"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.40.6.tgz#810372f2fc75156e38120194d5b58d61142e9940"
+  integrity sha512-9N+XCIQB94Di+ETTzNGLqjgQydslynHou7QPgDhl5gZ+B/Q5hTv5jtqBglTUnTrC0trHdG5/YKN07ehGKlSb5g==
   dependencies:
-    "@microsoft/api-extractor-model" "7.28.12"
+    "@microsoft/api-extractor-model" "7.28.13"
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "~0.16.1"
-    "@rushstack/node-core-library" "4.0.1"
+    "@rushstack/node-core-library" "4.0.2"
     "@rushstack/rig-package" "0.5.2"
-    "@rushstack/ts-command-line" "4.17.2"
-    colors "~1.2.1"
+    "@rushstack/terminal" "0.9.0"
+    "@rushstack/ts-command-line" "4.17.3"
     lodash "~4.17.15"
     resolve "~1.22.1"
     semver "~7.5.4"
@@ -2291,10 +2291,10 @@
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rushstack/node-core-library@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-4.0.1.tgz#a281f9d075e708a0a6a81c57d143b3917d69c54e"
-  integrity sha512-wBGR9S/o/Q/7qVghqdfyocLz/Xc+VpjBTYzA8dAPNqHVSZNiEOWB37GPQWAUpHPWD1m8X7GUio8YMh8oe+uV0w==
+"@rushstack/node-core-library@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-4.0.2.tgz#e26854a3314b279d57e8abdb4acce7797d02f554"
+  integrity sha512-hyES82QVpkfQMeBMteQUnrhASL/KHPhd7iJ8euduwNJG4mu2GSOKybf0rOEjOm1Wz7CwJEUm9y0yD7jg2C1bfg==
   dependencies:
     fs-extra "~7.0.1"
     import-lazy "~4.0.0"
@@ -2311,14 +2311,22 @@
     resolve "~1.22.1"
     strip-json-comments "~3.1.1"
 
-"@rushstack/ts-command-line@4.17.2":
-  version "4.17.2"
-  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.17.2.tgz#bb9d9f8d1f143d5f64e5d35f786d9bc1cd33b334"
-  integrity sha512-QS2S2nJo9zXq/+9Dk10LmvIFugMizI9IeQUH4jnhIcoaeqYlsv2fK830U+/gMKpI5vomXz19XMXfkUfZzO4R3A==
+"@rushstack/terminal@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.9.0.tgz#17ef64c671417a8cf080e60a64c37eb09df1a317"
+  integrity sha512-49RnIDooriXyqcd7mGyjh9CmjOjf/Vn8PkOQXHa1CS0/RrrynCJLFhRDkswf7gGXZW+6UhROOE8wTmbOrfUTSA==
   dependencies:
+    "@rushstack/node-core-library" "4.0.2"
+    colors "~1.2.1"
+
+"@rushstack/ts-command-line@4.17.3":
+  version "4.17.3"
+  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.17.3.tgz#e8ae87c6dcfd93f43a8e44166f155b25dc695766"
+  integrity sha512-/PtTYW38A8iUviuCmQSccHfmx3uBh4Jm5YRPU2aTgYEgwT2jtg60vAbwnkMYkyaT1AbWpjZM3xq5uHYPURvStw==
+  dependencies:
+    "@rushstack/terminal" "0.9.0"
     "@types/argparse" "1.0.38"
     argparse "~1.0.9"
-    colors "~1.2.1"
     string-argv "~0.3.1"
 
 "@sigstore/bundle@^2.1.0":
