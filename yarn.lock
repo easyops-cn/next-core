@@ -5159,14 +5159,14 @@ cssnano-preset-default@^6.0.4:
     postcss-svgo "^6.0.2"
     postcss-unique-selectors "^6.0.2"
 
-cssnano-preset-lite@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-3.0.1.tgz#94fdeaff5e248acfa963d7974dd92d38dbfbef0c"
-  integrity sha512-e9uxTfzMghulpu9yWSW3jGCbfz1YnQaKQBa0U1aIoWMNNFbeTKLW4lpwGP5ktx8shcIbyCpQ+XUZIl0CIbIKiQ==
+cssnano-preset-lite@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-3.0.2.tgz#d19724b3248301b73ac6590601f04cda63a58515"
+  integrity sha512-lhS4/ovgg7bSnXwBFLAAfRSd2eXDmud5A/ApGhs31vLiQCxhuU/GaC9eB/PSVIPF8a9lno8na13xwnYm2Qn2xw==
   dependencies:
     cssnano-utils "^4.0.1"
     postcss-discard-comments "^6.0.1"
-    postcss-discard-empty "^6.0.1"
+    postcss-discard-empty "^6.0.2"
     postcss-normalize-whitespace "^6.0.1"
 
 cssnano-utils@^4.0.1:
@@ -10714,7 +10714,7 @@ postcss-discard-duplicates@^6.0.2:
   resolved "https://registry.npmjs.org/postcss-discard-duplicates/-/postcss-discard-duplicates-6.0.2.tgz#11f389e6af55099b928dca34b10734360b34bc93"
   integrity sha512-U2rsj4w6pAGROCCcD13LP2eBIi1whUsXs4kgE6xkIuGfkbxCBSKhkCTWyowFd66WdVlLv0uM1euJKIgmdmZObg==
 
-postcss-discard-empty@^6.0.1, postcss-discard-empty@^6.0.2:
+postcss-discard-empty@^6.0.2:
   version "6.0.2"
   resolved "https://registry.npmjs.org/postcss-discard-empty/-/postcss-discard-empty-6.0.2.tgz#9c4ca61f949dede0f7a1dfe3959e1003d0454500"
   integrity sha512-rj6pVC2dVCJrP0Y2RkYTQEbYaCf4HEm+R/2StQgJqGHxAa3+KcYslNQhcRqjLHtl/4wpzipJluaJLqBj6d5eDQ==
