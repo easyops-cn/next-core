@@ -1905,10 +1905,10 @@
     "@microsoft/tsdoc-config" "~0.16.1"
     "@rushstack/node-core-library" "4.0.2"
 
-"@microsoft/api-extractor@^7.41.1":
-  version "7.41.1"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.41.1.tgz#f29ab336d337bcbea4c858343fddf323419bb3d7"
-  integrity sha512-XVuWS+UFSLjrBjp/ifRQ8QcNiTGvEZDgG8LQpFJf2Y+3WX3d+Jpo0ycewqy/c3ATJFaPp+8xKXGqTbfypeVsGw==
+"@microsoft/api-extractor@^7.42.0":
+  version "7.42.0"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.42.0.tgz#492f87b52674a6b8127025eb682a5f68555ffcd6"
+  integrity sha512-PemnV/hXo3o/7Qpw/yxmu1ReyA/SnZ1/x5w6wvEu7W2NpYgo79VctVo5AdDwExOukBDPnsb9b8r6mgKQVyGrqg==
   dependencies:
     "@microsoft/api-extractor-model" "7.28.13"
     "@microsoft/tsdoc" "0.14.2"
@@ -1918,6 +1918,7 @@
     "@rushstack/terminal" "0.10.0"
     "@rushstack/ts-command-line" "4.18.0"
     lodash "~4.17.15"
+    minimatch "~3.0.3"
     resolve "~1.22.1"
     semver "~7.5.4"
     source-map "~0.6.1"
@@ -9351,6 +9352,13 @@ minimatch@^8.0.2:
   integrity sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==
   dependencies:
     brace-expansion "^2.0.1"
+
+minimatch@~3.0.3:
+  version "3.0.8"
+  resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.0.8.tgz#5e6a59bd11e2ab0de1cfb843eb2d82e546c321c1"
+  integrity sha512-6FsRAQsxQ61mw+qP1ZzbL9Bc78x2p5OqNgNpnoAFLTrX8n5Kxph0CsnhmKKNXTWjXqU5L0pGPR7hYk+XWZr60Q==
+  dependencies:
+    brace-expansion "^1.1.7"
 
 minimist-options@4.1.0:
   version "4.1.0"
