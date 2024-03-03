@@ -60,7 +60,7 @@
     "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.42.0",
+    "@microsoft/api-extractor": "^7.42.3",
     "@next-api-sdk/api-gateway-sdk": "^1.1.0",
     "@next-api-sdk/micro-app-sdk": "^1.2.1",
     "@next-core/build-next-libs": "^1.0.12",
