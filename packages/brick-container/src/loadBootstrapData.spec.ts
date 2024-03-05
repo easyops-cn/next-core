@@ -169,6 +169,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
                 zh: { name: "应用 G" },
                 en: { name: "Application G" },
               },
+              currentVersion: "1.1.1",
             },
             meta: [],
             routes: [
@@ -217,7 +218,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
           },
         ],
       };
-    case "app-a/conf.yaml":
+    case "sa-static/app-a/versions/1.88.0/webroot/conf.yaml":
       return "";
     case "app-b/conf.yaml":
       return `
@@ -254,10 +255,11 @@ describe("loadBootstrapData", () => {
   test("standalone", async () => {
     window.STANDALONE_MICRO_APPS = true;
     window.BOOTSTRAP_FILE = "bootstrap.app-a.json";
-    window.APP_ID = "app-a";
-    window.APP_ROOT = "app-a/";
+    window.APP_ROOT = "sa-static/app-a/versions/1.88.0/webroot/";
     const promise = loadBootstrapData();
-    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("app-a");
+    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("app-a", {
+      params: { version: "1.88.0" },
+    });
     const data = await promise;
     expect(data).toEqual({
       brickPackages: [],
@@ -321,7 +323,8 @@ describe("loadBootstrapData", () => {
           runtimeUserConf: 9,
         },
         menuIcon: {
-          imgSrc: "/app-a/-/micro-apps/app-a/images/test.jpeg",
+          imgSrc:
+            "/sa-static/app-a/versions/1.88.0/webroot/-/micro-apps/app-a/images/test.jpeg",
         },
       },
       meta: {
@@ -387,6 +390,7 @@ describe("loadBootstrapData", () => {
             id: "app-g",
             locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
             name: "App G",
+            currentVersion: "1.1.1",
           },
           bootstrapFile: "bootstrap.mini.g.json",
           meta: [],
@@ -397,7 +401,9 @@ describe("loadBootstrapData", () => {
 
     await fulfilStoryboard(data.storyboards[2]);
 
-    expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledWith("app-g");
+    expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledWith("app-g", {
+      params: { version: "1.1.1" },
+    });
 
     expect(data.storyboards[2]).toEqual({
       $$fullMerged: true,
@@ -408,6 +414,7 @@ describe("loadBootstrapData", () => {
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
+        currentVersion: "1.1.1",
       },
       bootstrapFile: "bootstrap.mini.g.json",
       meta: {
