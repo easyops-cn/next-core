@@ -60,18 +60,14 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
   ];
 
   if (!window.NO_AUTH_GUARD) {
-    let matches: string[] | null;
-    const appId =
-      window.APP_ID ||
-      (window.APP_ROOT &&
-      (matches = window.APP_ROOT.match(
-        /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\//
-      ))
-        ? matches[1]
-        : null);
-    if (appId) {
+    const matches: string[] | null = window.APP_ROOT
+      ? window.APP_ROOT.match(
+          /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\/([^/]+)\//
+        )
+      : null;
+    if (matches) {
       // No need to wait.
-      safeGetRuntimeMicroAppStandalone(appId);
+      safeGetRuntimeMicroAppStandalone(matches[1], matches[2]);
     }
   }
   const [bootstrapResult, confString, runtimeData, fullBootstrapDetail] =
@@ -168,14 +164,15 @@ const appRuntimeDataMap = new Map<
 >();
 
 export async function safeGetRuntimeMicroAppStandalone(
-  appId: string
+  appId: string,
+  version = "0.0.0"
 ): Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void> {
   if (appRuntimeDataMap.has(appId)) {
     return appRuntimeDataMap.get(appId);
   }
-  const promise = RuntimeApi_runtimeMicroAppStandalone(appId).catch(function (
-    error
-  ) {
+  const promise = RuntimeApi_runtimeMicroAppStandalone(appId, {
+    params: { version },
+  }).catch(function (error) {
     // make it not crash when the backend service is not updated.
     // eslint-disable-next-line no-console
     console.warn(

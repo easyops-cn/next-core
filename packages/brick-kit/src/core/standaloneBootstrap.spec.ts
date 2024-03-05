@@ -478,13 +478,13 @@ describe("standaloneBootstrap", () => {
     });
   });
 
-  it("should fire a request of RuntimeApi_runtimeMicroAppStandalone", async () => {
+  it("shouldn't fire a request of RuntimeApi_runtimeMicroAppStandalone without APP_ROOT", async () => {
     window.APP_ID = "my-app";
     mockRuntimeStandalone.mockRejectedValueOnce("oops");
     mockRuntimeMicroAppStandalone.mockRejectedValueOnce("nope");
     const promise = standaloneBootstrap();
     mockHttpGet.mockResolvedValueOnce("");
-    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("my-app");
+    expect(RuntimeApi_runtimeMicroAppStandalone).not.toBeCalled();
     await promise;
   });
 
@@ -494,10 +494,12 @@ describe("standaloneBootstrap", () => {
     mockRuntimeMicroAppStandalone.mockResolvedValueOnce({});
     const promise = standaloneBootstrap();
     mockHttpGet.mockResolvedValueOnce("");
-    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("another-app");
+    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("another-app", {
+      params: { version: "1.2.3" },
+    });
 
     // No call more than once.
-    safeGetRuntimeMicroAppStandalone("another-app");
+    safeGetRuntimeMicroAppStandalone("another-app", "1.0.0");
     expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(1);
     await promise;
   });
