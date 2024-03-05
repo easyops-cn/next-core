@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.11...@next-core/brick-container@3.12.0) (2024-03-05)
+
+
+### Features
+
+* getRuntimeMicroAppStandalone with version ([b93d87f](https://github.com/easyops-cn/next-core/commit/b93d87f637c5b80ff4544376120e6ca0c9cf5aed))
+
+
+
+
+
 ## [3.11.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.11.10...@next-core/brick-container@3.11.11) (2024-02-21)
 
 
