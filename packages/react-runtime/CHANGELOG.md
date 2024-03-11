@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.52...@next-core/react-runtime@1.2.0) (2024-03-11)
+
+
+### Features
+
+* next-v3支持react hook调用provider ([19e52c8](https://github.com/easyops-cn/next-core/commit/19e52c8cb5a6919821d52dd26dcce486c523b1b6))
+
+
+
+
+
 ## [1.1.52](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.1.51...@next-core/react-runtime@1.1.52) (2024-02-06)
 
 **Note:** Version bump only for package @next-core/react-runtime

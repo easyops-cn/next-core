@@ -1,6 +1,6 @@
 {
   "name": "@next-core/react-runtime",
-  "version": "1.1.52",
+  "version": "1.2.0",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/react-runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -44,6 +44,9 @@
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.12",
-    "@next-core/test-next": "^1.0.15"
+    "@next-core/test-next": "^1.0.15",
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/react-hooks": "^8.0.1",
+    "jest-fetch-mock": "^3.0.3"
   }
 }

@@ -75,18 +75,14 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
   ] as const;
 
   if (!window.NO_AUTH_GUARD) {
-    let matches: string[] | null;
-    const appId =
-      window.APP_ID ||
-      (window.APP_ROOT &&
-      (matches = window.APP_ROOT.match(
-        /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\//
-      ))
-        ? matches[1]
-        : null);
-    if (appId) {
+    const matches: string[] | null = window.APP_ROOT
+      ? window.APP_ROOT.match(
+          /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\/([^/]+)\//
+        )
+      : null;
+    if (matches) {
       // No need to wait.
-      safeGetRuntimeMicroAppStandalone(appId);
+      safeGetRuntimeMicroAppStandalone(matches[1], matches[2]);
     }
   }
 
@@ -196,11 +192,16 @@ interface RuntimeMicroAppStandaloneData {
   injectMenus?: any[];
 }
 
-async function safeGetRuntimeMicroAppStandalone(appId: string) {
+async function safeGetRuntimeMicroAppStandalone(
+  appId: string,
+  version = "0.0.0"
+) {
   if (appRuntimeDataMap.has(appId)) {
     return appRuntimeDataMap.get(appId);
   }
-  const promise = RuntimeApi_runtimeMicroAppStandalone(appId).catch((error) => {
+  const promise = RuntimeApi_runtimeMicroAppStandalone(appId, {
+    params: { version },
+  }).catch((error) => {
     // make it not crash when the backend service is not updated.
     // eslint-disable-next-line no-console
     console.warn(
@@ -232,7 +233,8 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
     if (!window.NO_AUTH_GUARD) {
       // Note: the request maybe have fired already during bootstrap.
       const appRuntimeData = await safeGetRuntimeMicroAppStandalone(
-        storyboard.app.id
+        storyboard.app.id,
+        storyboard.app.currentVersion
       );
       if (appRuntimeData) {
         const { userConfig, injectMenus } = appRuntimeData;
