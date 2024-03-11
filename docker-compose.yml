@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   e2e:
-    image: cypress/included:13.6.4
+    image: cypress/included:13.6.6
     working_dir: /app
     volumes:
       - '.:/app'

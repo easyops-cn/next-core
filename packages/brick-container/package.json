@@ -37,9 +37,9 @@
     "@next-core/serve-helpers": "^1.2.2",
     "body-parser": "^1.20.1",
     "chalk": "^4.1.2",
-    "chokidar": "^3.5.3",
+    "chokidar": "^3.6.0",
     "compression": "^1.7.4",
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "glob": "^8.1.0",
     "http-proxy-middleware": "^2.0.6",
     "js-yaml": "^3.14.1",
@@ -62,10 +62,10 @@
     "@next-core/theme": "^1.4.8",
     "@next-core/types": "^1.8.0",
     "copy-webpack-plugin": "^12.0.2",
-    "core-js": "^3.35.1",
+    "core-js": "^3.36.0",
     "html-webpack-plugin": "^5.6.0",
     "regenerator-runtime": "^0.14.1",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^5.0.2"
   },
   "peerDependencies": {
     "@next-core/http": "*",
