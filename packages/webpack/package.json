@@ -1,6 +1,6 @@
 {
   "name": "@next-core/webpack",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Build next bricks",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/webpack",
   "license": "GPL-3.0",
