@@ -1,6 +1,6 @@
 {
   "name": "@next-core/react-runtime",
-  "version": "1.1.52",
+  "version": "1.2.0",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/react-runtime",
   "license": "GPL-3.0",
   "repository": {
