@@ -34,6 +34,7 @@ const consoleInfo = jest.spyOn(console, "info");
 const consoleWarn = jest.spyOn(console, "warn");
 const consoleError = jest.spyOn(console, "error");
 const windowOpen = jest.spyOn(window, "open");
+const windowClose = jest.spyOn(window, "close");
 const windowAlert = jest.spyOn(window, "alert");
 const mockGetHistory = getHistory as jest.Mock;
 const mockHandleHttpError = handleHttpError as jest.MockedFunction<
@@ -224,6 +225,16 @@ describe("listenerFactory for window.*", () => {
       runtimeContext
     )(event);
     expect(windowOpen).toBeCalledWith("/ok", "_blank", "popup=yes");
+  });
+
+  test("window.close", () => {
+    listenerFactory(
+      {
+        action: "window.close",
+      },
+      runtimeContext
+    )(event);
+    expect(windowClose).toBeCalledTimes(1);
   });
 });
 
