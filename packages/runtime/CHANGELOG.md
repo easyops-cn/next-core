@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.32.0...@next-core/runtime@1.33.0) (2024-03-15)
+
+
+### Features
+
+* support getRealValue ([aeb8431](https://github.com/easyops-cn/next-core/commit/aeb84319cd18bbcf9095a40d64b6a141f8607099))
+
+
+
+
+
 # [1.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.31.2...@next-core/runtime@1.32.0) (2024-03-15)
 
 
