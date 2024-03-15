@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.31.2...@next-core/runtime@1.32.0) (2024-03-15)
+
+
+### Features
+
+* support set watermark ([f763aed](https://github.com/easyops-cn/next-core/commit/f763aedf0e68349a3a1f50a43f3022001efd6e3e))
+* update flags ([d7b9970](https://github.com/easyops-cn/next-core/commit/d7b9970a507269de76d705fac3bb86255b8bf6d4))
+
+
+
+
+
 ## [1.31.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.31.1...@next-core/runtime@1.31.2) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/runtime
