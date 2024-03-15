@@ -49,6 +49,7 @@ import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
 import { setUIVersion } from "../setUIVersion.js";
 import { setAppVariable } from "../setAppVariable.js";
+import { setWatermark } from "../setWatermark.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -268,6 +269,8 @@ export class Router {
         version: storyboard.app.currentVersion!,
       });
     }
+
+    setWatermark();
 
     if (storyboard?.app) {
       await fulfilStoryboard(storyboard);
