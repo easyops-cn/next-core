@@ -270,10 +270,7 @@ export class Router {
       });
     }
 
-    setWatermark({
-      version: storyboard?.app?.currentVersion ?? "",
-      username: (hooks?.auth?.getAuth() as Record<string, any>)?.username ?? "",
-    });
+    setWatermark();
 
     if (storyboard?.app) {
       await fulfilStoryboard(storyboard);

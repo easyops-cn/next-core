@@ -1,5 +1,5 @@
 import { loadBricksImperatively } from "@next-core/loader";
-import { getBrickPackages, getRuntime } from "./internal/Runtime.js";
+import { getBrickPackages, getRuntime, hooks } from "./internal/Runtime.js";
 import { omit } from "lodash";
 
 interface WaterMarkProps {
@@ -27,31 +27,36 @@ let brick: {
   resolve(options: WaterMarkProps): void;
 };
 
-export const WATEMARK_BRICKNAME = "advanced.show-watermark";
+export const WATEMARK_BRICKNAME = "basic.show-watermark";
 
-export function setWatermark({
-  version,
-  username,
-}: {
-  version: string;
-  username: string;
-}) {
-  const isDeveloper = version === "0.0.0";
+export function setWatermark() {
   const flags = getRuntime().getFeatureFlags();
   const settings = getRuntime().getMiscSettings();
-  const watermarkConfig = (settings.watermarkConfig ?? {}) as WaterMarkProps;
-
   if (!flags["show-watermark"]) {
     return;
   }
+  const isDeveloper =
+    window.APP_ROOT?.match(/versions\/([^/]+)\//)?.[1] === "0.0.0";
+  const username =
+    (hooks?.auth?.getAuth() as Record<string, any>)?.username ?? "";
+  const watermarkConfig = (settings.watermarkConfig ?? {
+    flags: {},
+  }) as WaterMarkProps & {
+    flags: {
+      "show-development"?: boolean;
+      "show-user"?: boolean;
+    };
+  };
 
   const defaultProps: WaterMarkProps = {
     content: [
       ...(typeof watermarkConfig.content === "string"
         ? [watermarkConfig.content]
         : watermarkConfig.content ?? []),
-      flags["show-developer-watermark"] && isDeveloper ? "Developer" : "",
-      flags["show-user-watermark"] ? username : "",
+      watermarkConfig.flags?.["show-development"] && isDeveloper
+        ? "Development"
+        : "",
+      watermarkConfig.flags?.["show-user"] ? username : "",
     ].filter(Boolean),
     zIndex: 1001,
     width: 200,
@@ -59,7 +64,7 @@ export function setWatermark({
       fontSize: 28,
     },
     gap: [190, 190],
-    ...omit(watermarkConfig, ["content"]),
+    ...omit(watermarkConfig, ["content", "flags"]),
   };
   if (brick) {
     brick.resolve(defaultProps);
