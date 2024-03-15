@@ -155,9 +155,9 @@ def link_install_app_static_file(install_app_path):
     # 读取union-apps.json文件
     union_apps = read_union_apps_file(install_app_path)
     for app in union_apps:
-        app_id = app["appId"]
+        app_id = app["app_id"]
         version = app["version"]
-        if app["useBrickNextV3"]:
+        if app["use_brick_next_v3"]:
             subdir_snippet = "v3"
         else:
             subdir_snippet = "v2"
@@ -167,8 +167,12 @@ def link_install_app_static_file(install_app_path):
             continue
         current_app_path_public = os.path.join(_DEPENDENCIES_LOCK_BASE_PATH, _MICRO_APPS_FOLDER,
                                                subdir_snippet, app_id, version)
-        if not os.path.exists(current_app_path_public):
-            os.makedirs(current_app_path_public)
+        
+        # 联合打包中， micro-app会重复被打进包里(先删除文件, 保证目录文件是最新的数据)
+        if os.path.exists(current_app_path_public):
+            shutil.rmtree(current_app_path_public)
+            print u"delete old micr-app dir: {}".format(current_app_path_public)
+        os.makedirs(current_app_path_public)
 
         print u"current app path: {}, current_app_path_public: {}".format(current_app_path, current_app_path_public)
 
