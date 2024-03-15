@@ -435,6 +435,10 @@ export class Runtime implements AbstractRuntime {
     return kernel.bootstrapData.settings?.homepage ?? "/";
   }
 
+  getBrickPackages(): BrickPackage[] {
+    return kernel.bootstrapData?.brickPackages;
+  }
+
   getBrandSettings(): Record<string, string> {
     return Object.assign(
       { base_title: "DevOps 管理专家" },

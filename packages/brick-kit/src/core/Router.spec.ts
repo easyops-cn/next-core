@@ -87,6 +87,7 @@ const mockUserAnalyticsEvent = userAnalytics.event as jest.Mock;
   getMiscSettings: () => ({
     noAuthGuardLoginPath: "",
   }),
+  getBrickPackages: () => ({}),
 }));
 
 let historyListeners: LocationListener[] = [];
@@ -847,6 +848,7 @@ describe("Router", () => {
       getMiscSettings: () => ({
         noAuthGuardLoginPath: "/easy-core-console/login",
       }),
+      getBrickPackages: () => ({}),
     }));
     __setMatchedStoryboard({
       app: {

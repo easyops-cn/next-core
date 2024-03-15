@@ -80,6 +80,7 @@ import { K, NS_BRICK_KIT } from "../i18n/constants";
 import { getRuntime } from "../runtime";
 import { setUIVersion } from "./setUIVersion";
 import { setAppVariable } from "../setAppVariable";
+import { setWatermark } from "./setWatermark";
 
 export class Router {
   private defaultCollapsed = false;
@@ -277,6 +278,8 @@ export class Router {
         version: storyboard.app.currentVersion,
       });
     }
+
+    setWatermark();
 
     /** Pending task for loading bricks */
     let pendingTask: Promise<void>;
