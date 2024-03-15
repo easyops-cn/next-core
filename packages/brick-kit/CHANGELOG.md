@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.187.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.186.0...@next-core/brick-kit@2.187.0) (2024-03-15)
+
+
+### Features
+
+* support set watermark ([07aa99d](https://github.com/easyops-cn/next-core/commit/07aa99d91fea33bd08b801856c20d26b680d66db))
+
+
+
+
+
 # [2.186.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.185.4...@next-core/brick-kit@2.186.0) (2024-03-05)
 
 
