@@ -95,6 +95,7 @@ module.exports = (env, getRawIndexHtml) => {
         req.path === "/next/api/auth/bootstrap" ||
         req.path === "/next/api/auth/v2/bootstrap";
       let isStandalone = false;
+      let brickPreviewInDeveloperDoc = false;
       let publicRootWithVersion = false;
       if (!reqIsBootstrap) {
         const regex =
@@ -124,6 +125,12 @@ module.exports = (env, getRawIndexHtml) => {
               isStandalone = true;
             }
           }
+        }
+
+        // 在开发者中心构件预览中 获取构件包信息的专用接口
+        if (!reqIsBootstrap && req.path === "/next/api/v1/api_gateway/bricks") {
+          reqIsBootstrap = true;
+          brickPreviewInDeveloperDoc = true;
         }
       }
 
@@ -178,18 +185,22 @@ module.exports = (env, getRawIndexHtml) => {
             new Set(localBrickPackages.concat(localEditorPackages))
           );
           if (combinedLocalBrickPackages.length > 0) {
-            data.brickPackages = combinedLocalBrickPackages
+            const brickPackages = brickPreviewInDeveloperDoc
+              ? "bricksInfo"
+              : "brickPackages";
+
+            data[brickPackages] = combinedLocalBrickPackages
               .map((id) =>
                 getSingleBrickPackage(
                   env,
                   id,
-                  data.brickPackages,
+                  data[brickPackages],
                   publicRootWithVersion
                 )
               )
               .filter(Boolean)
               .concat(
-                data.brickPackages.filter(
+                data[brickPackages].filter(
                   (item) =>
                     !combinedLocalBrickPackages.includes(
                       item.filePath.split("/")[1]
@@ -198,11 +209,14 @@ module.exports = (env, getRawIndexHtml) => {
               );
           }
           if (localTemplates.length > 0) {
-            data.templatePackages = localTemplates
+            const templatePackages = brickPreviewInDeveloperDoc
+              ? "templatesInfo"
+              : "templatePackages";
+            data[templatePackages] = localTemplates
               .map((id) => getSingleTemplatePackage(env, id))
               .filter(Boolean)
               .concat(
-                data.templatePackages.filter(
+                data[templatePackages].filter(
                   (item) =>
                     !localTemplates.includes(item.filePath.split("/")[1])
                 )
