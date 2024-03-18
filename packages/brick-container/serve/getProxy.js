@@ -91,7 +91,12 @@ export default function getProxy(env, getRawIndexHtml) {
               return responseBuffer;
             }
 
-            if (req.path === "/next/api/auth/v2/bootstrap") {
+            const brickPreviewInDeveloperDoc =
+              req.path === "/next/api/v1/api_gateway/bricks";
+            if (
+              req.path === "/next/api/auth/v2/bootstrap" ||
+              brickPreviewInDeveloperDoc
+            ) {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
               const data = result.data;
@@ -101,11 +106,17 @@ export default function getProxy(env, getRawIndexHtml) {
                 getBrickPackages(localBrickFolders, false, localBricks),
               ]);
 
+              const brickPackagesField = brickPreviewInDeveloperDoc
+                ? "bricksInfo"
+                : "brickPackages";
+
               // Todo: filter out local micro-apps and brick packages
-              data.storyboards = storyboards.concat(data.storyboards);
-              data.brickPackages = concatBrickPackages(
+              data.storyboards = storyboards
+                .concat(data.storyboards)
+                .filter(Boolean);
+              data[brickPackagesField] = concatBrickPackages(
                 brickPackages,
-                data.brickPackages
+                data[brickPackagesField]
               );
 
               if (env.localSettings) {
