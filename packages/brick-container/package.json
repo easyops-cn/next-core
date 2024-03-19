@@ -65,7 +65,7 @@
     "core-js": "^3.36.1",
     "html-webpack-plugin": "^5.6.0",
     "regenerator-runtime": "^0.14.1",
-    "webpack-dev-server": "^5.0.3"
+    "webpack-dev-server": "^5.0.4"
   },
   "peerDependencies": {
     "@next-core/http": "*",
