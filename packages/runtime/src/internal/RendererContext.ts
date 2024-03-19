@@ -4,10 +4,11 @@ import type {
   MessageConf,
   RouteConf,
   ScrollIntoViewConf,
+  SlotConfOfRoutes,
   StaticMenuConf,
 } from "@next-core/types";
 import type { Action, Location } from "history";
-import { isEmpty, remove } from "lodash";
+import { isEmpty, remove, pull } from "lodash";
 import { listenerFactory } from "./bindListeners.js";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
@@ -36,6 +37,11 @@ type LocationChangeCallback = (
   location: Location<NextHistoryState>,
   prevLocation: Location<NextHistoryState>
 ) => Promise<boolean>;
+
+interface IncrementalRenderState {
+  parentRoutes: RouteConf[];
+  callback: LocationChangeCallback;
+}
 
 const commonLifeCycles = [
   "onMount",
@@ -145,7 +151,7 @@ export class RendererContext {
     >
   >;
   #allMenuRequests?: Promise<StaticMenuConf>[];
-  #memoizedMenuRequestMap?: WeakMap<RouteConf, Promise<StaticMenuConf>>;
+  #memoizedMenuRequestMap?: WeakMap<RouteConf, Promise<StaticMenuConf>[]>;
 
   setInitialMenuRequests(menuRequests: Promise<StaticMenuConf>[]) {
     this.#allMenuRequests = menuRequests;
@@ -153,12 +159,21 @@ export class RendererContext {
 
   memoizeMenuRequests(
     route: RouteConf,
+    parentRoutes: RouteConf[],
     menuRequests: Promise<StaticMenuConf>[]
   ) {
     if (!this.#memoizedMenuRequestMap) {
       this.#memoizedMenuRequestMap = new WeakMap();
     }
-    this.#memoizedMenuRequestMap.set(route, menuRequests[0]);
+    this.#memoizedMenuRequestMap.set(route, menuRequests);
+    for (const parentRoute of parentRoutes) {
+      this.#memoizedMenuRequestMap.set(
+        parentRoute,
+        (this.#memoizedMenuRequestMap.get(parentRoute) ?? []).concat(
+          menuRequests
+        )
+      );
+    }
   }
 
   async reMergeMenuRequests(
@@ -166,33 +181,29 @@ export class RendererContext {
     currentRoute: RouteConf | undefined,
     menuRequests: Promise<StaticMenuConf>[]
   ) {
-    let previousMenuRequest: Promise<StaticMenuConf> | undefined;
+    let previousMenuRequests: Promise<StaticMenuConf>[] | undefined;
     let previousRoute: RouteConf | undefined;
     for (const route of routes) {
       // If the sub-routes doesn't match, then `this.memoizeMenuRequests` will
       // not be called, thus `this.#memoizedMenuRequestMap` is not set.
-      previousMenuRequest = this.#memoizedMenuRequestMap?.get(route);
-      if (previousMenuRequest) {
+      previousMenuRequests = this.#memoizedMenuRequestMap?.get(route);
+      if (previousMenuRequests) {
         previousRoute = route;
         break;
       }
     }
     const mergedMenuRequests = this.#allMenuRequests!;
-    const previousIndex = previousMenuRequest
-      ? mergedMenuRequests.indexOf(previousMenuRequest)
-      : -1;
-    if (previousIndex === -1) {
+    const filteredMergedMenuRequests = mergedMenuRequests.filter((mr) =>
+      previousMenuRequests?.includes(mr)
+    );
+    if (filteredMergedMenuRequests.length === 0) {
       if (!menuRequests.length) {
         return;
       }
-      mergedMenuRequests.push(...menuRequests);
     } else {
-      mergedMenuRequests.splice(
-        previousIndex,
-        mergedMenuRequests.length - previousIndex,
-        ...menuRequests
-      );
+      pull(mergedMenuRequests, ...filteredMergedMenuRequests);
     }
+    mergedMenuRequests.push(...menuRequests);
     if (previousRoute && previousRoute !== currentRoute) {
       this.#memoizedMenuRequestMap?.delete(previousRoute);
     }
@@ -207,29 +218,49 @@ export class RendererContext {
     return this.#routeHelper!.catch(error, returnNode);
   }
 
-  #locationChangeCallbacks: LocationChangeCallback[] = [];
+  #incrementalRenderStates = new Map<
+    SlotConfOfRoutes,
+    IncrementalRenderState
+  >();
 
   async didPerformIncrementalRender(
     location: Location<NextHistoryState>,
     prevLocation: Location<NextHistoryState>
   ) {
+    let finalResult = false;
+    const shouldIgnoreRoutes: RouteConf[] = [];
     // Perform incremental rendering from inside out.
     // This allows nested incremental sub-routes.
-    for (let i = this.#locationChangeCallbacks.length - 1; i >= 0; i--) {
-      const callback = this.#locationChangeCallbacks[i];
-      if (await callback(location, prevLocation)) {
-        return true;
+    for (const { parentRoutes, callback } of [
+      ...this.#incrementalRenderStates.values(),
+    ].reverse()) {
+      const parentRoute = parentRoutes[parentRoutes.length - 1];
+      if (shouldIgnoreRoutes.includes(parentRoute)) {
+        // Do not re-render parent routes if any of its children has performed incremental rendering.
+        // In the meantime, allow sibling-routes to perform incremental rendering at the same time.
+        continue;
+      }
+      const result = await callback(location, prevLocation);
+      if (result) {
+        shouldIgnoreRoutes.push(...parentRoutes.slice(0, -1));
+        finalResult = result;
       }
     }
-    return false;
+    return finalResult;
   }
 
   /**
    * When `callback` resolved to `true` which means incremental rendering is performed,
    * ignore normal rendering.
    */
-  performIncrementalRender(callback: LocationChangeCallback) {
-    this.#locationChangeCallbacks.push(callback);
+  performIncrementalRender(
+    slotConf: SlotConfOfRoutes,
+    parentRoutes: RouteConf[],
+    callback: LocationChangeCallback
+  ) {
+    if (!this.#incrementalRenderStates.has(slotConf)) {
+      this.#incrementalRenderStates.set(slotConf, { parentRoutes, callback });
+    }
   }
 
   registerBrickLifeCycle(
@@ -508,7 +539,7 @@ export class RendererContext {
     this.#allMenuRequests = undefined;
     this.#memoizedMenuRequestMap = undefined;
     this.#arbitraryLifeCycle.clear();
-    this.#locationChangeCallbacks.length = 0;
+    this.#incrementalRenderStates.clear();
   }
 
   // Note: no `onScrollIntoView` and `onMessage`

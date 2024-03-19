@@ -189,9 +189,13 @@ export async function renderRoutes(
           mergeRenderOutput(output, newOutput);
         }
 
-        if (returnNode.tag === RenderTag.BRICK) {
-          rendererContext.memoizeMenuRequests(route, output.menuRequests);
-        }
+        // if (returnNode.tag === RenderTag.BRICK) {
+        rendererContext.memoizeMenuRequests(
+          route,
+          parentRoutes,
+          output.menuRequests
+        );
+        // }
       }
     }
   }
@@ -709,6 +713,8 @@ export async function renderBrick(
         if (parentRoute?.incrementalSubRoutes) {
           routeSlotFromIndexToSlotId.set(index, childSlotId);
           rendererContext.performIncrementalRender(
+            slotConf,
+            parentRoutes,
             async (location, prevLocation) => {
               const { homepage } = childRuntimeContext.app;
               const { pathname } = location;
