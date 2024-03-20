@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-container",
-  "version": "3.12.4",
+  "version": "3.12.5",
   "description": "Brick Container Server",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-container",
   "license": "GPL-3.0",
@@ -52,7 +52,7 @@
     "@next-api-sdk/api-gateway-sdk": "^1.1.0",
     "@next-api-sdk/micro-app-standalone-sdk": "^1.1.0",
     "@next-core/build-next-bricks": "^1.20.6",
-    "@next-core/easyops-runtime": "^0.7.10",
+    "@next-core/easyops-runtime": "^0.7.11",
     "@next-core/http": "^1.1.10",
     "@next-core/i18n": "^1.0.39",
     "@next-core/loader": "^1.5.5",

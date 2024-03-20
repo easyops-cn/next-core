@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.11](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.10...@next-core/easyops-runtime@0.7.11) (2024-03-20)
+
+
+### Bug Fixes
+
+* fix when message subscribe after onMessage ([791ff6c](https://github.com/easyops-cn/next-core/commit/791ff6c5e8525e5cce0286b37428bd12e52f156b))
+
+
+
+
+
 ## [0.7.10](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.9...@next-core/easyops-runtime@0.7.10) (2024-03-20)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
