@@ -270,13 +270,13 @@ export class Router {
       });
     }
 
-    setWatermark();
-
     if (storyboard?.app) {
       await fulfilStoryboard(storyboard);
     }
 
     const currentApp = (this.#currentApp = storyboard?.app);
+
+    setWatermark();
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.
     const appChanged =
