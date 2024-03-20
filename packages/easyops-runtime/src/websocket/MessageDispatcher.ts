@@ -74,14 +74,21 @@ export class MessageDispatcher {
   }
 
   onMessage(channel: string, listener: MessageListener): void {
-    const stringifiedPayload = this.#channelPayloads.get(channel);
-    if (!stringifiedPayload) {
-      // eslint-disable-next-line no-console
-      console.error(`Message channel: "${channel}" not found`);
-      return;
-    }
+    let stringifiedPayload = this.#channelPayloads.get(channel);
+    let warned = false;
 
     this.#ms.onMessage<MessageResponse>((response) => {
+      if (!stringifiedPayload) {
+        stringifiedPayload = this.#channelPayloads.get(channel);
+      }
+      if (!stringifiedPayload) {
+        if (!warned) {
+          // eslint-disable-next-line no-console
+          console.error(`Message channel: "${channel}" not found`);
+          warned = true;
+        }
+        return;
+      }
       if (
         response.event === "MESSAGE.PUSH" &&
         matchMessageChannel(stringifiedPayload, response.payload)
