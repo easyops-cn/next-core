@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.33.0...@next-core/runtime@1.33.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* set watermark later ([a0ae4fe](https://github.com/easyops-cn/next-core/commit/a0ae4fec5895c747b0d81cd8698f6bbd4dcb4bb5))
+
+
+
+
+
 # [1.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.32.0...@next-core/runtime@1.33.0) (2024-03-15)
 
 
