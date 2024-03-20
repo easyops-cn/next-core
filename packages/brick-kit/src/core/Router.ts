@@ -279,14 +279,14 @@ export class Router {
       });
     }
 
-    setWatermark();
-
     /** Pending task for loading bricks */
     let pendingTask: Promise<void>;
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
       this.kernel.nextApp = storyboard.app;
+
+      setWatermark();
 
       removeDeadConditions(storyboard, {
         constantFeatureFlags: true,
