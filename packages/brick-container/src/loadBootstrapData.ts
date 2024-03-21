@@ -78,6 +78,9 @@ async function standaloneBootstrap(): Promise<BootstrapDataWithStoryboards> {
     const matches: string[] | null = window.APP_ROOT
       ? window.APP_ROOT.match(
           /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\/([^/]+)\//
+        ) ||
+        window.APP_ROOT.match(
+          /^(?:(?:\/next)?\/)?sa-static\/micro-apps\/(?:v2|v3)\/([^/]+)\/([^/]+)\//
         )
       : null;
     if (matches) {
@@ -217,7 +220,9 @@ async function safeGetRuntimeMicroAppStandalone(
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (window.STANDALONE_MICRO_APPS) {
     if (window.BOOTSTRAP_UNION_FILE && !storyboard.$$fullMerged) {
-      const fullBootstrapPath = `${window.APP_ROOT}-/${storyboard.bootstrapFile}`;
+      const fullBootstrapPath = `${window.APP_ROOT}${
+        window.PUBLIC_DEPS ? "" : "-/"
+      }${storyboard.bootstrapFile}`;
       const { storyboards } =
         await http.get<BootstrapDataWithStoryboards>(fullBootstrapPath);
       const { routes, meta, app } = storyboards[0];

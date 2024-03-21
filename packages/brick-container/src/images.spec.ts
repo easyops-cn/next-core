@@ -9,9 +9,10 @@ describe("imagesFactory", () => {
         app: { id: string; isBuildPush?: boolean; currentVersion?: string };
         appId?: string;
         appRoot?: string;
+        publicDeps?: any[];
       },
       string,
-      string
+      string,
     ]
   >([
     [
@@ -67,9 +68,27 @@ describe("imagesFactory", () => {
       "test.png",
       "/my-app/-/micro-apps/my-app/images/test.png",
     ],
-  ])("should work", ({ app, appId, appRoot }, img, src) => {
+    [
+      {
+        app: {
+          id: "my-app",
+        },
+        appRoot: "sa-static/micro-apps/v2/my-app/1.51.22/",
+        publicDeps: [
+          {
+            filePath: "bricks/icons/-/dist/index.a41397e0.js",
+            id: "bricks/icons",
+            elements: ["eo-antd-icon"],
+          },
+        ],
+      },
+      "test20230406.png",
+      "/sa-static/micro-apps/v2/my-app/1.51.22/images/test20230406.png",
+    ],
+  ])("should work", ({ app, appId, appRoot, publicDeps }, img, src) => {
     window.APP_ID = appId;
     window.APP_ROOT = appRoot;
+    window.PUBLIC_DEPS = publicDeps;
     expect(
       imagesFactory(app.id, app.isBuildPush, app.currentVersion).get(img)
     ).toBe(src);
@@ -87,7 +106,7 @@ describe("widgetImagesFactory", () => {
         publicRoot?: string;
       },
       string,
-      string
+      string,
     ]
   >([
     [

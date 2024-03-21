@@ -210,10 +210,18 @@ export default function getProxy(env, getRawIndexHtml) {
                     const appRoot = JSON.parse(appRootMatches[1]);
 
                     const bootstrapUnionMatches = content.match(
-                      /\b(merge_apps\/[^."]+\/(?:v2|v3)\/bootstrap-union\.[^."]+\.json)\b/
+                      /\b(w\.BOOTSTRAP_UNION_FILE\s*=\s*[^;]*\s*;)/
                     );
 
                     const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
+
+                    const publicDeps = content.match(
+                      /\b(w\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;)/
+                    )?.[1];
+
+                    const appRootTpl = content.match(
+                      /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/
+                    )?.[1];
 
                     const bootstrapHashMatches = content.match(
                       /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
@@ -223,11 +231,16 @@ export default function getProxy(env, getRawIndexHtml) {
                       console.log(message, content);
                       throw new Error(message);
                     }
+
                     const reverseBootstrapMatches =
                       bootstrapHashMatches.reverse();
                     const bootstrapHash = reverseBootstrapMatches[0];
 
                     const bootstrapPathPrefix = reverseBootstrapMatches[1];
+
+                    const bootstrapFilePath = content.match(
+                      /\b(w\.BOOTSTRAP_FILE\s*=\s*[^;]*\s*;)/
+                    )?.[1];
 
                     const noAuthGuard =
                       /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(content);
@@ -272,6 +285,9 @@ export default function getProxy(env, getRawIndexHtml) {
                       bootstrapPathPrefix,
                       coreVersion,
                       noAuthGuard,
+                      publicDeps,
+                      appRootTpl,
+                      bootstrapFilePath,
                       bootstrapUnionFilePath,
                     });
                   }
@@ -287,7 +303,7 @@ export default function getProxy(env, getRawIndexHtml) {
               /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-pubDeps)?\.[^.]+\.json$/.test(
                 req.path
               ) ||
-              /^\/next\/sa-static\/[^/]+\/merge_apps\/[^/]+\/(?:v2|v3)\/bootstrap-union\.[^.]+\.json/.test(
+              /^\/next\/sa-static\/.*\/bootstrap-union\.[^.]+\.json$/.test(
                 req.path
               )
             ) {
