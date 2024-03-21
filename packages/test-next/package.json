@@ -38,7 +38,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "pascal-case": "^3.1.2",
+    "pascal-case": "^4.0.0",
     "ts-jest-resolver": "^2.0.1",
     "typescript": "^5.4.3"
   }
