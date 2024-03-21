@@ -11,7 +11,9 @@ export function imagesFactory(
   return {
     get(name) {
       const getSuffix = (): string => {
-        let suffix = window.APP_ROOT ? `${window.APP_ROOT}-/` : "";
+        let suffix = window.APP_ROOT
+          ? `${window.APP_ROOT}${window.PUBLIC_DEPS ? "" : "-/"}`
+          : "";
         if (!suffix.startsWith("/")) {
           suffix = getBasePath() + suffix;
         }
@@ -30,6 +32,8 @@ export function imagesFactory(
       };
       return isBuildPush
         ? `${getBasePath()}api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
+        : window.PUBLIC_DEPS
+        ? `${getSuffix()}images/${name}`
         : `${getSuffix()}micro-apps/${appId}/images/${name}`;
     },
   };

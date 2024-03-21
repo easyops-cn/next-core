@@ -48,7 +48,9 @@ export function setWatermark(): void {
     };
   };
   const isDeveloper =
-    window.APP_ROOT?.match(/versions\/([^/]+)\//)?.[1] === "0.0.0";
+    window.APP_ROOT?.match(/versions\/([^/]+)\//)?.[1] === "0.0.0" ||
+    window.APP_ROOT?.match(/micro-apps\/(?:v2|v3)\/[^/]+\/([^/]+)/)?.[1] ===
+      "0.0.0";
   const username = getAuth()?.username ?? "";
 
   const defaultProps: WaterMarkProps = {
@@ -78,6 +80,7 @@ export function setWatermark(): void {
 
         brick.resolve(defaultProps);
       },
+      // istanbul ignore next
       (error: unknown) => {
         // eslint-disable-next-line no-console
         console.error("Load watermark service failed:", error);

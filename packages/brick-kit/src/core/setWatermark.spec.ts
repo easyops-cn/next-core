@@ -22,8 +22,10 @@ customElements.define(
   }
 );
 
-function setVersion(version = "0.0.0"): void {
-  window.APP_ROOT = `sa-static/visual-builder/versions/${version}/webroot/`;
+function setVersion(version = "0.0.0", unionMode = false): void {
+  window.APP_ROOT = unionMode
+    ? `'sa-static/micro-apps/v2/data-builder/${version}/'`
+    : `sa-static/visual-builder/versions/${version}/webroot/`;
 }
 
 beforeEach(() => {
@@ -62,6 +64,17 @@ describe("setWatermark", () => {
 
     expect(mockResolve).toHaveBeenNthCalledWith(2, {
       content: ["easyops"],
+      font: { fontSize: 28 },
+      gap: [190, 190],
+      width: 200,
+      zIndex: 1001,
+    });
+
+    setVersion("0.0.0", true);
+
+    await setWatermark();
+    expect(mockResolve).toHaveBeenNthCalledWith(3, {
+      content: ["Development", "easyops"],
       font: { fontSize: 28 },
       gap: [190, 190],
       width: 200,

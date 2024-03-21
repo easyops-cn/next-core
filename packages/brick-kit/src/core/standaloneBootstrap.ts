@@ -63,6 +63,9 @@ export async function standaloneBootstrap(): Promise<BootstrapData> {
     const matches: string[] | null = window.APP_ROOT
       ? window.APP_ROOT.match(
           /^(?:(?:\/next)?\/)?sa-static\/([^/]+)\/versions\/([^/]+)\//
+        ) ||
+        window.APP_ROOT.match(
+          /^(?:(?:\/next)?\/)?sa-static\/micro-apps\/(?:v2|v3)\/([^/]+)\/([^/]+)\//
         )
       : null;
     if (matches) {

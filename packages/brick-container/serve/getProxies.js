@@ -103,7 +103,7 @@ module.exports = (env, getRawIndexHtml) => {
         const regexLegacy = /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/;
 
         const unionRegex =
-          /^\/next\/sa-static\/[^/]+\/merge_apps\/[^/]+\/(?:v2|v3)\/bootstrap-union\.[^.]+\.json/;
+          /^\/next\/sa-static\/.*\/bootstrap-union\.[^.]+\.json$/;
         if (
           regex.test(req.path) ||
           regexLegacy.test(req.path) ||
@@ -462,7 +462,7 @@ module.exports = (env, getRawIndexHtml) => {
               const appRoot = JSON.parse(appRootMatches[1]);
 
               const bootstrapUnionMatches = raw.match(
-                /\b(merge_apps\/[^."]+\/(?:v2|v3)\/bootstrap-union\.[^."]+\.json)\b/
+                /\b(w\.BOOTSTRAP_UNION_FILE\s*=\s*[^;]*\s*;)/
               );
 
               const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
@@ -470,6 +470,15 @@ module.exports = (env, getRawIndexHtml) => {
               const bootstrapHashMatches = raw.match(
                 /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
               );
+
+              const publicDeps = raw.match(
+                /\b(w\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;)/
+              )?.[1];
+
+              const appRootTpl = raw.match(
+                /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/
+              )?.[1];
+
               if (!bootstrapHashMatches) {
                 const message = "Unexpected: bootstrapHash is not found";
                 console.log(message, raw);
@@ -479,6 +488,10 @@ module.exports = (env, getRawIndexHtml) => {
               const bootstrapHash = reverseBootstrapMatches[0];
 
               const bootstrapPathPrefix = reverseBootstrapMatches[1];
+
+              const bootstrapFilePath = raw.match(
+                /\b(w\.BOOTSTRAP_FILE\s*=\s*[^;]*\s*;)/
+              )?.[1];
 
               const noAuthGuard = /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(raw);
 
@@ -508,8 +521,11 @@ module.exports = (env, getRawIndexHtml) => {
                     appRoot,
                     publicPrefix,
                     bootstrapHash,
+                    bootstrapFilePath,
                     bootstrapPathPrefix,
                     bootstrapUnionFilePath,
+                    appRootTpl,
+                    publicDeps,
                     coreVersion,
                     noAuthGuard,
                     standaloneVersion: 2,
@@ -524,7 +540,10 @@ module.exports = (env, getRawIndexHtml) => {
                   appRoot,
                   bootstrapHash,
                   bootstrapPathPrefix,
+                  bootstrapFilePath,
                   bootstrapUnionFilePath,
+                  publicDeps,
+                  appRootTpl,
                   noAuthGuard,
                   standaloneVersion: 1,
                 },

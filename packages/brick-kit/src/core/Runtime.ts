@@ -436,7 +436,7 @@ export class Runtime implements AbstractRuntime {
   }
 
   getBrickPackages(): BrickPackage[] {
-    return kernel.bootstrapData?.brickPackages;
+    return kernel.getBrickPackages();
   }
 
   getBrandSettings(): Record<string, string> {

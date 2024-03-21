@@ -10,6 +10,7 @@ describe("imagesFactory", () => {
         appRoot?: string;
         appId?: string;
         version?: string;
+        publicDeps?: any[];
       },
       string,
       string
@@ -68,11 +69,35 @@ describe("imagesFactory", () => {
       "test20230406.png",
       "/other-app-test/other-app/versions/1.1.0/webroot/-/micro-apps/other-app/images/test20230406.png",
     ],
-  ])("should work", ({ app, appRoot, appId, version }, img, src) => {
-    window.APP_ROOT = appRoot;
-    window.APP_ID = appId;
-    expect(imagesFactory(app.id, app.isBuildPush, version).get(img)).toBe(src);
-  });
+    [
+      {
+        app: {
+          id: "my-app",
+        },
+        appRoot: "sa-static/micro-apps/v2/my-app/1.51.22/",
+        version: "1.50.0",
+        publicDeps: [
+          {
+            filePath: "bricks/icons/-/dist/index.a41397e0.js",
+            id: "bricks/icons",
+            elements: ["eo-antd-icon"],
+          },
+        ],
+      },
+      "test20230406.png",
+      "/sa-static/micro-apps/v2/my-app/1.51.22/images/test20230406.png",
+    ],
+  ])(
+    "should work",
+    ({ app, appRoot, appId, version, publicDeps }, img, src) => {
+      window.APP_ROOT = appRoot;
+      window.APP_ID = appId;
+      window.PUBLIC_DEPS = publicDeps;
+      expect(imagesFactory(app.id, app.isBuildPush, version).get(img)).toBe(
+        src
+      );
+    }
+  );
 });
 
 describe("widgetImagesFactory", () => {
