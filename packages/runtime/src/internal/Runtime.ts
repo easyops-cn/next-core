@@ -339,7 +339,7 @@ export function getBrickPackages() {
     injectedBrickPackages ??
     (window.STANDALONE_BRICK_PACKAGES as BrickPackage[]) ??
     []
-  );
+  ).concat(window.PUBLIC_DEPS ?? []);
 }
 
 export function _internalApiGetRenderId(): string | undefined {

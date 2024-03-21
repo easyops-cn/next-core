@@ -74,6 +74,8 @@ interface Window {
 
   DISABLE_REACT_FLUSH_SYNC?: boolean;
 
+  PUBLIC_DEPS?: any[];
+
   /** For brick next devtools only */
   __dev_only_getAllContextValues(options: {
     tplStateStoreId?: string;
