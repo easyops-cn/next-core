@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.33.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.33.1...@next-core/runtime@1.33.2) (2024-03-21)
+
+
+### Bug Fixes
+
+* isolate forEach access between inside and outside of template ([ce4a719](https://github.com/easyops-cn/next-core/commit/ce4a719bf738e305d469124527d2404a9b41921d))
+
+
+
+
+
 ## [1.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.33.0...@next-core/runtime@1.33.1) (2024-03-20)
 
 
