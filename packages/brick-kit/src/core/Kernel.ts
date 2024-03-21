@@ -48,6 +48,7 @@ import type {
   CustomTemplate,
   MetaI18n,
   RuntimeSnippet,
+  BrickPackage,
 } from "@next-core/brick-types";
 import {
   loadBricksImperatively,
@@ -263,6 +264,10 @@ export class Kernel {
         .map((storyboard) => storyboard.app)
         .filter(Boolean),
     };
+  }
+
+  getBrickPackages(): BrickPackage[] {
+    return this.bootstrapData?.brickPackages?.concat(window.PUBLIC_DEPS ?? []);
   }
 
   reloadMicroApps(
@@ -725,7 +730,9 @@ export class Kernel {
   private _loadDepsOfStoryboard = async (
     storyboard: RuntimeStoryboard
   ): Promise<{ pendingTask: Promise<void> }> => {
-    const { brickPackages, templatePackages } = this.bootstrapData;
+    const { templatePackages } = this.bootstrapData;
+
+    const brickPackages = this.getBrickPackages();
 
     if (storyboard.dependsAll) {
       const dllPath = window.DLL_PATH || {};
@@ -817,7 +824,8 @@ export class Kernel {
     if (storyboard.$$depsProcessed) {
       return;
     }
-    const { brickPackages, templatePackages } = this.bootstrapData;
+    const { templatePackages } = this.bootstrapData;
+    const brickPackages = this.getBrickPackages();
     const templateDeps = getTemplateDepsOfStoryboard(
       storyboard,
       templatePackages
@@ -874,14 +882,14 @@ export class Kernel {
       // Only try to load undefined custom elements.
       (item) => !customElements.get(item)
     );
-    const { brickPackages } = this.bootstrapData;
+    const brickPackages = this.getBrickPackages();
     // Try to load deps for dynamic added bricks.
     const { dll, deps, v3Bricks, v3Processors } = getDllAndDepsByResource(
       {
         bricks: filteredBricks,
         processors,
       },
-      this.bootstrapData.brickPackages
+      brickPackages
     );
 
     const loadV3Bricks = async (): Promise<void> => {
@@ -910,6 +918,7 @@ export class Kernel {
   }
 
   private _loadEditorBricks = async (editorBricks: string[]): Promise<void> => {
+    const brickPackages = this.getBrickPackages();
     const { dll, deps } = getDllAndDepsByResource(
       {
         editorBricks: editorBricks.filter(
@@ -917,7 +926,7 @@ export class Kernel {
           (item) => !customElements.get(item)
         ),
       },
-      this.bootstrapData.brickPackages
+      brickPackages
     );
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);

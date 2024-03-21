@@ -81,6 +81,8 @@ interface Window {
   MOCK_DATE?: string;
 
   DISABLE_REACT_FLUSH_SYNC?: boolean;
+
+  PUBLIC_DEPS?: any[];
 }
 
 declare const __webpack_public_path__: string;
