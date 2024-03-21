@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.136](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.135...@next-core/brick-playground@1.10.136) (2024-03-21)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
 ## [1.10.135](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.134...@next-core/brick-playground@1.10.135) (2024-03-21)
 
 **Note:** Version bump only for package @next-core/brick-playground
