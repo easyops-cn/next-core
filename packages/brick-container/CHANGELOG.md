@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.94.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.93.0...@next-core/brick-container@2.94.0) (2024-03-21)
+
+
+### Features
+
+* support new union app mode ([5abf389](https://github.com/easyops-cn/next-core/commit/5abf389cc9eb8310c5ec471cc11f4315435c05db))
+
+
+
+
+
 # [2.93.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.92.27...@next-core/brick-container@2.93.0) (2024-03-20)
 
 
