@@ -2423,6 +2423,498 @@ describe("renderBrick for tpl", () => {
       ]
     `);
   });
+
+  test("nesting tpl with inner :forEach", async () => {
+    consoleInfo.mockReturnValue();
+
+    customTemplates.define("my.tpl-e", {
+      bricks: [
+        {
+          brick: "my.tpl-f",
+          children: [
+            {
+              brick: ":forEach",
+              dataSource: [1, 2],
+              children: [
+                {
+                  brick: "div",
+                  properties: {
+                    textContent: "<% ITEM %>",
+                    title: "<% INDEX %>",
+                  },
+                },
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "<% `portal:${ITEM}` %>",
+                  },
+                  portal: true,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    customTemplates.define("my.tpl-f", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "div",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "div",
+          properties: {
+            title: "Nesting templates with :forEach",
+          },
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [{ brick: "my.tpl-e" }],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    renderRoot.child = output.node;
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-e
+          data-tpl-state-store-id="tpl-state-5"
+        >
+          <my.tpl-f
+            data-tpl-state-store-id="tpl-state-6"
+          >
+            <div
+              title="Nesting templates with :forEach"
+            >
+              <div
+                title="0"
+              >
+                1
+              </div>
+              <div
+                title="1"
+              >
+                2
+              </div>
+            </div>
+          </my.tpl-f>
+        </my.tpl-e>,
+      ]
+    `);
+    expect(portal.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <p>
+          portal:1
+        </p>,
+        <p>
+          portal:2
+        </p>,
+      ]
+    `);
+  });
+
+  test("nesting tpl with inner and outer :forEach", async () => {
+    consoleInfo.mockReturnValue();
+
+    customTemplates.define("my.tpl-g", {
+      bricks: [
+        {
+          brick: "my.tpl-h",
+          children: [
+            {
+              brick: ":forEach",
+              dataSource: [1, 2],
+              children: [
+                {
+                  brick: "div",
+                  properties: {
+                    textContent: "<% ITEM %>",
+                    title: "<% INDEX %>",
+                  },
+                },
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "<% `p:${ITEM}` %>",
+                  },
+                },
+              ],
+            },
+            {
+              brick: ":forEach",
+              slot: "article",
+              dataSource: [3, 4],
+              children: [
+                {
+                  brick: "em",
+                  properties: {
+                    textContent: "<% `outer:${ITEM}` %>",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    customTemplates.define("my.tpl-h", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "div",
+          },
+          article: {
+            ref: "article",
+            refSlot: "",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "div",
+          properties: {
+            title: "Nesting templates with :forEach",
+          },
+        },
+        {
+          brick: ":forEach",
+          dataSource: ["x"],
+          children: [
+            {
+              brick: "h2",
+              properties: {
+                textContent: "<% ITEM %>",
+              },
+            },
+            {
+              brick: "article",
+              ref: "article",
+            },
+            {
+              brick: "aside",
+              properties: {
+                textContent: "<% INDEX %>",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [{ brick: "my.tpl-g" }],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    renderRoot.child = output.node;
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-g
+          data-tpl-state-store-id="tpl-state-7"
+        >
+          <my.tpl-h
+            data-tpl-state-store-id="tpl-state-8"
+          >
+            <div
+              title="Nesting templates with :forEach"
+            >
+              <div
+                title="0"
+              >
+                1
+              </div>
+              <p>
+                p:1
+              </p>
+              <div
+                title="1"
+              >
+                2
+              </div>
+              <p>
+                p:2
+              </p>
+            </div>
+            <h2>
+              x
+            </h2>
+            <article>
+              <em>
+                outer:3
+              </em>
+              <em>
+                outer:4
+              </em>
+            </article>
+            <aside>
+              0
+            </aside>
+          </my.tpl-h>
+        </my.tpl-g>,
+      ]
+    `);
+  });
+
+  test("sub-routes with template", async () => {
+    customTemplates.define("my.tpl-i", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "div",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "div",
+        },
+      ],
+    });
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      location: {
+        pathname: "/home/HOST/list",
+      },
+      app: {
+        homepage: "/home",
+        noAuthGuard: true,
+      },
+      pendingPermissionsPreCheck: [] as undefined[],
+      flags: {},
+      tplStateStoreMap: new Map(),
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const brick = { brick: "div" };
+    const subRoute: RouteConf = {
+      path: "${APP.homepage}/:objectId/list",
+      exact: true,
+      bricks: [brick],
+    };
+    const route: RouteConf = {
+      path: "${APP.homepage}/:objectId",
+      exact: false,
+      context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
+      bricks: [
+        {
+          brick: "my.tpl-i",
+          children: [
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    subRoute,
+                    {
+                      type: "redirect",
+                      path: "${APP.homepage}/:objectId/redirect",
+                      redirect: "/other",
+                    },
+                    {
+                      type: "routes",
+                      path: "${APP.homepage}/:objectId/routes",
+                      routes: [],
+                    },
+                    {
+                      path: "${APP.homepage}/bricks",
+                      type: "bricks",
+                      bricks: [],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      ],
+    };
+    const output = await renderRoutes(
+      renderRoot,
+      [route],
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    expect(output).toMatchObject({
+      blockingList: [],
+      menuRequests: [undefined, undefined],
+      route: subRoute,
+      node: expect.objectContaining({
+        tag: RenderTag.BRICK,
+        return: renderRoot,
+        type: "my.tpl-i",
+      }),
+      path: "/home/:objectId/list",
+    });
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("objectId")).toBe("HOST");
+  });
+
+  test("tpl with inner :forEach", async () => {
+    customTemplates.define("my.tpl-d", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "forEach",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          properties: {
+            textContent: "Hi",
+          },
+        },
+        {
+          brick: ":forEach",
+          dataSource: [1, 2],
+          ref: "forEach",
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    consoleError.mockReturnValue();
+    const promise1 = renderBrick(
+      renderRoot,
+      {
+        brick: "my.tpl-d",
+        children: [
+          {
+            brick: "p",
+            properties: {
+              title: "<% 1, ITEM %>",
+            },
+            children: [
+              {
+                brick: "em",
+                properties: {
+                  textContent: "oops",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    await expect(promise1).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"ITEM is not defined, in "<% 1, ITEM %>""`
+    );
+    expect(consoleError).toBeCalledTimes(2);
+
+    const promise2 = renderBrick(
+      renderRoot,
+      {
+        brick: "my.tpl-d",
+        children: [
+          {
+            brick: "p",
+            properties: {
+              title: "yaks",
+            },
+            children: [
+              {
+                brick: "em",
+                properties: {
+                  textContent: "<% 2, ITEM %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      []
+    );
+    await expect(promise2).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"ITEM is not defined, in "<% 2, ITEM %>""`
+    );
+    expect(consoleError).toBeCalledTimes(4);
+    consoleError.mockRestore();
+  });
 });
 
 describe("renderBrick for form renderer", () => {
