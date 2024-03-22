@@ -38,7 +38,6 @@ import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
-  symbolForTPlExternalNoForEach,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
@@ -315,9 +314,6 @@ export async function renderBrick(
     // `forEachIndex` from their host.
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
     runtimeContext.forEachIndex = brickConf[symbolForTPlExternalForEachIndex];
-  } else if (brickConf[symbolForTPlExternalNoForEach]) {
-    delete runtimeContext.forEachItem;
-    delete runtimeContext.forEachIndex;
   }
 
   const { context } = brickConf as { context?: ContextConf[] };

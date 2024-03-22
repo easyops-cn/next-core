@@ -5,13 +5,10 @@ import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
-  symbolForTPlExternalNoForEach,
   symbolForTplStateStoreId,
-  type RuntimeBrickConfWithTplSymbols,
 } from "./constants.js";
 import type { AsyncPropertyEntry, TemplateHostContext } from "../interfaces.js";
 import { computePropertyValue } from "../compute/computeRealProperties.js";
-import { childrenToSlots } from "../Renderer.js";
 
 export function setupTemplateProxy(
   hostContext: TemplateHostContext,
@@ -79,12 +76,6 @@ export function setupTemplateProxy(
           quasisMap.set(refToSlot, expandableSlot);
         }
         const refPosition = to.refPosition ?? -1;
-        // External bricks of a template, should not access the template internal forEach `ITEM`.
-        // For some existing templates who is *USING* this bug, we keep the old behavior.
-        const hostHasForEach = hasOwnProperty(
-          hostBrick.runtimeContext,
-          "forEachItem"
-        );
         expandableSlot[
           clamp(
             refPosition < 0 ? expandableSlot.length + refPosition : refPosition,
@@ -92,18 +83,13 @@ export function setupTemplateProxy(
             expandableSlot.length - 1
           )
         ].push(
-          ...((hostContext.__temporary_tpl_tag_name ===
-            "base-layout-v3.tpl-scroll-load-list" ||
-            hostContext.__temporary_tpl_tag_name ===
-              "shrcb-homepage.tpl-custom-scroll-load-list") &&
-          !hostHasForEach
-            ? insertBricks
-            : setupTemplateExternalBricks(
+          ...(hasOwnProperty(hostBrick.runtimeContext, "forEachItem")
+            ? setupTemplateExternalBricks(
                 insertBricks,
-                hostHasForEach,
                 hostBrick.runtimeContext.forEachItem,
                 hostBrick.runtimeContext.forEachIndex!
-              ))
+              )
+            : insertBricks)
         );
       }
 
@@ -137,61 +123,40 @@ export function setupTemplateProxy(
 // External bricks of a template, have the same forEachItem context as their host.
 function setupTemplateExternalBricks(
   bricks: BrickConf[],
-  hasForEach: boolean,
   forEachItem: unknown,
   forEachIndex: number
 ): BrickConf[] {
-  return (bricks as RuntimeBrickConfWithTplSymbols[]).map(
-    ({
-      children,
-      slots,
-      [symbolForTPlExternalForEachItem]: a,
-      [symbolForTPlExternalForEachIndex]: b,
-      [symbolForTPlExternalNoForEach]: c,
-      ...brick
-    }) => ({
-      ...brick,
-      ...(hasForEach
-        ? {
-            [symbolForTPlExternalForEachItem]: forEachItem,
-            [symbolForTPlExternalForEachIndex]: forEachIndex,
-          }
-        : {
-            [symbolForTPlExternalNoForEach]: true,
-          }),
-      slots: Object.fromEntries(
-        Object.entries(childrenToSlots(children, slots) ?? {}).map(
-          ([slotName, slotConf]) => [
-            slotName,
-            slotConf.type === "routes"
-              ? {
-                  type: "routes",
-                  routes: setupTemplateExternalRoutes(
-                    slotConf.routes,
-                    hasForEach,
-                    forEachItem,
-                    forEachIndex
-                  ),
-                }
-              : {
-                  type: "bricks",
-                  bricks: setupTemplateExternalBricks(
-                    slotConf.bricks ?? [],
-                    hasForEach,
-                    forEachItem,
-                    forEachIndex
-                  ),
-                },
-          ]
-        )
-      ),
-    })
-  );
+  return bricks.map((brick) => ({
+    ...brick,
+    [symbolForTPlExternalForEachItem]: forEachItem,
+    [symbolForTPlExternalForEachIndex]: forEachIndex,
+    slots: Object.fromEntries(
+      Object.entries(brick.slots ?? {}).map(([slotName, slotConf]) => [
+        slotName,
+        slotConf.type === "routes"
+          ? {
+              type: "routes",
+              routes: setupTemplateExternalRoutes(
+                slotConf.routes,
+                forEachItem,
+                forEachIndex
+              ),
+            }
+          : {
+              type: "bricks",
+              bricks: setupTemplateExternalBricks(
+                slotConf.bricks ?? [],
+                forEachItem,
+                forEachIndex
+              ),
+            },
+      ])
+    ),
+  }));
 }
 
 function setupTemplateExternalRoutes(
   routes: RouteConf[],
-  hasForEach: boolean,
   forEachItem: unknown,
   forEachIndex: number
 ): RouteConf[] {
@@ -202,7 +167,6 @@ function setupTemplateExternalRoutes(
           ...route,
           bricks: setupTemplateExternalBricks(
             route.bricks,
-            hasForEach,
             forEachItem,
             forEachIndex
           ),
