@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.188.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.0...@next-core/brick-kit@2.188.1) (2024-03-22)
+
+
+### Bug Fixes
+
+* fix mini-bootstrap load ([fd635e8](https://github.com/easyops-cn/next-core/commit/fd635e810b93aabd2c17e8f7cad7b175d3bc64e7))
+
+
+
+
+
 # [2.188.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.187.1...@next-core/brick-kit@2.188.0) (2024-03-21)
 
 
