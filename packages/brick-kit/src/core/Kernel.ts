@@ -302,7 +302,10 @@ export class Kernel {
       });
 
       if (window.BOOTSTRAP_UNION_FILE && !storyboard.$$fullMerged) {
-        const fullBootstrapPath = `${window.APP_ROOT}-/${storyboard.bootstrapFile}`;
+        const fullBootstrapPath = `${window.APP_ROOT}${
+          window.PUBLIC_DEPS ? "" : "-/"
+        }${storyboard.bootstrapFile}`;
+
         const { storyboards } = await http.get<BootstrapData>(
           fullBootstrapPath
         );
@@ -322,7 +325,8 @@ export class Kernel {
         try {
           // Note: the request maybe have fired already during bootstrap.
           appRuntimeData = await safeGetRuntimeMicroAppStandalone(
-            storyboard.app.id
+            storyboard.app.id,
+            storyboard.app.currentVersion
           );
         } catch (error) {
           // make it not crash when the backend service is not updated.
