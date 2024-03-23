@@ -39,7 +39,9 @@ export function injectIndexHtml(env, content, standaloneConfig) {
             }.${standaloneConfig.bootstrapHash}.json";`,
         standaloneConfig.bootstrapUnionFilePath ?? "",
         standaloneConfig.appRootTpl ?? "",
-        standaloneConfig.publicDeps ?? "",
+        standaloneConfig.publicDeps
+          ? `w.PUBLIC_DEPS=${standaloneConfig.publicDeps}`
+          : "",
         "})(window)",
         "</script></head>",
       ].join("")

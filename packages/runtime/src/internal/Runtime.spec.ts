@@ -1282,11 +1282,23 @@ describe("Runtime", () => {
 
   test("loadBricks", async () => {
     const runtime = createRuntime();
-    runtime.initialize({ brickPackages: [{ id: "bricks/test" } as any] });
+    runtime.initialize({
+      brickPackages: [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        } as any,
+      ],
+    });
     await runtime.loadBricks(["test.my-brick"]);
     expect(loadBricksImperatively).toBeCalledWith(
       ["test.my-brick"],
-      [{ id: "bricks/test" }]
+      [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        },
+      ]
     );
   });
 
@@ -1354,5 +1366,39 @@ describe("Runtime", () => {
     getHistory().push("/app-a");
     await getRuntime().bootstrap();
     expect(window.APP_ROOT).toBe("sa-static/app-a/versions/1.0.0/webroot/");
+  });
+  test("loadBricks with union app mode", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.PUBLIC_DEPS = [
+      {
+        filePath: "bricks/icons/-/dist/index.a41397e0.js",
+        id: "bricks/icons",
+        elements: ["eo-antd-icon"],
+      },
+    ];
+    const runtime = createRuntime();
+    runtime.initialize({
+      brickPackages: [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        } as any,
+      ],
+    });
+    await runtime.loadBricks(["eo-antd-icon"]);
+    expect(loadBricksImperatively).toBeCalledWith(
+      ["eo-antd-icon"],
+      [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        },
+        {
+          filePath: "bricks/icons/-/dist/index.a41397e0.js",
+          id: "bricks/icons",
+          elements: ["eo-antd-icon"],
+        },
+      ]
+    );
   });
 });

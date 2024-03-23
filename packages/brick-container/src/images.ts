@@ -13,7 +13,9 @@ export function imagesFactory(
       }
 
       let suffix = window.APP_ROOT
-        ? `${window.APP_ROOT}${window.PUBLIC_DEPS ? "" : "-/"}`
+        ? `${window.APP_ROOT}${
+            window.PUBLIC_DEPS && window.PUBLIC_DEPS ? "" : "-/"
+          }`
         : "";
 
       // In injecting menus, the current app ID maybe not the same as the
