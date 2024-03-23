@@ -12,7 +12,9 @@ export function imagesFactory(
     get(name) {
       const getSuffix = (): string => {
         let suffix = window.APP_ROOT
-          ? `${window.APP_ROOT}${window.PUBLIC_DEPS ? "" : "-/"}`
+          ? `${window.APP_ROOT}${
+              window.BOOTSTRAP_UNION_FILE && window.PUBLIC_DEPS ? "" : "-/"
+            }`
           : "";
         if (!suffix.startsWith("/")) {
           suffix = getBasePath() + suffix;
