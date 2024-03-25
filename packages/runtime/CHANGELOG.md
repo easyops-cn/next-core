@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.34.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.2...@next-core/runtime@1.34.3) (2024-03-25)
+
+
+### Bug Fixes
+
+* brick local debug ([e202e33](https://github.com/easyops-cn/next-core/commit/e202e3337d47a78cbdd7b62be68b8b5a4033a1e6))
+
+
+
+
+
 ## [1.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.1...@next-core/runtime@1.34.2) (2024-03-22)
 
 
