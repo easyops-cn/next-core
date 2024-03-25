@@ -80,6 +80,8 @@ module.exports = (env, getRawIndexHtml) => {
     } else {
       proxyPaths.push(
         "(/next)?/sa-static/:appId/versions/:appVersion/webroot/-/",
+        "(/next)?/sa-static/micro-apps/v2/:appId/",
+        "(/next)?/sa-static/micro-apps/v3/:appId/",
         "/next/:appId/-/",
         "/sa-static/"
       );
@@ -471,9 +473,22 @@ module.exports = (env, getRawIndexHtml) => {
                 /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
               );
 
-              const publicDeps = raw.match(
-                /\b(w\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;)/
+              let publicDeps = raw.match(
+                /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
               )?.[1];
+
+              if (publicDeps && localBrickPackages?.length) {
+                try {
+                  const parsedPublicDeps = JSON.parse(publicDeps).filter(
+                    (item) =>
+                      !localBrickPackages.includes(item.filePath.split("/")[1])
+                  );
+
+                  publicDeps = JSON.stringify(parsedPublicDeps);
+                } catch (err) {
+                  console.error(`JSON.parse() error: ${publicDeps}`);
+                }
+              }
 
               const appRootTpl = raw.match(
                 /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/
@@ -610,7 +625,13 @@ module.exports = (env, getRawIndexHtml) => {
             secure: false,
             changeOrigin: true,
             pathRewrite: pathRewriteFactory(seg),
-            ...(seg === "api" || seg.endsWith("/-/") || seg.endsWith("/-/**")
+            ...(seg === "api" ||
+            seg.endsWith("/-/") ||
+            seg.endsWith("/-/**") ||
+            [
+              "/sa-static/micro-apps/v2/:appId/",
+              "/sa-static/micro-apps/v3/:appId/",
+            ].some((path) => seg.endsWith(path))
               ? apiProxyOptions
               : seg === ""
               ? rootProxyOptions

@@ -11,6 +11,7 @@ describe("imagesFactory", () => {
         appId?: string;
         version?: string;
         publicDeps?: any[];
+        bootstrapUnionFile?: string;
       },
       string,
       string
@@ -76,6 +77,7 @@ describe("imagesFactory", () => {
         },
         appRoot: "sa-static/micro-apps/v2/my-app/1.51.22/",
         version: "1.50.0",
+        bootstrapUnionFile: "bootstrap-union.abc.json",
         publicDeps: [
           {
             filePath: "bricks/icons/-/dist/index.a41397e0.js",
@@ -89,9 +91,14 @@ describe("imagesFactory", () => {
     ],
   ])(
     "should work",
-    ({ app, appRoot, appId, version, publicDeps }, img, src) => {
+    (
+      { app, appRoot, appId, version, publicDeps, bootstrapUnionFile },
+      img,
+      src
+    ) => {
       window.APP_ROOT = appRoot;
       window.APP_ID = appId;
+      window.BOOTSTRAP_UNION_FILE = bootstrapUnionFile;
       window.PUBLIC_DEPS = publicDeps;
       expect(imagesFactory(app.id, app.isBuildPush, version).get(img)).toBe(
         src

@@ -266,8 +266,29 @@ export class Kernel {
     };
   }
 
+  private processPublicDepsPackages(
+    brickPackages: BrickPackage[] = [],
+    pubDeps: BrickPackage[]
+  ): BrickPackage[] {
+    if (!pubDeps?.length) return brickPackages;
+
+    const bricksMap = new Map();
+
+    // bootstrapData 数据和 pubDeps 中可能同时存在同一个包名，需要过滤去重， 以 pubDeps 中的包为准
+    [...brickPackages, ...pubDeps].forEach((pkg) => {
+      const pkgName = pkg.filePath.split("/")[1];
+
+      bricksMap.set(pkgName, pkg);
+    });
+
+    return Array.from(bricksMap.values());
+  }
+
   getBrickPackages(): BrickPackage[] {
-    return this.bootstrapData?.brickPackages?.concat(window.PUBLIC_DEPS ?? []);
+    return this.processPublicDepsPackages(
+      this.bootstrapData?.brickPackages,
+      window.PUBLIC_DEPS
+    );
   }
 
   reloadMicroApps(
