@@ -215,9 +215,22 @@ export default function getProxy(env, getRawIndexHtml) {
 
                     const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
 
-                    const publicDeps = content.match(
-                      /\b(w\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;)/
+                    let publicDeps = content.match(
+                      /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
                     )?.[1];
+
+                    if (publicDeps && localBricks?.length) {
+                      try {
+                        const parsedPublicDeps = JSON.parse(publicDeps).filter(
+                          (item) =>
+                            !localBricks.includes(item.filePath.split("/")[1])
+                        );
+
+                        publicDeps = JSON.stringify(parsedPublicDeps);
+                      } catch (err) {
+                        console.error(`JSON.parse() error: ${publicDeps}`);
+                      }
+                    }
 
                     const appRootTpl = content.match(
                       /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/

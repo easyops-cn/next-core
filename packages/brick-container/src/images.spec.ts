@@ -10,6 +10,7 @@ describe("imagesFactory", () => {
         appId?: string;
         appRoot?: string;
         publicDeps?: any[];
+        bootstrapUnionFile?: string;
       },
       string,
       string,
@@ -74,6 +75,7 @@ describe("imagesFactory", () => {
           id: "my-app",
         },
         appRoot: "sa-static/micro-apps/v2/my-app/1.51.22/",
+        bootstrapUnionFile: "bootstrap-union.abc.json",
         publicDeps: [
           {
             filePath: "bricks/icons/-/dist/index.a41397e0.js",
