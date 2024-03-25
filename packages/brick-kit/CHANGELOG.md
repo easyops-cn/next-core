@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.188.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.1...@next-core/brick-kit@2.188.2) (2024-03-25)
+
+
+### Bug Fixes
+
+* brick local debug ([70324a6](https://github.com/easyops-cn/next-core/commit/70324a69e86826dea65ba93fe7152a9b30fb4a8e))
+
+
+
+
+
 ## [2.188.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.0...@next-core/brick-kit@2.188.1) (2024-03-22)
 
 
