@@ -63,7 +63,7 @@ const mountPoints = {
   portal: root.querySelector<HTMLElement>("#portal-mount-point"),
 };
 
-const api = `${runtime.getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`;
+const api = `${runtime.getBasePath()}api/gateway/logic.next_console_service.console/api/v1/next_console/frontend_stat`;
 const analyzer = apiAnalyzer.create({
   api,
 });
