@@ -87,16 +87,20 @@ describe("imagesFactory", () => {
       "test20230406.png",
       "/sa-static/micro-apps/v2/my-app/1.51.22/images/test20230406.png",
     ],
-  ])("should work", ({ app, appId, appRoot, publicDeps }, img, src) => {
-    window.APP_ID = appId;
-    window.APP_ROOT = appRoot;
-    window.PUBLIC_DEPS = publicDeps;
-    expect(
-      imagesFactory(app.id, app.isBuildPush, app.currentVersion).get(img)
-    ).toBe(src);
-    delete window.APP_ID;
-    delete window.APP_ROOT;
-  });
+  ])(
+    "should work",
+    ({ app, appId, appRoot, publicDeps, bootstrapUnionFile }, img, src) => {
+      window.APP_ID = appId;
+      window.APP_ROOT = appRoot;
+      window.PUBLIC_DEPS = publicDeps;
+      window.BOOTSTRAP_UNION_FILE = bootstrapUnionFile;
+      expect(
+        imagesFactory(app.id, app.isBuildPush, app.currentVersion).get(img)
+      ).toBe(src);
+      delete window.APP_ID;
+      delete window.APP_ROOT;
+    }
+  );
 });
 
 describe("widgetImagesFactory", () => {

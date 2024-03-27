@@ -14,7 +14,7 @@ export function imagesFactory(
 
       let suffix = window.APP_ROOT
         ? `${window.APP_ROOT}${
-            window.PUBLIC_DEPS && window.PUBLIC_DEPS ? "" : "-/"
+            window.BOOTSTRAP_UNION_FILE && window.PUBLIC_DEPS ? "" : "-/"
           }`
         : "";
 
@@ -32,7 +32,7 @@ export function imagesFactory(
       if (!suffix.startsWith("/")) {
         suffix = getBasePath() + suffix;
       }
-      return window.PUBLIC_DEPS
+      return window.BOOTSTRAP_UNION_FILE && window.PUBLIC_DEPS
         ? `${suffix}images/${name}`
         : `${suffix}micro-apps/${appId}/images/${name}`;
     },
