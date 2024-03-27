@@ -155,8 +155,8 @@ def link_install_app_static_file(install_app_path):
     # 读取union-apps.json文件
     union_apps = read_union_apps_file(install_app_path)
     for app in union_apps:
-        app_id = app["app_id"]
-        version = app["version"]
+        app_id = app["app_id"].encode("utf-8")
+        version = app["version"].encode("utf-8")
         if app["use_brick_next_v3"]:
             subdir_snippet = "v3"
         else:
