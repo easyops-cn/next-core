@@ -34,7 +34,7 @@ export function imagesFactory(
       };
       return isBuildPush
         ? `${getBasePath()}api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`
-        : window.PUBLIC_DEPS
+        : window.BOOTSTRAP_UNION_FILE && window.PUBLIC_DEPS
         ? `${getSuffix()}images/${name}`
         : `${getSuffix()}micro-apps/${appId}/images/${name}`;
     },
