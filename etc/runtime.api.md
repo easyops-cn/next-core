@@ -187,6 +187,11 @@ export const getHistory: () => NextHistory;
 // @public (undocumented)
 export function getPageInfo(): PageInfo;
 
+// @public
+export function getRealValue(value: unknown, { useRealTimeQuery, }?: {
+    useRealTimeQuery?: boolean;
+}): unknown;
+
 // @public (undocumented)
 function getRenderId(): string | undefined;
 
