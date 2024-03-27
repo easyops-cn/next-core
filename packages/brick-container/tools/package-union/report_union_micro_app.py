@@ -43,13 +43,15 @@ def get_version(install_path):
 
 def collect_app_info(app_path, report_app_id, version):
     if not os.path.exists(app_path):
-        raise Exception("could not find app path {}".format(app_path))
+        print u"could not find app path {}".format(app_path)
+        return 
     bootstrap_file_name = ""
     for f in os.listdir(app_path):
         if f.startswith("bootstrap-mini.") and f.endswith(".json"):
             bootstrap_file_name = f
     if bootstrap_file_name is "":
-        raise Exception("bootstrap-mini.*.json not found in dir {}".format(app_path))
+        print u"bootstrap-mini.*.json not found in dir {}".format(app_path)
+        return
     bootstrap_file = os.path.join(app_path, bootstrap_file_name)
     print u"report app: {}, bootstrap_file: {}".format(report_app_id, bootstrap_file)
     with open(bootstrap_file) as f:
