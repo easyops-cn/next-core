@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.94.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.7...@next-core/brick-container@2.94.8) (2024-03-28)
+
+
+### Bug Fixes
+
+* refine union app root ([f45e05e](https://github.com/easyops-cn/next-core/commit/f45e05ef1fc28050eb5a6b547f1c2b6dc273d27e))
+
+
+
+
+
 ## [2.94.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.6...@next-core/brick-container@2.94.7) (2024-03-28)
 
 
