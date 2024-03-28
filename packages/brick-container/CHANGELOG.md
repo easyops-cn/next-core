@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.13.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.13.5...@next-core/brick-container@3.13.6) (2024-03-28)
+
+
+### Bug Fixes
+
+* 支持 union app root 变量 ([57f1ece](https://github.com/easyops-cn/next-core/commit/57f1ecef668c5b210df1384e9f84eb2d6999d347))
+
+
+
+
+
 ## [3.13.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.13.4...@next-core/brick-container@3.13.5) (2024-03-27)
 
 **Note:** Version bump only for package @next-core/brick-container
