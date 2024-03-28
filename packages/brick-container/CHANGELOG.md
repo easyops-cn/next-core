@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.94.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.6...@next-core/brick-container@2.94.7) (2024-03-28)
+
+
+### Bug Fixes
+
+* 支持 union app root 的变量 ([0d4a958](https://github.com/easyops-cn/next-core/commit/0d4a9581a1beb05a01d05c59663aa1b129934be9))
+
+
+
+
+
 ## [2.94.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.5...@next-core/brick-container@2.94.6) (2024-03-27)
 
 
