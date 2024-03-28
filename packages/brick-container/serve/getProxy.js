@@ -36,7 +36,7 @@ export default function getProxy(env, getRawIndexHtml) {
           }
         },
         onProxyRes: responseInterceptor(
-          async (responseBuffer, proxyRes, req, res) => {
+          async (responseBuffer, _proxyRes, req, res) => {
             if (res.statusCode !== 200) {
               return responseBuffer;
             }
@@ -169,7 +169,7 @@ export default function getProxy(env, getRawIndexHtml) {
           }
         },
         onProxyRes: responseInterceptor(
-          async (responseBuffer, proxyRes, req, res) => {
+          async (responseBuffer, _proxyRes, req, res) => {
             if (
               baseHref !== "/next/" &&
               res.statusCode === 302 &&
@@ -209,6 +209,10 @@ export default function getProxy(env, getRawIndexHtml) {
                     }
                     const appRoot = JSON.parse(appRootMatches[1]);
 
+                    const unionAppRoot = content.match(
+                      /\b(var\s*\w+\s*=\s*w\.UNION_APP_ROOT\s*=\s*[^;]*\s*;)/
+                    )?.[1];
+
                     const bootstrapUnionMatches = content.match(
                       /\b(w\.BOOTSTRAP_UNION_FILE\s*=\s*[^;]*\s*;)/
                     );
@@ -227,7 +231,7 @@ export default function getProxy(env, getRawIndexHtml) {
                         );
 
                         publicDeps = JSON.stringify(parsedPublicDeps);
-                      } catch (err) {
+                      } catch (_err) {
                         console.error(`JSON.parse() error: ${publicDeps}`);
                       }
                     }
@@ -301,6 +305,7 @@ export default function getProxy(env, getRawIndexHtml) {
                       publicDeps,
                       appRootTpl,
                       bootstrapFilePath,
+                      unionAppRoot,
                       bootstrapUnionFilePath,
                     });
                   }
