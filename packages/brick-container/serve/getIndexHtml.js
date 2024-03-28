@@ -72,6 +72,9 @@ const injectIndexHtml = (standaloneConfig, env, content) => {
                 : `w.BOOTSTRAP_FILE=a+"-/bootstrap${
                     standaloneConfig.bootstrapPathPrefix ?? ""
                   }.${standaloneConfig.bootstrapHash}.json"`,
+              standaloneConfig.unionAppRoot
+                ? `var b=${standaloneConfig.unionAppRoot}`
+                : "",
               standaloneConfig.bootstrapUnionFilePath ?? "",
               standaloneConfig.appRootTpl ?? "",
               standaloneConfig.publicDeps
