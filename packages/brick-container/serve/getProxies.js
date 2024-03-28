@@ -464,7 +464,7 @@ module.exports = (env, getRawIndexHtml) => {
               const appRoot = JSON.parse(appRootMatches[1]);
 
               const unionAppRoot = raw.match(
-                /\b(w\.UNION_APP_ROOT\s*=\s*[^;]*\s*;)/
+                /\b(var\s*\w+\s*=\s*w\.UNION_APP_ROOT\s*=\s*[^;]*\s*;)/
               )?.[1];
 
               const bootstrapUnionMatches = raw.match(
