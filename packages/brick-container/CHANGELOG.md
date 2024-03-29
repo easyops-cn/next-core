@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.94.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.8...@next-core/brick-container@2.94.9) (2024-03-29)
+
+
+### Bug Fixes
+
+* 联合na上报脚本更新 ([a3c2379](https://github.com/easyops-cn/next-core/commit/a3c23791708c1f2e1a2a4aee8af90a4cdfcb8a9b))
+
+
+
+
+
 ## [2.94.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.7...@next-core/brick-container@2.94.8) (2024-03-28)
 
 
