@@ -30,7 +30,7 @@ def join_host_port(host, port):
 session_id, ip, port = ens_api.get_service_by_name("", "logic.micro_app_service")
 if session_id <= 0:
     raise Exception("get name service logic.micro_app_service failed, no session_id")
-MICRO_APP_ADDR = join_host_port("127.0.0.1", port)
+MICRO_APP_ADDR = join_host_port(ip, port)
 
 
 def get_snippets_from_stories(stories_content):
@@ -373,7 +373,7 @@ if __name__ == "__main__":
     if install_path.endswith(os.sep):
         install_path = install_path[:-1]
 
-    if install_path.endswith(("brick_next_v3", "brick_next")):
+    if install_path.endswith("brick_next"):
         report_brick_next(org, install_path)
     elif install_path.endswith("-NB"):
         report_nb(org, install_path)
