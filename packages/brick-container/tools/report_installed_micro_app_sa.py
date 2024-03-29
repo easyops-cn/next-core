@@ -22,12 +22,12 @@ def join_host_port(host, port):
 session_id, ip, port = ens_api.get_service_by_name("", "logic.micro_app_service")
 if session_id <= 0:
     raise Exception("get name service logic.micro_app_service failed, no session_id")
-MICRO_APP_ADDR = join_host_port("127.0.0.1", port)
+MICRO_APP_ADDR = join_host_port(ip, port)
 
 session_id, ip, port = ens_api.get_service_by_name("", "logic.micro_app_standalone_service")
 if session_id <= 0:
     raise NameServiceError("get nameservice logic.micro_app_standalone error, session_id={}".format(session_id))
-MICRO_APP_SA_ADDR = join_host_port("127.0.0.1", port)
+MICRO_APP_SA_ADDR = join_host_port(ip, port)
 
 def get_version(install_path):
     # 开发环境没有version.ini文件，直接返回0.0.0

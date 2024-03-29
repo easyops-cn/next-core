@@ -79,6 +79,7 @@ def collect_app_info(app_path, report_app_id, version):
                     "locales": story_board["app"].get("locales", {}),
                     "description": story_board["app"].get("description"),
                     "author": story_board["app"].get("author"),
+                    "isFromUnionApp": True,
                 }
                 return app
 
