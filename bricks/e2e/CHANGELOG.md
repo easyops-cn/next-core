@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.2.100...@next-bricks/e2e@0.3.0) (2024-04-01)
+
+
+### Features
+
+* support asyncWrapBrick ([10ee923](https://github.com/easyops-cn/next-core/commit/10ee923e0ea8ff82dfd959e00a448ad79a2f97a6))
+
+
+
+
+
 ## [0.2.100](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.2.99...@next-bricks/e2e@0.2.100) (2024-03-27)
 
 **Note:** Version bump only for package @next-bricks/e2e

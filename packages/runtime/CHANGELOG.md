@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.4...@next-core/runtime@1.35.0) (2024-04-01)
+
+
+### Features
+
+* support asyncWrapBrick ([10ee923](https://github.com/easyops-cn/next-core/commit/10ee923e0ea8ff82dfd959e00a448ad79a2f97a6))
+
+
+
+
+
 ## [1.34.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.3...@next-core/runtime@1.34.4) (2024-03-27)
 
 **Note:** Version bump only for package @next-core/runtime
