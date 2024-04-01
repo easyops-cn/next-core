@@ -5,9 +5,14 @@ import os
 import ens_api
 import requests
 import simplejson
+import shutil
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
+
+# 公共路径
+_INSTALL_BASE_PATH = "/usr/local/easyops"
+_APPLICATIONS_SA_FOLDER = "applications_sa"
 
 class NameServiceError(Exception):
     pass
@@ -86,11 +91,12 @@ def collect_app_info(app_path, report_app_id, version):
 
 def report(org, app):
     try:
-        create_or_update_micro_app_sa(org, app)
+        skip_update = create_or_update_micro_app_sa(org, app)
     except NameServiceError, e:
         raise e
     except requests.HTTPError, e:
         raise e
+    return skip_update
 
 
 def create_or_update_micro_app_sa(org, app):
@@ -98,12 +104,13 @@ def create_or_update_micro_app_sa(org, app):
     url = "http://{}/api/v1/micro_app_standalone/report".format(MICRO_APP_SA_ADDR)
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
-    print "report app end"
+    rsp_data = rsp.json().get("data", {})
+    print "report app: {} end".format(app["appId"])
+    return rsp_data.get("skipUpdate", False)
 
 
 def import_micro_app_permissions(org, permission_path):
     if not os.path.exists(permission_path):
-        print "could not find permission path {}, will not import permissions".format(permission_path)
         return
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
@@ -126,6 +133,8 @@ def read_union_apps_file(install_app_path):
 
 def report_union_apps(org, install_app_path):
     union_apps = read_union_apps_file(install_path)
+    updated_apps = []
+    skip_updated_apps = []
     for app in union_apps:
         app_id = app["app_id"]
         version = app["version"]
@@ -137,9 +146,49 @@ def report_union_apps(org, install_app_path):
         print u"report app: {},  current app path: {}".format(app_id, union_app_path)
         app = collect_app_info(union_app_path, app_id, version)
         if app:
-            report(org, app)
+            skip_update = report(org, app)
             permission_file_path = os.path.join(union_app_path, "permissions", "permissions.json")
             import_micro_app_permissions(org, permission_file_path)
+            if skip_update is False:
+                updated_apps.append(app["appId"])
+            else:
+                skip_updated_apps.append(app["appId"])
+    print "report union_apps: updated sa_na: {}, skip updated sa_na: {}".format(",".join(updated_apps), ",".join(skip_updated_apps))
+    return updated_apps
+
+def delete_directory(directory_path):
+    try:
+        shutil.rmtree(directory_path)
+        print u"delete directory: {}".format(directory_path)
+    except Exception as e:
+        print u"error deleting directory: {}, err: {}".format(directory_path, e)
+
+def is_develop_version(standalone_na_path):
+    version_file_path = os.path.join(standalone_na_path, "version.ini")
+    if not os.path.exists(version_file_path):
+        return True
+    with open(version_file_path) as f:
+        version_content = f.readlines()
+        if "0.0.0" in version_content[1]:
+            return True
+    return False
+
+def uninstall_old_sa_na(standalone_na_list):
+    for sa_na_name in standalone_na_list:
+        sa_na_path = os.path.join(_INSTALL_BASE_PATH, _APPLICATIONS_SA_FOLDER, sa_na_name+"-standalone-NA")
+        if not os.path.exists(sa_na_path):
+            print u"old standalone_na dir: {} done not exist".format(sa_na_path)
+            continue
+        if is_develop_version(sa_na_path):
+            print u"standalone_na is developing: skip delete dir: {}".format(sa_na_path)
+            continue
+
+        # 删除old standalone na
+        delete_directory(sa_na_path)
+        # 删除pkg目录： /usr/local/easyops/pkg/conf/xx-standalone-na
+        old_sa_na_pkg_path = os.path.join(_INSTALL_BASE_PATH, "pkg", "conf", sa_na_name+"-standalone-NA")
+        if os.path.exists(old_sa_na_pkg_path):
+            delete_directory(old_sa_na_pkg_path)
 
 
 if __name__ == "__main__":
@@ -148,4 +197,7 @@ if __name__ == "__main__":
         sys.exit(1)
     org = sys.argv[1]
     install_path = sys.argv[2]
-    report_union_apps(org, install_path)
+    updated_apps = report_union_apps(org, install_path)
+    # 卸载老的sa-na
+    uninstall_old_sa_na(updated_apps)
+

@@ -7,6 +7,7 @@ import yaml
 import sys
 import errno
 import shutil
+import pwd
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -18,6 +19,10 @@ _TEMPLATES_FOLDER = "templates"
 _CORE_FOLDER = "core"
 _BRICK_NEXT_FOLDER = "brick_next"
 _MICRO_APPS_FOLDER = "micro-apps"
+
+# 文件属主
+_DEFAULT_USER = "easyops"
+_DEFAULT_GROUP = "easyops"
 
 # 公共路径
 _INSTALL_BASE_PATH = "/usr/local/easyops"
@@ -151,6 +156,32 @@ def read_union_apps_file(install_app_path):
         return json.load(f)
 
 
+def recursive_chown(directory_path, user, group):
+    """
+    递归修改文件夹及其子文件夹的属主。
+
+    Args:
+        directory_path (str): 要修改属主的文件夹路径。
+        user (str): 新的属主用户名。
+        group (str): 新的属主用户组名。
+
+    Returns:
+        None
+    """
+    # 获取用户和组的 uid 和 gid
+    uid = pwd.getpwnam(user).pw_uid
+    gid = pwd.getpwnam(group).pw_gid
+
+    # 递归遍历文件夹及其子文件夹
+    for root, dirs, files in os.walk(directory_path):
+        # 修改当前文件夹的属主和属组
+        os.chown(root, uid, gid)
+
+        # 修改当前文件夹中的文件的属主和属组
+        for file in files:
+            file_path = os.path.join(root, file)
+            os.chown(file_path, uid, gid)
+
 def link_install_app_static_file(install_app_path):
     # 读取union-apps.json文件
     union_apps = read_union_apps_file(install_app_path)
@@ -180,6 +211,9 @@ def link_install_app_static_file(install_app_path):
         print u"---------------------------------------------"
         for file_path_base, files in static_file_map.items():
             _link_static_file(files, file_path_base,current_app_path, current_app_path_public)
+        # 修改文件夹权限为easyops
+        recursive_chown(current_app_path_public, _DEFAULT_USER, _DEFAULT_GROUP)
+
 
     print u"---------------------------------------------"
     print u"\n\n"
