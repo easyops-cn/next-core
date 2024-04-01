@@ -42,7 +42,7 @@
     "@next-core/types": "^1.8.1",
     "@next-core/utils": "^1.6.11",
     "i18next": "^22.5.1",
-    "i18next-browser-languagedetector": "^7.2.0",
+    "i18next-browser-languagedetector": "^7.2.1",
     "react-i18next": "^12.3.1"
   },
   "devDependencies": {
