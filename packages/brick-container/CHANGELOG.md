@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.94.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.9...@next-core/brick-container@2.94.10) (2024-04-01)
+
+
+### Bug Fixes
+
+* 卸载sa_na的逻辑放到python脚本中 ([751f664](https://github.com/easyops-cn/next-core/commit/751f664487209aeb2c77503e959da1a0b8f97fec))
+
+
+
+
+
 ## [2.94.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.8...@next-core/brick-container@2.94.9) (2024-03-29)
 
 
