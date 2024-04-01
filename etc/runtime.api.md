@@ -53,6 +53,7 @@ declare namespace __secret_internals {
         getContextValue,
         getAllContextValues,
         getBrickPackagesById,
+        loadBricks,
         getRenderId,
         getAddedContracts,
         DataValueOption,
@@ -223,6 +224,9 @@ export function isUnauthenticatedError(error: unknown): boolean;
 
 // @public
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
+
+// @public
+function loadBricks(bricks: string[]): Promise<void>;
 
 // @public @deprecated (undocumented)
 export function logout(): unknown;
