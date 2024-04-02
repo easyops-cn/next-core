@@ -14,6 +14,8 @@ export enum K {
   OTHER_ERROR = "OTHER_ERROR",
   GO_BACK_PREVIOUS_PAGE = "GO_BACK_PREVIOUS_PAGE",
   GO_BACK_HOME_PAGE = "GO_BACK_HOME_PAGE",
+  LOGIN_CHANGED = "LOGIN_CHANGED",
+  LOGOUT_APPLIED = "LOGOUT_APPLIED",
 }
 
 export type Locale = { [key in K]: string };

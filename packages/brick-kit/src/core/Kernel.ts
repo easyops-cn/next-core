@@ -95,6 +95,7 @@ import { formRenderer } from "./CustomForms/constants";
 import { customTemplateRegistry } from "./CustomTemplates";
 import { getRuntimeMisc } from "../internal/misc";
 import { imagesFactory } from "../internal/images";
+import { refreshPageIfAuthenticationChanged } from "./AuthenticationChange";
 
 const V3WidgetMates = ["basic.v3-widget-mate"];
 
@@ -224,6 +225,7 @@ export class Kernel {
       const auth = await AuthSdk.checkLogin();
       if (auth.loggedIn) {
         authenticate(auth);
+        refreshPageIfAuthenticationChanged(auth);
       }
     }
   }

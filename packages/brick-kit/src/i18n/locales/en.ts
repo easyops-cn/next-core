@@ -18,6 +18,10 @@ const locale: Locale = {
   [K.OTHER_ERROR]: "Oops! Something went wrong",
   [K.GO_BACK_PREVIOUS_PAGE]: "Go back to previous page",
   [K.GO_BACK_HOME_PAGE]: "Back to home page",
+  [K.LOGIN_CHANGED]:
+    "You have logged in as another account, click OK to refresh the page.",
+  [K.LOGOUT_APPLIED]:
+    "Your account has been logged out, click OK to refresh the page.",
 };
 
 export default locale;

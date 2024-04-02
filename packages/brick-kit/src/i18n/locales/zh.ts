@@ -14,6 +14,8 @@ const locale: Locale = {
   [K.OTHER_ERROR]: "糟糕！页面出现了一些问题",
   [K.GO_BACK_PREVIOUS_PAGE]: "回到上一页",
   [K.GO_BACK_HOME_PAGE]: "回到首页",
+  [K.LOGIN_CHANGED]: "您已经登录另一个账号，点击确定刷新页面。",
+  [K.LOGOUT_APPLIED]: "您的账号已经登出，点击确定刷新页面。",
 };
 
 export default locale;
