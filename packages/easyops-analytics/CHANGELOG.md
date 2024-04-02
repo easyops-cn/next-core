@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.11.1...@next-core/easyops-analytics@0.11.2) (2024-04-02)
+
+**Note:** Version bump only for package @next-core/easyops-analytics
+
+
+
+
+
 ## [0.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.11.0...@next-core/easyops-analytics@0.11.1) (2024-01-31)
 
 

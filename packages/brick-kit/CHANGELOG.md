@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.189.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.4...@next-core/brick-kit@2.189.0) (2024-04-02)
+
+
+### Features
+
+* refresh page if auth changed ([a260deb](https://github.com/easyops-cn/next-core/commit/a260debdb9280b662fbbe7d2101d79fb5fcfaaee))
+
+
+
+
+
 ## [2.188.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.3...@next-core/brick-kit@2.188.4) (2024-04-02)
 
 

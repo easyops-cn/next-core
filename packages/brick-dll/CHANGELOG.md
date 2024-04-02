@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.46.17...@next-core/brick-dll@2.46.18) (2024-04-02)
+
+**Note:** Version bump only for package @next-core/brick-dll
+
+
+
+
+
 ## [2.46.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.46.16...@next-core/brick-dll@2.46.17) (2024-04-02)
 
 **Note:** Version bump only for package @next-core/brick-dll

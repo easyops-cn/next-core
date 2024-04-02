@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.7.0...@next-core/rollup-config-factory@2.8.0) (2024-04-02)
+
+
+### Features
+
+* refresh page if auth changed ([a260deb](https://github.com/easyops-cn/next-core/commit/a260debdb9280b662fbbe7d2101d79fb5fcfaaee))
+
+
+
+
+
 # [2.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/rollup-config-factory@2.6.5...@next-core/rollup-config-factory@2.7.0) (2023-03-14)
 
 
