@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.188.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.3...@next-core/brick-kit@2.188.4) (2024-04-02)
+
+
+### Bug Fixes
+
+* fix image url ([fd8ece1](https://github.com/easyops-cn/next-core/commit/fd8ece1fb1d62772a016ac3ce365cbbdc166f97f))
+
+
+
+
+
 ## [2.188.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.2...@next-core/brick-kit@2.188.3) (2024-03-27)
 
 
