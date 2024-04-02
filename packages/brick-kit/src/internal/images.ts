@@ -1,4 +1,5 @@
 import { getBasePath } from "./getBasePath";
+import { escapeRegExp } from "lodash";
 export interface ImagesFactory {
   get(name: string): string;
 }
@@ -20,15 +21,12 @@ export function imagesFactory(
           suffix = getBasePath() + suffix;
         }
         if (window.APP_ID && window.APP_ID !== appId) {
-          return suffix.replace(
-            new RegExp(`/(${window.APP_ID}|\\d+.\\d+.\\d+)/`, "g"),
-            (_, p1) => {
-              if (p1 === window.APP_ID) {
-                return `/${appId}/`;
-              }
-              return `/${version}/`;
-            }
-          );
+          return suffix
+            .replace(
+              new RegExp(`(^|/)${escapeRegExp(window.APP_ID)}/`),
+              `$1${appId}/`
+            )
+            .replace(/\/\d+\.\d+\.\d+\//, `/${version}/`);
         }
         return suffix;
       };
