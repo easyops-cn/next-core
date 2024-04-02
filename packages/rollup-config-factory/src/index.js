@@ -83,6 +83,7 @@ exports.rollupFactory = ({
         name: umdName,
         sourcemap: true,
         exports: "named",
+        inlineDynamicImports: true,
       },
       {
         dir: "dist",
