@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.13.7...@next-core/brick-container@3.14.0) (2024-04-02)
+
+
+### Features
+
+* refresh page if auth changed ([e56fe1d](https://github.com/easyops-cn/next-core/commit/e56fe1d8b47c9a911f0bb86864517bea2f263dd6))
+
+
+
+
+
 ## [3.13.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.13.6...@next-core/brick-container@3.13.7) (2024-04-01)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.35.0...@next-core/runtime@1.36.0) (2024-04-02)
+
+
+### Features
+
+* refresh page if auth changed ([e56fe1d](https://github.com/easyops-cn/next-core/commit/e56fe1d8b47c9a911f0bb86864517bea2f263dd6))
+
+
+
+
+
 # [1.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.4...@next-core/runtime@1.35.0) (2024-04-01)
 
 
