@@ -61,6 +61,7 @@
     "@next-core/test-next": "^1.0.16",
     "@next-core/theme": "^1.4.8",
     "@next-core/types": "^1.8.1",
+    "broadcast-channel": "^7.0.0",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^3.36.0",
     "html-webpack-plugin": "^5.6.0",

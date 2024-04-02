@@ -6,7 +6,7 @@ import {
   __secret_internals,
 } from "@next-core/runtime";
 import { HttpRequestConfig, http } from "@next-core/http";
-import { i18n } from "@next-core/i18n";
+import { i18n, initializeI18n } from "@next-core/i18n";
 import {
   flowApi,
   checkInstalledApps,
@@ -24,6 +24,7 @@ import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
 import { listen } from "./preview/listen.js";
 import { getMock } from "./mocks.js";
+import { NS, locales } from "./i18n.js";
 
 analytics.initialize(
   `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
@@ -122,6 +123,8 @@ const runtime = createRuntime({
   },
 });
 
+initializeI18n(NS, locales);
+
 async function main() {
   try {
     const [, bootstrapData] = await Promise.all([
@@ -138,9 +141,8 @@ async function main() {
     document.body.classList.add("bootstrap-error");
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    document.querySelector(
-      "#main-mount-point"
-    )!.textContent = `bootstrap failed: ${httpErrorToString(error)}`;
+    document.querySelector("#main-mount-point")!.textContent =
+      `bootstrap failed: ${httpErrorToString(error)}`;
     return "failed";
   }
 }
