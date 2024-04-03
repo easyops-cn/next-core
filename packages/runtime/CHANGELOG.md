@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.36.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.36.0...@next-core/runtime@1.36.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* setup runtime context for useBrick ([b4def43](https://github.com/easyops-cn/next-core/commit/b4def4336373af99773562c4580a0f43b053b910))
+
+
+
+
+
 # [1.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.35.0...@next-core/runtime@1.36.0) (2024-04-02)
 
 
