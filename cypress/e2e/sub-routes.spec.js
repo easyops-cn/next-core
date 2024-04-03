@@ -14,7 +14,7 @@ for (const port of Cypress.env("ports")) {
 
       cy.contains("Sub Route 1 [1]");
 
-      cy.expectMainContents([
+      const fixedContents = [
         "Hello",
         "[i: 0] x: 0",
         "Go 1",
@@ -24,9 +24,11 @@ for (const port of Cypress.env("ports")) {
         "Go 3",
         "Go 4",
         "Go 5",
+        "Go 6",
         "Go other",
-        "Sub Route 1 [1][i: 1] x: 1",
-      ]);
+      ];
+
+      cy.expectMainContents([...fixedContents, "Sub Route 1 [1][i: 1] x: 1"]);
 
       cy.get("@console.info").should("be.calledWith", "Mounted Root");
       cy.get("@console.info").should("have.callCount", 1);
@@ -34,19 +36,7 @@ for (const port of Cypress.env("ports")) {
       // Incremental rendering
       cy.contains("Go 2").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2");
-      cy.expectMainContents([
-        "Hello",
-        "[i: 0] x: 0",
-        "Go 1",
-        "Go 2",
-        "Go 2/x",
-        "Go 2/y",
-        "Go 3",
-        "Go 4",
-        "Go 5",
-        "Go other",
-        "Sub Route 2 [2][i: 2] x: 2",
-      ]);
+      cy.expectMainContents([...fixedContents, "Sub Route 2 [2][i: 2] x: 2"]);
 
       cy.get("@console.info").should("be.calledWith", "Mounted 2");
       cy.get("@console.info").should("have.callCount", 2);
@@ -54,19 +44,7 @@ for (const port of Cypress.env("ports")) {
       // Empty sub-route
       cy.contains("Go 3").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2").should("not.exist");
-      cy.expectMainContents([
-        "Hello",
-        "[i: 0] x: 0",
-        "Go 1",
-        "Go 2",
-        "Go 2/x",
-        "Go 2/y",
-        "Go 3",
-        "Go 4",
-        "Go 5",
-        "Go other",
-        "",
-      ]);
+      cy.expectMainContents([...fixedContents, ""]);
 
       cy.get("@console.info").should("be.calledWith", "Unmounted 2");
       cy.get("@console.info").should("have.callCount", 3);
@@ -77,16 +55,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("Go 4").click();
       cy.contains("SyntaxError");
       cy.expectMainContents([
-        "Hello",
-        "[i: 0] x: 0",
-        "Go 1",
-        "Go 2",
-        "Go 2/x",
-        "Go 2/y",
-        "Go 3",
-        "Go 4",
-        "Go 5",
-        "Go other",
+        ...fixedContents,
         'SyntaxError: Unexpected token (1:4), in "<% CTX. %>"',
       ]);
 
@@ -95,19 +64,7 @@ for (const port of Cypress.env("ports")) {
       // Sub-route redirects
       cy.contains("Go 5").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2");
-      cy.expectMainContents([
-        "Hello",
-        "[i: 0] x: 0",
-        "Go 1",
-        "Go 2",
-        "Go 2/x",
-        "Go 2/y",
-        "Go 3",
-        "Go 4",
-        "Go 5",
-        "Go other",
-        "Sub Route 2 [2][i: 2] x: 2",
-      ]);
+      cy.expectMainContents([...fixedContents, "Sub Route 2 [2][i: 2] x: 2"]);
 
       // cy.get("@console.info").should("be.calledWith", "Mounted 2");
       cy.get("@console.info").should("have.callCount", 4);
@@ -115,19 +72,7 @@ for (const port of Cypress.env("ports")) {
       // Inner nested sub-route
       cy.contains("Go 2/x").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2");
-      cy.expectMainContents([
-        "Hello",
-        "[i: 0] x: 0",
-        "Go 1",
-        "Go 2",
-        "Go 2/x",
-        "Go 2/y",
-        "Go 3",
-        "Go 4",
-        "Go 5",
-        "Go other",
-        "Sub Route 2 [2][i: 2] x: 2X",
-      ]);
+      cy.expectMainContents([...fixedContents, "Sub Route 2 [2][i: 2] x: 2X"]);
 
       cy.get("@console.info").should("be.calledWith", "Mounted X");
       cy.get("@console.info").should("have.callCount", 5);
@@ -135,23 +80,23 @@ for (const port of Cypress.env("ports")) {
       // Inner nested sub-route
       cy.contains("Go 2/y").click();
       cy.contains("Sub Route 2 [2][i: 2] x: 2");
-      cy.expectMainContents([
-        "Hello",
-        "[i: 0] x: 0",
-        "Go 1",
-        "Go 2",
-        "Go 2/x",
-        "Go 2/y",
-        "Go 3",
-        "Go 4",
-        "Go 5",
-        "Go other",
-        "Sub Route 2 [2][i: 2] x: 2Y",
-      ]);
+      cy.expectMainContents([...fixedContents, "Sub Route 2 [2][i: 2] x: 2Y"]);
 
       cy.get("@console.info").should("be.calledWith", "Unmounted X");
       cy.get("@console.info").should("be.calledWith", "Mounted Y");
       cy.get("@console.info").should("have.callCount", 7);
+
+      cy.contains("Go 6").click();
+      cy.contains("Push query");
+      cy.expectMainContents([
+        ...fixedContents,
+        "Push query undefined, 1/undefined, 2/undefined",
+      ]);
+      cy.contains("Push query").click();
+      cy.expectMainContents([
+        ...fixedContents,
+        "Push query test, 1/test, 2/test",
+      ]);
 
       // Outside route
       cy.contains("Go other").click();

@@ -2049,6 +2049,7 @@ describe("renderBrick for tpl", () => {
         }),
       },
       slots: {},
+      [__secret_internals.symbolForRootRuntimeContext]: expect.any(Object),
       [symbolForTplStateStoreId]: tplStateStoreId,
     });
 

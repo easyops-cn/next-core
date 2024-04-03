@@ -1165,7 +1165,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <div>
-            TypeError: Cannot read properties of null (reading 'map')
+            TypeError: bricks is not iterable
           </div>
         </div>,
         <div
