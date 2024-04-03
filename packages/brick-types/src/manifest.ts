@@ -1340,7 +1340,7 @@ export interface ProviderPollOptions {
 
   /**
    * 提供一个方法以校验轮询是否应该立即停止，还在等待或进行中的轮询将失效，
-   * 不会触发 `progress|success|error|finally` 等事件。
+   * 会触发 `finally` 事件，不会触发 `progress|success|error` 等事件。
    */
   expectPollStopImmediately?: () => boolean;
 
