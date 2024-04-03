@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.6...@next-core/build-next-bricks@1.20.7) (2024-04-03)
+
+
+### Bug Fixes
+
+* ignore computed property signature for types ([a5ddb1e](https://github.com/easyops-cn/next-core/commit/a5ddb1eb300e8d5d65389bbbb79511b0bfd9b1ea))
+
+
+
+
+
 ## [1.20.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.5...@next-core/build-next-bricks@1.20.6) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
