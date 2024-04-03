@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.190.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.189.0...@next-core/brick-kit@2.190.0) (2024-04-03)
+
+
+### Features
+
+* **startPoll:** call finallyCallback when expectPollStopImmediately return truthy value ([ed73302](https://github.com/easyops-cn/next-core/commit/ed73302033c2ee120edbc14d9c57dcf61707c207))
+
+
+
+
+
 # [2.189.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.188.4...@next-core/brick-kit@2.189.0) (2024-04-02)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.94.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.93.1...@next-core/brick-types@2.94.0) (2024-04-03)
+
+
+### Features
+
+* **startPoll:** call finallyCallback when expectPollStopImmediately return truthy value ([ed73302](https://github.com/easyops-cn/next-core/commit/ed73302033c2ee120edbc14d9c57dcf61707c207))
+
+
+
+
+
 ## [2.93.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.93.0...@next-core/brick-types@2.93.1) (2024-04-02)
 
 **Note:** Version bump only for package @next-core/brick-types
