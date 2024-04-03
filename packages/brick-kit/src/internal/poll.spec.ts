@@ -362,7 +362,7 @@ describe("poll", () => {
     expect(progress).toBeCalledTimes(1);
     expect(success).not.toBeCalled();
     expect(error).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
+    expect(finallyCallback).toBeCalled();
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
@@ -418,7 +418,7 @@ describe("poll", () => {
     expect(progress).toBeCalledTimes(1);
     expect(success).not.toBeCalled();
     expect(error).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
+    expect(finallyCallback).toBeCalled();
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
