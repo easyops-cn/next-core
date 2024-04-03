@@ -46,14 +46,16 @@ export function startPoll(
       // Stop polling immediately when the expectation is match before task.
       if (!shouldStop) {
         const result = await task();
+        const expectPollStopImmediatelyResult = (
+          computeRealValue(expectPollStopImmediately, runtimeContext) as
+            | (() => boolean)
+            | undefined
+        )?.();
         // Stop polling immediately when the expectation is match or a different router
         // is rendering after the task processed.
         shouldStop =
-          (
-            computeRealValue(expectPollStopImmediately, runtimeContext) as
-              | (() => boolean)
-              | undefined
-          )?.() || currentRenderId !== _internalApiGetRenderId();
+          expectPollStopImmediatelyResult ||
+          currentRenderId !== _internalApiGetRenderId();
         if (!shouldStop) {
           progress?.(result);
           if (
@@ -71,17 +73,23 @@ export function startPoll(
           } else {
             delayedPoll(interval ?? 3000);
           }
+        } else if (expectPollStopImmediatelyResult) {
+          finallyCallback?.();
         }
+      } else {
+        finallyCallback?.();
       }
     } catch (e) {
+      const expectPollStopImmediatelyResult = (
+        computeRealValue(expectPollStopImmediately, runtimeContext) as
+          | (() => boolean)
+          | undefined
+      )?.();
       // Stop polling immediately when the expectation is match or a different router
       // is rendering after the task processed.
       shouldStop =
-        (
-          computeRealValue(expectPollStopImmediately, runtimeContext) as
-            | (() => boolean)
-            | undefined
-        )?.() || currentRenderId !== _internalApiGetRenderId();
+        expectPollStopImmediatelyResult ||
+        currentRenderId !== _internalApiGetRenderId();
       if (!shouldStop) {
         error?.(e);
         if (continueOnError) {
@@ -89,6 +97,8 @@ export function startPoll(
         } else {
           finallyCallback?.();
         }
+      } else if (expectPollStopImmediatelyResult) {
+        finallyCallback?.();
       }
     } finally {
       // Manually dispatch an event of `request.end` when the polling is stopped immediately.
