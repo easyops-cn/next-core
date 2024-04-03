@@ -72,6 +72,7 @@ import { matchHomepage } from "./matchStoryboard.js";
 import type { DataStore, DataStoreType } from "./data/DataStore.js";
 import { listenerFactory } from "./bindListeners.js";
 import type { MatchResult } from "./matchPath.js";
+import { setupRootRuntimeContext } from "./setupRootRuntimeContext.js";
 
 export interface RenderOutput {
   node?: RenderChildNode;
@@ -210,6 +211,7 @@ export async function renderBricks(
   tplStack?: Map<string, number>,
   keyPath?: number[]
 ): Promise<RenderOutput> {
+  setupRootRuntimeContext(bricks, runtimeContext, true);
   const output = getEmptyRenderOutput();
   const kPath = keyPath ?? [];
   // 多个构件并行异步转换，但转换的结果按原顺序串行合并。

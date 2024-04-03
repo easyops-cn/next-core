@@ -604,7 +604,7 @@ routes:
     properties:
       i: 0
   - brick: :forEach
-    dataSource: [1, 2, 3, 4, 5]
+    dataSource: [1, 2, 3, 4, 5, 6]
     children:
     - brick: button
       properties:
@@ -742,6 +742,24 @@ routes:
         - path: ${APP.homepage}/sub-routes/5
           type: redirect
           redirect: ${APP.homepage}/sub-routes/2
+        - path: ${APP.homepage}/sub-routes/6
+          bricks:
+          - brick: button
+            properties:
+              textContent: |
+                <% `Push query ${QUERY.q}` %>
+            events:
+              click:
+                action: history.pushQuery
+                args:
+                  - q: test
+          - brick: e2e.list-by-use-brick
+            properties:
+              data: [1, 2]
+              useBrick:
+                brick: div
+                properties:
+                  textContent: '<% `, ${DATA}/${QUERY.q}` %>'
         - path: ${APP.homepage}/other-route
           bricks:
           - brick: div
