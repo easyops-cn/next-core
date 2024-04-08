@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.38.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.0...@next-core/runtime@1.38.1) (2024-04-08)
+
+
+### Bug Fixes
+
+* override stale incremental render callback ([a8e76b3](https://github.com/easyops-cn/next-core/commit/a8e76b30f3d14b92b5ca49e66d034f5956758bb2))
+
+
+
+
+
 # [1.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.37.0...@next-core/runtime@1.38.0) (2024-04-08)
 
 
