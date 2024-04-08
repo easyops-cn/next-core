@@ -10,6 +10,7 @@ import type {
   CustomTemplateProxySlot,
   SlotsConfOfBricks,
   Storyboard,
+  StaticMenuConf,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
@@ -161,4 +162,11 @@ export interface PreviewOption {
   formId?: string;
   updateStoryboardType?: "route" | "template" | "snippet";
   collectUsedContracts?(storyboard: Storyboard): string[] | Promise<string[]>;
+}
+
+export interface MenuRequestNode {
+  child?: MenuRequestNode;
+  sibling?: MenuRequestNode;
+  return?: MenuRequestNode;
+  request?: Promise<StaticMenuConf>;
 }

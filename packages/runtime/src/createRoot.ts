@@ -152,7 +152,8 @@ export function unstable_createRoot(
           bricks,
           runtimeContext,
           rendererContext,
-          []
+          [],
+          {}
         );
 
         stores = getDataStores(runtimeContext);
@@ -170,7 +171,6 @@ export function unstable_createRoot(
             runtimeContext: null!,
           },
           blockingList: [],
-          menuRequests: [],
         };
       }
 

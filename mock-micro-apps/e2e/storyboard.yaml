@@ -766,6 +766,76 @@ routes:
             properties:
               textContent: Fake Other Route
 
+- path: '${APP.homepage}/sub-routes-alt'
+  exact: false
+  incrementalSubRoutes: true
+  bricks:
+  - brick: h1
+    properties:
+      textContent: Sub-Routes Alt
+  - brick: button
+    properties:
+      textContent: Go App
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes-alt/app
+  - brick: button
+    properties:
+      textContent: Go Host
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes-alt/host
+  - brick: button
+    properties:
+      textContent: Back Home
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes-alt
+  - brick: div
+    slots:
+      '':
+        type: routes
+        routes:
+        - path: '${APP.homepage}/sub-routes-alt/app'
+          bricks:
+          - brick: h2
+            properties:
+              textContent: This is App
+            lifeCycle:
+              onMount:
+                action: console.info
+                args:
+                  - Mounted App
+              onUnmount:
+                action: console.info
+                args:
+                  - Unmounted App
+  - brick: div
+    slots:
+      '':
+        type: routes
+        routes:
+        - path: '${APP.homepage}/sub-routes-alt/host'
+          bricks:
+          - brick: h2
+            properties:
+              textContent: This is Host
+            lifeCycle:
+              onMount:
+                action: console.info
+                args:
+                  - Mounted Host
+              onUnmount:
+                action: console.info
+                args:
+                  - Unmounted Host
+
 - path: '${APP.homepage}/other-route'
   bricks:
   - brick: div

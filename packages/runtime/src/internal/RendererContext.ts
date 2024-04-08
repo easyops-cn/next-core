@@ -4,6 +4,7 @@ import type {
   MessageConf,
   RouteConf,
   ScrollIntoViewConf,
+  SlotConfOfRoutes,
   StaticMenuConf,
 } from "@next-core/types";
 import type { Action, Location } from "history";
@@ -13,6 +14,7 @@ import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type {
+  MenuRequestNode,
   RenderBrick,
   RenderChildNode,
   RenderNode,
@@ -35,7 +37,12 @@ type MemoizedLifeCycle<T> = {
 type LocationChangeCallback = (
   location: Location<NextHistoryState>,
   prevLocation: Location<NextHistoryState>
-) => Promise<boolean>;
+) => Promise<boolean | null>;
+
+interface IncrementalRenderState {
+  parentRoutes: RouteConf[];
+  callback: LocationChangeCallback;
+}
 
 const commonLifeCycles = [
   "onMount",
@@ -144,59 +151,70 @@ export class RendererContext {
       }
     >
   >;
-  #allMenuRequests?: Promise<StaticMenuConf>[];
-  #memoizedMenuRequestMap?: WeakMap<RouteConf, Promise<StaticMenuConf>>;
 
-  setInitialMenuRequests(menuRequests: Promise<StaticMenuConf>[]) {
-    this.#allMenuRequests = menuRequests;
+  #initialMenuRequestNode?: MenuRequestNode;
+  #memoizedMenuRequestNodeMap?: WeakMap<
+    RouteConf[],
+    MenuRequestNode | undefined
+  > = new WeakMap<RouteConf[], MenuRequestNode | undefined>();
+
+  setInitialMenuRequestNode(menuRequestNode: MenuRequestNode) {
+    this.#initialMenuRequestNode = menuRequestNode;
   }
 
-  memoizeMenuRequests(
-    route: RouteConf,
-    menuRequests: Promise<StaticMenuConf>[]
-  ) {
-    if (!this.#memoizedMenuRequestMap) {
-      this.#memoizedMenuRequestMap = new WeakMap();
-    }
-    this.#memoizedMenuRequestMap.set(route, menuRequests[0]);
-  }
-
-  async reMergeMenuRequests(
+  memoizeMenuRequestNode(
     routes: RouteConf[],
-    currentRoute: RouteConf | undefined,
-    menuRequests: Promise<StaticMenuConf>[]
+    menuRequestNode: MenuRequestNode
   ) {
-    let previousMenuRequest: Promise<StaticMenuConf> | undefined;
-    let previousRoute: RouteConf | undefined;
-    for (const route of routes) {
-      // If the sub-routes doesn't match, then `this.memoizeMenuRequests` will
-      // not be called, thus `this.#memoizedMenuRequestMap` is not set.
-      previousMenuRequest = this.#memoizedMenuRequestMap?.get(route);
-      if (previousMenuRequest) {
-        previousRoute = route;
+    this.#memoizedMenuRequestNodeMap!.set(routes, menuRequestNode);
+  }
+
+  getMenuRequests() {
+    const menuRequests: Promise<StaticMenuConf>[] = [];
+    let current = this.#initialMenuRequestNode;
+    while (current) {
+      if (current.request) {
+        menuRequests.push(current.request);
+      }
+      if (current.child) {
+        current = current.child;
+      } else {
+        while (current && !current.sibling) {
+          current = current.return;
+        }
+        current = current?.sibling;
+      }
+    }
+    return menuRequests;
+  }
+
+  async reMergeMenuRequestNodes(
+    parentMenuRequestNode: MenuRequestNode,
+    routes: RouteConf[],
+    menuRequestNode: MenuRequestNode = {}
+  ) {
+    const node = this.#memoizedMenuRequestNodeMap!.get(routes);
+    this.#memoizedMenuRequestNodeMap!.set(routes, menuRequestNode);
+
+    let current = parentMenuRequestNode.child;
+    let previousSibling: MenuRequestNode | undefined;
+
+    while (current) {
+      if (current === node) {
         break;
       }
+      previousSibling = current;
+      current = current.sibling;
     }
-    const mergedMenuRequests = this.#allMenuRequests!;
-    const previousIndex = previousMenuRequest
-      ? mergedMenuRequests.indexOf(previousMenuRequest)
-      : -1;
-    if (previousIndex === -1) {
-      if (!menuRequests.length) {
-        return;
-      }
-      mergedMenuRequests.push(...menuRequests);
+
+    if (previousSibling) {
+      previousSibling.sibling = menuRequestNode;
+      menuRequestNode.sibling = node?.sibling;
     } else {
-      mergedMenuRequests.splice(
-        previousIndex,
-        mergedMenuRequests.length - previousIndex,
-        ...menuRequests
-      );
+      parentMenuRequestNode.child = menuRequestNode;
     }
-    if (previousRoute && previousRoute !== currentRoute) {
-      this.#memoizedMenuRequestMap?.delete(previousRoute);
-    }
-    await this.#routeHelper!.mergeMenus(mergedMenuRequests);
+
+    await this.#routeHelper!.mergeMenus(this.getMenuRequests());
   }
 
   reBailout(output: RenderOutput) {
@@ -207,29 +225,54 @@ export class RendererContext {
     return this.#routeHelper!.catch(error, returnNode);
   }
 
-  #locationChangeCallbacks: LocationChangeCallback[] = [];
+  #incrementalRenderStates = new Map<
+    SlotConfOfRoutes,
+    IncrementalRenderState
+  >();
 
   async didPerformIncrementalRender(
     location: Location<NextHistoryState>,
     prevLocation: Location<NextHistoryState>
   ) {
+    let finalResult = false;
+    const shouldIgnoreRoutes: RouteConf[] = [];
     // Perform incremental rendering from inside out.
     // This allows nested incremental sub-routes.
-    for (let i = this.#locationChangeCallbacks.length - 1; i >= 0; i--) {
-      const callback = this.#locationChangeCallbacks[i];
-      if (await callback(location, prevLocation)) {
-        return true;
+    for (const { parentRoutes, callback } of [
+      ...this.#incrementalRenderStates.values(),
+    ].reverse()) {
+      const parentRoute = parentRoutes[parentRoutes.length - 1];
+      if (shouldIgnoreRoutes.includes(parentRoute)) {
+        // Do not re-render parent routes if any of its children has performed incremental rendering.
+        // In the meantime, allow sibling-routes to perform incremental rendering.
+        continue;
+      }
+      const result = await callback(location, prevLocation);
+      // When result is null, it means the incremental rendering is tried but routes missed.
+      // In this case, we should continue to re-render the parent routes.
+      if (result) {
+        shouldIgnoreRoutes.push(...parentRoutes.slice(0, -1));
+      }
+      // Mark incremental rendering as performed at final if result is true or null.
+      if (result !== false) {
+        finalResult = true;
       }
     }
-    return false;
+    return finalResult;
   }
 
   /**
    * When `callback` resolved to `true` which means incremental rendering is performed,
    * ignore normal rendering.
    */
-  performIncrementalRender(callback: LocationChangeCallback) {
-    this.#locationChangeCallbacks.push(callback);
+  performIncrementalRender(
+    slotConf: SlotConfOfRoutes,
+    parentRoutes: RouteConf[],
+    callback: LocationChangeCallback
+  ) {
+    if (!this.#incrementalRenderStates.has(slotConf)) {
+      this.#incrementalRenderStates.set(slotConf, { parentRoutes, callback });
+    }
   }
 
   registerBrickLifeCycle(
@@ -505,10 +548,9 @@ export class RendererContext {
       this.#mediaListener = undefined;
     }
     this.#memoized = undefined;
-    this.#allMenuRequests = undefined;
-    this.#memoizedMenuRequestMap = undefined;
     this.#arbitraryLifeCycle.clear();
-    this.#locationChangeCallbacks.length = 0;
+    this.#incrementalRenderStates.clear();
+    this.#memoizedMenuRequestNodeMap = undefined;
   }
 
   // Note: no `onScrollIntoView` and `onMessage`
