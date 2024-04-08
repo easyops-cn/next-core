@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.4.8...@next-core/theme@1.5.0) (2024-04-08)
+
+
+### Features
+
+* update green color ([4690289](https://github.com/easyops-cn/next-core/commit/46902890191760e9c56e157a3f686513d7a12dc7))
+
+
+
+
+
 ## [1.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.4.7...@next-core/theme@1.4.8) (2024-01-04)
 
 **Note:** Version bump only for package @next-core/theme

@@ -1,6 +1,6 @@
 {
   "name": "@next-core/react-runtime",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/react-runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@next-core/react-element": "^1.0.22",
-    "@next-core/runtime": "^1.36.1",
-    "@next-core/types": "^1.8.1",
+    "@next-core/runtime": "^1.37.0",
+    "@next-core/types": "^1.9.0",
     "react": "0.0.0-experimental-ee8509801-20230117",
     "react-dom": "0.0.0-experimental-ee8509801-20230117"
   },

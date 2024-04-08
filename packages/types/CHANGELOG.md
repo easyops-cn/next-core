@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.8.1...@next-core/types@1.9.0) (2024-04-08)
+
+
+### Features
+
+* **startPoll:** call finallyCallback when expectPollStopImmediately return truthy value ([576f9eb](https://github.com/easyops-cn/next-core/commit/576f9ebe89e314a9961a8f8a08f6e0a8c14539e7))
+
+
+
+
+
 ## [1.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.8.0...@next-core/types@1.8.1) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/types

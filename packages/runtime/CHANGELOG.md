@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.36.1...@next-core/runtime@1.37.0) (2024-04-08)
+
+
+### Bug Fixes
+
+* fix nesting incremental sub-routes ([6e2307b](https://github.com/easyops-cn/next-core/commit/6e2307b0d97b0d3ba9133ee5f065d668a23b29e5))
+
+
+### Features
+
+* **startPoll:** call finallyCallback when expectPollStopImmediately return truthy value ([576f9eb](https://github.com/easyops-cn/next-core/commit/576f9ebe89e314a9961a8f8a08f6e0a8c14539e7))
+
+
+
+
+
 ## [1.36.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.36.0...@next-core/runtime@1.36.1) (2024-04-03)
 
 
