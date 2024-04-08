@@ -5,3 +5,4 @@ export * from "./useRecentApps.js";
 export * from "./useRouteRender.js";
 export * from "./useProvider/useProvider.js";
 export * from "./asyncWrapBrick.js";
+export * from "./useNavConfig.js";
