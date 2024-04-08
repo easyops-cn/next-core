@@ -375,6 +375,9 @@ export class Router {
         mergeMenus: async (menuRequests) => {
           const menuConfs = await Promise.all(menuRequests);
           this.#navConfig = mergeMenuConfs(menuConfs);
+          window.dispatchEvent(
+            new CustomEvent("navConfig.change", { detail: this.#navConfig })
+          );
         },
         catch: (error, returnNode) => {
           if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
