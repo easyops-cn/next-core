@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.3.3...@next-core/react-runtime@1.4.0) (2024-04-08)
+
+
+### Features
+
+* notify nav config change ([c359a28](https://github.com/easyops-cn/next-core/commit/c359a286658044ef813822f2b06db267e0dfa85a))
+
+
+
+
+
 ## [1.3.3](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.3.2...@next-core/react-runtime@1.3.3) (2024-04-08)
 
 **Note:** Version bump only for package @next-core/react-runtime

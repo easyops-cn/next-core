@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.37.0...@next-core/runtime@1.38.0) (2024-04-08)
+
+
+### Features
+
+* notify nav config change ([c359a28](https://github.com/easyops-cn/next-core/commit/c359a286658044ef813822f2b06db267e0dfa85a))
+
+
+
+
+
 # [1.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.36.1...@next-core/runtime@1.37.0) (2024-04-08)
 
 
