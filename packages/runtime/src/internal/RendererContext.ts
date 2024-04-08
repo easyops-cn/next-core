@@ -270,9 +270,8 @@ export class RendererContext {
     parentRoutes: RouteConf[],
     callback: LocationChangeCallback
   ) {
-    if (!this.#incrementalRenderStates.has(slotConf)) {
-      this.#incrementalRenderStates.set(slotConf, { parentRoutes, callback });
-    }
+    // Override stale incremental render callbacks
+    this.#incrementalRenderStates.set(slotConf, { parentRoutes, callback });
   }
 
   registerBrickLifeCycle(
