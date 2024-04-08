@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-
+/* global expect */
 for (const port of Cypress.env("ports")) {
   const origin = `http://localhost:${port}`;
 
@@ -107,6 +107,111 @@ for (const port of Cypress.env("ports")) {
       cy.get("@console.info").should("be.calledWith", "Unmounted 2");
       cy.get("@console.info").should("be.calledWith", "Unmounted Root");
       cy.get("@console.info").should("have.callCount", 10);
+    });
+
+    it.only("should render multiple sub-routes", () => {
+      cy.visit(`${origin}/e2e/sub-routes-alt`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+          cy.spy(win.console, "info").as("console.info");
+        },
+      });
+
+      cy.contains("Sub-Routes Alt");
+
+      cy.expectMainContents([
+        "Sub-Routes Alt",
+        "Go App",
+        "Go Host",
+        "Back Home",
+        "",
+        "",
+      ]);
+
+      // Incremental rendering
+      cy.contains("Go App").click();
+      cy.contains("This is App");
+      cy.expectMainContents([
+        "Sub-Routes Alt",
+        "Go App",
+        "Go Host",
+        "Back Home",
+        "This is App",
+        "",
+      ]);
+
+      cy.get("@console.info").should("be.calledWith", "Mounted App");
+      cy.get("@console.info").should("have.callCount", 1);
+
+      // Incremental rendering
+      cy.contains("Go Host").click();
+      cy.contains("This is Host");
+      cy.expectMainContents([
+        "Sub-Routes Alt",
+        "Go App",
+        "Go Host",
+        "Back Home",
+        "",
+        "This is Host",
+      ]);
+
+      cy.get("@console.info").should("be.calledWith", "Mounted Host");
+      cy.get("@console.info").should("be.calledWith", "Unmounted App");
+      cy.get("@console.info").should("have.callCount", 3);
+
+      cy.contains("Back Home").click();
+      cy.expectMainContents([
+        "Sub-Routes Alt",
+        "Go App",
+        "Go Host",
+        "Back Home",
+        "",
+        "",
+      ]);
+
+      cy.get("@console.info").should("have.callCount", 4);
+      cy.get("@console.info").should((spy) => {
+        const call3 = spy.getCall(3);
+        expect(call3.args[0]).to.equal("Unmounted Host");
+      });
+
+      // Incremental rendering
+      cy.contains("Go Host").click();
+      cy.contains("This is Host");
+      cy.expectMainContents([
+        "Sub-Routes Alt",
+        "Go App",
+        "Go Host",
+        "Back Home",
+        "",
+        "This is Host",
+      ]);
+
+      cy.get("@console.info").should("have.callCount", 5);
+      cy.get("@console.info").should((spy) => {
+        const call4 = spy.getCall(4);
+        expect(call4.args[0]).to.equal("Mounted Host");
+      });
+
+      // Incremental rendering
+      cy.contains("Go App").click();
+      cy.contains("This is App");
+      cy.expectMainContents([
+        "Sub-Routes Alt",
+        "Go App",
+        "Go Host",
+        "Back Home",
+        "This is App",
+        "",
+      ]);
+
+      cy.get("@console.info").should("have.callCount", 7);
+      cy.get("@console.info").should((spy) => {
+        const call5 = spy.getCall(5);
+        expect(call5.args[0]).to.equal("Unmounted Host");
+        const call6 = spy.getCall(6);
+        expect(call6.args[0]).to.equal("Mounted App");
+      });
     });
   });
 }

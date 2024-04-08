@@ -359,6 +359,69 @@ const getBootstrapData = (options?: {
             },
           ],
         },
+        {
+          path: "${APP.homepage}/sub-routes-parallel",
+          incrementalSubRoutes: true,
+          menu: {
+            breadcrumb: { items: [{ text: "Parallel" }] },
+          },
+          bricks: [
+            {
+              brick: "h1",
+              properties: {
+                textContent: "Parallel sub routes",
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-parallel/app",
+                      menu: {
+                        breadcrumb: { items: [{ text: "App" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub App",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-parallel/host",
+                      menu: {
+                        breadcrumb: { items: [{ text: "Host" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub Host",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
       ],
       meta: {
         customTemplates: options?.templates
@@ -1070,6 +1133,130 @@ describe("Runtime", () => {
     `);
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "Nested" }, { text: "2" }, { text: "Y" }],
+    });
+
+    (window as any).debug = true;
+
+    getHistory().push("/app-a/sub-routes-nested/1");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 1
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "1" }],
+    });
+  }, 1e6);
+
+  test("parallel incremental sub-routes rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes-parallel");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div />
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-parallel/app");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div>
+            <p>
+              Sub App
+            </p>
+          </div>
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }, { text: "App" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-parallel/host");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div />
+          <div>
+            <p>
+              Sub Host
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }, { text: "Host" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-parallel");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div />
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }],
     });
   });
 

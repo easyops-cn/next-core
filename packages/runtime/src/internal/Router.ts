@@ -33,7 +33,12 @@ import {
   hooks,
 } from "./Runtime.js";
 import { getPageInfo } from "../getPageInfo.js";
-import type { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
+import type {
+  MenuRequestNode,
+  RenderBrick,
+  RenderRoot,
+  RuntimeContext,
+} from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
 import {
   handleHttpError,
@@ -441,12 +446,14 @@ export class Router {
       let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
 
       try {
+        const rootMenuRequestNode: MenuRequestNode = {};
         output = await renderRoutes(
           renderRoot,
           insertPreviewRoutes(storyboard.routes),
           runtimeContext,
           rendererContext,
-          []
+          [],
+          rootMenuRequestNode
         );
         if (routeHelper.bailout(output)) {
           return;
@@ -456,8 +463,9 @@ export class Router {
 
         await postAsyncRender(output, runtimeContext, stores);
 
-        await routeHelper.mergeMenus(output.menuRequests);
-        rendererContext.setInitialMenuRequests(output.menuRequests);
+        rootMenuRequestNode.child = output.menuRequestNode;
+        rendererContext.setInitialMenuRequestNode(rootMenuRequestNode);
+        await routeHelper.mergeMenus(rendererContext.getMenuRequests());
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);

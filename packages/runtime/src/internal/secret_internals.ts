@@ -100,7 +100,8 @@ export async function renderUseBrick(
         },
     scopedRuntimeContext,
     rendererContext,
-    []
+    [],
+    {}
   );
 
   const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];

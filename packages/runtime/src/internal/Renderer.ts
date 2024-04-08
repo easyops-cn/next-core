@@ -43,6 +43,7 @@ import {
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
 import type {
+  MenuRequestNode,
   RenderBrick,
   RenderChildNode,
   RenderReturnNode,
@@ -84,7 +85,7 @@ export interface RenderOutput {
   route?: RouteConf;
   path?: string;
   blockingList: (Promise<unknown> | undefined)[];
-  menuRequests: Promise<StaticMenuConf>[];
+  menuRequestNode?: MenuRequestNode;
   hasTrackingControls?: boolean;
 }
 
@@ -94,11 +95,16 @@ export async function renderRoutes(
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   parentRoutes: RouteConf[],
+  menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   isIncremental?: boolean
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
   const output = getEmptyRenderOutput();
+  const menuRequestNode: MenuRequestNode = {
+    return: menuRequestReturnNode,
+  };
+  output.menuRequestNode = menuRequestNode;
   switch (matched) {
     case "missed":
       break;
@@ -166,34 +172,38 @@ export async function renderRoutes(
       } else {
         const menuRequest = loadMenu(route.menu, runtimeContext);
         if (menuRequest) {
-          output.menuRequests.push(menuRequest);
+          menuRequestNode.request = menuRequest;
         }
 
+        if (!isIncremental) {
+          rendererContext.memoizeMenuRequestNode(routes, menuRequestNode);
+        }
+
+        let newOutput: RenderOutput;
         if (route.type === "routes") {
-          const newOutput = await renderRoutes(
+          newOutput = await renderRoutes(
             returnNode,
             route.routes,
             runtimeContext,
             rendererContext,
             routePath,
+            menuRequestNode,
             slotId
           );
-          mergeRenderOutput(output, newOutput);
         } else {
-          const newOutput = await renderBricks(
+          newOutput = await renderBricks(
             returnNode,
             route.bricks,
             runtimeContext,
             rendererContext,
             routePath,
+            menuRequestNode,
             slotId
           );
-          mergeRenderOutput(output, newOutput);
         }
 
-        if (returnNode.tag === RenderTag.BRICK) {
-          rendererContext.memoizeMenuRequests(route, output.menuRequests);
-        }
+        mergeRenderOutput(output, newOutput);
+        appendMenuRequestNode(menuRequestReturnNode, newOutput.menuRequestNode);
       }
     }
   }
@@ -207,6 +217,7 @@ export async function renderBricks(
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   parentRoutes: RouteConf[],
+  menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   tplStack?: Map<string, number>,
   keyPath?: number[]
@@ -223,6 +234,7 @@ export async function renderBricks(
         runtimeContext,
         rendererContext,
         parentRoutes,
+        menuRequestReturnNode,
         slotId,
         kPath.concat(index),
         tplStack && new Map(tplStack)
@@ -252,6 +264,7 @@ export async function renderBrick(
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   parentRoutes: RouteConf[],
+  menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   keyPath: number[] = [],
   tplStack = new Map<string, number>()
@@ -298,6 +311,7 @@ export async function renderBrick(
       _runtimeContext,
       rendererContext,
       parentRoutes,
+      menuRequestReturnNode,
       slotId,
       keyPath,
       tplStack
@@ -398,6 +412,7 @@ export async function renderBrick(
             runtimeContext,
             rendererContext,
             parentRoutes,
+            menuRequestReturnNode,
             slotId,
             tplStack,
             keyPath
@@ -411,6 +426,7 @@ export async function renderBrick(
             runtimeContext,
             rendererContext,
             parentRoutes,
+            menuRequestReturnNode,
             slotId,
             tplStack,
             keyPath
@@ -704,6 +720,7 @@ export async function renderBrick(
             childRuntimeContext,
             rendererContext,
             parentRoutes,
+            menuRequestReturnNode,
             childSlotId,
             tplStack
           );
@@ -715,6 +732,8 @@ export async function renderBrick(
         if (parentRoute?.incrementalSubRoutes) {
           routeSlotFromIndexToSlotId.set(index, childSlotId);
           rendererContext.performIncrementalRender(
+            slotConf,
+            parentRoutes,
             async (location, prevLocation) => {
               const { homepage } = childRuntimeContext.app;
               const { pathname } = location;
@@ -760,28 +779,34 @@ export async function renderBrick(
                   scopedRuntimeContext,
                   rendererContext,
                   parentRoutes,
+                  menuRequestReturnNode,
                   childSlotId,
                   true
                 );
 
                 // Do not ignore incremental rendering even if all sub-routes are missed.
                 // Since parent route is matched.
+                if (incrementalOutput.route) {
+                  // Bailout if redirect or unauthenticated is set
+                  if (rendererContext.reBailout(incrementalOutput)) {
+                    return true;
+                  }
 
-                // Bailout if redirect or unauthenticated is set
-                if (rendererContext.reBailout(incrementalOutput)) {
-                  return true;
+                  scopedStores = [
+                    ...tplStateStoreScope,
+                    ...formStateStoreScope,
+                  ];
+                  await postAsyncRender(
+                    incrementalOutput,
+                    scopedRuntimeContext,
+                    [scopedRuntimeContext.ctxStore, ...scopedStores]
+                  );
                 }
 
-                scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
-                await postAsyncRender(incrementalOutput, scopedRuntimeContext, [
-                  scopedRuntimeContext.ctxStore,
-                  ...scopedStores,
-                ]);
-
-                await rendererContext.reMergeMenuRequests(
+                await rendererContext.reMergeMenuRequestNodes(
+                  menuRequestReturnNode,
                   slotConf.routes,
-                  incrementalOutput.route,
-                  incrementalOutput.menuRequests
+                  incrementalOutput.menuRequestNode
                 );
               } catch (error) {
                 // eslint-disable-next-line no-console
@@ -794,10 +819,10 @@ export async function renderBrick(
                 ({ failed, output: incrementalOutput } = result);
 
                 // Assert: no errors will be throw
-                await rendererContext.reMergeMenuRequests(
+                await rendererContext.reMergeMenuRequestNodes(
+                  menuRequestReturnNode,
                   slotConf.routes,
-                  incrementalOutput.route,
-                  incrementalOutput.menuRequests
+                  incrementalOutput.menuRequestNode
                 );
               }
 
@@ -817,7 +842,9 @@ export async function renderBrick(
                 }
               }
 
-              return true;
+              // When result is null, it means the incremental rendering is tried but routes missed.
+              // In this case, we should continue to re-render the parent routes.
+              return incrementalOutput.route ? true : null;
             }
           );
         }
@@ -828,6 +855,7 @@ export async function renderBrick(
           childRuntimeContext,
           rendererContext,
           parentRoutes,
+          menuRequestReturnNode,
           childSlotId
         );
       })
@@ -837,7 +865,7 @@ export async function renderBrick(
       ...output,
       node: undefined,
       blockingList: [],
-      menuRequests: [],
+      menuRequestNode: undefined,
     };
     rendered.forEach((item, index) => {
       if (routeSlotFromIndexToSlotId.has(index)) {
@@ -850,6 +878,7 @@ export async function renderBrick(
         );
       }
       mergeRenderOutput(childrenOutput, item);
+      mergeSiblingRenderMenuRequest(childrenOutput, item);
     });
     if (childrenOutput.node) {
       brick.child = childrenOutput.node;
@@ -858,6 +887,11 @@ export async function renderBrick(
       ...childrenOutput,
       node: undefined,
     });
+
+    appendMenuRequestNode(
+      menuRequestReturnNode,
+      (output.menuRequestNode = childrenOutput.menuRequestNode)
+    );
   };
   blockingList.push(loadChildren());
 
@@ -891,6 +925,7 @@ async function renderForEach(
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
   parentRoutes: RouteConf[],
+  menuRequestReturnNode: MenuRequestNode,
   slotId: string | undefined,
   tplStack: Map<string, number>,
   keyPath: number[]
@@ -912,6 +947,7 @@ async function renderForEach(
             },
             rendererContext,
             parentRoutes,
+            menuRequestReturnNode,
             slotId,
             keyPath.concat(i * rows + j),
             tplStack && new Map(tplStack)
@@ -1010,10 +1046,9 @@ function mergeRenderOutput(
   newOutput: RenderOutput
 ): void {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { blockingList, node, menuRequests, hasTrackingControls, ...rest } =
+  const { blockingList, node, menuRequestNode, hasTrackingControls, ...rest } =
     newOutput;
   output.blockingList.push(...blockingList);
-  output.menuRequests.push(...menuRequests);
 
   if (node) {
     if (output.node) {
@@ -1030,11 +1065,44 @@ function mergeRenderOutput(
   Object.assign(output, rest);
 }
 
+function mergeSiblingRenderMenuRequest(
+  output: RenderOutput,
+  newOutput: RenderOutput
+) {
+  const menuRequestNode = newOutput.menuRequestNode;
+  if (menuRequestNode) {
+    if (output.menuRequestNode) {
+      let last = output.menuRequestNode;
+      while (last.sibling) {
+        last = last.sibling;
+      }
+      last.sibling = menuRequestNode;
+    } else {
+      output.menuRequestNode = menuRequestNode;
+    }
+  }
+}
+
+function appendMenuRequestNode(
+  menuRequestReturnNode: MenuRequestNode,
+  menuRequestNode: MenuRequestNode | undefined
+) {
+  if (!menuRequestNode) {
+    return;
+  }
+  if (menuRequestReturnNode.child) {
+    let last = menuRequestReturnNode.child;
+    while (last.sibling) {
+      last = last.sibling;
+    }
+    last.sibling = menuRequestNode;
+  } else {
+    menuRequestReturnNode.child = menuRequestNode;
+  }
+}
+
 function getEmptyRenderOutput(): RenderOutput {
-  return {
-    blockingList: [],
-    menuRequests: [],
-  };
+  return { blockingList: [] };
 }
 
 export function childrenToSlots(
