@@ -19,6 +19,9 @@ export default function getProxy(env, getRawIndexHtml) {
     localBricks,
     localBrickFolders,
     userConfigByApps,
+    host,
+    port,
+    server,
   } = env;
   if (useRemote) {
     return [
@@ -33,6 +36,12 @@ export default function getProxy(env, getRawIndexHtml) {
           const appId = getAppIdFromBootstrapPath(req.path);
           if (localMicroApps.includes(appId)) {
             return req.path;
+          }
+        },
+        onProxyReq(proxyReq, req) {
+          // Reset the origin header to the remote server
+          if (req.headers["origin"] === `http://${host}:${port}`) {
+            proxyReq.setHeader("origin", server);
           }
         },
         onProxyRes: responseInterceptor(

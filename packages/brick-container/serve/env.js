@@ -228,5 +228,5 @@ function getServerPath(server) {
     server = "https://dev.easyops.local";
   }
 
-  return server;
+  return new URL(server).origin;
 }
