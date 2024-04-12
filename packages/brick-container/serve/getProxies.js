@@ -40,6 +40,8 @@ module.exports = (env, getRawIndexHtml) => {
     legacyStandaloneAppsConfig,
     legacyAllAppsConfig,
     useLocalContainer,
+    host,
+    port,
   } = env;
 
   const pathRewriteFactory = (seg) =>
@@ -86,6 +88,13 @@ module.exports = (env, getRawIndexHtml) => {
         "/sa-static/"
       );
     }
+
+    apiProxyOptions.onProxyReq = (proxyReq, req) => {
+      // Reset the origin header to the remote server
+      if (req.headers["origin"] === `http://${host}:${port}`) {
+        proxyReq.setHeader("origin", server);
+      }
+    };
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
       if (env.asCdn) {
