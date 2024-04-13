@@ -109,7 +109,7 @@ for (const port of Cypress.env("ports")) {
       cy.get("@console.info").should("have.callCount", 10);
     });
 
-    it.only("should render multiple sub-routes", () => {
+    it("should render multiple sub-routes", () => {
       cy.visit(`${origin}/e2e/sub-routes-alt`, {
         onBeforeLoad(win) {
           cy.spy(win.console, "error").as("console.error");
