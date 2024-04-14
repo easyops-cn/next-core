@@ -101,10 +101,9 @@ export async function renderRoutes(
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
   const output = getEmptyRenderOutput();
-  const menuRequestNode: MenuRequestNode = {
+  const menuRequestNode: MenuRequestNode = (output.menuRequestNode = {
     return: menuRequestReturnNode,
-  };
-  output.menuRequestNode = menuRequestNode;
+  });
   switch (matched) {
     case "missed":
       break;
@@ -203,7 +202,7 @@ export async function renderRoutes(
         }
 
         mergeRenderOutput(output, newOutput);
-        appendMenuRequestNode(menuRequestReturnNode, newOutput.menuRequestNode);
+        appendMenuRequestNode(menuRequestNode, newOutput.menuRequestNode);
       }
     }
   }

@@ -422,6 +422,29 @@ const getBootstrapData = (options?: {
             },
           ],
         },
+        {
+          path: "${APP.homepage}/abstract-routes",
+          menu: {
+            breadcrumb: { items: [{ text: "Abstract" }] },
+          },
+          type: "routes",
+          routes: [
+            {
+              path: "${APP.homepage}/abstract-routes/1",
+              menu: {
+                breadcrumb: { items: [{ text: "1" }] },
+              },
+              bricks: [
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "Abstract routes 1",
+                  },
+                },
+              ],
+            },
+          ],
+        },
       ],
       meta: {
         customTemplates: options?.templates
@@ -1257,6 +1280,16 @@ describe("Runtime", () => {
     `);
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "Parallel" }],
+    });
+  });
+
+  test("abstract routes rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/abstract-routes/1");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Abstract" }, { text: "1" }],
     });
   });
 

@@ -388,7 +388,10 @@ describe("renderRoutes", () => {
     expect(output).toEqual({
       blockingList: [],
       menuRequestNode: {
-        return: expect.any(Object),
+        return: {},
+        child: {
+          return: output.menuRequestNode,
+        },
       },
       route: route.routes[0],
       node: expect.objectContaining({
@@ -471,7 +474,9 @@ describe("renderRoutes", () => {
       blockingList: [],
       menuRequestNode: {
         return: {},
-        child: expect.any(Object),
+        child: {
+          return: output.menuRequestNode,
+        },
       },
       route: subRoute,
       node: expect.objectContaining({
