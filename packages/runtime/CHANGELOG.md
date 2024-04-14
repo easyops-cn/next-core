@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.1...@next-core/runtime@1.38.2) (2024-04-14)
+
+
+### Bug Fixes
+
+* fix handling menu requests ([6afe745](https://github.com/easyops-cn/next-core/commit/6afe7452c3df8db65771d3761951592b010d9fdd))
+
+
+
+
+
 ## [1.38.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.0...@next-core/runtime@1.38.1) (2024-04-08)
 
 
