@@ -21,6 +21,6 @@
     "webpack": "^5.91.0"
   },
   "peerDependencies": {
-    "webpack": "5"
+    "webpack": "5.91.0"
   }
 }
