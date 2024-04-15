@@ -6,6 +6,7 @@ import ens_api
 import requests
 import simplejson
 import shutil
+from  concurrent.futures import ThreadPoolExecutor,as_completed, wait, ALL_COMPLETED
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -55,7 +56,6 @@ def collect_app_info(app_path, report_app_id, version):
         if f.startswith("bootstrap-mini.") and f.endswith(".json"):
             bootstrap_file_name = f
     if bootstrap_file_name is "":
-        print u"bootstrap-mini.*.json not found in dir {}".format(app_path)
         return
     bootstrap_file = os.path.join(app_path, bootstrap_file_name)
     print u"report app: {}, bootstrap_file: {}".format(report_app_id, bootstrap_file)
@@ -91,12 +91,11 @@ def collect_app_info(app_path, report_app_id, version):
 
 def report(org, app):
     try:
-        skip_update = create_or_update_micro_app_sa(org, app)
+        return create_or_update_micro_app_sa(org, app)
     except NameServiceError, e:
         raise e
     except requests.HTTPError, e:
         raise e
-    return skip_update
 
 
 def create_or_update_micro_app_sa(org, app):
@@ -106,7 +105,10 @@ def create_or_update_micro_app_sa(org, app):
     rsp.raise_for_status()
     rsp_data = rsp.json().get("data", {})
     print "report app: {} end".format(app["appId"])
-    return rsp_data.get("skipUpdate", False)
+    # 兼容之前的report_sa_na接口的响应体没有appId的场景
+    if rsp_data.get("appId") is None:
+        rsp_data["appId"] = app["appId"]
+    return rsp_data
 
 
 def import_micro_app_permissions(org, permission_path):
@@ -130,29 +132,66 @@ def read_union_apps_file(install_app_path):
     with open(union_app_file, "r") as f:
         return simplejson.load(f)
 
+def get_union_app_version(install_path):
+    version_file_path = os.path.join(install_path, "version.ini")
+    with open(version_file_path) as f:
+        version_content = f.readlines()
+    return version_content[1].strip()
 
-def report_union_apps(org, install_app_path):
-    union_apps = read_union_apps_file(install_path)
+def get_union_app_id_and_version(install_path):
+    pluin_name = os.path.basename(install_path)
+    union_app_id = pluin_name[:-len("-standalone-NA")]
+    union_app_version = get_union_app_version(install_path)
+    return union_app_id, union_app_version
+
+
+def report_single_standalone_na(union_app_install_path, app_detail, union_app_id, union_app_version):
+    app_id = app_detail["app_id"]
+    version = app_detail["version"]
+    if app_detail["use_brick_next_v3"]:
+        subdir_snippet = "v3"
+    else:
+        subdir_snippet = "v2"
+    single_app_path = os.path.join(union_app_install_path, "micro-apps", subdir_snippet, app_id, version)
+    app = collect_app_info(single_app_path, app_id, version)
+    if app:
+        # 增加union信息
+        app["unionAppInfo"] = {
+            "unionAppId": union_app_id,
+            "unionAppVersion": union_app_version,
+        }
+        report_standalone_na_ret = report(org, app)
+        permission_file_path = os.path.join(union_app_install_path, "permissions", "permissions.json")
+        import_micro_app_permissions(org, permission_file_path)
+        return report_standalone_na_ret
+    else:
+        return None
+
+def report_union_apps(org, union_app_install_path):
+    union_app_id, union_app_version = get_union_app_id_and_version(union_app_install_path)
+    union_apps = read_union_apps_file(union_app_install_path)
     updated_apps = []
     skip_updated_apps = []
-    for app in union_apps:
-        app_id = app["app_id"]
-        version = app["version"]
-        if app["use_brick_next_v3"]:
-            subdir_snippet = "v3"
-        else:
-            subdir_snippet = "v2"
-        union_app_path = os.path.join(install_app_path, "micro-apps", subdir_snippet, app_id, version)
-        print u"report app: {},  current app path: {}".format(app_id, union_app_path)
-        app = collect_app_info(union_app_path, app_id, version)
-        if app:
-            skip_update = report(org, app)
-            permission_file_path = os.path.join(union_app_path, "permissions", "permissions.json")
-            import_micro_app_permissions(org, permission_file_path)
-            if skip_update is False:
-                updated_apps.append(app["appId"])
+    executor = ThreadPoolExecutor(max_workers=20)
+    try:
+        all_task = [ executor.submit(report_single_standalone_na,  union_app_install_path, app, union_app_id, union_app_version) for app in union_apps ]
+        wait(all_task, return_when=ALL_COMPLETED)
+        for future in as_completed(all_task):
+            report_ret = future.result()
+            print u"report result: {}".format(report_ret)
+            if report_ret is None:
+                continue
+            is_skip_update = report_ret.get("skipUpdate")
+            if is_skip_update:
+                skip_updated_apps.append(report_ret.get("appId"))
             else:
-                skip_updated_apps.append(app["appId"])
+                updated_apps.append(report_ret.get("appId"))
+    except Exception as e:
+        print u"report union app:{}, {},  err: {}".format(union_app_id, union_app_version, e)
+        sys.exit(1)
+    finally:
+        executor.shutdown()
+
     print "report union_apps: updated sa_na: {}, skip updated sa_na: {}".format(",".join(updated_apps), ",".join(skip_updated_apps))
     return updated_apps
 
@@ -190,14 +229,13 @@ def uninstall_old_sa_na(standalone_na_list):
         if os.path.exists(old_sa_na_pkg_path):
             delete_directory(old_sa_na_pkg_path)
 
-
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print "Usage: ./report_union_micro_app.py $org $install_path"
+        print "Usage: ./report_union_micro_app.py $org $union_app_install_path"
         sys.exit(1)
     org = sys.argv[1]
-    install_path = sys.argv[2]
-    updated_apps = report_union_apps(org, install_path)
+    union_app_install_path = sys.argv[2]
+    updated_apps = report_union_apps(org, union_app_install_path)
     # 卸载老的sa-na
     uninstall_old_sa_na(updated_apps)
 
