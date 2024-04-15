@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.94.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.15...@next-core/brick-container@2.94.16) (2024-04-15)
+
+
+### Bug Fixes
+
+* union-na中的多个standalone-na要并行升级 ([6149397](https://github.com/easyops-cn/next-core/commit/61493970e6d1f1d411ebba168adc4d73fe682770))
+
+
+
+
+
 ## [2.94.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.14...@next-core/brick-container@2.94.15) (2024-04-12)
 
 
