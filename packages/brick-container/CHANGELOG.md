@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.94.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.16...@next-core/brick-container@2.94.17) (2024-04-16)
+
+
+### Bug Fixes
+
+* 修复在构件库中调试本地构件时 container 为 remote 模式时报错问题 ([01ce1b0](https://github.com/easyops-cn/next-core/commit/01ce1b0439bd64d1e0289911b343b0f385570775))
+
+
+
+
+
 ## [2.94.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.15...@next-core/brick-container@2.94.16) (2024-04-15)
 
 
