@@ -33,25 +33,25 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@babel/parser": "^7.24.0",
-    "@babel/traverse": "^7.24.0",
+    "@babel/parser": "^7.24.4",
+    "@babel/traverse": "^7.24.1",
     "@svgr/webpack": "^8.1.0",
     "babel-loader": "^9.1.3",
-    "css-loader": "^6.10.0",
-    "cssnano": "^6.1.0",
+    "css-loader": "^6.11.0",
+    "cssnano": "^6.1.2",
     "cssnano-preset-lite": "^3.1.0",
     "doctrine": "^3.0.0",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.8.1",
-    "postcss": "^8.4.35",
+    "postcss": "^8.4.38",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^9.5.0",
+    "postcss-preset-env": "^9.5.5",
     "prettier": "^3.2.5",
     "style-loader": "^3.3.4",
-    "typescript": "^5.4.2",
-    "webpack": "^5.90.3"
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@next-core/brick-manifest": "^0.7.0"

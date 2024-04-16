@@ -175,7 +175,7 @@ function matchMessageChannel(
         new RegExp(
           `^${payload.topic.replace(
             /([^*]*)\*([^*]*)/g,
-            (m, p1, p2) => `${escapeRegExp(p1)}[^/]*${escapeRegExp(p2)}`
+            (_m, p1, p2) => `${escapeRegExp(p1)}[^/]*${escapeRegExp(p2)}`
           )}$`
         ).test(responsePayload.topic)))
   );
