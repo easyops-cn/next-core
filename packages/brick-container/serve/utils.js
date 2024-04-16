@@ -400,6 +400,18 @@ function tryServeFiles(files, req, res) {
   });
 }
 
+function getProcessedPublicDeps(publicDepsStr, localBrickPackages) {
+  try {
+    const parsedPublicDeps = JSON.parse(publicDepsStr).filter(
+      (item) => !localBrickPackages.includes(item.filePath.split("/")[1])
+    );
+
+    return JSON.stringify(parsedPublicDeps);
+  } catch (err) {
+    console.error(`JSON.parse() error: ${publicDepsStr}`);
+  }
+}
+
 function appendLiveReloadScript(raw, env) {
   return raw.replace(
     "</body>",
@@ -441,3 +453,4 @@ exports.tryFiles = tryFiles;
 exports.tryServeFiles = tryServeFiles;
 exports.appendLiveReloadScript = appendLiveReloadScript;
 exports.removeCacheHeaders = removeCacheHeaders;
+exports.getProcessedPublicDeps = getProcessedPublicDeps;

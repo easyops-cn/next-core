@@ -15,6 +15,7 @@ const {
   appendLiveReloadScript,
   tryFiles,
   removeCacheHeaders,
+  getProcessedPublicDeps,
 } = require("./utils");
 const { injectIndexHtml } = require("./getIndexHtml");
 
@@ -491,16 +492,10 @@ module.exports = (env, getRawIndexHtml) => {
               )?.[1];
 
               if (publicDeps && localBrickPackages?.length) {
-                try {
-                  const parsedPublicDeps = JSON.parse(publicDeps).filter(
-                    (item) =>
-                      !localBrickPackages.includes(item.filePath.split("/")[1])
-                  );
-
-                  publicDeps = JSON.stringify(parsedPublicDeps);
-                } catch (err) {
-                  console.error(`JSON.parse() error: ${publicDeps}`);
-                }
+                publicDeps = getProcessedPublicDeps(
+                  publicDeps,
+                  localBrickPackages
+                );
               }
 
               const appRootTpl = raw.match(
@@ -583,7 +578,22 @@ module.exports = (env, getRawIndexHtml) => {
             }
             return injectIndexHtml(null, env, rawIndexHtml);
           }
-          const content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
+          let content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
+
+          const publicDeps = content.match(
+            /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
+          )?.[1];
+
+          if (publicDeps && localBrickPackages?.length) {
+            content = content.replace(
+              /\bw\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;/,
+              `w.PUBLIC_DEPS=${getProcessedPublicDeps(
+                publicDeps,
+                localBrickPackages
+              )};`
+            );
+          }
+
           return env.liveReload
             ? appendLiveReloadScript(content, env)
             : content;
