@@ -5,6 +5,7 @@ import { getBrickPackages } from "@next-core/serve-helpers";
 import { getStoryboards } from "./utils/getStoryboards.js";
 import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
+import { getProcessedPublicDeps } from "./utils/getProcessedPublicDeps.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
 
 const { safeDump, JSON_SCHEMA } = jsYaml;
@@ -224,16 +225,10 @@ export default function getProxy(env, getRawIndexHtml) {
                     )?.[1];
 
                     if (publicDeps && localBricks?.length) {
-                      try {
-                        const parsedPublicDeps = JSON.parse(publicDeps).filter(
-                          (item) =>
-                            !localBricks.includes(item.filePath.split("/")[1])
-                        );
-
-                        publicDeps = JSON.stringify(parsedPublicDeps);
-                      } catch (_err) {
-                        console.error(`JSON.parse() error: ${publicDeps}`);
-                      }
+                      publicDeps = getProcessedPublicDeps(
+                        publicDeps,
+                        localBricks
+                      );
                     }
 
                     const appRootTpl = content.match(
@@ -311,7 +306,23 @@ export default function getProxy(env, getRawIndexHtml) {
                   }
                   return injectIndexHtml(env, rawIndexHtml);
                 } else if (baseHref !== "/next/") {
-                  return content.replaceAll("/next/", baseHref);
+                  let htmlContent = content.replaceAll("/next/", baseHref);
+
+                  const publicDeps = htmlContent.match(
+                    /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
+                  )?.[1];
+
+                  if (publicDeps && localBricks?.length) {
+                    htmlContent = htmlContent.replace(
+                      /\bw\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;/,
+                      `w.PUBLIC_DEPS=${getProcessedPublicDeps(
+                        publicDeps,
+                        localBricks
+                      )};`
+                    );
+                  }
+
+                  return htmlContent;
                 }
               }
             }
