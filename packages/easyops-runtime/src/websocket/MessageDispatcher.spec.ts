@@ -2,7 +2,7 @@ import WSMock from "jest-websocket-mock";
 import { MessageDispatcher } from "./MessageDispatcher.js";
 
 const WS = WSMock as unknown as typeof WSMock.WS;
-const consoleLog = jest.spyOn(console, "log").mockImplementation();
+jest.spyOn(console, "log").mockImplementation();
 const consoleError = jest.spyOn(console, "error").mockImplementation();
 
 describe("MessageDispatcher", () => {
@@ -25,7 +25,7 @@ describe("MessageDispatcher", () => {
     client.onMessage("c1", onMessage);
     client.onMessage("c2", onMessage2);
     client.onClose(onClose);
-    expect(consoleError).toBeCalledWith('Message channel: "c2" not found');
+    expect(consoleError).not.toHaveBeenCalled();
 
     await server.connected;
 
@@ -65,6 +65,10 @@ describe("MessageDispatcher", () => {
           topic: "x.ab.cd.yz",
         },
       })
+    );
+    expect(consoleError).toHaveBeenNthCalledWith(
+      1,
+      'Message channel: "c2" not found'
     );
 
     // Push message with the subscribed topic (wildcard)
@@ -126,9 +130,11 @@ describe("MessageDispatcher", () => {
     expect(() => client.unsubscribe("c1")).rejects.toMatchInlineSnapshot(
       `[Error: The message channel to unsubscribe "c1" is not found]`
     );
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenNthCalledWith(
+      2,
       'The message channel to unsubscribe "c1" is not found'
     );
+    expect(consoleError).toHaveBeenCalledTimes(2);
 
     expect(onClose).not.toBeCalled();
     server.close();

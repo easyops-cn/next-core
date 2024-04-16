@@ -10,6 +10,7 @@ import type {
   CustomTemplateProxySlot,
   SlotsConfOfBricks,
   Storyboard,
+  StaticMenuConf,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
@@ -126,6 +127,7 @@ export interface TemplateHostContext {
   externalSlots?: SlotsConfOfBricks;
   tplStateStoreId: string;
   hostBrick: TemplateHostBrick;
+  __temporary_tpl_tag_name?: string;
 }
 
 interface ReversedProxies {
@@ -160,4 +162,11 @@ export interface PreviewOption {
   formId?: string;
   updateStoryboardType?: "route" | "template" | "snippet";
   collectUsedContracts?(storyboard: Storyboard): string[] | Promise<string[]>;
+}
+
+export interface MenuRequestNode {
+  child?: MenuRequestNode;
+  sibling?: MenuRequestNode;
+  return?: MenuRequestNode;
+  request?: Promise<StaticMenuConf>;
 }

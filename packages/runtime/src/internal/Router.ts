@@ -33,7 +33,12 @@ import {
   hooks,
 } from "./Runtime.js";
 import { getPageInfo } from "../getPageInfo.js";
-import type { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
+import type {
+  MenuRequestNode,
+  RenderBrick,
+  RenderRoot,
+  RuntimeContext,
+} from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
 import {
   handleHttpError,
@@ -49,6 +54,7 @@ import { insertPreviewRoutes } from "./insertPreviewRoutes.js";
 import { devtoolsHookEmit } from "./devtools.js";
 import { setUIVersion } from "../setUIVersion.js";
 import { setAppVariable } from "../setAppVariable.js";
+import { setWatermark } from "../setWatermark.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -275,6 +281,8 @@ export class Router {
 
     const currentApp = (this.#currentApp = storyboard?.app);
 
+    setWatermark();
+
     // Storyboard maybe re-assigned, e.g. when open launchpad.
     const appChanged =
       previousApp && currentApp
@@ -367,6 +375,9 @@ export class Router {
         mergeMenus: async (menuRequests) => {
           const menuConfs = await Promise.all(menuRequests);
           this.#navConfig = mergeMenuConfs(menuConfs);
+          window.dispatchEvent(
+            new CustomEvent("navConfig.change", { detail: this.#navConfig })
+          );
         },
         catch: (error, returnNode) => {
           if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
@@ -438,12 +449,14 @@ export class Router {
       let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
 
       try {
+        const rootMenuRequestNode: MenuRequestNode = {};
         output = await renderRoutes(
           renderRoot,
           insertPreviewRoutes(storyboard.routes),
           runtimeContext,
           rendererContext,
-          []
+          [],
+          rootMenuRequestNode
         );
         if (routeHelper.bailout(output)) {
           return;
@@ -453,8 +466,9 @@ export class Router {
 
         await postAsyncRender(output, runtimeContext, stores);
 
-        await routeHelper.mergeMenus(output.menuRequests);
-        rendererContext.setInitialMenuRequests(output.menuRequests);
+        rootMenuRequestNode.child = output.menuRequestNode;
+        rendererContext.setInitialMenuRequestNode(rootMenuRequestNode);
+        await routeHelper.mergeMenus(rendererContext.getMenuRequests());
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);

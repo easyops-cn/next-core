@@ -7,25 +7,18 @@ function show(options: DialogOptions): Promise<void> {
     return brick.resolve(options);
   } else {
     if (options.type === "confirm") {
-      if (confirm(options.content)) {
-        return new Promise((resolve) =>
-          setTimeout(() => {
-            resolve();
-          }, 1)
-        );
-      } else {
-        return new Promise((resolve, reject) =>
-          setTimeout(() => {
-            reject();
-          }, 1)
-        );
-      }
+      const confirmed = confirm(options.content);
+      return new Promise((resolve, reject) =>
+        setTimeout(() => {
+          (confirmed ? resolve : reject)();
+        }, 1)
+      );
     } else {
       alert(options.content);
       return new Promise((resolve) =>
         setTimeout(() => {
           resolve();
-        }, 1000)
+        }, 1)
       );
     }
   }

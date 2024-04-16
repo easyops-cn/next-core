@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.17](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.16...@next-core/eslint-config-next@2.0.17) (2024-03-22)
+
+
+### Bug Fixes
+
+* isolate forEach access between inside and outside of template ([eeb7159](https://github.com/easyops-cn/next-core/commit/eeb715943405f72ec4adfa8488577056b3ebee77))
+
+
+
+
+
+## [2.0.16](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.15...@next-core/eslint-config-next@2.0.16) (2024-03-22)
+
+**Note:** Version bump only for package @next-core/eslint-config-next
+
+
+
+
+
+## [2.0.15](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.14...@next-core/eslint-config-next@2.0.15) (2024-03-21)
+
+
+### Bug Fixes
+
+* isolate forEach access between inside and outside of template ([ce4a719](https://github.com/easyops-cn/next-core/commit/ce4a719bf738e305d469124527d2404a9b41921d))
+
+
+
+
+
 ## [2.0.14](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.13...@next-core/eslint-config-next@2.0.14) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/eslint-config-next

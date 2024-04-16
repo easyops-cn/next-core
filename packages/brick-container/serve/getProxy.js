@@ -19,6 +19,9 @@ export default function getProxy(env, getRawIndexHtml) {
     localBricks,
     localBrickFolders,
     userConfigByApps,
+    host,
+    port,
+    server,
   } = env;
   if (useRemote) {
     return [
@@ -35,8 +38,14 @@ export default function getProxy(env, getRawIndexHtml) {
             return req.path;
           }
         },
+        onProxyReq(proxyReq, req) {
+          // Reset the origin header to the remote server
+          if (req.headers["origin"] === `http://${host}:${port}`) {
+            proxyReq.setHeader("origin", server);
+          }
+        },
         onProxyRes: responseInterceptor(
-          async (responseBuffer, proxyRes, req, res) => {
+          async (responseBuffer, _proxyRes, req, res) => {
             if (res.statusCode !== 200) {
               return responseBuffer;
             }
@@ -91,7 +100,12 @@ export default function getProxy(env, getRawIndexHtml) {
               return responseBuffer;
             }
 
-            if (req.path === "/next/api/auth/v2/bootstrap") {
+            const brickPreviewInDeveloperDoc =
+              req.path === "/next/api/v1/api_gateway/bricks";
+            if (
+              req.path === "/next/api/auth/v2/bootstrap" ||
+              brickPreviewInDeveloperDoc
+            ) {
               const content = responseBuffer.toString("utf-8");
               const result = JSON.parse(content);
               const data = result.data;
@@ -101,11 +115,17 @@ export default function getProxy(env, getRawIndexHtml) {
                 getBrickPackages(localBrickFolders, false, localBricks),
               ]);
 
+              const brickPackagesField = brickPreviewInDeveloperDoc
+                ? "bricksInfo"
+                : "brickPackages";
+
               // Todo: filter out local micro-apps and brick packages
-              data.storyboards = storyboards.concat(data.storyboards);
-              data.brickPackages = concatBrickPackages(
+              data.storyboards = storyboards
+                .concat(data.storyboards)
+                .filter(Boolean);
+              data[brickPackagesField] = concatBrickPackages(
                 brickPackages,
-                data.brickPackages
+                data[brickPackagesField]
               );
 
               if (env.localSettings) {
@@ -158,7 +178,7 @@ export default function getProxy(env, getRawIndexHtml) {
           }
         },
         onProxyRes: responseInterceptor(
-          async (responseBuffer, proxyRes, req, res) => {
+          async (responseBuffer, _proxyRes, req, res) => {
             if (
               baseHref !== "/next/" &&
               res.statusCode === 302 &&
@@ -198,11 +218,36 @@ export default function getProxy(env, getRawIndexHtml) {
                     }
                     const appRoot = JSON.parse(appRootMatches[1]);
 
+                    const unionAppRoot = content.match(
+                      /\b(var\s*\w+\s*=\s*w\.UNION_APP_ROOT\s*=\s*[^;]*\s*;)/
+                    )?.[1];
+
                     const bootstrapUnionMatches = content.match(
-                      /\b(merge_apps\/[^."]+\/(?:v2|v3)\/bootstrap-union\.[^."]+\.json)\b/
+                      /\b(w\.BOOTSTRAP_UNION_FILE\s*=\s*[^;]*\s*;)/
                     );
 
                     const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
+
+                    let publicDeps = content.match(
+                      /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
+                    )?.[1];
+
+                    if (publicDeps && localBricks?.length) {
+                      try {
+                        const parsedPublicDeps = JSON.parse(publicDeps).filter(
+                          (item) =>
+                            !localBricks.includes(item.filePath.split("/")[1])
+                        );
+
+                        publicDeps = JSON.stringify(parsedPublicDeps);
+                      } catch (_err) {
+                        console.error(`JSON.parse() error: ${publicDeps}`);
+                      }
+                    }
+
+                    const appRootTpl = content.match(
+                      /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/
+                    )?.[1];
 
                     const bootstrapHashMatches = content.match(
                       /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
@@ -212,11 +257,16 @@ export default function getProxy(env, getRawIndexHtml) {
                       console.log(message, content);
                       throw new Error(message);
                     }
+
                     const reverseBootstrapMatches =
                       bootstrapHashMatches.reverse();
                     const bootstrapHash = reverseBootstrapMatches[0];
 
                     const bootstrapPathPrefix = reverseBootstrapMatches[1];
+
+                    const bootstrapFilePath = content.match(
+                      /\b(w\.BOOTSTRAP_FILE\s*=\s*[^;]*\s*;)/
+                    )?.[1];
 
                     const noAuthGuard =
                       /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(content);
@@ -261,6 +311,10 @@ export default function getProxy(env, getRawIndexHtml) {
                       bootstrapPathPrefix,
                       coreVersion,
                       noAuthGuard,
+                      publicDeps,
+                      appRootTpl,
+                      bootstrapFilePath,
+                      unionAppRoot,
                       bootstrapUnionFilePath,
                     });
                   }
@@ -276,7 +330,7 @@ export default function getProxy(env, getRawIndexHtml) {
               /^\/next\/sa-static\/[^/]+\/versions\/[^/]+\/webroot\/-\/bootstrap(?:-pubDeps)?\.[^.]+\.json$/.test(
                 req.path
               ) ||
-              /^\/next\/sa-static\/[^/]+\/merge_apps\/[^/]+\/(?:v2|v3)\/bootstrap-union\.[^.]+\.json/.test(
+              /^\/next\/sa-static\/.*\/bootstrap-union\.[^.]+\.json$/.test(
                 req.path
               )
             ) {

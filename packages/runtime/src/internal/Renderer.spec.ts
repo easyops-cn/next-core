@@ -193,11 +193,15 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [expect.any(Promise)],
+      menuRequestNode: {
+        return: {},
+        request: expect.any(Promise),
+      },
       route,
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
@@ -249,11 +253,14 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
+      menuRequestNode: {
+        return: {},
+      },
       route,
       redirect: { path: "/home/HOST/list" },
       path: "/home/:objectId",
@@ -287,11 +294,14 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
+      menuRequestNode: {
+        return: {},
+      },
       route,
       redirect: { path: "/outside" },
       path: "/home/:objectId",
@@ -325,7 +335,7 @@ describe("renderRoutes", () => {
       },
     };
     await expect(
-      renderRoutes(null!, [route], runtimeContext, rendererContext, [])
+      renderRoutes(null!, [route], runtimeContext, rendererContext, [], {})
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unexpected type of redirect result: undefined]`
     );
@@ -372,11 +382,17 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [undefined, undefined],
+      menuRequestNode: {
+        return: {},
+        child: {
+          return: output.menuRequestNode,
+        },
+      },
       route: route.routes[0],
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
@@ -451,11 +467,17 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [undefined, undefined],
+      menuRequestNode: {
+        return: {},
+        child: {
+          return: output.menuRequestNode,
+        },
+      },
       route: subRoute,
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
@@ -510,11 +532,14 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
+      menuRequestNode: {
+        return: {},
+      },
     });
   });
 
@@ -537,20 +562,25 @@ describe("renderRoutes", () => {
       [route],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
+      menuRequestNode: {
+        return: {},
+      },
       unauthenticated: true,
     });
   });
 
   test("empty routes", async () => {
-    const output = await renderRoutes(null!, [], null!, null!, []);
+    const output = await renderRoutes(null!, [], null!, null!, [], {});
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
+      menuRequestNode: {
+        return: {},
+      },
     });
   });
 });
@@ -693,10 +723,10 @@ describe("renderBrick", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output.blockingList.length).toBe(3);
-    expect(output.menuRequests.length).toBe(0);
     expect(enqueueStableLoadBricks).toBeCalledWith(["test.my-brick"], []);
     expect(loadProcessorsImperatively).toBeCalledTimes(2);
     expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
@@ -852,11 +882,11 @@ describe("renderBrick", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
     });
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(1);
   });
@@ -866,10 +896,9 @@ describe("renderBrick", () => {
     const brick: any = {
       template: "legacy-template",
     };
-    const output = await renderBrick(null!, brick, null!, null!, []);
+    const output = await renderBrick(null!, brick, null!, null!, [], {});
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
     });
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith(
@@ -883,10 +912,9 @@ describe("renderBrick", () => {
     const brick: any = {
       foo: "bar",
     };
-    const output = await renderBrick(null!, brick, null!, null!, []);
+    const output = await renderBrick(null!, brick, null!, null!, [], {});
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
     });
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith("Invalid brick:", brick);
@@ -934,7 +962,8 @@ describe("renderBrick for control nodes", () => {
         },
         runtimeContext,
         rendererContext,
-        []
+        [],
+        {}
       ),
       renderBrick(
         renderRoot,
@@ -953,12 +982,12 @@ describe("renderBrick for control nodes", () => {
         },
         runtimeContext,
         rendererContext,
-        []
+        [],
+        {}
       ),
     ]);
     expect(output1).toEqual({
       blockingList: [],
-      menuRequests: [],
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
         return: renderRoot,
@@ -988,7 +1017,6 @@ describe("renderBrick for control nodes", () => {
         },
       },
       blockingList: [],
-      menuRequests: [],
     });
   });
 
@@ -1079,7 +1107,8 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1251,7 +1280,8 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1370,7 +1400,8 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1479,7 +1510,8 @@ describe("renderBrick for control nodes", () => {
         },
         runtimeContext,
         rendererContext,
-        []
+        [],
+        {}
       ),
       renderBrick(
         renderRoot,
@@ -1490,7 +1522,8 @@ describe("renderBrick for control nodes", () => {
         },
         runtimeContext,
         rendererContext,
-        []
+        [],
+        {}
       ),
       renderBrick(
         renderRoot,
@@ -1503,12 +1536,12 @@ describe("renderBrick for control nodes", () => {
         },
         runtimeContext,
         rendererContext,
-        []
+        [],
+        {}
       ),
     ]);
     expect(output1).toEqual({
       blockingList: [],
-      menuRequests: [],
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
         return: renderRoot,
@@ -1521,7 +1554,6 @@ describe("renderBrick for control nodes", () => {
     });
     expect(output2).toEqual({
       blockingList: [],
-      menuRequests: [],
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
         return: renderRoot,
@@ -1540,7 +1572,6 @@ describe("renderBrick for control nodes", () => {
         },
       },
       blockingList: [],
-      menuRequests: [],
     });
   });
 
@@ -1607,7 +1638,8 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1721,7 +1753,8 @@ describe("renderBrick for control nodes", () => {
       ],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
@@ -1813,11 +1846,11 @@ describe("renderBrick for control nodes", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
       node: expect.objectContaining({
         tag: RenderTag.BRICK,
         return: renderRoot,
@@ -1850,7 +1883,8 @@ describe("renderBrick for control nodes", () => {
         },
         runtimeContext,
         rendererContext,
-        []
+        [],
+        {}
       )
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unknown storyboard control node: ":unknown"]`
@@ -1992,7 +2026,8 @@ describe("renderBrick for tpl", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     const { tplStateStoreId } = (output.node as RenderBrick)!.tplHostMetadata!;
@@ -2049,6 +2084,7 @@ describe("renderBrick for tpl", () => {
         }),
       },
       slots: {},
+      [__secret_internals.symbolForRootRuntimeContext]: expect.any(Object),
       [symbolForTplStateStoreId]: tplStateStoreId,
     });
 
@@ -2148,7 +2184,8 @@ describe("renderBrick for tpl", () => {
       [{ brick: "my.tpl-b" }],
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
     await Promise.all([
@@ -2367,7 +2404,8 @@ describe("renderBrick for tpl", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
 
@@ -2422,6 +2460,502 @@ describe("renderBrick for tpl", () => {
         </my.tpl-c>,
       ]
     `);
+  });
+
+  test("nesting tpl with inner :forEach", async () => {
+    consoleInfo.mockReturnValue();
+
+    customTemplates.define("my.tpl-e", {
+      bricks: [
+        {
+          brick: "my.tpl-f",
+          children: [
+            {
+              brick: ":forEach",
+              dataSource: [1, 2],
+              children: [
+                {
+                  brick: "div",
+                  properties: {
+                    textContent: "<% ITEM %>",
+                    title: "<% INDEX %>",
+                  },
+                },
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "<% `portal:${ITEM}` %>",
+                  },
+                  portal: true,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    customTemplates.define("my.tpl-f", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "div",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "div",
+          properties: {
+            title: "Nesting templates with :forEach",
+          },
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [{ brick: "my.tpl-e" }],
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    renderRoot.child = output.node;
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-e
+          data-tpl-state-store-id="tpl-state-5"
+        >
+          <my.tpl-f
+            data-tpl-state-store-id="tpl-state-6"
+          >
+            <div
+              title="Nesting templates with :forEach"
+            >
+              <div
+                title="0"
+              >
+                1
+              </div>
+              <div
+                title="1"
+              >
+                2
+              </div>
+            </div>
+          </my.tpl-f>
+        </my.tpl-e>,
+      ]
+    `);
+    expect(portal.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <p>
+          portal:1
+        </p>,
+        <p>
+          portal:2
+        </p>,
+      ]
+    `);
+  });
+
+  test("nesting tpl with inner and outer :forEach", async () => {
+    consoleInfo.mockReturnValue();
+
+    customTemplates.define("my.tpl-g", {
+      bricks: [
+        {
+          brick: "my.tpl-h",
+          children: [
+            {
+              brick: ":forEach",
+              dataSource: [1, 2],
+              children: [
+                {
+                  brick: "div",
+                  properties: {
+                    textContent: "<% ITEM %>",
+                    title: "<% INDEX %>",
+                  },
+                },
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "<% `p:${ITEM}` %>",
+                  },
+                },
+              ],
+            },
+            {
+              brick: ":forEach",
+              slot: "article",
+              dataSource: [3, 4],
+              children: [
+                {
+                  brick: "em",
+                  properties: {
+                    textContent: "<% `outer:${ITEM}` %>",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    customTemplates.define("my.tpl-h", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "div",
+          },
+          article: {
+            ref: "article",
+            refSlot: "",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "div",
+          properties: {
+            title: "Nesting templates with :forEach",
+          },
+        },
+        {
+          brick: ":forEach",
+          dataSource: ["x"],
+          children: [
+            {
+              brick: "h2",
+              properties: {
+                textContent: "<% ITEM %>",
+              },
+            },
+            {
+              brick: "article",
+              ref: "article",
+            },
+            {
+              brick: "aside",
+              properties: {
+                textContent: "<% INDEX %>",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [{ brick: "my.tpl-g" }],
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    renderRoot.child = output.node;
+    await Promise.all([
+      ...output.blockingList,
+      ctxStore.waitForAll(),
+      ...[...runtimeContext.tplStateStoreMap.values()].map((store) =>
+        store.waitForAll()
+      ),
+    ]);
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-g
+          data-tpl-state-store-id="tpl-state-7"
+        >
+          <my.tpl-h
+            data-tpl-state-store-id="tpl-state-8"
+          >
+            <div
+              title="Nesting templates with :forEach"
+            >
+              <div
+                title="0"
+              >
+                1
+              </div>
+              <p>
+                p:1
+              </p>
+              <div
+                title="1"
+              >
+                2
+              </div>
+              <p>
+                p:2
+              </p>
+            </div>
+            <h2>
+              x
+            </h2>
+            <article>
+              <em>
+                outer:3
+              </em>
+              <em>
+                outer:4
+              </em>
+            </article>
+            <aside>
+              0
+            </aside>
+          </my.tpl-h>
+        </my.tpl-g>,
+      ]
+    `);
+  });
+
+  test("sub-routes with template", async () => {
+    customTemplates.define("my.tpl-i", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "div",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "div",
+        },
+      ],
+    });
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      location: {
+        pathname: "/home/HOST/list",
+      },
+      app: {
+        homepage: "/home",
+        noAuthGuard: true,
+      },
+      pendingPermissionsPreCheck: [] as undefined[],
+      flags: {},
+      tplStateStoreMap: new Map(),
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const brick = { brick: "div" };
+    const subRoute: RouteConf = {
+      path: "${APP.homepage}/:objectId/list",
+      exact: true,
+      bricks: [brick],
+    };
+    const route: RouteConf = {
+      path: "${APP.homepage}/:objectId",
+      exact: false,
+      context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
+      bricks: [
+        {
+          brick: "my.tpl-i",
+          children: [
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    subRoute,
+                    {
+                      type: "redirect",
+                      path: "${APP.homepage}/:objectId/redirect",
+                      redirect: "/other",
+                    },
+                    {
+                      type: "routes",
+                      path: "${APP.homepage}/:objectId/routes",
+                      routes: [],
+                    },
+                    {
+                      path: "${APP.homepage}/bricks",
+                      type: "bricks",
+                      bricks: [],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      ],
+    };
+    const output = await renderRoutes(
+      renderRoot,
+      [route],
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    expect(output).toMatchObject({
+      blockingList: [],
+      route: subRoute,
+      node: expect.objectContaining({
+        tag: RenderTag.BRICK,
+        return: renderRoot,
+        type: "my.tpl-i",
+      }),
+      path: "/home/:objectId/list",
+    });
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("objectId")).toBe("HOST");
+  });
+
+  test("tpl with inner :forEach", async () => {
+    customTemplates.define("my.tpl-d", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "forEach",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          properties: {
+            textContent: "Hi",
+          },
+        },
+        {
+          brick: ":forEach",
+          dataSource: [1, 2],
+          ref: "forEach",
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    consoleError.mockReturnValue();
+    const promise1 = renderBrick(
+      renderRoot,
+      {
+        brick: "my.tpl-d",
+        children: [
+          {
+            brick: "p",
+            properties: {
+              title: "<% 1, ITEM %>",
+            },
+            children: [
+              {
+                brick: "em",
+                properties: {
+                  textContent: "oops",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    await expect(promise1).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"ITEM is not defined, in "<% 1, ITEM %>""`
+    );
+    expect(consoleError).toBeCalledTimes(2);
+
+    const promise2 = renderBrick(
+      renderRoot,
+      {
+        brick: "my.tpl-d",
+        children: [
+          {
+            brick: "p",
+            properties: {
+              title: "yaks",
+            },
+            children: [
+              {
+                brick: "em",
+                properties: {
+                  textContent: "<% 2, ITEM %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    await expect(promise2).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"ITEM is not defined, in "<% 2, ITEM %>""`
+    );
+    expect(consoleError).toBeCalledTimes(4);
+    consoleError.mockRestore();
   });
 });
 
@@ -2484,7 +3018,8 @@ describe("renderBrick for form renderer", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
 
@@ -2634,7 +3169,8 @@ describe("renderBrick for form renderer", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     renderRoot.child = output.node;
 
@@ -2688,9 +3224,10 @@ describe("renderBrick for scripts", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
-    expect(output).toEqual({ blockingList: [], menuRequests: [] });
+    expect(output).toEqual({ blockingList: [] });
     expect(loadScript).toBeCalledTimes(1);
     expect(loadScript).toBeCalledWith("http://example.com/a.js", "", {
       type: "module",
@@ -2717,11 +3254,11 @@ describe("renderBrick for scripts", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
       node: expect.objectContaining({
         type: "script",
         properties: {
@@ -2755,9 +3292,10 @@ describe("renderBrick for stylesheets", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
-    expect(output).toEqual({ blockingList: [], menuRequests: [] });
+    expect(output).toEqual({ blockingList: [] });
     expect(loadStyle).toBeCalledTimes(1);
     expect(loadStyle).toBeCalledWith("http://example.com/b.css", "", {
       rel: "stylesheet",
@@ -2785,11 +3323,11 @@ describe("renderBrick for stylesheets", () => {
       },
       runtimeContext,
       rendererContext,
-      []
+      [],
+      {}
     );
     expect(output).toEqual({
       blockingList: [],
-      menuRequests: [],
       node: expect.objectContaining({
         type: "link",
         properties: {

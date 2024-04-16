@@ -3,6 +3,145 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.24](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.23...@next-core/easyops-runtime@0.7.24) (2024-04-14)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.23](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.22...@next-core/easyops-runtime@0.7.23) (2024-04-08)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.22](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.21...@next-core/easyops-runtime@0.7.22) (2024-04-08)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.21](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.20...@next-core/easyops-runtime@0.7.21) (2024-04-08)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.20](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.19...@next-core/easyops-runtime@0.7.20) (2024-04-03)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.19](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.18...@next-core/easyops-runtime@0.7.19) (2024-04-02)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.17...@next-core/easyops-runtime@0.7.18) (2024-04-01)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.17](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.16...@next-core/easyops-runtime@0.7.17) (2024-03-27)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.16](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.15...@next-core/easyops-runtime@0.7.16) (2024-03-25)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.15](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.14...@next-core/easyops-runtime@0.7.15) (2024-03-22)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.14](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.13...@next-core/easyops-runtime@0.7.14) (2024-03-22)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.13](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.12...@next-core/easyops-runtime@0.7.13) (2024-03-21)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.12](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.11...@next-core/easyops-runtime@0.7.12) (2024-03-21)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.11](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.10...@next-core/easyops-runtime@0.7.11) (2024-03-20)
+
+
+### Bug Fixes
+
+* fix when message subscribe after onMessage ([791ff6c](https://github.com/easyops-cn/next-core/commit/791ff6c5e8525e5cce0286b37428bd12e52f156b))
+
+
+
+
+
+## [0.7.10](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.9...@next-core/easyops-runtime@0.7.10) (2024-03-20)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.8...@next-core/easyops-runtime@0.7.9) (2024-03-15)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.8](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.7...@next-core/easyops-runtime@0.7.8) (2024-03-15)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
 ## [0.7.7](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.6...@next-core/easyops-runtime@0.7.7) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

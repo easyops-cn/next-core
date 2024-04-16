@@ -3,6 +3,182 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.1...@next-core/runtime@1.38.2) (2024-04-14)
+
+
+### Bug Fixes
+
+* fix handling menu requests ([6afe745](https://github.com/easyops-cn/next-core/commit/6afe7452c3df8db65771d3761951592b010d9fdd))
+
+
+
+
+
+## [1.38.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.0...@next-core/runtime@1.38.1) (2024-04-08)
+
+
+### Bug Fixes
+
+* override stale incremental render callback ([a8e76b3](https://github.com/easyops-cn/next-core/commit/a8e76b30f3d14b92b5ca49e66d034f5956758bb2))
+
+
+
+
+
+# [1.38.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.37.0...@next-core/runtime@1.38.0) (2024-04-08)
+
+
+### Features
+
+* notify nav config change ([c359a28](https://github.com/easyops-cn/next-core/commit/c359a286658044ef813822f2b06db267e0dfa85a))
+
+
+
+
+
+# [1.37.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.36.1...@next-core/runtime@1.37.0) (2024-04-08)
+
+
+### Bug Fixes
+
+* fix nesting incremental sub-routes ([6e2307b](https://github.com/easyops-cn/next-core/commit/6e2307b0d97b0d3ba9133ee5f065d668a23b29e5))
+
+
+### Features
+
+* **startPoll:** call finallyCallback when expectPollStopImmediately return truthy value ([576f9eb](https://github.com/easyops-cn/next-core/commit/576f9ebe89e314a9961a8f8a08f6e0a8c14539e7))
+
+
+
+
+
+## [1.36.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.36.0...@next-core/runtime@1.36.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* setup runtime context for useBrick ([b4def43](https://github.com/easyops-cn/next-core/commit/b4def4336373af99773562c4580a0f43b053b910))
+
+
+
+
+
+# [1.36.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.35.0...@next-core/runtime@1.36.0) (2024-04-02)
+
+
+### Features
+
+* refresh page if auth changed ([e56fe1d](https://github.com/easyops-cn/next-core/commit/e56fe1d8b47c9a911f0bb86864517bea2f263dd6))
+
+
+
+
+
+# [1.35.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.4...@next-core/runtime@1.35.0) (2024-04-01)
+
+
+### Features
+
+* support asyncWrapBrick ([10ee923](https://github.com/easyops-cn/next-core/commit/10ee923e0ea8ff82dfd959e00a448ad79a2f97a6))
+
+
+
+
+
+## [1.34.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.3...@next-core/runtime@1.34.4) (2024-03-27)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.34.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.2...@next-core/runtime@1.34.3) (2024-03-25)
+
+
+### Bug Fixes
+
+* brick local debug ([e202e33](https://github.com/easyops-cn/next-core/commit/e202e3337d47a78cbdd7b62be68b8b5a4033a1e6))
+
+
+
+
+
+## [1.34.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.1...@next-core/runtime@1.34.2) (2024-03-22)
+
+
+### Bug Fixes
+
+* isolate forEach access between inside and outside of template ([eeb7159](https://github.com/easyops-cn/next-core/commit/eeb715943405f72ec4adfa8488577056b3ebee77))
+
+
+
+
+
+## [1.34.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.34.0...@next-core/runtime@1.34.1) (2024-03-22)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.34.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.33.2...@next-core/runtime@1.34.0) (2024-03-21)
+
+
+### Features
+
+* support new union app mode ([8d39b5b](https://github.com/easyops-cn/next-core/commit/8d39b5b7078b527be5f19bf25240601a76b8b596))
+
+
+
+
+
+## [1.33.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.33.1...@next-core/runtime@1.33.2) (2024-03-21)
+
+
+### Bug Fixes
+
+* isolate forEach access between inside and outside of template ([ce4a719](https://github.com/easyops-cn/next-core/commit/ce4a719bf738e305d469124527d2404a9b41921d))
+
+
+
+
+
+## [1.33.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.33.0...@next-core/runtime@1.33.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* set watermark later ([a0ae4fe](https://github.com/easyops-cn/next-core/commit/a0ae4fec5895c747b0d81cd8698f6bbd4dcb4bb5))
+
+
+
+
+
+# [1.33.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.32.0...@next-core/runtime@1.33.0) (2024-03-15)
+
+
+### Features
+
+* support getRealValue ([aeb8431](https://github.com/easyops-cn/next-core/commit/aeb84319cd18bbcf9095a40d64b6a141f8607099))
+
+
+
+
+
+# [1.32.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.31.2...@next-core/runtime@1.32.0) (2024-03-15)
+
+
+### Features
+
+* support set watermark ([f763aed](https://github.com/easyops-cn/next-core/commit/f763aedf0e68349a3a1f50a43f3022001efd6e3e))
+* update flags ([d7b9970](https://github.com/easyops-cn/next-core/commit/d7b9970a507269de76d705fac3bb86255b8bf6d4))
+
+
+
+
+
 ## [1.31.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.31.1...@next-core/runtime@1.31.2) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/runtime

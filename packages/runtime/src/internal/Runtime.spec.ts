@@ -359,6 +359,92 @@ const getBootstrapData = (options?: {
             },
           ],
         },
+        {
+          path: "${APP.homepage}/sub-routes-parallel",
+          incrementalSubRoutes: true,
+          menu: {
+            breadcrumb: { items: [{ text: "Parallel" }] },
+          },
+          bricks: [
+            {
+              brick: "h1",
+              properties: {
+                textContent: "Parallel sub routes",
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-parallel/app",
+                      menu: {
+                        breadcrumb: { items: [{ text: "App" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub App",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-parallel/host",
+                      menu: {
+                        breadcrumb: { items: [{ text: "Host" }] },
+                      },
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "Sub Host",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/abstract-routes",
+          menu: {
+            breadcrumb: { items: [{ text: "Abstract" }] },
+          },
+          type: "routes",
+          routes: [
+            {
+              path: "${APP.homepage}/abstract-routes/1",
+              menu: {
+                breadcrumb: { items: [{ text: "1" }] },
+              },
+              bricks: [
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "Abstract routes 1",
+                  },
+                },
+              ],
+            },
+          ],
+        },
       ],
       meta: {
         customTemplates: options?.templates
@@ -1071,6 +1157,140 @@ describe("Runtime", () => {
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "Nested" }, { text: "2" }, { text: "Y" }],
     });
+
+    (window as any).debug = true;
+
+    getHistory().push("/app-a/sub-routes-nested/1");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 1
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "1" }],
+    });
+  }, 1e6);
+
+  test("parallel incremental sub-routes rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes-parallel");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div />
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-parallel/app");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div>
+            <p>
+              Sub App
+            </p>
+          </div>
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }, { text: "App" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-parallel/host");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div />
+          <div>
+            <p>
+              Sub Host
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }, { text: "Host" }],
+    });
+
+    getHistory().push("/app-a/sub-routes-parallel");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Parallel sub routes
+          </h1>
+          <div />
+          <div />
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Parallel" }],
+    });
+  });
+
+  test("abstract routes rendering", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/abstract-routes/1");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Abstract" }, { text: "1" }],
+    });
   });
 
   test("unauthenticated", async () => {
@@ -1165,7 +1385,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <div>
-            TypeError: Cannot read properties of null (reading 'map')
+            TypeError: bricks is not iterable
           </div>
         </div>,
         <div
@@ -1282,11 +1502,23 @@ describe("Runtime", () => {
 
   test("loadBricks", async () => {
     const runtime = createRuntime();
-    runtime.initialize({ brickPackages: [{ id: "bricks/test" } as any] });
+    runtime.initialize({
+      brickPackages: [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        } as any,
+      ],
+    });
     await runtime.loadBricks(["test.my-brick"]);
     expect(loadBricksImperatively).toBeCalledWith(
       ["test.my-brick"],
-      [{ id: "bricks/test" }]
+      [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        },
+      ]
     );
   });
 
@@ -1354,5 +1586,39 @@ describe("Runtime", () => {
     getHistory().push("/app-a");
     await getRuntime().bootstrap();
     expect(window.APP_ROOT).toBe("sa-static/app-a/versions/1.0.0/webroot/");
+  });
+  test("loadBricks with union app mode", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.PUBLIC_DEPS = [
+      {
+        filePath: "bricks/icons/-/dist/index.a41397e0.js",
+        id: "bricks/icons",
+        elements: ["eo-antd-icon"],
+      },
+    ];
+    const runtime = createRuntime();
+    runtime.initialize({
+      brickPackages: [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        } as any,
+      ],
+    });
+    await runtime.loadBricks(["eo-antd-icon"]);
+    expect(loadBricksImperatively).toBeCalledWith(
+      ["eo-antd-icon"],
+      [
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
+        },
+        {
+          filePath: "bricks/icons/-/dist/index.a41397e0.js",
+          id: "bricks/icons",
+          elements: ["eo-antd-icon"],
+        },
+      ]
+    );
   });
 });

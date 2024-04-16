@@ -10,7 +10,7 @@ await fs.writeFile(
   [
     getStyleByBaseColors("light", {
       red: "#f24c25",
-      green: "#52c41a",
+      green: "#08BF33",
       blue: "#1a7aff",
       amber: "#f7bf02",
       cyan: "#21d4f3",

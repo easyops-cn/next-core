@@ -12,7 +12,11 @@ export function imagesFactory(
         return `${getBasePath()}api/gateway/object_store.object_store.GetObject/api/v1/objectStore/bucket/next-builder/object/${name}`;
       }
 
-      let suffix = window.APP_ROOT ? `${window.APP_ROOT}-/` : "";
+      let suffix = window.APP_ROOT
+        ? `${window.APP_ROOT}${
+            window.BOOTSTRAP_UNION_FILE && window.PUBLIC_DEPS ? "" : "-/"
+          }`
+        : "";
 
       // In injecting menus, the current app ID maybe not the same as the
       // target app of the icon, try to replace the app ID as well as its
@@ -28,7 +32,9 @@ export function imagesFactory(
       if (!suffix.startsWith("/")) {
         suffix = getBasePath() + suffix;
       }
-      return `${suffix}micro-apps/${appId}/images/${name}`;
+      return window.BOOTSTRAP_UNION_FILE && window.PUBLIC_DEPS
+        ? `${suffix}images/${name}`
+        : `${suffix}micro-apps/${appId}/images/${name}`;
     },
   };
 }

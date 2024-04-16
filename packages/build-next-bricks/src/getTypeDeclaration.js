@@ -27,11 +27,13 @@ export default function getTypeDeclaration(node, source, usedReferences) {
         typeParameters:
           /** @type {AnnotationTypeParameterDeclaration | undefined} */
           (getTypeAnnotation(node.typeParameters, source, usedReferences)),
-        body: node.body.body.map(
-          (item) =>
-            /** @type {AnnotationPropertySignature} */
-            (getTypeAnnotation(item, source, usedReferences))
-        ),
+        body: node.body.body
+          .map(
+            (item) =>
+              /** @type {AnnotationPropertySignature} */
+              (getTypeAnnotation(item, source, usedReferences))
+          )
+          .filter(Boolean),
         extends:
           /** @type {AnnotationExpressionWithTypeArguments[] | undefined} */
           (
@@ -53,11 +55,13 @@ export default function getTypeDeclaration(node, source, usedReferences) {
           typeParameters:
             /** @type {AnnotationTypeParameterDeclaration | undefined} */
             (getTypeAnnotation(node.typeParameters, source, usedReferences)),
-          body: node.typeAnnotation.members.map(
-            (item) =>
-              /** @type {AnnotationPropertySignature} */
-              (getTypeAnnotation(item, source, usedReferences))
-          ),
+          body: node.typeAnnotation.members
+            .map(
+              (item) =>
+                /** @type {AnnotationPropertySignature} */
+                (getTypeAnnotation(item, source, usedReferences))
+            )
+            .filter(Boolean),
           ...parseTypeComment(node, source),
         };
       }
@@ -197,6 +201,12 @@ export function getTypeAnnotation(entryNode, source, usedReferences) {
       case "TSPropertySignature":
         // interface A { prop: number }
         //               ^^^^^^^^^^^^
+        if (node.key.type === "Identifier" && node.computed) {
+          // Ignore computed property:
+          // { [SYMBOL_X]: string }
+          //   ^^^^^^^^^^^^^^^^^^
+          return;
+        }
         return {
           type: "propertySignature",
           key: get(node.key),

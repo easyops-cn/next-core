@@ -35,6 +35,7 @@ import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
+import { loadBricksImperatively } from "@next-core/loader";
 
 export type { DataValueOption, RuntimeContext };
 
@@ -99,7 +100,8 @@ export async function renderUseBrick(
         },
     scopedRuntimeContext,
     rendererContext,
-    []
+    [],
+    {}
   );
 
   const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
@@ -363,6 +365,13 @@ export function getBrickPackagesById(id: string) {
   return getBrickPackages().find((pkg) =>
     pkg.id ? pkg.id === id : pkg.filePath.startsWith(id)
   );
+}
+
+/**
+ * Support loading v3 bricks only.
+ */
+export function loadBricks(bricks: string[]) {
+  return loadBricksImperatively(bricks, getBrickPackages());
 }
 
 export function getRenderId() {

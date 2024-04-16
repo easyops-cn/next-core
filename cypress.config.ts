@@ -2,7 +2,6 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
   projectId: "67qbbe",
-  videoUploadOnPasses: false,
   env: {
     ports: [8081 /* , 8082, 8083, 9001 */],
     mainPort: [8081],

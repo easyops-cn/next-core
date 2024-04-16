@@ -333,9 +333,30 @@ function normalizeBootstrapData(data: BootstrapData) {
   }
 }
 
+function processPublicDepsPackages(
+  brickPackages: BrickPackage[],
+  pubDeps: BrickPackage[]
+): BrickPackage[] {
+  if (!pubDeps?.length) return brickPackages;
+
+  const bricksMap = new Map();
+
+  // bootstrapData 数据和 pubDeps 中可能同时存在同一个包名，需要过滤去重， 以 pubDeps 中的包为准
+  [...brickPackages, ...pubDeps].forEach((pkg) => {
+    const pkgName = pkg.filePath.split("/")[1];
+
+    bricksMap.set(pkgName, pkg);
+  });
+
+  return Array.from(bricksMap.values());
+}
+
 export function getBrickPackages() {
   return (
-    bootstrapData?.brickPackages ??
+    processPublicDepsPackages(
+      bootstrapData?.brickPackages as BrickPackage[],
+      window.PUBLIC_DEPS as BrickPackage[]
+    ) ??
     injectedBrickPackages ??
     (window.STANDALONE_BRICK_PACKAGES as BrickPackage[]) ??
     []

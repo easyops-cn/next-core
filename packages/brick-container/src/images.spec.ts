@@ -9,9 +9,11 @@ describe("imagesFactory", () => {
         app: { id: string; isBuildPush?: boolean; currentVersion?: string };
         appId?: string;
         appRoot?: string;
+        publicDeps?: any[];
+        bootstrapUnionFile?: string;
       },
       string,
-      string
+      string,
     ]
   >([
     [
@@ -67,15 +69,38 @@ describe("imagesFactory", () => {
       "test.png",
       "/my-app/-/micro-apps/my-app/images/test.png",
     ],
-  ])("should work", ({ app, appId, appRoot }, img, src) => {
-    window.APP_ID = appId;
-    window.APP_ROOT = appRoot;
-    expect(
-      imagesFactory(app.id, app.isBuildPush, app.currentVersion).get(img)
-    ).toBe(src);
-    delete window.APP_ID;
-    delete window.APP_ROOT;
-  });
+    [
+      {
+        app: {
+          id: "my-app",
+        },
+        appRoot: "sa-static/micro-apps/v2/my-app/1.51.22/",
+        bootstrapUnionFile: "bootstrap-union.abc.json",
+        publicDeps: [
+          {
+            filePath: "bricks/icons/-/dist/index.a41397e0.js",
+            id: "bricks/icons",
+            elements: ["eo-antd-icon"],
+          },
+        ],
+      },
+      "test20230406.png",
+      "/sa-static/micro-apps/v2/my-app/1.51.22/images/test20230406.png",
+    ],
+  ])(
+    "should work",
+    ({ app, appId, appRoot, publicDeps, bootstrapUnionFile }, img, src) => {
+      window.APP_ID = appId;
+      window.APP_ROOT = appRoot;
+      window.PUBLIC_DEPS = publicDeps;
+      window.BOOTSTRAP_UNION_FILE = bootstrapUnionFile;
+      expect(
+        imagesFactory(app.id, app.isBuildPush, app.currentVersion).get(img)
+      ).toBe(src);
+      delete window.APP_ID;
+      delete window.APP_ROOT;
+    }
+  );
 });
 
 describe("widgetImagesFactory", () => {
@@ -87,7 +112,7 @@ describe("widgetImagesFactory", () => {
         publicRoot?: string;
       },
       string,
-      string
+      string,
     ]
   >([
     [

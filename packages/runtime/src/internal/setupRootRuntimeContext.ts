@@ -13,7 +13,8 @@ import { childrenToSlots } from "./Renderer.js";
 
 export function setupRootRuntimeContext(
   bricks: BrickConf[],
-  runtimeContext: RuntimeContext
+  runtimeContext: RuntimeContext,
+  shallow?: boolean
 ) {
   function walk(props: unknown) {
     if (!isObject(props) || typeof props === "function") {
@@ -32,6 +33,8 @@ export function setupRootRuntimeContext(
         } else {
           setupBrick(
             value as UseSingleBrickConf as RuntimeUseBrickConfWithRootSymbols,
+            true,
+            // For inside useBrick, we always need to setup recursively.
             true
           );
         }
@@ -41,18 +44,26 @@ export function setupRootRuntimeContext(
     }
   }
 
-  function setupBrick(brick: BrickConf, inUseBrick?: boolean) {
+  function setupBrick(
+    brick: BrickConf,
+    inUseBrick?: boolean,
+    forceRecursive?: boolean
+  ) {
     if (inUseBrick) {
       (brick as RuntimeUseBrickConfWithRootSymbols)[
         symbolForRootRuntimeContext
       ] = runtimeContext;
     }
-    const { properties, slots: originalSlots, children } = brick;
-    const transpiledSlots = childrenToSlots(children, originalSlots) as
+
+    walk(brick.properties);
+
+    if (shallow && !forceRecursive) {
+      return;
+    }
+
+    const transpiledSlots = childrenToSlots(brick.children, brick.slots) as
       | UseBrickSlotsConf
       | undefined;
-
-    walk(properties);
 
     for (const slotConf of Object.values(transpiledSlots ?? {})) {
       for (const brick of slotConf.bricks ?? []) {

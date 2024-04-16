@@ -7,6 +7,7 @@ export * from "./getPageInfo.js";
 export * from "./handleHttpError.js";
 export * from "./history.js";
 export * from "./createRoot.js";
+export * from "./getRealValue.js";
 export {
   createRuntime,
   getRuntime,

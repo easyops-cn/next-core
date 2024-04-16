@@ -32,16 +32,16 @@ export function injectIndexHtml(env, content, standaloneConfig) {
         `var d=${JSON.stringify(standaloneConfig.publicPrefix)};`,
         'var p=w.PUBLIC_ROOT=(w.PUBLIC_CDN||"")+d;',
         `w.CORE_ROOT=p+"core/${standaloneConfig.coreVersion}/";`,
-        `w.BOOTSTRAP_FILE=a+"-/bootstrap${
-          standaloneConfig.bootstrapPathPrefix ?? ""
-        }.${standaloneConfig.bootstrapHash}.json";`,
-        standaloneConfig.bootstrapUnionFilePath
-          ? `w.BOOTSTRAP_UNION_FILE= d + ${JSON.stringify(
-              standaloneConfig.bootstrapUnionFilePath
-            )};`
-          : "",
-        standaloneConfig.bootstrapUnionFilePath
-          ? `w.APP_ROOT_TPL="sa-static/{id}/versions/{version}/webroot/";`
+        standaloneConfig.publicDeps
+          ? `${standaloneConfig.bootstrapFilePath}`
+          : `w.BOOTSTRAP_FILE=a+"-/bootstrap${
+              standaloneConfig.bootstrapPathPrefix ?? ""
+            }.${standaloneConfig.bootstrapHash}.json";`,
+        standaloneConfig.unionAppRoot ?? "",
+        standaloneConfig.bootstrapUnionFilePath ?? "",
+        standaloneConfig.appRootTpl ?? "",
+        standaloneConfig.publicDeps
+          ? `w.PUBLIC_DEPS=${standaloneConfig.publicDeps}`
           : "",
         "})(window)",
         "</script></head>",
