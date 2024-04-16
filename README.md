@@ -100,7 +100,7 @@ Brick Next Core is [GPL-3.0 licensed](./COPYING).
 
 ## 贡献指南
 
-请查看[贡献指南](./CONTRIBUTING-v3.md)。
+请查看[贡献指南](./CONTRIBUTING.md)。
 
 ## 许可协议
 
