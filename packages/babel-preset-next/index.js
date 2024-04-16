@@ -49,7 +49,7 @@ module.exports = () => {
         transformRuntime,
         {
           // https://github.com/babel/babel/issues/9454#issuecomment-460425922
-          version: "7.23.7",
+          version: "7.24.3",
         },
       ],
     ],
