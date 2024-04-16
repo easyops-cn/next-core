@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.25](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.24...@next-core/easyops-runtime@0.7.25) (2024-04-16)
+
+
+### Bug Fixes
+
+* fix eslint errors ([f2cf27d](https://github.com/easyops-cn/next-core/commit/f2cf27d841fce56992897ee8e6a23297e71ddcde))
+
+
+
+
+
 ## [0.7.24](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.23...@next-core/easyops-runtime@0.7.24) (2024-04-14)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
