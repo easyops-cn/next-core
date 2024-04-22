@@ -16,6 +16,7 @@ import { JSON_SCHEMA, safeLoad } from "js-yaml";
 import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
 import { imagesFactory } from "./images.js";
 import { registerMocks } from "./mocks.js";
+import { i18n } from "@next-core/i18n";
 
 interface StandaloneConf {
   /** The same as `auth.bootstrap.sys_settings` in api gateway conf. */
@@ -273,11 +274,33 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
 
   fixStoryboardImgSrc(storyboard);
   initializeAppConfig(storyboard.app);
+  initializeAppLocales(storyboard.app);
   registerMocks(storyboard.meta?.mocks);
 }
 
 function initializeAppConfig(app: MicroApp) {
   app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
+}
+
+function initializeAppLocales(app: MicroApp) {
+  const locales =
+    (app.config?.settings as BootstrapSettings)?.locales ?? app.locales;
+  if (locales) {
+    // Prefix to avoid conflict between brick package's i18n namespace.
+    const ns = `tmp/${app.id}`;
+    // Support any languages in `app.locales`.
+    Object.entries(locales).forEach(([lang, resources]) => {
+      i18n.addResourceBundle(lang, ns, resources);
+    });
+    // Use `app.name` as the fallback `app.localeName`.
+    app.localeName = i18n.getFixedT(null, ns)("name", app.name) as string;
+    // Remove the temporary i18n resource bundles.
+    Object.keys(locales).forEach((lang) => {
+      i18n.removeResourceBundle(lang, ns);
+    });
+  } else {
+    app.localeName = app.name;
+  }
 }
 
 // function initializeInjectMenus(menus: MenuRawData[] | undefined) {
@@ -288,6 +311,7 @@ function initializeInjectMenus(menus: any[] | undefined) {
   for (const menu of menus) {
     if (menu.overrideApp) {
       initializeAppConfig(menu.overrideApp);
+      initializeAppLocales(menu.overrideApp);
     }
   }
 }

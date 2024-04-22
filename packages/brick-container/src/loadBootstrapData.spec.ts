@@ -1,4 +1,5 @@
 import { jest, describe, test, expect } from "@jest/globals";
+import { i18n } from "@next-core/i18n";
 import { http } from "@next-core/http";
 import {
   BootstrapStandaloneApi_runtimeStandalone,
@@ -9,6 +10,9 @@ import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-st
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { registerMocks } from "./mocks.js";
 
+i18n.init({
+  fallbackLng: "en",
+});
 jest.mock("@next-core/http");
 jest.mock("@next-api-sdk/api-gateway-sdk");
 jest.mock("@next-api-sdk/micro-app-standalone-sdk");
@@ -307,6 +311,7 @@ describe("loadBootstrapData", () => {
       app: {
         id: "app-a",
         name: "App A",
+        localeName: "Application A",
         locales: {
           zh: { name: "应用 A" },
           en: { name: "Application A" },
@@ -412,6 +417,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
         id: "app-g",
+        localeName: "Application G",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -442,6 +448,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-a",
         id: "app-a",
+        localeName: "Application A",
         locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
         name: "App A",
         userConfig: { runtimeUserConf: 9 },
@@ -537,6 +544,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
         id: "app-g",
+        localeName: "Application G",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -567,6 +575,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-a",
         id: "app-a",
+        localeName: "Application A",
         locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
         name: "App A",
         userConfig: { runtimeUserConf: 9 },
@@ -752,6 +761,7 @@ describe("loadBootstrapData", () => {
       app: {
         id: "app-a",
         name: "App A",
+        localeName: "App A",
         userConfig: {
           userConf: 42,
         },
