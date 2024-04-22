@@ -81,6 +81,7 @@ import { getRuntime } from "../runtime";
 import { setUIVersion } from "./setUIVersion";
 import { setAppVariable } from "../setAppVariable";
 import { setWatermark } from "./setWatermark";
+import { setAppLocales } from "./setAppLocales";
 
 export class Router {
   private defaultCollapsed = false;
@@ -283,6 +284,8 @@ export class Router {
     let pendingTask: Promise<void>;
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
+
+      setAppLocales(storyboard.app);
 
       this.kernel.nextApp = storyboard.app;
 

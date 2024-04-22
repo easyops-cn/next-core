@@ -43,21 +43,6 @@ describe("processBootstrapResponse", () => {
             },
           },
         },
-        // With locales.
-        {
-          app: {
-            id: "hello-world",
-            name: "Hola Mundo",
-            locales: {
-              zh: {
-                name: "你好，世界",
-              },
-              en: {
-                name: "Hello World",
-              },
-            },
-          },
-        },
       ],
       settings: {
         misc: {
@@ -114,7 +99,6 @@ describe("processBootstrapResponse", () => {
         {
           app: {
             name: "Test Only",
-            localeName: "Test Only",
             defaultConfig: {
               quality: "good",
             },
@@ -124,23 +108,6 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "bad",
             },
-          },
-        },
-        // With locales.
-        {
-          app: {
-            id: "hello-world",
-            name: "Hola Mundo",
-            localeName: "Hello World",
-            locales: {
-              zh: {
-                name: "你好，世界",
-              },
-              en: {
-                name: "Hello World",
-              },
-            },
-            config: {},
           },
         },
       ],
