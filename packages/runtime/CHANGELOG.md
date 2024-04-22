@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.3...@next-core/runtime@1.39.0) (2024-04-22)
+
+
+### Features
+
+* support userConfig.settings.locales ([f4274f0](https://github.com/easyops-cn/next-core/commit/f4274f0687c6101ab54c5836307bfb52733b4701))
+
+
+
+
+
 ## [1.38.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.2...@next-core/runtime@1.38.3) (2024-04-16)
 
 **Note:** Version bump only for package @next-core/runtime

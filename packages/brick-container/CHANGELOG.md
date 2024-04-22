@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.10...@next-core/brick-container@3.15.0) (2024-04-22)
+
+
+### Features
+
+* support userConfig.settings.locales ([942e9cc](https://github.com/easyops-cn/next-core/commit/942e9cc5224ca98631fb85fc44b08b15ed970cbb))
+* support userConfig.settings.locales ([7b0342c](https://github.com/easyops-cn/next-core/commit/7b0342c7c0628e1f353b68eb2fa117b04bd71fa1))
+
+
+
+
+
 ## [3.14.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.9...@next-core/brick-container@3.14.10) (2024-04-22)
 
 **Note:** Version bump only for package @next-core/brick-container
