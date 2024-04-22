@@ -25,7 +25,6 @@ window.scrollTo = jest.fn();
 const getBootstrapData = (options?: {
   templates?: boolean;
   settings?: boolean;
-  locales?: boolean;
 }): BootstrapData => ({
   storyboards: [
     {
@@ -44,13 +43,6 @@ const getBootstrapData = (options?: {
             },
           },
         },
-        locales: options?.locales
-          ? {
-              en: {
-                name: "Application A",
-              },
-            }
-          : undefined,
       },
       routes: [
         {
@@ -60,7 +52,7 @@ const getBootstrapData = (options?: {
             {
               brick: "div",
               properties: {
-                textContent: "<% `I'm homepage of ${APP.localeName}` %>",
+                textContent: "<% `I'm homepage of ${APP.name}` %>",
               },
             },
           ],
@@ -615,9 +607,7 @@ describe("Runtime", () => {
   });
 
   test("basic page", async () => {
-    createRuntime().initialize(
-      getBootstrapData({ settings: true, locales: true })
-    );
+    createRuntime().initialize(getBootstrapData({ settings: true }));
     getHistory().push("/app-a");
     expect(window.DISABLE_REACT_FLUSH_SYNC).toBeFalsy();
     await getRuntime().bootstrap();
@@ -631,7 +621,7 @@ describe("Runtime", () => {
           id="main-mount-point"
         >
           <div>
-            I'm homepage of Application A
+            I'm homepage of App A
           </div>
         </div>,
         <div
