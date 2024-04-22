@@ -185,6 +185,43 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
           },
         ],
       };
+    case "bootstrap.app-h.json":
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: "app-h",
+              name: "App H",
+              locales: {
+                zh: { name: "应用 H" },
+                en: { name: "Application H" },
+              },
+              defaultConfig: {
+                defaultConf: 7,
+              },
+              userConfig: {
+                userConf: 8,
+                settings: {
+                  locales: {
+                    zh: { name: "应用 H 别名" },
+                    en: { name: "Application H Alias" },
+                  },
+                },
+              },
+            },
+          },
+        ],
+        settings: {
+          featureFlags: {
+            "bootstrap-flag": true,
+          },
+          misc: {
+            bootstrapMisc: 1,
+          },
+          homepage: "/bootstrap/homepage",
+        },
+      };
     case "bootstrap-union.cmdb.abg.json":
       return {
         brickPackages: [],
@@ -224,6 +261,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
         ],
       };
     case "sa-static/app-a/versions/1.88.0/webroot/conf.yaml":
+    case "sa-static/app-h/versions/1.88.0/webroot/conf.yaml":
       return "";
     case "app-b/conf.yaml":
       return `
@@ -770,6 +808,44 @@ describe("loadBootstrapData", () => {
         },
       },
       routes: [],
+    });
+  });
+
+  test("standalone with locales", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_FILE = "bootstrap.app-h.json";
+    window.APP_ROOT = "sa-static/app-h/versions/1.88.0/webroot/";
+    const promise = loadBootstrapData();
+    const data = await promise;
+    await fulfilStoryboard(data.storyboards[0]);
+
+    expect(data.storyboards[0]).toEqual({
+      app: {
+        id: "app-h",
+        name: "App H",
+        locales: { zh: { name: "应用 H" }, en: { name: "Application H" } },
+        defaultConfig: { defaultConf: 7 },
+        userConfig: {
+          userConf: 8,
+          settings: {
+            locales: {
+              zh: { name: "应用 H 别名" },
+              en: { name: "Application H Alias" },
+            },
+          },
+        },
+        config: {
+          defaultConf: 7,
+          userConf: 8,
+          settings: {
+            locales: {
+              zh: { name: "应用 H 别名" },
+              en: { name: "Application H Alias" },
+            },
+          },
+        },
+        localeName: "Application H Alias",
+      },
     });
   });
 });
