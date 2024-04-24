@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.191.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.190.0...@next-core/brick-kit@2.191.0) (2024-04-24)
+
+
+### Features
+
+* support settings.locales ([88e82bc](https://github.com/easyops-cn/next-core/commit/88e82bc0cb6f1dcfdaf5fa600ec404ef107ceb16))
+
+
+
+
+
 # [2.190.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.189.0...@next-core/brick-kit@2.190.0) (2024-04-03)
 
 
