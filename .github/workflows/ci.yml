@@ -109,6 +109,8 @@ jobs:
 
     - run: yarn build
     - run: yarn test:ci
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Codecov
       uses: codecov/codecov-action@v3
