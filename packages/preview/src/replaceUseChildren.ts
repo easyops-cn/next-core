@@ -22,6 +22,7 @@ function replaceInBrick(brick: BrickConf) {
         useChildrenMap.set(slot, children);
         replaceUseChildren(children);
       }
+      delete slots[slot];
     }
 
     if (Array.isArray((slotConf as SlotConfOfBricks).bricks)) {
