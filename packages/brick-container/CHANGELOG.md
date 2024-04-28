@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.95.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.95.0...@next-core/brick-container@2.95.1) (2024-04-28)
+
+
+### Bug Fixes
+
+* add missing globals for preview page ([ef0ae40](https://github.com/easyops-cn/next-core/commit/ef0ae4068d4c2af2bc3da2368973da8fc064a4fc))
+
+
+
+
+
 # [2.95.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.19...@next-core/brick-container@2.95.0) (2024-04-28)
 
 
