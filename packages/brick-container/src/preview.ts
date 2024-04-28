@@ -1,7 +1,7 @@
-import { SiteTheme, StoryConf } from "@next-core/brick-types";
+import { SiteTheme, StoryConf, type MountPoints } from "@next-core/brick-types";
 import { developHelper, applyTheme } from "@next-core/brick-kit";
 
-import { http, HttpResponse } from "@next-core/brick-http";
+import { http, HttpResponse, type HttpError } from "@next-core/brick-http";
 import { initializeLibrary } from "@next-core/fontawesome-library";
 import "./i18n";
 import "@next-core/theme";
@@ -9,6 +9,7 @@ import "./styles/antd.less";
 import "./styles/antd-compatible.less";
 import "./styles/default.css";
 import "./styles/preview.css";
+import { replaceUseChildren } from "./replaceUseChildren";
 
 initializeLibrary();
 // eslint-disable-next-line
@@ -30,7 +31,7 @@ const main = document.querySelector<HTMLElement>("#main-mount-point");
 const bg = document.querySelector<HTMLElement>("#bg-mount-point");
 const portal = document.querySelector<HTMLElement>("#portal-mount-point");
 
-type BrickPreviewProps = StoryConf | StoryConf[];
+type BrickPreviewProps = StoryConf;
 (window as any)._preview_render = async ({
   conf,
   theme,
@@ -39,5 +40,6 @@ type BrickPreviewProps = StoryConf | StoryConf[];
   theme: SiteTheme;
 }) => {
   applyTheme(theme);
-  await developHelper.render({ main, bg, portal }, conf);
+  replaceUseChildren(([] as StoryConf[]).concat(conf));
+  await developHelper.render({ main, bg, portal } as MountPoints, conf);
 };
