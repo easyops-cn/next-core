@@ -15,6 +15,9 @@ initializeLibrary();
 // eslint-disable-next-line
 // @ts-ignore
 window.DLL_PATH = DLL_PATH;
+// eslint-disable-next-line
+// @ts-ignore
+window.BRICK_NEXT_VERSIONS = BRICK_NEXT_VERSIONS;
 
 http.interceptors.response.use(
   function (response: HttpResponse) {
