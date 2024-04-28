@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.3.0...@next-core/preview@0.3.1) (2024-04-28)
+
+
+### Bug Fixes
+
+* delete original slots for useChildren ([07688b9](https://github.com/easyops-cn/next-core/commit/07688b91133e0ed6631d9dc098e5bb530d701f5d))
+
+
+
+
+
 # [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.97...@next-core/preview@0.3.0) (2024-04-28)
 
 
