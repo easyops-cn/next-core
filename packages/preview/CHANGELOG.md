@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.97...@next-core/preview@0.3.0) (2024-04-28)
+
+
+### Features
+
+* **preview:** replace useChildren with useBrick ([d55a351](https://github.com/easyops-cn/next-core/commit/d55a351fa995b709cc9f966a016e42f844536037))
+
+
+
+
+
 ## [0.2.97](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.96...@next-core/preview@0.2.97) (2024-04-22)
 
 **Note:** Version bump only for package @next-core/preview
