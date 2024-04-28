@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.95.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.19...@next-core/brick-container@2.95.0) (2024-04-28)
+
+
+### Features
+
+* support useChildren in preview ([de12cd7](https://github.com/easyops-cn/next-core/commit/de12cd77e697568c4ba10088fe24cacb6fbc66ae))
+
+
+
+
+
 ## [2.94.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.94.18...@next-core/brick-container@2.94.19) (2024-04-24)
 
 **Note:** Version bump only for package @next-core/brick-container
