@@ -323,6 +323,9 @@ function lowLevelEvaluate(
               : null;
             break;
           case "APP":
+            if (app == null) {
+              throw new ReferenceError(`APP is not defined, in "${raw}"`);
+            }
             globalVariables[variableName] = {
               ...cloneDeep(app),
               getMenu: hooks?.menu?.getMenuById,
@@ -330,7 +333,7 @@ function lowLevelEvaluate(
             break;
           case "CTX":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key) {
+              get(_target, key) {
                 return ctxStore.getValue(key as string);
               },
               ownKeys() {
@@ -349,7 +352,7 @@ function lowLevelEvaluate(
             break;
           case "FORM_STATE":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key) {
+              get(_target, key) {
                 return formStateStore!.getValue(key as string);
               },
               ownKeys() {
@@ -391,6 +394,9 @@ function lowLevelEvaluate(
             globalVariables[variableName] = getRuntime().getMiscSettings();
             break;
           case "PARAMS":
+            if (query == null) {
+              throw new ReferenceError(`PARAMS is not defined, in "${raw}"`);
+            }
             globalVariables[variableName] = new URLSearchParams(query);
             break;
           case "PATH":
@@ -403,7 +409,7 @@ function lowLevelEvaluate(
             break;
           case "PROCESSORS":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key) {
+              get(_target, key) {
                 const pkg = customProcessors.get(key as string);
                 if (!pkg) {
                   throw new Error(
@@ -413,7 +419,7 @@ function lowLevelEvaluate(
                   );
                 }
                 return getDynamicReadOnlyProxy({
-                  get(t, k) {
+                  get(_t, k) {
                     return pkg.get(k as string);
                   },
                   ownKeys() {
@@ -432,11 +438,19 @@ function lowLevelEvaluate(
             });
             break;
           case "QUERY":
+            if (query == null) {
+              throw new ReferenceError(`QUERY is not defined, in "${raw}"`);
+            }
             globalVariables[variableName] = Object.fromEntries(
               Array.from(query.keys()).map((key) => [key, query.get(key)])
             );
             break;
           case "QUERY_ARRAY":
+            if (query == null) {
+              throw new ReferenceError(
+                `QUERY_ARRAY is not defined, in "${raw}"`
+              );
+            }
             globalVariables[variableName] = Object.fromEntries(
               Array.from(query.keys()).map((key) => [key, query.getAll(key)])
             );
@@ -460,7 +474,7 @@ function lowLevelEvaluate(
           // eslint-disable-next-line no-fallthrough
           case "STATE":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
-              get(target, key) {
+              get(_target, key) {
                 return tplStateStore!.getValue(key as string);
               },
               ownKeys() {

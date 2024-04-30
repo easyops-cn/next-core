@@ -51,6 +51,8 @@ export interface RenderOptions {
   functions?: StoryboardFunction[];
   templates?: CustomTemplate[];
   i18n?: MetaI18n;
+  url?: string;
+  app?: MicroApp;
 }
 
 export function unstable_createRoot(
@@ -85,6 +87,8 @@ export function unstable_createRoot(
         functions,
         templates,
         i18n: i18nData,
+        url,
+        app,
       }: RenderOptions = {}
     ) {
       if (unmounted) {
@@ -105,6 +109,17 @@ export function unstable_createRoot(
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
       } as Partial<RuntimeContext> as RuntimeContext;
 
+      if (url) {
+        const urlObj = new URL(url);
+        runtimeContext.query = urlObj.searchParams;
+        runtimeContext.location = {
+          pathname: urlObj.pathname,
+          search: urlObj.search,
+          hash: urlObj.hash,
+          state: undefined,
+        };
+      }
+
       const renderRoot: RenderRoot = {
         tag: RenderTag.ROOT,
         container,
@@ -116,13 +131,13 @@ export function unstable_createRoot(
         setMode("default");
         setUIVersion(uiVersion);
 
-        const demoApp = {
+        app ??= {
           id: "demo",
           homepage: "/demo",
         } as MicroApp;
-        runtimeContext.app = demoApp;
+        runtimeContext.app = app;
         const demoStoryboard = {
-          app: demoApp,
+          app,
           meta: {
             i18n: i18nData,
             customTemplates: templates,
@@ -137,7 +152,7 @@ export function unstable_createRoot(
         registerCustomTemplates(demoStoryboard);
 
         // Register functions.
-        registerStoryboardFunctions(functions, demoApp);
+        registerStoryboardFunctions(functions, app);
       }
 
       runtimeContext.ctxStore.define(context, runtimeContext);

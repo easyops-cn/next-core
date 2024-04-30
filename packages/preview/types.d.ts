@@ -1,3 +1,5 @@
+import type { MicroApp } from "@next-core/types";
+
 export type RenderType = "html" | "yaml";
 
 export interface Sources {
@@ -12,6 +14,8 @@ export interface RenderOptions {
   templates?: string | unknown[];
   functions?: string | unknown[];
   i18n?: string | object;
+  url?: string;
+  app?: MicroApp;
   styleText?: string;
   templatesAreArrayOfYaml?: boolean;
 }
