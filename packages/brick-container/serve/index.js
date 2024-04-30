@@ -25,13 +25,20 @@ const distDir = path.join(__dirname, "../dist");
 const app = express();
 
 if (sizeCheck) {
-  app.use((req, res, next) => {
+  app.use((_req, res, next) => {
     res.set("Cache-Control", "no-store");
     next();
   });
 }
 
-app.use(compression());
+app.use((req, res, next) => {
+  // DO NOT compress SSE responses
+  if (req.headers["accept"] === "text/event-stream") {
+    next();
+  } else {
+    compression()(req, res, next);
+  }
+});
 
 const middlewares = [
   ...(env.localMocks ?? []),
@@ -56,7 +63,7 @@ if (useLocalContainer) {
   });
 
   // Serve browse-happy.html
-  app.get(`${baseHref}${browseHappyHtml}`, (req, res) => {
+  app.get(`${baseHref}${browseHappyHtml}`, (_req, res) => {
     res.sendFile(path.join(distDir, browseHappyHtml));
   });
 
@@ -70,12 +77,47 @@ if (useLocalContainer) {
 const proxy = getProxy(env, getRawIndexHtml);
 if (proxy) {
   for (const options of proxy) {
-    app.use(
-      createProxyMiddleware(options.context, {
-        logLevel: "warn",
-        ...options,
-      })
-    );
+    if (options.context === `${baseHref}api/`) {
+      app.use(
+        createProxyMiddleware(
+          (pathname, req) => {
+            // DO NOT intercept SSE requests.
+            const matched =
+              pathname.startsWith(options.context) &&
+              req.headers["accept"] === "text/event-stream";
+            return matched;
+          },
+          {
+            logLevel: "warn",
+            ...options,
+            selfHandleResponse: false,
+            onProxyRes: undefined,
+          }
+        )
+      );
+      app.use(
+        createProxyMiddleware(
+          (pathname, req) => {
+            // Intercept requests other than  SSE.
+            const matched =
+              pathname.startsWith(options.context) &&
+              req.headers["accept"] !== "text/event-stream";
+            return matched;
+          },
+          {
+            logLevel: "warn",
+            ...options,
+          }
+        )
+      );
+    } else {
+      app.use(
+        createProxyMiddleware(options.context, {
+          logLevel: "warn",
+          ...options,
+        })
+      );
+    }
   }
 }
 
