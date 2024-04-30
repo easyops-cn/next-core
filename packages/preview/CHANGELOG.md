@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.3.1...@next-core/preview@0.4.0) (2024-04-30)
+
+
+### Features
+
+* support setting url and app for preview rendering ([13907ef](https://github.com/easyops-cn/next-core/commit/13907ef5da5c9bd399df04b5f59c3602a217b021))
+
+
+
+
+
 ## [0.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.3.0...@next-core/preview@0.3.1) (2024-04-28)
 
 

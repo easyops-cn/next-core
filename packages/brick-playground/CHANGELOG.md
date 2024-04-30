@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.152...@next-core/brick-playground@1.11.0) (2024-04-30)
+
+
+### Features
+
+* support setting url and app for preview rendering ([13907ef](https://github.com/easyops-cn/next-core/commit/13907ef5da5c9bd399df04b5f59c3602a217b021))
+
+
+
+
+
 ## [1.10.152](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.10.151...@next-core/brick-playground@1.10.152) (2024-04-28)
 
 **Note:** Version bump only for package @next-core/brick-playground

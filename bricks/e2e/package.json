@@ -1,6 +1,6 @@
 {
   "name": "@next-bricks/e2e",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "private": true,
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/bricks/e2e",
   "repository": {
@@ -38,8 +38,8 @@
     "@next-core/element": "^1.2.4",
     "@next-core/i18n": "^1.0.41",
     "@next-core/react-element": "^1.0.23",
-    "@next-core/react-runtime": "^1.4.4",
-    "@next-core/runtime": "^1.39.0",
+    "@next-core/react-runtime": "^1.4.5",
+    "@next-core/runtime": "^1.40.0",
     "@next-core/types": "^1.9.0",
     "@next-core/utils": "^1.6.13",
     "react": "0.0.0-experimental-ee8509801-20230117"
