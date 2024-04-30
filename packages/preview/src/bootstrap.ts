@@ -143,6 +143,8 @@ async function render(
     functions,
     templates,
     i18n,
+    url,
+    app,
     styleText,
     templatesAreArrayOfYaml,
   }: RenderOptions = {}
@@ -236,6 +238,8 @@ async function render(
         functions: parsedFunctions,
         templates: parsedTemplates,
         i18n: parsedI18n,
+        url,
+        app,
       });
     }
   } catch (e) {

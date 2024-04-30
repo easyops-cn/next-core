@@ -356,6 +356,42 @@ describe("evaluate", () => {
     );
     expect(consoleError).toBeCalledTimes(1);
   });
+
+  test("Access QUERY but no query in context", () => {
+    const { query: _query, ...rest } = runtimeContext;
+    expect(() =>
+      evaluate("<% QUERY.q %>", rest as RuntimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"QUERY is not defined, in "<% QUERY.q %>""`
+    );
+  });
+
+  test("Access QUERY_ARRAY but no query in context", () => {
+    const { query: _query, ...rest } = runtimeContext;
+    expect(() =>
+      evaluate("<% QUERY_ARRAY.q %>", rest as RuntimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"QUERY_ARRAY is not defined, in "<% QUERY_ARRAY.q %>""`
+    );
+  });
+
+  test("Access PARAMS but no query in context", () => {
+    const { query: _query, ...rest } = runtimeContext;
+    expect(() =>
+      evaluate("<% PARAMS.q %>", rest as RuntimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"PARAMS is not defined, in "<% PARAMS.q %>""`
+    );
+  });
+
+  test("Access APP but no app in context", () => {
+    const { app: _app, ...rest } = runtimeContext;
+    expect(() =>
+      evaluate("<% APP.homepage %>", rest as RuntimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"APP is not defined, in "<% APP.homepage %>""`
+    );
+  });
 });
 
 describe("asyncEvaluate", () => {
