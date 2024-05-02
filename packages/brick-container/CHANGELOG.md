@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.15.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.3...@next-core/brick-container@3.15.4) (2024-05-02)
+
+
+### Bug Fixes
+
+* bypass SSE requests ([fab1834](https://github.com/easyops-cn/next-core/commit/fab183467db79bd3eb7d66adc10ff27ea7142f08))
+
+
+
+
+
 ## [3.15.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.2...@next-core/brick-container@3.15.3) (2024-04-30)
 
 **Note:** Version bump only for package @next-core/brick-container
