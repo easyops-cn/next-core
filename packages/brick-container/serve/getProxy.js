@@ -25,13 +25,38 @@ export default function getProxy(env, getRawIndexHtml) {
     server,
   } = env;
   if (useRemote) {
+    const apiProxyOptions = getBasicProxyOptions(env, "api/");
+
     return [
       {
         ...getBasicProxyOptions(env, "api/websocket_service/"),
         ws: true,
       },
       {
-        ...getBasicProxyOptions(env, "api/"),
+        ...apiProxyOptions,
+        context: (pathname, req) => {
+          // DO NOT intercept SSE requests.
+          const matched =
+            pathname.startsWith(apiProxyOptions.context) &&
+            req.headers["accept"] === "text/event-stream";
+          return matched;
+        },
+        onProxyReq(proxyReq, req) {
+          // Reset the origin header to the remote server
+          if (req.headers["origin"] === `http://${host}:${port}`) {
+            proxyReq.setHeader("origin", server);
+          }
+        },
+      },
+      {
+        ...apiProxyOptions,
+        context: (pathname, req) => {
+          // Intercept requests other than  SSE.
+          const matched =
+            pathname.startsWith(apiProxyOptions.context) &&
+            req.headers["accept"] !== "text/event-stream";
+          return matched;
+        },
         selfHandleResponse: true,
         bypass(req) {
           const appId = getAppIdFromBootstrapPath(req.path);

@@ -1,5 +1,6 @@
 import path from "node:path";
 import WebpackDevServer from "webpack-dev-server";
+import compression from "compression";
 import { build } from "@next-core/build-next-bricks";
 import config from "../build.config.js";
 import { getEnv } from "../serve/env.js";
@@ -31,7 +32,24 @@ const server = new WebpackDevServer(
     devMiddleware: {
       publicPath: baseHref,
     },
+    // Manually compress the response to avoid compressing SSE responses
+    compress: false,
     setupMiddlewares(middlewares) {
+      middlewares.unshift(
+        /**
+         * @param {import("express").Request} req
+         * @param {import("express").Response} res
+         */
+        async function compress(req, res, next) {
+          // DO NOT compress SSE responses
+          if (req.headers["accept"] === "text/event-stream") {
+            next();
+          } else {
+            compression()(req, res, next);
+          }
+        }
+      );
+
       if (baseHref !== "/") {
         middlewares.unshift(
           /**
