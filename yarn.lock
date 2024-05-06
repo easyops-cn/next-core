@@ -1910,27 +1910,27 @@
   dependencies:
     call-bind "^1.0.2"
 
-"@microsoft/api-extractor-model@7.28.14":
-  version "7.28.14"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.28.14.tgz#f0d2b93ef21f271a05b89c79d0662f6b34adeb0e"
-  integrity sha512-Bery/c8A8SsKPSvA82cTTuy/+OcxZbLRmKhPkk91/AJOQzxZsShcrmHFAGeiEqSIrv1nPZ3tKq9kfMLdCHmsqg==
+"@microsoft/api-extractor-model@7.28.15":
+  version "7.28.15"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.28.15.tgz#c643395a8dc63e701982801f381b6d656d306152"
+  integrity sha512-kAFX0c1+N+2WpZaiksy8H4RZ1sytJb2ZFVEmil5Rt6IK8UExU80f0/4kegXIs1KF8a/YyRW0Pybc7svlT9j/wQ==
   dependencies:
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "~0.16.1"
-    "@rushstack/node-core-library" "4.1.0"
+    "@rushstack/node-core-library" "4.2.0"
 
-"@microsoft/api-extractor@^7.43.1":
-  version "7.43.1"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.43.1.tgz#5552427cf076819c914289deb9f0dddce743c629"
-  integrity sha512-ohg40SsvFFgzHFAtYq5wKJc8ZDyY46bphjtnSvhSSlXpPTG7GHwyyXkn48UZiUCBwr2WC7TRC1Jfwz7nreuiyQ==
+"@microsoft/api-extractor@^7.43.2":
+  version "7.43.2"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.43.2.tgz#b15ee07643ac2feb22b81b7fe69a6cf461511e10"
+  integrity sha512-5bVGdT/fHTDnBk6XPrw4I/U54LIvEeicOOTcyMtBWq387fad+m6tRk2cP/Lg9bz8+/gJgEkTVhpI8FXV4d79Ng==
   dependencies:
-    "@microsoft/api-extractor-model" "7.28.14"
+    "@microsoft/api-extractor-model" "7.28.15"
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "~0.16.1"
-    "@rushstack/node-core-library" "4.1.0"
+    "@rushstack/node-core-library" "4.2.0"
     "@rushstack/rig-package" "0.5.2"
-    "@rushstack/terminal" "0.10.1"
-    "@rushstack/ts-command-line" "4.19.2"
+    "@rushstack/terminal" "0.10.2"
+    "@rushstack/ts-command-line" "4.19.3"
     lodash "~4.17.15"
     minimatch "~3.0.3"
     resolve "~1.22.1"
@@ -2306,10 +2306,10 @@
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rushstack/node-core-library@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-4.1.0.tgz#526360d4019f8bba7dd6434d6a9b6f8122507c20"
-  integrity sha512-qz4JFBZJCf1YN5cAXa1dP6Mki/HrsQxc/oYGAGx29dF2cwF2YMxHoly0FBhMw3IEnxo5fMj0boVfoHVBkpkx/w==
+"@rushstack/node-core-library@4.2.0":
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-4.2.0.tgz#710e7dd37c21010e12a3f23407a37aecefcc5896"
+  integrity sha512-y2+m9bbkl1Xe5pt+8gouzRXtXoA2r7B2xkGDT4lpSCpiAU7HNHmhmqxOz+vTmoCamuTj1zqQbgyuoZ1z9cGdag==
   dependencies:
     fs-extra "~7.0.1"
     import-lazy "~4.0.0"
@@ -2326,20 +2326,20 @@
     resolve "~1.22.1"
     strip-json-comments "~3.1.1"
 
-"@rushstack/terminal@0.10.1":
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.10.1.tgz#e2b54733f72d80fdf1cbbfd867733169c421d278"
-  integrity sha512-C6Vi/m/84IYJTkfzmXr1+W8Wi3MmBjVF/q3za91Gb3VYjKbpALHVxY6FgH625AnDe5Z0Kh4MHKWA3Z7bqgAezA==
+"@rushstack/terminal@0.10.2":
+  version "0.10.2"
+  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.10.2.tgz#63410cccd2355fd8a46a03a2f5c6409120eb246c"
+  integrity sha512-oMN4uoz6WUeLR9yWHSR4gEEii+8vjIJXPLp7U0k6zccgmOCJXYPKBK30FGpWfDRmqrcCIJi828SKV9V5FB1a0Q==
   dependencies:
-    "@rushstack/node-core-library" "4.1.0"
+    "@rushstack/node-core-library" "4.2.0"
     supports-color "~8.1.1"
 
-"@rushstack/ts-command-line@4.19.2":
-  version "4.19.2"
-  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.19.2.tgz#4aef9fd7abd598bb0dd236ca471111426a9dbf12"
-  integrity sha512-cqmXXmBEBlzo9WtyUrHtF9e6kl0LvBY7aTSVX4jfnBfXWZQWnPq9JTFPlQZ+L/ZwjZ4HrNwQsOVvhe9oOucZkw==
+"@rushstack/ts-command-line@4.19.3":
+  version "4.19.3"
+  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.19.3.tgz#c768d5ff70de78910c49aa9c0bbabcb567e365f9"
+  integrity sha512-gWJPWIlr1VC2byK3ZfXMoPLCNT6fFk4qXAb2x2deVRJpq/LQh03galWqissit8QCOS7mOJPyM42uWmT8f4MKRg==
   dependencies:
-    "@rushstack/terminal" "0.10.1"
+    "@rushstack/terminal" "0.10.2"
     "@types/argparse" "1.0.38"
     argparse "~1.0.9"
     string-argv "~0.3.1"
