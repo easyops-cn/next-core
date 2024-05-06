@@ -1022,6 +1022,9 @@ export interface UseProviderEventHandler {
   /** {@inheritDoc ProviderPollOptions} */
   poll?: ProviderPollOptions;
 
+  /** {@inheritDoc ProviderSSEOptions} */
+  sse?: ProviderSSEOptions;
+
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
 
@@ -1068,6 +1071,21 @@ export interface ProviderPollOptions {
    * 触发 `finally` 事件，不会触发 `progress|success|error` 等事件。
    */
   expectPollStopImmediately?: () => boolean;
+}
+
+export interface ProviderSSEOptions {
+  /** 是否启用流式输出。 */
+  stream?: boolean;
+
+  /**
+   * 将消息数据转换为迭代器结果。
+   *
+   * 默认实现将消息数据解析为 JSON 对象，特例：消息为 "[DONE]" 时表示结束。
+   *
+   * @param data 消息数据
+   * @returns 迭代器结果
+   */
+  converter?: (data: string) => IteratorResult<unknown, undefined>;
 }
 
 /**

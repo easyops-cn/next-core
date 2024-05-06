@@ -15,11 +15,13 @@ import { handleHttpError } from "../handleHttpError.js";
 import { applyTheme, applyMode } from "../themeAndMode.js";
 import { startPoll } from "./poll.js";
 import { hooks } from "./Runtime.js";
+import { startSSEStream } from "./sse.js";
 
 jest.mock("../history.js");
 jest.mock("../handleHttpError.js");
 jest.mock("../themeAndMode.js");
 jest.mock("./poll.js");
+jest.mock("./sse.js");
 jest.mock("./Runtime.js", () => ({
   hooks: {
     messageDispatcher: {
@@ -1151,6 +1153,42 @@ describe("listenerFactory for useProvider", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(startPoll).not.toBeCalled();
+    expect(myTimeoutProvider).toBeCalledTimes(1);
+  });
+
+  test("useProvider with sse stream", async () => {
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        args: [100, "resolved"],
+        sse: {
+          stream: "<% EVENT.detail === 'ok' %>" as unknown as boolean,
+        },
+        callback: {},
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(startSSEStream).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toBeCalledTimes(0);
+  });
+
+  test("useProvider with sse no stream", async () => {
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        args: [100, "resolved"],
+        sse: {
+          stream: "<% EVENT.detail !== 'ok' %>" as unknown as boolean,
+        },
+        callback: {},
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(startSSEStream).not.toBeCalled();
     expect(myTimeoutProvider).toBeCalledTimes(1);
   });
 });

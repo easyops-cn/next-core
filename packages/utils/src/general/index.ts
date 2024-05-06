@@ -1,4 +1,5 @@
 export * from "./createProviderClass.js";
+export * from "./createSSEStream.js";
 export * from "./deepFreeze.js";
 export * from "./hasOwnProperty.js";
 export * from "./isObject.js";

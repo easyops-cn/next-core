@@ -16,7 +16,18 @@ jest.mock("@next-core/http", () => ({
     requestWithBody: jest
       .fn()
       .mockResolvedValue({ data: "requestWithBody resolved" }),
+    getUrlWithParams: jest.fn(
+      (url, params) => url + "?" + new URLSearchParams(params).toString()
+    ),
+    getBodyAndHeaders: jest.fn((data, headers) => ({
+      body: JSON.stringify(data),
+      headers: new Headers({ ...headers, "Content-Type": "application/json" }),
+    })),
   },
+}));
+
+jest.mock("@next-core/utils/general", () => ({
+  createSSEStream: jest.fn((...args: unknown[]) => Promise.resolve(args)),
 }));
 
 const mockedSimpleRequest = http.simpleRequest as jest.Mock;
@@ -77,11 +88,31 @@ describe("callFlowApi", () => {
       { data: "simpleRequest resolved" },
       ["get", "/xxx/111", { responseType: "blob" }],
     ],
+    // stream
+    [
+      {
+        url: "/xxx",
+        method: "get",
+        stream: true,
+      },
+      undefined,
+      undefined,
+      [
+        "/xxx?",
+        {
+          headers: {},
+          method: "get",
+        },
+      ],
+      undefined,
+    ],
   ])(
     "CustomApi(%j) simple request should work",
     async (params1, params2, params3, result, simpleRequestArgs) => {
       expect(await callFlowApi(params1, params2, params3)).toEqual(result);
-      expect(mockedSimpleRequest).toBeCalledWith(...simpleRequestArgs);
+      if (simpleRequestArgs) {
+        expect(mockedSimpleRequest).toBeCalledWith(...simpleRequestArgs);
+      }
     }
   );
 
@@ -157,11 +188,34 @@ describe("callFlowApi", () => {
       { data: "requestWithBody resolved" },
       ["post", "/xxx/123", undefined, { responseType: "blob" }],
     ],
+    // stream
+    [
+      {
+        url: "/xxx",
+        method: "post",
+        stream: true,
+      },
+      { agent: "ai" },
+      undefined,
+      [
+        "/xxx",
+        {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: '{"agent":"ai"}',
+        },
+      ],
+      undefined,
+    ],
   ])(
     "CustomApi(%j) not simple request should work",
     async (params1, params2, params3, result, requestWithBodyArgs) => {
       expect(await callFlowApi(params1, params2, params3)).toEqual(result);
-      expect(mockedRequestWithBody).toBeCalledWith(...requestWithBodyArgs);
+      if (requestWithBodyArgs) {
+        expect(mockedRequestWithBody).toBeCalledWith(...requestWithBodyArgs);
+      }
     }
   );
 

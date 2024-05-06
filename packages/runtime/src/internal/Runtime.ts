@@ -81,7 +81,8 @@ export interface RuntimeHooks {
     getArgsOfFlowApi(
       provider: string,
       originalArgs: unknown[],
-      method?: string
+      method?: string,
+      stream?: boolean
     ): Promise<unknown[]>;
     collectContract(contracts: Contract[] | undefined): void;
     collectWidgetContract(contracts: Contract[] | undefined): void;
