@@ -398,7 +398,7 @@ export interface RuntimeHooks {
         FLOW_API_PROVIDER: string;
         registerFlowApiProvider(): void;
         isFlowApiProvider(provider: string): boolean;
-        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string): Promise<unknown[]>;
+        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string, stream?: boolean): Promise<unknown[]>;
         collectContract(contracts: Contract[] | undefined): void;
         collectWidgetContract(contracts: Contract[] | undefined): void;
         clearCollectWidgetContract(): void;
