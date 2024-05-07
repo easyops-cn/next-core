@@ -36,6 +36,7 @@ import { Notification } from "../Notification.js";
 import { getFormStateStore } from "./FormRenderer/utils.js";
 import { DataStore } from "./data/DataStore.js";
 import { hooks } from "./Runtime.js";
+import { startSSEStream } from "./sse.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -456,7 +457,8 @@ async function brickCallback(
       computedArgs = await hooks.flowApi.getArgsOfFlowApi(
         handler.useProvider,
         computedArgs,
-        method
+        method,
+        handler.sse?.stream
       );
     }
     return (target as any)[method](...computedArgs);
@@ -485,6 +487,20 @@ async function brickCallback(
       ...runtimeContext,
       event,
     };
+
+    const sseStream = computeRealValue(
+      handler.sse?.stream,
+      pollRuntimeContext
+    ) as boolean | undefined;
+
+    if (sseStream) {
+      startSSEStream(
+        task as () => Promise<AsyncIterable<unknown>>,
+        pollableCallback
+      );
+      return;
+    }
+
     const pollEnabled = computeRealValue(
       handler.poll?.enabled,
       pollRuntimeContext

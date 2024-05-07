@@ -38,6 +38,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@next-core/cook": "^2.2.14",
     "@next-core/types": "^1.9.0",
     "file-saver": "^2.0.5",

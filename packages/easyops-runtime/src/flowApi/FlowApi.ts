@@ -17,7 +17,8 @@ export function isFlowApiProvider(provider: string): boolean {
 export async function getArgsOfFlowApi(
   provider: string,
   originalArgs: unknown[],
-  method?: string
+  method?: string,
+  stream?: boolean
 ): Promise<unknown[]> {
   if (!provider.includes(":")) {
     throw new Error(
@@ -33,7 +34,7 @@ export async function getArgsOfFlowApi(
 
   const apiProfile = getApiProfileFromApiDefinition(provider, apiDefinition);
 
-  return getApiArgsFromApiProfile(apiProfile, originalArgs, method);
+  return getApiArgsFromApiProfile(apiProfile, originalArgs, method, stream);
 }
 
 function getApiArgsFromApiProfile(
@@ -50,7 +51,8 @@ function getApiArgsFromApiProfile(
     request,
   }: CustomApiProfile,
   originalArgs: unknown[],
-  method?: string
+  method?: string,
+  stream?: boolean
 ): unknown[] {
   // `saveAs` requires the first argument to be the filename.
   const isDownload = method === "saveAs";
@@ -78,6 +80,7 @@ function getApiArgsFromApiProfile(
       responseWrapper,
       request,
       isFileType,
+      stream,
     },
     ...args,
   ];

@@ -77,47 +77,12 @@ if (useLocalContainer) {
 const proxy = getProxy(env, getRawIndexHtml);
 if (proxy) {
   for (const options of proxy) {
-    if (options.context === `${baseHref}api/`) {
-      app.use(
-        createProxyMiddleware(
-          (pathname, req) => {
-            // DO NOT intercept SSE requests.
-            const matched =
-              pathname.startsWith(options.context) &&
-              req.headers["accept"] === "text/event-stream";
-            return matched;
-          },
-          {
-            logLevel: "warn",
-            ...options,
-            selfHandleResponse: false,
-            onProxyRes: undefined,
-          }
-        )
-      );
-      app.use(
-        createProxyMiddleware(
-          (pathname, req) => {
-            // Intercept requests other than  SSE.
-            const matched =
-              pathname.startsWith(options.context) &&
-              req.headers["accept"] !== "text/event-stream";
-            return matched;
-          },
-          {
-            logLevel: "warn",
-            ...options,
-          }
-        )
-      );
-    } else {
-      app.use(
-        createProxyMiddleware(options.context, {
-          logLevel: "warn",
-          ...options,
-        })
-      );
-    }
+    app.use(
+      createProxyMiddleware(options.context, {
+        logLevel: "warn",
+        ...options,
+      })
+    );
   }
 }
 
