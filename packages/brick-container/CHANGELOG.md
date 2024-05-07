@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.15.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.4...@next-core/brick-container@3.15.5) (2024-05-07)
+
+
+### Bug Fixes
+
+* support sse stream in start mode ([e8bba88](https://github.com/easyops-cn/next-core/commit/e8bba88c330276aa5d0e880c46b07c5549e0af12))
+
+
+
+
+
 ## [3.15.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.3...@next-core/brick-container@3.15.4) (2024-05-02)
 
 
