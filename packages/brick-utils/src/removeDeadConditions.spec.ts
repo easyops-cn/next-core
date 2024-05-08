@@ -13,335 +13,371 @@ import {
 type MaybeArray<T> = T | T[];
 
 describe("removeDeadConditions", () => {
-  it.each<[MaybeArray<Partial<BrickConf>>, MaybeArray<Partial<BrickConf>>]>([
-    [{ brick: "a" }, { brick: "a" }],
-    [{ brick: "a", if: false }, null],
+  it.each<[MaybeArray<Partial<BrickConf>>, MaybeArray<Partial<BrickConf>>]>(
     [
-      { brick: "a", if: '<% FLAGS["enabled"] %>' },
-      { brick: "a", if: true },
-    ],
-    [{ brick: "a", if: '<% !FLAGS["enabled"] %>' }, null],
-    [
-      // Logical expressions
+      [{ brick: "a" }, { brick: "a" }],
+      [{ brick: "a", if: false }, null],
       [
-        { brick: "a", if: '<% FLAGS["disabled"] || CTX.any %>' },
-        { brick: "b", if: "<% FLAGS.disabled && CTX.any %>" },
-        { brick: "c", if: '<% CTX.any && !FLAGS["enabled"] %>' },
-        { brick: "d", if: "<% !(FLAGS.enabled || CTX.any) %>" },
-        { brick: "e", if: "<% !(CTX.any || !null) %>" },
-        { brick: "f", if: "<% 0 && CTX.any %>" },
-        { brick: "g", if: "<% !(CTX.any || !undefined) %>" },
-        { brick: "h", if: "<% undefined && CTX.any %>" },
-        { brick: "i", if: "<% HASH && CTX.any %>" },
-        { brick: "j", if: "<% !HASH && CTX.any %>" },
-        { brick: "k", if: "<% FLAGS[disabled] && CTX.any %>" },
+        { brick: "a", if: '<% FLAGS["enabled"] %>' },
+        { brick: "a", if: true },
+      ],
+      [{ brick: "a", if: '<% !FLAGS["enabled"] %>' }, null],
+      [
+        // Logical expressions
+        [
+          { brick: "a", if: '<% FLAGS["disabled"] || CTX.any %>' },
+          { brick: "b", if: "<% FLAGS.disabled && CTX.any %>" },
+          { brick: "c", if: '<% CTX.any && !FLAGS["enabled"] %>' },
+          { brick: "d", if: "<% !(FLAGS.enabled || CTX.any) %>" },
+          { brick: "e", if: "<% !(CTX.any || !null) %>" },
+          { brick: "f", if: "<% 0 && CTX.any %>" },
+          { brick: "g", if: "<% !(CTX.any || !undefined) %>" },
+          { brick: "h", if: "<% undefined && CTX.any %>" },
+          { brick: "i", if: "<% HASH && CTX.any %>" },
+          { brick: "j", if: "<% !HASH && CTX.any %>" },
+          { brick: "k", if: "<% FLAGS[disabled] && CTX.any %>" },
+        ],
+        [
+          { brick: "a", if: '<% FLAGS["disabled"] || CTX.any %>' },
+          { brick: "i", if: "<% HASH && CTX.any %>" },
+          { brick: "j", if: "<% !HASH && CTX.any %>" },
+          { brick: "k", if: "<% FLAGS[disabled] && CTX.any %>" },
+        ],
       ],
       [
-        { brick: "a", if: '<% FLAGS["disabled"] || CTX.any %>' },
-        { brick: "i", if: "<% HASH && CTX.any %>" },
-        { brick: "j", if: "<% !HASH && CTX.any %>" },
-        { brick: "k", if: "<% FLAGS[disabled] && CTX.any %>" },
+        // Multiple items.
+        [
+          { brick: "a", if: false },
+          { brick: "b", if: '<% FLAGS["enabled"] %>' },
+        ],
+        [{ brick: "b", if: true }],
       ],
-    ],
-    [
-      // Multiple items.
       [
-        { brick: "a", if: false },
-        { brick: "b", if: '<% FLAGS["enabled"] %>' },
-      ],
-      [{ brick: "b", if: true }],
-    ],
-    [
-      // Slots
-      {
-        brick: "a",
-        slots: {
-          b: {
-            type: "bricks",
-            bricks: [
-              {
-                brick: "c",
-                if: '<% FLAGS["disabled"] %>',
-              },
-            ],
-          },
-          d: {
-            type: "routes",
-            routes: [
-              {
-                path: "/d",
-                if: '<% FLAGS["disabled"] %>',
-                bricks: [],
-              },
-            ],
-          },
-        },
-      },
-      {
-        brick: "a",
-        slots: {
-          b: {
-            type: "bricks",
-            bricks: [],
-          },
-          d: {
-            type: "routes",
-            routes: [],
-          },
-        },
-      },
-    ],
-    [
-      // Events
-      {
-        brick: "a",
-        events: {
-          click: {
-            useProvider: "c",
-            if: '<% FLAGS["disabled"] %>',
-          },
-          dblclick: [
-            {
-              useProvider: "d",
-              if: '<% FLAGS["enabled"] %>',
-              callback: {
-                success: {
-                  action: "console.log",
+        // Slots
+        {
+          brick: "a",
+          slots: {
+            b: {
+              type: "bricks",
+              bricks: [
+                {
+                  brick: "c",
                   if: '<% FLAGS["disabled"] %>',
                 },
-              },
+              ],
             },
-            {
-              useProvider: "e",
-              if: '<% FLAGS["disabled"] %>',
-            },
-          ],
-          contextmenu: {
-            useProvider: "f",
-            callback: {
-              success: {
-                action: "console.log",
-                if: '<% FLAGS["enabled"] %>',
-              },
+            d: {
+              type: "routes",
+              routes: [
+                {
+                  path: "/d",
+                  if: '<% FLAGS["disabled"] %>',
+                  bricks: [],
+                },
+              ],
             },
           },
-          keydown: {
-            if: "<% false && CTX.abc %>",
-            then: {
-              action: "console.log",
-            },
-            else: {
-              action: "console.info",
-            },
-          },
-          keyup: {
-            if: "<% true || CTX.abc %>",
-            then: {
-              action: "console.log",
-            },
-            else: {
-              action: "console.info",
-            },
-          },
-          oops: null,
         },
-      },
-      {
-        brick: "a",
-        events: {
-          dblclick: [
-            {
-              useProvider: "d",
-              if: true,
-              callback: {},
+        {
+          brick: "a",
+          slots: {
+            b: {
+              type: "bricks",
+              bricks: [],
             },
-          ],
-          contextmenu: {
-            useProvider: "f",
-            callback: {
-              success: {
-                action: "console.log",
-                if: true,
-              },
+            d: {
+              type: "routes",
+              routes: [],
             },
           },
-          keydown: {
-            then: {
-              action: "console.info",
-            },
-          },
-          keyup: {
-            if: true,
-            then: {
-              action: "console.log",
-            },
-          },
-          oops: null,
         },
-      },
-    ],
-    [
-      // LifeCycle
-      {
-        brick: "a",
-        lifeCycle: {
-          useResolves: [
-            {
-              useProvider: "b",
-              if: '<% FLAGS["enabled"] %>',
-            },
-            {
+      ],
+      [
+        // Events
+        {
+          brick: "a",
+          events: {
+            click: {
               useProvider: "c",
               if: '<% FLAGS["disabled"] %>',
             },
-          ],
-          onPageLoad: [
-            {
-              action: "console.log",
-              if: '<% FLAGS["disabled"] %>',
-            },
-            {
-              action: "console.warn",
-              if: '<% FLAGS["enabled"] %>',
-            },
-          ],
-          onPageLeave: {
-            action: "console.log",
-            if: '<% FLAGS["disabled"] %>',
-          },
-          onMessage: [
-            {
-              channel: "any",
-              handlers: [
-                {
-                  action: "console.log",
-                  if: '<% FLAGS["disabled"] %>',
-                },
-                {
-                  action: "console.warn",
-                  if: '<% FLAGS["enabled"] %>',
-                },
-              ],
-            },
-          ],
-        },
-      },
-      {
-        brick: "a",
-        lifeCycle: {
-          useResolves: [
-            {
-              useProvider: "b",
-              if: true,
-            },
-          ],
-          onPageLoad: [
-            {
-              action: "console.warn",
-              if: true,
-            },
-          ],
-          onMessage: [
-            {
-              channel: "any",
-              handlers: [
-                {
-                  action: "console.warn",
-                  if: true,
-                },
-              ],
-            },
-          ],
-        },
-      },
-    ],
-    [
-      // UseBrick
-      {
-        brick: "a",
-        properties: {
-          useBrick: [
-            {
-              brick: "b",
-              properties: {
-                b1: [
-                  {
-                    useBrick: [
-                      {
-                        brick: "c",
-                        if: true,
-                      },
-                      {
-                        brick: "c-1",
-                        if: false,
-                      },
-                    ],
-                  },
-                ],
-                b2: {
-                  useBrick: {
-                    brick: "d",
+            dblclick: [
+              {
+                useProvider: "d",
+                if: '<% FLAGS["enabled"] %>',
+                callback: {
+                  success: {
+                    action: "console.log",
                     if: '<% FLAGS["disabled"] %>',
                   },
                 },
               },
-            },
-            {
-              brick: "e",
-              if: '<% FLAGS["enabled"] %>',
-              slots: {
-                e1: {
-                  bricks: [
-                    { brick: "f" },
-                    { brick: "g", if: '<% FLAGS["disabled"] %>' },
-                  ],
+              {
+                useProvider: "e",
+                if: '<% FLAGS["disabled"] %>',
+              },
+            ],
+            contextmenu: {
+              useProvider: "f",
+              callback: {
+                success: {
+                  action: "console.log",
+                  if: '<% FLAGS["enabled"] %>',
                 },
               },
             },
-            {
-              brick: "e",
+            keydown: {
+              if: "<% false && CTX.abc %>",
+              then: {
+                action: "console.log",
+              },
+              else: {
+                action: "console.info",
+              },
+            },
+            keyup: {
+              if: "<% true || CTX.abc %>",
+              then: {
+                action: "console.log",
+              },
+              else: {
+                action: "console.info",
+              },
+            },
+            oops: null,
+          },
+        },
+        {
+          brick: "a",
+          events: {
+            dblclick: [
+              {
+                useProvider: "d",
+                if: true,
+                callback: {},
+              },
+            ],
+            contextmenu: {
+              useProvider: "f",
+              callback: {
+                success: {
+                  action: "console.log",
+                  if: true,
+                },
+              },
+            },
+            keydown: {
+              then: {
+                action: "console.info",
+              },
+            },
+            keyup: {
+              if: true,
+              then: {
+                action: "console.log",
+              },
+            },
+            oops: null,
+          },
+        },
+      ],
+      [
+        // LifeCycle
+        {
+          brick: "a",
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "b",
+                if: '<% FLAGS["enabled"] %>',
+              },
+              {
+                useProvider: "c",
+                if: '<% FLAGS["disabled"] %>',
+              },
+            ],
+            onPageLoad: [
+              {
+                action: "console.log",
+                if: '<% FLAGS["disabled"] %>',
+              },
+              {
+                action: "console.warn",
+                if: '<% FLAGS["enabled"] %>',
+              },
+            ],
+            onPageLeave: {
+              action: "console.log",
               if: '<% FLAGS["disabled"] %>',
             },
-          ],
-        },
-      },
-      {
-        brick: "a",
-        properties: {
-          useBrick: [
-            {
-              brick: "b",
-              properties: {
-                b1: [
+            onMessage: [
+              {
+                channel: "any",
+                handlers: [
                   {
-                    useBrick: {
-                      brick: "c",
-                      if: true,
-                    },
+                    action: "console.log",
+                    if: '<% FLAGS["disabled"] %>',
+                  },
+                  {
+                    action: "console.warn",
+                    if: '<% FLAGS["enabled"] %>',
                   },
                 ],
-                b2: {
-                  useBrick: {
-                    brick: "div",
-                    if: false,
+              },
+            ],
+          },
+        },
+        {
+          brick: "a",
+          lifeCycle: {
+            useResolves: [
+              {
+                useProvider: "b",
+                if: true,
+              },
+            ],
+            onPageLoad: [
+              {
+                action: "console.warn",
+                if: true,
+              },
+            ],
+            onMessage: [
+              {
+                channel: "any",
+                handlers: [
+                  {
+                    action: "console.warn",
+                    if: true,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+      [
+        // UseBrick
+        {
+          brick: "a",
+          properties: {
+            useBrick: [
+              {
+                brick: "b",
+                properties: {
+                  b1: [
+                    {
+                      useBrick: [
+                        {
+                          brick: "c",
+                          if: true,
+                        },
+                        {
+                          brick: "c-1",
+                          if: false,
+                        },
+                      ],
+                    },
+                  ],
+                  b2: {
+                    useBrick: {
+                      brick: "d",
+                      if: '<% FLAGS["disabled"] %>',
+                    },
                   },
                 },
               },
-            },
-            {
-              brick: "e",
-              if: true,
-              slots: {
-                e1: {
-                  bricks: [{ brick: "f" }],
+              {
+                brick: "e",
+                if: '<% FLAGS["enabled"] %>',
+                slots: {
+                  e1: {
+                    bricks: [
+                      { brick: "f" },
+                      { brick: "g", if: '<% FLAGS["disabled"] %>' },
+                    ],
+                  },
                 },
               },
-            },
-          ],
+              {
+                brick: "e",
+                if: '<% FLAGS["disabled"] %>',
+              },
+            ],
+          },
         },
-      },
-    ],
-  ])("should work for bricks: %j", (input, output) => {
+        {
+          brick: "a",
+          properties: {
+            useBrick: [
+              {
+                brick: "b",
+                properties: {
+                  b1: [
+                    {
+                      useBrick: {
+                        brick: "c",
+                        if: true,
+                      },
+                    },
+                  ],
+                  b2: {
+                    useBrick: {
+                      brick: "div",
+                      if: false,
+                    },
+                  },
+                },
+              },
+              {
+                brick: "e",
+                if: true,
+                slots: {
+                  e1: {
+                    bricks: [{ brick: "f" }],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
+      [
+        {
+          brick: "a",
+          events: {
+            click: [
+              {
+                if: true,
+                then: [
+                  {
+                    if: "<% FLAGS['disabled'] %>",
+                    then: [{ action: "console.log" }],
+                    else: [{ action: "console.warn" }],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          brick: "a",
+          events: {
+            click: [
+              {
+                if: true,
+                then: [
+                  {
+                    then: [{ action: "console.warn" }],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+    ] /* .filter((_, i, a) => i === a.length - 1) as any[] */
+  )("should work for bricks: %j", (input, output) => {
     const storyboard = {
       routes: [{ bricks: [].concat(input) }],
     } as RuntimeStoryboard;
