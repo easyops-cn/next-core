@@ -21,12 +21,15 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV='development' build-next-bricks --watch",
-    "build": "cross-env NODE_ENV='production' build-next-bricks"
+    "build": "cross-env NODE_ENV='production' build-next-bricks",
+    "test": "cross-env NODE_ENV='test' test-next",
+    "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.20.8",
     "@next-core/http": "^1.2.0",
     "@next-core/runtime": "^1.41.0",
+    "@next-core/test-next": "^1.0.17",
     "@next-core/theme": "^1.5.0",
     "@next-core/types": "^1.10.0",
     "@next-core/utils": "^1.7.0",
