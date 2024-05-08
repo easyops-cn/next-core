@@ -33,7 +33,7 @@
   "dependencies": {
     "@babel/core": "^7.24.5",
     "@testing-library/jest-dom": "^6.4.5",
-    "@testing-library/react": "^15.0.6",
+    "@testing-library/react": "^15.0.7",
     "babel-jest": "^29.7.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
