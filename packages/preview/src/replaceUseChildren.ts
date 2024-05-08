@@ -1,5 +1,6 @@
 import type { BrickConf, SlotConfOfBricks } from "@next-core/types";
 import { isObject } from "@next-core/utils/general";
+import { pull } from "lodash";
 
 const USE_CHILDREN_SLOT_REGEXP = /^\[\w+\]$/;
 
@@ -13,20 +14,40 @@ export function replaceUseChildren(bricks: BrickConf[]) {
 }
 
 function replaceInBrick(brick: BrickConf) {
-  const slots = brick.slots ?? {};
+  let slots = brick.slots;
   const useChildrenMap = new Map<string, BrickConf[]>();
-  for (const [slot, slotConf] of Object.entries(slots)) {
-    if (USE_CHILDREN_SLOT_REGEXP.test(slot)) {
-      const { bricks: children } = slotConf as SlotConfOfBricks;
-      if (Array.isArray(children) && children.length > 0) {
-        useChildrenMap.set(slot, children);
-        replaceUseChildren(children);
+  if (Array.isArray(brick.children) && !slots) {
+    const removeBricks: BrickConf[] = [];
+    for (const child of brick.children) {
+      const slot = child.slot ?? "";
+      if (USE_CHILDREN_SLOT_REGEXP.test(slot)) {
+        delete child.slot;
+        const children = useChildrenMap.get(slot);
+        if (children) {
+          children.push(child);
+        } else {
+          useChildrenMap.set(slot, [child]);
+        }
+        removeBricks.push(child);
       }
-      delete slots[slot];
+      replaceInBrick(child);
     }
+    pull(brick.children, ...removeBricks);
+  } else {
+    slots ??= {};
+    for (const [slot, slotConf] of Object.entries(slots)) {
+      if (USE_CHILDREN_SLOT_REGEXP.test(slot)) {
+        const { bricks: children } = slotConf as SlotConfOfBricks;
+        if (Array.isArray(children) && children.length > 0) {
+          useChildrenMap.set(slot, children);
+          replaceUseChildren(children);
+        }
+        delete slots[slot];
+      }
 
-    if (Array.isArray((slotConf as SlotConfOfBricks).bricks)) {
-      replaceUseChildren((slotConf as SlotConfOfBricks).bricks);
+      if (Array.isArray((slotConf as SlotConfOfBricks).bricks)) {
+        replaceUseChildren((slotConf as SlotConfOfBricks).bricks);
+      }
     }
   }
 
