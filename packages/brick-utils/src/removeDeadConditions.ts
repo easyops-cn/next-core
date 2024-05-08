@@ -72,13 +72,6 @@ function removeDeadConditionsByAst(
 
   // Then, we remove dead conditions accordingly.
   traverse(ast, (node) => {
-    // let conditionalNodes: ConditionalStoryboardNode[];
-    // let rawContainer: any;
-    // let rawKey: string;
-    // let deleteEmptyArray = false;
-    // let isUseBrickEntry = false;
-    // let keepConditionalHandlers = false;
-
     switch (node.type) {
       case "Root":
         shakeConditionalNodes(node.routes, node.raw, "routes");
@@ -104,7 +97,6 @@ function removeDeadConditionsByAst(
       case "ConditionalEvent":
         shakeConditionalNodes(node.handlers, node.rawContainer, node.rawKey, {
           deleteEmptyArray: true,
-          keepConditionalHandlers: true,
         });
         break;
       case "ResolveLifeCycle":
@@ -155,20 +147,15 @@ function shakeConditionalNodes(
   {
     deleteEmptyArray,
     isUseBrickEntry,
-    keepConditionalHandlers,
   }: {
     deleteEmptyArray?: boolean;
     isUseBrickEntry?: boolean;
-    keepConditionalHandlers?: boolean;
   } = {}
 ): void {
   const removedNodes: ConditionalStoryboardNode[] = [];
   if (Array.isArray(conditionalNodes)) {
     for (const node of conditionalNodes) {
-      if (
-        keepConditionalHandlers &&
-        (node as StoryboardNodeEventHandler).else?.length
-      ) {
+      if ((node as StoryboardNodeEventHandler).else?.length) {
         switch (node.raw.if) {
           case false:
             (node as StoryboardNodeEventHandler).then = (
