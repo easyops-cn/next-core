@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.51.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.17...@next-core/brick-utils@2.51.18) (2024-05-08)
+
+
+### Bug Fixes
+
+* keep conditional handlers if has `else` ([0716b97](https://github.com/easyops-cn/next-core/commit/0716b9785c4cd0b583d0e9036280abb5c8f1a413))
+
+
+
+
+
 ## [2.51.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.16...@next-core/brick-utils@2.51.17) (2024-04-03)
 
 **Note:** Version bump only for package @next-core/brick-utils
