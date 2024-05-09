@@ -339,8 +339,12 @@ export default function getProxy(env, getRawIndexHtml) {
                     });
                   }
                   return injectIndexHtml(env, rawIndexHtml);
-                } else if (baseHref !== "/next/") {
-                  let htmlContent = content.replaceAll("/next/", baseHref);
+                } else {
+                  let htmlContent = content;
+
+                  if (baseHref !== "/next/") {
+                    htmlContent = htmlContent.replaceAll("/next/", baseHref);
+                  }
 
                   const publicDeps = htmlContent.match(
                     /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
