@@ -260,6 +260,7 @@ export interface AuthInfo {
   csrfToken?: string;
   license?: Record<string, any>;
   userShowValue?: string[];
+  accessToken?: string;
 }
 
 /** @internal */
