@@ -2379,15 +2379,10 @@
   dependencies:
     "@next-core/styles-v3" "^0.3.3"
 
-"@next-sdk/api-gateway-sdk@^2.11.0":
+"@next-sdk/api-gateway-sdk@^2.11.0", "@next-sdk/api-gateway-sdk@^2.7.0":
   version "2.11.0"
   resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.11.0.tgz#e64706247191609181730fcfb40dc9b090f969c9"
   integrity sha512-VP88tuDS19zsPnRJeNUEsVsh851YupxaNUNPbQdoMxGZDmXpA5Af16VHgYmXSwYJUeCGBvXgPJrS8sWrEzZhVA==
-
-"@next-sdk/api-gateway-sdk@^2.7.0":
-  version "2.7.0"
-  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.7.0.tgz#2277680f2a4f59114a5e1d02257da4e85b2029f7"
-  integrity sha512-MO336CYZGflnazpLAHTa4oxvDJstypVl84h56BdWOoty89SBhJSfQ4Mn7IftMW4NxZbzPfm9IsvSVvFgcOzrMQ==
 
 "@next-sdk/auth-sdk@^1.0.0":
   version "1.0.1"
@@ -2414,10 +2409,10 @@
   resolved "https://registry.npmjs.org/@next-sdk/user-service-sdk/-/user-service-sdk-2.1.1.tgz#44ef1a59bf2d5a50ab0d3a62860cb39379018c5c"
   integrity sha512-eGbCuSwZmzbz5AJdDLCM36euD7iTEfcnLmPVTk3UrbV0HT8b5xQdYj4KD0Jl4kldy3PlSat3XhT/mDpMg0V9XQ==
 
-"@next-shared/icons@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.npmjs.org/@next-shared/icons/-/icons-0.6.1.tgz#5254dc049b336fa49a37e5905310191e4aef4708"
-  integrity sha512-QPYUDqnZN57t5AIRdeBzRYuSSAF48N1P4rtXSIYHQoVg77G/FtYAPVfZha44oCVVPS9A9U0wO/8HW5DPa6Lp/w==
+"@next-shared/icons@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.npmjs.org/@next-shared/icons/-/icons-0.8.0.tgz#a0a0803232cabc4286832666a93322c7a97c92bd"
+  integrity sha512-D07uUC8RuBhq1zqBYro05w9qKAQ7c1qpWxjFJo7nnZRgEnn/mi8t2UUs+wCvNU6ecHpiodq5w9o9KxJ15PqlqQ==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
