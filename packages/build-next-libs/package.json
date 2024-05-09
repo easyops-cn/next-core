@@ -20,7 +20,7 @@
   "dependencies": {
     "@babel/cli": "^7.24.5",
     "@babel/core": "^7.24.5",
-    "execa": "^5.1.1",
+    "execa": "^9.0.0",
     "rimraf": "^3.0.2"
   }
 }
