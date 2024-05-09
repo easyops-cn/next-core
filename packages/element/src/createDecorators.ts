@@ -7,7 +7,7 @@ import type {
   HasChanged,
   PropertyDeclaration,
 } from "./interfaces.js";
-import { NextElement } from "./NextElement.js";
+import type { NextElement } from "./NextElement.js";
 import {
   symbolOfAttributeHasBeenSet,
   symbolOfMarkAttributeHasBeenSet,
@@ -300,7 +300,7 @@ export function createDecorators() {
 
   function method(options?: { bound?: boolean }) {
     return function (
-      value: Function,
+      _value: Function,
       {
         kind,
         name,
