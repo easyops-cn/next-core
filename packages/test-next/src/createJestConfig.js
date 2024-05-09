@@ -14,6 +14,7 @@ export function createJestConfig({
   transformModulePatterns = [],
   moduleNameMapper,
   testPathIgnorePatterns = [],
+  coveragePathIgnorePatterns = [],
   coverageProvider,
 }) {
   const projectRoot = "<rootDir>/../..";
@@ -29,7 +30,10 @@ export function createJestConfig({
     collectCoverageFrom: ["**/*.{js,jsx,ts,tsx}"],
     collectCoverage: true,
     coverageDirectory: "<rootDir>/.coverage",
-    coveragePathIgnorePatterns: ["/__(?:fixtures|mocks)__/"],
+    coveragePathIgnorePatterns: [
+      "/__(?:fixtures|mocks)__/",
+      ...coveragePathIgnorePatterns,
+    ],
     coverageReporters: ["text-summary", process.env.CI ? "cobertura" : "lcov"],
     transform: {
       "^.+\\.[jt]sx?$": [
