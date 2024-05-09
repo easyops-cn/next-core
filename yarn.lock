@@ -2379,6 +2379,11 @@
   dependencies:
     "@next-core/styles-v3" "^0.3.3"
 
+"@next-sdk/api-gateway-sdk@^2.11.0":
+  version "2.11.0"
+  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.11.0.tgz#e64706247191609181730fcfb40dc9b090f969c9"
+  integrity sha512-VP88tuDS19zsPnRJeNUEsVsh851YupxaNUNPbQdoMxGZDmXpA5Af16VHgYmXSwYJUeCGBvXgPJrS8sWrEzZhVA==
+
 "@next-sdk/api-gateway-sdk@^2.7.0":
   version "2.7.0"
   resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.7.0.tgz#2277680f2a4f59114a5e1d02257da4e85b2029f7"
