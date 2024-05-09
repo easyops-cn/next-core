@@ -17,6 +17,7 @@ export function authenticate(newAuth: AuthInfo): void {
     isAdmin: newAuth.isAdmin,
     csrfToken: newAuth.csrfToken,
     license: newAuth.license,
+    accessToken: newAuth.accessToken,
     userShowValue: newAuth.userShowValue,
   });
 }

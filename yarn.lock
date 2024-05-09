@@ -1965,6 +1965,13 @@
   dependencies:
     "@next-core/http" "^1.0.0"
 
+"@next-api-sdk/api-gateway-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@next-api-sdk/api-gateway-sdk/-/api-gateway-sdk-1.2.0.tgz#68a49bf50f76c626234ce53cb3606f7dbeb2ca97"
+  integrity sha512-HG6wSG2hoH+ZXEH/AUIsbhUwtzXQgWKU7usrFVVQsGmqIQscjRYMSlCqEAJixP1IG9vQ0D+kkkaeAoSnhX3nEg==
+  dependencies:
+    "@next-core/http" "^1.0.0"
+
 "@next-api-sdk/cmdb-sdk@^1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@next-api-sdk/cmdb-sdk/-/cmdb-sdk-1.1.0.tgz#5c99b7b6ad51b2d2d4417a1d824ccf208caf8346"
