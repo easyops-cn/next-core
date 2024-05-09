@@ -1,6 +1,6 @@
 {
   "name": "@next-core/utils",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/utils",
   "license": "GPL-3.0",
   "repository": {
@@ -39,14 +39,14 @@
   },
   "dependencies": {
     "@microsoft/fetch-event-source": "^2.0.1",
-    "@next-core/cook": "^2.2.14",
+    "@next-core/cook": "^2.2.15",
     "@next-core/types": "^1.10.0",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.14",
-    "@next-core/test-next": "^1.0.17",
+    "@next-core/test-next": "^1.1.0",
     "@types/file-saver": "^2.0.7"
   }
 }

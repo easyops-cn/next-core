@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.15](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.14...@next-core/cook@2.2.15) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/cook
+
+
+
+
+
 ## [2.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.13...@next-core/cook@2.2.14) (2024-04-16)
 
 **Note:** Version bump only for package @next-core/cook
