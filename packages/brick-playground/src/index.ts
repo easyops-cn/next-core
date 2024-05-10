@@ -251,7 +251,7 @@ async function main() {
   let previewWin: PreviewWindow;
   const iframeReady = new Promise<void>((resolve, reject) => {
     iframe.addEventListener("load", () => {
-      previewWin = iframe.contentWindow as unknown as PreviewWindow;
+      previewWin = iframe.contentWindow as PreviewWindow;
       resolve();
     });
     iframe.addEventListener("error", (reason) => {

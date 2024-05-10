@@ -1,4 +1,4 @@
-import type { MicroApp } from "@next-core/types";
+import type { BrickPackage, MicroApp } from "@next-core/types";
 
 export type RenderType = "html" | "yaml";
 
@@ -20,10 +20,15 @@ export interface RenderOptions {
   templatesAreArrayOfYaml?: boolean;
 }
 
-export interface PreviewWindow {
-  _preview_only_render(
+export interface PreviewWindow extends Window {
+  _preview_only_render?(
     type: RenderType,
     files: Sources,
     options?: RenderOptions
   ): unknown;
+  _preview_only_inject?(
+    brick: string,
+    pkg: BrickPackage,
+    options?: unknown
+  ): Promise<void>;
 }
