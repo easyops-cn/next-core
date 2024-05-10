@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.11.3...@next-core/brick-playground@1.12.0) (2024-05-10)
+
+
+### Features
+
+* **preview:** support _preview_only_inject ([2dd3226](https://github.com/easyops-cn/next-core/commit/2dd322675d00e2a892ee2eb7b4677e4589fb2b34))
+
+
+
+
+
 ## [1.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.11.2...@next-core/brick-playground@1.11.3) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/brick-playground

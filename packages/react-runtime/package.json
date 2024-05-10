@@ -1,6 +1,6 @@
 {
   "name": "@next-core/react-runtime",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/react-runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -37,15 +37,15 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/react-element": "^1.0.25",
-    "@next-core/runtime": "^1.41.1",
+    "@next-core/react-element": "^1.0.26",
+    "@next-core/runtime": "^1.41.2",
     "@next-core/types": "^1.10.0",
     "react": "0.0.0-experimental-ee8509801-20230117",
     "react-dom": "0.0.0-experimental-ee8509801-20230117"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.14",
-    "@next-core/test-next": "^1.1.0",
+    "@next-core/build-next-libs": "^1.0.15",
+    "@next-core/test-next": "^1.1.1",
     "@testing-library/react": "^15.0.7",
     "@testing-library/react-hooks": "^8.0.1",
     "jest-fetch-mock": "^3.0.3"
