@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.7...@next-core/build-next-bricks@1.20.8) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.20.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.6...@next-core/build-next-bricks@1.20.7) (2024-04-03)
 
 

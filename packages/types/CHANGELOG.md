@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.9.0...@next-core/types@1.10.0) (2024-05-07)
+
+
+### Features
+
+* sse stream ([1803b51](https://github.com/easyops-cn/next-core/commit/1803b512128779bcf311f3ef43278d1a7dad7981))
+
+
+
+
+
 # [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.8.1...@next-core/types@1.9.0) (2024-04-08)
 
 

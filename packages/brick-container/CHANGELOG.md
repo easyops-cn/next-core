@@ -3,6 +3,126 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.15.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.8...@next-core/brick-container@3.15.9) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.7...@next-core/brick-container@3.15.8) (2024-05-09)
+
+
+### Bug Fixes
+
+* 修复构件仓库调试报错问题 ([525bea9](https://github.com/easyops-cn/next-core/commit/525bea947019e1dca463ef29bf158607c408ffc7))
+
+
+
+
+
+## [3.15.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.6...@next-core/brick-container@3.15.7) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.5...@next-core/brick-container@3.15.6) (2024-05-08)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.4...@next-core/brick-container@3.15.5) (2024-05-07)
+
+
+### Bug Fixes
+
+* support sse stream in start mode ([e8bba88](https://github.com/easyops-cn/next-core/commit/e8bba88c330276aa5d0e880c46b07c5549e0af12))
+
+
+
+
+
+## [3.15.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.3...@next-core/brick-container@3.15.4) (2024-05-02)
+
+
+### Bug Fixes
+
+* bypass SSE requests ([fab1834](https://github.com/easyops-cn/next-core/commit/fab183467db79bd3eb7d66adc10ff27ea7142f08))
+
+
+
+
+
+## [3.15.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.2...@next-core/brick-container@3.15.3) (2024-04-30)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.1...@next-core/brick-container@3.15.2) (2024-04-28)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.0...@next-core/brick-container@3.15.1) (2024-04-28)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+# [3.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.10...@next-core/brick-container@3.15.0) (2024-04-22)
+
+
+### Features
+
+* support userConfig.settings.locales ([942e9cc](https://github.com/easyops-cn/next-core/commit/942e9cc5224ca98631fb85fc44b08b15ed970cbb))
+* support userConfig.settings.locales ([7b0342c](https://github.com/easyops-cn/next-core/commit/7b0342c7c0628e1f353b68eb2fa117b04bd71fa1))
+
+
+
+
+
+## [3.14.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.9...@next-core/brick-container@3.14.10) (2024-04-22)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.14.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.8...@next-core/brick-container@3.14.9) (2024-04-16)
+
+
+### Bug Fixes
+
+* 修复在构件仓库中调试本地构件时 container 为 remote 模式时报错问题 ([b635cf2](https://github.com/easyops-cn/next-core/commit/b635cf2f8d7e9e839ff57f002a7f7b4c64eb365a))
+
+
+
+
+
+## [3.14.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.7...@next-core/brick-container@3.14.8) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.14.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.14.6...@next-core/brick-container@3.14.7) (2024-04-14)
 
 **Note:** Version bump only for package @next-core/brick-container

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.15](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.14...@next-core/babel-preset-next@1.0.15) (2024-04-16)
+
+
+### Bug Fixes
+
+* use babel transform runtime 7.24.3 ([3e73564](https://github.com/easyops-cn/next-core/commit/3e735649ece8572025d046d1fd939bd49f404ead))
+
+
+
+
+
 ## [1.0.14](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.13...@next-core/babel-preset-next@1.0.14) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/babel-preset-next

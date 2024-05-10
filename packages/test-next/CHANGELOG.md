@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.17...@next-core/test-next@1.1.0) (2024-05-09)
+
+
+### Features
+
+* allow adding coveragePathIgnorePatterns ([c04c949](https://github.com/easyops-cn/next-core/commit/c04c949b30ffc8a76209b19dfbcbbe677966bbe6))
+
+
+
+
+
+## [1.0.17](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.16...@next-core/test-next@1.0.17) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/test-next
+
+
+
+
+
 ## [1.0.16](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.0.15...@next-core/test-next@1.0.16) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/test-next

@@ -1,3 +1,4 @@
+// istanbul ignore file
 import {
   createRuntime,
   applyTheme,
@@ -5,7 +6,14 @@ import {
   unstable_createRoot,
 } from "@next-core/runtime";
 import { http, HttpRequestConfig } from "@next-core/http";
-import type { BootstrapData, CustomTemplate } from "@next-core/types";
+import type {
+  BootstrapData,
+  BrickConf,
+  ContextConf,
+  CustomTemplate,
+  MetaI18n,
+  StoryboardFunction,
+} from "@next-core/types";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
 import type {
@@ -15,6 +23,7 @@ import type {
   PreviewWindow,
 } from "../types.d.ts";
 import { get } from "lodash";
+import { replaceUseChildren } from "./replaceUseChildren.js";
 
 interface RenderRequest {
   type: RenderType;
@@ -81,7 +90,7 @@ const root = unstable_createRoot(container, {
 });
 
 const bootstrap = http
-  .get<any>(window.BOOTSTRAP_FILE, {
+  .get<BootstrapData>(window.BOOTSTRAP_FILE, {
     responseType: "json",
   })
   .then((data) => {
@@ -135,6 +144,8 @@ async function render(
     functions,
     templates,
     i18n,
+    url,
+    app,
     styleText,
     templatesAreArrayOfYaml,
   }: RenderOptions = {}
@@ -188,9 +199,12 @@ async function render(
       );
     } else {
       const parsed = yaml
-        ? (safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as any)
+        ? (safeLoad(yaml, { schema: JSON_SCHEMA, json: true }) as
+            | BrickConf
+            | BrickConf[])
         : null;
       const bricks = [].concat(parsed ?? []);
+      replaceUseChildren(bricks);
       if (styleText) {
         bricks.push({
           brick: "style",
@@ -201,13 +215,21 @@ async function render(
         });
       }
 
-      const parsedContext = loadYaml(context) as any[];
-      const parsedFunctions = loadYaml(functions) as any[];
+      const parsedContext = loadYaml(context) as ContextConf[];
+      const parsedFunctions = loadYaml(functions) as StoryboardFunction[];
       const parsedTemplates = loadYaml(
         templates,
         templatesAreArrayOfYaml
-      ) as any[];
-      const parsedI18n = loadYaml(i18n) as any;
+      ) as CustomTemplate[];
+      const parsedI18n = loadYaml(i18n) as MetaI18n;
+
+      if (Array.isArray(parsedTemplates)) {
+        for (const template of parsedTemplates) {
+          if (Array.isArray(template.bricks)) {
+            replaceUseChildren(template.bricks);
+          }
+        }
+      }
 
       await bootstrap;
       await root.render(bricks, {
@@ -217,6 +239,8 @@ async function render(
         functions: parsedFunctions,
         templates: parsedTemplates,
         i18n: parsedI18n,
+        url,
+        app,
       });
     }
   } catch (e) {
@@ -240,16 +264,16 @@ function loadYaml(content: unknown, templatesAreArrayOfYaml?: boolean) {
   return typeof content === "string"
     ? safeLoad(content, { schema: JSON_SCHEMA, json: true })
     : templatesAreArrayOfYaml
-    ? (content as YamlTemplate[]).map((item) =>
-        typeof item.yaml === "string"
-          ? {
-              ...(safeLoad(item.yaml, {
-                schema: JSON_SCHEMA,
-                json: true,
-              }) as CustomTemplate),
-              name: item.name,
-            }
-          : item
-      )
-    : content;
+      ? (content as YamlTemplate[]).map((item) =>
+          typeof item.yaml === "string"
+            ? {
+                ...(safeLoad(item.yaml, {
+                  schema: JSON_SCHEMA,
+                  json: true,
+                }) as CustomTemplate),
+                name: item.name,
+              }
+            : item
+        )
+      : content;
 }

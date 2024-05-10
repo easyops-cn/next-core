@@ -95,8 +95,8 @@ async function main() {
       ? "yaml"
       : "html"
     : matchedExample
-    ? matchedExample.mode
-    : "html";
+      ? matchedExample.mode
+      : "html";
 
   const codeFromHash =
     !matchedExample && location.hash && location.hash !== "#";
@@ -292,6 +292,12 @@ async function main() {
     previewWin._preview_only_render(mode, sources, {
       theme: currentTheme.toLowerCase(),
       uiVersion: currentUIVersion,
+      url: "https://bricks.js.org/preview/",
+      app: {
+        id: "brick-preview",
+        name: "Brick Preview",
+        homepage: "/preview",
+      },
     });
   }
 
@@ -387,8 +393,8 @@ function decorateAltCode(code: string, mode: string, altMode: string): string {
     altMode === mode
       ? ""
       : altMode === "yaml"
-      ? "# Note: this example is original written in HTML and auto-transpiled to YAML\n"
-      : "<!-- Note: this example is original written in YAML and auto-transpiled to HTML -->\n"
+        ? "# Note: this example is original written in HTML and auto-transpiled to YAML\n"
+        : "<!-- Note: this example is original written in YAML and auto-transpiled to HTML -->\n"
   }${code}`;
 }
 

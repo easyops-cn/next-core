@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.2.0...@next-core/http@1.2.1) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/http
+
+
+
+
+
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.1.11...@next-core/http@1.2.0) (2024-05-07)
+
+
+### Features
+
+* sse stream ([1803b51](https://github.com/easyops-cn/next-core/commit/1803b512128779bcf311f3ef43278d1a7dad7981))
+
+
+
+
+
+## [1.1.11](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.1.10...@next-core/http@1.1.11) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/http
+
+
+
+
+
 ## [1.1.10](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.1.9...@next-core/http@1.1.10) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/http

@@ -1938,6 +1938,11 @@
     source-map "~0.6.1"
     typescript "5.4.2"
 
+"@microsoft/fetch-event-source@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
+  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
+
 "@microsoft/tsdoc-config@~0.16.1":
   version "0.16.2"
   resolved "https://registry.npmjs.org/@microsoft/tsdoc-config/-/tsdoc-config-0.16.2.tgz#b786bb4ead00d54f53839a458ce626c8548d3adf"
@@ -1957,6 +1962,13 @@
   version "1.1.0"
   resolved "https://registry.npmjs.org/@next-api-sdk/api-gateway-sdk/-/api-gateway-sdk-1.1.0.tgz#6eaa4e4d8f1a53311b8ce6383d2b38d38e6a0650"
   integrity sha512-uAZ/IwGHJjg28z0jCfWIANbKPTWEds5UzRan02obzWFYRpUOejij8h6ZBh08hTo6mnT9pZ+4+ma/JKuJZwNcGA==
+  dependencies:
+    "@next-core/http" "^1.0.0"
+
+"@next-api-sdk/api-gateway-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@next-api-sdk/api-gateway-sdk/-/api-gateway-sdk-1.2.0.tgz#68a49bf50f76c626234ce53cb3606f7dbeb2ca97"
+  integrity sha512-HG6wSG2hoH+ZXEH/AUIsbhUwtzXQgWKU7usrFVVQsGmqIQscjRYMSlCqEAJixP1IG9vQ0D+kkkaeAoSnhX3nEg==
   dependencies:
     "@next-core/http" "^1.0.0"
 

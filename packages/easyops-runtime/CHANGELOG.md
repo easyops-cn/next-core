@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.8.1...@next-core/easyops-runtime@0.9.0) (2024-05-09)
+
+
+### Features
+
+* support accessToken ([679923e](https://github.com/easyops-cn/next-core/commit/679923e01ba2db1379871001ca77e59bb484ebad))
+
+
+
+
+
+## [0.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.8.0...@next-core/easyops-runtime@0.8.1) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+# [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.27...@next-core/easyops-runtime@0.8.0) (2024-05-07)
+
+
+### Features
+
+* sse stream ([1803b51](https://github.com/easyops-cn/next-core/commit/1803b512128779bcf311f3ef43278d1a7dad7981))
+
+
+
+
+
+## [0.7.27](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.26...@next-core/easyops-runtime@0.7.27) (2024-04-30)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.26](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.25...@next-core/easyops-runtime@0.7.26) (2024-04-22)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.7.25](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.24...@next-core/easyops-runtime@0.7.25) (2024-04-16)
+
+
+### Bug Fixes
+
+* fix eslint errors ([f2cf27d](https://github.com/easyops-cn/next-core/commit/f2cf27d841fce56992897ee8e6a23297e71ddcde))
+
+
+
+
+
 ## [0.7.24](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.7.23...@next-core/easyops-runtime@0.7.24) (2024-04-14)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

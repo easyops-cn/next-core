@@ -101,7 +101,7 @@ const request = async <T>(
       let responseJson;
       try {
         responseJson = await response.json();
-      } catch (e) {
+      } catch {
         // Do nothing.
       }
       reject(new HttpResponseError(response, responseJson));
@@ -341,7 +341,7 @@ class Http {
 
   getBodyAndHeaders(
     data: unknown,
-    headers: HeadersInit
+    headers?: HeadersInit
   ): { body?: BodyInit; headers?: HeadersInit } {
     return getBodyAndHeaders(data, headers);
   }

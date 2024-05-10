@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.41.0...@next-core/runtime@1.41.1) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.41.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.40.0...@next-core/runtime@1.41.0) (2024-05-07)
+
+
+### Features
+
+* sse stream ([1803b51](https://github.com/easyops-cn/next-core/commit/1803b512128779bcf311f3ef43278d1a7dad7981))
+
+
+
+
+
+# [1.40.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.39.0...@next-core/runtime@1.40.0) (2024-04-30)
+
+
+### Features
+
+* support setting url and app for preview rendering ([13907ef](https://github.com/easyops-cn/next-core/commit/13907ef5da5c9bd399df04b5f59c3602a217b021))
+
+
+
+
+
+# [1.39.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.3...@next-core/runtime@1.39.0) (2024-04-22)
+
+
+### Features
+
+* support userConfig.settings.locales ([f4274f0](https://github.com/easyops-cn/next-core/commit/f4274f0687c6101ab54c5836307bfb52733b4701))
+
+
+
+
+
+## [1.38.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.2...@next-core/runtime@1.38.3) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.38.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.38.1...@next-core/runtime@1.38.2) (2024-04-14)
 
 

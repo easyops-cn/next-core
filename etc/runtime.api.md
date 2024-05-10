@@ -308,6 +308,8 @@ export const registerWidgetI18n: (widgetId: string, i18nData: MetaI18n) => void;
 // @public (undocumented)
 export interface RenderOptions {
     // (undocumented)
+    app?: MicroApp;
+    // (undocumented)
     context?: ContextConf[];
     // (undocumented)
     functions?: StoryboardFunction[];
@@ -319,6 +321,8 @@ export interface RenderOptions {
     theme?: SiteTheme;
     // (undocumented)
     uiVersion?: string;
+    // (undocumented)
+    url?: string;
 }
 
 // @public (undocumented)
@@ -394,7 +398,7 @@ export interface RuntimeHooks {
         FLOW_API_PROVIDER: string;
         registerFlowApiProvider(): void;
         isFlowApiProvider(provider: string): boolean;
-        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string): Promise<unknown[]>;
+        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string, stream?: boolean): Promise<unknown[]>;
         collectContract(contracts: Contract[] | undefined): void;
         collectWidgetContract(contracts: Contract[] | undefined): void;
         clearCollectWidgetContract(): void;
@@ -478,7 +482,7 @@ function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult:
 
 // @public (undocumented)
 export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
-    render(brick: BrickConf | BrickConf[], { theme, uiVersion, context, functions, templates, i18n: i18nData, }?: RenderOptions): Promise<void>;
+    render(brick: BrickConf | BrickConf[], { theme, uiVersion, context, functions, templates, i18n: i18nData, url, app, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };
 

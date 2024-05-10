@@ -1,4 +1,5 @@
 import { jest, describe, test, expect } from "@jest/globals";
+import { i18n } from "@next-core/i18n";
 import { http } from "@next-core/http";
 import {
   BootstrapStandaloneApi_runtimeStandalone,
@@ -9,6 +10,9 @@ import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-st
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { registerMocks } from "./mocks.js";
 
+i18n.init({
+  fallbackLng: "en",
+});
 jest.mock("@next-core/http");
 jest.mock("@next-api-sdk/api-gateway-sdk");
 jest.mock("@next-api-sdk/micro-app-standalone-sdk");
@@ -181,6 +185,43 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
           },
         ],
       };
+    case "bootstrap.app-h.json":
+      return {
+        brickPackages: [],
+        storyboards: [
+          {
+            app: {
+              id: "app-h",
+              name: "App H",
+              locales: {
+                zh: { name: "应用 H" },
+                en: { name: "Application H" },
+              },
+              defaultConfig: {
+                defaultConf: 7,
+              },
+              userConfig: {
+                userConf: 8,
+                settings: {
+                  locales: {
+                    zh: { name: "应用 H 别名" },
+                    en: { name: "Application H Alias" },
+                  },
+                },
+              },
+            },
+          },
+        ],
+        settings: {
+          featureFlags: {
+            "bootstrap-flag": true,
+          },
+          misc: {
+            bootstrapMisc: 1,
+          },
+          homepage: "/bootstrap/homepage",
+        },
+      };
     case "bootstrap-union.cmdb.abg.json":
       return {
         brickPackages: [],
@@ -220,6 +261,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
         ],
       };
     case "sa-static/app-a/versions/1.88.0/webroot/conf.yaml":
+    case "sa-static/app-h/versions/1.88.0/webroot/conf.yaml":
       return "";
     case "app-b/conf.yaml":
       return `
@@ -307,6 +349,7 @@ describe("loadBootstrapData", () => {
       app: {
         id: "app-a",
         name: "App A",
+        localeName: "Application A",
         locales: {
           zh: { name: "应用 A" },
           en: { name: "Application A" },
@@ -412,6 +455,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
         id: "app-g",
+        localeName: "Application G",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -442,6 +486,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-a",
         id: "app-a",
+        localeName: "Application A",
         locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
         name: "App A",
         userConfig: { runtimeUserConf: 9 },
@@ -537,6 +582,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
         id: "app-g",
+        localeName: "Application G",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -567,6 +613,7 @@ describe("loadBootstrapData", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-a",
         id: "app-a",
+        localeName: "Application A",
         locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
         name: "App A",
         userConfig: { runtimeUserConf: 9 },
@@ -752,6 +799,7 @@ describe("loadBootstrapData", () => {
       app: {
         id: "app-a",
         name: "App A",
+        localeName: "App A",
         userConfig: {
           userConf: 42,
         },
@@ -760,6 +808,44 @@ describe("loadBootstrapData", () => {
         },
       },
       routes: [],
+    });
+  });
+
+  test("standalone with locales", async () => {
+    window.STANDALONE_MICRO_APPS = true;
+    window.BOOTSTRAP_FILE = "bootstrap.app-h.json";
+    window.APP_ROOT = "sa-static/app-h/versions/1.88.0/webroot/";
+    const promise = loadBootstrapData();
+    const data = await promise;
+    await fulfilStoryboard(data.storyboards[0]);
+
+    expect(data.storyboards[0]).toEqual({
+      app: {
+        id: "app-h",
+        name: "App H",
+        locales: { zh: { name: "应用 H" }, en: { name: "Application H" } },
+        defaultConfig: { defaultConf: 7 },
+        userConfig: {
+          userConf: 8,
+          settings: {
+            locales: {
+              zh: { name: "应用 H 别名" },
+              en: { name: "Application H Alias" },
+            },
+          },
+        },
+        config: {
+          defaultConf: 7,
+          userConf: 8,
+          settings: {
+            locales: {
+              zh: { name: "应用 H 别名" },
+              en: { name: "Application H Alias" },
+            },
+          },
+        },
+        localeName: "Application H Alias",
+      },
     });
   });
 });

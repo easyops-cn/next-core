@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.7...@next-core/react-runtime@1.4.8) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.6...@next-core/react-runtime@1.4.7) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.5...@next-core/react-runtime@1.4.6) (2024-05-07)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.4...@next-core/react-runtime@1.4.5) (2024-04-30)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.3...@next-core/react-runtime@1.4.4) (2024-04-22)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.2...@next-core/react-runtime@1.4.3) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
 ## [1.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.1...@next-core/react-runtime@1.4.2) (2024-04-14)
 
 **Note:** Version bump only for package @next-core/react-runtime

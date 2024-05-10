@@ -3,6 +3,82 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.4.2...@next-core/preview@0.4.3) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.4.1...@next-core/preview@0.4.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* replace useChildren in children ([e84f9fb](https://github.com/easyops-cn/next-core/commit/e84f9fb38f075f6ae2024e10272d395235a4c46d))
+
+
+
+
+
+## [0.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.4.0...@next-core/preview@0.4.1) (2024-05-07)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.3.1...@next-core/preview@0.4.0) (2024-04-30)
+
+
+### Features
+
+* support setting url and app for preview rendering ([13907ef](https://github.com/easyops-cn/next-core/commit/13907ef5da5c9bd399df04b5f59c3602a217b021))
+
+
+
+
+
+## [0.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.3.0...@next-core/preview@0.3.1) (2024-04-28)
+
+
+### Bug Fixes
+
+* delete original slots for useChildren ([07688b9](https://github.com/easyops-cn/next-core/commit/07688b91133e0ed6631d9dc098e5bb530d701f5d))
+
+
+
+
+
+# [0.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.97...@next-core/preview@0.3.0) (2024-04-28)
+
+
+### Features
+
+* **preview:** replace useChildren with useBrick ([d55a351](https://github.com/easyops-cn/next-core/commit/d55a351fa995b709cc9f966a016e42f844536037))
+
+
+
+
+
+## [0.2.97](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.96...@next-core/preview@0.2.97) (2024-04-22)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.2.96](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.95...@next-core/preview@0.2.96) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
 ## [0.2.95](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.2.94...@next-core/preview@0.2.95) (2024-04-14)
 
 **Note:** Version bump only for package @next-core/preview

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.7](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.6...@next-core/loader@1.5.7) (2024-05-09)
+
+**Note:** Version bump only for package @next-core/loader
+
+
+
+
+
+## [1.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.5...@next-core/loader@1.5.6) (2024-04-16)
+
+**Note:** Version bump only for package @next-core/loader
+
+
+
+
+
 ## [1.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.4...@next-core/loader@1.5.5) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/loader

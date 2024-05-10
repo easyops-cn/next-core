@@ -142,6 +142,54 @@ describe("preview", () => {
     root.unmount();
   });
 
+  test("set url", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render(
+      [
+        {
+          brick: "div",
+          properties: {
+            textContent: "<% QUERY.q %>",
+          },
+        },
+      ],
+      {
+        url: "https://localhost/search?q=hello",
+      }
+    );
+
+    expect(container.innerHTML).toBe("<div>hello</div>");
+
+    root.unmount();
+  });
+
+  test("set app", async () => {
+    const root = unstable_createRoot(container, { scope: "page" });
+
+    await root.render(
+      [
+        {
+          brick: "div",
+          properties: {
+            textContent: "<% APP.homepage %>",
+          },
+        },
+      ],
+      {
+        app: {
+          name: "TestApp",
+          id: "test-app",
+          homepage: "/test-app",
+        },
+      }
+    );
+
+    expect(container.innerHTML).toBe("<div>/test-app</div>");
+
+    root.unmount();
+  });
+
   test("unknown bricks", async () => {
     consoleError.mockReturnValue();
     const root = unstable_createRoot(container, { unknownBricks: "silent" });
@@ -182,13 +230,13 @@ describe("preview", () => {
       {
         brick: "div",
         properties: {
-          textContent: "<% oops %>",
+          textContent: "<% QUERY.q %>",
         },
       } as any,
     ]);
 
     expect(container.innerHTML).toBe(
-      '<div>ReferenceError: oops is not defined, in "&lt;% oops %&gt;"</div>'
+      '<div>ReferenceError: QUERY is not defined, in "&lt;% QUERY.q %&gt;"</div>'
     );
     expect(portal.innerHTML).toBe("");
     expect(applyTheme).not.toBeCalled();

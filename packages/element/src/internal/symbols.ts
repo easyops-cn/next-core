@@ -1,7 +1,7 @@
-export const symbolOfAttributeHasBeenSet = Symbol("attributeHasBeenSet");
-export const symbolOfMarkAttributeHasBeenSet = Symbol(
+export const symbolOfAttributeHasBeenSet = Symbol.for("attributeHasBeenSet");
+export const symbolOfMarkAttributeHasBeenSet = Symbol.for(
   "markAttributeHasBeenSet"
 );
-export const symbolOfStopAttributeChangedCallback = Symbol(
+export const symbolOfStopAttributeChangedCallback = Symbol.for(
   "stopAttributeChangedCallback"
 );

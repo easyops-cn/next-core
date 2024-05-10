@@ -7,6 +7,7 @@ import {
 } from "@next-core/types";
 import { http, HttpOptions, HttpParams } from "@next-core/http";
 import { isEmpty, isObject } from "lodash";
+import { createSSEStream } from "@next-core/utils/general";
 
 export const FLOW_API_PROVIDER = "core.provider-flow-api";
 
@@ -18,6 +19,7 @@ export interface CustomApiParams {
   ext_fields?: ExtField[];
   request?: ContractRequest;
   isFileType?: boolean;
+  stream?: boolean;
 }
 function hasFields(ext_fields: ExtField[], type: "query" | "body"): boolean {
   return ext_fields.some((item) => item.source === type);
@@ -117,6 +119,7 @@ export async function callFlowApi(
     ext_fields = [],
     request,
     isFileType,
+    stream,
   }: CustomApiParams,
   ...args: unknown[]
 ): Promise<unknown> {
@@ -143,21 +146,50 @@ export async function callFlowApi(
       [params, options] = args as [HttpParams?, HttpOptions?];
     }
 
+    if (stream) {
+      const stream = await createSSEStream(http.getUrlWithParams(url, params), {
+        ...defaultOptions,
+        ...options,
+        method,
+        headers: Object.fromEntries([
+          ...new Headers(options?.headers ?? {}).entries(),
+        ]),
+      });
+      return stream;
+    }
+
     response = await http.simpleRequest(method, url, {
       params,
       ...defaultOptions,
-      ...(options as HttpOptions),
+      ...options,
     });
   } else {
     const isUploadType = hasFileType(request);
     const result = processExtFields(ext_fields, ...args);
 
-    response = await http.requestWithBody(
-      method,
-      url,
-      isUploadType ? transformFormData(result.data as any) : result.data,
-      { ...defaultOptions, ...result.options }
-    );
+    const data = isUploadType
+      ? transformFormData(result.data as any)
+      : result.data;
+
+    if (stream) {
+      const { body, headers } = http.getBodyAndHeaders(
+        data,
+        result.options?.headers
+      );
+      const stream = await createSSEStream(url, {
+        ...defaultOptions,
+        ...result.options,
+        method,
+        headers: Object.fromEntries([...new Headers(headers ?? {}).entries()]),
+        body,
+      });
+      return stream;
+    }
+
+    response = await http.requestWithBody(method, url, data, {
+      ...defaultOptions,
+      ...result.options,
+    });
   }
 
   return (isFileType ? false : responseWrapper) ? response.data : response;

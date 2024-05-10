@@ -81,7 +81,8 @@ export interface RuntimeHooks {
     getArgsOfFlowApi(
       provider: string,
       originalArgs: unknown[],
-      method?: string
+      method?: string,
+      stream?: boolean
     ): Promise<unknown[]>;
     collectContract(contracts: Contract[] | undefined): void;
     collectWidgetContract(contracts: Contract[] | undefined): void;
@@ -305,26 +306,6 @@ export class Runtime {
 }
 
 function normalizeBootstrapData(data: BootstrapData) {
-  if (Array.isArray(data.storyboards)) {
-    for (const { app } of data.storyboards) {
-      if (app.locales) {
-        // Prefix to avoid conflict between brick package's i18n namespace.
-        const ns = `tmp/${app.id}`;
-        // Support any languages in `app.locales`.
-        Object.entries(app.locales).forEach(([lang, resources]) => {
-          i18n.addResourceBundle(lang, ns, resources);
-        });
-        // Use `app.name` as the fallback `app.localeName`.
-        app.localeName = i18n.getFixedT(null, ns)("name", app.name) as string;
-        // Remove the temporary i18n resource bundles.
-        Object.keys(app.locales).forEach((lang) => {
-          i18n.removeResourceBundle(lang, ns);
-        });
-      } else {
-        app.localeName = app.name;
-      }
-    }
-  }
   if (isObject(data.settings)) {
     deepFreeze(data.settings);
   }
