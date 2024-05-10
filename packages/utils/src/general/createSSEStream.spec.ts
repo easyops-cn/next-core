@@ -156,12 +156,10 @@ describe("createSSEStream", () => {
       for await (const _value of iterator) {
         // Do nothing
       }
-    }).rejects.toMatchInlineSnapshot(
-      `[SyntaxError: Unexpected token 'E', "[ERROR]: Oops" is not valid JSON]`
-    );
+    }).rejects.toMatchInlineSnapshot(`[Error: [ERROR]: Oops]`);
     expect(consoleError).toHaveBeenCalledTimes(1);
     expect(consoleError).toHaveBeenCalledWith(
-      "Failed to parse message data:",
+      "Received error message:",
       "[ERROR]: Oops"
     );
   });
@@ -174,7 +172,7 @@ describe("createSSEStream", () => {
       await Promise.resolve();
       onmessage?.({ id: "", event: "", data: '"1"' });
       await Promise.resolve();
-      onmessage?.({ id: "", event: "", data: "[ERROR]: Oops" });
+      onmessage?.({ id: "", event: "", data: "Oops" });
       await Promise.resolve();
       onmessage?.({ id: "", event: "", data: "[DONE]" });
     });
@@ -186,12 +184,12 @@ describe("createSSEStream", () => {
         // Do nothing
       }
     }).rejects.toMatchInlineSnapshot(
-      `[SyntaxError: Unexpected token 'E', "[ERROR]: Oops" is not valid JSON]`
+      `[SyntaxError: Unexpected token 'O', "Oops" is not valid JSON]`
     );
     expect(consoleError).toHaveBeenCalledTimes(1);
     expect(consoleError).toHaveBeenCalledWith(
-      "Failed to parse message data:",
-      "[ERROR]: Oops"
+      "Failed to parse message:",
+      "Oops"
     );
   });
 });

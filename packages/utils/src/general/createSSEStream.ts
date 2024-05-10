@@ -161,6 +161,12 @@ function defaultConverter<T>(data: string): MessageIteratorResult<T> {
     };
   }
 
+  if (data.startsWith("[ERROR]")) {
+    // eslint-disable-next-line no-console
+    console.error("Received error message:", data);
+    throw new Error(data);
+  }
+
   try {
     const value = JSON.parse(data);
     return {
@@ -169,7 +175,7 @@ function defaultConverter<T>(data: string): MessageIteratorResult<T> {
     };
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error("Failed to parse message data:", data);
+    console.error("Failed to parse message:", data);
     throw e;
   }
 }
