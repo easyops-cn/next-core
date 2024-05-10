@@ -37,8 +37,8 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.4",
-    "@babel/types": "^7.24.0",
+    "@babel/core": "^7.24.5",
+    "@babel/types": "^7.24.5",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/brick-container": "*",
     "@next-core/brick-playground": "*",
@@ -49,16 +49,16 @@
     "@types/jest": "^29.5.12",
     "@types/js-yaml": "^3.12.10",
     "@types/klaw-sync": "^6.0.5",
-    "@types/lodash": "^4.17.0",
+    "@types/lodash": "^4.17.1",
     "@types/meow": "^5.0.0",
-    "@types/node": "^20.12.7",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
-    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@types/node": "^20.12.11",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
     "babel-jest": "^29.7.0",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
-    "cypress": "^13.7.3",
+    "cypress": "^13.9.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -78,9 +78,9 @@
     "packages/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.24.4",
-    "@babel/runtime": "^7.24.4",
-    "@types/react": "^18.2.79",
+    "@babel/parser": "^7.24.5",
+    "@babel/runtime": "^7.24.5",
+    "@types/react": "^18.3.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1"
   }
