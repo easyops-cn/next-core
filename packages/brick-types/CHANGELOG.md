@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.95.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.94.0...@next-core/brick-types@2.95.0) (2024-05-10)
+
+
+### Features
+
+* support accessToken ([b869425](https://github.com/easyops-cn/next-core/commit/b869425478729e99673f4d09697798f850df40ab))
+
+
+
+
+
 # [2.94.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.93.1...@next-core/brick-types@2.94.0) (2024-04-03)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.192.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.191.1...@next-core/brick-kit@2.192.0) (2024-05-10)
+
+
+### Features
+
+* support accessToken ([b869425](https://github.com/easyops-cn/next-core/commit/b869425478729e99673f4d09697798f850df40ab))
+
+
+
+
+
 ## [2.191.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.191.0...@next-core/brick-kit@2.191.1) (2024-05-08)
 
 **Note:** Version bump only for package @next-core/brick-kit
