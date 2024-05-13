@@ -47,7 +47,7 @@
     "mini-css-extract-plugin": "^2.9.0",
     "postcss": "^8.4.38",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^9.5.11",
+    "postcss-preset-env": "^9.5.12",
     "prettier": "^3.2.5",
     "style-loader": "^3.3.4",
     "typescript": "^5.4.5",
