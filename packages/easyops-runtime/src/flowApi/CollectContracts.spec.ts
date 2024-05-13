@@ -4,6 +4,8 @@ import {
   getContract,
   collectWidgetContract,
   clearCollectWidgetContract,
+  collectDebugContract,
+  clearDebugContract,
 } from "./CollectContracts.js";
 
 describe("CollectContract", () => {
@@ -52,6 +54,32 @@ describe("CollectContract", () => {
     });
 
     clearCollectWidgetContract();
+
+    expect(getContract("easyops.api.cmdb.model.postSearch")).toEqual(undefined);
+  });
+
+  it("should work with debug mode", () => {
+    const contracts = [
+      {
+        namespaceId: "easyops.api.cmdb.model",
+        name: "getDetail",
+        version: "1.0.0",
+      },
+      {
+        namespaceId: "easyops.api.cmdb.model",
+        name: "postSearch",
+        version: "1.2.0",
+      },
+    ] as Contract[];
+    collectDebugContract(contracts);
+
+    expect(getContract("easyops.api.cmdb.model.postSearch")).toEqual({
+      namespaceId: "easyops.api.cmdb.model",
+      name: "postSearch",
+      version: "1.2.0",
+    });
+
+    clearDebugContract();
 
     expect(getContract("easyops.api.cmdb.model.postSearch")).toEqual(undefined);
   });
