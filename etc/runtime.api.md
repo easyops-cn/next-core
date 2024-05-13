@@ -136,7 +136,7 @@ interface DataValueOption {
 // Warning: (ae-forgotten-export) The symbol "DebugDataValue" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-function debugDataValue(debugData: DebugDataValue): Promise<any>;
+function debugDataValue(debugData: DebugDataValue, { tplStateStoreId }: DataValueOption): Promise<any>;
 
 // @public (undocumented)
 export const Dialog: Readonly<{

@@ -438,8 +438,14 @@ export async function getAddedContracts(
   return addedContracts;
 }
 
-export async function debugDataValue(debugData: DebugDataValue): Promise<any> {
-  const runtimeContext = _internalApiGetRuntimeContext()!;
+export async function debugDataValue(
+  debugData: DebugDataValue,
+  { tplStateStoreId }: DataValueOption
+): Promise<any> {
+  const runtimeContext = {
+    ..._internalApiGetRuntimeContext()!,
+    tplStateStoreId,
+  };
 
   if (debugData.value) {
     return asyncComputeRealValue(debugData.value, runtimeContext);
