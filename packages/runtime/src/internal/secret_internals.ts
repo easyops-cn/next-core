@@ -21,12 +21,15 @@ import {
 } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
+import { resolveData } from "./data/resolveData.js";
+import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import type {
   DataValueOption,
   PreviewOption,
   PreviewStoryboardPatch,
   RenderRoot,
   RuntimeContext,
+  DebugDataValue,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -433,6 +436,16 @@ export async function getAddedContracts(
   }
 
   return addedContracts;
+}
+
+export async function debugDataValue(debugData: DebugDataValue): Promise<any> {
+  const runtimeContext = _internalApiGetRuntimeContext()!;
+
+  if (debugData.value) {
+    return asyncComputeRealValue(debugData.value, runtimeContext);
+  }
+
+  return resolveData(debugData.resolve!, runtimeContext, { cache: "reload" });
 }
 
 export {
