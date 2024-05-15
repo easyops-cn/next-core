@@ -11,6 +11,7 @@ import {
   CustomTemplate,
   RouteConf,
   RuntimeSnippet,
+  UseProviderResolveConf,
 } from "@next-core/brick-types";
 import {
   ColorThemeOptionsByBrand,
@@ -242,3 +243,8 @@ export type PreviewStoryboardPatch =
   | RouteConf
   | RuntimeSnippet
   | FormDataProperties;
+
+export interface DebugDataValue {
+  resolve?: UseProviderResolveConf;
+  value?: unknown;
+}
