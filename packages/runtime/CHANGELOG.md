@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.42.0...@next-core/runtime@1.43.0) (2024-05-15)
+
+
+### Features
+
+* debug data value in template ([e2055bb](https://github.com/easyops-cn/next-core/commit/e2055bba76fb0f86680a6c191781ab170d0a82a8))
+
+
+
+
+
 # [1.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.41.2...@next-core/runtime@1.42.0) (2024-05-14)
 
 
