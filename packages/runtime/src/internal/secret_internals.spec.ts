@@ -1151,17 +1151,23 @@ describe("debugDataValue", () => {
       .spyOn(computeRealValue, "asyncComputeRealValue")
       .mockImplementationOnce(async () => null);
     mockInternalApiGetRuntimeContext.mockReturnValue({});
-    await debugDataValue({
-      resolve: { useProvider: "easyops.api.cmdb.model@postSearch:1.0.0" },
-    });
+    await debugDataValue(
+      {
+        resolve: { useProvider: "easyops.api.cmdb.model@postSearch:1.0.0" },
+      },
+      { tplStateStoreId: "tpl-state-6" }
+    );
 
     expect((mockResolveData as jest.Mock).mock.calls[0][0]).toEqual({
       useProvider: "easyops.api.cmdb.model@postSearch:1.0.0",
     });
 
-    await debugDataValue({
-      value: "<% 1+ 1 %>",
-    });
+    await debugDataValue(
+      {
+        value: "<% 1+ 1 %>",
+      },
+      { tplStateStoreId: undefined }
+    );
 
     expect((mockAsyncComputeRealValue as jest.Mock).mock.calls[0][0]).toEqual(
       "<% 1+ 1 %>"
