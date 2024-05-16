@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.12...@next-core/brick-container@3.16.0) (2024-05-16)
+
+
+### Features
+
+* serve as https, use partitioned cookie ([4c4e9cc](https://github.com/easyops-cn/next-core/commit/4c4e9cc3a8f6dd301bd2f54e203a4a251d3c4c4a))
+
+
+
+
+
 ## [3.15.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.11...@next-core/brick-container@3.15.12) (2024-05-15)
 
 **Note:** Version bump only for package @next-core/brick-container
