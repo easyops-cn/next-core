@@ -1,4 +1,5 @@
 import path from "node:path";
+import https from "node:https";
 import { fileURLToPath } from "node:url";
 import { readFile } from "node:fs/promises";
 import express from "express";
@@ -93,9 +94,23 @@ if (useLocalContainer) {
   });
 }
 
-app.listen(port, host);
+if (env.https) {
+  https
+    .createServer(
+      {
+        key: env.https.key,
+        cert: env.https.cert,
+      },
+      app
+    )
+    .listen(port, host);
+} else {
+  app.listen(port, host);
+}
 
-console.log(`open http://${host}:${port}${baseHref}`);
+console.log(
+  `open http${(env, env.https ? "s" : "")}://${host}:${port}${baseHref}`
+);
 
 liveReloadServer(env);
 

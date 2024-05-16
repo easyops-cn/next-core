@@ -106,6 +106,7 @@ export async function getEnv(rootDir, runtimeFlags) {
   const devConfigMjs = path.join(rootDir, "dev.config.mjs");
   let configuredBrickFolders = false;
   let userConfigByApps;
+  let https;
   if (existsSync(devConfigMjs)) {
     const devConfig = (await import(devConfigMjs)).default;
     if (devConfig) {
@@ -116,6 +117,7 @@ export async function getEnv(rootDir, runtimeFlags) {
       localSettings = devConfig.settings;
       localMocks = devConfig.mocks;
       userConfigByApps = devConfig.userConfigByApps;
+      https = devConfig.https;
     }
   }
 
@@ -147,6 +149,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     liveReload: flags.liveReload,
     localSettings,
     userConfigByApps,
+    https,
     host: flags.host,
     port: Number(flags.port),
     wsPort: Number(flags.wsPort),
