@@ -76,7 +76,12 @@ export default function getProxy(env, getRawIndexHtml) {
               return responseBuffer;
             }
 
-            const secureCookieFlags = ["SameSite=None", "Secure"];
+            const secureCookieFlags = [
+              "SameSite=None",
+              "Secure",
+              // https://developers.google.com/privacy-sandbox/3pcd/chips
+              "Partitioned",
+            ];
             const setCookies = res.getHeader("set-cookie");
             if (
               req.method === "POST" &&

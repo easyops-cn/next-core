@@ -56,6 +56,24 @@ export interface DevConfig {
   userConfigByApps?: UserConfigByApps;
 
   /**
+   * 启用 https
+   *
+   * @example
+   * ```js
+   * export default {
+   *   https: {
+   *     key: readFileSync("./localhost.key.pem", "utf-8"),
+   *     cert: readFileSync("./localhost.cert.pem", "utf-8"),
+   *   },
+   * }
+   * ```
+   */
+  https?: {
+    key: string;
+    cert: string;
+  };
+
+  /**
    * API mocks
    *
    * @example
