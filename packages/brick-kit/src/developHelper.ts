@@ -24,6 +24,7 @@ import {
   _dev_only_updateStoryboardBySnippet,
   _dev_only_getAddedContracts,
   _dev_only_render,
+  _dev_only_debugDataValue,
 } from "./core/exports";
 import {
   addRealTimeDataInspectHook,
@@ -61,6 +62,7 @@ export const developHelper = {
   getAddedContracts: _dev_only_getAddedContracts,
   getContextValue: _dev_only_getContextValue,
   getAllContextValues: _dev_only_getAllContextValues,
+  debugDataValue: _dev_only_debugDataValue,
   render: _dev_only_render,
   setRealTimeDataInspectRoot,
   addRealTimeDataInspectHook,
