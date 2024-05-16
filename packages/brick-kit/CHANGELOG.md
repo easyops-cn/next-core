@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.193.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.192.0...@next-core/brick-kit@2.193.0) (2024-05-16)
+
+
+### Features
+
+* support debug data value ([8583ede](https://github.com/easyops-cn/next-core/commit/8583ede0e785535b4301bf75784a1e25faec0709))
+
+
+
+
+
 # [2.192.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.191.1...@next-core/brick-kit@2.192.0) (2024-05-10)
 
 
