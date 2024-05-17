@@ -9135,7 +9135,7 @@ log-update@^6.0.0:
     strip-ansi "^7.1.0"
     wrap-ansi "^9.0.0"
 
-loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.4.0:
+loose-envify@^1.2.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
   dependencies:
@@ -11499,13 +11499,12 @@ raw-body@2.5.2:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-dom@0.0.0-experimental-ee8509801-20230117:
-  version "0.0.0-experimental-ee8509801-20230117"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-0.0.0-experimental-ee8509801-20230117.tgz"
-  integrity sha512-mdtGQKFmP1uIRIp73EQL0axwudwsw79ry3bMq8FyJ5ZRL3iB1AjssEAsWUEVU7T1KKxp3PyG/OYfrTFnpTAz8g==
+react-dom@19.0.0-beta-26f2496093-20240514:
+  version "19.0.0-beta-26f2496093-20240514"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.0.0-beta-26f2496093-20240514.tgz#5fe4e829db8d379303057f539900a61ed6ca2615"
+  integrity sha512-UvQ+K1l3DFQ34LDgfFSNuUGi9EC+yfE9tS6MdpNTd5fx7qC7KLfepfC/KpxWMQZ7JfE3axD4ZO6H4cBSpAZpqw==
   dependencies:
-    loose-envify "^1.1.0"
-    scheduler "0.0.0-experimental-ee8509801-20230117"
+    scheduler "0.25.0-beta-26f2496093-20240514"
 
 react-error-boundary@^3.1.0:
   version "3.1.4"
@@ -11537,12 +11536,10 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.1.0.tgz"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
 
-react@0.0.0-experimental-ee8509801-20230117:
-  version "0.0.0-experimental-ee8509801-20230117"
-  resolved "https://registry.npmjs.org/react/-/react-0.0.0-experimental-ee8509801-20230117.tgz"
-  integrity sha512-RriS2Fco7EKsXFXi63e9RFEz9xPnDakzHVKGzQ5iwy0jaFwHpvZbYr4fSbPmmUyGUXjDFtr4BfzANERUju1byw==
-  dependencies:
-    loose-envify "^1.1.0"
+react@19.0.0-beta-26f2496093-20240514:
+  version "19.0.0-beta-26f2496093-20240514"
+  resolved "https://registry.npmjs.org/react/-/react-19.0.0-beta-26f2496093-20240514.tgz#3a0d63746b3f9ebd461a0731191bd08047fb1dbb"
+  integrity sha512-ZsU/WjNZ6GfzMWsq2DcGjElpV9it8JmETHm9mAJuOJNhuJcWJxt8ltCJabONFRpDFq1A/DP0d0KFj9CTJVM4VA==
 
 read-cmd-shim@4.0.0:
   version "4.0.0"
@@ -12004,12 +12001,10 @@ saxes@^6.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@0.0.0-experimental-ee8509801-20230117:
-  version "0.0.0-experimental-ee8509801-20230117"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.0.0-experimental-ee8509801-20230117.tgz"
-  integrity sha512-P7U/SCdj9TE3YciEfb6iwY8SskSFFJNttMoHwUrXllu0rGcb2Y8HQC2zN/+ldZufaQCxAqIoevua1QBQFPrXPw==
-  dependencies:
-    loose-envify "^1.1.0"
+scheduler@0.25.0-beta-26f2496093-20240514:
+  version "0.25.0-beta-26f2496093-20240514"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.25.0-beta-26f2496093-20240514.tgz#a3bc0ff694ec6de7a78c1e48e1f8f4a8555bd77d"
+  integrity sha512-vDwOytLHFnA3SW2B1lNcbO+/qKVyLCX+KLpm+tRGNDsXpyxzRgkIaYGWmX+S70AJGchUHCtuqQ50GFeFgDbXUw==
 
 schema-utils@^3.1.1, schema-utils@^3.2.0:
   version "3.3.0"

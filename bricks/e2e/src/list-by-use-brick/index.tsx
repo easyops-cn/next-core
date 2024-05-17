@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useTransition } from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import { ReactUseBrick } from "@next-core/react-runtime";
@@ -32,6 +32,10 @@ export function ListByUseBrickComponent({
   useBrick: UseSingleBrickConf;
   data: unknown;
 }) {
+  const [isPending] = useTransition();
+  // eslint-disable-next-line no-console
+  console.log("isPending", isPending);
+
   if (!useBrick || !Array.isArray(data)) {
     return null;
   }

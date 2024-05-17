@@ -195,6 +195,21 @@ routes:
     properties:
       textContent: This is size check!
 
+- path: '${APP.homepage}/react'
+  context:
+  - name: stage
+    value: 1
+  bricks:
+  - brick: tpl-a
+  - brick: eo-list-by-use-brick
+    properties:
+      id: my-list
+      data: [3, 4]
+      useBrick:
+        brick: eo-button
+        properties:
+          textContent: '<% DATA %>'
+
 - path: '${APP.homepage}/use-brick/1'
   context:
   - name: stage
