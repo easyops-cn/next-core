@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.0...@next-core/brick-playground@1.13.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* default to yaml in playground ([5bab826](https://github.com/easyops-cn/next-core/commit/5bab82679825ac51f4ad52ded6d5acd0168916b6))
+
+
+
+
+
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.12.2...@next-core/brick-playground@1.13.0) (2024-05-16)
 
 
