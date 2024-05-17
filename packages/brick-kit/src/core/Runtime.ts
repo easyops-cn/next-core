@@ -212,28 +212,28 @@ export async function _dev_only_debugDataValue(
     tplContextId,
   };
 
-  if (debugData.value) {
-    return computeRealValue(debugData.value, runtimeContext, true);
+  if (debugData.resolve) {
+    const hasTransform = debugData.resolve.transform;
+    const result: Record<string, unknown> = {};
+    await _internalApiGetResolver().resolveOne(
+      "reference",
+      hasTransform
+        ? debugData.resolve
+        : {
+            ...debugData.resolve,
+            transform: "value",
+          },
+      result,
+      null,
+      runtimeContext,
+      { cache: "reload" }
+    );
+
+    // 跟 v3 的数据结构保持一致，有 transform 时返回完整定义，无 transform 时直接返回数据
+    return hasTransform ? result : result.value;
   }
 
-  const hasTransform = debugData.resolve.transform;
-  const result: Record<string, unknown> = {};
-  await _internalApiGetResolver().resolveOne(
-    "reference",
-    hasTransform
-      ? debugData.resolve
-      : {
-          ...debugData.resolve,
-          transform: "value",
-        },
-    result,
-    null,
-    runtimeContext,
-    { cache: "reload" }
-  );
-
-  // 跟 v3 的数据结构保持一致，有 transform 时返回完整定义，无 transform 时直接返回数据
-  return hasTransform ? result : result.value;
+  return computeRealValue(debugData.value, runtimeContext, true);
 }
 
 /* istanbul ignore next */
