@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.10...@next-core/build-next-bricks@1.21.0) (2024-05-17)
+
+
+### Features
+
+* support resolve options ([517085c](https://github.com/easyops-cn/next-core/commit/517085c4aab599db03f4c4605e63c92960d430d7))
+
+
+
+
+
 ## [1.20.10](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.9...@next-core/build-next-bricks@1.20.10) (2024-05-17)
 
 
