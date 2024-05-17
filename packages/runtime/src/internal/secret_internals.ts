@@ -447,11 +447,11 @@ export async function debugDataValue(
     tplStateStoreId,
   };
 
-  if (debugData.value) {
-    return asyncComputeRealValue(debugData.value, runtimeContext);
+  if (debugData.resolve) {
+    return resolveData(debugData.resolve!, runtimeContext, { cache: "reload" });
   }
 
-  return resolveData(debugData.resolve!, runtimeContext, { cache: "reload" });
+  return asyncComputeRealValue(debugData.value, runtimeContext);
 }
 
 export {
