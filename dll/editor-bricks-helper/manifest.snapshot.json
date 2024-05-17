@@ -216,6 +216,8 @@
           "batchSetAppsLocalTheme",
           "checkIf",
           "checkIfByTransform",
+          "clearDebugContract",
+          "collectDebugContract",
           "constructEventListener",
           "createHistory",
           "createRuntime",

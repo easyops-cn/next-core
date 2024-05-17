@@ -17,6 +17,10 @@ export * from "./useCurrentApp";
 export * from "./useLocation";
 export * from "./useRecentApps";
 export {
+  collectDebugContract,
+  clearDebugContract,
+} from "./core/CollectContracts";
+export {
   BrickAsComponent,
   SingleBrickAsComponent,
   ForwardRefSingleBrickAsComponent,
