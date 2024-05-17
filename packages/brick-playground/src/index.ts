@@ -42,7 +42,7 @@ async function main() {
     .then((data) => {
       examples = data.examples;
       for (const example of examples) {
-        const altMode = example.mode === "yaml" ? "html" : "yaml";
+        const altMode = example.mode === "html" ? "yaml" : "html";
         example[altMode] = decorateAltCode(
           example[altMode],
           example.mode,
@@ -91,12 +91,12 @@ async function main() {
   }
 
   let mode = paramMode
-    ? paramMode === "yaml"
-      ? "yaml"
-      : "html"
+    ? paramMode === "html"
+      ? "html"
+      : "yaml"
     : matchedExample
       ? matchedExample.mode
-      : "html";
+      : "yaml";
 
   const codeFromHash =
     !matchedExample && location.hash && location.hash !== "#";
@@ -153,7 +153,7 @@ async function main() {
     };
   }
 
-  if (mode !== "html") {
+  if (mode !== "yaml") {
     updateMode();
     selectType.value = mode.toUpperCase();
   }
