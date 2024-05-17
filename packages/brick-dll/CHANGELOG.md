@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.24](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.46.23...@next-core/brick-dll@2.46.24) (2024-05-17)
+
+
+### Bug Fixes
+
+* 搜集调试契约兼容 v2 框架 ([fef72fc](https://github.com/easyops-cn/next-core/commit/fef72fc8aa626b85dc4ff8d4da99eeba6c5aa7a8))
+
+
+
+
+
 ## [2.46.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.46.22...@next-core/brick-dll@2.46.23) (2024-05-16)
 
 **Note:** Version bump only for package @next-core/brick-dll
