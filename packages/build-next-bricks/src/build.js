@@ -314,6 +314,7 @@ async function getWebpackConfig(config) {
       extensionAlias: {
         ".js": [".ts", ".tsx", ".js", ".jsx"],
       },
+      ...config.resolve,
     },
     module: {
       rules: [

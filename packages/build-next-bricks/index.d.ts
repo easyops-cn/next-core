@@ -1,4 +1,10 @@
-import type { Compiler, Configuration, RuleSetRule, container } from "webpack";
+import type {
+  Compiler,
+  Configuration,
+  ResolveOptions,
+  RuleSetRule,
+  container,
+} from "webpack";
 
 export declare function build(config: BuildNextBricksConfig): Compiler;
 export declare function getSvgrLoaders(options?: {
@@ -83,6 +89,7 @@ export interface BuildNextBricksConfig {
   imageAssetFilename?: string | ((pathData: any, assetInfo: any) => string);
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];
+  resolve?: ResolveOptions;
   exposes?: ConstructorParameters<
     typeof container.ModuleFederationPlugin
   >[0]["exposes"];
