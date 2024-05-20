@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.95.0...@next-core/brick-types@2.96.0) (2024-05-20)
+
+
+### Features
+
+* **bindListeners:** add event.stopPropagation event action ([f2ef2f8](https://github.com/easyops-cn/next-core/commit/f2ef2f8c17cc51616cffb45e63bc3ab1150becba))
+
+
+
+
+
 # [2.95.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.94.0...@next-core/brick-types@2.95.0) (2024-05-10)
 
 
