@@ -433,6 +433,7 @@ describe("bindListeners", () => {
           args: ["mock-alias-b", { type: "${EVENT.detail}" }],
         },
         { action: "event.preventDefault" },
+        { action: "event.stopPropagation" },
         { action: "console.log" },
         { action: "console.info" },
         { action: "console.warn", args: ["specified args for console.warn"] },
@@ -726,6 +727,7 @@ describe("bindListeners", () => {
       detail: "for-good",
     });
     const spyOnPreventDefault = jest.spyOn(event1, "preventDefault");
+    const spyOnStopPropagation = jest.spyOn(event1, "stopPropagation");
     sourceElem.dispatchEvent(event1);
     const event2 = new CustomEvent("key2", {
       detail: "for-better",
@@ -832,6 +834,7 @@ describe("bindListeners", () => {
     window.location = location;
 
     expect(spyOnPreventDefault).toBeCalled();
+    expect(spyOnStopPropagation).toBeCalled();
 
     expect(
       (myObjectContextEventTarget.dispatchEvent as jest.Mock).mock.calls[0][0]
@@ -1255,6 +1258,7 @@ describe("bindListeners", () => {
       { action: "alias.push", if: "<% !EVENT.detail.rejected %>" },
       { action: "context.assign", if: "<% !EVENT.detail.rejected %>" },
       { action: "event.preventDefault", if: "<% !EVENT.detail.rejected %>" },
+      { action: "event.stopPropagation", if: "<% !EVENT.detail.rejected %>" },
       { action: "console.log", if: "<% !EVENT.detail.rejected %>" },
       {
         action: "theme.setDarkTheme",
