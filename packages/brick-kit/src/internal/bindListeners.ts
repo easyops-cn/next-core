@@ -270,11 +270,12 @@ export function listenerFactory(
           runtimeBrick
         );
       case "event.preventDefault":
+      case "event.stopPropagation":
         return ((event: CustomEvent) => {
           if (!looseCheckIf(handler, { ...context, event }, runtimeBrick)) {
             return;
           }
-          event.preventDefault();
+          event[method as "preventDefault" | "stopPropagation"]();
         }) as EventListener;
       case "console.log":
       case "console.error":
