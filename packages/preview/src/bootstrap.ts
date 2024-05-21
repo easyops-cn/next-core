@@ -10,6 +10,7 @@ import { loadBricksImperatively } from "@next-core/loader";
 import type {
   BootstrapData,
   BrickConf,
+  BrickPackage,
   ContextConf,
   CustomTemplate,
   MetaI18n,
@@ -116,9 +117,13 @@ let nextRequest: RenderRequest;
 (window as PreviewWindow)._preview_only_inject = async (
   brick,
   pkg,
-  options
+  options,
+  noResolve
 ) => {
-  await loadBricksImperatively([brick], [pkg]);
+  await loadBricksImperatively([brick], ([] as BrickPackage[]).concat(pkg));
+  if (noResolve) {
+    return;
+  }
   const element = document.createElement(brick) as HTMLElement & {
     resolve: (options: unknown) => Promise<void>;
   };

@@ -28,7 +28,8 @@ export interface PreviewWindow extends Window {
   ): unknown;
   _preview_only_inject?(
     brick: string,
-    pkg: BrickPackage,
-    options?: unknown
+    pkg: BrickPackage | BrickPackage[],
+    options?: unknown,
+    noResolve?: boolean
   ): Promise<void>;
 }
