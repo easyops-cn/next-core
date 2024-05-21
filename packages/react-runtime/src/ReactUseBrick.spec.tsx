@@ -75,8 +75,18 @@ describe("ReactUseBrick", () => {
     );
 
     expect(mockRenderUseBrick).toBeCalledTimes(2);
-    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(1, useBrick, "a");
-    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(2, useBrick, "b");
+    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
+      1,
+      useBrick,
+      "a",
+      undefined
+    );
+    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
+      2,
+      useBrick,
+      "b",
+      undefined
+    );
     expect(mockMountUseBrick).not.toBeCalled();
 
     await act(() => (global as any).flushPromises());
@@ -101,7 +111,12 @@ describe("ReactUseBrick", () => {
     rerender(<ListByUseBrick useBrick={useBrick} data={["a", "c"]} />);
 
     expect(mockRenderUseBrick).toBeCalledTimes(3);
-    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(3, useBrick, "c");
+    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
+      3,
+      useBrick,
+      "c",
+      undefined
+    );
 
     expect(mockUnmountUseBrick).not.toBeCalled();
     await act(() => (global as any).flushPromises());
@@ -162,7 +177,12 @@ describe("ReactUseBrick", () => {
     );
 
     expect(mockRenderUseBrick).toBeCalledTimes(1);
-    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(1, useBrick, "a");
+    expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
+      1,
+      useBrick,
+      "a",
+      undefined
+    );
     expect(mockMountUseBrick).not.toBeCalled();
 
     jest.advanceTimersByTime(200);

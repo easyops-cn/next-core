@@ -58,6 +58,12 @@ for (const middleware of middlewares) {
 const browseHappyHtml = "browse-happy.html";
 
 if (useLocalContainer) {
+  // Serve preview
+  app.use(
+    `${baseHref}_brick-preview-v3_/preview/`,
+    express.static(path.join(distDir, "preview"))
+  );
+
   // Serve index.html
   app.use(baseHref, async (req, res, next) => {
     await serveIndexHtml(req, res, next, true);
