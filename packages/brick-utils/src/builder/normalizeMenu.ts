@@ -12,6 +12,7 @@ const fieldsToKeepInMenu = [
   "injectMenuGroupId",
   "dynamicItems",
   "itemsResolve",
+  "uuid",
 ];
 
 const fieldsToKeepInMenuItem = [
@@ -31,6 +32,7 @@ const fieldsToKeepInMenuItem = [
   "if",
   "groupId",
   "childLayout",
+  "uuid",
 ];
 
 export interface MenuNode {
