@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.6...@next-core/preview@0.6.0) (2024-05-21)
+
+
+### Features
+
+* support noResolve for preview inject ([cfe2499](https://github.com/easyops-cn/next-core/commit/cfe24999f6d1f8eb546c22100da0f54c49efb796))
+
+
+
+
+
 ## [0.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.5...@next-core/preview@0.5.6) (2024-05-17)
 
 **Note:** Version bump only for package @next-core/preview
