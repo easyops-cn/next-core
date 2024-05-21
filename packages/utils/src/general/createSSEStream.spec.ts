@@ -192,4 +192,47 @@ describe("createSSEStream", () => {
       "Oops"
     );
   });
+
+  test("error event", async () => {
+    mockFetchEventSource.mockImplementation(async (_url, options) => {
+      const { onopen, onmessage } = options;
+      await Promise.resolve();
+      await onopen?.({ ok: true } as Response);
+      await Promise.resolve();
+      onmessage?.({ id: "", event: "", data: '"1"' });
+      await Promise.resolve();
+      onmessage?.({ id: "", event: "error", data: '{"error":"Oops"}' });
+    });
+    const iterator = await createSSEStream<string>(url);
+    await expect(async () => {
+      for await (const _value of iterator) {
+        // Do nothing
+      }
+    }).rejects.toMatchInlineSnapshot(`[Error: Oops]`);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
+      "Received error event:",
+      '{"error":"Oops"}'
+    );
+  });
+
+  test("error event that can not be parsed as JSON", async () => {
+    mockFetchEventSource.mockImplementation(async (_url, options) => {
+      const { onopen, onmessage } = options;
+      await Promise.resolve();
+      await onopen?.({ ok: true } as Response);
+      await Promise.resolve();
+      onmessage?.({ id: "", event: "", data: '"1"' });
+      await Promise.resolve();
+      onmessage?.({ id: "", event: "error", data: "Yaks" });
+    });
+    const iterator = await createSSEStream<string>(url);
+    await expect(async () => {
+      for await (const _value of iterator) {
+        // Do nothing
+      }
+    }).rejects.toMatchInlineSnapshot(`[Error: Yaks]`);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("Received error event:", "Yaks");
+  });
 });
