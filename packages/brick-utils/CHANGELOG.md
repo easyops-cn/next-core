@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.20...@next-core/brick-utils@2.52.0) (2024-05-21)
+
+
+### Features
+
+* **normalizeMenu:** add uuid ([75dc2dc](https://github.com/easyops-cn/next-core/commit/75dc2dccd26ba928e62b6f166bc7ab9c8f85cd26))
+
+
+
+
+
 ## [2.51.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.51.19...@next-core/brick-utils@2.51.20) (2024-05-20)
 
 **Note:** Version bump only for package @next-core/brick-utils
