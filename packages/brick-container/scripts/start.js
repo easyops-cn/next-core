@@ -73,6 +73,13 @@ const server = new WebpackDevServer(
         },
       });
 
+      middlewares.unshift({
+        path: `${baseHref}_brick-preview-v3_/preview/`,
+        async middleware(req, res) {
+          await servePreviewHtml(req, res);
+        },
+      });
+
       middlewares.unshift(...getPreMiddlewares(env));
 
       middlewares.push(...getMiddlewares(env));
@@ -140,6 +147,26 @@ async function serveIndexHtml(req, res, next, isHome) {
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  */
+async function servePreviewHtml(req, res) {
+  const filePath = path.join(
+    "preview",
+    req.path === "/" ? "index.html" : req.path
+  );
+  let content;
+  try {
+    content = await getRawContent(filePath);
+  } catch {
+    res.sendStatus(404);
+    return;
+  }
+  res.type(path.extname(filePath));
+  res.send(req.path === "/" ? injectIndexHtml(env, content) : content);
+}
+
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function serveStandaloneCoreStatic(req, res, next) {
   if (req.method !== "GET") {
     next();
@@ -160,10 +187,14 @@ async function serveStandaloneCoreStatic(req, res, next) {
 }
 
 async function getRawIndexHtml() {
+  return getRawContent("index.html");
+}
+
+async function getRawContent(filePath) {
   await ready;
-  const indexHtmlPath = path.join(distDir, "index.html");
+  const absoluteFilePath = path.join(distDir, filePath);
   return new Promise((resolve, reject) => {
-    compiler.outputFileSystem.readFile(indexHtmlPath, (err, content) => {
+    compiler.outputFileSystem.readFile(absoluteFilePath, (err, content) => {
       if (err) {
         reject(err);
       } else {
