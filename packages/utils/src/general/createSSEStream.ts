@@ -31,9 +31,10 @@ export interface Options<T> extends RequestInit {
    * 默认实现将消息数据解析为 JSON 对象，特例：消息为 "[DONE]" 时表示结束。
    *
    * @param data 消息数据
+   * @param event 事件
    * @returns 迭代器结果
    */
-  converter?: (data: string) => MessageIteratorResult<T>;
+  converter?: (data: string, event: string) => MessageIteratorResult<T>;
 }
 
 /**
@@ -74,7 +75,7 @@ export async function createSSEStream<T = unknown>(
         let reason: unknown;
         let ok = true;
         try {
-          data = (converter ?? defaultConverter<T>)(msg.data);
+          data = (converter ?? defaultConverter<T>)(msg.data, msg.event);
         } catch (e) {
           ok = false;
           reason = e;
@@ -152,7 +153,22 @@ export async function createSSEStream<T = unknown>(
   } as AsyncIterableIterator<T>;
 }
 
-function defaultConverter<T>(data: string): MessageIteratorResult<T> {
+function defaultConverter<T>(
+  data: string,
+  event: string
+): MessageIteratorResult<T> {
+  if (event === "error") {
+    // eslint-disable-next-line no-console
+    console.error("Received error event:", data);
+    let value: undefined | { error?: string };
+    try {
+      value = JSON.parse(data);
+    } catch {
+      // Ignore
+    }
+    throw new Error(typeof value?.error === "string" ? value.error : data);
+  }
+
   // By default, `data: [DONE]` indicates the end of the stream
   if (data === "[DONE]") {
     return {
