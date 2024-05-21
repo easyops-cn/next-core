@@ -333,7 +333,7 @@ export interface RenderOptions {
 }
 
 // @public (undocumented)
-function renderUseBrick(useBrick: RuntimeUseBrickConfWithRootSymbols, data: unknown): Promise<RenderUseBrickResult>;
+function renderUseBrick(useBrick: RuntimeUseBrickConfWithRootSymbols, data: unknown, errorBoundary?: boolean): Promise<RenderUseBrickResult>;
 
 // @public (undocumented)
 interface RenderUseBrickResult {

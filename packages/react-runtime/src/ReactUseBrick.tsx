@@ -18,6 +18,7 @@ export type { UseSingleBrickConf };
 export interface ReactUseBrickProps {
   useBrick: UseSingleBrickConf;
   data?: unknown;
+  errorBoundary?: boolean;
   refCallback?: (element: HTMLElement | null) => void;
   ignoredCallback?: () => void;
 }
@@ -27,6 +28,7 @@ export interface ReactUseBrickProps {
 let ReactUseBrick = function ReactUseBrick({
   useBrick,
   data,
+  errorBoundary,
   refCallback,
   ignoredCallback,
 }: ReactUseBrickProps): React.ReactElement | null {
@@ -43,7 +45,8 @@ let ReactUseBrick = function ReactUseBrick({
       try {
         const newRender = await __secret_internals.renderUseBrick(
           useBrick,
-          data
+          data,
+          errorBoundary
         );
         if (ignore) {
           return;
@@ -67,7 +70,7 @@ let ReactUseBrick = function ReactUseBrick({
     return () => {
       ignore = true;
     };
-  }, [data, useBrick, initialRenderId]);
+  }, [data, useBrick, initialRenderId, errorBoundary]);
 
   const _refCallback = useCallback(
     (element: HTMLElement | null) => {
@@ -115,22 +118,35 @@ function isTheSameRender(initialRenderId: string | undefined): boolean {
 export interface ReactUseMultipleBricksProps {
   useBrick: UseSingleBrickConf | UseSingleBrickConf[];
   data?: unknown;
+  errorBoundary?: boolean;
 }
 
 let ReactUseMultipleBricks = function ReactUseMultipleBricks({
   useBrick,
   data,
+  errorBoundary,
 }: ReactUseMultipleBricksProps): React.ReactElement | null {
   if (Array.isArray(useBrick)) {
     return (
       <>
         {useBrick.map((item, index) => (
-          <ReactUseBrick key={index} useBrick={item} data={data} />
+          <ReactUseBrick
+            key={index}
+            useBrick={item}
+            data={data}
+            errorBoundary={errorBoundary}
+          />
         ))}
       </>
     );
   }
-  return <ReactUseBrick useBrick={useBrick} data={data} />;
+  return (
+    <ReactUseBrick
+      useBrick={useBrick}
+      data={data}
+      errorBoundary={errorBoundary}
+    />
+  );
 };
 
 // Make v3 bricks compatible with Brick Next v2.

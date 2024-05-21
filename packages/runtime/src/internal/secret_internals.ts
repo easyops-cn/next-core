@@ -57,7 +57,8 @@ export interface RenderUseBrickResult {
 
 export async function renderUseBrick(
   useBrick: RuntimeUseBrickConfWithRootSymbols,
-  data: unknown
+  data: unknown,
+  errorBoundary?: boolean
 ): Promise<RenderUseBrickResult> {
   const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
     createScopedRuntimeContext({
@@ -92,9 +93,10 @@ export async function renderUseBrick(
 
   const output = await renderBrick(
     renderRoot,
-    strict
+    strict && !errorBoundary
       ? useBrick
       : {
+          errorBoundary,
           ...useBrick,
           properties: {
             ...useBrick.properties,

@@ -558,6 +558,9 @@ export interface BrickConf {
 
   /** 控制类节点的数据源 */
   dataSource?: unknown;
+
+  /** 捕获构件渲染错误 */
+  errorBoundary?: boolean;
 }
 
 /** @internal */

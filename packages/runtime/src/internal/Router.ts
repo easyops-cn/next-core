@@ -401,12 +401,14 @@ export class Router {
                   type: "div",
                   properties: {
                     textContent: httpErrorToString(error),
+                    style: {
+                      color: "var(--color-error)",
+                    },
                   },
                   runtimeContext: null!,
                   return: returnNode,
                 },
                 blockingList: [],
-                menuRequests: [],
               },
             };
           }
