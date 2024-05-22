@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.16.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.6...@next-core/brick-container@3.16.7) (2024-05-22)
+
+
+### Bug Fixes
+
+* allow brick repo to customize size check filter ([8bd7d4b](https://github.com/easyops-cn/next-core/commit/8bd7d4b3c7a3a9690c256a671751bce72f955fc8))
+
+
+
+
+
 ## [3.16.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.5...@next-core/brick-container@3.16.6) (2024-05-21)
 
 **Note:** Version bump only for package @next-core/brick-container
