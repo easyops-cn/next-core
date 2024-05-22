@@ -3,7 +3,7 @@ import { getSingleStoryboard } from "../utils/getStoryboards.js";
 import { getSizeCheckStoryboards } from "../utils/sizeCheck.js";
 
 export default function standaloneBootstrapJson(
-  { rootDir, localBricks, localBrickFolders },
+  { rootDir, localBricks, localBrickFolders, sizeCheckFilter },
   appId
 ) {
   /**
@@ -19,7 +19,7 @@ export default function standaloneBootstrapJson(
 
       if (appId === "-size-check-") {
         res.json({
-          storyboards: getSizeCheckStoryboards(brickPackages),
+          storyboards: getSizeCheckStoryboards(brickPackages, sizeCheckFilter),
           brickPackages,
           settings: getE2eSettings(),
         });
