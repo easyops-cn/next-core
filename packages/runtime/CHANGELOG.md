@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.1...@next-core/runtime@1.44.2) (2024-05-22)
+
+
+### Bug Fixes
+
+* add a dataset for error boundary ([aef4127](https://github.com/easyops-cn/next-core/commit/aef41271a85509f7eb97703da27fc8e40af6c6e2))
+
+
+
+
+
 ## [1.44.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.0...@next-core/runtime@1.44.1) (2024-05-21)
 
 **Note:** Version bump only for package @next-core/runtime
