@@ -181,6 +181,12 @@ export function unstable_createRoot(
             type: "div",
             properties: {
               textContent: httpErrorToString(error),
+              dataset: {
+                errorBoundary: "",
+              },
+              style: {
+                color: "var(--color-error)",
+              },
             },
             return: renderRoot,
             runtimeContext: null!,

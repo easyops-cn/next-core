@@ -952,6 +952,9 @@ describe("renderBrick", () => {
         type: "div",
         properties: {
           textContent: 'ReferenceError: ABC is not defined, in "<% ABC %>"',
+          dataset: {
+            errorBoundary: "",
+          },
           style: {
             color: "var(--color-error)",
           },

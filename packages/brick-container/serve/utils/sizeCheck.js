@@ -21,12 +21,18 @@ export function getSizeCheckStoryboards(brickPackages, sizeCheckFilter) {
             {
               brick: "ul",
               children: brickPackages.flatMap((pkg) =>
-                pkg.bricks.concat(pkg.elements ?? []).map((brick) => ({
-                  brick: "li",
-                  properties: {
-                    textContent: `${pkg.id.split("/")[1]}:${brick}`,
-                  },
-                }))
+                pkg.bricks
+                  .concat(pkg.elements ?? [])
+                  .filter(
+                    (brick) =>
+                      !sizeCheckFilter || sizeCheckFilter(brick, pkg.id)
+                  )
+                  .map((brick) => ({
+                    brick: "li",
+                    properties: {
+                      textContent: `${pkg.id.split("/")[1]}:${brick}`,
+                    },
+                  }))
               ),
             },
             {
@@ -38,17 +44,22 @@ export function getSizeCheckStoryboards(brickPackages, sizeCheckFilter) {
           ],
         },
         ...brickPackages.flatMap((pkg) =>
-          pkg.bricks.concat(pkg.elements ?? []).map((brick) => ({
-            path: `\${APP.homepage}/${brick}`,
-            exact: true,
-            preLoadBricks: [brick],
-            bricks: [
-              {
-                brick: "p",
-                properties: { textContent: "This is size-check!" },
-              },
-            ],
-          }))
+          pkg.bricks
+            .concat(pkg.elements ?? [])
+            .filter(
+              (brick) => !sizeCheckFilter || sizeCheckFilter(brick, pkg.id)
+            )
+            .map((brick) => ({
+              path: `\${APP.homepage}/${brick}`,
+              exact: true,
+              preLoadBricks: [brick],
+              bricks: [
+                {
+                  brick: "p",
+                  properties: { textContent: "This is size-check!" },
+                },
+              ],
+            }))
         ),
 
         // By each package
