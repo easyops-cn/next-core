@@ -291,6 +291,9 @@ export async function renderBrick(
           type: "div",
           properties: {
             textContent: httpErrorToString(error),
+            dataset: {
+              errorBoundary: "",
+            },
             style: {
               color: "var(--color-error)",
             },

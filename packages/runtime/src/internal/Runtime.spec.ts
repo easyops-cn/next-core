@@ -856,7 +856,9 @@ describe("Runtime", () => {
             Hello
           </h1>
           <div>
-            <div>
+            <div
+              data-error-boundary=""
+            >
               SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
             </div>
           </div>
@@ -1374,7 +1376,9 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <div>
+          <div
+            data-error-boundary=""
+          >
             TypeError: bricks is not iterable
           </div>
         </div>,
