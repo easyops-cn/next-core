@@ -8,7 +8,7 @@ export function getSizeCheckApp() {
   };
 }
 
-export function getSizeCheckStoryboards(brickPackages) {
+export function getSizeCheckStoryboards(brickPackages, sizeCheckFilter) {
   return [
     {
       app: getSizeCheckApp(),
@@ -76,12 +76,11 @@ export function getSizeCheckStoryboards(brickPackages) {
         ...brickPackages.map((pkg) => ({
           path: `\${APP.homepage}/packages/${pkg.id.split("/")[1]}`,
           exact: true,
-          preLoadBricks: pkg.bricks.concat(pkg.elements ?? []).filter(
-            (brick) =>
-              // This brick is an alias of a deprecated brick.
-              // Ignore it otherwise it will cause custom element conflict.
-              pkg.id !== "bricks/basic" || brick !== "basic.app-bar-wrapper"
-          ),
+          preLoadBricks: pkg.bricks
+            .concat(pkg.elements ?? [])
+            .filter(
+              (brick) => !sizeCheckFilter || sizeCheckFilter(brick, pkg.id)
+            ),
           bricks: [
             {
               brick: "p",
@@ -96,12 +95,7 @@ export function getSizeCheckStoryboards(brickPackages) {
           exact: true,
           preLoadBricks: brickPackages
             .flatMap((pkg) => pkg.bricks.concat(pkg.elements ?? []))
-            .filter(
-              (brick) =>
-                // This brick is an alias of a deprecated brick.
-                // Ignore it otherwise it will cause custom element conflict.
-                brick !== "basic.app-bar-wrapper"
-            ),
+            .filter((brick) => !sizeCheckFilter || sizeCheckFilter(brick)),
           bricks: [
             {
               brick: "p",

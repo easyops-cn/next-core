@@ -107,6 +107,7 @@ export async function getEnv(rootDir, runtimeFlags) {
   let configuredBrickFolders = false;
   let userConfigByApps;
   let https;
+  let sizeCheckFilter;
   if (existsSync(devConfigMjs)) {
     const devConfig = (await import(devConfigMjs)).default;
     if (devConfig) {
@@ -118,6 +119,7 @@ export async function getEnv(rootDir, runtimeFlags) {
       localMocks = devConfig.mocks;
       userConfigByApps = devConfig.userConfigByApps;
       https = devConfig.https;
+      sizeCheckFilter = devConfig.sizeCheckFilter;
     }
   }
 
@@ -155,6 +157,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     wsPort: Number(flags.wsPort),
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
+    sizeCheckFilter,
     verbose: flags.verbose,
   };
 

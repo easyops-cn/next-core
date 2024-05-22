@@ -96,6 +96,11 @@ export interface DevConfig {
    * ```
    */
   mocks?: RequestHandler[];
+
+  /**
+   * 过滤需要进行 size-check 的构件。
+   */
+  sizeCheckFilter?: (brick: string, pkgId?: string) => boolean;
 }
 
 interface Settings {
