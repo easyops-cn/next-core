@@ -15,5 +15,6 @@
     "template/",
     "**/__mocks__/",
     "package.json"
-  ]
+  ],
+  "include": ["./src", "../../declarations"]
 }

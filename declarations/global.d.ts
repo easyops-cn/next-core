@@ -12,6 +12,10 @@ declare module "@ungap/event-target" {
   export default EventTarget;
 }
 
+declare module "semver" {
+  export function satisfies(version: string, range: string): boolean;
+}
+
 interface Window {
   /** A map of versions of core packages. */
   BRICK_NEXT_VERSIONS?: Record<string, string>;
