@@ -41,7 +41,7 @@
     "compression": "^1.7.4",
     "express": "^4.19.2",
     "glob": "^8.1.0",
-    "http-proxy-middleware": "^2.0.6",
+    "http-proxy-middleware": "^3.0.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "meow": "^11.0.0",

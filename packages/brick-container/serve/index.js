@@ -76,11 +76,26 @@ if (useLocalContainer) {
 
 const proxy = getProxy(env, getRawIndexHtml);
 if (proxy) {
-  for (const options of proxy) {
+  for (const { context, onProxyReq, onProxyRes, ...options } of proxy) {
     app.use(
-      createProxyMiddleware(options.context, {
-        logLevel: "warn",
+      createProxyMiddleware({
+        logger: {
+          info() {
+            // Do nothing
+          },
+          warn(...args) {
+            return console.warn(...args);
+          },
+          error(...args) {
+            return console.error(...args);
+          },
+        },
         ...options,
+        pathFilter: context,
+        on: {
+          ...(onProxyReq ? { proxyReq: onProxyReq } : null),
+          ...(onProxyRes ? { proxyRes: onProxyRes } : null),
+        },
       })
     );
   }
