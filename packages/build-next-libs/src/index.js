@@ -1,6 +1,6 @@
 const path = require("path");
 const execa = require("execa");
-const rimraf = require("rimraf");
+const { rimraf } = require("rimraf");
 
 const babel = getBinPath("@babel/cli", "babel");
 
@@ -40,20 +40,10 @@ function build(type) {
 
   return type === "cjs"
     ? task
-    : task.then(
-        () =>
-          new Promise((resolve, reject) => {
-            rimraf(
-              `dist/{${type},types}/**/__{snapshots,mocks,fixtures}__`,
-              (err) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve();
-                }
-              }
-            );
-          })
+    : task.then(() =>
+        rimraf(`dist/{${type},types}/**/__{snapshots,mocks,fixtures}__`, {
+          glob: true,
+        })
       );
 }
 
