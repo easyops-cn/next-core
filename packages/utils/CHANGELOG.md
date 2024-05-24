@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.5](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.4...@next-core/utils@1.7.5) (2024-05-21)
+
+
+### Bug Fixes
+
+* handle sse error event ([331b109](https://github.com/easyops-cn/next-core/commit/331b10993353d67075e2a09a17201234510b738d))
+
+
+
+
+
+## [1.7.4](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.3...@next-core/utils@1.7.4) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.7.3](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.2...@next-core/utils@1.7.3) (2024-05-16)
+
+
+### Bug Fixes
+
+* catch sse error message ([3c120dc](https://github.com/easyops-cn/next-core/commit/3c120dc06608729d134d5806cf2c810a19a26a48))
+
+
+
+
+
+## [1.7.2](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.1...@next-core/utils@1.7.2) (2024-05-10)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
 ## [1.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.0...@next-core/utils@1.7.1) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/utils

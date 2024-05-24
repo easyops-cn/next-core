@@ -3,6 +3,100 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.2...@next-core/preview@0.6.3) (2024-05-22)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.1...@next-core/preview@0.6.2) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.0...@next-core/preview@0.6.1) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+# [0.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.6...@next-core/preview@0.6.0) (2024-05-21)
+
+
+### Features
+
+* support noResolve for preview inject ([cfe2499](https://github.com/easyops-cn/next-core/commit/cfe24999f6d1f8eb546c22100da0f54c49efb796))
+
+
+
+
+
+## [0.5.6](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.5...@next-core/preview@0.5.6) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.4...@next-core/preview@0.5.5) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.3...@next-core/preview@0.5.4) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.2...@next-core/preview@0.5.3) (2024-05-16)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.1...@next-core/preview@0.5.2) (2024-05-15)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.5.0...@next-core/preview@0.5.1) (2024-05-14)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.4.3...@next-core/preview@0.5.0) (2024-05-10)
+
+
+### Features
+
+* **preview:** support _preview_only_inject ([2dd3226](https://github.com/easyops-cn/next-core/commit/2dd322675d00e2a892ee2eb7b4677e4589fb2b34))
+
+
+
+
+
 ## [0.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.4.2...@next-core/preview@0.4.3) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/preview

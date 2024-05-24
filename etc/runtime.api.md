@@ -38,6 +38,7 @@ import type { SlotConfOfRoutes } from '@next-core/types';
 import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
+import type { UseProviderResolveConf } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';
 
 declare namespace __secret_internals {
@@ -57,6 +58,7 @@ declare namespace __secret_internals {
         loadBricks,
         getRenderId,
         getAddedContracts,
+        debugDataValue,
         DataValueOption,
         RuntimeContext,
         symbolForRootRuntimeContext,
@@ -130,6 +132,11 @@ interface DataValueOption {
     // (undocumented)
     tplStateStoreId?: string;
 }
+
+// Warning: (ae-forgotten-export) The symbol "DebugDataValue" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+function debugDataValue(debugData: DebugDataValue, { tplStateStoreId }: DataValueOption): Promise<any>;
 
 // @public (undocumented)
 export const Dialog: Readonly<{
@@ -326,7 +333,7 @@ export interface RenderOptions {
 }
 
 // @public (undocumented)
-function renderUseBrick(useBrick: RuntimeUseBrickConfWithRootSymbols, data: unknown): Promise<RenderUseBrickResult>;
+function renderUseBrick(useBrick: RuntimeUseBrickConfWithRootSymbols, data: unknown, errorBoundary?: boolean): Promise<RenderUseBrickResult>;
 
 // @public (undocumented)
 interface RenderUseBrickResult {

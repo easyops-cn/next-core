@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.10...@next-core/build-next-bricks@1.21.0) (2024-05-17)
+
+
+### Features
+
+* support resolve options ([517085c](https://github.com/easyops-cn/next-core/commit/517085c4aab599db03f4c4605e63c92960d430d7))
+
+
+
+
+
+## [1.20.10](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.9...@next-core/build-next-bricks@1.20.10) (2024-05-17)
+
+
+### Bug Fixes
+
+* Use react required version for react-dom if it is not specified ([4e2056f](https://github.com/easyops-cn/next-core/commit/4e2056f0ce76e205544f41c359e5c2aa13739a9b))
+
+
+
+
+
+## [1.20.9](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.8...@next-core/build-next-bricks@1.20.9) (2024-05-10)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.20.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.7...@next-core/build-next-bricks@1.20.8) (2024-04-16)
 
 **Note:** Version bump only for package @next-core/build-next-bricks

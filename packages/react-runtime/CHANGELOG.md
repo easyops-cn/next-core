@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.5.1...@next-core/react-runtime@1.5.2) (2024-05-22)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.5.0...@next-core/react-runtime@1.5.1) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+# [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.13...@next-core/react-runtime@1.5.0) (2024-05-21)
+
+
+### Features
+
+* render error boundary ([21869ee](https://github.com/easyops-cn/next-core/commit/21869ee16f6a64c6c14cae68fb88069a083e8554))
+
+
+
+
+
+## [1.4.13](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.12...@next-core/react-runtime@1.4.13) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.12](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.11...@next-core/react-runtime@1.4.12) (2024-05-16)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.11](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.10...@next-core/react-runtime@1.4.11) (2024-05-15)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.10](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.9...@next-core/react-runtime@1.4.10) (2024-05-14)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.8...@next-core/react-runtime@1.4.9) (2024-05-10)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
 ## [1.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.4.7...@next-core/react-runtime@1.4.8) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/react-runtime

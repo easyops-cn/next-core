@@ -11,6 +11,7 @@ import type {
   SlotsConfOfBricks,
   Storyboard,
   StaticMenuConf,
+  UseProviderResolveConf,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
@@ -169,4 +170,9 @@ export interface MenuRequestNode {
   sibling?: MenuRequestNode;
   return?: MenuRequestNode;
   request?: Promise<StaticMenuConf>;
+}
+
+export interface DebugDataValue {
+  resolve?: UseProviderResolveConf;
+  value?: unknown;
 }

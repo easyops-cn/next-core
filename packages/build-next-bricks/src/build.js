@@ -213,15 +213,23 @@ async function getWebpackConfig(config) {
                 if (typeof customized === "string") {
                   return;
                 }
+
+                const getRequiredVersion = (dep) =>
+                  packageJson.peerDependencies?.[dep] ??
+                  packageJson.devDependencies?.[dep] ??
+                  packageJson.dependencies?.[dep];
+
                 return [
                   dep,
                   {
                     singleton: sharedSingletonPackages.includes(dep),
                     version: depPackageJson.version,
                     requiredVersion:
-                      packageJson.peerDependencies?.[depPkgName] ??
-                      packageJson.devDependencies?.[depPkgName] ??
-                      packageJson.dependencies?.[depPkgName],
+                      getRequiredVersion(depPkgName) ??
+                      // Use react required version for react-dom if it is not specified
+                      (depPkgName === "react-dom"
+                        ? getRequiredVersion("react")
+                        : undefined),
                     ...customized,
                   },
                 ];
@@ -306,6 +314,7 @@ async function getWebpackConfig(config) {
       extensionAlias: {
         ".js": [".ts", ".tsx", ".js", ".jsx"],
       },
+      ...config.resolve,
     },
     module: {
       rules: [

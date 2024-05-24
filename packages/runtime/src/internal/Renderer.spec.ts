@@ -919,6 +919,57 @@ describe("renderBrick", () => {
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith("Invalid brick:", brick);
   });
+
+  test("error boundary", async () => {
+    consoleError.mockReturnValueOnce();
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const brick = {
+      brick: "div",
+      properties: {
+        textContent: "<% ABC %>",
+      },
+      errorBoundary: true,
+    };
+    const output = await renderBrick(
+      renderRoot,
+      brick,
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    expect(output).toEqual({
+      node: {
+        tag: RenderTag.BRICK,
+        type: "div",
+        properties: {
+          textContent: 'ReferenceError: ABC is not defined, in "<% ABC %>"',
+          dataset: {
+            errorBoundary: "",
+          },
+          style: {
+            color: "var(--color-error)",
+          },
+        },
+        runtimeContext: null,
+        return: renderRoot,
+      },
+      blockingList: [],
+    });
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith(
+      "Error caught by error boundary:",
+      new ReferenceError('ABC is not defined, in "<% ABC %>"')
+    );
+  });
 });
 
 describe("renderBrick for control nodes", () => {

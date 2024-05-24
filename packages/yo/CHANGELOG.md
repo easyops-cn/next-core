@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.53](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.52...@next-core/yo@1.5.53) (2024-05-22)
+
+
+### Bug Fixes
+
+* use yaml in brick docs by default ([43e3844](https://github.com/easyops-cn/next-core/commit/43e3844d98f6dae53c4ffe485e009f18e4ec2a10))
+
+
+
+
+
+## [1.5.52](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.51...@next-core/yo@1.5.52) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.51](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.50...@next-core/yo@1.5.51) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.50](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.49...@next-core/yo@1.5.50) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.49](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.48...@next-core/yo@1.5.49) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.48](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.47...@next-core/yo@1.5.48) (2024-05-16)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.47](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.46...@next-core/yo@1.5.47) (2024-05-10)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.46](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.45...@next-core/yo@1.5.46) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/yo

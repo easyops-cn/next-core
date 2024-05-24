@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.23](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.22...@next-bricks/e2e@0.3.23) (2024-05-22)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.22](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.21...@next-bricks/e2e@0.3.22) (2024-05-21)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.21](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.20...@next-bricks/e2e@0.3.21) (2024-05-21)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.20](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.19...@next-bricks/e2e@0.3.20) (2024-05-17)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.19](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.18...@next-bricks/e2e@0.3.19) (2024-05-17)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.18](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.17...@next-bricks/e2e@0.3.18) (2024-05-17)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.17](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.16...@next-bricks/e2e@0.3.17) (2024-05-16)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.16](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.15...@next-bricks/e2e@0.3.16) (2024-05-15)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.15](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.14...@next-bricks/e2e@0.3.15) (2024-05-14)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
+## [0.3.14](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.13...@next-bricks/e2e@0.3.14) (2024-05-10)
+
+**Note:** Version bump only for package @next-bricks/e2e
+
+
+
+
+
 ## [0.3.13](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.12...@next-bricks/e2e@0.3.13) (2024-05-09)
 
 **Note:** Version bump only for package @next-bricks/e2e

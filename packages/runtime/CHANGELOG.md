@@ -3,6 +3,85 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.1...@next-core/runtime@1.44.2) (2024-05-22)
+
+
+### Bug Fixes
+
+* add a dataset for error boundary ([aef4127](https://github.com/easyops-cn/next-core/commit/aef41271a85509f7eb97703da27fc8e40af6c6e2))
+
+
+
+
+
+## [1.44.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.0...@next-core/runtime@1.44.1) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.44.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.43.2...@next-core/runtime@1.44.0) (2024-05-21)
+
+
+### Features
+
+* render error boundary ([21869ee](https://github.com/easyops-cn/next-core/commit/21869ee16f6a64c6c14cae68fb88069a083e8554))
+
+
+
+
+
+## [1.43.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.43.1...@next-core/runtime@1.43.2) (2024-05-17)
+
+
+### Bug Fixes
+
+* refine debug ([27181f7](https://github.com/easyops-cn/next-core/commit/27181f725115add3996dd3ad73e502c5106ce705))
+
+
+
+
+
+## [1.43.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.43.0...@next-core/runtime@1.43.1) (2024-05-16)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.43.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.42.0...@next-core/runtime@1.43.0) (2024-05-15)
+
+
+### Features
+
+* debug data value in template ([e2055bb](https://github.com/easyops-cn/next-core/commit/e2055bba76fb0f86680a6c191781ab170d0a82a8))
+
+
+
+
+
+# [1.42.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.41.2...@next-core/runtime@1.42.0) (2024-05-14)
+
+
+### Features
+
+* debug data value ([d47d024](https://github.com/easyops-cn/next-core/commit/d47d0245f7c7152ecad252cf8f0e6b1c12015135))
+
+
+
+
+
+## [1.41.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.41.1...@next-core/runtime@1.41.2) (2024-05-10)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.41.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.41.0...@next-core/runtime@1.41.1) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/runtime

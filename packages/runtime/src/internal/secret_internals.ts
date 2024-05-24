@@ -21,12 +21,15 @@ import {
 } from "./Renderer.js";
 import { RendererContext } from "./RendererContext.js";
 import type { DataStore } from "./data/DataStore.js";
+import { resolveData } from "./data/resolveData.js";
+import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import type {
   DataValueOption,
   PreviewOption,
   PreviewStoryboardPatch,
   RenderRoot,
   RuntimeContext,
+  DebugDataValue,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -54,7 +57,8 @@ export interface RenderUseBrickResult {
 
 export async function renderUseBrick(
   useBrick: RuntimeUseBrickConfWithRootSymbols,
-  data: unknown
+  data: unknown,
+  errorBoundary?: boolean
 ): Promise<RenderUseBrickResult> {
   const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
     createScopedRuntimeContext({
@@ -89,9 +93,10 @@ export async function renderUseBrick(
 
   const output = await renderBrick(
     renderRoot,
-    strict
+    strict && !errorBoundary
       ? useBrick
       : {
+          errorBoundary,
           ...useBrick,
           properties: {
             ...useBrick.properties,
@@ -433,6 +438,22 @@ export async function getAddedContracts(
   }
 
   return addedContracts;
+}
+
+export async function debugDataValue(
+  debugData: DebugDataValue,
+  { tplStateStoreId }: DataValueOption
+): Promise<any> {
+  const runtimeContext = {
+    ..._internalApiGetRuntimeContext()!,
+    tplStateStoreId,
+  };
+
+  if (debugData.resolve) {
+    return resolveData(debugData.resolve!, runtimeContext, { cache: "reload" });
+  }
+
+  return asyncComputeRealValue(debugData.value, runtimeContext);
 }
 
 export {

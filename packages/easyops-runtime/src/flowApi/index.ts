@@ -9,4 +9,6 @@ export {
   collectContract,
   collectWidgetContract,
   clearCollectWidgetContract,
+  collectDebugContract,
+  clearDebugContract,
 } from "./CollectContracts.js";

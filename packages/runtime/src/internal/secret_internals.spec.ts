@@ -17,6 +17,7 @@ import {
   getRenderId,
   getAddedContracts,
   symbolForRootRuntimeContext,
+  debugDataValue,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
@@ -27,6 +28,8 @@ import {
   _internalApiGetStoryboardInBootstrapData,
 } from "./Runtime.js";
 import { DataStore } from "./data/DataStore.js";
+import * as resolveData from "./data/resolveData.js";
+import * as computeRealValue from "./compute/computeRealValue.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../isStrictMode.js");
@@ -1135,5 +1138,41 @@ describe("getAddedContracts", () => {
         },
       })
     ).toEqual(["easyops.api.micro_app.workflow@execute:1.0.0"]);
+  });
+});
+
+describe("debugDataValue", () => {
+  test("should work", async () => {
+    const mockResolveData = jest
+      .spyOn(resolveData, "resolveData")
+      .mockImplementationOnce(async () => null);
+
+    const mockAsyncComputeRealValue = jest
+      .spyOn(computeRealValue, "asyncComputeRealValue")
+      .mockImplementationOnce(async () => null);
+    mockInternalApiGetRuntimeContext.mockReturnValue({});
+    await debugDataValue(
+      {
+        resolve: { useProvider: "easyops.api.cmdb.model@postSearch:1.0.0" },
+      },
+      { tplStateStoreId: "tpl-state-6" }
+    );
+
+    expect((mockResolveData as jest.Mock).mock.calls[0][0]).toEqual({
+      useProvider: "easyops.api.cmdb.model@postSearch:1.0.0",
+    });
+
+    await debugDataValue(
+      {
+        value: "<% 1+ 1 %>",
+      },
+      { tplStateStoreId: undefined }
+    );
+
+    expect((mockAsyncComputeRealValue as jest.Mock).mock.calls[0][0]).toEqual(
+      "<% 1+ 1 %>"
+    );
+    mockResolveData.mockRestore();
+    mockAsyncComputeRealValue.mockRestore();
   });
 });

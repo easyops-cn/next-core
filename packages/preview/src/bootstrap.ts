@@ -6,9 +6,11 @@ import {
   unstable_createRoot,
 } from "@next-core/runtime";
 import { http, HttpRequestConfig } from "@next-core/http";
+import { loadBricksImperatively } from "@next-core/loader";
 import type {
   BootstrapData,
   BrickConf,
+  BrickPackage,
   ContextConf,
   CustomTemplate,
   MetaI18n,
@@ -104,16 +106,28 @@ const bootstrap = http
 let rendering = false;
 let nextRequest: RenderRequest;
 
-(window as unknown as PreviewWindow)._preview_only_render = (
-  type,
-  sources,
-  options
-) => {
+(window as PreviewWindow)._preview_only_render = (type, sources, options) => {
   if (rendering) {
     nextRequest = { type, sources, options };
   } else {
     queuedRender({ type, sources, options });
   }
+};
+
+(window as PreviewWindow)._preview_only_inject = async (
+  brick,
+  pkg,
+  options,
+  noResolve
+) => {
+  await loadBricksImperatively([brick], ([] as BrickPackage[]).concat(pkg));
+  if (noResolve) {
+    return;
+  }
+  const element = document.createElement(brick) as HTMLElement & {
+    resolve: (options: unknown) => Promise<void>;
+  };
+  await element.resolve(options);
 };
 
 async function queuedRender(request: RenderRequest) {

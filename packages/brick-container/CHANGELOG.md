@@ -3,6 +3,114 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.16.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.7...@next-core/brick-container@3.16.8) (2024-05-22)
+
+
+### Bug Fixes
+
+* fix size check by each brick ([6381f46](https://github.com/easyops-cn/next-core/commit/6381f469aa9d7862bc70073c58bf5fde51ef1b48))
+
+
+
+
+
+## [3.16.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.6...@next-core/brick-container@3.16.7) (2024-05-22)
+
+
+### Bug Fixes
+
+* allow brick repo to customize size check filter ([8bd7d4b](https://github.com/easyops-cn/next-core/commit/8bd7d4b3c7a3a9690c256a671751bce72f955fc8))
+
+
+
+
+
+## [3.16.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.5...@next-core/brick-container@3.16.6) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.4...@next-core/brick-container@3.16.5) (2024-05-21)
+
+
+### Bug Fixes
+
+* use local preview pages ([28e7ef2](https://github.com/easyops-cn/next-core/commit/28e7ef28c6da53a9fcb73ea5f83da5040bbe2f64))
+
+
+
+
+
+## [3.16.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.3...@next-core/brick-container@3.16.4) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.2...@next-core/brick-container@3.16.3) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.1...@next-core/brick-container@3.16.2) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.0...@next-core/brick-container@3.16.1) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+# [3.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.12...@next-core/brick-container@3.16.0) (2024-05-16)
+
+
+### Features
+
+* serve as https, use partitioned cookie ([4c4e9cc](https://github.com/easyops-cn/next-core/commit/4c4e9cc3a8f6dd301bd2f54e203a4a251d3c4c4a))
+
+
+
+
+
+## [3.15.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.11...@next-core/brick-container@3.15.12) (2024-05-15)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.10...@next-core/brick-container@3.15.11) (2024-05-14)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.15.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.9...@next-core/brick-container@3.15.10) (2024-05-10)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.15.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.15.8...@next-core/brick-container@3.15.9) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/brick-container

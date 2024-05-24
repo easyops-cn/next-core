@@ -1,4 +1,5 @@
 import path from "node:path";
+import https from "node:https";
 import { fileURLToPath } from "node:url";
 import { readFile } from "node:fs/promises";
 import express from "express";
@@ -57,6 +58,12 @@ for (const middleware of middlewares) {
 const browseHappyHtml = "browse-happy.html";
 
 if (useLocalContainer) {
+  // Serve preview
+  app.use(
+    `${baseHref}_brick-preview-v3_/preview/`,
+    express.static(path.join(distDir, "preview"))
+  );
+
   // Serve index.html
   app.use(baseHref, async (req, res, next) => {
     await serveIndexHtml(req, res, next, true);
@@ -108,9 +115,23 @@ if (useLocalContainer) {
   });
 }
 
-app.listen(port, host);
+if (env.https) {
+  https
+    .createServer(
+      {
+        key: env.https.key,
+        cert: env.https.cert,
+      },
+      app
+    )
+    .listen(port, host);
+} else {
+  app.listen(port, host);
+}
 
-console.log(`open http://${host}:${port}${baseHref}`);
+console.log(
+  `open http${(env, env.https ? "s" : "")}://${host}:${port}${baseHref}`
+);
 
 liveReloadServer(env);
 

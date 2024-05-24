@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.10.0...@next-core/types@1.11.0) (2024-05-21)
+
+
+### Features
+
+* render error boundary ([21869ee](https://github.com/easyops-cn/next-core/commit/21869ee16f6a64c6c14cae68fb88069a083e8554))
+
+
+
+
+
 # [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.9.0...@next-core/types@1.10.0) (2024-05-07)
 
 

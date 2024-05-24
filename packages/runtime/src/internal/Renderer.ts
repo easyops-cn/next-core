@@ -74,6 +74,7 @@ import type { DataStore, DataStoreType } from "./data/DataStore.js";
 import { listenerFactory } from "./bindListeners.js";
 import type { MatchResult } from "./matchPath.js";
 import { setupRootRuntimeContext } from "./setupRootRuntimeContext.js";
+import { httpErrorToString } from "../handleHttpError.js";
 
 export interface RenderOutput {
   node?: RenderChildNode;
@@ -267,6 +268,57 @@ export async function renderBrick(
   slotId?: string,
   keyPath: number[] = [],
   tplStack = new Map<string, number>()
+): Promise<RenderOutput> {
+  try {
+    return await legacyRenderBrick(
+      returnNode,
+      brickConf,
+      _runtimeContext,
+      rendererContext,
+      parentRoutes,
+      menuRequestReturnNode,
+      slotId,
+      keyPath,
+      tplStack
+    );
+  } catch (error) {
+    if (brickConf.errorBoundary) {
+      // eslint-disable-next-line no-console
+      console.error("Error caught by error boundary:", error);
+      return {
+        node: {
+          tag: RenderTag.BRICK,
+          type: "div",
+          properties: {
+            textContent: httpErrorToString(error),
+            dataset: {
+              errorBoundary: "",
+            },
+            style: {
+              color: "var(--color-error)",
+            },
+          },
+          runtimeContext: null!,
+          return: returnNode,
+        },
+        blockingList: [],
+      };
+    } else {
+      throw error;
+    }
+  }
+}
+
+async function legacyRenderBrick(
+  returnNode: RenderReturnNode,
+  brickConf: RuntimeBrickConfWithSymbols,
+  _runtimeContext: RuntimeContext,
+  rendererContext: RendererContext,
+  parentRoutes: RouteConf[],
+  menuRequestReturnNode: MenuRequestNode,
+  slotId: string | undefined,
+  keyPath: number[],
+  tplStack: Map<string, number>
 ): Promise<RenderOutput> {
   const output = getEmptyRenderOutput();
 

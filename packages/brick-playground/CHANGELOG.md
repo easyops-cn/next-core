@@ -3,6 +3,111 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.7...@next-core/brick-playground@1.13.8) (2024-05-22)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.6...@next-core/brick-playground@1.13.7) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.5...@next-core/brick-playground@1.13.6) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.4...@next-core/brick-playground@1.13.5) (2024-05-21)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.3...@next-core/brick-playground@1.13.4) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.2...@next-core/brick-playground@1.13.3) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.1...@next-core/brick-playground@1.13.2) (2024-05-17)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.0...@next-core/brick-playground@1.13.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* default to yaml in playground ([5bab826](https://github.com/easyops-cn/next-core/commit/5bab82679825ac51f4ad52ded6d5acd0168916b6))
+
+
+
+
+
+# [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.12.2...@next-core/brick-playground@1.13.0) (2024-05-16)
+
+
+### Features
+
+* serve as https, use partitioned cookie ([4c4e9cc](https://github.com/easyops-cn/next-core/commit/4c4e9cc3a8f6dd301bd2f54e203a4a251d3c4c4a))
+
+
+
+
+
+## [1.12.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.12.1...@next-core/brick-playground@1.12.2) (2024-05-15)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.12.0...@next-core/brick-playground@1.12.1) (2024-05-14)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+# [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.11.3...@next-core/brick-playground@1.12.0) (2024-05-10)
+
+
+### Features
+
+* **preview:** support _preview_only_inject ([2dd3226](https://github.com/easyops-cn/next-core/commit/2dd322675d00e2a892ee2eb7b4677e4589fb2b34))
+
+
+
+
+
 ## [1.11.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.11.2...@next-core/brick-playground@1.11.3) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/brick-playground
