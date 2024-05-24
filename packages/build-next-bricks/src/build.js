@@ -201,7 +201,7 @@ async function getWebpackConfig(config) {
                       paths: [packageDir],
                     }
                   );
-                } catch (e) {
+                } catch {
                   console.warn(`Shared package not found: "${dep}"`);
                   return;
                 }
@@ -350,6 +350,8 @@ async function getWebpackConfig(config) {
             config.extractCss ? MiniCssExtractPlugin.loader : "style-loader",
             ...getCssLoaders({
               modules: {
+                namedExport: false,
+                exportLocalsConvention: "as-is",
                 localIdentName: "[local]--[hash:base64:8]",
               },
             }),
