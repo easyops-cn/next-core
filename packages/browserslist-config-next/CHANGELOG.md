@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/browserslist-config-next@1.0.3...@next-core/browserslist-config-next@1.1.0) (2024-06-03)
+
+
+### Features
+
+* update browser requirements to chrome 84+ / firefox 72+ / safari 14.1+ ([e76256c](https://github.com/easyops-cn/next-core/commit/e76256c693d796bca8270b964eedce12e7af212e))
+
+
+
+
+
 ## [1.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/browserslist-config-next@1.0.2...@next-core/browserslist-config-next@1.0.3) (2023-05-10)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.21.0...@next-core/build-next-bricks@1.21.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* adopt css-loader v7 but keep v6 behavior ([c890fbc](https://github.com/easyops-cn/next-core/commit/c890fbc607c0c2fe329377615f29b6c29b4461aa))
+
+
+
+
+
 # [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.10...@next-core/build-next-bricks@1.21.0) (2024-05-17)
 
 

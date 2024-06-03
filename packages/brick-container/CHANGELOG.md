@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.16.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.8...@next-core/brick-container@3.16.9) (2024-06-03)
+
+
+### Bug Fixes
+
+* migrate http-proxy-middleware v3 ([7877a52](https://github.com/easyops-cn/next-core/commit/7877a528a6baab8f4c9a72ebc6e0ff8e41b74bec))
+
+
+
+
+
 ## [3.16.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.7...@next-core/brick-container@3.16.8) (2024-05-22)
 
 
