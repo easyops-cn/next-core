@@ -32,8 +32,8 @@ const { default: traverse } = babelTraverse;
 const { escapeRegExp } = _;
 
 const validBrickName =
-  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
-const validCustomElementName = /^[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
+  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+(--editor)?$/;
+const validCustomElementName = /^[a-z][a-z0-9]*(-[a-z0-9]+)+(--editor)?$/;
 const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 const validExposeName = /^[-\w]+$/;
 
@@ -799,8 +799,8 @@ export default async function scanBricks(packageDir) {
     const importPath = realFilePath
       ? realFilePath
       : importItem
-      ? importItem.path
-      : filePath;
+        ? importItem.path
+        : filePath;
 
     const { declaration, usedReferences } =
       typeDeclarations.find(

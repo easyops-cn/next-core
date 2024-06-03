@@ -238,6 +238,8 @@ async function getWebpackConfig(config) {
   const elements = [];
   /** @type {string[]} */
   const processors = [];
+  /** @type {string[]} */
+  const editors = [];
   if (isBricks) {
     for (const [key, val] of Object.entries(config.exposes)) {
       const segments = key.split("/");
@@ -246,6 +248,10 @@ async function getWebpackConfig(config) {
       if (namespace === "processors") {
         processors.push(`${camelPackageName}.${name}`);
       } else {
+        if (name.endsWith("--editor")) {
+          editors.push(name);
+          continue;
+        }
         if (val[Symbol.for("noNamespace")]) {
           elements.push(name);
         } else {
@@ -274,6 +280,16 @@ async function getWebpackConfig(config) {
 
   /** @type {Record<string, { import: string; name: string; }>} */
   const extraExposes = {};
+  /** @type {Record<string, { import: string; name: string; }>} */
+  const editorExposes = {};
+
+  if (editors.length) {
+    Object.entries(config.exposes).forEach(([k, v]) => {
+      if (v.name.endsWith("--editor")) {
+        editorExposes[k] = v;
+      }
+    });
+  }
 
   const outputPath = path.join(packageDir, config.outputPath ?? "dist");
   const chunksDir = isBricks ? "chunks/" : "";
@@ -476,6 +492,23 @@ async function getWebpackConfig(config) {
             }),
           ]
         : []),
+      ...(editors.length
+        ? [
+            new ModuleFederationPlugin({
+              name: `editors/${packageName}`,
+              shared: {
+                ...config.moduleFederationShared,
+                ...shared,
+              },
+              library: { type: "window", name: `editors/${packageName}` },
+              filename:
+                mode === "development"
+                  ? `editor.bundle.js`
+                  : `editor.[contenthash].js`,
+              exposes: editorExposes,
+            }),
+          ]
+        : []),
 
       ...(config.extractCss
         ? [
@@ -499,6 +532,7 @@ async function getWebpackConfig(config) {
               bricks,
               elements,
               processors,
+              editors,
               dependencies: config.dependencies,
               manifest: config.manifest,
               types: config.types,

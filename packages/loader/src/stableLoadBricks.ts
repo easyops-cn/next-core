@@ -6,6 +6,7 @@ interface BrickPackage {
   filePath: string;
   elements?: string[];
   dependencies?: Record<string, string[]>;
+  editors?: string[];
   deprecatedElements?: string[];
 }
 
@@ -118,6 +119,10 @@ function getItemsByPkg(
             pkg = p;
             break;
           }
+        }
+        if (p.editors?.includes(item)) {
+          pkg = p;
+          break;
         }
       }
       if (!pkg && deprecatedBrickInThisPkg) {
