@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.5.0...@next-core/theme@1.5.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* menu css variable ([94fdee0](https://github.com/easyops-cn/next-core/commit/94fdee0d89496b632b29ce020644b9156a2606a4))
+
+
+
+
+
 # [1.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.4.8...@next-core/theme@1.5.0) (2024-04-08)
 
 
