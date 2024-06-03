@@ -280,6 +280,9 @@
   --app-bar-dropdown-menu-item-color: var(--text-color-default);
   --app-bar-dropdown-menu-item-hover-bg: var(--theme-blue-background);
 
+  /*** nav-menu ***/
+  --nav-menu-item-label-color: var(--color-normal-text);
+
   /*** dropdown ***/
   --antd-dropdown-menu-bg: var(--antd-component-background);
   --antd-dropdown-selected-color: var(--color-brand);
