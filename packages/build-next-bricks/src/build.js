@@ -359,6 +359,8 @@ async function getWebpackConfig(config) {
             config.extractCss ? MiniCssExtractPlugin.loader : "style-loader",
             ...getCssLoaders({
               modules: {
+                namedExport: false,
+                exportLocalsConvention: "as-is",
                 localIdentName: "[local]--[hash:base64:8]",
               },
             }),

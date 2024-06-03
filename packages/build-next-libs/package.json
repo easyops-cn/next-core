@@ -18,9 +18,9 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/cli": "^7.24.5",
-    "@babel/core": "^7.24.5",
+    "@babel/cli": "^7.24.6",
+    "@babel/core": "^7.24.6",
     "execa": "^5.1.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^5.0.7"
   }
 }

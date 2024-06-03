@@ -19,14 +19,14 @@ module.exports = () => {
           : env === "commonjs"
             ? {
                 targets: {
-                  node: "12",
+                  node: "14",
                 },
               }
             : {
                 modules: false,
                 useBuiltIns: "entry",
                 corejs: {
-                  version: "3.36",
+                  version: "3.37",
                 },
               },
       ],
@@ -49,7 +49,7 @@ module.exports = () => {
         transformRuntime,
         {
           // https://github.com/babel/babel/issues/9454#issuecomment-460425922
-          version: "7.24.3",
+          version: "7.24.5",
         },
       ],
     ],
