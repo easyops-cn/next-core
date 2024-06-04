@@ -8,7 +8,7 @@ import {
 } from "react-i18next";
 import { httpErrorToString } from "./handleHttpError";
 import { NS_BRICK_KIT, K } from "./i18n/constants";
-
+import { SkywalkingAnalysis } from "@next-core/easyops-analytics";
 interface ErrorBoundaryState {
   error: any;
 }
@@ -28,10 +28,9 @@ class LegacyErrorBoundary extends React.Component<
     return { error };
   }
 
-  /* componentDidCatch(error, info) {
-    // You can also log the error to an error reporting service
-    logErrorToMyService(error, info);
-  } */
+  componentDidCatch(error: Error): void {
+    SkywalkingAnalysis.reportFrameErrors(error);
+  }
 
   render(): React.ReactNode {
     if (this.state.error) {

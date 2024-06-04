@@ -62,6 +62,12 @@ module.exports = () => {
     ? "<!--# echo var='public_cdn' default='' -->"
     : "";
 
+  const useSkywalkingAnalysis = isProduction
+    ? "<!--# echo var='use_skywalking_analysis' default='' -->"
+    : process.env.USE_SKYWALKING_ANALYSIS === "true"
+    ? "true"
+    : "";
+
   return {
     context: appRoot,
     entry: {
@@ -165,6 +171,7 @@ module.exports = () => {
         // for it, which would break our tags.
         // See https://github.com/jantimon/html-webpack-plugin/issues/1701
         inject: false,
+        useSkywalkingAnalysis,
         mockDate,
         publicCdn,
         excludeChunks: ["preview"],

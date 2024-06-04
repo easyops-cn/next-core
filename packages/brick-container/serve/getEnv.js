@@ -159,6 +159,9 @@ module.exports = (runtimeFlags) => {
       version: {
         type: "boolean",
       },
+      useSkywalkingAnalysis: {
+        type: "string",
+      },
     };
     const cli = meow(
       `
@@ -196,6 +199,7 @@ module.exports = (runtimeFlags) => {
         --legacy-console        Enable legacy console proxy
         --help                  Show help message
         --version               Show brick container version
+        --use-skywalking-analysis Use skywalking analysis
       `,
       {
         flags: flagOptions,
@@ -310,6 +314,16 @@ module.exports = (runtimeFlags) => {
       ? process.env.NO_MERGE_SETTINGS !== "true"
       : flags.mergeSettings;
 
+  const useSkywalkingAnalysis =
+    flags.useSkywalkingAnalysis ||
+    process.env.USE_SKYWALKING_ANALYSIS === "true";
+
+  console.log("flags.USE_SKYWALKING_ANALYSIS:", flags.useSkywalkingAnalysis);
+  console.log(
+    "process.env.USE_SKYWALKING_ANALYSIS:",
+    process.env.USE_SKYWALKING_ANALYSIS
+  );
+
   const microAppsDir = path.join(
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
@@ -394,6 +408,7 @@ module.exports = (runtimeFlags) => {
     mockDate: flags.mockDate,
     publicCdn: flags.publicCdn,
     asCdn: flags.asCdn,
+    useSkywalkingAnalysis,
     isWebpackServe,
   };
 
@@ -503,6 +518,13 @@ module.exports = (runtimeFlags) => {
 
   if (env.asCdn) {
     console.log(chalk.bold.yellow("as-cdn: true"));
+  }
+
+  if (env.useSkywalkingAnalysis) {
+    console.log(
+      chalk.bold.cyan("use-skywalking-analysis: "),
+      chalk.bgYellow("yes")
+    );
   }
 
   return env;
