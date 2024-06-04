@@ -54,7 +54,7 @@ let ReactUseBrick = function ReactUseBrick({
         setRenderResult(newRender);
         setRenderKey(getUniqueId(IdCounterRef));
       } catch (error) {
-        if (isTheSameRender(initialRenderId)) {
+        if (!ignore && isTheSameRender(initialRenderId)) {
           // eslint-disable-next-line no-console
           console.error(
             "Render useBrick failed:",
