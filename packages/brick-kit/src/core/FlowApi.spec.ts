@@ -16,20 +16,36 @@ jest.spyOn(mocks, "getMockList").mockReturnValue([
 ]);
 
 jest.spyOn(CollectContract, "getContract").mockImplementation((key) => {
-  if (key === "easyops.api.test.GetDetail")
-    return {
-      name: "GetDetail",
-      namespaceId: "easyops.api.test",
-      serviceName: "cmdb.loginc",
-      endpoint: {
-        uri: "/api/cmdb",
-        method: "get",
-      },
-      version: "1.0.0",
-      response: {
-        wrapper: false,
-      },
-    };
+  switch (key) {
+    case "easyops.api.test.GetDetail":
+      return {
+        name: "GetDetail",
+        namespaceId: "easyops.api.test",
+        serviceName: "cmdb.logic",
+        endpoint: {
+          uri: "/api/cmdb",
+          method: "get",
+        },
+        version: "1.0.0",
+        response: {
+          wrapper: false,
+        },
+      };
+    case "easyops.api.api_gateway.CheckLogin":
+      return {
+        name: "CheckLogin",
+        namespaceId: "easyops.api.api_gateway",
+        serviceName: "logic.api.gateway",
+        endpoint: {
+          uri: "/api/checkLogin",
+          method: "get",
+        },
+        version: "1.0.0",
+        response: {
+          wrapper: false,
+        },
+      };
+  }
 });
 
 jest
@@ -313,11 +329,24 @@ describe("FlowApi", () => {
         ext_fields: undefined,
         method: "get",
         responseWrapper: false,
-        url: "api/gateway/cmdb.loginc/api/cmdb",
+        url: "api/gateway/cmdb.logic/api/cmdb",
         originalUri: "/api/cmdb",
         isFileType: false,
       },
       "APP",
+    ]);
+
+    expect(
+      await getArgsOfCustomApi("easyops.api.api_gateway@CheckLogin:1.0.0", [])
+    ).toEqual([
+      {
+        ext_fields: undefined,
+        method: "get",
+        responseWrapper: false,
+        url: "api/checkLogin",
+        originalUri: "/api/checkLogin",
+        isFileType: false,
+      },
     ]);
   });
 
