@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.44.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.3...@next-core/runtime@1.44.4) (2024-06-04)
+
+
+### Bug Fixes
+
+* always put pubDeps at first ([6357030](https://github.com/easyops-cn/next-core/commit/6357030834f042dc7878e28e7e401b5d7886868b))
+
+
+
+
+
 ## [1.44.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.2...@next-core/runtime@1.44.3) (2024-06-03)
 
 **Note:** Version bump only for package @next-core/runtime

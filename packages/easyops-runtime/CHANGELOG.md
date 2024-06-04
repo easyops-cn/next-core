@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.8](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.7...@next-core/easyops-runtime@0.10.8) (2024-06-04)
+
+
+### Bug Fixes
+
+* handle api url of api_gateway itself ([7a87c77](https://github.com/easyops-cn/next-core/commit/7a87c77c77c41b2d1b8e8f71e7783e5290371033))
+
+
+
+
+
 ## [0.10.7](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.6...@next-core/easyops-runtime@0.10.7) (2024-06-03)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
