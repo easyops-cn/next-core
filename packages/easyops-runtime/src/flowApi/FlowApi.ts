@@ -95,9 +95,11 @@ function getTransformedUriAndRestArgs(
   version?: string
 ): { url: string; args: unknown[] } {
   const prefix = version
-    ? serviceName
-      ? `api/gateway/${serviceName}`
-      : `api/gateway/${namespace}.${name}@${version}`
+    ? serviceName === "logic.api.gateway"
+      ? ""
+      : serviceName
+        ? `api/gateway/${serviceName}`
+        : `api/gateway/${namespace}.${name}@${version}`
     : `api/gateway/api_service.${namespace}.${name}`;
   const restArgs = originalArgs.slice();
   const transformedUri = uri.replace(
@@ -105,7 +107,7 @@ function getTransformedUriAndRestArgs(
     () => restArgs.shift() as string
   );
   return {
-    url: prefix + transformedUri,
+    url: prefix ? prefix + transformedUri : transformedUri.replace(/^\//, ""),
     args: restArgs,
   };
 }
