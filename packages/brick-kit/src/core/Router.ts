@@ -82,7 +82,7 @@ import { setUIVersion } from "./setUIVersion";
 import { setAppVariable } from "../setAppVariable";
 import { setWatermark } from "./setWatermark";
 import { setAppLocales } from "./setAppLocales";
-
+import { SkywalkingAnalysis } from "@next-core/easyops-analytics";
 export class Router {
   private defaultCollapsed = false;
   private locationContext: LocationContext;
@@ -252,6 +252,10 @@ export class Router {
     // Create the page tracker before page load.
     // And the API Analyzer maybe disabled.
     const tracePageEnd = apiAnalyzer.getInstance()?.tracePage();
+
+    SkywalkingAnalysis.setPerformance({
+      pagePath: `${location.pathname}${location.search}`,
+    });
 
     const locationContext = (this.locationContext = new LocationContext(
       this.kernel,

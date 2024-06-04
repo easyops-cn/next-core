@@ -36,7 +36,7 @@ import { K, NS_BRICK_CONTAINER } from "./i18n/constants";
 import { httpCacheAdapter } from "./httpCacheAdapter";
 import { getSpanId } from "./utils";
 import { listen } from "./preview/listen";
-
+import { SkywalkingAnalysis } from "@next-core/easyops-analytics";
 initializeLibrary();
 
 // These constants bellow are defined by `webpack.DefinePlugin`.
@@ -53,6 +53,19 @@ window.BRICK_NEXT_FEATURES = BRICK_NEXT_FEATURES;
 const root = document.body;
 
 const runtime = createRuntime();
+
+if (window.USE_SKYWALKING_ANALYSIS) {
+  SkywalkingAnalysis.initialize({
+    collector: `${location.origin}${runtime.getBasePath()}skywalking_api`,
+    service: `easyops::brick_next`,
+    pagePath: `${location.pathname}${location.search}`,
+    serviceVersion: "v1.0.0",
+    enableSPA: true,
+    autoTracePerf: true,
+    useFmp: true,
+    traceSDKInternal: true,
+  });
+}
 
 const mountPoints = {
   menuBar: root.querySelector<HTMLElement>("#menu-bar-mount-point"),

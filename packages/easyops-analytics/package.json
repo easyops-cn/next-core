@@ -26,9 +26,11 @@
   "sideEffects": false,
   "devDependencies": {
     "@next-core/brick-http": "^2.8.2",
-    "@next-core/rollup-config-factory": "^2.8.0"
+    "@next-core/rollup-config-factory": "^2.8.0",
+    "skywalking-client-js": "^0.11.0"
   },
   "peerDependencies": {
-    "@next-core/brick-http": "*"
+    "@next-core/brick-http": "*",
+    "skywalking-client-js": "*"
   }
 }

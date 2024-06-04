@@ -49,6 +49,13 @@ const injectIndexHtml = (standaloneConfig, env, content) => {
         "g"
       ),
       env.publicCdn ?? ""
+    )
+    .replace(
+      new RegExp(
+        escapeRegExp("<!--# echo var='use_skywalking_analysis' default='' -->"),
+        "g"
+      ),
+      env.useSkywalkingAnalysis ?? ""
     );
 
   if (standaloneConfig) {
