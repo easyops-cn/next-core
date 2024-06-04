@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.194.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.194.1...@next-core/brick-kit@2.194.2) (2024-06-04)
+
+
+### Bug Fixes
+
+* always put pubDeps at first ([9e5cee4](https://github.com/easyops-cn/next-core/commit/9e5cee4e1112f4dd1f41f45246d05e9087baf21d))
+* handle api url of api_gateway itself ([dd0b0c1](https://github.com/easyops-cn/next-core/commit/dd0b0c13aace87b5f9636d7181529106ad53c877))
+
+
+
+
+
 ## [2.194.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.194.0...@next-core/brick-kit@2.194.1) (2024-05-21)
 
 **Note:** Version bump only for package @next-core/brick-kit
