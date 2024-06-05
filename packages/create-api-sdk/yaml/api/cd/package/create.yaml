@@ -3,7 +3,7 @@ _kind_: "interface"
 
 version: 1.0
 name: "Create"
-description: "创建包"
+description: "创建包 */ alert(oops) /**"
 
 import:
   - easyops/model/cd/package
