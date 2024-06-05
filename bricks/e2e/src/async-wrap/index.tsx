@@ -1,7 +1,7 @@
-import React, { Suspense, lazy, useMemo, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
-import { asyncWrapBrick } from "@next-core/react-runtime";
+import { useLazyWrapBrick } from "@next-core/react-runtime";
 
 const { defineElement } = createDecorators();
 
@@ -16,14 +16,7 @@ class AsyncWrap extends ReactNextElement {
 export function AsyncWrapComponent() {
   const [dep, setDep] = useState("");
 
-  const DepComponent = useMemo(() => {
-    if (dep) {
-      return lazy(async () => ({
-        default: await asyncWrapBrick(dep),
-      }));
-    }
-    return null;
-  }, [dep]);
+  const DepComponent = useLazyWrapBrick(dep || null);
 
   return (
     <>
