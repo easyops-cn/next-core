@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.95.8...@next-core/brick-container@2.96.0) (2024-06-05)
+
+
+### Features
+
+* brick-next接入rum ([4377b17](https://github.com/easyops-cn/next-core/commit/4377b172ac30ff38cc16fbef8ca59b1596d98b31))
+
+
+
+
+
 ## [2.95.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.95.7...@next-core/brick-container@2.95.8) (2024-06-04)
 
 **Note:** Version bump only for package @next-core/brick-container
