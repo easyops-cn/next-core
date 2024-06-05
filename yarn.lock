@@ -10055,6 +10055,11 @@ jju@~1.4.0:
   resolved "https://registry.npmjs.org/jju/-/jju-1.4.0.tgz#a3abe2718af241a2b2904f84a625970f389ae32a"
   integrity sha1-o6vicYryQaKykE+EpiWXDzia4yo=
 
+js-base64@^3.6.0:
+  version "3.7.7"
+  resolved "https://registry.npmjs.org/js-base64/-/js-base64-3.7.7.tgz#e51b84bf78fbf5702b9541e2cb7bfcb893b43e79"
+  integrity sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==
+
 js-sdsl@^4.1.4:
   version "4.1.4"
   resolved "https://registry.npmjs.org/js-sdsl/-/js-sdsl-4.1.4.tgz#78793c90f80e8430b7d8dc94515b6c77d98a26a6"
@@ -14536,6 +14541,13 @@ size-limit@^8.1.0:
     mkdirp "^1.0.4"
     nanospinner "^1.1.0"
     picocolors "^1.0.0"
+
+skywalking-client-js@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.npmjs.org/skywalking-client-js/-/skywalking-client-js-0.11.0.tgz#bc37dbc51df68b8b424a051627da4b11ec41fcf7"
+  integrity sha512-r8OMYavbculvZAUIOp3pVA7BXT4j2pRLz6NszHuN4XoSa0pWvBT7hUbcnLwllt1w5jtocycwf5SrfqXLx1RzXg==
+  dependencies:
+    js-base64 "^3.6.0"
 
 slash@^2.0.0:
   version "2.0.0"

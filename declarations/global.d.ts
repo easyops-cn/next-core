@@ -83,6 +83,9 @@ interface Window {
   DISABLE_REACT_FLUSH_SYNC?: boolean;
 
   PUBLIC_DEPS?: any[];
+
+  /** Use Apache SkyWalking Client-side JavaScript exception and tracing library **/
+  USE_SKYWALKING_ANALYSIS?: boolean;
 }
 
 declare const __webpack_public_path__: string;

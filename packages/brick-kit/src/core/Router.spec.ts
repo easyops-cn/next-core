@@ -1,5 +1,9 @@
 import "whatwg-fetch";
-import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
+import {
+  apiAnalyzer,
+  SkywalkingAnalysis,
+  userAnalytics,
+} from "@next-core/easyops-analytics";
 import {
   mapCustomApisToNameAndNamespace,
   scanStoryboard,
@@ -46,6 +50,11 @@ jest.mock("@next-core/easyops-analytics", () => ({
   },
   userAnalytics: {
     event: jest.fn(),
+  },
+  SkywalkingAnalysis: {
+    initialize: jest.fn(),
+    setPerformance: jest.fn(),
+    reportFrameErrors: jest.fn(),
   },
 }));
 jest.mock("@next-core/brick-utils");

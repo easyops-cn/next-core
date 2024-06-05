@@ -19108,7 +19108,11 @@
       "id": "vA6H",
       "buildMeta": {
         "exportsType": "namespace",
-        "providedExports": ["apiAnalyzer", "userAnalytics"]
+        "providedExports": [
+          "SkywalkingAnalysis",
+          "apiAnalyzer",
+          "userAnalytics"
+        ]
       }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/AppstoreTwoTone.js": {
