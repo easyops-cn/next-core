@@ -2,6 +2,7 @@ import { describe, jest, test, expect } from "@jest/globals";
 import {
   loadBricksImperatively as _loadBricksImperatively,
   loadProcessorsImperatively as _loadProcessorsImperatively,
+  loadEditorsImperatively as _loadEditorsImperatively,
   enqueueStableLoadBricks as _enqueueStableLoadBricks,
   flushStableLoadBricks as _flushStableLoadBricks,
   enqueueStableLoadProcessors as _enqueueStableLoadProcessors,
@@ -705,6 +706,64 @@ describe("loadProcessorsImperatively", () => {
       [],
       undefined,
       brickPackages
+    );
+  });
+});
+
+describe("loadEditorsImperatively", () => {
+  let loadEditorsImperatively: typeof _loadEditorsImperatively;
+
+  beforeEach(() => {
+    jest.isolateModules(() => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const m = require("./stableLoadBricks.js");
+      loadEditorsImperatively = m.loadEditorsImperatively;
+    });
+  });
+
+  test("load multiple editors", async () => {
+    const promise = loadEditorsImperatively(
+      ["eo-button-editor", "eo-card-editor"],
+      [
+        {
+          id: "bricks/basic",
+          filePath: "bricks/basic/dist/index.hash.js",
+          editors: ["eo-button-editor"],
+        },
+        {
+          id: "bricks/containers",
+          filePath: "bricks/containers/dist/index.hash.js",
+          editors: ["eo-card-editor"],
+        },
+      ]
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      1,
+      "loadScript done:",
+      "bricks/basic/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      2,
+      "loadScript done:",
+      "bricks/containers/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      3,
+      "loadSharedModule done:",
+      "bricks/basic",
+      "./editors/eo-button-editor"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      4,
+      "loadSharedModule done:",
+      "bricks/containers",
+      "./editors/eo-card-editor"
     );
   });
 });

@@ -15,6 +15,7 @@ export default class EmitBricksJsonPlugin {
     this.bricks = options.bricks;
     this.elements = options.elements;
     this.processors = options.processors;
+    this.editors = options.editors;
     this.dependencies = options.dependencies;
     this.manifest = options.manifest;
     this.types = options.types;
@@ -56,6 +57,7 @@ export default class EmitBricksJsonPlugin {
               bricks: this.bricks,
               elements: this.elements,
               processors: this.processors,
+              editors: this.editors,
               dependencies: this.dependencies,
               filePath: jsFilePath,
               deprecatedElements: this.deprecatedElements,

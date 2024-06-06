@@ -5,6 +5,7 @@ interface BrickPackage {
   id: string;
   filePath: string;
   elements?: string[];
+  editors?: string[];
   dependencies?: Record<string, string[]>;
   deprecatedElements?: string[];
 }
@@ -67,6 +68,15 @@ export function loadProcessorsImperatively(
   return dispatchRequestStatus(promise);
 }
 
+export function loadEditorsImperatively(
+  editors: string[] | Set<string>,
+  brickPackages: BrickPackage[]
+): Promise<void> {
+  const promise = enqueueStableLoad("editors", editors, brickPackages);
+  flushStableLoadBricks();
+  return dispatchRequestStatus(promise);
+}
+
 interface V2AdapterBrick {
   resolve(
     adapterPkgFilePath: string,
@@ -87,7 +97,7 @@ interface BrickItem {
 
 // Get brick/processor items including their dependencies
 function getItemsByPkg(
-  type: "bricks" | "processors",
+  type: "bricks" | "processors" | "editors",
   list: string[] | Set<string>,
   brickPackagesMap: Map<string, BrickPackage>
 ) {
@@ -107,6 +117,13 @@ function getItemsByPkg(
         type === "processors" ? getProcessorPackageName(namespace) : namespace
       }`;
       pkg = brickPackagesMap.get(pkgId);
+    } else if (type === "editors") {
+      lastName = item;
+      for (const p of brickPackagesMap.values()) {
+        if (p.editors?.some((e) => e === lastName)) {
+          pkg = p;
+        }
+      }
     } else {
       lastName = item;
       let deprecatedBrickInThisPkg;
@@ -153,11 +170,11 @@ function getItemsByPkg(
 }
 
 async function loadBrickModule(
-  type: "bricks" | "processors",
+  type: "bricks" | "processors" | "editors",
   pkgId: string,
   item: BrickItem
 ) {
-  const moduleName = `${type === "processors" ? "./processors/" : "./"}${
+  const moduleName = `${type === "processors" || type === "editors" ? `./${type}/` : "./"}${
     item.lastName
   }`;
   try {
@@ -170,7 +187,7 @@ async function loadBrickModule(
 }
 
 function loadRestBricks(
-  type: "bricks" | "processors",
+  type: "bricks" | "processors" | "editors",
   pkgs: BrickPackage[],
   itemsMap: Map<BrickPackage, BrickItem[]>
 ) {
@@ -185,7 +202,7 @@ function loadRestBricks(
 }
 
 async function enqueueStableLoad(
-  type: "bricks" | "processors",
+  type: "bricks" | "processors" | "editors",
   list: string[] | Set<string>,
   brickPackages: BrickPackage[]
 ): Promise<void> {
