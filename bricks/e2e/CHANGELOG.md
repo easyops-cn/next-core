@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.25...@next-bricks/e2e@0.4.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+### Features
+
+* support useLazyWrapBrick ([39767cf](https://github.com/easyops-cn/next-core/commit/39767cfd09cce5e9f80c4ab93c81d73a5eac0dc2))
+
+
+
+
+
 ## [0.3.25](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.3.24...@next-bricks/e2e@0.3.25) (2024-06-04)
 
 **Note:** Version bump only for package @next-bricks/e2e

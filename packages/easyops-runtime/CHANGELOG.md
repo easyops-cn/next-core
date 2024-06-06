@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.8...@next-core/easyops-runtime@0.10.9) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
 ## [0.10.8](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.7...@next-core/easyops-runtime@0.10.8) (2024-06-04)
 
 

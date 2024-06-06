@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.7.0...@next-core/brick-manifest@0.7.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
 # [0.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-manifest@0.6.0...@next-core/brick-manifest@0.7.0) (2023-12-05)
 
 
