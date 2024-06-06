@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.0...@next-core/brick-container@2.96.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* browse-happy.ejs文件增加对已升级浏览器访问该url时重定向到首页 ([a7fca98](https://github.com/easyops-cn/next-core/commit/a7fca98733076d879c29983da5a8ba521f8ee302))
+
+
+
+
+
 # [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.95.8...@next-core/brick-container@2.96.0) (2024-06-05)
 
 
