@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="shortcut icon" type="image/png" href="<%= htmlWebpackPlugin.options.faviconPath %>"/>
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="<%= htmlWebpackPlugin.options.faviconPath %>"
+    />
+    <script>
+      !(
+        !("documentMode" in document) &&
+        CSS.supports("display", "grid") &&
+        window.customElements
+      ) || (location.href = "<%= htmlWebpackPlugin.options.baseHref %>");
+    </script>
   </head>
   <body>
     <p><a href="https://browsehappy.com/">请升级您的浏览器。</a></p>
