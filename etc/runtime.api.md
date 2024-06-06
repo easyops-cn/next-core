@@ -117,6 +117,11 @@ export interface CreateRootOptions {
 // @public (undocumented)
 export function createRuntime(options?: RuntimeOptions): Runtime;
 
+// Warning: (ae-forgotten-export) The symbol "CustomEditorRegistry" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const customEditors: CustomEditorRegistry;
+
 // Warning: (ae-forgotten-export) The symbol "CustomProcessorRegistry" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)

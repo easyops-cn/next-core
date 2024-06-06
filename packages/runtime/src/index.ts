@@ -1,4 +1,5 @@
 export * from "./auth.js";
+export * from "./CustomEditors.js";
 export * from "./CustomProcessors.js";
 export * from "./CustomTemplates.js";
 export * from "./fetchByProvider.js";

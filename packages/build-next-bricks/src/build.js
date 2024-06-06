@@ -246,6 +246,8 @@ async function getWebpackConfig(config) {
   const elements = [];
   /** @type {string[]} */
   const processors = [];
+  /** @type {string[]} */
+  const editors = [];
   if (isBricks) {
     for (const [key, val] of Object.entries(config.exposes)) {
       const segments = key.split("/");
@@ -253,6 +255,8 @@ async function getWebpackConfig(config) {
       const namespace = segments.pop();
       if (namespace === "processors") {
         processors.push(`${camelPackageName}.${name}`);
+      } else if (namespace === "editors") {
+        editors.push(name);
       } else {
         if (val[Symbol.for("noNamespace")]) {
           elements.push(name);
@@ -510,6 +514,7 @@ async function getWebpackConfig(config) {
               bricks,
               elements,
               processors,
+              editors,
               dependencies: config.dependencies,
               manifest: config.manifest,
               types: config.types,

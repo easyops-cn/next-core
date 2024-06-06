@@ -274,6 +274,62 @@ export default async function scanBricks(packageDir) {
         } else if (
           callee.type === "MemberExpression" &&
           callee.object.type === "Identifier" &&
+          callee.object.name === "customEditors" &&
+          !callee.property.computed &&
+          callee.property.name === "define" &&
+          args.length === 2
+        ) {
+          const { type, value: fullName } = args[0];
+          if (type === "StringLiteral") {
+            /** @type {string | undefined} */
+            let editorNamespace;
+            /** @type {string} */
+            let editorName;
+            if (fullName.includes(".")) {
+              [editorNamespace, editorName] = fullName.split(".");
+
+              if (editorNamespace !== packageName) {
+                throw new Error(
+                  `Invalid editor: "${fullName}", expecting prefixed with the package name: "${packageName}"`
+                );
+              }
+
+              if (!validBrickName.test(fullName)) {
+                throw new Error(
+                  `Invalid editor: "${fullName}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+                );
+              }
+            } else {
+              editorName = fullName;
+
+              if (!editorName.startsWith("eo-")) {
+                throw new Error(
+                  `Invalid editor: "${editorName}", expecting prefixed with "eo-" for brick name without namespace`
+                );
+              }
+
+              if (!validCustomElementName.test(editorName)) {
+                throw new Error(
+                  `Invalid editor: "${editorName}", expecting a \`-\` in editor name`
+                );
+              }
+            }
+
+            exposes.set(`./editors/${fullName}`, {
+              import: `./${path
+                .relative(packageDir, overrideImport || filePath)
+                .replace(/\.[^.]+$/, "")
+                .replace(/\/index$/, "")}`,
+              name: getExposeName(editorName),
+            });
+          } else {
+            throw new Error(
+              "Please call `customEditors.define()` only with literal string"
+            );
+          }
+        } else if (
+          callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier" &&
           callee.object.name === "customElements" &&
           !callee.property.computed &&
           callee.property.name === "define" &&
@@ -799,8 +855,8 @@ export default async function scanBricks(packageDir) {
     const importPath = realFilePath
       ? realFilePath
       : importItem
-      ? importItem.path
-      : filePath;
+        ? importItem.path
+        : filePath;
 
     const { declaration, usedReferences } =
       typeDeclarations.find(
