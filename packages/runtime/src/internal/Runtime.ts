@@ -34,6 +34,7 @@ let runtime: Runtime;
 // Allow inject bootstrap data in a runtime other than Brick Next.
 let bootstrapData: BootstrapData | undefined;
 let router: Router | undefined;
+let processedBrickPackages: BrickPackage[] | undefined;
 
 export interface RuntimeOptions {
   hooks?: RuntimeHooks;
@@ -316,7 +317,7 @@ function normalizeBootstrapData(data: BootstrapData) {
 
 function processPublicDepsPackages(
   brickPackages: BrickPackage[],
-  pubDeps: BrickPackage[]
+  pubDeps: BrickPackage[] | undefined
 ): BrickPackage[] {
   if (!pubDeps?.length) return brickPackages;
 
@@ -334,15 +335,17 @@ function processPublicDepsPackages(
   return Array.from(bricksMap.values());
 }
 
-export function getBrickPackages() {
+export function getBrickPackages(): BrickPackage[] {
   return (
-    processPublicDepsPackages(
-      bootstrapData?.brickPackages as BrickPackage[],
-      window.PUBLIC_DEPS as BrickPackage[]
-    ) ??
-    injectedBrickPackages ??
-    (window.STANDALONE_BRICK_PACKAGES as BrickPackage[]) ??
-    []
+    // Not necessary to process brick packages multiple times.
+    processedBrickPackages ??
+    (processedBrickPackages = processPublicDepsPackages(
+      bootstrapData?.brickPackages ??
+        injectedBrickPackages ??
+        (window.STANDALONE_BRICK_PACKAGES as BrickPackage[] | undefined) ??
+        [],
+      window.PUBLIC_DEPS as BrickPackage[] | undefined
+    ))
   );
 }
 
