@@ -21,7 +21,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/http"
   },
   "scripts": {
     "clean": "rimraf dist",

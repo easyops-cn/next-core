@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "API SDK for $Title Service Name$",
   "homepage": "$workspace-homepage$/tree/master/sdk/$kebab-service-name$-sdk",
+  "repository": {
+    "type": "git",
+    "url": "$workspace-repository-url$",
+    "directory": "sdk/$kebab-service-name$-sdk"
+  },
   "license": "$open-source-license$",
   "type": "module",
   "main": "dist/cjs/index.js",

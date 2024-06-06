@@ -26,6 +26,7 @@ const workspacePackageJson = JSON.parse(
 );
 
 const workspaceHomepage = workspacePackageJson.homepage;
+const workspaceRepositoryUrl = workspacePackageJson.repository?.url;
 const workspaceLicense = workspacePackageJson.license || "UNLICENSED";
 
 function escapeRegExp(str: string): string {
@@ -83,6 +84,7 @@ export function loadTemplate(
   const translations: Record<string, string> = {
     "$npm-scope-of-sdk$": usePublicScope ? "@next-api-sdk" : "@api-sdk",
     "$workspace-homepage$": workspaceHomepage,
+    "$workspace-repository-url$": workspaceRepositoryUrl,
     "$kebab-service-name$": changeCase.paramCase(serviceName),
     "$Title Service Name$": changeCase.capitalCase(serviceName),
     $PascalServiceName$: changeCase.pascalCase(serviceName),

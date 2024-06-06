@@ -26,7 +26,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/build-next-bricks"
   },
   "sideEffects": false,
   "engines": {

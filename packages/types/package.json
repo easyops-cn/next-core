@@ -6,7 +6,8 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/types"
   },
   "sideEffects": false,
   "type": "module",
