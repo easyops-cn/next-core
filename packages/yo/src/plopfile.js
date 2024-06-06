@@ -49,7 +49,10 @@ export default function (
   plop.setPartial("homepage", packageJson.homepage.replace(/\/$/, ""));
   plop.setPartial(
     "repository",
-    getObjectPartialInPackageJson(packageJson.repository)
+    getObjectPartialInPackageJson({
+      ...packageJson.repository,
+      directory: "{{getDirectory type pkgName libName}}",
+    })
   );
   plop.setPartial(
     "license",
@@ -68,8 +71,15 @@ export default function (
     brickType === "common"
       ? `eo-${brickName}`
       : lastNameOnly
-      ? brickName
-      : `${pkgName}.${brickName}`
+        ? brickName
+        : `${pkgName}.${brickName}`
+  );
+  plop.setHelper("getDirectory", (type, pkgName, libName) =>
+    type === "bricks"
+      ? `bricks/${pkgName}`
+      : type === "shared"
+        ? `shared/${libName}`
+        : null
   );
   plop.setPartial(
     "tagName",

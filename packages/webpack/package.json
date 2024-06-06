@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/webpack"
   },
   "sideEffects": false,
   "dependencies": {
