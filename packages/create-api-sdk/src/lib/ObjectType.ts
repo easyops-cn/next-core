@@ -7,6 +7,7 @@ import {
   NormalFieldDoc,
   NormalFieldContext,
 } from "../interface.js";
+import { blockComment } from "./blockComment.js";
 
 export class ObjectType {
   private _name: string;
@@ -31,7 +32,7 @@ export class ObjectType {
           : required.some((r) => r === (field as NormalFieldDoc).name)));
 
     return [
-      `/** ${normalField.description} */${os.EOL}`,
+      `${blockComment(normalField.description)}${os.EOL}`,
       `${normalField.name}`,
       isRequired ? "" : "?",
       ":",

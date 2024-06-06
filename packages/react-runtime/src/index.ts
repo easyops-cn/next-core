@@ -6,3 +6,4 @@ export * from "./useRouteRender.js";
 export * from "./useProvider/useProvider.js";
 export * from "./asyncWrapBrick.js";
 export * from "./useNavConfig.js";
+export * from "./useLazyWrapBrick.js";

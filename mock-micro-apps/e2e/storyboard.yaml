@@ -841,3 +841,7 @@ routes:
   - brick: div
     properties:
       textContent: Real Other Route
+
+- path: '${APP.homepage}/async-wrap-brick'
+  bricks:
+  - brick: e2e.async-wrap

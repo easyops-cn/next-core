@@ -89,7 +89,7 @@ export type PackageApi_CreateResponseBody = Partial<ModelPackage> &
   ModelPackage_partial;
 
 /**
- * @description 创建包
+ * @description 创建包 *\\/ alert(oops) /**
  * @endpoint POST /package
  */
 export const PackageApi_create = (
@@ -672,7 +672,7 @@ export * as MsgsenderModels from "./model/msgsender/index.js";
       },
       "name": "Create",
       "version": 1,
-      "description": "创建包",
+      "description": "创建包 */ alert(oops) /**",
       "endpoint": {
         "method": "POST",
         "uri": "/package"
