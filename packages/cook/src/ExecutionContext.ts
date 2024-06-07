@@ -1,10 +1,11 @@
-import {
+import type {
   ArrowFunctionExpression,
   Expression,
   FunctionDeclaration,
   FunctionExpression,
   Statement,
 } from "@babel/types";
+import type { EstreeNode } from "./interfaces.js";
 
 // https://tc39.es/ecma262/#sec-execution-contexts
 export class ExecutionContext {
@@ -73,7 +74,7 @@ export class EnvironmentRecord {
   SetMutableBinding(
     name: string,
     value: unknown,
-    strict?: boolean
+    _strict?: boolean
   ): CompletionRecord {
     const binding = this.bindingMap.get(name) as BindingState;
     // Assert: binding exists.
@@ -87,7 +88,7 @@ export class EnvironmentRecord {
     return NormalCompletion(undefined);
   }
 
-  GetBindingValue(name: string, strict?: boolean): unknown {
+  GetBindingValue(name: string, _strict?: boolean): unknown {
     const binding = this.bindingMap.get(name) as BindingState;
     // Assert: binding exists.
     if (!binding.initialized) {
@@ -122,6 +123,9 @@ export const FormalParameters = Symbol.for("FormalParameters");
 export const ECMAScriptCode = Symbol.for("ECMAScriptCode");
 export const Environment = Symbol.for("Environment");
 export const IsConstructor = Symbol.for("IsConstructor");
+export const DebuggerCall = Symbol.for("$DebuggerCall$");
+export const DebuggerScope = Symbol.for("$DebuggerScope$");
+export const DebuggerNode = Symbol.for("$DebuggerNode$");
 
 export interface FunctionObject {
   (...args: unknown[]): unknown;
@@ -133,6 +137,9 @@ export interface FunctionObject {
   [ECMAScriptCode]: Statement[] | Expression;
   [Environment]: EnvironmentRecord;
   [IsConstructor]: boolean;
+  [DebuggerCall]?: (...args: unknown[]) => IterableIterator<unknown>;
+  [DebuggerScope]?: () => EnvironmentRecord | null | undefined;
+  [DebuggerNode]?: () => EstreeNode | undefined;
 }
 
 // https://tc39.es/ecma262/#sec-reference-record-specification-type

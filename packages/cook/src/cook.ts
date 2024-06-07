@@ -1,4 +1,4 @@
-import {
+import type {
   ArrayPattern,
   ArrowFunctionExpression,
   CallExpression,
@@ -42,6 +42,9 @@ import {
 } from "./context-free.js";
 import {
   CompletionRecord,
+  DebuggerCall,
+  DebuggerNode,
+  DebuggerScope,
   DeclarativeEnvironment,
   ECMAScriptCode,
   Empty,
@@ -57,13 +60,14 @@ import {
   ReferenceRecord,
   SourceNode,
 } from "./ExecutionContext.js";
-import {
+import type {
   EstreeLVal,
   EstreeNode,
   EstreeObjectExpression,
   EstreeObjectPattern,
   EstreeProperty,
   CookRules,
+  FunctionDefinition,
 } from "./interfaces.js";
 import { sanitize, isAllowedConstructor } from "./sanitize.js";
 import {
@@ -76,6 +80,7 @@ export interface CookOptions {
   rules?: CookRules;
   globalVariables?: Record<string, unknown>;
   hooks?: CookHooks;
+  debug?: boolean;
 }
 
 export interface CookHooks {
@@ -84,11 +89,17 @@ export interface CookHooks {
   beforeBranch?(node: EstreeNode, branch: "if" | "else"): void;
 }
 
+interface EvaluateResult<T, TReturn> extends Iterator<T, TReturn> {
+  [Symbol.iterator](): EvaluateResult<T, TReturn>;
+}
+
+type CompletionRecordResult<T = unknown> = EvaluateResult<T, CompletionRecord>;
+
 /** For next-core internal usage only. */
 export function cook(
   rootAst: FunctionDeclaration | Expression,
   codeSource: string,
-  { rules, globalVariables = {}, hooks = {} }: CookOptions = {}
+  { rules, debug, globalVariables = {}, hooks = {} }: CookOptions = {}
 ): unknown {
   const expressionOnly = rootAst.type !== "FunctionDeclaration";
 
@@ -125,11 +136,27 @@ export function cook(
     return template;
   }
 
-  function Evaluate(
+  let currentNode: EstreeNode | undefined;
+
+  function* Evaluate(
     node: EstreeNode,
-    optionalChainRef?: OptionalChainRef
-  ): CompletionRecord {
+    optionalChainRef?: OptionalChainRef,
+    forceYield?: boolean
+  ): CompletionRecordResult {
     hooks.beforeEvaluate?.(node);
+    currentNode = node;
+    if (
+      debug &&
+      (forceYield ||
+        (node.type.endsWith("Statement") &&
+          node.type !== "TryStatement" &&
+          node.type !== "BlockStatement" &&
+          node.type !== "ForStatement" &&
+          node.type !== "ForInStatement" &&
+          node.type !== "ForOfStatement"))
+    ) {
+      yield;
+    }
     // Expressions:
     switch (node.type) {
       case "ArrayExpression": {
@@ -140,11 +167,11 @@ export function cook(
             array.length += 1;
           } else if (element.type === "SpreadElement") {
             const spreadValues = GetValue(
-              Evaluate(element.argument)
+              yield* Evaluate(element.argument)
             ) as unknown[];
             array.push(...spreadValues);
           } else {
-            array.push(GetValue(Evaluate(element)));
+            array.push(GetValue(yield* Evaluate(element)));
           }
         }
         return NormalCompletion(array);
@@ -156,9 +183,9 @@ export function cook(
         return NormalCompletion(closure);
       }
       case "BinaryExpression": {
-        const leftRef = Evaluate(node.left);
+        const leftRef = yield* Evaluate(node.left);
         const leftValue = GetValue(leftRef);
-        const rightRef = Evaluate(node.right).Value;
+        const rightRef = (yield* Evaluate(node.right)).Value;
         const rightValue = GetValue(rightRef);
         if (expressionOnly && (node.operator as unknown) === "|>") {
           // Minimal pipeline operator is supported only in expression-only mode.
@@ -191,7 +218,7 @@ export function cook(
       }
       case "CallExpression": {
         // https://tc39.es/ecma262/#sec-function-calls
-        const ref = Evaluate(node.callee, optionalChainRef)
+        const ref = (yield* Evaluate(node.callee, optionalChainRef))
           .Value as ReferenceRecord;
         const func = GetValue(ref) as Function;
         if (
@@ -202,17 +229,22 @@ export function cook(
           return NormalCompletion(undefined);
         }
         sanitize(func);
-        return EvaluateCall(func, ref, node.arguments, node.callee);
+
+        if (debug) yield;
+
+        return yield* EvaluateCall(func, ref, node.arguments, node.callee);
       }
       case "ChainExpression":
         // https://tc39.es/ecma262/#sec-optional-chains
-        return Evaluate(node.expression, {});
+        return yield* Evaluate(node.expression, {});
       case "ConditionalExpression":
         // https://tc39.es/ecma262/#sec-conditional-operator
         return NormalCompletion(
           GetValue(
-            Evaluate(
-              GetValue(Evaluate(node.test)) ? node.consequent : node.alternate
+            yield* Evaluate(
+              GetValue(yield* Evaluate(node.test))
+                ? node.consequent
+                : node.alternate
             )
           )
         );
@@ -237,19 +269,19 @@ export function cook(
       }
       case "LogicalExpression": {
         // https://tc39.es/ecma262/#sec-binary-logical-operators
-        const leftValue = GetValue(Evaluate(node.left));
+        const leftValue = GetValue(yield* Evaluate(node.left));
         switch (node.operator) {
           case "&&":
             return NormalCompletion(
-              leftValue && GetValue(Evaluate(node.right))
+              leftValue && GetValue(yield* Evaluate(node.right))
             );
           case "||":
             return NormalCompletion(
-              leftValue || GetValue(Evaluate(node.right))
+              leftValue || GetValue(yield* Evaluate(node.right))
             );
           case "??":
             return NormalCompletion(
-              leftValue ?? GetValue(Evaluate(node.right))
+              leftValue ?? GetValue(yield* Evaluate(node.right))
             );
           // istanbul ignore next
           default:
@@ -262,7 +294,7 @@ export function cook(
       }
       case "MemberExpression": {
         // https://tc39.es/ecma262/#sec-property-accessors
-        const baseReference = Evaluate(node.object, optionalChainRef)
+        const baseReference = (yield* Evaluate(node.object, optionalChainRef))
           .Value as ReferenceRecord;
         const baseValue = GetValue(baseReference) as Record<
           PropertyKey,
@@ -277,7 +309,7 @@ export function cook(
         }
         sanitize(baseValue);
         const result = node.computed
-          ? EvaluatePropertyAccessWithExpressionKey(
+          ? yield* EvaluatePropertyAccessWithExpressionKey(
               baseValue,
               node.property as Expression,
               true
@@ -292,13 +324,13 @@ export function cook(
       }
       case "NewExpression":
         // https://tc39.es/ecma262/#sec-new-operator
-        return EvaluateNew(node.callee, node.arguments);
+        return yield* EvaluateNew(node.callee, node.arguments);
       case "ObjectExpression": {
         // https://tc39.es/ecma262/#sec-object-initializer
         const object: Record<PropertyKey, unknown> = {};
         for (const prop of (node as EstreeObjectExpression).properties) {
           if (prop.type === "SpreadElement") {
-            const fromValue = GetValue(Evaluate(prop.argument));
+            const fromValue = GetValue(yield* Evaluate(prop.argument));
             CopyDataProperties(object, fromValue, new Set());
           } else {
             if (prop.kind !== "init") {
@@ -307,13 +339,17 @@ export function cook(
             const propName =
               !prop.computed && prop.key.type === "Identifier"
                 ? prop.key.name
-                : EvaluateComputedPropertyName(prop.key as Expression);
+                : yield* EvaluateComputedPropertyName(prop.key as Expression);
             if (propName === "__proto__") {
               throw new TypeError(
                 "Setting '__proto__' property is not allowed"
               );
             }
-            object[propName] = GetValue(Evaluate(prop.value));
+            const propValue = GetValue(yield* Evaluate(prop.value));
+            if (prop.method && typeof propValue === "function") {
+              SetFunctionName(propValue as FunctionObject, propName as string);
+            }
+            object[propName] = propValue;
           }
         }
         return NormalCompletion(object);
@@ -322,7 +358,7 @@ export function cook(
         // https://tc39.es/ecma262/#sec-comma-operator
         let result: CompletionRecord | undefined;
         for (const expr of node.expressions) {
-          result = NormalCompletion(GetValue(Evaluate(expr)));
+          result = NormalCompletion(GetValue(yield* Evaluate(expr)));
         }
         return result!;
       }
@@ -331,7 +367,7 @@ export function cook(
         const chunks: string[] = [node.quasis[0].value.cooked!];
         let index = 0;
         for (const expr of node.expressions) {
-          const val = GetValue(Evaluate(expr));
+          const val = GetValue(yield* Evaluate(expr));
           chunks.push(String(val));
           chunks.push(node.quasis[(index += 1)].value.cooked!);
         }
@@ -339,14 +375,15 @@ export function cook(
       }
       case "TaggedTemplateExpression": {
         // https://tc39.es/ecma262/#sec-tagged-templates
-        const tagRef = Evaluate(node.tag).Value as ReferenceRecord;
+        const tagRef = (yield* Evaluate(node.tag)).Value as ReferenceRecord;
         const tagFunc = GetValue(tagRef) as Function;
         sanitize(tagFunc);
-        return EvaluateCall(tagFunc, tagRef, node.quasi, node.tag);
+        if (debug) yield;
+        return yield* EvaluateCall(tagFunc, tagRef, node.quasi, node.tag);
       }
       case "UnaryExpression": {
         // https://tc39.es/ecma262/#sec-unary-operators
-        const ref = Evaluate(node.argument).Value as ReferenceRecord;
+        const ref = (yield* Evaluate(node.argument)).Value as ReferenceRecord;
         if (!expressionOnly && node.operator === "delete") {
           // Delete operator is supported only in function mode.
           if (!(ref instanceof ReferenceRecord)) {
@@ -384,23 +421,30 @@ export function cook(
                 node.left.type === "ObjectPattern"
               )
             ) {
-              const lref = Evaluate(node.left).Value as ReferenceRecord;
-              // Todo: IsAnonymousFunctionDefinition(lref)
-              const rref = Evaluate(node.right);
-              const rval = GetValue(rref);
-
+              const lref = (yield* Evaluate(node.left))
+                .Value as ReferenceRecord;
+              let rval: unknown;
+              if (
+                IsAnonymousFunctionDefinition(node.right) &&
+                node.left.type === "Identifier"
+              ) {
+                rval = NamedEvaluation(node.right, node.left.name);
+              } else {
+                const rref = yield* Evaluate(node.right);
+                rval = GetValue(rref);
+              }
               PutValue(lref, rval);
               return NormalCompletion(rval);
             }
-            const rref = Evaluate(node.right);
+            const rref = yield* Evaluate(node.right);
             const rval = GetValue(rref) as string | number;
-            DestructuringAssignmentEvaluation(node.left, rval);
+            yield* DestructuringAssignmentEvaluation(node.left, rval);
             return NormalCompletion(rval);
           }
           // Operators other than `=`.
-          const lref = Evaluate(node.left).Value as ReferenceRecord;
+          const lref = (yield* Evaluate(node.left)).Value as ReferenceRecord;
           const lval = GetValue(lref) as string | number;
-          const rref = Evaluate(node.right);
+          const rref = yield* Evaluate(node.right);
           const rval = GetValue(rref) as string | number;
           const r = ApplyStringOrNumericAssignment(lval, node.operator, rval);
           PutValue(lref, r);
@@ -415,7 +459,7 @@ export function cook(
           const blockEnv = new DeclarativeEnvironment(oldEnv);
           BlockDeclarationInstantiation(node.body, blockEnv);
           getRunningContext().LexicalEnvironment = blockEnv;
-          const blockValue = EvaluateStatementList(node.body);
+          const blockValue = yield* EvaluateStatementList(node.body);
           getRunningContext().LexicalEnvironment = oldEnv;
           return blockValue;
         }
@@ -430,18 +474,18 @@ export function cook(
           return NormalCompletion(Empty);
         case "DoWhileStatement":
           // https://tc39.es/ecma262/#sec-do-while-statement
-          return EvaluateBreakableStatement(DoWhileLoopEvaluation(node));
+          return EvaluateBreakableStatement(yield* DoWhileLoopEvaluation(node));
         case "ExpressionStatement":
         case "TSAsExpression":
           // https://tc39.es/ecma262/#sec-expression-statement
-          return Evaluate(node.expression);
+          return yield* Evaluate(node.expression);
         case "ForInStatement":
         case "ForOfStatement":
           // https://tc39.es/ecma262/#sec-for-in-and-for-of-statements
-          return EvaluateBreakableStatement(ForInOfLoopEvaluation(node));
+          return EvaluateBreakableStatement(yield* ForInOfLoopEvaluation(node));
         case "ForStatement":
           // https://tc39.es/ecma262/#sec-for-statement
-          return EvaluateBreakableStatement(ForLoopEvaluation(node));
+          return EvaluateBreakableStatement(yield* ForLoopEvaluation(node));
         case "FunctionDeclaration":
           // https://tc39.es/ecma262/#sec-function-definitions
           return NormalCompletion(Empty);
@@ -451,43 +495,47 @@ export function cook(
           return NormalCompletion(InstantiateOrdinaryFunctionExpression(node));
         case "IfStatement":
           // https://tc39.es/ecma262/#sec-if-statement
-          return GetValue(Evaluate(node.test))
-            ? (hooks.beforeBranch?.(node, "if"),
-              UpdateEmpty(Evaluate(node.consequent), undefined))
-            : (hooks.beforeBranch?.(node, "else"), node.alternate)
-            ? UpdateEmpty(Evaluate(node.alternate), undefined)
-            : NormalCompletion(undefined);
+          if (GetValue(yield* Evaluate(node.test))) {
+            hooks.beforeBranch?.(node, "if");
+            return UpdateEmpty(yield* Evaluate(node.consequent), undefined);
+          }
+          hooks.beforeBranch?.(node, "else");
+          if (node.alternate) {
+            return UpdateEmpty(yield* Evaluate(node.alternate), undefined);
+          }
+          return NormalCompletion(undefined);
         case "ReturnStatement": {
           // https://tc39.es/ecma262/#sec-return-statement
           let v: unknown;
           if (node.argument) {
-            const exprRef = Evaluate(node.argument);
+            const exprRef = yield* Evaluate(node.argument);
             v = GetValue(exprRef);
           }
+          currentNode = node;
           return new CompletionRecord("return", v);
         }
         case "ThrowStatement":
           // https://tc39.es/ecma262/#sec-throw-statement
-          throw GetValue(Evaluate(node.argument));
+          throw GetValue(yield* Evaluate(node.argument));
         case "UpdateExpression": {
           // https://tc39.es/ecma262/#sec-update-expressions
-          const lhs = Evaluate(node.argument).Value as ReferenceRecord;
+          const lhs = (yield* Evaluate(node.argument)).Value as ReferenceRecord;
           const oldValue = Number(GetValue(lhs));
           const newValue = node.operator === "++" ? oldValue + 1 : oldValue - 1;
           PutValue(lhs, newValue);
           return NormalCompletion(node.prefix ? newValue : oldValue);
         }
         case "SwitchCase":
-          return EvaluateStatementList(node.consequent);
+          return yield* EvaluateStatementList(node.consequent);
         case "SwitchStatement": {
           // https://tc39.es/ecma262/#sec-switch-statement
-          const exprRef = Evaluate(node.discriminant);
+          const exprRef = yield* Evaluate(node.discriminant);
           const switchValue = GetValue(exprRef);
           const oldEnv = getRunningContext().LexicalEnvironment;
           const blockEnv = new DeclarativeEnvironment(oldEnv);
           BlockDeclarationInstantiation(node.cases, blockEnv);
           getRunningContext().LexicalEnvironment = blockEnv;
-          const R = CaseBlockEvaluation(node.cases, switchValue);
+          const R = yield* CaseBlockEvaluation(node.cases, switchValue);
           getRunningContext().LexicalEnvironment = oldEnv;
           return EvaluateBreakableStatement(R);
         }
@@ -495,17 +543,18 @@ export function cook(
           // https://tc39.es/ecma262/#sec-try-statement
           let R: CompletionRecord;
           try {
-            R = Evaluate(node.block);
+            R = yield* Evaluate(node.block);
           } catch (error) {
             if (node.handler) {
+              currentNode = node.handler;
               hooks.beforeEvaluate?.(node.handler);
-              R = CatchClauseEvaluation(node.handler, error);
+              R = yield* CatchClauseEvaluation(node.handler, error);
             } else {
               throw error;
             }
           } finally {
             if (node.finalizer) {
-              const F = Evaluate(node.finalizer);
+              const F = yield* Evaluate(node.finalizer);
               if (F.Type !== "normal") {
                 R = F;
               }
@@ -517,6 +566,7 @@ export function cook(
           // https://tc39.es/ecma262/#sec-declarations-and-the-variable-statement
           let result: CompletionRecord | undefined;
           for (const declarator of node.declarations) {
+            currentNode = declarator;
             if (!declarator.init) {
               // Assert: a declarator without init is always an identifier.
               if (node.kind === "var") {
@@ -526,19 +576,27 @@ export function cook(
                 result = InitializeReferencedBinding(lhs, undefined);
               }
             } else if (declarator.id.type === "Identifier") {
+              currentNode = declarator.init;
+              if (debug) yield;
               const bindingId = declarator.id.name;
               const lhs = ResolveBinding(bindingId);
-              // Todo: IsAnonymousFunctionDefinition(Initializer)
-              const rhs = Evaluate(declarator.init);
-              const value = GetValue(rhs);
+              let value: unknown;
+              if (IsAnonymousFunctionDefinition(declarator.init)) {
+                value = NamedEvaluation(declarator.init, bindingId);
+              } else {
+                const rhs = yield* Evaluate(declarator.init);
+                value = GetValue(rhs);
+              }
               result =
                 node.kind === "var"
                   ? PutValue(lhs, value)
                   : InitializeReferencedBinding(lhs, value);
             } else {
-              const rhs = Evaluate(declarator.init);
+              currentNode = declarator.init;
+              if (debug) yield;
+              const rhs = yield* Evaluate(declarator.init);
               const rval = GetValue(rhs);
-              result = BindingInitialization(
+              result = yield* BindingInitialization(
                 declarator.id,
                 rval,
                 node.kind === "var"
@@ -551,7 +609,7 @@ export function cook(
         }
         case "WhileStatement":
           // https://tc39.es/ecma262/#sec-while-statement
-          return EvaluateBreakableStatement(WhileLoopEvaluation(node));
+          return EvaluateBreakableStatement(yield* WhileLoopEvaluation(node));
       }
     }
     // eslint-disable-next-line no-console
@@ -576,12 +634,12 @@ export function cook(
 
   // Try statements.
   // https://tc39.es/ecma262/#sec-runtime-semantics-catchclauseevaluation
-  function CatchClauseEvaluation(
+  function* CatchClauseEvaluation(
     node: CatchClause,
     thrownValue: unknown
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     if (!node.param) {
-      return Evaluate(node.body);
+      return yield* Evaluate(node.body);
     }
     const oldEnv = getRunningContext().LexicalEnvironment;
     const catchEnv = new DeclarativeEnvironment(oldEnv);
@@ -589,8 +647,8 @@ export function cook(
       catchEnv.CreateMutableBinding(argName, false);
     }
     getRunningContext().LexicalEnvironment = catchEnv;
-    BindingInitialization(node.param, thrownValue, catchEnv);
-    const B = Evaluate(node.body);
+    yield* BindingInitialization(node.param, thrownValue, catchEnv);
+    const B = yield* Evaluate(node.body);
     getRunningContext().LexicalEnvironment = oldEnv;
     return B;
   }
@@ -609,10 +667,10 @@ export function cook(
 
   // Switch statements.
   // https://tc39.es/ecma262/#sec-runtime-semantics-caseblockevaluation
-  function CaseBlockEvaluation(
+  function* CaseBlockEvaluation(
     cases: SwitchCase[],
     input: unknown
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     let V: unknown;
 
     const defaultCaseIndex = cases.findIndex((switchCase) => !switchCase.test);
@@ -621,10 +679,10 @@ export function cook(
     let found = false;
     for (const C of A) {
       if (!found) {
-        found = CaseClauseIsSelected(C, input);
+        found = yield* CaseClauseIsSelected(C, input);
       }
       if (found) {
-        const R = Evaluate(C);
+        const R = yield* Evaluate(C);
         if (R.Value !== Empty) {
           V = R.Value;
         }
@@ -643,10 +701,10 @@ export function cook(
     if (!found) {
       for (const C of B) {
         if (!foundInB) {
-          foundInB = CaseClauseIsSelected(C, input);
+          foundInB = yield* CaseClauseIsSelected(C, input);
         }
         if (foundInB) {
-          const R = Evaluate(C);
+          const R = yield* Evaluate(C);
           if (R.Value !== Empty) {
             V = R.Value;
           }
@@ -660,7 +718,7 @@ export function cook(
     if (foundInB) {
       return NormalCompletion(V);
     }
-    const R = Evaluate(cases[defaultCaseIndex]);
+    const R = yield* Evaluate(cases[defaultCaseIndex]);
     if (R.Value !== Empty) {
       V = R.Value;
     }
@@ -670,7 +728,7 @@ export function cook(
 
     // NOTE: The following is another complete iteration of the second CaseClauses.
     for (const C of B) {
-      const R = Evaluate(C);
+      const R = yield* Evaluate(C);
       if (R.Value !== Empty) {
         V = R.Value;
       }
@@ -682,22 +740,25 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-caseclauseisselected
-  function CaseClauseIsSelected(C: SwitchCase, input: unknown): boolean {
-    const clauseSelector = GetValue(Evaluate(C.test!));
+  function* CaseClauseIsSelected(
+    C: SwitchCase,
+    input: unknown
+  ): EvaluateResult<unknown, boolean> {
+    const clauseSelector = GetValue(yield* Evaluate(C.test!));
     return input === clauseSelector;
   }
 
   // While statements.
   // https://tc39.es/ecma262/#sec-runtime-semantics-whileloopevaluation
-  function WhileLoopEvaluation(node: WhileStatement): CompletionRecord {
+  function* WhileLoopEvaluation(node: WhileStatement): CompletionRecordResult {
     let V: unknown;
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const exprValue = GetValue(Evaluate(node.test));
+      const exprValue = GetValue(yield* Evaluate(node.test));
       if (!exprValue) {
         return NormalCompletion(V);
       }
-      const stmtResult = Evaluate(node.body);
+      const stmtResult = yield* Evaluate(node.body);
       if (!LoopContinues(stmtResult)) {
         return UpdateEmpty(stmtResult, V);
       }
@@ -709,18 +770,20 @@ export function cook(
 
   // Do-while Statements.
   // https://tc39.es/ecma262/#sec-runtime-semantics-dowhileloopevaluation
-  function DoWhileLoopEvaluation(node: DoWhileStatement): CompletionRecord {
+  function* DoWhileLoopEvaluation(
+    node: DoWhileStatement
+  ): CompletionRecordResult {
     let V: unknown;
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const stmtResult = Evaluate(node.body);
+      const stmtResult = yield* Evaluate(node.body);
       if (!LoopContinues(stmtResult)) {
         return UpdateEmpty(stmtResult, V);
       }
       if (stmtResult.Value !== Empty) {
         V = stmtResult.Value;
       }
-      const exprValue = GetValue(Evaluate(node.test));
+      const exprValue = GetValue(yield* Evaluate(node.test));
       if (!exprValue) {
         return NormalCompletion(V);
       }
@@ -729,9 +792,9 @@ export function cook(
 
   // For in/of statements.
   // https://tc39.es/ecma262/#sec-runtime-semantics-forinofloopevaluation
-  function ForInOfLoopEvaluation(
+  function* ForInOfLoopEvaluation(
     node: ForInStatement | ForOfStatement
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     const lhs = node.left;
     const isVariableDeclaration = lhs.type === "VariableDeclaration";
     const lhsKind = isVariableDeclaration
@@ -743,7 +806,7 @@ export function cook(
       lhsKind === "lexicalBinding" ? collectBoundNames(lhs) : [];
     const iterationKind =
       node.type === "ForInStatement" ? "enumerate" : "iterate";
-    const keyResult = ForInOfHeadEvaluation(
+    const keyResult = yield* ForInOfHeadEvaluation(
       uninitializedBoundNames,
       node.right,
       iterationKind
@@ -752,7 +815,7 @@ export function cook(
       // When enumerate, if the target is nil, a break completion will be returned.
       return keyResult;
     }
-    return ForInOfBodyEvaluation(
+    return yield* ForInOfBodyEvaluation(
       lhs,
       node.body,
       keyResult.Value as Iterator<unknown>,
@@ -762,11 +825,11 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-forinofheadevaluation
-  function ForInOfHeadEvaluation(
+  function* ForInOfHeadEvaluation(
     uninitializedBoundNames: string[],
     expr: Expression,
     iterationKind: "enumerate" | "iterate"
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     const runningContext = getRunningContext();
     const oldEnv = runningContext.LexicalEnvironment;
     if (uninitializedBoundNames.length > 0) {
@@ -776,7 +839,7 @@ export function cook(
       }
       runningContext.LexicalEnvironment = newEnv;
     }
-    const exprRef = Evaluate(expr);
+    const exprRef = yield* Evaluate(expr, undefined, true);
     runningContext.LexicalEnvironment = oldEnv;
     const exprValue = GetValue(exprRef);
     if (iterationKind === "enumerate") {
@@ -790,13 +853,13 @@ export function cook(
     return NormalCompletion(iterator);
   }
 
-  function ForInOfBodyEvaluation(
+  function* ForInOfBodyEvaluation(
     node: VariableDeclaration | EstreeLVal,
     stmt: Statement,
     iteratorRecord: Iterator<unknown>,
     iterationKind: "enumerate" | "iterate",
     lhsKind: "varBinding" | "lexicalBinding" | "assignment"
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     const lhs =
       lhsKind === "assignment"
         ? (node as EstreeLVal)
@@ -812,8 +875,10 @@ export function cook(
       lhs.type === "ObjectPattern" || lhs.type === "ArrayPattern";
     // eslint-disable-next-line no-constant-condition
     while (true) {
+      currentNode = lhs;
       const { done, value: nextValue } = iteratorRecord.next();
       if (done) {
+        if (debug) yield;
         return NormalCompletion(V);
       }
       let lhsRef: ReferenceRecord | undefined;
@@ -825,24 +890,29 @@ export function cook(
           iterationEnv
         );
         getRunningContext().LexicalEnvironment = iterationEnv;
+        if (debug) yield;
         if (!destructuring) {
           const [lhsName] = collectBoundNames(lhs);
           lhsRef = ResolveBinding(lhsName);
         }
-      } else if (!destructuring) {
-        lhsRef = Evaluate(lhs).Value as ReferenceRecord;
+      } else {
+        if (debug) yield;
+        if (!destructuring) {
+          lhsRef = (yield* Evaluate(lhs)).Value as ReferenceRecord;
+        }
       }
+
       destructuring
         ? lhsKind === "assignment"
-          ? DestructuringAssignmentEvaluation(lhs, nextValue)
+          ? yield* DestructuringAssignmentEvaluation(lhs, nextValue)
           : lhsKind === "varBinding"
-          ? BindingInitialization(lhs, nextValue, undefined)
-          : BindingInitialization(lhs, nextValue, iterationEnv)
+            ? yield* BindingInitialization(lhs, nextValue, undefined)
+            : yield* BindingInitialization(lhs, nextValue, iterationEnv)
         : lhsKind === "lexicalBinding"
-        ? InitializeReferencedBinding(lhsRef!, nextValue)
-        : PutValue(lhsRef!, nextValue);
+          ? InitializeReferencedBinding(lhsRef!, nextValue)
+          : PutValue(lhsRef!, nextValue);
 
-      const result = Evaluate(stmt);
+      const result = yield* Evaluate(stmt);
       getRunningContext().LexicalEnvironment = oldEnv;
       if (!LoopContinues(result)) {
         const status = UpdateEmpty(result, V);
@@ -878,12 +948,12 @@ export function cook(
 
   // For statements.
   // https://tc39.es/ecma262/#sec-runtime-semantics-forloopevaluation
-  function ForLoopEvaluation(node: ForStatement): CompletionRecord {
+  function* ForLoopEvaluation(node: ForStatement): CompletionRecordResult {
     if (node.init?.type === "VariableDeclaration") {
       // `for (var … ; … ; … ) …`
       if (node.init.kind === "var") {
-        Evaluate(node.init);
-        return ForBodyEvaluation(node.test, node.update, node.body, []);
+        yield* Evaluate(node.init);
+        return yield* ForBodyEvaluation(node.test, node.update, node.body, []);
       }
       // `for (let/const … ; … ; … ) …`
       const oldEnv = getRunningContext().LexicalEnvironment;
@@ -898,9 +968,9 @@ export function cook(
         }
       }
       getRunningContext().LexicalEnvironment = loopEnv;
-      Evaluate(node.init);
+      yield* Evaluate(node.init);
       const perIterationLets = isConst ? [] : Array.from(boundNames);
-      const bodyResult = ForBodyEvaluation(
+      const bodyResult = yield* ForBodyEvaluation(
         node.test,
         node.update,
         node.body,
@@ -911,31 +981,31 @@ export function cook(
     }
     // `for ( … ; … ; … ) …`
     if (node.init) {
-      const exprRef = Evaluate(node.init);
+      const exprRef = yield* Evaluate(node.init);
       GetValue(exprRef);
     }
-    return ForBodyEvaluation(node.test, node.update, node.body, []);
+    return yield* ForBodyEvaluation(node.test, node.update, node.body, []);
   }
 
   // https://tc39.es/ecma262/#sec-forbodyevaluation
-  function ForBodyEvaluation(
+  function* ForBodyEvaluation(
     test: Expression | null | undefined,
     increment: Expression | null | undefined,
     stmt: Statement,
     perIterationBindings: string[]
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     CreatePerIterationEnvironment(perIterationBindings);
     let V: unknown;
     // eslint-disable-next-line no-constant-condition
     while (true) {
       if (test) {
-        const testRef = Evaluate(test);
+        const testRef = yield* Evaluate(test, undefined, true);
         const testValue = GetValue(testRef);
         if (!testValue) {
           return NormalCompletion(V);
         }
       }
-      const result = Evaluate(stmt) as CompletionRecord;
+      const result = yield* Evaluate(stmt);
       if (!LoopContinues(result)) {
         return UpdateEmpty(result, V);
       }
@@ -944,7 +1014,7 @@ export function cook(
       }
       CreatePerIterationEnvironment(perIterationBindings);
       if (increment) {
-        const incRef = Evaluate(increment);
+        const incRef = yield* Evaluate(increment, undefined, true);
         GetValue(incRef);
       }
     }
@@ -970,14 +1040,14 @@ export function cook(
 
   // Destructuring assignments.
   // https://tc39.es/ecma262/#sec-runtime-semantics-destructuringassignmentevaluation
-  function DestructuringAssignmentEvaluation(
+  function* DestructuringAssignmentEvaluation(
     pattern: ObjectPattern | EstreeObjectPattern | ArrayPattern,
     value: unknown
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     if (pattern.type === "ObjectPattern") {
       RequireObjectCoercible(value);
       if (pattern.properties.length > 0) {
-        PropertyDestructuringAssignmentEvaluation(
+        yield* PropertyDestructuringAssignmentEvaluation(
           (pattern as EstreeObjectPattern).properties,
           value
         );
@@ -985,24 +1055,26 @@ export function cook(
       return NormalCompletion(Empty);
     }
     const iteratorRecord = CreateListIteratorRecord(value as Iterable<unknown>);
-    return IteratorDestructuringAssignmentEvaluation(
+    return yield* IteratorDestructuringAssignmentEvaluation(
       pattern.elements,
       iteratorRecord
     );
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-propertydestructuringassignmentevaluation
-  function PropertyDestructuringAssignmentEvaluation(
+  function* PropertyDestructuringAssignmentEvaluation(
     properties: (EstreeProperty | RestElement)[],
     value: unknown
-  ): void {
+  ): EvaluateResult<unknown, void> {
     const excludedNames = new Set<PropertyKey>();
     for (const prop of properties) {
       if (prop.type === "Property") {
         const propName =
           !prop.computed && prop.key.type === "Identifier"
             ? prop.key.name
-            : (EvaluateComputedPropertyName(prop.key as Expression) as string);
+            : ((yield* EvaluateComputedPropertyName(
+                prop.key as Expression
+              )) as string);
         const valueTarget =
           prop.value.type === "AssignmentPattern"
             ? prop.value.left
@@ -1011,28 +1083,39 @@ export function cook(
           const lref = ResolveBinding(valueTarget.name);
           let v = GetV(value, propName);
           if (prop.value.type === "AssignmentPattern" && v === undefined) {
-            // Todo(steve): check IsAnonymousFunctionDefinition(Initializer)
-            const defaultValue = Evaluate(prop.value.right);
-            v = GetValue(defaultValue);
+            if (IsAnonymousFunctionDefinition(prop.value.right)) {
+              v = NamedEvaluation(prop.value.right, valueTarget.name);
+            } else {
+              const defaultValue = yield* Evaluate(prop.value.right);
+              v = GetValue(defaultValue);
+            }
           }
           PutValue(lref, v);
           excludedNames.add(propName);
         } else {
-          KeyedDestructuringAssignmentEvaluation(prop.value, value, propName);
+          yield* KeyedDestructuringAssignmentEvaluation(
+            prop.value,
+            value,
+            propName
+          );
           excludedNames.add(propName);
         }
       } else {
-        RestDestructuringAssignmentEvaluation(prop, value, excludedNames);
+        yield* RestDestructuringAssignmentEvaluation(
+          prop,
+          value,
+          excludedNames
+        );
       }
     }
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-keyeddestructuringassignmentevaluation
-  function KeyedDestructuringAssignmentEvaluation(
+  function* KeyedDestructuringAssignmentEvaluation(
     node: EstreeNode,
     value: unknown,
     propertyName: PropertyKey
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     const assignmentTarget =
       node.type === "AssignmentPattern" ? node.left : node;
     const isObjectOrArray =
@@ -1040,39 +1123,43 @@ export function cook(
       assignmentTarget.type === "ObjectPattern";
     let lref: ReferenceRecord | undefined;
     if (!isObjectOrArray) {
-      lref = Evaluate(assignmentTarget).Value as ReferenceRecord;
+      lref = (yield* Evaluate(assignmentTarget)).Value as ReferenceRecord;
     }
     const v = GetV(value, propertyName);
     let rhsValue;
     if (node.type === "AssignmentPattern" && v === undefined) {
-      // Todo(steve): check IsAnonymousFunctionDefinition(Initializer)
-      const defaultValue = Evaluate(node.right);
+      // `assignmentTarget.type` is never "Identifier" here.
+      const defaultValue = yield* Evaluate(node.right);
       rhsValue = GetValue(defaultValue);
     } else {
       rhsValue = v;
     }
     if (isObjectOrArray) {
-      return DestructuringAssignmentEvaluation(assignmentTarget, rhsValue);
+      return yield* DestructuringAssignmentEvaluation(
+        assignmentTarget,
+        rhsValue
+      );
     }
     return PutValue(lref!, rhsValue);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-restdestructuringassignmentevaluation
-  function RestDestructuringAssignmentEvaluation(
+  function* RestDestructuringAssignmentEvaluation(
     restProperty: RestElement,
     value: unknown,
     excludedNames: Set<PropertyKey>
-  ): CompletionRecord {
-    const lref = Evaluate(restProperty.argument).Value as ReferenceRecord;
+  ): CompletionRecordResult {
+    const lref = (yield* Evaluate(restProperty.argument))
+      .Value as ReferenceRecord;
     const restObj = CopyDataProperties({}, value, excludedNames);
     return PutValue(lref, restObj);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratordestructuringassignmentevaluation
-  function IteratorDestructuringAssignmentEvaluation(
+  function* IteratorDestructuringAssignmentEvaluation(
     elements: (PatternLike | LVal | null)[],
     iteratorRecord: Iterator<unknown>
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     let status = NormalCompletion(Empty);
     for (const element of elements) {
       if (!element) {
@@ -1084,23 +1171,29 @@ export function cook(
         element.type === "RestElement"
           ? element.argument
           : element.type === "AssignmentPattern"
-          ? element.left
-          : element;
+            ? element.left
+            : element;
       const isObjectOrArray =
         assignmentTarget.type === "ArrayPattern" ||
         assignmentTarget.type === "ObjectPattern";
       let lref: ReferenceRecord | undefined;
       if (!isObjectOrArray) {
-        lref = Evaluate(assignmentTarget).Value as ReferenceRecord;
+        lref = (yield* Evaluate(assignmentTarget)).Value as ReferenceRecord;
       }
       let v: unknown;
       if (element.type !== "RestElement") {
         const { done, value: nextValue } = iteratorRecord.next();
         const value = done ? undefined : nextValue;
         if (element.type === "AssignmentPattern" && value === undefined) {
-          // Todo(steve): check IsAnonymousFunctionDefinition(Initializer)
-          const defaultValue = Evaluate(element.right);
-          v = GetValue(defaultValue);
+          if (
+            IsAnonymousFunctionDefinition(element.right) &&
+            assignmentTarget.type === "Identifier"
+          ) {
+            v = NamedEvaluation(element.right, assignmentTarget.name);
+          } else {
+            const defaultValue = yield* Evaluate(element.right);
+            v = GetValue(defaultValue);
+          }
         } else {
           v = value;
         }
@@ -1119,7 +1212,7 @@ export function cook(
         }
       }
       if (isObjectOrArray) {
-        status = DestructuringAssignmentEvaluation(assignmentTarget, v);
+        status = yield* DestructuringAssignmentEvaluation(assignmentTarget, v);
       } else {
         status = PutValue(lref!, v);
       }
@@ -1129,12 +1222,12 @@ export function cook(
 
   // Object expressions.
   // https://tc39.es/ecma262/#sec-evaluate-property-access-with-expression-key
-  function EvaluatePropertyAccessWithExpressionKey(
+  function* EvaluatePropertyAccessWithExpressionKey(
     baseValue: Record<PropertyKey, unknown>,
     expression: Expression,
     strict: boolean
-  ): ReferenceRecord {
-    const propertyNameReference = Evaluate(expression);
+  ): EvaluateResult<unknown, ReferenceRecord> {
+    const propertyNameReference = yield* Evaluate(expression);
     const propertyNameValue = GetValue(propertyNameReference);
     const propertyKey = ToPropertyKey(propertyNameValue);
     return new ReferenceRecord(baseValue, propertyKey, strict);
@@ -1180,36 +1273,49 @@ export function cook(
 
   // Function declarations and expressions.
   // https://tc39.es/ecma262/#sec-evaluatecall
-  function EvaluateCall(
+  function* EvaluateCall(
     func: Function,
     ref: ReferenceRecord,
     args: CallExpression["arguments"] | TemplateLiteral,
     callee: CallExpression["callee"]
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     let thisValue;
     if (ref instanceof ReferenceRecord) {
       if (IsPropertyReference(ref)) {
         thisValue = ref.Base;
       }
     }
-    const argList = ArgumentListEvaluation(args);
+    const argList = yield* ArgumentListEvaluation(args);
     if (typeof func !== "function") {
       const funcName = codeSource.substring(callee.start!, callee.end!);
       throw new TypeError(`${funcName} is not a function`);
     }
+
+    if (debug) {
+      const debuggerCall = (func as FunctionObject)[DebuggerCall];
+      if (debuggerCall) {
+        const result = yield* (debuggerCall as Function).apply(
+          thisValue,
+          argList
+        );
+        sanitize(result);
+        return NormalCompletion(result);
+      }
+    }
+
     const result = func.apply(thisValue, argList);
     sanitize(result);
     return NormalCompletion(result);
   }
 
   // https://tc39.es/ecma262/#sec-evaluatenew
-  function EvaluateNew(
+  function* EvaluateNew(
     constructExpr: CallExpression["callee"],
     args: NewExpression["arguments"]
-  ): CompletionRecord {
-    const ref = Evaluate(constructExpr);
+  ): CompletionRecordResult {
+    const ref = yield* Evaluate(constructExpr);
     const constructor = GetValue(ref) as new (...args: unknown[]) => unknown;
-    const argList = ArgumentListEvaluation(args);
+    const argList = yield* ArgumentListEvaluation(args);
     if (
       typeof constructor !== "function" ||
       (constructor as unknown as FunctionObject)[IsConstructor] === false
@@ -1227,40 +1333,51 @@ export function cook(
       );
       throw new TypeError(`${constructorName} is not an allowed constructor`);
     }
+
     return NormalCompletion(new constructor(...argList));
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-argumentlistevaluation
-  function ArgumentListEvaluation(
+  function* ArgumentListEvaluation(
     args: CallExpression["arguments"] | TemplateLiteral
-  ): unknown[] {
+  ): EvaluateResult<unknown, unknown[]> {
     const array: unknown[] = [];
     if (Array.isArray(args)) {
       for (const arg of args) {
         if (arg.type === "SpreadElement") {
-          const spreadValues = GetValue(Evaluate(arg.argument)) as unknown[];
+          const spreadValues = GetValue(
+            yield* Evaluate(arg.argument)
+          ) as unknown[];
           array.push(...spreadValues);
         } else {
-          array.push(GetValue(Evaluate(arg)));
+          array.push(GetValue(yield* Evaluate(arg)));
         }
       }
     } else {
       array.push(GetTemplateObject(args));
       for (const expr of args.expressions) {
-        array.push(GetValue(Evaluate(expr)));
+        array.push(GetValue(yield* Evaluate(expr)));
       }
     }
     return array;
   }
 
   // https://tc39.es/ecma262/#sec-ecmascript-function-objects-call-thisargument-argumentslist
-  function CallFunction(
+  function* CallFunction(
     closure: FunctionObject,
     args: Iterable<unknown>
-  ): unknown {
+  ): EvaluateResult<unknown, unknown> {
     hooks.beforeCall?.(closure[SourceNode]);
     PrepareForOrdinaryCall(closure);
-    const result = OrdinaryCallEvaluateBody(closure, args);
+    const result = yield* OrdinaryCallEvaluateBody(closure, args);
+    if (currentNode?.type !== "ReturnStatement") {
+      currentNode = closure[SourceNode];
+    }
+    if (debug)
+      yield {
+        type: "return",
+        value: result.Type === "return" ? result.Value : undefined,
+      };
     executionContextStack.pop();
     if (result.Type === "return") {
       return result.Value;
@@ -1280,31 +1397,33 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#sec-ordinarycallevaluatebody
-  function OrdinaryCallEvaluateBody(
+  function* OrdinaryCallEvaluateBody(
     F: FunctionObject,
     args: Iterable<unknown>
-  ): CompletionRecord {
-    return EvaluateFunctionBody(F[ECMAScriptCode], F, args);
+  ): CompletionRecordResult {
+    return yield* EvaluateFunctionBody(F[ECMAScriptCode], F, args);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-evaluatefunctionbody
-  function EvaluateFunctionBody(
+  function* EvaluateFunctionBody(
     body: Statement[] | Expression,
     F: FunctionObject,
     args: Iterable<unknown>
-  ): CompletionRecord {
-    FunctionDeclarationInstantiation(F, args);
+  ): CompletionRecordResult {
+    yield* FunctionDeclarationInstantiation(F, args);
     if (Array.isArray(body)) {
-      return EvaluateStatementList(body);
+      return yield* EvaluateStatementList(body);
     }
-    return new CompletionRecord("return", GetValue(Evaluate(body)));
+    return new CompletionRecord("return", GetValue(yield* Evaluate(body)));
   }
 
   // https://tc39.es/ecma262/#sec-block-runtime-semantics-evaluation
-  function EvaluateStatementList(statements: Statement[]): CompletionRecord {
+  function* EvaluateStatementList(
+    statements: Statement[]
+  ): CompletionRecordResult {
     let result = NormalCompletion(Empty);
     for (const stmt of statements) {
-      const s = Evaluate(stmt);
+      const s = yield* Evaluate(stmt);
       if (s.Type !== "normal") {
         return s;
       }
@@ -1313,11 +1432,38 @@ export function cook(
     return result;
   }
 
+  // https://tc39.es/ecma262/#sec-isanonymousfunctiondefinition
+  function IsAnonymousFunctionDefinition(
+    node: EstreeNode
+  ): node is FunctionDefinition {
+    // No ParenthesizedExpression in ESTree.
+    return (
+      (node.type === "FunctionExpression" && !node.id) ||
+      node.type === "ArrowFunctionExpression"
+    );
+  }
+
+  // https://tc39.es/ecma262/#sec-runtime-semantics-namedevaluation
+  function NamedEvaluation(node: FunctionDefinition, name: string) {
+    // No ParenthesizedExpression in ESTree.
+    switch (node.type) {
+      case "FunctionExpression":
+        return InstantiateOrdinaryFunctionExpression(node, name);
+      case "ArrowFunctionExpression":
+        return InstantiateArrowFunctionExpression(node, name);
+      // istanbul ignore next: should never happen
+      default:
+        throw new Error(
+          `Unexpected node type for NamedEvaluation: ${(node as FunctionDefinition).type}`
+        );
+    }
+  }
+
   // https://tc39.es/ecma262/#sec-functiondeclarationinstantiation
-  function FunctionDeclarationInstantiation(
+  function* FunctionDeclarationInstantiation(
     func: FunctionObject,
     args: Iterable<unknown>
-  ): void {
+  ): EvaluateResult<unknown, void> {
     const calleeContext = getRunningContext();
     const code = func[ECMAScriptCode];
     const formals = func[FormalParameters] as FunctionDeclaration["params"];
@@ -1356,7 +1502,7 @@ export function cook(
     }
 
     const iteratorRecord = CreateListIteratorRecord(args);
-    IteratorBindingInitialization(formals, iteratorRecord, env);
+    yield* IteratorBindingInitialization(formals, iteratorRecord, env);
 
     let varEnv: EnvironmentRecord;
     if (!hasParameterExpressions) {
@@ -1418,12 +1564,19 @@ export function cook(
     func: FunctionDeclaration,
     scope: EnvironmentRecord
   ): FunctionObject {
-    return OrdinaryFunctionCreate(func, scope, true);
+    const F = OrdinaryFunctionCreate(func, scope, true);
+
+    if (func.id) {
+      SetFunctionName(F, func.id.name);
+    }
+
+    return F;
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiateordinaryfunctionexpression
   function InstantiateOrdinaryFunctionExpression(
-    functionExpression: FunctionExpression
+    functionExpression: FunctionExpression,
+    name?: string
   ): FunctionObject {
     const scope = getRunningContext().LexicalEnvironment!;
     if (functionExpression.id) {
@@ -1431,21 +1584,32 @@ export function cook(
       const funcEnv = new DeclarativeEnvironment(scope);
       funcEnv.CreateImmutableBinding(name, false);
       const closure = OrdinaryFunctionCreate(functionExpression, funcEnv, true);
+      SetFunctionName(closure, name);
       funcEnv.InitializeBinding(name, closure);
       return closure;
     } else {
       const closure = OrdinaryFunctionCreate(functionExpression, scope, true);
+      SetFunctionName(closure, name ?? "");
       return closure;
     }
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiatearrowfunctionexpression
   function InstantiateArrowFunctionExpression(
-    arrowFunction: ArrowFunctionExpression
+    arrowFunction: ArrowFunctionExpression,
+    name?: string
   ): FunctionObject {
     const scope = getRunningContext().LexicalEnvironment!;
     const closure = OrdinaryFunctionCreate(arrowFunction, scope, false);
+    SetFunctionName(closure, name ?? "");
     return closure;
+  }
+
+  function SetFunctionName(F: FunctionObject, name: string) {
+    Object.defineProperty(F, "name", {
+      value: name,
+      configurable: true,
+    });
   }
 
   // https://tc39.es/ecma262/#sec-ordinaryfunctioncreate
@@ -1459,7 +1623,7 @@ export function cook(
   ): FunctionObject {
     const F = function () {
       // eslint-disable-next-line prefer-rest-params
-      return CallFunction(F, arguments);
+      return unwind(CallFunction(F, arguments));
     } as FunctionObject;
     Object.defineProperties(F, {
       [SourceNode]: {
@@ -1481,22 +1645,30 @@ export function cook(
         value: isConstructor,
       },
     });
+    if (debug) {
+      Object.defineProperty(F, DebuggerCall, {
+        value: function () {
+          // eslint-disable-next-line prefer-rest-params
+          return CallFunction(F, arguments);
+        },
+      });
+    }
     return F;
   }
 
   // Patterns initialization.
   // https://tc39.es/ecma262/#sec-runtime-semantics-bindinginitialization
-  function BindingInitialization(
+  function* BindingInitialization(
     node: EstreeLVal,
     value: unknown,
     environment?: EnvironmentRecord
-  ): CompletionRecord | undefined {
+  ): EvaluateResult<unknown, CompletionRecord | undefined> {
     switch (node.type) {
       case "Identifier":
         return InitializeBoundName(node.name, value, environment);
       case "ObjectPattern":
         RequireObjectCoercible(value);
-        return PropertyBindingInitialization(
+        return yield* PropertyBindingInitialization(
           (node as EstreeObjectPattern).properties,
           value,
           environment
@@ -1505,7 +1677,7 @@ export function cook(
         const iteratorRecord = CreateListIteratorRecord(
           value as Iterable<unknown>
         );
-        return IteratorBindingInitialization(
+        return yield* IteratorBindingInitialization(
           node.elements,
           iteratorRecord,
           environment
@@ -1515,11 +1687,11 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#sec-destructuring-binding-patterns-runtime-semantics-propertybindinginitialization
-  function PropertyBindingInitialization(
+  function* PropertyBindingInitialization(
     properties: (EstreeProperty | RestElement)[],
     value: unknown,
     environment?: EnvironmentRecord
-  ): CompletionRecord {
+  ): CompletionRecordResult {
     const excludedNames = new Set<PropertyKey>();
     for (const prop of properties) {
       if (prop.type === "RestElement") {
@@ -1531,7 +1703,7 @@ export function cook(
         );
       }
       if (!prop.computed && prop.key.type === "Identifier") {
-        KeyedBindingInitialization(
+        yield* KeyedBindingInitialization(
           prop.value as EstreeLVal,
           value,
           environment,
@@ -1539,8 +1711,8 @@ export function cook(
         );
         excludedNames.add(prop.key.name);
       } else {
-        const P = EvaluateComputedPropertyName(prop.key as Expression);
-        KeyedBindingInitialization(
+        const P = yield* EvaluateComputedPropertyName(prop.key as Expression);
+        yield* KeyedBindingInitialization(
           prop.value as EstreeLVal,
           value,
           environment,
@@ -1553,8 +1725,10 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#prod-ComputedPropertyName
-  function EvaluateComputedPropertyName(node: Expression): PropertyKey {
-    const propName = GetValue(Evaluate(node));
+  function* EvaluateComputedPropertyName(
+    node: Expression
+  ): EvaluateResult<unknown, PropertyKey> {
+    const propName = GetValue(yield* Evaluate(node));
     return ToPropertyKey(propName);
   }
 
@@ -1577,11 +1751,11 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-iteratorbindinginitialization
-  function IteratorBindingInitialization(
+  function* IteratorBindingInitialization(
     elements: (PatternLike | LVal | null)[],
     iteratorRecord: Iterator<unknown>,
     environment?: EnvironmentRecord
-  ): CompletionRecord | undefined {
+  ): EvaluateResult<unknown, CompletionRecord | undefined> {
     if (elements.length === 0) {
       return NormalCompletion(Empty);
     }
@@ -1616,7 +1790,11 @@ export function cook(
           while (true) {
             const { done, value } = iteratorRecord.next();
             if (done) {
-              result = BindingInitialization(node.argument, A, environment);
+              result = yield* BindingInitialization(
+                node.argument,
+                A,
+                environment
+              );
               break;
             }
             A[n] = value;
@@ -1636,10 +1814,14 @@ export function cook(
               v = value;
             }
             if (node.type === "AssignmentPattern" && v === undefined) {
-              const defaultValue = Evaluate(node.right);
+              const defaultValue = yield* Evaluate(node.right);
               v = GetValue(defaultValue);
             }
-            result = BindingInitialization(bindingElement, v, environment);
+            result = yield* BindingInitialization(
+              bindingElement,
+              v,
+              environment
+            );
             break;
           }
           case "Identifier": {
@@ -1651,9 +1833,12 @@ export function cook(
               v = value;
             }
             if (node.type === "AssignmentPattern" && v === undefined) {
-              // IsAnonymousFunctionDefinition(Initializer)
-              const defaultValue = Evaluate(node.right);
-              v = GetValue(defaultValue);
+              if (IsAnonymousFunctionDefinition(node.right)) {
+                v = NamedEvaluation(node.right, bindingId);
+              } else {
+                const defaultValue = yield* Evaluate(node.right);
+                v = GetValue(defaultValue);
+              }
             }
             result = environment
               ? InitializeReferencedBinding(lhs, v)
@@ -1667,12 +1852,12 @@ export function cook(
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-keyedbindinginitialization
-  function KeyedBindingInitialization(
+  function* KeyedBindingInitialization(
     node: EstreeLVal,
     value: unknown,
     environment: EnvironmentRecord | undefined,
     propertyName: PropertyKey
-  ): CompletionRecord | undefined {
+  ): EvaluateResult<unknown, CompletionRecord | undefined> {
     const isIdentifier =
       node.type === "Identifier" ||
       (node.type === "AssignmentPattern" && node.left.type === "Identifier");
@@ -1682,9 +1867,12 @@ export function cook(
       const lhs = ResolveBinding(bindingId, environment);
       let v = GetV(value, propertyName);
       if (node.type === "AssignmentPattern" && v === undefined) {
-        // If IsAnonymousFunctionDefinition(Initializer)
-        const defaultValue = Evaluate(node.right);
-        v = GetValue(defaultValue);
+        if (IsAnonymousFunctionDefinition(node.right)) {
+          v = NamedEvaluation(node.right, bindingId);
+        } else {
+          const defaultValue = yield* Evaluate(node.right);
+          v = GetValue(defaultValue);
+        }
       }
       if (!environment) {
         return PutValue(lhs, v);
@@ -1694,10 +1882,10 @@ export function cook(
 
     let v = GetV(value, propertyName);
     if (node.type === "AssignmentPattern" && v === undefined) {
-      const defaultValue = Evaluate(node.right);
+      const defaultValue = yield* Evaluate(node.right);
       v = GetValue(defaultValue);
     }
-    return BindingInitialization(
+    return yield* BindingInitialization(
       node.type === "AssignmentPattern" ? node.left : node,
       v,
       environment
@@ -1731,7 +1919,7 @@ export function cook(
   }
 
   if (expressionOnly) {
-    return GetValue(Evaluate(rootAst));
+    return GetValue(unwind(Evaluate(rootAst)));
   }
 
   hooks.beforeEvaluate?.(rootAst);
@@ -1741,5 +1929,31 @@ export function cook(
   rootEnv.CreateImmutableBinding(fn, true);
   const fo = InstantiateFunctionObject(rootAst, rootEnv);
   rootEnv.InitializeBinding(fn, fo);
+
+  if (debug) {
+    Object.defineProperties(fo, {
+      [DebuggerScope]: {
+        value: function () {
+          return getRunningContext().LexicalEnvironment;
+        },
+      },
+      [DebuggerNode]: {
+        value: function () {
+          return currentNode;
+        },
+      },
+    });
+  }
+
   return fo;
+}
+
+function unwind(iterator: EvaluateResult<unknown, unknown>): unknown {
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const { done, value } = iterator.next();
+    if (done) {
+      return value;
+    }
+  }
 }

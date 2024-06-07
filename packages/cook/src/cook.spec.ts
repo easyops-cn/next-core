@@ -14,6 +14,14 @@ import {
   negativeCasesOfExpressionOnly,
   selectiveNegativeCasesOfExpressionOnly,
 } from "./__fixtures__/negative/expressions.js";
+import {
+  DebuggerCall,
+  DebuggerNode,
+  DebuggerScope,
+  type FunctionObject,
+} from "./ExecutionContext.js";
+import type { Identifier } from "@babel/types";
+import type { EstreeLiteral } from "./interfaces.js";
 
 jest.spyOn(console, "warn").mockImplementation(() => void 0);
 
@@ -407,5 +415,570 @@ describe("evaluate", () => {
     }) as Function;
     const result = func();
     expect(result).toBe("ac");
+  });
+
+  test("debug basic usage", async () => {
+    const source = `function test() {
+  function f() {
+    let a = 1;
+    return a;
+  }
+  return f() + 1;
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const debuggerScope = func[DebuggerScope]!;
+    const getScopedValues = () => {
+      const values = [];
+      let currentScope = debuggerScope() as any;
+      while (currentScope) {
+        values.push(
+          Object.fromEntries(
+            [...currentScope.bindingMap]
+              .filter(([k]) => currentScope.OuterEnv || k !== "undefined")
+              .map(([k, v]) => [k, v.value])
+          )
+        );
+        currentScope = currentScope.OuterEnv;
+      }
+      return values;
+    };
+    const iterator = debuggerCall();
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 0:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("ReturnStatement");
+          expect(getScopedValues()).toEqual([
+            { f: expect.any(Function) },
+            { test: expect.any(Function) },
+          ]);
+          break;
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("f");
+          expect(getScopedValues()).toEqual([
+            { f: expect.any(Function) },
+            { test: expect.any(Function) },
+          ]);
+          break;
+        case 2:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Literal");
+          expect((node as EstreeLiteral)?.value).toBe(1);
+          expect(getScopedValues()).toEqual([
+            { a: undefined },
+            { f: expect.any(Function) },
+            { test: expect.any(Function) },
+          ]);
+          break;
+        case 3:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("ReturnStatement");
+          expect(getScopedValues()).toEqual([
+            { a: 1 },
+            { f: expect.any(Function) },
+            { test: expect.any(Function) },
+          ]);
+          break;
+        case 4:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: 1 });
+          expect(node?.type).toBe("ReturnStatement");
+          expect(getScopedValues()).toEqual([
+            { a: 1 },
+            { f: expect.any(Function) },
+            { test: expect.any(Function) },
+          ]);
+          break;
+        case 5:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: 2 });
+          expect(node?.type).toBe("ReturnStatement");
+          expect(getScopedValues()).toEqual([
+            { f: expect.any(Function) },
+            { test: expect.any(Function) },
+          ]);
+          break;
+      }
+
+      if (done) {
+        expect(value).toBe(2);
+        expect(index).toBe(6);
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug tagged template expression", async () => {
+    const source = `function test() {
+  function f(a , b) {
+    return [a, b];
+  }
+  return f\`a=\${1}\`;
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const iterator = debuggerCall();
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("f");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual([["a=", ""], 1]);
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug assignment expression", async () => {
+    const source = `function test(a) {
+  let b;
+  b = a + 1;
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const iterator = debuggerCall(2);
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 0:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("ExpressionStatement");
+          break;
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: undefined });
+          expect(node?.type).toBe("FunctionDeclaration");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual(undefined);
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug if statement", async () => {
+    const source = `function test(a) {
+  if (a) {
+    return "A";
+  }
+  return "B";
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const iterator = debuggerCall(1);
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 0:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("IfStatement");
+          break;
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toEqual(undefined);
+          expect(node?.type).toBe("ReturnStatement");
+          break;
+        case 2:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: "A" });
+          expect(node?.type).toBe("ReturnStatement");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual("A");
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug switch statement", async () => {
+    const source = `function test(a) {
+  switch (a) {
+    case 1:
+      return "A";
+  }
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const iterator = debuggerCall(1);
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 0:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("SwitchStatement");
+          break;
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toEqual(undefined);
+          expect(node?.type).toBe("ReturnStatement");
+          break;
+        case 2:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: "A" });
+          expect(node?.type).toBe("ReturnStatement");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual("A");
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug variable declaration with array/object pattern", async () => {
+    const source = `function test(a) {
+  const { b } = a;
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const iterator = debuggerCall(1);
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 0:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("a");
+          break;
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: undefined });
+          expect(node?.type).toBe("FunctionDeclaration");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual(undefined);
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug for in statement (lexical binding)", async () => {
+    const source = `function test(a) {
+  const b = { c: 1 };
+  for (let k in b) {
+    a;
+  }
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const debuggerScope = func[DebuggerScope]!;
+    const iterator = debuggerCall();
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("b");
+          break;
+        case 2:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("k");
+          expect(() =>
+            debuggerScope()?.GetBindingValue("k")
+          ).toThrowErrorMatchingInlineSnapshot(`"k is not initialized"`);
+          break;
+        case 3:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("ExpressionStatement");
+          expect(debuggerScope()?.OuterEnv?.GetBindingValue("k")).toBe("c");
+          break;
+        case 4:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("k");
+          break;
+        case 5:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: undefined });
+          expect(node?.type).toBe("FunctionDeclaration");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual(undefined);
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug for of statement (assignment)", async () => {
+    const source = `function test(a) {
+  const b = [1];
+  let i;
+  for (i of b) {
+    a;
+  }
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const debuggerScope = func[DebuggerScope]!;
+    const iterator = debuggerCall();
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("b");
+          break;
+        case 2:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("i");
+          expect(debuggerScope()?.GetBindingValue("i")).toBe(undefined);
+          break;
+        case 3:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("ExpressionStatement");
+          expect(debuggerScope()?.OuterEnv?.GetBindingValue("i")).toBe(1);
+          break;
+        case 4:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Identifier");
+          expect((node as Identifier)?.name).toBe("i");
+          expect(debuggerScope()?.GetBindingValue("i")).toBe(1);
+          break;
+        case 5:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: undefined });
+          expect(node?.type).toBe("FunctionDeclaration");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual(undefined);
+        break;
+      }
+
+      index++;
+    }
+  });
+
+  test("debug for statement", async () => {
+    const source = `function test(a) {
+  for (let i = 0; i < 1; i++) {
+    a;
+  }
+}`;
+    const { function: funcAst, attemptToVisitGlobals } =
+      precookFunction(source);
+    const globalVariables = supply(attemptToVisitGlobals);
+    const func = cook(funcAst, source, {
+      globalVariables,
+      debug: true,
+    }) as FunctionObject;
+    const debuggerCall = func[DebuggerCall]!;
+    const debuggerNode = func[DebuggerNode]!;
+    const debuggerScope = func[DebuggerScope]!;
+    const iterator = debuggerCall();
+    let index = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = iterator.next();
+
+      await Promise.resolve();
+
+      const node = debuggerNode();
+
+      switch (index) {
+        case 0:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("Literal");
+          expect((node as EstreeLiteral)?.value).toBe(0);
+          break;
+        case 1:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("BinaryExpression");
+          expect(debuggerScope()?.GetBindingValue("i")).toBe(0);
+          break;
+        case 3:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("UpdateExpression");
+          expect(debuggerScope()?.GetBindingValue("i")).toBe(0);
+          break;
+        case 4:
+          expect(done).toBe(false);
+          expect(value).toBe(undefined);
+          expect(node?.type).toBe("BinaryExpression");
+          break;
+        case 5:
+          expect(done).toBe(false);
+          expect(value).toEqual({ type: "return", value: undefined });
+          expect(node?.type).toBe("FunctionDeclaration");
+          break;
+      }
+
+      if (done) {
+        expect(value).toEqual(undefined);
+        break;
+      }
+
+      index++;
+    }
   });
 });

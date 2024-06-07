@@ -36,8 +36,8 @@ export const casesOfTryStatements: LooseCase[] = [
           while (true) {
             try {
               throw 'oops';
-            } catch (e) {
-              a = 'Error: ' + e;
+            } catch {
+              a = 'yaks';
               break;
             }
             return a;
@@ -46,7 +46,7 @@ export const casesOfTryStatements: LooseCase[] = [
         }
       `,
       args: [],
-      result: "Caught: Error: oops",
+      result: "Caught: yaks",
     },
   ],
 ];
