@@ -56,6 +56,7 @@ declare namespace __secret_internals {
         getAllContextValues,
         getBrickPackagesById,
         loadBricks,
+        loadEditors,
         getRenderId,
         getAddedContracts,
         debugDataValue,
@@ -240,6 +241,9 @@ function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unkno
 
 // @public
 function loadBricks(bricks: string[]): Promise<void>;
+
+// @public (undocumented)
+function loadEditors(editors: string[] | Set<string>): Promise<void>;
 
 // @public @deprecated (undocumented)
 export function logout(): unknown;

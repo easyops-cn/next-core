@@ -38,7 +38,10 @@ import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
-import { loadBricksImperatively } from "@next-core/loader";
+import {
+  loadBricksImperatively,
+  loadEditorsImperatively,
+} from "@next-core/loader";
 
 export type { DataValueOption, RuntimeContext };
 
@@ -377,6 +380,10 @@ export function getBrickPackagesById(id: string) {
  */
 export function loadBricks(bricks: string[]) {
   return loadBricksImperatively(bricks, getBrickPackages());
+}
+
+export function loadEditors(editors: string[] | Set<string>) {
+  return loadEditorsImperatively(editors, getBrickPackages());
 }
 
 export function getRenderId() {
