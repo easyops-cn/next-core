@@ -642,6 +642,7 @@ describe("Kernel", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
         id: "app-g",
+        localeName: "Application G",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -751,6 +752,7 @@ describe("Kernel", () => {
         config: { runtimeUserConf: 9 },
         homepage: "/app-g",
         id: "app-g",
+        localeName: "Application G",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -2054,6 +2056,7 @@ describe("Kernel", () => {
             "config": Object {},
             "homepage": "/app-a",
             "id": "app-a",
+            "localeName": undefined,
           },
           "routes": Array [],
         },
@@ -2062,6 +2065,7 @@ describe("Kernel", () => {
             "config": Object {},
             "homepage": "/app-b",
             "id": "app-b",
+            "localeName": undefined,
           },
           "routes": Array [
             Object {
@@ -2111,6 +2115,7 @@ describe("Kernel", () => {
             "config": Object {},
             "homepage": "/app-a",
             "id": "app-a",
+            "localeName": undefined,
           },
           "routes": Array [],
         },
@@ -2119,6 +2124,7 @@ describe("Kernel", () => {
             "config": Object {},
             "homepage": "/app-b",
             "id": "app-b",
+            "localeName": undefined,
           },
           "routes": Array [
             Object {
@@ -2195,6 +2201,7 @@ describe("Kernel", () => {
             "config": Object {},
             "homepage": "/app-a",
             "id": "app-a",
+            "localeName": undefined,
           },
           "routes": Array [],
         },
@@ -2203,6 +2210,7 @@ describe("Kernel", () => {
             "config": Object {},
             "homepage": "/app-b",
             "id": "app-b",
+            "localeName": undefined,
           },
           "routes": Array [
             Object {
