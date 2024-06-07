@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.45.0...@next-core/runtime@1.46.0) (2024-06-07)
+
+
+### Features
+
+* __secret_internals exprot loadEditors ([8c545cc](https://github.com/easyops-cn/next-core/commit/8c545cce90fed2bcae61fd73757ca40458337761))
+
+
+
+
+
 # [1.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.4...@next-core/runtime@1.45.0) (2024-06-06)
 
 
