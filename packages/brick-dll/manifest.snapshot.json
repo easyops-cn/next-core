@@ -18679,6 +18679,7 @@
           "property",
           "reTransformForDevtools",
           "renderEasyopsEmpty",
+          "setAppLocales",
           "transformElementProperties",
           "transformIntermediateData",
           "transformProperties",
