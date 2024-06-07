@@ -565,6 +565,9 @@ export interface RuntimeStoryboardFunction {
     typescript?: boolean;
 }
 
+// @public (undocumented)
+export function setAppLocales(app: MicroApp): void;
+
 // @public
 export const SingleBrickAsComponent: React_2.MemoExoticComponent<({ useBrick, data, refCallback, immediatelyRefCallback, }: SingleBrickAsComponentProps) => React_2.ReactElement<any, string | React_2.JSXElementConstructor<any>>>;
 
