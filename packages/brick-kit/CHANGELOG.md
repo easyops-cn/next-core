@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.195.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.195.0...@next-core/brick-kit@2.195.1) (2024-06-07)
+
+
+### Bug Fixes
+
+* Launchpad 搜索报错 ([d09f964](https://github.com/easyops-cn/next-core/commit/d09f9644904007c9ddf9cc55471464af0396d4bb))
+
+
+
+
+
 # [2.195.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.194.2...@next-core/brick-kit@2.195.0) (2024-06-05)
 
 
