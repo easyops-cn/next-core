@@ -1,6 +1,8 @@
 import { merge } from "lodash";
+import i18next from "i18next";
 import { BootstrapData } from "@next-core/brick-types";
 import { deepFreeze } from "@next-core/brick-utils";
+import { setAppLocales } from "./setAppLocales";
 
 /**
  * Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
@@ -14,6 +16,7 @@ export function processBootstrapResponse(
     const app = storyboard.app;
     if (app) {
       app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
+      setAppLocales(storyboard.app);
     }
   }
 

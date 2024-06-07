@@ -33,6 +33,7 @@ export * from "./developHelper";
 export * from "./UpdatingElement";
 export * from "./elements";
 export * from "./core/interfaces";
+export * from "./core/setAppLocales";
 export * from "./EasyopsEmpty";
 export * from "./transformProperties";
 export * from "./checkIf";
