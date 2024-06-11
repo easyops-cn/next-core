@@ -70,7 +70,7 @@ export function StoryboardFunctionRegistryFactory({
 
   // Use `Proxy` with a frozen target, to make a readonly function registry.
   const storyboardFunctions = new Proxy(Object.freeze({}), {
-    get(target, key) {
+    get(_target, key) {
       return getStoryboardFunction(key as string);
     },
   }) as ReadonlyStoryboardFunctions;
@@ -142,6 +142,7 @@ export function StoryboardFunctionRegistryFactory({
         beforeCall: collector.beforeCall,
         beforeBranch: collector.beforeBranch,
       },
+      debug: true,
     }) as Function;
     fn.processed = true;
     return fn.cooked;

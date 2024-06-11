@@ -11,6 +11,8 @@ import {
   SourceLocation,
   SpreadElement,
   VariableDeclaration,
+  type ArrowFunctionExpression,
+  type FunctionExpression,
 } from "@babel/types";
 
 export type EstreeNode =
@@ -34,6 +36,7 @@ export type EstreeObjectPattern = Omit<ObjectPattern, "properties"> & {
 export type EstreeProperty = Omit<ObjectProperty, "type"> & {
   type: "Property";
   kind: "init" | "get" | "set";
+  method?: boolean;
 };
 
 export interface EstreeChainExpression {
@@ -51,6 +54,8 @@ export interface EstreeLiteral {
   };
   loc: SourceLocation;
 }
+
+export type FunctionDefinition = FunctionExpression | ArrowFunctionExpression;
 
 export type NodeWithBoundNames =
   | LVal
