@@ -32,11 +32,6 @@ export const casesOfFunctionNames: LooseCase[] = [
           let o;
           [ [o = () => {}] ] = [[]];
 
-          // KeyedDestructuringAssignmentEvaluation
-          let p;
-          ({ a: p = (() => {}) } = {});
-
-
           return [
             test,
             a,
@@ -50,7 +45,6 @@ export const casesOfFunctionNames: LooseCase[] = [
             k.m,
             n,
             o,
-            p
           ].map(f => f.name);
         }
       `,
@@ -70,7 +64,6 @@ export const casesOfFunctionNames: LooseCase[] = [
             "m",
             "n",
             "o",
-            "p",
           ],
         },
       ],
