@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.18](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.17...@next-core/supply@2.1.18) (2024-06-11)
+
+
+### Bug Fixes
+
+* **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
+
+
+
+
+
 ## [2.1.17](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.16...@next-core/supply@2.1.17) (2024-06-06)
 
 

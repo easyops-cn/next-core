@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.18...@next-core/cook@2.3.0) (2024-06-11)
+
+
+### Bug Fixes
+
+* **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
+
+
+### Features
+
+* support single-step debugging for functions ([c753e98](https://github.com/easyops-cn/next-core/commit/c753e985b11554d30a6751fe557657f70ebddcdd))
+
+
+
+
+
 ## [2.2.18](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.17...@next-core/cook@2.2.18) (2024-06-06)
 
 

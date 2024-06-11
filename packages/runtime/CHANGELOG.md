@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.46.0...@next-core/runtime@1.47.0) (2024-06-11)
+
+
+### Features
+
+* support single-step debugging for functions ([c753e98](https://github.com/easyops-cn/next-core/commit/c753e985b11554d30a6751fe557657f70ebddcdd))
+
+
+
+
+
 # [1.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.45.0...@next-core/runtime@1.46.0) (2024-06-07)
 
 
