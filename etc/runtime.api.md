@@ -60,6 +60,7 @@ declare namespace __secret_internals {
         getRenderId,
         getAddedContracts,
         debugDataValue,
+        getLegalRuntimeValue,
         DataValueOption,
         RuntimeContext,
         symbolForRootRuntimeContext,
@@ -136,13 +137,15 @@ export const customTemplates: CustomTemplateRegistry;
 // @public (undocumented)
 interface DataValueOption {
     // (undocumented)
+    routeId?: string;
+    // (undocumented)
     tplStateStoreId?: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "DebugDataValue" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-function debugDataValue(debugData: DebugDataValue, { tplStateStoreId }: DataValueOption): Promise<any>;
+function debugDataValue(debugData: DebugDataValue, { tplStateStoreId, routeId }: DataValueOption): Promise<any>;
 
 // @public (undocumented)
 export const Dialog: Readonly<{
@@ -198,6 +201,12 @@ export function getCurrentTheme(): SiteTheme;
 
 // @public (undocumented)
 export const getHistory: () => NextHistory;
+
+// Warning: (ae-forgotten-export) The symbol "RuntimeDataValueOption" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "RuntimeDataVale" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+function getLegalRuntimeValue(options?: RuntimeDataValueOption): RuntimeDataVale;
 
 // @public (undocumented)
 export function getPageInfo(): PageInfo;

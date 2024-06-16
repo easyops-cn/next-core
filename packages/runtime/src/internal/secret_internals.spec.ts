@@ -18,6 +18,7 @@ import {
   getAddedContracts,
   symbolForRootRuntimeContext,
   debugDataValue,
+  getLegalRuntimeValue,
 } from "./secret_internals.js";
 import { mediaEventTarget } from "./mediaQuery.js";
 import { customTemplates } from "../CustomTemplates.js";
@@ -30,6 +31,7 @@ import {
 import { DataStore } from "./data/DataStore.js";
 import * as resolveData from "./data/resolveData.js";
 import * as computeRealValue from "./compute/computeRealValue.js";
+import * as routeMatchedMap from "./routeMatchedMap.js";
 
 jest.mock("@next-core/loader");
 jest.mock("../isStrictMode.js");
@@ -1175,4 +1177,58 @@ describe("debugDataValue", () => {
     mockResolveData.mockRestore();
     mockAsyncComputeRealValue.mockRestore();
   });
+});
+
+describe("getLegalRuntimeValue", () => {
+  const originLocation = window.location;
+
+  window.location = {
+    href: "https://dev-easyops.cn/home/Host",
+    origin: "https://dev-easyops.cn",
+    hostname: "admin.easyops.local",
+    host: "admin.easyops.local",
+  } as any;
+
+  jest.spyOn(routeMatchedMap, "getMatchedRoute").mockReturnValueOnce({
+    isExact: true,
+    path: "/home/Host",
+    url: "/home/Host",
+    params: {
+      instanceId: "b52c",
+      projectId: "abc12",
+    },
+  });
+
+  mockInternalApiGetRuntimeContext.mockReturnValue({
+    app: {
+      name: "home",
+      id: "home",
+      homepage: "/home",
+      noAuthGuard: true,
+    },
+    query: {},
+    sys: {
+      org: 8888,
+      username: "easyops",
+    },
+  } as unknown as RuntimeContext);
+
+  expect(getLegalRuntimeValue()).toEqual({
+    app: { homepage: "/home", id: "home", name: "home", noAuthGuard: true },
+    location: {
+      host: "localhost",
+      hostname: "localhost",
+      href: "http://localhost/",
+      origin: "http://localhost",
+    },
+    match: {
+      isExact: true,
+      params: { instanceId: "b52c", projectId: "abc12" },
+      path: "/home/Host",
+      url: "/home/Host",
+    },
+    query: {},
+    sys: { org: 8888, username: "easyops" },
+  });
+  window.location = originLocation;
 });
