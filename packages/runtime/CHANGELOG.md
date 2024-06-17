@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.47.0...@next-core/runtime@1.48.0) (2024-06-17)
+
+
+### Features
+
+* 获取微应用上下文相关变量 ([7b67a0c](https://github.com/easyops-cn/next-core/commit/7b67a0ca867e627a8078887ad9511c024cfcba36))
+
+
+
+
+
 # [1.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.46.0...@next-core/runtime@1.47.0) (2024-06-11)
 
 
