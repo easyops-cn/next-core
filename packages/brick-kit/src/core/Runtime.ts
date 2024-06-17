@@ -1,4 +1,4 @@
-import { cloneDeep, defaults, transform } from "lodash";
+import { cloneDeep, defaults, transform, pick } from "lodash";
 import { asyncProcessBrick } from "@next-core/brick-utils";
 import {
   MountPoints,
@@ -51,6 +51,7 @@ import {
   PreviewStoryboardPatch,
   PreviewOption,
   DebugDataValue,
+  RuntimeDataVale,
 } from "./interfaces";
 import { getBasePath } from "../internal/getBasePath";
 import { getCurrentMode, getCurrentTheme } from "../themeAndMode";
@@ -234,6 +235,17 @@ export async function _dev_only_debugDataValue(
   }
 
   return computeRealValue(debugData.value, runtimeContext, true);
+}
+
+/* istanbul ignore next */
+export function _dev_only_getLegalRuntimeValue(): RuntimeDataVale {
+  const runtimeContext = _internalApiGetCurrentContext();
+
+  return {
+    app: runtimeContext?.overrideApp ?? runtimeContext?.app,
+    location: pick(location, ["href", "origin", "hostname", "host"]),
+    ...pick(runtimeContext, ["query", "sys", "match"]),
+  };
 }
 
 /* istanbul ignore next */

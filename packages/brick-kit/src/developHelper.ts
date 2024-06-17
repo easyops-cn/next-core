@@ -25,6 +25,7 @@ import {
   _dev_only_getAddedContracts,
   _dev_only_render,
   _dev_only_debugDataValue,
+  _dev_only_getLegalRuntimeValue,
 } from "./core/exports";
 import {
   addRealTimeDataInspectHook,
@@ -63,6 +64,7 @@ export const developHelper = {
   getContextValue: _dev_only_getContextValue,
   getAllContextValues: _dev_only_getAllContextValues,
   debugDataValue: _dev_only_debugDataValue,
+  getLegalRuntimeValue: _dev_only_getLegalRuntimeValue,
   render: _dev_only_render,
   setRealTimeDataInspectRoot,
   addRealTimeDataInspectHook,
