@@ -100,7 +100,18 @@ export const negativeCasesOfStatements: LooseCase[] = [
     `,
   ],
   [
-    "access this with non-member-expression",
+    "[ExternalSourceForDebug] access arguments.callee",
+    `
+      function test() {
+        function a() {
+          return arguments.callee;
+        }
+        return a();
+      }
+    `,
+  ],
+  [
+    "[ExternalSourceForDebug] access this with non-member-expression",
     `
       function test() {
         const a = {
@@ -114,7 +125,7 @@ export const negativeCasesOfStatements: LooseCase[] = [
     `,
   ],
   [
-    "access this within arrow function",
+    "[ExternalSourceForDebug] access this within arrow function",
     `
       function test() {
         const A = () => {
@@ -126,7 +137,7 @@ export const negativeCasesOfStatements: LooseCase[] = [
     `,
   ],
   [
-    "access this with non-member-expression of arrow function",
+    "[ExternalSourceForDebug] access this with non-member-expression of arrow function",
     `
       function test() {
         const a = {

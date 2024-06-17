@@ -1,6 +1,6 @@
 import { casesOfBindings } from "./bindings.js";
 import { casesOfExpressions } from "./expressions.js";
-import { casesOfFunctionNames } from "./function-names.js";
+import { casesOfFunctions } from "./functions.js";
 import { CasePair, MultipleCasePairs, NormalizedCase } from "./interfaces.js";
 import { casesOfIterationStatements } from "./iteration-statements/index.js";
 import { casesOfMigrated } from "./migrated.js";
@@ -14,7 +14,6 @@ import {
 } from "./negative/statements.js";
 import { casesOfPatterns } from "./patterns.js";
 import { casesOfSwitchStatements } from "./switch-statements.js";
-import { casesOfThis } from "./this.js";
 import { casesOfTryStatements } from "./try-statements.js";
 
 export const positiveCases = [
@@ -25,8 +24,7 @@ export const positiveCases = [
   ...casesOfSwitchStatements,
   ...casesOfPatterns,
   ...casesOfBindings,
-  ...casesOfFunctionNames,
-  ...casesOfThis,
+  ...casesOfFunctions,
 ].map<NormalizedCase>(([desc, { source, ...rest }]) => [
   desc,
   {

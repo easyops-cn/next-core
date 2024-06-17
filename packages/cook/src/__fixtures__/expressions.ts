@@ -40,6 +40,7 @@ const casesOfExpressionAny: [string, unknown][] = [
   ],
   ["[]", []],
   ["[1, DATA.number5]", [1, 5]],
+  ["[1,,undefined,4].map((x) => x ?? 0)", [1, undefined, 0, 4]],
   [
     // `ArrowFunctionExpression` mixed `CallExpression`
     "(a => a.b)({b: 'c'})",

@@ -194,6 +194,8 @@ export function ApplyStringOrNumericBinaryOperator(
       return leftValue >= rightValue;
     case "<=":
       return leftValue <= rightValue;
+    case "in":
+      return leftValue in (rightValue as unknown as Record<number, unknown>);
   }
   throw new SyntaxError(`Unsupported binary operator \`${operator}\``);
 }

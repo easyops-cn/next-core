@@ -66,13 +66,15 @@ exports[`evaluate should throw [selective]: labeled statement 1`] = `"Unsupporte
 
 exports[`evaluate should throw if restrict no war usage 1`] = `"Var declaration is not recommended, use \`let\` or \`const\` instead"`;
 
+exports[`evaluate should throw: [ExternalSourceForDebug] access arguments.callee 1`] = `"'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access this with non-member-expression 1`] = `"Cannot read properties of undefined (reading 'b')"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access this with non-member-expression of arrow function 1`] = `"Cannot read properties of undefined (reading 'b')"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access this within arrow function 1`] = `"A is not a constructor"`;
+
 exports[`evaluate should throw: access before initialized 1`] = `"b is not initialized"`;
-
-exports[`evaluate should throw: access this with non-member-expression 1`] = `"Cannot read properties of undefined (reading 'b')"`;
-
-exports[`evaluate should throw: access this with non-member-expression of arrow function 1`] = `"Cannot read properties of undefined (reading 'b')"`;
-
-exports[`evaluate should throw: access this within arrow function 1`] = `"A is not a constructor"`;
 
 exports[`evaluate should throw: assign \`for const ... of\` 1`] = `"Assignment to constant variable"`;
 
@@ -146,7 +148,7 @@ exports[`evaluate should throw: expression: delete DATA.objectC.C1 1`] = `"Canno
 
 exports[`evaluate should throw: expression: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
 
-exports[`evaluate should throw: expression: this.bad 1`] = `"Cannot read properties of undefined (reading 'bad')"`;
+exports[`evaluate should throw: expression: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
 
 exports[`evaluate should throw: expression: typeof unknown.any 1`] = `"unknown is not defined"`;
 

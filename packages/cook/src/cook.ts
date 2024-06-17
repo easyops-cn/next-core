@@ -84,6 +84,8 @@ export interface CookOptions {
   globalVariables?: Record<string, unknown>;
   hooks?: CookHooks;
   debug?: boolean;
+  externalSourceForDebug?: boolean;
+  ArrayConstructor?: typeof Array;
 }
 
 export interface CookHooks {
@@ -102,9 +104,23 @@ type CompletionRecordResult<T = unknown> = EvaluateResult<T, CompletionRecord>;
 export function cook(
   rootAst: FunctionDeclaration | Expression,
   codeSource: string,
-  { rules, debug, globalVariables = {}, hooks = {} }: CookOptions = {}
+  {
+    rules,
+    debug,
+    externalSourceForDebug,
+    globalVariables = {},
+    // Allow debugger to override Array constructor.
+    ArrayConstructor = Array,
+    hooks = {},
+  }: CookOptions = {}
 ): unknown {
   const expressionOnly = rootAst.type !== "FunctionDeclaration";
+
+  function doSanitize(cooked: unknown) {
+    if (!externalSourceForDebug) {
+      sanitize(cooked);
+    }
+  }
 
   const rootEnv = new DeclarativeEnvironment(null);
   const rootContext = new ExecutionContext();
@@ -164,7 +180,7 @@ export function cook(
     switch (node.type) {
       case "ArrayExpression": {
         // https://tc39.es/ecma262/#sec-array-initializer
-        const array = [];
+        const array = new ArrayConstructor();
         for (const element of node.elements) {
           if (!element) {
             array.length += 1;
@@ -188,7 +204,7 @@ export function cook(
       case "BinaryExpression": {
         const leftRef = yield* Evaluate(node.left);
         const leftValue = GetValue(leftRef);
-        const rightRef = (yield* Evaluate(node.right)).Value;
+        const rightRef = yield* Evaluate(node.right);
         const rightValue = GetValue(rightRef);
         if (expressionOnly && (node.operator as unknown) === "|>") {
           // Minimal pipeline operator is supported only in expression-only mode.
@@ -231,7 +247,7 @@ export function cook(
           optionalChainRef!.skipped = true;
           return NormalCompletion(undefined);
         }
-        sanitize(func);
+        doSanitize(func);
 
         if (debug) yield;
 
@@ -310,7 +326,7 @@ export function cook(
           optionalChainRef!.skipped = true;
           return NormalCompletion(undefined);
         }
-        sanitize(baseValue);
+        doSanitize(baseValue);
         const result = node.computed
           ? yield* EvaluatePropertyAccessWithExpressionKey(
               baseValue,
@@ -322,7 +338,7 @@ export function cook(
               node.property as Identifier,
               true
             );
-        sanitize(result);
+        doSanitize(result);
         return NormalCompletion(result);
       }
       case "NewExpression":
@@ -380,7 +396,7 @@ export function cook(
         // https://tc39.es/ecma262/#sec-tagged-templates
         const tagRef = (yield* Evaluate(node.tag)).Value as ReferenceRecord;
         const tagFunc = GetValue(tagRef) as Function;
-        sanitize(tagFunc);
+        doSanitize(tagFunc);
         if (debug) yield;
         return yield* EvaluateCall(tagFunc, tagRef, node.quasi, node.tag);
       }
@@ -514,10 +530,12 @@ export function cook(
             const exprRef = yield* Evaluate(node.argument);
             v = GetValue(exprRef);
           }
-          currentNode = node;
           return new CompletionRecord("return", v);
         }
         case "ThisExpression": {
+          if (!externalSourceForDebug) {
+            break;
+          }
           const envRec = GetThisEnvironment();
           return NormalCompletion(envRec.GetThisBinding());
         }
@@ -1206,7 +1224,7 @@ export function cook(
         }
       } else {
         // RestElement
-        v = [];
+        v = new ArrayConstructor();
         let n = 0;
         // eslint-disable-next-line no-constant-condition
         while (true) {
@@ -1298,20 +1316,20 @@ export function cook(
       throw new TypeError(`${funcName} is not a function`);
     }
 
-    if (debug) {
+    if (debug || externalSourceForDebug) {
       const debuggerCall = (func as FunctionObject)[DebuggerCall];
       if (debuggerCall) {
         const result = yield* (debuggerCall as Function).apply(
           thisValue,
           argList
         );
-        sanitize(result);
+        doSanitize(result);
         return NormalCompletion(result);
       }
     }
 
     const result = func.apply(thisValue, argList);
-    sanitize(result);
+    doSanitize(result);
     return NormalCompletion(result);
   }
 
@@ -1323,12 +1341,9 @@ export function cook(
     const ref = yield* Evaluate(constructExpr);
     const constructor = GetValue(ref) as new (...args: unknown[]) => unknown;
     const argList = yield* ArgumentListEvaluation(args);
-    let isCookedConstructor = false;
     if (
       typeof constructor !== "function" ||
-      (isCookedConstructor = (constructor as unknown as FunctionObject)[
-        IsConstructor
-      ]) === false
+      (constructor as unknown as FunctionObject)[IsConstructor] === false
     ) {
       const constructorName = codeSource.substring(
         constructExpr.start!,
@@ -1336,7 +1351,11 @@ export function cook(
       );
       throw new TypeError(`${constructorName} is not a constructor`);
     }
-    if (!isCookedConstructor && !isAllowedConstructor(constructor)) {
+    if (
+      !externalSourceForDebug &&
+      !isAllowedConstructor(constructor) &&
+      constructor !== ArrayConstructor
+    ) {
       const constructorName = codeSource.substring(
         constructExpr.start!,
         constructExpr.end!
@@ -1421,7 +1440,7 @@ export function cook(
       return;
     }
     const localEnv = calleeContext.LexicalEnvironment;
-    localEnv?.BindThisValue(thisArgument);
+    (localEnv as FunctionEnvironment)?.BindThisValue(thisArgument);
   }
 
   // https://tc39.es/ecma262/#sec-ordinarycallevaluatebody
@@ -1460,12 +1479,12 @@ export function cook(
     return result;
   }
 
-  function GetThisEnvironment(): EnvironmentRecord {
+  function GetThisEnvironment(): FunctionEnvironment {
     let env: EnvironmentRecord | null | undefined =
       getRunningContext().LexicalEnvironment;
     while (env) {
       if (env.HasThisBinding()) {
-        return env;
+        return env as FunctionEnvironment;
       }
       env = env.OuterEnv;
     }
@@ -1535,10 +1554,34 @@ export function cook(
       }
     }
 
+    // let argumentsObjectNeeded = true;
+    // if (func[ThisMode] === Mode.LEXICAL) {
+    //   // NOTE: Arrow functions never have an arguments object.
+    //   argumentsObjectNeeded = false;
+    // } else if (parameterNames.includes("arguments")) {
+    //   argumentsObjectNeeded = false;
+    // } else if (!hasParameterExpressions && (
+    //   varNames.includes("arguments") ||
+    //   collectBoundNames(collectScopedDeclarations(code, { var: false })).includes("arguments")
+    // )) {
+    //   argumentsObjectNeeded = false;
+    // }
+    // NOTE: In strict mode, no parameter/function/var/lexical names can be "arguments".
+    const argumentsObjectNeeded =
+      !!externalSourceForDebug && func[ThisMode] !== Mode.LEXICAL;
+
     const env = calleeContext.LexicalEnvironment!;
     for (const paramName of parameterNames) {
       // In strict mode, it's guaranteed no duplicate params exist.
       env.CreateMutableBinding(paramName, false);
+    }
+
+    let parameterBindings = parameterNames;
+    if (argumentsObjectNeeded) {
+      const ao = CreateUnmappedArgumentsObject(args);
+      env.CreateImmutableBinding("arguments", false);
+      env.InitializeBinding("arguments", ao);
+      parameterBindings = parameterNames.concat("arguments");
     }
 
     const iteratorRecord = CreateListIteratorRecord(args);
@@ -1549,8 +1592,10 @@ export function cook(
       // NOTE: Only a single Environment Record is needed for the parameters
       // and top-level vars.
       // `varNames` are unique.
+      const instantiatedVarNames = [...parameterBindings];
       for (const n of varNames) {
-        if (!parameterNames.includes(n)) {
+        if (!instantiatedVarNames.includes(n)) {
+          instantiatedVarNames.push(n);
           env.CreateMutableBinding(n, false);
           env.InitializeBinding(n, undefined);
         }
@@ -1563,15 +1608,19 @@ export function cook(
       varEnv = new DeclarativeEnvironment(env);
       calleeContext.VariableEnvironment = varEnv;
       // `varNames` are unique.
+      const instantiatedVarNames: string[] = [];
       for (const n of varNames) {
-        varEnv.CreateMutableBinding(n, false);
-        let initialValue: unknown;
-        if (parameterNames.includes(n) && !functionNames.includes(n)) {
-          initialValue = env.GetBindingValue(n, false);
+        if (!instantiatedVarNames.includes(n)) {
+          instantiatedVarNames.push(n);
+          varEnv.CreateMutableBinding(n, false);
+          let initialValue: unknown;
+          if (parameterBindings.includes(n) && !functionNames.includes(n)) {
+            initialValue = env.GetBindingValue(n, false);
+          }
+          varEnv.InitializeBinding(n, initialValue);
+          // NOTE: A var with the same name as a formal parameter initially has
+          // the same value as the corresponding initialized parameter.
         }
-        varEnv.InitializeBinding(n, initialValue);
-        // NOTE: A var with the same name as a formal parameter initially has
-        // the same value as the corresponding initialized parameter.
       }
     }
     const lexEnv = varEnv;
@@ -1597,6 +1646,34 @@ export function cook(
       const fo = InstantiateFunctionObject(f, lexEnv);
       varEnv.SetMutableBinding(fn, fo, false);
     }
+  }
+
+  function CreateUnmappedArgumentsObject(args: Iterable<unknown>) {
+    const argList = [...args];
+    const argumentObject: Record<string, unknown> = {};
+    Object.defineProperty(argumentObject, "length", {
+      value: argList.length,
+      writable: true,
+      configurable: true,
+    });
+    for (let index = 0; index < argList.length; index++) {
+      argumentObject[String(index)] = argList[index];
+    }
+    Object.defineProperty(argumentObject, Symbol.iterator, {
+      value: Array.prototype.values,
+      writable: true,
+      configurable: true,
+    });
+    const ThrowTypeError = () => {
+      throw new TypeError(
+        "'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them"
+      );
+    };
+    Object.defineProperty(argumentObject, "callee", {
+      get: ThrowTypeError,
+      set: ThrowTypeError,
+    });
+    return argumentObject;
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiatefunctionobject
@@ -1699,7 +1776,7 @@ export function cook(
         value: lexicalThis ? Mode.LEXICAL : Mode.STRICT,
       },
     });
-    if (debug) {
+    if (debug || externalSourceForDebug) {
       Object.defineProperty(F, DebuggerCall, {
         value: function () {
           // eslint-disable-next-line prefer-rest-params
@@ -1823,7 +1900,7 @@ export function cook(
         // Rest element.
         if (node.argument.type === "Identifier") {
           const lhs = ResolveBinding(node.argument.name, environment);
-          const A: unknown[] = [];
+          const A: unknown[] = new ArrayConstructor();
           let n = 0;
           // eslint-disable-next-line no-constant-condition
           while (true) {
@@ -1838,7 +1915,7 @@ export function cook(
             n++;
           }
         } else {
-          const A: unknown[] = [];
+          const A: unknown[] = new ArrayConstructor();
           let n = 0;
           // eslint-disable-next-line no-constant-condition
           while (true) {

@@ -132,6 +132,7 @@ describe("evaluate", () => {
 
   it.each<NormalizedCase>(positiveCases)("%s", (desc, { source, cases }) => {
     const typescript = desc.startsWith("[TypeScript]");
+    const debug = desc.startsWith("[ExternalSourceForDebug]");
     const { function: funcAst, attemptToVisitGlobals } = precookFunction(
       source,
       { typescript }
@@ -140,7 +141,10 @@ describe("evaluate", () => {
       attemptToVisitGlobals,
       getExtraGlobalVariables()
     );
-    const func = cook(funcAst, source, { globalVariables }) as Function;
+    const func = cook(funcAst, source, {
+      externalSourceForDebug: debug,
+      globalVariables,
+    }) as Function;
     for (const { args, result } of cases) {
       if (!typescript) {
         expect(
@@ -184,6 +188,7 @@ describe("evaluate", () => {
     "should throw: %s",
     (desc, { source, cases }) => {
       const typescript = desc.startsWith("[TypeScript]");
+      const debug = desc.startsWith("[ExternalSourceForDebug]");
       const { function: funcAst, attemptToVisitGlobals } = precookFunction(
         source,
         { typescript }
@@ -192,7 +197,10 @@ describe("evaluate", () => {
         attemptToVisitGlobals,
         getExtraGlobalVariables()
       );
-      const func = cook(funcAst, source, { globalVariables }) as Function;
+      const func = cook(funcAst, source, {
+        externalSourceForDebug: debug,
+        globalVariables,
+      }) as Function;
       for (const { args } of cases) {
         if (!typescript && !containsExperimental(source)) {
           expect(() =>

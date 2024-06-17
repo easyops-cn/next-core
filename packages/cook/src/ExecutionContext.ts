@@ -121,25 +121,8 @@ export class EnvironmentRecord {
     return binding.value;
   }
 
-  BindThisValue(value: unknown) {
-    // Assert: envRec.[[ThisBindingStatus]] is not LEXICAL.
-    if (this.ThisBindingStatus === BindingStatus.INITIALIZED) {
-      throw new Error("This binding has been initialized");
-    }
-    this.ThisValue = value;
-    this.ThisBindingStatus = BindingStatus.INITIALIZED;
-  }
-
   HasThisBinding() {
-    return this.ThisBindingStatus !== BindingStatus.LEXICAL;
-  }
-
-  GetThisBinding() {
-    // Assert: envRec.[[ThisBindingStatus]] is not LEXICAL.
-    if (this.ThisBindingStatus === BindingStatus.UNINITIALIZED) {
-      throw new Error("This binding is not initialized");
-    }
-    return this.ThisValue;
+    return false;
   }
 }
 
@@ -153,6 +136,27 @@ export class FunctionEnvironment extends EnvironmentRecord {
     } else {
       this.ThisBindingStatus = BindingStatus.UNINITIALIZED;
     }
+  }
+
+  HasThisBinding() {
+    return this.ThisBindingStatus !== BindingStatus.LEXICAL;
+  }
+
+  BindThisValue(value: unknown) {
+    // Assert: envRec.[[ThisBindingStatus]] is not LEXICAL.
+    if (this.ThisBindingStatus === BindingStatus.INITIALIZED) {
+      throw new Error("This binding has been initialized");
+    }
+    this.ThisValue = value;
+    this.ThisBindingStatus = BindingStatus.INITIALIZED;
+  }
+
+  GetThisBinding() {
+    // Assert: envRec.[[ThisBindingStatus]] is not LEXICAL.
+    if (this.ThisBindingStatus === BindingStatus.UNINITIALIZED) {
+      throw new Error("This binding is not initialized");
+    }
+    return this.ThisValue;
   }
 }
 
