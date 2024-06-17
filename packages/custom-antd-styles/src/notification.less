@@ -1,5 +1,38 @@
 .@{notification-prefix-cls} {
-    &-notice {
-        border-radius: var(--medius-border-radius);
+  &-notice {
+    border-radius: var(--medius-border-radius);
+    padding-bottom: 24px;
+  }
+
+  &-notice-btn {
+    float: left;
+    width: 100%;
+  }
+
+  &-notice-message {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--color-header-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50%;
+
+  }
+
+  &-notice-description {
+    font-weight: 400;
+    color: var(--color-secondary-text);
+  }
+
+  &-notice-with-icon {
+    &-notice-message {
+      margin-bottom: 8px;
     }
- }
+
+    &-notice-btn {
+      margin-left: 48px;
+
+    }
+  }
+}
