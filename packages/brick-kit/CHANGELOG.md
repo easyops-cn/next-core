@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.196.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.195.1...@next-core/brick-kit@2.196.0) (2024-06-17)
+
+
+### Features
+
+* 获取当前微应用上下文变量信息 ([ea024da](https://github.com/easyops-cn/next-core/commit/ea024daec57f5ba6e6db371f3e2a5a94f6206629))
+
+
+
+
+
 ## [2.195.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.195.0...@next-core/brick-kit@2.195.1) (2024-06-07)
 
 
