@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.26.2...@next-core/custom-antd-styles@1.27.0) (2024-06-17)
+
+
+### Features
+
+* 公告提醒样式调整 ([2d7a222](https://github.com/easyops-cn/next-core/commit/2d7a22278fc0af002409c86c5a4942e81af697e0))
+
+
+
+
+
 ## [1.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/custom-antd-styles@1.26.1...@next-core/custom-antd-styles@1.26.2) (2023-10-30)
 
 
