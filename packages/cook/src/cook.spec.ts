@@ -504,7 +504,7 @@ describe("evaluate", () => {
         case 4:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: 1 });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           expect(getScopedValues()).toEqual([
             { a: 1 },
             { f: expect.any(Function) },
@@ -514,7 +514,7 @@ describe("evaluate", () => {
         case 5:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: 2 });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           expect(getScopedValues()).toEqual([
             { f: expect.any(Function) },
             { test: expect.any(Function) },
@@ -662,7 +662,7 @@ describe("evaluate", () => {
         case 2:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: "A" });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           break;
       }
 
@@ -715,7 +715,7 @@ describe("evaluate", () => {
         case 2:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: "A" });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           break;
       }
 

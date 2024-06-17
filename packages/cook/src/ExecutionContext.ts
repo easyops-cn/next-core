@@ -126,6 +126,7 @@ export const IsConstructor = Symbol.for("IsConstructor");
 export const DebuggerCall = Symbol.for("$DebuggerCall$");
 export const DebuggerScope = Symbol.for("$DebuggerScope$");
 export const DebuggerNode = Symbol.for("$DebuggerNode$");
+export const DebuggerReturn = Symbol.for("$DebuggerReturn$");
 
 export interface FunctionObject {
   (...args: unknown[]): unknown;

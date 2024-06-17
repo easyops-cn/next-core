@@ -44,6 +44,7 @@ import {
   CompletionRecord,
   DebuggerCall,
   DebuggerNode,
+  DebuggerReturn,
   DebuggerScope,
   DeclarativeEnvironment,
   ECMAScriptCode,
@@ -1370,14 +1371,18 @@ export function cook(
     hooks.beforeCall?.(closure[SourceNode]);
     PrepareForOrdinaryCall(closure);
     const result = yield* OrdinaryCallEvaluateBody(closure, args);
-    if (currentNode?.type !== "ReturnStatement") {
-      currentNode = closure[SourceNode];
-    }
-    if (debug)
+    if (debug) {
+      currentNode = {
+        ...closure[SourceNode],
+        [DebuggerReturn]: true,
+      } as EstreeNode & {
+        [DebuggerReturn]?: boolean;
+      };
       yield {
         type: "return",
         value: result.Type === "return" ? result.Value : undefined,
       };
+    }
     executionContextStack.pop();
     if (result.Type === "return") {
       return result.Value;
