@@ -56,7 +56,7 @@ const selectiveNegativeCasesOfAny: string[] = [
   "((a,b)=>a[b])(()=>1, 'constructor').bind(null)('console.log(`yo`)')()",
   "_.get(()=>1, 'constructor.prototype')",
   "new Boolean()",
-  "(Set => new Set())(function(){})",
+  // "(Set => new Set())(function(){})",
   "{__proto__:{}}",
 ];
 

@@ -7,6 +7,22 @@ import type {
 } from "@babel/types";
 import type { EstreeNode } from "./interfaces.js";
 
+export enum Mode {
+  LEXICAL,
+  STRICT,
+}
+
+export const SourceNode = Symbol.for("SourceNode");
+export const FormalParameters = Symbol.for("FormalParameters");
+export const ECMAScriptCode = Symbol.for("ECMAScriptCode");
+export const Environment = Symbol.for("Environment");
+export const IsConstructor = Symbol.for("IsConstructor");
+export const ThisMode = Symbol.for("ThisMode");
+export const DebuggerCall = Symbol.for("$DebuggerCall$");
+export const DebuggerScope = Symbol.for("$DebuggerScope$");
+export const DebuggerNode = Symbol.for("$DebuggerNode$");
+export const DebuggerReturn = Symbol.for("$DebuggerReturn$");
+
 // https://tc39.es/ecma262/#sec-execution-contexts
 export class ExecutionContext {
   VariableEnvironment?: EnvironmentRecord;
@@ -16,10 +32,18 @@ export class ExecutionContext {
 
 export type EnvironmentRecordType = "function" | "declarative";
 
+export enum BindingStatus {
+  UNINITIALIZED,
+  LEXICAL,
+  INITIALIZED,
+}
+
 // https://tc39.es/ecma262/#sec-environment-records
 export class EnvironmentRecord {
   readonly OuterEnv: EnvironmentRecord | null | undefined;
   private readonly bindingMap = new Map<string, BindingState>();
+  protected ThisValue: unknown = undefined;
+  protected ThisBindingStatus: BindingStatus | undefined;
 
   constructor(outer: EnvironmentRecord | null | undefined) {
     this.OuterEnv = outer;
@@ -96,11 +120,41 @@ export class EnvironmentRecord {
     }
     return binding.value;
   }
+
+  BindThisValue(value: unknown) {
+    // Assert: envRec.[[ThisBindingStatus]] is not LEXICAL.
+    if (this.ThisBindingStatus === BindingStatus.INITIALIZED) {
+      throw new Error("This binding has been initialized");
+    }
+    this.ThisValue = value;
+    this.ThisBindingStatus = BindingStatus.INITIALIZED;
+  }
+
+  HasThisBinding() {
+    return this.ThisBindingStatus !== BindingStatus.LEXICAL;
+  }
+
+  GetThisBinding() {
+    // Assert: envRec.[[ThisBindingStatus]] is not LEXICAL.
+    if (this.ThisBindingStatus === BindingStatus.UNINITIALIZED) {
+      throw new Error("This binding is not initialized");
+    }
+    return this.ThisValue;
+  }
 }
 
 export class DeclarativeEnvironment extends EnvironmentRecord {}
 
-export class FunctionEnvironment extends EnvironmentRecord {}
+export class FunctionEnvironment extends EnvironmentRecord {
+  constructor(F: FunctionObject) {
+    super(F[Environment]);
+    if (F[ThisMode] === Mode.LEXICAL) {
+      this.ThisBindingStatus = BindingStatus.LEXICAL;
+    } else {
+      this.ThisBindingStatus = BindingStatus.UNINITIALIZED;
+    }
+  }
+}
 
 export interface BindingState {
   initialized?: boolean;
@@ -118,16 +172,6 @@ export interface BindingState {
   strict?: boolean;
 }
 
-export const SourceNode = Symbol.for("SourceNode");
-export const FormalParameters = Symbol.for("FormalParameters");
-export const ECMAScriptCode = Symbol.for("ECMAScriptCode");
-export const Environment = Symbol.for("Environment");
-export const IsConstructor = Symbol.for("IsConstructor");
-export const DebuggerCall = Symbol.for("$DebuggerCall$");
-export const DebuggerScope = Symbol.for("$DebuggerScope$");
-export const DebuggerNode = Symbol.for("$DebuggerNode$");
-export const DebuggerReturn = Symbol.for("$DebuggerReturn$");
-
 export interface FunctionObject {
   (...args: unknown[]): unknown;
   [SourceNode]:
@@ -138,6 +182,7 @@ export interface FunctionObject {
   [ECMAScriptCode]: Statement[] | Expression;
   [Environment]: EnvironmentRecord;
   [IsConstructor]: boolean;
+  [ThisMode]?: Mode;
   [DebuggerCall]?: (...args: unknown[]) => IterableIterator<unknown>;
   [DebuggerScope]?: () => EnvironmentRecord | null | undefined;
   [DebuggerNode]?: () => EstreeNode | undefined;

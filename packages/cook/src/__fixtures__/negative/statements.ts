@@ -99,6 +99,46 @@ export const negativeCasesOfStatements: LooseCase[] = [
       }
     `,
   ],
+  [
+    "access this with non-member-expression",
+    `
+      function test() {
+        const a = {
+          b: 1,
+          getB() {
+            return this.b;
+          }
+        };
+        return (0, a.getB)();
+      }
+    `,
+  ],
+  [
+    "access this within arrow function",
+    `
+      function test() {
+        const A = () => {
+          this.b = 1;
+        };
+        const a = new A();
+        return a.b;
+      }
+    `,
+  ],
+  [
+    "access this with non-member-expression of arrow function",
+    `
+      function test() {
+        const a = {
+          b: 1,
+          getB: () => {
+            return this.b;
+          }
+        };
+        return a.getB();
+      }
+    `,
+  ],
 ].map(([desc, source]) => [
   desc,
   {

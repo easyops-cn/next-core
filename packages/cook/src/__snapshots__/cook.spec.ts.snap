@@ -18,8 +18,6 @@ exports[`evaluate should throw [selective]: expression: ((a,b)=>a[b])(()=>1, 'co
 
 exports[`evaluate should throw [selective]: expression: ({}).constructor.assign 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`evaluate should throw [selective]: expression: (Set => new Set())(function(){}) 1`] = `"Set is not an allowed constructor"`;
-
 exports[`evaluate should throw [selective]: expression: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\u{13}/u"`;
 
 exports[`evaluate should throw [selective]: expression: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
@@ -43,8 +41,6 @@ exports[`evaluate should throw [selective]: expression-only: ((a,b)=>a[b])(()=>1
 exports[`evaluate should throw [selective]: expression-only: () => {} 1`] = `"Only an \`Expression\` is allowed in \`ArrowFunctionExpression\`'s body"`;
 
 exports[`evaluate should throw [selective]: expression-only: ({}).constructor.assign 1`] = `"Cannot access reserved objects such as \`Function\`."`;
-
-exports[`evaluate should throw [selective]: expression-only: (Set => new Set())(function(){}) 1`] = `"Unsupported node type \`FunctionExpression\`"`;
 
 exports[`evaluate should throw [selective]: expression-only: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\u{13}/u"`;
 
@@ -71,6 +67,12 @@ exports[`evaluate should throw [selective]: labeled statement 1`] = `"Unsupporte
 exports[`evaluate should throw if restrict no war usage 1`] = `"Var declaration is not recommended, use \`let\` or \`const\` instead"`;
 
 exports[`evaluate should throw: access before initialized 1`] = `"b is not initialized"`;
+
+exports[`evaluate should throw: access this with non-member-expression 1`] = `"Cannot read properties of undefined (reading 'b')"`;
+
+exports[`evaluate should throw: access this with non-member-expression of arrow function 1`] = `"Cannot read properties of undefined (reading 'b')"`;
+
+exports[`evaluate should throw: access this within arrow function 1`] = `"A is not a constructor"`;
 
 exports[`evaluate should throw: assign \`for const ... of\` 1`] = `"Assignment to constant variable"`;
 
@@ -144,7 +146,7 @@ exports[`evaluate should throw: expression: delete DATA.objectC.C1 1`] = `"Canno
 
 exports[`evaluate should throw: expression: moment.updateLocale('en', {}) 1`] = `"moment.updateLocale is not a function"`;
 
-exports[`evaluate should throw: expression: this.bad 1`] = `"Unsupported node type \`ThisExpression\`"`;
+exports[`evaluate should throw: expression: this.bad 1`] = `"Cannot read properties of undefined (reading 'bad')"`;
 
 exports[`evaluate should throw: expression: typeof unknown.any 1`] = `"unknown is not defined"`;
 

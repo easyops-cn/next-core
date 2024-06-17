@@ -60,6 +60,8 @@ import {
   OptionalChainRef,
   ReferenceRecord,
   SourceNode,
+  Mode,
+  ThisMode,
 } from "./ExecutionContext.js";
 import type {
   EstreeLVal,
@@ -514,6 +516,10 @@ export function cook(
           }
           currentNode = node;
           return new CompletionRecord("return", v);
+        }
+        case "ThisExpression": {
+          const envRec = GetThisEnvironment();
+          return NormalCompletion(envRec.GetThisBinding());
         }
         case "ThrowStatement":
           // https://tc39.es/ecma262/#sec-throw-statement
@@ -1317,9 +1323,12 @@ export function cook(
     const ref = yield* Evaluate(constructExpr);
     const constructor = GetValue(ref) as new (...args: unknown[]) => unknown;
     const argList = yield* ArgumentListEvaluation(args);
+    let isCookedConstructor = false;
     if (
       typeof constructor !== "function" ||
-      (constructor as unknown as FunctionObject)[IsConstructor] === false
+      (isCookedConstructor = (constructor as unknown as FunctionObject)[
+        IsConstructor
+      ]) === false
     ) {
       const constructorName = codeSource.substring(
         constructExpr.start!,
@@ -1327,7 +1336,7 @@ export function cook(
       );
       throw new TypeError(`${constructorName} is not a constructor`);
     }
-    if (!isAllowedConstructor(constructor)) {
+    if (!isCookedConstructor && !isAllowedConstructor(constructor)) {
       const constructorName = codeSource.substring(
         constructExpr.start!,
         constructExpr.end!
@@ -1366,10 +1375,12 @@ export function cook(
   // https://tc39.es/ecma262/#sec-ecmascript-function-objects-call-thisargument-argumentslist
   function* CallFunction(
     closure: FunctionObject,
+    thisArgument: unknown,
     args: Iterable<unknown>
   ): EvaluateResult<unknown, unknown> {
     hooks.beforeCall?.(closure[SourceNode]);
-    PrepareForOrdinaryCall(closure);
+    const calleeContext = PrepareForOrdinaryCall(closure);
+    OrdinaryCallBindThis(closure, calleeContext, thisArgument);
     const result = yield* OrdinaryCallEvaluateBody(closure, args);
     if (debug) {
       currentNode = {
@@ -1394,11 +1405,23 @@ export function cook(
   function PrepareForOrdinaryCall(F: FunctionObject): ExecutionContext {
     const calleeContext = new ExecutionContext();
     calleeContext.Function = F;
-    const localEnv = new FunctionEnvironment(F[Environment]);
+    const localEnv = new FunctionEnvironment(F);
     calleeContext.VariableEnvironment = localEnv;
     calleeContext.LexicalEnvironment = localEnv;
     executionContextStack.push(calleeContext);
     return calleeContext;
+  }
+
+  function OrdinaryCallBindThis(
+    F: FunctionObject,
+    calleeContext: ExecutionContext,
+    thisArgument: unknown
+  ) {
+    if (F[ThisMode] === Mode.LEXICAL) {
+      return;
+    }
+    const localEnv = calleeContext.LexicalEnvironment;
+    localEnv?.BindThisValue(thisArgument);
   }
 
   // https://tc39.es/ecma262/#sec-ordinarycallevaluatebody
@@ -1435,6 +1458,18 @@ export function cook(
       result = UpdateEmpty(result, s.Value);
     }
     return result;
+  }
+
+  function GetThisEnvironment(): EnvironmentRecord {
+    let env: EnvironmentRecord | null | undefined =
+      getRunningContext().LexicalEnvironment;
+    while (env) {
+      if (env.HasThisBinding()) {
+        return env;
+      }
+      env = env.OuterEnv;
+    }
+    throw new Error("Accessing global this is forbidden");
   }
 
   // https://tc39.es/ecma262/#sec-isanonymousfunctiondefinition
@@ -1569,7 +1604,7 @@ export function cook(
     func: FunctionDeclaration,
     scope: EnvironmentRecord
   ): FunctionObject {
-    const F = OrdinaryFunctionCreate(func, scope, true);
+    const F = OrdinaryFunctionCreate(func, scope, true, false);
 
     if (func.id) {
       SetFunctionName(F, func.id.name);
@@ -1588,12 +1623,22 @@ export function cook(
       const name = functionExpression.id.name;
       const funcEnv = new DeclarativeEnvironment(scope);
       funcEnv.CreateImmutableBinding(name, false);
-      const closure = OrdinaryFunctionCreate(functionExpression, funcEnv, true);
+      const closure = OrdinaryFunctionCreate(
+        functionExpression,
+        funcEnv,
+        true,
+        false
+      );
       SetFunctionName(closure, name);
       funcEnv.InitializeBinding(name, closure);
       return closure;
     } else {
-      const closure = OrdinaryFunctionCreate(functionExpression, scope, true);
+      const closure = OrdinaryFunctionCreate(
+        functionExpression,
+        scope,
+        true,
+        false
+      );
       SetFunctionName(closure, name ?? "");
       return closure;
     }
@@ -1605,7 +1650,7 @@ export function cook(
     name?: string
   ): FunctionObject {
     const scope = getRunningContext().LexicalEnvironment!;
-    const closure = OrdinaryFunctionCreate(arrowFunction, scope, false);
+    const closure = OrdinaryFunctionCreate(arrowFunction, scope, false, true);
     SetFunctionName(closure, name ?? "");
     return closure;
   }
@@ -1624,11 +1669,12 @@ export function cook(
       | FunctionExpression
       | ArrowFunctionExpression,
     scope: EnvironmentRecord,
-    isConstructor: boolean
+    isConstructor: boolean,
+    lexicalThis: boolean
   ): FunctionObject {
-    const F = function () {
+    const F = function (this: unknown) {
       // eslint-disable-next-line prefer-rest-params
-      return unwind(CallFunction(F, arguments));
+      return unwind(CallFunction(F, this, arguments));
     } as FunctionObject;
     Object.defineProperties(F, {
       [SourceNode]: {
@@ -1649,12 +1695,15 @@ export function cook(
       [IsConstructor]: {
         value: isConstructor,
       },
+      [ThisMode]: {
+        value: lexicalThis ? Mode.LEXICAL : Mode.STRICT,
+      },
     });
     if (debug) {
       Object.defineProperty(F, DebuggerCall, {
         value: function () {
           // eslint-disable-next-line prefer-rest-params
-          return CallFunction(F, arguments);
+          return CallFunction(F, this, arguments);
         },
       });
     }

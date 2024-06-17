@@ -14,6 +14,7 @@ import {
 } from "./negative/statements.js";
 import { casesOfPatterns } from "./patterns.js";
 import { casesOfSwitchStatements } from "./switch-statements.js";
+import { casesOfThis } from "./this.js";
 import { casesOfTryStatements } from "./try-statements.js";
 
 export const positiveCases = [
@@ -25,6 +26,7 @@ export const positiveCases = [
   ...casesOfPatterns,
   ...casesOfBindings,
   ...casesOfFunctionNames,
+  ...casesOfThis,
 ].map<NormalizedCase>(([desc, { source, ...rest }]) => [
   desc,
   {
