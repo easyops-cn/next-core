@@ -12,6 +12,7 @@ import {
   RouteConf,
   RuntimeSnippet,
   UseProviderResolveConf,
+  PluginRuntimeContext,
 } from "@next-core/brick-types";
 import {
   ColorThemeOptionsByBrand,
@@ -247,4 +248,15 @@ export type PreviewStoryboardPatch =
 export interface DebugDataValue {
   resolve?: UseProviderResolveConf;
   value?: unknown;
+}
+
+export interface RuntimeDataVale
+  extends Pick<PluginRuntimeContext, "match" | "sys" | "query"> {
+  location: {
+    href: string;
+    origin: string;
+    hostname: string;
+    host: string;
+  };
+  app?: MicroApp;
 }
