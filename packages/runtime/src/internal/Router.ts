@@ -55,6 +55,7 @@ import { devtoolsHookEmit } from "./devtools.js";
 import { setUIVersion } from "../setUIVersion.js";
 import { setAppVariable } from "../setAppVariable.js";
 import { setWatermark } from "../setWatermark.js";
+import { clearMatchedRoutes } from "./routeMatchedMap.js";
 
 export class Router {
   readonly #storyboards: Storyboard[];
@@ -454,6 +455,7 @@ export class Router {
       let stores: DataStore<"CTX" | "STATE" | "FORM_STATE">[] = [];
 
       try {
+        clearMatchedRoutes();
         const rootMenuRequestNode: MenuRequestNode = {};
         output = await renderRoutes(
           renderRoot,

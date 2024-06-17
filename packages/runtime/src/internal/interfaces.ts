@@ -12,6 +12,7 @@ import type {
   Storyboard,
   StaticMenuConf,
   UseProviderResolveConf,
+  MicroApp,
 } from "@next-core/types";
 import type { DataStore } from "./data/DataStore.js";
 import { RenderTag } from "./enums.js";
@@ -151,6 +152,7 @@ export type RuntimeBrickConfWithSymbols = RuntimeBrickConfWithTplSymbols &
 
 export interface DataValueOption {
   tplStateStoreId?: string;
+  routeId?: string;
 }
 
 export type PreviewStoryboardPatch =
@@ -175,4 +177,19 @@ export interface MenuRequestNode {
 export interface DebugDataValue {
   resolve?: UseProviderResolveConf;
   value?: unknown;
+}
+
+export interface RuntimeDataVale
+  extends Pick<LegacyCompatibleRuntimeContext, "match" | "sys" | "query"> {
+  location: {
+    href: string;
+    origin: string;
+    hostname: string;
+    host: string;
+  };
+  app?: MicroApp;
+}
+
+export interface RuntimeDataValueOption {
+  routeId?: string;
 }

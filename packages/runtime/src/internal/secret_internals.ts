@@ -30,6 +30,8 @@ import type {
   RenderRoot,
   RuntimeContext,
   DebugDataValue,
+  RuntimeDataVale,
+  RuntimeDataValueOption,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -42,6 +44,7 @@ import {
   loadBricksImperatively,
   loadEditorsImperatively,
 } from "@next-core/loader";
+import { getMatchedRoute } from "./routeMatchedMap.js";
 
 export type { DataValueOption, RuntimeContext };
 
@@ -449,11 +452,12 @@ export async function getAddedContracts(
 
 export async function debugDataValue(
   debugData: DebugDataValue,
-  { tplStateStoreId }: DataValueOption
+  { tplStateStoreId, routeId }: DataValueOption
 ): Promise<any> {
   const runtimeContext = {
     ..._internalApiGetRuntimeContext()!,
     tplStateStoreId,
+    match: getMatchedRoute(routeId as string),
   };
 
   if (debugData.resolve) {
@@ -461,6 +465,19 @@ export async function debugDataValue(
   }
 
   return asyncComputeRealValue(debugData.value, runtimeContext);
+}
+
+export function getLegalRuntimeValue(
+  options?: RuntimeDataValueOption
+): RuntimeDataVale {
+  const runtimeContext = _internalApiGetRuntimeContext();
+
+  return {
+    app: runtimeContext?.overrideApp ?? runtimeContext?.app,
+    location: pick(location, ["href", "origin", "hostname", "host"]),
+    ...pick(runtimeContext, ["query", "sys"]),
+    match: getMatchedRoute(options?.routeId as string),
+  } as RuntimeDataVale;
 }
 
 export {
