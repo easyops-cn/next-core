@@ -168,8 +168,15 @@ export function cook(
       debug &&
       (forceYield ||
         (node.type.endsWith("Statement") &&
+          !(
+            node.type === "ExpressionStatement" &&
+            (node.expression.type === "CallExpression" ||
+              node.expression.type === "TaggedTemplateExpression")
+          ) &&
           node.type !== "TryStatement" &&
           node.type !== "BlockStatement" &&
+          node.type !== "DoWhileStatement" &&
+          node.type !== "WhileStatement" &&
           node.type !== "ForStatement" &&
           node.type !== "ForInStatement" &&
           node.type !== "ForOfStatement"))
@@ -779,7 +786,7 @@ export function cook(
     let V: unknown;
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const exprValue = GetValue(yield* Evaluate(node.test));
+      const exprValue = GetValue(yield* Evaluate(node.test, undefined, true));
       if (!exprValue) {
         return NormalCompletion(V);
       }
@@ -808,7 +815,7 @@ export function cook(
       if (stmtResult.Value !== Empty) {
         V = stmtResult.Value;
       }
-      const exprValue = GetValue(yield* Evaluate(node.test));
+      const exprValue = GetValue(yield* Evaluate(node.test, undefined, true));
       if (!exprValue) {
         return NormalCompletion(V);
       }
@@ -1264,6 +1271,7 @@ export function cook(
     identifier: Identifier,
     strict: boolean
   ): ReferenceRecord {
+    currentNode = identifier;
     const propertyNameString = identifier.name;
     return new ReferenceRecord(baseValue, propertyNameString, strict);
   }
