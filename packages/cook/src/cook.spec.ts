@@ -132,6 +132,7 @@ describe("evaluate", () => {
 
   it.each<NormalizedCase>(positiveCases)("%s", (desc, { source, cases }) => {
     const typescript = desc.startsWith("[TypeScript]");
+    const debug = desc.startsWith("[ExternalSourceForDebug]");
     const { function: funcAst, attemptToVisitGlobals } = precookFunction(
       source,
       { typescript }
@@ -140,7 +141,10 @@ describe("evaluate", () => {
       attemptToVisitGlobals,
       getExtraGlobalVariables()
     );
-    const func = cook(funcAst, source, { globalVariables }) as Function;
+    const func = cook(funcAst, source, {
+      externalSourceForDebug: debug,
+      globalVariables,
+    }) as Function;
     for (const { args, result } of cases) {
       if (!typescript) {
         expect(
@@ -184,6 +188,7 @@ describe("evaluate", () => {
     "should throw: %s",
     (desc, { source, cases }) => {
       const typescript = desc.startsWith("[TypeScript]");
+      const debug = desc.startsWith("[ExternalSourceForDebug]");
       const { function: funcAst, attemptToVisitGlobals } = precookFunction(
         source,
         { typescript }
@@ -192,7 +197,10 @@ describe("evaluate", () => {
         attemptToVisitGlobals,
         getExtraGlobalVariables()
       );
-      const func = cook(funcAst, source, { globalVariables }) as Function;
+      const func = cook(funcAst, source, {
+        externalSourceForDebug: debug,
+        globalVariables,
+      }) as Function;
       for (const { args } of cases) {
         if (!typescript && !containsExperimental(source)) {
           expect(() =>
@@ -504,7 +512,7 @@ describe("evaluate", () => {
         case 4:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: 1 });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           expect(getScopedValues()).toEqual([
             { a: 1 },
             { f: expect.any(Function) },
@@ -514,7 +522,7 @@ describe("evaluate", () => {
         case 5:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: 2 });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           expect(getScopedValues()).toEqual([
             { f: expect.any(Function) },
             { test: expect.any(Function) },
@@ -662,7 +670,7 @@ describe("evaluate", () => {
         case 2:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: "A" });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           break;
       }
 
@@ -715,7 +723,7 @@ describe("evaluate", () => {
         case 2:
           expect(done).toBe(false);
           expect(value).toEqual({ type: "return", value: "A" });
-          expect(node?.type).toBe("ReturnStatement");
+          expect(node?.type).toBe("FunctionDeclaration");
           break;
       }
 

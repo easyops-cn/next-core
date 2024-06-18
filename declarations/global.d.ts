@@ -8,6 +8,11 @@ declare module "*.css" {
   export default css;
 }
 
+declare module "*.txt" {
+  const source: string;
+  export default source;
+}
+
 declare module "@ungap/event-target" {
   export default EventTarget;
 }

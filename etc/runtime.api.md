@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { default as __2 } from 'lodash';
 import type { Action } from 'history';
 import type { BatchUpdateContextItem } from '@next-core/types';
 import type { BootstrapData } from '@next-core/types';
@@ -16,6 +17,7 @@ import type { BrickLifeCycle } from '@next-core/types';
 import { BrickPackage } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
 import type { Contract } from '@next-core/types';
+import { cook } from '@next-core/cook';
 import type { CustomTemplate } from '@next-core/types';
 import type { CustomTemplateConstructor } from '@next-core/types';
 import type { CustomTemplateProxy } from '@next-core/types';
@@ -28,6 +30,7 @@ import { LocationDescriptor } from 'history';
 import type { MetaI18n } from '@next-core/types';
 import { MicroApp } from '@next-core/types';
 import type { PermissionApi_validatePermissions } from '@next-api-sdk/micro-app-sdk';
+import { precookFunction } from '@next-core/cook';
 import type { ResolveConf } from '@next-core/types';
 import type { RouteConf } from '@next-core/types';
 import type { RuntimeSnippet } from '@next-core/types';
@@ -38,6 +41,7 @@ import type { SlotConfOfRoutes } from '@next-core/types';
 import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
+import { supply } from '@next-core/supply';
 import type { UseProviderResolveConf } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';
 
@@ -493,10 +497,19 @@ export function setUIVersion(version: string | undefined | null): void;
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, collectCoverage, }?: {
+export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, collectCoverage, debuggerOverrides, }?: {
     widgetId?: string;
     widgetVersion?: string;
     collectCoverage?: FunctionCoverageSettings;
+    debuggerOverrides?: (ctx: {
+        precookFunction: typeof precookFunction;
+        cook: typeof cook;
+        supply: typeof supply;
+    }) => {
+        LodashWithStaticFields?: Partial<typeof __2>;
+        ArrayConstructor?: typeof Array;
+        ObjectWithStaticFields?: Partial<typeof Object>;
+    };
 }): StoryboardFunctionRegistry;
 
 // @public (undocumented)
@@ -537,7 +550,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 //
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
-// dist/types/StoryboardFunctionRegistry.d.ts:43:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
+// dist/types/StoryboardFunctionRegistry.d.ts:45:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
 // dist/types/internal/Runtime.d.ts:34:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

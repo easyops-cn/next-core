@@ -2,6 +2,7 @@ import type { MicroApp, StoryboardFunction } from "@next-core/types";
 import { cook, precookFunction, EstreeNode } from "@next-core/cook";
 import { supply } from "@next-core/supply";
 import { collectMemberUsageInFunction } from "@next-core/utils/storyboard";
+import type _ from "lodash";
 import { getGeneralGlobals } from "./internal/compute/getGeneralGlobals.js";
 
 /** @internal */
@@ -61,12 +62,28 @@ export function StoryboardFunctionRegistryFactory({
   widgetId,
   widgetVersion,
   collectCoverage,
+  debuggerOverrides,
 }: {
   widgetId?: string;
   widgetVersion?: string;
   collectCoverage?: FunctionCoverageSettings;
+  debuggerOverrides?: (ctx: {
+    precookFunction: typeof precookFunction;
+    cook: typeof cook;
+    supply: typeof supply;
+  }) => {
+    LodashWithStaticFields?: Partial<typeof _>;
+    ArrayConstructor?: typeof Array;
+    ObjectWithStaticFields?: Partial<typeof Object>;
+  };
 } = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
+
+  const overrides = debuggerOverrides?.({
+    precookFunction,
+    cook,
+    supply,
+  });
 
   // Use `Proxy` with a frozen target, to make a readonly function registry.
   const storyboardFunctions = new Proxy(Object.freeze({}), {
@@ -121,22 +138,53 @@ export function StoryboardFunctionRegistryFactory({
         beforeVisit: collector.beforeVisit,
       },
     });
+    const globalVariables = supply(
+      precooked.attemptToVisitGlobals,
+      getGeneralGlobals(precooked.attemptToVisitGlobals, {
+        collectCoverage,
+        widgetId,
+        widgetVersion,
+        app: currentApp,
+        storyboardFunctions,
+        isStoryboardFunction: true,
+      }),
+      !!collectCoverage
+    );
+
     fn.cooked = cook(precooked.function, fn.source, {
       rules: {
         noVar: true,
       },
-      globalVariables: supply(
-        precooked.attemptToVisitGlobals,
-        getGeneralGlobals(precooked.attemptToVisitGlobals, {
-          collectCoverage,
-          widgetId,
-          widgetVersion,
-          app: currentApp,
-          storyboardFunctions,
-          isStoryboardFunction: true,
-        }),
-        !!collectCoverage
-      ),
+      globalVariables: overrides
+        ? {
+            ...globalVariables,
+            ...(overrides?.LodashWithStaticFields &&
+            precooked.attemptToVisitGlobals.has("_")
+              ? {
+                  _: {
+                    ...(globalVariables._ as typeof _),
+                    ...overrides.LodashWithStaticFields,
+                  },
+                }
+              : null),
+            ...(overrides?.ArrayConstructor &&
+            precooked.attemptToVisitGlobals.has("Array")
+              ? {
+                  Array: overrides.ArrayConstructor,
+                }
+              : null),
+            ...(overrides?.ObjectWithStaticFields &&
+            precooked.attemptToVisitGlobals.has("Object")
+              ? {
+                  Object: {
+                    ...(globalVariables.Object as typeof Object),
+                    ...overrides.ObjectWithStaticFields,
+                  },
+                }
+              : null),
+          }
+        : globalVariables,
+      ArrayConstructor: overrides?.ArrayConstructor,
       hooks: collector && {
         beforeEvaluate: collector.beforeEvaluate,
         beforeCall: collector.beforeCall,

@@ -24,6 +24,12 @@ export default {
     polyfill: "./src/polyfill",
   },
   extractCss: true,
+  moduleRules: [
+    {
+      test: /\.txt$/,
+      type: "asset/source",
+    },
+  ],
   plugins: [
     new HtmlWebpackPlugin({
       filename: "index.html",
