@@ -100,6 +100,16 @@ interface EvaluateResult<T, TReturn> extends Iterator<T, TReturn> {
 
 type CompletionRecordResult<T = unknown> = EvaluateResult<T, CompletionRecord>;
 
+const globalExecutionContextStack: ExecutionContext[] = [];
+
+export function __dev_only_clearGlobalExecutionContextStack() {
+  globalExecutionContextStack.length = 0;
+}
+
+export function __dev_only_getGlobalExecutionContextStack() {
+  return globalExecutionContextStack;
+}
+
 /** For next-core internal usage only. */
 export function cook(
   rootAst: FunctionDeclaration | Expression,
@@ -609,7 +619,12 @@ export function cook(
               }
             } else if (declarator.id.type === "Identifier") {
               currentNode = declarator.init;
-              if (debug) yield;
+              if (
+                debug &&
+                currentNode.type !== "CallExpression" &&
+                currentNode.type !== "TaggedTemplateExpression"
+              )
+                yield;
               const bindingId = declarator.id.name;
               const lhs = ResolveBinding(bindingId);
               let value: unknown;
@@ -625,7 +640,12 @@ export function cook(
                   : InitializeReferencedBinding(lhs, value);
             } else {
               currentNode = declarator.init;
-              if (debug) yield;
+              if (
+                debug &&
+                currentNode.type !== "CallExpression" &&
+                currentNode.type !== "TaggedTemplateExpression"
+              )
+                yield;
               const rhs = yield* Evaluate(declarator.init);
               const rval = GetValue(rhs);
               result = yield* BindingInitialization(
@@ -1422,6 +1442,7 @@ export function cook(
       };
     }
     executionContextStack.pop();
+    globalExecutionContextStack.pop();
     if (result.Type === "return") {
       return result.Value;
     }
@@ -1436,6 +1457,7 @@ export function cook(
     calleeContext.VariableEnvironment = localEnv;
     calleeContext.LexicalEnvironment = localEnv;
     executionContextStack.push(calleeContext);
+    globalExecutionContextStack.push(calleeContext);
     return calleeContext;
   }
 
