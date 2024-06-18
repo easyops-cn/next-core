@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.48.0...@next-core/runtime@1.49.0) (2024-06-18)
+
+
+### Features
+
+* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+
+
+
+
+
 # [1.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.47.0...@next-core/runtime@1.48.0) (2024-06-17)
 
 

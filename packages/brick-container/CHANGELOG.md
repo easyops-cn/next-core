@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.15...@next-core/brick-container@3.17.0) (2024-06-18)
+
+
+### Features
+
+* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+
+
+
+
+
 ## [3.16.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.14...@next-core/brick-container@3.16.15) (2024-06-17)
 
 **Note:** Version bump only for package @next-core/brick-container

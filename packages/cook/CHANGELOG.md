@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.3.0...@next-core/cook@2.4.0) (2024-06-18)
+
+
+### Bug Fixes
+
+* mark debugger return ([97f1f3b](https://github.com/easyops-cn/next-core/commit/97f1f3bcac115088ffac5d098e9f8b91881766dc))
+
+
+### Features
+
+* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+* support this expression ([6707151](https://github.com/easyops-cn/next-core/commit/6707151dca233a3ea58b0b783670c830ae196fe0))
+
+
+
+
+
 # [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.18...@next-core/cook@2.3.0) (2024-06-11)
 
 
