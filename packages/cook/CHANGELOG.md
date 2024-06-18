@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.1...@next-core/cook@2.4.2) (2024-06-18)
+
+
+### Bug Fixes
+
+* fix debugging nested FN calls ([12c2c2f](https://github.com/easyops-cn/next-core/commit/12c2c2ff94a3c9b73341c66c9f3dcefc2e95188e))
+
+
+
+
+
 ## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.0...@next-core/cook@2.4.1) (2024-06-18)
 
 
