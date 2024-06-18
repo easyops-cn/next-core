@@ -1,5 +1,11 @@
 import type { MicroApp, StoryboardFunction } from "@next-core/types";
-import { cook, precookFunction, EstreeNode } from "@next-core/cook";
+import {
+  cook,
+  precookFunction,
+  EstreeNode,
+  __dev_only_clearGlobalExecutionContextStack,
+  __dev_only_getGlobalExecutionContextStack,
+} from "@next-core/cook";
 import { supply } from "@next-core/supply";
 import { collectMemberUsageInFunction } from "@next-core/utils/storyboard";
 import type _ from "lodash";
@@ -29,6 +35,11 @@ export interface StoryboardFunctionRegistry {
   updateStoryboardFunction(name: string, data: StoryboardFunctionPatch): void;
 
   checkPermissionsUsage(functionNames: string[]): boolean;
+
+  clearGlobalExecutionContextStack(): void;
+  getGlobalExecutionContextStack(): ReturnType<
+    typeof __dev_only_getGlobalExecutionContextStack
+  >;
 }
 
 /** @internal */
@@ -238,6 +249,12 @@ export function StoryboardFunctionRegistryFactory({
         return false;
       };
       return functionNames.some(hasPermissionsCheck);
+    },
+    clearGlobalExecutionContextStack() {
+      __dev_only_clearGlobalExecutionContextStack();
+    },
+    getGlobalExecutionContextStack() {
+      return __dev_only_getGlobalExecutionContextStack();
     },
   };
 }

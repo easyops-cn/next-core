@@ -31,6 +31,7 @@ export interface PrecookOptions {
   visitors?: EstreeVisitors;
   hooks?: PrecookHooks;
   withParent?: boolean;
+  externalSourceForDebug?: boolean;
 }
 
 export type EstreeParent = EstreeParentItem[];
@@ -57,7 +58,13 @@ export interface PrecookHooks {
  */
 export function precook(
   rootAst: Expression | FunctionDeclaration,
-  { expressionOnly, visitors, withParent, hooks = {} }: PrecookOptions = {}
+  {
+    expressionOnly,
+    visitors,
+    withParent,
+    externalSourceForDebug,
+    hooks = {},
+  }: PrecookOptions = {}
 ): Set<string> {
   const attemptToVisitGlobals = new Set<string>();
   const analysisContextStack: AnalysisContext[] = [];
@@ -291,6 +298,12 @@ export function precook(
             runningContext.LexicalEnvironment = blockEnv;
             EvaluateChildren(node, ["cases"], parent);
             runningContext.LexicalEnvironment = oldEnv;
+            return;
+          }
+          case "ThisExpression": {
+            if (!externalSourceForDebug) {
+              break;
+            }
             return;
           }
           case "TryStatement":
