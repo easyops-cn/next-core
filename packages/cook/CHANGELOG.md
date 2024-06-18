@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.0...@next-core/cook@2.4.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* refine debugger breakpoints ([d7caf3d](https://github.com/easyops-cn/next-core/commit/d7caf3d30069369166983d4e6212d560bd7b1a4d))
+
+
+
+
+
 # [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.3.0...@next-core/cook@2.4.0) (2024-06-18)
 
 
