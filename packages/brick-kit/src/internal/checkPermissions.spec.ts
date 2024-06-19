@@ -85,13 +85,19 @@ describe("checkPermissions", () => {
       ],
     });
     await validatePermissions(["my:action-a", "my:action-b"]);
-    expect(mockValidatePermissions).toBeCalledWith({
-      actions: ["my:action-a", "my:action-b"],
-    });
+    expect(mockValidatePermissions).toBeCalledWith(
+      {
+        actions: ["my:action-a", "my:action-b"],
+      },
+      { noAbortOnRouteChange: true }
+    );
     await validatePermissions(["my:action-a", "my:action-c"]);
-    expect(mockValidatePermissions).toBeCalledWith({
-      actions: ["my:action-c"],
-    });
+    expect(mockValidatePermissions).toBeCalledWith(
+      {
+        actions: ["my:action-c"],
+      },
+      { noAbortOnRouteChange: true }
+    );
   });
 
   it("should validate permissions", async () => {
@@ -117,9 +123,12 @@ describe("checkPermissions", () => {
       ],
     });
     await preCheckPermissions(null);
-    expect(mockValidatePermissions).toBeCalledWith({
-      actions: ["my:action-a", "my:action-b", "my:action-c"],
-    });
+    expect(mockValidatePermissions).toBeCalledWith(
+      {
+        actions: ["my:action-a", "my:action-b", "my:action-c"],
+      },
+      { noAbortOnRouteChange: true }
+    );
     expect(mockConsoleError).toBeCalledWith(
       'Undefined permission action: "my:action-c"'
     );
@@ -140,9 +149,12 @@ describe("checkPermissions", () => {
       ],
     });
     await preCheckPermissions(null);
-    expect(mockValidatePermissions).toBeCalledWith({
-      actions: ["my:action-d"],
-    });
+    expect(mockValidatePermissions).toBeCalledWith(
+      {
+        actions: ["my:action-d"],
+      },
+      { noAbortOnRouteChange: true }
+    );
     expect(mockConsoleError).not.toBeCalled();
 
     expect(checkPermissions("my:action-a")).toBe(true);
