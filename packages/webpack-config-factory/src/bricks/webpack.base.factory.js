@@ -10,6 +10,7 @@ const VirtualModulesPlugin = require("webpack-virtual-modules");
 const ScanCustomElementsPlugin = require("./ScanCustomElementsPlugin");
 const ScanTemplatesPlugin = require("./ScanTemplatesPlugin");
 const ScanEditorBricksPlugin = require("./ScanEditorBricksPlugin");
+const ScanPropertyEditorBricksPlugin = require("./ScanPropertyEditorBricksPlugin");
 const NextDllReferencePlugin = require("../dll/NextDllReferencePlugin");
 const BrickHashedModuleIdsPlugin = require("./BrickHashedModuleIdsPlugin");
 
@@ -63,7 +64,7 @@ const getImageLoaderOptions = () => ({
 });
 
 module.exports =
-  (isForEditors) =>
+  (props) =>
   ({
     scope = "bricks",
     copyFiles = [],
@@ -76,12 +77,17 @@ module.exports =
     const cwdDirname = process.cwd();
     const appRoot = path.join(cwdDirname, "..", "..");
     const imageLoaderOptions = getImageLoaderOptions();
+    const { isForEditors = false, isForPropertyEditors = false } = props ?? {};
 
     const packageJson = require(path.join(cwdDirname, "package.json"));
     const packageName = packageJson.name.split("/")[1];
     const packageVersion = packageJson.version;
     const distPublicPath = `${scope}/${packageName}/dist${
-      isForEditors ? "/editors" : ""
+      isForEditors
+        ? "/editors"
+        : isForPropertyEditors
+        ? "/property-editors"
+        : ""
     }/`;
     const distPublicPathWithVersion = `${scope}/${packageName}/${packageVersion}/dist/`;
 
@@ -92,6 +98,8 @@ module.exports =
         );
     const entryPair = isForEditors
       ? ["editors", "editor-bricks/index"]
+      : isForPropertyEditors
+      ? ["property-editors", "property-editors/index"]
       : ["index", "index"];
     const entryFilePath = path.join(cwdDirname, "src", entryPair[1]);
 
@@ -104,7 +112,14 @@ module.exports =
         // During webpack building, assets are written into
         // a temporary directory `dist-editors`.
         // And later to be merged into `dist/editors` during post-building.
-        path: path.join(cwdDirname, isForEditors ? "dist-editors" : "dist"),
+        path: path.join(
+          cwdDirname,
+          isForEditors
+            ? "dist-editors"
+            : isForPropertyEditors
+            ? "dist-property-editors"
+            : "dist"
+        ),
       },
       resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
@@ -354,7 +369,7 @@ module.exports =
                   : ""`
               : 'window.PUBLIC_ROOT ?? ""'
           }}${
-            isForEditors
+            isForEditors || isForPropertyEditors
               ? distPublicPath
               : `\${
               window.PUBLIC_ROOT_WITH_VERSION
@@ -365,13 +380,15 @@ module.exports =
         }),
         isForEditors
           ? new ScanEditorBricksPlugin(packageName)
+          : isForPropertyEditors
+          ? new ScanPropertyEditorBricksPlugin(packageName)
           : scope === "templates"
           ? new ScanTemplatesPlugin(packageName)
           : new ScanCustomElementsPlugin(
               packageName,
               dll.map((name) => name.substr("@next-dll/".length))
             ),
-        ...(scope === "bricks" && !isForEditors
+        ...(scope === "bricks" && !isForEditors && !isForPropertyEditors
           ? // Avoid module id collisions among brick packages.
             [new BrickHashedModuleIdsPlugin({ packageName })]
           : []),

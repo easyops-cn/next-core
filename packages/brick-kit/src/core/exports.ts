@@ -10,3 +10,4 @@ export * from "./Router";
 export * from "./Runtime";
 export * from "./CustomTemplates";
 export * from "./CustomProcessors";
+export * from "./CustomEditors";
