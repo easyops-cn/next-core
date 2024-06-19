@@ -56,7 +56,10 @@ export async function validatePermissions(
   }
   checkedPermissions.push(...actions);
   try {
-    const result = await PermissionApi_validatePermissions({ actions });
+    const result = await PermissionApi_validatePermissions(
+      { actions },
+      { noAbortOnRouteChange: true }
+    );
     for (const item of result.actions!) {
       permissionMap.set(item.action!, item.authorizationStatus!);
       if (item.authorizationStatus === "undefined") {
