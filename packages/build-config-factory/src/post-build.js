@@ -160,6 +160,37 @@ const mergeEditors = () => {
     });
     fs.removeSync(distEditorsDir);
   }
+
+  const distPropertyEditorsDir = path.join(brickDir, "dist-property-editors");
+  const distPropertyEditorsJsonPath = path.join(
+    distPropertyEditorsDir,
+    "editors.json"
+  );
+  if (fs.existsSync(distPropertyEditorsJsonPath)) {
+    const distDir = path.join(brickDir, "dist");
+    const bricksJsonPath = path.join(distDir, "bricks.json");
+    const bricksJson = fs.readJsonSync(bricksJsonPath);
+    fs.writeJsonSync(
+      bricksJsonPath,
+      {
+        ...bricksJson,
+        ...fs.readJsonSync(distPropertyEditorsJsonPath),
+      },
+      {
+        spaces: 2,
+      }
+    );
+    fs.copySync(
+      distPropertyEditorsDir,
+      path.join(distDir, "property-editors"),
+      {
+        filter: (src) => {
+          return !src.endsWith("editors.json");
+        },
+      }
+    );
+    fs.removeSync(distPropertyEditorsJsonPath);
+  }
 };
 
 module.exports = (scope) => {

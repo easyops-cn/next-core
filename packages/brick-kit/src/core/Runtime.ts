@@ -36,6 +36,7 @@ import {
   afterMountTree,
   unmountTree,
   MountableElement,
+  customEditors,
 } from "./exports";
 import { computeRealValue } from "../internal/setProperties";
 import { httpErrorToString } from "../handleHttpError";
@@ -521,6 +522,7 @@ export class Runtime implements AbstractRuntime {
   registerLazyBricks = registerLazyBricks;
   registerWidgetFunctions = registerWidgetFunctions;
   registerWidgetI18n = registerWidgetI18n;
+  customEditors = customEditors;
 
   /* istanbul ignore next */
   getRelatedApps(appId: string): unknown[] {
