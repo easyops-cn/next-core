@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.2...@next-core/cook@2.4.3) (2024-06-19)
+
+
+### Bug Fixes
+
+* **precook:** add arguments binding ([21c7264](https://github.com/easyops-cn/next-core/commit/21c72649a1c9245e9ae32dbcea5479cb5b3a9d7b))
+
+
+
+
+
 ## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.1...@next-core/cook@2.4.2) (2024-06-18)
 
 
