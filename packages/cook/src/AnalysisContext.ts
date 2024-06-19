@@ -35,4 +35,5 @@ export interface AnalysisFunctionObject {
   FormalParameters: FunctionDeclaration["params"];
   ECMAScriptCode: Statement[] | Expression;
   Environment?: AnalysisEnvironment;
+  ThisMode: "LEXICAL" | "STRICT";
 }

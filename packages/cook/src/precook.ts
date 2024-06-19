@@ -131,7 +131,7 @@ export function precook(
           return;
         case "ArrowFunctionExpression": {
           const env = getRunningContext().LexicalEnvironment;
-          const closure = OrdinaryFunctionCreate(node, env);
+          const closure = OrdinaryFunctionCreate(node, env, true);
           CallFunction(closure, parent);
           return;
         }
@@ -410,8 +410,15 @@ export function precook(
     });
     const varNames = collectBoundNames(varDeclarations);
 
+    const argumentsObjectNeeded =
+      !!externalSourceForDebug && func.ThisMode !== "LEXICAL";
+
     const env = calleeContext.LexicalEnvironment!;
     BoundNamesInstantiation(formals, env);
+
+    if (argumentsObjectNeeded) {
+      env.CreateBinding("arguments");
+    }
 
     Evaluate(formals, parent?.concat({ node: func.Function, key: "params" }));
 
@@ -458,7 +465,8 @@ export function precook(
 
   function OrdinaryFunctionCreate(
     func: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
-    scope?: AnalysisEnvironment
+    scope?: AnalysisEnvironment,
+    lexicalThis?: boolean
   ): AnalysisFunctionObject {
     return {
       Function: func,
@@ -466,6 +474,7 @@ export function precook(
       ECMAScriptCode:
         func.body.type === "BlockStatement" ? func.body.body : func.body,
       Environment: scope,
+      ThisMode: lexicalThis ? "LEXICAL" : "STRICT",
     };
   }
 

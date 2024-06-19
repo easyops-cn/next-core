@@ -472,9 +472,40 @@ describe("", () => {
       `,
       ["y", "a", "c", "d"],
     ],
+    [
+      "[ExternalSourceForDebug] function arguments",
+      `
+        function test(){
+          function f(){
+            return arguments[0];
+          }
+          return f(1);
+        }
+      `,
+      [],
+    ],
+    [
+      "[ExternalSourceForDebug] function arguments nesting",
+      `
+        function test(){
+          const f = () => {
+            return arguments[0];
+          }
+          return f(1);
+        }
+      `,
+      [],
+    ],
   ])("%s", (desc, source, result) => {
+    const debug = desc.startsWith("[ExternalSourceForDebug]");
     const func = parseAsEstree(source);
-    expect(Array.from(precook(func))).toEqual(result);
+    expect(
+      Array.from(
+        precook(func, {
+          externalSourceForDebug: debug,
+        })
+      )
+    ).toEqual(result);
     expect(consoleWarn).not.toBeCalled();
   });
 
