@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.197.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.196.0...@next-core/brick-kit@2.197.0) (2024-06-19)
+
+
+### Bug Fixes
+
+* permission.check在路由变化时失败 ([2f82cd2](https://github.com/easyops-cn/next-core/commit/2f82cd2e37fc9b13418c05ba4766609a7e3b98cb))
+
+
+### Features
+
+* support CustomEditors ([040a50c](https://github.com/easyops-cn/next-core/commit/040a50cdd3df372eb187be9d82c19b7be7ef20de))
+
+
+
+
+
 # [2.196.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.195.1...@next-core/brick-kit@2.196.0) (2024-06-17)
 
 

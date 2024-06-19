@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.25.47...@next-core/build-config-factory@2.26.0) (2024-06-19)
+
+
+### Features
+
+* support CustomEditors ([040a50c](https://github.com/easyops-cn/next-core/commit/040a50cdd3df372eb187be9d82c19b7be7ef20de))
+
+
+
+
+
 ## [2.25.47](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.25.46...@next-core/build-config-factory@2.25.47) (2024-05-21)
 
 **Note:** Version bump only for package @next-core/build-config-factory

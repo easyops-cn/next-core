@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.23.0...@next-core/webpack-config-factory@2.24.0) (2024-06-19)
+
+
+### Features
+
+* support CustomEditors ([040a50c](https://github.com/easyops-cn/next-core/commit/040a50cdd3df372eb187be9d82c19b7be7ef20de))
+
+
+
+
+
 # [2.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.22.0...@next-core/webpack-config-factory@2.23.0) (2024-01-16)
 
 
