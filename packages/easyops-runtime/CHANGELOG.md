@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.17](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.16...@next-core/easyops-runtime@0.10.17) (2024-06-19)
+
+
+### Bug Fixes
+
+* permission.check在路由变化时失败 ([d833aaa](https://github.com/easyops-cn/next-core/commit/d833aaa64d1069f74775d96500aba49b3f79b25b))
+
+
+
+
+
 ## [0.10.16](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.15...@next-core/easyops-runtime@0.10.16) (2024-06-19)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
