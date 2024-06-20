@@ -8,6 +8,10 @@ interface BrickPackage {
   editors?: string[];
   dependencies?: Record<string, string[]>;
   deprecatedElements?: string[];
+
+  // Legacy v2 packages
+  propertyEditorsJsFilePath?: string;
+  propertyEditors?: string[];
 }
 
 let resolveBasicPkg: () => void;
@@ -120,7 +124,7 @@ function getItemsByPkg(
     } else if (type === "editors") {
       lastName = item;
       for (const p of brickPackagesMap.values()) {
-        if (p.editors?.some((e) => e === lastName)) {
+        if ((p.propertyEditors ?? p.editors)?.some((e) => e === lastName)) {
           pkg = p;
         }
       }
@@ -288,7 +292,9 @@ async function enqueueStableLoad(
             const pkgNamespace = pkgId.split("/")[1];
             return adapter.resolve(
               v2Adapter.filePath,
-              pkg.filePath,
+              type === "editors"
+                ? pkg.propertyEditorsJsFilePath ?? pkg.filePath
+                : pkg.filePath,
               type === "bricks"
                 ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   itemsByPkg
