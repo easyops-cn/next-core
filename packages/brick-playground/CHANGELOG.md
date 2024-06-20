@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.19...@next-core/brick-playground@1.14.0) (2024-06-20)
+
+
+### Features
+
+* support specifying brick folders ([eb4e686](https://github.com/easyops-cn/next-core/commit/eb4e6861e9a7e367eae0d5591afa69e5707774ab))
+
+
+
+
+
 ## [1.13.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.18...@next-core/brick-playground@1.13.19) (2024-06-19)
 
 **Note:** Version bump only for package @next-core/brick-playground

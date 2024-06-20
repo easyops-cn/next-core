@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.0...@next-core/loader@1.6.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* support loading v2 editors ([6232d66](https://github.com/easyops-cn/next-core/commit/6232d66af33199b63e0a2e5069ae6ceab30927d3))
+
+
+
+
+
 # [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.9...@next-core/loader@1.6.0) (2024-06-06)
 
 
