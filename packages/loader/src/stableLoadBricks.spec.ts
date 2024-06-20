@@ -722,20 +722,28 @@ describe("loadEditorsImperatively", () => {
   });
 
   test("load multiple editors", async () => {
+    const brickPackages = [
+      {
+        id: "bricks/basic",
+        filePath: "bricks/basic/dist/index.hash.js",
+        editors: ["eo-button"],
+      },
+      {
+        id: "bricks/v2-adapter",
+        filePath: "bricks/v2-adapter/dist/index.hash.js",
+      },
+      // v2 packages
+      {
+        editors: ["basic-bricks.general-button--editor"],
+        filePath: "bricks/basic-bricks/dist/index.hash.js",
+        propertyEditorsJsFilePath:
+          "bricks/basic-bricks/dist/property-editors/index.hash.js",
+        propertyEditors: ["basic-bricks.general-button"],
+      } as any,
+    ];
     const promise = loadEditorsImperatively(
-      ["eo-button-editor", "eo-card-editor"],
-      [
-        {
-          id: "bricks/basic",
-          filePath: "bricks/basic/dist/index.hash.js",
-          editors: ["eo-button-editor"],
-        },
-        {
-          id: "bricks/containers",
-          filePath: "bricks/containers/dist/index.hash.js",
-          editors: ["eo-card-editor"],
-        },
-      ]
+      ["eo-button", "basic-bricks.general-button"],
+      brickPackages
     );
     expect(requestsCount).toBe(1);
     await promise;
@@ -750,20 +758,29 @@ describe("loadEditorsImperatively", () => {
     expect(consoleInfo).toHaveBeenNthCalledWith(
       2,
       "loadScript done:",
-      "bricks/containers/dist/index.hash.js",
+      "bricks/v2-adapter/dist/index.hash.js",
       ""
     );
     expect(consoleInfo).toHaveBeenNthCalledWith(
       3,
       "loadSharedModule done:",
       "bricks/basic",
-      "./editors/eo-button-editor"
+      "./editors/eo-button"
     );
     expect(consoleInfo).toHaveBeenNthCalledWith(
       4,
       "loadSharedModule done:",
-      "bricks/containers",
-      "./editors/eo-card-editor"
+      "bricks/v2-adapter",
+      "./load-bricks"
+    );
+    expect(consoleError).toBeCalledTimes(0);
+    expect(loadV2Bricks).toBeCalledTimes(1);
+    expect(loadV2Bricks).toBeCalledWith(
+      "bricks/v2-adapter/dist/index.hash.js",
+      "bricks/basic-bricks/dist/property-editors/index.hash.js",
+      [],
+      undefined,
+      brickPackages
     );
   });
 });

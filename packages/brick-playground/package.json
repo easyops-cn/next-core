@@ -26,7 +26,8 @@
     "@next-core/doc-helpers": "^0.2.12",
     "@next-core/serve-helpers": "^1.2.3",
     "compression": "^1.7.4",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "glob": "^8.1.0"
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.22.0",
