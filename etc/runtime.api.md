@@ -15,7 +15,7 @@ import type { BrickEventHandler } from '@next-core/types';
 import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
-import { BrickPackage } from '@next-core/types';
+import type { BrickPackage } from '@next-core/types';
 import type { ContextConf } from '@next-core/types';
 import type { Contract } from '@next-core/types';
 import { cook } from '@next-core/cook';
@@ -256,8 +256,8 @@ function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unkno
 // @public
 function loadBricks(bricks: string[]): Promise<void>;
 
-// @public (undocumented)
-function loadEditors(editors: string[] | Set<string>): Promise<void>;
+// @public
+function loadEditors(editors: string[] | Set<string>, brickPackages?: BrickPackage[]): Promise<void>;
 
 // @public @deprecated (undocumented)
 export function logout(): unknown;

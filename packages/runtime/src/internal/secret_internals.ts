@@ -6,6 +6,7 @@ import type {
   UseSingleBrickConf,
   RuntimeSnippet,
   ContextConf,
+  BrickPackage,
 } from "@next-core/types";
 import { pick } from "lodash";
 import {
@@ -385,8 +386,14 @@ export function loadBricks(bricks: string[]) {
   return loadBricksImperatively(bricks, getBrickPackages());
 }
 
-export function loadEditors(editors: string[] | Set<string>) {
-  return loadEditorsImperatively(editors, getBrickPackages());
+/**
+ * Try the brick packages passed in, before using from bootstrap.
+ */
+export function loadEditors(
+  editors: string[] | Set<string>,
+  brickPackages?: BrickPackage[]
+) {
+  return loadEditorsImperatively(editors, brickPackages ?? getBrickPackages());
 }
 
 export function getRenderId() {
