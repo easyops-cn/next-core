@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.24.0...@next-core/webpack-config-factory@2.25.0) (2024-06-20)
+
+
+### Features
+
+* update editor RegExp ([41678be](https://github.com/easyops-cn/next-core/commit/41678be6e7d756b9830fe2203fe0a089591bb08e))
+
+
+
+
+
 # [2.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.23.0...@next-core/webpack-config-factory@2.24.0) (2024-06-19)
 
 
