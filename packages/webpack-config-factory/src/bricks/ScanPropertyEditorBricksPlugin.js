@@ -3,7 +3,7 @@ const changeCase = require("change-case");
 const pluginName = "ScanPropertyEditorBricksPlugin";
 
 const validEditorName =
-  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+-editor$/;
+  /^[a-z][a-z0-9]*(-[a-z0-9]+)*\.[a-z][a-z0-9]*(-[a-z0-9]+)+$/;
 
 module.exports = class ScanPropertyEditorBricksPlugin {
   constructor(packageName) {
@@ -33,7 +33,7 @@ module.exports = class ScanPropertyEditorBricksPlugin {
                 editorSet.add(value);
               } else {
                 throw new Error(
-                  `Invalid editor brick: "${value}", expecting: "PACKAGE-NAME.BRICK-NAME-editor", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
+                  `Invalid editor brick: "${value}", expecting: "PACKAGE-NAME.BRICK-NAME", where PACKAGE-NAME and BRICK-NAME must be lower-kebab-case, and BRICK-NAME must include a \`-\``
                 );
               }
             } else {
