@@ -95,7 +95,8 @@ function getTransformedUriAndRestArgs(
   version?: string
 ): { url: string; args: unknown[] } {
   const prefix = version
-    ? serviceName === "logic.api.gateway"
+    ? serviceName === "logic.api.gateway" ||
+      serviceName?.startsWith("logic.api.gateway.")
       ? ""
       : serviceName
         ? `api/gateway/${serviceName}`
