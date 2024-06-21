@@ -315,7 +315,7 @@ export default async function scanBricks(packageDir) {
               }
             }
 
-            exposes.set(`./editors/${fullName}`, {
+            exposes.set(`./editors/${editorName}`, {
               import: `./${path
                 .relative(packageDir, overrideImport || filePath)
                 .replace(/\.[^.]+$/, "")
