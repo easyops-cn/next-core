@@ -87,7 +87,7 @@ for (const port of Cypress.env("ports")) {
       cy.get("@console.info").should("have.callCount", 7);
 
       cy.contains("Go 6").click();
-      cy.contains("Push query");
+      cy.contains("2/undefined");
       cy.expectMainContents([
         ...fixedContents,
         "Push query undefined, 1/undefined, 2/undefined",

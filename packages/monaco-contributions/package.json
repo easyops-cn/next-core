@@ -29,9 +29,9 @@
     }
   },
   "devDependencies": {
-    "monaco-editor": "^0.49.0"
+    "monaco-editor": "^0.50.0"
   },
   "peerDependencies": {
-    "monaco-editor": ">= 0.49.0"
+    "monaco-editor": ">= 0.50.0"
   }
 }
