@@ -31,6 +31,7 @@ export interface PrecookOptions {
   visitors?: EstreeVisitors;
   hooks?: PrecookHooks;
   withParent?: boolean;
+  externalSourceForDebug?: boolean;
 }
 
 export type EstreeParent = EstreeParentItem[];
@@ -57,7 +58,13 @@ export interface PrecookHooks {
  */
 export function precook(
   rootAst: Expression | FunctionDeclaration,
-  { expressionOnly, visitors, withParent, hooks = {} }: PrecookOptions = {}
+  {
+    expressionOnly,
+    visitors,
+    withParent,
+    externalSourceForDebug,
+    hooks = {},
+  }: PrecookOptions = {}
 ): Set<string> {
   const attemptToVisitGlobals = new Set<string>();
   const analysisContextStack: AnalysisContext[] = [];
@@ -124,7 +131,7 @@ export function precook(
           return;
         case "ArrowFunctionExpression": {
           const env = getRunningContext().LexicalEnvironment;
-          const closure = OrdinaryFunctionCreate(node, env);
+          const closure = OrdinaryFunctionCreate(node, env, true);
           CallFunction(closure, parent);
           return;
         }
@@ -293,6 +300,12 @@ export function precook(
             runningContext.LexicalEnvironment = oldEnv;
             return;
           }
+          case "ThisExpression": {
+            if (!externalSourceForDebug) {
+              break;
+            }
+            return;
+          }
           case "TryStatement":
             EvaluateChildren(node, ["block", "handler", "finalizer"], parent);
             return;
@@ -397,8 +410,15 @@ export function precook(
     });
     const varNames = collectBoundNames(varDeclarations);
 
+    const argumentsObjectNeeded =
+      !!externalSourceForDebug && func.ThisMode !== "LEXICAL";
+
     const env = calleeContext.LexicalEnvironment!;
     BoundNamesInstantiation(formals, env);
+
+    if (argumentsObjectNeeded) {
+      env.CreateBinding("arguments");
+    }
 
     Evaluate(formals, parent?.concat({ node: func.Function, key: "params" }));
 
@@ -445,7 +465,8 @@ export function precook(
 
   function OrdinaryFunctionCreate(
     func: FunctionDeclaration | FunctionExpression | ArrowFunctionExpression,
-    scope?: AnalysisEnvironment
+    scope?: AnalysisEnvironment,
+    lexicalThis?: boolean
   ): AnalysisFunctionObject {
     return {
       Function: func,
@@ -453,6 +474,7 @@ export function precook(
       ECMAScriptCode:
         func.body.type === "BlockStatement" ? func.body.body : func.body,
       Environment: scope,
+      ThisMode: lexicalThis ? "LEXICAL" : "STRICT",
     };
   }
 

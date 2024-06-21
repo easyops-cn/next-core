@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.37](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.36...@next-core/inject@1.0.37) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [1.0.36](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.35...@next-core/inject@1.0.36) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/inject
+
+
+
+
+
 ## [1.0.35](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.34...@next-core/inject@1.0.35) (2024-05-21)
 
 **Note:** Version bump only for package @next-core/inject

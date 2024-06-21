@@ -81,7 +81,9 @@ export function UpdateEmpty(
 }
 
 // https://tc39.es/ecma262/#sec-getvalue
-export function GetValue(V: unknown): unknown {
+export function GetValue(
+  V: CompletionRecord | ReferenceRecord | unknown
+): unknown {
   if (V instanceof CompletionRecord) {
     // Assert: V.Type is normal.
     V = V.Value;
@@ -192,6 +194,8 @@ export function ApplyStringOrNumericBinaryOperator(
       return leftValue >= rightValue;
     case "<=":
       return leftValue <= rightValue;
+    case "in":
+      return leftValue in (rightValue as unknown as Record<number, unknown>);
   }
   throw new SyntaxError(`Unsupported binary operator \`${operator}\``);
 }

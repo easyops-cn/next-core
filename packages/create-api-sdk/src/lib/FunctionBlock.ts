@@ -2,6 +2,7 @@ import os from "node:os";
 import { Api } from "./internal.js";
 import { TypeDefinition } from "./TypeDefinition.js";
 import { getTransformedUri, getParamsInUri } from "../utils.js";
+import { blockComment } from "./blockComment.js";
 
 export class FunctionBlock {
   static uriPrefix = "api/gateway";
@@ -108,7 +109,10 @@ export class FunctionBlock {
       returnBlock = `http.${api.method.realName}<${responseBodyTypeName}>(${url},${callArgsString});`;
     }
 
-    const contractComment = `/**! @contract easyops.api.${this.api.serviceName}@${this.api.doc.version} */`;
+    const contractComment = blockComment(
+      `@contract easyops.api.${this.api.serviceName}@${this.api.doc.version}`,
+      "/**! "
+    );
 
     if (isFormData) {
       returnBlock = `{ ${contractComment} ${FunctionBlock.formDataBlock} return ${returnBlock}; }`;
@@ -125,9 +129,9 @@ export class FunctionBlock {
 
     annotations.push(`@endpoint ${endpoint.method} ${endpoint.uri}`);
 
-    const content = `/** ${os.EOL} * ${annotations.join(`${os.EOL}* `)} ${
-      os.EOL
-    } */`;
+    const content = blockComment(
+      `${os.EOL} * ${annotations.join(`${os.EOL}* `)} ${os.EOL}`
+    );
 
     return `${content}${os.EOL}export const ${
       api.exportName

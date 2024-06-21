@@ -3,6 +3,133 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.49.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.4...@next-core/runtime@1.49.5) (2024-06-21)
+
+
+### Bug Fixes
+
+* getBrickPackagesById should match trailing slash ([5aaba0b](https://github.com/easyops-cn/next-core/commit/5aaba0b58d1167efbb7bea15d17212389011e5e7))
+* load editors from brick packages passed in ([72f34ca](https://github.com/easyops-cn/next-core/commit/72f34cadd77a86739653a8a0df1a8897f5c4e678))
+
+
+
+
+
+## [1.49.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.3...@next-core/runtime@1.49.4) (2024-06-20)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.49.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.2...@next-core/runtime@1.49.3) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.49.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.1...@next-core/runtime@1.49.2) (2024-06-18)
+
+
+### Bug Fixes
+
+* fix debugging nested FN calls ([12c2c2f](https://github.com/easyops-cn/next-core/commit/12c2c2ff94a3c9b73341c66c9f3dcefc2e95188e))
+
+
+
+
+
+## [1.49.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.0...@next-core/runtime@1.49.1) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+# [1.49.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.48.0...@next-core/runtime@1.49.0) (2024-06-18)
+
+
+### Features
+
+* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+
+
+
+
+
+# [1.48.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.47.0...@next-core/runtime@1.48.0) (2024-06-17)
+
+
+### Features
+
+* 获取微应用上下文相关变量 ([7b67a0c](https://github.com/easyops-cn/next-core/commit/7b67a0ca867e627a8078887ad9511c024cfcba36))
+
+
+
+
+
+# [1.47.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.46.0...@next-core/runtime@1.47.0) (2024-06-11)
+
+
+### Features
+
+* support single-step debugging for functions ([c753e98](https://github.com/easyops-cn/next-core/commit/c753e985b11554d30a6751fe557657f70ebddcdd))
+
+
+
+
+
+# [1.46.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.45.0...@next-core/runtime@1.46.0) (2024-06-07)
+
+
+### Features
+
+* __secret_internals exprot loadEditors ([8c545cc](https://github.com/easyops-cn/next-core/commit/8c545cce90fed2bcae61fd73757ca40458337761))
+
+
+
+
+
+# [1.45.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.4...@next-core/runtime@1.45.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+* not necessary to process brick packages multiple times ([aebfe02](https://github.com/easyops-cn/next-core/commit/aebfe020810c0c67eb09d213daa461990224e292))
+
+
+### Features
+
+* add CustomEditorRegisty ([b2edbc2](https://github.com/easyops-cn/next-core/commit/b2edbc23c1d99e52fb9222165092760e30282f7e))
+
+
+
+
+
+## [1.44.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.3...@next-core/runtime@1.44.4) (2024-06-04)
+
+
+### Bug Fixes
+
+* always put pubDeps at first ([6357030](https://github.com/easyops-cn/next-core/commit/6357030834f042dc7878e28e7e401b5d7886868b))
+
+
+
+
+
+## [1.44.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.2...@next-core/runtime@1.44.3) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.44.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.44.1...@next-core/runtime@1.44.2) (2024-05-22)
 
 

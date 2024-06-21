@@ -139,6 +139,19 @@ async function getBrickPackagesInDir(
           "dist/bricks.json"
         );
         const bricksJson = JSON.parse(await readFile(bricksJsonPath, "utf-8"));
+
+        const devEditorsJsonPath = path.join(
+          bricksDir,
+          dirName,
+          "dist-property-editors/editors.json"
+        );
+        let v2DevEditorsJson;
+        if (!bricksJson.id && existsSync(devEditorsJsonPath)) {
+          v2DevEditorsJson = JSON.parse(
+            await readFile(devEditorsJsonPath, "utf-8")
+          );
+        }
+
         if (publicRootWithVersion) {
           const packageJsonPath = path.join(bricksDir, dirName, "package.json");
           const packageJson = existsSync(packageJsonPath)
@@ -170,8 +183,23 @@ async function getBrickPackagesInDir(
             filePath: updatedFilePath,
           };
         }
-        return bricksJson;
+        return patchV2DevEditors(bricksJson, v2DevEditorsJson);
       }
     )
   );
+}
+
+function patchV2DevEditors(bricksJson, v2DevEditorsJson) {
+  if (v2DevEditorsJson) {
+    return {
+      ...bricksJson,
+      ...v2DevEditorsJson,
+      propertyEditorsJsFilePath:
+        v2DevEditorsJson.propertyEditorsJsFilePath.replace(
+          "/dist/property-editors/",
+          "/dist-property-editors/"
+        ),
+    };
+  }
+  return bricksJson;
 }

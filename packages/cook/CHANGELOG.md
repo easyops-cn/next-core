@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.2...@next-core/cook@2.4.3) (2024-06-19)
+
+
+### Bug Fixes
+
+* **precook:** add arguments binding ([21c7264](https://github.com/easyops-cn/next-core/commit/21c72649a1c9245e9ae32dbcea5479cb5b3a9d7b))
+
+
+
+
+
+## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.1...@next-core/cook@2.4.2) (2024-06-18)
+
+
+### Bug Fixes
+
+* fix debugging nested FN calls ([12c2c2f](https://github.com/easyops-cn/next-core/commit/12c2c2ff94a3c9b73341c66c9f3dcefc2e95188e))
+
+
+
+
+
+## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.0...@next-core/cook@2.4.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* refine debugger breakpoints ([d7caf3d](https://github.com/easyops-cn/next-core/commit/d7caf3d30069369166983d4e6212d560bd7b1a4d))
+
+
+
+
+
+# [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.3.0...@next-core/cook@2.4.0) (2024-06-18)
+
+
+### Bug Fixes
+
+* mark debugger return ([97f1f3b](https://github.com/easyops-cn/next-core/commit/97f1f3bcac115088ffac5d098e9f8b91881766dc))
+
+
+### Features
+
+* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+* support this expression ([6707151](https://github.com/easyops-cn/next-core/commit/6707151dca233a3ea58b0b783670c830ae196fe0))
+
+
+
+
+
+# [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.18...@next-core/cook@2.3.0) (2024-06-11)
+
+
+### Bug Fixes
+
+* **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
+
+
+### Features
+
+* support single-step debugging for functions ([c753e98](https://github.com/easyops-cn/next-core/commit/c753e985b11554d30a6751fe557657f70ebddcdd))
+
+
+
+
+
+## [2.2.18](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.17...@next-core/cook@2.2.18) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [2.2.17](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.16...@next-core/cook@2.2.17) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/cook
+
+
+
+
+
 ## [2.2.16](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.15...@next-core/cook@2.2.16) (2024-05-10)
 
 **Note:** Version bump only for package @next-core/cook

@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.0...@next-core/loader@1.6.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* support loading v2 editors ([6232d66](https://github.com/easyops-cn/next-core/commit/6232d66af33199b63e0a2e5069ae6ceab30927d3))
+
+
+
+
+
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.9...@next-core/loader@1.6.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+### Features
+
+* add CustomEditorRegisty ([b2edbc2](https://github.com/easyops-cn/next-core/commit/b2edbc23c1d99e52fb9222165092760e30282f7e))
+
+
+
+
+
+## [1.5.9](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.8...@next-core/loader@1.5.9) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/loader
+
+
+
+
+
 ## [1.5.8](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.5.7...@next-core/loader@1.5.8) (2024-05-10)
 
 **Note:** Version bump only for package @next-core/loader

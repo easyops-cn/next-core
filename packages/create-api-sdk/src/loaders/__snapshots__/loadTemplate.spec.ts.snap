@@ -34,6 +34,11 @@ export interface ResponseListWrapper<T> {
   "version": "1.2.3",
   "description": "API SDK for Cd",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/sdk/cd-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "sdk/cd-sdk"
+  },
   "license": "GPL-3.0",
   "type": "module",
   "main": "dist/cjs/index.js",
@@ -109,6 +114,11 @@ export interface ResponseListWrapper<T> {
   "version": "1.2.3",
   "description": "API SDK for Cd",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/sdk/cd-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "sdk/cd-sdk"
+  },
   "license": "GPL-3.0",
   "type": "module",
   "main": "dist/cjs/index.js",

@@ -22,7 +22,6 @@ export default {
     new MonacoWebpackPlugin({
       languages: ["javascript", "typescript", "css" /* , "html", "yaml" */],
       features: [
-        "!accessibilityHelp",
         "!codelens",
         "!colorPicker",
         "!documentSymbols",

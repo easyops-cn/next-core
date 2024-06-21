@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.18](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.17...@next-core/supply@2.1.18) (2024-06-11)
+
+
+### Bug Fixes
+
+* **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
+
+
+
+
+
+## [2.1.17](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.16...@next-core/supply@2.1.17) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [2.1.16](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.15...@next-core/supply@2.1.16) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/supply
+
+
+
+
+
 ## [2.1.15](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.14...@next-core/supply@2.1.15) (2024-05-10)
 
 **Note:** Version bump only for package @next-core/supply

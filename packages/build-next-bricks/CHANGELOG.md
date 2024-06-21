@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.22.0...@next-core/build-next-bricks@1.22.1) (2024-06-21)
+
+
+### Bug Fixes
+
+* editor export name ([c387113](https://github.com/easyops-cn/next-core/commit/c387113b7d0107207223e50b863152b1d0b8ba8c))
+
+
+
+
+
+# [1.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.21.1...@next-core/build-next-bricks@1.22.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+### Features
+
+* add CustomEditorRegisty ([b2edbc2](https://github.com/easyops-cn/next-core/commit/b2edbc23c1d99e52fb9222165092760e30282f7e))
+
+
+
+
+
+## [1.21.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.21.0...@next-core/build-next-bricks@1.21.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* adopt css-loader v7 but keep v6 behavior ([c890fbc](https://github.com/easyops-cn/next-core/commit/c890fbc607c0c2fe329377615f29b6c29b4461aa))
+
+
+
+
+
 # [1.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.20.10...@next-core/build-next-bricks@1.21.0) (2024-05-17)
 
 

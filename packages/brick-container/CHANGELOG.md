@@ -3,6 +3,146 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.7...@next-core/brick-container@3.17.8) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.6...@next-core/brick-container@3.17.7) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.5...@next-core/brick-container@3.17.6) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.4...@next-core/brick-container@3.17.5) (2024-06-20)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.3...@next-core/brick-container@3.17.4) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.2...@next-core/brick-container@3.17.3) (2024-06-19)
+
+
+### Bug Fixes
+
+* **precook:** add arguments binding ([21c7264](https://github.com/easyops-cn/next-core/commit/21c72649a1c9245e9ae32dbcea5479cb5b3a9d7b))
+
+
+
+
+
+## [3.17.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.1...@next-core/brick-container@3.17.2) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.0...@next-core/brick-container@3.17.1) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+# [3.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.15...@next-core/brick-container@3.17.0) (2024-06-18)
+
+
+### Features
+
+* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+
+
+
+
+
+## [3.16.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.14...@next-core/brick-container@3.16.15) (2024-06-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.13...@next-core/brick-container@3.16.14) (2024-06-11)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.12...@next-core/brick-container@3.16.13) (2024-06-07)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.11...@next-core/brick-container@3.16.12) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [3.16.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.10...@next-core/brick-container@3.16.11) (2024-06-04)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.9...@next-core/brick-container@3.16.10) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.16.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.8...@next-core/brick-container@3.16.9) (2024-06-03)
+
+
+### Bug Fixes
+
+* migrate http-proxy-middleware v3 ([7877a52](https://github.com/easyops-cn/next-core/commit/7877a528a6baab8f4c9a72ebc6e0ff8e41b74bec))
+
+
+
+
+
 ## [3.16.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.16.7...@next-core/brick-container@3.16.8) (2024-05-22)
 
 

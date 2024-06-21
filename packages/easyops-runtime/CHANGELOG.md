@@ -3,6 +3,130 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.20](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.19...@next-core/easyops-runtime@0.10.20) (2024-06-21)
+
+
+### Bug Fixes
+
+* compatible with sub services of api gateway ([7572d2b](https://github.com/easyops-cn/next-core/commit/7572d2bc57690a93a658a7669339b0af16da9c2d))
+
+
+
+
+
+## [0.10.19](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.18...@next-core/easyops-runtime@0.10.19) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.18](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.17...@next-core/easyops-runtime@0.10.18) (2024-06-20)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.17](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.16...@next-core/easyops-runtime@0.10.17) (2024-06-19)
+
+
+### Bug Fixes
+
+* permission.check在路由变化时失败 ([d833aaa](https://github.com/easyops-cn/next-core/commit/d833aaa64d1069f74775d96500aba49b3f79b25b))
+
+
+
+
+
+## [0.10.16](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.15...@next-core/easyops-runtime@0.10.16) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.15](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.14...@next-core/easyops-runtime@0.10.15) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.14](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.13...@next-core/easyops-runtime@0.10.14) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.13](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.12...@next-core/easyops-runtime@0.10.13) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.12](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.11...@next-core/easyops-runtime@0.10.12) (2024-06-17)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.11](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.10...@next-core/easyops-runtime@0.10.11) (2024-06-11)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.10](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.9...@next-core/easyops-runtime@0.10.10) (2024-06-07)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.10.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.8...@next-core/easyops-runtime@0.10.9) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [0.10.8](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.7...@next-core/easyops-runtime@0.10.8) (2024-06-04)
+
+
+### Bug Fixes
+
+* handle api url of api_gateway itself ([7a87c77](https://github.com/easyops-cn/next-core/commit/7a87c77c77c41b2d1b8e8f71e7783e5290371033))
+
+
+
+
+
+## [0.10.7](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.6...@next-core/easyops-runtime@0.10.7) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
 ## [0.10.6](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.5...@next-core/easyops-runtime@0.10.6) (2024-05-22)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

@@ -1,11 +1,12 @@
 {
   "name": "@next-core/inject",
-  "version": "1.0.35",
+  "version": "1.0.37",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/inject",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/inject"
   },
   "type": "module",
   "main": "dist/cjs/index.js",
@@ -36,11 +37,11 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/pipes": "^2.0.20",
-    "@next-core/types": "^1.11.0",
+    "@next-core/pipes": "^2.0.22",
+    "@next-core/types": "^1.11.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.15"
+    "@next-core/build-next-libs": "^1.0.17"
   }
 }

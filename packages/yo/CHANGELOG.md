@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.62](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.61...@next-core/yo@1.5.62) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.61](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.60...@next-core/yo@1.5.61) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.60](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.59...@next-core/yo@1.5.60) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.59](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.58...@next-core/yo@1.5.59) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.58](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.57...@next-core/yo@1.5.58) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.57](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.56...@next-core/yo@1.5.57) (2024-06-11)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.56](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.55...@next-core/yo@1.5.56) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [1.5.55](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.54...@next-core/yo@1.5.55) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.54](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.53...@next-core/yo@1.5.54) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.53](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.52...@next-core/yo@1.5.53) (2024-05-22)
 
 

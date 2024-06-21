@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.54](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.53...@next-core/i18n@1.0.54) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.53](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.52...@next-core/i18n@1.0.53) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.52](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.51...@next-core/i18n@1.0.52) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.51](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.50...@next-core/i18n@1.0.51) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.50](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.49...@next-core/i18n@1.0.50) (2024-06-11)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.49](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.48...@next-core/i18n@1.0.49) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [1.0.48](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.47...@next-core/i18n@1.0.48) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
 ## [1.0.47](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.46...@next-core/i18n@1.0.47) (2024-05-21)
 
 **Note:** Version bump only for package @next-core/i18n

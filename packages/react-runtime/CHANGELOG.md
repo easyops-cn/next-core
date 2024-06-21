@@ -3,6 +3,111 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.9](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.8...@next-core/react-runtime@1.6.9) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.8](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.7...@next-core/react-runtime@1.6.8) (2024-06-20)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.7](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.6...@next-core/react-runtime@1.6.7) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.6](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.5...@next-core/react-runtime@1.6.6) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.5](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.4...@next-core/react-runtime@1.6.5) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.4](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.3...@next-core/react-runtime@1.6.4) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.2...@next-core/react-runtime@1.6.3) (2024-06-17)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.1...@next-core/react-runtime@1.6.2) (2024-06-11)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.6.1](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.0...@next-core/react-runtime@1.6.1) (2024-06-07)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.5.4...@next-core/react-runtime@1.6.0) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+* **useBrick:** handle ignore in catch ([088eb6f](https://github.com/easyops-cn/next-core/commit/088eb6fe622668a63609b48ec1a973e829adc45c))
+
+
+### Features
+
+* support useLazyWrapBrick ([39767cf](https://github.com/easyops-cn/next-core/commit/39767cfd09cce5e9f80c4ab93c81d73a5eac0dc2))
+
+
+
+
+
+## [1.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.5.3...@next-core/react-runtime@1.5.4) (2024-06-04)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
+## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.5.2...@next-core/react-runtime@1.5.3) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
 ## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.5.1...@next-core/react-runtime@1.5.2) (2024-05-22)
 
 **Note:** Version bump only for package @next-core/react-runtime

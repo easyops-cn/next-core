@@ -1,7 +1,14 @@
 import type { MicroApp, StoryboardFunction } from "@next-core/types";
-import { cook, precookFunction, EstreeNode } from "@next-core/cook";
+import {
+  cook,
+  precookFunction,
+  EstreeNode,
+  __dev_only_clearGlobalExecutionContextStack,
+  __dev_only_getGlobalExecutionContextStack,
+} from "@next-core/cook";
 import { supply } from "@next-core/supply";
 import { collectMemberUsageInFunction } from "@next-core/utils/storyboard";
+import type _ from "lodash";
 import { getGeneralGlobals } from "./internal/compute/getGeneralGlobals.js";
 
 /** @internal */
@@ -28,6 +35,11 @@ export interface StoryboardFunctionRegistry {
   updateStoryboardFunction(name: string, data: StoryboardFunctionPatch): void;
 
   checkPermissionsUsage(functionNames: string[]): boolean;
+
+  clearGlobalExecutionContextStack(): void;
+  getGlobalExecutionContextStack(): ReturnType<
+    typeof __dev_only_getGlobalExecutionContextStack
+  >;
 }
 
 /** @internal */
@@ -61,16 +73,32 @@ export function StoryboardFunctionRegistryFactory({
   widgetId,
   widgetVersion,
   collectCoverage,
+  debuggerOverrides,
 }: {
   widgetId?: string;
   widgetVersion?: string;
   collectCoverage?: FunctionCoverageSettings;
+  debuggerOverrides?: (ctx: {
+    precookFunction: typeof precookFunction;
+    cook: typeof cook;
+    supply: typeof supply;
+  }) => {
+    LodashWithStaticFields?: Partial<typeof _>;
+    ArrayConstructor?: typeof Array;
+    ObjectWithStaticFields?: Partial<typeof Object>;
+  };
 } = {}): StoryboardFunctionRegistry {
   const registeredFunctions = new Map<string, RuntimeStoryboardFunction>();
 
+  const overrides = debuggerOverrides?.({
+    precookFunction,
+    cook,
+    supply,
+  });
+
   // Use `Proxy` with a frozen target, to make a readonly function registry.
   const storyboardFunctions = new Proxy(Object.freeze({}), {
-    get(target, key) {
+    get(_target, key) {
       return getStoryboardFunction(key as string);
     },
   }) as ReadonlyStoryboardFunctions;
@@ -121,27 +149,59 @@ export function StoryboardFunctionRegistryFactory({
         beforeVisit: collector.beforeVisit,
       },
     });
+    const globalVariables = supply(
+      precooked.attemptToVisitGlobals,
+      getGeneralGlobals(precooked.attemptToVisitGlobals, {
+        collectCoverage,
+        widgetId,
+        widgetVersion,
+        app: currentApp,
+        storyboardFunctions,
+        isStoryboardFunction: true,
+      }),
+      !!collectCoverage
+    );
+
     fn.cooked = cook(precooked.function, fn.source, {
       rules: {
         noVar: true,
       },
-      globalVariables: supply(
-        precooked.attemptToVisitGlobals,
-        getGeneralGlobals(precooked.attemptToVisitGlobals, {
-          collectCoverage,
-          widgetId,
-          widgetVersion,
-          app: currentApp,
-          storyboardFunctions,
-          isStoryboardFunction: true,
-        }),
-        !!collectCoverage
-      ),
+      globalVariables: overrides
+        ? {
+            ...globalVariables,
+            ...(overrides?.LodashWithStaticFields &&
+            precooked.attemptToVisitGlobals.has("_")
+              ? {
+                  _: {
+                    ...(globalVariables._ as typeof _),
+                    ...overrides.LodashWithStaticFields,
+                  },
+                }
+              : null),
+            ...(overrides?.ArrayConstructor &&
+            precooked.attemptToVisitGlobals.has("Array")
+              ? {
+                  Array: overrides.ArrayConstructor,
+                }
+              : null),
+            ...(overrides?.ObjectWithStaticFields &&
+            precooked.attemptToVisitGlobals.has("Object")
+              ? {
+                  Object: {
+                    ...(globalVariables.Object as typeof Object),
+                    ...overrides.ObjectWithStaticFields,
+                  },
+                }
+              : null),
+          }
+        : globalVariables,
+      ArrayConstructor: overrides?.ArrayConstructor,
       hooks: collector && {
         beforeEvaluate: collector.beforeEvaluate,
         beforeCall: collector.beforeCall,
         beforeBranch: collector.beforeBranch,
       },
+      debug: true,
     }) as Function;
     fn.processed = true;
     return fn.cooked;
@@ -189,6 +249,12 @@ export function StoryboardFunctionRegistryFactory({
         return false;
       };
       return functionNames.some(hasPermissionsCheck);
+    },
+    clearGlobalExecutionContextStack() {
+      __dev_only_clearGlobalExecutionContextStack();
+    },
+    getGlobalExecutionContextStack() {
+      return __dev_only_getGlobalExecutionContextStack();
     },
   };
 }

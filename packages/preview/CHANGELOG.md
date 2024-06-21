@@ -3,6 +3,121 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.17](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.16...@next-core/preview@0.6.17) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.16](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.15...@next-core/preview@0.6.16) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.15](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.14...@next-core/preview@0.6.15) (2024-06-20)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.14](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.13...@next-core/preview@0.6.14) (2024-06-19)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.13](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.12...@next-core/preview@0.6.13) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.12](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.11...@next-core/preview@0.6.12) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.11](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.10...@next-core/preview@0.6.11) (2024-06-18)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.10](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.9...@next-core/preview@0.6.10) (2024-06-17)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.9](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.8...@next-core/preview@0.6.9) (2024-06-11)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.8](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.7...@next-core/preview@0.6.8) (2024-06-07)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.7](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.6...@next-core/preview@0.6.7) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [0.6.6](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.5...@next-core/preview@0.6.6) (2024-06-04)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.5](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.4...@next-core/preview@0.6.5) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.6.4](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.3...@next-core/preview@0.6.4) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
 ## [0.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.6.2...@next-core/preview@0.6.3) (2024-05-22)
 
 **Note:** Version bump only for package @next-core/preview

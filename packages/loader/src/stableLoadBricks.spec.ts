@@ -2,6 +2,7 @@ import { describe, jest, test, expect } from "@jest/globals";
 import {
   loadBricksImperatively as _loadBricksImperatively,
   loadProcessorsImperatively as _loadProcessorsImperatively,
+  loadEditorsImperatively as _loadEditorsImperatively,
   enqueueStableLoadBricks as _enqueueStableLoadBricks,
   flushStableLoadBricks as _flushStableLoadBricks,
   enqueueStableLoadProcessors as _enqueueStableLoadProcessors,
@@ -702,6 +703,81 @@ describe("loadProcessorsImperatively", () => {
     expect(loadV2Bricks).toBeCalledWith(
       "bricks/v2-adapter/dist/index.hash.js",
       "bricks/legacy/dist/index.hash.js",
+      [],
+      undefined,
+      brickPackages
+    );
+  });
+});
+
+describe("loadEditorsImperatively", () => {
+  let loadEditorsImperatively: typeof _loadEditorsImperatively;
+
+  beforeEach(() => {
+    jest.isolateModules(() => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const m = require("./stableLoadBricks.js");
+      loadEditorsImperatively = m.loadEditorsImperatively;
+    });
+  });
+
+  test("load multiple editors", async () => {
+    const brickPackages = [
+      {
+        id: "bricks/basic",
+        filePath: "bricks/basic/dist/index.hash.js",
+        editors: ["eo-button"],
+      },
+      {
+        id: "bricks/v2-adapter",
+        filePath: "bricks/v2-adapter/dist/index.hash.js",
+      },
+      // v2 packages
+      {
+        editors: ["basic-bricks.general-button--editor"],
+        filePath: "bricks/basic-bricks/dist/index.hash.js",
+        propertyEditorsJsFilePath:
+          "bricks/basic-bricks/dist/property-editors/index.hash.js",
+        propertyEditors: ["basic-bricks.general-button"],
+      } as any,
+    ];
+    const promise = loadEditorsImperatively(
+      ["eo-button", "basic-bricks.general-button"],
+      brickPackages
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      1,
+      "loadScript done:",
+      "bricks/basic/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      2,
+      "loadScript done:",
+      "bricks/v2-adapter/dist/index.hash.js",
+      ""
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      3,
+      "loadSharedModule done:",
+      "bricks/basic",
+      "./editors/eo-button"
+    );
+    expect(consoleInfo).toHaveBeenNthCalledWith(
+      4,
+      "loadSharedModule done:",
+      "bricks/v2-adapter",
+      "./load-bricks"
+    );
+    expect(consoleError).toBeCalledTimes(0);
+    expect(loadV2Bricks).toBeCalledTimes(1);
+    expect(loadV2Bricks).toBeCalledWith(
+      "bricks/v2-adapter/dist/index.hash.js",
+      "bricks/basic-bricks/dist/property-editors/index.hash.js",
       [],
       undefined,
       brickPackages

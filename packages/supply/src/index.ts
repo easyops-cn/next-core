@@ -7,16 +7,25 @@ export function supply(
   providedGlobalVariables?: Record<string, unknown>,
   mock?: boolean
 ): Record<string, unknown> {
-  const globalVariables = {
-    ...providedGlobalVariables,
+  const globalVariables: Record<string, unknown> = {
+    undefined,
   };
   // Allow limited browser builtin values.
-  globalVariables["undefined"] = undefined;
   for (const variableName of attemptToVisitGlobals) {
     if (!Object.prototype.hasOwnProperty.call(globalVariables, variableName)) {
-      const variable = supplyIndividual(variableName, mock);
-      if (variable !== undefined) {
-        globalVariables[variableName] = variable;
+      if (
+        providedGlobalVariables &&
+        Object.prototype.hasOwnProperty.call(
+          providedGlobalVariables,
+          variableName
+        )
+      ) {
+        globalVariables[variableName] = providedGlobalVariables[variableName];
+      } else {
+        const variable = supplyIndividual(variableName, mock);
+        if (variable !== undefined) {
+          globalVariables[variableName] = variable;
+        }
       }
     }
   }

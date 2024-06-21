@@ -32,7 +32,7 @@ jest.mock("./internal/Runtime.js", () => ({
 
 jest.mock("@next-core/i18n", () => ({
   i18n: {
-    getFixedT(lang: string, ns: string) {
+    getFixedT(_lang: string, ns: string) {
       return (key: string) => `${ns}:${key}`;
     },
   },
@@ -305,5 +305,89 @@ describe("collect coverage", () => {
     expect(fn.checkPermissions("my:action-b")).toBe(true);
     expect(fn.getUniqueId()).toBe("42");
     expect(fn.getUniqueId("test-")).toBe("test-42");
+  });
+});
+
+describe("debugger overrides", () => {
+  const { storyboardFunctions: fn, registerStoryboardFunctions } =
+    StoryboardFunctionRegistryFactory({
+      debuggerOverrides() {
+        class DebuggerArray extends Array {}
+        DebuggerArray.prototype.join = function (this: unknown[]) {
+          return Array.prototype.join.call(this, "~");
+        };
+
+        return {
+          LodashWithStaticFields: {
+            uniqueId: (prefix?: string) => `${prefix ?? ""}!!`,
+          },
+          ArrayConstructor: DebuggerArray as any,
+          ObjectWithStaticFields: {
+            entries: (obj: Record<string, unknown>) => {
+              return Object.entries(obj).concat([["extra", "entry"]]);
+            },
+          },
+        };
+      },
+    });
+  registerStoryboardFunctions([
+    {
+      name: "getUniqueId",
+      source: `
+          function getUniqueId() {
+            return _.uniqueId("test");
+          }
+        `,
+    },
+    {
+      name: "join",
+      source: `
+          function join() {
+            const list = new Array();
+            list[0] = "a";
+            list[1] = "b";
+            return list.join();
+          }
+        `,
+    },
+    {
+      name: "joinWithArrayLiteral",
+      source: `
+          function joinWithArrayLiteral() {
+            const list = [];
+            list[0] = "a";
+            list[1] = "b";
+            return list.join();
+          }
+        `,
+    },
+    {
+      name: "entries",
+      source: `
+          function entries(obj) {
+            return Object.entries(obj);
+          }
+        `,
+    },
+  ]);
+
+  it("should override lodash", () => {
+    expect(fn.getUniqueId()).toBe("test!!");
+  });
+
+  it("should override array", () => {
+    expect(fn.join()).toBe("a~b");
+  });
+
+  it("should override array literal", () => {
+    expect(fn.joinWithArrayLiteral()).toBe("a~b");
+  });
+
+  it("should override object", () => {
+    expect(fn.entries({ a: 1, b: 2 })).toEqual([
+      ["a", 1],
+      ["b", 2],
+      ["extra", "entry"],
+    ]);
   });
 });

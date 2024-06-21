@@ -75,6 +75,7 @@ import { listenerFactory } from "./bindListeners.js";
 import type { MatchResult } from "./matchPath.js";
 import { setupRootRuntimeContext } from "./setupRootRuntimeContext.js";
 import { httpErrorToString } from "../handleHttpError.js";
+import { setMatchedRoute } from "./routeMatchedMap.js";
 
 export interface RenderOutput {
   node?: RenderChildNode;
@@ -118,6 +119,11 @@ export async function renderRoutes(
         ..._runtimeContext,
         match: matched.match,
       };
+
+      if (route.iid) {
+        setMatchedRoute(route.iid, matched.match);
+      }
+
       if (isIncremental) {
         runtimeContext.ctxStore.disposeDataInRoutes(routes);
       }

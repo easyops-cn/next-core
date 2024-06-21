@@ -18,8 +18,6 @@ exports[`evaluate should throw [selective]: expression: ((a,b)=>a[b])(()=>1, 'co
 
 exports[`evaluate should throw [selective]: expression: ({}).constructor.assign 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`evaluate should throw [selective]: expression: (Set => new Set())(function(){}) 1`] = `"Set is not an allowed constructor"`;
-
 exports[`evaluate should throw [selective]: expression: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\u{13}/u"`;
 
 exports[`evaluate should throw [selective]: expression: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
@@ -44,8 +42,6 @@ exports[`evaluate should throw [selective]: expression-only: () => {} 1`] = `"On
 
 exports[`evaluate should throw [selective]: expression-only: ({}).constructor.assign 1`] = `"Cannot access reserved objects such as \`Function\`."`;
 
-exports[`evaluate should throw [selective]: expression-only: (Set => new Set())(function(){}) 1`] = `"Unsupported node type \`FunctionExpression\`"`;
-
 exports[`evaluate should throw [selective]: expression-only: /bc\\u{13}/u.test('dcba') 1`] = `"Unsupported unicode flag in regular expression: /bc\\u{13}/u"`;
 
 exports[`evaluate should throw [selective]: expression-only: _.get(()=>1, 'constructor.prototype') 1`] = `"Cannot access reserved objects such as \`Function\`."`;
@@ -69,6 +65,14 @@ exports[`evaluate should throw [selective]: generator functions 1`] = `"Generato
 exports[`evaluate should throw [selective]: labeled statement 1`] = `"Unsupported node type \`LabeledStatement\`"`;
 
 exports[`evaluate should throw if restrict no war usage 1`] = `"Var declaration is not recommended, use \`let\` or \`const\` instead"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access arguments.callee 1`] = `"'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access this with non-member-expression 1`] = `"Cannot read properties of undefined (reading 'b')"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access this with non-member-expression of arrow function 1`] = `"Cannot read properties of undefined (reading 'b')"`;
+
+exports[`evaluate should throw: [ExternalSourceForDebug] access this within arrow function 1`] = `"A is not a constructor"`;
 
 exports[`evaluate should throw: access before initialized 1`] = `"b is not initialized"`;
 

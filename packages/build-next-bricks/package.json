@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-next-bricks",
-  "version": "1.21.0",
+  "version": "1.22.1",
   "description": "Build next bricks",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-bricks",
   "license": "GPL-3.0",
@@ -26,7 +26,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/build-next-bricks"
   },
   "sideEffects": false,
   "engines": {
@@ -54,6 +55,6 @@
     "webpack": "^5.92.1"
   },
   "devDependencies": {
-    "@next-core/brick-manifest": "^0.7.0"
+    "@next-core/brick-manifest": "^0.7.1"
   }
 }

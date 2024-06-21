@@ -34,6 +34,7 @@ let runtime: Runtime;
 // Allow inject bootstrap data in a runtime other than Brick Next.
 let bootstrapData: BootstrapData | undefined;
 let router: Router | undefined;
+let processedBrickPackages: BrickPackage[] | undefined;
 
 export interface RuntimeOptions {
   hooks?: RuntimeHooks;
@@ -316,31 +317,35 @@ function normalizeBootstrapData(data: BootstrapData) {
 
 function processPublicDepsPackages(
   brickPackages: BrickPackage[],
-  pubDeps: BrickPackage[]
+  pubDeps: BrickPackage[] | undefined
 ): BrickPackage[] {
   if (!pubDeps?.length) return brickPackages;
 
   const bricksMap = new Map();
 
   // bootstrapData 数据和 pubDeps 中可能同时存在同一个包名，需要过滤去重， 以 pubDeps 中的包为准
-  [...brickPackages, ...pubDeps].forEach((pkg) => {
+  [...pubDeps, ...brickPackages].forEach((pkg) => {
     const pkgName = pkg.filePath.split("/")[1];
-
-    bricksMap.set(pkgName, pkg);
+    // 始终将 pubDeps 放在前面
+    if (!bricksMap.has(pkgName)) {
+      bricksMap.set(pkgName, pkg);
+    }
   });
 
   return Array.from(bricksMap.values());
 }
 
-export function getBrickPackages() {
+export function getBrickPackages(): BrickPackage[] {
   return (
-    processPublicDepsPackages(
-      bootstrapData?.brickPackages as BrickPackage[],
-      window.PUBLIC_DEPS as BrickPackage[]
-    ) ??
-    injectedBrickPackages ??
-    (window.STANDALONE_BRICK_PACKAGES as BrickPackage[]) ??
-    []
+    // Not necessary to process brick packages multiple times.
+    processedBrickPackages ??
+    (processedBrickPackages = processPublicDepsPackages(
+      bootstrapData?.brickPackages ??
+        injectedBrickPackages ??
+        (window.STANDALONE_BRICK_PACKAGES as BrickPackage[] | undefined) ??
+        [],
+      window.PUBLIC_DEPS as BrickPackage[] | undefined
+    ))
   );
 }
 

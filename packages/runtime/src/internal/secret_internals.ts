@@ -6,6 +6,7 @@ import type {
   UseSingleBrickConf,
   RuntimeSnippet,
   ContextConf,
+  BrickPackage,
 } from "@next-core/types";
 import { pick } from "lodash";
 import {
@@ -30,6 +31,8 @@ import type {
   RenderRoot,
   RuntimeContext,
   DebugDataValue,
+  RuntimeDataVale,
+  RuntimeDataValueOption,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -38,7 +41,11 @@ import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
-import { loadBricksImperatively } from "@next-core/loader";
+import {
+  loadBricksImperatively,
+  loadEditorsImperatively,
+} from "@next-core/loader";
+import { getMatchedRoute } from "./routeMatchedMap.js";
 
 export type { DataValueOption, RuntimeContext };
 
@@ -368,7 +375,7 @@ export function getAllContextValues({
 
 export function getBrickPackagesById(id: string) {
   return getBrickPackages().find((pkg) =>
-    pkg.id ? pkg.id === id : pkg.filePath.startsWith(id)
+    pkg.id ? pkg.id === id : pkg.filePath.startsWith(`${id}/`)
   );
 }
 
@@ -377,6 +384,16 @@ export function getBrickPackagesById(id: string) {
  */
 export function loadBricks(bricks: string[]) {
   return loadBricksImperatively(bricks, getBrickPackages());
+}
+
+/**
+ * Try the brick packages passed in, before using from bootstrap.
+ */
+export function loadEditors(
+  editors: string[] | Set<string>,
+  brickPackages?: BrickPackage[]
+) {
+  return loadEditorsImperatively(editors, brickPackages ?? getBrickPackages());
 }
 
 export function getRenderId() {
@@ -442,11 +459,12 @@ export async function getAddedContracts(
 
 export async function debugDataValue(
   debugData: DebugDataValue,
-  { tplStateStoreId }: DataValueOption
+  { tplStateStoreId, routeId }: DataValueOption
 ): Promise<any> {
   const runtimeContext = {
     ..._internalApiGetRuntimeContext()!,
     tplStateStoreId,
+    match: getMatchedRoute(routeId as string),
   };
 
   if (debugData.resolve) {
@@ -454,6 +472,19 @@ export async function debugDataValue(
   }
 
   return asyncComputeRealValue(debugData.value, runtimeContext);
+}
+
+export function getLegalRuntimeValue(
+  options?: RuntimeDataValueOption
+): RuntimeDataVale {
+  const runtimeContext = _internalApiGetRuntimeContext();
+
+  return {
+    app: runtimeContext?.overrideApp ?? runtimeContext?.app,
+    location: pick(location, ["href", "origin", "hostname", "host"]),
+    ...pick(runtimeContext, ["query", "sys"]),
+    match: getMatchedRoute(options?.routeId as string),
+  } as RuntimeDataVale;
 }
 
 export {

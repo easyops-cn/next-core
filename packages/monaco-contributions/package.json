@@ -1,11 +1,12 @@
 {
   "name": "@next-core/monaco-contributions",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/monaco-contributions",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/monaco-contributions"
   },
   "type": "module",
   "exports": {

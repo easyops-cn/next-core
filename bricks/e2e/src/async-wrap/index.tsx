@@ -1,11 +1,7 @@
-import React from "react";
+import React, { Suspense, useState } from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
-import { asyncWrapBrick } from "@next-core/react-runtime";
-
-const AsyncDep = React.lazy(async () => ({
-  default: await asyncWrapBrick("e2e.async-dep"),
-}));
+import { useLazyWrapBrick } from "@next-core/react-runtime";
 
 const { defineElement } = createDecorators();
 
@@ -18,17 +14,23 @@ class AsyncWrap extends ReactNextElement {
 }
 
 export function AsyncWrapComponent() {
-  const [showDep, setShowDep] = React.useState(false);
+  const [dep, setDep] = useState("");
+
+  const DepComponent = useLazyWrapBrick(dep || null);
+
   return (
     <>
       <h2>Async Wrapper</h2>
-      {showDep ? (
-        <React.Suspense fallback="Loading...">
-          <AsyncDep />
-        </React.Suspense>
-      ) : (
-        <button onClick={() => setShowDep(true)}>Show Dependency</button>
-      )}
+      <p>
+        <select defaultValue="" onChange={(e) => setDep(e.target.value)}>
+          <option value="">Dep: none</option>
+          <option value="e2e.async-dep">Dep: async-dep</option>
+          <option value="e2e.async-dep-alt">Dep: async-dep-alt</option>
+        </select>
+      </p>
+      <Suspense fallback="Loading...">
+        {DepComponent && <DepComponent />}
+      </Suspense>
     </>
   );
 }

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.21](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.20...@next-core/eslint-config-next@2.0.21) (2024-06-06)
+
+
+### Bug Fixes
+
+* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
+
+
+
+
+
+## [2.0.20](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.19...@next-core/eslint-config-next@2.0.20) (2024-06-03)
+
+**Note:** Version bump only for package @next-core/eslint-config-next
+
+
+
+
+
 ## [2.0.19](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.18...@next-core/eslint-config-next@2.0.19) (2024-05-10)
 
 **Note:** Version bump only for package @next-core/eslint-config-next

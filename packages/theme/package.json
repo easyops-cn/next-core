@@ -1,8 +1,13 @@
 {
   "name": "@next-core/theme",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "license": "GPL-3.0",
   "description": "> TODO: description",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/theme"
+  },
   "main": "src/index.css",
   "type": "module",
   "exports": {

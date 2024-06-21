@@ -1604,13 +1604,13 @@ describe("Runtime", () => {
       ["eo-antd-icon"],
       [
         {
-          id: "bricks/test",
-          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
-        },
-        {
           filePath: "bricks/icons/-/dist/index.a41397e0.js",
           id: "bricks/icons",
           elements: ["eo-antd-icon"],
+        },
+        {
+          id: "bricks/test",
+          filePath: "bricks/test/1.3.34/dist/index.324112df.js",
         },
       ]
     );

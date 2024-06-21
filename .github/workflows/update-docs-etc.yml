@@ -69,6 +69,8 @@ jobs:
       run: |
         npx lerna run build --scope @next-core/types || npx lerna run docs:dev --scope @next-core/types
         npx lerna run build --scope @next-core/runtime || npx lerna run docs:dev --scope @next-core/runtime
+      env:
+        NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
 
     - name: Git commit and push
       run: |

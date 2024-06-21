@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-next-libs",
-  "version": "1.0.15",
+  "version": "1.0.17",
   "description": "Build next libs (and some next-core libs)",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-libs",
   "license": "GPL-3.0",
@@ -14,7 +14,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:easyops-cn/next-core.git"
+    "url": "git@github.com:easyops-cn/next-core.git",
+    "directory": "packages/build-next-libs"
   },
   "sideEffects": false,
   "dependencies": {
