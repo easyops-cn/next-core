@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.20](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.19...@next-core/easyops-runtime@0.10.20) (2024-06-21)
+
+
+### Bug Fixes
+
+* compatible with sub services of api gateway ([7572d2b](https://github.com/easyops-cn/next-core/commit/7572d2bc57690a93a658a7669339b0af16da9c2d))
+
+
+
+
+
 ## [0.10.19](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.10.18...@next-core/easyops-runtime@0.10.19) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
