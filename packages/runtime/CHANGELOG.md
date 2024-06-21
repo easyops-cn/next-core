@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.49.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.4...@next-core/runtime@1.49.5) (2024-06-21)
+
+
+### Bug Fixes
+
+* getBrickPackagesById should match trailing slash ([5aaba0b](https://github.com/easyops-cn/next-core/commit/5aaba0b58d1167efbb7bea15d17212389011e5e7))
+* load editors from brick packages passed in ([72f34ca](https://github.com/easyops-cn/next-core/commit/72f34cadd77a86739653a8a0df1a8897f5c4e678))
+
+
+
+
+
 ## [1.49.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.3...@next-core/runtime@1.49.4) (2024-06-20)
 
 **Note:** Version bump only for package @next-core/runtime

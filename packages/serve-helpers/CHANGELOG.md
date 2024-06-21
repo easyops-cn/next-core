@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.3...@next-core/serve-helpers@1.2.4) (2024-06-21)
+
+
+### Bug Fixes
+
+* support v2 editors in development ([1effc2a](https://github.com/easyops-cn/next-core/commit/1effc2ad4501754c247526805aed01401d0784b5))
+
+
+
+
+
 ## [1.2.3](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.2...@next-core/serve-helpers@1.2.3) (2024-06-06)
 
 

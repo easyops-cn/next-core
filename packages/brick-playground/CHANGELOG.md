@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.14.0...@next-core/brick-playground@1.14.1) (2024-06-21)
+
+
+### Bug Fixes
+
+* load editors from brick packages passed in ([72f34ca](https://github.com/easyops-cn/next-core/commit/72f34cadd77a86739653a8a0df1a8897f5c4e678))
+
+
+
+
+
 # [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.13.19...@next-core/brick-playground@1.14.0) (2024-06-20)
 
 
