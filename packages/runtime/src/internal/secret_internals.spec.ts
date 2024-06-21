@@ -943,6 +943,9 @@ describe("getBrickPackagesById", () => {
           id: "bricks/test",
         },
         {
+          filePath: "bricks/v2-alt/index.jsw",
+        },
+        {
           filePath: "bricks/v2/index.jsw",
         },
       ] as unknown as BrickPackage[],
@@ -958,6 +961,12 @@ describe("getBrickPackagesById", () => {
   test("found v2", () => {
     expect(getBrickPackagesById("bricks/v2")).toMatchObject({
       filePath: "bricks/v2/index.jsw",
+    });
+  });
+
+  test("found v2 alt", () => {
+    expect(getBrickPackagesById("bricks/v2-alt")).toMatchObject({
+      filePath: "bricks/v2-alt/index.jsw",
     });
   });
 
