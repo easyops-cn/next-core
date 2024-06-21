@@ -6,13 +6,21 @@ export default function bootstrapJson(localBrickFolders) {
       next();
       return;
     }
+    const brickPackages = await getBrickPackages(localBrickFolders);
     res.json({
-      brickPackages: await getBrickPackages(localBrickFolders),
+      brickPackages,
       settings: {
         misc: {
           weather_api_key: "9e08e5e99e0c4b4c89023605231804",
+          local_editors: getLocalEditors(brickPackages),
         },
       },
     });
   };
+}
+
+function getLocalEditors(brickPackages) {
+  return brickPackages.flatMap((pkg) =>
+    pkg.id ? pkg.editors ?? [] : pkg.propertyEditors ?? []
+  );
 }
