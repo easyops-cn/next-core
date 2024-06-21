@@ -35,7 +35,7 @@ jest.spyOn(CollectContract, "getContract").mockImplementation((key) => {
       return {
         name: "CheckLogin",
         namespaceId: "easyops.api.api_gateway",
-        serviceName: "logic.api.gateway",
+        serviceName: "logic.api.gateway.auth",
         endpoint: {
           uri: "/api/checkLogin",
           method: "get",
