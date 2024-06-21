@@ -50,7 +50,7 @@
     "postcss-preset-env": "^9.5.14",
     "prettier": "^3.3.2",
     "style-loader": "^4.0.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "webpack": "^5.92.1"
   },
   "devDependencies": {
