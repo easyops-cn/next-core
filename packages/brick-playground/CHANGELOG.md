@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.14.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.14.6...@next-core/brick-playground@1.14.7) (2024-06-24)
+
+
+### Bug Fixes
+
+* respect gap settings of examples in playground ([d090b4e](https://github.com/easyops-cn/next-core/commit/d090b4eb18d53b713442d828b9873821cccb3efa))
+
+
+
+
+
 ## [1.14.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.14.5...@next-core/brick-playground@1.14.6) (2024-06-24)
 
 **Note:** Version bump only for package @next-core/brick-playground
