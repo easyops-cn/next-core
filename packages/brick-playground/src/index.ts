@@ -23,6 +23,7 @@ const GZIP_HASH_PREFIX = "#gzip,";
 interface Example extends Sources {
   key: string;
   mode: "html" | "yaml";
+  gap?: boolean | number | string;
 }
 
 async function main() {
@@ -97,6 +98,7 @@ async function main() {
     : matchedExample
       ? matchedExample.mode
       : "yaml";
+  let gap: boolean | number | string = false;
 
   const codeFromHash =
     !matchedExample && location.hash && location.hash !== "#";
@@ -106,6 +108,7 @@ async function main() {
   const debouncedRender = debounce(render);
 
   function initEditorsWith(example?: Example) {
+    gap = example ? example.gap : false;
     const editorTypes = [mode];
     for (const type of editorTypes) {
       if (example) {
@@ -134,6 +137,7 @@ async function main() {
       const newParams = new URLSearchParams();
       newParams.set("mode", mode);
       const search = `?${newParams.toString()}`;
+      matchedExample = undefined;
       initEditorsWith();
       saveToLocalStorage = true;
       history.replaceState(null, "", search);
@@ -298,6 +302,9 @@ async function main() {
         name: "Brick Preview",
         homepage: "/preview",
       },
+      styleText: gap
+        ? `#preview-root { display: flex; flex-wrap: wrap; gap: ${gap === true ? "0.27em" : typeof gap === "number" ? `${gap}px` : gap} }`
+        : undefined,
     });
   }
 
