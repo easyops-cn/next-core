@@ -298,6 +298,7 @@ describe("evaluate", () => {
   it("should call hooks", () => {
     const source = `
       function test(a) {
+        const b = () => {};
         try {
           if (a) {
             return a === 1 ? true : false;
@@ -327,7 +328,7 @@ describe("evaluate", () => {
     }) as Function;
 
     func(1);
-    expect(beforeEvaluate).toBeCalledTimes(12);
+    expect(beforeEvaluate).toBeCalledTimes(14);
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -335,7 +336,19 @@ describe("evaluate", () => {
       })
     );
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      12,
+      2,
+      expect.objectContaining({
+        type: "VariableDeclaration",
+      })
+    );
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      3,
+      expect.objectContaining({
+        type: "ArrowFunctionExpression",
+      })
+    );
+    expect(beforeEvaluate).toHaveBeenNthCalledWith(
+      14,
       expect.objectContaining({
         type: "Literal",
         value: true,
@@ -368,21 +381,21 @@ describe("evaluate", () => {
 
     jest.clearAllMocks();
     func(0);
-    expect(beforeEvaluate).toBeCalledTimes(10);
+    expect(beforeEvaluate).toBeCalledTimes(12);
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      5,
+      7,
       expect.objectContaining({
         type: "ThrowStatement",
       })
     );
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      7,
+      9,
       expect.objectContaining({
         type: "CatchClause",
       })
     );
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
-      10,
+      12,
       expect.objectContaining({
         type: "Literal",
         value: null,

@@ -1534,6 +1534,7 @@ export function cook(
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-namedevaluation
   function NamedEvaluation(node: FunctionDefinition, name: string) {
+    hooks.beforeEvaluate?.(node);
     // No ParenthesizedExpression in ESTree.
     switch (node.type) {
       case "FunctionExpression":
