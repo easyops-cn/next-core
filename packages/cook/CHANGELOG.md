@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.4...@next-core/cook@2.4.5) (2024-06-24)
+
+
+### Bug Fixes
+
+* call hooks.beforeEvaluate in NamedEvaluation ([276417c](https://github.com/easyops-cn/next-core/commit/276417cc80eabf074555061cc4292133b0304a95))
+
+
+
+
+
 ## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.3...@next-core/cook@2.4.4) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/cook
