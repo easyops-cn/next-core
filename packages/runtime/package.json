@@ -1,6 +1,6 @@
 {
   "name": "@next-core/runtime",
-  "version": "1.49.8",
+  "version": "1.49.9",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -49,7 +49,7 @@
     "@next-core/http": "^1.2.5",
     "@next-core/i18n": "^1.0.56",
     "@next-core/inject": "^1.0.38",
-    "@next-core/loader": "^1.6.2",
+    "@next-core/loader": "^1.6.3",
     "@next-core/supply": "^2.1.19",
     "@next-core/types": "^1.11.2",
     "@next-core/utils": "^1.7.14",
