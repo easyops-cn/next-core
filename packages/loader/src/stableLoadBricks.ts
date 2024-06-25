@@ -115,19 +115,19 @@ function getItemsByPkg(
     let pkg: BrickPackage | undefined;
     let namespace: string;
     let lastName: string | undefined;
-    if (type === "processors" || item.includes(".")) {
-      [namespace, lastName] = item.split(".");
-      const pkgId = `bricks/${
-        type === "processors" ? getProcessorPackageName(namespace) : namespace
-      }`;
-      pkg = brickPackagesMap.get(pkgId);
-    } else if (type === "editors") {
+    if (type === "editors") {
       lastName = item;
       for (const p of brickPackagesMap.values()) {
         if ((p.propertyEditors ?? p.editors)?.some((e) => e === lastName)) {
           pkg = p;
         }
       }
+    } else if (type === "processors" || item.includes(".")) {
+      [namespace, lastName] = item.split(".");
+      const pkgId = `bricks/${
+        type === "processors" ? getProcessorPackageName(namespace) : namespace
+      }`;
+      pkg = brickPackagesMap.get(pkgId);
     } else {
       lastName = item;
       let deprecatedBrickInThisPkg;
@@ -179,7 +179,7 @@ async function loadBrickModule(
   item: BrickItem
 ) {
   const moduleName = `${type === "processors" || type === "editors" ? `./${type}/` : "./"}${
-    item.lastName
+    type === "editors" ? item.fullName : item.lastName
   }`;
   try {
     await loadSharedModule(pkgId, moduleName);
