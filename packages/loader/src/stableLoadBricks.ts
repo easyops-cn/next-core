@@ -212,7 +212,7 @@ async function enqueueStableLoad(
 ): Promise<void> {
   const brickPackagesMap = new Map<string, BrickPackage>();
   for (const pkg of brickPackages) {
-    const pkgId = pkg.id ?? getPkgIdByFilePath(pkg.filePath);
+    const pkgId = pkg.id || getPkgIdByFilePath(pkg.filePath);
     brickPackagesMap.set(pkgId, pkg);
   }
 
