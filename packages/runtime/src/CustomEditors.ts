@@ -3,7 +3,9 @@ class CustomEditorRegistry {
 
   define(editorName: string, editorFunc: Function) {
     if (this.#registry.has(editorName)) {
-      throw new Error(`Custom editor of "${editorName}" already registered`);
+      // eslint-disable-next-line no-console
+      console.error(`Custom editor of "${editorName}" already registered`);
+      return;
     }
 
     this.#registry.set(editorName, editorFunc);
