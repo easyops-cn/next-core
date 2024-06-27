@@ -27,7 +27,7 @@ import { getMock } from "./mocks.js";
 import { NS, locales } from "./i18n.js";
 
 analytics.initialize(
-  `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
+  `${getBasePath()}api/gateway/logic.next_console_service.console/api/v1/next_console/frontend_stat`
 );
 
 http.interceptors.request.use(analytics.http.onRequest);
