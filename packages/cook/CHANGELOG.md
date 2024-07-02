@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.5...@next-core/cook@2.4.6) (2024-07-02)
+
+
+### Bug Fixes
+
+* lodash requires function length ([dd29500](https://github.com/easyops-cn/next-core/commit/dd2950092adc262df82ea4f473083f767ab40f24))
+
+
+
+
+
 ## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.4...@next-core/cook@2.4.5) (2024-06-24)
 
 
