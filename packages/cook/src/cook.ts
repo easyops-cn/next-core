@@ -14,6 +14,7 @@ import type {
   LVal,
   NewExpression,
   ObjectPattern,
+  Pattern,
   PatternLike,
   RestElement,
   Statement,
@@ -1807,6 +1808,13 @@ export function cook(
         value: lexicalThis ? Mode.LEXICAL : Mode.STRICT,
       },
     });
+
+    const len = ExpectedArgumentCount(sourceNode.params);
+    Object.defineProperty(F, "length", {
+      configurable: true,
+      value: len,
+    });
+
     if (debug || externalSourceForDebug) {
       Object.defineProperty(F, DebuggerCall, {
         value: function () {
@@ -1816,6 +1824,22 @@ export function cook(
       });
     }
     return F;
+  }
+
+  function ExpectedArgumentCount(
+    params: (Identifier | Pattern | RestElement)[]
+  ) {
+    let count = 0;
+    for (const param of params) {
+      switch (param.type) {
+        case "AssignmentPattern":
+        case "RestElement":
+          return count;
+        default:
+          count++;
+      }
+    }
+    return count;
   }
 
   // Patterns initialization.
