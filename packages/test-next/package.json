@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
-    "@testing-library/dom": "^10.1.0",
+    "@testing-library/dom": "^10.3.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "babel-jest": "^29.7.0",
@@ -42,6 +42,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "pascal-case": "^4.0.0",
     "ts-jest-resolver": "^2.0.1",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }

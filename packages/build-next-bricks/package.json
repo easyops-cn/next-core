@@ -46,12 +46,12 @@
     "less-loader": "^12.2.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.9.0",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.39",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^9.5.14",
+    "postcss-preset-env": "^9.5.15",
     "prettier": "^3.3.2",
     "style-loader": "^4.0.0",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "webpack": "^5.92.1"
   },
   "devDependencies": {
