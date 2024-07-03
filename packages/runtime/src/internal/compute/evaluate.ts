@@ -369,9 +369,14 @@ function lowLevelEvaluate(
             });
             break;
           case "ITEM":
-          case "INDEX": {
+          case "INDEX":
+          case "SIZE": {
             const property =
-              variableName === "ITEM" ? "forEachItem" : "forEachIndex";
+              variableName === "ITEM"
+                ? "forEachItem"
+                : variableName === "INDEX"
+                  ? "forEachIndex"
+                  : "forEachSize";
             if (!hasOwnProperty(runtimeContext, property)) {
               // eslint-disable-next-line no-console
               console.error(

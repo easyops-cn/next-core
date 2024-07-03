@@ -1006,7 +1006,7 @@ describe("renderBrick for control nodes", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
-                title: "<% INDEX %>",
+                title: "<% `${INDEX}/${SIZE}` %>",
               },
             },
           ],
@@ -1045,7 +1045,7 @@ describe("renderBrick for control nodes", () => {
         type: "div",
         properties: {
           textContent: "a",
-          title: 0,
+          title: "0/2",
         },
         slotId: undefined,
         sibling: expect.objectContaining({
@@ -1054,7 +1054,7 @@ describe("renderBrick for control nodes", () => {
           type: "div",
           properties: {
             textContent: "b",
-            title: 1,
+            title: "1/2",
           },
           slotId: undefined,
         }),
@@ -2178,7 +2178,7 @@ describe("renderBrick for tpl", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
-                title: "<% INDEX %>",
+                title: "<% `${INDEX}/${SIZE}` %>",
               },
               lifeCycle: {
                 onMount: {
@@ -2260,12 +2260,12 @@ describe("renderBrick for tpl", () => {
           data-tpl-state-store-id="tpl-state-2"
         >
           <div
-            title="0"
+            title="0/2"
           >
             a
           </div>
           <div
-            title="1"
+            title="1/2"
           >
             b
           </div>
@@ -2295,7 +2295,7 @@ describe("renderBrick for tpl", () => {
             a
           </div>
           <div
-            title="1"
+            title="1/2"
           >
             b
           </div>
@@ -2329,12 +2329,12 @@ describe("renderBrick for tpl", () => {
           data-tpl-state-store-id="tpl-state-2"
         >
           <div
-            title="0"
+            title="0/2"
           >
             a
           </div>
           <div
-            title="1"
+            title="1/2"
           >
             c
           </div>
@@ -2529,7 +2529,7 @@ describe("renderBrick for tpl", () => {
                   brick: "div",
                   properties: {
                     textContent: "<% ITEM %>",
-                    title: "<% INDEX %>",
+                    title: "<% `${INDEX}/${SIZE}` %>",
                   },
                 },
                 {
@@ -2609,12 +2609,12 @@ describe("renderBrick for tpl", () => {
               title="Nesting templates with :forEach"
             >
               <div
-                title="0"
+                title="0/2"
               >
                 1
               </div>
               <div
-                title="1"
+                title="1/2"
               >
                 2
               </div>
@@ -2651,7 +2651,7 @@ describe("renderBrick for tpl", () => {
                   brick: "div",
                   properties: {
                     textContent: "<% ITEM %>",
-                    title: "<% INDEX %>",
+                    title: "<% `${INDEX}/${SIZE}` %>",
                   },
                 },
                 {
@@ -2717,7 +2717,7 @@ describe("renderBrick for tpl", () => {
             {
               brick: "aside",
               properties: {
-                textContent: "<% INDEX %>",
+                textContent: "<% `${INDEX}/${SIZE}` %>",
               },
             },
           ],
@@ -2769,7 +2769,7 @@ describe("renderBrick for tpl", () => {
               title="Nesting templates with :forEach"
             >
               <div
-                title="0"
+                title="0/2"
               >
                 1
               </div>
@@ -2777,7 +2777,7 @@ describe("renderBrick for tpl", () => {
                 p:1
               </p>
               <div
-                title="1"
+                title="1/2"
               >
                 2
               </div>
@@ -2797,7 +2797,7 @@ describe("renderBrick for tpl", () => {
               </em>
             </article>
             <aside>
-              0
+              0/1
             </aside>
           </my.tpl-h>
         </my.tpl-g>,

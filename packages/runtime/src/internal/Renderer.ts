@@ -38,6 +38,7 @@ import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
+  symbolForTPlExternalForEachSize,
   symbolForTPlExternalNoForEach,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
@@ -384,13 +385,14 @@ async function legacyRenderBrick(
   };
 
   if (hasOwnProperty(brickConf, symbolForTPlExternalForEachItem)) {
-    // The external bricks of a template should restore their `forEachItem` and
-    // `forEachIndex` from their host.
+    // The external bricks of a template should restore their `forEach*` from their host.
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
     runtimeContext.forEachIndex = brickConf[symbolForTPlExternalForEachIndex];
+    runtimeContext.forEachSize = brickConf[symbolForTPlExternalForEachSize];
   } else if (brickConf[symbolForTPlExternalNoForEach]) {
     delete runtimeContext.forEachItem;
     delete runtimeContext.forEachIndex;
+    delete runtimeContext.forEachSize;
   }
 
   const { context } = brickConf as { context?: ContextConf[] };
@@ -755,6 +757,7 @@ async function legacyRenderBrick(
     };
     delete childRuntimeContext.forEachItem;
     delete childRuntimeContext.forEachIndex;
+    delete childRuntimeContext.forEachSize;
   } else {
     childRuntimeContext = runtimeContext;
   }
@@ -989,7 +992,7 @@ async function renderForEach(
 ): Promise<RenderOutput> {
   const output = getEmptyRenderOutput();
 
-  const rows = dataSource.length;
+  const size = dataSource.length;
   const rendered = await Promise.all(
     dataSource.map((item, i) =>
       Promise.all(
@@ -1001,12 +1004,13 @@ async function renderForEach(
               ...runtimeContext,
               forEachItem: item,
               forEachIndex: i,
+              forEachSize: size,
             },
             rendererContext,
             parentRoutes,
             menuRequestReturnNode,
             slotId,
-            keyPath.concat(i * rows + j),
+            keyPath.concat(i * size + j),
             tplStack && new Map(tplStack)
           )
         )

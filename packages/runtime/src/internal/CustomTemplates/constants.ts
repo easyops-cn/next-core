@@ -11,6 +11,9 @@ export const symbolForTPlExternalForEachItem = Symbol.for(
 export const symbolForTPlExternalForEachIndex = Symbol.for(
   "tpl.externalForEachIndex"
 );
+export const symbolForTPlExternalForEachSize = Symbol.for(
+  "tpl.externalForEachSize"
+);
 export const symbolForTPlExternalNoForEach = Symbol.for(
   "tpl.externalNoForEach"
 );
@@ -23,5 +26,6 @@ export interface RuntimeBrickConfOfTplSymbols {
   [symbolForTplStateStoreId]?: string;
   [symbolForTPlExternalForEachItem]?: unknown;
   [symbolForTPlExternalForEachIndex]?: number;
+  [symbolForTPlExternalForEachSize]?: number;
   [symbolForTPlExternalNoForEach]?: boolean;
 }

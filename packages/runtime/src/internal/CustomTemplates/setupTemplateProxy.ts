@@ -5,6 +5,7 @@ import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
+  symbolForTPlExternalForEachSize,
   symbolForTPlExternalNoForEach,
   symbolForTplStateStoreId,
   type RuntimeBrickConfWithTplSymbols,
@@ -102,7 +103,8 @@ export function setupTemplateProxy(
                 insertBricks,
                 hostHasForEach,
                 hostBrick.runtimeContext.forEachItem,
-                hostBrick.runtimeContext.forEachIndex!
+                hostBrick.runtimeContext.forEachIndex!,
+                hostBrick.runtimeContext.forEachSize!
               ))
         );
       }
@@ -139,7 +141,8 @@ function setupTemplateExternalBricks(
   bricks: BrickConf[],
   hasForEach: boolean,
   forEachItem: unknown,
-  forEachIndex: number
+  forEachIndex: number,
+  forEachSize: number
 ): BrickConf[] {
   return (bricks as RuntimeBrickConfWithTplSymbols[]).map(
     ({
@@ -147,7 +150,8 @@ function setupTemplateExternalBricks(
       slots,
       [symbolForTPlExternalForEachItem]: a,
       [symbolForTPlExternalForEachIndex]: b,
-      [symbolForTPlExternalNoForEach]: c,
+      [symbolForTPlExternalForEachSize]: c,
+      [symbolForTPlExternalNoForEach]: d,
       ...brick
     }) => ({
       ...brick,
@@ -155,6 +159,7 @@ function setupTemplateExternalBricks(
         ? {
             [symbolForTPlExternalForEachItem]: forEachItem,
             [symbolForTPlExternalForEachIndex]: forEachIndex,
+            [symbolForTPlExternalForEachSize]: forEachSize,
           }
         : {
             [symbolForTPlExternalNoForEach]: true,
@@ -174,7 +179,8 @@ function setupTemplateExternalBricks(
                           slotConf.routes,
                           hasForEach,
                           forEachItem,
-                          forEachIndex
+                          forEachIndex,
+                          forEachSize
                         ),
                       }
                     : {
@@ -183,7 +189,8 @@ function setupTemplateExternalBricks(
                           slotConf.bricks,
                           hasForEach,
                           forEachItem,
-                          forEachIndex
+                          forEachIndex,
+                          forEachSize
                         ),
                       },
                 ]
@@ -197,7 +204,8 @@ function setupTemplateExternalRoutes(
   routes: RouteConf[],
   hasForEach: boolean,
   forEachItem: unknown,
-  forEachIndex: number
+  forEachIndex: number,
+  forEachSize: number
 ): RouteConf[] {
   return routes.map((route) =>
     route.type === "routes"
@@ -207,7 +215,8 @@ function setupTemplateExternalRoutes(
             route.routes,
             hasForEach,
             forEachItem,
-            forEachIndex
+            forEachIndex,
+            forEachSize
           ),
         }
       : route.type === "redirect"
@@ -218,7 +227,8 @@ function setupTemplateExternalRoutes(
               route.bricks,
               hasForEach,
               forEachItem,
-              forEachIndex
+              forEachIndex,
+              forEachSize
             ),
           }
   );
