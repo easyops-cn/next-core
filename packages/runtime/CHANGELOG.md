@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.49.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.11...@next-core/runtime@1.49.12) (2024-07-02)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.49.11](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.10...@next-core/runtime@1.49.11) (2024-06-26)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.49.10](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.9...@next-core/runtime@1.49.10) (2024-06-26)
+
+
+### Bug Fixes
+
+* customEditor not throw error ([1f22b3a](https://github.com/easyops-cn/next-core/commit/1f22b3ac62fde17214d453f786f674b631bd512c))
+
+
+
+
+
+## [1.49.9](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.8...@next-core/runtime@1.49.9) (2024-06-25)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.49.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.7...@next-core/runtime@1.49.8) (2024-06-24)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.49.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.6...@next-core/runtime@1.49.7) (2024-06-21)
+
+
+### Bug Fixes
+
+* enable function debug mode only when necessary ([fa4e12c](https://github.com/easyops-cn/next-core/commit/fa4e12ce941c08a59858329d2247a1498be90e6d))
+
+
+
+
+
+## [1.49.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.5...@next-core/runtime@1.49.6) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.49.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.4...@next-core/runtime@1.49.5) (2024-06-21)
 
 

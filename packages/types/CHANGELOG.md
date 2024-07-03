@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.11.1...@next-core/types@1.11.2) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/types
+
+
+
+
+
 ## [1.11.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.11.0...@next-core/types@1.11.1) (2024-06-06)
 
 

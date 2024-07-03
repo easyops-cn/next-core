@@ -70,6 +70,27 @@ export const casesOfFunctions: LooseCase[] = [
     },
   ],
   [
+    "function length",
+    {
+      source: `
+        function test() {
+          function a() {}
+          function b(c, d = 1, ...e) {}
+          function f(g, {h}, [i], {j} = {}, k) {}
+          function l([m] = [], _) {}
+          function n(o, ...p) {}
+          return [a.length, b.length, f.length, l.length, n.length];
+        }
+      `,
+      cases: [
+        {
+          args: [],
+          result: [0, 1, 3, 0, 1],
+        },
+      ],
+    },
+  ],
+  [
     "[ExternalSourceForDebug] access this with constructor",
     {
       source: `

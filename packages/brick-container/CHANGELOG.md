@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.17.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.15...@next-core/brick-container@3.17.16) (2024-07-02)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.14...@next-core/brick-container@3.17.15) (2024-06-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.13...@next-core/brick-container@3.17.14) (2024-06-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.12...@next-core/brick-container@3.17.13) (2024-06-25)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.11...@next-core/brick-container@3.17.12) (2024-06-24)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.10...@next-core/brick-container@3.17.11) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.9...@next-core/brick-container@3.17.10) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.17.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.8...@next-core/brick-container@3.17.9) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.17.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.7...@next-core/brick-container@3.17.8) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/brick-container

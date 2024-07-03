@@ -1,5 +1,9 @@
 import { customEditors } from "./CustomEditors.js";
 
+const mockConsoleError = jest
+  .spyOn(console, "error")
+  .mockImplementation(() => void 0);
+
 describe("CustomEditors", () => {
   it("should work", () => {
     function objectEntries(object: Record<string, any>): [string, any][] {
@@ -20,9 +24,11 @@ describe("CustomEditors", () => {
     ).toEqual([["quality", "good"]]);
     expect(customEditors.get("basic-bricks.general-button-editor")?.()).toBe(5);
 
+    expect(mockConsoleError).toHaveBeenCalledTimes(0);
+
     // Can't register duplicated editors in the same namespace.
-    expect(() => {
-      customEditors.define("eo-button--editor", () => void 0);
-    }).toThrowError();
+    customEditors.define("eo-button--editor", () => void 0);
+
+    expect(mockConsoleError).toHaveBeenCalledTimes(1);
   });
 });

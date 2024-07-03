@@ -201,7 +201,7 @@ export function StoryboardFunctionRegistryFactory({
         beforeCall: collector.beforeCall,
         beforeBranch: collector.beforeBranch,
       },
-      debug: true,
+      debug: !!debuggerOverrides,
     }) as Function;
     fn.processed = true;
     return fn.cooked;

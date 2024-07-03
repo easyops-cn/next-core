@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.3...@next-core/test-next@1.1.4) (2024-06-21)
+
+**Note:** Version bump only for package @next-core/test-next
+
+
+
+
+
 ## [1.1.3](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.2...@next-core/test-next@1.1.3) (2024-06-06)
 
 

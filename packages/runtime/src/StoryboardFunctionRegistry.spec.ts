@@ -305,6 +305,10 @@ describe("collect coverage", () => {
     expect(fn.checkPermissions("my:action-b")).toBe(true);
     expect(fn.getUniqueId()).toBe("42");
     expect(fn.getUniqueId("test-")).toBe("test-42");
+
+    expect(typeof (fn.getUniqueId as any)[Symbol.for("$DebuggerCall$")]).toBe(
+      "undefined"
+    );
   });
 });
 
@@ -372,6 +376,9 @@ describe("debugger overrides", () => {
   ]);
 
   it("should override lodash", () => {
+    expect(typeof (fn.getUniqueId as any)[Symbol.for("$DebuggerCall$")]).toBe(
+      "function"
+    );
     expect(fn.getUniqueId()).toBe("test!!");
   });
 
