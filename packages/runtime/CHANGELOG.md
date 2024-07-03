@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.12...@next-core/runtime@1.50.0) (2024-07-03)
+
+
+### Features
+
+* support SIZE of :forEach in expressions ([4b9fbe5](https://github.com/easyops-cn/next-core/commit/4b9fbe5b5f1976fc82ebb1d2347fc5e259847cd2))
+
+
+
+
+
 ## [1.49.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.11...@next-core/runtime@1.49.12) (2024-07-02)
 
 **Note:** Version bump only for package @next-core/runtime
