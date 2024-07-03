@@ -387,6 +387,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     // (undocumented)
     forEachItem?: unknown;
     // (undocumented)
+    forEachSize?: number;
+    // (undocumented)
     formStateStoreId?: string;
     // (undocumented)
     formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
