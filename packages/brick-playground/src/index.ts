@@ -30,6 +30,7 @@ async function main() {
   const params = new URLSearchParams(location.search);
   const paramMode = params.get("mode");
   const exampleKey = params.get("example");
+  const paramCollapsed = params.get("collapsed") === "1";
 
   let examples: Example[];
   let matchedExample: Example;
@@ -336,6 +337,37 @@ async function main() {
 
   render();
 
+  if (paramCollapsed) {
+    document.body.classList.add("brick-playground-editor-collapsed");
+  }
+
+  function toggleSourceCode(collapsed: boolean) {
+    document.body.classList.toggle(
+      "brick-playground-editor-collapsed",
+      collapsed
+    );
+    const newParams = new URLSearchParams(location.search);
+    if (collapsed) {
+      newParams.set("collapsed", "1");
+    } else {
+      newParams.delete("collapsed");
+    }
+    history.replaceState(null, "", `?${newParams}${location.hash}`);
+  }
+
+  const collapseButton = document.querySelector(
+    "#brick-playground-button-collapse"
+  );
+  const expandButton = document.querySelector(
+    "#brick-playground-button-expand"
+  );
+  collapseButton.addEventListener("click", () => {
+    toggleSourceCode(true);
+  });
+  expandButton.addEventListener("click", () => {
+    toggleSourceCode(false);
+  });
+
   const shareButton = document.querySelector("#brick-playground-button-share");
   const shareResult = document.querySelector("#brick-playground-share-result");
   let shareButtonResetTimeout = -1;
@@ -349,7 +381,7 @@ async function main() {
       history.replaceState(
         null,
         "",
-        `?mode=${mode}${GZIP_HASH_PREFIX}${await compress(
+        `${GZIP_HASH_PREFIX}${await compress(
           JSON.stringify({ [mode]: sources[mode] })
         )}`
       );
