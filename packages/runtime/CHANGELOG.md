@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.50.0...@next-core/runtime@1.51.0) (2024-07-12)
+
+
+### Features
+
+* **menu:** activeIncludes and activeExcludes of SidebarMenuSimpleItem support MatchOptions ([e9cb305](https://github.com/easyops-cn/next-core/commit/e9cb3057daeed5ea92a42629c8b9634eb68f336d))
+
+
+
+
+
 # [1.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.12...@next-core/runtime@1.50.0) (2024-07-03)
 
 
