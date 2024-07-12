@@ -96,7 +96,7 @@ interface CompileResult {
   keys: Key[];
 }
 
-interface MatchOptions {
+export interface MatchOptions {
   path: string | string[];
   exact?: boolean;
 }

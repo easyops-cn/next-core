@@ -262,6 +262,14 @@ function loadEditors(editors: string[] | Set<string>, brickPackages?: BrickPacka
 // @public @deprecated (undocumented)
 export function logout(): unknown;
 
+// @public (undocumented)
+export interface MatchOptions {
+    // (undocumented)
+    exact?: boolean;
+    // (undocumented)
+    path: string | string[];
+}
+
 // Warning: (ae-forgotten-export) The symbol "MatchPathOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "MatchResult" needs to be exported by the entry point index.d.ts
 //
