@@ -1,5 +1,6 @@
 // istanbul ignore file
 import {
+  checkPermissionPreChecksLoaded,
   checkPermissions as _checkPermissions,
   preCheckPermissions,
   preCheckPermissionsForBrickOrRoute,
@@ -17,6 +18,7 @@ export const checkPermissions = Object.freeze({
   checkPermissions: _checkPermissions,
   preCheckPermissions,
   preCheckPermissionsForBrickOrRoute,
+  checkPermissionPreChecksLoaded,
 });
 
 export const messageDispatcher = new MessageDispatcher();

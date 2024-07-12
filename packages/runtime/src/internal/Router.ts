@@ -361,12 +361,15 @@ export class Router {
       );
 
       const routeHelper: RouteHelper = {
-        bailout: (output) => {
+        bailout: async (output, runtimeContext) => {
           if (output.unauthenticated) {
             redirectToLogin();
             return true;
           }
           if (output.redirect) {
+            if (!hooks?.checkPermissions?.checkPermissionPreChecksLoaded()) {
+              await Promise.all([...runtimeContext.pendingPermissionsPreCheck]);
+            }
             redirectTo(output.redirect.path, output.redirect.state);
             return true;
           }
@@ -465,7 +468,7 @@ export class Router {
           [],
           rootMenuRequestNode
         );
-        if (routeHelper.bailout(output)) {
+        if (await routeHelper.bailout(output, runtimeContext)) {
           return;
         }
 

@@ -11,6 +11,7 @@ type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
 const checkedPermissions: string[] = [];
 const permissionMap = new Map<string, PermissionStatus>();
+let isPermissionPreChecksLoaded = false;
 
 export function preCheckPermissions(
   storyboard: Storyboard
@@ -72,6 +73,8 @@ export async function validatePermissions(
     // make it not crash when the backend service is not updated.
     // eslint-disable-next-line no-console
     console.error("Pre-check permissions failed", error);
+  } finally {
+    isPermissionPreChecksLoaded = true;
   }
 }
 
@@ -112,9 +115,17 @@ export function checkPermissions(...actions: string[]): boolean {
 }
 
 /**
+ * Check permission pre-checks is loaded.
+ */
+export function checkPermissionPreChecksLoaded(): boolean {
+  return isPermissionPreChecksLoaded;
+}
+
+/**
  * Reset permission pre-checks after logged-out.
  */
 export function resetPermissionPreChecks(): void {
   checkedPermissions.length = 0;
   permissionMap.clear();
+  isPermissionPreChecksLoaded = false;
 }

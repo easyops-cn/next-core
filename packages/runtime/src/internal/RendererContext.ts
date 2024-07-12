@@ -20,6 +20,7 @@ import type {
   RenderNode,
   RenderReturnNode,
   RenderRoot,
+  RuntimeContext,
 } from "./interfaces.js";
 import { mountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -69,7 +70,10 @@ export interface RendererContextOptions {
 }
 
 export interface RouteHelper {
-  bailout: (output: RenderOutput) => true | undefined;
+  bailout: (
+    output: RenderOutput,
+    runtimeContext: RuntimeContext
+  ) => Promise<true | undefined>;
   mergeMenus: (menuRequests: Promise<StaticMenuConf>[]) => Promise<void>;
   catch: (
     error: unknown,
@@ -217,8 +221,8 @@ export class RendererContext {
     await this.#routeHelper!.mergeMenus(this.getMenuRequests());
   }
 
-  reBailout(output: RenderOutput) {
-    return this.#routeHelper!.bailout(output);
+  reBailout(output: RenderOutput, runtimeContext: RuntimeContext) {
+    return this.#routeHelper!.bailout(output, runtimeContext);
   }
 
   reCatch(error: unknown, returnNode: RenderReturnNode) {

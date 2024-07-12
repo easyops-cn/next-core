@@ -62,6 +62,7 @@ export interface RuntimeHooks {
   checkPermissions?: {
     checkPermissions(...actions: string[]): boolean;
     preCheckPermissions(storyboard: Storyboard): Promise<void> | undefined;
+    checkPermissionPreChecksLoaded(): boolean;
     preCheckPermissionsForBrickOrRoute(
       container: BrickConf | RouteConf,
       asyncComputeRealValue: (value: unknown) => Promise<unknown>

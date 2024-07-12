@@ -848,7 +848,12 @@ async function legacyRenderBrick(
                 // Since parent route is matched.
                 if (incrementalOutput.route) {
                   // Bailout if redirect or unauthenticated is set
-                  if (rendererContext.reBailout(incrementalOutput)) {
+                  if (
+                    await rendererContext.reBailout(
+                      incrementalOutput,
+                      scopedRuntimeContext
+                    )
+                  ) {
                     return true;
                   }
 
