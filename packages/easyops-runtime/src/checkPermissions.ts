@@ -1,4 +1,3 @@
-import { difference } from "lodash";
 import {
   scanPermissionActionsInAny,
   scanPermissionActionsInStoryboard,
@@ -9,6 +8,7 @@ import { getAuth, isLoggedIn } from "./auth.js";
 
 type PermissionStatus = "authorized" | "unauthorized" | "undefined";
 
+const checkingPermissions = new Map<string, Promise<void>>();
 const checkedPermissions: string[] = [];
 const permissionMap = new Map<string, PermissionStatus>();
 
@@ -50,29 +50,51 @@ export async function validatePermissions(
   usedActions: string[]
 ): Promise<void> {
   // Do not request known actions.
-  const actions = difference(usedActions, [...checkedPermissions]);
-  if (actions.length === 0) {
+  const uncheckedActions = usedActions.filter(
+    (action) => !checkedPermissions.includes(action)
+  );
+  if (uncheckedActions.length === 0) {
     return;
   }
-  checkedPermissions.push(...actions);
-  try {
-    const result = await PermissionApi_validatePermissions(
-      { actions },
-      { noAbortOnRouteChange: true }
-    );
-    for (const item of result.actions!) {
-      permissionMap.set(item.action!, item.authorizationStatus!);
-      if (item.authorizationStatus === "undefined") {
-        // eslint-disable-next-line no-console
-        console.error(`Undefined permission action: "${item.action}"`);
-      }
+  const checkingTasks: Promise<void>[] = [];
+  const restActions: string[] = [];
+  for (const action of uncheckedActions) {
+    const promise = checkingPermissions.get(action);
+    if (promise) {
+      checkingTasks.push(promise);
+    } else {
+      restActions.push(action);
     }
-  } catch (error) {
-    // Allow pre-check to fail, and
-    // make it not crash when the backend service is not updated.
-    // eslint-disable-next-line no-console
-    console.error("Pre-check permissions failed", error);
   }
+  if (restActions.length > 0) {
+    const task = (async () => {
+      try {
+        const result = await PermissionApi_validatePermissions(
+          { actions: restActions },
+          { noAbortOnRouteChange: true }
+        );
+        for (const item of result.actions!) {
+          permissionMap.set(item.action!, item.authorizationStatus!);
+          if (item.authorizationStatus === "undefined") {
+            // eslint-disable-next-line no-console
+            console.error(`Undefined permission action: "${item.action}"`);
+          }
+        }
+      } catch (error) {
+        // Allow pre-check to fail, and
+        // make it not crash when the backend service is not updated.
+        // eslint-disable-next-line no-console
+        console.error("Pre-check permissions failed", error);
+      } finally {
+        checkedPermissions.push(...restActions);
+      }
+    })();
+    for (const action of restActions) {
+      checkingPermissions.set(action, task);
+    }
+    checkingTasks.push(task);
+  }
+  await Promise.all(checkingTasks);
 }
 
 /**
@@ -115,6 +137,7 @@ export function checkPermissions(...actions: string[]): boolean {
  * Reset permission pre-checks after logged-out.
  */
 export function resetPermissionPreChecks(): void {
+  checkingPermissions.clear();
   checkedPermissions.length = 0;
   permissionMap.clear();
 }
