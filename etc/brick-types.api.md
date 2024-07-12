@@ -1326,9 +1326,7 @@ export interface MagicBrickConfig {
 // @internal (undocumented)
 export type MarkdownString = string;
 
-// Warning: (ae-internal-missing-underscore) The name "MatchOptions" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
+// @public (undocumented)
 export interface MatchOptions {
     // (undocumented)
     exact?: boolean;
@@ -2002,8 +2000,8 @@ export type SidebarMenuItemType = "default" | "group" | "subMenu";
 
 // @public
 export interface SidebarMenuSimpleItem {
-    activeExcludes?: string[];
-    activeIncludes?: string[];
+    activeExcludes?: (string | MatchOptions)[];
+    activeIncludes?: (string | MatchOptions)[];
     activeMatchSearch?: boolean;
     exact?: boolean;
     href?: string;
