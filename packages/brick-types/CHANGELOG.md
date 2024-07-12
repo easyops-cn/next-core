@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.97.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.96.0...@next-core/brick-types@2.97.0) (2024-07-12)
+
+
+### Features
+
+* **menu:** activeIncludes and activeExcludes of SidebarMenuSimpleItem support MatchOptions ([195ade6](https://github.com/easyops-cn/next-core/commit/195ade61dc540eea2092bb5bf13845757a56f47f))
+
+
+
+
+
 # [2.96.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.95.0...@next-core/brick-types@2.96.0) (2024-05-20)
 
 
