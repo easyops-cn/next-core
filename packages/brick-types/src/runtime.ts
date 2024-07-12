@@ -23,7 +23,6 @@ export interface CompileResult {
   keys: Key[];
 }
 
-/** @internal */
 export interface MatchOptions {
   path: string | string[];
   exact?: boolean;

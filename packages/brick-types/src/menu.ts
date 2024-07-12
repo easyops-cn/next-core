@@ -2,6 +2,7 @@ import { LocationDescriptor } from "history";
 import { ThemeType } from "@ant-design/compatible/lib/icon";
 import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 import { MetaI18n, ResolveConf, MicroApp } from "./manifest";
+import { MatchOptions } from "./runtime";
 
 /**
  * 侧边栏菜单配置。
@@ -67,10 +68,10 @@ export interface SidebarMenuSimpleItem {
   exact?: boolean;
 
   /** 设置额外包含的匹配高亮菜单项的地址列表。 */
-  activeIncludes?: string[];
+  activeIncludes?: (string | MatchOptions)[];
 
   /** 设置需要被排除的匹配高亮菜单项的地址列表。 */
-  activeExcludes?: string[];
+  activeExcludes?: (string | MatchOptions)[];
 
   /** 设置匹配高亮菜单项时是否还对 search 参数进行比较。 */
   activeMatchSearch?: boolean;
