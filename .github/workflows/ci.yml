@@ -136,11 +136,16 @@ jobs:
       env:
         NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
 
+    - name: Get coverage files
+      run: |
+        echo "COVERAGE_FILES=$(find ./{packages} -maxdepth 1 -mindepth 1 -type d -exec echo "{}/.coverage/cobertura-coverage.xml" \; | tr '\n' ',' | sed 's/,$//')" >> $GITHUB_ENV
+
     - name: Codecov
       uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: packages/*/.coverage/cobertura-coverage.xml,bricks/*/.coverage/cobertura-coverage.xml,!.cache/**/*
+        files: ${{ env.COVERAGE_FILES }}
+        disable_search: true
 
     - run: yarn test:e2e:ci
       env:
