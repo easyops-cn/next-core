@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.0...@next-core/easyops-runtime@0.12.1) (2024-07-13)
+
+
+### Bug Fixes
+
+* handle previous checking permissions ([9ca766a](https://github.com/easyops-cn/next-core/commit/9ca766a0c39ac85e34091c28cbdc9076a55658cc))
+
+
+
+
+
 # [0.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.11.0...@next-core/easyops-runtime@0.12.0) (2024-07-12)
 
 
