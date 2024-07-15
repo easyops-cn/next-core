@@ -14542,10 +14542,10 @@ size-limit@^8.1.0:
     nanospinner "^1.1.0"
     picocolors "^1.0.0"
 
-skywalking-client-js@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/skywalking-client-js/-/skywalking-client-js-0.11.0.tgz#bc37dbc51df68b8b424a051627da4b11ec41fcf7"
-  integrity sha512-r8OMYavbculvZAUIOp3pVA7BXT4j2pRLz6NszHuN4XoSa0pWvBT7hUbcnLwllt1w5jtocycwf5SrfqXLx1RzXg==
+skywalking-client-js@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.npmjs.org/skywalking-client-js/-/skywalking-client-js-0.12.0.tgz#132b7a46fa32547519aa3f53a9c9428dad6174e2"
+  integrity sha512-ttfuXCqTG0jQYaXHwAYB44Zy3wAZMWSigv0dIiWSAgPQH4QQDRMZVOqY9v2bbu0TqzukdvR9krVurt4zV5vUsQ==
   dependencies:
     js-base64 "^3.6.0"
 
