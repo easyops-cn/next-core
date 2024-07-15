@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.12.0...@next-core/easyops-analytics@0.12.1) (2024-07-15)
+
+
+### Bug Fixes
+
+* Update skywalking js sdk to fix native fetch implementation when using Request object ([22b6124](https://github.com/easyops-cn/next-core/commit/22b61243c09e7c1421af313ae4d73dff9e77ab29))
+
+
+
+
+
 # [0.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-analytics@0.11.2...@next-core/easyops-analytics@0.12.0) (2024-06-05)
 
 
