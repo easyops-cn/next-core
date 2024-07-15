@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.5.2...@next-core/theme@1.5.3) (2024-07-15)
+
+
+### Bug Fixes
+
+* fix tag geek-blue colors ([6b5ac2a](https://github.com/easyops-cn/next-core/commit/6b5ac2ab30934e5c1f29bad67d73ad55df057c28))
+
+
+
+
+
 ## [1.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/theme@1.5.1...@next-core/theme@1.5.2) (2024-06-06)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.51.0...@next-core/runtime@1.52.0) (2024-07-15)
+
+
+### Features
+
+* support setting language in preview ([d00a95f](https://github.com/easyops-cn/next-core/commit/d00a95fa2d47b4de9ddb54584427cc0634998b06))
+
+
+
+
+
 # [1.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.50.0...@next-core/runtime@1.51.0) (2024-07-12)
 
 

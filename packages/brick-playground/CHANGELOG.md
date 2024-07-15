@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.14.14...@next-core/brick-playground@1.15.0) (2024-07-15)
+
+
+### Features
+
+* support setting language in preview ([d00a95f](https://github.com/easyops-cn/next-core/commit/d00a95fa2d47b4de9ddb54584427cc0634998b06))
+
+
+
+
+
 ## [1.14.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.14.13...@next-core/brick-playground@1.14.14) (2024-07-12)
 
 **Note:** Version bump only for package @next-core/brick-playground
