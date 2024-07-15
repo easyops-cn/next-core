@@ -8,6 +8,7 @@ import type {
   Storyboard,
   StoryboardFunction,
 } from "@next-core/types";
+import { i18n } from "@next-core/i18n";
 import { uniqueId } from "lodash";
 import {
   RenderOutput,
@@ -47,6 +48,7 @@ export interface CreateRootOptions {
 export interface RenderOptions {
   theme?: SiteTheme;
   uiVersion?: string;
+  language?: string;
   context?: ContextConf[];
   functions?: StoryboardFunction[];
   templates?: CustomTemplate[];
@@ -83,6 +85,7 @@ export function unstable_createRoot(
       {
         theme,
         uiVersion,
+        language,
         context,
         functions,
         templates,
@@ -130,6 +133,9 @@ export function unstable_createRoot(
         setTheme(theme ?? "light");
         setMode("default");
         setUIVersion(uiVersion);
+        if (language) {
+          await i18n.changeLanguage(language);
+        }
 
         app ??= {
           id: "demo",

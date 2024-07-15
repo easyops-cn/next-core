@@ -271,6 +271,9 @@ async function main() {
   const selectTheme = document.querySelector(
     "#brick-playground-select-theme"
   ) as HTMLSelectElement;
+  const selectLanguage = document.querySelector(
+    "#brick-playground-select-language"
+  ) as HTMLSelectElement;
   const selectUIVersion = document.querySelector(
     "#brick-playground-select-ui-version"
   ) as HTMLSelectElement;
@@ -282,6 +285,14 @@ async function main() {
   if (storedTheme !== currentTheme) {
     setCurrentTheme(storedTheme);
     selectTheme.value = storedTheme;
+  }
+
+  const languageStorageKey = "brick-playground-language";
+  let currentLanguage = "";
+  const storedLanguage = localStorage.getItem(languageStorageKey) ?? "";
+  if (storedLanguage !== currentLanguage) {
+    setCurrentLanguage(storedLanguage);
+    selectLanguage.value = storedLanguage;
   }
 
   const uiVersionStorageKey = "brick-playground-ui-version";
@@ -297,6 +308,7 @@ async function main() {
     previewWin._preview_only_render(mode, sources, {
       theme: currentTheme.toLowerCase(),
       uiVersion: currentUIVersion,
+      language: currentLanguage,
       url: "https://bricks.js.org/preview/",
       app: {
         id: "brick-preview",
@@ -320,6 +332,18 @@ async function main() {
 
   selectTheme.addEventListener("change", (event) => {
     setCurrentTheme((event.target as HTMLSelectElement).value, true);
+    render();
+  });
+
+  function setCurrentLanguage(language: string, store?: boolean) {
+    currentLanguage = language;
+    if (store) {
+      localStorage.setItem(languageStorageKey, language);
+    }
+  }
+
+  selectLanguage.addEventListener("change", (event) => {
+    setCurrentLanguage((event.target as HTMLSelectElement).value, true);
     render();
   });
 
