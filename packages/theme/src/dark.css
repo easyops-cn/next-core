@@ -633,8 +633,8 @@ html[data-theme="dark-v2"],
   --tag-purple-border-color: rgba(var(--palette-purple-6-channel), 0.3);
 
   --tag-geekblue-color: var(--palette-indigo-7);
-  --tag-geekblue-background: rgba(var(--palette-geekblue-6-channel), 0.12);
-  --tag-geekblue-border-color: rgba(var(--palette-geekblue-6-channel), 0.2);
+  --tag-geekblue-background: rgba(var(--palette-indigo-6-channel), 0.12);
+  --tag-geekblue-border-color: rgba(var(--palette-indigo-6-channel), 0.2);
 
   --tag-yellow-color: var(--palette-yellow-7);
   --tag-yellow-background: rgba(var(--palette-yellow-6-channel), 0.12);

@@ -16,6 +16,7 @@ import type {
   MetaI18n,
   StoryboardFunction,
 } from "@next-core/types";
+import { i18n } from "@next-core/i18n";
 import { safeLoad, JSON_SCHEMA } from "js-yaml";
 import "@next-core/theme";
 import type {
@@ -154,10 +155,11 @@ async function render(
   {
     theme,
     uiVersion,
+    language,
     context,
     functions,
     templates,
-    i18n,
+    i18n: i18nData,
     url,
     app,
     styleText,
@@ -174,6 +176,9 @@ async function render(
     if (type === "html") {
       applyTheme(theme === "light" ? theme : "dark-v2");
       setUIVersion(uiVersion);
+      if (language) {
+        await i18n.changeLanguage(language);
+      }
       // Note: if use DOMParser, script tags will not be executed, while using
       const parser = new DOMParser();
       const dom = parser.parseFromString(html, "text/html");
@@ -235,7 +240,7 @@ async function render(
         templates,
         templatesAreArrayOfYaml
       ) as CustomTemplate[];
-      const parsedI18n = loadYaml(i18n) as MetaI18n;
+      const parsedI18n = loadYaml(i18nData) as MetaI18n;
 
       if (Array.isArray(parsedTemplates)) {
         for (const template of parsedTemplates) {
@@ -249,6 +254,7 @@ async function render(
       await root.render(bricks, {
         theme: theme === "light" ? theme : "dark-v2",
         uiVersion,
+        language,
         context: parsedContext,
         functions: parsedFunctions,
         templates: parsedTemplates,
