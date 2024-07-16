@@ -37,8 +37,8 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.8",
-    "@babel/types": "^7.24.8",
+    "@babel/core": "^7.24.9",
+    "@babel/types": "^7.24.9",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/brick-container": "*",
     "@next-core/brick-playground": "*",
