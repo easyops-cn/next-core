@@ -1947,18 +1947,18 @@
     "@microsoft/tsdoc-config" "~0.17.0"
     "@rushstack/node-core-library" "5.5.0"
 
-"@microsoft/api-extractor@^7.47.1":
-  version "7.47.1"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.47.1.tgz#e908f40d701fb29ef3c9d325b29b5a2056079040"
-  integrity sha512-xfChgcNU5EBx5jayyOdl48xSP3na46TAPvnOZxvqfWOXUKa4Lz+iWiCZPTOgjw8NcrrD9a420cl6rSVYGwj5EA==
+"@microsoft/api-extractor@^7.47.2":
+  version "7.47.2"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.47.2.tgz#384e6698500f7e8dec17d652b6857d01d4c109eb"
+  integrity sha512-YWE2HGrSTZaPPSr7xiNizSuViZpC7Jsa7+DwRW5rYVgrMXNbfX/PpBOoSkl5uaz9I2sv2JKLJ75kVNt64BvS3g==
   dependencies:
     "@microsoft/api-extractor-model" "7.29.3"
     "@microsoft/tsdoc" "~0.15.0"
     "@microsoft/tsdoc-config" "~0.17.0"
     "@rushstack/node-core-library" "5.5.0"
     "@rushstack/rig-package" "0.5.2"
-    "@rushstack/terminal" "0.13.1"
-    "@rushstack/ts-command-line" "4.22.1"
+    "@rushstack/terminal" "0.13.2"
+    "@rushstack/ts-command-line" "4.22.2"
     lodash "~4.17.15"
     minimatch "~3.0.3"
     resolve "~1.22.1"
@@ -2455,20 +2455,20 @@
     resolve "~1.22.1"
     strip-json-comments "~3.1.1"
 
-"@rushstack/terminal@0.13.1":
-  version "0.13.1"
-  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.13.1.tgz#384467839c0343d6e05637547cebabfbd40d84f8"
-  integrity sha512-RfJcpEYfCzEM/8dgRm4xVs8g4x+AdGdZZGa+XmZRWEKbKkVJSHxKmoe5z0f8gFNip0bnlxNavB9cxNaTSY/JRQ==
+"@rushstack/terminal@0.13.2":
+  version "0.13.2"
+  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.13.2.tgz#755b419039002ade346f410bcce23856f10be1f2"
+  integrity sha512-t8i0PsGvBHmFBY8pryO3badqFlxQsm2rw3KYrzjcmVkG/WGklKg1qVkr9beAS1Oe8XWDRgj6SkoHkpNjs7aaNw==
   dependencies:
     "@rushstack/node-core-library" "5.5.0"
     supports-color "~8.1.1"
 
-"@rushstack/ts-command-line@4.22.1":
-  version "4.22.1"
-  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.22.1.tgz#b296e0b75df1abed40ca0012d6fb663350f538d4"
-  integrity sha512-wU/igKNFRPmQvxiRAM9lEx/5xcFRK72zBp+fbykPKIm83bOmVE0WWQ+ZhX/pcJJqQiodcr0DDzOMw4O8SwpMSQ==
+"@rushstack/ts-command-line@4.22.2":
+  version "4.22.2"
+  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.22.2.tgz#21e26b7320d09e904ae479c0586cb5ddf68ce652"
+  integrity sha512-xkvrGd6D9dPlI3I401Thc640WNsEPB1sGEmy12a2VJaPQPwhE6Ik0gEVPZJ/2G1w213eaCAdxUY1xpiTulsmpA==
   dependencies:
-    "@rushstack/terminal" "0.13.1"
+    "@rushstack/terminal" "0.13.2"
     "@types/argparse" "1.0.38"
     argparse "~1.0.9"
     string-argv "~0.3.1"
