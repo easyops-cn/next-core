@@ -113,6 +113,6 @@
     "rc-tabs": "~11.7.3",
     "rc-textarea": "~0.3.5",
     "rc-virtual-list": "^3.2.6",
-    "ua-parser-js": "0.7.19"
+    "ua-parser-js": "0.7.38"
   }
 }

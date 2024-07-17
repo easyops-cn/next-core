@@ -180,8 +180,8 @@ module.exports = async function patch() {
     // There is a security issue for specific versions of ua-parser-js.
     // See https://github.com/faisalman/ua-parser-js/issues/536
     updateResolutions({
-      // Use the very current version of `0.7.19` to change nothing currently.
-      "ua-parser-js": "0.7.19",
+      // Use the very current version of `0.7.38` to change nothing currently.
+      "ua-parser-js": "0.7.38",
     });
   }
 
