@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.52.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.1...@next-core/runtime@1.52.2) (2024-07-18)
+
+
+### Bug Fixes
+
+* allow accessing forEach variables of template internal from external ([ce14b44](https://github.com/easyops-cn/next-core/commit/ce14b44e461967da53b942e22806e2a5ba564575))
+
+
+
+
+
 ## [1.52.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.0...@next-core/runtime@1.52.1) (2024-07-18)
 
 
