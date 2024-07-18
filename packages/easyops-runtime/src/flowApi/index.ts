@@ -12,3 +12,4 @@ export {
   collectDebugContract,
   clearDebugContract,
 } from "./CollectContracts.js";
+export * from "./HttpProxyProvider.js";
