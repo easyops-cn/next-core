@@ -160,6 +160,11 @@ export interface MicroApp {
   localeName?: string;
 
   /**
+   * 本地化后的页面标题（运行时得出），在运行环境由用户维护，本地化获取失败时为“”。
+   */
+  localeTitle?: string;
+
+  /**
    * 整个应用不启用登录守卫。
    */
   noAuthGuard?: boolean;

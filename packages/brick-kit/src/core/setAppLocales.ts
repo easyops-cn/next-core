@@ -13,11 +13,14 @@ export function setAppLocales(app: MicroApp): void {
     });
     // Use `app.name` as the fallback `app.localeName`.
     app.localeName = i18next.getFixedT(null, ns)("name", app.name);
+
+    app.localeTitle = i18next.getFixedT(null, ns)("title", "");
     // Remove the temporary i18n resource bundles.
     Object.keys(locales).forEach((lang) => {
       i18next.removeResourceBundle(lang, ns);
     });
   } else {
     app.localeName = app.name;
+    app.localeTitle = "";
   }
 }

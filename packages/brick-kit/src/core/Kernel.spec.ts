@@ -643,6 +643,7 @@ describe("Kernel", () => {
         homepage: "/app-g",
         id: "app-g",
         localeName: "Application G",
+        localeTitle: "",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -753,6 +754,7 @@ describe("Kernel", () => {
         homepage: "/app-g",
         id: "app-g",
         localeName: "Application G",
+        localeTitle: "",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -1639,6 +1641,8 @@ describe("Kernel", () => {
           id: "app-a",
           homepage: "/app-a",
           config: {},
+          localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -1653,6 +1657,8 @@ describe("Kernel", () => {
           id: "app-b",
           homepage: "/app-b",
           config: {},
+          localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -1722,6 +1728,7 @@ describe("Kernel", () => {
           homepage: "/app-a",
           id: "app-a",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [{ alias: "home", bricks: [], path: "${APP.homepage}" }],
       },
@@ -1731,6 +1738,7 @@ describe("Kernel", () => {
           homepage: "/app-b",
           id: "app-b",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -1755,6 +1763,7 @@ describe("Kernel", () => {
           homepage: "/app-a",
           id: "app-a",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [{ alias: "home", bricks: [], path: "${APP.homepage}" }],
       },
@@ -1764,6 +1773,7 @@ describe("Kernel", () => {
           homepage: "/app-b",
           id: "app-b",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -1847,6 +1857,7 @@ describe("Kernel", () => {
           homepage: "/app-a",
           id: "app-a",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [],
       },
@@ -1856,6 +1867,7 @@ describe("Kernel", () => {
           homepage: "/app-b",
           id: "app-b",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -1919,6 +1931,8 @@ describe("Kernel", () => {
           id: "app-a",
           homepage: "/app-a",
           config: {},
+          localeName: undefined,
+          localeTitle: "",
         },
         routes: [],
       },
@@ -1927,6 +1941,8 @@ describe("Kernel", () => {
           id: "app-b",
           homepage: "/app-b",
           config: {},
+          localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -1971,6 +1987,8 @@ describe("Kernel", () => {
           id: "app-a",
           homepage: "/app-a",
           config: {},
+          localeName: undefined,
+          localeTitle: "",
         },
         routes: [],
       },
@@ -1979,6 +1997,8 @@ describe("Kernel", () => {
           id: "app-b",
           homepage: "/app-b",
           config: {},
+          localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {
@@ -2057,6 +2077,7 @@ describe("Kernel", () => {
             "homepage": "/app-a",
             "id": "app-a",
             "localeName": undefined,
+            "localeTitle": "",
           },
           "routes": Array [],
         },
@@ -2066,6 +2087,7 @@ describe("Kernel", () => {
             "homepage": "/app-b",
             "id": "app-b",
             "localeName": undefined,
+            "localeTitle": "",
           },
           "routes": Array [
             Object {
@@ -2116,6 +2138,7 @@ describe("Kernel", () => {
             "homepage": "/app-a",
             "id": "app-a",
             "localeName": undefined,
+            "localeTitle": "",
           },
           "routes": Array [],
         },
@@ -2125,6 +2148,7 @@ describe("Kernel", () => {
             "homepage": "/app-b",
             "id": "app-b",
             "localeName": undefined,
+            "localeTitle": "",
           },
           "routes": Array [
             Object {
@@ -2202,6 +2226,7 @@ describe("Kernel", () => {
             "homepage": "/app-a",
             "id": "app-a",
             "localeName": undefined,
+            "localeTitle": "",
           },
           "routes": Array [],
         },
@@ -2211,6 +2236,7 @@ describe("Kernel", () => {
             "homepage": "/app-b",
             "id": "app-b",
             "localeName": undefined,
+            "localeTitle": "",
           },
           "routes": Array [
             Object {
@@ -2323,6 +2349,7 @@ describe("Kernel", () => {
           homepage: "/app-a",
           id: "app-a",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [],
       },
@@ -2332,6 +2359,7 @@ describe("Kernel", () => {
           homepage: "/app-b",
           id: "app-b",
           localeName: undefined,
+          localeTitle: "",
         },
         routes: [
           {

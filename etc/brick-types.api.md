@@ -1462,6 +1462,7 @@ export interface MicroApp {
     legacy?: "iframe";
     localeName?: string;
     locales?: AppLocales;
+    localeTitle?: string;
     menuIcon?: MenuIcon | {
         imgSrc?: string;
         imgStyle?: Record<string, any>;

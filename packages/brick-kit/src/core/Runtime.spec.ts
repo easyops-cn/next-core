@@ -314,4 +314,42 @@ describe("Runtime", () => {
     runtime.applyPageTitle("Hello");
     expect(document.title).toBe("Hello - DevOps 管理专家");
   });
+
+  it("should apply custom page title", async () => {
+    const mountPoints: MountPoints = {} as any;
+    await runtime.bootstrap(mountPoints);
+    const mockKernelInstance = spyOnKernel.mock.instances[0];
+    mockKernelInstance.bootstrapData = {
+      microApps: [
+        {
+          name: "a",
+          id: "app-a",
+          currentVersion: "1.2.3",
+        },
+        {
+          name: "b",
+          id: "app-b",
+          installStatus: "ok",
+          currentVersion: "2.3.4",
+        },
+        {
+          id: "app-c",
+          installStatus: "running",
+          currentVersion: "3.4.5",
+        },
+        {
+          name: "d",
+          id: "app-d",
+          internal: true,
+        },
+      ],
+    };
+    mockKernelInstance.currentApp = {
+      localeTitle: "Hi there",
+    };
+    runtime.applyPageTitle(null);
+    expect(document.title).toBe("DevOps 管理专家");
+    runtime.applyPageTitle("Hello");
+    expect(document.title).toBe("Hi there");
+  });
 });
