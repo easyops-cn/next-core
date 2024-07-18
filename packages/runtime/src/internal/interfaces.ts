@@ -130,7 +130,6 @@ export interface TemplateHostContext {
   externalSlots?: SlotsConfOfBricks;
   tplStateStoreId: string;
   hostBrick: TemplateHostBrick;
-  __temporary_tpl_tag_name?: string;
 }
 
 interface ReversedProxies {

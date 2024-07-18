@@ -2944,8 +2944,7 @@ describe("renderBrick for tpl", () => {
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");
 
-    consoleError.mockReturnValue();
-    const promise1 = renderBrick(
+    const output1 = await renderBrick(
       renderRoot,
       {
         brick: "my.tpl-d",
@@ -2953,6 +2952,7 @@ describe("renderBrick for tpl", () => {
           {
             brick: "p",
             properties: {
+              // Accessing ITEM from tpl internal :forEach if no outer :forEach
               title: "<% 1, ITEM %>",
             },
             children: [
@@ -2971,12 +2971,41 @@ describe("renderBrick for tpl", () => {
       [],
       {}
     );
-    await expect(promise1).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"ITEM is not defined, in "<% 1, ITEM %>""`
-    );
-    expect(consoleError).toBeCalledTimes(2);
+    renderRoot.child = output1.node;
 
-    const promise2 = renderBrick(
+    await Promise.all([...output1.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-d
+          data-tpl-state-store-id="tpl-state-10"
+        >
+          <div>
+            Hi
+          </div>
+          <p
+            title="1"
+          >
+            <em>
+              oops
+            </em>
+          </p>
+          <p
+            title="2"
+          >
+            <em>
+              oops
+            </em>
+          </p>
+        </my.tpl-d>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+
+    const output2 = await renderBrick(
       renderRoot,
       {
         brick: "my.tpl-d",
@@ -2986,6 +3015,7 @@ describe("renderBrick for tpl", () => {
             properties: {
               title: "yaks",
             },
+            // Nesting
             children: [
               {
                 brick: "em",
@@ -3002,11 +3032,239 @@ describe("renderBrick for tpl", () => {
       [],
       {}
     );
-    await expect(promise2).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"ITEM is not defined, in "<% 2, ITEM %>""`
+
+    renderRoot.child = output2.node;
+
+    await Promise.all([...output1.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-d
+          data-tpl-state-store-id="tpl-state-11"
+        >
+          <div>
+            Hi
+          </div>
+          <p
+            title="yaks"
+          >
+            <em>
+              1
+            </em>
+          </p>
+          <p
+            title="yaks"
+          >
+            <em>
+              2
+            </em>
+          </p>
+        </my.tpl-d>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+  });
+
+  test("nesting proxied tpl with outer :forEach", async () => {
+    customTemplates.define("my.tpl-j", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "main",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "my.tpl-k",
+          ref: "main",
+        },
+      ],
+    });
+    customTemplates.define("my.tpl-k", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "main",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: ":forEach",
+          dataSource: [1, 2],
+          children: [
+            {
+              brick: "div",
+              ref: "main",
+            },
+            {
+              brick: "hr",
+              properties: {
+                title: "<% ITEM %>",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: ":forEach",
+        dataSource: [3, 4],
+        children: [
+          {
+            // Nesting proxied template
+            brick: "my.tpl-j",
+            children: [
+              {
+                brick: "p",
+                properties: {
+                  // Accessing ITEM from current :forEach instead of from tpl internal :forEach
+                  textContent: "<% ITEM %>",
+                },
+              },
+            ],
+          },
+          {
+            brick: "my.tpl-k",
+            children: [
+              {
+                brick: "p",
+                properties: {
+                  textContent: "<% ITEM %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
     );
-    expect(consoleError).toBeCalledTimes(4);
-    consoleError.mockRestore();
+
+    renderRoot.child = output.node;
+
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-j
+          data-tpl-state-store-id="tpl-state-12"
+        >
+          <my.tpl-k
+            data-tpl-state-store-id="tpl-state-16"
+          >
+            <div>
+              <p>
+                3
+              </p>
+            </div>
+            <hr
+              title="1"
+            />
+            <div>
+              <p>
+                3
+              </p>
+            </div>
+            <hr
+              title="2"
+            />
+          </my.tpl-k>
+        </my.tpl-j>,
+        <my.tpl-k
+          data-tpl-state-store-id="tpl-state-13"
+        >
+          <div>
+            <p>
+              3
+            </p>
+          </div>
+          <hr
+            title="1"
+          />
+          <div>
+            <p>
+              3
+            </p>
+          </div>
+          <hr
+            title="2"
+          />
+        </my.tpl-k>,
+        <my.tpl-j
+          data-tpl-state-store-id="tpl-state-14"
+        >
+          <my.tpl-k
+            data-tpl-state-store-id="tpl-state-17"
+          >
+            <div>
+              <p>
+                4
+              </p>
+            </div>
+            <hr
+              title="1"
+            />
+            <div>
+              <p>
+                4
+              </p>
+            </div>
+            <hr
+              title="2"
+            />
+          </my.tpl-k>
+        </my.tpl-j>,
+        <my.tpl-k
+          data-tpl-state-store-id="tpl-state-15"
+        >
+          <div>
+            <p>
+              4
+            </p>
+          </div>
+          <hr
+            title="1"
+          />
+          <div>
+            <p>
+              4
+            </p>
+          </div>
+          <hr
+            title="2"
+          />
+        </my.tpl-k>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
   });
 });
 
