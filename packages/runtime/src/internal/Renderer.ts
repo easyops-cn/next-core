@@ -39,7 +39,6 @@ import {
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
   symbolForTPlExternalForEachSize,
-  symbolForTPlExternalNoForEach,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
@@ -389,10 +388,6 @@ async function legacyRenderBrick(
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
     runtimeContext.forEachIndex = brickConf[symbolForTPlExternalForEachIndex];
     runtimeContext.forEachSize = brickConf[symbolForTPlExternalForEachSize];
-  } else if (brickConf[symbolForTPlExternalNoForEach]) {
-    delete runtimeContext.forEachItem;
-    delete runtimeContext.forEachIndex;
-    delete runtimeContext.forEachSize;
   }
 
   const { context } = brickConf as { context?: ContextConf[] };

@@ -115,7 +115,6 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
       | undefined,
     tplStateStoreId,
     hostBrick: hostBrick as TemplateHostBrick,
-    __temporary_tpl_tag_name: tplTagName,
   };
 
   newBrickConf.slots = {
