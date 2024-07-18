@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.98.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.97.0...@next-core/brick-types@2.98.0) (2024-07-18)
+
+
+### Features
+
+* 平台title支持自定义配置 ([0f1bc9a](https://github.com/easyops-cn/next-core/commit/0f1bc9abaeb057a86c09479fb08eafbe0309415f))
+
+
+
+
+
 # [2.97.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.96.0...@next-core/brick-types@2.97.0) (2024-07-12)
 
 
