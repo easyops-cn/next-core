@@ -14,6 +14,7 @@ describe("setAppLocales", () => {
       {
         name: "Test Only",
         localeName: "Test Only",
+        localeTitle: "",
       },
     ],
     [
@@ -33,6 +34,7 @@ describe("setAppLocales", () => {
         id: "app-a",
         name: "App A",
         localeName: "Application A",
+        localeTitle: "",
         locales: {
           zh: {
             name: "小产品 A",
@@ -60,9 +62,11 @@ describe("setAppLocales", () => {
             locales: {
               zh: {
                 name: "小产品 B 别名",
+                title: "小产品 B 标题",
               },
               en: {
                 name: "Application B Alias",
+                title: "Application B Title",
               },
             },
           },
@@ -72,6 +76,7 @@ describe("setAppLocales", () => {
         id: "app-b",
         name: "App B",
         localeName: "Application B Alias",
+        localeTitle: "Application B Title",
         locales: {
           zh: {
             name: "小产品 B",
@@ -85,9 +90,11 @@ describe("setAppLocales", () => {
             locales: {
               zh: {
                 name: "小产品 B 别名",
+                title: "小产品 B 标题",
               },
               en: {
                 name: "Application B Alias",
+                title: "Application B Title",
               },
             },
           },

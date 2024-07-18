@@ -51,9 +51,11 @@ describe("processBootstrapResponse", () => {
             locales: {
               zh: {
                 name: "你好，世界",
+                title: "你好",
               },
               en: {
                 name: "Hello World",
+                title: "Hi there",
               },
             },
           },
@@ -68,9 +70,11 @@ describe("processBootstrapResponse", () => {
                 locales: {
                   zh: {
                     name: "你好，世界，别名",
+                    title: "你好",
                   },
                   en: {
                     name: "Hello World Alias",
+                    title: "Hi there",
                   },
                 },
               },
@@ -103,6 +107,8 @@ describe("processBootstrapResponse", () => {
         {
           app: {
             config: {},
+            localeName: undefined,
+            localeTitle: "",
           },
         },
         // No app.
@@ -116,6 +122,8 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "good",
             },
+            localeName: undefined,
+            localeTitle: "",
           },
         },
         // With only `userConfig`.
@@ -127,6 +135,8 @@ describe("processBootstrapResponse", () => {
             config: {
               quality: "bad",
             },
+            localeName: undefined,
+            localeTitle: "",
           },
         },
         // With both `defaultConfig` and `userConfig`.
@@ -134,6 +144,7 @@ describe("processBootstrapResponse", () => {
           app: {
             name: "Test Only",
             localeName: "Test Only",
+            localeTitle: "",
             defaultConfig: {
               quality: "good",
             },
@@ -151,12 +162,15 @@ describe("processBootstrapResponse", () => {
             id: "hello-world",
             name: "Hola Mundo",
             localeName: "Hello World",
+            localeTitle: "Hi there",
             locales: {
               zh: {
                 name: "你好，世界",
+                title: "你好",
               },
               en: {
                 name: "Hello World",
+                title: "Hi there",
               },
             },
             config: {},
@@ -168,14 +182,17 @@ describe("processBootstrapResponse", () => {
             id: "hello-world",
             name: "Hola Mundo",
             localeName: "Hello World Alias",
+            localeTitle: "Hi there",
             userConfig: {
               settings: {
                 locales: {
                   zh: {
                     name: "你好，世界，别名",
+                    title: "你好",
                   },
                   en: {
                     name: "Hello World Alias",
+                    title: "Hi there",
                   },
                 },
               },
@@ -185,9 +202,11 @@ describe("processBootstrapResponse", () => {
                 locales: {
                   zh: {
                     name: "你好，世界，别名",
+                    title: "你好",
                   },
                   en: {
                     name: "Hello World Alias",
+                    title: "Hi there",
                   },
                 },
               },
