@@ -639,6 +639,10 @@ async function legacyRenderBrick(
   let confProps: Record<string, unknown> | undefined;
   if (brickName === FORM_RENDERER) {
     ({ formData, ...confProps } = brickConf.properties ?? {});
+
+    if (brickConf.properties?.compute) {
+      formData = await asyncComputeRealValue(formData, runtimeContext);
+    }
   } else {
     confProps = brickConf.properties;
   }
