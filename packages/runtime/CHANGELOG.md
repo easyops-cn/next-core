@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.52.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.0...@next-core/runtime@1.52.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* computed formData ([cd61632](https://github.com/easyops-cn/next-core/commit/cd61632df1aed33e4d577f1419aa1694c8d564f3))
+
+
+
+
+
 # [1.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.51.0...@next-core/runtime@1.52.0) (2024-07-15)
 
 
