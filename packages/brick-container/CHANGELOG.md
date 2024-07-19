@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.22...@next-core/brick-container@3.18.0) (2024-07-19)
+
+
+### Features
+
+* 平台title支持自定义配置 ([d58363d](https://github.com/easyops-cn/next-core/commit/d58363db20e16e88877a094d7a8a8da76268193b))
+
+
+
+
+
 ## [3.17.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.17.21...@next-core/brick-container@3.17.22) (2024-07-18)
 
 **Note:** Version bump only for package @next-core/brick-container
