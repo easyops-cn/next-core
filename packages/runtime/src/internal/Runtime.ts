@@ -287,7 +287,10 @@ export class Runtime {
 
   applyPageTitle(pageTitle: string): void {
     const baseTitle = this.getBrandSettings().base_title;
-    document.title = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
+    document.title = pageTitle
+      ? (router?.getRecentApps().currentApp?.localeTitle as string) ||
+        `${pageTitle} - ${baseTitle}`
+      : baseTitle;
   }
 
   getNavConfig() {

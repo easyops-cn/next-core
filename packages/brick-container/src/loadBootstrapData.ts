@@ -294,12 +294,15 @@ function initializeAppLocales(app: MicroApp) {
     });
     // Use `app.name` as the fallback `app.localeName`.
     app.localeName = i18n.getFixedT(null, ns)("name", app.name) as string;
+
+    app.localeTitle = i18n.getFixedT(null, ns)("title", "") as string;
     // Remove the temporary i18n resource bundles.
     Object.keys(locales).forEach((lang) => {
       i18n.removeResourceBundle(lang, ns);
     });
   } else {
     app.localeName = app.name;
+    app.localeTitle = "";
   }
 }
 
