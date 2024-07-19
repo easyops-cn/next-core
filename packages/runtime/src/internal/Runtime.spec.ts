@@ -470,6 +470,7 @@ const getBootstrapData = (options?: {
         id: "app-b",
         homepage: "/app-b",
         name: "App B",
+        localeTitle: "Hi there",
       },
       routes: [
         {
@@ -1390,6 +1391,33 @@ describe("Runtime", () => {
     expect(finishPageView).toBeCalledTimes(1);
     expect(finishPageView).toBeCalledWith({
       status: "failed",
+    });
+  });
+
+  test("render locale title", async () => {
+    consoleError.mockReturnValueOnce();
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize(getBootstrapData());
+    getHistory().push("/app-b");
+    await getRuntime().bootstrap();
+
+    expect(document.title).toBe("DevOps 管理专家");
+
+    getRuntime().applyPageTitle("Hello");
+    expect(document.title).toBe("Hi there");
+    getRuntime().applyPageTitle("");
+    expect(document.title).toBe("DevOps 管理专家");
+    expect(finishPageView).toBeCalledTimes(1);
+    expect(finishPageView).toBeCalledWith({
+      pageTitle: "DevOps 管理专家",
+      path: "/app-b",
+      status: "ok",
     });
   });
 
