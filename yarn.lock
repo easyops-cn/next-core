@@ -2020,10 +2020,10 @@
   resolved "https://registry.npmjs.org/@next-core/repo-config/-/repo-config-0.2.5.tgz#d751d21b10a41845679ba1ccc39d52f74e80f3c2"
   integrity sha512-haAaz198IvoQ2MledsV6OVnmlj8utflDG3VYDytDGtJm0A0/2EN5bgkdyLtZzxroe9hEJzry6o9hVlO6dp7GCQ==
 
-"@next-core/styles-v3@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.3.3.tgz#c005bba9946d4f255be659ddfca2ec249a8e68be"
-  integrity sha512-GfF1OBgKC8RVBu2dyeRGUiyyTS/kgIgqqOdrEFzd2mSQyddEa4/8AW1nfIgg0Bdrrnj6E7NHR25EvPosWXDteA==
+"@next-core/styles-v3@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.3.5.tgz#a3c64a423e4eb7b6bb0ae6ed5440256f3bafdb45"
+  integrity sha512-zubfA3yKgXZVm6qMWYQ9VqInCjsNN10jGpcaRvQ44DDIV6NI+g74W+cRS0Xqnj7lhgGgrpJjQzlNUOpedJTOng==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
