@@ -66,6 +66,7 @@ import {
   symbolForFormStateStoreId,
 } from "./FormRenderer/constants.js";
 import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
+import { registerFormRenderer } from "./FormRenderer/registerFormRenderer.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { getPreEvaluatedRaw } from "./compute/evaluate.js";
 import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
@@ -612,14 +613,7 @@ async function legacyRenderBrick(
     tplStack.set(tplTagName, tplCount + 1);
   } else if (brickName.includes("-") && !customElements.get(brickName)) {
     if (brickName === FORM_RENDERER) {
-      customElements.define(
-        FORM_RENDERER,
-        class FormRendererElement extends HTMLElement {
-          get $$typeof(): string {
-            return "form-renderer";
-          }
-        }
-      );
+      registerFormRenderer();
     } else {
       output.blockingList.push(
         catchLoad(

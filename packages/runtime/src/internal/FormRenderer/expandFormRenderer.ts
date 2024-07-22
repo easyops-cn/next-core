@@ -12,7 +12,11 @@ import { getDefaultProperties } from "./getDefaultProperties.js";
 import { symbolForFormStateStoreId } from "./constants.js";
 import type { RendererContext } from "../RendererContext.js";
 
-const formContainers = ["forms.general-form", "form.general-form", "eo-form"];
+export const formContainers = [
+  "forms.general-form",
+  "form.general-form",
+  "eo-form",
+];
 
 export function expandFormRenderer(
   formData: unknown,
