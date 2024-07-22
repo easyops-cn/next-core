@@ -7,4 +7,64 @@ describe("registerFormRenderer is work", () => {
     const render = customElements.get(formRenderer);
     expect(render.prototype.$$typeof).toBe("formRenderer");
   });
+  it("should work with validate method", () => {
+    const formRender = document.createElement(formRenderer) as any;
+
+    const form = document.createElement("eo-form") as any;
+    form.validate = jest.fn();
+
+    formRender.appendChild(form);
+
+    formRender.validate();
+
+    expect(form.validate).toHaveBeenCalled();
+  });
+
+  it("no validate method with other container", () => {
+    const formRender = document.createElement(formRenderer) as any;
+
+    const form = document.createElement("div") as any;
+
+    formRender.appendChild(form);
+
+    const mockConsoleError = jest.spyOn(console, "error");
+
+    formRender.validate();
+
+    expect(mockConsoleError).toHaveBeenCalledWith(
+      "no validate method in the container element",
+      {
+        container: "div",
+      }
+    );
+  });
+
+  it("should work with setInitValue method", () => {
+    const formRender = document.createElement(formRenderer) as any;
+
+    const form = document.createElement("eo-form") as any;
+    form.setInitValue = jest.fn();
+
+    formRender.appendChild(form);
+
+    formRender.setInitValue({ name: "easyops" }, { runInMacrotask: true });
+
+    expect(form.setInitValue).toHaveBeenCalledWith(
+      { name: "easyops" },
+      { runInMacrotask: true }
+    );
+  });
+
+  it("should work with resetFields method", () => {
+    const formRender = document.createElement(formRenderer) as any;
+
+    const form = document.createElement("forms.general-form") as any;
+    form.resetFields = jest.fn();
+
+    formRender.appendChild(form);
+
+    formRender.resetFields();
+
+    expect(form.resetFields).toHaveBeenCalled();
+  });
 });

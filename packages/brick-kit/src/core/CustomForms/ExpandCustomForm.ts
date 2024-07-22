@@ -11,6 +11,12 @@ import type { LocationContext } from "../LocationContext";
 import { filterProperties, symbolForFormContextId } from "./constants";
 import { CustomFormContext } from "./CustomFormContext";
 
+export const formContainers = [
+  "forms.general-form",
+  "form.general-form",
+  "eo-form",
+];
+
 export function ExpandCustomForm(
   formData: FormDataProperties,
   brickConf: BrickConf,
@@ -306,7 +312,7 @@ export function getStoryboard(
     let resultItem: { [key: string]: any } = {};
     //数据初始化：根据id,字段类型获取默认属性
     const defaultProperties: any = getDefaultProperties(dataItem.id, fields);
-    if (dataItem.brick === "forms.general-form" && isPreview) {
+    if (formContainers.includes(dataItem.brick) && isPreview) {
       dataItem.properties = {
         ...dataItem.properties,
         className: "form-preview",
@@ -372,7 +378,7 @@ export function initFormContext(
   if (
     isPreview &&
     formData.formSchema &&
-    formData.formSchema.brick === "forms.general-form"
+    formContainers.includes(formData.formSchema.brick)
   ) {
     brickConf["properties"] = {
       ...brickConf.properties,
@@ -429,7 +435,7 @@ export function getFinalStoryBoard(
       ? errorBrick
       : formStoryboard[0];
 
-    if (formStoryboard[0].brick === "forms.general-form" && brickConf.events) {
+    if (formContainers.includes(formStoryboard[0].brick) && brickConf.events) {
       const brickConfEvents = brickConf.events;
       const events = formStoryboard[0].events ?? {};
       Object.keys(brickConfEvents).forEach((item) => {
