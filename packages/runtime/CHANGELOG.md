@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.53.0...@next-core/runtime@1.54.0) (2024-07-22)
+
+
+### Features
+
+* proxy form method ([076ebae](https://github.com/easyops-cn/next-core/commit/076ebae17264a2555d34558ad90ab65be18c07de))
+
+
+
+
+
 # [1.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.2...@next-core/runtime@1.53.0) (2024-07-19)
 
 
