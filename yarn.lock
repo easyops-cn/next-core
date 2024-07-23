@@ -2372,12 +2372,12 @@
   resolved "https://registry.npmjs.org/@next-core/loader/-/loader-1.5.3.tgz#647a6a810eb6aa992c79aad8c16be00df84e0983"
   integrity sha512-yDI12QShqzC52HKEFXZAzI+x2rWldpOddRpV+QPcxCPjdKhTwi1JjHNaBKAy6IukVjC+i1I+PZqIEt3WNUx8UQ==
 
-"@next-core/theme@^1.5.3":
-  version "1.5.3"
-  resolved "https://registry.npmjs.org/@next-core/theme/-/theme-1.5.3.tgz#8b4a6e4e6edeb36dc0bfcd997c9f45e106978605"
-  integrity sha512-8yWPc/d+wBwc41cMUcQqxD+bb0kN+Cw3yNXGA6jYs3CcHkFqeXcz2qTvGteDyBSFtz2Z9p52Hb93InL+jLUEhw==
+"@next-core/theme@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmjs.org/@next-core/theme/-/theme-1.5.4.tgz#18d2c83def186bbcbaae98340f1a5c20266f59ef"
+  integrity sha512-SuBPreXY20+4AIPF5sIW3IBjjJXrvp2j1QqvazCBQnWpOpAQbz9PbR0vWCAXN6sj7pNJ61cJ9oHHXkun7X2PKg==
   dependencies:
-    "@next-core/styles-v3" "^0.3.3"
+    "@next-core/styles-v3" "^0.3.5"
 
 "@next-sdk/api-gateway-sdk@^2.11.0", "@next-sdk/api-gateway-sdk@^2.7.0":
   version "2.11.0"
