@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.0...@next-core/runtime@1.54.1) (2024-07-23)
+
+
+### Bug Fixes
+
+* 如果小产品自定义了title无论什么情况都显示自定义title ([e86eba1](https://github.com/easyops-cn/next-core/commit/e86eba18d1ef3893d76434281f3cdd632872737c))
+* 如果小产品自定义了title无论什么情况都显示自定义title ([c234ad5](https://github.com/easyops-cn/next-core/commit/c234ad52ea874b2589561371587c184d98e3ab42))
+
+
+
+
+
 # [1.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.53.0...@next-core/runtime@1.54.0) (2024-07-22)
 
 
