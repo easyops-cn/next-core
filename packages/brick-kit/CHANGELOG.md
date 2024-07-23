@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.199.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.0...@next-core/brick-kit@2.199.1) (2024-07-23)
+
+
+### Bug Fixes
+
+* 如果小产品自定义了title无论什么情况都显示自定义title ([1496f55](https://github.com/easyops-cn/next-core/commit/1496f55004224f6e12c164cb005daace43aefe29))
+* 如果小产品自定义了title无论什么情况都显示自定义title ([8f7652e](https://github.com/easyops-cn/next-core/commit/8f7652e6ecaa928d5311a86934459bc0ecba4099))
+
+
+
+
+
 # [2.199.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.198.0...@next-core/brick-kit@2.199.0) (2024-07-23)
 
 
