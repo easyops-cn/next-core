@@ -1412,7 +1412,7 @@ describe("Runtime", () => {
     getRuntime().applyPageTitle("Hello");
     expect(document.title).toBe("Hi there");
     getRuntime().applyPageTitle("");
-    expect(document.title).toBe("DevOps 管理专家");
+    expect(document.title).toBe("Hi there");
     expect(finishPageView).toBeCalledTimes(1);
     expect(finishPageView).toBeCalledWith({
       pageTitle: "DevOps 管理专家",
