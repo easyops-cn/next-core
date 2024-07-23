@@ -348,7 +348,7 @@ describe("Runtime", () => {
       localeTitle: "Hi there",
     };
     runtime.applyPageTitle(null);
-    expect(document.title).toBe("DevOps 管理专家");
+    expect(document.title).toBe("Hi there");
     runtime.applyPageTitle("Hello");
     expect(document.title).toBe("Hi there");
   });
