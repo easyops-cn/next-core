@@ -554,9 +554,9 @@ export class Runtime implements AbstractRuntime {
 
   applyPageTitle(pageTitle: string): void {
     const baseTitle = this.getBrandSettings().base_title;
-    document.title = pageTitle
-      ? kernel.currentApp?.localeTitle || `${pageTitle} - ${baseTitle}`
-      : baseTitle;
+    document.title =
+      kernel.currentApp?.localeTitle ||
+      (pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle);
   }
 }
 
