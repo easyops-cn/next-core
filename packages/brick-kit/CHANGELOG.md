@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.199.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.198.0...@next-core/brick-kit@2.199.0) (2024-07-23)
+
+
+### Features
+
+* proxy form method ([13dc6cc](https://github.com/easyops-cn/next-core/commit/13dc6ccf7d6cd656d5d61918f0b30d9082663e9c))
+
+
+
+
+
 # [2.198.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.197.3...@next-core/brick-kit@2.198.0) (2024-07-18)
 
 
