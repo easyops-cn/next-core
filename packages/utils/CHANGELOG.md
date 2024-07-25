@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.17...@next-core/utils@1.7.18) (2024-07-25)
+
+
+### Bug Fixes
+
+* only traverse storyboard function if it matches source ([8fea86d](https://github.com/easyops-cn/next-core/commit/8fea86dc996abd8832c69328183d979149ecdb0e))
+
+
+
+
+
 ## [1.7.17](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.16...@next-core/utils@1.7.17) (2024-07-19)
 
 **Note:** Version bump only for package @next-core/utils
