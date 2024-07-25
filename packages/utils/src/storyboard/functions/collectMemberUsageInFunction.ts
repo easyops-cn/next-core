@@ -16,11 +16,13 @@ export function collectMemberUsageInFunction(
     hasNonStaticUsage: false,
   };
 
-  traverseStoryboardFunction(
-    fn,
-    beforeVisitGlobalMember(usage, objectName, level),
-    silentErrors
-  );
+  if (fn.source.includes(objectName)) {
+    traverseStoryboardFunction(
+      fn,
+      beforeVisitGlobalMember(usage, objectName, level),
+      silentErrors
+    );
+  }
 
   if (usage.hasNonStaticUsage && !silentErrors) {
     throw new Error(
