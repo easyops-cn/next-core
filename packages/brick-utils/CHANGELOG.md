@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.2...@next-core/brick-utils@2.52.3) (2024-07-25)
+
+
+### Bug Fixes
+
+* collect storyboard functions perf ([ed56084](https://github.com/easyops-cn/next-core/commit/ed56084665bdec0895869cab5e6499c76606ca15))
+* do not scan INSTALLED_APPS and APP in storyboard functions ([7b793f9](https://github.com/easyops-cn/next-core/commit/7b793f976417c06e624267400bfb13c1cbce315d))
+
+
+
+
+
 ## [2.52.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.1...@next-core/brick-utils@2.52.2) (2024-07-18)
 
 **Note:** Version bump only for package @next-core/brick-utils

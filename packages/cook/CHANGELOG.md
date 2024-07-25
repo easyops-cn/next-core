@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.21](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.20...@next-core/cook@1.9.21) (2024-07-25)
+
+
+### Bug Fixes
+
+* collect storyboard functions perf ([ed56084](https://github.com/easyops-cn/next-core/commit/ed56084665bdec0895869cab5e6499c76606ca15))
+
+
+
+
+
 ## [1.9.20](https://github.com/easyops-cn/next-core/compare/@next-core/cook@1.9.19...@next-core/cook@1.9.20) (2024-07-18)
 
 **Note:** Version bump only for package @next-core/cook
