@@ -1,11 +1,16 @@
 import { describe, it, jest, expect } from "@jest/globals";
-import { precookFunction } from "./precookFunction.js";
+import { clearFunctionASTCache, precookFunction } from "./precookFunction.js";
+import { cook } from "./cook.js";
 
 const consoleWarn = jest
   .spyOn(console, "warn")
   .mockImplementation(() => void 0);
 
 describe("precookFunction", () => {
+  beforeEach(() => {
+    clearFunctionASTCache();
+  });
+
   it.each<[string, string, string[]]>([
     [
       "lexical variables in block statement",
@@ -206,7 +211,7 @@ describe("precookFunction", () => {
       `,
       ["c", "b", "d"],
     ],
-  ])("%s", (desc, source, result) => {
+  ])("%s", (_desc, source, result) => {
     expect(Array.from(precookFunction(source).attemptToVisitGlobals)).toEqual(
       result
     );
@@ -262,6 +267,46 @@ describe("precookFunction", () => {
       ).toEqual(cooked);
     }
   );
+
+  it("should isolate if cache mode is write-only", () => {
+    const source = `function test() {
+      const r = /\\w/g;
+      r.exec("abc");
+      return r.lastIndex;
+    }`;
+    const fn = {
+      name: "test",
+      source,
+    };
+    const attempt1 = precookFunction(source, { cacheKey: fn, cacheMode: "w" });
+    const fn1 = cook(attempt1.function, source) as Function;
+    expect(fn1()).toBe(1);
+
+    const attempt2 = precookFunction(source, { cacheKey: fn, cacheMode: "w" });
+    const fn2 = cook(attempt2.function, source) as Function;
+    // The second RegExp is using the cached one
+    expect(fn2()).toBe(1);
+  });
+
+  it("should use cache if cache mode is read-write", () => {
+    const source = `function test() {
+      const r = /\\w/g;
+      r.exec("abc");
+      return r.lastIndex;
+    }`;
+    const fn = {
+      name: "test",
+      source,
+    };
+    const attempt1 = precookFunction(source, { cacheKey: fn, cacheMode: "rw" });
+    const fn1 = cook(attempt1.function, source) as Function;
+    expect(fn1()).toBe(1);
+
+    const attempt2 = precookFunction(source, { cacheKey: fn, cacheMode: "rw" });
+    const fn2 = cook(attempt2.function, source) as Function;
+    // The second RegExp is using a new one
+    expect(fn2()).toBe(2);
+  });
 
   it("should warn unsupported type", () => {
     const { attemptToVisitGlobals } = precookFunction(

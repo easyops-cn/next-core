@@ -6,6 +6,7 @@ import type {
   Storyboard,
 } from "@next-core/types";
 import { HttpAbortError } from "@next-core/http";
+import { clearFunctionASTCache } from "@next-core/cook";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import {
@@ -289,6 +290,10 @@ export class Router {
       previousApp && currentApp
         ? previousApp.id !== currentApp.id
         : previousApp !== currentApp;
+
+    if (appChanged) {
+      clearFunctionASTCache();
+    }
 
     // TODO: handle favicon
 

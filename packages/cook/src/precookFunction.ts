@@ -1,8 +1,16 @@
-import { FunctionDeclaration } from "@babel/types";
+import type { FunctionDeclaration } from "@babel/types";
 import { parseAsEstree } from "./parse.js";
 import { precook, PrecookOptions } from "./precook.js";
 
+let ASTCache = new WeakMap<object, FunctionDeclaration>();
+
 export interface PrecookFunctionOptions extends PrecookOptions {
+  cacheKey?: object;
+  /**
+   * - "w": write-only
+   * - "rw": read-write
+   */
+  cacheMode?: "w" | "rw";
   typescript?: boolean;
 }
 
@@ -13,12 +21,28 @@ export interface PrecookFunctionResult {
 
 export function precookFunction(
   source: string,
-  { typescript, ...restOptions }: PrecookFunctionOptions = {}
+  {
+    typescript,
+    cacheKey,
+    cacheMode,
+    ...restOptions
+  }: PrecookFunctionOptions = {}
 ): PrecookFunctionResult {
-  const func = parseAsEstree(source, { typescript });
+  let func =
+    cacheKey && cacheMode?.includes("r") ? ASTCache.get(cacheKey) : undefined;
+  if (!func) {
+    func = parseAsEstree(source, { typescript });
+    if (cacheKey && cacheMode?.includes("w")) {
+      ASTCache.set(cacheKey, func);
+    }
+  }
   const attemptToVisitGlobals = precook(func, restOptions);
   return {
     function: func,
     attemptToVisitGlobals,
   };
+}
+
+export function clearFunctionASTCache(): void {
+  ASTCache = new WeakMap();
 }

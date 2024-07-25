@@ -30,6 +30,8 @@ export function traverseStoryboardFunction(
       typescript: fn.typescript,
       withParent: true,
       hooks: { beforeVisitGlobal },
+      cacheKey: fn,
+      cacheMode: "rw",
     });
   } catch (error) {
     if (!silentErrors) {
