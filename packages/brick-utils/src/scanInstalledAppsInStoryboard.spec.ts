@@ -1,8 +1,4 @@
 import { Storyboard } from "@next-core/brick-types";
-import {
-  scanPermissionActionsInStoryboard,
-  scanPermissionActionsInAny,
-} from "./scanPermissionActionsInStoryboard";
 import { scanInstalledAppsInStoryboard } from "./scanInstalledAppsInStoryboard";
 
 describe("scanInstalledAppsInStoryboard", () => {
@@ -68,7 +64,7 @@ describe("scanInstalledAppsInStoryboard", () => {
       },
     } as any;
     expect(scanInstalledAppsInStoryboard(storyboard).sort()).toEqual([
-      "my-app-in-functions",
+      // "my-app-in-functions",
       "my-app-in-menus",
       "my-app-in-routes",
       "my-app-in-templates",

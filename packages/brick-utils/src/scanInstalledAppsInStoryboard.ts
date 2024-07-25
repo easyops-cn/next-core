@@ -1,10 +1,7 @@
 import { Storyboard } from "@next-core/brick-types";
 import { EstreeLiteral } from "@next-core/cook";
 import { PrecookHooks } from "./cook";
-import {
-  visitStoryboardExpressions,
-  visitStoryboardFunctions,
-} from "./visitStoryboard";
+import { visitStoryboardExpressions } from "./visitStoryboard";
 
 const INSTALLED_APPS = "INSTALLED_APPS";
 const has = "has";
@@ -14,13 +11,13 @@ export function scanInstalledAppsInStoryboard(
 ): string[] {
   const collection = new Set<string>();
   const beforeVisitInstalledApps = beforeVisitInstalledAppsFactory(collection);
-  const { customTemplates, functions, menus } = storyboard.meta ?? {};
+  const { customTemplates, menus } = storyboard.meta ?? {};
   visitStoryboardExpressions(
     [storyboard.routes, customTemplates, menus],
     beforeVisitInstalledApps,
     INSTALLED_APPS
   );
-  visitStoryboardFunctions(functions, beforeVisitInstalledApps);
+  // `INSTALLED_APPS` is not available in storyboard functions
   return Array.from(collection);
 }
 

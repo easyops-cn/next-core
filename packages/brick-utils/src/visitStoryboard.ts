@@ -3,17 +3,20 @@ import {
   precookFunction,
   PrecookHooks,
   isEvaluable,
-  isSnippetEvaluation,
   preevaluate,
 } from "./cook";
 import { isObject } from "./isObject";
 
 export function visitStoryboardFunctions(
   functions: StoryboardFunction[],
-  beforeVisitGlobal: PrecookHooks["beforeVisitGlobal"]
+  beforeVisitGlobal: PrecookHooks["beforeVisitGlobal"],
+  options?: VisitStoryboardFunctionsOptions
 ): void {
   if (Array.isArray(functions)) {
     for (const fn of functions) {
+      if (options?.matchSource && !options.matchSource(fn.source)) {
+        continue;
+      }
       try {
         precookFunction(fn.source, {
           typescript: fn.typescript,
@@ -26,6 +29,10 @@ export function visitStoryboardFunctions(
       }
     }
   }
+}
+
+interface VisitStoryboardFunctionsOptions {
+  matchSource?: (source: string) => boolean;
 }
 
 interface VisitStoryboardExpressionsOptions {

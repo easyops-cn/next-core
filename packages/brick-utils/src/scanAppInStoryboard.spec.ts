@@ -23,6 +23,7 @@ describe("scanPermissionActionsInStoryboard", () => {
                 bg: true,
                 properties: {
                   any: "<% APP.getMenu('main-menu-1') %>",
+                  ignore: "<% APP.config.abc %>",
                 },
               },
             ],
@@ -60,7 +61,7 @@ describe("scanPermissionActionsInStoryboard", () => {
     } as any;
     expect(scanAppGetMenuInStoryboard(storyboard).sort()).toEqual([
       "main-menu-1",
-      "main-menu-2",
+      // "main-menu-2",
       "main-menu-3",
     ]);
   });
@@ -90,6 +91,7 @@ describe("scanPermissionActionsInAny", () => {
         bad9: "<% APP.getMenu('menu-9' %>",
         bad10: "<% (APP) => APP.check('menu-10') %>",
         bad11: "<% APP.getMenu('menu-11', 'menu-12') %>",
+        ignore: "<% APP.config.abc %>",
       },
     };
     expect(scanAppGetMenuInAny(brickConf).sort()).toEqual([
