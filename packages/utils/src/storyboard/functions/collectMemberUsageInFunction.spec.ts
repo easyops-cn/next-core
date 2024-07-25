@@ -17,6 +17,19 @@ describe("collectMemberUsageInFunction", () => {
     expect([...used]).toEqual(["hello", "goodbye"]);
   });
 
+  test("no FN usage", () => {
+    const used = collectMemberUsageInFunction(
+      {
+        name: "test",
+        source: `function test() {
+          return;
+        }`,
+      },
+      "FN"
+    );
+    expect([...used]).toEqual([]);
+  });
+
   test("with non static usage", () => {
     expect(() => {
       collectMemberUsageInFunction(
@@ -39,7 +52,7 @@ describe("collectMemberUsageInFunction", () => {
       {
         name: "test",
         source: `function test(input) {
-          return abc - ;
+          return FN.abc - ;
         }`,
       },
       "FN"
