@@ -55,7 +55,14 @@ export interface FunctionCoverageSettings {
 }
 
 /** @internal */
-export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
+export type PartialMicroApp = Pick<
+  MicroApp,
+  "id" | "isBuildPush" | "currentVersion" | "config"
+>;
+
+interface AppConfigSettings {
+  perfStoryboardFunctions?: boolean;
+}
 
 /** @internal */
 export function StoryboardFunctionRegistryFactory({
@@ -77,6 +84,7 @@ export function StoryboardFunctionRegistryFactory({
   }) as ReadonlyStoryboardFunctions;
 
   let currentApp: PartialMicroApp;
+  let needPerf = false;
 
   function registerStoryboardFunctions(
     functions: StoryboardFunction[],
@@ -84,6 +92,12 @@ export function StoryboardFunctionRegistryFactory({
   ): void {
     if (app) {
       currentApp = app;
+      needPerf = (app?.config?.settings as AppConfigSettings)
+        ?.perfStoryboardFunctions;
+      if (needPerf) {
+        // Clear perf data when initialize functions.
+        window.STORYBOARD_FUNCTIONS_PERF = [];
+      }
     }
     registeredFunctions.clear();
     if (Array.isArray(functions)) {
@@ -130,10 +144,19 @@ export function StoryboardFunctionRegistryFactory({
         }),
         !!collectCoverage
       ),
-      hooks: collector && {
-        beforeEvaluate: collector.beforeEvaluate,
-        beforeCall: collector.beforeCall,
-        beforeBranch: collector.beforeBranch,
+      hooks: {
+        perfCall: needPerf
+          ? (duration) => {
+              perf(name, fn.source, duration);
+            }
+          : undefined,
+        ...(collector
+          ? {
+              beforeEvaluate: collector.beforeEvaluate,
+              beforeCall: collector.beforeCall,
+              beforeBranch: collector.beforeBranch,
+            }
+          : null),
       },
     }) as SimpleFunction;
     fn.processed = true;
@@ -153,4 +176,13 @@ export function StoryboardFunctionRegistryFactory({
       });
     },
   };
+}
+
+function perf(name: string, source: string, duration: number): void {
+  const list = (window.STORYBOARD_FUNCTIONS_PERF ??= []);
+  let data = list.find((item) => item.name === name);
+  if (!data) {
+    list.push((data = { name, durations: [], source }));
+  }
+  data.durations.push(Math.round(duration * 1000));
 }

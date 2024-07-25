@@ -20,7 +20,9 @@ export function scanPermissionActionsInStoryboard(
     beforeVisitPermissions,
     PERMISSIONS
   );
-  visitStoryboardFunctions(functions, beforeVisitPermissions);
+  visitStoryboardFunctions(functions, beforeVisitPermissions, {
+    matchSource: (source) => source.includes(PERMISSIONS),
+  });
   return Array.from(collection);
 }
 

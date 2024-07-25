@@ -86,6 +86,13 @@ interface Window {
 
   /** Use Apache SkyWalking Client-side JavaScript exception and tracing library **/
   USE_SKYWALKING_ANALYSIS?: boolean;
+
+  STORYBOARD_FUNCTIONS_PERF?: {
+    name: string;
+    source: string;
+    /** 函数执行耗时列表，单位毫秒 */
+    durations: number[];
+  }[];
 }
 
 declare const __webpack_public_path__: string;

@@ -474,7 +474,7 @@ export abstract class ModalElement extends UpdatingElement {
 // Warning: (ae-internal-missing-underscore) The name "PartialMicroApp" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
+export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush" | "currentVersion" | "config">;
 
 // Warning: (ae-forgotten-export) The symbol "TransformOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "preprocessTransformProperties" should be prefixed with an underscore because the declaration is marked as @internal

@@ -1,6 +1,8 @@
 import { PrecookHooks, preevaluate } from "./cook";
 import { visitStoryboardExpressions } from "./visitStoryboard";
 
+const TRACK_NAMES = ["CTX", "STATE", "FORM_STATE"];
+
 /**
  * Get tracking CTX for an evaluable expression in `track context` mode.
  *
@@ -98,7 +100,8 @@ function track(
 }
 
 export function trackAll(raw: string): trackAllResult | false {
-  if (raw) {
+  // Do not pre-evaluate a string if it doesn't include track names.
+  if (TRACK_NAMES.some((name) => raw.includes(name))) {
     const usage: ContextUsage = {
       usedContexts: [],
       includesComputed: false,
@@ -106,11 +109,7 @@ export function trackAll(raw: string): trackAllResult | false {
     preevaluate(raw, {
       withParent: true,
       hooks: {
-        beforeVisitGlobal: beforeVisitContextFactory(
-          usage,
-          ["CTX", "STATE", "FORM_STATE"],
-          true
-        ),
+        beforeVisitGlobal: beforeVisitContextFactory(usage, TRACK_NAMES, true),
       },
     });
     if (usage.usedContexts.length > 0) {

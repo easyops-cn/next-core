@@ -1,31 +1,35 @@
 import { Storyboard } from "@next-core/brick-types";
-import { PrecookHooks } from "./cook";
-import {
-  visitStoryboardExpressions,
-  visitStoryboardFunctions,
-} from "./visitStoryboard";
-import { EstreeLiteral } from "./cook";
+import { PrecookHooks, EstreeLiteral } from "./cook";
+import { visitStoryboardExpressions } from "./visitStoryboard";
 
 const APP = "APP";
-const GET_MENUS = "getMenu";
+const GET_MENU = "getMenu";
 
 export function scanAppGetMenuInStoryboard(storyboard: Storyboard): string[] {
   const collection = new Set<string>();
-  const beforeVisitPermissions = beforeVisitAppFactory(collection);
-  const { customTemplates, functions } = storyboard.meta ?? {};
+  const beforeVisitApp = beforeVisitAppFactory(collection);
+  const { customTemplates } = storyboard.meta ?? {};
   visitStoryboardExpressions(
     [storyboard.routes, customTemplates],
-    beforeVisitPermissions,
-    APP
+    beforeVisitApp,
+    {
+      matchExpressionString: matchAppGetMenu,
+    }
   );
-  visitStoryboardFunctions(functions, beforeVisitPermissions);
+  // `APP` is not available in storyboard functions
   return Array.from(collection);
 }
 
 export function scanAppGetMenuInAny(data: unknown): string[] {
   const collection = new Set<string>();
-  visitStoryboardExpressions(data, beforeVisitAppFactory(collection), APP);
+  visitStoryboardExpressions(data, beforeVisitAppFactory(collection), {
+    matchExpressionString: matchAppGetMenu,
+  });
   return Array.from(collection);
+}
+
+function matchAppGetMenu(source: string): boolean {
+  return source.includes(APP) && source.includes(GET_MENU);
 }
 
 function beforeVisitAppFactory(
@@ -42,7 +46,7 @@ function beforeVisitAppFactory(
         memberParent.key === "object" &&
         !memberParent.node.computed &&
         memberParent.node.property.type === "Identifier" &&
-        memberParent.node.property.name === GET_MENUS
+        memberParent.node.property.name === GET_MENU
       ) {
         if (callParent.node.arguments.length === 1) {
           const menuId = (

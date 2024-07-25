@@ -302,12 +302,14 @@ describe("evaluate", () => {
     const beforeEvaluate = jest.fn();
     const beforeCall = jest.fn();
     const beforeBranch = jest.fn();
+    const perfCall = jest.fn();
     const func = cook(funcAst, source, {
       globalVariables,
       hooks: {
         beforeEvaluate,
         beforeCall,
         beforeBranch,
+        perfCall,
       },
     }) as SimpleFunction;
 
@@ -350,6 +352,7 @@ describe("evaluate", () => {
       }),
       "if"
     );
+    expect(perfCall).toBeCalledTimes(1);
 
     jest.clearAllMocks();
     func(0);
@@ -386,6 +389,7 @@ describe("evaluate", () => {
       }),
       "else"
     );
+    expect(perfCall).toBeCalledTimes(1);
   });
 
   it("support RegExp", () => {
