@@ -85,6 +85,11 @@ describe("StoryboardFunctions", () => {
       ],
       {
         id: "my-app",
+        config: {
+          settings: {
+            perfStoryboardFunctions: true,
+          },
+        },
       }
     );
     expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
@@ -113,6 +118,8 @@ describe("StoryboardFunctions", () => {
     expect(fn.checkPermissions("my:action-b")).toBe(false);
     expect(fn.getUniqueId()).not.toBe("42");
     expect(fn.getUniqueId("test-")).not.toBe("test-42");
+
+    expect(window.STORYBOARD_FUNCTIONS_PERF?.length).toBe(6);
   });
 
   it("should register no functions", () => {

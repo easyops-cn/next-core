@@ -16,7 +16,7 @@ export function scanAppGetMenuInStoryboard(storyboard: Storyboard): string[] {
       matchExpressionString: matchAppGetMenu,
     }
   );
-  // // `APP` is not available in storyboard functions
+  // `APP` is not available in storyboard functions
   return Array.from(collection);
 }
 

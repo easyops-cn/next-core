@@ -1,7 +1,6 @@
 import {
   ArrayPattern,
   ArrowFunctionExpression,
-  BlockStatement,
   CallExpression,
   CatchClause,
   DoWhileStatement,
@@ -84,6 +83,7 @@ export interface CookHooks {
   beforeEvaluate?(node: EstreeNode): void;
   beforeCall?(node: EstreeNode): void;
   beforeBranch?(node: EstreeNode, branch: "if" | "else"): void;
+  perfCall?(duration: number): void;
 }
 
 /** For next-core internal usage only. */
@@ -1415,9 +1415,10 @@ export function cook(
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiatefunctionobject
   function InstantiateFunctionObject(
     func: FunctionDeclaration,
-    scope: EnvironmentRecord
+    scope: EnvironmentRecord,
+    isRoot?: boolean
   ): FunctionObject {
-    return OrdinaryFunctionCreate(func, scope, true);
+    return OrdinaryFunctionCreate(func, scope, true, isRoot);
   }
 
   // https://tc39.es/ecma262/#sec-runtime-semantics-instantiateordinaryfunctionexpression
@@ -1454,11 +1455,21 @@ export function cook(
       | FunctionExpression
       | ArrowFunctionExpression,
     scope: EnvironmentRecord,
-    isConstructor: boolean
+    isConstructor: boolean,
+    isRoot?: boolean
   ): FunctionObject {
     const F = function () {
+      const perf = isRoot && hooks.perfCall;
+      let start: number;
+      if (perf) {
+        start = performance.now();
+      }
       // eslint-disable-next-line prefer-rest-params
-      return CallFunction(F, arguments);
+      const result = CallFunction(F, arguments);
+      if (perf) {
+        perf(performance.now() - start);
+      }
+      return result;
     } as FunctionObject;
     Object.defineProperties(F, {
       [SourceNode]: {
@@ -1738,7 +1749,7 @@ export function cook(
   const [fn] = collectBoundNames(rootAst);
   // Create an immutable binding for the root function.
   rootEnv.CreateImmutableBinding(fn, true);
-  const fo = InstantiateFunctionObject(rootAst, rootEnv);
+  const fo = InstantiateFunctionObject(rootAst, rootEnv, true);
   rootEnv.InitializeBinding(fn, fo);
   return fo;
 }
