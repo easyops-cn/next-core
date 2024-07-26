@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.3...@next-core/runtime@1.54.4) (2024-07-26)
+
+
+### Bug Fixes
+
+* Fixed an issue when rendering the root scene ([b19ec97](https://github.com/easyops-cn/next-core/commit/b19ec9758563ec3507cf7178e5f589f967995961))
+
+
+
+
+
 ## [1.54.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.2...@next-core/runtime@1.54.3) (2024-07-26)
 
 
