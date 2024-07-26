@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.199.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.2...@next-core/brick-kit@2.199.3) (2024-07-26)
+
+
+### Bug Fixes
+
+* cache function and expression AST ([e91b066](https://github.com/easyops-cn/next-core/commit/e91b06612a70fd71aa9f68a788be9f29632d66c6))
+
+
+
+
+
 ## [2.199.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.1...@next-core/brick-kit@2.199.2) (2024-07-25)
 
 
