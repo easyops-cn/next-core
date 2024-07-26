@@ -31,7 +31,6 @@ export function traverseStoryboardFunction(
       withParent: true,
       hooks: { beforeVisitGlobal },
       cacheKey: fn,
-      cacheMode: "rw",
     });
   } catch (error) {
     if (!silentErrors) {

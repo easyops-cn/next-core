@@ -151,6 +151,7 @@ function lowLevelEvaluate(
   let precooked: PreevaluateResult;
   try {
     precooked = preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
         beforeVisitGlobal(node, parent) {

@@ -149,7 +149,6 @@ export function StoryboardFunctionRegistryFactory({
         beforeVisit: collector.beforeVisit,
       },
       cacheKey: fn,
-      cacheMode: "w",
     });
     const globalVariables = supply(
       precooked.attemptToVisitGlobals,

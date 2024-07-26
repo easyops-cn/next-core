@@ -6,7 +6,10 @@ import type {
   Storyboard,
 } from "@next-core/types";
 import { HttpAbortError } from "@next-core/http";
-import { clearFunctionASTCache } from "@next-core/cook";
+import {
+  clearExpressionASTCache,
+  clearFunctionASTCache,
+} from "@next-core/cook";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import {
@@ -291,6 +294,7 @@ export class Router {
         ? previousApp.id !== currentApp.id
         : previousApp !== currentApp;
 
+    clearExpressionASTCache();
     if (appChanged) {
       clearFunctionASTCache();
     }

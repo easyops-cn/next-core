@@ -6,11 +6,6 @@ let ASTCache = new WeakMap<object, FunctionDeclaration>();
 
 export interface PrecookFunctionOptions extends PrecookOptions {
   cacheKey?: object;
-  /**
-   * - "w": write-only
-   * - "rw": read-write
-   */
-  cacheMode?: "w" | "rw";
   typescript?: boolean;
 }
 
@@ -21,18 +16,12 @@ export interface PrecookFunctionResult {
 
 export function precookFunction(
   source: string,
-  {
-    typescript,
-    cacheKey,
-    cacheMode,
-    ...restOptions
-  }: PrecookFunctionOptions = {}
+  { typescript, cacheKey, ...restOptions }: PrecookFunctionOptions = {}
 ): PrecookFunctionResult {
-  let func =
-    cacheKey && cacheMode?.includes("r") ? ASTCache.get(cacheKey) : undefined;
+  let func = cacheKey ? ASTCache.get(cacheKey) : undefined;
   if (!func) {
     func = parseAsEstree(source, { typescript });
-    if (cacheKey && cacheMode?.includes("w")) {
+    if (cacheKey) {
       ASTCache.set(cacheKey, func);
     }
   }

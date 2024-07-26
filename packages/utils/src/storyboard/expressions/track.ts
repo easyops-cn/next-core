@@ -23,6 +23,7 @@ export function track(
       hasNonStaticUsage: false,
     };
     const { expression } = preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
         beforeVisitGlobal: beforeVisitGlobalMember(usage, variableName),
@@ -58,6 +59,7 @@ export function trackAll(raw: string): trackAllResult | false {
       hasNonStaticUsage: false,
     };
     preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
         beforeVisitGlobal: beforeVisitGlobalMember(usage, TRACK_NAMES, 1, true),
