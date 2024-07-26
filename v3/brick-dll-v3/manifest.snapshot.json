@@ -3436,6 +3436,8 @@
           "PrecookVisitor",
           "asyncProcessBrick",
           "asyncProcessStoryboard",
+          "clearExpressionASTCache",
+          "clearFunctionASTCache",
           "collectBricksByCustomTemplates",
           "collectContextUsage",
           "computeConstantCondition",
