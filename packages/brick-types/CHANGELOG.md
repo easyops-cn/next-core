@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.98.0...@next-core/brick-types@2.98.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* append all auth info into SYS ([f0894e2](https://github.com/easyops-cn/next-core/commit/f0894e2a72f284b757ab3a2d798ef3b60e85acbc))
+
+
+
+
+
 # [2.98.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.97.0...@next-core/brick-types@2.98.0) (2024-07-18)
 
 

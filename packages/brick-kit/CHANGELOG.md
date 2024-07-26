@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.199.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.3...@next-core/brick-kit@2.199.4) (2024-07-26)
+
+
+### Bug Fixes
+
+* append all auth info into SYS ([f0894e2](https://github.com/easyops-cn/next-core/commit/f0894e2a72f284b757ab3a2d798ef3b60e85acbc))
+
+
+
+
+
 ## [2.199.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.2...@next-core/brick-kit@2.199.3) (2024-07-26)
 
 
