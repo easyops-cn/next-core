@@ -1,13 +1,22 @@
 import { formRenderer } from "./constants";
 import { formContainers } from "./ExpandCustomForm";
 
-class FormElement extends HTMLElement {
+interface FormElementProps {
+  renderRoot?: boolean;
+}
+
+class FormElement extends HTMLElement implements FormElementProps {
   get $$typeof(): string {
     return "formRenderer";
   }
 
+  renderRoot?: boolean | undefined;
+
   #proxyFormMethod(method: string, args: unknown[] = []): void {
-    const containerElement = this.firstElementChild;
+    const containerElement =
+      this.renderRoot !== false
+        ? this.firstElementChild?.firstElementChild
+        : this.firstElementChild;
 
     const tagName = containerElement?.tagName?.toLowerCase();
 

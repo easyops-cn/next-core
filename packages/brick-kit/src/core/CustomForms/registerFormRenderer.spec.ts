@@ -9,7 +9,7 @@ describe("registerFormRenderer is work", () => {
   });
   it("should work with validate method", () => {
     const formRender = document.createElement(formRenderer) as any;
-
+    formRender.renderRoot = false;
     const form = document.createElement("eo-form") as any;
     form.validate = jest.fn();
 
@@ -20,9 +20,26 @@ describe("registerFormRenderer is work", () => {
     expect(form.validate).toHaveBeenCalled();
   });
 
-  it("no validate method with other container", () => {
+  it("should work with validate method and render in root", () => {
     const formRender = document.createElement(formRenderer) as any;
 
+    const rootElement = document.createElement("div");
+
+    formRender.appendChild(rootElement);
+
+    const form = document.createElement("eo-form") as any;
+    form.validate = jest.fn();
+
+    rootElement.appendChild(form);
+
+    formRender.validate();
+
+    expect(form.validate).toHaveBeenCalled();
+  });
+
+  it("no validate method with other container", () => {
+    const formRender = document.createElement(formRenderer) as any;
+    formRender.renderRoot = false;
     const form = document.createElement("div") as any;
 
     formRender.appendChild(form);
@@ -41,7 +58,7 @@ describe("registerFormRenderer is work", () => {
 
   it("should work with setInitValue method", () => {
     const formRender = document.createElement(formRenderer) as any;
-
+    formRender.renderRoot = false;
     const form = document.createElement("eo-form") as any;
     form.setInitValue = jest.fn();
 
@@ -57,7 +74,7 @@ describe("registerFormRenderer is work", () => {
 
   it("should work with resetFields method", () => {
     const formRender = document.createElement(formRenderer) as any;
-
+    formRender.renderRoot = false;
     const form = document.createElement("forms.general-form") as any;
     form.resetFields = jest.fn();
 
