@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.199.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.4...@next-core/brick-kit@2.199.5) (2024-07-26)
+
+
+### Bug Fixes
+
+* Fixed an issue when rendering the root scene ([a61c5ed](https://github.com/easyops-cn/next-core/commit/a61c5ed12c0bc83e0afa15bbafab4f0bc92cc750))
+
+
+
+
+
 ## [2.199.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.3...@next-core/brick-kit@2.199.4) (2024-07-26)
 
 
