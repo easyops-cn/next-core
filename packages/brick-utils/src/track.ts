@@ -71,6 +71,7 @@ function track(
       includesComputed: false,
     };
     const { expression } = preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
         beforeVisitGlobal: beforeVisitContextFactory(usage, variableName),
@@ -107,6 +108,7 @@ export function trackAll(raw: string): trackAllResult | false {
       includesComputed: false,
     };
     preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
         beforeVisitGlobal: beforeVisitContextFactory(usage, TRACK_NAMES, true),

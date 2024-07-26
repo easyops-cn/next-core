@@ -16,6 +16,8 @@ import {
   mapCustomApisToNameAndNamespace,
   CustomApiInfo,
   removeDeadConditions,
+  clearExpressionASTCache,
+  clearFunctionASTCache,
 } from "@next-core/brick-utils";
 import { apiAnalyzer, userAnalytics } from "@next-core/easyops-analytics";
 import {
@@ -284,6 +286,19 @@ export class Router {
       });
     }
 
+    const previousApp = this.kernel.currentApp;
+    let currentApp = storyboard ? storyboard.app : undefined;
+    // Storyboard maybe re-assigned, e.g. when open launchpad.
+    const appChanged =
+      previousApp && currentApp
+        ? previousApp.id !== currentApp.id
+        : previousApp !== currentApp;
+
+    clearExpressionASTCache();
+    if (appChanged) {
+      clearFunctionASTCache();
+    }
+
     /** Pending task for loading bricks */
     let pendingTask: Promise<void>;
     if (storyboard) {
@@ -339,15 +354,12 @@ export class Router {
       registerFormRenderer();
 
       collectContract(storyboard.meta?.contracts);
+
+      // `app` maybe fulfilled
+      currentApp = storyboard.app;
     }
 
-    const { mountPoints, currentApp: previousApp } = this.kernel;
-    const currentApp = storyboard ? storyboard.app : undefined;
-    // Storyboard maybe re-assigned, e.g. when open launchpad.
-    const appChanged =
-      previousApp && currentApp
-        ? previousApp.id !== currentApp.id
-        : previousApp !== currentApp;
+    const mountPoints = this.kernel.mountPoints;
     const legacy = currentApp ? currentApp.legacy : undefined;
     let layoutType: LayoutType = currentApp?.layoutType || "console";
 
@@ -706,8 +718,11 @@ export class Router {
           })
         );
 
-        const { loadTime = 0, loadInfoPage } =
-          this.kernel.bootstrapData.settings?.misc ?? {};
+        const { loadTime = 0, loadInfoPage } = (this.kernel.bootstrapData
+          .settings?.misc ?? {}) as {
+          loadTime?: number;
+          loadInfoPage?: string;
+        };
         if (currentApp.isBuildPush && loadTime > 0 && renderTime > loadTime) {
           const getSecond = (time: number): number =>
             Math.floor(time * 100) / 100;
@@ -725,7 +740,7 @@ export class Router {
               ? {
                   info: {
                     label: "建议解决思路",
-                    url: loadInfoPage as string,
+                    url: loadInfoPage,
                   },
                 }
               : {}),

@@ -1,10 +1,15 @@
-import { precookFunction } from "./precookFunction";
+import { cook } from "./cook";
+import { clearFunctionASTCache, precookFunction } from "./precookFunction";
 
 const consoleWarn = jest
   .spyOn(console, "warn")
   .mockImplementation(() => void 0);
 
 describe("precookFunction", () => {
+  beforeEach(() => {
+    clearFunctionASTCache();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -265,6 +270,26 @@ describe("precookFunction", () => {
       ).toEqual(cooked);
     }
   );
+
+  it("should isolate regexp", () => {
+    const source = `function test() {
+      const r = /\\w/g;
+      r.exec("abc");
+      return r.lastIndex;
+    }`;
+    const fn = {
+      name: "test",
+      source,
+    };
+    const attempt1 = precookFunction(source, { cacheKey: fn });
+    const fn1 = cook(attempt1.function, source) as any;
+    expect(fn1()).toBe(1);
+
+    const attempt2 = precookFunction(source, { cacheKey: fn });
+    const fn2 = cook(attempt2.function, source) as any;
+    // The second RegExp is using the cached one
+    expect(fn2()).toBe(1);
+  });
 
   it("should warn unsupported type", () => {
     const { attemptToVisitGlobals } = precookFunction(

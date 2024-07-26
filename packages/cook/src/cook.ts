@@ -234,6 +234,10 @@ export function cook(
               `Unsupported unicode flag in regular expression: ${node.raw}`
             );
           }
+          // Always create a new RegExp, because the AST will be reused.
+          return NormalCompletion(
+            new RegExp(node.regex.pattern, node.regex.flags)
+          );
         }
         return NormalCompletion(node.value);
       }

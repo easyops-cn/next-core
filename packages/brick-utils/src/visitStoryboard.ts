@@ -19,6 +19,7 @@ export function visitStoryboardFunctions(
       }
       try {
         precookFunction(fn.source, {
+          cacheKey: fn,
           typescript: fn.typescript,
           withParent: true,
           hooks: { beforeVisitGlobal },
@@ -65,6 +66,7 @@ export function visitStoryboardExpressions(
       if (matchExpressionString(value) && customIsEvaluable(value)) {
         try {
           preevaluate(value, {
+            cache: true,
             withParent: true,
             hooks: { beforeVisitGlobal },
           });

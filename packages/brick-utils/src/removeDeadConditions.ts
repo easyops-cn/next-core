@@ -219,7 +219,8 @@ export function computeConstantCondition(
     if (typeof ifContainer.if === "string" && isEvaluable(ifContainer.if)) {
       try {
         const { expression, attemptToVisitGlobals, source } = preevaluate(
-          ifContainer.if
+          ifContainer.if,
+          { cache: true }
         );
         const { constantFeatureFlags, featureFlags } = options;
         let hasDynamicVariables = false;
