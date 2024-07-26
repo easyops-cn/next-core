@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.19](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.18...@next-core/utils@1.7.19) (2024-07-26)
+
+
+### Bug Fixes
+
+* cache expression AST ([e3693c2](https://github.com/easyops-cn/next-core/commit/e3693c2a1a88fa03249433fa9f542438229a1860))
+* cache function AST ([99d4b54](https://github.com/easyops-cn/next-core/commit/99d4b549dd9b05cf007b1f513395cbcc5831560c))
+
+
+
+
+
 ## [1.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.17...@next-core/utils@1.7.18) (2024-07-25)
 
 
