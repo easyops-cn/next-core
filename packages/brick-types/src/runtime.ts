@@ -1,14 +1,15 @@
-import { Key } from "path-to-regexp";
-import { History, Location, LocationDescriptor } from "history";
-import {
+import type { Key } from "path-to-regexp";
+import type { History, Location, LocationDescriptor } from "history";
+import type {
   BreadcrumbItemConf,
   MicroApp,
   BrickConf,
   FeatureFlags,
   SeguesConf,
   BrickEventHandler,
+  AuthInfo,
 } from "./manifest";
-import { SidebarMenu, SidebarSubMenu } from "./menu";
+import type { SidebarMenu, SidebarSubMenu } from "./menu";
 
 /** @internal */
 export interface CompileOptions {
@@ -44,14 +45,7 @@ export interface MatchParams {
 /**
  * 系统会话信息。
  */
-export interface SystemInfo extends RuntimeMisc {
-  org: number;
-  username: string;
-  userInstanceId: string;
-  loginFrom?: string;
-  accessRule?: string;
-  isAdmin?: boolean;
-}
+export type SystemInfo = AuthInfo & RuntimeMisc;
 
 /**
  * 运行时杂项信息。
