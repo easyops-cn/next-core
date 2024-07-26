@@ -194,7 +194,6 @@ export class LocationContext {
     tplContextId?: string;
     formContextId?: string;
   }): PluginRuntimeContext {
-    const auth = getAuth();
     const context: PluginRuntimeContext = {
       hash: this.location.hash,
       pathname: this.location.pathname,
@@ -202,12 +201,7 @@ export class LocationContext {
       match,
       app: this.kernel.nextApp,
       sys: {
-        org: auth.org,
-        username: auth.username,
-        userInstanceId: auth.userInstanceId,
-        loginFrom: auth.loginFrom,
-        accessRule: auth.accessRule,
-        isAdmin: auth.isAdmin,
+        ...getAuth(),
         ...getRuntimeMisc(),
       },
       flags: this.kernel.getFeatureFlags(),

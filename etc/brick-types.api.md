@@ -4,11 +4,11 @@
 
 ```ts
 
-import { History as History_2 } from 'history';
+import type { History as History_2 } from 'history';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { IconPrefix } from '@fortawesome/fontawesome-svg-core';
-import { Key } from 'path-to-regexp';
-import { Location as Location_2 } from 'history';
+import type { Key } from 'path-to-regexp';
+import type { Location as Location_2 } from 'history';
 import { LocationDescriptor } from 'history';
 import { ThemeType } from '@ant-design/compatible/lib/icon';
 
@@ -2531,21 +2531,10 @@ export interface StoryDocTypeParameter {
     type: string;
 }
 
+// Warning: (ae-incompatible-release-tags) The symbol "SystemInfo" is marked as @public, but its signature references "AuthInfo" which is marked as @internal
+//
 // @public
-export interface SystemInfo extends RuntimeMisc {
-    // (undocumented)
-    accessRule?: string;
-    // (undocumented)
-    isAdmin?: boolean;
-    // (undocumented)
-    loginFrom?: string;
-    // (undocumented)
-    org: number;
-    // (undocumented)
-    userInstanceId: string;
-    // (undocumented)
-    username: string;
-}
+export type SystemInfo = AuthInfo & RuntimeMisc;
 
 // @public (undocumented)
 export type TemplateLayoutType = "wrapper";
