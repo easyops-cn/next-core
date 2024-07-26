@@ -123,6 +123,7 @@ export function StoryboardFunctionRegistryFactory({
       collector = collectCoverage.createCollector(name);
     }
     const precooked = precookFunction(fn.source, {
+      cacheKey: fn,
       typescript: fn.typescript,
       hooks: collector && {
         beforeVisit: collector.beforeVisit,

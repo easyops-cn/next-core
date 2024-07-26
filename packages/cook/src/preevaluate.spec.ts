@@ -1,9 +1,11 @@
+import { cook } from "./cook";
 import {
   isEvaluable,
   isTrackAll,
   preevaluate,
   shouldAllowRecursiveEvaluations,
   isSnippetEvaluation,
+  clearExpressionASTCache,
 } from "./preevaluate";
 
 describe("isEvaluable", () => {
@@ -29,6 +31,10 @@ describe("isEvaluable", () => {
 });
 
 describe("preevaluate", () => {
+  beforeEach(() => {
+    clearExpressionASTCache();
+  });
+
   it("should work", () => {
     const { attemptToVisitGlobals, ...restResult } = preevaluate(
       "<% DATA, EVENT.detail %>"
@@ -51,6 +57,22 @@ describe("preevaluate", () => {
       prefix: "<%~ ",
       suffix: " %>",
     });
+  });
+
+  it("should isolate regexp", () => {
+    const precooked1 = preevaluate(
+      "<% ((r) => (r.exec('abc'), r.lastIndex))(/\\w/g) %>",
+      { cache: true }
+    );
+    const result1 = cook(precooked1.expression, precooked1.source);
+    expect(result1).toBe(1);
+
+    const precooked2 = preevaluate(
+      "<%= ((r) => (r.exec('abc'), r.lastIndex))(/\\w/g) %>",
+      { cache: true }
+    );
+    const result2 = cook(precooked2.expression, precooked2.source);
+    expect(result2).toBe(1);
   });
 
   it("should throw SyntaxError", () => {

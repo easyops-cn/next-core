@@ -112,7 +112,7 @@ export function evaluate(
   // A `SyntaxError` maybe thrown.
   let precooked: PreevaluateResult;
   try {
-    precooked = preevaluate(raw);
+    precooked = preevaluate(raw, { cache: true });
   } catch (error) {
     const message = `${error.message}, in "${raw}"`;
     if (options.isReEvaluation) {

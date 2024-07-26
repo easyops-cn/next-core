@@ -47,6 +47,7 @@ export interface EstreeLiteral {
   value: unknown;
   raw: string;
   regex?: {
+    pattern: string;
     flags: string;
   };
   loc: SourceLocation;

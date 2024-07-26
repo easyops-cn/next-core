@@ -1,8 +1,12 @@
-import { Expression } from "@babel/types";
+import type { Expression } from "@babel/types";
 import { parseAsEstreeExpression } from "./parse";
 import { precook, PrecookOptions } from "./precook";
 
-export type PreevaluateOptions = Omit<PrecookOptions, "expressionOnly">;
+const ASTCache = new Map<string, Expression>();
+
+export type PreevaluateOptions = Omit<PrecookOptions, "expressionOnly"> & {
+  cache?: boolean;
+};
 
 export interface PreevaluateResult {
   expression: Expression;
@@ -15,16 +19,22 @@ export interface PreevaluateResult {
 // `raw` should always be asserted by `isEvaluable`.
 export function preevaluate(
   raw: string,
-  options?: PreevaluateOptions
+  { cache, ...restOptions }: PreevaluateOptions = {}
 ): PreevaluateResult {
   const fixes: string[] = [];
   const source = raw.replace(/^\s*<%[~=!]?\s|\s%>\s*$/g, (m) => {
     fixes.push(m);
     return "";
   });
-  const expression = parseAsEstreeExpression(source);
+  let expression = cache ? ASTCache.get(source) : undefined;
+  if (!expression) {
+    expression = parseAsEstreeExpression(source);
+    if (cache) {
+      ASTCache.set(source, expression);
+    }
+  }
   const attemptToVisitGlobals = precook(expression, {
-    ...options,
+    ...restOptions,
     expressionOnly: true,
   });
   return {
@@ -50,4 +60,8 @@ export function isSnippetEvaluation(raw: string): boolean {
 
 export function isTrackAll(raw: string): boolean {
   return /^\s*<%=\s/.test(raw) && /\s%>\s*$/.test(raw);
+}
+
+export function clearExpressionASTCache(): void {
+  ASTCache.clear();
 }

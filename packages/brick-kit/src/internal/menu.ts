@@ -510,7 +510,7 @@ function attemptToVisit(
   if (typeof data === "string") {
     if (isEvaluable(data)) {
       if (globals.some((key) => data.includes(key))) {
-        const { attemptToVisitGlobals } = preevaluate(data);
+        const { attemptToVisitGlobals } = preevaluate(data, { cache: true });
         return globals.some((key) => attemptToVisitGlobals.has(key));
       }
     } else if (globals.includes("APP")) {
