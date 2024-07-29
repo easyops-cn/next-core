@@ -113,6 +113,7 @@ def create_or_update_micro_app_sa(org, app):
 
 def import_micro_app_permissions(org, permission_path):
     if not os.path.exists(permission_path):
+        print "permission path {} does not exist, return...".format(permission_path)
         return
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
@@ -161,7 +162,7 @@ def report_single_standalone_na(union_app_install_path, app_detail, union_app_id
             "unionAppVersion": union_app_version,
         }
         report_standalone_na_ret = report(org, app)
-        permission_file_path = os.path.join(union_app_install_path, "permissions", "permissions.json")
+        permission_file_path = os.path.join(single_app_path, "permissions", "permissions.json")
         import_micro_app_permissions(org, permission_file_path)
         return report_standalone_na_ret
     else:
