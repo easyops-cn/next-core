@@ -325,7 +325,7 @@ describe("loadBricksImperatively", () => {
         ]
       )
     ).rejects.toMatchInlineSnapshot(
-      `[Error: Load bricks of "unsure.not-existed" failed]`
+      `[Error: Load bricks of "unsure.not-existed" failed: oops]`
     );
     expect(requestsCount).toBe(1);
     await promise;
@@ -425,7 +425,7 @@ describe("loadBricksImperatively", () => {
         ]
       )
     ).rejects.toMatchInlineSnapshot(
-      `[Error: Load bricks of "eo-will-fail" failed]`
+      `[Error: Load bricks of "eo-will-fail" failed: oops]`
     );
     expect(requestsCount).toBe(1);
     await promise;
