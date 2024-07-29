@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.18...@next-core/brick-container@2.96.19) (2024-07-29)
+
+
+### Bug Fixes
+
+* 联合na中权限始终没有导入, 修复 ([d0cf4d7](https://github.com/easyops-cn/next-core/commit/d0cf4d772751b1029ec7c914de92acbbb67f7a6c))
+
+
+
+
+
 ## [2.96.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.17...@next-core/brick-container@2.96.18) (2024-07-29)
 
 **Note:** Version bump only for package @next-core/brick-container
