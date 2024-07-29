@@ -338,7 +338,7 @@ export class Runtime implements AbstractRuntime {
 
   /* istanbul ignore next */
   getCurrentApp(): MicroApp {
-    return kernel.currentApp;
+    return kernel.nextApp;
   }
 
   /* istanbul ignore next */
