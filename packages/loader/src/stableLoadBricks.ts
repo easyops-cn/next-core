@@ -186,7 +186,9 @@ async function loadBrickModule(
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    throw new Error(`Load ${type} of "${item.fullName}" failed`);
+    throw new Error(
+      `Load ${type} of "${item.fullName}" failed: ${(error as Error)?.message}`
+    );
   }
 }
 
