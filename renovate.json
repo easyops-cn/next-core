@@ -65,6 +65,13 @@
     },
     {
       "matchPackagePatterns": ["^@types/"],
+      "matchPackageNames": [
+        "glob",
+        "inquirer",
+        "i18next",
+        "i18next-browser-languagedetector",
+        "react-i18next"
+      ],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },
