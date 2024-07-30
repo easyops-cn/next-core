@@ -42,6 +42,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /\/node_modules\/@next-core\/loader\//,
         enforce: "pre",
         use: ["source-map-loader"],
       },
