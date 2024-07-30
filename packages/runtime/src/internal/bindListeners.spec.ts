@@ -37,6 +37,7 @@ const consoleWarn = jest.spyOn(console, "warn");
 const consoleError = jest.spyOn(console, "error");
 const windowOpen = jest.spyOn(window, "open");
 const windowAlert = jest.spyOn(window, "alert");
+const windowPostMessage = jest.spyOn(window, "postMessage");
 const mockGetHistory = getHistory as jest.Mock;
 const mockHandleHttpError = handleHttpError as jest.MockedFunction<
   typeof handleHttpError
@@ -755,6 +756,37 @@ describe("listenerFactory for console.*", () => {
       runtimeContext
     )(event);
     expect(windowOpen).toBeCalledWith("/ok", "_blank", "popup=yes");
+  });
+
+  test("window.postMessage without origin", () => {
+    listenerFactory(
+      {
+        action: "window.postMessage",
+        args: ["<% { channel: 'test-1', detail: EVENT.detail } %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(windowPostMessage).toBeCalledWith(
+      { channel: "test-1", detail: "ok" },
+      "http://localhost"
+    );
+  });
+
+  test("window.postMessage with origin", () => {
+    listenerFactory(
+      {
+        action: "window.postMessage",
+        args: [
+          "<% { channel: 'test-2', detail: EVENT.detail } %>",
+          "<% location.origin %>",
+        ],
+      },
+      runtimeContext
+    )(event);
+    expect(windowPostMessage).toBeCalledWith(
+      { channel: "test-2", detail: "ok" },
+      "http://localhost"
+    );
   });
 });
 

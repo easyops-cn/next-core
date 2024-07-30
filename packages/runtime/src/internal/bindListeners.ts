@@ -162,7 +162,11 @@ export function listenerFactory(
           // case "alias.replace":
 
           case "window.open":
-            handleWindowAction(event, handler.args, runtimeContext);
+            handleWindowOpenAction(event, handler.args, runtimeContext);
+            break;
+
+          case "window.postMessage":
+            handleWindowPostMessageAction(event, handler.args, runtimeContext);
             break;
 
           case "location.reload":
@@ -589,7 +593,7 @@ function handleHistoryAction(
   );
 }
 
-function handleWindowAction(
+function handleWindowOpenAction(
   event: Event,
   args: unknown[] | undefined,
   runtimeContext: RuntimeContext
@@ -600,6 +604,21 @@ function handleWindowAction(
     string,
   ];
   window.open(url, target || "_self", features);
+}
+
+function handleWindowPostMessageAction(
+  event: Event,
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const computedArgs = argsFactory(args, runtimeContext, event) as Parameters<
+    typeof window.postMessage
+  >;
+  if (computedArgs.length === 1) {
+    // Add default target origin
+    computedArgs.push(location.origin);
+  }
+  window.postMessage(...computedArgs);
 }
 
 function batchUpdate(
