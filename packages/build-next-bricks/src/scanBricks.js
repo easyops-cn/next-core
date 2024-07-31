@@ -288,7 +288,10 @@ export default async function scanBricks(packageDir) {
             if (fullName.includes(".")) {
               [editorNamespace, editorName] = fullName.split(".");
 
-              if (editorNamespace !== packageName) {
+              if (
+                editorNamespace !== packageName &&
+                packageName !== "widget-editors"
+              ) {
                 throw new Error(
                   `Invalid editor: "${fullName}", expecting prefixed with the package name: "${packageName}"`
                 );
