@@ -31,7 +31,7 @@ import {
   getTplHostElement,
   getTplStateStore,
 } from "./CustomTemplates/utils.js";
-import { handleHttpError, httpErrorToString } from "../handleHttpError.js";
+import { handleHttpError } from "../handleHttpError.js";
 import { Notification } from "../Notification.js";
 import { getFormStateStore } from "./FormRenderer/utils.js";
 import { DataStore } from "./data/DataStore.js";
@@ -318,27 +318,21 @@ export function listenerFactory(
   };
 }
 
-async function handleUseProviderAction(
+function handleUseProviderAction(
   event: Event,
   handler: UseProviderEventHandler,
   runtimeContext: RuntimeContext,
   runtimeBrick?: ElementHolder
 ) {
-  try {
-    const providerBrick = await getProviderBrick(handler.useProvider);
-    const method = handler.method !== "saveAs" ? "resolve" : "saveAs";
-    brickCallback(
-      event,
-      providerBrick,
-      handler,
-      method,
-      runtimeContext,
-      runtimeBrick
-    );
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(httpErrorToString(error));
-  }
+  const method = handler.method !== "saveAs" ? "resolve" : "saveAs";
+  brickCallback(
+    event,
+    handler.useProvider,
+    handler,
+    method,
+    runtimeContext,
+    runtimeBrick
+  );
 }
 
 function handleCustomAction(
@@ -431,23 +425,26 @@ function handleCustomAction(
 
 async function brickCallback(
   event: Event,
-  target: HTMLElement,
+  targetOrProvider: HTMLElement | string,
   handler: ExecuteCustomBrickEventHandler | UseProviderEventHandler,
   method: string,
   runtimeContext: RuntimeContext,
   runtimeBrick?: ElementHolder,
   options?: ArgsFactoryOptions
 ): Promise<void> {
-  if (typeof (target as any)[method] !== "function") {
-    // eslint-disable-next-line no-console
-    console.error("target has no method:", {
-      target,
-      method: method,
-    });
-    return;
-  }
+  const isProvider = isUseProviderHandler(handler);
 
   const task = async (): Promise<unknown> => {
+    const realTarget = isProvider
+      ? await getProviderBrick(targetOrProvider as string)
+      : (targetOrProvider as HTMLElement);
+
+    if (typeof (realTarget as any)[method] !== "function") {
+      throw new Error(
+        `target <${realTarget.tagName.toLowerCase()}> has no method: ${method}`
+      );
+    }
+
     let computedArgs = argsFactory(
       handler.args,
       runtimeContext,
@@ -465,7 +462,7 @@ async function brickCallback(
         handler.sse?.stream
       );
     }
-    return (target as any)[method](...computedArgs);
+    return (realTarget as any)[method](...computedArgs);
   };
 
   if (!handler.callback) {
@@ -486,7 +483,7 @@ async function brickCallback(
     finally: callbackFactory("finally"),
   };
 
-  if (isUseProviderHandler(handler)) {
+  if (isProvider) {
     const pollRuntimeContext = {
       ...runtimeContext,
       event,

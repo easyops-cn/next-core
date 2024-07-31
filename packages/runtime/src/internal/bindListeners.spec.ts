@@ -1035,8 +1035,8 @@ describe("listenerFactory for calling brick methods", () => {
     expect(brick.element.callbackFinally).toBeCalledWith(null);
   });
 
-  test("Calling undefined method", () => {
-    consoleError.mockReturnValueOnce();
+  test("Calling undefined method", async () => {
+    consoleInfo.mockReturnValueOnce();
     const brick = {
       element: document.createElement("div"),
     };
@@ -1044,15 +1044,23 @@ describe("listenerFactory for calling brick methods", () => {
       {
         target: "_self",
         method: "callMe",
+        callback: {
+          error: {
+            action: "console.info",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
       },
       runtimeContext,
       brick
     )(event);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("target has no method:", {
-      target: brick.element,
-      method: "callMe",
-    });
+
+    await (global as any).flushPromises();
+
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledWith(
+      new Error("target <div> has no method: callMe")
+    );
   });
 });
 
