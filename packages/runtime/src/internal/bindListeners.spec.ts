@@ -37,6 +37,7 @@ const consoleWarn = jest.spyOn(console, "warn");
 const consoleError = jest.spyOn(console, "error");
 const windowOpen = jest.spyOn(window, "open");
 const windowAlert = jest.spyOn(window, "alert");
+const windowPostMessage = jest.spyOn(window, "postMessage");
 const mockGetHistory = getHistory as jest.Mock;
 const mockHandleHttpError = handleHttpError as jest.MockedFunction<
   typeof handleHttpError
@@ -756,6 +757,37 @@ describe("listenerFactory for console.*", () => {
     )(event);
     expect(windowOpen).toBeCalledWith("/ok", "_blank", "popup=yes");
   });
+
+  test("window.postMessage without origin", () => {
+    listenerFactory(
+      {
+        action: "window.postMessage",
+        args: ["<% { channel: 'test-1', detail: EVENT.detail } %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(windowPostMessage).toBeCalledWith(
+      { channel: "test-1", detail: "ok" },
+      "http://localhost"
+    );
+  });
+
+  test("window.postMessage with origin", () => {
+    listenerFactory(
+      {
+        action: "window.postMessage",
+        args: [
+          "<% { channel: 'test-2', detail: EVENT.detail } %>",
+          "<% location.origin %>",
+        ],
+      },
+      runtimeContext
+    )(event);
+    expect(windowPostMessage).toBeCalledWith(
+      { channel: "test-2", detail: "ok" },
+      "http://localhost"
+    );
+  });
 });
 
 describe("listenerFactory for setting brick properties", () => {
@@ -1003,8 +1035,8 @@ describe("listenerFactory for calling brick methods", () => {
     expect(brick.element.callbackFinally).toBeCalledWith(null);
   });
 
-  test("Calling undefined method", () => {
-    consoleError.mockReturnValueOnce();
+  test("Calling undefined method", async () => {
+    consoleInfo.mockReturnValueOnce();
     const brick = {
       element: document.createElement("div"),
     };
@@ -1012,15 +1044,23 @@ describe("listenerFactory for calling brick methods", () => {
       {
         target: "_self",
         method: "callMe",
+        callback: {
+          error: {
+            action: "console.info",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
       },
       runtimeContext,
       brick
     )(event);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("target has no method:", {
-      target: brick.element,
-      method: "callMe",
-    });
+
+    await (global as any).flushPromises();
+
+    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toBeCalledWith(
+      new Error("target <div> has no method: callMe")
+    );
   });
 });
 
