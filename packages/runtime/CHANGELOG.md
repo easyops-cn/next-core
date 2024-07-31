@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.5...@next-core/runtime@1.54.6) (2024-07-31)
+
+
+### Bug Fixes
+
+* add a new event action: window.postMessage ([a5abe71](https://github.com/easyops-cn/next-core/commit/a5abe714fd3b68d81b32a39f873bd04cfe73bb25))
+* handle provider load error ([a2b5474](https://github.com/easyops-cn/next-core/commit/a2b5474f8bd5f87522a4e7afab46baa34e7d32f2))
+
+
+
+
+
 ## [1.54.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.4...@next-core/runtime@1.54.5) (2024-07-29)
 
 **Note:** Version bump only for package @next-core/runtime

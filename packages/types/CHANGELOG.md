@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.12.0...@next-core/types@1.12.1) (2024-07-31)
+
+
+### Bug Fixes
+
+* add a new event action: window.postMessage ([a5abe71](https://github.com/easyops-cn/next-core/commit/a5abe714fd3b68d81b32a39f873bd04cfe73bb25))
+
+
+
+
+
 # [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.11.2...@next-core/types@1.12.0) (2024-07-19)
 
 
