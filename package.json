@@ -78,7 +78,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.25.0",
+    "@babel/parser": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@types/react": "^18.3.3",
     "lodash": "^4.17.21",
