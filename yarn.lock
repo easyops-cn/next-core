@@ -1953,10 +1953,10 @@
     "@microsoft/tsdoc-config" "~0.17.0"
     "@rushstack/node-core-library" "5.5.1"
 
-"@microsoft/api-extractor@^7.47.4":
-  version "7.47.4"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.47.4.tgz#1a66dc9d6f316fe86eef336e7f8004ab9222499b"
-  integrity sha512-HKm+P4VNzWwvq1Ey+Jfhhj/3MjsD+ka2hbt8L5AcRM95lu1MFOYnz3XlU7Gr79Q/ZhOb7W/imAKeYrOI0bFydg==
+"@microsoft/api-extractor@^7.47.5":
+  version "7.47.5"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.47.5.tgz#e44f92f803c823538fd21dc98f54cf02d058a44b"
+  integrity sha512-edKt4dFO2t25xmI2FX2rsP5liIgwKW1yuQImA0JM+5YGHCoo51GEQ7j+On17SvVpRJnuqLE/QVgtjIQ1Hpg98w==
   dependencies:
     "@microsoft/api-extractor-model" "7.29.4"
     "@microsoft/tsdoc" "~0.15.0"
@@ -1964,7 +1964,7 @@
     "@rushstack/node-core-library" "5.5.1"
     "@rushstack/rig-package" "0.5.3"
     "@rushstack/terminal" "0.13.3"
-    "@rushstack/ts-command-line" "4.22.3"
+    "@rushstack/ts-command-line" "4.22.4"
     lodash "~4.17.15"
     minimatch "~3.0.3"
     resolve "~1.22.1"
@@ -2469,10 +2469,10 @@
     "@rushstack/node-core-library" "5.5.1"
     supports-color "~8.1.1"
 
-"@rushstack/ts-command-line@4.22.3":
-  version "4.22.3"
-  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.22.3.tgz#dcc75bd25b21031b32b2758ee3f2f4973b112572"
-  integrity sha512-edMpWB3QhFFZ4KtSzS8WNjBgR4PXPPOVrOHMbb7kNpmQ1UFS9HdVtjCXg1H5fG+xYAbeE+TMPcVPUyX2p84STA==
+"@rushstack/ts-command-line@4.22.4":
+  version "4.22.4"
+  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-4.22.4.tgz#63f24b8f6d214d3d4971c8cae7fc54a401abd87b"
+  integrity sha512-QoyhbWfyF9Ixg5DWdPzxO3h2RmJ7i5WH9b7qLzD5h5WFya/ZqicjdPrVwQiGtrFvAbBj8jhcC9DhbzU9xAk78g==
   dependencies:
     "@rushstack/terminal" "0.13.3"
     "@types/argparse" "1.0.38"
