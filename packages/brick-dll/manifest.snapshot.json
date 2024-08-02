@@ -734,7 +734,8 @@
           "enqueueStableLoadBricks",
           "enqueueStableLoadProcessors",
           "loadBricksImperatively",
-          "loadProcessorsImperatively"
+          "loadProcessorsImperatively",
+          "loadEditorsImperatively"
         ]
       }
     },
@@ -12077,7 +12078,8 @@
           "enqueueStableLoadBricks",
           "enqueueStableLoadProcessors",
           "loadBricksImperatively",
-          "loadProcessorsImperatively"
+          "loadProcessorsImperatively",
+          "loadEditorsImperatively"
         ]
       }
     },

@@ -42,8 +42,18 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /\/node_modules\/@next-core\/loader\//,
         enforce: "pre",
         use: ["source-map-loader"],
+      },
+      {
+        // Include ts, tsx, js, and jsx files.
+        test: /\.js$/,
+        include: /\/node_modules\/@next-core\/loader\//,
+        loader: "babel-loader",
+        options: {
+          rootMode: "upward",
+        },
       },
       {
         // - `rc-editor-mention` (which required `draft-js`) is deprecated in `antd Mentions`
