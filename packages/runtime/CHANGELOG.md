@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.7...@next-core/runtime@1.54.8) (2024-08-06)
+
+
+### Bug Fixes
+
+* fix updating route in bricks ([66781c6](https://github.com/easyops-cn/next-core/commit/66781c6407a9d04f84c6a7a2a0190d7c79204da0))
+
+
+
+
+
 ## [1.54.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.6...@next-core/runtime@1.54.7) (2024-08-06)
 
 
