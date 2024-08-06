@@ -27,7 +27,12 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["@next-core/styles-v3", "@next-core/color-theme"],
+      "matchPackageNames": [
+        "@next-core/styles-v3",
+        "@next-core/color-theme",
+        "@next-core/public-scoped-sdk",
+        "@next-core/repo-config"
+      ],
       "groupName": "v2 packages",
       "matchBaseBranches": ["v3"],
       "enabled": true
