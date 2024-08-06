@@ -576,6 +576,35 @@ describe("updateStoryboard", () => {
               path: "${APP.homepage}/about",
               bricks: [],
             },
+            {
+              path: "${APP.homepage}/sub-routes",
+              bricks: [
+                {
+                  brick: "div",
+                  slots: {
+                    demo: {
+                      bricks: [],
+                    },
+                    "": {
+                      type: "routes",
+                      routes: [
+                        {
+                          path: "${APP.homepage}/sub-routes",
+                          exact: true,
+                          bricks: [],
+                        },
+                        {
+                          path: "${APP.homepage}/sub-routes/about",
+                          exact: true,
+                          type: "redirect",
+                          redirect: "${APP.homepage}/about",
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
           ],
         },
       ],
@@ -646,6 +675,10 @@ describe("updateStoryboard", () => {
             },
           ],
         },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: expect.any(Array),
+        },
       ],
     });
   });
@@ -686,6 +719,73 @@ describe("updateStoryboard", () => {
         {
           path: "${APP.homepage}/about",
           bricks: [],
+        },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: expect.any(Array),
+        },
+      ],
+    });
+  });
+
+  test("updateStoryboardByRoute with route in bricks", () => {
+    updateStoryboardByRoute("hello", {
+      path: "${APP.homepage}/sub-routes",
+      exact: true,
+      bricks: [
+        {
+          brick: "div",
+        },
+      ],
+    });
+
+    expect(_internalApiGetStoryboardInBootstrapData("hello")).toEqual({
+      app: {
+        id: "hello",
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/_dev_only_/template-preview/tpl-a",
+          exact: true,
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}",
+          type: "routes",
+          routes: [],
+        },
+        {
+          path: "${APP.homepage}/about",
+          bricks: [],
+        },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: [
+            {
+              brick: "div",
+              slots: {
+                demo: {
+                  bricks: [],
+                },
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes",
+                      exact: true,
+                      bricks: [{ brick: "div" }],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes/about",
+                      exact: true,
+                      type: "redirect",
+                      redirect: "${APP.homepage}/about",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
         },
       ],
     });
@@ -732,6 +832,10 @@ describe("updateStoryboard", () => {
           path: "${APP.homepage}/about",
           bricks: [],
         },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: expect.any(Array),
+        },
       ],
     });
   });
@@ -771,6 +875,10 @@ describe("updateStoryboard", () => {
         {
           path: "${APP.homepage}/about",
           bricks: [],
+        },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: expect.any(Array),
         },
       ],
     });
@@ -828,6 +936,10 @@ describe("updateStoryboard", () => {
           path: "${APP.homepage}/about",
           bricks: [],
         },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: expect.any(Array),
+        },
       ],
     });
   });
@@ -862,6 +974,10 @@ describe("updateStoryboard", () => {
         {
           path: "${APP.homepage}/about",
           bricks: [],
+        },
+        {
+          path: "${APP.homepage}/sub-routes",
+          bricks: expect.any(Array),
         },
       ],
     });
@@ -1161,7 +1277,7 @@ describe("debugDataValue", () => {
     const mockAsyncComputeRealValue = jest
       .spyOn(computeRealValue, "asyncComputeRealValue")
       .mockImplementationOnce(async () => null);
-    mockInternalApiGetRuntimeContext.mockReturnValue({});
+    mockInternalApiGetRuntimeContext.mockReturnValue({} as any);
     await debugDataValue(
       {
         resolve: { useProvider: "easyops.api.cmdb.model@postSearch:1.0.0" },
