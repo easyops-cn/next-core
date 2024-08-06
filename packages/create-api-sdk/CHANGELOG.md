@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.25](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.24...@next-core/create-api-sdk@1.0.25) (2024-08-06)
+
+
+### Bug Fixes
+
+* upgrade @next-core/public-scoped-sdk ([a83b17c](https://github.com/easyops-cn/next-core/commit/a83b17c51857c113eb479882edd96fc1b3dd751f))
+
+
+
+
+
 ## [1.0.24](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.23...@next-core/create-api-sdk@1.0.24) (2024-07-03)
 
 **Note:** Version bump only for package @next-core/create-api-sdk
