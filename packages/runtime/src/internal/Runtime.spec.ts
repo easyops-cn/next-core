@@ -1,4 +1,5 @@
 import { describe, test, expect, jest } from "@jest/globals";
+import { fireEvent } from "@testing-library/dom";
 import { createProviderClass } from "@next-core/utils/general";
 import { loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
@@ -434,6 +435,24 @@ const getBootstrapData = (options?: {
                   },
                 },
               ],
+            },
+          ],
+        },
+        {
+          path: "${APP.homepage}/block",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "I'm blocked",
+              },
+              lifeCycle: {
+                onPageLoad: {
+                  action: "history.block",
+                  args: ["Are you sure you want to leave this page?"],
+                },
+              },
             },
           ],
         },
@@ -1314,6 +1333,16 @@ describe("Runtime", () => {
       path: "/auth/login",
       pageTitle: "DevOps 管理专家",
     });
+  });
+
+  test("history block", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/block");
+    await getRuntime().bootstrap();
+    const beforeunload = new Event("beforeunload");
+    const preventDefault = jest.spyOn(beforeunload, "preventDefault");
+    fireEvent(window, beforeunload);
+    expect(preventDefault).toBeCalled();
   });
 
   test("no app matched", async () => {

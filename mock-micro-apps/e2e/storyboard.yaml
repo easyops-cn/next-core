@@ -842,6 +842,55 @@ routes:
     properties:
       textContent: Real Other Route
 
+- path: '${APP.homepage}/sub-routes-multi-click-entry'
+  bricks:
+  - brick: button
+    properties:
+      textContent: Go App
+    events:
+      click:
+        action: history.push
+        args:
+        - ${APP.homepage}/sub-routes-multi-click/app
+
+- path: '${APP.homepage}/sub-routes-multi-click'
+  incrementalSubRoutes: true
+  bricks:
+  - brick: h1
+    properties:
+      textContent: Sub-Routes Multi Click
+  - brick: div
+    slots:
+      '':
+        type: routes
+        routes:
+        - path: '${APP.homepage}/sub-routes-multi-click/app'
+          context:
+            - name: myApp
+              resolve:
+                useProvider: e2e.return-by-timeout
+                args:
+                  - 500
+                  - App
+          bricks:
+          - brick: h2
+            properties:
+              textContent: <% `This is ${CTX.myApp}` %>
+            lifeCycle:
+              onMount:
+                action: console.info
+                args:
+                  - Mounted
+              onUnmount:
+                action: console.info
+                args:
+                  - Unmounted
+        - path: '${APP.homepage}/sub-routes-multi-click/host'
+          bricks:
+          - brick: h2
+            properties:
+              textContent: This is Host
+
 - path: '${APP.homepage}/async-wrap-brick'
   bricks:
   - brick: e2e.async-wrap
