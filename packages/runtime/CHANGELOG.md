@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.6...@next-core/runtime@1.54.7) (2024-08-06)
+
+
+### Bug Fixes
+
+* handle multi navigations to a page with incrementalSubRoutes ([bf76fb9](https://github.com/easyops-cn/next-core/commit/bf76fb9a379bbd56bc11e0af23efbd7643743ceb))
+
+
+
+
+
 ## [1.54.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.5...@next-core/runtime@1.54.6) (2024-07-31)
 
 
