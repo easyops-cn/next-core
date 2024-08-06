@@ -213,5 +213,31 @@ for (const port of Cypress.env("ports")) {
         expect(call6.args[0]).to.equal("Mounted App");
       });
     });
+
+    it("should handle multiple clicks with sub-routes", () => {
+      cy.visit(`${origin}/e2e/sub-routes-multi-click-entry`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+          cy.spy(win.console, "info").as("console.info");
+        },
+      });
+
+      // Click twice
+      cy.contains("Go App").click();
+      cy.contains("Go App").click();
+      cy.contains("This is App");
+      cy.expectMainContents(["Sub-Routes Multi Click", "This is App"]);
+
+      cy.get("@console.info").should("have.callCount", 3);
+      cy.get("@console.info").should((spy) => {
+        const calledWith = [0, 1, 2].map((index) => {
+          const call = spy.getCall(index);
+          return call.args[0];
+        });
+        expect(calledWith).to.deep.eq(["Mounted", "Unmounted", "Mounted"]);
+      });
+
+      cy.get("@console.error").should("not.be.called");
+    });
   });
 }
