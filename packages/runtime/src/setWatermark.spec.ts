@@ -175,4 +175,17 @@ describe("setWatermark", () => {
 
     expect(mockResolve).not.toBeCalled();
   });
+
+  it("watermark should not be called when content is empty", async () => {
+    mockRunTime = {
+      getFeatureFlags: () => ({
+        "show-watermark": true,
+      }),
+      getMiscSettings: () => ({}),
+      getBrickPackages: () => ({}),
+    };
+    await setWatermark();
+
+    expect(mockResolve).not.toBeCalled();
+  });
 });
