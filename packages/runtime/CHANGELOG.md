@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.9](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.8...@next-core/runtime@1.54.9) (2024-08-08)
+
+
+### Bug Fixes
+
+* do not call showWatermark if there is no content ([801b1d7](https://github.com/easyops-cn/next-core/commit/801b1d78451df956a60197684c598cbce286426a))
+
+
+
+
+
 ## [1.54.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.7...@next-core/runtime@1.54.8) (2024-08-06)
 
 
