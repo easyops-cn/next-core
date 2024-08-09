@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.10](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.9...@next-core/runtime@1.54.10) (2024-08-09)
+
+
+### Bug Fixes
+
+* tpl proxied methods should return ([5dfb2ed](https://github.com/easyops-cn/next-core/commit/5dfb2edde5a329207381423872b799be57b167c5))
+
+
+
+
+
 ## [1.54.9](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.8...@next-core/runtime@1.54.9) (2024-08-08)
 
 
