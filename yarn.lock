@@ -5323,13 +5323,13 @@ cssnano-preset-default@^7.0.4:
     postcss-svgo "^7.0.1"
     postcss-unique-selectors "^7.0.1"
 
-cssnano-preset-lite@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-4.0.1.tgz#82d5061ff21c5a3e507ccbf5c679c05bb086cb1a"
-  integrity sha512-17N6ZX9jlKkzhKs2vv9A7n/n6zOk0o5RkfCqfFr1LjWtnYXNMGiscgEPBXFZUKPVA5TjMv+INo6yXmepMRsZ0Q==
+cssnano-preset-lite@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-4.0.2.tgz#08e844e3fa514c31fe73b14256ddfc6859d541b3"
+  integrity sha512-cJGfFCNJqv+ZhQvjrh6mGanycDA6kk/rAxdf9MLyxNcyhaQpP5/OIIhmrjz43RDpGpaMZM+ZVJwvKFWhomElIA==
   dependencies:
     cssnano-utils "^5.0.0"
-    postcss-discard-comments "^7.0.1"
+    postcss-discard-comments "^7.0.2"
     postcss-discard-empty "^7.0.0"
     postcss-normalize-whitespace "^7.0.0"
 
@@ -10886,12 +10886,12 @@ postcss-dir-pseudo-class@^9.0.0:
   dependencies:
     postcss-selector-parser "^6.1.0"
 
-postcss-discard-comments@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-7.0.1.tgz#00b01c5a99e95f97927b0ba12a1c422ab90bf55f"
-  integrity sha512-GVrQxUOhmle1W6jX2SvNLt4kmN+JYhV7mzI6BMnkAWR9DtVvg8e67rrV0NfdWhn7x1zxvzdWkMBPdBDCls+uwQ==
+postcss-discard-comments@^7.0.1, postcss-discard-comments@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-7.0.2.tgz#b402b2957a1ecefc77a44062ea6563190eaa8903"
+  integrity sha512-/Hje9Ls1IYcB9duELO/AyDUJI6aQVY3h5Rj1ziXgaLYCTi1iVBLnjg/TS0D6NszR/kDG6I86OwLmAYe+bvJjiQ==
   dependencies:
-    postcss-selector-parser "^6.1.0"
+    postcss-selector-parser "^6.1.1"
 
 postcss-discard-duplicates@^7.0.0:
   version "7.0.0"
@@ -11259,10 +11259,10 @@ postcss-selector-not@^8.0.0:
   dependencies:
     postcss-selector-parser "^6.1.0"
 
-postcss-selector-parser@^6.0.10, postcss-selector-parser@^6.0.16, postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4, postcss-selector-parser@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.1.0.tgz#49694cb4e7c649299fea510a29fa6577104bcf53"
-  integrity sha512-UMz42UD0UY0EApS0ZL9o1XnLhSTtvvvLe5Dc2H2O56fvRZi+KulDyf5ctDhhtYJBGKStV2FL1fy6253cmLgqVQ==
+postcss-selector-parser@^6.0.10, postcss-selector-parser@^6.0.16, postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4, postcss-selector-parser@^6.1.0, postcss-selector-parser@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.1.1.tgz#5be94b277b8955904476a2400260002ce6c56e38"
+  integrity sha512-b4dlw/9V8A71rLIDsSwVmak9z2DuBUB7CA1/wSdelNEzqsjoSPeADTWNO09lpH49Diy3/JIZ2bSPB1dI3LJCHg==
   dependencies:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
