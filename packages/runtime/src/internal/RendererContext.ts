@@ -71,15 +71,17 @@ export interface RendererContextOptions {
 export interface RouteHelper {
   bailout: (output: RenderOutput) => true | undefined;
   mergeMenus: (menuRequests: Promise<StaticMenuConf>[]) => Promise<void>;
+  /** Will always resolve */
   catch: (
     error: unknown,
     returnNode: RenderReturnNode
-  ) =>
+  ) => Promise<
     | undefined
     | {
         failed: true;
         output: RenderOutput;
-      };
+      }
+  >;
 }
 
 export class RendererContext {
@@ -221,6 +223,9 @@ export class RendererContext {
     return this.#routeHelper!.bailout(output);
   }
 
+  /**
+   * Will always resolve
+   */
   reCatch(error: unknown, returnNode: RenderReturnNode) {
     return this.#routeHelper!.catch(error, returnNode);
   }

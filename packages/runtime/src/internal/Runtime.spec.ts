@@ -7,6 +7,7 @@ import {
   HttpResponseError as _HttpResponseError,
   HttpAbortError as _HttpAbortError,
 } from "@next-core/http";
+import { initializeI18n } from "@next-core/i18n";
 import {
   createRuntime as _createRuntime,
   getRuntime as _getRuntime,
@@ -15,6 +16,8 @@ import {
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { getHistory as _getHistory } from "../history.js";
+
+initializeI18n();
 
 jest.mock("@next-core/loader");
 jest.mock("../Dialog.js");
@@ -589,6 +592,17 @@ customElements.define(
   createProviderClass(myAbortProvider)
 );
 
+customElements.define(
+  "illustrations.error-message",
+  class IllustrationsErrorMessage extends HTMLElement {
+    errorTitle?: string;
+    variant?: string;
+    description?: string;
+  }
+);
+
+customElements.define("eo-link", class EoLink extends HTMLElement {});
+
 describe("Runtime", () => {
   let createRuntime: typeof _createRuntime;
   let getRuntime: typeof _getRuntime;
@@ -876,11 +890,13 @@ describe("Runtime", () => {
             Hello
           </h1>
           <div>
-            <div
+            <illustrations.error-message
               data-error-boundary=""
             >
-              SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
-            </div>
+              <eo-link>
+                Go back to previous page
+              </eo-link>
+            </illustrations.error-message>
           </div>
         </div>,
         <div
@@ -1406,11 +1422,13 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <div
+          <illustrations.error-message
             data-error-boundary=""
           >
-            TypeError: bricks is not iterable
-          </div>
+            <eo-link>
+              Go back to previous page
+            </eo-link>
+          </illustrations.error-message>
         </div>,
         <div
           id="portal-mount-point"
@@ -1517,9 +1535,13 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <div>
-            Page not found
-          </div>
+          <illustrations.error-message
+            data-error-boundary=""
+          >
+            <eo-link>
+              Go back to home page
+            </eo-link>
+          </illustrations.error-message>
         </div>,
         <div
           id="portal-mount-point"

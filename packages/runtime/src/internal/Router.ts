@@ -39,16 +39,11 @@ import {
 import { getPageInfo } from "../getPageInfo.js";
 import type {
   MenuRequestNode,
-  RenderBrick,
   RenderRoot,
   RuntimeContext,
 } from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
-import {
-  handleHttpError,
-  httpErrorToString,
-  isUnauthenticatedError,
-} from "../handleHttpError.js";
+import { handleHttpError, isUnauthenticatedError } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
 import { setLoginStateCookie } from "../setLoginStateCookie.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
@@ -60,6 +55,7 @@ import { setUIVersion } from "../setUIVersion.js";
 import { setAppVariable } from "../setAppVariable.js";
 import { setWatermark } from "../setWatermark.js";
 import { clearMatchedRoutes } from "./routeMatchedMap.js";
+import { ErrorNode, PageNotFoundError } from "./ErrorNode.js";
 
 type RenderTask = InitialRenderTask | SubsequentRenderTask;
 
@@ -406,7 +402,7 @@ export class Router {
             new CustomEvent("navConfig.change", { detail: this.#navConfig })
           );
         },
-        catch: (error, returnNode) => {
+        catch: async (error, returnNode) => {
           if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
             redirectToLogin();
             return;
@@ -423,21 +419,7 @@ export class Router {
             return {
               failed: true,
               output: {
-                node: {
-                  tag: RenderTag.BRICK,
-                  type: "div",
-                  properties: {
-                    textContent: httpErrorToString(error),
-                    dataset: {
-                      errorBoundary: "",
-                    },
-                    style: {
-                      color: "var(--color-error)",
-                    },
-                  },
-                  runtimeContext: null!,
-                  return: returnNode,
-                },
+                node: await ErrorNode(error, returnNode, true),
                 blockingList: [],
               },
             };
@@ -506,7 +488,7 @@ export class Router {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
 
-        const result = routeHelper.catch(error, renderRoot);
+        const result = await routeHelper.catch(error, renderRoot);
         if (!result) {
           return;
         }
@@ -571,15 +553,11 @@ export class Router {
     applyTheme();
     applyMode();
 
-    const node: RenderBrick = {
-      tag: RenderTag.BRICK,
-      type: "div",
-      properties: {
-        textContent: "Page not found",
-      },
-      runtimeContext: null!,
-      return: renderRoot,
-    };
+    const node = await ErrorNode(
+      new PageNotFoundError(currentApp ? "page not found" : "app not found"),
+      renderRoot,
+      true
+    );
     renderRoot.child = node;
 
     mountTree(renderRoot);

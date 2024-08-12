@@ -25,6 +25,7 @@ import { getSpanId } from "./utils.js";
 import { listen } from "./preview/listen.js";
 import { getMock } from "./mocks.js";
 import { NS, locales } from "./i18n.js";
+import { BootstrapError } from "./BootstrapError.js";
 
 analytics.initialize(
   `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
@@ -140,9 +141,13 @@ async function main() {
     // `.bootstrap-error` makes loading-bar invisible.
     document.body.classList.add("bootstrap-error");
 
+    customElements.define("easyops-bootstrap-error", BootstrapError);
+    const errorElement = document.createElement("easyops-bootstrap-error");
+    errorElement.textContent = httpErrorToString(error);
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    document.querySelector("#main-mount-point")!.textContent =
-      `bootstrap failed: ${httpErrorToString(error)}`;
+    document.querySelector("#main-mount-point")!.replaceChildren(errorElement);
+
     return "failed";
   }
 }
