@@ -75,8 +75,8 @@ import type { DataStore, DataStoreType } from "./data/DataStore.js";
 import { listenerFactory } from "./bindListeners.js";
 import type { MatchResult } from "./matchPath.js";
 import { setupRootRuntimeContext } from "./setupRootRuntimeContext.js";
-import { httpErrorToString } from "../handleHttpError.js";
 import { setMatchedRoute } from "./routeMatchedMap.js";
+import { ErrorNode } from "./ErrorNode.js";
 
 export interface RenderOutput {
   node?: RenderChildNode;
@@ -293,21 +293,7 @@ export async function renderBrick(
       // eslint-disable-next-line no-console
       console.error("Error caught by error boundary:", error);
       return {
-        node: {
-          tag: RenderTag.BRICK,
-          type: "div",
-          properties: {
-            textContent: httpErrorToString(error),
-            dataset: {
-              errorBoundary: "",
-            },
-            style: {
-              color: "var(--color-error)",
-            },
-          },
-          runtimeContext: null!,
-          return: returnNode,
-        },
+        node: await ErrorNode(error, returnNode),
         blockingList: [],
       };
     } else {
@@ -865,7 +851,7 @@ async function legacyRenderBrick(
                 // eslint-disable-next-line no-console
                 console.error("Incremental sub-router failed:", error);
 
-                const result = rendererContext.reCatch(error, brick);
+                const result = await rendererContext.reCatch(error, brick);
                 if (!result) {
                   return true;
                 }

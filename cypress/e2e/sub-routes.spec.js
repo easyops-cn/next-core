@@ -56,7 +56,7 @@ for (const port of Cypress.env("ports")) {
       cy.contains("SyntaxError");
       cy.expectMainContents([
         ...fixedContents,
-        'SyntaxError: Unexpected token (1:4), in "<% CTX. %>"',
+        'Oops! Something went wrong: SyntaxError: Unexpected token (1:4), in "<% CTX. %>"',
       ]);
 
       cy.get("@console.error").should("be.called");

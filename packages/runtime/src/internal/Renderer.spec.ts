@@ -1,11 +1,6 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import type { RouteConf, RouteConfOfBricks } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
-import { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
-import { RenderTag } from "./enums.js";
-import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
-import { RendererContext } from "./RendererContext.js";
-import { DataStore } from "./data/DataStore.js";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
@@ -13,6 +8,12 @@ import {
   loadScript,
   loadStyle,
 } from "@next-core/loader";
+import { initializeI18n } from "@next-core/i18n";
+import { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
+import { RenderTag } from "./enums.js";
+import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
+import { RendererContext } from "./RendererContext.js";
+import { DataStore } from "./data/DataStore.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { getHistory } from "../history.js";
 import { mediaEventTarget } from "./mediaQuery.js";
@@ -25,6 +26,8 @@ import { hooks } from "./Runtime.js";
 import * as compute from "./compute/computeRealValue.js";
 import { customProcessors } from "../CustomProcessors.js";
 import * as __secret_internals from "./secret_internals.js";
+
+initializeI18n();
 
 jest.mock("@next-core/loader");
 jest.mock("../history.js");
@@ -951,7 +954,8 @@ describe("renderBrick", () => {
         tag: RenderTag.BRICK,
         type: "div",
         properties: {
-          textContent: 'ReferenceError: ABC is not defined, in "<% ABC %>"',
+          textContent:
+            'UNKNOWN_ERROR: ReferenceError: ABC is not defined, in "<% ABC %>"',
           dataset: {
             errorBoundary: "",
           },
