@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.11...@next-core/runtime@1.54.12) (2024-08-13)
+
+
+### Bug Fixes
+
+* mark isInIframeOfVisualBuilder for visual-builder-* extension apps ([8fa21b2](https://github.com/easyops-cn/next-core/commit/8fa21b20634a7e5b69d56bd756f10a246e302395))
+
+
+
+
+
 ## [1.54.11](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.10...@next-core/runtime@1.54.11) (2024-08-12)
 
 
