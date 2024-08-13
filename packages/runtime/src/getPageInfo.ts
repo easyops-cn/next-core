@@ -44,12 +44,14 @@ export function getPageInfo(): PageInfo {
           const parentIsNext = parentPathname.startsWith("/next/");
           misc.isInIframeOfNext =
             (Number(selfIsNext) ^ Number(parentIsNext)) === 0;
-          misc.isInIframeOfVisualBuilder = parentPathname.startsWith(
-            `${parentIsNext ? "/next" : ""}/visual-builder/`
-          );
+          const prefix = parentIsNext ? "/next" : "";
+          // Allow visual-builder-* extension apps.
+          misc.isInIframeOfVisualBuilder =
+            parentPathname.startsWith(`${prefix}/visual-builder/`) ||
+            parentPathname.startsWith(`${prefix}/visual-builder-`);
           misc.isInIframeOfLegacyConsole = selfIsNext && !parentIsNext;
         }
-      } catch (e) {
+      } catch {
         // do nothing
       }
     }
