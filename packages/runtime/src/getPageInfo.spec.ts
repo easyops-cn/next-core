@@ -153,4 +153,29 @@ describe("getPageInfo", () => {
     });
     window.location = location;
   });
+
+  it("show work in iframe of visual builder extension apps", () => {
+    const location = window.location;
+    delete (window as any).location;
+    window.location = {
+      pathname: "/next/any",
+    } as unknown as Location;
+    Object.defineProperty(window, "parent", {
+      value: {
+        origin: "http://localhost",
+        location: {
+          pathname: "/next/visual-builder-light/xyz",
+        },
+      },
+      writable: true,
+    });
+    expect(getPageInfo()).toEqual({
+      isInIframe: true,
+      isInIframeOfSameSite: true,
+      isInIframeOfNext: true,
+      isInIframeOfVisualBuilder: true,
+      isInIframeOfLegacyConsole: false,
+    });
+    window.location = location;
+  });
 });
