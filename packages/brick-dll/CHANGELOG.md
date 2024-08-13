@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.47.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.47.15...@next-core/brick-dll@2.47.16) (2024-08-13)
+
+
+### Bug Fixes
+
+* do not use source-map-loader for @next-core/loader, which has `??` ([10845dc](https://github.com/easyops-cn/next-core/commit/10845dc3e38eb30b7530faabe50d1c9c5f7af46e))
+* use babel-loader to load @next-core/loader which has `??` ([0a14c54](https://github.com/easyops-cn/next-core/commit/0a14c54c02b951619ee9e08b7441b347f808f585))
+
+
+
+
+
 ## [2.47.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.47.14...@next-core/brick-dll@2.47.15) (2024-07-29)
 
 **Note:** Version bump only for package @next-core/brick-dll
