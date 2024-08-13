@@ -297,6 +297,7 @@ export class BuilderDataManager {
       edges: newEdges,
       wrapperNode,
     };
+    this.triggerDataChange();
     this.eventTarget.dispatchEvent(
       new CustomEvent(BuilderInternalEventType.NODE_UPDATE, {
         detail: this.data,
