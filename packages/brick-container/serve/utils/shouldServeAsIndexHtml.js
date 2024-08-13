@@ -1,13 +1,14 @@
 /**
  * @param {import("express").Request} req
  * @param {boolean} isHome
+ * @param {boolean} proxiedHome
  * @returns {boolean}
  */
-export function shouldServeAsIndexHtml(req, isHome) {
+export function shouldServeAsIndexHtml(req, isHome, proxiedHome) {
   return (
     req.method === "GET" &&
     (isHome
-      ? req.path === "/"
+      ? !proxiedHome && req.path === "/"
       : ![
           "/api/",
           "/sa-static/",

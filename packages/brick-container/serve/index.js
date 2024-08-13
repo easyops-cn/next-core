@@ -55,6 +55,8 @@ for (const middleware of middlewares) {
   }
 }
 
+const proxy = getProxy(env, getRawIndexHtml);
+
 const browseHappyHtml = "browse-happy.html";
 
 if (useLocalContainer) {
@@ -66,7 +68,7 @@ if (useLocalContainer) {
 
   // Serve index.html
   app.use(baseHref, async (req, res, next) => {
-    await serveIndexHtml(req, res, next, true);
+    await serveIndexHtml(req, res, next, true, !!proxy);
   });
 
   // Serve browse-happy.html
@@ -74,14 +76,20 @@ if (useLocalContainer) {
     res.sendFile(path.join(distDir, browseHappyHtml));
   });
 
+  const staticHandler = express.static(distDir);
   // Serve static files
-  app.use(baseHref, express.static(distDir));
+  app.use(baseHref, (req, res, next) => {
+    if (req.path === "/") {
+      next();
+      return;
+    }
+    return staticHandler(req, res, next);
+  });
 
   // Serve static files in next-core for new standalone apps.
   app.use(`${baseHref}sa-static/-/core/0.0.0/`, express.static(distDir));
 }
 
-const proxy = getProxy(env, getRawIndexHtml);
 if (proxy) {
   for (const { context, onProxyReq, onProxyRes, ...options } of proxy) {
     app.use(
@@ -139,8 +147,8 @@ liveReloadServer(env);
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  */
-async function serveIndexHtml(req, res, next, isHome) {
-  if (!shouldServeAsIndexHtml(req, isHome)) {
+async function serveIndexHtml(req, res, next, isHome, proxiedHome) {
+  if (!shouldServeAsIndexHtml(req, isHome, proxiedHome)) {
     next();
     return;
   }
