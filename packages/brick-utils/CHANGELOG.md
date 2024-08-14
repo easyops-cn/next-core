@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.5...@next-core/brick-utils@2.52.6) (2024-08-14)
+
+
+### Bug Fixes
+
+* fix dead removal for context onChange ([d3e1fe5](https://github.com/easyops-cn/next-core/commit/d3e1fe5a1c7cbb414a943608562f8ea4072e24ca))
+
+
+
+
+
 ## [2.52.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.4...@next-core/brick-utils@2.52.5) (2024-07-26)
 
 **Note:** Version bump only for package @next-core/brick-utils
