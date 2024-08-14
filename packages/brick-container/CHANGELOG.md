@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.18.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.18.15...@next-core/brick-container@3.18.16) (2024-08-14)
+
+
+### Bug Fixes
+
+* http-proxy-middleware does not support zstd encoding ([420739d](https://github.com/easyops-cn/next-core/commit/420739d678c29fcf55906eb8258becfcbeb609e6))
+
+
+
+
+
 ## [3.18.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.18.14...@next-core/brick-container@3.18.15) (2024-08-13)
 
 
