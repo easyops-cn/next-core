@@ -124,6 +124,9 @@ function removeDeadConditionsByAst(
       case "MetaMenuItem":
         shakeConditionalNodes(node.children, node.raw, "children");
         break;
+      case "Context":
+        shakeConditionalNodes(node.onChange, node.raw, "onChange");
+        break;
     }
 
     // Remove unreachable context/state.
@@ -155,13 +158,11 @@ function shakeConditionalNodes(
   const removedNodes: ConditionalStoryboardNode[] = [];
   if (Array.isArray(conditionalNodes)) {
     for (const node of conditionalNodes) {
-      if ((node as StoryboardNodeEventHandler).else?.length) {
+      if (isStoryboardNodeEventHandler(node) && node.else?.length) {
         switch (node.raw.if) {
           case false:
-            (node as StoryboardNodeEventHandler).then = (
-              node as StoryboardNodeEventHandler
-            ).else;
-            (node as StoryboardNodeEventHandler).else = [];
+            node.then = node.else;
+            node.else = [];
             (node.raw as ConditionalEventHandler).then = (
               node.raw as ConditionalEventHandler
             ).else;
@@ -170,7 +171,7 @@ function shakeConditionalNodes(
             continue;
           case true:
           case undefined:
-            (node as StoryboardNodeEventHandler).else = [];
+            node.else = [];
             delete (node.raw as ConditionalEventHandler).else;
             continue;
         }
@@ -194,6 +195,12 @@ function shakeConditionalNodes(
       rawContainer[rawKey] = conditionalNodes.map((node) => node.raw);
     }
   }
+}
+
+function isStoryboardNodeEventHandler(
+  node: ConditionalStoryboardNode
+): node is StoryboardNodeEventHandler {
+  return (node as StoryboardNodeEventHandler).type === "EventHandler";
 }
 
 /**

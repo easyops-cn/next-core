@@ -420,6 +420,28 @@ describe("removeDeadConditions", () => {
       { name: "a", if: "<% CTX.any %>" },
       { name: "a", if: "<% CTX.any %>" },
     ],
+    [
+      {
+        name: "a",
+        onChange: [
+          {
+            useProvider: "p-1",
+          },
+          {
+            useProvider: "p-2",
+            if: "<% false %>",
+          },
+        ],
+      },
+      {
+        name: "a",
+        onChange: [
+          {
+            useProvider: "p-1",
+          },
+        ],
+      },
+    ],
   ])("should work for context", (input, output) => {
     const storyboard = {
       routes: [{ context: [input] }],
