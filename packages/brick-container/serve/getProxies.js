@@ -95,6 +95,10 @@ module.exports = (env, getRawIndexHtml) => {
       if (req.headers["origin"] === `http://${host}:${port}`) {
         proxyReq.setHeader("origin", server);
       }
+      // http-proxy-middleware does not support zstd encoding
+      if (req.headers["accept-encoding"]?.includes("zstd")) {
+        proxyReq.setHeader("accept-encoding", "gzip");
+      }
     };
 
     apiProxyOptions.onProxyRes = (proxyRes, req, res) => {
