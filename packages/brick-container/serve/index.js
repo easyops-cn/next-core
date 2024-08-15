@@ -137,9 +137,7 @@ if (env.https) {
   app.listen(port, host);
 }
 
-console.log(
-  `open http${(env, env.https ? "s" : "")}://${host}:${port}${baseHref}`
-);
+console.log(`open http${env.https ? "s" : ""}://${host}:${port}${baseHref}`);
 
 liveReloadServer(env);
 
