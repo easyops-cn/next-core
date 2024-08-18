@@ -47,7 +47,7 @@ def get_version(install_path):
         return lines[-1].strip()
 
 
-def collect_app_info(app_path, report_app_id, version):
+def collect_app_info(union_app_id, union_app_version, app_path, report_app_id, version):
     if not os.path.exists(app_path):
         print u"could not find app path {}".format(app_path)
         return 
@@ -85,9 +85,25 @@ def collect_app_info(app_path, report_app_id, version):
                     "description": story_board["app"].get("description"),
                     "author": story_board["app"].get("author"),
                     "isFromUnionApp": True,
+                    "unionAppInfo": get_union_app_info(union_app_id, union_app_version, story_board["app"].get("unionApps", []))
                 }
+                print u"report app: {}, version: {},  related_resource_packages: {}".format(report_app_id, version, app["unionAppInfo"].get("relatedResourcePackages", []))
                 return app
 
+def get_union_app_info(report_union_app_id, union_app_version, bootstrap_union_app_infos):
+    # bootstrap中unionApps是数组(实际上单app只能属于某个unionApp, 并不支持数组)
+    for bootstrap_union_info in bootstrap_union_app_infos:
+        if bootstrap_union_info["appId"] == report_union_app_id:
+            return {
+                "unionAppId": report_union_app_id,
+                "unionAppVersion": union_app_version,
+                "relatedResourcePackages": bootstrap_union_info.get("relatedResourcePackages", []),
+            }
+    # bootstrap.xx.json中没有unionApps信息的情况
+    return {
+        "unionAppId": report_union_app_id,
+        "unionAppVersion": union_app_version,
+    }
 
 def report(org, app):
     try:
@@ -154,13 +170,8 @@ def report_single_standalone_na(union_app_install_path, app_detail, union_app_id
     else:
         subdir_snippet = "v2"
     single_app_path = os.path.join(union_app_install_path, "micro-apps", subdir_snippet, app_id, version)
-    app = collect_app_info(single_app_path, app_id, version)
+    app = collect_app_info(union_app_id, union_app_version, single_app_path, app_id, version)
     if app:
-        # 增加union信息
-        app["unionAppInfo"] = {
-            "unionAppId": union_app_id,
-            "unionAppVersion": union_app_version,
-        }
         report_standalone_na_ret = report(org, app)
         permission_file_path = os.path.join(single_app_path, "permissions", "permissions.json")
         import_micro_app_permissions(org, permission_file_path)
