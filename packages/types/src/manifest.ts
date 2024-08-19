@@ -1351,6 +1351,10 @@ export interface StoryboardFunction {
   source: string;
   /** 是否使用 TypeScript。 */
   typescript?: boolean;
+  /** [Compiled] 依赖的其他函数 */
+  deps?: string[];
+  /** [Compiled] 是否有使用 `PERMISSIONS.check` */
+  perm?: boolean;
 }
 
 /**
