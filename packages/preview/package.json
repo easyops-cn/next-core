@@ -1,6 +1,6 @@
 {
   "name": "@next-core/preview",
-  "version": "0.7.17",
+  "version": "0.7.18",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/preview",
   "license": "GPL-3.0",
   "repository": {
@@ -30,11 +30,11 @@
     "@next-core/build-next-bricks": "^1.23.0",
     "@next-core/http": "^1.2.6",
     "@next-core/loader": "^1.6.7",
-    "@next-core/runtime": "^1.54.12",
+    "@next-core/runtime": "^1.54.13",
     "@next-core/test-next": "^1.1.5",
     "@next-core/theme": "^1.5.4",
-    "@next-core/types": "^1.12.1",
-    "@next-core/utils": "^1.7.20",
+    "@next-core/types": "^1.12.2",
+    "@next-core/utils": "^1.7.21",
     "html-webpack-plugin": "^5.6.0",
     "js-yaml": "^3.14.1"
   }

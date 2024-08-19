@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.18.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.18.16...@next-core/brick-container@3.18.17) (2024-08-19)
+
+
+### Bug Fixes
+
+* fix serve as https ([44eb28d](https://github.com/easyops-cn/next-core/commit/44eb28df82231bc0619ebd88d5bbd85a45fcdfea))
+
+
+
+
+
 ## [3.18.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.18.15...@next-core/brick-container@3.18.16) (2024-08-14)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.2](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.12.1...@next-core/types@1.12.2) (2024-08-19)
+
+
+### Bug Fixes
+
+* use compiled deps and perm from functions ([91a5f60](https://github.com/easyops-cn/next-core/commit/91a5f60a0ab9db6a1fa6e8b64f0de9819e2aa055))
+
+
+
+
+
 ## [1.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.12.0...@next-core/types@1.12.1) (2024-07-31)
 
 

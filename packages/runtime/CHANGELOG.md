@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.13](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.12...@next-core/runtime@1.54.13) (2024-08-19)
+
+
+### Bug Fixes
+
+* use compiled deps and perm from functions ([91a5f60](https://github.com/easyops-cn/next-core/commit/91a5f60a0ab9db6a1fa6e8b64f0de9819e2aa055))
+
+
+
+
+
 ## [1.54.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.11...@next-core/runtime@1.54.12) (2024-08-13)
 
 
