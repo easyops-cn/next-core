@@ -85,8 +85,18 @@ def collect(install_path, report_app_id, version, set_active_version):
                     "usePublicDependencies": story_board["app"].get("usePublicDependencies"),
                     "description": story_board["app"].get("description"),
                     "author": story_board["app"].get("author"),
+                    "unionAppInfo": get_union_app_info(story_board["app"].get("unionApps", [])),  #单na上报脚本不能记录union_app_id信息， 只记录relatedResourcePackages
                 }
+                print u"report app: {}, version: {}, related_resource_packages: {}".format(report_app_id, version, app["unionAppInfo"].get("relatedResourcePackages", []))
                 return app
+
+def get_union_app_info(union_app_info):
+    if len(union_app_info) == 0:
+        return {} 
+    # 单na上报， 只要unionApps.relatedResourcePackages字段
+    return {
+        "relatedResourcePackages": union_app_info[0].get("relatedResourcePackages", [])
+    }
 
 def report(org, app):
     try:
