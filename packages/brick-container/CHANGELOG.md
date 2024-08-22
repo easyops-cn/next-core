@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.22...@next-core/brick-container@2.96.23) (2024-08-22)
+
+
+### Bug Fixes
+
+* na上报时增加字段relatedResourcePackages ([1edc161](https://github.com/easyops-cn/next-core/commit/1edc16132744ea804ffa6b97396667fab3aa60c0))
+
+
+
+
+
 ## [2.96.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.21...@next-core/brick-container@2.96.22) (2024-08-15)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.47.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.47.17...@next-core/brick-dll@2.47.18) (2024-08-22)
+
+
+### Bug Fixes
+
+* update peer deps version for @next-core/easyops-analytics ([3e60eb6](https://github.com/easyops-cn/next-core/commit/3e60eb6ab6e2939f905b832acea9c1a49f94b77f))
+
+
+
+
+
 ## [2.47.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.47.16...@next-core/brick-dll@2.47.17) (2024-08-14)
 
 **Note:** Version bump only for package @next-core/brick-dll
