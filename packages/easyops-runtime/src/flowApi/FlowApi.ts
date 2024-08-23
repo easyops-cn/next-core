@@ -1,7 +1,27 @@
 import yaml from "js-yaml";
 import { ContractApi_searchSingleContract } from "@next-api-sdk/api-gateway-sdk";
-import { ContractRequest, ContractResponse, ExtField } from "@next-core/types";
+import type {
+  ContractResponse,
+  ExtField,
+  ContractRequest,
+} from "@next-core/types";
 import { getContract } from "./CollectContracts.js";
+
+export type MinimalContractRequest = Pick<ContractRequest, "type"> & {
+  fields?: MinimalContractField[];
+};
+export type MinimalContractField =
+  | {
+      type: string;
+      fields?: MinimalContractField[];
+    }
+  | {
+      ref: string;
+    };
+export type MinimalContractResponse = Pick<
+  ContractResponse,
+  "type" | "wrapper"
+>;
 
 const remoteContractCache = new Map<
   string,
@@ -228,8 +248,8 @@ export interface CustomApiDefinition {
         | "HEAD"
         | "head";
     };
-    request?: ContractRequest;
-    response?: ContractResponse;
+    request?: MinimalContractRequest;
+    response?: MinimalContractResponse;
   };
 }
 
@@ -243,7 +263,7 @@ export interface CustomApiProfile {
   version?: string;
   isFileType?: boolean;
   ext_fields?: ExtField[];
-  request?: ContractRequest;
+  request?: MinimalContractRequest;
 }
 
 class FlowApiNotFoundError extends Error {
