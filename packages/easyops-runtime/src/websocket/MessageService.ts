@@ -2,7 +2,7 @@ export type MessageListener<T = unknown> = (response: T) => void;
 export type CloseListener = () => void;
 
 const RETRY_TIMEOUT_UNIT = 1000;
-const RETRY_LIMIT = 6;
+const RETRY_LIMIT = 5;
 
 export class MessageService {
   #url: string;
@@ -21,10 +21,18 @@ export class MessageService {
     // eslint-disable-next-line no-console
     console.log("WebSocket connecting ...");
     const ws = new WebSocket(this.#url);
+    let resetRetryCountTimeout: number | undefined;
     ws.addEventListener("open", (e) => {
       // eslint-disable-next-line no-console
       console.log("WebSocket open:", e);
-      this.#retryCount = 0;
+
+      // If server closes the socket not more than 1 second after it's opened,
+      // we should not reset the retry count.
+      resetRetryCountTimeout = setTimeout(() => {
+        resetRetryCountTimeout = undefined;
+        this.#retryCount = 0;
+      }, 1e3) as unknown as number;
+
       for (const msg of this.#queuedMessages) {
         ws.send(msg);
       }
@@ -33,6 +41,9 @@ export class MessageService {
     ws.addEventListener("close", (e) => {
       if (this.#closed) {
         return;
+      }
+      if (resetRetryCountTimeout !== undefined) {
+        clearTimeout(resetRetryCountTimeout);
       }
       // eslint-disable-next-line no-console
       console.log("WebSocket close:", e);
