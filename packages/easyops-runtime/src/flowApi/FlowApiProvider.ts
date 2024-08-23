@@ -1,13 +1,12 @@
 import { createProviderClass } from "@next-core/utils/general";
-import {
-  ExtField,
-  ContractRequest,
-  ContractField,
-  ContractFieldItem,
-} from "@next-core/types";
+import { ExtField, ContractFieldItem } from "@next-core/types";
 import { http, HttpOptions, HttpParams } from "@next-core/http";
 import { isEmpty, isObject } from "lodash";
 import { createSSEStream } from "@next-core/utils/general";
+import type {
+  MinimalContractField,
+  MinimalContractRequest,
+} from "./FlowApi.js";
 
 export const FLOW_API_PROVIDER = "core.provider-flow-api";
 
@@ -17,10 +16,11 @@ export interface CustomApiParams {
   method?: string;
   responseWrapper?: boolean;
   ext_fields?: ExtField[];
-  request?: ContractRequest;
+  request?: MinimalContractRequest;
   isFileType?: boolean;
   stream?: boolean;
 }
+
 function hasFields(ext_fields: ExtField[], type: "query" | "body"): boolean {
   return ext_fields.some((item) => item.source === type);
 }
@@ -62,12 +62,16 @@ export function processExtFields(
   };
 }
 
-export function hasFileType(request: ContractRequest | undefined): boolean {
-  if (!request || request.type !== "object") {
+export function hasFileType(
+  request: MinimalContractRequest | undefined
+): boolean {
+  if (request?.type !== "object") {
     return false;
   }
 
-  const processFields = (fields: ContractField[] | undefined): boolean => {
+  const processFields = (
+    fields: MinimalContractField[] | undefined
+  ): boolean => {
     return (
       !isEmpty(fields) &&
       fields!.some(
