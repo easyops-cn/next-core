@@ -13,14 +13,8 @@ const trimDashesRegex = /^-+|-+$/g;
  * @returns an array of section headers
  */
 export function findSectionHeaders(model, options) {
-  var _a;
   let headers = [];
-  if (
-    options.findRegionSectionHeaders &&
-    ((_a = options.foldingRules) === null || _a === void 0
-      ? void 0
-      : _a.markers)
-  ) {
+  if (options.findRegionSectionHeaders && options.foldingRules?.markers) {
     const regionHeaders = collectRegionHeaders(model, options);
     headers = headers.concat(regionHeaders);
   }
