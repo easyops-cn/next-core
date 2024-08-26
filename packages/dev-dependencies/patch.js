@@ -30,6 +30,7 @@ const {
   enableLernaWithNx,
   updateRenovateForV2,
   updateRenovatePostExecutionMode,
+  updateRenovateExecutionMode,
 } = require("./patches");
 
 function initAndGetDevDependenciesVersion() {
@@ -207,6 +208,10 @@ module.exports = async function patch() {
 
   if (semver.lt(currentRenewVersion, "1.18.0")) {
     updateRenovatePostExecutionMode();
+  }
+
+  if (semver.lt(currentRenewVersion, "1.19.0")) {
+    updateRenovateExecutionMode();
   }
 
   updateDevDependenciesVersion();
