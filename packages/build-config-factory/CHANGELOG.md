@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.8](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.26.7...@next-core/build-config-factory@2.26.8) (2024-08-26)
+
+
+### Bug Fixes
+
+* extract source of contract in contract.yaml ([4701e4c](https://github.com/easyops-cn/next-core/commit/4701e4c85e73f3aeb88f9cd0b8e8d89e1d42cc95))
+
+
+
+
+
 ## [2.26.7](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.26.6...@next-core/build-config-factory@2.26.7) (2024-08-14)
 
 **Note:** Version bump only for package @next-core/build-config-factory

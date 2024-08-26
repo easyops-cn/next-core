@@ -1,6 +1,6 @@
 {
   "name": "@next-dll/echarts",
-  "version": "2.0.83",
+  "version": "2.0.84",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/master/dll/echarts",
   "license": "GPL-3.0",
@@ -22,7 +22,7 @@
     "echarts": "^4.9.0"
   },
   "devDependencies": {
-    "@next-core/webpack-config-factory": "^2.25.0",
+    "@next-core/webpack-config-factory": "^2.25.1",
     "echarts": "^4.9.0"
   }
 }
