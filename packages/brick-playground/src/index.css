@@ -97,3 +97,13 @@ body[data-loading] {
 #brick-playground-select-example {
   min-width: 0;
 }
+
+#brick-playground-button-expand,
+.brick-playground-editor-collapsed .brick-playground-column:first-of-type,
+.brick-playground-editor-collapsed .brick-playground-divider {
+  display: none;
+}
+
+.brick-playground-editor-collapsed #brick-playground-button-expand {
+  display: inline;
+}

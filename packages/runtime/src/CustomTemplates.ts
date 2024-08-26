@@ -223,7 +223,7 @@ class CustomTemplateRegistry {
             string,
             Function
           >;
-          element[to.refMethod ?? from](...args);
+          return element[to.refMethod ?? from](...args);
         },
         enumerable: true,
       });

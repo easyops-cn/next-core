@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.7...@next-core/cook@2.4.8) (2024-07-26)
+
+
+### Bug Fixes
+
+* cache expression AST ([e3693c2](https://github.com/easyops-cn/next-core/commit/e3693c2a1a88fa03249433fa9f542438229a1860))
+* cache function AST ([99d4b54](https://github.com/easyops-cn/next-core/commit/99d4b549dd9b05cf007b1f513395cbcc5831560c))
+
+
+
+
+
+## [2.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.6...@next-core/cook@2.4.7) (2024-07-03)
+
+**Note:** Version bump only for package @next-core/cook
+
+
+
+
+
 ## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.5...@next-core/cook@2.4.6) (2024-07-02)
 
 

@@ -2,13 +2,20 @@ import type { StoryboardFunction } from "@next-core/types";
 import { precookFunction } from "@next-core/cook";
 import { BeforeVisitGlobal } from "../index.js";
 
+export interface TraverseStoryboardFunctionsOptions {
+  matchSource?: (source: string) => boolean;
+}
+
 export function traverseStoryboardFunctions(
   functions: StoryboardFunction[] | null | undefined,
-  beforeVisitGlobal: BeforeVisitGlobal
+  beforeVisitGlobal: BeforeVisitGlobal,
+  options?: TraverseStoryboardFunctionsOptions
 ): void {
   if (Array.isArray(functions)) {
     for (const fn of functions) {
-      traverseStoryboardFunction(fn, beforeVisitGlobal);
+      if (!options?.matchSource || options.matchSource(fn.source)) {
+        traverseStoryboardFunction(fn, beforeVisitGlobal);
+      }
     }
   }
 }
@@ -23,6 +30,7 @@ export function traverseStoryboardFunction(
       typescript: fn.typescript,
       withParent: true,
       hooks: { beforeVisitGlobal },
+      cacheKey: fn,
     });
   } catch (error) {
     if (!silentErrors) {

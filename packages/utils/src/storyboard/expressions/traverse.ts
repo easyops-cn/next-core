@@ -39,6 +39,7 @@ export function traverseStoryboardExpressions(
         if (matchExpressionString(value)) {
           try {
             preevaluate(value, {
+              cache: true,
               withParent: true,
               hooks: {
                 beforeVisitGlobal(node, parent) {

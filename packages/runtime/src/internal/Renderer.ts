@@ -38,7 +38,7 @@ import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
-  symbolForTPlExternalNoForEach,
+  symbolForTPlExternalForEachSize,
   symbolForTplStateStoreId,
 } from "./CustomTemplates/constants.js";
 import { expandCustomTemplate } from "./CustomTemplates/expandCustomTemplate.js";
@@ -66,6 +66,7 @@ import {
   symbolForFormStateStoreId,
 } from "./FormRenderer/constants.js";
 import { expandFormRenderer } from "./FormRenderer/expandFormRenderer.js";
+import { registerFormRenderer } from "./FormRenderer/registerFormRenderer.js";
 import { isPreEvaluated } from "./compute/evaluate.js";
 import { getPreEvaluatedRaw } from "./compute/evaluate.js";
 import { RuntimeBrickConfOfTplSymbols } from "./CustomTemplates/constants.js";
@@ -74,8 +75,8 @@ import type { DataStore, DataStoreType } from "./data/DataStore.js";
 import { listenerFactory } from "./bindListeners.js";
 import type { MatchResult } from "./matchPath.js";
 import { setupRootRuntimeContext } from "./setupRootRuntimeContext.js";
-import { httpErrorToString } from "../handleHttpError.js";
 import { setMatchedRoute } from "./routeMatchedMap.js";
+import { ErrorNode } from "./ErrorNode.js";
 
 export interface RenderOutput {
   node?: RenderChildNode;
@@ -292,21 +293,7 @@ export async function renderBrick(
       // eslint-disable-next-line no-console
       console.error("Error caught by error boundary:", error);
       return {
-        node: {
-          tag: RenderTag.BRICK,
-          type: "div",
-          properties: {
-            textContent: httpErrorToString(error),
-            dataset: {
-              errorBoundary: "",
-            },
-            style: {
-              color: "var(--color-error)",
-            },
-          },
-          runtimeContext: null!,
-          return: returnNode,
-        },
+        node: await ErrorNode(error, returnNode),
         blockingList: [],
       };
     } else {
@@ -384,13 +371,10 @@ async function legacyRenderBrick(
   };
 
   if (hasOwnProperty(brickConf, symbolForTPlExternalForEachItem)) {
-    // The external bricks of a template should restore their `forEachItem` and
-    // `forEachIndex` from their host.
+    // The external bricks of a template should restore their `forEach*` from their host.
     runtimeContext.forEachItem = brickConf[symbolForTPlExternalForEachItem];
     runtimeContext.forEachIndex = brickConf[symbolForTPlExternalForEachIndex];
-  } else if (brickConf[symbolForTPlExternalNoForEach]) {
-    delete runtimeContext.forEachItem;
-    delete runtimeContext.forEachIndex;
+    runtimeContext.forEachSize = brickConf[symbolForTPlExternalForEachSize];
   }
 
   const { context } = brickConf as { context?: ContextConf[] };
@@ -615,14 +599,7 @@ async function legacyRenderBrick(
     tplStack.set(tplTagName, tplCount + 1);
   } else if (brickName.includes("-") && !customElements.get(brickName)) {
     if (brickName === FORM_RENDERER) {
-      customElements.define(
-        FORM_RENDERER,
-        class FormRendererElement extends HTMLElement {
-          get $$typeof(): string {
-            return "form-renderer";
-          }
-        }
-      );
+      registerFormRenderer();
     } else {
       output.blockingList.push(
         catchLoad(
@@ -639,6 +616,10 @@ async function legacyRenderBrick(
   let confProps: Record<string, unknown> | undefined;
   if (brickName === FORM_RENDERER) {
     ({ formData, ...confProps } = brickConf.properties ?? {});
+
+    if (brickConf.properties?.compute) {
+      formData = await asyncComputeRealValue(formData, runtimeContext);
+    }
   } else {
     confProps = brickConf.properties;
   }
@@ -755,6 +736,7 @@ async function legacyRenderBrick(
     };
     delete childRuntimeContext.forEachItem;
     delete childRuntimeContext.forEachIndex;
+    delete childRuntimeContext.forEachSize;
   } else {
     childRuntimeContext = runtimeContext;
   }
@@ -869,7 +851,7 @@ async function legacyRenderBrick(
                 // eslint-disable-next-line no-console
                 console.error("Incremental sub-router failed:", error);
 
-                const result = rendererContext.reCatch(error, brick);
+                const result = await rendererContext.reCatch(error, brick);
                 if (!result) {
                   return true;
                 }
@@ -989,7 +971,7 @@ async function renderForEach(
 ): Promise<RenderOutput> {
   const output = getEmptyRenderOutput();
 
-  const rows = dataSource.length;
+  const size = dataSource.length;
   const rendered = await Promise.all(
     dataSource.map((item, i) =>
       Promise.all(
@@ -1001,12 +983,13 @@ async function renderForEach(
               ...runtimeContext,
               forEachItem: item,
               forEachIndex: i,
+              forEachSize: size,
             },
             rendererContext,
             parentRoutes,
             menuRequestReturnNode,
             slotId,
-            keyPath.concat(i * rows + j),
+            keyPath.concat(i * size + j),
             tplStack && new Map(tplStack)
           )
         )

@@ -67,12 +67,16 @@ export default function (
     "libDevDependencies",
     getObjectPartialInPackageJson(libDevDependencies)
   );
-  plop.setHelper("getTagName", (brickType, pkgName, brickName, lastNameOnly) =>
-    brickType === "common"
-      ? `eo-${brickName}`
-      : lastNameOnly
-        ? brickName
-        : `${pkgName}.${brickName}`
+  plop.setHelper(
+    "getTagName",
+    (brickType, pkgName, brickName, lastNameOnly, stripEo) =>
+      brickType === "common"
+        ? stripEo
+          ? brickName
+          : `eo-${brickName}`
+        : lastNameOnly
+          ? brickName
+          : `${pkgName}.${brickName}`
   );
   plop.setHelper("getDirectory", (type, pkgName, libName) =>
     type === "bricks"
@@ -83,15 +87,15 @@ export default function (
   );
   plop.setPartial(
     "tagName",
-    "{{getTagName brickType pkgName brickName false}}"
+    "{{getTagName brickType pkgName brickName false false}}"
   );
   plop.setPartial(
     "lastTagName",
-    "{{getTagName brickType pkgName brickName true}}"
+    "{{getTagName brickType pkgName brickName true false}}"
   );
   plop.setPartial(
     "className",
-    "{{pascalCase (getTagName brickType pkgName brickName true)}}"
+    "{{pascalCase (getTagName brickType pkgName brickName true true)}}"
   );
 
   // create your generators here

@@ -5,9 +5,15 @@ import os
 import ens_api
 import requests
 import simplejson
+import shutil
+from  concurrent.futures import ThreadPoolExecutor,as_completed, wait, ALL_COMPLETED
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
+
+# 公共路径
+_INSTALL_BASE_PATH = "/usr/local/easyops"
+_APPLICATIONS_SA_FOLDER = "applications_sa"
 
 class NameServiceError(Exception):
     pass
@@ -50,7 +56,6 @@ def collect_app_info(app_path, report_app_id, version):
         if f.startswith("bootstrap-mini.") and f.endswith(".json"):
             bootstrap_file_name = f
     if bootstrap_file_name is "":
-        print u"bootstrap-mini.*.json not found in dir {}".format(app_path)
         return
     bootstrap_file = os.path.join(app_path, bootstrap_file_name)
     print u"report app: {}, bootstrap_file: {}".format(report_app_id, bootstrap_file)
@@ -86,7 +91,7 @@ def collect_app_info(app_path, report_app_id, version):
 
 def report(org, app):
     try:
-        create_or_update_micro_app_sa(org, app)
+        return create_or_update_micro_app_sa(org, app)
     except NameServiceError, e:
         raise e
     except requests.HTTPError, e:
@@ -98,12 +103,17 @@ def create_or_update_micro_app_sa(org, app):
     url = "http://{}/api/v1/micro_app_standalone/report".format(MICRO_APP_SA_ADDR)
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
-    print "report app end"
+    rsp_data = rsp.json().get("data", {})
+    print "report app: {} end".format(app["appId"])
+    # 兼容之前的report_sa_na接口的响应体没有appId的场景
+    if rsp_data.get("appId") is None:
+        rsp_data["appId"] = app["appId"]
+    return rsp_data
 
 
 def import_micro_app_permissions(org, permission_path):
     if not os.path.exists(permission_path):
-        print "could not find permission path {}, will not import permissions".format(permission_path)
+        print "permission path {} does not exist, return...".format(permission_path)
         return
     headers = {"org": str(org), "user": "defaultUser"}
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
@@ -123,29 +133,109 @@ def read_union_apps_file(install_app_path):
     with open(union_app_file, "r") as f:
         return simplejson.load(f)
 
+def get_union_app_version(install_path):
+    version_file_path = os.path.join(install_path, "version.ini")
+    with open(version_file_path) as f:
+        version_content = f.readlines()
+    return version_content[1].strip()
 
-def report_union_apps(org, install_app_path):
-    union_apps = read_union_apps_file(install_path)
-    for app in union_apps:
-        app_id = app["app_id"]
-        version = app["version"]
-        if app["use_brick_next_v3"]:
-            subdir_snippet = "v3"
-        else:
-            subdir_snippet = "v2"
-        union_app_path = os.path.join(install_app_path, "micro-apps", subdir_snippet, app_id, version)
-        print u"report app: {},  current app path: {}".format(app_id, union_app_path)
-        app = collect_app_info(union_app_path, app_id, version)
-        if app:
-            report(org, app)
-            permission_file_path = os.path.join(union_app_path, "permissions", "permissions.json")
-            import_micro_app_permissions(org, permission_file_path)
+def get_union_app_id_and_version(install_path):
+    pluin_name = os.path.basename(install_path)
+    union_app_id = pluin_name[:-len("-standalone-NA")]
+    union_app_version = get_union_app_version(install_path)
+    return union_app_id, union_app_version
 
+
+def report_single_standalone_na(union_app_install_path, app_detail, union_app_id, union_app_version):
+    app_id = app_detail["app_id"]
+    version = app_detail["version"]
+    if app_detail["use_brick_next_v3"]:
+        subdir_snippet = "v3"
+    else:
+        subdir_snippet = "v2"
+    single_app_path = os.path.join(union_app_install_path, "micro-apps", subdir_snippet, app_id, version)
+    app = collect_app_info(single_app_path, app_id, version)
+    if app:
+        # 增加union信息
+        app["unionAppInfo"] = {
+            "unionAppId": union_app_id,
+            "unionAppVersion": union_app_version,
+        }
+        report_standalone_na_ret = report(org, app)
+        permission_file_path = os.path.join(single_app_path, "permissions", "permissions.json")
+        import_micro_app_permissions(org, permission_file_path)
+        return report_standalone_na_ret
+    else:
+        return None
+
+def report_union_apps(org, union_app_install_path):
+    union_app_id, union_app_version = get_union_app_id_and_version(union_app_install_path)
+    union_apps = read_union_apps_file(union_app_install_path)
+    updated_apps = []
+    skip_updated_apps = []
+    executor = ThreadPoolExecutor(max_workers=20)
+    try:
+        all_task = [ executor.submit(report_single_standalone_na,  union_app_install_path, app, union_app_id, union_app_version) for app in union_apps ]
+        wait(all_task, return_when=ALL_COMPLETED)
+        for future in as_completed(all_task):
+            report_ret = future.result()
+            print u"report result: {}".format(report_ret)
+            if report_ret is None:
+                continue
+            is_skip_update = report_ret.get("skipUpdate")
+            if is_skip_update:
+                skip_updated_apps.append(report_ret.get("appId"))
+            else:
+                updated_apps.append(report_ret.get("appId"))
+    except Exception as e:
+        print u"report union app:{}, {},  err: {}".format(union_app_id, union_app_version, e)
+        sys.exit(1)
+    finally:
+        executor.shutdown()
+
+    print "report union_apps: updated sa_na: {}, skip updated sa_na: {}".format(",".join(updated_apps), ",".join(skip_updated_apps))
+    return updated_apps
+
+def delete_directory(directory_path):
+    try:
+        shutil.rmtree(directory_path)
+        print u"delete directory: {}".format(directory_path)
+    except Exception as e:
+        print u"error deleting directory: {}, err: {}".format(directory_path, e)
+
+def is_develop_version(standalone_na_path):
+    version_file_path = os.path.join(standalone_na_path, "version.ini")
+    if not os.path.exists(version_file_path):
+        return True
+    with open(version_file_path) as f:
+        version_content = f.readlines()
+        if "0.0.0" in version_content[1]:
+            return True
+    return False
+
+def uninstall_old_sa_na(standalone_na_list):
+    for sa_na_name in standalone_na_list:
+        sa_na_path = os.path.join(_INSTALL_BASE_PATH, _APPLICATIONS_SA_FOLDER, sa_na_name+"-standalone-NA")
+        if not os.path.exists(sa_na_path):
+            print u"old standalone_na dir: {} done not exist".format(sa_na_path)
+            continue
+        if is_develop_version(sa_na_path):
+            print u"standalone_na is developing: skip delete dir: {}".format(sa_na_path)
+            continue
+
+        # 删除old standalone na
+        delete_directory(sa_na_path)
+        # 删除pkg目录： /usr/local/easyops/pkg/conf/xx-standalone-na
+        old_sa_na_pkg_path = os.path.join(_INSTALL_BASE_PATH, "pkg", "conf", sa_na_name+"-standalone-NA")
+        if os.path.exists(old_sa_na_pkg_path):
+            delete_directory(old_sa_na_pkg_path)
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print "Usage: ./report_union_micro_app.py $org $install_path"
+        print "Usage: ./report_union_micro_app.py $org $union_app_install_path"
         sys.exit(1)
     org = sys.argv[1]
-    install_path = sys.argv[2]
-    report_union_apps(org, install_path)
+    union_app_install_path = sys.argv[2]
+    updated_apps = report_union_apps(org, union_app_install_path)
+    # 卸载老的sa-na
+    uninstall_old_sa_na(updated_apps)

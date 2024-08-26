@@ -16,3 +16,7 @@ body.launchpad-open {
 .bootstrap-error #global-loading-bar {
   display: none;
 }
+
+#main-mount-point > illustrations\.error-message:only-child {
+  min-height: 100vh;
+}

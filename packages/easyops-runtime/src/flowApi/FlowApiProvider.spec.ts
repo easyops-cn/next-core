@@ -75,9 +75,7 @@ describe("callFlowApi", () => {
           type: "object",
           fields: [
             {
-              name: "id",
               type: "string",
-              description: "",
             },
           ],
         },
@@ -148,9 +146,7 @@ describe("callFlowApi", () => {
           type: "object",
           fields: [
             {
-              name: "file",
               type: "file",
-              description: "",
             },
           ],
         },
@@ -175,9 +171,7 @@ describe("callFlowApi", () => {
           type: "object",
           fields: [
             {
-              name: "id",
               type: "string",
-              description: "",
             },
           ],
         },

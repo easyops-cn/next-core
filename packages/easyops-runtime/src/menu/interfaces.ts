@@ -2,6 +2,7 @@ import type { MetaI18n, MicroApp, ResolveConf } from "@next-core/types";
 import type {
   RuntimeHooksMenuHelpers,
   __secret_internals,
+  MatchOptions,
 } from "@next-core/runtime";
 import {
   symbolAppId,
@@ -79,10 +80,10 @@ export interface SidebarMenuSimpleItem {
   exact?: boolean;
 
   /** 设置额外包含的匹配高亮菜单项的地址列表。 */
-  activeIncludes?: string[];
+  activeIncludes?: (string | MatchOptions)[];
 
   /** 设置需要被排除的匹配高亮菜单项的地址列表。 */
-  activeExcludes?: string[];
+  activeExcludes?: (string | MatchOptions)[];
 
   /** 设置匹配高亮菜单项时是否还对 search 参数进行比较。 */
   activeMatchSearch?: boolean;

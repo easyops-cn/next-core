@@ -7,6 +7,7 @@ import type {
   RuntimeSnippet,
   ContextConf,
   BrickPackage,
+  RouteConfOfBricks,
 } from "@next-core/types";
 import { pick } from "lodash";
 import {
@@ -228,24 +229,44 @@ export function updateStoryboard(
 
 export function updateStoryboardByRoute(appId: string, newRoute: RouteConf) {
   const storyboard = _internalApiGetStoryboardInBootstrapData(appId)!;
-  let match = false;
-  const getKey = (route: RouteConf): string => `${route.path}.${route.exact}`;
-  const replaceRoute = (routes: RouteConf[], key: string): RouteConf[] => {
-    return routes.map((route) => {
-      const routeKey = getKey(route);
+  let matched = false;
+
+  function matchRoute(route: RouteConf) {
+    return route.path === newRoute.path && !route.exact === !newRoute.exact;
+  }
+
+  function replaceRoutes(routes: RouteConf[]) {
+    routes.forEach((route, index) => {
       if (route.type === "routes") {
-        route.routes = replaceRoute(route.routes, key);
-        return route;
-      } else if (routeKey === key) {
-        match = true;
-        return newRoute;
+        replaceRoutes(route.routes);
       } else {
-        return route;
+        if (matchRoute(route)) {
+          matched = true;
+          routes[index] = newRoute;
+        } else if (Array.isArray((route as RouteConfOfBricks).bricks)) {
+          replaceBricks((route as RouteConfOfBricks).bricks);
+        }
       }
     });
-  };
-  storyboard.routes = replaceRoute(storyboard.routes, getKey(newRoute));
-  if (!match) {
+  }
+
+  function replaceBricks(bricks: BrickConf[]) {
+    bricks.forEach((brick) => {
+      if (brick.slots) {
+        for (const slotConf of Object.values(brick.slots)) {
+          if (slotConf.type === "routes") {
+            replaceRoutes(slotConf.routes);
+          } else {
+            replaceBricks(slotConf.bricks);
+          }
+        }
+      }
+    });
+  }
+
+  replaceRoutes(storyboard.routes);
+
+  if (!matched) {
     storyboard.routes.unshift(newRoute);
   }
 }

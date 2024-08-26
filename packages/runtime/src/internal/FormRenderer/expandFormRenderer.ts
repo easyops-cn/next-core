@@ -12,7 +12,11 @@ import { getDefaultProperties } from "./getDefaultProperties.js";
 import { symbolForFormStateStoreId } from "./constants.js";
 import type { RendererContext } from "../RendererContext.js";
 
-const formContainers = ["forms.general-form", "form.general-form", "eo-form"];
+export const formContainers = [
+  "forms.general-form",
+  "form.general-form",
+  "eo-form",
+];
 
 export function expandFormRenderer(
   formData: unknown,
@@ -31,9 +35,10 @@ export function expandFormRenderer(
     formStateStoreId,
   };
 
-  // There is a boundary for `forEachItem` and `STATE` between form internals and externals.
+  // There is a boundary for `forEach*` and `STATE` between form internals and externals.
   delete runtimeContext.forEachItem;
   delete runtimeContext.forEachIndex;
+  delete runtimeContext.forEachSize;
   delete runtimeContext.tplStateStoreId;
 
   const formStateStore = new DataStore(

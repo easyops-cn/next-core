@@ -1,11 +1,6 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import type { RouteConf, RouteConfOfBricks } from "@next-core/types";
 import { createProviderClass } from "@next-core/utils/general";
-import { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
-import { RenderTag } from "./enums.js";
-import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
-import { RendererContext } from "./RendererContext.js";
-import { DataStore } from "./data/DataStore.js";
 import {
   enqueueStableLoadBricks,
   loadBricksImperatively,
@@ -13,6 +8,12 @@ import {
   loadScript,
   loadStyle,
 } from "@next-core/loader";
+import { initializeI18n } from "@next-core/i18n";
+import { RenderBrick, RenderRoot, RuntimeContext } from "./interfaces.js";
+import { RenderTag } from "./enums.js";
+import { renderBrick, renderBricks, renderRoutes } from "./Renderer.js";
+import { RendererContext } from "./RendererContext.js";
+import { DataStore } from "./data/DataStore.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { getHistory } from "../history.js";
 import { mediaEventTarget } from "./mediaQuery.js";
@@ -25,6 +26,8 @@ import { hooks } from "./Runtime.js";
 import * as compute from "./compute/computeRealValue.js";
 import { customProcessors } from "../CustomProcessors.js";
 import * as __secret_internals from "./secret_internals.js";
+
+initializeI18n();
 
 jest.mock("@next-core/loader");
 jest.mock("../history.js");
@@ -951,7 +954,8 @@ describe("renderBrick", () => {
         tag: RenderTag.BRICK,
         type: "div",
         properties: {
-          textContent: 'ReferenceError: ABC is not defined, in "<% ABC %>"',
+          textContent:
+            'UNKNOWN_ERROR: ReferenceError: ABC is not defined, in "<% ABC %>"',
           dataset: {
             errorBoundary: "",
           },
@@ -1006,7 +1010,7 @@ describe("renderBrick for control nodes", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
-                title: "<% INDEX %>",
+                title: "<% `${INDEX}/${SIZE}` %>",
               },
             },
           ],
@@ -1045,7 +1049,7 @@ describe("renderBrick for control nodes", () => {
         type: "div",
         properties: {
           textContent: "a",
-          title: 0,
+          title: "0/2",
         },
         slotId: undefined,
         sibling: expect.objectContaining({
@@ -1054,7 +1058,7 @@ describe("renderBrick for control nodes", () => {
           type: "div",
           properties: {
             textContent: "b",
-            title: 1,
+            title: "1/2",
           },
           slotId: undefined,
         }),
@@ -2178,7 +2182,7 @@ describe("renderBrick for tpl", () => {
               brick: "div",
               properties: {
                 textContent: "<% ITEM %>",
-                title: "<% INDEX %>",
+                title: "<% `${INDEX}/${SIZE}` %>",
               },
               lifeCycle: {
                 onMount: {
@@ -2260,12 +2264,12 @@ describe("renderBrick for tpl", () => {
           data-tpl-state-store-id="tpl-state-2"
         >
           <div
-            title="0"
+            title="0/2"
           >
             a
           </div>
           <div
-            title="1"
+            title="1/2"
           >
             b
           </div>
@@ -2295,7 +2299,7 @@ describe("renderBrick for tpl", () => {
             a
           </div>
           <div
-            title="1"
+            title="1/2"
           >
             b
           </div>
@@ -2329,12 +2333,12 @@ describe("renderBrick for tpl", () => {
           data-tpl-state-store-id="tpl-state-2"
         >
           <div
-            title="0"
+            title="0/2"
           >
             a
           </div>
           <div
-            title="1"
+            title="1/2"
           >
             c
           </div>
@@ -2529,7 +2533,7 @@ describe("renderBrick for tpl", () => {
                   brick: "div",
                   properties: {
                     textContent: "<% ITEM %>",
-                    title: "<% INDEX %>",
+                    title: "<% `${INDEX}/${SIZE}` %>",
                   },
                 },
                 {
@@ -2609,12 +2613,12 @@ describe("renderBrick for tpl", () => {
               title="Nesting templates with :forEach"
             >
               <div
-                title="0"
+                title="0/2"
               >
                 1
               </div>
               <div
-                title="1"
+                title="1/2"
               >
                 2
               </div>
@@ -2651,7 +2655,7 @@ describe("renderBrick for tpl", () => {
                   brick: "div",
                   properties: {
                     textContent: "<% ITEM %>",
-                    title: "<% INDEX %>",
+                    title: "<% `${INDEX}/${SIZE}` %>",
                   },
                 },
                 {
@@ -2717,7 +2721,7 @@ describe("renderBrick for tpl", () => {
             {
               brick: "aside",
               properties: {
-                textContent: "<% INDEX %>",
+                textContent: "<% `${INDEX}/${SIZE}` %>",
               },
             },
           ],
@@ -2769,7 +2773,7 @@ describe("renderBrick for tpl", () => {
               title="Nesting templates with :forEach"
             >
               <div
-                title="0"
+                title="0/2"
               >
                 1
               </div>
@@ -2777,7 +2781,7 @@ describe("renderBrick for tpl", () => {
                 p:1
               </p>
               <div
-                title="1"
+                title="1/2"
               >
                 2
               </div>
@@ -2797,7 +2801,7 @@ describe("renderBrick for tpl", () => {
               </em>
             </article>
             <aside>
-              0
+              0/1
             </aside>
           </my.tpl-h>
         </my.tpl-g>,
@@ -2944,8 +2948,7 @@ describe("renderBrick for tpl", () => {
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");
 
-    consoleError.mockReturnValue();
-    const promise1 = renderBrick(
+    const output1 = await renderBrick(
       renderRoot,
       {
         brick: "my.tpl-d",
@@ -2953,6 +2956,7 @@ describe("renderBrick for tpl", () => {
           {
             brick: "p",
             properties: {
+              // Accessing ITEM from tpl internal :forEach if no outer :forEach
               title: "<% 1, ITEM %>",
             },
             children: [
@@ -2971,12 +2975,41 @@ describe("renderBrick for tpl", () => {
       [],
       {}
     );
-    await expect(promise1).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"ITEM is not defined, in "<% 1, ITEM %>""`
-    );
-    expect(consoleError).toBeCalledTimes(2);
+    renderRoot.child = output1.node;
 
-    const promise2 = renderBrick(
+    await Promise.all([...output1.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-d
+          data-tpl-state-store-id="tpl-state-10"
+        >
+          <div>
+            Hi
+          </div>
+          <p
+            title="1"
+          >
+            <em>
+              oops
+            </em>
+          </p>
+          <p
+            title="2"
+          >
+            <em>
+              oops
+            </em>
+          </p>
+        </my.tpl-d>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+
+    const output2 = await renderBrick(
       renderRoot,
       {
         brick: "my.tpl-d",
@@ -2986,6 +3019,7 @@ describe("renderBrick for tpl", () => {
             properties: {
               title: "yaks",
             },
+            // Nesting
             children: [
               {
                 brick: "em",
@@ -3002,11 +3036,239 @@ describe("renderBrick for tpl", () => {
       [],
       {}
     );
-    await expect(promise2).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"ITEM is not defined, in "<% 2, ITEM %>""`
+
+    renderRoot.child = output2.node;
+
+    await Promise.all([...output1.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-d
+          data-tpl-state-store-id="tpl-state-11"
+        >
+          <div>
+            Hi
+          </div>
+          <p
+            title="yaks"
+          >
+            <em>
+              1
+            </em>
+          </p>
+          <p
+            title="yaks"
+          >
+            <em>
+              2
+            </em>
+          </p>
+        </my.tpl-d>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+  });
+
+  test("nesting proxied tpl with outer :forEach", async () => {
+    customTemplates.define("my.tpl-j", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "main",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "my.tpl-k",
+          ref: "main",
+        },
+      ],
+    });
+    customTemplates.define("my.tpl-k", {
+      proxy: {
+        slots: {
+          "": {
+            ref: "main",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: ":forEach",
+          dataSource: [1, 2],
+          children: [
+            {
+              brick: "div",
+              ref: "main",
+            },
+            {
+              brick: "hr",
+              properties: {
+                title: "<% ITEM %>",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: ":forEach",
+        dataSource: [3, 4],
+        children: [
+          {
+            // Nesting proxied template
+            brick: "my.tpl-j",
+            children: [
+              {
+                brick: "p",
+                properties: {
+                  // Accessing ITEM from current :forEach instead of from tpl internal :forEach
+                  textContent: "<% ITEM %>",
+                },
+              },
+            ],
+          },
+          {
+            brick: "my.tpl-k",
+            children: [
+              {
+                brick: "p",
+                properties: {
+                  textContent: "<% ITEM %>",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
     );
-    expect(consoleError).toBeCalledTimes(4);
-    consoleError.mockRestore();
+
+    renderRoot.child = output.node;
+
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-j
+          data-tpl-state-store-id="tpl-state-12"
+        >
+          <my.tpl-k
+            data-tpl-state-store-id="tpl-state-16"
+          >
+            <div>
+              <p>
+                3
+              </p>
+            </div>
+            <hr
+              title="1"
+            />
+            <div>
+              <p>
+                3
+              </p>
+            </div>
+            <hr
+              title="2"
+            />
+          </my.tpl-k>
+        </my.tpl-j>,
+        <my.tpl-k
+          data-tpl-state-store-id="tpl-state-13"
+        >
+          <div>
+            <p>
+              3
+            </p>
+          </div>
+          <hr
+            title="1"
+          />
+          <div>
+            <p>
+              3
+            </p>
+          </div>
+          <hr
+            title="2"
+          />
+        </my.tpl-k>,
+        <my.tpl-j
+          data-tpl-state-store-id="tpl-state-14"
+        >
+          <my.tpl-k
+            data-tpl-state-store-id="tpl-state-17"
+          >
+            <div>
+              <p>
+                4
+              </p>
+            </div>
+            <hr
+              title="1"
+            />
+            <div>
+              <p>
+                4
+              </p>
+            </div>
+            <hr
+              title="2"
+            />
+          </my.tpl-k>
+        </my.tpl-j>,
+        <my.tpl-k
+          data-tpl-state-store-id="tpl-state-15"
+        >
+          <div>
+            <p>
+              4
+            </p>
+          </div>
+          <hr
+            title="1"
+          />
+          <div>
+            <p>
+              4
+            </p>
+          </div>
+          <hr
+            title="2"
+          />
+        </my.tpl-k>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
   });
 });
 

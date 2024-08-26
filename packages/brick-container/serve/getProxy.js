@@ -43,7 +43,10 @@ export default function getProxy(env, getRawIndexHtml) {
         },
         onProxyReq(proxyReq, req) {
           // Reset the origin header to the remote server
-          if (req.headers["origin"] === `http://${host}:${port}`) {
+          if (
+            req.headers["origin"] ===
+            `http${env.https ? "s" : ""}://${host}:${port}`
+          ) {
             proxyReq.setHeader("origin", server);
           }
         },
@@ -66,8 +69,15 @@ export default function getProxy(env, getRawIndexHtml) {
         },
         onProxyReq(proxyReq, req) {
           // Reset the origin header to the remote server
-          if (req.headers["origin"] === `http://${host}:${port}`) {
+          if (
+            req.headers["origin"] ===
+            `http${env.https ? "s" : ""}://${host}:${port}`
+          ) {
             proxyReq.setHeader("origin", server);
+          }
+          // http-proxy-middleware does not support zstd encoding
+          if (req.headers["accept-encoding"]?.includes("zstd")) {
+            proxyReq.setHeader("accept-encoding", "gzip");
           }
         },
         onProxyRes: responseInterceptor(

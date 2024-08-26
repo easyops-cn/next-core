@@ -262,6 +262,14 @@ function loadEditors(editors: string[] | Set<string>, brickPackages?: BrickPacka
 // @public @deprecated (undocumented)
 export function logout(): unknown;
 
+// @public (undocumented)
+export interface MatchOptions {
+    // (undocumented)
+    exact?: boolean;
+    // (undocumented)
+    path: string | string[];
+}
+
 // Warning: (ae-forgotten-export) The symbol "MatchPathOptions" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "MatchResult" needs to be exported by the entry point index.d.ts
 //
@@ -346,6 +354,8 @@ export interface RenderOptions {
     // (undocumented)
     i18n?: MetaI18n;
     // (undocumented)
+    language?: string;
+    // (undocumented)
     templates?: CustomTemplate[];
     // (undocumented)
     theme?: SiteTheme;
@@ -386,6 +396,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     forEachIndex?: number;
     // (undocumented)
     forEachItem?: unknown;
+    // (undocumented)
+    forEachSize?: number;
     // (undocumented)
     formStateStoreId?: string;
     // (undocumented)
@@ -521,7 +533,7 @@ function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult:
 
 // @public (undocumented)
 export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
-    render(brick: BrickConf | BrickConf[], { theme, uiVersion, context, functions, templates, i18n: i18nData, url, app, }?: RenderOptions): Promise<void>;
+    render(brick: BrickConf | BrickConf[], { theme, uiVersion, language, context, functions, templates, i18n: i18nData, url, app, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };
 

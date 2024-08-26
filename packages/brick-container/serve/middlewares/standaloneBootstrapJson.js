@@ -44,6 +44,7 @@ function getE2eSettings() {
     presetBricks: {
       notification: false,
       dialog: false,
+      error: false,
     },
   };
 }

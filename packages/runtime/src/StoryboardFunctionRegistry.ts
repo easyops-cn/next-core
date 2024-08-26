@@ -48,7 +48,7 @@ export interface RuntimeStoryboardFunction {
   typescript?: boolean;
   processed?: boolean;
   cooked?: Function;
-  deps: Set<string>;
+  deps: Set<string> | string[];
   hasPermissionsCheck: boolean;
 }
 
@@ -115,12 +115,18 @@ export function StoryboardFunctionRegistryFactory({
     registeredFunctions.clear();
     if (Array.isArray(functions)) {
       for (const fn of functions) {
-        const deps = collectMemberUsageInFunction(fn, "FN", !!collectCoverage);
-        const hasPermissionsCheck = collectMemberUsageInFunction(
-          fn,
-          "PERMISSIONS",
-          !!collectCoverage
-        ).has("check");
+        let deps: Set<string> | string[] | undefined = fn.deps;
+        if (deps == null) {
+          deps = collectMemberUsageInFunction(fn, "FN", !!collectCoverage);
+          (deps as Set<string>).delete(fn.name);
+        }
+        const hasPermissionsCheck =
+          fn.perm ??
+          collectMemberUsageInFunction(
+            fn,
+            "PERMISSIONS",
+            !!collectCoverage
+          ).has("check");
         registeredFunctions.set(fn.name, {
           source: fn.source,
           typescript: fn.typescript,
@@ -148,6 +154,7 @@ export function StoryboardFunctionRegistryFactory({
       hooks: collector && {
         beforeVisit: collector.beforeVisit,
       },
+      cacheKey: fn,
     });
     const globalVariables = supply(
       precooked.attemptToVisitGlobals,

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.2](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.12.1...@next-core/types@1.12.2) (2024-08-19)
+
+
+### Bug Fixes
+
+* use compiled deps and perm from functions ([91a5f60](https://github.com/easyops-cn/next-core/commit/91a5f60a0ab9db6a1fa6e8b64f0de9819e2aa055))
+
+
+
+
+
+## [1.12.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.12.0...@next-core/types@1.12.1) (2024-07-31)
+
+
+### Bug Fixes
+
+* add a new event action: window.postMessage ([a5abe71](https://github.com/easyops-cn/next-core/commit/a5abe714fd3b68d81b32a39f873bd04cfe73bb25))
+
+
+
+
+
+# [1.12.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.11.2...@next-core/types@1.12.0) (2024-07-19)
+
+
+### Features
+
+* 平台title支持自定义配置 ([d58363d](https://github.com/easyops-cn/next-core/commit/d58363db20e16e88877a094d7a8a8da76268193b))
+
+
+
+
+
 ## [1.11.2](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.11.1...@next-core/types@1.11.2) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/types

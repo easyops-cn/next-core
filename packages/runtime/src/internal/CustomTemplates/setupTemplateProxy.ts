@@ -5,7 +5,7 @@ import {
   symbolForAsyncComputedPropsFromHost,
   symbolForTPlExternalForEachIndex,
   symbolForTPlExternalForEachItem,
-  symbolForTPlExternalNoForEach,
+  symbolForTPlExternalForEachSize,
   symbolForTplStateStoreId,
   type RuntimeBrickConfWithTplSymbols,
 } from "./constants.js";
@@ -92,17 +92,13 @@ export function setupTemplateProxy(
             expandableSlot.length - 1
           )
         ].push(
-          ...((hostContext.__temporary_tpl_tag_name ===
-            "base-layout-v3.tpl-scroll-load-list" ||
-            hostContext.__temporary_tpl_tag_name ===
-              "shrcb-homepage.tpl-custom-scroll-load-list") &&
-          !hostHasForEach
+          ...(!hostHasForEach
             ? insertBricks
-            : setupTemplateExternalBricks(
+            : setupTemplateExternalBricksWithForEach(
                 insertBricks,
-                hostHasForEach,
                 hostBrick.runtimeContext.forEachItem,
-                hostBrick.runtimeContext.forEachIndex!
+                hostBrick.runtimeContext.forEachIndex!,
+                hostBrick.runtimeContext.forEachSize!
               ))
         );
       }
@@ -135,30 +131,18 @@ export function setupTemplateProxy(
 }
 
 // External bricks of a template, have the same forEachItem context as their host.
-function setupTemplateExternalBricks(
+function setupTemplateExternalBricksWithForEach(
   bricks: BrickConf[],
-  hasForEach: boolean,
   forEachItem: unknown,
-  forEachIndex: number
+  forEachIndex: number,
+  forEachSize: number
 ): BrickConf[] {
   return (bricks as RuntimeBrickConfWithTplSymbols[]).map(
-    ({
-      children,
-      slots,
-      [symbolForTPlExternalForEachItem]: a,
-      [symbolForTPlExternalForEachIndex]: b,
-      [symbolForTPlExternalNoForEach]: c,
-      ...brick
-    }) => ({
+    ({ children, slots, ...brick }) => ({
       ...brick,
-      ...(hasForEach
-        ? {
-            [symbolForTPlExternalForEachItem]: forEachItem,
-            [symbolForTPlExternalForEachIndex]: forEachIndex,
-          }
-        : {
-            [symbolForTPlExternalNoForEach]: true,
-          }),
+      [symbolForTPlExternalForEachItem]: forEachItem,
+      [symbolForTPlExternalForEachIndex]: forEachIndex,
+      [symbolForTPlExternalForEachSize]: forEachSize,
       // Keep `:forEach` bricks as original, since they have their own forEachItem context.
       slots:
         brick.brick === ":forEach"
@@ -170,20 +154,20 @@ function setupTemplateExternalBricks(
                   slotConf.type === "routes"
                     ? {
                         type: "routes",
-                        routes: setupTemplateExternalRoutes(
+                        routes: setupTemplateExternalRoutesWithForEach(
                           slotConf.routes,
-                          hasForEach,
                           forEachItem,
-                          forEachIndex
+                          forEachIndex,
+                          forEachSize
                         ),
                       }
                     : {
                         type: "bricks",
-                        bricks: setupTemplateExternalBricks(
+                        bricks: setupTemplateExternalBricksWithForEach(
                           slotConf.bricks,
-                          hasForEach,
                           forEachItem,
-                          forEachIndex
+                          forEachIndex,
+                          forEachSize
                         ),
                       },
                 ]
@@ -193,32 +177,32 @@ function setupTemplateExternalBricks(
   );
 }
 
-function setupTemplateExternalRoutes(
+function setupTemplateExternalRoutesWithForEach(
   routes: RouteConf[],
-  hasForEach: boolean,
   forEachItem: unknown,
-  forEachIndex: number
+  forEachIndex: number,
+  forEachSize: number
 ): RouteConf[] {
   return routes.map((route) =>
     route.type === "routes"
       ? {
           ...route,
-          routes: setupTemplateExternalRoutes(
+          routes: setupTemplateExternalRoutesWithForEach(
             route.routes,
-            hasForEach,
             forEachItem,
-            forEachIndex
+            forEachIndex,
+            forEachSize
           ),
         }
       : route.type === "redirect"
         ? route
         : {
             ...route,
-            bricks: setupTemplateExternalBricks(
+            bricks: setupTemplateExternalBricksWithForEach(
               route.bricks,
-              hasForEach,
               forEachItem,
-              forEachIndex
+              forEachIndex,
+              forEachSize
             ),
           }
   );

@@ -119,6 +119,123 @@ describe("checkPermissions", () => {
     );
   });
 
+  it("should handle previous checking permissions as well as new permissions", async () => {
+    mockValidatePermissions.mockResolvedValueOnce({
+      actions: [
+        {
+          action: "my:action-a",
+          authorizationStatus: "authorized",
+        },
+      ],
+    });
+    await validatePermissions(["my:action-a"]);
+    expect(mockValidatePermissions).toHaveBeenCalledTimes(1);
+
+    let deferred: {
+      resolve(): void;
+      reject(e: unknown): void;
+    };
+    const delay = new Promise<void>((resolve, reject) => {
+      deferred = { resolve, reject };
+    });
+    const checkedActions: string[] = [];
+    mockValidatePermissions.mockImplementation(async ({ actions }) => {
+      await delay;
+      checkedActions.push(...actions!);
+      return {
+        actions: actions!.map((action) => ({
+          action,
+          authorizationStatus: "authorized",
+        })),
+      };
+    });
+
+    const promiseB = validatePermissions(["my:action-b"]);
+    expect(mockValidatePermissions).toHaveBeenCalledTimes(2);
+
+    // At this time, action-b checking is not finished yet
+    const promiseC = validatePermissions(["my:action-b", "my:action-c"]);
+    expect(mockValidatePermissions).toHaveBeenCalledTimes(3);
+
+    expect(mockValidatePermissions).toHaveBeenNthCalledWith(
+      2,
+      {
+        actions: ["my:action-b"],
+      },
+      { noAbortOnRouteChange: true }
+    );
+    expect(mockValidatePermissions).toHaveBeenNthCalledWith(
+      3,
+      {
+        actions: ["my:action-c"],
+      },
+      { noAbortOnRouteChange: true }
+    );
+
+    expect(checkedActions).toEqual([]);
+
+    deferred!.resolve();
+    await promiseB;
+    await promiseC;
+
+    expect(checkedActions).toEqual(["my:action-b", "my:action-c"]);
+  });
+
+  it("should handle previous checking permissions with no new permissions", async () => {
+    mockValidatePermissions.mockResolvedValueOnce({
+      actions: [
+        {
+          action: "my:action-a",
+          authorizationStatus: "authorized",
+        },
+      ],
+    });
+    await validatePermissions(["my:action-a"]);
+    expect(mockValidatePermissions).toHaveBeenCalledTimes(1);
+
+    let deferred: {
+      resolve(): void;
+      reject(e: unknown): void;
+    };
+    const delay = new Promise<void>((resolve, reject) => {
+      deferred = { resolve, reject };
+    });
+    const checkedActions: string[] = [];
+    mockValidatePermissions.mockImplementation(async ({ actions }) => {
+      await delay;
+      checkedActions.push(...actions!);
+      return {
+        actions: actions!.map((action) => ({
+          action,
+          authorizationStatus: "authorized",
+        })),
+      };
+    });
+
+    const promiseB = validatePermissions(["my:action-b"]);
+    expect(mockValidatePermissions).toHaveBeenCalledTimes(2);
+
+    // At this time, action-b checking is not finished yet
+    const promiseC = validatePermissions(["my:action-b"]);
+    expect(mockValidatePermissions).toHaveBeenCalledTimes(2);
+
+    expect(mockValidatePermissions).toHaveBeenNthCalledWith(
+      2,
+      {
+        actions: ["my:action-b"],
+      },
+      { noAbortOnRouteChange: true }
+    );
+
+    expect(checkedActions).toEqual([]);
+
+    deferred!.resolve();
+    await promiseB;
+    await promiseC;
+
+    expect(checkedActions).toEqual(["my:action-b"]);
+  });
+
   it("should validate permissions", async () => {
     mockScanPermissionActionsInStoryboard.mockReturnValueOnce([
       "my:action-a",

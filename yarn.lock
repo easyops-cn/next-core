@@ -2003,20 +2003,20 @@
   dependencies:
     "@ant-design/colors" "^6.0.0"
 
-"@next-core/public-scoped-sdk@^0.2.13":
-  version "0.2.13"
-  resolved "https://registry.npmjs.org/@next-core/public-scoped-sdk/-/public-scoped-sdk-0.2.13.tgz#09f7b2c3d10197c14ba5d89a9b5f5aaa40166a4f"
-  integrity sha512-OBj0bmpxLLIS93gJTNznVofynCFuHlg54P6DJL1c7QXjIMD5+0z6NN/5zkk31hHpseF17NjWkPBr7Y3rA8COCQ==
+"@next-core/public-scoped-sdk@^0.2.14":
+  version "0.2.14"
+  resolved "https://registry.npmjs.org/@next-core/public-scoped-sdk/-/public-scoped-sdk-0.2.14.tgz#74581958009d3fef389739cd610c9b6eaa314b6c"
+  integrity sha512-AZclSKaZH/bf47lkuQZbwUorjZXfysO1VGMpeDwUGwhMULwza8VkBwf+1/Tep5IZ1DbsicuKUOSAm/8sLrSV5g==
 
 "@next-core/repo-config@^0.2.5":
   version "0.2.5"
   resolved "https://registry.npmjs.org/@next-core/repo-config/-/repo-config-0.2.5.tgz#d751d21b10a41845679ba1ccc39d52f74e80f3c2"
   integrity sha512-haAaz198IvoQ2MledsV6OVnmlj8utflDG3VYDytDGtJm0A0/2EN5bgkdyLtZzxroe9hEJzry6o9hVlO6dp7GCQ==
 
-"@next-core/styles-v3@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.3.3.tgz#c005bba9946d4f255be659ddfca2ec249a8e68be"
-  integrity sha512-GfF1OBgKC8RVBu2dyeRGUiyyTS/kgIgqqOdrEFzd2mSQyddEa4/8AW1nfIgg0Bdrrnj6E7NHR25EvPosWXDteA==
+"@next-core/styles-v3@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.3.5.tgz#a3c64a423e4eb7b6bb0ae6ed5440256f3bafdb45"
+  integrity sha512-zubfA3yKgXZVm6qMWYQ9VqInCjsNN10jGpcaRvQ44DDIV6NI+g74W+cRS0Xqnj7lhgGgrpJjQzlNUOpedJTOng==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
@@ -9695,10 +9695,10 @@ monaco-editor-webpack-plugin@^7.1.0:
   dependencies:
     loader-utils "^2.0.2"
 
-monaco-editor@^0.51.0:
-  version "0.51.0"
-  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.51.0.tgz#922a6103f6742b5a62fbb097276c5a6619d879db"
-  integrity sha512-xaGwVV1fq343cM7aOYB6lVE4Ugf0UyimdD/x5PWcWBMKENwectaEu77FAN7c5sFiyumqeJdX1RPTh1ocioyDjw==
+monaco-editor@^0.50.0:
+  version "0.50.0"
+  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.50.0.tgz#44e62b124c8aed224e1d310bbbe6ffd6d5122413"
+  integrity sha512-8CclLCmrRRh+sul7C08BmPBP3P8wVWfBHomsTcndxg5NRCEPfu/mc2AGU8k37ajjDVXcXFc12ORAMUkmk+lkFA==
 
 ms@2.0.0:
   version "2.0.0"

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.22.4...@next-core/build-next-bricks@1.23.0) (2024-07-31)
+
+
+### Features
+
+* support widget custom editor ([40eb559](https://github.com/easyops-cn/next-core/commit/40eb559747a8702e5d60a2fec45c7763d35d3deb))
+
+
+
+
+
+## [1.22.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.22.3...@next-core/build-next-bricks@1.22.4) (2024-07-03)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.22.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.22.2...@next-core/build-next-bricks@1.22.3) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/build-next-bricks

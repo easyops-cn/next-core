@@ -102,14 +102,14 @@ describe("customTemplates", () => {
       runtimeContext,
     };
     (refA.element as any).propA = "a2";
-    const methodM = ((refA.element as any).methodM = jest.fn());
+    const methodM = ((refA.element as any).methodM = jest.fn(() => "M"));
     const refB: RuntimeBrick = {
       type: "div",
       element: document.createElement("div"),
       runtimeContext,
     };
     (refB.element as any).propC = "b2";
-    const methodL = ((refB.element as any).methodL = jest.fn());
+    const methodL = ((refB.element as any).methodL = jest.fn(() => "L"));
     const hostBrick: RuntimeBrick = {
       type: "tpl-proxy",
       tplHostMetadata: {
@@ -172,10 +172,12 @@ describe("customTemplates", () => {
     expect(tpl.propA).toBe("a2");
     expect(tpl.propB).toBe("b2");
 
-    (tpl as any).methodM("p");
+    const resultM = (tpl as any).methodM("p");
+    expect(resultM).toBe("M");
     expect(methodM).toBeCalledTimes(1);
     expect(methodM).toHaveBeenNthCalledWith(1, "p");
-    (tpl as any).methodN("q");
+    const resultN = (tpl as any).methodN("q");
+    expect(resultN).toBe("L");
     expect(methodL).toBeCalledTimes(1);
     expect(methodL).toHaveBeenNthCalledWith(1, "q");
 

@@ -200,7 +200,7 @@ export class Runtime {
     this.#initialized = true;
     normalizeBootstrapData(data);
     bootstrapData = data;
-    const { notification, dialog } = this.#getPresetBricks();
+    const { notification, dialog } = _internalApiGetPresetBricks();
     if (notification !== false) {
       loadNotificationService(
         notification ?? "basic.show-notification",
@@ -287,7 +287,10 @@ export class Runtime {
 
   applyPageTitle(pageTitle: string): void {
     const baseTitle = this.getBrandSettings().base_title;
-    document.title = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
+
+    document.title =
+      (router?.getRecentApps().currentApp?.localeTitle as string) ||
+      (pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle);
   }
 
   getNavConfig() {
@@ -296,13 +299,6 @@ export class Runtime {
 
   loadBricks(bricks: string[] | Set<string>) {
     return loadBricksImperatively(bricks, getBrickPackages());
-  }
-
-  #getPresetBricks() {
-    return (bootstrapData?.settings?.presetBricks ?? {}) as {
-      notification?: string | false;
-      dialog?: string | false;
-    };
   }
 }
 
@@ -347,6 +343,14 @@ export function getBrickPackages(): BrickPackage[] {
       window.PUBLIC_DEPS as BrickPackage[] | undefined
     ))
   );
+}
+
+export function _internalApiGetPresetBricks() {
+  return (bootstrapData?.settings?.presetBricks ?? {}) as {
+    notification?: string | false;
+    dialog?: string | false;
+    error?: string | false;
+  };
 }
 
 export function _internalApiGetRenderId(): string | undefined {

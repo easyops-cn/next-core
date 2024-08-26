@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.7](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.6...@next-core/loader@1.6.7) (2024-08-12)
+
+
+### Bug Fixes
+
+* refine error display ([9409196](https://github.com/easyops-cn/next-core/commit/9409196e8e47cf86d13bec083f3db53bb15f2f87))
+
+
+
+
+
+## [1.6.6](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.5...@next-core/loader@1.6.6) (2024-07-29)
+
+
+### Bug Fixes
+
+* refine error reporting of loading bricks ([78717b0](https://github.com/easyops-cn/next-core/commit/78717b0b07bb021cd26c7f4d295d97fb7bf69772))
+
+
+
+
+
+## [1.6.5](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.4...@next-core/loader@1.6.5) (2024-07-03)
+
+**Note:** Version bump only for package @next-core/loader
+
+
+
+
+
 ## [1.6.4](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.3...@next-core/loader@1.6.4) (2024-06-26)
 
 

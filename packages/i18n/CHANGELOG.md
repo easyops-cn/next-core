@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.63](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.62...@next-core/i18n@1.0.63) (2024-08-19)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.62](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.61...@next-core/i18n@1.0.62) (2024-07-31)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.61](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.60...@next-core/i18n@1.0.61) (2024-07-26)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.60](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.59...@next-core/i18n@1.0.60) (2024-07-25)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.59](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.58...@next-core/i18n@1.0.59) (2024-07-19)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
+## [1.0.58](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.57...@next-core/i18n@1.0.58) (2024-07-03)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
 ## [1.0.57](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.56...@next-core/i18n@1.0.57) (2024-07-02)
 
 **Note:** Version bump only for package @next-core/i18n
