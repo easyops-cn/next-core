@@ -8,6 +8,10 @@ const {
   bricks: { webpackContractsFactory },
 } = require("@next-core/webpack-config-factory");
 
+const globalContractRegExp =
+  /(?<=@contract\s+)(?:<source=(?:[^>]+)>\s+)?(?:[\w.]+)(?:@[\d.]+)?(?=\s+)/g;
+const singleContractRegExp = /^(?:<source=([^>]+)>\s+)?([\w.]+)(?:@([\d.]+))?$/;
+
 module.exports = function generateBrickContracts(dir, isProviderBricks) {
   console.log("Analyzing brick contracts...");
   const startTime = Date.now();
@@ -43,7 +47,7 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
       const contractFiles = await globby(
         path.posix.join(dir, "contracts.log/*/*.contracts")
       );
-      const contractRegExp = /(?<=@contract\s+)(?:[\w.]+)(?:@[\d.]+)?(?=\s+)/g;
+      const contractRegExp = globalContractRegExp;
       await Promise.all(
         contractFiles.map(async (filePath) => {
           const source = await fs.readFile(filePath, "utf-8");
@@ -51,7 +55,8 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
           if (isProviderBricks) {
             if (contracts) {
               for (const item of contracts) {
-                const [contract, version] = item.split("@");
+                const [_full, source, contract, version] =
+                  item.match(singleContractRegExp);
                 depsMap.set(
                   `${pkgLastName}.${contract
                     .split(".")
@@ -60,6 +65,7 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
                     .join("-api-")}`,
                   {
                     type: "contract",
+                    source: source || "sdk",
                     contract,
                     version: version || "*",
                   }
@@ -72,9 +78,11 @@ module.exports = function generateBrickContracts(dir, isProviderBricks) {
               depsMap.set(
                 brick,
                 contracts.map((item) => {
-                  const [contract, version] = item.split("@");
+                  const [_full, source, contract, version] =
+                    item.match(singleContractRegExp);
                   return {
                     type: "contract",
+                    source: source || "sdk",
                     contract,
                     version: version || "*",
                   };
