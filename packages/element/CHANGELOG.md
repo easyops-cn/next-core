@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.11](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.2.10...@next-core/element@1.2.11) (2024-07-03)
+
+**Note:** Version bump only for package @next-core/element
+
+
+
+
+
 ## [1.2.10](https://github.com/easyops-cn/next-core/compare/@next-core/element@1.2.9...@next-core/element@1.2.10) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/element

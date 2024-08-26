@@ -50,16 +50,23 @@ export function setWatermark() {
     };
   };
 
+  const content = [
+    ...(typeof watermarkConfig.content === "string"
+      ? [watermarkConfig.content]
+      : watermarkConfig.content ?? []),
+    watermarkConfig.flags?.["show-development"] && isDeveloper
+      ? "Development"
+      : "",
+    watermarkConfig.flags?.["show-user"] ? username : "",
+  ].filter(Boolean);
+
+  // Do not call showWatermark if there is no content
+  if (content.length === 0) {
+    return;
+  }
+
   const defaultProps: WaterMarkProps = {
-    content: [
-      ...(typeof watermarkConfig.content === "string"
-        ? [watermarkConfig.content]
-        : watermarkConfig.content ?? []),
-      watermarkConfig.flags?.["show-development"] && isDeveloper
-        ? "Development"
-        : "",
-      watermarkConfig.flags?.["show-user"] ? username : "",
-    ].filter(Boolean),
+    content,
     zIndex: 1001,
     width: 200,
     font: {

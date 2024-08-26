@@ -8,6 +8,7 @@ import type {
   Storyboard,
   StoryboardFunction,
 } from "@next-core/types";
+import { i18n } from "@next-core/i18n";
 import { uniqueId } from "lodash";
 import {
   RenderOutput,
@@ -19,13 +20,13 @@ import { RendererContext } from "./internal/RendererContext.js";
 import { DataStore } from "./internal/data/DataStore.js";
 import type { RenderRoot, RuntimeContext } from "./internal/interfaces.js";
 import { mountTree, unmountTree } from "./internal/mount.js";
-import { httpErrorToString } from "./handleHttpError.js";
 import { applyMode, applyTheme, setMode, setTheme } from "./themeAndMode.js";
 import { RenderTag } from "./internal/enums.js";
 import { registerStoryboardFunctions } from "./internal/compute/StoryboardFunctions.js";
 import { registerAppI18n } from "./internal/registerAppI18n.js";
 import { registerCustomTemplates } from "./internal/registerCustomTemplates.js";
 import { setUIVersion } from "./setUIVersion.js";
+import { ErrorNode } from "./internal/ErrorNode.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
@@ -47,6 +48,7 @@ export interface CreateRootOptions {
 export interface RenderOptions {
   theme?: SiteTheme;
   uiVersion?: string;
+  language?: string;
   context?: ContextConf[];
   functions?: StoryboardFunction[];
   templates?: CustomTemplate[];
@@ -83,6 +85,7 @@ export function unstable_createRoot(
       {
         theme,
         uiVersion,
+        language,
         context,
         functions,
         templates,
@@ -130,6 +133,9 @@ export function unstable_createRoot(
         setTheme(theme ?? "light");
         setMode("default");
         setUIVersion(uiVersion);
+        if (language) {
+          await i18n.changeLanguage(language);
+        }
 
         app ??= {
           id: "demo",
@@ -176,21 +182,7 @@ export function unstable_createRoot(
       } catch (error) {
         failed = true;
         output = {
-          node: {
-            tag: RenderTag.BRICK,
-            type: "div",
-            properties: {
-              textContent: httpErrorToString(error),
-              dataset: {
-                errorBoundary: "",
-              },
-              style: {
-                color: "var(--color-error)",
-              },
-            },
-            return: renderRoot,
-            runtimeContext: null!,
-          },
+          node: await ErrorNode(error, renderRoot, scope === "page"),
           blockingList: [],
         };
       }

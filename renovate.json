@@ -27,7 +27,12 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["@next-core/styles-v3", "@next-core/color-theme"],
+      "matchPackageNames": [
+        "@next-core/styles-v3",
+        "@next-core/color-theme",
+        "@next-core/public-scoped-sdk",
+        "@next-core/repo-config"
+      ],
       "groupName": "v2 packages",
       "matchBaseBranches": ["v3"],
       "enabled": true
@@ -65,6 +70,13 @@
     },
     {
       "matchPackagePatterns": ["^@types/"],
+      "matchPackageNames": [
+        "glob",
+        "inquirer",
+        "i18next",
+        "i18next-browser-languagedetector",
+        "react-i18next"
+      ],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },

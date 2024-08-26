@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.21](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.20...@next-core/utils@1.7.21) (2024-08-19)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.7.20](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.19...@next-core/utils@1.7.20) (2024-07-31)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.7.19](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.18...@next-core/utils@1.7.19) (2024-07-26)
+
+
+### Bug Fixes
+
+* cache expression AST ([e3693c2](https://github.com/easyops-cn/next-core/commit/e3693c2a1a88fa03249433fa9f542438229a1860))
+* cache function AST ([99d4b54](https://github.com/easyops-cn/next-core/commit/99d4b549dd9b05cf007b1f513395cbcc5831560c))
+
+
+
+
+
+## [1.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.17...@next-core/utils@1.7.18) (2024-07-25)
+
+
+### Bug Fixes
+
+* only traverse storyboard function if it matches source ([8fea86d](https://github.com/easyops-cn/next-core/commit/8fea86dc996abd8832c69328183d979149ecdb0e))
+
+
+
+
+
+## [1.7.17](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.16...@next-core/utils@1.7.17) (2024-07-19)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.7.16](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.15...@next-core/utils@1.7.16) (2024-07-03)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
 ## [1.7.15](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.14...@next-core/utils@1.7.15) (2024-07-02)
 
 **Note:** Version bump only for package @next-core/utils

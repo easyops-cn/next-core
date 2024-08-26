@@ -10,9 +10,13 @@ import styleText from "./styles.shadow.css";
 
 {{#if useI18n}}
 initializeReactI18n(NS, locales);
-{{/if}}
 
+{{/if}}
 const { defineElement, property } = createDecorators();
+
+export interface {{>className}}Props {
+  // Define props here.
+}
 
 /**
  * 构件 `{{>tagName}}`
@@ -21,7 +25,7 @@ export
 @defineElement("{{>tagName}}", {
   styleTexts: [styleText],
 })
-class {{>className}} extends ReactNextElement {
+class {{>className}} extends ReactNextElement implements {{>className}}Props {
   render() {
     return (
       <{{>className}}Component />
@@ -29,11 +33,11 @@ class {{>className}} extends ReactNextElement {
   }
 }
 
-export interface {{>className}}Props {
-  // Define props here.
+export interface {{>className}}ComponentProps extends {{>className}}Props {
+  // Define react event handlers here.
 }
 
-export function {{>className}}Component(props: {{>className}}Props) {
+export function {{>className}}Component(props: {{>className}}ComponentProps) {
 {{#if useI18n}}
   const { t } = useTranslation(NS);
   const hello = t(K.HELLO);

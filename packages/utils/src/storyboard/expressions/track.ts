@@ -10,6 +10,8 @@ interface trackAllResult {
   formState: string[] | false;
 }
 
+const TRACK_NAMES = ["CTX", "STATE", "FORM_STATE"];
+
 export function track(
   raw: string,
   trackText: string,
@@ -21,6 +23,7 @@ export function track(
       hasNonStaticUsage: false,
     };
     const { expression } = preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
         beforeVisitGlobal: beforeVisitGlobalMember(usage, variableName),
@@ -49,24 +52,21 @@ export function track(
 }
 
 export function trackAll(raw: string): trackAllResult | false {
-  if (raw) {
+  // Do not pre-evaluate a string if it doesn't include track names.
+  if (TRACK_NAMES.some((name) => raw.includes(name))) {
     const usage: MemberUsage = {
       usedProperties: new Set(),
       hasNonStaticUsage: false,
     };
     preevaluate(raw, {
+      cache: true,
       withParent: true,
       hooks: {
-        beforeVisitGlobal: beforeVisitGlobalMember(
-          usage,
-          ["CTX", "STATE", "FORM_STATE"],
-          1,
-          true
-        ),
+        beforeVisitGlobal: beforeVisitGlobalMember(usage, TRACK_NAMES, 1, true),
       },
     });
     if (usage.usedProperties.size > 0) {
-      const usedProperites = [...usage.usedProperties];
+      const usedProperties = [...usage.usedProperties];
       const result: trackAllResult = {
         context: false,
         state: false,
@@ -77,7 +77,7 @@ export function trackAll(raw: string): trackAllResult | false {
         STATE: "state",
         FORM_STATE: "formState",
       };
-      usedProperites.forEach((item) => {
+      usedProperties.forEach((item) => {
         const [key, name] = item.split(".");
         if (!result[keyMap[key]]) {
           result[keyMap[key]] = [];

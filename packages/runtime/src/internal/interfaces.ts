@@ -28,6 +28,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   tplStateStoreScope?: DataStore<"STATE">[];
   forEachItem?: unknown;
   forEachIndex?: number;
+  forEachSize?: number;
   appendI18nNamespace?: string;
 
   formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
@@ -129,7 +130,6 @@ export interface TemplateHostContext {
   externalSlots?: SlotsConfOfBricks;
   tplStateStoreId: string;
   hostBrick: TemplateHostBrick;
-  __temporary_tpl_tag_name?: string;
 }
 
 interface ReversedProxies {

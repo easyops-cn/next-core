@@ -1,4 +1,5 @@
 import { describe, test, expect, jest } from "@jest/globals";
+import { fireEvent } from "@testing-library/dom";
 import { createProviderClass } from "@next-core/utils/general";
 import { loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
@@ -6,6 +7,7 @@ import {
   HttpResponseError as _HttpResponseError,
   HttpAbortError as _HttpAbortError,
 } from "@next-core/http";
+import { initializeI18n } from "@next-core/i18n";
 import {
   createRuntime as _createRuntime,
   getRuntime as _getRuntime,
@@ -14,6 +16,8 @@ import {
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { getHistory as _getHistory } from "../history.js";
+
+initializeI18n();
 
 jest.mock("@next-core/loader");
 jest.mock("../Dialog.js");
@@ -437,6 +441,24 @@ const getBootstrapData = (options?: {
             },
           ],
         },
+        {
+          path: "${APP.homepage}/block",
+          exact: true,
+          bricks: [
+            {
+              brick: "div",
+              properties: {
+                textContent: "I'm blocked",
+              },
+              lifeCycle: {
+                onPageLoad: {
+                  action: "history.block",
+                  args: ["Are you sure you want to leave this page?"],
+                },
+              },
+            },
+          ],
+        },
       ],
       meta: {
         customTemplates: options?.templates
@@ -470,6 +492,7 @@ const getBootstrapData = (options?: {
         id: "app-b",
         homepage: "/app-b",
         name: "App B",
+        localeTitle: "Hi there",
       },
       routes: [
         {
@@ -568,6 +591,17 @@ customElements.define(
   "my-abort-provider",
   createProviderClass(myAbortProvider)
 );
+
+customElements.define(
+  "illustrations.error-message",
+  class IllustrationsErrorMessage extends HTMLElement {
+    errorTitle?: string;
+    variant?: string;
+    description?: string;
+  }
+);
+
+customElements.define("eo-link", class EoLink extends HTMLElement {});
 
 describe("Runtime", () => {
   let createRuntime: typeof _createRuntime;
@@ -856,11 +890,13 @@ describe("Runtime", () => {
             Hello
           </h1>
           <div>
-            <div
+            <illustrations.error-message
               data-error-boundary=""
             >
-              SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
-            </div>
+              <eo-link>
+                Go back to previous page
+              </eo-link>
+            </illustrations.error-message>
           </div>
         </div>,
         <div
@@ -1315,6 +1351,16 @@ describe("Runtime", () => {
     });
   });
 
+  test("history block", async () => {
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/block");
+    await getRuntime().bootstrap();
+    const beforeunload = new Event("beforeunload");
+    const preventDefault = jest.spyOn(beforeunload, "preventDefault");
+    fireEvent(window, beforeunload);
+    expect(preventDefault).toBeCalled();
+  });
+
   test("no app matched", async () => {
     window.NO_AUTH_GUARD = false;
     const finishPageView = jest.fn();
@@ -1376,11 +1422,13 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <div
+          <illustrations.error-message
             data-error-boundary=""
           >
-            TypeError: bricks is not iterable
-          </div>
+            <eo-link>
+              Go back to previous page
+            </eo-link>
+          </illustrations.error-message>
         </div>,
         <div
           id="portal-mount-point"
@@ -1390,6 +1438,33 @@ describe("Runtime", () => {
     expect(finishPageView).toBeCalledTimes(1);
     expect(finishPageView).toBeCalledWith({
       status: "failed",
+    });
+  });
+
+  test("render locale title", async () => {
+    consoleError.mockReturnValueOnce();
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize(getBootstrapData());
+    getHistory().push("/app-b");
+    await getRuntime().bootstrap();
+
+    expect(document.title).toBe("DevOps 管理专家");
+
+    getRuntime().applyPageTitle("Hello");
+    expect(document.title).toBe("Hi there");
+    getRuntime().applyPageTitle("");
+    expect(document.title).toBe("Hi there");
+    expect(finishPageView).toBeCalledTimes(1);
+    expect(finishPageView).toBeCalledWith({
+      pageTitle: "DevOps 管理专家",
+      path: "/app-b",
+      status: "ok",
     });
   });
 
@@ -1460,9 +1535,13 @@ describe("Runtime", () => {
         <div
           id="main-mount-point"
         >
-          <div>
-            Page not found
-          </div>
+          <illustrations.error-message
+            data-error-boundary=""
+          >
+            <eo-link>
+              Go back to home page
+            </eo-link>
+          </illustrations.error-message>
         </div>,
         <div
           id="portal-mount-point"

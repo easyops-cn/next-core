@@ -3,6 +3,223 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.13](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.12...@next-core/runtime@1.54.13) (2024-08-19)
+
+
+### Bug Fixes
+
+* use compiled deps and perm from functions ([91a5f60](https://github.com/easyops-cn/next-core/commit/91a5f60a0ab9db6a1fa6e8b64f0de9819e2aa055))
+
+
+
+
+
+## [1.54.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.11...@next-core/runtime@1.54.12) (2024-08-13)
+
+
+### Bug Fixes
+
+* mark isInIframeOfVisualBuilder for visual-builder-* extension apps ([8fa21b2](https://github.com/easyops-cn/next-core/commit/8fa21b20634a7e5b69d56bd756f10a246e302395))
+
+
+
+
+
+## [1.54.11](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.10...@next-core/runtime@1.54.11) (2024-08-12)
+
+
+### Bug Fixes
+
+* refine error display ([9409196](https://github.com/easyops-cn/next-core/commit/9409196e8e47cf86d13bec083f3db53bb15f2f87))
+
+
+
+
+
+## [1.54.10](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.9...@next-core/runtime@1.54.10) (2024-08-09)
+
+
+### Bug Fixes
+
+* tpl proxied methods should return ([5dfb2ed](https://github.com/easyops-cn/next-core/commit/5dfb2edde5a329207381423872b799be57b167c5))
+
+
+
+
+
+## [1.54.9](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.8...@next-core/runtime@1.54.9) (2024-08-08)
+
+
+### Bug Fixes
+
+* do not call showWatermark if there is no content ([801b1d7](https://github.com/easyops-cn/next-core/commit/801b1d78451df956a60197684c598cbce286426a))
+
+
+
+
+
+## [1.54.8](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.7...@next-core/runtime@1.54.8) (2024-08-06)
+
+
+### Bug Fixes
+
+* fix updating route in bricks ([66781c6](https://github.com/easyops-cn/next-core/commit/66781c6407a9d04f84c6a7a2a0190d7c79204da0))
+
+
+
+
+
+## [1.54.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.6...@next-core/runtime@1.54.7) (2024-08-06)
+
+
+### Bug Fixes
+
+* handle multi navigations to a page with incrementalSubRoutes ([bf76fb9](https://github.com/easyops-cn/next-core/commit/bf76fb9a379bbd56bc11e0af23efbd7643743ceb))
+
+
+
+
+
+## [1.54.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.5...@next-core/runtime@1.54.6) (2024-07-31)
+
+
+### Bug Fixes
+
+* add a new event action: window.postMessage ([a5abe71](https://github.com/easyops-cn/next-core/commit/a5abe714fd3b68d81b32a39f873bd04cfe73bb25))
+* handle provider load error ([a2b5474](https://github.com/easyops-cn/next-core/commit/a2b5474f8bd5f87522a4e7afab46baa34e7d32f2))
+
+
+
+
+
+## [1.54.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.4...@next-core/runtime@1.54.5) (2024-07-29)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.54.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.3...@next-core/runtime@1.54.4) (2024-07-26)
+
+
+### Bug Fixes
+
+* Fixed an issue when rendering the root scene ([b19ec97](https://github.com/easyops-cn/next-core/commit/b19ec9758563ec3507cf7178e5f589f967995961))
+
+
+
+
+
+## [1.54.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.2...@next-core/runtime@1.54.3) (2024-07-26)
+
+
+### Bug Fixes
+
+* cache expression AST ([e3693c2](https://github.com/easyops-cn/next-core/commit/e3693c2a1a88fa03249433fa9f542438229a1860))
+* cache function AST ([99d4b54](https://github.com/easyops-cn/next-core/commit/99d4b549dd9b05cf007b1f513395cbcc5831560c))
+
+
+
+
+
+## [1.54.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.1...@next-core/runtime@1.54.2) (2024-07-25)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.54.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.0...@next-core/runtime@1.54.1) (2024-07-23)
+
+
+### Bug Fixes
+
+* 如果小产品自定义了title无论什么情况都显示自定义title ([e86eba1](https://github.com/easyops-cn/next-core/commit/e86eba18d1ef3893d76434281f3cdd632872737c))
+* 如果小产品自定义了title无论什么情况都显示自定义title ([c234ad5](https://github.com/easyops-cn/next-core/commit/c234ad52ea874b2589561371587c184d98e3ab42))
+
+
+
+
+
+# [1.54.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.53.0...@next-core/runtime@1.54.0) (2024-07-22)
+
+
+### Features
+
+* proxy form method ([076ebae](https://github.com/easyops-cn/next-core/commit/076ebae17264a2555d34558ad90ab65be18c07de))
+
+
+
+
+
+# [1.53.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.2...@next-core/runtime@1.53.0) (2024-07-19)
+
+
+### Features
+
+* 平台title支持自定义配置 ([d58363d](https://github.com/easyops-cn/next-core/commit/d58363db20e16e88877a094d7a8a8da76268193b))
+
+
+
+
+
+## [1.52.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.1...@next-core/runtime@1.52.2) (2024-07-18)
+
+
+### Bug Fixes
+
+* allow accessing forEach variables of template internal from external ([ce14b44](https://github.com/easyops-cn/next-core/commit/ce14b44e461967da53b942e22806e2a5ba564575))
+
+
+
+
+
+## [1.52.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.52.0...@next-core/runtime@1.52.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* computed formData ([cd61632](https://github.com/easyops-cn/next-core/commit/cd61632df1aed33e4d577f1419aa1694c8d564f3))
+
+
+
+
+
+# [1.52.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.51.0...@next-core/runtime@1.52.0) (2024-07-15)
+
+
+### Features
+
+* support setting language in preview ([d00a95f](https://github.com/easyops-cn/next-core/commit/d00a95fa2d47b4de9ddb54584427cc0634998b06))
+
+
+
+
+
+# [1.51.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.50.0...@next-core/runtime@1.51.0) (2024-07-12)
+
+
+### Features
+
+* **menu:** activeIncludes and activeExcludes of SidebarMenuSimpleItem support MatchOptions ([e9cb305](https://github.com/easyops-cn/next-core/commit/e9cb3057daeed5ea92a42629c8b9634eb68f336d))
+
+
+
+
+
+# [1.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.12...@next-core/runtime@1.50.0) (2024-07-03)
+
+
+### Features
+
+* support SIZE of :forEach in expressions ([4b9fbe5](https://github.com/easyops-cn/next-core/commit/4b9fbe5b5f1976fc82ebb1d2347fc5e259847cd2))
+
+
+
+
+
 ## [1.49.12](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.49.11...@next-core/runtime@1.49.12) (2024-07-02)
 
 **Note:** Version bump only for package @next-core/runtime

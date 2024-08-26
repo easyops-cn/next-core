@@ -20,6 +20,7 @@
             <select id="brick-playground-select-example">
               <option value> - local - </option>
             </select>
+            <button id="brick-playground-button-collapse" title="Hide source code">❮</button>
           </div>
         </div>
         <div class="brick-playground-editor" data-mode="html" id="brick-playground-html-editor"></div>
@@ -29,6 +30,7 @@
       <div class="brick-playground-column">
         <div class="brick-playground-toolbar">
           <div class="brick-playground-toolbar-column">
+            <button id="brick-playground-button-expand" title="Show source code">❯</button>
             <span>Preview</span>
           </div>
           <div class="brick-playground-toolbar-column shrink">
@@ -40,6 +42,11 @@
             <select id="brick-playground-select-ui-version">
               <option value="8.2" checked>UI 8.2</option>
               <option value="8.0">UI 8.0</option>
+            </select>
+            <select id="brick-playground-select-language">
+              <option value="" checked>Lang: auto</option>
+              <option value="zh">中文</option>
+              <option value="en">English</option>
             </select>
             <select id="brick-playground-select-theme">
               <option checked>Dark</option>

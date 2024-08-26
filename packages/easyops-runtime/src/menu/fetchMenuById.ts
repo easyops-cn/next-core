@@ -37,15 +37,15 @@ function transformMenuItems(
             groupFrom: item.groupFrom,
           }
         : children?.length
-        ? {
-            type: "subMenu",
-            childLayout: item.childLayout,
-            title: item.text,
-            icon: item.icon,
-            items: children,
-            defaultExpanded: item.defaultExpanded,
-          }
-        : (omit(item, ["type", "items", "children"]) as SidebarMenuItem);
+          ? {
+              type: "subMenu",
+              childLayout: item.childLayout,
+              title: item.text,
+              icon: item.icon,
+              items: children,
+              defaultExpanded: item.defaultExpanded,
+            }
+          : (omit(item, ["type", "items", "children"]) as SidebarMenuItem);
     return transformedMenuItem;
   });
 }
@@ -74,44 +74,44 @@ async function _fetchMenuById(
   const menuList = window.STANDALONE_MICRO_APPS
     ? getMenusOfStandaloneApp(menuId, runtimeContext.app.id, helpers)
     : runtimeContext.flags["three-level-menu-layout"]
-    ? ((
-        await InstalledMicroAppApi_getMenusInfo(menuId, {
-          menuObjectId: "EASYOPS_STORYBOARD_MENU",
-        })
-      ).menus as MenuRawData[])
-    : ((
-        await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
-          page: 1,
-          page_size: 200,
-          fields: {
-            menuId: true,
-            title: true,
-            icon: true,
-            link: true,
-            titleDataSource: true,
-            defaultCollapsed: true,
-            defaultCollapsedBreakpoint: true,
-            type: true,
-            injectMenuGroupId: true,
-            dynamicItems: true,
-            itemsResolve: true,
-            items: true,
-            i18n: true,
-            "items.children": true,
-            "app.appId": true,
-          },
-          query: {
-            menuId: {
-              $eq: menuId,
+      ? ((
+          await InstalledMicroAppApi_getMenusInfo(menuId, {
+            menuObjectId: "EASYOPS_STORYBOARD_MENU",
+          })
+        ).menus as MenuRawData[])
+      : ((
+          await InstanceApi_postSearch("EASYOPS_STORYBOARD_MENU", {
+            page: 1,
+            page_size: 200,
+            fields: {
+              menuId: true,
+              title: true,
+              icon: true,
+              link: true,
+              titleDataSource: true,
+              defaultCollapsed: true,
+              defaultCollapsedBreakpoint: true,
+              type: true,
+              injectMenuGroupId: true,
+              dynamicItems: true,
+              itemsResolve: true,
+              items: true,
+              i18n: true,
+              "items.children": true,
+              "app.appId": true,
             },
-            app: {
-              $size: {
-                $gt: 0,
+            query: {
+              menuId: {
+                $eq: menuId,
+              },
+              app: {
+                $size: {
+                  $gt: 0,
+                },
               },
             },
-          },
-        })
-      ).list as MenuRawData[]);
+          })
+        ).list as MenuRawData[]);
 
   const menuData = await mergeMenu(menuList, runtimeContext, helpers);
   if (!menuData) {
@@ -131,6 +131,7 @@ async function _fetchMenuById(
   delete newRuntimeContext.tplStateStoreId;
   delete newRuntimeContext.forEachItem;
   delete newRuntimeContext.forEachIndex;
+  delete newRuntimeContext.forEachSize;
   const rootAppId = app[0].appId;
 
   const [computedMenuData, computedMenuItems] = await Promise.all([

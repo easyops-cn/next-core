@@ -1,4 +1,4 @@
-import { initializeI18n } from "@next-core/i18n";
+import { i18n, initializeI18n } from "@next-core/i18n";
 import { unstable_createRoot } from "./createRoot.js";
 import { applyTheme } from "./themeAndMode.js";
 
@@ -10,6 +10,10 @@ window.scrollTo = jest.fn();
 describe("preview", () => {
   const container = document.createElement("div");
   const portal = document.createElement("div");
+
+  beforeEach(async () => {
+    await i18n.changeLanguage("en");
+  });
 
   test("general", async () => {
     const root = unstable_createRoot(container);
@@ -82,6 +86,14 @@ describe("preview", () => {
         portal: true,
       },
     ];
+    const i18nData = {
+      en: {
+        GOODBYE: "Goodbye",
+      },
+      zh: {
+        GOODBYE: "再见",
+      },
+    };
     const options = {
       functions: [
         {
@@ -106,11 +118,7 @@ describe("preview", () => {
           ],
         },
       ],
-      i18n: {
-        en: {
-          GOODBYE: "Goodbye",
-        },
-      },
+      i18n: i18nData,
     };
     await root.render(bricks, options);
 
@@ -125,11 +133,7 @@ describe("preview", () => {
       ...options,
       // Registered templates cannot be unregistered.
       templates: undefined,
-      i18n: {
-        en: {
-          GOODBYE: "再见",
-        },
-      },
+      language: "zh",
     });
     expect(container.firstElementChild?.innerHTML).toBe(
       "<div>再见 Preview</div>"
@@ -236,7 +240,7 @@ describe("preview", () => {
     ]);
 
     expect(container.innerHTML).toBe(
-      '<div data-error-boundary="">ReferenceError: QUERY is not defined, in "&lt;% QUERY.q %&gt;"</div>'
+      '<div data-error-boundary="">UNKNOWN_ERROR: ReferenceError: QUERY is not defined, in "&lt;% QUERY.q %&gt;"</div>'
     );
     expect(portal.innerHTML).toBe("");
     expect(applyTheme).not.toBeCalled();

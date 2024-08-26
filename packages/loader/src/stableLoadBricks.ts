@@ -81,6 +81,21 @@ export function loadEditorsImperatively(
   return dispatchRequestStatus(promise);
 }
 
+export class BrickLoadError extends Error {
+  constructor(message: string) {
+    // Pass remaining arguments (including vendor specific ones) to parent constructor
+    super(message);
+
+    this.name = "BrickLoadError";
+
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    // istanbul ignore else
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, BrickLoadError);
+    }
+  }
+}
+
 interface V2AdapterBrick {
   resolve(
     adapterPkgFilePath: string,
@@ -186,7 +201,9 @@ async function loadBrickModule(
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    throw new Error(`Load ${type} of "${item.fullName}" failed`);
+    throw new BrickLoadError(
+      `Load ${type} of "${item.fullName}" failed: ${(error as Error)?.message}`
+    );
   }
 }
 

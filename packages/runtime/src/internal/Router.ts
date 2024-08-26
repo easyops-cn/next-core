@@ -6,6 +6,10 @@ import type {
   Storyboard,
 } from "@next-core/types";
 import { HttpAbortError } from "@next-core/http";
+import {
+  clearExpressionASTCache,
+  clearFunctionASTCache,
+} from "@next-core/cook";
 import { uniqueId } from "lodash";
 import { NextHistoryState, NextLocation, getHistory } from "../history.js";
 import {
@@ -35,16 +39,11 @@ import {
 import { getPageInfo } from "../getPageInfo.js";
 import type {
   MenuRequestNode,
-  RenderBrick,
   RenderRoot,
   RuntimeContext,
 } from "./interfaces.js";
 import { resetAllComputedMarks } from "./compute/markAsComputed.js";
-import {
-  handleHttpError,
-  httpErrorToString,
-  isUnauthenticatedError,
-} from "../handleHttpError.js";
+import { handleHttpError, isUnauthenticatedError } from "../handleHttpError.js";
 import { abortPendingRequest, initAbortController } from "./abortController.js";
 import { setLoginStateCookie } from "../setLoginStateCookie.js";
 import { registerCustomTemplates } from "./registerCustomTemplates.js";
@@ -56,12 +55,26 @@ import { setUIVersion } from "../setUIVersion.js";
 import { setAppVariable } from "../setAppVariable.js";
 import { setWatermark } from "../setWatermark.js";
 import { clearMatchedRoutes } from "./routeMatchedMap.js";
+import { ErrorNode, PageNotFoundError } from "./ErrorNode.js";
+
+type RenderTask = InitialRenderTask | SubsequentRenderTask;
+
+interface InitialRenderTask {
+  location: NextLocation;
+  prevLocation?: undefined;
+  action?: undefined;
+}
+
+interface SubsequentRenderTask {
+  location: NextLocation;
+  prevLocation: NextLocation;
+  action: Action;
+}
 
 export class Router {
   readonly #storyboards: Storyboard[];
   #rendering = false;
-  #prevLocation!: NextLocation;
-  #nextLocation?: NextLocation;
+  #nextRender?: RenderTask;
   #runtimeContext?: RuntimeContext;
   #rendererContext?: RendererContext;
   #rendererContextTrashCan = new Set<RendererContext | undefined>();
@@ -153,10 +166,39 @@ export class Router {
   bootstrap() {
     initAbortController();
     const history = getHistory();
-    this.#prevLocation = history.location;
-    let renderId = 0;
-    history.listen(async (location, action) => {
-      const currentRenderId = ++renderId;
+    let nextPrevLocation = history.location;
+    history.listen((location, action) => {
+      const prevLocation = nextPrevLocation;
+      nextPrevLocation = location;
+      if (this.#rendering) {
+        this.#nextRender = { location, prevLocation, action };
+      } else {
+        this.#queuedRender({
+          location,
+          prevLocation,
+          action,
+        }).catch(handleHttpError);
+      }
+    });
+    return this.#queuedRender({ location: history.location });
+  }
+
+  async #queuedRender(next: RenderTask) {
+    this.#rendering = true;
+    try {
+      await this.#preRender(next);
+    } finally {
+      this.#rendering = false;
+      if (this.#nextRender) {
+        const nextRender = this.#nextRender;
+        this.#nextRender = undefined;
+        await this.#queuedRender(nextRender);
+      }
+    }
+  }
+
+  async #preRender({ location, prevLocation, action }: RenderTask) {
+    if (prevLocation) {
       let ignoreRendering: boolean | undefined;
       const omittedLocationProps: Partial<NextLocation> = {
         hash: undefined,
@@ -170,15 +212,15 @@ export class Router {
         // such as goBack or goForward,
         (action === "POP" &&
           // and the previous location was triggered by hash link,
-          (this.#prevLocation.key === undefined ||
+          (prevLocation.key === undefined ||
             // or the previous location specified notify false.
-            this.#prevLocation.state?.notify === false))
+            prevLocation.state?.notify === false))
       ) {
         omittedLocationProps.key = undefined;
       }
       if (
         locationsAreEqual(
-          { ...this.#prevLocation, ...omittedLocationProps },
+          { ...prevLocation, ...omittedLocationProps },
           { ...location, ...omittedLocationProps }
         ) ||
         (action !== "POP" && location.state?.notify === false)
@@ -192,22 +234,15 @@ export class Router {
         ignoreRendering =
           await this.#rendererContext?.didPerformIncrementalRender(
             location,
-            this.#prevLocation
+            prevLocation
           );
       }
 
-      // Ignore stale renders
-      if (renderId !== currentRenderId) {
-        return;
-      }
-
       if (ignoreRendering) {
-        this.#prevLocation = location;
         return;
       }
 
       abortPendingRequest();
-      this.#prevLocation = location;
       this.#rendererContext?.dispatchPageLeave();
 
       if (action === "POP") {
@@ -223,28 +258,10 @@ export class Router {
         }
       }
 
-      if (this.#rendering) {
-        this.#nextLocation = location;
-      } else {
-        devtoolsHookEmit("locationChange");
-        this.#queuedRender(location).catch(handleHttpError);
-      }
-    });
-    return this.#queuedRender(history.location);
-  }
-
-  async #queuedRender(location: NextLocation): Promise<void> {
-    this.#rendering = true;
-    try {
-      await this.#render(location);
-    } finally {
-      this.#rendering = false;
-      if (this.#nextLocation) {
-        const nextLocation = this.#nextLocation;
-        this.#nextLocation = undefined;
-        await this.#queuedRender(nextLocation);
-      }
+      devtoolsHookEmit("locationChange");
     }
+
+    return this.#render(location);
   }
 
   async #render(location: NextLocation): Promise<void> {
@@ -289,6 +306,11 @@ export class Router {
       previousApp && currentApp
         ? previousApp.id !== currentApp.id
         : previousApp !== currentApp;
+
+    clearExpressionASTCache();
+    if (appChanged) {
+      clearFunctionASTCache();
+    }
 
     // TODO: handle favicon
 
@@ -380,7 +402,7 @@ export class Router {
             new CustomEvent("navConfig.change", { detail: this.#navConfig })
           );
         },
-        catch: (error, returnNode) => {
+        catch: async (error, returnNode) => {
           if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
             redirectToLogin();
             return;
@@ -397,21 +419,7 @@ export class Router {
             return {
               failed: true,
               output: {
-                node: {
-                  tag: RenderTag.BRICK,
-                  type: "div",
-                  properties: {
-                    textContent: httpErrorToString(error),
-                    dataset: {
-                      errorBoundary: "",
-                    },
-                    style: {
-                      color: "var(--color-error)",
-                    },
-                  },
-                  runtimeContext: null!,
-                  return: returnNode,
-                },
+                node: await ErrorNode(error, returnNode, true),
                 blockingList: [],
               },
             };
@@ -480,7 +488,7 @@ export class Router {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
 
-        const result = routeHelper.catch(error, renderRoot);
+        const result = await routeHelper.catch(error, renderRoot);
         if (!result) {
           return;
         }
@@ -545,15 +553,11 @@ export class Router {
     applyTheme();
     applyMode();
 
-    const node: RenderBrick = {
-      tag: RenderTag.BRICK,
-      type: "div",
-      properties: {
-        textContent: "Page not found",
-      },
-      runtimeContext: null!,
-      return: renderRoot,
-    };
+    const node = await ErrorNode(
+      new PageNotFoundError(currentApp ? "page not found" : "app not found"),
+      renderRoot,
+      true
+    );
     renderRoot.child = node;
 
     mountTree(renderRoot);

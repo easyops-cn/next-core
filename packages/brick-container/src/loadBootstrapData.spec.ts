@@ -75,8 +75,12 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
               id: "app-a",
               name: "App A",
               locales: {
-                zh: { name: "应用 A" },
-                en: { name: "Application A" },
+                zh: {
+                  name: "应用 A",
+                },
+                en: {
+                  name: "Application A",
+                },
               },
               defaultConfig: {
                 defaultConf: 7,
@@ -194,8 +198,12 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
               id: "app-h",
               name: "App H",
               locales: {
-                zh: { name: "应用 H" },
-                en: { name: "Application H" },
+                zh: {
+                  name: "应用 H",
+                },
+                en: {
+                  name: "Application H",
+                },
               },
               defaultConfig: {
                 defaultConf: 7,
@@ -204,8 +212,8 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
                 userConf: 8,
                 settings: {
                   locales: {
-                    zh: { name: "应用 H 别名" },
-                    en: { name: "Application H Alias" },
+                    zh: { name: "应用 H 别名", title: "你好 H" },
+                    en: { name: "Application H Alias", title: "Hi there H" },
                   },
                 },
               },
@@ -350,6 +358,7 @@ describe("loadBootstrapData", () => {
         id: "app-a",
         name: "App A",
         localeName: "Application A",
+        localeTitle: "",
         locales: {
           zh: { name: "应用 A" },
           en: { name: "Application A" },
@@ -382,6 +391,8 @@ describe("loadBootstrapData", () => {
               defaultConfig: {
                 overrideDefault: 4,
               },
+              localeName: undefined,
+              localeTitle: "",
               userConfig: {
                 overrideUser: 5,
               },
@@ -456,6 +467,7 @@ describe("loadBootstrapData", () => {
         homepage: "/app-g",
         id: "app-g",
         localeName: "Application G",
+        localeTitle: "",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -468,6 +480,8 @@ describe("loadBootstrapData", () => {
           {
             overrideApp: {
               config: { overrideDefault: 4, overrideUser: 5 },
+              localeName: undefined,
+              localeTitle: "",
               defaultConfig: { overrideDefault: 4 },
               userConfig: { overrideUser: 5 },
             },
@@ -487,6 +501,7 @@ describe("loadBootstrapData", () => {
         homepage: "/app-a",
         id: "app-a",
         localeName: "Application A",
+        localeTitle: "",
         locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
         name: "App A",
         userConfig: { runtimeUserConf: 9 },
@@ -498,6 +513,8 @@ describe("loadBootstrapData", () => {
           {
             overrideApp: {
               config: { overrideDefault: 4, overrideUser: 5 },
+              localeName: undefined,
+              localeTitle: "",
               defaultConfig: { overrideDefault: 4 },
               userConfig: { overrideUser: 5 },
             },
@@ -583,6 +600,7 @@ describe("loadBootstrapData", () => {
         homepage: "/app-g",
         id: "app-g",
         localeName: "Application G",
+        localeTitle: "",
         locales: { en: { name: "Application G" }, zh: { name: "应用 G" } },
         name: "App G",
         userConfig: { runtimeUserConf: 9 },
@@ -595,6 +613,8 @@ describe("loadBootstrapData", () => {
           {
             overrideApp: {
               config: { overrideDefault: 4, overrideUser: 5 },
+              localeName: undefined,
+              localeTitle: "",
               defaultConfig: { overrideDefault: 4 },
               userConfig: { overrideUser: 5 },
             },
@@ -614,6 +634,7 @@ describe("loadBootstrapData", () => {
         homepage: "/app-a",
         id: "app-a",
         localeName: "Application A",
+        localeTitle: "",
         locales: { en: { name: "Application A" }, zh: { name: "应用 A" } },
         name: "App A",
         userConfig: { runtimeUserConf: 9 },
@@ -625,6 +646,8 @@ describe("loadBootstrapData", () => {
           {
             overrideApp: {
               config: { overrideDefault: 4, overrideUser: 5 },
+              localeName: undefined,
+              localeTitle: "",
               defaultConfig: { overrideDefault: 4 },
               userConfig: { overrideUser: 5 },
             },
@@ -800,6 +823,7 @@ describe("loadBootstrapData", () => {
         id: "app-a",
         name: "App A",
         localeName: "App A",
+        localeTitle: "",
         userConfig: {
           userConf: 42,
         },
@@ -807,6 +831,7 @@ describe("loadBootstrapData", () => {
           userConf: 42,
         },
       },
+      meta: undefined,
       routes: [],
     });
   });
@@ -823,14 +848,15 @@ describe("loadBootstrapData", () => {
       app: {
         id: "app-h",
         name: "App H",
+        localeTitle: "Hi there H",
         locales: { zh: { name: "应用 H" }, en: { name: "Application H" } },
         defaultConfig: { defaultConf: 7 },
         userConfig: {
           userConf: 8,
           settings: {
             locales: {
-              zh: { name: "应用 H 别名" },
-              en: { name: "Application H Alias" },
+              zh: { name: "应用 H 别名", title: "你好 H" },
+              en: { name: "Application H Alias", title: "Hi there H" },
             },
           },
         },
@@ -839,8 +865,8 @@ describe("loadBootstrapData", () => {
           userConf: 8,
           settings: {
             locales: {
-              zh: { name: "应用 H 别名" },
-              en: { name: "Application H Alias" },
+              zh: { name: "应用 H 别名", title: "你好 H" },
+              en: { name: "Application H Alias", title: "Hi there H" },
             },
           },
         },

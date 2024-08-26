@@ -61,6 +61,8 @@ describe("StoryboardFunctions", () => {
             return FN.sayExclamation(I18N('HELLO') + ', ' + I18N_TEXT(data));
           }
         `,
+          deps: ["sayExclamation"],
+          perm: false,
         },
         {
           name: "sayExclamation",
@@ -69,6 +71,8 @@ describe("StoryboardFunctions", () => {
             return sentence + '!';
           }
         `,
+          deps: [],
+          perm: false,
         },
         {
           name: "getImg",

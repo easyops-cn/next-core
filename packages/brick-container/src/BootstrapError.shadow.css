@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 32px;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.icon {
+  color: var(--color-error);
+  font-size: 72px;
+  margin-bottom: 24px;
+}
+
+.icon svg {
+  display: block;
+}
+
+.title {
+  color: var(--antd-heading-color);
+  font-size: 24px;
+  line-height: 1.8;
+}
+
+.description {
+  color: var(--antd-text-color-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}

@@ -204,6 +204,7 @@ const runtimeContext: RuntimeContext = {
   event: new CustomEvent("how", { detail: "yes" }),
   forEachItem: 1,
   forEachIndex: 0,
+  forEachSize: 2,
 };
 
 ctxStore.define(
@@ -308,6 +309,7 @@ describe("evaluate", () => {
     ["<% BASE_URL %>", ""],
     ["<% ITEM %>", 1],
     ["<% INDEX %>", 0],
+    ["<% SIZE %>", 2],
     ["<% STATE.myState %>", "better"],
     ["<% FORM_STATE.myFormItem %>", "input"],
   ])("evaluate(%j) should return %j", (raw, result) => {

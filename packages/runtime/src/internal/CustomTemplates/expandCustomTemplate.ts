@@ -34,9 +34,10 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
     tplStateStoreId,
   };
 
-  // There is a boundary for `forEachItem` and `FORM_STATE` between template internals and externals.
+  // There is a boundary for `forEach*` and `FORM_STATE` between template internals and externals.
   delete runtimeContext.forEachItem;
   delete runtimeContext.forEachIndex;
+  delete runtimeContext.forEachSize;
   delete runtimeContext.formStateStoreId;
 
   const tplStateStore = new DataStore(
@@ -114,7 +115,6 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
       | undefined,
     tplStateStoreId,
     hostBrick: hostBrick as TemplateHostBrick,
-    __temporary_tpl_tag_name: tplTagName,
   };
 
   newBrickConf.slots = {

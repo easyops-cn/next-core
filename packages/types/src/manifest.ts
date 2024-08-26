@@ -139,6 +139,11 @@ export interface MicroApp {
   localeName?: string;
 
   /**
+   * 本地化后的页面标题（运行时得出），在运行环境由用户维护，本地化获取失败时为“”。
+   */
+  localeTitle?: string;
+
+  /**
    * 整个应用不启用登录守卫。
    */
   noAuthGuard?: boolean;
@@ -939,6 +944,7 @@ export interface BuiltinBrickEventHandler {
     | "location.reload"
     | "location.assign"
     | "window.open"
+    | "window.postMessage"
     | "event.preventDefault"
     | "event.stopPropagation"
     | "console.log"
@@ -1345,6 +1351,10 @@ export interface StoryboardFunction {
   source: string;
   /** 是否使用 TypeScript。 */
   typescript?: boolean;
+  /** [Compiled] 依赖的其他函数 */
+  deps?: string[];
+  /** [Compiled] 是否有使用 `PERMISSIONS.check` */
+  perm?: boolean;
 }
 
 /**

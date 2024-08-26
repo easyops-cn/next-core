@@ -35,7 +35,7 @@ export {
 export { registerWidgetFunctions } from "./internal/compute/WidgetFunctions.js";
 export { registerWidgetI18n } from "./internal/compute/WidgetI18n.js";
 export { StoryboardFunctionRegistryFactory } from "./StoryboardFunctionRegistry.js";
-export { matchPath } from "./internal/matchPath.js";
+export { matchPath, type MatchOptions } from "./internal/matchPath.js";
 export { Notification, type NotificationOptions } from "./Notification.js";
 export { Dialog, type DialogOptions } from "./Dialog.js";
 export * from "./getV2RuntimeFromDll.js";

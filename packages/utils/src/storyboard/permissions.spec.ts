@@ -36,8 +36,14 @@ describe("scanPermissionActionsInStoryboard", () => {
           {
             name: "test",
             source: `function test(){
-            return PERMISSIONS.check("abc", "def", lmn);
-          }`,
+              return PERMISSIONS.check("abc", "def", lmn);
+            }`,
+          },
+          {
+            name: "ignore",
+            source: `function ignore(){
+              return;
+            }`,
           },
         ],
       },
