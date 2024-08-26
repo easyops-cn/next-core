@@ -8,10 +8,12 @@ const validFlowApiProviderName =
 
 function gatherContractComments({ provider, brickName, contractsEntries }) {
   let contract = "";
+  let source = "provider";
 
   // Flow Api Provider
   if (provider.includes("@")) {
     contract = provider.replace("@", ".").replace(":", "@");
+    source = "contract";
   } else {
     // SDK API Provider
     const [namespace, apiFullName] = provider.split(".");
@@ -22,7 +24,7 @@ function gatherContractComments({ provider, brickName, contractsEntries }) {
       service
     )}.${changeCase.snakeCase(model)}.${changeCase.pascalCase(apiName)}`;
   }
-  const comment = `/**! @contract ${contract} */`;
+  const comment = `/**! @contract <source=${source}> ${contract} */`;
   const fileName = `${brickName}${contractFileExtName}`;
   const contracts = contractsEntries.get(fileName) || [];
 
