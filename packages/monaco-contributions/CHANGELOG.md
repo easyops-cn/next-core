@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.11](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.10...@next-core/monaco-contributions@0.3.11) (2024-08-27)
+
+
+### Bug Fixes
+
+* fallback monaco-editor to v0.50.0 ([cb6f63f](https://github.com/easyops-cn/next-core/commit/cb6f63fb0c82721d518917c800b0a3a32ccbde2d))
+
+
+
+
+
 ## [0.3.10](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.9...@next-core/monaco-contributions@0.3.10) (2024-08-27)
 
 

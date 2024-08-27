@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.19...@next-core/brick-playground@1.15.20) (2024-08-27)
+
+
+### Bug Fixes
+
+* fallback monaco-editor to v0.50.0 ([cb6f63f](https://github.com/easyops-cn/next-core/commit/cb6f63fb0c82721d518917c800b0a3a32ccbde2d))
+
+
+
+
+
 ## [1.15.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.18...@next-core/brick-playground@1.15.19) (2024-08-27)
 
 
