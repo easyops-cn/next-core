@@ -57,6 +57,7 @@ const fieldsToRemoveInRoute = [
   "previewSettings",
   "screenshot",
   "lock",
+  "urlQueryParams",
 
   "deleteAuthorizers",
   "readAuthorizers",
@@ -81,6 +82,7 @@ const disposableFalseOrNullFields = [
   "portal",
   "public",
   "exact",
+  "incrementalSubRoutes",
 ];
 
 export function normalizeBuilderNode(node: BuilderBrickNode): BrickConf;
@@ -122,6 +124,7 @@ function normalize(
   yamlFields: string[],
   type: "brick" | "route"
 ): Record<string, unknown> {
+  let temp: unknown;
   return Object.fromEntries(
     Object.entries(node)
       // Remove unused fields from CMDB.
@@ -143,7 +146,10 @@ function normalize(
         type === "route" && key === "segues"
           ? getCleanSegues(value as string)
           : jsonFields.includes(key)
-          ? safeJsonParse(value as string)
+          ? ((temp = safeJsonParse(value as string)),
+            // There is a bug to cause json fields in route to be stored as `""` when it's empty.
+            // These `""` can be safely ignored.
+            temp === "" && type === "route" ? undefined : temp)
           : yamlFields.includes(key)
           ? safeYamlParse(value as string)
           : cloneDeep(value),

@@ -41,6 +41,8 @@ describe("normalizeBuilderNode", () => {
         previewSettings: {},
         screenshot: "data:image/png,XYZ",
         hybrid: false,
+        menu: '""',
+        urlQueryParams: null,
       },
       {
         alias: "route-a",
@@ -73,6 +75,7 @@ describe("normalizeBuilderNode", () => {
         alias: null,
         context: null,
         exact: null,
+        redirect: '""',
       },
       {
         permissionsPreCheck: ["<% `cmdb:${QUERY.objectId}_instance_create` %>"],
@@ -96,6 +99,7 @@ describe("normalizeBuilderNode", () => {
         alias: "brick-a",
         // Ignore `injectDeep`
         injectDeep: true,
+        dataSource: '""',
       },
       {
         brick: "m",
@@ -104,7 +108,8 @@ describe("normalizeBuilderNode", () => {
         lifeCycle: undefined,
         permissionsPreCheck: undefined,
         alias: "brick-a",
-      },
+        dataSource: "",
+      } as BrickConf,
       0,
     ],
     [
