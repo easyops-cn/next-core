@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.64](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.63...@next-core/i18n@1.0.64) (2024-08-27)
+
+**Note:** Version bump only for package @next-core/i18n
+
+
+
+
+
 ## [1.0.63](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.62...@next-core/i18n@1.0.63) (2024-08-19)
 
 **Note:** Version bump only for package @next-core/i18n

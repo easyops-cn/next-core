@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.19](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.18...@next-core/preview@0.7.19) (2024-08-27)
+
+
+### Bug Fixes
+
+* polyfill replaceChildren in preview ([88e8723](https://github.com/easyops-cn/next-core/commit/88e87236ef4f75d1dbbd46fb3ecb75ea645c2279))
+
+
+
+
+
 ## [0.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.17...@next-core/preview@0.7.18) (2024-08-19)
 
 **Note:** Version bump only for package @next-core/preview

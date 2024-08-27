@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.20](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.19...@next-core/easyops-runtime@0.12.20) (2024-08-27)
+
+
+### Bug Fixes
+
+* only need necessary fields for contracts ([6149dbf](https://github.com/easyops-cn/next-core/commit/6149dbf9f17bfd6b486f1cbea0748e52078da901))
+
+
+
+
+
 ## [0.12.19](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.18...@next-core/easyops-runtime@0.12.19) (2024-08-19)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.18...@next-core/brick-playground@1.15.19) (2024-08-27)
+
+
+### Bug Fixes
+
+* downgrade monaco-editor to v0.50.0 ([8958bb1](https://github.com/easyops-cn/next-core/commit/8958bb1abcd479c48adcbdd9d220ab5c03581ae8))
+* **playground:** support Chrome 84 ([23f3144](https://github.com/easyops-cn/next-core/commit/23f3144efc5e8f64848e0981fb2c1d62bbe4f7cc))
+* upgrade monaco-editor v0.51.0 and make it compatible ([1a3da4d](https://github.com/easyops-cn/next-core/commit/1a3da4d065d10916e2be5689986aac3a497d9019))
+
+
+
+
+
 ## [1.15.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.17...@next-core/brick-playground@1.15.18) (2024-08-19)
 
 **Note:** Version bump only for package @next-core/brick-playground
