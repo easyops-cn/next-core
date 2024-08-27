@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.6...@next-core/brick-utils@2.52.7) (2024-08-27)
+
+
+### Bug Fixes
+
+* **normalizeBuilderNode:** disposable urlQueryParams, and handle empty string for json fields ([4c7d658](https://github.com/easyops-cn/next-core/commit/4c7d658007540afe0674f88b0497a50cc219fe79))
+
+
+
+
+
 ## [2.52.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.5...@next-core/brick-utils@2.52.6) (2024-08-14)
 
 
