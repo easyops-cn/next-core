@@ -27,6 +27,8 @@ import type {
 } from "../types.d.ts";
 import { get } from "lodash";
 import { replaceUseChildren } from "./replaceUseChildren.js";
+// Chrome supports `Element.prototype.replaceChildren` since version 86
+import "../../brick-container/src/replaceChildren.js";
 
 interface RenderRequest {
   type: RenderType;

@@ -54,14 +54,14 @@
     "@next-core/types": "^1.12.2",
     "@next-core/utils": "^1.7.21",
     "@ungap/event-target": "^0.2.4",
-    "compare-versions": "^6.1.0",
+    "compare-versions": "^6.1.1",
     "history": "^4.10.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "path-to-regexp": "^6.2.2"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.47.0",
+    "@microsoft/api-extractor": "^7.47.7",
     "@next-api-sdk/api-gateway-sdk": "^1.1.0",
     "@next-api-sdk/micro-app-sdk": "^1.2.1",
     "@next-core/build-next-libs": "^1.0.18",
