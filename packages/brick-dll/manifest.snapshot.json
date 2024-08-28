@@ -735,7 +735,8 @@
           "enqueueStableLoadProcessors",
           "loadBricksImperatively",
           "loadProcessorsImperatively",
-          "loadEditorsImperatively"
+          "loadEditorsImperatively",
+          "BrickLoadError"
         ]
       }
     },
@@ -12079,7 +12080,8 @@
           "enqueueStableLoadProcessors",
           "loadBricksImperatively",
           "loadProcessorsImperatively",
-          "loadEditorsImperatively"
+          "loadEditorsImperatively",
+          "BrickLoadError"
         ]
       }
     },
