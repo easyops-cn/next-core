@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/types": "^7.25.4",
+    "@babel/types": "^7.25.6",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-core/brick-container": "*",
     "@next-core/brick-playground": "*",
@@ -78,8 +78,8 @@
     "packages/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.25.4",
-    "@babel/runtime": "^7.25.4",
+    "@babel/parser": "^7.25.6",
+    "@babel/runtime": "^7.25.6",
     "@types/react": "^18.3.4",
     "lodash": "^4.17.21",
     "moment": "^2.30.1"
