@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.54.15](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.14...@next-core/runtime@1.54.15) (2024-09-02)
+
+
+### Bug Fixes
+
+* Enable leading invocation for debounced re-render, to keep tracking orders ([9e37ebf](https://github.com/easyops-cn/next-core/commit/9e37ebfbd914c38583fc7ee94259676158d2c7cc))
+
+
+
+
+
 ## [1.54.14](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.13...@next-core/runtime@1.54.14) (2024-08-27)
 
 **Note:** Version bump only for package @next-core/runtime
