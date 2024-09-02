@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.18.19...@next-core/brick-container@3.19.0) (2024-09-02)
+
+
+### Features
+
+* support setting merge method in app user config ([a238d37](https://github.com/easyops-cn/next-core/commit/a238d37c3fc0ca603b5af1a6366a371fb6c690f3))
+
+
+
+
+
 ## [3.18.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.18.18...@next-core/brick-container@3.18.19) (2024-09-02)
 
 **Note:** Version bump only for package @next-core/brick-container
