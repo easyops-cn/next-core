@@ -1,6 +1,5 @@
 import { merge } from "lodash";
-import i18next from "i18next";
-import { BootstrapData } from "@next-core/brick-types";
+import { BootstrapData, type MicroApp } from "@next-core/brick-types";
 import { deepFreeze } from "@next-core/brick-utils";
 import { setAppLocales } from "./setAppLocales";
 
@@ -15,7 +14,7 @@ export function processBootstrapResponse(
   for (const storyboard of bootstrapResponse.storyboards) {
     const app = storyboard.app;
     if (app) {
-      app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
+      initializeAppConfig(app);
       setAppLocales(storyboard.app);
     }
   }
@@ -28,4 +27,17 @@ export function processBootstrapResponse(
   bootstrapResponse.templatePackages = deepFreeze(
     bootstrapResponse.templatePackages
   );
+}
+
+export function initializeAppConfig(app: MicroApp): void {
+  // Manually add `__merge_method: override` to `app.userConfig` to avoid being deep merged.
+  const mergedConfig =
+    (app.userConfig?.__merge_method ?? app.defaultConfig?.__merge_method) ===
+    "override"
+      ? {
+          ...app.defaultConfig,
+          ...app.userConfig,
+        }
+      : merge({}, app.defaultConfig, app.userConfig);
+  app.config = deepFreeze(mergedConfig);
 }

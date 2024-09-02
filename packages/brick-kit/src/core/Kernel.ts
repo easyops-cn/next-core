@@ -70,7 +70,7 @@ import {
   PreviewOption,
   PreviewStoryboardPatch,
 } from "./interfaces";
-import { processBootstrapResponse } from "./processors";
+import { initializeAppConfig, processBootstrapResponse } from "./processors";
 import { brickTemplateRegistry } from "./TemplateRegistries";
 import { listenDevtools, listenDevtoolsEagerly } from "../internal/devtools";
 import { registerCustomApi, CUSTOM_API_PROVIDER } from "../providers/CustomApi";
@@ -368,9 +368,7 @@ export class Kernel {
             ...storyboard.app.userConfig,
             ...appRuntimeData.userConfig,
           };
-          storyboard.app.config = deepFreeze(
-            merge({}, storyboard.app.defaultConfig, storyboard.app.userConfig)
-          );
+          initializeAppConfig(storyboard.app);
           // get inject menus (Actually, appRuntimeData contains both main and inject menus)
           storyboard.meta = {
             ...storyboard.meta,
