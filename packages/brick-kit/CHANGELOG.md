@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.200.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.10...@next-core/brick-kit@2.200.0) (2024-09-02)
+
+
+### Features
+
+* support setting merge method in app user config ([a46f1d7](https://github.com/easyops-cn/next-core/commit/a46f1d7ad7042b422f57445689a4a58c9ded48ee))
+
+
+
+
+
 ## [2.199.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.199.9...@next-core/brick-kit@2.199.10) (2024-08-28)
 
 **Note:** Version bump only for package @next-core/brick-kit
