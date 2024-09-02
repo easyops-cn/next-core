@@ -37,9 +37,26 @@ describe("processBootstrapResponse", () => {
             name: "Test Only",
             defaultConfig: {
               quality: "good",
+              array: [1, 2],
             },
             userConfig: {
               quality: "bad",
+              array: [3],
+            },
+          },
+        },
+        // With both `defaultConfig` and `userConfig` with `__merge_method: override`
+        {
+          app: {
+            name: "Test Only",
+            defaultConfig: {
+              quality: "good",
+              array: [1, 2],
+            },
+            userConfig: {
+              __merge_method: "override",
+              quality: "bad",
+              array: [3],
             },
           },
         },
@@ -147,12 +164,37 @@ describe("processBootstrapResponse", () => {
             localeTitle: "",
             defaultConfig: {
               quality: "good",
+              array: [1, 2],
             },
             userConfig: {
               quality: "bad",
+              array: [3],
             },
             config: {
               quality: "bad",
+              array: [3, 2],
+            },
+          },
+        },
+        // With both `defaultConfig` and `userConfig` with `__merge_method: override`.
+        {
+          app: {
+            name: "Test Only",
+            localeName: "Test Only",
+            localeTitle: "",
+            defaultConfig: {
+              quality: "good",
+              array: [1, 2],
+            },
+            userConfig: {
+              __merge_method: "override",
+              quality: "bad",
+              array: [3],
+            },
+            config: {
+              __merge_method: "override",
+              quality: "bad",
+              array: [3],
             },
           },
         },
