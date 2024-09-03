@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.1...@next-core/build-next-bricks@1.23.2) (2024-09-03)
+
+
+### Bug Fixes
+
+* set upward for babel-loader for building stories ([a3a520f](https://github.com/easyops-cn/next-core/commit/a3a520fdb73df21041b0f88fc9dee7f38b77e862))
+
+
+
+
+
 ## [1.23.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.0...@next-core/build-next-bricks@1.23.1) (2024-08-27)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
