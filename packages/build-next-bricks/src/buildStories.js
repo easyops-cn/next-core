@@ -32,6 +32,9 @@ function getBuildStoriesWebpackConfig(packageDir, storiesPath) {
           test: /\.ts?$/,
           loader: "babel-loader",
           exclude: /node_modules/,
+          options: {
+            rootMode: "upward",
+          },
         },
         {
           test: /\.svg$/i,
