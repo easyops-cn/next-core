@@ -5284,13 +5284,13 @@ cssnano-preset-default@^7.0.6:
     postcss-svgo "^7.0.1"
     postcss-unique-selectors "^7.0.3"
 
-cssnano-preset-lite@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-4.0.2.tgz#08e844e3fa514c31fe73b14256ddfc6859d541b3"
-  integrity sha512-cJGfFCNJqv+ZhQvjrh6mGanycDA6kk/rAxdf9MLyxNcyhaQpP5/OIIhmrjz43RDpGpaMZM+ZVJwvKFWhomElIA==
+cssnano-preset-lite@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.npmjs.org/cssnano-preset-lite/-/cssnano-preset-lite-4.0.3.tgz#a5c76841eabad6c02ad4fbd377d48dc964ccbf01"
+  integrity sha512-/ckjMDvs0D7RrG2L/tVqEbfj7DmcRRVXShOBxVCJIYZZ7qnN55Ug05bBD+s6nAmx64IFpmJup8gysXwQ4zFCvg==
   dependencies:
     cssnano-utils "^5.0.0"
-    postcss-discard-comments "^7.0.2"
+    postcss-discard-comments "^7.0.3"
     postcss-discard-empty "^7.0.0"
     postcss-normalize-whitespace "^7.0.0"
 
@@ -10840,7 +10840,7 @@ postcss-dir-pseudo-class@^9.0.0:
   dependencies:
     postcss-selector-parser "^6.1.0"
 
-postcss-discard-comments@^7.0.2, postcss-discard-comments@^7.0.3:
+postcss-discard-comments@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-7.0.3.tgz#9c414e8ee99d3514ad06a3465ccc20ec1dbce780"
   integrity sha512-q6fjd4WU4afNhWOA2WltHgCbkRhZPgQe7cXF74fuVB/ge4QbM9HEaOIzGSiMvM+g/cOsNAUGdf2JDzqA2F8iLA==
