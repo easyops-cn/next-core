@@ -49,6 +49,7 @@ const allowedConstructors = new WeakSet([
   Array,
   Map,
   Set,
+  URL,
   URLSearchParams,
   WeakMap,
   WeakSet,
