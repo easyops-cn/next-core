@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.9...@next-core/cook@2.5.0) (2024-09-06)
+
+
+### Features
+
+* allow accessing URL ([e3ad6cd](https://github.com/easyops-cn/next-core/commit/e3ad6cdde52e9e53143bf3b88f6d8245e45301ac))
+
+
+
+
+
 ## [2.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.8...@next-core/cook@2.4.9) (2024-08-27)
 
 **Note:** Version bump only for package @next-core/cook
