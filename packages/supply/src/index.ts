@@ -115,6 +115,7 @@ const allowedGlobalObjects = new Set([
   "parseInt",
   "Map",
   "Set",
+  "URL",
   "URLSearchParams",
   "WeakMap",
   "WeakSet",
