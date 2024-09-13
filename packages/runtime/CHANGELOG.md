@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.17...@next-core/runtime@1.55.0) (2024-09-13)
+
+
+### Features
+
+* new event action: parent.postMessage ([63a7255](https://github.com/easyops-cn/next-core/commit/63a725563b1b07d0a768ee95c3e97f8c84568524))
+
+
+
+
+
 ## [1.54.17](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.16...@next-core/runtime@1.54.17) (2024-09-06)
 
 **Note:** Version bump only for package @next-core/runtime
