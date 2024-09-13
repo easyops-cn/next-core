@@ -946,6 +946,7 @@ export interface BuiltinBrickEventHandler {
     | "location.assign"
     | "window.open"
     | "window.postMessage"
+    | "parent.postMessage"
     | "event.preventDefault"
     | "event.stopPropagation"
     | "console.log"

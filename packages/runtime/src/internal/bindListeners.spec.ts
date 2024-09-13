@@ -788,6 +788,38 @@ describe("listenerFactory for console.*", () => {
       "http://localhost"
     );
   });
+
+  test("parent.postMessage", () => {
+    const parentPostMessage = jest.fn();
+    delete (window as any).parent;
+    window.parent = {
+      postMessage: parentPostMessage,
+    } as any;
+    listenerFactory(
+      {
+        action: "parent.postMessage",
+        args: ["<% { channel: 'test-2', detail: EVENT.detail } %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(parentPostMessage).toBeCalledWith({
+      channel: "test-2",
+      detail: "ok",
+    });
+    window.parent = window;
+  });
+
+  test("parent.postMessage but parent is the window itself", () => {
+    expect(() =>
+      listenerFactory(
+        {
+          action: "parent.postMessage",
+          args: ["<% { channel: 'test-2', detail: EVENT.detail } %>"],
+        },
+        runtimeContext
+      )(event)
+    ).toThrowErrorMatchingInlineSnapshot(`"parent is the window itself"`);
+  });
 });
 
 describe("listenerFactory for setting brick properties", () => {
