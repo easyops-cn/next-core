@@ -169,6 +169,10 @@ export function listenerFactory(
             handleWindowPostMessageAction(event, handler.args, runtimeContext);
             break;
 
+          case "parent.postMessage":
+            handleParentPostMessageAction(event, handler.args, runtimeContext);
+            break;
+
           case "location.reload":
           case "location.assign":
             handleLocationAction(event, method, handler.args, runtimeContext);
@@ -616,6 +620,20 @@ function handleWindowPostMessageAction(
     computedArgs.push(location.origin);
   }
   window.postMessage(...computedArgs);
+}
+
+function handleParentPostMessageAction(
+  event: Event,
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  if (parent === window) {
+    throw new Error("parent is the window itself");
+  }
+  const computedArgs = argsFactory(args, runtimeContext, event) as Parameters<
+    typeof window.postMessage
+  >;
+  parent.postMessage(...computedArgs);
 }
 
 function batchUpdate(
