@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.0...@next-core/runtime@1.55.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* resume THEME.getCssPropertyValue ([b1ac693](https://github.com/easyops-cn/next-core/commit/b1ac69360ccd468f4cd1d2fce4bd7e92c3d5c5e7))
+
+
+
+
+
 # [1.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.17...@next-core/runtime@1.55.0) (2024-09-13)
 
 
