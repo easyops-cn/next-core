@@ -15,9 +15,11 @@ interface BrickPackage {
 }
 
 let resolveBasicPkg: () => void;
+let rejectBasicPkg: (e: unknown) => void;
 let basicPkgWillBeResolved = false;
-const waitBasicPkg = new Promise<void>((resolve) => {
+const waitBasicPkg = new Promise<void>((resolve, reject) => {
   resolveBasicPkg = resolve;
+  rejectBasicPkg = reject;
 });
 
 export function flushStableLoadBricks(): void {
@@ -264,7 +266,9 @@ async function enqueueStableLoad(
     // Packages other than BASIC will wait for an extra micro-task tick.
     if (!basicPkgWillBeResolved) {
       basicPkgWillBeResolved = true;
-      tempPromise.then(() => Promise.resolve()).then(resolveBasicPkg);
+      tempPromise
+        .then(() => Promise.resolve())
+        .then(resolveBasicPkg, rejectBasicPkg);
     }
     basicPkgPromise = tempPromise.then(() =>
       Promise.all(
@@ -310,7 +314,7 @@ async function enqueueStableLoad(
             return adapter.resolve(
               v2Adapter.filePath,
               type === "editors"
-                ? pkg.propertyEditorsJsFilePath ?? pkg.filePath
+                ? (pkg.propertyEditorsJsFilePath ?? pkg.filePath)
                 : pkg.filePath,
               type === "bricks"
                 ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

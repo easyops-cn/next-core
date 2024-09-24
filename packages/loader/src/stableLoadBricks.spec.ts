@@ -1,5 +1,5 @@
 import { describe, jest, test, expect } from "@jest/globals";
-import {
+import type {
   loadBricksImperatively as _loadBricksImperatively,
   loadProcessorsImperatively as _loadProcessorsImperatively,
   loadEditorsImperatively as _loadEditorsImperatively,
