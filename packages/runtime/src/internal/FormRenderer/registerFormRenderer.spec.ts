@@ -46,6 +46,7 @@ describe("registerFormRenderer is work", () => {
     formRender.appendChild(form);
 
     const mockConsoleError = jest.spyOn(console, "error");
+    mockConsoleError.mockReturnValue();
 
     formRender.validate();
 
@@ -55,6 +56,7 @@ describe("registerFormRenderer is work", () => {
         container: "div",
       }
     );
+    mockConsoleError.mockRestore();
   });
 
   it("should work with setInitValue method", () => {

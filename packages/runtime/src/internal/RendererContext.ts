@@ -74,7 +74,9 @@ export interface RouteHelper {
   /** Will always resolve */
   catch: (
     error: unknown,
-    returnNode: RenderReturnNode
+    returnNode: RenderReturnNode,
+    isCurrentBootstrap?: boolean,
+    isReCatch?: boolean
   ) => Promise<
     | undefined
     | {
@@ -227,7 +229,7 @@ export class RendererContext {
    * Will always resolve
    */
   reCatch(error: unknown, returnNode: RenderReturnNode) {
-    return this.#routeHelper!.catch(error, returnNode);
+    return this.#routeHelper!.catch(error, returnNode, false, true);
   }
 
   #incrementalRenderStates = new Map<

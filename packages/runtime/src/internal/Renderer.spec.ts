@@ -954,8 +954,7 @@ describe("renderBrick", () => {
         tag: RenderTag.BRICK,
         type: "div",
         properties: {
-          textContent:
-            'UNKNOWN_ERROR: ReferenceError: ABC is not defined, in "<% ABC %>"',
+          errorTitle: "UNKNOWN_ERROR",
           dataset: {
             errorBoundary: "",
           },
@@ -965,6 +964,13 @@ describe("renderBrick", () => {
         },
         runtimeContext: null,
         return: renderRoot,
+        child: expect.objectContaining({
+          type: "div",
+          properties: {
+            textContent:
+              'UNKNOWN_ERROR: ReferenceError: ABC is not defined, in "<% ABC %>"',
+          },
+        }),
       },
       blockingList: [],
     });
