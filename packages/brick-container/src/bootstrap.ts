@@ -24,8 +24,10 @@ import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
 import { listen } from "./preview/listen.js";
 import { getMock } from "./mocks.js";
-import { NS, locales } from "./i18n.js";
-import { BootstrapError } from "./BootstrapError.js";
+import { NS, K, locales } from "./i18n.js";
+import { DefaultError } from "./DefaultError.js";
+
+customElements.define("easyops-default-error", DefaultError);
 
 analytics.initialize(
   `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
@@ -141,9 +143,16 @@ async function main() {
     // `.bootstrap-error` makes loading-bar invisible.
     document.body.classList.add("bootstrap-error");
 
-    customElements.define("easyops-bootstrap-error", BootstrapError);
-    const errorElement = document.createElement("easyops-bootstrap-error");
+    const errorElement = document.createElement(
+      "easyops-default-error"
+    ) as DefaultError;
+    errorElement.errorTitle = i18n.t(`${NS}:${K.BOOTSTRAP_ERROR}`);
     errorElement.textContent = httpErrorToString(error);
+    const linkElement = document.createElement("a");
+    linkElement.slot = "link";
+    linkElement.href = location.href;
+    linkElement.textContent = i18n.t(`${NS}:${K.RELOAD}`);
+    errorElement.appendChild(linkElement);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.querySelector("#main-mount-point")!.replaceChildren(errorElement);
