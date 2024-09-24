@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.55.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.1...@next-core/runtime@1.55.2) (2024-09-24)
+
+
+### Bug Fixes
+
+* refine error display, add a link to reload the page ([d9fa28e](https://github.com/easyops-cn/next-core/commit/d9fa28e86dd7146f14b532153219613c6829b99b))
+
+
+
+
+
 ## [1.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.0...@next-core/runtime@1.55.1) (2024-09-23)
 
 

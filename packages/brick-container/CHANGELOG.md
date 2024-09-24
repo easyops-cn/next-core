@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.19.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.4...@next-core/brick-container@3.19.5) (2024-09-24)
+
+
+### Bug Fixes
+
+* refine error display, add a link to reload the page ([d9fa28e](https://github.com/easyops-cn/next-core/commit/d9fa28e86dd7146f14b532153219613c6829b99b))
+
+
+
+
+
 ## [3.19.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.3...@next-core/brick-container@3.19.4) (2024-09-23)
 
 **Note:** Version bump only for package @next-core/brick-container
