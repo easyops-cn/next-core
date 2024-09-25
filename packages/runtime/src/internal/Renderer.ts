@@ -535,7 +535,11 @@ async function legacyRenderBrick(
           }
         }
       };
-      const debouncedListener = debounce(listener);
+      // Enable leading invocation, to keep tracking orders.
+      const debouncedListener = debounce(listener, 0, {
+        leading: true,
+        trailing: true,
+      });
       if (contextNames) {
         for (const contextName of contextNames) {
           runtimeContext.ctxStore.onChange(contextName, debouncedListener);

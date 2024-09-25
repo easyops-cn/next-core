@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.21...@next-core/supply@2.2.0) (2024-09-06)
+
+
+### Features
+
+* allow accessing URL ([e3ad6cd](https://github.com/easyops-cn/next-core/commit/e3ad6cdde52e9e53143bf3b88f6d8245e45301ac))
+
+
+
+
+
+## [2.1.21](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.20...@next-core/supply@2.1.21) (2024-08-27)
+
+**Note:** Version bump only for package @next-core/supply
+
+
+
+
+
 ## [2.1.20](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.19...@next-core/supply@2.1.20) (2024-07-03)
 
 **Note:** Version bump only for package @next-core/supply

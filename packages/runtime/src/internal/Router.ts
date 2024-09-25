@@ -114,6 +114,7 @@ export class Router {
     return this.#renderId;
   }
 
+  // istanbul ignore next
   getRuntimeContext() {
     return this.#runtimeContext;
   }
@@ -261,10 +262,10 @@ export class Router {
       devtoolsHookEmit("locationChange");
     }
 
-    return this.#render(location);
+    return this.#render(location, !prevLocation);
   }
 
-  async #render(location: NextLocation): Promise<void> {
+  async #render(location: NextLocation, isBootstrap: boolean): Promise<void> {
     const renderId = (this.#renderId = uniqueId("render-id-"));
 
     resetAllComputedMarks();
@@ -402,7 +403,7 @@ export class Router {
             new CustomEvent("navConfig.change", { detail: this.#navConfig })
           );
         },
-        catch: async (error, returnNode) => {
+        catch: async (error, returnNode, isCurrentBootstrap, isReCatch) => {
           if (isUnauthenticatedError(error) && !window.NO_AUTH_GUARD) {
             redirectToLogin();
             return;
@@ -416,10 +417,13 @@ export class Router {
               redirectTo(noAuthGuardLoginPath as string, { from: location });
               return;
             }
+            if (isCurrentBootstrap) {
+              throw error;
+            }
             return {
               failed: true,
               output: {
-                node: await ErrorNode(error, returnNode, true),
+                node: await ErrorNode(error, returnNode, !isReCatch),
                 blockingList: [],
               },
             };
@@ -487,8 +491,7 @@ export class Router {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
-
-        const result = await routeHelper.catch(error, renderRoot);
+        const result = await routeHelper.catch(error, renderRoot, isBootstrap);
         if (!result) {
           return;
         }

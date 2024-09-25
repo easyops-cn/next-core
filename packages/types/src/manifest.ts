@@ -249,6 +249,7 @@ export interface RuntimeStoryboard extends Storyboard {
   $$registerCustomTemplateProcessed?: boolean;
   $$fulfilled?: boolean;
   $$fulfilling?: Promise<void>;
+  $$fullMerged?: boolean;
   $$i18nFulfilled?: boolean;
   $$deadConditionsRemoved?: boolean;
 }
@@ -945,6 +946,7 @@ export interface BuiltinBrickEventHandler {
     | "location.assign"
     | "window.open"
     | "window.postMessage"
+    | "parent.postMessage"
     | "event.preventDefault"
     | "event.stopPropagation"
     | "console.log"

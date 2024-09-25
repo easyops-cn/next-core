@@ -22,8 +22,7 @@ describe("getGeneralGlobals", () => {
     ).toEqual("light");
   });
 
-  // Todo: resume test
-  it.skip("should get css-variable value", () => {
+  it("should get css-variable value", () => {
     const attemptToVisitGlobals = new Set(["THEME"]);
     expect(
       (

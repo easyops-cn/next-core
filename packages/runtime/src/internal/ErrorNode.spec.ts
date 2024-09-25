@@ -42,13 +42,13 @@ describe("ErrorNode", () => {
       } as RenderReturnNode)
     ).toEqual({
       properties: {
+        errorTitle: "UNKNOWN_ERROR",
         dataset: {
           errorBoundary: "",
         },
         style: {
           color: "var(--color-error)",
         },
-        textContent: "UNKNOWN_ERROR: Error: oops",
       },
       return: {
         tag: 1,
@@ -56,6 +56,12 @@ describe("ErrorNode", () => {
       runtimeContext: null,
       tag: 2,
       type: "div",
+      child: expect.objectContaining({
+        type: "div",
+        properties: {
+          textContent: "UNKNOWN_ERROR: Error: oops",
+        },
+      }),
     });
   });
 
@@ -72,13 +78,13 @@ describe("ErrorNode", () => {
       )
     ).toEqual({
       properties: {
+        errorTitle: "NO_PERMISSION",
         dataset: {
           errorBoundary: "",
         },
         style: {
           color: "var(--color-error)",
         },
-        textContent: "NO_PERMISSION: HttpResponseError: Forbidden",
       },
       return: {
         tag: 1,
@@ -86,6 +92,12 @@ describe("ErrorNode", () => {
       runtimeContext: null,
       tag: 2,
       type: "div",
+      child: expect.objectContaining({
+        type: "div",
+        properties: {
+          textContent: "NO_PERMISSION: HttpResponseError: Forbidden",
+        },
+      }),
     });
   });
 
@@ -96,13 +108,13 @@ describe("ErrorNode", () => {
       } as RenderReturnNode)
     ).toEqual({
       properties: {
+        errorTitle: "NETWORK_ERROR",
         dataset: {
           errorBoundary: "",
         },
         style: {
           color: "var(--color-error)",
         },
-        textContent: "NETWORK_ERROR: BrickLoadError: oops",
       },
       return: {
         tag: 1,
@@ -110,6 +122,12 @@ describe("ErrorNode", () => {
       runtimeContext: null,
       tag: 2,
       type: "div",
+      child: expect.objectContaining({
+        type: "div",
+        properties: {
+          textContent: "NETWORK_ERROR: BrickLoadError: oops",
+        },
+      }),
     });
   });
 
@@ -214,13 +232,13 @@ describe("ErrorNode", () => {
 
     expect(await promise).toEqual({
       properties: {
+        errorTitle: "LICENSE_EXPIRED",
         dataset: {
           errorBoundary: "",
         },
         style: {
           color: "var(--color-error)",
         },
-        textContent: "LICENSE_EXPIRED: HttpResponseError: Bad Request",
       },
       return: {
         tag: 1,
@@ -228,6 +246,12 @@ describe("ErrorNode", () => {
       runtimeContext: null,
       tag: 2,
       type: "div",
+      child: expect.objectContaining({
+        type: "div",
+        properties: {
+          textContent: "LICENSE_EXPIRED: HttpResponseError: Bad Request",
+        },
+      }),
     });
 
     expect(consoleError).toBeCalledTimes(1);
@@ -263,7 +287,7 @@ describe("ErrorNode", () => {
         type: "eo-link",
         properties: {
           textContent: "GO_BACK_HOME",
-          url: "/",
+          href: "/",
         },
         events: undefined,
       }),
@@ -298,7 +322,7 @@ describe("ErrorNode", () => {
         type: "eo-link",
         properties: {
           textContent: "GO_BACK_HOME",
-          url: "/",
+          href: "/",
         },
         events: undefined,
       }),
@@ -320,13 +344,13 @@ describe("ErrorNode", () => {
       )
     ).toEqual({
       properties: {
+        errorTitle: "APP_NOT_FOUND",
         dataset: {
           errorBoundary: "",
         },
         style: {
           color: "var(--color-error)",
         },
-        textContent: "APP_NOT_FOUND",
       },
       return: {
         tag: 1,
@@ -334,6 +358,71 @@ describe("ErrorNode", () => {
       runtimeContext: null,
       tag: 2,
       type: "div",
+      child: expect.objectContaining({
+        type: "div",
+        properties: {
+          textContent: "APP_NOT_FOUND",
+        },
+      }),
     });
+  });
+});
+
+describe("with default error brick", () => {
+  beforeAll(() => {
+    customElements.define(
+      "easyops-default-error",
+      class extends HTMLElement {}
+    );
+  });
+
+  test("page level with script error and default error brick", async () => {
+    const consoleError = jest.spyOn(console, "error").mockReturnValue();
+    const script = document.createElement("script");
+    script.src = "fail.js";
+    const scriptError = new Event("error");
+    Object.defineProperty(scriptError, "target", { value: script });
+    mockedLoadBricks.mockRejectedValueOnce(new Error("oops"));
+
+    expect(
+      await ErrorNode(
+        scriptError,
+        {
+          tag: RenderTag.ROOT,
+        } as RenderReturnNode,
+        true
+      )
+    ).toEqual({
+      properties: {
+        errorTitle: "NETWORK_ERROR",
+        dataset: {
+          errorBoundary: "",
+        },
+        style: {
+          color: "var(--color-error)",
+        },
+      },
+      return: {
+        tag: 1,
+      },
+      runtimeContext: null,
+      tag: 2,
+      type: "easyops-default-error",
+      child: expect.objectContaining({
+        type: "div",
+        properties: {
+          textContent: "http://localhost/fail.js",
+        },
+        sibling: expect.objectContaining({
+          type: "a",
+          slotId: "link",
+          properties: {
+            textContent: "RELOAD",
+            href: "http://localhost/",
+          },
+        }),
+      }),
+    });
+    consoleError.mockRestore();
   });
 });

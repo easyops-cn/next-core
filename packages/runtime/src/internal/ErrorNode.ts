@@ -6,6 +6,7 @@ import { RenderTag } from "./enums.js";
 import type { RenderChildNode, RenderReturnNode } from "./interfaces.js";
 import { _internalApiGetPresetBricks, getBrickPackages } from "./Runtime.js";
 import { K, NS } from "./i18n.js";
+import { getBasePath } from "../getBasePath.js";
 
 type ErrorMessageVariant =
   | "internet-disconnected"
@@ -17,9 +18,11 @@ type ErrorMessageVariant =
 interface ErrorMessageConfig {
   title: string;
   variant: ErrorMessageVariant;
-  showLink?: "home" | "previous";
+  showLink?: LinkType;
   showDescription?: boolean;
 }
+
+type LinkType = "home" | "previous" | "reload";
 
 export class PageNotFoundError extends Error {
   constructor(message: "page not found" | "app not found") {
@@ -52,7 +55,9 @@ export async function ErrorNode(
     const errorBrick = presetBricks.error ?? "illustrations.error-message";
     if (errorBrick !== false) {
       const linkBrick = "eo-link";
-      const bricks = showLink ? [errorBrick, linkBrick] : [errorBrick];
+      const bricks = (showLink ? [errorBrick, linkBrick] : [errorBrick]).filter(
+        (brick) => !customElements.get(brick)
+      );
       try {
         await Promise.race([
           loadBricksImperatively(bricks, getBrickPackages()),
@@ -79,27 +84,7 @@ export async function ErrorNode(
         };
 
         if (showLink) {
-          node.child = {
-            tag: RenderTag.BRICK,
-            type: linkBrick,
-            properties: {
-              textContent:
-                showLink === "home"
-                  ? i18n.t(`${NS}:${K.GO_BACK_HOME}`)
-                  : i18n.t(`${NS}:${K.GO_BACK_TO_PREVIOUS_PAGE}`),
-              url: showLink === "home" ? "/" : undefined,
-            },
-            events:
-              showLink === "home"
-                ? undefined
-                : {
-                    click: {
-                      action: "history.goBack",
-                    },
-                  },
-            runtimeContext: null!,
-            return: node,
-          };
+          node.child = getLinkNode(showLink, linkBrick, node, "");
         }
 
         return node;
@@ -110,13 +95,14 @@ export async function ErrorNode(
     }
   }
 
-  return {
+  const useDefaultError =
+    pageLevel && !!customElements.get("easyops-default-error");
+
+  const node: RenderChildNode = {
     tag: RenderTag.BRICK,
-    type: "div",
+    type: useDefaultError ? "easyops-default-error" : "div",
     properties: {
-      textContent: showDescription
-        ? `${title}: ${httpErrorToString(error)}`
-        : title,
+      errorTitle: title,
       dataset: {
         errorBoundary: "",
       },
@@ -126,6 +112,72 @@ export async function ErrorNode(
     },
     runtimeContext: null!,
     return: returnNode,
+  };
+
+  const descriptionNode: RenderChildNode = {
+    tag: RenderTag.BRICK,
+    type: "div",
+    properties: {
+      textContent: useDefaultError
+        ? showDescription
+          ? httpErrorToString(error)
+          : ""
+        : showDescription
+          ? `${title}: ${httpErrorToString(error)}`
+          : title,
+    },
+    runtimeContext: null!,
+    return: node,
+  };
+
+  node.child = descriptionNode;
+
+  if (pageLevel && showLink) {
+    descriptionNode.sibling = getLinkNode(
+      showLink,
+      "a",
+      node,
+      useDefaultError ? "link" : ""
+    );
+  }
+
+  return node;
+}
+
+function getLinkNode(
+  showLink: LinkType | undefined,
+  brick: string,
+  parent: RenderReturnNode,
+  slotId: string
+): RenderChildNode {
+  return {
+    tag: RenderTag.BRICK,
+    type: brick,
+    slotId,
+    properties: {
+      textContent:
+        showLink === "home"
+          ? i18n.t(`${NS}:${K.GO_BACK_HOME}`)
+          : showLink === "reload"
+            ? i18n.t(`${NS}:${K.RELOAD}`)
+            : i18n.t(`${NS}:${K.GO_BACK_TO_PREVIOUS_PAGE}`),
+      href:
+        showLink === "home"
+          ? getBasePath()
+          : showLink === "reload"
+            ? location.href
+            : undefined,
+    },
+    events:
+      showLink === "previous"
+        ? {
+            click: {
+              action: "history.goBack",
+            },
+          }
+        : undefined,
+    runtimeContext: null!,
+    return: parent,
   };
 }
 
@@ -146,12 +198,16 @@ function getRefinedErrorConf(error: unknown): ErrorMessageConfig {
 
   if (
     error instanceof BrickLoadError ||
-    (error instanceof Error && error.name === "ChunkLoadError")
+    (error instanceof Error && error.name === "ChunkLoadError") ||
+    (error instanceof Event &&
+      error.type === "error" &&
+      error.target instanceof HTMLScriptElement)
   ) {
     return {
       showDescription: true,
       title: i18n.t(`${NS}:${K.NETWORK_ERROR}`),
       variant: "internet-disconnected",
+      showLink: "reload",
     };
   }
 

@@ -279,7 +279,16 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
 }
 
 function initializeAppConfig(app: MicroApp) {
-  app.config = deepFreeze(merge({}, app.defaultConfig, app.userConfig));
+  // Manually add `__merge_method: override` to avoid being deep merged.
+  const mergedConfig =
+    (app.userConfig?.__merge_method ?? app.defaultConfig?.__merge_method) ===
+    "override"
+      ? {
+          ...app.defaultConfig,
+          ...app.userConfig,
+        }
+      : merge({}, app.defaultConfig, app.userConfig);
+  app.config = deepFreeze(mergedConfig);
 }
 
 function initializeAppLocales(app: MicroApp) {

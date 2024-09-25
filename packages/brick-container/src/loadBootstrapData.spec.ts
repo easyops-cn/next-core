@@ -84,9 +84,12 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
               },
               defaultConfig: {
                 defaultConf: 7,
+                array: [1, 2],
               },
               userConfig: {
+                __merge_method: "override",
                 userConf: 8,
+                array: [3],
               },
               menuIcon: {
                 imgSrc:
@@ -325,9 +328,12 @@ describe("loadBootstrapData", () => {
             },
             defaultConfig: {
               defaultConf: 7,
+              array: [1, 2],
             },
             userConfig: {
+              __merge_method: "override",
               userConf: 8,
+              array: [3],
             },
             menuIcon: {
               imgSrc:
@@ -365,15 +371,20 @@ describe("loadBootstrapData", () => {
         },
         defaultConfig: {
           defaultConf: 7,
+          array: [1, 2],
         },
         userConfig: {
+          __merge_method: "override",
           userConf: 8,
+          array: [3],
           runtimeUserConf: 9,
         },
         config: {
+          __merge_method: "override",
           defaultConf: 7,
           userConf: 8,
           runtimeUserConf: 9,
+          array: [3],
         },
         menuIcon: {
           imgSrc:

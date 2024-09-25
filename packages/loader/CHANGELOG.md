@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.9](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.8...@next-core/loader@1.6.9) (2024-09-24)
+
+
+### Bug Fixes
+
+* handle basic load failed ([92ae6c7](https://github.com/easyops-cn/next-core/commit/92ae6c7c12e8869c448c575091c3a2892ea66fbd))
+
+
+
+
+
+## [1.6.8](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.7...@next-core/loader@1.6.8) (2024-08-27)
+
+**Note:** Version bump only for package @next-core/loader
+
+
+
+
+
 ## [1.6.7](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.6...@next-core/loader@1.6.7) (2024-08-12)
 
 

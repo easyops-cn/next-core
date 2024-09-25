@@ -890,13 +890,13 @@ describe("Runtime", () => {
             Hello
           </h1>
           <div>
-            <illustrations.error-message
+            <div
               data-error-boundary=""
             >
-              <eo-link>
-                Go back to previous page
-              </eo-link>
-            </illustrations.error-message>
+              <div>
+                Oops! Something went wrong: SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
+              </div>
+            </div>
           </div>
         </div>,
         <div
@@ -1404,7 +1404,7 @@ describe("Runtime", () => {
     expect(finishPageView).toHaveBeenNthCalledWith(2, { status: "not-found" });
   });
 
-  test("failed", async () => {
+  test("failed to bootstrap", async () => {
     consoleError.mockReturnValueOnce();
     const finishPageView = jest.fn();
     createRuntime({
@@ -1415,8 +1415,25 @@ describe("Runtime", () => {
       },
     }).initialize(getBootstrapData());
     getHistory().push("/app-b/fail");
+    await expect(() => getRuntime().bootstrap()).rejects.toMatchInlineSnapshot(
+      `[TypeError: bricks is not iterable]`
+    );
+  });
+
+  test("failed after bootstrap", async () => {
+    consoleError.mockReturnValueOnce();
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize(getBootstrapData());
+    getHistory().push("/app-b");
     await getRuntime().bootstrap();
-    expect(consoleError).toBeCalledTimes(1);
+    getHistory().push("/app-b/fail");
+    await (global as any).flushPromises();
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div
@@ -1435,10 +1452,6 @@ describe("Runtime", () => {
         />,
       ]
     `);
-    expect(finishPageView).toBeCalledTimes(1);
-    expect(finishPageView).toBeCalledWith({
-      status: "failed",
-    });
   });
 
   test("render locale title", async () => {

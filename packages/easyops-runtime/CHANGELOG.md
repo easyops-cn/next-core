@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.26](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.25...@next-core/easyops-runtime@0.12.26) (2024-09-24)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.12.25](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.24...@next-core/easyops-runtime@0.12.25) (2024-09-23)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.12.24](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.23...@next-core/easyops-runtime@0.12.24) (2024-09-13)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.12.23](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.22...@next-core/easyops-runtime@0.12.23) (2024-09-06)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.12.22](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.21...@next-core/easyops-runtime@0.12.22) (2024-09-02)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.12.21](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.20...@next-core/easyops-runtime@0.12.21) (2024-09-02)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.12.20](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.19...@next-core/easyops-runtime@0.12.20) (2024-08-27)
+
+
+### Bug Fixes
+
+* only need necessary fields for contracts ([6149dbf](https://github.com/easyops-cn/next-core/commit/6149dbf9f17bfd6b486f1cbea0748e52078da901))
+
+
+
+
+
 ## [0.12.19](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.18...@next-core/easyops-runtime@0.12.19) (2024-08-19)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

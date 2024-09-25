@@ -205,6 +205,10 @@ const casesOfExpressionAny: [string, unknown][] = [
     "String(new URLSearchParams({q: 'hello,world', age: 18}))",
     "q=hello%2Cworld&age=18",
   ],
+  [
+    "String(new URL('/hello/world', 'http://localhost:8081/next/'))",
+    "http://localhost:8081/hello/world",
+  ],
   // Tagged template.
   ["((s,...k) => `${s.join('-')}:${k.join(',')}`)`a${1}b${2}c`", "a-b-c:1,2"],
   [

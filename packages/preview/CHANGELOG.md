@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.26](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.25...@next-core/preview@0.7.26) (2024-09-24)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.25](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.24...@next-core/preview@0.7.25) (2024-09-23)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.24](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.23...@next-core/preview@0.7.24) (2024-09-13)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.23](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.22...@next-core/preview@0.7.23) (2024-09-06)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.22](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.21...@next-core/preview@0.7.22) (2024-09-03)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.21](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.20...@next-core/preview@0.7.21) (2024-09-02)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.20](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.19...@next-core/preview@0.7.20) (2024-09-02)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.19](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.18...@next-core/preview@0.7.19) (2024-08-27)
+
+
+### Bug Fixes
+
+* polyfill replaceChildren in preview ([88e8723](https://github.com/easyops-cn/next-core/commit/88e87236ef4f75d1dbbd46fb3ecb75ea645c2279))
+
+
+
+
+
 ## [0.7.18](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.17...@next-core/preview@0.7.18) (2024-08-19)
 
 **Note:** Version bump only for package @next-core/preview

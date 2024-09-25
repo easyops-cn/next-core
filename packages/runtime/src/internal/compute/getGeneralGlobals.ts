@@ -3,7 +3,7 @@ import type { MicroApp } from "@next-core/types";
 import { i18n, i18nText } from "@next-core/i18n";
 import { widgetI18nFactory } from "./WidgetI18n.js";
 import { getReadOnlyProxy } from "../proxyFactories.js";
-import { getTheme } from "../../themeAndMode.js";
+import { getCssPropertyValue, getTheme } from "../../themeAndMode.js";
 import { getBasePath } from "../../getBasePath.js";
 import { getI18nNamespace } from "../registerAppI18n.js";
 import { ImagesFactory, hooks } from "../Runtime.js";
@@ -57,23 +57,23 @@ function getIndividualGlobal(
       return collectCoverage
         ? fakeImageFactory()
         : widgetId
-        ? hooks?.images?.widgetImagesFactory(widgetId, widgetVersion)
-        : hooks?.images?.imagesFactory(
-            app!.id,
-            app!.isBuildPush,
-            (app as { currentVersion?: string }).currentVersion
-          );
+          ? hooks?.images?.widgetImagesFactory(widgetId, widgetVersion)
+          : hooks?.images?.imagesFactory(
+              app!.id,
+              app!.isBuildPush,
+              (app as { currentVersion?: string }).currentVersion
+            );
     case "I18N":
       return collectCoverage
         ? identity
         : widgetId
-        ? widgetI18nFactory(widgetId)
-        : i18n.getFixedT(
-            null,
-            [appendI18nNamespace, getI18nNamespace("app", app!.id)].filter(
-              Boolean
-            ) as string[]
-          );
+          ? widgetI18nFactory(widgetId)
+          : i18n.getFixedT(
+              null,
+              [appendI18nNamespace, getI18nNamespace("app", app!.id)].filter(
+                Boolean
+              ) as string[]
+            );
     case "I18N_TEXT":
       return collectCoverage ? fakeI18nText : i18nText;
     case "PERMISSIONS":
@@ -85,7 +85,7 @@ function getIndividualGlobal(
     case "THEME":
       return getReadOnlyProxy({
         getTheme: collectCoverage ? () => "light" : getTheme,
-        // getCssPropertyValue: collectCoverage ? () => "" : getCssPropertyValue,
+        getCssPropertyValue: collectCoverage ? () => "" : getCssPropertyValue,
       });
     case "console":
       return isStoryboardFunction ? getReadOnlyProxy(console) : undefined;

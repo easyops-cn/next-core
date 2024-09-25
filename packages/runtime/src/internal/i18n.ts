@@ -10,6 +10,7 @@ export enum K {
   UNKNOWN_ERROR = "UNKNOWN_ERROR",
   GO_BACK_TO_PREVIOUS_PAGE = "GO_BACK_TO_PREVIOUS_PAGE",
   GO_BACK_HOME = "GO_BACK_HOME",
+  RELOAD = "RELOAD",
 }
 
 const en: Locale = {
@@ -28,6 +29,7 @@ const en: Locale = {
   [K.UNKNOWN_ERROR]: "Oops! Something went wrong",
   [K.GO_BACK_TO_PREVIOUS_PAGE]: "Go back to previous page",
   [K.GO_BACK_HOME]: "Go back to home page",
+  [K.RELOAD]: "Reload",
 };
 
 const zh: Locale = {
@@ -42,6 +44,7 @@ const zh: Locale = {
   [K.UNKNOWN_ERROR]: "糟糕！页面出现了一些问题",
   [K.GO_BACK_TO_PREVIOUS_PAGE]: "回到上一页",
   [K.GO_BACK_HOME]: "回到首页",
+  [K.RELOAD]: "刷新",
 };
 
 export const NS = "core/runtime";

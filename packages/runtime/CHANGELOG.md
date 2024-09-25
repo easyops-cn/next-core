@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.55.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.1...@next-core/runtime@1.55.2) (2024-09-24)
+
+
+### Bug Fixes
+
+* refine error display, add a link to reload the page ([d9fa28e](https://github.com/easyops-cn/next-core/commit/d9fa28e86dd7146f14b532153219613c6829b99b))
+
+
+
+
+
+## [1.55.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.0...@next-core/runtime@1.55.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* resume THEME.getCssPropertyValue ([b1ac693](https://github.com/easyops-cn/next-core/commit/b1ac69360ccd468f4cd1d2fce4bd7e92c3d5c5e7))
+
+
+
+
+
+# [1.55.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.17...@next-core/runtime@1.55.0) (2024-09-13)
+
+
+### Features
+
+* new event action: parent.postMessage ([63a7255](https://github.com/easyops-cn/next-core/commit/63a725563b1b07d0a768ee95c3e97f8c84568524))
+
+
+
+
+
+## [1.54.17](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.16...@next-core/runtime@1.54.17) (2024-09-06)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.54.16](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.15...@next-core/runtime@1.54.16) (2024-09-02)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.54.15](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.14...@next-core/runtime@1.54.15) (2024-09-02)
+
+
+### Bug Fixes
+
+* Enable leading invocation for debounced re-render, to keep tracking orders ([9e37ebf](https://github.com/easyops-cn/next-core/commit/9e37ebfbd914c38583fc7ee94259676158d2c7cc))
+
+
+
+
+
+## [1.54.14](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.13...@next-core/runtime@1.54.14) (2024-08-27)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 ## [1.54.13](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.54.12...@next-core/runtime@1.54.13) (2024-08-19)
 
 
