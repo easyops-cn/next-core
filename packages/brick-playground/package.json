@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-playground",
-  "version": "1.15.27",
+  "version": "1.15.28",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-playground",
   "license": "GPL-3.0",
   "repository": {
@@ -23,16 +23,16 @@
     "build:dev": "cross-env NODE_ENV='development' build-next-bricks"
   },
   "dependencies": {
-    "@next-core/doc-helpers": "^0.2.14",
+    "@next-core/doc-helpers": "^0.2.15",
     "@next-core/serve-helpers": "^1.2.4",
     "compression": "^1.7.4",
     "express": "^4.21.0",
     "glob": "^8.1.0"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.23.2",
+    "@next-core/build-next-bricks": "^1.23.3",
     "@next-core/monaco-contributions": "^0.3.11",
-    "@next-core/preview": "^0.7.26",
+    "@next-core/preview": "^0.7.27",
     "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^12.0.2",
     "html-webpack-plugin": "^5.6.0",

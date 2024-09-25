@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.27](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.26...@next-core/easyops-runtime@0.12.27) (2024-09-25)
+
+
+### Bug Fixes
+
+* handle websocket close immediately after open ([fce6b49](https://github.com/easyops-cn/next-core/commit/fce6b499e0fd6df047e614dc8ea0b1392f12c26a))
+
+
+
+
+
 ## [0.12.26](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.25...@next-core/easyops-runtime@0.12.26) (2024-09-24)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
