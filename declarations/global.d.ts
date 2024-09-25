@@ -85,13 +85,16 @@ interface Window {
 
   PUBLIC_DEPS?: any[];
 
+  __POWERED_BY_QIANKUN__?: boolean;
+  __INJECTED_PUBLIC_PATH_BY_QIANKUN__?: string;
+
   /** For brick next devtools only */
   __dev_only_getAllContextValues(options: {
     tplStateStoreId?: string;
   }): Record<string, unknown>;
 }
 
-declare const __webpack_public_path__: string;
+declare let __webpack_public_path__: string;
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;

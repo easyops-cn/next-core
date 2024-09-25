@@ -5,10 +5,17 @@ export const fetch = (
   // Support older browsers which default credentials is "omit".
   // Ref https://github.com/whatwg/fetch/pull/585
   const req = new Request(
-    input,
+    window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__
+      ? typeof input === "string"
+        ? new URL(input, window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__).toString()
+        : {
+            ...input,
+            url: new URL(input.url, window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__).toString(),
+          }
+      : input,
     Object.assign<RequestInit, RequestInit | undefined>(
       {
-        credentials: "same-origin",
+        credentials: window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__ ? "include" : "same-origin",
       },
       init
     )

@@ -72,6 +72,9 @@ const cli = meow(
       sizeCheck: {
         type: "boolean",
       },
+      publicCdn: {
+        type: "string",
+      },
       verbose: {
         type: "boolean",
       },
@@ -158,6 +161,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
     sizeCheckFilter,
+    publicCdn: flags.publicCdn,
     verbose: flags.verbose,
   };
 

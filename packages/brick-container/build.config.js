@@ -22,6 +22,7 @@ export default {
   entry: {
     main: "./src/index",
     polyfill: "./src/polyfill",
+    entry: "./src/entry",
   },
   extractCss: true,
   plugins: [
@@ -54,6 +55,10 @@ export default {
             attributes: {
               ...tag.attributes,
               src: `${coreRootPlaceholder}${tag.attributes.src}`,
+              ...(/(?:^|\/)entry\.[^.]+\.js$/.test(tag.attributes.src)
+                ? { entry: true, defer: false }
+                : null
+              )
             },
           };
         }

@@ -23,7 +23,17 @@ export default function loadScriptOrStyle(
       src.map<Promise<string>>((item) => loadScriptOrStyle(type, item, prefix))
     );
   }
-  const fixedSrc = prefix && !/^https?:/.test(src) ? `${prefix}${src}` : src;
+  const fixedPrefix = !prefix && window.PUBLIC_ROOT ? window.PUBLIC_ROOT : prefix;
+  let fixedSrc = fixedPrefix && !/^https?:/.test(src) ? `${fixedPrefix}${src}` : src;
+  if (window.__POWERED_BY_QIANKUN__) {
+    fixedSrc = new URL(
+      fixedSrc,
+      new URL(
+        window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__!,
+        location.origin
+      ),
+    ).toString();
+  }
   const cachedPromise = cache.get(fixedSrc);
   if (cachedPromise) {
     return cachedPromise;
@@ -57,9 +67,10 @@ export default function loadScriptOrStyle(
       reject(e);
       end();
     };
-    const firstScript =
-      document.currentScript || document.getElementsByTagName("script")[0];
-    (firstScript.parentNode as Node).insertBefore(element, firstScript);
+    // const firstScript =
+    //   document.currentScript || document.getElementsByTagName("script")[0];
+    // (firstScript.parentNode as Node).insertBefore(element, firstScript);
+    document.head.appendChild(element);
     window.dispatchEvent(new Event("request.start"));
   });
   cache.set(fixedSrc, promise);

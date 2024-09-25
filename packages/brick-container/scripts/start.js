@@ -82,6 +82,17 @@ const server = new WebpackDevServer(
 
       middlewares.unshift(...getPreMiddlewares(env));
 
+      middlewares.unshift((req, res, next) => {
+        res.set("Access-Control-Allow-Origin", "http://localhost:9000");
+        res.set("Access-Control-Allow-Credentials", "true");
+        res.set("Access-Control-Allow-Headers", "content-type, x-b3-traceid, x-b3-spanid, x-b3-sampled, lang");
+        if (req.method === "OPTIONS") {
+          res.sendStatus(200);
+          return;
+        }
+        next();
+      });
+
       middlewares.push(...getMiddlewares(env));
 
       middlewares.push({
