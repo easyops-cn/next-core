@@ -6,12 +6,8 @@ const dispatchEvent = jest.spyOn(window, "dispatchEvent");
 
 describe("loadScript", () => {
   let loadScript: typeof _loadScript;
-  let firstScript: HTMLScriptElement;
 
   beforeEach(() => {
-    firstScript = document.createElement("script");
-    document.head.appendChild(firstScript);
-
     jest.isolateModules(() => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const m = require("./loadScript.js");
@@ -60,15 +56,15 @@ describe("loadScript", () => {
   });
 
   test("load multiple script", () => {
-    expect(document.querySelectorAll("script").length).toBe(1);
+    expect(document.querySelectorAll("script").length).toBe(0);
     loadScript(["http://example.com/a.js", "http://example.com/b.js"]);
     loadScript("c.js", "prefix/");
     // Hit cache
     loadScript("http://example.com/a.js", "prefix/");
     const scripts = document.querySelectorAll("script");
-    expect(scripts.length).toBe(4);
-    expect(scripts[0].src).toBe("http://localhost/prefix/c.js");
+    expect(scripts.length).toBe(3);
+    expect(scripts[0].src).toBe("http://example.com/a.js");
     expect(scripts[1].src).toBe("http://example.com/b.js");
-    expect(scripts[2].src).toBe("http://example.com/a.js");
+    expect(scripts[2].src).toBe("http://localhost/prefix/c.js");
   });
 });

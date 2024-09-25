@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type FunctionDeclaration, Statement } from "@babel/types";
+import type { FunctionDeclaration, Statement } from "@babel/types";
 import type { CookRules, ParseResultOfFile } from "./interfaces.js";
 import { parseForAnalysis } from "./parseForAnalysis.js";
 import { precook } from "./precook.js";

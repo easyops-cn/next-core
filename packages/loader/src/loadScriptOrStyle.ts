@@ -57,9 +57,7 @@ export default function loadScriptOrStyle(
       reject(e);
       end();
     };
-    const firstScript =
-      document.currentScript || document.getElementsByTagName("script")[0];
-    (firstScript.parentNode as Node).insertBefore(element, firstScript);
+    document.head.appendChild(element);
     window.dispatchEvent(new Event("request.start"));
   });
   cache.set(fixedSrc, promise);
