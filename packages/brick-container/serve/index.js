@@ -33,13 +33,6 @@ if (sizeCheck) {
 }
 
 app.use((req, res, next) => {
-  res.set("Access-Control-Allow-Origin", "http://localhost:9000");
-  res.set("Access-Control-Allow-Credentials", "true");
-  res.set("Access-Control-Allow-Headers", "content-type, x-b3-traceid, x-b3-spanid, x-b3-sampled, lang");
-  if (req.method === "OPTIONS") {
-    res.sendStatus(200);
-    return;
-  }
   // DO NOT compress SSE responses
   if (req.headers["accept"] === "text/event-stream") {
     next();

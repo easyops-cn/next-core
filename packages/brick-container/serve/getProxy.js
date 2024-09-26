@@ -86,10 +86,6 @@ export default function getProxy(env, getRawIndexHtml) {
               return responseBuffer;
             }
 
-            res.setHeader("Access-Control-Allow-Origin", "http://localhost:9000");
-            res.setHeader("Access-Control-Allow-Credentials", "true");
-            res.setHeader("Access-Control-Allow-Headers", "content-type, x-b3-traceid, x-b3-spanid, x-b3-sampled, lang");
-
             const secureCookieFlags = [
               "SameSite=None",
               "Secure",
