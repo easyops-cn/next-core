@@ -2803,6 +2803,10 @@
         "providedExports": ["default"]
       }
     },
+    "./node_modules/node-libs-browser/node_modules/util/util.js": {
+      "id": "7tlc",
+      "buildMeta": { "providedExports": true }
+    },
     "./node_modules/@ant-design/icons/es/icons/SortAscendingOutlined.js": {
       "id": "7vBe",
       "buildMeta": {
@@ -6044,6 +6048,10 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
+    },
+    "./node_modules/node-libs-browser/node_modules/inherits/inherits_browser.js": {
+      "id": "FfBw",
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons-svg/es/asn/PrinterFilled.js": {
       "id": "FgZy",
@@ -15478,6 +15486,10 @@
         "exportsType": "namespace",
         "providedExports": ["default"]
       }
+    },
+    "./node_modules/node-libs-browser/node_modules/util/support/isBufferBrowser.js": {
+      "id": "j/1Z",
+      "buildMeta": { "providedExports": true }
     },
     "./node_modules/@ant-design/icons/es/icons/CalculatorFilled.js": {
       "id": "j14h",
