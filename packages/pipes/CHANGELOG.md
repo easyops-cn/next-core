@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.20](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@1.0.19...@next-core/pipes@1.0.20) (2024-09-27)
+
+
+### Bug Fixes
+
+* 更新brick-next-pipes refs BRICK-555 ([6268fbf](https://github.com/easyops-cn/next-core/commit/6268fbfc90138e7f0e7fb52e36f41476fd639877))
+
+
+
+
+
 ## [1.0.19](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@1.0.18...@next-core/pipes@1.0.19) (2024-09-26)
 
 **Note:** Version bump only for package @next-core/pipes
