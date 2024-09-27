@@ -1490,10 +1490,10 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@easyops-cn/brick-next-pipes@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.6.0.tgz#75fa4c9986383a3118067485e0d6c7ca9ce30c80"
-  integrity sha512-nAZzLaB1eS5Z5Mfy0iszhUWqWKF2aj5CzpH2I2I5UmKX2lNra8Osc0qKahGlzXmTsWKnSySkHRpP1dwPrOwSMQ==
+"@easyops-cn/brick-next-pipes@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.7.1.tgz#8b6f1060f56f4b6ba5491f67a019c336fc89d46f"
+  integrity sha512-Bnajn8otvFBAFuYmWf7MSdD3bgp85o4puOo1BDY5DyeZKZeYHaEBhHoTY3L4BeLeXJWQ8311LX9hi2jqMuVumw==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
