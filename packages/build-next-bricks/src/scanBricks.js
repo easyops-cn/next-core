@@ -146,11 +146,14 @@ export default async function scanBricks(packageDir) {
     /**
      *
      * @param {string} originalName
+     * @param {string | undefined} folder
      * @returns {string}
      */
-    function getExposeName(originalName) {
+    function getExposeName(originalName, folder) {
+      /** @type {string} */
+      let exposeName;
       if (overrideImport) {
-        const exposeName = path.basename(
+        exposeName = path.basename(
           overrideImport.replace(/\.[^.]+$/, "").replace(/\/index$/, "")
         );
         if (!validExposeName.test(exposeName)) {
@@ -158,9 +161,10 @@ export default async function scanBricks(packageDir) {
             `Invalid filename for merging bricks: "${exposeName}", only alphabets/digits/hyphens/underscores are allowed`
           );
         }
-        return exposeName;
+      } else {
+        exposeName = originalName;
       }
-      return originalName;
+      return `${folder ? `${folder}/` : ""}${exposeName}`;
     }
 
     /** @type {Map<string, Set<string>} */
@@ -323,7 +327,7 @@ export default async function scanBricks(packageDir) {
                 .relative(packageDir, overrideImport || filePath)
                 .replace(/\.[^.]+$/, "")
                 .replace(/\/index$/, "")}`,
-              name: getExposeName(editorName),
+              name: getExposeName(editorName, "editors"),
             });
           } else {
             throw new Error(
