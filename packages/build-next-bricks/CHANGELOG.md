@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.3...@next-core/build-next-bricks@1.23.4) (2024-09-30)
+
+
+### Bug Fixes
+
+* set editors chunk to its folder ([255c034](https://github.com/easyops-cn/next-core/commit/255c0340a5d3b5e11a9dd84747475c0bfe8a861a))
+
+
+
+
+
 ## [1.23.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.2...@next-core/build-next-bricks@1.23.3) (2024-09-25)
 
 **Note:** Version bump only for package @next-core/build-next-bricks
