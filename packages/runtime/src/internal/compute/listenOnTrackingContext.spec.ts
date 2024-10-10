@@ -1,6 +1,8 @@
 import {
   listenOnTrackingContext,
+  trackAfterInitial,
   TrackingContextItem,
+  type InitialTracker,
 } from "./listenOnTrackingContext.js";
 import type { RuntimeBrick, RuntimeContext } from "../interfaces.js";
 import { DataStore } from "../data/DataStore.js";
@@ -119,5 +121,37 @@ describe("listenOnTrackingContext", () => {
     };
     listenOnTrackingContext(brick, trackingContextList);
     ctxStore.updateValue("world", "Oops", "replace");
+  });
+});
+
+describe("trackAfterInitial", () => {
+  const trackingContextList = [
+    {
+      contextNames: ["hello", "world"],
+      stateNames: ["hola"],
+      propValue: "<%=, CTX.hello + CTX.world + STATE.hola %>",
+    },
+  ];
+
+  it("should add listeners to initialTracker for context and state changes", () => {
+    const initialTracker: InitialTracker = {
+      disposes: [],
+      listener: jest.fn(),
+    };
+
+    trackAfterInitial(runtimeContext, trackingContextList, initialTracker);
+
+    ctxStore.updateValue("hello", "HelloUpdated", "replace");
+    stateStore.updateValue("hola", "HolaUpdated", "replace");
+
+    expect(initialTracker.listener).toHaveBeenCalledTimes(2);
+  });
+
+  it("should do nothing if initialTracker is undefined", () => {
+    const initialTracker = undefined;
+
+    trackAfterInitial(runtimeContext, trackingContextList, initialTracker);
+
+    // No assertions needed as the function should simply return without error
   });
 });

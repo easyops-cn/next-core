@@ -1,5 +1,5 @@
 import { setProperties } from "./setProperties.js";
-import type { RuntimeBrick } from "../interfaces.js";
+import type { RuntimeBrick, RuntimeContext } from "../interfaces.js";
 import { getTplStateStore } from "../CustomTemplates/utils.js";
 import { getFormStateStore } from "../FormRenderer/utils.js";
 
@@ -9,6 +9,11 @@ export interface TrackingContextItem {
   formStateNames: string[] | Set<string> | false;
   propName: string;
   propValue: unknown;
+}
+
+export interface InitialTracker {
+  disposes: (() => void)[];
+  listener: () => void;
 }
 
 export function listenOnTrackingContext(
@@ -51,6 +56,40 @@ export function listenOnTrackingContext(
       );
       for (const stateName of track.formStateNames) {
         brick.disposes.push(formStateStore.onChange(stateName, listener));
+      }
+    }
+  }
+}
+
+export function trackAfterInitial(
+  runtimeContext: RuntimeContext,
+  trackingContextList: Pick<
+    TrackingContextItem,
+    "contextNames" | "stateNames" | "propValue"
+  >[],
+  initialTracker: InitialTracker | undefined
+) {
+  if (!initialTracker) {
+    return;
+  }
+  for (const { contextNames, stateNames, propValue } of trackingContextList) {
+    if (contextNames) {
+      for (const contextName of contextNames) {
+        initialTracker.disposes.push(
+          runtimeContext.ctxStore.onChange(contextName, initialTracker.listener)
+        );
+      }
+    }
+    if (stateNames) {
+      for (const stateName of stateNames) {
+        const tplStateStore = getTplStateStore(
+          runtimeContext,
+          "STATE",
+          `: "${propValue}"`
+        );
+        initialTracker.disposes.push(
+          tplStateStore.onChange(stateName, initialTracker.listener)
+        );
       }
     }
   }

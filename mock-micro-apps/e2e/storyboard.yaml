@@ -123,6 +123,15 @@ meta:
         textContent: |
           <%= `[i: ${STATE.i}] x: ${STATE.x}` %>
 
+  - name: tpl-debug
+    proxy:
+      slots:
+        '':
+          ref: div
+    bricks:
+    - brick: div
+      ref: div
+
   functions:
   - name: increaseCounter
     source: |
@@ -894,3 +903,166 @@ routes:
 - path: '${APP.homepage}/async-wrap-brick'
   bricks:
   - brick: e2e.async-wrap
+
+- path: '${APP.homepage}/debug/:tab/:group?'
+  incrementalSubRoutes: true
+  context:
+    - name: systemId
+      value: <% QUERY.systemId %>
+      onChange:
+        if: <% CTX.hasSystemId !== !!EVENT.detail %>
+        action: context.replace
+        args:
+          - hasSystemId
+          - <% !!EVENT.detail %>
+    - name: hasSystemId
+      value: <% !!CTX.systemId %>
+    - name: serviceSetList
+      value: null
+      track: true
+      resolve:
+        if: <% CTX.systemId %>
+        useProvider: e2e.return-by-timeout
+        args:
+          - 100
+          - |
+            <%
+              CTX.systemId === '1'
+                ? ['Service Set 1', 'Service Set 2']
+                : []
+            %>
+      onChange:
+      - action: console.log
+        args:
+          - serviceSetList change
+          - <% EVENT.detail %>
+      - action: context.replace
+        args:
+          - selectedServiceSetId
+          - <% CTX.serviceSetList?.[0] %>
+    - name: selectedServiceSetId
+      value: <% CTX.serviceSetList?.[0] %>
+      onChange:
+      - action: console.log
+        args:
+          - selectedServiceSetId change
+          - <% EVENT.detail %>
+      - action: history.pushQuery
+        args:
+          - serviceSetId: <% EVENT.detail %>
+          - notify: false
+    - name: serviceSet
+      value: null
+      track: true
+      resolve:
+        if: <% CTX.selectedServiceSetId %>
+        useProvider: e2e.return-by-timeout
+        args:
+          - 100
+          - |
+            <% `${Math.random()}/${CTX.selectedServiceSetId}` %>
+  bricks:
+  - brick: tpl-debug
+    children:
+    - brick: h1
+      properties:
+        textContent: '<% `${Math.random()}` %>'
+    - brick: p
+      properties:
+        textContent: '<%= `System ID: ${CTX.systemId}` %>'
+    - brick: p
+      properties:
+        textContent: '<%= `Has System ID: ${CTX.hasSystemId}` %>'
+    - brick: p
+      properties:
+        textContent: '<%= `Service Set List: ${JSON.stringify(CTX.serviceSetList)}` %>'
+    - brick: div
+      children:
+      - brick: :forEach
+        dataSource:
+          - '1'
+          - '2'
+          - <% undefined %>
+        children:
+        - brick: button
+          properties:
+            textContent: <% `Go ${ITEM}` %>
+          events:
+            click:
+            - action: context.replace
+              args:
+                - systemId
+                - <% ITEM %>
+            - action: history.pushQuery
+              args:
+                - systemId: <% ITEM %>
+    - brick: div
+      iid: p0
+      if: <%= CTX.hasSystemId %>
+      children:
+      - brick: div
+        iid: p00
+        if: <%= 'debug', CTX.serviceSetList && !CTX.serviceSetList.length %>
+        children:
+        # - brick: div
+        #   iid: p000
+        #   slots:
+        #     '':
+        #       type: routes
+        #       routes:
+        #       - path: '${APP.homepage}/debug'
+        #         bricks:
+        #         - brick: p
+        #           iid: p0000
+        #           properties:
+        #             textContent: No Service Set
+        - brick: p
+          iid: p000
+          properties:
+            textContent: No Service Set
+        - brick: e2e.list-by-use-brick
+          properties:
+            data: [1, 2]
+            useBrick:
+              brick: div
+              properties:
+                textContent: '<%= `list [${DATA}]: ${CTX.serviceSet}` %>'
+      - brick: div
+        iid: p01
+        properties:
+          title: <%= CTX.serviceSet %>
+        children:
+        - brick: e2e.list-by-use-brick
+          properties:
+            data: [3, 4]
+            useBrick:
+              brick: div
+              properties:
+                textContent: '<%= `list [${DATA}]: ${CTX.serviceSet}` %>'
+          if: <%= !!CTX.serviceSetList?.length %>
+        - brick: div
+          iid: p010
+          if: <%= !!CTX.serviceSetList?.length %>
+          slots:
+            '':
+              type: routes
+              routes:
+              - path: '${APP.homepage}/debug/apps/:group?'
+                exact: true
+                bricks:
+                - brick: p
+                  iid: p0100
+                  properties:
+                    textContent: <%= CTX.serviceSetList?.join(", ") %>
+              - path: '${APP.homepage}/debug/arch'
+                exact: true
+                bricks:
+                - brick: hr
+    - brick: div
+      iid: p1
+      if: <%= !CTX.hasSystemId %>
+      children:
+      - brick: p
+        iid: p10
+        properties:
+          textContent: No System ID
