@@ -52,6 +52,7 @@ const getBootstrapData = (options?: {
         {
           path: "${APP.homepage}",
           exact: true,
+          iid: "iid-home",
           bricks: [
             {
               brick: "div",

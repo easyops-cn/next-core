@@ -3276,6 +3276,38 @@ describe("renderBrick for tpl", () => {
     unmountTree(container);
     unmountTree(portal);
   });
+
+  test("unknown tpl", async () => {
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      location: {
+        pathname: "/home/HOST",
+      },
+      app: {
+        homepage: "/home",
+        noAuthGuard: true,
+      },
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const output = await renderBrick(
+      null!,
+      {
+        brick: "unknown.tpl-x",
+      },
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    expect(output).toMatchObject({
+      node: {
+        tag: RenderTag.BRICK,
+        type: "unknown.tpl-x",
+      },
+    });
+  });
 });
 
 describe("renderBrick for form renderer", () => {

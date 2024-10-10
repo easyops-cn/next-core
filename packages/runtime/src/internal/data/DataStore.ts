@@ -329,10 +329,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
-  onChange(dataName: string, listener: EventListener): void {
-    this.data
-      .get(dataName)
-      ?.eventTarget.addEventListener(this.changeEventType, listener);
+  onChange(dataName: string, listener: EventListener): () => void {
+    const eventTarget = this.data.get(dataName)?.eventTarget;
+    eventTarget?.addEventListener(this.changeEventType, listener);
+    return () => {
+      eventTarget?.removeEventListener(this.changeEventType, listener);
+    };
   }
 
   async waitFor(dataNames: string[] | Set<string>): Promise<void> {
