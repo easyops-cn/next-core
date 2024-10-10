@@ -408,15 +408,48 @@ async function legacyRenderBrick(
     ensureValidControlBrick(brickName);
 
     const { dataSource } = brickConf;
+    const { contextNames, stateNames } = getTracks(dataSource);
+
+    let changedAfterInitial;
+    const initialDisposes: (() => void)[] = [];
+    const initialChangeListener = () => {
+      changedAfterInitial = true;
+    };
 
     const lowerLevelRenderControlNode = async (
-      runtimeContext: RuntimeContext
+      runtimeContext: RuntimeContext,
+      isInitial?: boolean
     ) => {
       // First, compute the `dataSource`
       const computedDataSource = await asyncComputeRealValue(
         dataSource,
         runtimeContext
       );
+
+      if (isInitial && (contextNames || stateNames)) {
+        if (contextNames) {
+          for (const contextName of contextNames) {
+            initialDisposes.push(
+              runtimeContext.ctxStore.onChange(
+                contextName,
+                initialChangeListener
+              )
+            );
+          }
+        }
+        if (stateNames) {
+          for (const contextName of stateNames) {
+            const tplStateStore = getTplStateStore(
+              runtimeContext,
+              "STATE",
+              `: "${dataSource}"`
+            );
+            initialDisposes.push(
+              tplStateStore.onChange(contextName, initialChangeListener)
+            );
+          }
+        }
+      }
 
       // Then, get the matched slot.
       const slot =
@@ -476,8 +509,14 @@ async function legacyRenderBrick(
       }
     };
 
-    const renderControlNode = async (runtimeContext: RuntimeContext) => {
-      const rawOutput = await lowerLevelRenderControlNode(runtimeContext);
+    const renderControlNode = async (
+      runtimeContext: RuntimeContext,
+      isInitial?: boolean
+    ) => {
+      const rawOutput = await lowerLevelRenderControlNode(
+        runtimeContext,
+        isInitial
+      );
       rawOutput.node ??= {
         tag: RenderTag.PLACEHOLDER,
         return: returnNode,
@@ -485,10 +524,15 @@ async function legacyRenderBrick(
       return rawOutput;
     };
 
-    const controlledOutput = await renderControlNode(runtimeContext);
+    let controlledOutput = await renderControlNode(runtimeContext, true);
+
+    initialDisposes.forEach((dispose) => dispose());
+    if (changedAfterInitial) {
+      controlledOutput = await renderControlNode(runtimeContext);
+    }
+
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
-    const { contextNames, stateNames } = getTracks(dataSource);
     if (contextNames || stateNames) {
       controlledOutput.hasTrackingControls = true;
       let renderId = 0;
@@ -540,9 +584,14 @@ async function legacyRenderBrick(
         leading: true,
         trailing: true,
       });
+      const runtimeBrick =
+        returnNode.tag === RenderTag.BRICK ? returnNode : null;
+      const disposes = runtimeBrick ? (runtimeBrick.disposes ??= []) : [];
       if (contextNames) {
         for (const contextName of contextNames) {
-          runtimeContext.ctxStore.onChange(contextName, debouncedListener);
+          disposes.push(
+            runtimeContext.ctxStore.onChange(contextName, debouncedListener)
+          );
         }
       }
       if (stateNames) {
@@ -552,7 +601,7 @@ async function legacyRenderBrick(
             "STATE",
             `: "${dataSource}"`
           );
-          tplStateStore.onChange(contextName, debouncedListener);
+          disposes.push(tplStateStore.onChange(contextName, debouncedListener));
         }
       }
     }

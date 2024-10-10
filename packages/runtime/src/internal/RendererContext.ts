@@ -351,9 +351,11 @@ export class RendererContext {
 
       unbindTemplateProxy(brick);
       delete brick.element?.$$tplStateStore;
-
       // Also remove the element
       brick.element?.remove();
+      // Dispose context listeners
+      brick.disposes?.forEach((dispose) => dispose());
+      delete brick.disposes;
     }
 
     // Dispatch unmount events
@@ -501,13 +503,15 @@ export class RendererContext {
       current = current.sibling;
     }
 
-    if (returnNode.tag === RenderTag.ROOT) {
-      returnNode.container?.insertBefore(fragment, insertBeforeChild);
-    } else {
-      returnNode.element?.insertBefore(fragment, insertBeforeChild);
+    if (fragment.hasChildNodes()) {
+      if (returnNode.tag === RenderTag.ROOT) {
+        returnNode.container?.insertBefore(fragment, insertBeforeChild);
+      } else {
+        returnNode.element?.insertBefore(fragment, insertBeforeChild);
+      }
     }
 
-    if (portalFragment.childNodes.length > 0) {
+    if (portalFragment.hasChildNodes()) {
       let root: RenderNode | undefined = node;
       while (root && root.return) {
         root = root.return;

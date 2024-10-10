@@ -90,6 +90,7 @@ export interface RuntimeBrick {
   tplHostMetadata?: TemplateHostMetadata;
   portal?: boolean;
   ref?: string;
+  disposes?: (() => void)[];
 }
 
 export type MetaInfoOfEventListener = [

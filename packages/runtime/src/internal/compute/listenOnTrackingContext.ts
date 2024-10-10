@@ -25,9 +25,12 @@ export function listenOnTrackingContext(
         );
       }
     };
+    brick.disposes ??= [];
     if (track.contextNames) {
       for (const contextName of track.contextNames) {
-        brick.runtimeContext.ctxStore.onChange(contextName, listener);
+        brick.disposes.push(
+          brick.runtimeContext.ctxStore.onChange(contextName, listener)
+        );
       }
     }
     if (track.stateNames) {
@@ -37,7 +40,7 @@ export function listenOnTrackingContext(
         `: "${track.propValue}"`
       );
       for (const stateName of track.stateNames) {
-        tplStateStore.onChange(stateName, listener);
+        brick.disposes.push(tplStateStore.onChange(stateName, listener));
       }
     }
     if (track.formStateNames) {
@@ -47,7 +50,7 @@ export function listenOnTrackingContext(
         `: "${track.propValue}"`
       );
       for (const stateName of track.formStateNames) {
-        formStateStore.onChange(stateName, listener);
+        brick.disposes.push(formStateStore.onChange(stateName, listener));
       }
     }
   }
