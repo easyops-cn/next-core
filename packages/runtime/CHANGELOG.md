@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.55.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.4...@next-core/runtime@1.55.5) (2024-10-10)
+
+
+### Bug Fixes
+
+* handle ctx change just after control node computed ([de990e7](https://github.com/easyops-cn/next-core/commit/de990e72880f53a7996743490c800a0b730057d5))
+
+
+
+
+
 ## [1.55.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.3...@next-core/runtime@1.55.4) (2024-09-30)
 
 **Note:** Version bump only for package @next-core/runtime
