@@ -119,7 +119,6 @@ jobs:
     - run: yarn install --frozen-lockfile
       env:
         CYPRESS_INSTALL_BINARY: ''
-        CYPRESS_DOWNLOAD_MIRROR: ''
 
     - name: Get checksum after yarn install
       id: yarn-lock-check-after
