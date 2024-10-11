@@ -94,8 +94,6 @@ export interface RenderOutput {
   hasTrackingControls?: boolean;
 }
 
-type ControlRenderStage = "initial" | "initial-rerender" | "rerender";
-
 export async function renderRoutes(
   returnNode: RenderReturnNode,
   routes: RouteConf[],
@@ -426,13 +424,10 @@ async function legacyRenderBrick(
     const { dataSource } = brickConf;
     const { contextNames, stateNames } = getTracks(dataSource);
 
-    const initialDisposes: (() => void)[] = [];
-    let changedAfterInitial;
-    let nextInitialTracker: InitialTracker | undefined;
-
     const lowerLevelRenderControlNode = async (
       runtimeContext: RuntimeContext,
-      stage: ControlRenderStage
+      tracker: InitialTracker,
+      trackDataSource: boolean
     ) => {
       // First, compute the `dataSource`
       const computedDataSource = await asyncComputeRealValue(
@@ -440,24 +435,12 @@ async function legacyRenderBrick(
         runtimeContext
       );
 
-      switch (stage) {
-        case "initial":
-          nextInitialTracker = {
-            disposes: [],
-            listener: () => {
-              changedAfterInitial = true;
-            },
-          };
-        // Intensional fallthrough: call ``trackAfterInitial`` for both initial
-        // and initial-rerender stage.
-        // eslint-disable-next-line no-fallthrough
-        case "initial-rerender":
-          trackAfterInitial(
-            runtimeContext,
-            [{ contextNames, stateNames, propValue: dataSource }],
-            nextInitialTracker
-          );
-          break;
+      if (trackDataSource) {
+        trackAfterInitial(
+          runtimeContext,
+          [{ contextNames, stateNames, propValue: dataSource }],
+          tracker
+        );
       }
 
       // Then, get the matched slot.
@@ -499,7 +482,7 @@ async function legacyRenderBrick(
             slotId,
             tplStack,
             keyPath,
-            nextInitialTracker
+            tracker
           );
         }
         case ":if":
@@ -514,7 +497,7 @@ async function legacyRenderBrick(
             slotId,
             tplStack,
             keyPath,
-            nextInitialTracker
+            tracker
           );
         }
       }
@@ -522,47 +505,56 @@ async function legacyRenderBrick(
 
     const renderControlNode = async (
       runtimeContext: RuntimeContext,
-      stage: ControlRenderStage
+      type: "initial" | "rerender"
     ) => {
-      const rawOutput = await lowerLevelRenderControlNode(
-        runtimeContext,
-        stage
-      );
-      rawOutput.node ??= {
+      let changedAfterInitial = false;
+      const tracker: InitialTracker = {
+        disposes: [],
+        listener: () => {
+          changedAfterInitial = true;
+        },
+      };
+      let rerenderCount = 0;
+      let rawOutput: RenderOutput;
+      let uninitialized = true;
+
+      // When perform an incremental sub-route render, for control nodes,
+      // context maybe changed just after their data source being computed,
+      // as well as props of their children bricks being computed, and before
+      // bricks being mounted. Thus these changes may not take any effects.
+      // So we need to track the context changes after the initial render,
+      // and perform re-renders for these control nodes if necessary.
+      while (uninitialized || changedAfterInitial) {
+        changedAfterInitial = false;
+        rawOutput = await lowerLevelRenderControlNode(
+          runtimeContext,
+          tracker,
+          uninitialized && type === "initial"
+        );
+        tracker.disposes.forEach((dispose) => dispose());
+        tracker.disposes.length = 0;
+        uninitialized = false;
+        // istanbul ignore next
+        if (++rerenderCount > 10) {
+          throw new Error(
+            `Maximum rerender stack overflowed (iid: ${brickConf.iid})`
+          );
+        }
+      }
+
+      rawOutput!.node ??= {
         tag: RenderTag.PLACEHOLDER,
         return: returnNode,
       };
-      return rawOutput;
+      return rawOutput!;
     };
 
-    let controlledOutput: RenderOutput;
-    let stage: ControlRenderStage = "initial";
-    let rerenderCount = 0;
-
-    // When perform an incremental sub-route render, for control nodes,
-    // context maybe changed just after their data source being computed,
-    // as well as props of their children bricks being computed, and before
-    // bricks being mounted. Thus these changes may not take any effects.
-    // So we need to track the context changes after the initial render,
-    // and perform re-renders for these control nodes if necessary.
-    while (stage === "initial" || changedAfterInitial) {
-      changedAfterInitial = false;
-      controlledOutput = await renderControlNode(runtimeContext, stage);
-      initialDisposes.forEach((dispose) => dispose());
-      initialDisposes.length = 0;
-      stage = "initial-rerender";
-      // istanbul ignore next
-      if (++rerenderCount > 10) {
-        throw new Error(
-          `Maximum rerender stack overflowed (iid: ${brickConf.iid})`
-        );
-      }
-    }
+    const controlledOutput = await renderControlNode(runtimeContext, "initial");
 
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
     if (contextNames || stateNames) {
-      controlledOutput!.hasTrackingControls = true;
+      controlledOutput.hasTrackingControls = true;
       let renderId = 0;
       const listener = async () => {
         const currentRenderId = ++renderId;
@@ -654,7 +646,7 @@ async function legacyRenderBrick(
       });
     }
 
-    return controlledOutput!;
+    return controlledOutput;
   }
 
   // Widgets need to be defined before rendering.
