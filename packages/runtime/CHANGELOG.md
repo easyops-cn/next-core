@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.55.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.5...@next-core/runtime@1.55.6) (2024-10-11)
+
+
+### Bug Fixes
+
+* handle context change just after property being initialized ([074631a](https://github.com/easyops-cn/next-core/commit/074631a9384201ffd4d1907cb775bcb8c4ff2f3b))
+* refine control node tracking after initial ([d1b99ff](https://github.com/easyops-cn/next-core/commit/d1b99ff3cd0503f2c844eeef8310dc5afaa8bf1d))
+
+
+
+
+
 ## [1.55.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.4...@next-core/runtime@1.55.5) (2024-10-10)
 
 
