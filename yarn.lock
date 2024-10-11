@@ -6067,10 +6067,10 @@ eslint-config-prettier@^9.1.0:
   resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-9.1.0.tgz#31af3d94578645966c082fcb71a5846d3c94867f"
   integrity sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==
 
-eslint-plugin-react-hooks@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.npmjs.org/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.2.tgz#c829eb06c0e6f484b3fbb85a97e57784f328c596"
-  integrity sha512-QzliNJq4GinDBcD8gPB5v0wh6g8q3SUi6EFF0x8N/BL9PoVs0atuGc47ozMRyOWAKdwaZ5OnbOEa3WR+dSGKuQ==
+eslint-plugin-react-hooks@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-5.0.0.tgz#72e2eefbac4b694f5324154619fee44f5f60f101"
+  integrity sha512-hIOwI+5hYGpJEc4uPRmz2ulCjAGD/N13Lukkh8cLV0i2IRk/bdZDYjgLVHj+U9Z704kLIdIO6iueGvxNur0sgw==
 
 eslint-plugin-react@^7.37.1:
   version "7.37.1"
@@ -11431,13 +11431,13 @@ raw-body@2.5.2:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-dom@0.0.0-experimental-ee8509801-20230117:
-  version "0.0.0-experimental-ee8509801-20230117"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-0.0.0-experimental-ee8509801-20230117.tgz"
-  integrity sha512-mdtGQKFmP1uIRIp73EQL0axwudwsw79ry3bMq8FyJ5ZRL3iB1AjssEAsWUEVU7T1KKxp3PyG/OYfrTFnpTAz8g==
+react-dom@18.3.1:
+  version "18.3.1"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"
+  integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "0.0.0-experimental-ee8509801-20230117"
+    scheduler "^0.23.2"
 
 react-error-boundary@^3.1.0:
   version "3.1.4"
@@ -11469,10 +11469,10 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.1.0.tgz"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
 
-react@0.0.0-experimental-ee8509801-20230117:
-  version "0.0.0-experimental-ee8509801-20230117"
-  resolved "https://registry.npmjs.org/react/-/react-0.0.0-experimental-ee8509801-20230117.tgz"
-  integrity sha512-RriS2Fco7EKsXFXi63e9RFEz9xPnDakzHVKGzQ5iwy0jaFwHpvZbYr4fSbPmmUyGUXjDFtr4BfzANERUju1byw==
+react@18.3.1:
+  version "18.3.1"
+  resolved "https://registry.npmjs.org/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"
+  integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -11933,10 +11933,10 @@ saxes@^6.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@0.0.0-experimental-ee8509801-20230117:
-  version "0.0.0-experimental-ee8509801-20230117"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.0.0-experimental-ee8509801-20230117.tgz"
-  integrity sha512-P7U/SCdj9TE3YciEfb6iwY8SskSFFJNttMoHwUrXllu0rGcb2Y8HQC2zN/+ldZufaQCxAqIoevua1QBQFPrXPw==
+scheduler@^0.23.2:
+  version "0.23.2"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.23.2.tgz#414ba64a3b282892e944cf2108ecc078d115cdc3"
+  integrity sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==
   dependencies:
     loose-envify "^1.1.0"
 
