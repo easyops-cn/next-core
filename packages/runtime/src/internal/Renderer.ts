@@ -31,6 +31,8 @@ import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import {
   TrackingContextItem,
   listenOnTrackingContext,
+  trackAfterInitial,
+  type InitialTracker,
 } from "./compute/listenOnTrackingContext.js";
 import { RendererContext } from "./RendererContext.js";
 import { matchRoute, matchRoutes } from "./matchRoutes.js";
@@ -92,6 +94,8 @@ export interface RenderOutput {
   hasTrackingControls?: boolean;
 }
 
+type ControlRenderStage = "initial" | "initial-rerender" | "rerender";
+
 export async function renderRoutes(
   returnNode: RenderReturnNode,
   routes: RouteConf[],
@@ -100,7 +104,8 @@ export async function renderRoutes(
   parentRoutes: RouteConf[],
   menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
-  isIncremental?: boolean
+  isIncremental?: boolean,
+  initialTracker?: InitialTracker
 ): Promise<RenderOutput> {
   const matched = await matchRoutes(routes, _runtimeContext);
   const output = getEmptyRenderOutput();
@@ -195,7 +200,9 @@ export async function renderRoutes(
             rendererContext,
             routePath,
             menuRequestNode,
-            slotId
+            slotId,
+            undefined,
+            initialTracker
           );
         } else {
           newOutput = await renderBricks(
@@ -205,7 +212,10 @@ export async function renderRoutes(
             rendererContext,
             routePath,
             menuRequestNode,
-            slotId
+            slotId,
+            undefined,
+            undefined,
+            initialTracker
           );
         }
 
@@ -227,7 +237,8 @@ export async function renderBricks(
   menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   tplStack?: Map<string, number>,
-  keyPath?: number[]
+  keyPath?: number[],
+  initialTracker?: InitialTracker
 ): Promise<RenderOutput> {
   setupRootRuntimeContext(bricks, runtimeContext, true);
   const output = getEmptyRenderOutput();
@@ -244,7 +255,8 @@ export async function renderBricks(
         menuRequestReturnNode,
         slotId,
         kPath.concat(index),
-        tplStack && new Map(tplStack)
+        tplStack && new Map(tplStack),
+        initialTracker
       )
     )
   );
@@ -274,7 +286,8 @@ export async function renderBrick(
   menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   keyPath: number[] = [],
-  tplStack = new Map<string, number>()
+  tplStack = new Map<string, number>(),
+  initialTracker?: InitialTracker
 ): Promise<RenderOutput> {
   try {
     return await legacyRenderBrick(
@@ -286,7 +299,8 @@ export async function renderBrick(
       menuRequestReturnNode,
       slotId,
       keyPath,
-      tplStack
+      tplStack,
+      initialTracker
     );
   } catch (error) {
     if (brickConf.errorBoundary) {
@@ -311,7 +325,8 @@ async function legacyRenderBrick(
   menuRequestReturnNode: MenuRequestNode,
   slotId: string | undefined,
   keyPath: number[],
-  tplStack: Map<string, number>
+  tplStack: Map<string, number>,
+  initialTracker?: InitialTracker
 ): Promise<RenderOutput> {
   const output = getEmptyRenderOutput();
 
@@ -347,7 +362,7 @@ async function legacyRenderBrick(
         ...Object.getOwnPropertySymbols(brickConf).reduce(
           (acc, symbol) => ({
             ...acc,
-            [symbol]: (brickConf as any)[symbol],
+            [symbol]: brickConf[symbol as typeof symbolForTplStateStoreId],
           }),
           {} as RuntimeBrickConfOfTplSymbols & RuntimeBrickConfOfFormSymbols
         ),
@@ -358,7 +373,8 @@ async function legacyRenderBrick(
       menuRequestReturnNode,
       slotId,
       keyPath,
-      tplStack
+      tplStack,
+      initialTracker
     );
   }
 
@@ -410,15 +426,13 @@ async function legacyRenderBrick(
     const { dataSource } = brickConf;
     const { contextNames, stateNames } = getTracks(dataSource);
 
-    let changedAfterInitial;
     const initialDisposes: (() => void)[] = [];
-    const initialChangeListener = () => {
-      changedAfterInitial = true;
-    };
+    let changedAfterInitial;
+    let nextInitialTracker: InitialTracker | undefined;
 
     const lowerLevelRenderControlNode = async (
       runtimeContext: RuntimeContext,
-      isInitial?: boolean
+      stage: ControlRenderStage
     ) => {
       // First, compute the `dataSource`
       const computedDataSource = await asyncComputeRealValue(
@@ -426,29 +440,24 @@ async function legacyRenderBrick(
         runtimeContext
       );
 
-      if (isInitial && (contextNames || stateNames)) {
-        if (contextNames) {
-          for (const contextName of contextNames) {
-            initialDisposes.push(
-              runtimeContext.ctxStore.onChange(
-                contextName,
-                initialChangeListener
-              )
-            );
-          }
-        }
-        if (stateNames) {
-          for (const contextName of stateNames) {
-            const tplStateStore = getTplStateStore(
-              runtimeContext,
-              "STATE",
-              `: "${dataSource}"`
-            );
-            initialDisposes.push(
-              tplStateStore.onChange(contextName, initialChangeListener)
-            );
-          }
-        }
+      switch (stage) {
+        case "initial":
+          nextInitialTracker = {
+            disposes: [],
+            listener: () => {
+              changedAfterInitial = true;
+            },
+          };
+        // Intensional fallthrough: call ``trackAfterInitial`` for both initial
+        // and initial-rerender stage.
+        // eslint-disable-next-line no-fallthrough
+        case "initial-rerender":
+          trackAfterInitial(
+            runtimeContext,
+            [{ contextNames, stateNames, propValue: dataSource }],
+            nextInitialTracker
+          );
+          break;
       }
 
       // Then, get the matched slot.
@@ -489,7 +498,8 @@ async function legacyRenderBrick(
             menuRequestReturnNode,
             slotId,
             tplStack,
-            keyPath
+            keyPath,
+            nextInitialTracker
           );
         }
         case ":if":
@@ -503,7 +513,8 @@ async function legacyRenderBrick(
             menuRequestReturnNode,
             slotId,
             tplStack,
-            keyPath
+            keyPath,
+            nextInitialTracker
           );
         }
       }
@@ -511,11 +522,11 @@ async function legacyRenderBrick(
 
     const renderControlNode = async (
       runtimeContext: RuntimeContext,
-      isInitial?: boolean
+      stage: ControlRenderStage
     ) => {
       const rawOutput = await lowerLevelRenderControlNode(
         runtimeContext,
-        isInitial
+        stage
       );
       rawOutput.node ??= {
         tag: RenderTag.PLACEHOLDER,
@@ -524,25 +535,44 @@ async function legacyRenderBrick(
       return rawOutput;
     };
 
-    let controlledOutput = await renderControlNode(runtimeContext, true);
+    let controlledOutput: RenderOutput;
+    let stage: ControlRenderStage = "initial";
+    let rerenderCount = 0;
 
-    initialDisposes.forEach((dispose) => dispose());
-    if (changedAfterInitial) {
-      controlledOutput = await renderControlNode(runtimeContext);
+    // When perform an incremental sub-route render, for control nodes,
+    // context maybe changed just after their data source being computed,
+    // as well as props of their children bricks being computed, and before
+    // bricks being mounted. Thus these changes may not take any effects.
+    // So we need to track the context changes after the initial render,
+    // and perform re-renders for these control nodes if necessary.
+    while (stage === "initial" || changedAfterInitial) {
+      changedAfterInitial = false;
+      controlledOutput = await renderControlNode(runtimeContext, stage);
+      initialDisposes.forEach((dispose) => dispose());
+      initialDisposes.length = 0;
+      stage = "initial-rerender";
+      // istanbul ignore next
+      if (++rerenderCount > 10) {
+        throw new Error(
+          `Maximum rerender stack overflowed (iid: ${brickConf.iid})`
+        );
+      }
     }
 
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
     if (contextNames || stateNames) {
-      controlledOutput.hasTrackingControls = true;
+      controlledOutput!.hasTrackingControls = true;
       let renderId = 0;
       const listener = async () => {
         const currentRenderId = ++renderId;
         const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
           createScopedRuntimeContext(runtimeContext);
 
-        const reControlledOutput =
-          await renderControlNode(scopedRuntimeContext);
+        const reControlledOutput = await renderControlNode(
+          scopedRuntimeContext,
+          "rerender"
+        );
 
         const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
         await postAsyncRender(
@@ -624,7 +654,7 @@ async function legacyRenderBrick(
       });
     }
 
-    return controlledOutput;
+    return controlledOutput!;
   }
 
   // Widgets need to be defined before rendering.
@@ -749,6 +779,9 @@ async function legacyRenderBrick(
   // 加载构件属性和加载子构件等任务，可以并行。
   const blockingList: Promise<unknown>[] = [];
 
+  // Note: properties here has already been initialized.
+  trackAfterInitial(runtimeContext, trackingContextList, initialTracker);
+
   const loadProperties = async () => {
     brick.properties = await constructAsyncProperties(asyncPropertyEntries);
     listenOnTrackingContext(brick, trackingContextList);
@@ -814,7 +847,9 @@ async function legacyRenderBrick(
             parentRoutes,
             menuRequestReturnNode,
             childSlotId,
-            tplStack
+            tplStack,
+            undefined,
+            initialTracker
           );
         }
 
@@ -948,7 +983,9 @@ async function legacyRenderBrick(
           rendererContext,
           parentRoutes,
           menuRequestReturnNode,
-          childSlotId
+          childSlotId,
+          undefined,
+          initialTracker
         );
       })
     );
@@ -1020,7 +1057,8 @@ async function renderForEach(
   menuRequestReturnNode: MenuRequestNode,
   slotId: string | undefined,
   tplStack: Map<string, number>,
-  keyPath: number[]
+  keyPath: number[],
+  initialTracker?: InitialTracker
 ): Promise<RenderOutput> {
   const output = getEmptyRenderOutput();
 
@@ -1043,7 +1081,8 @@ async function renderForEach(
             menuRequestReturnNode,
             slotId,
             keyPath.concat(i * size + j),
-            tplStack && new Map(tplStack)
+            tplStack && new Map(tplStack),
+            initialTracker
           )
         )
       )

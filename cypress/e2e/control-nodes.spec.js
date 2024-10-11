@@ -234,5 +234,34 @@ for (const port of Cypress.env("ports")) {
         "Add",
       ]);
     });
+
+    it("should handle initial rerender", () => {
+      cy.visit(
+        `${origin}/e2e/initial-rerender/apps/a?systemId=1&serviceSetId=Set-X`,
+        {
+          onBeforeLoad(win) {
+            cy.spy(win.console, "error").as("console.error");
+          },
+        }
+      );
+
+      cy.expectMainContents(["Go 1Go 2Go undefined", "Set-X, Set-Y"]);
+
+      cy.contains("Go undefined").click();
+      cy.expectMainContents(["Go 1Go 2Go undefined", "No System ID"]);
+
+      cy.contains("Go 2").click();
+      cy.contains("Passed");
+      cy.expectMainContents(["Go 1Go 2Go undefined", "No Service SetPassed"]);
+
+      cy.contains("Go undefined").click();
+      cy.expectMainContents(["Go 1Go 2Go undefined", "No System ID"]);
+
+      cy.contains("Go 2").click();
+      cy.contains("Passed");
+      cy.expectMainContents(["Go 1Go 2Go undefined", "No Service SetPassed"]);
+
+      cy.get("@console.error").should("not.be.called");
+    });
   });
 }

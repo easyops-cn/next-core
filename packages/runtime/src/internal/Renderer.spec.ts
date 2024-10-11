@@ -3281,13 +3281,6 @@ describe("renderBrick for tpl", () => {
     const ctxStore = new DataStore("CTX");
     const runtimeContext = {
       ctxStore,
-      location: {
-        pathname: "/home/HOST",
-      },
-      app: {
-        homepage: "/home",
-        noAuthGuard: true,
-      },
       pendingPermissionsPreCheck: [] as undefined[],
     } as RuntimeContext;
     const rendererContext = new RendererContext("page");
@@ -3307,6 +3300,7 @@ describe("renderBrick for tpl", () => {
         type: "unknown.tpl-x",
       },
     });
+    expect(loadBricksImperatively).toBeCalledWith(["unknown.tpl-x"], []);
   });
 });
 
