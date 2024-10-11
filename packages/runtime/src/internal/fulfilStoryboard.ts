@@ -135,7 +135,7 @@ function replaceSegues(
               close: {
                 action: "history.push",
                 args: [
-                  `<% \`${routeParent.path.replace(/:(\w)+/g, "${PATH.$1}")}\` %>`,
+                  `<% \`${routeParent.path.replace(/:(\w+)/g, "${PATH.$1}")}\` %>`,
                 ],
               },
             },
