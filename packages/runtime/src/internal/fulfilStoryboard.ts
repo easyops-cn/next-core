@@ -115,7 +115,7 @@ function replaceSegues(
             return param
               ? typeof param.value === "string" && isEvaluable(param.value)
                 ? `\${${param.value.replace(/^\s*<%[~=]?\s|\s%>\s*$/g, "")}}`
-                : String(param.value).replace(/`/g, "\\`")
+                : String(param.value).replace(/[`\\]/g, "\\$&")
               : `\${PATH.${key}}`;
           });
           (handlers as BrickEventsMap)[key] = {
