@@ -1,5 +1,9 @@
-module.exports = {
-  parser: "@typescript-eslint/parser",
+import typescriptEslintParser from "@typescript-eslint/parser";
+
+export default {
+  languageOptions: {
+    parser: typescriptEslintParser,
+  },
   plugins: ["@typescript-eslint", "react-hooks"],
   extends: [
     "eslint:recommended",
