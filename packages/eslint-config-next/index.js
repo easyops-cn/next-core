@@ -35,14 +35,14 @@ module.exports = {
         allowSingleExtends: true,
       },
     ],
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        types: {
-          Function: false,
-        },
-      },
-    ],
+    // "@typescript-eslint/ban-types": [
+    //   "error",
+    //   {
+    //     types: {
+    //       Function: false,
+    //     },
+    //   },
+    // ],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
