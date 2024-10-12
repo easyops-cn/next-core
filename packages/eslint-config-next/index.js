@@ -1,5 +1,9 @@
-module.exports = {
-  parser: "@typescript-eslint/parser",
+import typescriptEslintParser from "@typescript-eslint/parser";
+
+export default {
+  languageOptions: {
+    parser: typescriptEslintParser,
+  },
   plugins: ["@typescript-eslint", "react-hooks"],
   extends: [
     "eslint:recommended",
@@ -35,14 +39,14 @@ module.exports = {
         allowSingleExtends: true,
       },
     ],
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        types: {
-          Function: false,
-        },
-      },
-    ],
+    // "@typescript-eslint/ban-types": [
+    //   "error",
+    //   {
+    //     types: {
+    //       Function: false,
+    //     },
+    //   },
+    // ],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
