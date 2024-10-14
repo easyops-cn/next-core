@@ -2409,10 +2409,10 @@
   resolved "https://registry.npmjs.org/@next-sdk/user-service-sdk/-/user-service-sdk-2.1.1.tgz#44ef1a59bf2d5a50ab0d3a62860cb39379018c5c"
   integrity sha512-eGbCuSwZmzbz5AJdDLCM36euD7iTEfcnLmPVTk3UrbV0HT8b5xQdYj4KD0Jl4kldy3PlSat3XhT/mDpMg0V9XQ==
 
-"@next-shared/icons@^0.10.1":
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/@next-shared/icons/-/icons-0.10.1.tgz#aeea60a1094b67c87ce9132c5d4a79e21b6e4033"
-  integrity sha512-HYST5FD0t4Qa6vHUzPJCbSmjivOKfSdwsx06RbAnt6fIac2U1AP4Anbx6z+FzBqXK5pgMfLgjDNnJuA2v/INhg==
+"@next-shared/icons@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/@next-shared/icons/-/icons-0.11.1.tgz#34e52188d66f43877e6cb55e1604a32f6ab79bcd"
+  integrity sha512-Tt5UymWwADQWLSxzA6DZo2ZgAMZz9GNM1w2+4DFcbKwItNT68UZqA9AkhGQe5L+PYJgp91z7Wdb2jj7VFEt6yA==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
