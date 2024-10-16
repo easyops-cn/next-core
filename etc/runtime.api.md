@@ -244,6 +244,9 @@ export interface ImagesFactory {
     get(name: string): string;
 }
 
+// @public (undocumented)
+export function instantiateModalStack(initialIndex?: number): ModalStack;
+
 // @public @deprecated (undocumented)
 export function isLoggedIn(): boolean | undefined;
 
@@ -275,6 +278,14 @@ export interface MatchOptions {
 //
 // @public
 export function matchPath(pathname: string, options: MatchPathOptions): MatchResult | null;
+
+// @public (undocumented)
+export interface ModalStack {
+    // (undocumented)
+    pull: () => void;
+    // (undocumented)
+    push: () => number;
+}
 
 // @public (undocumented)
 function mountUseBrick({ renderRoot, rendererContext, scopedStores }: RenderUseBrickResult, element: HTMLElement): MountUseBrickResult;
