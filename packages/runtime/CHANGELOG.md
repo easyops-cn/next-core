@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.6...@next-core/runtime@1.56.0) (2024-10-16)
+
+
+### Features
+
+* support instantiateModalStack ([b0817ca](https://github.com/easyops-cn/next-core/commit/b0817ca8efcda3686983a91bcaf880a3d1884c51))
+
+
+
+
+
 ## [1.55.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.5...@next-core/runtime@1.55.6) (2024-10-11)
 
 
