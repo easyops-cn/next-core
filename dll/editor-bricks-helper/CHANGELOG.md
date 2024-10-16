@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.38.122...@next-dll/editor-bricks-helper@0.39.0) (2024-10-16)
+
+
+### Features
+
+* support instantiateModalStack ([75c4ab4](https://github.com/easyops-cn/next-core/commit/75c4ab456635f132a1f2a45b22037e8a5e602ba1))
+
+
+
+
+
 ## [0.38.122](https://github.com/easyops-cn/next-core/compare/@next-dll/editor-bricks-helper@0.38.121...@next-dll/editor-bricks-helper@0.38.122) (2024-09-27)
 
 **Note:** Version bump only for package @next-dll/editor-bricks-helper

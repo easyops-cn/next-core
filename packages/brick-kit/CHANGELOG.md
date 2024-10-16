@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.201.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.200.4...@next-core/brick-kit@2.201.0) (2024-10-16)
+
+
+### Features
+
+* support instantiateModalStack ([75c4ab4](https://github.com/easyops-cn/next-core/commit/75c4ab456635f132a1f2a45b22037e8a5e602ba1))
+
+
+
+
+
 ## [2.200.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.200.3...@next-core/brick-kit@2.200.4) (2024-09-27)
 
 **Note:** Version bump only for package @next-core/brick-kit
