@@ -440,6 +440,9 @@ export interface IfContainer {
 // @internal (undocumented)
 export const initI18n: () => void;
 
+// @public (undocumented)
+export function instantiateModalStack(initialIndex?: number): ModalStack;
+
 // @public
 export function isLoggedIn(): boolean;
 
@@ -469,6 +472,14 @@ export abstract class ModalElement extends UpdatingElement {
     closeModal: () => void;
     isVisible: boolean;
     openModal: (e?: CustomEvent) => void;
+}
+
+// @public (undocumented)
+export interface ModalStack {
+    // (undocumented)
+    pull: () => void;
+    // (undocumented)
+    push: () => number;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "PartialMicroApp" should be prefixed with an underscore because the declaration is marked as @internal
