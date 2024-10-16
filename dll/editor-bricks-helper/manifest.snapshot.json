@@ -240,6 +240,7 @@
           "httpErrorToString",
           "i18nText",
           "initI18n",
+          "instantiateModalStack",
           "isLoggedIn",
           "logout",
           "looseCheckIf",
