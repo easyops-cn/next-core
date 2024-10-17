@@ -8,3 +8,4 @@ export {
   /** @deprecated import it from "@next-core/utils/general" instead */
   unwrapProvider,
 };
+export * from "./parser/index.js";
