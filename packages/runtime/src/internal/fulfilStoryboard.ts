@@ -3,15 +3,23 @@ import type {
   BrickEventHandler,
   BrickEventsMap,
   BuiltinBrickEventHandler,
-  RouteConf,
   RouteConfOfBricks,
   RuntimeStoryboard,
+  Storyboard,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
+import { hasOwnProperty } from "@next-core/utils/general";
+import {
+  parseStoryboard,
+  traverse,
+  parseEvents,
+  type StoryboardNodeEvent,
+  type StoryboardNodeRoute,
+} from "@next-core/utils/storyboard";
 import { uniqueId } from "lodash";
 import { hooks } from "./Runtime.js";
 import { registerAppI18n } from "./registerAppI18n.js";
-import { isBuiltinHandler } from "./bindListeners.js";
+import { isBuiltinHandler, isCustomHandler } from "./bindListeners.js";
 
 export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
   if (storyboard.$$fulfilled) {
@@ -26,70 +34,58 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
 async function doFulfilStoryboard(storyboard: RuntimeStoryboard) {
   await hooks?.fulfilStoryboard?.(storyboard);
   registerAppI18n(storyboard);
-  initializeSeguesForRoutes(storyboard.routes);
+  // initializeSeguesForRoutes(storyboard.routes);
+  initializeSegues(storyboard);
   Object.assign(storyboard, {
     $$fulfilled: true,
     $$fulfilling: null,
   });
 }
 
+type SceneConf = Pick<BrickConf, "properties" | "events">;
+
 interface SegueConf {
-  by: "drawer" | "modal";
+  type: "drawer" | "modal";
   route?: {
     path: string;
-    params: SegueRouteParam[];
+    params: Record<string, string>;
   };
-  eventsMapping?: Record<string, string>;
-  events?: BrickEventsMap;
+  modal?: SceneConf;
+  scene?: SceneConf;
 }
 
-interface SegueRouteParam {
-  key: string;
-  value: string;
-}
+function initializeSegues(storyboard: Storyboard) {
+  const ast = parseStoryboard(storyboard);
 
-function initializeSeguesForRoutes(routes: RouteConf[]) {
-  for (const route of routes) {
-    if (route.type !== "redirect" && route.type !== "routes") {
-      initializeSeguesForBricks(route.bricks, route);
-    }
-  }
-}
-
-function initializeSeguesForBricks(
-  bricks: BrickConf[],
-  routeParent: RouteConfOfBricks
-) {
-  for (const brick of bricks) {
-    if (brick.events) {
-      for (const [eventType, handlers] of Object.entries(brick.events)) {
-        if (Array.isArray(handlers)) {
-          handlers.forEach((handler, index) => {
-            if (isBuiltinHandler(handler) && handler.action === "segue.go") {
-              replaceSegues(handler, handlers, index, routeParent);
-            }
-          });
-        } else if (
-          isBuiltinHandler(handlers) &&
-          handlers.action === "segue.go"
-        ) {
-          replaceSegues(handlers, brick.events, eventType, routeParent);
+  traverse(ast, (node, nodePath) => {
+    switch (node.type) {
+      case "EventHandler":
+        if (isBuiltinHandler(node.raw) && node.raw.action === "segue.go") {
+          const parent = nodePath[nodePath.length - 1] as StoryboardNodeEvent;
+          const routeParent = (
+            nodePath.findLast(
+              (node) => node.type === "Route" && node.raw.type === "bricks"
+            ) as StoryboardNodeRoute
+          ).raw as RouteConfOfBricks;
+          if (typeof node.rawKey === "number") {
+            replaceSegues(
+              node.raw,
+              parent.rawContainer[parent.rawKey] as BrickEventHandler[],
+              node.rawKey,
+              routeParent
+            );
+          } else {
+            replaceSegues(
+              node.raw,
+              parent.rawContainer,
+              parent.rawKey,
+              routeParent
+            );
+          }
         }
-      }
+        break;
     }
-
-    if (brick.slots) {
-      for (const slotConf of Object.values(brick.slots)) {
-        if (slotConf.type === "routes") {
-          initializeSeguesForRoutes(slotConf.routes);
-        } else {
-          initializeSeguesForBricks(slotConf.bricks, routeParent);
-        }
-      }
-    } else if (Array.isArray(brick.children)) {
-      initializeSeguesForBricks(brick.children, routeParent);
-    }
-  }
+  });
 }
 
 function replaceSegues(
@@ -106,17 +102,18 @@ function replaceSegues(
     typeof segueTarget === "string") &&
     (segueConf = handler.args[1] as SegueConf)
   ) {
-    switch (segueConf.by) {
+    switch (segueConf.type) {
       case "drawer": {
         if (segueConf.route) {
           const { params, path } = segueConf.route;
-          const targetUrlExpr = path.replace(/:(\w+)/g, (_, key) => {
-            const param = params.find((param) => param.key === key);
-            return param
-              ? typeof param.value === "string" && isEvaluable(param.value)
-                ? `\${${param.value.replace(/^\s*<%[~=]?\s|\s%>\s*$/g, "")}}`
-                : String(param.value).replace(/[`\\]/g, "\\$&")
-              : `\${PATH.${key}}`;
+          const targetUrlExpr = path.replace(/:(\w+)/g, (_, k) => {
+            const hasParam = hasOwnProperty(params, k);
+            const paramValue = hasParam ? params[k] : undefined;
+            return hasParam
+              ? typeof paramValue === "string" && isEvaluable(paramValue)
+                ? `\${${paramValue.replace(/^\s*<%[~=]?\s|\s%>\s*$/g, "")}}`
+                : String(paramValue).replace(/[`\\]/g, "\\$&")
+              : `\${PATH.${k}}`;
           });
           (handlers as BrickEventsMap)[key] = {
             action: "history.push",
@@ -126,6 +123,7 @@ function replaceSegues(
           const drawerTarget = `#${drawerId}`;
           routeParent.bricks.push({
             brick: "eo-drawer",
+            iid: drawerId,
             portal: true,
             properties: {
               id: drawerId,
@@ -150,10 +148,7 @@ function replaceSegues(
                       {
                         brick: segueTarget,
                         properties: Object.fromEntries(
-                          params.map((param) => [
-                            param.key,
-                            `<% PATH.${param.key} %>`,
-                          ])
+                          Object.keys(params).map((k) => [k, `<% PATH.${k} %>`])
                         ),
                         lifeCycle: {
                           onMount: {
@@ -185,32 +180,33 @@ function replaceSegues(
           target: modalTarget,
           method: "open",
         };
+
+        const replacements = new Map<string, string>([
+          ["_modal", modalTarget],
+          ["_scene", sceneTarget],
+        ]);
+        replaceSceneTarget(segueConf.modal?.events, replacements);
+        replaceSceneTarget(segueConf.scene?.events, replacements);
+
         routeParent.bricks.push({
           brick: "eo-modal",
+          iid: modalId,
           portal: true,
           properties: {
-            id: modalId,
-            modalTitle: "Create",
             closeWhenConfirm: false,
+            ...segueConf.modal?.properties,
+            id: modalId,
           },
-          events: segueConf.eventsMapping
-            ? Object.fromEntries(
-                Object.entries(segueConf.eventsMapping).map(([from, to]) => [
-                  from,
-                  {
-                    target: sceneTarget,
-                    method: to,
-                  },
-                ])
-              )
-            : undefined,
+          events: segueConf.modal?.events,
           children: [
             {
               brick: segueTarget,
+              iid: sceneId,
               properties: {
+                ...segueConf.scene?.properties,
                 id: sceneId,
               },
-              events: segueConf.events,
+              events: segueConf.scene?.events,
             },
           ],
         });
@@ -218,4 +214,23 @@ function replaceSegues(
       }
     }
   }
+}
+
+function replaceSceneTarget(
+  events: BrickEventsMap | undefined,
+  replacements: Map<string, string>
+) {
+  const ast = parseEvents(events);
+
+  traverse(ast, (node) => {
+    switch (node.type) {
+      case "EventHandler":
+        if (isCustomHandler(node.raw) && typeof node.raw.target === "string") {
+          const replacement = replacements.get(node.raw.target);
+          if (replacement !== undefined) {
+            node.raw.target = replacement;
+          }
+        }
+    }
+  });
 }
