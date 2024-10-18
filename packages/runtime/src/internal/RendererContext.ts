@@ -37,7 +37,7 @@ type MemoizedLifeCycle<T> = {
 type LocationChangeCallback = (
   location: Location<NextHistoryState>,
   prevLocation: Location<NextHistoryState>
-) => Promise<boolean | null>;
+) => Promise<boolean>;
 
 interface IncrementalRenderState {
   parentRoutes: RouteConf[];
@@ -71,7 +71,12 @@ export interface RendererContextOptions {
 export interface RouteHelper {
   bailout: (output: RenderOutput) => true | undefined;
   mergeMenus: (menuRequests: Promise<StaticMenuConf>[]) => Promise<void>;
-  /** Will always resolve */
+  /**
+   * Will always resolve when the routing is not the current bootstrap.
+   * Otherwise, will throw an error when not bailout.
+   *
+   * @returns undefined when bailout, or failed output otherwise
+   */
   catch: (
     error: unknown,
     returnNode: RenderReturnNode,
@@ -226,7 +231,10 @@ export class RendererContext {
   }
 
   /**
-   * Will always resolve
+   * Will always resolve when the routing is not the current bootstrap.
+   * Otherwise, will throw an error when not bailout.
+   *
+   * @returns undefined when bailout, or failed output otherwise
    */
   reCatch(error: unknown, returnNode: RenderReturnNode) {
     return this.#routeHelper!.catch(error, returnNode, false, true);
@@ -255,8 +263,7 @@ export class RendererContext {
         continue;
       }
       const result = await callback(location, prevLocation);
-      // When result is null, it means the incremental rendering is tried but routes missed.
-      // In this case, we should continue to re-render the parent routes.
+      // When result is true, it means the incremental rendering is performed.
       if (result) {
         shouldIgnoreRoutes.push(...parentRoutes.slice(0, -1));
       }
