@@ -270,6 +270,12 @@ const getBootstrapData = (options?: {
           menu: {
             breadcrumb: { items: [{ text: "Nested" }] },
           },
+          context: [
+            {
+              name: "mountCount",
+              value: 0,
+            },
+          ],
           bricks: [
             {
               brick: "div",
@@ -302,6 +308,18 @@ const getBootstrapData = (options?: {
                           brick: "p",
                           properties: {
                             textContent: "Sub 2",
+                          },
+                        },
+                        {
+                          brick: "output",
+                          properties: {
+                            textContent: "<%= CTX.mountCount %>",
+                          },
+                          lifeCycle: {
+                            onMount: {
+                              action: "context.replace",
+                              args: ["mountCount", "<%= CTX.mountCount + 1 %>"],
+                            },
                           },
                         },
                         {
@@ -1109,6 +1127,9 @@ describe("Runtime", () => {
             <p>
               Sub 2
             </p>
+            <output>
+              1
+            </output>
             <div>
               <div
                 slot="content"
@@ -1136,6 +1157,9 @@ describe("Runtime", () => {
             <p>
               Sub 2
             </p>
+            <output>
+              1
+            </output>
             <div>
               <div
                 slot="content"
@@ -1167,6 +1191,9 @@ describe("Runtime", () => {
             <p>
               Sub 2
             </p>
+            <output>
+              1
+            </output>
             <div>
               <div
                 slot="content"
@@ -1187,7 +1214,37 @@ describe("Runtime", () => {
       breadcrumb: [{ text: "Nested" }, { text: "2" }, { text: "Y" }],
     });
 
-    (window as any).debug = true;
+    // Go back to the middle-parent route, won't re-render the middle-parent route.
+    // `output` is 1, left unchanged.
+    getHistory().push("/app-a/sub-routes-nested/2");
+    await (global as any).flushPromises();
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "2" }],
+    });
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 2
+            </p>
+            <output>
+              1
+            </output>
+            <div>
+              <div
+                slot="content"
+              />
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
 
     getHistory().push("/app-a/sub-routes-nested/1");
     await (global as any).flushPromises();
@@ -1210,6 +1267,38 @@ describe("Runtime", () => {
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "Nested" }, { text: "1" }],
     });
+
+    // Go to the sibling route, will re-render the sibling route.
+    // `output` is 2, increased.
+    getHistory().push("/app-a/sub-routes-nested/2");
+    await (global as any).flushPromises();
+    expect(getRuntime().getNavConfig()).toEqual({
+      breadcrumb: [{ text: "Nested" }, { text: "2" }],
+    });
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <div>
+            <p>
+              Sub 2
+            </p>
+            <output>
+              2
+            </output>
+            <div>
+              <div
+                slot="content"
+              />
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
   }, 1e6);
 
   test("parallel incremental sub-routes rendering", async () => {
