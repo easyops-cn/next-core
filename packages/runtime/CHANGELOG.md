@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.56.0...@next-core/runtime@1.56.1) (2024-10-18)
+
+
+### Bug Fixes
+
+* treat the incremental render as performed even if all sub-routes missed ([5af96e2](https://github.com/easyops-cn/next-core/commit/5af96e2d71f58276a2318bc9cb6e360c758f1d0e))
+
+
+
+
+
 # [1.56.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.55.6...@next-core/runtime@1.56.0) (2024-10-16)
 
 
