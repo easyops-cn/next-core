@@ -961,9 +961,8 @@ async function legacyRenderBrick(
                 }
               }
 
-              // When result is null, it means the incremental rendering is tried but routes missed.
-              // In this case, we should continue to re-render the parent routes.
-              return incrementalOutput.route ? true : null;
+              // Even if all sub-routes missed, treat the incremental rendering as performed.
+              return true;
             }
           );
         }
