@@ -306,7 +306,7 @@ export interface NextHistoryState {
     // (undocumented)
     from?: LocationDescriptor<NextHistoryState>;
     // (undocumented)
-    noIncremental?: boolean;
+    noIncremental?: boolean | "parent";
     // (undocumented)
     notify?: boolean;
 }

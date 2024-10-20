@@ -853,13 +853,16 @@ async function legacyRenderBrick(
           rendererContext.performIncrementalRender(
             slotConf,
             parentRoutes,
-            async (location, prevLocation) => {
+            async (location, prevLocation, noIncremental) => {
               const { homepage } = childRuntimeContext.app;
               const { pathname } = location;
               // Ignore if any one of homepage and parent routes not matched.
               if (
                 !matchHomepage(homepage, pathname) ||
                 !parentRoutes.every((route) => {
+                  if (noIncremental === "parent" && route !== parentRoute) {
+                    return false;
+                  }
                   let prevMatch: MatchResult | null;
                   let newMatch: MatchResult | null;
                   return (

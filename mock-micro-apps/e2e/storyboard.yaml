@@ -123,6 +123,30 @@ meta:
         textContent: |
           <%= `[i: ${STATE.i}] x: ${STATE.x}` %>
 
+  - name: tpl-slot
+    bricks:
+    - brick: div
+      children:
+      - brick: h2
+        properties:
+          textContent: Hello,
+      - brick: slot
+        properties:
+          name: ''
+      - brick: hr
+    - brick: div
+      slots:
+        '':
+          type: bricks
+          bricks:
+            - brick: h3
+              properties:
+                textContent: Hi,
+            - brick: slot
+              properties:
+                name: extra
+            - brick: hr
+
   functions:
   - name: increaseCounter
     source: |

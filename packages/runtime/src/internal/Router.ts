@@ -231,11 +231,12 @@ export class Router {
         ignoreRendering = true;
       }
 
-      if (!ignoreRendering && !location.state?.noIncremental) {
+      if (!ignoreRendering && location.state?.noIncremental !== true) {
         ignoreRendering =
           await this.#rendererContext?.didPerformIncrementalRender(
             location,
-            prevLocation
+            prevLocation,
+            location.state.noIncremental
           );
       }
 

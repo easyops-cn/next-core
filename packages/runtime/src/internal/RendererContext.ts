@@ -36,7 +36,8 @@ type MemoizedLifeCycle<T> = {
 
 type LocationChangeCallback = (
   location: Location<NextHistoryState>,
-  prevLocation: Location<NextHistoryState>
+  prevLocation: Location<NextHistoryState>,
+  noIncremental: false | "parent" | undefined
 ) => Promise<boolean>;
 
 interface IncrementalRenderState {
@@ -247,7 +248,8 @@ export class RendererContext {
 
   async didPerformIncrementalRender(
     location: Location<NextHistoryState>,
-    prevLocation: Location<NextHistoryState>
+    prevLocation: Location<NextHistoryState>,
+    noIncremental: false | "parent" | undefined
   ) {
     let finalResult = false;
     const shouldIgnoreRoutes: RouteConf[] = [];
@@ -262,7 +264,7 @@ export class RendererContext {
         // In the meantime, allow sibling-routes to perform incremental rendering.
         continue;
       }
-      const result = await callback(location, prevLocation);
+      const result = await callback(location, prevLocation, noIncremental);
       // When result is true, it means the incremental rendering is performed.
       if (result) {
         shouldIgnoreRoutes.push(...parentRoutes.slice(0, -1));

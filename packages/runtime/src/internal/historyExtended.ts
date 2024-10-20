@@ -189,7 +189,7 @@ function historyOverridden(
 export interface NextHistoryState {
   notify?: boolean;
   from?: LocationDescriptor<NextHistoryState>;
-  noIncremental?: boolean;
+  noIncremental?: boolean | "parent";
 }
 
 /**
