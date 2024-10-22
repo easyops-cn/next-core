@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.32...@next-core/brick-container@2.96.33) (2024-10-22)
+
+
+### Bug Fixes
+
+* update core-js to the latest ([459278c](https://github.com/easyops-cn/next-core/commit/459278c17e13e86962495be7d923f74d1a940a5c))
+
+
+
+
+
 ## [2.96.32](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.31...@next-core/brick-container@2.96.32) (2024-10-16)
 
 **Note:** Version bump only for package @next-core/brick-container
