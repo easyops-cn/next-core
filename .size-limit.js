@@ -33,7 +33,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/polyfill.*.js",
-    limit: "41 KB",
+    limit: "45 KB",
   },
   {
     path: "packages/brick-http/dist/index.esm.js",

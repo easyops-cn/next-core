@@ -65,7 +65,7 @@ module.exports = () => {
               modules: false,
               useBuiltIns: "entry",
               corejs: {
-                version: "3.26",
+                version: "3.38",
               },
             },
       ],
