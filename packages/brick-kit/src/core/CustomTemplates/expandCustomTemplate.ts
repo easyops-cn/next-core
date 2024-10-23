@@ -6,6 +6,8 @@ import {
   RuntimeBrickConf,
   SlotsConfOfBricks,
   CustomTemplate,
+  type SlotConfOfBricks,
+  type BrickConf,
 } from "@next-core/brick-types";
 import { RuntimeBrick } from "../BrickNode";
 import {
@@ -16,16 +18,14 @@ import {
 } from "./internalInterfaces";
 import { isMergeableProperty, isVariableProperty } from "./assertions";
 import { collectRefsInTemplate } from "./collectRefsInTemplate";
-import {
-  customTemplateRegistry,
-  RuntimeBrickConfWithTplSymbols,
-} from "./constants";
+import { customTemplateRegistry } from "./constants";
 import { collectMergeBases } from "./collectMergeBases";
 import { CustomTemplateContext } from "./CustomTemplateContext";
 import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate";
 import { setupTemplateProxy } from "./setupTemplateProxy";
 import { collectWidgetContract } from "../CollectContracts";
 import type { LocationContext } from "../LocationContext";
+import { replaceSlotWithSlottedBricks } from "./replaceSlotWithSlottedBricks";
 
 export interface ProxyContext {
   reversedProxies: ReversedProxies;
@@ -33,6 +33,7 @@ export interface ProxyContext {
   externalSlots: SlotsConfOfBricks;
   templateContextId: string;
   proxyBrick: RuntimeBrick;
+  usedSlots: Set<string>;
 }
 
 interface ReversedProxies {
@@ -219,12 +220,15 @@ function lowLevelExpandCustomTemplate(
     externalSlots: externalSlots as SlotsConfOfBricks,
     templateContextId: tplContext.id,
     proxyBrick,
+    usedSlots: new Set(),
   };
 
   newBrickConf.slots = {
     "": {
       type: "bricks",
-      bricks: bricks.map((item) => expandBrickInTemplate(item, proxyContext)),
+      bricks: bricks.flatMap((item) =>
+        expandBrickInTemplate(item, proxyContext)
+      ),
     },
   };
 
@@ -232,26 +236,41 @@ function lowLevelExpandCustomTemplate(
 }
 
 function expandBrickInTemplate(
-  brickConfInTemplate: BrickConfInTemplate,
-  proxyContext: ProxyContext
-): RuntimeBrickConfWithTplSymbols {
+  brickConfInTemplate: BrickConf,
+  proxyContext: ProxyContext,
+  markSlotted?: () => void
+): BrickConf | BrickConf[] {
   // Ignore `if: null` to make `looseCheckIf` working.
   if (brickConfInTemplate.if === null) {
     delete brickConfInTemplate.if;
   }
+
+  if (brickConfInTemplate.brick === "slot") {
+    markSlotted?.();
+    return replaceSlotWithSlottedBricks(
+      brickConfInTemplate,
+      proxyContext,
+      expandBrickInTemplate
+    );
+  }
+
   const {
     ref,
     slots: slotsInTemplate,
     ...restBrickConfInTemplate
-  } = brickConfInTemplate;
+  } = brickConfInTemplate as BrickConfInTemplate;
 
-  const slots: SlotsConfOfBricks = Object.fromEntries(
+  let slotted = false;
+  const markChild = (): void => {
+    slotted = true;
+  };
+  const slots = Object.fromEntries<SlotConfOfBricks>(
     Object.entries(slotsInTemplate ?? {}).map(([slotName, slotConf]) => [
       slotName,
       {
         type: "bricks",
-        bricks: (slotConf.bricks ?? []).map((item) =>
-          expandBrickInTemplate(item, proxyContext)
+        bricks: (slotConf.bricks ?? []).flatMap((item) =>
+          expandBrickInTemplate(item, proxyContext, markChild)
         ),
       },
     ])
@@ -264,6 +283,6 @@ function expandBrickInTemplate(
       proxyContext
     ),
     slots,
-    ...setupTemplateProxy(proxyContext, ref, slots),
+    ...setupTemplateProxy(proxyContext, ref, slots, slotted),
   };
 }
