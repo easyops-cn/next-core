@@ -19,7 +19,8 @@ import { propertyMergeAll } from "./propertyMerge";
 export function setupTemplateProxy(
   proxyContext: Partial<ProxyContext>,
   ref: string,
-  slots: SlotsConfOfBricks
+  slots: SlotsConfOfBricks,
+  slotted?: boolean
 ): RuntimeBrickConfOfTplSymbols {
   const computedPropsFromProxy: Record<string, unknown> = {};
   let refForProxy: RefForProxy;
@@ -89,6 +90,12 @@ export function setupTemplateProxy(
     const quasisMap = new Map<string, BrickConf[][]>();
 
     if (reversedProxies.slots.has(ref)) {
+      if (slotted) {
+        throw new Error(
+          `Can not have proxied slot ref when the ref target has a slot element child, check your template "${proxyBrick.type}" and ref "${ref}"`
+        );
+      }
+
       for (const item of reversedProxies.slots.get(ref)) {
         if (!quasisMap.has(item.refSlot)) {
           const quasis: BrickConf[][] = [];
