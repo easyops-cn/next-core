@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.56.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.56.1...@next-core/runtime@1.56.2) (2024-10-23)
+
+
+### Bug Fixes
+
+* handle incremental render with error ([69d916c](https://github.com/easyops-cn/next-core/commit/69d916c28c03c398ab9bccbd2bc6de346d4b1b5d))
+
+
+
+
+
 ## [1.56.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.56.0...@next-core/runtime@1.56.1) (2024-10-18)
 
 
