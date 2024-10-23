@@ -1,8 +1,4 @@
-import {
-  type FunctionDeclaration,
-  SourceLocation,
-  Statement,
-} from "@babel/types";
+import type { FunctionDeclaration, Statement } from "@babel/types";
 import type { CookRules, ParseResultOfFile } from "./interfaces";
 import { parseForAnalysis } from "./parse";
 import { precook } from "./precook";
@@ -16,6 +12,16 @@ export interface LintError {
   type: "SyntaxError" | "TypeError";
   message: string;
   loc: SourceLocation;
+}
+
+export interface SourceLocation {
+  start: Position;
+  end: Position;
+}
+
+interface Position {
+  line: number;
+  column: number;
 }
 
 /** For next-core internal or devtools usage only. */
