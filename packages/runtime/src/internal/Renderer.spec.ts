@@ -3302,6 +3302,154 @@ describe("renderBrick for tpl", () => {
     });
     expect(loadBricksImperatively).toBeCalledWith(["unknown.tpl-x"], []);
   });
+
+  test("slots in tpl", async () => {
+    customTemplates.define("my.tpl-l", {
+      proxy: {
+        slots: {
+          other: {
+            ref: "main",
+            refSlot: "",
+          },
+        },
+      },
+      bricks: [
+        { brick: "h1", ref: "main", if: null! },
+        { brick: "slot" },
+        { brick: "h2" },
+        {
+          brick: "my-use-brick",
+          properties: {
+            useBrick: {
+              brick: "div",
+              slots: {
+                "": {
+                  bricks: [
+                    {
+                      brick: "slot",
+                      properties: { name: "use-brick" },
+                    },
+                    {
+                      brick: "slot",
+                      properties: { name: "no-used" },
+                      children: [{ brick: "em" }],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    const output = await renderBrick(
+      renderRoot,
+      {
+        brick: "my.tpl-l",
+        children: [
+          { brick: "p" },
+          { brick: "hr" },
+          {
+            brick: "em",
+            slot: "use-brick",
+          },
+        ],
+      },
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+
+    renderRoot.child = output.node;
+
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+
+    mountTree(renderRoot);
+    expect(container.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <my.tpl-l
+          data-tpl-state-store-id="tpl-state-18"
+        >
+          <h1 />
+          <p />
+          <hr />
+          <h2 />
+          <my-use-brick />
+        </my.tpl-l>,
+      ]
+    `);
+
+    unmountTree(container);
+    unmountTree(portal);
+  });
+
+  test("slots in tpl with proxies slot as well", async () => {
+    customTemplates.define("my.tpl-m", {
+      proxy: {
+        slots: {
+          other: {
+            ref: "main",
+            refSlot: "",
+          },
+        },
+      },
+      bricks: [
+        {
+          brick: "div",
+          ref: "main",
+          children: [{ brick: "h1" }, { brick: "slot" }, { brick: "h2" }],
+        },
+      ],
+    });
+
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+
+    await expect(
+      renderBrick(
+        renderRoot,
+        {
+          brick: "my.tpl-m",
+          children: [{ brick: "p" }, { brick: "hr" }],
+        },
+        runtimeContext,
+        rendererContext,
+        [],
+        {}
+      )
+    ).rejects.toMatchInlineSnapshot(
+      `[Error: Can not have proxied slot ref when the parent has a slot element child, check your template "my.tpl-m" and ref "main"]`
+    );
+  });
 });
 
 describe("renderBrick for form renderer", () => {

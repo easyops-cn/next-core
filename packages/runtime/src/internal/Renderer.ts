@@ -1248,8 +1248,8 @@ export function childrenToSlots(
   }
   if (Array.isArray(children) && !newSlots) {
     newSlots = {};
-    for (const child of children) {
-      const slot = child.slot ?? "";
+    for (const { slot: sl, ...child } of children) {
+      const slot = sl ?? "";
       if (!hasOwnProperty(newSlots, slot)) {
         newSlots[slot] = {
           type: "bricks",
