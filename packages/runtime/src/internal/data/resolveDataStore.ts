@@ -36,12 +36,14 @@ export function resolveDataStore(
   const deferredContexts = new Map<string, DeferredContext>();
   const pendingContexts = new Map(
     [...new Set(contextConfs.map((contextConf) => contextConf.name))].map(
-      (contextName) => [
-        contextName,
-        new Promise<void>((resolve, reject) => {
+      (contextName) => {
+        const promise = new Promise<void>((resolve, reject) => {
           deferredContexts.set(contextName, { resolve, reject });
-        }),
-      ]
+        });
+        // The pending context will be caught by the renderer.
+        promise.catch(() => {});
+        return [contextName, promise];
+      }
     )
   );
 
@@ -110,6 +112,8 @@ export function resolveDataStore(
       }
       throw error;
     });
+  // The pending result will be caught by the renderer.
+  pendingResult.catch(() => {});
   return { pendingResult, pendingContexts };
 }
 

@@ -461,6 +461,62 @@ const getBootstrapData = (options?: {
           ],
         },
         {
+          path: "${APP.homepage}/sub-routes-with-error",
+          incrementalSubRoutes: true,
+          type: "bricks",
+          bricks: [
+            {
+              brick: "h1",
+              properties: {
+                textContent: "Sub-routes with error",
+              },
+            },
+            {
+              brick: "div",
+              slots: {
+                "": {
+                  type: "routes",
+                  routes: [
+                    {
+                      path: "${APP.homepage}/sub-routes-with-error/ok",
+                      type: "bricks",
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "OK",
+                          },
+                        },
+                      ],
+                    },
+                    {
+                      path: "${APP.homepage}/sub-routes-with-error/fail",
+                      context: [
+                        {
+                          name: "myFailedData",
+                          resolve: {
+                            useProvider: "my-timeout-provider",
+                            args: [0, "oops", true],
+                          },
+                        },
+                      ],
+                      type: "bricks",
+                      bricks: [
+                        {
+                          brick: "p",
+                          properties: {
+                            textContent: "<% CTX.myFailedData %>",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
           path: "${APP.homepage}/block",
           exact: true,
           bricks: [
@@ -589,9 +645,9 @@ const getBootstrapData = (options?: {
 });
 
 const myTimeoutProvider = jest.fn(
-  (timeout: number, result?: unknown) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(result), timeout);
+  (timeout: number, result?: unknown, fail?: boolean) =>
+    new Promise((resolve, reject) => {
+      setTimeout(() => (fail ? reject : resolve)(result), timeout);
     })
 );
 customElements.define(
@@ -844,7 +900,7 @@ describe("Runtime", () => {
     });
   });
 
-  test("incremental sub-router rendering", async () => {
+  test("incremental sub-routes rendering", async () => {
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-a/sub-routes/1");
     await getRuntime().bootstrap();
@@ -1399,6 +1455,118 @@ describe("Runtime", () => {
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "Parallel" }],
     });
+  });
+
+  test("incremental sub-routes with error", async () => {
+    consoleError.mockReturnValueOnce();
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes-with-error/ok");
+    await getRuntime().bootstrap();
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Sub-routes with error
+          </h1>
+          <div>
+            <p>
+              OK
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toHaveBeenCalledTimes(0);
+
+    getHistory().push("/app-a/sub-routes-with-error/fail");
+    await (global as any).flushPromises();
+    await new Promise((resolve) => setTimeout(resolve));
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Sub-routes with error
+          </h1>
+          <div>
+            <div
+              data-error-boundary=""
+            >
+              <div>
+                Oops! Something went wrong: oops
+              </div>
+            </div>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+
+    getHistory().push("/app-a/sub-routes-with-error/ok");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Sub-routes with error
+          </h1>
+          <div>
+            <p>
+              OK
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+  });
+
+  test("bootstrap error should prevent incremental render", async () => {
+    consoleError.mockReturnValueOnce();
+    createRuntime().initialize(getBootstrapData());
+    getHistory().push("/app-a/sub-routes-with-error/fail");
+    await expect(() => getRuntime().bootstrap()).rejects.toMatchInlineSnapshot(
+      `"oops"`
+    );
+    expect(consoleError).toHaveBeenCalledTimes(1);
+
+    getHistory().push("/app-a/sub-routes-with-error/ok");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <h1>
+            Sub-routes with error
+          </h1>
+          <div>
+            <p>
+              OK
+            </p>
+          </div>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
   test("abstract routes rendering", async () => {
