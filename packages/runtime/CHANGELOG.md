@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.56.2...@next-core/runtime@1.57.0) (2024-10-23)
+
+
+### Features
+
+* support slots in template ([079cd04](https://github.com/easyops-cn/next-core/commit/079cd04a2bfd80e78f04b38fbb532fb3e3cbb0f5))
+
+
+
+
+
 ## [1.56.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.56.1...@next-core/runtime@1.56.2) (2024-10-23)
 
 
