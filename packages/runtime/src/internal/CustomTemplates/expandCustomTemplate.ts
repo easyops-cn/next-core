@@ -1,6 +1,7 @@
 import type {
   BrickConf,
   BrickConfInTemplate,
+  SlotConfOfBricks,
   SlotsConfInTemplate,
   SlotsConfOfBricks,
   UseSingleBrickConf,
@@ -8,7 +9,6 @@ import type {
 import { uniqueId } from "lodash";
 import { customTemplates } from "../../CustomTemplates.js";
 import { DataStore } from "../data/DataStore.js";
-import { RuntimeBrickConfWithTplSymbols } from "./constants.js";
 import { setupTemplateProxy } from "./setupTemplateProxy.js";
 import type {
   AsyncPropertyEntry,
@@ -20,6 +20,7 @@ import { setupUseBrickInTemplate } from "./setupUseBrickInTemplate.js";
 import { childrenToSlots } from "../Renderer.js";
 import { hooks } from "../Runtime.js";
 import type { RendererContext } from "../RendererContext.js";
+import { replaceSlotWithSlottedBricks } from "./replaceSlotWithSlottedBricks.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
@@ -115,12 +116,15 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
       | undefined,
     tplStateStoreId,
     hostBrick: hostBrick as TemplateHostBrick,
+    usedSlots: new Set(),
   };
 
   newBrickConf.slots = {
     "": {
       type: "bricks",
-      bricks: bricks.map((item) => expandBrickInTemplate(item, hostContext)),
+      bricks: bricks.flatMap((item) =>
+        expandBrickInTemplate(item, hostContext)
+      ),
     },
   };
 
@@ -128,32 +132,47 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
 }
 
 function expandBrickInTemplate(
-  brickConfInTemplate: BrickConfInTemplate,
-  hostContext: TemplateHostContext
-): RuntimeBrickConfWithTplSymbols {
+  brickConfInTemplate: BrickConf,
+  hostContext: TemplateHostContext,
+  markSlotted?: () => void
+): BrickConf | BrickConf[] {
   // Ignore `if: null` to make `looseCheckIf` working.
   if (brickConfInTemplate.if === null) {
     delete brickConfInTemplate.if;
   }
+
+  if (brickConfInTemplate.brick === "slot") {
+    markSlotted?.();
+    return replaceSlotWithSlottedBricks(
+      brickConfInTemplate,
+      hostContext,
+      expandBrickInTemplate
+    );
+  }
+
   const {
     properties,
     slots: slotsInTemplate,
     children: childrenInTemplate,
     ...restBrickConfInTemplate
-  } = brickConfInTemplate;
+  } = brickConfInTemplate as BrickConfInTemplate;
 
   const transpiledSlots = childrenToSlots(
     childrenInTemplate,
     slotsInTemplate
   ) as SlotsConfInTemplate | undefined;
 
-  const slots: SlotsConfOfBricks = Object.fromEntries(
+  let slotted = false;
+  const markChild = () => {
+    slotted = true;
+  };
+  const slots = Object.fromEntries<SlotConfOfBricks>(
     Object.entries(transpiledSlots ?? {}).map(([slotName, slotConf]) => [
       slotName,
       {
         type: "bricks",
-        bricks: (slotConf.bricks ?? []).map((item) =>
-          expandBrickInTemplate(item, hostContext)
+        bricks: (slotConf.bricks ?? []).flatMap((item) =>
+          expandBrickInTemplate(item, hostContext, markChild)
         ),
       },
     ])
@@ -163,6 +182,11 @@ function expandBrickInTemplate(
     ...restBrickConfInTemplate,
     properties: setupUseBrickInTemplate(properties, hostContext),
     slots,
-    ...setupTemplateProxy(hostContext, restBrickConfInTemplate.ref, slots),
+    ...setupTemplateProxy(
+      hostContext,
+      restBrickConfInTemplate.ref,
+      slots,
+      slotted
+    ),
   };
 }
