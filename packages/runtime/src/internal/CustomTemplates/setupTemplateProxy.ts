@@ -16,7 +16,8 @@ import { childrenToSlots } from "../Renderer.js";
 export function setupTemplateProxy(
   hostContext: TemplateHostContext,
   ref: string | undefined,
-  slots: SlotsConfOfBricks
+  slots: SlotsConfOfBricks,
+  slotted: boolean
 ) {
   const {
     reversedProxies,
@@ -54,6 +55,13 @@ export function setupTemplateProxy(
     }
 
     const slotProxies = reversedProxies.slots.get(ref);
+
+    if (slotProxies && slotted) {
+      throw new Error(
+        `Can not have proxied slot ref when the parent has a slot element child, check your template "${hostBrick.type}" and ref "${ref}"`
+      );
+    }
+
     if (slotProxies && externalSlots) {
       // Use an approach like template-literal's quasis:
       // `quasi0${0}quais1${1}quasi2...`
@@ -131,7 +139,7 @@ export function setupTemplateProxy(
 }
 
 // External bricks of a template, have the same forEachItem context as their host.
-function setupTemplateExternalBricksWithForEach(
+export function setupTemplateExternalBricksWithForEach(
   bricks: BrickConf[],
   forEachItem: unknown,
   forEachIndex: number,

@@ -566,7 +566,6 @@ export class DataStore<T extends DataStoreType = "CTX"> {
    * dispose their data and pending tasks.
    */
   disposeDataInRoutes(routes: RouteConf[]) {
-    //
     for (const route of routes) {
       const names = this.routeMap.get(route);
       if (names !== undefined) {
