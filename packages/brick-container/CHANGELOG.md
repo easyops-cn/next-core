@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.34](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.33...@next-core/brick-container@2.96.34) (2024-10-23)
+
+
+### Bug Fixes
+
+* manually add array polyfills since old babel doesn't support them ([2f3e2a3](https://github.com/easyops-cn/next-core/commit/2f3e2a3eca77cfcbc4064c2424c3b6c3a977225a))
+
+
+
+
+
 ## [2.96.33](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.32...@next-core/brick-container@2.96.33) (2024-10-22)
 
 
