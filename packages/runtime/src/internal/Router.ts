@@ -85,6 +85,7 @@ export class Router {
   #navConfig?: {
     breadcrumb?: BreadcrumbItemConf[];
   };
+  #bootstrapFailed = false;
 
   constructor(storyboards: Storyboard[]) {
     this.#storyboards = storyboards;
@@ -231,7 +232,12 @@ export class Router {
         ignoreRendering = true;
       }
 
-      if (!ignoreRendering && !location.state?.noIncremental) {
+      // Note: dot not perform incremental render when bootstrap failed.
+      if (
+        !ignoreRendering &&
+        !location.state?.noIncremental &&
+        !this.#bootstrapFailed
+      ) {
         ignoreRendering =
           await this.#rendererContext?.didPerformIncrementalRender(
             location,
@@ -491,6 +497,9 @@ export class Router {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Router failed:", error);
+        if (isBootstrap) {
+          this.#bootstrapFailed = true;
+        }
         const result = await routeHelper.catch(error, renderRoot, isBootstrap);
         if (!result) {
           return;
@@ -498,6 +507,7 @@ export class Router {
         ({ failed, output } = result);
       }
       renderRoot.child = output.node;
+      this.#bootstrapFailed = false;
 
       cleanUpPreviousRender();
 

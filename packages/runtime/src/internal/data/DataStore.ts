@@ -8,6 +8,7 @@ import type {
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
 import EventTarget from "@ungap/event-target";
+import { pull } from "lodash";
 import { eventCallbackFactory, listenerFactory } from "../bindListeners.js";
 import { asyncCheckIf, checkIf } from "../compute/checkIf.js";
 import {
@@ -55,18 +56,20 @@ export interface DataStoreItem {
   deps: string[];
 }
 
+type PendingStackItem = ReturnType<typeof resolveDataStore>;
+
 export class DataStore<T extends DataStoreType = "CTX"> {
   private readonly type: T;
   private readonly data = new Map<string, DataStoreItem>();
   private readonly changeEventType: string;
-  private readonly pendingStack: Array<ReturnType<typeof resolveDataStore>> =
-    [];
+  private readonly pendingStack: Array<PendingStackItem> = [];
   public readonly hostBrick?: RuntimeBrick;
   private readonly stateStoreId?: string;
   private batchUpdate = false;
   private batchUpdateContextsNames: string[] = [];
   private readonly rendererContext?: RendererContext;
   private routeMap = new WeakMap<RouteConf, Set<string>>();
+  private routeStackMap = new WeakMap<RouteConf, Set<PendingStackItem>>();
 
   // 把 `rendererContext` 放在参数列表的最后，并作为可选，以减少测试文件的调整
   constructor(
@@ -325,6 +328,16 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         this.type,
         isStrictMode(runtimeContext)
       );
+      if (Array.isArray(routePath)) {
+        for (const route of routePath) {
+          const stack = this.routeStackMap.get(route);
+          if (stack) {
+            stack.add(pending);
+          } else {
+            this.routeStackMap.set(route, new Set([pending]));
+          }
+        }
+      }
       this.pendingStack.push(pending);
     }
   }
@@ -349,14 +362,6 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   }
 
   async waitForAll(): Promise<void> {
-    // Silent each pending contexts, since the error is handled by batched `pendingResult`
-    for (const { pendingContexts } of this.pendingStack) {
-      for (const p of pendingContexts.values()) {
-        p.catch(() => {
-          /* No-op */
-        });
-      }
-    }
     for (const { pendingResult } of this.pendingStack) {
       await pendingResult;
     }
@@ -556,13 +561,24 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     return true;
   }
 
+  /**
+   * For sub-routes to be incrementally rendered,
+   * dispose their data and pending tasks.
+   */
   disposeDataInRoutes(routes: RouteConf[]) {
+    //
     for (const route of routes) {
       const names = this.routeMap.get(route);
       if (names !== undefined) {
         for (const name of names) {
           this.data.delete(name);
         }
+        this.routeMap.delete(route);
+      }
+      const stack = this.routeStackMap.get(route);
+      if (stack !== undefined) {
+        pull(this.pendingStack, ...stack);
+        this.routeStackMap.delete(route);
       }
     }
   }
