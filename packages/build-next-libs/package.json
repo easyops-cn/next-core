@@ -20,7 +20,7 @@
   "sideEffects": false,
   "dependencies": {
     "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.25.9",
+    "@babel/core": "^7.26.0",
     "execa": "^5.1.1",
     "rimraf": "^5.0.10"
   }
