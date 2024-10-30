@@ -503,10 +503,26 @@ async function legacyRenderBrick(
       }
     };
 
-    const renderControlNode = async (
-      runtimeContext: RuntimeContext,
-      type: "initial" | "rerender"
-    ) => {
+    type RenderControlNodeOptions =
+      | {
+          type: "initial";
+          runtimeContext: RuntimeContext;
+          tplStateStoreScope?: undefined;
+          formStateStoreScope?: undefined;
+        }
+      | {
+          type: "rerender";
+          runtimeContext: RuntimeContext;
+          tplStateStoreScope: DataStore<"STATE">[];
+          formStateStoreScope: DataStore<"FORM_STATE">[];
+        };
+
+    const renderControlNode = async ({
+      type,
+      runtimeContext,
+      tplStateStoreScope,
+      formStateStoreScope,
+    }: RenderControlNodeOptions) => {
       let changedAfterInitial = false;
       const tracker: InitialTracker = {
         disposes: [],
@@ -531,6 +547,16 @@ async function legacyRenderBrick(
           tracker,
           uninitialized && type === "initial"
         );
+
+        // Changes may happen during `postAsyncRender`.
+        if (!changedAfterInitial && type === "rerender") {
+          const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
+          await postAsyncRender(rawOutput, runtimeContext, [
+            runtimeContext.ctxStore,
+            ...scopedStores,
+          ]);
+        }
+
         tracker.disposes.forEach((dispose) => dispose());
         tracker.disposes.length = 0;
         uninitialized = false;
@@ -549,7 +575,10 @@ async function legacyRenderBrick(
       return rawOutput!;
     };
 
-    const controlledOutput = await renderControlNode(runtimeContext, "initial");
+    const controlledOutput = await renderControlNode({
+      type: "initial",
+      runtimeContext,
+    });
 
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
@@ -561,17 +590,12 @@ async function legacyRenderBrick(
         const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
           createScopedRuntimeContext(runtimeContext);
 
-        const reControlledOutput = await renderControlNode(
-          scopedRuntimeContext,
-          "rerender"
-        );
-
-        const scopedStores = [...tplStateStoreScope, ...formStateStoreScope];
-        await postAsyncRender(
-          reControlledOutput,
-          scopedRuntimeContext,
-          scopedStores
-        );
+        const reControlledOutput = await renderControlNode({
+          type: "rerender",
+          runtimeContext: scopedRuntimeContext,
+          tplStateStoreScope,
+          formStateStoreScope,
+        });
 
         // Ignore stale renders
         if (renderId === currentRenderId) {
@@ -596,7 +620,7 @@ async function legacyRenderBrick(
             )(new CustomEvent("mount", { detail: { rerender: true } }));
           }
 
-          for (const store of scopedStores) {
+          for (const store of [...tplStateStoreScope, ...formStateStoreScope]) {
             store.mountAsyncData();
           }
         }

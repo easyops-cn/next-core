@@ -267,6 +267,9 @@ describe("useBrick", () => {
   });
 
   test("tpl", async () => {
+    mockInternalApiGetRuntimeContext.mockReturnValue({
+      ctxStore: new DataStore("CTX"),
+    } as RuntimeContext);
     consoleInfo.mockReturnValue();
     customTemplates.define("my.tpl-a", {
       state: [
@@ -472,6 +475,7 @@ describe("useBrick", () => {
     unmountUseBrick(renderResult, mountResult);
 
     consoleInfo.mockReset();
+    mockInternalApiGetRuntimeContext.mockReturnValue(undefined);
   });
 
   test("root as portal", async () => {

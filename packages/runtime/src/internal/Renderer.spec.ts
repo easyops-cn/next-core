@@ -3447,7 +3447,7 @@ describe("renderBrick for tpl", () => {
         {}
       )
     ).rejects.toMatchInlineSnapshot(
-      `[Error: Can not have proxied slot ref when the parent has a slot element child, check your template "my.tpl-m" and ref "main"]`
+      `[Error: Can not have proxied slot ref when the ref target has a slot element child, check your template "my.tpl-m" and ref "main"]`
     );
   });
 });
