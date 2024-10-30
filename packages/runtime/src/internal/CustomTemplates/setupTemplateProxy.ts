@@ -58,7 +58,7 @@ export function setupTemplateProxy(
 
     if (slotProxies && slotted) {
       throw new Error(
-        `Can not have proxied slot ref when the parent has a slot element child, check your template "${hostBrick.type}" and ref "${ref}"`
+        `Can not have proxied slot ref when the ref target has a slot element child, check your template "${hostBrick.type}" and ref "${ref}"`
       );
     }
 

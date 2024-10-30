@@ -19,13 +19,6 @@ export const conf = {
     { open: '"', close: '"' },
     { open: "'", close: "'" },
   ],
-  surroundingPairs: [
-    { open: "{", close: "}" },
-    { open: "[", close: "]" },
-    { open: "(", close: ")" },
-    { open: '"', close: '"' },
-    { open: "'", close: "'" },
-  ],
   folding: {
     offSide: true,
   },
@@ -312,9 +305,10 @@ export const language = {
       [
         /(<%[~=]?)/,
         {
-          token: "white",
+          token: "delimiter",
           next: "@expressionEmbedded",
           nextEmbedded: "text/javascript",
+          bracket: "@open",
         },
       ],
       [
