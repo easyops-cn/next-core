@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.12](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.11...@next-core/monaco-contributions@0.3.12) (2024-10-30)
+
+
+### Bug Fixes
+
+* refine yaml language ([21b1f97](https://github.com/easyops-cn/next-core/commit/21b1f97da5ace86ce774f005bd61c33003f77920))
+
+
+
+
+
 ## [0.3.11](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.10...@next-core/monaco-contributions@0.3.11) (2024-08-27)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.57.0...@next-core/runtime@1.57.1) (2024-10-30)
+
+
+### Bug Fixes
+
+* handle data changes during postAsyncRender ([4e8953f](https://github.com/easyops-cn/next-core/commit/4e8953fc4e764c2673d5e589ad79eba01c30635e))
+* refine tpl slot error message ([ef9af92](https://github.com/easyops-cn/next-core/commit/ef9af92380d987c3cb23bb042dcb8e25bb57dfbe))
+
+
+
+
+
 # [1.57.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.56.2...@next-core/runtime@1.57.0) (2024-10-23)
 
 
