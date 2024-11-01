@@ -100,6 +100,10 @@ export default {
             return buf;
           },
         },
+        {
+          from: path.join(packageDir, "zepto/zepto.min"),
+          to: "zepto.min.js",
+        },
       ],
     }),
     new webpack.DefinePlugin({
