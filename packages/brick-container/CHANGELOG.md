@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.19.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.14...@next-core/brick-container@3.19.15) (2024-11-01)
+
+
+### Bug Fixes
+
+* copy zepto.min.js ([93077d5](https://github.com/easyops-cn/next-core/commit/93077d5fe124d107ebe7f013dfc5e60106b34260))
+
+
+
+
+
 ## [3.19.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.13...@next-core/brick-container@3.19.14) (2024-10-30)
 
 **Note:** Version bump only for package @next-core/brick-container

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/browserslist-config-next@1.1.1...@next-core/browserslist-config-next@1.1.2) (2024-11-01)
+
+
+### Bug Fixes
+
+* fallback to versions that doesn't support optional chaining and nullish coalescing ([96589a1](https://github.com/easyops-cn/next-core/commit/96589a12050495ab4d268699f62fce313a4c5bce))
+
+
+
+
+
 ## [1.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/browserslist-config-next@1.1.0...@next-core/browserslist-config-next@1.1.1) (2024-06-06)
 
 

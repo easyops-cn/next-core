@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.13](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.12...@next-core/monaco-contributions@0.3.13) (2024-11-01)
+
+
+### Bug Fixes
+
+* fix typo of NULL ([c8b660c](https://github.com/easyops-cn/next-core/commit/c8b660c51332664368c12bde74aa2a83300d7565))
+
+
+
+
+
 ## [0.3.12](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.11...@next-core/monaco-contributions@0.3.12) (2024-10-30)
 
 
