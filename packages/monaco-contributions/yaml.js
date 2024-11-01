@@ -50,7 +50,7 @@ export const language = {
     "FALSE",
     "null",
     "Null",
-    "Null",
+    "NULL",
     "~",
   ],
 
