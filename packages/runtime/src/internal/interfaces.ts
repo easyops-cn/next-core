@@ -34,6 +34,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
   formStateStoreId?: string;
   formStateStoreScope?: DataStore<"FORM_STATE">[];
+  inUseBrick?: boolean;
 }
 
 export type AsyncPropertyEntry = [

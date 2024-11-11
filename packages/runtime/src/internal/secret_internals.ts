@@ -38,7 +38,7 @@ import type {
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
-import { isStrictMode, warnAboutStrictMode } from "../isStrictMode.js";
+import { isStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
 import { getTplStateStore } from "./CustomTemplates/utils.js";
@@ -76,6 +76,7 @@ export async function renderUseBrick(
       pendingPermissionsPreCheck: [],
     });
 
+  scopedRuntimeContext.inUseBrick = true;
   scopedRuntimeContext.tplStateStoreMap ??= new Map();
   scopedRuntimeContext.formStateStoreMap ??= new Map();
 
@@ -87,17 +88,7 @@ export async function renderUseBrick(
     createPortal: null!,
   };
 
-  const transform = (useBrick as { transform?: Record<string, unknown> })
-    .transform;
   const strict = isStrictMode();
-  if (transform) {
-    warnAboutStrictMode(
-      strict,
-      "`useBrick.transform`",
-      'please use "properties" instead, check your useBrick:',
-      useBrick
-    );
-  }
 
   const output = await renderBrick(
     renderRoot,
@@ -106,10 +97,6 @@ export async function renderUseBrick(
       : {
           errorBoundary,
           ...useBrick,
-          properties: {
-            ...useBrick.properties,
-            ...transform,
-          },
         },
     scopedRuntimeContext,
     rendererContext,
