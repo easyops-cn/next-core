@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.57.1...@next-core/runtime@1.57.2) (2024-11-11)
+
+
+### Bug Fixes
+
+* allow transform in useBrick + slots ([360d95c](https://github.com/easyops-cn/next-core/commit/360d95cc487a11489e139e4ff04f6d38374199d7))
+
+
+
+
+
 ## [1.57.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.57.0...@next-core/runtime@1.57.1) (2024-10-30)
 
 
