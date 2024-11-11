@@ -391,10 +391,10 @@ async function legacyRenderBrick(
     runtimeContext.forEachSize = brickConf[symbolForTPlExternalForEachSize];
   }
 
+  const strict = isStrictMode(runtimeContext);
   const { context } = brickConf as { context?: ContextConf[] };
   // istanbul ignore next
   if (Array.isArray(context) && context.length > 0) {
-    const strict = isStrictMode(runtimeContext);
     warnAboutStrictMode(
       strict,
       "Defining context on bricks",
@@ -720,7 +720,27 @@ async function legacyRenderBrick(
       formData = await asyncComputeRealValue(formData, runtimeContext);
     }
   } else {
-    confProps = brickConf.properties;
+    if (runtimeContext.inUseBrick) {
+      // Keep v2 behavior for `useBrick`: treat `transform` as `properties`.
+      const transform = (brickConf as { transform?: Record<string, unknown> })
+        .transform;
+      if (transform) {
+        warnAboutStrictMode(
+          strict,
+          "`useBrick.transform`",
+          'please use "properties" instead, check your useBrick:',
+          brickConf
+        );
+
+        if (!strict) {
+          confProps = {
+            ...brickConf.properties,
+            ...transform,
+          };
+        }
+      }
+    }
+    confProps ??= brickConf.properties;
   }
 
   const trackingContextList: TrackingContextItem[] = [];

@@ -416,6 +416,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     // (undocumented)
     formStateStoreScope?: DataStore<"FORM_STATE">[];
     // (undocumented)
+    inUseBrick?: boolean;
+    // (undocumented)
     pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
     // (undocumented)
     tplStateStoreId?: string;

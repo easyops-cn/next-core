@@ -200,7 +200,7 @@ describe("useBrick", () => {
   });
 
   test("strict mode with transform", async () => {
-    mockIsStrictMode.mockReturnValueOnce(true);
+    mockIsStrictMode.mockReturnValue(true);
     const useBrick: any = {
       brick: "div",
       properties: {
@@ -209,13 +209,33 @@ describe("useBrick", () => {
       transform: {
         title: "<% `byTransform:${DATA}` %>",
       },
+      children: [
+        {
+          brick: "span",
+          properties: {
+            title: "<% `byProperties:${DATA}` %>",
+            textContent: "<% `byProperties[text]:${DATA}` %>",
+          },
+          transform: {
+            textContent: "<% `byTransform[text]:${DATA}` %>",
+          },
+        },
+      ],
     };
     const renderResult = await renderUseBrick(useBrick, "ok");
-    expect(warnAboutStrictMode).toBeCalledWith(
+    expect(warnAboutStrictMode).toHaveBeenNthCalledWith(
+      1,
       true,
       "`useBrick.transform`",
       'please use "properties" instead, check your useBrick:',
       useBrick
+    );
+    expect(warnAboutStrictMode).toHaveBeenNthCalledWith(
+      2,
+      true,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick.children[0]
     );
     expect(mockIsStrictMode).toBeCalled();
 
@@ -224,9 +244,16 @@ describe("useBrick", () => {
     expect(root).toMatchInlineSnapshot(`
       <div
         title="byProperties:ok"
-      />
+      >
+        <span
+          title="byProperties:ok"
+        >
+          byProperties[text]:ok
+        </span>
+      </div>
     `);
     unmountUseBrick(renderResult, mountResult);
+    mockIsStrictMode.mockReturnValue(false);
   });
 
   test("non-strict mode with transform", async () => {
@@ -238,13 +265,33 @@ describe("useBrick", () => {
       transform: {
         title: "<% `byTransform:${DATA}` %>",
       },
+      children: [
+        {
+          brick: "span",
+          properties: {
+            title: "<% `byProperties:${DATA}` %>",
+            textContent: "<% `byProperties[text]:${DATA}` %>",
+          },
+          transform: {
+            textContent: "<% `byTransform[text]:${DATA}` %>",
+          },
+        },
+      ],
     };
     const renderResult = await renderUseBrick(useBrick, "ok");
-    expect(warnAboutStrictMode).toBeCalledWith(
+    expect(warnAboutStrictMode).toHaveBeenNthCalledWith(
+      1,
       false,
       "`useBrick.transform`",
       'please use "properties" instead, check your useBrick:',
       useBrick
+    );
+    expect(warnAboutStrictMode).toHaveBeenNthCalledWith(
+      2,
+      false,
+      "`useBrick.transform`",
+      'please use "properties" instead, check your useBrick:',
+      useBrick.children[0]
     );
 
     const root = document.createElement("div");
@@ -252,7 +299,13 @@ describe("useBrick", () => {
     expect(root).toMatchInlineSnapshot(`
       <div
         title="byTransform:ok"
-      />
+      >
+        <span
+          title="byProperties:ok"
+        >
+          byTransform[text]:ok
+        </span>
+      </div>
     `);
     unmountUseBrick(renderResult, mountResult);
   });
