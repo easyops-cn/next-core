@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/renovate",
-  "extends": ["config:base"],
+  "extends": ["config:recommended"],
   "prHourlyLimit": 2,
   "rangeStrategy": "bump",
   "semanticCommits": "enabled",
@@ -19,12 +19,12 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": [
-        "^@next-core/",
-        "^@next-bricks/",
-        "^@next-api-sdk/"
-      ],
-      "enabled": false
+      "enabled": false,
+      "matchPackageNames": [
+        "/^@next-core//",
+        "/^@next-bricks//",
+        "/^@next-api-sdk//"
+      ]
     },
     {
       "matchPackageNames": [
@@ -53,29 +53,28 @@
     },
     {
       "groupName": "size-limit packages",
-      "matchPackageNames": ["size-limit"],
-      "matchPackagePatterns": ["^@size-limit/"]
+      "matchPackageNames": ["size-limit", "/^@size-limit//"]
     },
     {
       "groupName": "svgr packages",
-      "matchPackagePatterns": ["^@svgr/"]
+      "matchPackageNames": ["/^@svgr//"]
     },
     {
-      "depTypeList": ["engines"],
+      "matchDepTypes": ["engines"],
       "enabled": false
     },
     {
       "groupName": "type packages",
-      "matchPackagePatterns": ["^@types/"]
+      "matchPackageNames": ["/^@types//"]
     },
     {
-      "matchPackagePatterns": ["^@types/"],
       "matchPackageNames": [
         "glob",
         "inquirer",
         "i18next",
         "i18next-browser-languagedetector",
-        "react-i18next"
+        "react-i18next",
+        "/^@types//"
       ],
       "matchUpdateTypes": ["major"],
       "enabled": false
