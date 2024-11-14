@@ -198,13 +198,20 @@ async function loadBrickModule(
   const moduleName = `${type === "processors" || type === "editors" ? `./${type}/` : "./"}${
     type === "editors" ? item.fullName : item.lastName
   }`;
+  const start = performance.now();
   try {
     await loadSharedModule(pkgId, moduleName);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
+    const cost = Math.round(performance.now() - start);
     throw new BrickLoadError(
-      `Load ${type} of "${item.fullName}" failed: ${(error as Error)?.message}`
+      `Load ${type} of "${item.fullName}" failed${
+        // istanbul ignore next
+        process.env.NODE_ENV === "test"
+          ? ""
+          : ` (${cost > 1000 ? `${+(cost / 1000).toFixed(2)}s` : `${cost}ms`})`
+      }: ${(error as Error)?.message}`
     );
   }
 }
