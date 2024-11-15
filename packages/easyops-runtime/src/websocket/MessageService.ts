@@ -2,7 +2,7 @@ export type MessageListener<T = unknown> = (response: T) => void;
 export type CloseListener = () => void;
 
 const RETRY_TIMEOUT_UNIT = 1000;
-const RETRY_LIMIT = 5;
+export const RETRY_LIMIT = 5;
 
 export class MessageService {
   #url: string;
@@ -103,10 +103,18 @@ export class MessageService {
 
   onMessage<T = unknown>(listener: MessageListener<T>) {
     this.#messageListeners.add(listener as MessageListener<unknown>);
+
+    return () => {
+      this.#messageListeners.delete(listener as MessageListener<unknown>);
+    };
   }
 
   onClose(listener: CloseListener) {
     this.#closeListeners.add(listener);
+
+    return () => {
+      this.#closeListeners.delete(listener);
+    };
   }
 
   reset() {

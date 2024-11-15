@@ -4,6 +4,7 @@ import {
   MessageService,
   type MessageListener,
   CloseListener,
+  RETRY_LIMIT,
 } from "./MessageService.js";
 
 interface MessageResponse {
@@ -98,8 +99,8 @@ export class MessageDispatcher {
     });
   }
 
-  onClose(listener: CloseListener): void {
-    this.#ms.onClose(listener);
+  onClose(listener: CloseListener) {
+    return this.#ms.onClose(listener);
   }
 
   reset(): void {
@@ -125,21 +126,37 @@ export class MessageDispatcher {
     };
     const promise = new Promise((resolve, reject) => {
       const identity = getIdentity(payload);
-      this.#ms.onMessage<MessageResponse>((response) => {
-        const isSuccess =
-          response.event ===
-          (type === "sub" ? "TOPIC.SUB_SUCCESS" : "TOPIC.UNSUB_SUCCESS");
-        const isFailed =
-          response.event ===
-          (type === "sub" ? "TOPIC.SUB_FAILED" : "TOPIC.UNSUB_FAILED");
-        if (
-          (isSuccess || isFailed) &&
-          // Put this after event type checks, to prevent unnecessary
-          // JSON stringify.
-          identity === getIdentity(response.payload)
-        ) {
-          (isSuccess ? resolve : reject)(response);
+      const disposeOnMessage = this.#ms.onMessage<MessageResponse>(
+        (response) => {
+          const isSuccess =
+            response.event ===
+            (type === "sub" ? "TOPIC.SUB_SUCCESS" : "TOPIC.UNSUB_SUCCESS");
+          const isFailed =
+            response.event ===
+            (type === "sub" ? "TOPIC.SUB_FAILED" : "TOPIC.UNSUB_FAILED");
+          if (
+            (isSuccess || isFailed) &&
+            // Put this after event type checks, to prevent unnecessary
+            // JSON stringify.
+            identity === getIdentity(response.payload)
+          ) {
+            (isSuccess ? resolve : reject)(response);
+            disposeOnMessage();
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            disposeOnClose();
+          }
         }
+      );
+      // istanbul ignore next: currently can't mock this
+      const disposeOnClose = this.#ms.onClose(() => {
+        // V2 will emit error callback for sub/unsub each time connect failed,
+        // while v3 will emit only once after retry limit exceeded.
+        // Keep the `EVENT.detail.retryCount` for compatibility.
+        reject({
+          retryCount: RETRY_LIMIT,
+        });
+        disposeOnMessage();
+        disposeOnClose();
       });
       this.#ms.send(request);
     });
