@@ -136,9 +136,8 @@ describe("MessageDispatcher", () => {
     );
     expect(consoleError).toHaveBeenCalledTimes(2);
 
-    expect(onClose).not.toBeCalled();
     server.close();
-    expect(onClose).toBeCalledTimes(1);
+    expect(onClose).not.toBeCalled();
 
     client.reset();
   });

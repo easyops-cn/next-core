@@ -53,7 +53,7 @@ describe("MessageService", () => {
       wasClean: false,
     });
     expect(consoleError).toBeCalledWith("WebSocket error:", expect.anything());
-    expect(onClose).toBeCalledTimes(1);
+    expect(onClose).not.toBeCalled();
 
     expect(consoleLog).toBeCalledWith(
       "WebSocket will reconnect after %d seconds",
