@@ -47,9 +47,6 @@ export class MessageService {
       }
       // eslint-disable-next-line no-console
       console.log("WebSocket close:", e);
-      for (const listener of this.#closeListeners) {
-        listener();
-      }
       // Error code 1000 means that the connection was closed normally.
       if (e.code !== 1000) {
         this.#reconnect();
@@ -75,6 +72,10 @@ export class MessageService {
     if (this.#retryCount >= RETRY_LIMIT) {
       // eslint-disable-next-line no-console
       console.error("WebSocket connect retry limit exceeded");
+      // Keep behavior as v2: emit close event only after retry limit exceeded
+      for (const listener of this.#closeListeners) {
+        listener();
+      }
       return;
     }
     // Double the timeout for each retry
