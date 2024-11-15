@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.39](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.38...@next-core/easyops-runtime@0.12.39) (2024-11-15)
+
+
+### Bug Fixes
+
+* emit error callback for message.subscribe when connect failed after retry limit exceeded ([1a6efa6](https://github.com/easyops-cn/next-core/commit/1a6efa6c3361bb65459a2dd4f94983ef0743b6cf))
+
+
+
+
+
 ## [0.12.38](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.37...@next-core/easyops-runtime@0.12.38) (2024-11-15)
 
 
