@@ -474,8 +474,8 @@ export interface RuntimeHooks {
     messageDispatcher?: {
         subscribe(...args: unknown[]): Promise<unknown>;
         unsubscribe(...args: unknown[]): Promise<unknown>;
-        onMessage(channel: string, listener: (data: unknown) => void): void;
-        onClose(listener: () => void): void;
+        onMessage(channel: string, listener: (data: unknown) => void): () => void;
+        onClose(listener: () => void): () => void;
         reset(): void;
     };
     // (undocumented)

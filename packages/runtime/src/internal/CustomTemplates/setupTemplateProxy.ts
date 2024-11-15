@@ -36,7 +36,7 @@ export function setupTemplateProxy(
         asyncHostProps: AsyncPropertyEntry[]
       ): AsyncPropertyEntry[] => {
         return propertyProxies!
-          .map(({ from, to }) => {
+          .map<AsyncPropertyEntry | undefined>(({ from, to }) => {
             const filtered = asyncHostProps.filter(
               (entry) => entry[0] === from
             );
@@ -48,7 +48,7 @@ export function setupTemplateProxy(
               ];
             }
           })
-          .filter(Boolean) as [string, Promise<unknown>][];
+          .filter(Boolean) as AsyncPropertyEntry[];
       };
 
       asyncComputedProps = getComputedProps(asyncHostPropertyEntries);
