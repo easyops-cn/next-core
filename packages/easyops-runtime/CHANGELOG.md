@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.38](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.37...@next-core/easyops-runtime@0.12.38) (2024-11-15)
+
+
+### Bug Fixes
+
+* dispatch onMessageClose only after retry limit exceeded ([f9fb776](https://github.com/easyops-cn/next-core/commit/f9fb77621c2a6e5cc1176c52ad3d3f33ba03c503))
+
+
+
+
+
 ## [0.12.37](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.12.36...@next-core/easyops-runtime@0.12.37) (2024-11-14)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
