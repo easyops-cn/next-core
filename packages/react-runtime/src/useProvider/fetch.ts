@@ -49,7 +49,7 @@ export default async function fetch<TData>(
     promise = cacheMap.get(cacheKey) as Promise<TData>;
   } else {
     promise = (() => {
-      return fetchByProvider(provider, args) as Promise<TData>;
+      return fetchByProvider(provider, args, {cache: cache ? "default" : "reload"}) as Promise<TData>;
     })();
 
     cache && cacheMap.set(cacheKey, promise);
