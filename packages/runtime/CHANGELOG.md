@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.57.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.57.4...@next-core/runtime@1.57.5) (2024-11-25)
+
+
+### Bug Fixes
+
+* collect processors from route context ([51288c0](https://github.com/easyops-cn/next-core/commit/51288c0277bc233276c4dd055dcad03e9829aff4))
+
+
+
+
+
 ## [1.57.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.57.3...@next-core/runtime@1.57.4) (2024-11-15)
 
 
