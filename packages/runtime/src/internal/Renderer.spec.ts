@@ -184,7 +184,16 @@ describe("renderRoutes", () => {
     const rendererContext = new RendererContext("page");
     const route = {
       path: "${APP.homepage}/:objectId",
-      context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
+      context: [
+        { name: "objectId", value: "<% PATH.objectId %>" },
+        {
+          name: "fromProcessor",
+          onChange: {
+            action: "console.log",
+            args: ["<% PROCESSORS.route.context() %>"],
+          },
+        },
+      ],
       bricks: [{ brick: "div" }],
       menu: {
         menuId: "my-menu",
@@ -227,6 +236,12 @@ describe("renderRoutes", () => {
     );
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(2);
     expect(loadBricksImperatively).toBeCalledWith(["my-pre-load-brick"], []);
+    expect(loadProcessorsImperatively).toBeCalledTimes(1);
+    expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
+      1,
+      new Set(["route.context"]),
+      []
+    );
     await ctxStore.waitForAll();
     expect(ctxStore.getValue("objectId")).toBe("HOST");
   });
