@@ -189,6 +189,22 @@ export async function renderRoutes(
           rendererContext.memoizeMenuRequestNode(routes, menuRequestNode);
         }
 
+        const usedProcessors = strictCollectMemberUsage(
+          route.context,
+          "PROCESSORS",
+          2
+        );
+        if (usedProcessors.size > 0) {
+          output.blockingList.push(
+            catchLoad(
+              loadProcessorsImperatively(usedProcessors, getBrickPackages()),
+              "processors",
+              [...usedProcessors].join(", "),
+              rendererContext.unknownBricks
+            )
+          );
+        }
+
         let newOutput: RenderOutput;
         if (route.type === "routes") {
           newOutput = await renderRoutes(
