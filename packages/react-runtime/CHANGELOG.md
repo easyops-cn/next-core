@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.55...@next-core/react-runtime@1.7.0) (2024-11-25)
+
+
+### Features
+
+* useProvider 缓存失效 ([32a8077](https://github.com/easyops-cn/next-core/commit/32a807754ce41fe1897ab0ec4c2f34f8c55d9aa4))
+
+
+
+
+
 ## [1.6.55](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.6.54...@next-core/react-runtime@1.6.55) (2024-11-15)
 
 **Note:** Version bump only for package @next-core/react-runtime
