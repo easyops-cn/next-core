@@ -576,7 +576,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 //
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
-// dist/types/StoryboardFunctionRegistry.d.ts:47:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
+// dist/types/StoryboardFunctionRegistry.d.ts:48:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
 // dist/types/internal/Runtime.d.ts:34:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

@@ -1357,6 +1357,22 @@ export interface StoryboardFunction {
   deps?: string[];
   /** [Compiled] 是否有使用 `PERMISSIONS.check` */
   perm?: boolean;
+  /**
+   * [Compiled] 编译后的函数
+   *
+   * 在函数内先声明 "native mode"，打包时会将函数转换为原生 JS 代码，以提高执行性能。
+   */
+  transformed?: TransformedFunction;
+}
+
+/**
+ * 编译后的函数
+ */
+export interface TransformedFunction {
+  /** 编译后的 JS 代码 */
+  source: string;
+  /** 要访问的全局对象列表 */
+  globals: string[];
 }
 
 /**

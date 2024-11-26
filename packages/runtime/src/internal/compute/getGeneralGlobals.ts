@@ -23,7 +23,7 @@ export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
 // `GeneralGlobals` are globals which are page-state-agnostic,
 // thus they can be used both in storyboard expressions and functions.
 export function getGeneralGlobals(
-  attemptToVisitGlobals: Set<string>,
+  attemptToVisitGlobals: Set<string> | string[],
   options: GeneralGlobalsOptions
 ): Record<string, unknown> {
   const globalVariables: Record<string, unknown> = {};
