@@ -1,4 +1,8 @@
-import type { MicroApp, StoryboardFunction } from "@next-core/types";
+import type {
+  MicroApp,
+  StoryboardFunction,
+  TransformedFunction,
+} from "@next-core/types";
 import {
   cook,
   precookFunction,
@@ -8,6 +12,7 @@ import {
 } from "@next-core/cook";
 import { supply } from "@next-core/supply";
 import { collectMemberUsageInFunction } from "@next-core/utils/storyboard";
+import { hasOwnProperty } from "@next-core/utils/general";
 import type _ from "lodash";
 import { getGeneralGlobals } from "./internal/compute/getGeneralGlobals.js";
 
@@ -17,7 +22,7 @@ export type ReadonlyStoryboardFunctions = Readonly<Record<string, Function>>;
 /** @internal */
 export type StoryboardFunctionPatch = Pick<
   StoryboardFunction,
-  "source" | "typescript"
+  "source" | "typescript" | "transformed"
 >;
 
 /** @internal */
@@ -50,6 +55,7 @@ export interface RuntimeStoryboardFunction {
   cooked?: Function;
   deps: Set<string> | string[];
   hasPermissionsCheck: boolean;
+  transformed?: TransformedFunction;
 }
 
 /** @internal */
@@ -66,7 +72,7 @@ export interface FunctionCoverageSettings {
 }
 
 /** @internal */
-export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush">;
+export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush" | "config">;
 
 /** @internal */
 export function StoryboardFunctionRegistryFactory({
@@ -130,11 +136,27 @@ export function StoryboardFunctionRegistryFactory({
         registeredFunctions.set(fn.name, {
           source: fn.source,
           typescript: fn.typescript,
+          transformed: fn.transformed,
           deps,
           hasPermissionsCheck,
         });
       }
     }
+  }
+
+  function getGlobalVariables(globals: Set<string> | string[]) {
+    return supply(
+      globals,
+      getGeneralGlobals(globals, {
+        collectCoverage,
+        widgetId,
+        widgetVersion,
+        app: currentApp,
+        storyboardFunctions,
+        isStoryboardFunction: true,
+      }),
+      !!collectCoverage
+    );
   }
 
   function getStoryboardFunction(name: string): Function | undefined {
@@ -149,67 +171,77 @@ export function StoryboardFunctionRegistryFactory({
     if (collectCoverage) {
       collector = collectCoverage.createCollector(name);
     }
-    const precooked = precookFunction(fn.source, {
-      typescript: fn.typescript,
-      hooks: collector && {
-        beforeVisit: collector.beforeVisit,
-      },
-      cacheKey: fn,
-    });
-    const globalVariables = supply(
-      precooked.attemptToVisitGlobals,
-      getGeneralGlobals(precooked.attemptToVisitGlobals, {
-        collectCoverage,
-        widgetId,
-        widgetVersion,
-        app: currentApp,
-        storyboardFunctions,
-        isStoryboardFunction: true,
-      }),
-      !!collectCoverage
-    );
 
-    fn.cooked = cook(precooked.function, fn.source, {
-      rules: {
-        noVar: true,
-      },
-      globalVariables: overrides
-        ? {
-            ...globalVariables,
-            ...(overrides?.LodashWithStaticFields &&
-            precooked.attemptToVisitGlobals.has("_")
-              ? {
-                  _: {
-                    ...(globalVariables._ as typeof _),
-                    ...overrides.LodashWithStaticFields,
-                  },
-                }
-              : null),
-            ...(overrides?.ArrayConstructor &&
-            precooked.attemptToVisitGlobals.has("Array")
-              ? {
-                  Array: overrides.ArrayConstructor,
-                }
-              : null),
-            ...(overrides?.ObjectWithStaticFields &&
-            precooked.attemptToVisitGlobals.has("Object")
-              ? {
-                  Object: {
-                    ...(globalVariables.Object as typeof Object),
-                    ...overrides.ObjectWithStaticFields,
-                  },
-                }
-              : null),
-          }
-        : globalVariables,
-      ArrayConstructor: overrides?.ArrayConstructor,
-      hooks: collector && {
-        beforeEvaluate: collector.beforeEvaluate,
-        beforeCall: collector.beforeCall,
-        beforeBranch: collector.beforeBranch,
-      },
-      debug: !!debuggerOverrides,
-    }) as Function;
+    // Do not use transformed functions when debugging.
+    const transformed = !overrides && !collector && fn.transformed;
+    if (transformed) {
+      const globalVariables = getGlobalVariables(transformed.globals);
+      // Spread globals as params to prevent accessing forbidden globals.
+      // NOTE: in native mode, forbidden globals are declared as `undefined`,
+      // thus accessing them will not throw a ReferenceError.
+      fn.cooked = new Function(
+        ...transformed.globals,
+        `"use strict";return (${transformed.source})`
+      )(
+        ...transformed.globals.map((key) =>
+          hasOwnProperty(globalVariables, key)
+            ? globalVariables[key]
+            : undefined
+        )
+      );
+    } else {
+      const precooked = precookFunction(fn.source, {
+        typescript: fn.typescript,
+        hooks: collector && {
+          beforeVisit: collector.beforeVisit,
+        },
+        cacheKey: fn,
+      });
+      const globalVariables = getGlobalVariables(
+        precooked.attemptToVisitGlobals
+      );
+      fn.cooked = cook(precooked.function, fn.source, {
+        rules: {
+          noVar: true,
+        },
+        globalVariables: overrides
+          ? {
+              ...globalVariables,
+              ...(overrides?.LodashWithStaticFields &&
+              precooked.attemptToVisitGlobals.has("_")
+                ? {
+                    _: {
+                      ...(globalVariables._ as typeof _),
+                      ...overrides.LodashWithStaticFields,
+                    },
+                  }
+                : null),
+              ...(overrides?.ArrayConstructor &&
+              precooked.attemptToVisitGlobals.has("Array")
+                ? {
+                    Array: overrides.ArrayConstructor,
+                  }
+                : null),
+              ...(overrides?.ObjectWithStaticFields &&
+              precooked.attemptToVisitGlobals.has("Object")
+                ? {
+                    Object: {
+                      ...(globalVariables.Object as typeof Object),
+                      ...overrides.ObjectWithStaticFields,
+                    },
+                  }
+                : null),
+            }
+          : globalVariables,
+        ArrayConstructor: overrides?.ArrayConstructor,
+        hooks: collector && {
+          beforeEvaluate: collector.beforeEvaluate,
+          beforeCall: collector.beforeCall,
+          beforeBranch: collector.beforeBranch,
+        },
+        debug: !!debuggerOverrides,
+      }) as Function;
+    }
     fn.processed = true;
     return fn.cooked;
   }
@@ -234,6 +266,7 @@ export function StoryboardFunctionRegistryFactory({
       registeredFunctions.set(name, {
         source: data.source,
         typescript: data.typescript,
+        transformed: data.transformed,
         deps,
         hasPermissionsCheck,
       });

@@ -106,6 +106,24 @@ describe("StoryboardFunctions", () => {
             }
           `,
         },
+        {
+          name: "nativeMode",
+          source: `
+            function nativeMode() {
+              "native mode";
+              return ["from", "normal", "mode"];
+            }
+          `,
+          transformed: {
+            globals: ["_", "document"],
+            source: `
+              function nativeMode() {
+                "native mode";
+                return document ?? _.split("from native mode", " ");
+              }
+            `,
+          },
+        },
       ],
       {
         id: "my-app",
@@ -137,6 +155,7 @@ describe("StoryboardFunctions", () => {
     expect(fn.checkPermissions("my:action-b")).toBe(false);
     expect(fn.getUniqueId()).not.toBe("42");
     expect(fn.getUniqueId("test-")).not.toBe("test-42");
+    expect(fn.nativeMode()).toEqual(["from", "native", "mode"]);
   });
 
   it("should register no functions", () => {

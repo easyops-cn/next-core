@@ -3,17 +3,17 @@ import moment from "moment";
 import { pipes } from "@next-core/pipes";
 
 export function supply(
-  attemptToVisitGlobals: Set<string>,
+  attemptToVisitGlobals: Set<string> | string[],
   providedGlobalVariables?: Record<string, unknown>,
   mock?: boolean
 ): Record<string, unknown> {
-  const globalVariables: Record<string, unknown> = {
-    undefined,
-  };
+  const globalVariables: Record<string, unknown> = {};
   // Allow limited browser builtin values.
   for (const variableName of attemptToVisitGlobals) {
     if (!Object.prototype.hasOwnProperty.call(globalVariables, variableName)) {
-      if (
+      if (variableName === "undefined") {
+        globalVariables[variableName] = undefined;
+      } else if (
         providedGlobalVariables &&
         Object.prototype.hasOwnProperty.call(
           providedGlobalVariables,
