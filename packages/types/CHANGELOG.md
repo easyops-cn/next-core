@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.13.0...@next-core/types@1.14.0) (2024-11-26)
+
+
+### Features
+
+* support native mode for storyboard functions ([cc397a9](https://github.com/easyops-cn/next-core/commit/cc397a9f2981a31f40a6749aeaf47e44b53c3ad3))
+
+
+
+
+
 # [1.13.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.12.4...@next-core/types@1.13.0) (2024-09-13)
 
 

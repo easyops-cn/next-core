@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.19.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.20...@next-core/brick-container@3.19.21) (2024-11-26)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.19.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.19...@next-core/brick-container@3.19.20) (2024-11-25)
 
 **Note:** Version bump only for package @next-core/brick-container

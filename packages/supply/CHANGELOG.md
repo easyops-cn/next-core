@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.2.2...@next-core/supply@2.3.0) (2024-11-26)
+
+
+### Features
+
+* support native mode for storyboard functions ([cc397a9](https://github.com/easyops-cn/next-core/commit/cc397a9f2981a31f40a6749aeaf47e44b53c3ad3))
+
+
+
+
+
 ## [2.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.2.1...@next-core/supply@2.2.2) (2024-09-30)
 
 **Note:** Version bump only for package @next-core/supply
