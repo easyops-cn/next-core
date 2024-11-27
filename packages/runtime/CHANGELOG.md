@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.58.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.0...@next-core/runtime@1.58.1) (2024-11-27)
+
+
+### Bug Fixes
+
+* allow root brick of useBrick to be an ignored non-tracking control node ([27a7bdb](https://github.com/easyops-cn/next-core/commit/27a7bdbf47ca2e698bd87b5d3274a578f46255eb))
+
+
+
+
+
 # [1.58.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.57.5...@next-core/runtime@1.58.0) (2024-11-26)
 
 
