@@ -2296,6 +2296,7 @@ export interface StoryboardContextItemFreeVariable {
 export interface StoryboardFunction {
     name: string;
     source: string;
+    transformed?: TransformedFunction;
     typescript?: boolean;
 }
 
@@ -2553,6 +2554,12 @@ export interface TemplatePackage {
 //
 // @internal (undocumented)
 export type TemplateRegistry<T> = Map<string, T>;
+
+// @public
+export interface TransformedFunction {
+    globals: string[];
+    source: string;
+}
 
 // @public
 export interface TransformItem {
