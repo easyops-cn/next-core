@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.99.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.98.1...@next-core/brick-types@2.99.0) (2024-11-27)
+
+
+### Features
+
+* support native mode for storyboard functions ([9b43ad1](https://github.com/easyops-cn/next-core/commit/9b43ad1d3cd88b05ec07ef0a77f92917a43a21da))
+
+
+
+
+
 ## [2.98.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.98.0...@next-core/brick-types@2.98.1) (2024-07-26)
 
 

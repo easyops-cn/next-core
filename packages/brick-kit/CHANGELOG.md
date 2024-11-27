@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.203.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.202.0...@next-core/brick-kit@2.203.0) (2024-11-27)
+
+
+### Features
+
+* support native mode for storyboard functions ([9b43ad1](https://github.com/easyops-cn/next-core/commit/9b43ad1d3cd88b05ec07ef0a77f92917a43a21da))
+
+
+
+
+
 # [2.202.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.201.0...@next-core/brick-kit@2.202.0) (2024-10-23)
 
 
