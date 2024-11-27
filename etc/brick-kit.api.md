@@ -84,6 +84,7 @@ import { StoryboardFunction } from '@next-core/brick-types';
 import { StoryConf } from '@next-core/brick-types';
 import { Subtract } from 'react-i18next';
 import { TemplatePackage } from '@next-core/brick-types';
+import { TransformedFunction } from '@next-core/brick-types';
 import { UseBrickConf } from '@next-core/brick-types';
 import { UseProviderResolveConf } from '@next-core/brick-types';
 import { UserInfo } from '@next-core/brick-types';
@@ -587,6 +588,8 @@ export interface RuntimeStoryboardFunction {
     // (undocumented)
     source: string;
     // (undocumented)
+    transformed?: TransformedFunction;
+    // (undocumented)
     typescript?: boolean;
 }
 
@@ -602,7 +605,7 @@ export function SingleBrickAsComponentFactory(React: typeof _React): React_2.Mem
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionPatch" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export type StoryboardFunctionPatch = Pick<StoryboardFunction, "source" | "typescript">;
+export type StoryboardFunctionPatch = Pick<StoryboardFunction, "source" | "typescript" | "transformed">;
 
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistry" should be prefixed with an underscore because the declaration is marked as @internal
 //
