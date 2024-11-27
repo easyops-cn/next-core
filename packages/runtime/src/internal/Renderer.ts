@@ -439,6 +439,7 @@ async function legacyRenderBrick(
 
     const { dataSource } = brickConf;
     const { contextNames, stateNames } = getTracks(dataSource);
+    const tracking = !!(contextNames || stateNames);
 
     const lowerLevelRenderControlNode = async (
       runtimeContext: RuntimeContext,
@@ -587,6 +588,7 @@ async function legacyRenderBrick(
       rawOutput!.node ??= {
         tag: RenderTag.PLACEHOLDER,
         return: returnNode,
+        tracking,
       };
       return rawOutput!;
     };
@@ -598,7 +600,7 @@ async function legacyRenderBrick(
 
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
-    if (contextNames || stateNames) {
+    if (tracking) {
       controlledOutput.hasTrackingControls = true;
       let renderId = 0;
       const listener = async () => {

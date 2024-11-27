@@ -1088,6 +1088,7 @@ describe("renderBrick for control nodes", () => {
     expect(output2).toEqual({
       node: {
         tag: RenderTag.PLACEHOLDER,
+        tracking: false,
         return: {
           tag: RenderTag.ROOT,
         },
@@ -1643,6 +1644,7 @@ describe("renderBrick for control nodes", () => {
     expect(output3).toEqual({
       node: {
         tag: RenderTag.PLACEHOLDER,
+        tracking: false,
         return: {
           tag: RenderTag.ROOT,
         },
