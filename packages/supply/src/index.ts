@@ -4,7 +4,7 @@ import { SimpleFunction } from "@next-core/brick-types";
 import { pipes } from "@next-core/pipes";
 
 export function supply(
-  attemptToVisitGlobals: Set<string>,
+  attemptToVisitGlobals: Set<string> | string[],
   providedGlobalVariables?: Record<string, unknown>,
   mock?: boolean
 ): Record<string, unknown> {

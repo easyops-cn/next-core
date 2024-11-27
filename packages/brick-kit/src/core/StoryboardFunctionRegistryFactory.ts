@@ -2,8 +2,14 @@ import {
   MicroApp,
   SimpleFunction,
   StoryboardFunction,
+  type TransformedFunction,
 } from "@next-core/brick-types";
-import { cook, precookFunction, EstreeNode } from "@next-core/brick-utils";
+import {
+  cook,
+  precookFunction,
+  EstreeNode,
+  hasOwnProperty,
+} from "@next-core/brick-utils";
 import { supply } from "@next-core/supply";
 import { getGeneralGlobals } from "../internal/getGeneralGlobals";
 
@@ -15,7 +21,7 @@ export type ReadonlyStoryboardFunctions = Readonly<
 /** @internal */
 export type StoryboardFunctionPatch = Pick<
   StoryboardFunction,
-  "source" | "typescript"
+  "source" | "typescript" | "transformed"
 >;
 
 /** @internal */
@@ -39,6 +45,7 @@ export interface RuntimeStoryboardFunction {
   typescript?: boolean;
   processed?: boolean;
   cooked?: SimpleFunction;
+  transformed?: TransformedFunction;
 }
 
 /** @internal */
@@ -105,9 +112,27 @@ export function StoryboardFunctionRegistryFactory({
         registeredFunctions.set(fn.name, {
           source: fn.source,
           typescript: fn.typescript,
+          transformed: fn.transformed,
         });
       }
     }
+  }
+
+  function getGlobalVariables(
+    globals: Set<string> | string[]
+  ): Record<string, unknown> {
+    return supply(
+      globals,
+      getGeneralGlobals(globals, {
+        collectCoverage,
+        widgetId,
+        widgetVersion,
+        app: currentApp,
+        storyboardFunctions,
+        isStoryboardFunction: true,
+      }),
+      !!collectCoverage
+    );
   }
 
   function getStoryboardFunction(name: string): SimpleFunction {
@@ -122,44 +147,53 @@ export function StoryboardFunctionRegistryFactory({
     if (collectCoverage) {
       collector = collectCoverage.createCollector(name);
     }
-    const precooked = precookFunction(fn.source, {
-      cacheKey: fn,
-      typescript: fn.typescript,
-      hooks: collector && {
-        beforeVisit: collector.beforeVisit,
-      },
-    });
-    fn.cooked = cook(precooked.function, fn.source, {
-      rules: {
-        noVar: true,
-      },
-      globalVariables: supply(
-        precooked.attemptToVisitGlobals,
-        getGeneralGlobals(precooked.attemptToVisitGlobals, {
-          collectCoverage,
-          widgetId,
-          widgetVersion,
-          app: currentApp,
-          storyboardFunctions,
-          isStoryboardFunction: true,
-        }),
-        !!collectCoverage
-      ),
-      hooks: {
-        perfCall: needPerf
-          ? (duration) => {
-              perf(name, fn.source, duration);
-            }
-          : undefined,
-        ...(collector
-          ? {
-              beforeEvaluate: collector.beforeEvaluate,
-              beforeCall: collector.beforeCall,
-              beforeBranch: collector.beforeBranch,
-            }
-          : null),
-      },
-    }) as SimpleFunction;
+
+    // Do not use transformed functions when collecting coverage.
+    const transformed = !collector && fn.transformed;
+    if (transformed) {
+      const globalVariables = getGlobalVariables(transformed.globals);
+      // Spread globals as params to prevent accessing forbidden globals.
+      // NOTE: in native mode, forbidden globals are declared as `undefined`,
+      // thus accessing them will not throw a ReferenceError.
+      fn.cooked = new Function(
+        ...transformed.globals,
+        `"use strict";return (${transformed.source})`
+      )(
+        ...transformed.globals.map((key) =>
+          hasOwnProperty(globalVariables, key)
+            ? globalVariables[key]
+            : undefined
+        )
+      );
+    } else {
+      const precooked = precookFunction(fn.source, {
+        cacheKey: fn,
+        typescript: fn.typescript,
+        hooks: collector && {
+          beforeVisit: collector.beforeVisit,
+        },
+      });
+      fn.cooked = cook(precooked.function, fn.source, {
+        rules: {
+          noVar: true,
+        },
+        globalVariables: getGlobalVariables(precooked.attemptToVisitGlobals),
+        hooks: {
+          perfCall: needPerf
+            ? (duration) => {
+                perf(name, fn.source, duration);
+              }
+            : undefined,
+          ...(collector
+            ? {
+                beforeEvaluate: collector.beforeEvaluate,
+                beforeCall: collector.beforeCall,
+                beforeBranch: collector.beforeBranch,
+              }
+            : null),
+        },
+      }) as SimpleFunction;
+    }
     fn.processed = true;
     return fn.cooked;
   }
@@ -174,6 +208,7 @@ export function StoryboardFunctionRegistryFactory({
       registeredFunctions.set(name, {
         source: data.source,
         typescript: data.typescript,
+        transformed: data.transformed,
       });
     },
   };
