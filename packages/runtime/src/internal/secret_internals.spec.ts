@@ -541,10 +541,13 @@ describe("useBrick", () => {
     );
   });
 
-  test("root as an ignored control node", async () => {
+  test("root as an ignored tracking control node", async () => {
+    mockInternalApiGetRuntimeContext.mockReturnValue({
+      ctxStore: new DataStore("CTX"),
+    } as RuntimeContext);
     const useBrick: UseSingleBrickConf = {
       brick: ":if",
-      dataSource: false,
+      dataSource: "<%= false && CTX.abc %>",
       children: [
         {
           brick: "div",
@@ -552,8 +555,28 @@ describe("useBrick", () => {
       ],
     };
     await expect(renderUseBrick(useBrick, "a")).rejects.toMatchInlineSnapshot(
-      `[Error: The root brick of useBrick cannot be an ignored control node]`
+      `[Error: The root brick of useBrick cannot be an ignored tracking control node]`
     );
+    mockInternalApiGetRuntimeContext.mockReturnValue(undefined);
+  });
+
+  test("root as an ignored non-tracking control node", async () => {
+    mockInternalApiGetRuntimeContext.mockReturnValue({
+      ctxStore: new DataStore("CTX"),
+    } as RuntimeContext);
+    const useBrick: UseSingleBrickConf = {
+      brick: ":if",
+      dataSource: "<% false && CTX.abc %>",
+      children: [
+        {
+          brick: "div",
+        },
+      ],
+    };
+    expect(await renderUseBrick(useBrick, "a")).toMatchObject({
+      tagName: null,
+    });
+    mockInternalApiGetRuntimeContext.mockReturnValue(undefined);
   });
 
   test("with root runtime context symbol", async () => {

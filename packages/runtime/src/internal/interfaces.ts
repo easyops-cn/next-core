@@ -65,6 +65,7 @@ export interface RenderBrick extends BaseRenderNode, RuntimeBrick {
 export interface RenderPlaceholder extends BaseRenderNode {
   tag: RenderTag.PLACEHOLDER;
   return: RenderReturnNode;
+  tracking?: boolean;
 }
 
 export interface BaseRenderNode {
