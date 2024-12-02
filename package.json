@@ -69,7 +69,7 @@
     "lerna": "^8.1.8",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.1",
-    "rimraf": "^5.0.10",
+    "rimraf": "^6.0.1",
     "ts-jest-resolver": "^2.0.1",
     "typescript": "^5.7.2"
   },
