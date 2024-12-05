@@ -52,7 +52,7 @@
     "prettier": "^3.4.1",
     "style-loader": "^4.0.0",
     "typescript": "^5.7.2",
-    "webpack": "^5.96.1"
+    "webpack": "^5.97.1"
   },
   "devDependencies": {
     "@next-core/brick-manifest": "^0.7.1"
