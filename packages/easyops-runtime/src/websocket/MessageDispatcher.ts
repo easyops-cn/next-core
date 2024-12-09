@@ -74,11 +74,11 @@ export class MessageDispatcher {
     return result;
   }
 
-  onMessage(channel: string, listener: MessageListener): void {
+  onMessage(channel: string, listener: MessageListener) {
     let stringifiedPayload = this.#channelPayloads.get(channel);
     let warned = false;
 
-    this.#ms.onMessage<MessageResponse>((response) => {
+    return this.#ms.onMessage<MessageResponse>((response) => {
       if (!stringifiedPayload) {
         stringifiedPayload = this.#channelPayloads.get(channel);
       }

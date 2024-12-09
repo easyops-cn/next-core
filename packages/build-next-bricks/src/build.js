@@ -40,12 +40,7 @@ const getCssLoaders = (cssOptions) => [
       sourceMap: false,
       postcssOptions: {
         plugins: [
-          postcssPresetEnv({
-            stage: 3,
-            features: {
-              "nesting-rules": true,
-            },
-          }),
+          postcssPresetEnv(),
           cssnano({
             preset: cssnanoPresetLite({
               discardComments: {
@@ -305,7 +300,7 @@ async function getWebpackConfig(config) {
       // filename: "[name].bundle.js",
       publicPath:
         mode === "development"
-          ? config.devOnlyOutputPublicPath ?? "auto"
+          ? (config.devOnlyOutputPublicPath ?? "auto")
           : "auto",
       hashDigestLength: 8,
       chunkFilename: `${chunksDir}[name]${
