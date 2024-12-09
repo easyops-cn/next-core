@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.4...@next-core/build-next-bricks@1.23.5) (2024-12-09)
+
+
+### Bug Fixes
+
+* **postcss:** use default stage 2 ([5fa5df5](https://github.com/easyops-cn/next-core/commit/5fa5df5156ee1799448fbacaeca08242b21bd216))
+
+
+
+
+
 ## [1.23.4](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.3...@next-core/build-next-bricks@1.23.4) (2024-09-30)
 
 
