@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.58.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.1...@next-core/runtime@1.58.2) (2024-12-12)
+
+
+### Bug Fixes
+
+* form-renderer 支持 getFieldsValue 方法 ([22dc432](https://github.com/easyops-cn/next-core/commit/22dc432d23d9031843e694094b722dbb8df09d51))
+
+
+
+
+
 ## [1.58.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.0...@next-core/runtime@1.58.1) (2024-11-27)
 
 
