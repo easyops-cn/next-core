@@ -12,7 +12,7 @@ class FormElement extends HTMLElement implements FormElementProps {
 
   renderRoot?: boolean | undefined;
 
-  #proxyFormMethod(method: string, args: unknown[] = []): void {
+  #proxyFormMethod(method: string, args: unknown[] = []): any {
     const containerElement =
       this.renderRoot !== false
         ? this.firstElementChild?.firstElementChild
@@ -21,7 +21,7 @@ class FormElement extends HTMLElement implements FormElementProps {
     const tagName = containerElement?.tagName?.toLowerCase();
 
     if (formContainers.includes(tagName as string)) {
-      (containerElement as any)[method](...args);
+      return (containerElement as any)[method](...args);
     } else {
       // eslint-disable-next-line no-console
       console.error(`no ${method} method in the container element`, {
@@ -40,6 +40,10 @@ class FormElement extends HTMLElement implements FormElementProps {
 
   resetFields(...args: unknown[]): void {
     this.#proxyFormMethod("resetFields", args);
+  }
+
+  getFieldsValue(...args: unknown[]): any {
+    return this.#proxyFormMethod("getFieldsValue", args);
   }
 }
 
