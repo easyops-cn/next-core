@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.203.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.0...@next-core/brick-kit@2.203.1) (2024-12-12)
+
+
+### Bug Fixes
+
+* form-renderer 支持 getFieldsValue 方法 ([eb4453d](https://github.com/easyops-cn/next-core/commit/eb4453da02990af51d86bea782a8b9fc52cd44d4))
+
+
+
+
+
 # [2.203.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.202.0...@next-core/brick-kit@2.203.0) (2024-11-27)
 
 
