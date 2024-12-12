@@ -87,4 +87,17 @@ describe("registerFormRenderer is work", () => {
 
     expect(form.resetFields).toHaveBeenCalled();
   });
+
+  it("should work with getFieldsValue method", () => {
+    const formRender = document.createElement(FORM_RENDERER) as any;
+    formRender.renderRoot = false;
+    const form = document.createElement("forms.general-form") as any;
+    form.getFieldsValue = jest.fn();
+
+    formRender.appendChild(form);
+
+    formRender.getFieldsValue({ runInMacrotask: true });
+
+    expect(form.getFieldsValue).toHaveBeenCalledWith({ runInMacrotask: true });
+  });
 });
