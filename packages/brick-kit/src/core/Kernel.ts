@@ -796,14 +796,29 @@ export class Kernel {
       // 需要先阻塞加载 Custom Processors 和 widgets。
       await loadScriptOfDll(eager.dll);
       await loadScriptOfBricksOrTemplates(eager.deps);
-      if (eager.v3Bricks?.length) {
-        await catchLoad(
-          loadBricksImperatively(V3WidgetMates, brickPackages as any),
-          "brick",
-          V3WidgetMates[0]
-        );
-        await loadBricksImperatively(eager.v3Bricks, brickPackages as any);
-      }
+
+      // 先阻塞加载 v3 Custom Processors 和 widgets。
+      await Promise.all([
+        (async () => {
+          if (eager.v3Bricks?.length) {
+            await catchLoad(
+              loadBricksImperatively(V3WidgetMates, brickPackages as any),
+              "brick",
+              V3WidgetMates[0]
+            );
+            await loadBricksImperatively(eager.v3Bricks, brickPackages as any);
+          }
+        })(),
+        (async () => {
+          if (eager.v3Processors?.length) {
+            await loadProcessorsImperatively(
+              eager.v3Processors,
+              brickPackages as any
+            );
+          }
+        })(),
+      ]);
+
       // 加载构件资源时，不再阻塞后续业务数据的加载，在挂载构件时再等待该任务完成。
       // 挂载构件可能包括：Provider 构件实时挂载、路由准备完成后的统一挂载等。
       return {
