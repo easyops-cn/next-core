@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.203.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.1...@next-core/brick-kit@2.203.2) (2024-12-18)
+
+
+### Bug Fixes
+
+* load v3 processors eagerly ([a115611](https://github.com/easyops-cn/next-core/commit/a11561196db89296f7193738395e0cf2ede361d6))
+
+
+
+
+
 ## [2.203.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.0...@next-core/brick-kit@2.203.1) (2024-12-12)
 
 
