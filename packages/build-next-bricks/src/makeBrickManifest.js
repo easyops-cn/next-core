@@ -105,6 +105,20 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
           }
           break;
         }
+        // 主动声明原生事件，例如 eo-button 构件的 click 事件
+        case "event": {
+          const match = tag.description.match(/^([-\w]+)\s+-\s+(.*)$/);
+          if (!match) {
+            throw new Error(
+              `Doc comment for event is invalid: '${tag.description}'`
+            );
+          }
+          manifest.events.push({
+            name: match[1],
+            description: match[2],
+          });
+          break;
+        }
         case "insider": {
           manifest.insider = true;
         }
@@ -117,6 +131,23 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
     classPath.node.body.body,
     source
   );
+
+  // 如果有默认插槽，代表有默认属性 textContent
+  const hasDefaultSlot = manifest.slots.some((slot) => !slot.name);
+  if (hasDefaultSlot) {
+    manifest.properties.push({
+      name: "textContent",
+      type: "string",
+      description: "文本内容",
+    });
+    manifest.types.properties.push({
+      name: "textContent",
+      annotation: {
+        type: "keyword",
+        value: "string",
+      },
+    });
+  }
 
   return manifest;
 }
