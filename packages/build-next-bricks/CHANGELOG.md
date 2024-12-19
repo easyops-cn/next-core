@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.6](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.5...@next-core/build-next-bricks@1.23.6) (2024-12-19)
+
+
+### Bug Fixes
+
+* add textContent into props if brick has default slot ([79a40ec](https://github.com/easyops-cn/next-core/commit/79a40ec50c5f7192323cff271781218205b0173b))
+
+
+
+
+
 ## [1.23.5](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.4...@next-core/build-next-bricks@1.23.5) (2024-12-09)
 
 
