@@ -84,6 +84,7 @@ import { setUIVersion } from "./setUIVersion";
 import { setAppVariable } from "../setAppVariable";
 import { setWatermark } from "./setWatermark";
 import { setAppLocales } from "./setAppLocales";
+import { sendUrlChange } from "./listen";
 import { SkywalkingAnalysis } from "@next-core/easyops-analytics";
 export class Router {
   private defaultCollapsed = false;
@@ -153,6 +154,10 @@ export class Router {
     this.prevLocation = history.location;
     this.locationChangeNotify("", history.location.pathname);
     history.listen(async (location: PluginLocation, action: Action) => {
+      sendUrlChange({
+        url: window.location.origin + history.createHref(location),
+      });
+
       let ignoreRendering = false;
       const omittedLocationProps: Partial<PluginLocation> = {
         hash: null,
@@ -216,6 +221,10 @@ export class Router {
         }
       }
     });
+    sendUrlChange({
+      url: window.location.href,
+    });
+
     await this.queuedRender(history.location);
     this.kernel.firstRendered();
   }
