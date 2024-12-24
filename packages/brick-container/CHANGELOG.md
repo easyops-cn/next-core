@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.42](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.41...@next-core/brick-container@2.96.42) (2024-12-24)
+
+
+### Bug Fixes
+
+* 支持嵌入 iframe 时通讯 ([b7b727a](https://github.com/easyops-cn/next-core/commit/b7b727aa9780516b62734d103835b0d9fd853912))
+
+
+
+
+
 ## [2.96.41](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.40...@next-core/brick-container@2.96.41) (2024-12-18)
 
 **Note:** Version bump only for package @next-core/brick-container

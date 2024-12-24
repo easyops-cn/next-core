@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.203.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.2...@next-core/brick-kit@2.203.3) (2024-12-24)
+
+
+### Bug Fixes
+
+* 支持嵌入 iframe 时通讯 ([b7b727a](https://github.com/easyops-cn/next-core/commit/b7b727aa9780516b62734d103835b0d9fd853912))
+
+
+
+
+
 ## [2.203.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.1...@next-core/brick-kit@2.203.2) (2024-12-18)
 
 
