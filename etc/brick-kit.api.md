@@ -273,6 +273,7 @@ export const developHelper: {
     render: typeof _dev_only_render;
     setRealTimeDataInspectRoot: typeof setRealTimeDataInspectRoot;
     addRealTimeDataInspectHook: typeof addRealTimeDataInspectHook;
+    iframePreviewInitialize: typeof start;
 };
 
 // Warning: (ae-forgotten-export) The symbol "featureFlagsProps" needs to be exported by the entry point index.d.ts
@@ -752,30 +753,31 @@ export class WebsocketMessageResponse {
 
 // Warnings were encountered during analysis:
 //
-// src/developHelper.ts:38:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:39:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:41:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:42:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:43:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:44:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:45:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:46:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:47:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:56:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByRoute" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByTemplate" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:59:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardBySnippet" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:60:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:61:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:62:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:63:3 - (ae-forgotten-export) The symbol "_dev_only_getAddedContracts" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:64:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:65:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:66:3 - (ae-forgotten-export) The symbol "_dev_only_debugDataValue" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:67:3 - (ae-forgotten-export) The symbol "_dev_only_getLegalRuntimeValue" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:68:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:69:3 - (ae-forgotten-export) The symbol "setRealTimeDataInspectRoot" needs to be exported by the entry point index.d.ts
-// src/developHelper.ts:70:3 - (ae-forgotten-export) The symbol "addRealTimeDataInspectHook" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:39:3 - (ae-forgotten-export) The symbol "LocationContext" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:40:3 - (ae-forgotten-export) The symbol "mountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:41:3 - (ae-forgotten-export) The symbol "unmountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:42:3 - (ae-forgotten-export) The symbol "afterMountTree" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:43:3 - (ae-forgotten-export) The symbol "_dev_only_getBrickPackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:44:3 - (ae-forgotten-export) The symbol "_dev_only_getTemplatePackages" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:45:3 - (ae-forgotten-export) The symbol "_dev_only_getStoryboards" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:46:3 - (ae-forgotten-export) The symbol "_dev_only_loadEditorBricks" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:47:3 - (ae-forgotten-export) The symbol "_dev_only_loadDynamicBricksInBrickConf" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:48:3 - (ae-forgotten-export) The symbol "_dev_only_getFakeKernel" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:57:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboard" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:58:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByRoute" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:59:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardByTemplate" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:60:3 - (ae-forgotten-export) The symbol "_dev_only_updateStoryboardBySnippet" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:61:3 - (ae-forgotten-export) The symbol "_dev_only_updateTemplatePreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:62:3 - (ae-forgotten-export) The symbol "_dev_only_updateSnippetPreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:63:3 - (ae-forgotten-export) The symbol "_dev_only_updateFormPreviewSettings" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:64:3 - (ae-forgotten-export) The symbol "_dev_only_getAddedContracts" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:65:3 - (ae-forgotten-export) The symbol "_dev_only_getContextValue" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:66:3 - (ae-forgotten-export) The symbol "_dev_only_getAllContextValues" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:67:3 - (ae-forgotten-export) The symbol "_dev_only_debugDataValue" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:68:3 - (ae-forgotten-export) The symbol "_dev_only_getLegalRuntimeValue" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:69:3 - (ae-forgotten-export) The symbol "_dev_only_render" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:70:3 - (ae-forgotten-export) The symbol "setRealTimeDataInspectRoot" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:71:3 - (ae-forgotten-export) The symbol "addRealTimeDataInspectHook" needs to be exported by the entry point index.d.ts
+// src/developHelper.ts:72:3 - (ae-forgotten-export) The symbol "start" needs to be exported by the entry point index.d.ts
 
 ```

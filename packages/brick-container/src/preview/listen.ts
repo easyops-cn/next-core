@@ -46,6 +46,8 @@ export function listen(bootstrapStatus: Promise<"ok" | "failed">): void {
         const brick = document.createElement(agent.brick) as any;
         await brick.resolve(origin, options);
       }
+    } else if (isNextCoreIframePreviewInitialize(data)) {
+      developHelper.iframePreviewInitialize(origin);
     }
   };
   window.addEventListener("message", listener);
@@ -79,6 +81,15 @@ function isUITestPreviewInitialize(
   );
 }
 
+function isNextCoreIframePreviewInitialize(
+  data: unknown
+): data is NextCoreIframePreviewInitialize {
+  return (
+    (data as NextCoreIframePreviewInitialize)?.sender === "iframe-container" &&
+    (data as NextCoreIframePreviewInitialize).type === "initialize"
+  );
+}
+
 interface PreviewMessageContainerStartPreview {
   sender: "preview-container";
   type: "start-preview";
@@ -105,4 +116,10 @@ interface PreviewAgent {
 interface UITextConnectPayload {
   agent: PreviewAgent;
   options?: unknown;
+}
+
+interface NextCoreIframePreviewInitialize {
+  sender: "iframe-container";
+  type: "initialize";
+  payload: unknown;
 }

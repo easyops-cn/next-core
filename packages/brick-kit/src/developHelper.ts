@@ -31,6 +31,7 @@ import {
   addRealTimeDataInspectHook,
   setRealTimeDataInspectRoot,
 } from "./core/realTimeDataInspect";
+import { start as iframePreviewInitialize } from "./core/listen";
 
 /** @internal */
 export const developHelper = {
@@ -68,4 +69,5 @@ export const developHelper = {
   render: _dev_only_render,
   setRealTimeDataInspectRoot,
   addRealTimeDataInspectHook,
+  iframePreviewInitialize,
 };

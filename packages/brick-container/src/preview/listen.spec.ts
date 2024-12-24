@@ -10,6 +10,7 @@ jest.mock("@next-core/brick-http");
 jest.mock("@next-core/brick-kit", () => ({
   developHelper: {
     loadDynamicBricksInBrickConf: jest.fn(),
+    iframePreviewInitialize: jest.fn(),
   },
 }));
 jest.mock("./initialize");
@@ -117,6 +118,26 @@ describe("listen", () => {
     expect(injectUITest).toBeCalledWith(location.origin, {
       foo: "bar",
     });
+  });
+
+  test("next-core iframe preview", async () => {
+    const origin = "http://localhost:8081";
+
+    listen(Promise.resolve("ok"));
+
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        origin,
+        data: {
+          sender: "iframe-container",
+          type: "initialize",
+        },
+      })
+    );
+
+    await (global as any).flushPromises();
+
+    expect(developHelper.iframePreviewInitialize).toHaveBeenCalledWith(origin);
   });
 
   test("legacy preview", async () => {
