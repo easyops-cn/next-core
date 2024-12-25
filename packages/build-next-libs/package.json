@@ -21,6 +21,7 @@
   "dependencies": {
     "@babel/cli": "^7.25.6",
     "@babel/core": "^7.25.2",
+    "@next-core/babel-preset-next": "^1.0.22",
     "execa": "^5.1.1",
     "rimraf": "^5.0.10"
   }
