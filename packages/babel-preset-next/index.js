@@ -19,7 +19,8 @@ module.exports = () => {
           : env === "commonjs"
             ? {
                 targets: {
-                  node: "14",
+                  // Fallback to versions that doesn't support nullish coalescing
+                  node: "12",
                 },
               }
             : {
