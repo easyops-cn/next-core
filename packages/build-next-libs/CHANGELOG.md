@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.21](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.20...@next-core/build-next-libs@1.0.21) (2024-12-25)
+
+
+### Bug Fixes
+
+* add @next-core/babel-preset-next as a dep ([f5d4ba4](https://github.com/easyops-cn/next-core/commit/f5d4ba4929026d8a2bf4bfb05286ac5bb435b81e))
+
+
+
+
+
 ## [1.0.20](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.19...@next-core/build-next-libs@1.0.20) (2024-09-25)
 
 **Note:** Version bump only for package @next-core/build-next-libs

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.29](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.28...@next-core/utils@1.7.29) (2024-12-25)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
 ## [1.7.28](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.27...@next-core/utils@1.7.28) (2024-11-26)
 
 **Note:** Version bump only for package @next-core/utils
