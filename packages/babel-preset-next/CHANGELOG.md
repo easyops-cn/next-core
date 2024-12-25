@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.22](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.21...@next-core/babel-preset-next@1.0.22) (2024-12-25)
+
+
+### Bug Fixes
+
+* fallback to older version of node for cjs ([a2ffc3f](https://github.com/easyops-cn/next-core/commit/a2ffc3f94df8ea257afb28b3f582874f8fc8cf47))
+
+
+
+
+
 ## [1.0.21](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.20...@next-core/babel-preset-next@1.0.21) (2024-09-25)
 
 **Note:** Version bump only for package @next-core/babel-preset-next
