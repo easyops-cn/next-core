@@ -27,8 +27,6 @@ dependencies:
     version: ~2.31.1 || ^2.32.1
   - name: micro_app_service
     version: ^1.31.5
-  - name: micro_app_service_db
-    version: ^1.16.11
 start_dependencies:
   - name: logic.api.gateway # 依赖服务名
   - name: logic.micro_app_service
