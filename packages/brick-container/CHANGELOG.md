@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.43](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.42...@next-core/brick-container@2.96.43) (2024-12-26)
+
+
+### Bug Fixes
+
+* remove dep of micro_app_service ([9a8ec70](https://github.com/easyops-cn/next-core/commit/9a8ec70f44088852ca78213c1ae3a2a1a67b3384))
+
+
+
+
+
 ## [2.96.42](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.41...@next-core/brick-container@2.96.42) (2024-12-24)
 
 
