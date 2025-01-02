@@ -1,7 +1,7 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { fireEvent } from "@testing-library/dom";
 import { createProviderClass } from "@next-core/utils/general";
-import { loadBricksImperatively } from "@next-core/loader";
+import { BrickLoadError, loadBricksImperatively } from "@next-core/loader";
 import type { BootstrapData } from "@next-core/types";
 import {
   HttpResponseError as _HttpResponseError,
@@ -16,12 +16,14 @@ import {
 import { loadNotificationService } from "../Notification.js";
 import { loadDialogService } from "../Dialog.js";
 import { getHistory as _getHistory } from "../history.js";
+import { shouldReloadForError } from "../shouldReloadForError.js";
 
 initializeI18n();
 
 jest.mock("@next-core/loader");
 jest.mock("../Dialog.js");
 jest.mock("../Notification.js");
+jest.mock("../shouldReloadForError.js");
 
 const consoleError = jest.spyOn(console, "error");
 window.scrollTo = jest.fn();
@@ -581,6 +583,24 @@ const getBootstrapData = (options?: {
           bricks: null!,
         },
         {
+          path: "${APP.homepage}/brick-load-error",
+          exact: true,
+          context: [
+            {
+              name: "test",
+              resolve: {
+                useProvider: "my-time-out-provider",
+                args: [0, undefined, "BrickLoadError"],
+              },
+            },
+          ],
+          bricks: [
+            {
+              brick: "div",
+            },
+          ],
+        },
+        {
           path: "${APP.homepage}/unauthenticated",
           exact: true,
           context: [
@@ -645,9 +665,15 @@ const getBootstrapData = (options?: {
 });
 
 const myTimeoutProvider = jest.fn(
-  (timeout: number, result?: unknown, fail?: boolean) =>
+  (timeout: number, result?: unknown, fail?: boolean | string) =>
     new Promise((resolve, reject) => {
-      setTimeout(() => (fail ? reject : resolve)(result), timeout);
+      setTimeout(
+        () =>
+          (fail ? reject : resolve)(
+            fail === "BrickLoadError" ? new BrickLoadError("oops") : result
+          ),
+        timeout
+      );
     })
 );
 customElements.define(
@@ -1712,6 +1738,41 @@ describe("Runtime", () => {
     `);
   });
 
+  test("brick load error after bootstrap", async () => {
+    const originalLocation = window.location;
+    delete (window as any).location;
+    window.location = {
+      ...originalLocation,
+      reload: jest.fn(),
+    } as any;
+    consoleError.mockReturnValueOnce();
+    (shouldReloadForError as jest.Mock).mockReturnValueOnce(true);
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize(getBootstrapData());
+    getHistory().push("/app-b");
+    await getRuntime().bootstrap();
+    getHistory().push("/app-b/brick-load-error");
+    await (global as any).flushPromises();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        />,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(window.location.reload).toBeCalled();
+    window.location = originalLocation;
+  });
+
   test("render locale title", async () => {
     consoleError.mockReturnValueOnce();
     const finishPageView = jest.fn();
@@ -1777,7 +1838,7 @@ describe("Runtime", () => {
     `);
   });
 
-  test("redirect to other login page  if not logged in", async () => {
+  test("redirect to other login page if not logged in", async () => {
     consoleError.mockReturnValueOnce();
     const error = new HttpResponseError({ status: 401 } as any, {
       code: 100003,
@@ -1931,6 +1992,7 @@ describe("Runtime", () => {
     await getRuntime().bootstrap();
     expect(window.APP_ROOT).toBe("sa-static/app-a/versions/1.0.0/webroot/");
   });
+
   test("loadBricks with union app mode", async () => {
     window.STANDALONE_MICRO_APPS = true;
     window.PUBLIC_DEPS = [

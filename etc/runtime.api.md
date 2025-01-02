@@ -251,6 +251,9 @@ export function instantiateModalStack(initialIndex?: number): ModalStack;
 export function isLoggedIn(): boolean | undefined;
 
 // @public (undocumented)
+export function isNetworkError(error: unknown): boolean;
+
+// @public (undocumented)
 export function isUnauthenticatedError(error: unknown): boolean;
 
 // @public
@@ -396,6 +399,9 @@ interface RenderUseBrickResult {
 }
 
 // @public (undocumented)
+export function resetReloadForError(): void;
+
+// @public (undocumented)
 interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     // (undocumented)
     appendI18nNamespace?: string;
@@ -518,6 +524,9 @@ function setRealTimeDataInspectRoot(root: RealTimeDataInspectRoot): void;
 
 // @public (undocumented)
 export function setUIVersion(version: string | undefined | null): void;
+
+// @public (undocumented)
+export function shouldReloadForError(error: unknown): boolean;
 
 // Warning: (ae-forgotten-export) The symbol "StoryboardFunctionRegistry" needs to be exported by the entry point index.d.ts
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal

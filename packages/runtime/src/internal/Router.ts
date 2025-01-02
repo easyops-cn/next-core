@@ -56,6 +56,10 @@ import { setAppVariable } from "../setAppVariable.js";
 import { setWatermark } from "../setWatermark.js";
 import { clearMatchedRoutes } from "./routeMatchedMap.js";
 import { ErrorNode, PageNotFoundError } from "./ErrorNode.js";
+import {
+  resetReloadForError,
+  shouldReloadForError,
+} from "../shouldReloadForError.js";
 
 type RenderTask = InitialRenderTask | SubsequentRenderTask;
 
@@ -426,6 +430,10 @@ export class Router {
             if (isCurrentBootstrap) {
               throw error;
             }
+            if (!isReCatch && shouldReloadForError(error)) {
+              window.location.reload();
+              return;
+            }
             return {
               failed: true,
               output: {
@@ -506,6 +514,7 @@ export class Router {
         }
         ({ failed, output } = result);
       }
+      resetReloadForError();
       renderRoot.child = output.node;
       this.#bootstrapFailed = false;
 
