@@ -3,7 +3,10 @@ import {
   createRuntime,
   getBasePath,
   httpErrorToString,
+  shouldReloadForError,
+  resetReloadForError,
   __secret_internals,
+  isNetworkError,
 } from "@next-core/runtime";
 import { HttpRequestConfig, http } from "@next-core/http";
 import { i18n, initializeI18n } from "@next-core/i18n";
@@ -135,10 +138,16 @@ async function main() {
       loadBootstrapData(),
     ]);
     await runtime.bootstrap(bootstrapData);
+    resetReloadForError();
     return "ok";
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error("bootstrap failed:", error);
+
+    if (shouldReloadForError(error)) {
+      location.reload();
+      return "failed";
+    }
 
     // `.bootstrap-error` makes loading-bar invisible.
     document.body.classList.add("bootstrap-error");
@@ -146,7 +155,9 @@ async function main() {
     const errorElement = document.createElement(
       "easyops-default-error"
     ) as DefaultError;
-    errorElement.errorTitle = i18n.t(`${NS}:${K.BOOTSTRAP_ERROR}`);
+    errorElement.errorTitle = isNetworkError(error)
+      ? i18n.t(`${NS}:${K.NETWORK_ERROR}`)
+      : i18n.t(`${NS}:${K.BOOTSTRAP_ERROR}`);
     errorElement.textContent = httpErrorToString(error);
     const linkElement = document.createElement("a");
     linkElement.slot = "link";

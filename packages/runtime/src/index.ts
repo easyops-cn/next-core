@@ -41,3 +41,5 @@ export { Dialog, type DialogOptions } from "./Dialog.js";
 export * from "./getV2RuntimeFromDll.js";
 export { setUIVersion } from "./setUIVersion.js";
 export * from "./ModalStack.js";
+export * from "./isNetworkError.js";
+export * from "./shouldReloadForError.js";
