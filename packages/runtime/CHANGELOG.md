@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.58.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.3...@next-core/runtime@1.58.4) (2025-01-03)
+
+
+### Bug Fixes
+
+* try to reload when specified error occurs ([c91b3d2](https://github.com/easyops-cn/next-core/commit/c91b3d264f1e8ed09e575864ea7aefacb71307c9))
+
+
+
+
+
 ## [1.58.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.2...@next-core/runtime@1.58.3) (2024-12-25)
 
 **Note:** Version bump only for package @next-core/runtime
