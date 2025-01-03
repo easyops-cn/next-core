@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.19.28](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.27...@next-core/brick-container@3.19.28) (2025-01-03)
+
+
+### Bug Fixes
+
+* **serve:** create an http agent that always use IPv4 ([0c4dcd6](https://github.com/easyops-cn/next-core/commit/0c4dcd6590ecb51f5fb75fcb9ffe6fd28348f5c8))
+
+
+
+
+
 ## [3.19.27](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.19.26...@next-core/brick-container@3.19.27) (2025-01-03)
 
 
