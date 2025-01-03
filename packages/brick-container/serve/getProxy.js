@@ -1,3 +1,5 @@
+import http from "node:http";
+import https from "node:https";
 import { responseInterceptor } from "http-proxy-middleware";
 import _ from "lodash";
 import jsYaml from "js-yaml";
@@ -7,6 +9,17 @@ import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getProcessedPublicDeps } from "./utils/getProcessedPublicDeps.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
+
+// Create an http agent that always use IPv4
+let agent;
+const getAgent = (server) => {
+  if (!agent) {
+    agent = new (server.startsWith("https:") ? https : http).Agent({
+      family: 4,
+    });
+  }
+  return agent;
+};
 
 const { safeDump, JSON_SCHEMA } = jsYaml;
 
@@ -71,7 +84,11 @@ export default function getProxy(env, getRawIndexHtml) {
           // Reset the origin header to the remote server
           if (
             req.headers["origin"] ===
-            `http${env.https ? "s" : ""}://${host}:${port}`
+              `http${env.https ? "s" : ""}://${host}:${port}` ||
+            // Always reset origin when host is 0.0.0.0
+            (host === "0.0.0.0" &&
+              req.headers["origin"] &&
+              req.headers["origin"] !== server)
           ) {
             proxyReq.setHeader("origin", server);
           }
@@ -459,6 +476,7 @@ function getBasicProxyOptions({ baseHref, server }, subPath) {
         : {
             [`^${_.escapeRegExp(baseHref)}${subPath}`]: `/next/${subPath}`,
           },
+    agent: getAgent(server),
   };
 }
 
