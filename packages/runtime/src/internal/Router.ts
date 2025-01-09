@@ -55,7 +55,7 @@ import { setUIVersion } from "../setUIVersion.js";
 import { setAppVariable } from "../setAppVariable.js";
 import { setWatermark } from "../setWatermark.js";
 import { clearMatchedRoutes } from "./routeMatchedMap.js";
-import { ErrorNode, PageNotFoundError } from "./ErrorNode.js";
+import { ErrorNode, PageError } from "./ErrorNode.js";
 import {
   resetReloadForError,
   shouldReloadForError,
@@ -277,6 +277,7 @@ export class Router {
 
   async #render(location: NextLocation, isBootstrap: boolean): Promise<void> {
     const renderId = (this.#renderId = uniqueId("render-id-"));
+    const blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
 
     resetAllComputedMarks();
     clearResolveCache();
@@ -288,7 +289,9 @@ export class Router {
     // const renderStartTime = performance.now();
     const finishPageView = hooks?.pageView?.create();
 
-    const storyboard = matchStoryboard(this.#storyboards, location.pathname);
+    const storyboard = blocked
+      ? undefined
+      : matchStoryboard(this.#storyboards, location.pathname);
 
     const previousApp = this.#runtimeContext?.app;
     const currentAppId = storyboard?.app?.id;
@@ -576,7 +579,13 @@ export class Router {
     applyMode();
 
     const node = await ErrorNode(
-      new PageNotFoundError(currentApp ? "page not found" : "app not found"),
+      new PageError(
+        blocked
+          ? "page blocked"
+          : currentApp
+            ? "page not found"
+            : "app not found"
+      ),
       renderRoot,
       true
     );
@@ -586,7 +595,7 @@ export class Router {
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);
-    finishPageView?.({ status: "not-found" });
+    finishPageView?.({ status: blocked ? "blocked" : "not-found" });
     devtoolsHookEmit("rendered");
   }
 }

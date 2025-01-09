@@ -24,12 +24,12 @@ interface ErrorMessageConfig {
 
 type LinkType = "home" | "previous" | "reload";
 
-export class PageNotFoundError extends Error {
-  constructor(message: "page not found" | "app not found") {
+export class PageError extends Error {
+  constructor(message: "page blocked" | "page not found" | "app not found") {
     // Pass remaining arguments (including vendor specific ones) to parent constructor
     super(message);
 
-    this.name = "PageNotFoundError";
+    this.name = "PageError";
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     // istanbul ignore else
@@ -182,18 +182,24 @@ function getLinkNode(
 }
 
 function getRefinedErrorConf(error: unknown): ErrorMessageConfig {
-  if (error instanceof PageNotFoundError) {
-    return error.message === "app not found"
+  if (error instanceof PageError) {
+    return error.message === "page blocked"
       ? {
           showLink: "home",
-          title: i18n.t(`${NS}:${K.APP_NOT_FOUND}`),
+          title: i18n.t(`${NS}:${K.LICENSE_BLOCKED}`),
           variant: "no-permission",
         }
-      : {
-          showLink: "home",
-          variant: "not-found",
-          title: i18n.t(`${NS}:${K.PAGE_NOT_FOUND}`),
-        };
+      : error.message === "app not found"
+        ? {
+            showLink: "home",
+            title: i18n.t(`${NS}:${K.APP_NOT_FOUND}`),
+            variant: "no-permission",
+          }
+        : {
+            showLink: "home",
+            variant: "not-found",
+            title: i18n.t(`${NS}:${K.PAGE_NOT_FOUND}`),
+          };
   }
 
   if (

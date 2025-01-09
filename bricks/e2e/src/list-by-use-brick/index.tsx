@@ -1,8 +1,8 @@
 import React from "react";
 import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
-import { ReactUseBrick } from "@next-core/react-runtime";
-import { UseSingleBrickConf } from "@next-core/types";
+import { ReactUseMultipleBricks } from "@next-core/react-runtime";
+import { UseBrickConf } from "@next-core/types";
 
 const { defineElement, property } = createDecorators();
 
@@ -13,7 +13,7 @@ export
 })
 class ListByUseBrick extends ReactNextElement {
   @property({ attribute: false })
-  accessor useBrick: UseSingleBrickConf;
+  accessor useBrick: UseBrickConf;
 
   @property({ attribute: false })
   accessor data: unknown;
@@ -29,7 +29,7 @@ export function ListByUseBrickComponent({
   useBrick,
   data,
 }: {
-  useBrick: UseSingleBrickConf;
+  useBrick: UseBrickConf;
   data: unknown;
 }) {
   if (!useBrick || !Array.isArray(data)) {
@@ -38,7 +38,7 @@ export function ListByUseBrickComponent({
   return (
     <>
       {data.map((datum, index) => (
-        <ReactUseBrick useBrick={useBrick} data={datum} key={index} />
+        <ReactUseMultipleBricks useBrick={useBrick} data={datum} key={index} />
       ))}
     </>
   );

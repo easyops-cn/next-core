@@ -9,6 +9,7 @@ import { InstalledMicroAppApi_getMenusInfo } from "@next-api-sdk/micro-app-sdk";
 import { createProviderClass } from "@next-core/utils/general";
 import { __test_only, createRuntime } from "@next-core/runtime";
 import { YAMLException } from "js-yaml";
+import type { LocationDescriptor } from "history";
 import { fetchMenuById, getMenuById } from "./fetchMenuById.js";
 import type { RuntimeContext, RuntimeHelpers } from "./interfaces.js";
 import * as auth from "../auth.js";
@@ -31,6 +32,14 @@ jest.mock("../auth.js", () => ({
   },
   isAdmin() {
     return false;
+  },
+  isBlockedUrl(url: LocationDescriptor) {
+    return typeof url === "string"
+      ? url.includes("blocked")
+      : url.pathname?.includes("blocked");
+  },
+  isBlockedHref(href: string) {
+    return href.includes("blocked");
   },
 }));
 
@@ -90,6 +99,14 @@ const menuList = [
       {
         text: "Menu Item 6",
         to: '/${ APP.unknown = ["next","test"] | join : "/" }',
+      },
+      {
+        text: "Menu Item blocked by to",
+        to: "/to/blocked",
+      },
+      {
+        text: "Menu Item blocked by href",
+        href: "/href/blocked",
       },
       {
         text: "Menu Item 7",
@@ -211,7 +228,7 @@ const menuList = [
 
 (
   InstanceApi_postSearch as jest.Mock<typeof InstanceApi_postSearch>
-).mockImplementation(async (objectId, data: any) => {
+).mockImplementation(async (_objectId, data: any) => {
   return {
     list: menuList.filter((menu) => menu.menuId === data.query.menuId.$eq),
   };
