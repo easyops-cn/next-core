@@ -13,6 +13,8 @@ const locale: Locale = {
     "App not found, maybe the URL is wrong or you don't have permission to access",
   [K.LICENSE_EXPIRED]:
     "The license authorization has expired, please contact the platform administrator",
+  [K.LICENSE_BLOCKED]:
+    "The page is not authorized, please contact the platform administrator",
   [K.NO_PERMISSION]:
     "Unauthorized access, unable to retrieve the required resources for this page",
   [K.OTHER_ERROR]: "Oops! Something went wrong",

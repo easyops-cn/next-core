@@ -2379,10 +2379,10 @@
   dependencies:
     "@next-core/styles-v3" "^0.3.5"
 
-"@next-sdk/api-gateway-sdk@^2.11.0", "@next-sdk/api-gateway-sdk@^2.7.0":
-  version "2.11.0"
-  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.11.0.tgz#e64706247191609181730fcfb40dc9b090f969c9"
-  integrity sha512-VP88tuDS19zsPnRJeNUEsVsh851YupxaNUNPbQdoMxGZDmXpA5Af16VHgYmXSwYJUeCGBvXgPJrS8sWrEzZhVA==
+"@next-sdk/api-gateway-sdk@^2.12.0":
+  version "2.12.0"
+  resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.12.0.tgz#645165fba3c0dc47a2232558cfacb3a448ad4247"
+  integrity sha512-zW6QKvOdD8axrzq8/wDNw1FD4F2BiOFSH89hWGaf3DMWkWC91qwPfsO3yaVDovREHkD/ujD/j9aMA9qEqVe/yQ==
 
 "@next-sdk/auth-sdk@^1.0.0":
   version "1.0.1"

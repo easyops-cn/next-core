@@ -41,7 +41,7 @@ import {
 import { isUnauthenticatedError } from "../internal/isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../internal/injected";
-import { getAuth, isLoggedIn } from "../auth";
+import { getAuth, isBlockedPath, isLoggedIn } from "../auth";
 import { devtoolsHookEmit } from "../internal/devtools";
 import { afterMountTree } from "./reconciler";
 import { constructMenu } from "../internal/menu";
@@ -246,6 +246,7 @@ export class Router {
   private async render(location: PluginLocation): Promise<void> {
     this.state = "initial";
     const renderId = (this.renderId = uniqueId("render-id-"));
+    const blocked = isBlockedPath(location.pathname);
 
     resetAllInjected();
     clearPollTimeout();
@@ -278,9 +279,9 @@ export class Router {
       return;
     }
 
-    const storyboard = locationContext.matchStoryboard(
-      this.kernel.bootstrapData.storyboards
-    );
+    const storyboard = blocked
+      ? undefined
+      : locationContext.matchStoryboard(this.kernel.bootstrapData.storyboards);
 
     const currentAppId = storyboard?.app?.id;
     //  dynamically change the value of the APP variable, if it's union app
@@ -826,6 +827,14 @@ export class Router {
       customTitle: i18next.t(`${NS_BRICK_KIT}:${K.PAGE_NOT_FOUND}`),
     };
 
+    const blockedPageConfig = {
+      illustrationsConfig: {
+        name: "no-permission",
+        category: "easyops2",
+      },
+      customTitle: i18next.t(`${NS_BRICK_KIT}:${K.LICENSE_BLOCKED}`),
+    };
+
     this.state = "ready-to-mount";
 
     mountTree(
@@ -836,7 +845,11 @@ export class Router {
             status: "illustrations",
             useNewIllustration: true,
             style: illustrationStyle,
-            ...(storyboard ? notFoundPageConfig : notFoundAppConfig),
+            ...(blocked
+              ? blockedPageConfig
+              : storyboard
+              ? notFoundPageConfig
+              : notFoundAppConfig),
           },
           children: [
             {

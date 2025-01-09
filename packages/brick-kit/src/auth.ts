@@ -1,6 +1,9 @@
 import { AuthInfo } from "@next-core/brick-types";
+import { matchPath } from "@next-core/brick-utils";
 import { userAnalytics } from "@next-core/easyops-analytics";
+import { createLocation, type LocationDescriptor } from "history";
 import { resetPermissionPreChecks } from "./internal/checkPermissions";
+import { getBasePath } from "./internal/getBasePath";
 
 const auth: AuthInfo = {};
 
@@ -38,12 +41,9 @@ export function getAuth(): AuthInfo {
 
 /** @internal */
 export function logout(): void {
-  auth.org = undefined;
-  auth.username = undefined;
-  auth.userInstanceId = undefined;
-  auth.accessRule = undefined;
-  auth.isAdmin = undefined;
-  auth.csrfToken = undefined;
+  for (const key of Object.keys(auth) as (keyof AuthInfo)[]) {
+    auth[key] = undefined as never;
+  }
   resetPermissionPreChecks();
 
   // re-init analytics to clear user_id
@@ -57,4 +57,39 @@ export function logout(): void {
  */
 export function isLoggedIn(): boolean {
   return auth.username !== undefined;
+}
+
+/**
+ * 判断一个内部 URL 路径是否被屏蔽。
+ */
+export function isBlockedPath(pathname: string): boolean {
+  return !!auth.license?.blackList?.some((path: string) =>
+    matchPath(pathname, { path })
+  );
+}
+
+/**
+ * 判断一个内部 URL 是否被屏蔽。
+ */
+export function isBlockedUrl(url: string | LocationDescriptor): boolean {
+  const pathname = (typeof url === "string" ? createLocation(url) : url)
+    .pathname;
+  if (typeof pathname !== "string") {
+    return false;
+  }
+  return isBlockedPath(pathname);
+}
+
+/**
+ * 判断一个 href 是否被屏蔽。
+ */
+export function isBlockedHref(href: string): boolean {
+  const basePath = getBasePath();
+  const url = new URL(href, `${location.origin}${basePath}`);
+  // 忽略外链地址
+  if (url.origin !== location.origin || !url.pathname.startsWith(basePath)) {
+    return false;
+  }
+  // 转换为内部路径
+  return isBlockedPath(url.pathname.substring(basePath.length - 1));
 }
