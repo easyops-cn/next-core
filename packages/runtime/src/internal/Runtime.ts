@@ -45,7 +45,7 @@ export interface ImagesFactory {
 }
 
 export interface PageViewInfo {
-  status: "ok" | "failed" | "redirected" | "not-found";
+  status: "ok" | "failed" | "redirected" | "not-found" | "blocked";
   path?: string;
   pageTitle?: string;
 }
@@ -56,6 +56,7 @@ export interface RuntimeHooks {
     isLoggedIn(): boolean;
     authenticate?(...args: unknown[]): unknown;
     logout?(...args: unknown[]): unknown;
+    isBlockedPath?(pathname: string): boolean;
   };
   fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;
   validatePermissions?: typeof PermissionApi_validatePermissions;

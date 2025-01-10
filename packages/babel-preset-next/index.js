@@ -19,15 +19,14 @@ module.exports = () => {
           : env === "commonjs"
             ? {
                 targets: {
-                  // Fallback to versions that doesn't support nullish coalescing
-                  node: "12",
+                  node: "14",
                 },
               }
             : {
                 modules: false,
                 useBuiltIns: "entry",
                 corejs: {
-                  version: "3.37",
+                  version: "3.38",
                 },
               },
       ],
@@ -50,7 +49,7 @@ module.exports = () => {
         transformRuntime,
         {
           // https://github.com/babel/babel/issues/9454#issuecomment-460425922
-          version: "7.24.5",
+          version: "7.25.6",
         },
       ],
     ],

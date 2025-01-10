@@ -11,11 +11,13 @@ import type {
   RuntimeMenuItemRawData,
   SidebarMenu,
   SidebarMenuItem,
+  SidebarMenuSimpleItem,
 } from "./interfaces.js";
 import { computeMenuItems, computeMenuData } from "./computeMenuData.js";
 import { fetchMenuTitle } from "./fetchMenuTitle.js";
 import { getMenusOfStandaloneApp } from "./getMenusOfStandaloneApp.js";
 import { preCheckPermissionsForAny } from "../checkPermissions.js";
+import { isBlockedHref, isBlockedUrl } from "../auth.js";
 
 const menuPromises = new Map<string, Promise<void>>();
 
@@ -24,30 +26,43 @@ const menuCache = new Map<string, SidebarMenu>();
 function transformMenuItems(
   menuItems: RuntimeMenuItemRawData[] | undefined
 ): SidebarMenuItem[] | undefined {
-  return menuItems?.filter(checkIfOfComputed).map((item) => {
-    const children = transformMenuItems(item.children);
-    const transformedMenuItem: SidebarMenuItem =
-      item.type === "group"
-        ? {
-            type: "group",
-            title: item.text,
-            childLayout: item.childLayout,
-            items: children,
-            groupId: item.groupId,
-            groupFrom: item.groupFrom,
-          }
-        : children?.length
+  return menuItems
+    ?.filter(checkIfOfComputed)
+    .map((item) => {
+      const children = transformMenuItems(item.children);
+      const transformedMenuItem: SidebarMenuItem | null =
+        item.type === "group"
           ? {
-              type: "subMenu",
-              childLayout: item.childLayout,
+              type: "group",
               title: item.text,
-              icon: item.icon,
+              childLayout: item.childLayout,
               items: children,
-              defaultExpanded: item.defaultExpanded,
+              groupId: item.groupId,
+              groupFrom: item.groupFrom,
             }
-          : (omit(item, ["type", "items", "children"]) as SidebarMenuItem);
-    return transformedMenuItem;
-  });
+          : children?.length
+            ? {
+                type: "subMenu",
+                childLayout: item.childLayout,
+                title: item.text,
+                icon: item.icon,
+                items: children,
+                defaultExpanded: item.defaultExpanded,
+              }
+            : isMenuItemBlocked(item as SidebarMenuSimpleItem)
+              ? null
+              : (omit(item, ["type", "items", "children"]) as SidebarMenuItem);
+      return transformedMenuItem;
+    })
+    .filter(Boolean) as SidebarMenuItem[];
+}
+
+function isMenuItemBlocked(item: SidebarMenuSimpleItem) {
+  return item.href
+    ? isBlockedHref(item.href)
+    : item.to
+      ? isBlockedUrl(item.to)
+      : false;
 }
 
 export function getMenuById(menuId: string) {

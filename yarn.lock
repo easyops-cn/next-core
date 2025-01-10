@@ -1968,12 +1968,12 @@
   resolved "https://registry.npmjs.org/@microsoft/tsdoc/-/tsdoc-0.15.0.tgz#f29a55df17cb6e87cfbabce33ff6a14a9f85076d"
   integrity sha512-HZpPoABogPvjeJOdzCOSJsXeL/SMCBgBZMVC3X3d7YYp2gf31MfxhUoYUNwf1ERPJOnQc0wkFn9trqI6ZEdZuA==
 
-"@next-api-sdk/api-gateway-sdk@^1.1.0", "@next-api-sdk/api-gateway-sdk@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@next-api-sdk/api-gateway-sdk/-/api-gateway-sdk-1.2.0.tgz#68a49bf50f76c626234ce53cb3606f7dbeb2ca97"
-  integrity sha512-HG6wSG2hoH+ZXEH/AUIsbhUwtzXQgWKU7usrFVVQsGmqIQscjRYMSlCqEAJixP1IG9vQ0D+kkkaeAoSnhX3nEg==
+"@next-api-sdk/api-gateway-sdk@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.npmjs.org/@next-api-sdk/api-gateway-sdk/-/api-gateway-sdk-1.2.2.tgz#867b2b93573379fcd8f2507876bc0ce83bf19858"
+  integrity sha512-q4XFL3xOAcG+qboXWKRfENiiN72dVIs0w9JBurVj5NwbgSsF3L4L1T+v1MJlBIp7hhEzWa60SwvUh0IiRneNqA==
   dependencies:
-    "@next-core/http" "^1.0.0"
+    "@next-core/http" "^1.2.6"
 
 "@next-api-sdk/cmdb-sdk@^1.1.0":
   version "1.1.0"

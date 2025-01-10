@@ -4,6 +4,7 @@ export enum K {
   LOGIN_TIMEOUT_MESSAGE = "LOGIN_TIMEOUT_MESSAGE",
   NETWORK_ERROR = "NETWORK_ERROR",
   LICENSE_EXPIRED = "LICENSE_EXPIRED",
+  LICENSE_BLOCKED = "LICENSE_BLOCKED",
   NO_PERMISSION = "NO_PERMISSION",
   PAGE_NOT_FOUND = "PAGE_NOT_FOUND",
   APP_NOT_FOUND = "APP_NOT_FOUND",
@@ -21,6 +22,8 @@ const en: Locale = {
   [K.NETWORK_ERROR]: "Network error, please check your network.",
   [K.LICENSE_EXPIRED]:
     "The license authorization has expired, please contact the platform administrator",
+  [K.LICENSE_BLOCKED]:
+    "The page is not authorized, please contact the platform administrator",
   [K.NO_PERMISSION]:
     "Unauthorized access, unable to retrieve the required resources for this page",
   [K.PAGE_NOT_FOUND]: "Page not found, please check the URL",
@@ -38,6 +41,7 @@ const zh: Locale = {
   [K.LOGIN_TIMEOUT_MESSAGE]: "您还未登录或登录信息已过期，现在重新登录？",
   [K.NETWORK_ERROR]: "网络错误，请检查您的网络连接。",
   [K.LICENSE_EXPIRED]: "License 授权失效，请联系平台管理员",
+  [K.LICENSE_BLOCKED]: "该页面未授权，请联系平台管理员",
   [K.NO_PERMISSION]: "没有权限，无法获取页面所需要的资源",
   [K.PAGE_NOT_FOUND]: "请求的页面未找到，请确认 URL 是否正确",
   [K.APP_NOT_FOUND]: "请求的微应用无法找到, 可能是 URL 错误或者无权限访问",

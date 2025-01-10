@@ -4,6 +4,7 @@ import type {
   __secret_internals,
   MatchOptions,
 } from "@next-core/runtime";
+import type { LocationDescriptor } from "history";
 import {
   symbolAppId,
   symbolMenuI18nNamespace,
@@ -61,8 +62,7 @@ export interface SidebarMenuSimpleItem {
   text: string;
 
   /** 菜单项对应的系统内地址。 */
-  // to?: LocationDescriptor;
-  to?: unknown;
+  to?: LocationDescriptor;
 
   /** 菜单项对应的外部链接地址。 */
   href?: string;

@@ -1,7 +1,7 @@
 import { jest, describe, test, expect } from "@jest/globals";
 import { BrickLoadError, loadBricksImperatively } from "@next-core/loader";
 import { initializeI18n } from "@next-core/i18n";
-import { ErrorNode, PageNotFoundError } from "./ErrorNode.js";
+import { ErrorNode, PageError } from "./ErrorNode.js";
 import { RenderTag } from "./enums.js";
 import type { RenderReturnNode } from "./interfaces.js";
 import { HttpResponseError } from "@next-core/http";
@@ -262,7 +262,7 @@ describe("ErrorNode", () => {
   test("page not found", async () => {
     expect(
       await ErrorNode(
-        new PageNotFoundError("page not found"),
+        new PageError("page not found"),
         {
           tag: RenderTag.ROOT,
         } as RenderReturnNode,
@@ -297,7 +297,7 @@ describe("ErrorNode", () => {
   test("app not found", async () => {
     expect(
       await ErrorNode(
-        new PageNotFoundError("app not found"),
+        new PageError("app not found"),
         {
           tag: RenderTag.ROOT,
         } as RenderReturnNode,
@@ -336,7 +336,7 @@ describe("ErrorNode", () => {
 
     expect(
       await ErrorNode(
-        new PageNotFoundError("app not found"),
+        new PageError("app not found"),
         {
           tag: RenderTag.ROOT,
         } as RenderReturnNode,

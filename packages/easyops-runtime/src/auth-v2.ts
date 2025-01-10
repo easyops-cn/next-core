@@ -7,7 +7,15 @@ export function authV2Factory() {
   const v2Kit = getV2RuntimeFromDll();
   if (v2Kit) {
     return Object.freeze(
-      pick(v2Kit, ["authenticate", "getAuth", "isLoggedIn", "logout"])
+      pick(v2Kit, [
+        "authenticate",
+        "getAuth",
+        "isLoggedIn",
+        "logout",
+        "isBlockedPath",
+        "isBlockedUrl",
+        "isBlockedHref",
+      ])
     ) as typeof auth;
   }
 }

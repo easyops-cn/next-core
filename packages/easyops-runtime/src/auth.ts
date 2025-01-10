@@ -1,4 +1,6 @@
+import { getBasePath, matchPath } from "@next-core/runtime";
 import type { AuthApi_CheckLoginResponseBody } from "@next-api-sdk/api-gateway-sdk";
+import { createLocation, type LocationDescriptor } from "history";
 import { resetPermissionPreChecks } from "./checkPermissions.js";
 
 const auth: AuthInfo = {};
@@ -48,4 +50,39 @@ export function logout(): void {
  */
 export function isLoggedIn(): boolean {
   return auth.username !== undefined;
+}
+
+/**
+ * 判断一个内部 URL 路径是否被屏蔽。
+ */
+export function isBlockedPath(pathname: string): boolean {
+  return !!auth.license?.blackList?.some((path) =>
+    matchPath(pathname, { path })
+  );
+}
+
+/**
+ * 判断一个内部 URL 是否被屏蔽。
+ */
+export function isBlockedUrl(url: string | LocationDescriptor): boolean {
+  const pathname = (typeof url === "string" ? createLocation(url) : url)
+    .pathname;
+  if (typeof pathname !== "string") {
+    return false;
+  }
+  return isBlockedPath(pathname);
+}
+
+/**
+ * 判断一个 href 是否被屏蔽。
+ */
+export function isBlockedHref(href: string): boolean {
+  const basePath = getBasePath();
+  const url = new URL(href, `${location.origin}${basePath}`);
+  // 忽略外链地址
+  if (url.origin !== location.origin || !url.pathname.startsWith(basePath)) {
+    return false;
+  }
+  // 转换为内部路径
+  return isBlockedPath(url.pathname.substring(basePath.length - 1));
 }

@@ -1688,6 +1688,70 @@ describe("Runtime", () => {
     expect(finishPageView).toHaveBeenNthCalledWith(2, { status: "not-found" });
   });
 
+  test("page blocked", async () => {
+    window.NO_AUTH_GUARD = false;
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return true;
+          },
+          getAuth() {
+            return {};
+          },
+          isBlockedPath() {
+            return true;
+          },
+        },
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "blocked-app",
+            homepage: "/blocked-app",
+            name: "Blocked APP",
+          },
+          routes: [
+            {
+              path: "${APP.homepage}/blocked",
+              bricks: [{ brick: "div" }],
+            },
+          ],
+        },
+      ],
+      brickPackages: [],
+    });
+    getHistory().push("/blocked-app/blocked");
+    await getRuntime().bootstrap();
+    expect(document.body.children).toMatchInlineSnapshot(`
+      HTMLCollection [
+        <div
+          id="main-mount-point"
+        >
+          <illustrations.error-message
+            data-error-boundary=""
+          >
+            <eo-link>
+              Go back to home page
+            </eo-link>
+          </illustrations.error-message>
+        </div>,
+        <div
+          id="portal-mount-point"
+        />,
+      ]
+    `);
+    expect(finishPageView).toBeCalledTimes(1);
+    expect(finishPageView).toBeCalledWith({
+      status: "blocked",
+    });
+  });
+
   test("failed to bootstrap", async () => {
     consoleError.mockReturnValueOnce();
     const finishPageView = jest.fn();
