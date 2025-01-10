@@ -34,7 +34,7 @@ let ReactUseBrick = function ReactUseBrick({
 }: ReactUseBrickProps): React.ReactElement | null {
   const [renderResult, setRenderResult] =
     useState<__secret_internals.RenderUseBrickResult | null>(null);
-  const mountResult = useRef<__secret_internals.MountUseBrickResult>();
+  const mountResult = useRef<__secret_internals.MountUseBrickResult>(undefined);
   const [renderKey, setRenderKey] = useState<number>();
   const IdCounterRef = useRef(0);
   const initialRenderId = useMemo(() => __secret_internals.getRenderId?.(), []);

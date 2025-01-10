@@ -42,7 +42,7 @@ export function wrapLocalBrick<T extends HTMLElement, P>(
   brick: Constructable<T> | string
 ): WrappedBrick<T, P>;
 
-export function wrapLocalBrick<T extends HTMLElement, P, E, M extends object>(
+export function wrapLocalBrick<T extends HTMLElement, P, _E, M extends object>(
   brick: Constructable<T> | string,
   eventsMapping?: M
 ) {
@@ -54,24 +54,20 @@ export function wrapLocalBrick<T extends HTMLElement, P, E, M extends object>(
       );
     }
   }
-  return forwardRef(function BrickReactWrapper(
-    {
-      children,
-      ...props
-    }: HTMLAttributes<T> & PropsWithChildren<P> & MapEvents<E, M>,
-    ref: Ref<T>
-  ) {
-    const WebComponent = typeof brick === "string" ? brick : brick.__tagName;
-    const properties = getMappedProperties(
-      props,
-      eventsMapping as Record<string, string>
-    ) as any;
-    return (
-      <WebComponent {...properties} ref={ref}>
-        {children}
-      </WebComponent>
-    );
-  });
+  return forwardRef<T, PropsWithChildren<P> /* & MapEvents<E, M> */>(
+    function BrickReactWrapper({ children, ...props }, ref: Ref<T>) {
+      const WebComponent = typeof brick === "string" ? brick : brick.__tagName;
+      const properties = getMappedProperties(
+        props,
+        eventsMapping as Record<string, string>
+      ) as any;
+      return (
+        <WebComponent {...properties} ref={ref}>
+          {children}
+        </WebComponent>
+      );
+    }
+  );
 }
 
 export function wrapBrick<T extends HTMLElement, P, E, M extends object>(
@@ -83,15 +79,12 @@ export function wrapBrick<T extends HTMLElement, P>(
   BrickName: string
 ): WrappedBrick<T, P>;
 
-export function wrapBrick<T extends HTMLElement, P, E, M extends object>(
+export function wrapBrick<T extends HTMLElement, P, _E, M extends object>(
   BrickName: string,
   eventsMapping?: M
 ) {
-  return forwardRef(function BrickReactWrapper(
-    {
-      children,
-      ...props
-    }: HTMLAttributes<T> & PropsWithChildren<P> & MapEvents<E, M>,
+  return forwardRef<T, PropsWithChildren<P>>(function BrickReactWrapper(
+    { children, ...props },
     ref: Ref<T>
   ) {
     const properties = getMappedProperties(

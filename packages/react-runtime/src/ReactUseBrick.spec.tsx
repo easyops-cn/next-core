@@ -1,7 +1,6 @@
-import React from "react";
+import React, { act } from "react";
 import { describe, test, expect, jest } from "@jest/globals";
 import { render } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
 import type { UseBrickConf, UseSingleBrickConf } from "@next-core/types";
 import { __secret_internals, handleHttpError } from "@next-core/runtime";
 import { ReactUseBrick, ReactUseMultipleBricks } from "./ReactUseBrick.js";
