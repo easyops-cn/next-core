@@ -35,6 +35,7 @@ import { getI18nNamespace } from "../i18n";
 import i18next from "i18next";
 import { validatePermissions } from "./checkPermissions";
 import { pipes } from "@next-core/pipes";
+import { isBlockedHref, isBlockedUrl } from "../auth";
 
 const symbolAppId = Symbol("appId");
 const symbolMenuI18nNamespace = Symbol("menuI18nNamespace");
@@ -356,8 +357,19 @@ function walkMenuItems(menuItems: RuntimeMenuItemRawData[]): SidebarMenuItem[] {
             items: children,
             defaultExpanded: item.defaultExpanded,
           }
-        : (item as SidebarMenuSimpleItem);
-    });
+        : isMenuItemBlocked(item as SidebarMenuSimpleItem)
+        ? null
+        : item;
+    })
+    .filter(Boolean) as SidebarMenuSimpleItem[];
+}
+
+function isMenuItemBlocked(item: SidebarMenuSimpleItem): boolean {
+  return item.href
+    ? isBlockedHref(item.href)
+    : item.to
+    ? isBlockedUrl(item.to)
+    : false;
 }
 
 export async function processMenu(

@@ -48,6 +48,7 @@ import { IllustrationProps } from '@next-core/illustrations';
 import { InterceptorParams } from '@next-core/brick-types';
 import type { LayoutType } from '@next-core/brick-types';
 import { Location as Location_2 } from 'history';
+import { LocationDescriptor } from 'history';
 import { MagicBrickConfig } from '@next-core/brick-types';
 import { MatchResult } from '@next-core/brick-types';
 import { MenuBarBrick } from '@next-core/brick-types';
@@ -444,6 +445,15 @@ export const initI18n: () => void;
 
 // @public (undocumented)
 export function instantiateModalStack(initialIndex?: number): ModalStack;
+
+// @public
+export function isBlockedHref(href: string): boolean;
+
+// @public
+export function isBlockedPath(pathname: string): boolean;
+
+// @public
+export function isBlockedUrl(url: string | LocationDescriptor): boolean;
 
 // @public
 export function isLoggedIn(): boolean;
