@@ -1,6 +1,6 @@
 {
   "name": "@next-core/i18n",
-  "version": "1.0.71",
+  "version": "1.0.72",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/i18n",
   "license": "GPL-3.0",
   "repository": {
@@ -47,7 +47,7 @@
     "react-i18next": "^12.3.1"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.21",
+    "@next-core/build-next-libs": "^1.0.22",
     "@next-core/test-next": "^1.1.7"
   }
 }

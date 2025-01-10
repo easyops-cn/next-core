@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-next-bricks",
-  "version": "1.23.7",
+  "version": "1.23.8",
   "description": "Build next bricks",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-bricks",
   "license": "GPL-3.0",
@@ -36,7 +36,7 @@
   "dependencies": {
     "@babel/parser": "^7.25.6",
     "@babel/traverse": "^7.25.6",
-    "@next-core/babel-preset-next": "^1.0.22",
+    "@next-core/babel-preset-next": "^1.0.23",
     "@svgr/webpack": "^8.1.0",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",

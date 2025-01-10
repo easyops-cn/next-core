@@ -1,6 +1,6 @@
 {
   "name": "@next-core/loader",
-  "version": "1.6.12",
+  "version": "1.6.13",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/loader",
   "license": "GPL-3.0",
   "repository": {
@@ -43,7 +43,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.21",
+    "@next-core/build-next-libs": "^1.0.22",
     "@next-core/test-next": "^1.1.7"
   }
 }

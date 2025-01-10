@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.59.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.4...@next-core/runtime@1.59.0) (2025-01-10)
+
+
+### Features
+
+* support block pages by license blacklist ([0f84de8](https://github.com/easyops-cn/next-core/commit/0f84de85898e134efac3dc7500e580e15c7da25c))
+
+
+
+
+
 ## [1.58.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.58.3...@next-core/runtime@1.58.4) (2025-01-03)
 
 

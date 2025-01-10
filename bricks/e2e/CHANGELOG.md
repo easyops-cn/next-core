@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.4.68...@next-bricks/e2e@0.5.0) (2025-01-10)
+
+
+### Features
+
+* support block pages by license blacklist ([0f84de8](https://github.com/easyops-cn/next-core/commit/0f84de85898e134efac3dc7500e580e15c7da25c))
+
+
+
+
+
 ## [0.4.68](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.4.67...@next-bricks/e2e@0.4.68) (2025-01-03)
 
 **Note:** Version bump only for package @next-bricks/e2e

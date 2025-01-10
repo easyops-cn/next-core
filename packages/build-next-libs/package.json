@@ -1,6 +1,6 @@
 {
   "name": "@next-core/build-next-libs",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "Build next libs (and some next-core libs)",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/build-next-libs",
   "license": "GPL-3.0",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@babel/cli": "^7.25.6",
     "@babel/core": "^7.25.2",
-    "@next-core/babel-preset-next": "^1.0.22",
+    "@next-core/babel-preset-next": "^1.0.23",
     "execa": "^5.1.1",
     "rimraf": "^5.0.10"
   }

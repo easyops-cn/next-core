@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.23](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.22...@next-core/babel-preset-next@1.0.23) (2025-01-10)
+
+
+### Bug Fixes
+
+* sync dep versions in babel config ([60fd414](https://github.com/easyops-cn/next-core/commit/60fd41482725e8d6088f80010b38c6e5213f5aa1))
+
+
+
+
+
 ## [1.0.22](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@1.0.21...@next-core/babel-preset-next@1.0.22) (2024-12-25)
 
 
