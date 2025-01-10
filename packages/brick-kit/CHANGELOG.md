@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.204.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.3...@next-core/brick-kit@2.204.0) (2025-01-10)
+
+
+### Features
+
+* support block pages by license blacklist ([8d6fd01](https://github.com/easyops-cn/next-core/commit/8d6fd01e7043829bfdaa8d8ce7a16ae404e3c821))
+
+
+
+
+
 ## [2.203.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.203.2...@next-core/brick-kit@2.203.3) (2024-12-24)
 
 
