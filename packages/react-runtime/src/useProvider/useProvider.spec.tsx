@@ -1,8 +1,7 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import { FetchMock, GlobalWithFetchMock } from "jest-fetch-mock";
 import React, { Suspense } from "react";
 import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
 import * as fetchProvider from "./fetch.js";
 import { useProvider } from "./useProvider.js";
 import { fireEvent, render, waitFor } from "@testing-library/react";
@@ -33,10 +32,10 @@ describe("useProvider Hook", () => {
   });
 
   it("should fetch provider with object destructuring", async (): Promise<void> => {
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useProvider("easyops.custom_api@test")
-    );
-    result.current.query([]);
+    const { result } = renderHook(() => useProvider("easyops.custom_api@test"));
+    act(() => {
+      result.current.query([]);
+    });
     expect(result.current.data).toBeUndefined();
     expect(result.current.loading).toBe(true);
     expect(result.current.error).toBeUndefined();
@@ -44,7 +43,7 @@ describe("useProvider Hook", () => {
     expect(result.current.response).toEqual(undefined);
 
     await act(async () => {
-      await waitForNextUpdate();
+      await (global as any).flushPromises();
     });
 
     expect(result.current.data).toStrictEqual(expected);
@@ -68,7 +67,7 @@ describe("useProvider Hook", () => {
           ]);
 
           onChange(data);
-        } catch (e) {
+        } catch {
           // Do nothing...
         }
       };
@@ -115,7 +114,7 @@ describe("Error handing", () => {
   });
 
   it("should handing error", async (): Promise<void> => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       useProvider(
         "easyops.custom_api@test",
         {
@@ -133,7 +132,7 @@ describe("Error handing", () => {
     expect(result.current.request.loading).toBe(true);
 
     await act(async () => {
-      await waitForNextUpdate();
+      await (global as any).flushPromises();
     });
 
     expect(onError).toBeCalled();
