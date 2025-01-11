@@ -2658,13 +2658,6 @@
     lodash "^4.17.21"
     redent "^3.0.0"
 
-"@testing-library/react@^16.0.1":
-  version "16.0.1"
-  resolved "https://registry.npmjs.org/@testing-library/react/-/react-16.0.1.tgz#29c0ee878d672703f5e7579f239005e4e0faa875"
-  integrity sha512-dSmwJVtJXmku+iocRhWOUFbrERC76TX2Mnf0ATODz8brzAZrMBbzLwQixlBSanZxR6LddK3eiwpSFZgDET1URg==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-
 "@testing-library/react@^16.1.0":
   version "16.1.0"
   resolved "https://registry.npmjs.org/@testing-library/react/-/react-16.1.0.tgz#aa0c61398bac82eaf89776967e97de41ac742d71"
