@@ -1,6 +1,6 @@
 {
   "name": "@next-core/react-element",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/react-element",
   "license": "GPL-3.0",
   "repository": {
@@ -38,12 +38,12 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
-    "@next-core/element": "^1.2.15",
+    "@next-core/element": "^1.2.16-beta.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.22",
-    "@next-core/test-next": "^1.1.7"
+    "@next-core/test-next": "^1.1.8-beta.0"
   }
 }

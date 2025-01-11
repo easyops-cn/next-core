@@ -3,271 +3,145 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.3.1...@next-core/supply@2.3.2) (2025-01-10)
+## [2.3.3-beta.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.3.2...@next-core/supply@2.3.3-beta.0) (2025-01-11)
 
 **Note:** Version bump only for package @next-core/supply
 
+## [2.3.2](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.3.1...@next-core/supply@2.3.2) (2025-01-10)
 
-
-
+**Note:** Version bump only for package @next-core/supply
 
 ## [2.3.1](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.3.0...@next-core/supply@2.3.1) (2024-12-25)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 # [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.2.2...@next-core/supply@2.3.0) (2024-11-26)
-
 
 ### Features
 
-* support native mode for storyboard functions ([cc397a9](https://github.com/easyops-cn/next-core/commit/cc397a9f2981a31f40a6749aeaf47e44b53c3ad3))
-
-
-
-
+- support native mode for storyboard functions ([cc397a9](https://github.com/easyops-cn/next-core/commit/cc397a9f2981a31f40a6749aeaf47e44b53c3ad3))
 
 ## [2.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.2.1...@next-core/supply@2.2.2) (2024-09-30)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.2.0...@next-core/supply@2.2.1) (2024-09-25)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 # [2.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.21...@next-core/supply@2.2.0) (2024-09-06)
-
 
 ### Features
 
-* allow accessing URL ([e3ad6cd](https://github.com/easyops-cn/next-core/commit/e3ad6cdde52e9e53143bf3b88f6d8245e45301ac))
-
-
-
-
+- allow accessing URL ([e3ad6cd](https://github.com/easyops-cn/next-core/commit/e3ad6cdde52e9e53143bf3b88f6d8245e45301ac))
 
 ## [2.1.21](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.20...@next-core/supply@2.1.21) (2024-08-27)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.20](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.19...@next-core/supply@2.1.20) (2024-07-03)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.19](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.18...@next-core/supply@2.1.19) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.18](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.17...@next-core/supply@2.1.18) (2024-06-11)
-
 
 ### Bug Fixes
 
-* **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
-
-
-
-
+- **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
 
 ## [2.1.17](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.16...@next-core/supply@2.1.17) (2024-06-06)
 
-
 ### Bug Fixes
 
-* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
-
-
-
-
+- add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
 
 ## [2.1.16](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.15...@next-core/supply@2.1.16) (2024-06-03)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.15](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.14...@next-core/supply@2.1.15) (2024-05-10)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.14](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.13...@next-core/supply@2.1.14) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.13](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.12...@next-core/supply@2.1.13) (2024-04-16)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.12](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.11...@next-core/supply@2.1.12) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.11](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.10...@next-core/supply@2.1.11) (2024-02-04)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.10](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.9...@next-core/supply@2.1.10) (2024-01-02)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.9](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.8...@next-core/supply@2.1.9) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.8](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.7...@next-core/supply@2.1.8) (2023-11-29)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.7](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.6...@next-core/supply@2.1.7) (2023-11-17)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.6](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.5...@next-core/supply@2.1.6) (2023-10-18)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.5](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.4...@next-core/supply@2.1.5) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.4](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.3...@next-core/supply@2.1.4) (2023-09-05)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.3](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.2...@next-core/supply@2.1.3) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.1.2](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.1...@next-core/supply@2.1.2) (2023-07-07)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.1.0...@next-core/supply@2.1.1) (2023-05-26)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 # [2.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.5...@next-core/supply@2.1.0) (2023-05-18)
-
 
 ### Features
 
-* function support RegExp in v3 ([20d47eb](https://github.com/easyops-cn/next-core/commit/20d47eb06247c0380fad3b214b4a4934a45a5b5f))
-
-
-
-
+- function support RegExp in v3 ([20d47eb](https://github.com/easyops-cn/next-core/commit/20d47eb06247c0380fad3b214b4a4934a45a5b5f))
 
 ## [2.0.5](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.4...@next-core/supply@2.0.5) (2023-05-10)
 
-
 ### Bug Fixes
 
-* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
-
-
-
-
+- fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
 
 ## [2.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.3...@next-core/supply@2.0.4) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/supply
 
-
-
-
-
 ## [2.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.2...@next-core/supply@2.0.3) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/supply
-
-
-
-
 
 ## [2.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/supply@2.0.1...@next-core/supply@2.0.2) (2023-03-22)
 

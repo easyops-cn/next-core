@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.1](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@2.0.0-beta.0...@next-core/react-runtime@2.0.0-beta.1) (2025-01-11)
+
+### Bug Fixes
+
+- fix react tests [skip ci] ([b5193f6](https://github.com/easyops-cn/next-core/commit/b5193f614fff267faa18b3aee1cbde31e2f919ea))
+
 # [2.0.0-beta.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.7.7...@next-core/react-runtime@2.0.0-beta.0) (2025-01-11)
 
 ### Features

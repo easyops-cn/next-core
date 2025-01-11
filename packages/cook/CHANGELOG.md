@@ -3,383 +3,210 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.4...@next-core/cook@2.5.5) (2025-01-10)
+## [2.5.6-beta.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.5...@next-core/cook@2.5.6-beta.0) (2025-01-11)
 
 **Note:** Version bump only for package @next-core/cook
 
+## [2.5.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.4...@next-core/cook@2.5.5) (2025-01-10)
 
-
-
+**Note:** Version bump only for package @next-core/cook
 
 ## [2.5.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.3...@next-core/cook@2.5.4) (2024-12-25)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.5.3](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.2...@next-core/cook@2.5.3) (2024-11-26)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.5.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.1...@next-core/cook@2.5.2) (2024-09-30)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.5.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.5.0...@next-core/cook@2.5.1) (2024-09-25)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 # [2.5.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.9...@next-core/cook@2.5.0) (2024-09-06)
-
 
 ### Features
 
-* allow accessing URL ([e3ad6cd](https://github.com/easyops-cn/next-core/commit/e3ad6cdde52e9e53143bf3b88f6d8245e45301ac))
-
-
-
-
+- allow accessing URL ([e3ad6cd](https://github.com/easyops-cn/next-core/commit/e3ad6cdde52e9e53143bf3b88f6d8245e45301ac))
 
 ## [2.4.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.8...@next-core/cook@2.4.9) (2024-08-27)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.4.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.7...@next-core/cook@2.4.8) (2024-07-26)
-
 
 ### Bug Fixes
 
-* cache expression AST ([e3693c2](https://github.com/easyops-cn/next-core/commit/e3693c2a1a88fa03249433fa9f542438229a1860))
-* cache function AST ([99d4b54](https://github.com/easyops-cn/next-core/commit/99d4b549dd9b05cf007b1f513395cbcc5831560c))
-
-
-
-
+- cache expression AST ([e3693c2](https://github.com/easyops-cn/next-core/commit/e3693c2a1a88fa03249433fa9f542438229a1860))
+- cache function AST ([99d4b54](https://github.com/easyops-cn/next-core/commit/99d4b549dd9b05cf007b1f513395cbcc5831560c))
 
 ## [2.4.7](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.6...@next-core/cook@2.4.7) (2024-07-03)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.4.6](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.5...@next-core/cook@2.4.6) (2024-07-02)
-
 
 ### Bug Fixes
 
-* lodash requires function length ([dd29500](https://github.com/easyops-cn/next-core/commit/dd2950092adc262df82ea4f473083f767ab40f24))
-
-
-
-
+- lodash requires function length ([dd29500](https://github.com/easyops-cn/next-core/commit/dd2950092adc262df82ea4f473083f767ab40f24))
 
 ## [2.4.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.4...@next-core/cook@2.4.5) (2024-06-24)
 
-
 ### Bug Fixes
 
-* call hooks.beforeEvaluate in NamedEvaluation ([276417c](https://github.com/easyops-cn/next-core/commit/276417cc80eabf074555061cc4292133b0304a95))
-
-
-
-
+- call hooks.beforeEvaluate in NamedEvaluation ([276417c](https://github.com/easyops-cn/next-core/commit/276417cc80eabf074555061cc4292133b0304a95))
 
 ## [2.4.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.3...@next-core/cook@2.4.4) (2024-06-21)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.4.3](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.2...@next-core/cook@2.4.3) (2024-06-19)
-
 
 ### Bug Fixes
 
-* **precook:** add arguments binding ([21c7264](https://github.com/easyops-cn/next-core/commit/21c72649a1c9245e9ae32dbcea5479cb5b3a9d7b))
-
-
-
-
+- **precook:** add arguments binding ([21c7264](https://github.com/easyops-cn/next-core/commit/21c72649a1c9245e9ae32dbcea5479cb5b3a9d7b))
 
 ## [2.4.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.1...@next-core/cook@2.4.2) (2024-06-18)
 
-
 ### Bug Fixes
 
-* fix debugging nested FN calls ([12c2c2f](https://github.com/easyops-cn/next-core/commit/12c2c2ff94a3c9b73341c66c9f3dcefc2e95188e))
-
-
-
-
+- fix debugging nested FN calls ([12c2c2f](https://github.com/easyops-cn/next-core/commit/12c2c2ff94a3c9b73341c66c9f3dcefc2e95188e))
 
 ## [2.4.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.4.0...@next-core/cook@2.4.1) (2024-06-18)
 
-
 ### Bug Fixes
 
-* refine debugger breakpoints ([d7caf3d](https://github.com/easyops-cn/next-core/commit/d7caf3d30069369166983d4e6212d560bd7b1a4d))
-
-
-
-
+- refine debugger breakpoints ([d7caf3d](https://github.com/easyops-cn/next-core/commit/d7caf3d30069369166983d4e6212d560bd7b1a4d))
 
 # [2.4.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.3.0...@next-core/cook@2.4.0) (2024-06-18)
 
-
 ### Bug Fixes
 
-* mark debugger return ([97f1f3b](https://github.com/easyops-cn/next-core/commit/97f1f3bcac115088ffac5d098e9f8b91881766dc))
-
+- mark debugger return ([97f1f3b](https://github.com/easyops-cn/next-core/commit/97f1f3bcac115088ffac5d098e9f8b91881766dc))
 
 ### Features
 
-* support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
-* support this expression ([6707151](https://github.com/easyops-cn/next-core/commit/6707151dca233a3ea58b0b783670c830ae196fe0))
-
-
-
-
+- support override lodash/array/object when debugging ([03d7859](https://github.com/easyops-cn/next-core/commit/03d7859aa76564c5893cbcfb13eebcd5c0146981))
+- support this expression ([6707151](https://github.com/easyops-cn/next-core/commit/6707151dca233a3ea58b0b783670c830ae196fe0))
 
 # [2.3.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.18...@next-core/cook@2.3.0) (2024-06-11)
 
-
 ### Bug Fixes
 
-* **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
-
+- **supply:** only return attempted globals ([20ab2f0](https://github.com/easyops-cn/next-core/commit/20ab2f0140a2c4f4532ea33be47aa2e949d1872d))
 
 ### Features
 
-* support single-step debugging for functions ([c753e98](https://github.com/easyops-cn/next-core/commit/c753e985b11554d30a6751fe557657f70ebddcdd))
-
-
-
-
+- support single-step debugging for functions ([c753e98](https://github.com/easyops-cn/next-core/commit/c753e985b11554d30a6751fe557657f70ebddcdd))
 
 ## [2.2.18](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.17...@next-core/cook@2.2.18) (2024-06-06)
 
-
 ### Bug Fixes
 
-* add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
-
-
-
-
+- add repository directory in package.json ([4610d09](https://github.com/easyops-cn/next-core/commit/4610d0987f98b4cda82aa232e488f375bcfd42a3))
 
 ## [2.2.17](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.16...@next-core/cook@2.2.17) (2024-06-03)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.16](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.15...@next-core/cook@2.2.16) (2024-05-10)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.2.15](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.14...@next-core/cook@2.2.15) (2024-05-09)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.13...@next-core/cook@2.2.14) (2024-04-16)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.12...@next-core/cook@2.2.13) (2024-03-11)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.12](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.11...@next-core/cook@2.2.12) (2024-02-04)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.2.11](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.10...@next-core/cook@2.2.11) (2024-01-02)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.10](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.9...@next-core/cook@2.2.10) (2023-12-25)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.2.9](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.8...@next-core/cook@2.2.9) (2023-11-29)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.8](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.7...@next-core/cook@2.2.8) (2023-11-17)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.2.7](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.6...@next-core/cook@2.2.7) (2023-10-18)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.6](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.5...@next-core/cook@2.2.6) (2023-09-12)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.5](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.4...@next-core/cook@2.2.5) (2023-09-05)
-
 
 ### Bug Fixes
 
-* fix types after upgrade babel ([6a0b62d](https://github.com/easyops-cn/next-core/commit/6a0b62d8422cbdb6935f7482ca3c4b451586ffb6))
-
-
-
-
+- fix types after upgrade babel ([6a0b62d](https://github.com/easyops-cn/next-core/commit/6a0b62d8422cbdb6935f7482ca3c4b451586ffb6))
 
 ## [2.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.3...@next-core/cook@2.2.4) (2023-07-20)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.3](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.2...@next-core/cook@2.2.3) (2023-07-07)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.2.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.1...@next-core/cook@2.2.2) (2023-05-26)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.2.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.2.0...@next-core/cook@2.2.1) (2023-05-25)
-
 
 ### Bug Fixes
 
-* fix trackAll Reg ([71fb08b](https://github.com/easyops-cn/next-core/commit/71fb08be8aea23b6ce2ac08d7b5989de12c7936b))
-
-
-
-
+- fix trackAll Reg ([71fb08b](https://github.com/easyops-cn/next-core/commit/71fb08be8aea23b6ce2ac08d7b5989de12c7936b))
 
 # [2.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.1.1...@next-core/cook@2.2.0) (2023-05-18)
 
-
 ### Features
 
-* function support RegExp in v3 ([20d47eb](https://github.com/easyops-cn/next-core/commit/20d47eb06247c0380fad3b214b4a4934a45a5b5f))
-
-
-
-
+- function support RegExp in v3 ([20d47eb](https://github.com/easyops-cn/next-core/commit/20d47eb06247c0380fad3b214b4a4934a45a5b5f))
 
 ## [2.1.1](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.1.0...@next-core/cook@2.1.1) (2023-05-10)
 
-
 ### Bug Fixes
 
-* fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
-
-
-
-
+- fix package homepage ([ec76991](https://github.com/easyops-cn/next-core/commit/ec76991f1b55bebbced980f43e788070e6d4f2f7))
 
 # [2.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.0.4...@next-core/cook@2.1.0) (2023-05-09)
 
-
 ### Features
 
-* support track evalute syntax sugar ([c7999bf](https://github.com/easyops-cn/next-core/commit/c7999bf45967f83db017e38544975b408564c007))
-* update getTracks unit test ([e15d59b](https://github.com/easyops-cn/next-core/commit/e15d59b3f3582125f811d7f7e31e1eb6595cad70))
-
-
-
-
+- support track evalute syntax sugar ([c7999bf](https://github.com/easyops-cn/next-core/commit/c7999bf45967f83db017e38544975b408564c007))
+- update getTracks unit test ([e15d59b](https://github.com/easyops-cn/next-core/commit/e15d59b3f3582125f811d7f7e31e1eb6595cad70))
 
 ## [2.0.4](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.0.3...@next-core/cook@2.0.4) (2023-04-14)
 
 **Note:** Version bump only for package @next-core/cook
 
-
-
-
-
 ## [2.0.3](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.0.2...@next-core/cook@2.0.3) (2023-04-10)
 
 **Note:** Version bump only for package @next-core/cook
-
-
-
-
 
 ## [2.0.2](https://github.com/easyops-cn/next-core/compare/@next-core/cook@2.0.1...@next-core/cook@2.0.2) (2023-03-22)
 
