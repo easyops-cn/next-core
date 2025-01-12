@@ -1,5 +1,5 @@
 import React, {
-  MutableRefObject,
+  RefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -34,7 +34,7 @@ let ReactUseBrick = function ReactUseBrick({
 }: ReactUseBrickProps): React.ReactElement | null {
   const [renderResult, setRenderResult] =
     useState<__secret_internals.RenderUseBrickResult | null>(null);
-  const mountResult = useRef<__secret_internals.MountUseBrickResult>();
+  const mountResult = useRef<__secret_internals.MountUseBrickResult>(undefined);
   const [renderKey, setRenderKey] = useState<number>();
   const IdCounterRef = useRef(0);
   const initialRenderId = useMemo(() => __secret_internals.getRenderId?.(), []);
@@ -106,7 +106,7 @@ let ReactUseBrick = function ReactUseBrick({
   return <WebComponent key={renderKey} ref={_refCallback} />;
 };
 
-function getUniqueId(ref: MutableRefObject<number>): number {
+function getUniqueId(ref: RefObject<number>): number {
   return ++ref.current;
 }
 

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { act } from "react";
 import { describe, test, expect, jest } from "@jest/globals";
-import { act } from "react-dom/test-utils";
 import {
   createDecorators,
   supportsAdoptingStyleSheets,

@@ -29,10 +29,10 @@ export function useProvider<TData = any>(
 
   const [loading, setLoading] = useState(defaults.loading);
   const suspenseStatus = useRef<"pending" | "error" | "success">("pending");
-  const suspender = useRef<Promise<any>>();
+  const suspender = useRef<Promise<any>>(undefined);
   const mounted = useRef(false);
-  const error = useRef<UseProviderError | undefined>();
-  const response = useRef<Res<TData>>();
+  const error = useRef<UseProviderError | undefined>(undefined);
+  const response = useRef<Res<TData>>(undefined);
   const data = useRef<TData | undefined>(defaults.data);
   const forceUpdate = useReducer(() => ({}), [])[1];
 
