@@ -6,6 +6,7 @@ on:
     - master
     - next
     - v3
+    - prerelease
   pull_request:
     branches:
     - master
@@ -149,14 +150,15 @@ jobs:
     - run: yarn test:e2e:ci
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      if: github.event_name != 'push' || github.ref_name != 'prerelease'
 
     - id: next-publish-from-tags
       uses: easyops-cn/actions-next-publish-from-tags@master
       with:
         npm-token: ${{ secrets.NPM_TOKEN }}
-      if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'v3')
+      if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'v3' || github.ref_name == 'prerelease')
 
     - name: Sync taobao npm mirror
       run: npx lerna exec -- curl -sLX PUT 'https://registry-direct.npmmirror.com/-/package/$LERNA_PACKAGE_NAME/syncs'
-      if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'v3') && steps.next-publish-from-tags.outputs.has-tags
+      if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'v3' || github.ref_name == 'prerelease') && steps.next-publish-from-tags.outputs.has-tags
       continue-on-error: true
