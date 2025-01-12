@@ -3,13 +3,13 @@ import { createDecorators } from "@next-core/element";
 import { ReactNextElement } from "@next-core/react-element";
 import "@next-core/theme";
 {{#if useI18n}}
-import { useTranslation, initializeReactI18n } from "@next-core/i18n/react";
-import { K, NS, locales } from "./i18n.js";
+import { initializeI18n } from "@next-core/i18n";
+import { K, NS, locales, t } from "./i18n.js";
 {{/if}}
 import styleText from "./styles.shadow.css";
 
 {{#if useI18n}}
-initializeReactI18n(NS, locales);
+initializeI18n(NS, locales);
 
 {{/if}}
 const { defineElement, property } = createDecorators();
@@ -39,7 +39,6 @@ export interface {{>className}}ComponentProps extends {{>className}}Props {
 
 export function {{>className}}Component(props: {{>className}}ComponentProps) {
 {{#if useI18n}}
-  const { t } = useTranslation(NS);
   const hello = t(K.HELLO);
   return <div>{hello} world!</div>;
 {{else}}
