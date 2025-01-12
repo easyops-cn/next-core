@@ -1,6 +1,6 @@
 {
   "name": "@next-core/yo",
-  "version": "1.5.90",
+  "version": "2.0.0-canary.0",
   "description": "Generator for next v3",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/yo",
   "license": "GPL-3.0",
@@ -29,7 +29,7 @@
     "@next-core/build-next-libs": "^1.0.23",
     "@next-core/element": "^1.2.16",
     "@next-core/i18n": "^1.0.73",
-    "@next-core/react-element": "^1.0.35",
+    "@next-core/react-element": "^2.0.0-canary.0",
     "@next-core/test-next": "^1.1.8",
     "@next-core/theme": "^1.5.4",
     "react": "^19.0.0"
