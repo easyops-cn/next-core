@@ -43,7 +43,7 @@
     "@next-core/types": "^1.14.0",
     "@next-core/utils": "^1.7.28",
     "i18next": "^22.5.1",
-    "i18next-browser-languagedetector": "^7.2.1"
+    "i18next-browser-languagedetector": "^7.2.2"
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.22",
