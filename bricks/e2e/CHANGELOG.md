@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.5.0...@next-bricks/e2e@0.5.1) (2025-01-12)
+
+
+### Bug Fixes
+
+* use common-bricks as a dep ([ccb63c5](https://github.com/easyops-cn/next-core/commit/ccb63c57a4bbace511cb2d676ab412f9094e32a3))
+
+
+
+
+
 # [0.5.0](https://github.com/easyops-cn/next-core/compare/@next-bricks/e2e@0.4.68...@next-bricks/e2e@0.5.0) (2025-01-10)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.73](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.72...@next-core/i18n@1.0.73) (2025-01-12)
+
+
+### Bug Fixes
+
+* **i18n:** make react-i18next as optional peer deps ([ec94491](https://github.com/easyops-cn/next-core/commit/ec94491d54eaf74bc4766fad8e625fd274c63c5e))
+
+
+
+
+
 ## [1.0.72](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.71...@next-core/i18n@1.0.72) (2025-01-10)
 
 **Note:** Version bump only for package @next-core/i18n

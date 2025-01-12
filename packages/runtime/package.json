@@ -1,6 +1,6 @@
 {
   "name": "@next-core/runtime",
-  "version": "1.59.0",
+  "version": "1.59.1",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -45,12 +45,12 @@
   },
   "dependencies": {
     "@next-core/color-theme": "^0.4.8",
-    "@next-core/cook": "^2.5.5",
-    "@next-core/http": "^1.2.10",
-    "@next-core/i18n": "^1.0.72",
-    "@next-core/inject": "^1.0.50",
-    "@next-core/loader": "^1.6.13",
-    "@next-core/supply": "^2.3.2",
+    "@next-core/cook": "^2.5.6",
+    "@next-core/http": "^1.2.11",
+    "@next-core/i18n": "^1.0.73",
+    "@next-core/inject": "^1.0.51",
+    "@next-core/loader": "^1.6.14",
+    "@next-core/supply": "^2.3.3",
     "@next-core/types": "^1.14.0",
     "@next-core/utils": "^1.7.28",
     "@ungap/event-target": "^0.2.4",
@@ -64,7 +64,7 @@
     "@microsoft/api-extractor": "^7.47.11",
     "@next-api-sdk/api-gateway-sdk": "^1.2.2",
     "@next-api-sdk/micro-app-sdk": "^1.2.1",
-    "@next-core/build-next-libs": "^1.0.22",
-    "@next-core/test-next": "^1.1.7"
+    "@next-core/build-next-libs": "^1.0.23",
+    "@next-core/test-next": "^1.1.8"
   }
 }

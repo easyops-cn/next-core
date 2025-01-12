@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.8](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.7...@next-core/test-next@1.1.8) (2025-01-12)
+
+
+### Bug Fixes
+
+* **i18n:** make react-i18next as optional peer deps ([ec94491](https://github.com/easyops-cn/next-core/commit/ec94491d54eaf74bc4766fad8e625fd274c63c5e))
+
+
+
+
+
 ## [1.1.7](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.6...@next-core/test-next@1.1.7) (2024-09-25)
 
 **Note:** Version bump only for package @next-core/test-next

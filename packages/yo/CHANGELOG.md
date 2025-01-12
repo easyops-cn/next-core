@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.90](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.89...@next-core/yo@1.5.90) (2025-01-12)
+
+
+### Bug Fixes
+
+* **i18n:** make react-i18next as optional peer deps ([ec94491](https://github.com/easyops-cn/next-core/commit/ec94491d54eaf74bc4766fad8e625fd274c63c5e))
+
+
+
+
+
 ## [1.5.89](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.88...@next-core/yo@1.5.89) (2025-01-10)
 
 **Note:** Version bump only for package @next-core/yo
