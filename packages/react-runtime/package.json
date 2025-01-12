@@ -47,8 +47,6 @@
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.22",
     "@next-core/test-next": "^1.1.7",
-    "@testing-library/react": "^16.0.1",
-    "@testing-library/react-hooks": "^8.0.1",
     "jest-fetch-mock": "^3.0.3"
   }
 }

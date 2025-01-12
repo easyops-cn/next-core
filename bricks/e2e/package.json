@@ -20,8 +20,7 @@
         "inputs": [
           "prod",
           "^prod",
-          "global",
-          "{workspaceRoot}/shared/common-bricks/common-bricks.json"
+          "global"
         ],
         "outputs": [
           "{projectRoot}/dist",

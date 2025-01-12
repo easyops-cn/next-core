@@ -83,6 +83,7 @@ try {
           console.error("Failed to build bricks:");
           console.error(err || stats.toString());
         } else {
+          console.log(stats.toString());
           console.log("Build bricks done in watch mode");
         }
       });
@@ -93,6 +94,7 @@ try {
             console.error("Failed to build bricks:");
             reject(err || stats.toString());
           } else {
+            console.log(stats.toString());
             resolve();
           }
         });
