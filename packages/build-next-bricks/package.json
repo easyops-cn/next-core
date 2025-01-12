@@ -57,5 +57,8 @@
   },
   "devDependencies": {
     "@next-core/brick-manifest": "^0.7.1"
+  },
+  "peerDependencies": {
+    "@next-shared/common-bricks": "*"
   }
 }

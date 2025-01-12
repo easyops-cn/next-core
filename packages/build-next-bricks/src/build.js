@@ -1,5 +1,4 @@
 import path from "node:path";
-import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import webpack from "webpack";
@@ -8,6 +7,8 @@ import postcssPresetEnv from "postcss-preset-env";
 import cssnano from "cssnano";
 import cssnanoPresetLite from "cssnano-preset-lite";
 import _ from "lodash";
+import commonBricksJson from "@next-shared/common-bricks/common-bricks.json" assert { type: "json" };
+import deprecatedBricksJson from "@next-shared/common-bricks/deprecated-bricks.json" assert { type: "json" };
 import EmitBricksJsonPlugin from "./EmitBricksJsonPlugin.js";
 import getCamelPackageName from "./getCamelPackageName.js";
 import getSvgrLoaders from "./getSvgrLoaders.js";
@@ -74,25 +75,8 @@ async function getWebpackConfig(config) {
 
   /** @type {string[]} */
   let commonBricks;
-  const commonBricksJsonFile = path.join(
-    packageDir,
-    "../../shared/common-bricks/common-bricks.json"
-  );
 
-  const deprecatedBricksJsonFile = path.join(
-    packageDir,
-    "../../shared/common-bricks/deprecated-bricks.json"
-  );
-
-  const deprecatedBricksJson = existsSync(deprecatedBricksJsonFile)
-    ? JSON.parse(await readFile(deprecatedBricksJsonFile, "utf-8"))
-    : {};
-
-  if (existsSync(commonBricksJsonFile)) {
-    const commonBricksJson = JSON.parse(
-      await readFile(commonBricksJsonFile, "utf-8")
-    );
-
+  if (commonBricksJson) {
     /** @type {Map<string, string | string[]>} */
     const commonBricksMap = new Map();
     for (const [pkg, bricks] of Object.entries(commonBricksJson)) {
@@ -213,18 +197,21 @@ async function getWebpackConfig(config) {
                   packageJson.peerDependencies?.[dep] ??
                   packageJson.devDependencies?.[dep] ??
                   packageJson.dependencies?.[dep];
+                const singleton = sharedSingletonPackages.includes(dep);
 
                 return [
                   dep,
                   {
-                    singleton: sharedSingletonPackages.includes(dep),
+                    singleton,
                     version: depPackageJson.version,
                     requiredVersion:
                       getRequiredVersion(depPkgName) ??
                       // Use react required version for react-dom if it is not specified
                       (depPkgName === "react-dom"
                         ? getRequiredVersion("react")
-                        : undefined),
+                        : singleton
+                          ? "*"
+                          : undefined),
                     ...customized,
                   },
                 ];
@@ -265,7 +252,7 @@ async function getWebpackConfig(config) {
   const invalidElements = _.difference(elements, commonBricks);
   if (invalidElements.length > 0) {
     throw new Error(
-      `Find common bricks in \`${packageName}\` which are not in common-bricks.json: ${invalidElements.join(
+      `Find common bricks in \`${packageName}\` which are not in @next-shared/common-bricks/common-bricks.json: ${invalidElements.join(
         ", "
       )}`
     );
