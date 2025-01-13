@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.10](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.9...@next-core/build-next-bricks@1.23.10) (2025-01-13)
+
+
+### Bug Fixes
+
+* automatic set requiredVersion for non-singleton shared packages ([982cdbf](https://github.com/easyops-cn/next-core/commit/982cdbf97e040f61ff8b54df637a43cb2e12b984))
+
+
+
+
+
 ## [1.23.9](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.8...@next-core/build-next-bricks@1.23.9) (2025-01-12)
 
 
