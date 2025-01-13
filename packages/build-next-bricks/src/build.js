@@ -199,6 +199,9 @@ async function getWebpackConfig(config) {
                   packageJson.dependencies?.[dep];
                 const singleton = sharedSingletonPackages.includes(dep);
 
+                const versionParts = depPackageJson.version.split(".");
+                const majorVersion = versionParts[0];
+
                 return [
                   dep,
                   {
@@ -211,7 +214,9 @@ async function getWebpackConfig(config) {
                         ? getRequiredVersion("react")
                         : singleton
                           ? "*"
-                          : undefined),
+                          : majorVersion === "0"
+                            ? `^0.${versionParts[1]}.0`
+                            : `^${majorVersion}.0.0`),
                     ...customized,
                   },
                 ];
