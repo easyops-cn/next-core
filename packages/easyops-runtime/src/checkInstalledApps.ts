@@ -27,10 +27,13 @@ export function preCheckInstalledApps(
     if (searchIds.length === 0) {
       return;
     }
-    const promise = RuntimeApi_searchMicroAppStandalone({
-      query: { appId: { $in: searchIds } },
-      fields: ["appId", "currentVersion", "installStatus"],
-    }).catch((error) => {
+    const promise = RuntimeApi_searchMicroAppStandalone(
+      {
+        query: { appId: { $in: searchIds } },
+        fields: ["appId", "currentVersion", "installStatus"],
+      },
+      { noAbortOnRouteChange: true }
+    ).catch((error) => {
       // Allow search micro app to fail, and
       // make it not crash when the backend service is not updated.
       // eslint-disable-next-line no-console
