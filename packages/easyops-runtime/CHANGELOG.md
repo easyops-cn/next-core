@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.13.1...@next-core/easyops-runtime@0.13.2) (2025-01-14)
+
+
+### Bug Fixes
+
+* set noAbortOnRouteChange for installed apps checking ([5132da6](https://github.com/easyops-cn/next-core/commit/5132da62ab226d85c5b2bd2155498879a8785312))
+
+
+
+
+
 ## [0.13.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.13.0...@next-core/easyops-runtime@0.13.1) (2025-01-12)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
