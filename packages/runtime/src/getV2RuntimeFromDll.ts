@@ -29,6 +29,7 @@ interface Kit {
   };
   getHistory(): NextHistory;
   looseCheckIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
+  doTransform(data: unknown, to: unknown, options?: unknown): unknown;
   SingleBrickAsComponentFactory: any;
   BrickAsComponentFactory: any;
   authenticate: any;
