@@ -631,6 +631,23 @@ describe("legacyDoTransform", () => {
       `"Legacy doTransform does not support options in v3"`
     );
   });
+
+  test("should use v2 doTransform if in v2 container", () => {
+    window.BRICK_NEXT_VERSIONS = {
+      "brick-container": "2.3.4",
+    };
+    (global as any).dll = (id: string) => {
+      if (id === "tYg3") {
+        return {
+          doTransform() {
+            return "v2";
+          },
+        };
+      }
+    };
+
+    expect(legacyDoTransform("any", "value")).toBe("v2");
+  });
 });
 
 describe("updateStoryboard", () => {

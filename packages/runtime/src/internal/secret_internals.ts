@@ -47,6 +47,7 @@ import {
   loadEditorsImperatively,
 } from "@next-core/loader";
 import { getMatchedRoute } from "./routeMatchedMap.js";
+import { getV2RuntimeFromDll } from "../getV2RuntimeFromDll.js";
 
 export type { DataValueOption, RuntimeContext };
 
@@ -183,6 +184,10 @@ export function legacyDoTransform(
   to: unknown,
   options?: unknown
 ) {
+  const v2Kit = getV2RuntimeFromDll();
+  if (v2Kit) {
+    return v2Kit.doTransform(data, to, options);
+  }
   if (options) {
     throw new Error("Legacy doTransform does not support options in v3");
   }
