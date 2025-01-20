@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.59.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.1...@next-core/runtime@1.59.2) (2025-01-20)
+
+
+### Bug Fixes
+
+* use v2 doTransform if in v2 container ([3da4ed7](https://github.com/easyops-cn/next-core/commit/3da4ed719537b2d7e46dc1d63a31454cb91d55b5))
+
+
+
+
+
 ## [1.59.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.0...@next-core/runtime@1.59.1) (2025-01-12)
 
 **Note:** Version bump only for package @next-core/runtime
