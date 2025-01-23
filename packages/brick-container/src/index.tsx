@@ -121,13 +121,6 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   };
 });
 
-const isInSpecialFrame = (): boolean => {
-  return (
-    getRuntimeMisc().isInIframeOfSameSite &&
-    !getRuntimeMisc().isInIframeOfVisualBuilder
-  );
-};
-
 http.interceptors.request.use(function (config: HttpRequestConfig) {
   if (analyzer) {
     const { userInstanceId: uid, username } = getAuth();
@@ -141,16 +134,14 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   }
 
   if (!config.options?.interceptorParams?.ignoreLoadingBar) {
-    const curWindow = isInSpecialFrame() ? window.parent : window;
-    curWindow.dispatchEvent(new CustomEvent("request.start"));
+    window.dispatchEvent(new CustomEvent("request.start"));
   }
   return config;
 });
 
 http.interceptors.response.use(
   function (response: HttpResponse) {
-    const curWindow = isInSpecialFrame() ? window.parent : window;
-    curWindow.dispatchEvent(new CustomEvent("request.end"));
+    window.dispatchEvent(new CustomEvent("request.end"));
     (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
       analyzer?.analyses(response);
     return response.config.options?.observe === "response"
@@ -160,8 +151,7 @@ http.interceptors.response.use(
   function (error: HttpError) {
     (getRuntime().getFeatureFlags()["enable-analyzer"] || false) &&
       analyzer?.analyses(error);
-    const curWindow = isInSpecialFrame() ? window.parent : window;
-    curWindow.dispatchEvent(new CustomEvent("request.end"));
+    window.dispatchEvent(new CustomEvent("request.end"));
     return Promise.reject(error.error);
   }
 );
