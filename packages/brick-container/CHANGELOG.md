@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.46](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.45...@next-core/brick-container@2.96.46) (2025-01-23)
+
+
+### Bug Fixes
+
+* refine loading bar custom event ([05a7981](https://github.com/easyops-cn/next-core/commit/05a79815a74ce5ecaebfb8a9e617fa5189a5bd1b))
+
+
+
+
+
 ## [2.96.45](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.44...@next-core/brick-container@2.96.45) (2025-01-10)
 
 **Note:** Version bump only for package @next-core/brick-container
