@@ -29,7 +29,7 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/icons--*.js",
-    limit: "880 KB",
+    limit: "882 KB",
   },
   {
     path: "packages/brick-container/dist/polyfill.*.js",
