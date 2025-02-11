@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.50.97](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.50.96...@next-core/editor-bricks-helper@0.50.97) (2025-02-11)
+
+
+### Bug Fixes
+
+* dataSource is a json field ([858b954](https://github.com/easyops-cn/next-core/commit/858b95453471fb6216228988b75509003669a2a6))
+
+
+
+
+
 ## [0.50.96](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.50.95...@next-core/editor-bricks-helper@0.50.96) (2025-02-11)
 
 
