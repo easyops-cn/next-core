@@ -9,6 +9,7 @@ const jsonFieldsInBrick = [
   "params",
   "if",
   "transform",
+  "dataSource",
 ];
 const yamlFieldsInBrick = ["permissionsPreCheck", "transformFrom"];
 const ignoredFieldsInBrick = [
