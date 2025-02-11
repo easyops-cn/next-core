@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.50.96](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.50.95...@next-core/editor-bricks-helper@0.50.96) (2025-02-11)
+
+
+### Bug Fixes
+
+* prefer default "" slot over "content" when drag bricks ([53b0809](https://github.com/easyops-cn/next-core/commit/53b0809361127a327c38c2ccb64732c82aa6d817))
+
+
+
+
+
 ## [0.50.95](https://github.com/easyops-cn/next-core/compare/@next-core/editor-bricks-helper@0.50.94...@next-core/editor-bricks-helper@0.50.95) (2025-01-10)
 
 **Note:** Version bump only for package @next-core/editor-bricks-helper
