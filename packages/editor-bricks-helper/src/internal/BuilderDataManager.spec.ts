@@ -2168,7 +2168,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
       };
       manager.workbenchTreeNodeMove(node2);
       expect(mockOnWorkbenchTreeNodeMove.mock.calls[1][0].detail).toEqual({
-        nodeData: { mountPoint: "content", parent: undefined },
+        nodeData: { mountPoint: "", parent: undefined },
         nodeIds: ["B-008", "B-003"],
         nodeInstanceId: "brick-b",
         nodeUid: 5,
@@ -2227,7 +2227,7 @@ describe("BuilderDataManager for route of routes with wrapper", () => {
         {
           $$isTemplateDelegated: undefined,
           child: 5,
-          mountPoint: "content",
+          mountPoint: "",
           parent: 6,
           sort: 0,
         },
