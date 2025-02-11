@@ -531,7 +531,7 @@ export class BuilderDataManager {
     const mountPoint = isDragRoot
       ? "bricks"
       : dragStatus === "inside"
-      ? "content"
+      ? ""
       : dragOverEdge.mountPoint;
 
     const parentEdge = edges.find((item) => item.child === dragOverNodeUid);
