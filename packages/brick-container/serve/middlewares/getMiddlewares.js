@@ -1,10 +1,10 @@
-import express from "express";
 import jsYaml from "js-yaml";
 import bootstrapJson from "./bootstrapJson.js";
 import mockAuth from "./mockAuth.js";
 import singleAppBootstrapJson from "./singleAppBootstrapJson.js";
 import standaloneBootstrapJson from "./standaloneBootstrapJson.js";
 import serveBricksWithVersions from "./serveBricksWithVersions.js";
+import { serveBricks } from "@next-core/serve-helpers";
 
 const { safeDump, JSON_SCHEMA } = jsYaml;
 
@@ -34,7 +34,7 @@ export function getMiddlewares(env) {
     });
     middlewares.push({
       path: `${baseHref}api/v1/runtime_standalone`,
-      middleware(req, res) {
+      middleware(_req, res) {
         res.send({
           code: 0,
           data: {
@@ -45,7 +45,7 @@ export function getMiddlewares(env) {
     });
     middlewares.push({
       path: `${baseHref}api/gateway/micro_app_standalone.runtime.RuntimeMicroAppStandalone/api/v1/micro_app_standalone/runtime/:appId`,
-      middleware(req, res) {
+      middleware(_req, res) {
         res.send({
           code: 0,
           data: null,
@@ -54,7 +54,7 @@ export function getMiddlewares(env) {
     });
     middlewares.push({
       path: `${baseHref}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`,
-      middleware(req, res) {
+      middleware(_req, res) {
         res.send({
           code: 0,
           data: null,
@@ -67,7 +67,7 @@ export function getMiddlewares(env) {
 }
 
 export function getPreMiddlewares(env) {
-  const { baseHref, localMicroApps, localBrickFolders, userConfigByApps } = env;
+  const { baseHref, localMicroApps, userConfigByApps } = env;
 
   /**
    * @type {import("webpack-dev-server").Middleware[]}
@@ -81,7 +81,7 @@ export function getPreMiddlewares(env) {
     });
     middlewares.push({
       path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/conf.yaml`,
-      middleware(req, res) {
+      middleware(_req, res) {
         if (userConfigByApps) {
           const conf = {
             user_config_by_apps: userConfigByApps,
@@ -108,12 +108,10 @@ export function getPreMiddlewares(env) {
     middleware: serveBricksWithVersions(env),
   });
 
-  for (const dir of localBrickFolders) {
-    middlewares.push({
-      path: `${baseHref}bricks/`,
-      middleware: express.static(dir),
-    });
-  }
+  middlewares.push({
+    path: `${baseHref}bricks/`,
+    middleware: serveBricks(env),
+  });
 
   return middlewares;
 }

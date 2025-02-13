@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import express from "express";
 import compression from "compression";
 import glob from "glob";
+import { serveBricks } from "@next-core/serve-helpers";
 import bootstrapJson from "./bootstrapJson.js";
 import examplesJson from "./examplesJson.js";
 
@@ -46,9 +47,7 @@ const localBrickFolders = (
   )
 ).flat();
 
-for (const folder of localBrickFolders) {
-  app.use("/preview/bricks/", express.static(folder));
-}
+app.use("/preview/bricks/", serveBricks({ localBrickFolders }));
 
 app.use("/preview/", bootstrapJson(localBrickFolders));
 app.use(examplesJson(rootDir));
