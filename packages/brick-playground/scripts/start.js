@@ -1,9 +1,9 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
 import WebpackDevServer from "webpack-dev-server";
-import express from "express";
 import glob from "glob";
 import { build } from "@next-core/build-next-bricks";
+import { serveBricks } from "@next-core/serve-helpers";
 import config from "../build.config.js";
 import bootstrapJson from "../serve/bootstrapJson.js";
 import examplesJson from "../serve/examplesJson.js";
@@ -52,12 +52,10 @@ const server = new WebpackDevServer(
     open: true,
     port: 8082,
     setupMiddlewares(middlewares) {
-      for (const folder of localBrickFolders) {
-        middlewares.push({
-          path: "/preview/bricks/",
-          middleware: express.static(folder),
-        });
-      }
+      middlewares.push({
+        path: "/preview/bricks/",
+        middleware: serveBricks({ localBrickFolders }),
+      });
 
       middlewares.push({
         path: "/preview/",

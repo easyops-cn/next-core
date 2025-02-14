@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 
 export function getBrickPackages(
   localBrickFolders: string[],
@@ -19,3 +19,6 @@ export function tryServeFiles(
   req: Request,
   res: Response
 ): string | undefined;
+export function serveBricks(options: {
+  localBrickFolders: string[];
+}): (req: Request, res: Response, next: NextFunction) => void;
