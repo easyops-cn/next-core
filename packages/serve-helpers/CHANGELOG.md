@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.5](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.4...@next-core/serve-helpers@1.2.5) (2025-02-14)
+
+
+### Bug Fixes
+
+* support multipart range requests for bricks ([202645f](https://github.com/easyops-cn/next-core/commit/202645f223b6748da7731f93969e05d6040d6a41))
+
+
+
+
+
 ## [1.2.4](https://github.com/easyops-cn/next-core/compare/@next-core/serve-helpers@1.2.3...@next-core/serve-helpers@1.2.4) (2024-06-21)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.52](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.51...@next-core/brick-playground@1.15.52) (2025-02-14)
+
+
+### Bug Fixes
+
+* support multipart range requests for bricks ([202645f](https://github.com/easyops-cn/next-core/commit/202645f223b6748da7731f93969e05d6040d6a41))
+
+
+
+
+
 ## [1.15.51](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.50...@next-core/brick-playground@1.15.51) (2025-01-20)
 
 **Note:** Version bump only for package @next-core/brick-playground
