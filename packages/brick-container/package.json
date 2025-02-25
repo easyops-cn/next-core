@@ -40,7 +40,7 @@
     "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
     "compression": "^1.7.5",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "glob": "^8.1.0",
     "http-proxy-middleware": "^3.0.3",
     "js-yaml": "^3.14.1",
