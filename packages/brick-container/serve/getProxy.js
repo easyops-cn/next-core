@@ -103,6 +103,7 @@ export default function getProxy(env, getRawIndexHtml) {
               return responseBuffer;
             }
 
+            // Add or clear secure related cookie flags
             const secureCookieFlags = [
               "SameSite=None",
               "Secure",
@@ -115,12 +116,19 @@ export default function getProxy(env, getRawIndexHtml) {
               req.path === "/next/api/auth/login/v2" &&
               Array.isArray(setCookies)
             ) {
+              // - If the server is https, but the local is http, clear the secure cookie flags;
+              // - Otherwise, if the local is localhost and cookieSameSiteNone is enabled (default),
+              //   add the secure cookie flags;
+              // - Otherwise, if the local is https, do nothing;
+              // - Otherwise, clear the secure cookie flags;
               const strategy =
-                env.cookieSameSiteNone && env.host === "localhost"
-                  ? "add"
-                  : env.https
-                    ? null
-                    : "clear";
+                env.server.startsWith("https:") && !env.https
+                  ? "clear"
+                  : env.cookieSameSiteNone && env.host === "localhost"
+                    ? "add"
+                    : env.https
+                      ? null
+                      : "clear";
               if (strategy) {
                 // Note: it seems that now Chrome (v107) requires `SameSite=None` even for localhost.
                 // However, `Secure` can use used with non-http for localhost.
