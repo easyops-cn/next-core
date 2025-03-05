@@ -2367,10 +2367,10 @@
   resolved "https://registry.npmjs.org/@next-bricks/presentational-bricks/-/presentational-bricks-1.278.0.tgz#1d5e2a3d70983c46bd1b2678a738f06861741916"
   integrity sha512-EOd1hJqQFOTSov5VVP0EWHIBgBc16h+F8b6Bb6wS07meaIpy9iG0JAjp+OHw+JYo3hUG7fY4yvxtC03g0NH7FQ==
 
-"@next-core/loader@^1.6.11":
-  version "1.6.11"
-  resolved "https://registry.npmjs.org/@next-core/loader/-/loader-1.6.11.tgz#3988c807cd874e41a9baaef3fbda87ed242c1cd4"
-  integrity sha512-O36JQxWB6kL8lfz2jWL1Uuqwa7fgNkli5Lua7N1daIXO1XxDUgfbEsVN7blyPNGG/s/+U0lsdvW8PzjmqSgfyg==
+"@next-core/loader@^1.6.14":
+  version "1.6.14"
+  resolved "https://registry.npmjs.org/@next-core/loader/-/loader-1.6.14.tgz#abd823013cfe6ea037328471f39d9b2063afcba1"
+  integrity sha512-H0iU7o/9JqKZ7guHwjc892pQ5TWtgyrx9hhq5ZTKu7X7D1cNedn1u0O2UY/leJw583aPI+YykSxa9UrqXxi/Ww==
 
 "@next-core/theme@^1.5.4":
   version "1.5.4"

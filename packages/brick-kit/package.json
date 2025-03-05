@@ -52,7 +52,7 @@
     "@next-core/brick-utils": "^2.52.11",
     "@next-core/easyops-analytics": "^0.12.1",
     "@next-core/illustrations": "^0.11.35",
-    "@next-core/loader": "^1.6.11",
+    "@next-core/loader": "^1.6.14",
     "@next-core/pipes": "^1.0.20",
     "@next-core/rollup-config-factory": "^2.8.0",
     "antd": "~4.12.3",
