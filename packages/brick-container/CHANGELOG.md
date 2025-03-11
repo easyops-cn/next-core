@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.20.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.6...@next-core/brick-container@3.20.7) (2025-03-11)
+
+
+### Bug Fixes
+
+* handle empty remote settings when proxy ([b093aa1](https://github.com/easyops-cn/next-core/commit/b093aa1930da9537d978bf57efb353e2e6b91367))
+
+
+
+
+
 ## [3.20.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.5...@next-core/brick-container@3.20.6) (2025-03-03)
 
 
