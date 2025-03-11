@@ -519,9 +519,10 @@ function acceptTextHtml(req) {
 
 function mergeLocalSettings(data, localSettings) {
   const { featureFlags, homepage, brand, misc } = localSettings;
-  data.featureFlags ??= {};
-  data.brand ??= {};
-  data.misc ??= {};
+  data.settings ??= {};
+  data.settings.featureFlags ??= {};
+  data.settings.brand ??= {};
+  data.settings.misc ??= {};
   Object.assign(data.settings.featureFlags, featureFlags);
   Object.assign(data.settings.brand, brand);
   Object.assign(data.settings.misc, misc);
