@@ -197,13 +197,11 @@ const simpleRequest = <T = unknown>(
 ): Promise<HttpResponse<T>> => {
   const {
     params,
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     responseType,
     interceptorParams,
     observe,
     noAbortOnRouteChange,
     useCache,
-    /* eslint-enable @typescript-eslint/no-unused-vars */
     ...requestInit
   } = config.options || {};
   return request<T>(
@@ -225,13 +223,11 @@ const requestWithBody = <T = unknown>(
   const {
     params,
     headers,
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     responseType,
     interceptorParams,
     observe,
     noAbortOnRouteChange,
     useCache,
-    /* eslint-enable @typescript-eslint/no-unused-vars */
     ...requestInit
   } = config.options || {};
   return request<T>(

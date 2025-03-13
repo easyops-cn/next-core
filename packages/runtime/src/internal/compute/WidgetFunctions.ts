@@ -19,7 +19,6 @@ function registerWidgetFunctionsV3(
   widgetVersion?: string
 ): void {
   if (widgetFunctionRegistry.has(widgetId)) {
-    // eslint-disable-next-line no-console
     throw new Error(`Widget functions of "${widgetId}" already registered`);
   }
   const { storyboardFunctions, registerStoryboardFunctions } =
