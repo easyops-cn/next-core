@@ -38,16 +38,16 @@
     "@next-core/serve-helpers": "^1.2.5",
     "body-parser": "^1.20.3",
     "chalk": "^4.1.2",
-    "chokidar": "^4.0.1",
-    "compression": "^1.7.5",
-    "express": "^4.21.1",
+    "chokidar": "^4.0.3",
+    "compression": "^1.8.0",
+    "express": "^4.21.2",
     "glob": "^8.1.0",
     "http-proxy-middleware": "^3.0.3",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "meow": "^11.0.0",
     "mockdate": "^3.0.5",
-    "ws": "^8.18.0"
+    "ws": "^8.18.1"
   },
   "devDependencies": {
     "@next-api-sdk/api-gateway-sdk": "^1.2.2",
@@ -64,11 +64,11 @@
     "@next-core/types": "^1.14.0",
     "@next-core/utils": "^1.7.28",
     "broadcast-channel": "^7.0.0",
-    "copy-webpack-plugin": "^12.0.2",
-    "core-js": "^3.40.0",
+    "copy-webpack-plugin": "^13.0.0",
+    "core-js": "^3.41.0",
     "html-webpack-plugin": "^5.6.3",
     "regenerator-runtime": "^0.14.1",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-dev-server": "^5.2.0"
   },
   "peerDependencies": {
     "@next-core/http": "*",
