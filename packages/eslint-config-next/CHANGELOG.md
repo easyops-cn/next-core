@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.26...@next-core/eslint-config-next@3.0.0) (2025-03-13)
+
+
+### Features
+
+* migrate eslint config for v9 ([76b239c](https://github.com/easyops-cn/next-core/commit/76b239ca5910509b0a618cbabbc80fc5fbc3b635))
+* use eslint flat configs ([5c751f4](https://github.com/easyops-cn/next-core/commit/5c751f44cccdce6e735989a22823b6f6ba1c4893))
+
+
+### BREAKING CHANGES
+
+* migrate eslint config for v9
+
+
+
+
+
 ## [2.0.26](https://github.com/easyops-cn/next-core/compare/@next-core/eslint-config-next@2.0.25...@next-core/eslint-config-next@2.0.26) (2025-01-12)
 
 **Note:** Version bump only for package @next-core/eslint-config-next
