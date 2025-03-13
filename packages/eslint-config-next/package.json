@@ -9,15 +9,20 @@
     "url": "git@github.com:easyops-cn/next-core.git",
     "directory": "packages/eslint-config-next"
   },
-  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./node.js": "./node.js"
+  },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": ">= 7.18.0",
-    "eslint": ">= 8.57.1",
-    "eslint-plugin-react": ">= 7.37.2",
-    "eslint-plugin-react-hooks": ">= 4.6.2"
+    "eslint": ">= 9"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint-config-prettier": "^9.1.0"
+    "@eslint/js": "^9.22.0",
+    "globals": "^16.0.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-config-prettier": "^10.1.1",
+    "typescript-eslint": "^8.26.1"
   }
 }
