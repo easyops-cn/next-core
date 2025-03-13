@@ -454,7 +454,6 @@ export async function getAddedContracts(
     const contractApis = await collectUsedContracts(updatedStoryboard);
 
     contractApis.forEach((api: string) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [_, namespaceId, name] = api.match(
         /(.*)@(.*):\d\.\d\.\d/
       ) as string[];
