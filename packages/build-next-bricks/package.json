@@ -34,8 +34,8 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@babel/parser": "^7.26.9",
-    "@babel/traverse": "^7.26.9",
+    "@babel/parser": "^7.26.10",
+    "@babel/traverse": "^7.26.10",
     "@next-core/babel-preset-next": "^1.0.24",
     "@svgr/webpack": "^8.1.0",
     "babel-loader": "^10.0.0",
