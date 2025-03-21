@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.15](https://github.com/easyops-cn/next-core/compare/@next-core/public-scoped-sdk@0.2.14...@next-core/public-scoped-sdk@0.2.15) (2025-03-21)
+
+
+### Bug Fixes
+
+* add llm as public scoped sdk ([e1c873f](https://github.com/easyops-cn/next-core/commit/e1c873f0ca4cca2e22270e6fc97216b76c127a8a))
+
+
+
+
+
 ## [0.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/public-scoped-sdk@0.2.13...@next-core/public-scoped-sdk@0.2.14) (2023-12-15)
 
 **Note:** Version bump only for package @next-core/public-scoped-sdk
