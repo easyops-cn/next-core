@@ -2,6 +2,7 @@ export interface ApiDoc {
   name: string;
   description: string;
   version: number;
+  service_name?: string;
   endpoint: {
     method: string;
     uri: string;

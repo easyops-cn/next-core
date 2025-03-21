@@ -5,6 +5,8 @@ name: "Search"
 description: "搜索包"
 detail: 支持模糊搜索
 
+service_name: customized.service
+
 import:
   - easyops/model/cd/package
   - easyops/model/cd/package_ext

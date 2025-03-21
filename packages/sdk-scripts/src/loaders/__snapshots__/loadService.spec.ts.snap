@@ -316,7 +316,7 @@ export const PackageApi_search = async (
 ): Promise<PackageApi_SearchResponseBody> =>
   /**! @contract easyops.api.cd.package.Search@1 */ (
     await http.get<ResponseBodyWrapper<PackageApi_SearchResponseBody>>(
-      \\"api/gateway/cd.package.Search/packages/search\\",
+      \\"api/gateway/customized.service/packages/search\\",
       { ...options, params }
     )
   ).data;

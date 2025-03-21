@@ -108,7 +108,7 @@ export class FunctionBlock {
       returnBlock = `http.${api.method.realName}<${responseBodyTypeName}>(${url},${callArgsString});`;
     }
 
-    const contractComment = `/**! @contract easyops.api.${this.api.serviceName}@${this.api.doc.version} */`;
+    const contractComment = `/**! @contract easyops.api.${this.api.contractName}@${this.api.doc.version} */`;
 
     if (isFormData) {
       returnBlock = `{ ${contractComment} ${FunctionBlock.formDataBlock} return ${returnBlock}; }`;
