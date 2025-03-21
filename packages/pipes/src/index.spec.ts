@@ -35,7 +35,7 @@ describe("processPipes", () => {
     [["a", "b", "c"], "|cmdbInstanceShowName", "a(b,c)"],
     [[], "|cmdbInstanceShowName", "-"],
     [[undefined], "|cmdbInstanceShowName", "-"],
-    [[undefined, "a"], "|cmdbInstanceShowName", "-(a)"],
+    [[undefined, "a"], "|cmdbInstanceShowName", "a"],
     ["asd", "|cmdbInstanceShowName", "asd"],
     [123, "|cmdbInstanceShowName", 123],
     [undefined, "|cmdbInstanceShowName", undefined],
