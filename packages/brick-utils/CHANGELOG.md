@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.52.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.11...@next-core/brick-utils@2.52.12) (2025-03-21)
+
+
+### Bug Fixes
+
+* remove raw yaml fields ([0bb52ac](https://github.com/easyops-cn/next-core/commit/0bb52aceb0e18b045c98636dc9042071ec6a1741))
+
+
+
+
+
 ## [2.52.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-utils@2.52.10...@next-core/brick-utils@2.52.11) (2024-11-27)
 
 **Note:** Version bump only for package @next-core/brick-utils
