@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.23](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.22...@next-core/sdk-scripts@2.7.23) (2025-03-21)
+
+
+### Bug Fixes
+
+* support custom service name ([8cab086](https://github.com/easyops-cn/next-core/commit/8cab086d8639eff0b4e00a4bc23af69becfe2810))
+
+
+
+
+
 ## [2.7.22](https://github.com/easyops-cn/next-core/compare/@next-core/sdk-scripts@2.7.21...@next-core/sdk-scripts@2.7.22) (2025-03-21)
 
 **Note:** Version bump only for package @next-core/sdk-scripts
