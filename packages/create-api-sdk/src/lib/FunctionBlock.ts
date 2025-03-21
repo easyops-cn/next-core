@@ -110,7 +110,7 @@ export class FunctionBlock {
     }
 
     const contractComment = blockComment(
-      `@contract easyops.api.${this.api.serviceName}@${this.api.doc.version}`,
+      `@contract easyops.api.${this.api.contractName}@${this.api.doc.version}`,
       "/**! "
     );
 
