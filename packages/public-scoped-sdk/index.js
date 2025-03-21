@@ -12,4 +12,5 @@ exports.PUBLIC_SCOPED_SDK = [
   "api-gateway",
   "sys-setting",
   "form-builder-service",
+  "llm",
 ];
