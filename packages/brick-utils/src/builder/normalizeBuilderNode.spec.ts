@@ -100,6 +100,7 @@ describe("normalizeBuilderNode", () => {
         // Ignore `injectDeep`
         injectDeep: true,
         dataSource: '""',
+        rawProperties: "# remove me",
       },
       {
         brick: "m",
