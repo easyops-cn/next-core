@@ -1986,10 +1986,10 @@
   dependencies:
     "@ant-design/colors" "^6.0.0"
 
-"@next-core/public-scoped-sdk@^0.2.14":
-  version "0.2.14"
-  resolved "https://registry.npmjs.org/@next-core/public-scoped-sdk/-/public-scoped-sdk-0.2.14.tgz#74581958009d3fef389739cd610c9b6eaa314b6c"
-  integrity sha512-AZclSKaZH/bf47lkuQZbwUorjZXfysO1VGMpeDwUGwhMULwza8VkBwf+1/Tep5IZ1DbsicuKUOSAm/8sLrSV5g==
+"@next-core/public-scoped-sdk@^0.2.15":
+  version "0.2.15"
+  resolved "https://registry.npmjs.org/@next-core/public-scoped-sdk/-/public-scoped-sdk-0.2.15.tgz#4f331e3a5029d1817dae03b81aa0fd06cd9981b5"
+  integrity sha512-kyIr2xK6YdoHGN1Ywqppzvp9IRUl+uH8K+K/m5Drpdpduc2vQbYh5alT6SQ7DI5lVc05QAlwE962ZQBdWbEcRw==
 
 "@next-core/repo-config@^0.2.5":
   version "0.2.5"
