@@ -18,6 +18,7 @@ export class Api extends SourceFile {
   readonly modelSeg: string;
   readonly method: ApiMethod;
   readonly serviceName: string;
+  readonly contractName: string;
 
   readonly requestParamsType: TypeDefinition;
   readonly requestBodyType: TypeDefinition;
@@ -37,9 +38,10 @@ export class Api extends SourceFile {
     this.modelSeg = modelSeg;
     this.dir = [".", "api", context.serviceSeg, modelSeg].join("/");
     this.filePath = [this.dir, this.filename].join("/");
-    this.serviceName = [context.serviceSeg, modelSeg, this.originalName].join(
+    this.contractName = [context.serviceSeg, modelSeg, this.originalName].join(
       "."
     );
+    this.serviceName = this.doc.service_name || this.contractName;
     this.method = new ApiMethod(doc);
     this.namespace = this.getNamespaceByImports(doc.import, context);
     const interfacePrefix = `${exportPrefix}${changeCase.pascalCase(doc.name)}`;
@@ -104,7 +106,7 @@ export class Api extends SourceFile {
     } catch (error) {
       console.log(
         chalk.red("Generating sdk failed for contract of api:"),
-        chalk.bgRed(this.serviceName)
+        chalk.bgRed(this.contractName)
       );
       throw error;
     }
