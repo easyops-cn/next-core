@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.96.52](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.51...@next-core/brick-container@2.96.52) (2025-03-24)
+
+
+### Bug Fixes
+
+* allow user config to override the default abort signal ([1651b80](https://github.com/easyops-cn/next-core/commit/1651b80fbe4dd6ef7f6ad87fce7aa1a4c5d765d0))
+
+
+
+
+
 ## [2.96.51](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.50...@next-core/brick-container@2.96.51) (2025-03-21)
 
 **Note:** Version bump only for package @next-core/brick-container
