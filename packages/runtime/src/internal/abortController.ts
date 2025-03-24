@@ -13,10 +13,11 @@ export function initAbortController() {
     return {
       ...config,
       options: {
-        ...config.options,
+        // Allow user config to override the default abort signal
         signal: config.options?.noAbortOnRouteChange
           ? null
           : nativeController.signal,
+        ...config.options,
       },
     };
   });
