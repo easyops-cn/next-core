@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.59.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.3...@next-core/runtime@1.59.4) (2025-03-24)
+
+
+### Bug Fixes
+
+* allow user config to override the default abort signal ([afc4246](https://github.com/easyops-cn/next-core/commit/afc4246750f0bcc2166759d37aa2289ca1f9030f))
+
+
+
+
+
 ## [1.59.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.2...@next-core/runtime@1.59.3) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/runtime
