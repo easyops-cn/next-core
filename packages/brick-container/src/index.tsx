@@ -89,10 +89,11 @@ http.interceptors.request.use(function (config: HttpRequestConfig) {
   return {
     ...config,
     options: {
-      ...config.options,
+      // Allow user config to override the default abort signal
       signal: config.options?.noAbortOnRouteChange
         ? null
         : abortController.getSignalToken(),
+      ...config.options,
     },
   };
 });
