@@ -548,7 +548,7 @@ export function parseDocComment(node, source) {
 /**
  * @param {Node} node
  * @param {string} source
- * @returns {undefined | { description?: string; deprecated?: boolean | string; }}
+ * @returns {undefined | { description?: string; deprecated?: boolean | string; default?: string; }}
  */
 export function parseTypeComment(node, source) {
   const docComment = parseDocComment(node, source);
@@ -556,6 +556,11 @@ export function parseTypeComment(node, source) {
     return {
       description: docComment.description,
       deprecated: getDeprecatedInfo(docComment.tags),
+      ...(node.type === "TSPropertySignature"
+        ? {
+            default: findTag(docComment.tags, "default")?.description,
+          }
+        : null),
     };
   }
 }
