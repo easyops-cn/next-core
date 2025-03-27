@@ -1,6 +1,6 @@
 {
   "name": "@next-core/runtime",
-  "version": "1.59.4",
+  "version": "1.59.5",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/runtime",
   "license": "GPL-3.0",
   "repository": {
@@ -45,14 +45,14 @@
   },
   "dependencies": {
     "@next-core/color-theme": "^0.4.8",
-    "@next-core/cook": "^2.5.7",
+    "@next-core/cook": "^2.5.8",
     "@next-core/http": "^1.2.12",
-    "@next-core/i18n": "^1.0.74",
-    "@next-core/inject": "^1.0.52",
+    "@next-core/i18n": "^1.0.75",
+    "@next-core/inject": "^1.0.53",
     "@next-core/loader": "^1.6.15",
-    "@next-core/supply": "^2.3.4",
+    "@next-core/supply": "^2.3.5",
     "@next-core/types": "^1.14.0",
-    "@next-core/utils": "^1.7.32",
+    "@next-core/utils": "^1.7.33",
     "@ungap/event-target": "^0.2.4",
     "compare-versions": "^6.1.1",
     "history": "^4.10.1",
