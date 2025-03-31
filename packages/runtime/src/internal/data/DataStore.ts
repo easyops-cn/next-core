@@ -31,6 +31,7 @@ import {
   realTimeDataInspectRoot,
 } from "./realTimeDataInspect.js";
 import { isStrictMode } from "../../isStrictMode.js";
+import { perf } from "../perf.js";
 
 const supportContextResolveTriggerBrickLifeCycle = [
   "onBeforePageLoad",
@@ -530,11 +531,12 @@ export class DataStore<T extends DataStoreType = "CTX"> {
             if (newData.useResolve) {
               this.updateValue(dataConf.name, { cache: "default" }, "refresh");
             } else {
-              this.updateValue(
-                dataConf.name,
-                computeRealValue(dataConf.value, runtimeContext),
-                "replace"
+              const result = perf(
+                () => computeRealValue(dataConf.value, runtimeContext),
+                "computeRealValue",
+                dataConf
               );
+              this.updateValue(dataConf.name, result, "replace");
             }
           }, dataConf)
         );

@@ -15,7 +15,8 @@ import type {
 import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
 import { checkIf } from "./compute/checkIf.js";
-import { computeRealValue } from "./compute/computeRealValue.js";
+// import { computeRealValue } from "./compute/computeRealValue.js";
+import { wrapComputeRealValue } from "./perf.js";
 import { getHistory } from "../history.js";
 import { getProviderBrick } from "./data/getProviderBrick.js";
 import { PollableCallback, startPoll } from "./poll.js";
@@ -355,7 +356,10 @@ function handleCustomAction(
       ? isEvaluable(rawTarget)
       : isPreEvaluated(rawTarget)
   ) {
-    computedTarget = computeRealValue(rawTarget, { ...runtimeContext, event });
+    computedTarget = wrapComputeRealValue(rawTarget, {
+      ...runtimeContext,
+      event,
+    });
   }
   if (typeof computedTarget === "string") {
     if (computedTarget === "_self") {
@@ -383,7 +387,7 @@ function handleCustomAction(
         ? isEvaluable(rawTargetRef)
         : isPreEvaluated(rawTargetRef)
     ) {
-      computedTargetRef = computeRealValue(rawTargetRef, {
+      computedTargetRef = wrapComputeRealValue(rawTargetRef, {
         ...runtimeContext,
         event,
       }) as string | string[];
@@ -493,7 +497,7 @@ async function brickCallback(
       event,
     };
 
-    const sseStream = computeRealValue(
+    const sseStream = wrapComputeRealValue(
       handler.sse?.stream,
       pollRuntimeContext
     ) as boolean | undefined;
@@ -506,7 +510,7 @@ async function brickCallback(
       return;
     }
 
-    const pollEnabled = computeRealValue(
+    const pollEnabled = wrapComputeRealValue(
       handler.poll?.enabled,
       pollRuntimeContext
     ) as boolean | undefined;
@@ -886,7 +890,7 @@ function argsFactory(
   options: ArgsFactoryOptions = {}
 ): unknown[] {
   return Array.isArray(args)
-    ? (computeRealValue(args, {
+    ? (wrapComputeRealValue(args, {
         ...runtimeContext,
         event,
       }) as unknown[])

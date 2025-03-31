@@ -10,6 +10,7 @@ import { _internalApiGetRenderId, hooks } from "../Runtime.js";
 import { markAsComputed } from "../compute/markAsComputed.js";
 import { get } from "lodash";
 import { isStrictMode, warnAboutStrictMode } from "../../isStrictMode.js";
+import { asyncPerf } from "../perf.js";
 
 const cache = new Map<string, Promise<unknown>>();
 
@@ -57,7 +58,7 @@ export async function resolveData(
     getProviderBrick(useProvider) as unknown as Promise<
       Record<string, Function>
     >,
-    asyncComputeRealValue(args, runtimeContext) as Promise<unknown[]>,
+    testWrap(args, runtimeContext) as Promise<unknown[]>,
   ]);
 
   // `clearResolveCache` maybe cleared during the above promise being
@@ -101,7 +102,15 @@ export async function resolveData(
     return { [transform]: data };
   }
 
-  return asyncComputeRealValue(transform, { ...runtimeContext, data });
+  return testWrap(transform, { ...runtimeContext, data });
+}
+
+async function testWrap(...args: Parameters<typeof asyncComputeRealValue>) {
+  return asyncPerf(
+    () => asyncComputeRealValue(...args),
+    "asyncComputeRealValue",
+    args[0]
+  );
 }
 
 export function clearResolveCache() {
