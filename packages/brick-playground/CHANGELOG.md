@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.58](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.57...@next-core/brick-playground@1.15.58) (2025-04-02)
+
+
+### Bug Fixes
+
+* **playground:** support spell check ([944151b](https://github.com/easyops-cn/next-core/commit/944151b2bf01125808c5d161c1fe26ce28fb0449))
+
+
+
+
+
 ## [1.15.57](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.56...@next-core/brick-playground@1.15.57) (2025-03-27)
 
 **Note:** Version bump only for package @next-core/brick-playground
