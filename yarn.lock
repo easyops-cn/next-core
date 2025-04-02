@@ -2006,6 +2006,14 @@
   resolved "https://registry.npmjs.org/@next-shared/common-bricks/-/common-bricks-0.53.1.tgz#442db871109bb2d1bea51a43def37fb6564f3ca0"
   integrity sha512-zsxkavhza9CdojCsrzQIgSK430VQxDes/0LS8Z2PTjm15R7JDeHNxKjU7qEM0zSm79Yo9QcGxto5igkjYKeQVw==
 
+"@next-shared/spell-check@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@next-shared/spell-check/-/spell-check-0.1.1.tgz#2dfe56aa6cd1c4479d96c4e49bdfbb6a52303fd5"
+  integrity sha512-mRoZoacobIT2hu67GvK6cYZQ5bhrVvjImhHLVtrT0Wje69ufRRW0lNme0FfMh7/1ObxIHMQ9OrPvV8+Tx3iMjQ==
+  dependencies:
+    change-case "^5.4.4"
+    typo-js "^1.2.5"
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz"
@@ -4448,6 +4456,11 @@ change-case@^4.1.2:
     snake-case "^3.0.4"
     tslib "^2.0.3"
 
+change-case@^5.4.4:
+  version "5.4.4"
+  resolved "https://registry.npmjs.org/change-case/-/change-case-5.4.4.tgz#0d52b507d8fb8f204343432381d1a6d7bff97a02"
+  integrity sha512-HRQyTk2/YPEkt9TnUPbOpr64Uw3KOicFWPVBb+xiHvd6eBx/qPr9xqfBFDT8P2vWsvvz4jbEkfDe71W3VyNu2w==
+
 char-regex@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/char-regex/-/char-regex-1.0.2.tgz"
@@ -4717,6 +4730,11 @@ combined-stream@^1.0.8, combined-stream@~1.0.6:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
+
+comlink@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.npmjs.org/comlink/-/comlink-4.4.2.tgz#cbbcd82742fbebc06489c28a183eedc5c60a2bca"
+  integrity sha512-OxGdvBmJuNKSCMO4NTl1L47VRp6xn2wG4F/2hYzB6tiCb709otOxtEYCSvK80PtjODfXXZu8ds+Nw5kVCjqd2g==
 
 commander@^13.1.0:
   version "13.1.0"
@@ -13299,6 +13317,11 @@ typescript@~5.5.0:
   version "5.5.4"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.5.4.tgz#d9852d6c82bad2d2eda4fd74a5762a8f5909e9ba"
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
+
+typo-js@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.npmjs.org/typo-js/-/typo-js-1.2.5.tgz#0aa65e0be9b69036463a3827de8185b4144e3086"
+  integrity sha512-F45vFWdGX8xahIk/sOp79z2NJs8ETMYsmMChm9D5Hlx3+9j7VnCyQyvij5MOCrNY3NNe8noSyokRjQRfq+Bc7A==
 
 uglify-js@^3.1.4:
   version "3.4.9"
