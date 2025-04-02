@@ -12,6 +12,7 @@ import { register as registerJavaScript } from "@next-core/monaco-contributions/
 import { register as registerTypeScript } from "@next-core/monaco-contributions/typescript";
 import { register as registerYaml } from "@next-core/monaco-contributions/yaml";
 import { register as registerHtml } from "@next-core/monaco-contributions/html";
+import { getRemoteSpellCheckWorker } from "./spellCheckRemoteWorker.js";
 
 registerJavaScript(monaco);
 registerTypeScript(monaco);
@@ -19,6 +20,21 @@ registerYaml(monaco);
 registerHtml(monaco);
 
 const GZIP_HASH_PREFIX = "#gzip,";
+const SPELL_CHECK = "spell_check";
+const KNOWN_WORDS = [
+  "microapp",
+  "minmax",
+  "ctrl",
+  "dagre",
+  "rankdir",
+  "ranksep",
+  "nodesep",
+  "topo",
+  "plaintext",
+  "debuggable",
+  "async",
+  "searchable",
+];
 
 interface Example extends Sources {
   key: string;
@@ -145,19 +161,6 @@ async function main() {
     }
   }
 
-  function debounce(func: Function, timeout = 300) {
-    let timer = -1;
-    return (...args: unknown[]) => {
-      if (timer !== -1) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(() => {
-        timer = -1;
-        func(...args);
-      }, timeout) as unknown as number;
-    };
-  }
-
   if (mode !== "yaml") {
     updateMode();
     selectType.value = mode.toUpperCase();
@@ -242,12 +245,38 @@ async function main() {
       insertSpaces: true,
       automaticLayout: true,
     });
-    editor.onDidChangeModelContent((e) => {
+
+    const debouncedSpellCheck = debounce(async () => {
+      const worker = await getRemoteSpellCheckWorker();
+      const { markers: spellCheckMarkers } = await worker.spellCheck({
+        source: editor.getValue(),
+        knownWords: KNOWN_WORDS,
+      });
+      monaco.editor.setModelMarkers(
+        model,
+        SPELL_CHECK,
+        spellCheckMarkers.map(({ start, end, message, severity }) => {
+          const startPos = model.getPositionAt(start);
+          const endPos = model.getPositionAt(end);
+          return {
+            startLineNumber: startPos.lineNumber,
+            startColumn: startPos.column,
+            endLineNumber: endPos.lineNumber,
+            endColumn: endPos.column,
+            severity: monaco.MarkerSeverity[severity],
+            message,
+          };
+        })
+      );
+    });
+
+    model.onDidChangeContent((e) => {
       sources[type] = editor.getValue();
       if (saveToLocalStorage && !e.isFlush) {
         localStorage.setItem(storageKey, sources[type]);
       }
       debouncedRender();
+      debouncedSpellCheck();
     });
   }
 
@@ -459,6 +488,19 @@ function decorateAltCode(code: string, mode: string, altMode: string): string {
         ? "# Note: this example is original written in HTML and auto-transpiled to YAML\n"
         : "<!-- Note: this example is original written in YAML and auto-transpiled to HTML -->\n"
   }${code}`;
+}
+
+function debounce(func: Function, timeout = 300) {
+  let timer = -1;
+  return (...args: unknown[]) => {
+    if (timer !== -1) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      timer = -1;
+      func(...args);
+    }, timeout) as unknown as number;
+  };
 }
 
 main().catch((error) => {
