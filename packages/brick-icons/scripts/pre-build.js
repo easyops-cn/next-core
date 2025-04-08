@@ -31,6 +31,21 @@ const flattenIcons = klawSync(iconsDir, {
   return { category, relativePath, basename };
 });
 
+const imageIconsDir = path.join(iconsDir, "image");
+const flattenImageIcons = klawSync(imageIconsDir, {
+  depthLimit: 1,
+  nodir: true,
+  filter: (item) => item.path.endsWith(".png") || item.path.endsWith(".gif"),
+  traverseAll: true,
+}).map((item) => {
+  const filename = path.basename(item.path);
+  const relativePath = `image/${filename}`;
+  const basename = filename.replace(/\.(png|gif)$/, "-$1");
+  return { category: "image", relativePath, basename };
+});
+
+flattenIcons.push(...flattenImageIcons);
+
 const groupedIcons = Object.entries(_.groupBy(flattenIcons, "category"));
 
 for (const [category, icons] of groupedIcons) {
@@ -42,20 +57,26 @@ for (const [category, icons] of groupedIcons) {
   );
   const exports = `export const ${changeCase.camelCase(category)}Category = {
     ${icons
-      .map(
-        (icon) =>
-          `  "${changeCase.paramCase(icon.basename)}": ${changeCase.pascalCase(
-            category
-          )}${changeCase.pascalCase(icon.basename)},`
-      )
+      .map((icon) => {
+        const specifier = `${changeCase.pascalCase(
+          category
+        )}${changeCase.pascalCase(icon.basename)}`;
+        return `  "${changeCase.paramCase(icon.basename)}": ${
+          category === "image"
+            ? `() => (<img src={\`\${__webpack_public_path__}assets/image-icons/\${${specifier}}\`} style={{ width: "1em", height: "1em", verticalAlign: "baseline" }} />)`
+            : specifier
+        },`;
+      })
       .join(os.EOL)}
   };`;
-  const content = imports.concat(exports).join(os.EOL);
+  const content = ['import React from "react";']
+    .concat(imports, exports)
+    .join(os.EOL);
 
   const categoryTsPath = path.join(
     process.cwd(),
     "src/generated/icons",
-    `${category}.ts`
+    `${category}.tsx`
   );
   fs.outputFileSync(
     categoryTsPath,

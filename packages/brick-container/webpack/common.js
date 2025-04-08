@@ -158,6 +158,13 @@ module.exports = () => {
             )}`,
             to: "assets/illustrations",
           },
+          {
+            from: `${path.resolve(
+              require.resolve("@next-core/brick-icons/package.json"),
+              "../dist/image-icons"
+            )}`,
+            to: "assets/image-icons",
+          },
         ],
       }),
       new HtmlWebpackPlugin({
