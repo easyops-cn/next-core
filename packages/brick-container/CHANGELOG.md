@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.97.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.54...@next-core/brick-container@2.97.0) (2025-04-08)
+
+
+### Features
+
+* support image icons ([f2688aa](https://github.com/easyops-cn/next-core/commit/f2688aaf9017266e5310913f5bfc7805a61a2d71))
+
+
+
+
+
 ## [2.96.54](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.96.53...@next-core/brick-container@2.96.54) (2025-04-02)
 
 **Note:** Version bump only for package @next-core/brick-container
