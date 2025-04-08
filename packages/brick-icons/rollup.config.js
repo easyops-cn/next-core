@@ -1,3 +1,4 @@
+import path from "path";
 import { rollupFactory, rollupPlugins } from "@next-core/rollup-config-factory";
 import svgr from "@svgr/rollup";
 
@@ -47,6 +48,13 @@ export default rollupFactory({
           dest: "dist",
         },
       ],
+    }),
+    rollupPlugins.url({
+      include: ["**/*.png", "**/*.gif"],
+      fileName: "[dirname][name].[hash][extname]",
+      destDir: "dist/image-icons",
+      limit: 0,
+      sourceDir: path.join(__dirname, "src/icons/image"),
     }),
   ],
 });
