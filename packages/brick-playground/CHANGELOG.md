@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.58...@next-core/brick-playground@1.16.0) (2025-04-14)
+
+
+### Features
+
+* support api mocks in playground ([c55e2e3](https://github.com/easyops-cn/next-core/commit/c55e2e36488209a851e6e0d72449614487e54905))
+
+
+
+
+
 ## [1.15.58](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.57...@next-core/brick-playground@1.15.58) (2025-04-02)
 
 
