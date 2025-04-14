@@ -386,6 +386,8 @@ export function SingleBrickAsComponentFactory(React: typeof _React) {
       })();
     }, [runtimeBrick, updateBrick]);
 
+    const previousObserverRef = React.useRef<IntersectionObserver>();
+
     innerRefCallbackRef.current = async (element: HTMLElement) => {
       immediatelyRefCallback?.(element);
       elementRef.current = element;
@@ -401,20 +403,54 @@ export function SingleBrickAsComponentFactory(React: typeof _React) {
         if (element) {
           updateBrick(brick, element);
 
-          if (useBrick.lifeCycle?.onMount) {
+          const onMount = useBrick.lifeCycle?.onMount;
+          if (onMount) {
             dispatchLifeCycleEvent(
               new CustomEvent("mount"),
-              useBrick.lifeCycle.onMount,
+              transformEvents(data, { onMount }).onMount,
               brick
             );
           }
+
+          const onScrollIntoView = useBrick.lifeCycle?.onScrollIntoView;
+          if (onScrollIntoView) {
+            const threshold = onScrollIntoView.threshold ?? 0.1;
+            const observer = new IntersectionObserver(
+              (entries, observer) => {
+                entries.forEach((entry) => {
+                  if (entry.isIntersecting) {
+                    if (entry.intersectionRatio >= threshold) {
+                      dispatchLifeCycleEvent(
+                        new CustomEvent("scroll.into.view"),
+                        transformEvents(data, {
+                          onScrollIntoView: onScrollIntoView.handlers,
+                        }).onScrollIntoView,
+                        brick
+                      );
+                      observer.disconnect();
+                    }
+                  }
+                });
+              },
+              {
+                threshold,
+              }
+            );
+            observer.observe(element);
+            previousObserverRef.current = observer;
+          }
         } else {
-          if (useBrick.lifeCycle?.onUnmount) {
+          const onUnmount = useBrick.lifeCycle?.onUnmount;
+          if (onUnmount) {
             dispatchLifeCycleEvent(
               new CustomEvent("unmount"),
-              useBrick.lifeCycle.onUnmount,
+              transformEvents(data, { onUnmount }).onUnmount,
               brick
             );
+          }
+          if (previousObserverRef.current) {
+            previousObserverRef.current.disconnect();
+            previousObserverRef.current = undefined;
           }
         }
       }
@@ -772,6 +808,8 @@ export function ForwardRefSingleBrickAsComponentFactory(React: typeof _React) {
         })();
       }, [runtimeBrick, updateBrick]);
 
+      const previousObserverRef = React.useRef<IntersectionObserver>();
+
       innerRefCallbackRef.current = async (element: HTMLElement) => {
         elementRef.current = element;
 
@@ -786,20 +824,53 @@ export function ForwardRefSingleBrickAsComponentFactory(React: typeof _React) {
           if (element) {
             updateBrick(brick, element);
 
-            if (useBrick.lifeCycle?.onMount) {
+            const onMount = useBrick.lifeCycle?.onMount;
+            if (onMount) {
               dispatchLifeCycleEvent(
                 new CustomEvent("mount"),
-                useBrick.lifeCycle.onMount,
+                transformEvents(data, { onMount }).onMount,
                 brick
               );
             }
+            const onScrollIntoView = useBrick.lifeCycle?.onScrollIntoView;
+            if (onScrollIntoView) {
+              const threshold = onScrollIntoView.threshold ?? 0.1;
+              const observer = new IntersectionObserver(
+                (entries, observer) => {
+                  entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                      if (entry.intersectionRatio >= threshold) {
+                        dispatchLifeCycleEvent(
+                          new CustomEvent("scroll.into.view"),
+                          transformEvents(data, {
+                            onScrollIntoView: onScrollIntoView.handlers,
+                          }).onScrollIntoView,
+                          brick
+                        );
+                        observer.disconnect();
+                      }
+                    }
+                  });
+                },
+                {
+                  threshold,
+                }
+              );
+              observer.observe(element);
+              previousObserverRef.current = observer;
+            }
           } else {
-            if (useBrick.lifeCycle?.onUnmount) {
+            const onUnmount = useBrick.lifeCycle?.onUnmount;
+            if (onUnmount) {
               dispatchLifeCycleEvent(
                 new CustomEvent("unmount"),
-                useBrick.lifeCycle.onUnmount,
+                transformEvents(data, { onUnmount }).onUnmount,
                 brick
               );
+            }
+            if (previousObserverRef.current) {
+              previousObserverRef.current.disconnect();
+              previousObserverRef.current = undefined;
             }
           }
         }
