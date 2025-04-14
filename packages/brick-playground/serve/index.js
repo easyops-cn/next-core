@@ -19,6 +19,7 @@ const rootDir = process.cwd();
 let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
 const devConfigMjs = path.join(rootDir, "dev.config.mjs");
 let configuredBrickFolders = false;
+let mocks;
 
 if (existsSync(devConfigMjs)) {
   const devConfig = (await import(devConfigMjs)).default;
@@ -27,6 +28,7 @@ if (existsSync(devConfigMjs)) {
       brickFolders = devConfig.brickFolders;
       configuredBrickFolders = true;
     }
+    mocks = devConfig.mocks;
   }
 }
 
@@ -46,6 +48,10 @@ const localBrickFolders = (
     )
   )
 ).flat();
+
+for (const mock of mocks ?? []) {
+  app.use(mock);
+}
 
 app.use("/preview/bricks/", serveBricks({ localBrickFolders }));
 
