@@ -1523,9 +1523,9 @@ export interface UseSingleBrickConf {
   events?: BrickEventsMap;
 
   /**
-   * 构件生命周期配置。在 `useBrick` 中仅支持 `useResolves`、`onMount` 和 `onUnmount`。
+   * 构件生命周期配置。在 `useBrick` 中仅支持 `useResolves`、`onScrollIntoView`、`onMount` 和 `onUnmount`。
    */
-  lifeCycle?: Pick<BrickLifeCycle, "useResolves"> & {
+  lifeCycle?: Pick<BrickLifeCycle, "useResolves" | "onScrollIntoView"> & {
     /**
      * 定义 useBrick 里的构件在挂载时的动作。
      */

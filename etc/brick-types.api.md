@@ -2665,7 +2665,7 @@ export interface UseSingleBrickConf {
     events?: BrickEventsMap;
     if?: string | boolean | ResolveConf;
     iid?: string;
-    lifeCycle?: Pick<BrickLifeCycle, "useResolves"> & {
+    lifeCycle?: Pick<BrickLifeCycle, "useResolves" | "onScrollIntoView"> & {
         onMount?: BrickEventHandler | BrickEventHandler[];
         onUnmount?: BrickEventHandler | BrickEventHandler[];
     };
