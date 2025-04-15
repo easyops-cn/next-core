@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.205.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.204.2...@next-core/brick-kit@2.205.0) (2025-04-15)
+
+
+### Features
+
+* support onScrollIntoView for useBrick ([6f5a84d](https://github.com/easyops-cn/next-core/commit/6f5a84d5c6e16a773e21016388d6adeef5f23b7a))
+
+
+
+
+
 ## [2.204.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.204.1...@next-core/brick-kit@2.204.2) (2025-03-27)
 
 **Note:** Version bump only for package @next-core/brick-kit
