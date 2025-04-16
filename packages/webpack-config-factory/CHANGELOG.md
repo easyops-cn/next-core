@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.25.1...@next-core/webpack-config-factory@2.25.2) (2025-04-16)
+
+
+### Bug Fixes
+
+* 修复设置为公共依赖后lazyBrick加载错误问题 ([fdc200a](https://github.com/easyops-cn/next-core/commit/fdc200a17c84e1e4752ed0565ad6a571f8e4e3cf))
+
+
+
+
+
 ## [2.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/webpack-config-factory@2.25.0...@next-core/webpack-config-factory@2.25.1) (2024-08-26)
 
 
