@@ -90,6 +90,7 @@ module.exports =
         : ""
     }/`;
     const distPublicPathWithVersion = `${scope}/${packageName}/${packageVersion}/dist/`;
+    const publicDepDistPath = `${scope}/${packageName}/-/dist/`;
 
     const dll = isForEditors
       ? ["@next-dll/editor-bricks-helper"]
@@ -372,7 +373,11 @@ module.exports =
             isForEditors || isForPropertyEditors
               ? distPublicPath
               : `\${
-              window.PUBLIC_ROOT_WITH_VERSION
+              (window.PUBLIC_DEPS || []).find(v => v.filePath.startsWith(${JSON.stringify(
+                publicDepDistPath
+              )}))
+              ?  "${publicDepDistPath}"
+              : window.PUBLIC_ROOT_WITH_VERSION
                 ? "${distPublicPathWithVersion}"
                 : "${distPublicPath}"
             }`
