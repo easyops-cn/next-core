@@ -30,12 +30,37 @@ interface Kit {
   getHistory(): NextHistory;
   looseCheckIfByTransform(ifContainer: IfContainer, data: unknown): boolean;
   doTransform(data: unknown, to: unknown, options?: unknown): unknown;
+  transformProperties(
+    props: Record<string, unknown>,
+    data: unknown,
+    to: LegacyGeneralTransform,
+    from?: string | string[],
+    mapArray?: boolean | "auto",
+    options?: unknown
+  ): Record<string, unknown>;
   SingleBrickAsComponentFactory: any;
   BrickAsComponentFactory: any;
   authenticate: any;
   getAuth: any;
   isLoggedIn: any;
   logout: any;
+}
+
+export type LegacyGeneralTransform =
+  | string
+  | LegacyTransformMap
+  | LegacyTransformItem[]
+  | null
+  | undefined;
+
+export interface LegacyTransformMap {
+  [propName: string]: unknown;
+}
+
+export interface LegacyTransformItem {
+  from?: string | string[];
+  to: string | LegacyTransformMap;
+  mapArray?: boolean | "auto";
 }
 
 export function getV2RuntimeFromDll() {
