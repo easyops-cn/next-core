@@ -51,7 +51,6 @@ declare namespace __secret_internals {
         renderUseBrick,
         mountUseBrick,
         unmountUseBrick,
-        legacyDoTransform,
         updateStoryboard,
         updateStoryboardByRoute,
         updateStoryboardByTemplate,
@@ -74,7 +73,10 @@ declare namespace __secret_internals {
         MountUseBrickResult,
         updateSnippetPreviewSettings,
         setRealTimeDataInspectRoot,
-        addRealTimeDataInspectHook
+        addRealTimeDataInspectHook,
+        legacyDoTransform,
+        legacyTransformProperties,
+        legacyTransformIntermediateData
     }
 }
 export { __secret_internals }
@@ -258,6 +260,31 @@ export function isUnauthenticatedError(error: unknown): boolean;
 
 // @public
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
+
+// @public (undocumented)
+export type LegacyGeneralTransform = string | LegacyTransformMap | LegacyTransformItem[] | null | undefined;
+
+// @public
+function legacyTransformIntermediateData(data: unknown, to: LegacyGeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): unknown;
+
+// @public (undocumented)
+export interface LegacyTransformItem {
+    // (undocumented)
+    from?: string | string[];
+    // (undocumented)
+    mapArray?: boolean | "auto";
+    // (undocumented)
+    to: string | LegacyTransformMap;
+}
+
+// @public (undocumented)
+export interface LegacyTransformMap {
+    // (undocumented)
+    [propName: string]: unknown;
+}
+
+// @public
+function legacyTransformProperties(props: Record<string, unknown>, data: unknown, to: LegacyGeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: unknown): Record<string, unknown>;
 
 // @public
 function loadBricks(bricks: string[]): Promise<void>;

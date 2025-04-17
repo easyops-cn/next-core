@@ -17,6 +17,7 @@ import { hasInstalledApp } from "../hasInstalledApp.js";
 import { registerWidgetFunctions } from "./WidgetFunctions.js";
 import { registerStoryboardFunctions } from "./StoryboardFunctions.js";
 import { getDevHook } from "../devtools.js";
+import { _internalApiGetRuntimeContext } from "../Runtime.js";
 
 jest.mock("@next-core/loader", () => ({
   loadBricksImperatively() {
@@ -75,6 +76,7 @@ jest.mock("../Runtime.js", () => ({
   getBrickPackages() {
     return [];
   },
+  _internalApiGetRuntimeContext: jest.fn(),
 }));
 jest.mock("../devtools.js");
 
@@ -393,6 +395,28 @@ describe("evaluate", () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"APP is not defined, in "<% APP.homepage %>""`
     );
+  });
+
+  test("Access non-existed global CTX.DS", () => {
+    expect(() =>
+      evaluate("<% CTX.DS.demo %>", runtimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot read properties of undefined (reading 'demo'), in "<% CTX.DS.demo %>""`
+    );
+  });
+
+  test("Access existed global CTX.DS", () => {
+    (_internalApiGetRuntimeContext as jest.Mock).mockReturnValueOnce({
+      ctxStore: {
+        has(key: string) {
+          return key === "DS";
+        },
+        getValue(key: string) {
+          return key === "DS" ? { demo: "mocked-DS" } : undefined;
+        },
+      },
+    });
+    expect(evaluate("<% CTX.DS.demo %>", runtimeContext)).toBe("mocked-DS");
   });
 });
 
