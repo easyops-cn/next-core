@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.5...@next-core/runtime@1.60.0) (2025-04-17)
+
+
+### Features
+
+* support accessing global CTX.DS from an isolated root ([0f2148a](https://github.com/easyops-cn/next-core/commit/0f2148a63549e406fe294ea8df97c17d4960708d))
+* support some legacy transform functions ([2db3ed1](https://github.com/easyops-cn/next-core/commit/2db3ed1e5816d1fa7379adf489a15c6fa232d925))
+
+
+
+
+
 ## [1.59.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.4...@next-core/runtime@1.59.5) (2025-03-27)
 
 **Note:** Version bump only for package @next-core/runtime
