@@ -90,6 +90,10 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     this.stateStoreId = stateStoreId;
   }
 
+  has(name: string) {
+    return this.data.has(name);
+  }
+
   getAllValues(): Record<string, unknown> {
     return Object.fromEntries(
       [...this.data.entries()].map(([name, { value }]) => [name, value])
