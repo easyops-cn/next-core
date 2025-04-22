@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.61.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.60.0...@next-core/runtime@1.61.0) (2025-04-22)
+
+
+### Features
+
+* **unstable_createRoot:** support unsafe_penetrate ([729a787](https://github.com/easyops-cn/next-core/commit/729a787e51f36980e2529bf9ecef692dff8d916f))
+
+
+
+
+
 # [1.60.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.59.5...@next-core/runtime@1.60.0) (2025-04-17)
 
 
