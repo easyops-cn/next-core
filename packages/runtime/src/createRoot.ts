@@ -43,6 +43,14 @@ export interface CreateRootOptions {
    * Defaults to "throw".
    */
   unknownBricks?: "silent" | "throw";
+
+  /**
+   * Set unsafe_penetrate to true to allow accessing global variables
+   * from an isolated root.
+   *
+   * It is unsafe, use it at your own risk.
+   */
+  unsafe_penetrate?: boolean;
 }
 
 export interface RenderOptions {
@@ -59,7 +67,12 @@ export interface RenderOptions {
 
 export function unstable_createRoot(
   container: HTMLElement | DocumentFragment,
-  { portal: _portal, scope = "fragment", unknownBricks }: CreateRootOptions = {}
+  {
+    portal: _portal,
+    scope = "fragment",
+    unknownBricks,
+    unsafe_penetrate,
+  }: CreateRootOptions = {}
 ) {
   let portal = _portal;
   let createPortal: RenderRoot["createPortal"];
@@ -110,6 +123,7 @@ export function unstable_createRoot(
         pendingPermissionsPreCheck: [],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
+        unsafe_penetrate,
       } as Partial<RuntimeContext> as RuntimeContext;
 
       if (url) {

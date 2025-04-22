@@ -1,6 +1,11 @@
 import { describe, test, expect } from "@jest/globals";
 import { asyncComputeRealValue, computeRealValue } from "./computeRealValue.js";
 import type { RuntimeContext } from "../interfaces.js";
+import { _internalApiGetRuntimeContext } from "../Runtime.js";
+
+jest.mock("../Runtime.js", () => ({
+  _internalApiGetRuntimeContext: jest.fn(),
+}));
 
 const query = new URLSearchParams("q=foo");
 const runtimeContext = {
@@ -13,6 +18,10 @@ const runtimeContextWithNoData = { query } as RuntimeContext;
 const fn = () => {};
 
 describe("asyncComputeRealValue", () => {
+  beforeEach(() => {
+    (_internalApiGetRuntimeContext as jest.Mock).mockReset();
+  });
+
   test("useBrick", async () => {
     expect(
       await asyncComputeRealValue(
@@ -155,6 +164,10 @@ describe("asyncComputeRealValue", () => {
 });
 
 describe("computeRealValue", () => {
+  beforeEach(() => {
+    (_internalApiGetRuntimeContext as jest.Mock).mockReset();
+  });
+
   test("useBrick with legacy transform", () => {
     expect(
       computeRealValue(
@@ -296,5 +309,24 @@ describe("computeRealValue", () => {
         },
       },
     });
+  });
+
+  test("without unsafe penetrate", () => {
+    (_internalApiGetRuntimeContext as jest.Mock).mockReturnValue({
+      query: new URLSearchParams("q=bar"),
+    });
+    expect(computeRealValue("Q: ${QUERY.q}", runtimeContext)).toEqual("Q: foo");
+  });
+
+  test("with unsafe penetrate", () => {
+    (_internalApiGetRuntimeContext as jest.Mock).mockReturnValue({
+      query: new URLSearchParams("q=bar"),
+    });
+    expect(
+      computeRealValue("Q: ${QUERY.q}", {
+        ...runtimeContext,
+        unsafe_penetrate: true,
+      })
+    ).toEqual("Q: bar");
   });
 });
