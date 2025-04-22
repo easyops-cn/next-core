@@ -119,6 +119,7 @@ export interface CreateRootOptions {
     portal?: HTMLElement;
     scope?: "page" | "fragment";
     unknownBricks?: "silent" | "throw";
+    unsafe_penetrate?: boolean;
 }
 
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
@@ -458,6 +459,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     tplStateStoreMap: Map<string, DataStore<"STATE">>;
     // (undocumented)
     tplStateStoreScope?: DataStore<"STATE">[];
+    // (undocumented)
+    unsafe_penetrate?: boolean;
 }
 
 // @public (undocumented)
@@ -582,7 +585,7 @@ const symbolForRootRuntimeContext: unique symbol;
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
 
 // @public (undocumented)
-export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
+export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks, unsafe_penetrate, }?: CreateRootOptions): {
     render(brick: BrickConf | BrickConf[], { theme, uiVersion, language, context, functions, templates, i18n: i18nData, url, app, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };

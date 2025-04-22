@@ -254,6 +254,10 @@ formStateStore.define(
 const consoleError = jest.spyOn(console, "error");
 
 describe("evaluate", () => {
+  beforeEach(() => {
+    (_internalApiGetRuntimeContext as jest.Mock).mockReset();
+  });
+
   test.each<[string, unknown]>([
     ["<% [] %>", []],
     ["<% EVENT.detail %>", "yes"],
@@ -406,7 +410,7 @@ describe("evaluate", () => {
   });
 
   test("Access existed global CTX.DS", () => {
-    (_internalApiGetRuntimeContext as jest.Mock).mockReturnValueOnce({
+    (_internalApiGetRuntimeContext as jest.Mock).mockReturnValue({
       ctxStore: {
         has(key: string) {
           return key === "DS";
@@ -417,6 +421,26 @@ describe("evaluate", () => {
       },
     });
     expect(evaluate("<% CTX.DS.demo %>", runtimeContext)).toBe("mocked-DS");
+  });
+
+  test("unsafe penetrate", () => {
+    const unsafeContext = {
+      ...runtimeContext,
+      unsafe_penetrate: true,
+    };
+    (_internalApiGetRuntimeContext as jest.Mock).mockReturnValue({
+      app: {
+        id: "global",
+        name: "Global",
+        homepage: "/global",
+      },
+      flags: {
+        unsafe: true,
+      },
+    });
+    expect(evaluate("<% APP.id %>", unsafeContext)).toBe("global");
+    expect(evaluate("<% FLAGS.unsafe %>", unsafeContext)).toBe(true);
+    expect(evaluate("<% FLAGS.test %>", unsafeContext)).toBe(undefined);
   });
 });
 

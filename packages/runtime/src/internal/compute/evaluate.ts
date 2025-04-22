@@ -303,6 +303,12 @@ function lowLevelEvaluate(
   return {
     blockingList,
     run() {
+      const { ctxStore, data, event, unsafe_penetrate } = runtimeContext;
+
+      const penetrableCtx = unsafe_penetrate
+        ? _internalApiGetRuntimeContext()!
+        : runtimeContext;
+
       const {
         app: currentApp,
         location,
@@ -310,11 +316,8 @@ function lowLevelEvaluate(
         match,
         flags,
         sys,
-        ctxStore,
-        data,
-        event,
-      } = runtimeContext;
-      const app = runtimeContext.overrideApp ?? currentApp;
+      } = penetrableCtx;
+      const app = penetrableCtx.overrideApp ?? currentApp;
 
       for (const variableName of attemptToVisitGlobals) {
         switch (variableName) {
