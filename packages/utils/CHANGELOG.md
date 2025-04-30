@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.34](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.33...@next-core/utils@1.7.34) (2025-04-30)
+
+
+### Bug Fixes
+
+* **sse:** refine error reporting ([8267021](https://github.com/easyops-cn/next-core/commit/8267021f07dfb982402429fdb82a1e199b1a81c1))
+
+
+
+
+
 ## [1.7.33](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.32...@next-core/utils@1.7.33) (2025-03-27)
 
 **Note:** Version bump only for package @next-core/utils
