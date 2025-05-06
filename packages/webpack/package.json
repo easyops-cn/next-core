@@ -19,9 +19,9 @@
     "copy-webpack-plugin": "^13.0.0"
   },
   "devDependencies": {
-    "webpack": "^5.99.6"
+    "webpack": "^5.99.7"
   },
   "peerDependencies": {
-    "webpack": "^5.99.6"
+    "webpack": "^5.99.7"
   }
 }
