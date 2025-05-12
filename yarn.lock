@@ -2015,10 +2015,10 @@
   resolved "https://registry.npmjs.org/@next-core/styles-v3/-/styles-v3-0.3.5.tgz#a3c64a423e4eb7b6bb0ae6ed5440256f3bafdb45"
   integrity sha512-zubfA3yKgXZVm6qMWYQ9VqInCjsNN10jGpcaRvQ44DDIV6NI+g74W+cRS0Xqnj7lhgGgrpJjQzlNUOpedJTOng==
 
-"@next-shared/common-bricks@^0.53.1":
-  version "0.53.1"
-  resolved "https://registry.npmjs.org/@next-shared/common-bricks/-/common-bricks-0.53.1.tgz#442db871109bb2d1bea51a43def37fb6564f3ca0"
-  integrity sha512-zsxkavhza9CdojCsrzQIgSK430VQxDes/0LS8Z2PTjm15R7JDeHNxKjU7qEM0zSm79Yo9QcGxto5igkjYKeQVw==
+"@next-shared/common-bricks@^0.54.0":
+  version "0.54.0"
+  resolved "https://registry.npmjs.org/@next-shared/common-bricks/-/common-bricks-0.54.0.tgz#129c7100f8447538f39e1408c67b9ee7f8299f05"
+  integrity sha512-olo5BboK0U+fm0KUO+Ipe0r9UNAfJQ7LwWKBiNXZxMTmx9IqBKc5t1FyOGBdhDvf3iCQrimRvoReSNGa84vvmA==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"

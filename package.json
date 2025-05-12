@@ -40,7 +40,7 @@
     "@babel/core": "^7.27.1",
     "@babel/types": "^7.27.1",
     "@cypress/browserify-preprocessor": "^3.0.2",
-    "@next-shared/common-bricks": "^0.53.1",
+    "@next-shared/common-bricks": "^0.54.0",
     "@types/doctrine": "^0.0.9",
     "@types/fs-extra": "^9.0.13",
     "@types/history": "^4.7.11",
