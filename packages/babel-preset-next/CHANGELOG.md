@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.17...@next-core/babel-preset-next@0.10.0) (2025-05-29)
+
+
+### Features
+
+* **Router:** Add support for blacklist in app runtime data ([cf051f3](https://github.com/easyops-cn/next-core/commit/cf051f36cc81f1b5a0bce210bd0e2ddb2e772618))
+
+
+
+
+
 ## [0.9.17](https://github.com/easyops-cn/next-core/compare/@next-core/babel-preset-next@0.9.16...@next-core/babel-preset-next@0.9.17) (2024-10-22)
 
 

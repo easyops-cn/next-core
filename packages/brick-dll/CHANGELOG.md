@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.50.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.49.13...@next-core/brick-dll@2.50.0) (2025-05-29)
+
+
+### Features
+
+* **Router:** Add support for blacklist in app runtime data ([cf051f3](https://github.com/easyops-cn/next-core/commit/cf051f36cc81f1b5a0bce210bd0e2ddb2e772618))
+
+
+
+
+
 ## [2.49.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-dll@2.49.12...@next-core/brick-dll@2.49.13) (2025-05-08)
 
 **Note:** Version bump only for package @next-core/brick-dll
