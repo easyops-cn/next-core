@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.13.9...@next-core/easyops-runtime@0.14.0) (2025-05-29)
+
+
+### Features
+
+* **Router:** Add support for blacklist in app runtime data ([1158c96](https://github.com/easyops-cn/next-core/commit/1158c961308537b9cc78b5200cabb9e62e8de64f))
+
+
+
+
+
 ## [0.13.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.13.8...@next-core/easyops-runtime@0.13.9) (2025-04-30)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

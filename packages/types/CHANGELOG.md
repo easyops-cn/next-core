@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.14.0...@next-core/types@1.15.0) (2025-05-29)
+
+
+### Features
+
+* **Router:** Add support for blacklist in app runtime data ([1158c96](https://github.com/easyops-cn/next-core/commit/1158c961308537b9cc78b5200cabb9e62e8de64f))
+
+
+
+
+
 # [1.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.13.0...@next-core/types@1.14.0) (2024-11-26)
 
 
