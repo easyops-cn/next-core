@@ -6,6 +6,7 @@ import { resetPermissionPreChecks } from "./internal/checkPermissions";
 import { getBasePath } from "./internal/getBasePath";
 
 const auth: AuthInfo = {};
+let pathBlackListSet = new Set<string>();
 
 /** @internal */
 export function authenticate(newAuth: AuthInfo): void {
@@ -21,6 +22,8 @@ export function authenticate(newAuth: AuthInfo): void {
     accessToken: newAuth.accessToken,
     userShowValue: newAuth.userShowValue,
   });
+
+  pathBlackListSet = new Set(newAuth.license?.blackList);
 
   // re-init analytics to set user_id
   if (userAnalytics.initialized) {
@@ -60,10 +63,17 @@ export function isLoggedIn(): boolean {
 }
 
 /**
+ * 增加路径黑名单
+ */
+export function addPathToBlackList(path: string): void {
+  pathBlackListSet.add(path);
+}
+
+/**
  * 判断一个内部 URL 路径是否被屏蔽。
  */
 export function isBlockedPath(pathname: string): boolean {
-  return !!auth.license?.blackList?.some((path: string) =>
+  return [...pathBlackListSet].some((path: string) =>
     matchPath(pathname, { path })
   );
 }

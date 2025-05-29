@@ -120,6 +120,9 @@ export interface AbstractRuntime {
     registerLazyBricks(bricks: string | string[], factory: LazyBrickImportFunction): void;
 }
 
+// @public
+export function addPathToBlackList(path: string): void;
+
 // @public (undocumented)
 export function applyTheme(value?: SiteTheme): void;
 

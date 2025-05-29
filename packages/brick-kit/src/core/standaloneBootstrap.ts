@@ -174,7 +174,7 @@ export async function safeGetRuntimeMicroAppStandalone(
     return appRuntimeDataMap.get(appId);
   }
   const promise = RuntimeApi_runtimeMicroAppStandalone(appId, {
-    params: { version },
+    version,
   }).catch(function (error) {
     // make it not crash when the backend service is not updated.
     // eslint-disable-next-line no-console

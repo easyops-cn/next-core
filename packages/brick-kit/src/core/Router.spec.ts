@@ -7,9 +7,13 @@ import {
 import {
   mapCustomApisToNameAndNamespace,
   scanStoryboard,
+  matchPath,
+  MatchPathOptions,
 } from "@next-core/brick-utils";
 import { HttpAbortError, HttpResponseError } from "@next-core/brick-http";
 import { History, Location, LocationListener } from "history";
+import i18next from "i18next";
+
 import { getHistory } from "../history";
 import { Router } from "./Router";
 import { Kernel } from "./Kernel";
@@ -20,7 +24,7 @@ import {
   __setMountRoutesResults,
 } from "./LocationContext";
 import { mountTree, mountStaticNode } from "./reconciler";
-import { getAuth, isLoggedIn } from "../auth";
+import * as auth from "../auth";
 import { getRuntime } from "../runtime";
 import { preCheckPermissions } from "../internal/checkPermissions";
 import {
@@ -28,12 +32,11 @@ import {
   preFetchStandaloneInstalledApps,
 } from "../internal/getStandaloneInstalledApps";
 import { mediaEventTarget } from "../internal/mediaQuery";
-import i18next from "i18next";
+import { computeRealValue } from "../internal/setProperties";
 
 jest.mock("../history");
 jest.mock("./LocationContext");
 jest.mock("./reconciler");
-jest.mock("../auth");
 jest.mock("../themeAndMode");
 jest.mock("../runtime");
 jest.mock("../internal/checkPermissions");
@@ -41,6 +44,7 @@ jest.mock("../internal/getStandaloneInstalledApps", () => ({
   getStandaloneInstalledApps: jest.fn().mockReturnValue([]),
   preFetchStandaloneInstalledApps: jest.fn().mockResolvedValue(undefined),
 }));
+jest.mock("../internal/setProperties");
 jest.mock("@next-core/easyops-analytics", () => ({
   apiAnalyzer: {
     create: () => jest.mock,
@@ -68,6 +72,7 @@ spyOnScanStoryboard.mockReturnValue({
   bricks: [],
   customApis: ["easyops.custom_api@myAwesomeApi"],
 });
+const mockedMatchPath = matchPath as jest.Mock;
 const spyOnMapCustomApisToNameAndNamespace =
   mapCustomApisToNameAndNamespace as jest.Mock;
 spyOnMapCustomApisToNameAndNamespace.mockReturnValue([
@@ -80,8 +85,11 @@ const spyOnGetHistory = getHistory as jest.Mock;
 const spyOnMountTree = mountTree as jest.Mock;
 const spyOnMountStaticNode = mountStaticNode as jest.Mock;
 const spyOnDispatchEvent = jest.spyOn(window, "dispatchEvent");
-const spyOnIsLoggedIn = (isLoggedIn as jest.Mock).mockReturnValue(true);
-(getAuth as jest.Mock).mockReturnValue({ license: { validDaysLeft: 15 } });
+const spyOnIsLoggedIn = jest.spyOn(auth, "isLoggedIn").mockReturnValue(true);
+jest.spyOn(auth, "getAuth").mockReturnValue({ license: { validDaysLeft: 15 } });
+const spyOnAddPathToBlackList = jest.spyOn(auth, "addPathToBlackList");
+const spyOnIsBlockedPath = jest.spyOn(auth, "isBlockedPath");
+const spyOnComputeRealValue = computeRealValue as jest.Mock;
 const spyOnMediaEventTargetAddEventListener = jest.spyOn(
   mediaEventTarget,
   "addEventListener"
@@ -125,9 +133,6 @@ const unblock = jest.fn((): void => {
 let blockFn: History.TransitionPromptHook;
 
 const spyOnHistory = {
-  location: {
-    pathname: "/yo",
-  } as unknown as Location,
   listen: jest.fn((fn: LocationListener) => {
     historyListeners.push(fn);
     return () => {
@@ -146,7 +151,18 @@ const spyOnHistory = {
   getBlockMessage,
   unblock,
 };
-spyOnGetHistory.mockReturnValue(spyOnHistory);
+const mockGetHistoryLocation = (location?: Location) => {
+  spyOnGetHistory.mockReturnValue({
+    ...spyOnHistory,
+    location:
+      location ||
+      ({
+        pathname: "/yo",
+      } as unknown as Location),
+  });
+};
+
+mockGetHistoryLocation();
 
 const mockFeature = jest.fn().mockReturnValue({
   "prefetch-scripts": true,
@@ -876,5 +892,72 @@ describe("Router", () => {
     expect(spyOnHistory.replace.mock.calls[0]).toEqual([
       "/easy-core-console/login",
     ]);
+  });
+
+  it("should render matched storyboard with bars hidden and empty main", async () => {
+    __setMatchedStoryboard({
+      app: {
+        id: "blocked-app",
+        homepage: "/blocked-app",
+        name: "Blocked APP",
+      },
+      meta: {
+        blackList: [
+          {
+            to: "<% `${APP.homepage}/blocked-path-1/${PATH.subPath}` %>",
+          },
+          {
+            url: "/next/blocked-app/blocked-path-2",
+          },
+          {
+            to: {} as unknown as string,
+          },
+          null as unknown as { to: string },
+        ],
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/blocked-path-1",
+          bricks: [{ brick: "div" }],
+        },
+      ],
+    });
+    __setMountRoutesResults(
+      {
+        route: {
+          type: "routes",
+        },
+        main: [
+          {
+            type: "div",
+          },
+        ],
+      },
+      null
+    );
+    spyOnComputeRealValue.mockImplementation((value: string) =>
+      value === "<% `${APP.homepage}/blocked-path-1/:subPath` %>"
+        ? "/blocked-app/blocked-path-1/:subPath"
+        : value
+    );
+    mockGetHistoryLocation({
+      pathname: "/blocked-app/blocked-path-2",
+    } as unknown as Location);
+    mockedMatchPath.mockImplementation(
+      (pathname: string, { path }: MatchPathOptions) => pathname === path
+    );
+    await router.bootstrap();
+
+    expect(spyOnAddPathToBlackList).toBeCalledWith(
+      "/blocked-app/blocked-path-1/:subPath"
+    );
+    expect(spyOnAddPathToBlackList).toBeCalledWith(
+      "/blocked-app/blocked-path-2"
+    );
+    expect(spyOnIsBlockedPath).toBeCalledWith("/blocked-app/blocked-path-2");
+
+    spyOnComputeRealValue.mockReset();
+    mockGetHistoryLocation();
+    mockedMatchPath.mockReset();
   });
 });
