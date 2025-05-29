@@ -56,6 +56,7 @@ export interface RuntimeHooks {
     isLoggedIn(): boolean;
     authenticate?(...args: unknown[]): unknown;
     logout?(...args: unknown[]): unknown;
+    addPathToBlackList?(path: string): void;
     isBlockedPath?(pathname: string): boolean;
   };
   fulfilStoryboard?: (storyboard: RuntimeStoryboard) => Promise<void>;

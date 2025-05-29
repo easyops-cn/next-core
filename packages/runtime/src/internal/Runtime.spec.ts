@@ -1752,6 +1752,65 @@ describe("Runtime", () => {
     });
   });
 
+  test("page blocked by app blackList", async () => {
+    window.NO_AUTH_GUARD = false;
+    const addPathToBlackList = jest.fn();
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return true;
+          },
+          getAuth() {
+            return {};
+          },
+          addPathToBlackList,
+        },
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "blocked-app",
+            homepage: "/blocked-app",
+            name: "Blocked APP",
+          },
+          meta: {
+            blackList: [
+              {
+                to: "<% `${APP.homepage}/blocked-path-1/${PATH.subPath}` %>",
+              },
+              {
+                url: "/next/blocked-app/blocked-path-2",
+              },
+              {
+                to: {} as unknown as string,
+              },
+              null as unknown as { to: string },
+            ],
+          },
+          routes: [
+            {
+              path: "${APP.homepage}/blocked-path-1",
+              bricks: [{ brick: "div" }],
+            },
+          ],
+        },
+      ],
+      brickPackages: [],
+    });
+    getHistory().push("/blocked-app/blocked-path-1");
+    await getRuntime().bootstrap();
+    expect(addPathToBlackList).toBeCalledWith(
+      "/blocked-app/blocked-path-1/:subPath"
+    );
+    expect(addPathToBlackList).toBeCalledWith("/blocked-app/blocked-path-2");
+  });
+
   test("failed to bootstrap", async () => {
     consoleError.mockReturnValueOnce();
     const finishPageView = jest.fn();
