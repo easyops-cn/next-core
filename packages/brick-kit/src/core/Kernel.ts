@@ -373,6 +373,7 @@ export class Kernel {
           storyboard.meta = {
             ...storyboard.meta,
             injectMenus: appRuntimeData.injectMenus as MenuRawData[],
+            blackList: appRuntimeData.blackList,
           };
         }
       }

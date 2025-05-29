@@ -2302,6 +2302,10 @@ export interface StoryboardFunction {
 
 // @public
 export interface StoryboardMeta {
+    blackList?: {
+        to?: string;
+        url?: string;
+    }[];
     contracts?: Contract[];
     customTemplates?: CustomTemplate[];
     functions?: StoryboardFunction[];
