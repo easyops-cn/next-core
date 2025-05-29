@@ -213,6 +213,7 @@
           "WebsocketMessageRequest",
           "WebsocketMessageResponse",
           "abortController",
+          "addPathToBlackList",
           "applyTheme",
           "authenticate",
           "batchSetAppsLocalTheme",

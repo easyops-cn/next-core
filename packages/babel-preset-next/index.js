@@ -9,6 +9,7 @@ const proposalPrivateMethods = require("@babel/plugin-proposal-private-methods")
 const proposalNullishCoalescingOperator = require("@babel/plugin-proposal-nullish-coalescing-operator");
 const proposalOptionalChaining = require("@babel/plugin-proposal-optional-chaining");
 const proposalUnicodePropertyRegex = require("@babel/plugin-proposal-unicode-property-regex");
+const transformLogicalAssignmentOperators = require("@babel/plugin-transform-logical-assignment-operators");
 const transformRuntime = require("@babel/plugin-transform-runtime");
 
 // https://babeljs.io/docs/en/plugins/#plugin-ordering
@@ -94,6 +95,7 @@ module.exports = () => {
       proposalNullishCoalescingOperator,
       proposalOptionalChaining,
       proposalUnicodePropertyRegex,
+      transformLogicalAssignmentOperators,
     ].filter(Boolean),
   });
 

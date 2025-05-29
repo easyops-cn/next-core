@@ -617,7 +617,7 @@ describe("Kernel", () => {
                   en: { name: "Application G" },
                 },
               },
-              meta: [],
+              meta: {},
               routes: [
                 {
                   path: "${app.homepage}/test",
@@ -649,7 +649,7 @@ describe("Kernel", () => {
         userConfig: { runtimeUserConf: 9 },
       },
       bootstrapFile: "bootstrap.mini.g.json",
-      meta: [],
+      meta: {},
       routes: [{ path: "${app.homepage}/test" }],
     });
   });
@@ -728,7 +728,7 @@ describe("Kernel", () => {
                   en: { name: "Application G" },
                 },
               },
-              meta: [],
+              meta: {},
               routes: [
                 {
                   path: "${app.homepage}/test",
@@ -760,7 +760,7 @@ describe("Kernel", () => {
         userConfig: { runtimeUserConf: 9 },
       },
       bootstrapFile: "bootstrap.mini.g.json",
-      meta: [],
+      meta: {},
       routes: [{ path: "${app.homepage}/test" }],
     });
   });
@@ -782,6 +782,7 @@ describe("Kernel", () => {
         defaultConfig: { configA: { key1: "value1" } },
       },
     };
+    const blackList = [{ url: "/test" }];
     mockStandaloneBootstrap.mockResolvedValueOnce({
       storyboards: [appHello],
     });
@@ -796,6 +797,7 @@ describe("Kernel", () => {
         configA: { key2: "value2" },
         configB: "valueB",
       },
+      blackList,
     });
     spyOnCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
@@ -820,6 +822,7 @@ describe("Kernel", () => {
       configA: { key1: "value1", key2: "value2" },
       configB: "valueB",
     });
+    expect(kernel.bootstrapData.storyboards[0].meta.blackList).toBe(blackList);
   });
 
   it("should bootstrap for standalone micro-apps, without no auth guard, get runtime failed", async () => {

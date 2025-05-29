@@ -495,7 +495,7 @@ describe("standaloneBootstrap", () => {
     const promise = standaloneBootstrap();
     mockHttpGet.mockResolvedValueOnce("");
     expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("another-app", {
-      params: { version: "1.2.3" },
+      version: "1.2.3",
     });
 
     // No call more than once.

@@ -7,6 +7,7 @@ import {
   isBlockedPath,
   isBlockedHref,
   isBlockedUrl,
+  addPathToBlackList,
 } from "./auth";
 import { resetPermissionPreChecks } from "./internal/checkPermissions";
 
@@ -57,6 +58,9 @@ describe("auth", () => {
     expect(isBlockedPath("/b/123/c/d")).toEqual(true);
     expect(isBlockedPath("/b/123/x")).toEqual(false);
     expect(isBlockedPath("/c")).toEqual(false);
+
+    addPathToBlackList("/c");
+    expect(isBlockedPath("/c")).toEqual(true);
 
     expect(isBlockedHref("/a")).toEqual(false);
     expect(isBlockedHref("/next/a")).toEqual(true);

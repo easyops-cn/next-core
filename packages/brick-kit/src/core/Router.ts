@@ -41,7 +41,12 @@ import {
 import { isUnauthenticatedError } from "../internal/isUnauthenticatedError";
 import { RecentApps, RouterState } from "./interfaces";
 import { resetAllInjected } from "../internal/injected";
-import { getAuth, isBlockedPath, isLoggedIn } from "../auth";
+import {
+  addPathToBlackList,
+  getAuth,
+  isBlockedPath,
+  isLoggedIn,
+} from "../auth";
 import { devtoolsHookEmit } from "../internal/devtools";
 import { afterMountTree } from "./reconciler";
 import { constructMenu } from "../internal/menu";
@@ -246,7 +251,7 @@ export class Router {
   private async render(location: PluginLocation): Promise<void> {
     this.state = "initial";
     const renderId = (this.renderId = uniqueId("render-id-"));
-    const blocked = isBlockedPath(location.pathname);
+    let blocked = isBlockedPath(location.pathname);
 
     resetAllInjected();
     clearPollTimeout();
@@ -314,59 +319,89 @@ export class Router {
     if (storyboard) {
       await this.kernel.fulfilStoryboard(storyboard);
 
-      setAppLocales(storyboard.app);
-
       this.kernel.nextApp = storyboard.app;
 
-      setWatermark();
+      storyboard.meta?.blackList?.forEach?.((item) => {
+        let path = item && (item.to || item.url);
 
-      removeDeadConditions(storyboard, {
-        constantFeatureFlags: true,
-        featureFlags: this.kernel.getFeatureFlags(),
+        if (!path || typeof path !== "string") return;
+
+        path = path
+          .split("?")[0]
+          .replace(/\${\s*(?:(?:PATH|CTX)\.)?(\w+)\s*}/g, ":$1");
+
+        if (item.to) {
+          try {
+            path = computeRealValue(
+              path,
+              this.locationContext.getCurrentContext()
+            ) as string;
+          } catch (e) /* istanbul ignore next */ {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
+        } else {
+          path = path.replace(/^\/next\//, "/");
+        }
+
+        path && addPathToBlackList(path);
       });
 
-      // 将动态解析后的模板还原，以便重新动态解析。
-      restoreDynamicTemplates(storyboard);
+      if (isBlockedPath(location.pathname)) {
+        blocked = true;
+      } else {
+        setAppLocales(storyboard.app);
+        setWatermark();
 
-      const parallelRequests: Promise<unknown>[] = [];
+        removeDeadConditions(storyboard, {
+          constantFeatureFlags: true,
+          featureFlags: this.kernel.getFeatureFlags(),
+        });
 
-      // 预加载权限信息
-      if (isLoggedIn() && !getAuth().isAdmin) {
-        parallelRequests.push(preCheckPermissions(storyboard));
+        // 将动态解析后的模板还原，以便重新动态解析。
+        restoreDynamicTemplates(storyboard);
+
+        const parallelRequests: Promise<unknown>[] = [];
+
+        // 预加载权限信息
+        if (isLoggedIn() && !getAuth().isAdmin) {
+          parallelRequests.push(preCheckPermissions(storyboard));
+        }
+
+        // Standalone App 需要额外读取 Installed App 信息
+        if (window.STANDALONE_MICRO_APPS && !window.NO_AUTH_GUARD) {
+          // TODO: get standalone apps when NO_AUTH_GUARD, maybe from conf.yaml
+          parallelRequests.push(
+            preFetchStandaloneInstalledApps(storyboard).then(() => {
+              this.kernel.bootstrapData.offSiteStandaloneApps =
+                getStandaloneInstalledApps();
+            })
+          );
+        }
+
+        // `loadDepsOfStoryboard()` may requires these data.
+        await Promise.all(parallelRequests);
+
+        // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
+        const subStoryboard =
+          await this.locationContext.getSubStoryboardByRoute(storyboard);
+        ({ pendingTask } = await this.kernel.loadDepsOfStoryboard(
+          subStoryboard
+        ));
+
+        // 注册 Storyboard 中定义的自定义模板和函数。
+        this.kernel.registerCustomTemplatesInStoryboard(storyboard);
+        registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
+
+        registerMock(storyboard.meta?.mocks);
+
+        registerFormRenderer();
+
+        collectContract(storyboard.meta?.contracts);
+
+        // `app` maybe fulfilled
+        currentApp = storyboard.app;
       }
-
-      // Standalone App 需要额外读取 Installed App 信息
-      if (window.STANDALONE_MICRO_APPS && !window.NO_AUTH_GUARD) {
-        // TODO: get standalone apps when NO_AUTH_GUARD, maybe from conf.yaml
-        parallelRequests.push(
-          preFetchStandaloneInstalledApps(storyboard).then(() => {
-            this.kernel.bootstrapData.offSiteStandaloneApps =
-              getStandaloneInstalledApps();
-          })
-        );
-      }
-
-      // `loadDepsOfStoryboard()` may requires these data.
-      await Promise.all(parallelRequests);
-
-      // 如果找到匹配的 storyboard，那么根据路由匹配得到的 sub-storyboard 加载它的依赖库。
-      const subStoryboard = await this.locationContext.getSubStoryboardByRoute(
-        storyboard
-      );
-      ({ pendingTask } = await this.kernel.loadDepsOfStoryboard(subStoryboard));
-
-      // 注册 Storyboard 中定义的自定义模板和函数。
-      this.kernel.registerCustomTemplatesInStoryboard(storyboard);
-      registerStoryboardFunctions(storyboard.meta?.functions, storyboard.app);
-
-      registerMock(storyboard.meta?.mocks);
-
-      registerFormRenderer();
-
-      collectContract(storyboard.meta?.contracts);
-
-      // `app` maybe fulfilled
-      currentApp = storyboard.app;
     }
 
     const mountPoints = this.kernel.mountPoints;
@@ -429,7 +464,7 @@ export class Router {
       );
     };
 
-    if (storyboard) {
+    if (storyboard && !blocked) {
       const { bricks, customApis } = scanStoryboard(storyboard);
       if (appChanged && currentApp.id && isLoggedIn()) {
         const usedCustomApis: CustomApiInfo[] =
