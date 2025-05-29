@@ -4,6 +4,7 @@ import { createLocation, type LocationDescriptor } from "history";
 import { resetPermissionPreChecks } from "./checkPermissions.js";
 
 const auth: AuthInfo = {};
+let pathBlackListSet = new Set<string>();
 
 /** @internal */
 export type AuthInfo = Omit<AuthApi_CheckLoginResponseBody, "loggedIn">;
@@ -22,6 +23,8 @@ export function authenticate(newAuth: AuthInfo): void {
     accessToken: newAuth.accessToken,
     userShowValue: newAuth.userShowValue,
   });
+
+  pathBlackListSet = new Set(newAuth.license?.blackList);
 }
 
 /**
@@ -53,12 +56,17 @@ export function isLoggedIn(): boolean {
 }
 
 /**
+ * 增加路径黑名单
+ */
+export function addPathToBlackList(path: string): void {
+  pathBlackListSet.add(path);
+}
+
+/**
  * 判断一个内部 URL 路径是否被屏蔽。
  */
 export function isBlockedPath(pathname: string): boolean {
-  return !!auth.license?.blackList?.some((path) =>
-    matchPath(pathname, { path })
-  );
+  return [...pathBlackListSet].some((path) => matchPath(pathname, { path }));
 }
 
 /**

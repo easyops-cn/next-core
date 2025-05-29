@@ -1264,6 +1264,9 @@ export interface StoryboardMeta {
 
   /** 应用所用到的契约 **/
   contracts?: Contract[];
+
+  /** Launchpad /应用菜单黑名单 **/
+  blackList?: { to?: string; url?: string }[];
 }
 
 export interface Mocks {

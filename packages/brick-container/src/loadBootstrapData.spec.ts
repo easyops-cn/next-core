@@ -33,6 +33,7 @@ const mockRuntimeStandalone = (
     homepage: "/runtime/homepage",
   },
 });
+const blackList = [{ url: "/test" }];
 const mockRuntimeMicroAppStandalone = (
   RuntimeApi_runtimeMicroAppStandalone as jest.Mock<() => Promise<unknown>>
 ).mockResolvedValue({
@@ -55,6 +56,7 @@ const mockRuntimeMicroAppStandalone = (
       },
     },
   ],
+  blackList,
 });
 
 const mockBootstrapV2 = BootstrapV2Api_bootstrapV2 as jest.Mock<
@@ -163,7 +165,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
                 en: { name: "Application A" },
               },
             },
-            meta: [],
+            meta: {},
             routes: [],
           },
         ],
@@ -183,7 +185,7 @@ jest.spyOn(http, "get").mockImplementation(async (url) => {
               },
               currentVersion: "1.1.1",
             },
-            meta: [],
+            meta: {},
             routes: [
               {
                 path: "${app.homepage}/test",
@@ -312,7 +314,7 @@ describe("loadBootstrapData", () => {
     window.APP_ROOT = "sa-static/app-a/versions/1.88.0/webroot/";
     const promise = loadBootstrapData();
     expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("app-a", {
-      params: { version: "1.88.0" },
+      version: "1.88.0",
     });
     const data = await promise;
     expect(data).toEqual({
@@ -414,6 +416,7 @@ describe("loadBootstrapData", () => {
             },
           },
         ],
+        blackList,
       },
     });
   });
@@ -459,7 +462,7 @@ describe("loadBootstrapData", () => {
             currentVersion: "1.1.1",
           },
           bootstrapFile: "bootstrap.mini.g.json",
-          meta: [],
+          meta: {},
           routes: [{ path: "${app.homepage}/test" }],
         },
       ],
@@ -468,7 +471,7 @@ describe("loadBootstrapData", () => {
     await fulfilStoryboard(data.storyboards[2]);
 
     expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledWith("app-g", {
-      params: { version: "1.1.1" },
+      version: "1.1.1",
     });
 
     expect(data.storyboards[2]).toEqual({
@@ -499,6 +502,7 @@ describe("loadBootstrapData", () => {
             title: "Menu 2",
           },
         ],
+        blackList,
       },
       routes: [{ path: "${app.homepage}/test" }],
     });
@@ -532,6 +536,7 @@ describe("loadBootstrapData", () => {
             title: "Menu 2",
           },
         ],
+        blackList,
       },
       routes: [],
     });
@@ -559,9 +564,7 @@ describe("loadBootstrapData", () => {
     const promise = loadBootstrapData();
     expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenLastCalledWith(
       "union-app",
-      {
-        params: { version: "1.92.0" },
-      }
+      { version: "1.92.0" }
     );
 
     const data = await promise;
@@ -596,7 +599,7 @@ describe("loadBootstrapData", () => {
             currentVersion: "1.1.1",
           },
           bootstrapFile: "bootstrap.mini.g.json",
-          meta: [],
+          meta: {},
           routes: [{ path: "${app.homepage}/test" }],
         },
       ],
@@ -632,6 +635,7 @@ describe("loadBootstrapData", () => {
             title: "Menu 2",
           },
         ],
+        blackList,
       },
       routes: [{ path: "${app.homepage}/test" }],
     });
@@ -665,6 +669,7 @@ describe("loadBootstrapData", () => {
             title: "Menu 2",
           },
         ],
+        blackList,
       },
       routes: [],
     });

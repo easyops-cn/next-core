@@ -12,6 +12,7 @@ export function authV2Factory() {
         "getAuth",
         "isLoggedIn",
         "logout",
+        "addPathToBlackList",
         "isBlockedPath",
         "isBlockedUrl",
         "isBlockedHref",

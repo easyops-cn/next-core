@@ -60,6 +60,7 @@ import {
   resetReloadForError,
   shouldReloadForError,
 } from "../shouldReloadForError.js";
+import { computeRealValue } from "./compute/computeRealValue.js";
 
 type RenderTask = InitialRenderTask | SubsequentRenderTask;
 
@@ -86,9 +87,7 @@ export class Router {
   #renderId?: string;
   #currentApp?: MicroApp;
   #previousApp?: MicroApp;
-  #navConfig?: {
-    breadcrumb?: BreadcrumbItemConf[];
-  };
+  #navConfig?: { breadcrumb?: BreadcrumbItemConf[] };
   #bootstrapFailed = false;
 
   constructor(storyboards: Storyboard[]) {
@@ -125,10 +124,7 @@ export class Router {
   }
 
   getRecentApps() {
-    return {
-      currentApp: this.#currentApp,
-      previousApp: this.#previousApp,
-    };
+    return { currentApp: this.#currentApp, previousApp: this.#previousApp };
   }
 
   getNavConfig() {
@@ -179,11 +175,9 @@ export class Router {
       if (this.#rendering) {
         this.#nextRender = { location, prevLocation, action };
       } else {
-        this.#queuedRender({
-          location,
-          prevLocation,
-          action,
-        }).catch(handleHttpError);
+        this.#queuedRender({ location, prevLocation, action }).catch(
+          handleHttpError
+        );
       }
     });
     return this.#queuedRender({ location: history.location });
@@ -277,7 +271,7 @@ export class Router {
 
   async #render(location: NextLocation, isBootstrap: boolean): Promise<void> {
     const renderId = (this.#renderId = uniqueId("render-id-"));
-    const blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
+    let blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
 
     resetAllComputedMarks();
     clearResolveCache();
@@ -313,6 +307,34 @@ export class Router {
 
     const currentApp = (this.#currentApp = storyboard?.app);
 
+    if (currentApp) {
+      storyboard?.meta?.blackList?.forEach?.((item) => {
+        let path = item && (item.to || item.url);
+
+        if (!path || typeof path !== "string") return;
+
+        path = path
+          .split("?")[0]
+          .replace(/\${\s*(?:(?:PATH|CTX)\.)?(\w+)\s*}/g, ":$1");
+
+        if (item.to) {
+          try {
+            path = computeRealValue(path, {
+              app: currentApp,
+            } as RuntimeContext) as string;
+          } catch (e) /* istanbul ignore next */ {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
+        } else {
+          path = path.replace(/^\/next\//, "/");
+        }
+
+        path && hooks?.auth?.addPathToBlackList?.(path);
+      });
+      blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
+    }
+
     setWatermark();
 
     // Storyboard maybe re-assigned, e.g. when open launchpad.
@@ -333,9 +355,7 @@ export class Router {
     const prevRendererContext = this.#rendererContext;
 
     const redirectTo = (to: string, state?: NextHistoryState): void => {
-      finishPageView?.({
-        status: "redirected",
-      });
+      finishPageView?.({ status: "redirected" });
       this.#rendererContextTrashCan.add(prevRendererContext);
       this.#safeRedirect(to, state, location);
     };
@@ -373,12 +393,7 @@ export class Router {
       if (appChanged) {
         this.#previousApp = previousApp;
         window.dispatchEvent(
-          new CustomEvent("app.change", {
-            detail: {
-              previousApp,
-              currentApp,
-            },
-          })
+          new CustomEvent("app.change", { detail: { previousApp, currentApp } })
         );
       }
     };
@@ -390,7 +405,7 @@ export class Router {
     );
     setMode("default");
 
-    if (currentApp) {
+    if (currentApp && !blocked) {
       hooks?.checkInstalledApps?.preCheckInstalledApps(
         storyboard,
         (appId) => !!_internalApiGetAppInBootstrapData(appId)
@@ -461,9 +476,7 @@ export class Router {
         sys: {
           ...hooks?.auth?.getAuth(),
           ...getPageInfo(),
-          settings: {
-            brand: getRuntime().getBrandSettings(),
-          },
+          settings: { brand: getRuntime().getBrandSettings() },
         },
         ctxStore: new DataStore("CTX", undefined, rendererContext),
         pendingPermissionsPreCheck: [
@@ -601,9 +614,7 @@ export class Router {
 }
 
 function mergeMenuConfs(menuConfs: StaticMenuConf[]) {
-  const navConfig = {
-    breadcrumb: [] as BreadcrumbItemConf[],
-  };
+  const navConfig = { breadcrumb: [] as BreadcrumbItemConf[] };
   for (const menuConf of menuConfs) {
     const { breadcrumb } = menuConf;
     if (breadcrumb) {

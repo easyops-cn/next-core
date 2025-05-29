@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@next-api-sdk/api-gateway-sdk": "^1.2.2",
-    "@next-api-sdk/micro-app-standalone-sdk": "^1.1.0",
+    "@next-api-sdk/micro-app-standalone-sdk": "^1.3.0",
     "@next-core/build-next-bricks": "^1.23.12",
     "@next-core/easyops-runtime": "^0.13.9",
     "@next-core/http": "^1.2.12",
