@@ -926,6 +926,7 @@ export interface BuiltinBrickEventHandler {
     | "history.unblock"
 
     // Segues
+    | "segue.go"
     // | "segue.push"
     // | "segue.replace"
 
