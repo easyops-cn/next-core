@@ -77,7 +77,9 @@ describe("preevaluate", () => {
   it("should throw SyntaxError", () => {
     expect(() => {
       preevaluate("<% DATA : EVENT %>");
-    }).toThrowErrorMatchingInlineSnapshot(`"Unexpected token (1:5)"`);
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected parseExpression() input: The input should contain exactly one expression, but the first expression is followed by the unexpected character \`:\`. (1:5)"`
+    );
   });
 });
 
