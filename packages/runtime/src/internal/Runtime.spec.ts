@@ -995,7 +995,7 @@ describe("Runtime", () => {
               data-error-boundary=""
             >
               <div>
-                Oops! Something went wrong: SyntaxError: Unexpected token (1:4), in "&lt;% Sub 3 %&gt;"
+                Oops! Something went wrong: SyntaxError: Unexpected parseExpression() input: The input should contain exactly one expression, but the first expression is followed by the unexpected character \`3\`. (1:4), in "&lt;% Sub 3 %&gt;"
               </div>
             </div>
           </div>
