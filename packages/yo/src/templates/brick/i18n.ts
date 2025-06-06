@@ -1,7 +1,8 @@
 import { i18n } from "@next-core/i18n";
 
-export enum K {}
-// HELLO = "HELLO",
+export enum K {
+  // HELLO = "HELLO",
+}
 
 const en: Locale = {
   // HELLO: "Hello",
