@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.206.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.206.0...@next-core/brick-kit@2.206.1) (2025-06-06)
+
+
+### Bug Fixes
+
+* **poll:** Fix evaluation internal not work ([f6e6375](https://github.com/easyops-cn/next-core/commit/f6e6375c0934745eaf8ceae39f7e2a7ec0db9916))
+
+
+
+
+
 # [2.206.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.205.0...@next-core/brick-kit@2.206.0) (2025-05-29)
 
 
