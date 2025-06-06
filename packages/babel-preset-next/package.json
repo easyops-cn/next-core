@@ -16,6 +16,6 @@
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
-    "@babel/runtime": "^7.27.4"
+    "@babel/runtime": "^7.27.6"
   }
 }
