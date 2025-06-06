@@ -32,7 +32,8 @@ export function startPoll(
         "continueOnError",
         "delegateLoadingBar",
       ]),
-      context
+      context,
+      true
     ) as ProviderPollOptions;
   const currentRenderId = _internalApiGetRouterRenderId();
   let currentTimeoutId: number;
