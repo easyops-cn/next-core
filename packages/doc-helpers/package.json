@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@next-core/brick-manifest": "^0.7.1",
-    "fast-xml-parser": "^5.2.3",
+    "fast-xml-parser": "^5.2.5",
     "js-yaml": "^3.14.1",
     "prettier": "^3.5.3"
   }
