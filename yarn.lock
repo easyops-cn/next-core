@@ -5339,10 +5339,10 @@ csstype@^3.0.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-cypress@^14.3.3:
-  version "14.3.3"
-  resolved "https://registry.npmjs.org/cypress/-/cypress-14.3.3.tgz#cbf7fbc79fd139ba55ea51a6d1ee3d9018a59ce2"
-  integrity sha512-1Rz7zc9iqLww6BysaESqUhtIuaFHS7nL3wREovAKYsNhLTfX3TbcBWHWgEz70YimH2NkSOsm4oIcJJ9HYHOlew==
+cypress@^14.4.1:
+  version "14.4.1"
+  resolved "https://registry.npmjs.org/cypress/-/cypress-14.4.1.tgz#6e586ba098503b594561d5f8f746a9db6556ed2a"
+  integrity sha512-YSGvVXtTqSGRTyHbaxHI5dHU/9xc5ymaTIM4BU85GKhj980y6XgA3fShSpj5DatS8knXMsAvYItQxVQFHGpUtw==
   dependencies:
     "@cypress/request" "^3.0.8"
     "@cypress/xvfb" "^1.2.4"
