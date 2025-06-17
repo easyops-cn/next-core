@@ -94,6 +94,10 @@
     {
       "groupName": "jest packages",
       "matchPackageNames": ["jest", "babel-jest", "jest-environment-jsdom"]
+    },
+    {
+      "groupName": "postcss packages",
+      "matchPackageNames": ["postcss", "/^postcss-/"]
     }
   ],
   "postUpdateOptions": ["yarnDedupeHighest"]
