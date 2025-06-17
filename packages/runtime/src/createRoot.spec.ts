@@ -7,6 +7,11 @@ const consoleError = jest.spyOn(console, "error");
 jest.mock("./themeAndMode.js");
 window.scrollTo = jest.fn();
 
+class MyBrick extends HTMLElement {
+  useBrick: unknown;
+}
+customElements.define("my-brick", MyBrick);
+
 describe("preview", () => {
   const container = document.createElement("div");
   const portal = document.createElement("div");
@@ -249,5 +254,68 @@ describe("preview", () => {
     root.unmount();
     expect(container.innerHTML).toBe("");
     expect(portal.innerHTML).toBe("");
+  });
+
+  test("use children", async () => {
+    const root = unstable_createRoot(container, {
+      supportsUseChildren: true,
+    });
+
+    await root.render([
+      {
+        brick: "my-brick",
+        properties: {
+          useChildren: "[items]",
+        },
+        children: [
+          {
+            brick: "div",
+            slot: "[items]",
+            properties: {
+              textContent: "Hello Use Children",
+            },
+          },
+        ],
+      },
+    ]);
+
+    expect(container.innerHTML).toBe("<my-brick></my-brick>");
+    expect((container.firstElementChild as MyBrick).useBrick).toMatchObject({
+      brick: "div",
+      properties: {
+        textContent: "Hello Use Children",
+      },
+    });
+
+    root.unmount();
+  });
+
+  test("use children without supports", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render([
+      {
+        brick: "my-brick",
+        properties: {
+          useChildren: "[items]",
+        },
+        children: [
+          {
+            brick: "div",
+            slot: "[items]",
+            properties: {
+              textContent: "Hello Use Children",
+            },
+          },
+        ],
+      },
+    ]);
+
+    expect(container.innerHTML).toBe(
+      '<my-brick><div slot="[items]">Hello Use Children</div></my-brick>'
+    );
+    expect((container.firstElementChild as MyBrick).useBrick).toBe(undefined);
+
+    root.unmount();
   });
 });
