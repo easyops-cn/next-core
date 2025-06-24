@@ -108,9 +108,9 @@ describe("wrapBrick", () => {
     expect(myButton?.textContent).toBe("ok");
     expect(ref.current?.type).toBe("default");
     expect(ref.current?.constructor).toBe(MyButton);
-    expect(onButtonClick).not.toBeCalled();
+    expect(onButtonClick).not.toHaveBeenCalled();
     (myButton?.shadowRoot?.firstChild as HTMLElement).click();
-    expect(onButtonClick).toBeCalledTimes(1);
+    expect(onButtonClick).toHaveBeenCalledTimes(1);
     expect(onButtonClick.mock.calls[0][0]).toMatchObject({
       type: "button.click",
       detail: "default",

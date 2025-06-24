@@ -140,7 +140,7 @@ describe("useBrick", () => {
 
     const renderResult = await renderUseBrick(useBrick, "a");
     expect(renderResult.tagName).toBe("div");
-    expect(consoleInfo).toBeCalledTimes(0);
+    expect(consoleInfo).toHaveBeenCalledTimes(0);
 
     const root = document.createElement("div");
     const mountResult = mountUseBrick(renderResult, root);
@@ -237,7 +237,7 @@ describe("useBrick", () => {
       'please use "properties" instead, check your useBrick:',
       useBrick.children[0]
     );
-    expect(mockIsStrictMode).toBeCalled();
+    expect(mockIsStrictMode).toHaveBeenCalled();
 
     const root = document.createElement("div");
     const mountResult = mountUseBrick(renderResult, root);
@@ -491,8 +491,8 @@ describe("useBrick", () => {
     expect((root.firstChild as any).z).toBe("ResolvedZ");
 
     root.querySelector("#inner-span")!.dispatchEvent(new Event("spanClick"));
-    expect(consoleInfo).toBeCalledTimes(1);
-    expect(consoleInfo).toBeCalledWith("spanClick");
+    expect(consoleInfo).toHaveBeenCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledWith("spanClick");
 
     (root as any).x = "X3";
     // Wait for debounced re-render for control nodes.
@@ -522,8 +522,8 @@ describe("useBrick", () => {
     `);
 
     root.querySelector("#inner-span")!.dispatchEvent(new Event("spanClick"));
-    expect(consoleInfo).toBeCalledTimes(2);
-    expect(consoleInfo).toBeCalledWith("spanClick");
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledWith("spanClick");
 
     unmountUseBrick(renderResult, mountResult);
 
@@ -1403,12 +1403,12 @@ describe("debugDataValue", () => {
 
 describe("getLegalRuntimeValue", () => {
   const originLocation = window.location;
-
+  delete (window as any).location;
   window.location = {
-    href: "https://dev-easyops.cn/home/Host",
-    origin: "https://dev-easyops.cn",
-    hostname: "admin.easyops.local",
-    host: "admin.easyops.local",
+    href: "http://localhost/",
+    origin: "http://localhost",
+    hostname: "localhost",
+    host: "localhost",
   } as any;
 
   jest.spyOn(routeMatchedMap, "getMatchedRoute").mockReturnValueOnce({
@@ -1452,5 +1452,5 @@ describe("getLegalRuntimeValue", () => {
     query: {},
     sys: { org: 8888, username: "easyops" },
   });
-  window.location = originLocation;
+  (window as any).location = originLocation;
 });

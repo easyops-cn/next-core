@@ -11,7 +11,7 @@ const spawn = jest.spyOn(cp, "spawn").mockImplementation(
       on(type: string, callback: Function) {
         callback(spawnCode);
       },
-    } as any)
+    }) as any
 );
 
 describe("yo-sdk contractGit", () => {
@@ -22,7 +22,7 @@ describe("yo-sdk contractGit", () => {
   test("clone", async () => {
     await clone("");
 
-    expect(spawn).toBeCalledWith(
+    expect(spawn).toHaveBeenCalledWith(
       "git",
       [
         "clone",
@@ -40,7 +40,7 @@ describe("yo-sdk contractGit", () => {
   test("clone with tag or commit", async () => {
     await clone("1.0");
 
-    expect(spawn).toBeCalledWith(
+    expect(spawn).toHaveBeenCalledWith(
       "git",
       [
         "clone",
@@ -60,10 +60,10 @@ describe("yo-sdk contractGit", () => {
 
   test("checkout", async () => {
     await checkout("");
-    expect(spawn).not.toBeCalled();
+    expect(spawn).not.toHaveBeenCalled();
 
     await checkout("1.0");
-    expect(spawn).toBeCalledWith(
+    expect(spawn).toHaveBeenCalledWith(
       "git",
       ["checkout", "1.0"],
       expect.objectContaining({

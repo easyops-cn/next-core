@@ -160,7 +160,7 @@ describe("resolveDataStore", () => {
       }
     `);
 
-    expect(fnRequest).toBeCalledTimes(3);
+    expect(fnRequest).toHaveBeenCalledTimes(3);
     expect(fnRequest).toHaveBeenNthCalledWith(1, "a", "willBeResolved");
     expect(fnRequest).toHaveBeenNthCalledWith(2, "e", "willBeResolved");
     expect(fnRequest).toHaveBeenNthCalledWith(3, "x", "willBeResolved");
@@ -171,7 +171,7 @@ describe("resolveDataStore", () => {
     await (global as any).flushPromises();
     expect(getDoneTask()).toEqual(["a", "x"]);
 
-    expect(fnRequest).toBeCalledTimes(5);
+    expect(fnRequest).toHaveBeenCalledTimes(5);
     expect(fnRequest).toHaveBeenNthCalledWith(4, "b", "willBeResolved");
     expect(fnRequest).toHaveBeenNthCalledWith(5, "c", "willBeResolved");
 
@@ -179,14 +179,14 @@ describe("resolveDataStore", () => {
     await (global as any).flushPromises();
     expect(getDoneTask()).toEqual(["a", "e", "x"]);
 
-    expect(fnRequest).toBeCalledTimes(6);
+    expect(fnRequest).toHaveBeenCalledTimes(6);
     expect(fnRequest).toHaveBeenNthCalledWith(6, "f", "willBeResolved");
 
     jest.advanceTimersByTime(150);
     await (global as any).flushPromises();
     expect(getDoneTask()).toEqual(["a", "b", "c", "e", "f", "x"]);
 
-    expect(fnRequest).toBeCalledTimes(7);
+    expect(fnRequest).toHaveBeenCalledTimes(7);
     expect(fnRequest).toHaveBeenNthCalledWith(7, "d", "willBeResolved");
 
     jest.advanceTimersByTime(100);
@@ -251,21 +251,21 @@ describe("resolveDataStore", () => {
       }
     `);
 
-    expect(fnRequest).toBeCalledTimes(1);
+    expect(fnRequest).toHaveBeenCalledTimes(1);
     expect(fnRequest).toHaveBeenNthCalledWith(1, "a", "willBeResolved");
 
     jest.advanceTimersByTime(100);
     await (global as any).flushPromises();
     expect(getDoneTask()).toEqual(["a"]);
 
-    expect(fnRequest).toBeCalledTimes(2);
+    expect(fnRequest).toHaveBeenCalledTimes(2);
     expect(fnRequest).toHaveBeenNthCalledWith(2, "b", "willBeResolved");
 
     jest.advanceTimersByTime(100);
     await (global as any).flushPromises();
     expect(getDoneTask()).toEqual(["a", "b"]);
 
-    expect(fnRequest).toBeCalledTimes(3);
+    expect(fnRequest).toHaveBeenCalledTimes(3);
     expect(fnRequest).toHaveBeenNthCalledWith(3, "c", "willBeResolved");
 
     jest.advanceTimersByTime(100);
@@ -320,7 +320,7 @@ describe("resolveDataStore", () => {
     await (global as any).flushPromises();
     expect(getDoneTask()).toEqual(["_", "a", "b"]);
 
-    expect(fnRequest).toBeCalledTimes(0);
+    expect(fnRequest).toHaveBeenCalledTimes(0);
   });
 
   test("should work when a related context is ignored", async () => {

@@ -85,9 +85,9 @@ describe("auth", () => {
       })
     ).toEqual(false);
 
-    // expect(resetPermissionPreChecks).not.toBeCalled();
+    // expect(resetPermissionPreChecks).not.toHaveBeenCalled();
     logout();
     expect(getAuth()).toEqual({});
-    // expect(resetPermissionPreChecks).toBeCalled();
+    // expect(resetPermissionPreChecks).toHaveBeenCalled();
   });
 });

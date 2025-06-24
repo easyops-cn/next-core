@@ -40,7 +40,7 @@ describe("traverseStoryboardFunctions", () => {
 
     expect([...usage.usedProperties]).toEqual(["abc"]);
     expect(usage.hasNonStaticUsage).toBe(false);
-    expect(beforeVisitGlobal).toBeCalledTimes(1);
+    expect(beforeVisitGlobal).toHaveBeenCalledTimes(1);
   });
 
   test("without matchSource", () => {
@@ -72,6 +72,6 @@ describe("traverseStoryboardFunctions", () => {
 
     expect([...usage.usedProperties]).toEqual(["abc"]);
     expect(usage.hasNonStaticUsage).toBe(false);
-    expect(beforeVisitGlobal).toBeCalledTimes(2);
+    expect(beforeVisitGlobal).toHaveBeenCalledTimes(2);
   });
 });

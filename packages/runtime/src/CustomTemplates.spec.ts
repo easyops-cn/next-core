@@ -28,7 +28,7 @@ describe("customTemplates", () => {
       bricks: [{ brick: "div" }],
       state: [],
     });
-    expect(consoleWarn).not.toBeCalled();
+    expect(consoleWarn).not.toHaveBeenCalled();
 
     const tpl = document.createElement(
       "tpl-very-simple"
@@ -51,8 +51,8 @@ describe("customTemplates", () => {
       bricks: [{ brick: "span" }],
       state: [],
     });
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringContaining(
         'Custom template of "tpl-very-simple" already registered'
       )
@@ -174,11 +174,11 @@ describe("customTemplates", () => {
 
     const resultM = (tpl as any).methodM("p");
     expect(resultM).toBe("M");
-    expect(methodM).toBeCalledTimes(1);
+    expect(methodM).toHaveBeenCalledTimes(1);
     expect(methodM).toHaveBeenNthCalledWith(1, "p");
     const resultN = (tpl as any).methodN("q");
     expect(resultN).toBe("L");
-    expect(methodL).toBeCalledTimes(1);
+    expect(methodL).toHaveBeenCalledTimes(1);
     expect(methodL).toHaveBeenNthCalledWith(1, "q");
 
     // Update props
@@ -241,9 +241,9 @@ describe("customTemplates", () => {
       state: [{ name: "stateX" }, { name: "propA" }],
     });
 
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledTimes(3);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(3);
+    expect(consoleWarn).toHaveBeenCalledWith(
       "Template `asVariable` is deprecated in v3 and will be dropped in strict mode,",
       "tpl-legacy",
       "propB"
@@ -275,7 +275,7 @@ describe("customTemplates", () => {
       bricks: [{ brick: "div" }],
       state: [{ name: "title", expose: true }],
     });
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledWith(
       "Using native HTMLElement properties as template properties or methods is deprecated in v3 and will be dropped in strict mode,",
       "tpl-native-prop",
       "title"
@@ -312,8 +312,8 @@ describe("customTemplates", () => {
       bricks: [{ brick: "p" }],
       state: [],
     });
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringContaining(
         'Custom template of "tpl-existed" already defined by customElements'
       )

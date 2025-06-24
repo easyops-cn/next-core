@@ -27,7 +27,7 @@ describe("loadStyle", () => {
 
   test("load ok", async () => {
     const promise = loadStyle("x.css");
-    expect(dispatchEvent).toBeCalledTimes(1);
+    expect(dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({ type: "request.start" })
@@ -35,7 +35,7 @@ describe("loadStyle", () => {
     const link = document.querySelector("link")!;
     fireEvent.load(link);
     await promise;
-    expect(dispatchEvent).toBeCalledTimes(2);
+    expect(dispatchEvent).toHaveBeenCalledTimes(2);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({ type: "request.end" })
@@ -44,7 +44,7 @@ describe("loadStyle", () => {
 
   test("load failed", async () => {
     const promise = loadStyle("x.js");
-    expect(dispatchEvent).toBeCalledTimes(1);
+    expect(dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({ type: "request.start" })
@@ -52,7 +52,7 @@ describe("loadStyle", () => {
     const link = document.querySelector("link")!;
     fireEvent.error(link);
     await expect(promise).rejects.toBeTruthy();
-    expect(dispatchEvent).toBeCalledTimes(2);
+    expect(dispatchEvent).toHaveBeenCalledTimes(2);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({ type: "request.end" })

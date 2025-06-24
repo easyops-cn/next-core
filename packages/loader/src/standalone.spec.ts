@@ -24,7 +24,7 @@ describe("standalone", () => {
     );
     expect(window.STANDALONE_BRICK_PACKAGES?.length).toBe(2);
     await loadBricks(["basic.general-button"]);
-    expect(loadBricksImperatively).toBeCalledWith(
+    expect(loadBricksImperatively).toHaveBeenCalledWith(
       ["basic.general-button"],
       [
         {

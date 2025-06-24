@@ -53,7 +53,7 @@ describe("hasInstalledApp", () => {
   test("Invalid match version", () => {
     consoleError.mockReturnValueOnce();
     expect(hasInstalledApp("app-b", "^1.2.3")).toBe(false);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(expect.any(TypeError));
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(expect.any(TypeError));
   });
 });

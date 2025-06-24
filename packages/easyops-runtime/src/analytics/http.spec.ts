@@ -60,8 +60,8 @@ describe("analytics.http", () => {
       },
       config
     );
-    expect(pushApiMetric).toBeCalledTimes(1);
-    expect(pushApiMetric).toBeCalledWith({
+    expect(pushApiMetric).toHaveBeenCalledTimes(1);
+    expect(pushApiMetric).toHaveBeenCalledWith({
       _ver: 1694414400456,
       api: "http://localhost/api/test",
       code: -1,
@@ -100,8 +100,8 @@ describe("analytics.http", () => {
     onResponseError(error, config).catch((reason) => {
       expect(reason).toBe(error);
     });
-    expect(pushApiMetric).toBeCalledTimes(1);
-    expect(pushApiMetric).toBeCalledWith({
+    expect(pushApiMetric).toHaveBeenCalledTimes(1);
+    expect(pushApiMetric).toHaveBeenCalledWith({
       _ver: 1694414400456,
       api: "http://localhost/api/test",
       code: 10013,
@@ -137,8 +137,8 @@ describe("analytics.http", () => {
     onResponseError(error, config).catch((reason) => {
       expect(reason).toBe(error);
     });
-    expect(pushApiMetric).toBeCalledTimes(1);
-    expect(pushApiMetric).toBeCalledWith({
+    expect(pushApiMetric).toHaveBeenCalledTimes(1);
+    expect(pushApiMetric).toHaveBeenCalledWith({
       _ver: 1694414400456,
       api: "http://localhost/api/test",
       code: -1,
@@ -169,8 +169,8 @@ describe("analytics.http", () => {
     onResponseError(error, config).catch((reason) => {
       expect(reason).toBe(error);
     });
-    expect(pushApiMetric).toBeCalledTimes(1);
-    expect(pushApiMetric).toBeCalledWith({
+    expect(pushApiMetric).toHaveBeenCalledTimes(1);
+    expect(pushApiMetric).toHaveBeenCalledWith({
       _ver: 1694414400456,
       api: "http://localhost/api/test",
       code: -1,
@@ -201,7 +201,7 @@ describe("analytics.http", () => {
     onResponseError(error, config).catch((reason) => {
       expect(reason).toBe(error);
     });
-    expect(pushApiMetric).toBeCalledTimes(0);
+    expect(pushApiMetric).toHaveBeenCalledTimes(0);
     expect.assertions(2);
   });
 });

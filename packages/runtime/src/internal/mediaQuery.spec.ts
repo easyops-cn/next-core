@@ -26,7 +26,7 @@ describe("mediaQuery", () => {
         });
         const newMedia = { breakpoint: nextBreakpoint };
         expect(getMedia()).toEqual(newMedia);
-        expect(handler).lastCalledWith(
+        expect(handler).toHaveBeenLastCalledWith(
           expect.objectContaining({
             detail: newMedia,
           })

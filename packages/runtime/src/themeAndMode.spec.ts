@@ -62,9 +62,9 @@ describe("theme", () => {
     const dispatchEvent = jest.spyOn(window, "dispatchEvent");
     expect(getTheme()).toEqual("light");
     applyTheme("light");
-    expect(dispatchEvent).not.toBeCalled();
+    expect(dispatchEvent).not.toHaveBeenCalled();
     applyTheme("dark");
-    expect(dispatchEvent).toBeCalled();
+    expect(dispatchEvent).toHaveBeenCalled();
   });
 });
 
@@ -117,9 +117,9 @@ describe("mode", () => {
     const dispatchEvent = jest.spyOn(window, "dispatchEvent");
     expect(getMode()).toEqual("default");
     applyMode("default");
-    expect(dispatchEvent).not.toBeCalled();
+    expect(dispatchEvent).not.toHaveBeenCalled();
     applyMode("dashboard");
-    expect(dispatchEvent).toBeCalled();
+    expect(dispatchEvent).toHaveBeenCalled();
   });
 });
 

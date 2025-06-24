@@ -41,7 +41,7 @@ describe("analytics", () => {
 
     // No metrics yet
     window.dispatchEvent(new Event("beforeunload"));
-    expect(sendBeacon).not.toBeCalled();
+    expect(sendBeacon).not.toHaveBeenCalled();
 
     // API requests before page view
     pushApiMetric({
@@ -105,7 +105,7 @@ describe("analytics", () => {
       duration: 30,
       size: -1,
     } as any);
-    expect(sendBeacon).toBeCalledTimes(1);
+    expect(sendBeacon).toHaveBeenCalledTimes(1);
 
     const blob_1 = sendBeacon.mock.calls[0][1] as Blob;
     const api_1 = sendBeacon.mock.calls[0][0];
@@ -159,7 +159,7 @@ describe("analytics", () => {
     });
 
     window.dispatchEvent(new Event("beforeunload"));
-    expect(sendBeacon).toBeCalledTimes(2);
+    expect(sendBeacon).toHaveBeenCalledTimes(2);
     const api_2 = sendBeacon.mock.calls[1][0];
     expect(api_2).toBe("http://localhost/api/stat");
     expect(
@@ -200,7 +200,7 @@ describe("analytics", () => {
     earlyFinishPageView();
 
     window.dispatchEvent(new Event("beforeunload"));
-    expect(sendBeacon).toBeCalledTimes(3);
+    expect(sendBeacon).toHaveBeenCalledTimes(3);
     expect(
       JSON.parse(await (sendBeacon.mock.calls[2][1] as Blob).text())
     ).toEqual({
@@ -236,7 +236,7 @@ describe("analytics", () => {
       lt: 60,
     } as any);
 
-    expect(sendBeacon).toBeCalledTimes(4);
+    expect(sendBeacon).toHaveBeenCalledTimes(4);
     expect(
       JSON.parse(await (sendBeacon.mock.calls[3][1] as Blob).text())
     ).toEqual({

@@ -75,7 +75,9 @@ describe("initialize", () => {
       "https://dev.easyops.local"
     );
     expect(ok).toBe(false);
-    expect(consoleError).toBeCalledWith(expect.stringContaining("disallowed"));
+    expect(consoleError).toHaveBeenCalledWith(
+      expect.stringContaining("disallowed")
+    );
 
     (window as any).location = location;
   });

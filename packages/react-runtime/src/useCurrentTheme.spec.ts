@@ -29,7 +29,7 @@ describe("useCurrentTheme", () => {
     expect(result.current).toEqual("dark");
 
     unmount();
-    expect(spyOnRemoveEventListener).toBeCalledWith(
+    expect(spyOnRemoveEventListener).toHaveBeenCalledWith(
       ...spyOnAddEventListener.mock.calls[0]
     );
   });

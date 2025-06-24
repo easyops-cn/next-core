@@ -109,7 +109,7 @@ describe("callFlowApi", () => {
     async (params1, params2, params3, result, simpleRequestArgs) => {
       expect(await callFlowApi(params1, params2, params3)).toEqual(result);
       if (simpleRequestArgs) {
-        expect(mockedSimpleRequest).toBeCalledWith(...simpleRequestArgs);
+        expect(mockedSimpleRequest).toHaveBeenCalledWith(...simpleRequestArgs);
       }
     }
   );
@@ -208,7 +208,9 @@ describe("callFlowApi", () => {
     async (params1, params2, params3, result, requestWithBodyArgs) => {
       expect(await callFlowApi(params1, params2, params3)).toEqual(result);
       if (requestWithBodyArgs) {
-        expect(mockedRequestWithBody).toBeCalledWith(...requestWithBodyArgs);
+        expect(mockedRequestWithBody).toHaveBeenCalledWith(
+          ...requestWithBodyArgs
+        );
       }
     }
   );

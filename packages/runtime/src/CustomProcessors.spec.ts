@@ -30,6 +30,6 @@ describe("CustomProcessors", () => {
     // Can't register duplicated processors in the same namespace.
     expect(() => {
       customProcessors.define("brickKit.objectEntries", () => void 0);
-    }).toThrowError();
+    }).toThrow();
   });
 });

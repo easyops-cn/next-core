@@ -66,17 +66,17 @@ describe("poll", () => {
     await (global as any).flushPromises();
 
     expect(progress).toHaveBeenNthCalledWith(1, { loaded: false });
-    expect(success).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
-    expect(dispatchEvent).toBeCalledTimes(1);
+    expect(success).not.toHaveBeenCalled();
+    expect(finallyCallback).not.toHaveBeenCalled();
+    expect(dispatchEvent).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(3000);
     await (global as any).flushPromises();
 
     expect(progress).toHaveBeenNthCalledWith(2, { loaded: true });
-    expect(success).toBeCalledWith({ loaded: true });
-    expect(finallyCallback).toBeCalled();
-    expect(error).not.toBeCalled();
+    expect(success).toHaveBeenCalledWith({ loaded: true });
+    expect(finallyCallback).toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
@@ -111,16 +111,16 @@ describe("poll", () => {
     jest.advanceTimersByTime(0);
     await (global as any).flushPromises();
 
-    expect(task).not.toBeCalled();
+    expect(task).not.toHaveBeenCalled();
 
     jest.advanceTimersByTime(1000);
     await (global as any).flushPromises();
 
-    expect(progress).toBeCalledWith({ loaded: true });
-    expect(success).toBeCalledWith({ loaded: true });
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).toBeCalled();
-    expect(dispatchEvent).not.toBeCalled();
+    expect(progress).toHaveBeenCalledWith({ loaded: true });
+    expect(success).toHaveBeenCalledWith({ loaded: true });
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).toHaveBeenCalled();
+    expect(dispatchEvent).not.toHaveBeenCalled();
   });
 
   it("should work if request error", async () => {
@@ -150,11 +150,11 @@ describe("poll", () => {
     jest.advanceTimersByTime(3000);
     await (global as any).flushPromises();
 
-    expect(success).not.toBeCalled();
-    expect(progress).not.toBeCalled();
-    expect(finallyCallback).toBeCalled();
-    expect(expectPollEnd).not.toBeCalled();
-    expect(error).toBeCalledWith(new Error("oops"));
+    expect(success).not.toHaveBeenCalled();
+    expect(progress).not.toHaveBeenCalled();
+    expect(finallyCallback).toHaveBeenCalled();
+    expect(expectPollEnd).not.toHaveBeenCalled();
+    expect(error).toHaveBeenCalledWith(new Error("oops"));
   });
 
   it("should work if continue on error", async () => {
@@ -186,17 +186,17 @@ describe("poll", () => {
     jest.advanceTimersByTime(0);
     await (global as any).flushPromises();
 
-    expect(progress).not.toBeCalled();
-    expect(success).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
-    expect(error).toBeCalledWith(new Error("oops"));
+    expect(progress).not.toHaveBeenCalled();
+    expect(success).not.toHaveBeenCalled();
+    expect(finallyCallback).not.toHaveBeenCalled();
+    expect(error).toHaveBeenCalledWith(new Error("oops"));
 
     jest.advanceTimersByTime(3000);
     await (global as any).flushPromises();
 
-    expect(progress).toBeCalledWith({ loaded: true });
-    expect(success).toBeCalledWith({ loaded: true });
-    expect(finallyCallback).toBeCalled();
+    expect(progress).toHaveBeenCalledWith({ loaded: true });
+    expect(success).toHaveBeenCalledWith({ loaded: true });
+    expect(finallyCallback).toHaveBeenCalled();
   });
 
   it("should clear poll timeout before next timeout function invoked", async () => {
@@ -230,11 +230,11 @@ describe("poll", () => {
     jest.advanceTimersByTime(2000);
     await (global as any).flushPromises();
 
-    expect(task).toBeCalledTimes(1);
-    expect(progress).toBeCalledTimes(1);
-    expect(success).not.toBeCalled();
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
+    expect(task).toHaveBeenCalledTimes(1);
+    expect(progress).toHaveBeenCalledTimes(1);
+    expect(success).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).not.toHaveBeenCalled();
   });
 
   it("should stop processing if router is re-rendered during request", async () => {
@@ -268,15 +268,15 @@ describe("poll", () => {
     );
 
     jest.advanceTimersByTime(0);
-    expect(task).toBeCalled();
+    expect(task).toHaveBeenCalled();
 
     mockApiGetRouterRenderId.mockReturnValueOnce("render-id-2");
     await (global as any).flushPromises();
 
-    expect(progress).not.toBeCalled();
-    expect(success).not.toBeCalled();
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
+    expect(progress).not.toHaveBeenCalled();
+    expect(success).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).not.toHaveBeenCalled();
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
@@ -308,15 +308,15 @@ describe("poll", () => {
     );
 
     jest.advanceTimersByTime(0);
-    expect(task).toBeCalled();
+    expect(task).toHaveBeenCalled();
 
     mockApiGetRouterRenderId.mockReturnValueOnce("render-id-2");
     await (global as any).flushPromises();
 
-    expect(progress).not.toBeCalled();
-    expect(success).not.toBeCalled();
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).not.toBeCalled();
+    expect(progress).not.toHaveBeenCalled();
+    expect(success).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).not.toHaveBeenCalled();
   });
 
   it("should stop immediately before request", async () => {
@@ -353,21 +353,21 @@ describe("poll", () => {
     );
 
     jest.advanceTimersByTime(0);
-    expect(task).toBeCalledTimes(1);
+    expect(task).toHaveBeenCalledTimes(1);
 
     await (global as any).flushPromises();
-    expect(progress).toBeCalledWith({ loaded: false });
+    expect(progress).toHaveBeenCalledWith({ loaded: false });
 
     jest.advanceTimersByTime(500);
     expectPollStopImmediately.mockReturnValueOnce(true);
     jest.advanceTimersByTime(500);
     await (global as any).flushPromises();
 
-    expect(task).toBeCalledTimes(1);
-    expect(progress).toBeCalledTimes(1);
-    expect(success).not.toBeCalled();
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).toBeCalled();
+    expect(task).toHaveBeenCalledTimes(1);
+    expect(progress).toHaveBeenCalledTimes(1);
+    expect(success).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).toHaveBeenCalled();
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
@@ -410,20 +410,20 @@ describe("poll", () => {
     );
 
     jest.advanceTimersByTime(0);
-    expect(task).toBeCalledTimes(1);
+    expect(task).toHaveBeenCalledTimes(1);
 
     await (global as any).flushPromises();
-    expect(progress).toBeCalledWith({ loaded: false });
+    expect(progress).toHaveBeenCalledWith({ loaded: false });
 
     jest.advanceTimersByTime(1000);
-    expect(task).toBeCalledTimes(2);
+    expect(task).toHaveBeenCalledTimes(2);
     expectPollStopImmediately.mockReturnValueOnce(true);
     await (global as any).flushPromises();
 
-    expect(progress).toBeCalledTimes(1);
-    expect(success).not.toBeCalled();
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).toBeCalled();
+    expect(progress).toHaveBeenCalledTimes(1);
+    expect(success).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).toHaveBeenCalled();
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
@@ -473,21 +473,21 @@ describe("poll", () => {
     );
 
     jest.advanceTimersByTime(0);
-    expect(task).toBeCalledTimes(1);
+    expect(task).toHaveBeenCalledTimes(1);
 
     await (global as any).flushPromises();
-    expect(progress).toBeCalledWith({ loaded: true });
+    expect(progress).toHaveBeenCalledWith({ loaded: true });
 
     jest.advanceTimersByTime(1000);
-    expect(task).toBeCalledTimes(2);
+    expect(task).toHaveBeenCalledTimes(2);
 
     ctxStore.updateValue("flag", 1, "replace");
     await (global as any).flushPromises();
 
-    expect(progress).toBeCalledTimes(2);
-    expect(success).toBeCalledTimes(1);
-    expect(error).not.toBeCalled();
-    expect(finallyCallback).toBeCalledTimes(1);
+    expect(progress).toHaveBeenCalledTimes(2);
+    expect(success).toHaveBeenCalledTimes(1);
+    expect(error).not.toHaveBeenCalled();
+    expect(finallyCallback).toHaveBeenCalledTimes(1);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({

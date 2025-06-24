@@ -23,7 +23,8 @@
     "test:e2e:ci": "npx start-server-and-test serve:e2e http-get://localhost:8081/ cypress:run",
     "test:e2e:no-record": "npx wait-on -r http-get://localhost:8081/ && npx start-server-and-test serve:e2e http-get://localhost:8081/ cypress:run:no-record",
     "test:e2e:docker": "docker-compose run --user $(id -u):$(id -g) e2e",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "postinstall": "patch-package"
   },
   "browserslist": {
     "development": [
@@ -53,17 +54,19 @@
     "@types/node": "^20.19.0",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
-    "babel-jest": "^29.7.0",
+    "babel-jest": "^30.0.2",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "cypress": "^14.4.1",
     "eslint": "^9.28.0",
     "husky": "^9.1.7",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest": "^30.0.2",
+    "jest-environment-jsdom": "^30.0.2",
     "jest-websocket-mock": "^2.5.0",
     "lerna": "^8.1.8",
     "lint-staged": "^15.5.2",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.6.0",
     "rimraf": "^6.0.1",
     "ts-jest-resolver": "^2.0.1",

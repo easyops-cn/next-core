@@ -82,15 +82,15 @@ describe("bindListeners", () => {
       runtimeContext
     );
     element.click();
-    expect(consoleInfo).toBeCalledTimes(1);
-    expect(consoleInfo).toBeCalledWith();
+    expect(consoleInfo).toHaveBeenCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledWith();
   });
 
   test("empty events", () => {
     const element = document.createElement("div");
     bindListeners(element, undefined, runtimeContext);
     element.click();
-    expect(consoleInfo).not.toBeCalled();
+    expect(consoleInfo).not.toHaveBeenCalled();
   });
 });
 
@@ -119,7 +119,7 @@ describe("listenerFactory for history.*", () => {
       },
       runtimeContext
     )(event);
-    expect(history.push).toBeCalledWith("ok", undefined);
+    expect(history.push).toHaveBeenCalledWith("ok", undefined);
   });
 
   test("history.goBack", () => {
@@ -129,7 +129,7 @@ describe("listenerFactory for history.*", () => {
       },
       runtimeContext
     )(event);
-    expect(history.goBack).toBeCalledWith();
+    expect(history.goBack).toHaveBeenCalledWith();
   });
 
   test("history.block", () => {
@@ -140,7 +140,7 @@ describe("listenerFactory for history.*", () => {
       },
       runtimeContext
     )(event);
-    expect(history.setBlockMessage).toBeCalledWith("ok");
+    expect(history.setBlockMessage).toHaveBeenCalledWith("ok");
   });
 
   test("history.pushQuery with options", () => {
@@ -156,7 +156,7 @@ describe("listenerFactory for history.*", () => {
       },
       runtimeContext
     )(event);
-    expect(history.pushQuery).toBeCalledWith(
+    expect(history.pushQuery).toHaveBeenCalledWith(
       { status: "ok" },
       { notify: false }
     );
@@ -185,15 +185,15 @@ describe("listenerFactory for history.*", () => {
       runtimeContext
     )(event);
 
-    expect(history.reload).toBeCalledWith(expect.any(Function));
+    expect(history.reload).toHaveBeenCalledWith(expect.any(Function));
 
     (history.reload.mock.calls[0][0] as Function)(false);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "success", false);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "finally", false);
 
     (history.reload.mock.calls[0][0] as Function)(true);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(3, "error", true);
     expect(consoleInfo).toHaveBeenNthCalledWith(4, "finally", true);
   });
@@ -215,7 +215,7 @@ describe("listenerFactory for window.*", () => {
       },
       runtimeContext
     )(event);
-    expect(windowOpen).toBeCalledWith("/ok", "_self", undefined);
+    expect(windowOpen).toHaveBeenCalledWith("/ok", "_self", undefined);
   });
 
   test("window.open with args", () => {
@@ -226,7 +226,7 @@ describe("listenerFactory for window.*", () => {
       },
       runtimeContext
     )(event);
-    expect(windowOpen).toBeCalledWith("/ok", "_blank", "popup=yes");
+    expect(windowOpen).toHaveBeenCalledWith("/ok", "_blank", "popup=yes");
   });
 });
 
@@ -252,7 +252,7 @@ describe("listenerFactory for location.*", () => {
       },
       runtimeContext
     )(event);
-    expect(window.location.assign).toBeCalledWith("/ok");
+    expect(window.location.assign).toHaveBeenCalledWith("/ok");
   });
 
   test("location.reload", () => {
@@ -262,7 +262,7 @@ describe("listenerFactory for location.*", () => {
       },
       runtimeContext
     )(event);
-    expect(window.location.reload).toBeCalledWith();
+    expect(window.location.reload).toHaveBeenCalledWith();
   });
 });
 
@@ -333,7 +333,7 @@ describe("listenerFactory for message.*", () => {
       },
       runtimeContext
     )(event);
-    expect(window.alert).toBeCalledWith("ok");
+    expect(window.alert).toHaveBeenCalledWith("ok");
   });
 });
 
@@ -580,7 +580,7 @@ describe("listenerFactory for theme.*", () => {
       },
       runtimeContext
     )(event);
-    expect(mockApplyTheme).toBeCalledWith("dark");
+    expect(mockApplyTheme).toHaveBeenCalledWith("dark");
   });
 
   test("theme.setLightTheme", () => {
@@ -590,7 +590,7 @@ describe("listenerFactory for theme.*", () => {
       },
       runtimeContext
     )(event);
-    expect(mockApplyTheme).toBeCalledWith("light");
+    expect(mockApplyTheme).toHaveBeenCalledWith("light");
   });
 
   test("theme.setTheme", () => {
@@ -601,7 +601,7 @@ describe("listenerFactory for theme.*", () => {
       },
       runtimeContext
     )(event);
-    expect(mockApplyTheme).toBeCalledWith("dark-v2");
+    expect(mockApplyTheme).toHaveBeenCalledWith("dark-v2");
   });
 });
 
@@ -620,7 +620,7 @@ describe("listenerFactory for mode.*", () => {
       },
       runtimeContext
     )(event);
-    expect(mockApplyMode).toBeCalledWith("dashboard");
+    expect(mockApplyMode).toHaveBeenCalledWith("dashboard");
   });
 
   test("mode.setDefaultMode", () => {
@@ -630,7 +630,7 @@ describe("listenerFactory for mode.*", () => {
       },
       runtimeContext
     )(event);
-    expect(mockApplyMode).toBeCalledWith("default");
+    expect(mockApplyMode).toHaveBeenCalledWith("default");
   });
 });
 
@@ -649,7 +649,7 @@ describe("listenerFactory for handleHttpError", () => {
       },
       runtimeContext
     )(event);
-    expect(mockHandleHttpError).toBeCalledWith("ok");
+    expect(mockHandleHttpError).toHaveBeenCalledWith("ok");
   });
 });
 
@@ -663,7 +663,7 @@ describe("listenerFactory for event.*", () => {
       },
       runtimeContext
     )(event);
-    expect(event.preventDefault).toBeCalledWith();
+    expect(event.preventDefault).toHaveBeenCalledWith();
   });
 
   test("event.stopPropagation", () => {
@@ -675,7 +675,7 @@ describe("listenerFactory for event.*", () => {
       },
       runtimeContext
     )(event);
-    expect(event.stopPropagation).toBeCalledWith();
+    expect(event.stopPropagation).toHaveBeenCalledWith();
   });
 });
 
@@ -699,8 +699,8 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(consoleLog).toBeCalledTimes(1);
-    expect(consoleLog).toBeCalledWith("ok");
+    expect(consoleLog).toHaveBeenCalledTimes(1);
+    expect(consoleLog).toHaveBeenCalledWith("ok");
   });
 
   test("console.warn with no args", () => {
@@ -710,7 +710,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(consoleWarn).toBeCalledWith(event);
+    expect(consoleWarn).toHaveBeenCalledWith(event);
   });
 
   test("console.error with falsy if", () => {
@@ -721,7 +721,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(consoleError).not.toBeCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   test("console.error with truthy if", () => {
@@ -733,7 +733,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(consoleError).toBeCalledWith();
+    expect(consoleError).toHaveBeenCalledWith();
   });
 
   test("window.open", () => {
@@ -744,7 +744,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(windowOpen).toBeCalledWith("/ok", "_self", undefined);
+    expect(windowOpen).toHaveBeenCalledWith("/ok", "_self", undefined);
   });
 
   test("window.open with args", () => {
@@ -755,7 +755,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(windowOpen).toBeCalledWith("/ok", "_blank", "popup=yes");
+    expect(windowOpen).toHaveBeenCalledWith("/ok", "_blank", "popup=yes");
   });
 
   test("window.postMessage without origin", () => {
@@ -766,7 +766,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(windowPostMessage).toBeCalledWith(
+    expect(windowPostMessage).toHaveBeenCalledWith(
       { channel: "test-1", detail: "ok" },
       "http://localhost"
     );
@@ -783,7 +783,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(windowPostMessage).toBeCalledWith(
+    expect(windowPostMessage).toHaveBeenCalledWith(
       { channel: "test-2", detail: "ok" },
       "http://localhost"
     );
@@ -802,7 +802,7 @@ describe("listenerFactory for console.*", () => {
       },
       runtimeContext
     )(event);
-    expect(parentPostMessage).toBeCalledWith({
+    expect(parentPostMessage).toHaveBeenCalledWith({
       channel: "test-2",
       detail: "ok",
     });
@@ -1017,7 +1017,7 @@ describe("listenerFactory for calling brick methods", () => {
       runtimeContext,
       brick as any
     )(event);
-    expect(brick.element.callMe).toBeCalledWith(event);
+    expect(brick.element.callMe).toHaveBeenCalledWith(event);
   });
 
   test("Callback error", async () => {
@@ -1056,15 +1056,15 @@ describe("listenerFactory for calling brick methods", () => {
       runtimeContext,
       brick as any
     )(event);
-    expect(brick.element.callMe).toBeCalledWith("ok");
-    expect(brick.element.callbackSuccess).not.toBeCalled();
-    expect(brick.element.callbackError).not.toBeCalled();
-    expect(brick.element.callbackFinally).not.toBeCalled();
+    expect(brick.element.callMe).toHaveBeenCalledWith("ok");
+    expect(brick.element.callbackSuccess).not.toHaveBeenCalled();
+    expect(brick.element.callbackError).not.toHaveBeenCalled();
+    expect(brick.element.callbackFinally).not.toHaveBeenCalled();
 
     await (global as any).flushPromises();
-    expect(brick.element.callbackSuccess).not.toBeCalled();
-    expect(brick.element.callbackError).toBeCalledWith(error);
-    expect(brick.element.callbackFinally).toBeCalledWith(null);
+    expect(brick.element.callbackSuccess).not.toHaveBeenCalled();
+    expect(brick.element.callbackError).toHaveBeenCalledWith(error);
+    expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
   });
 
   test("Calling undefined method", async () => {
@@ -1089,8 +1089,8 @@ describe("listenerFactory for calling brick methods", () => {
 
     await (global as any).flushPromises();
 
-    expect(consoleInfo).toBeCalledTimes(1);
-    expect(consoleInfo).toBeCalledWith(
+    expect(consoleInfo).toHaveBeenCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledWith(
       new Error("target <div> has no method: callMe")
     );
   });
@@ -1132,16 +1132,16 @@ describe("listenerFactory for useProvider", () => {
       brick as any
     )(event);
 
-    expect(brick.element.callbackSuccess).not.toBeCalled();
-    expect(brick.element.callbackError).not.toBeCalled();
-    expect(brick.element.callbackFinally).not.toBeCalled();
+    expect(brick.element.callbackSuccess).not.toHaveBeenCalled();
+    expect(brick.element.callbackError).not.toHaveBeenCalled();
+    expect(brick.element.callbackFinally).not.toHaveBeenCalled();
 
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(brick.element.callbackSuccess).toBeCalledWith("resolved");
-    expect(brick.element.callbackError).not.toBeCalled();
-    expect(brick.element.callbackFinally).toBeCalledWith(null);
+    expect(brick.element.callbackSuccess).toHaveBeenCalledWith("resolved");
+    expect(brick.element.callbackError).not.toHaveBeenCalled();
+    expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
   });
 
   test("useProvider with saveAs", async () => {
@@ -1179,17 +1179,17 @@ describe("listenerFactory for useProvider", () => {
       brick as any
     )(event);
 
-    expect(brick.element.callbackSuccess).not.toBeCalled();
-    expect(brick.element.callbackError).not.toBeCalled();
-    expect(brick.element.callbackFinally).not.toBeCalled();
+    expect(brick.element.callbackSuccess).not.toHaveBeenCalled();
+    expect(brick.element.callbackError).not.toHaveBeenCalled();
+    expect(brick.element.callbackFinally).not.toHaveBeenCalled();
 
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(myTimeoutProvider).not.toBeCalled();
-    expect(saveAs).toBeCalledTimes(1);
+    expect(myTimeoutProvider).not.toHaveBeenCalled();
+    expect(saveAs).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(brick.element.callbackSuccess).toBeCalledWith("saved");
-    expect(brick.element.callbackError).not.toBeCalled();
-    expect(brick.element.callbackFinally).toBeCalledWith(null);
+    expect(brick.element.callbackSuccess).toHaveBeenCalledWith("saved");
+    expect(brick.element.callbackError).not.toHaveBeenCalled();
+    expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
   });
 
   test("useProvider with poll", async () => {
@@ -1206,8 +1206,8 @@ describe("listenerFactory for useProvider", () => {
     )(event);
 
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(startPoll).toBeCalledTimes(1);
-    expect(myTimeoutProvider).toBeCalledTimes(0);
+    expect(startPoll).toHaveBeenCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(0);
   });
 
   test("useProvider with poll not enabled", async () => {
@@ -1224,8 +1224,8 @@ describe("listenerFactory for useProvider", () => {
     )(event);
 
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(startPoll).not.toBeCalled();
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(startPoll).not.toHaveBeenCalled();
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
   });
 
   test("useProvider with sse stream", async () => {
@@ -1242,8 +1242,8 @@ describe("listenerFactory for useProvider", () => {
     )(event);
 
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(startSSEStream).toBeCalledTimes(1);
-    expect(myTimeoutProvider).toBeCalledTimes(0);
+    expect(startSSEStream).toHaveBeenCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(0);
   });
 
   test("useProvider with sse no stream", async () => {
@@ -1260,8 +1260,8 @@ describe("listenerFactory for useProvider", () => {
     )(event);
 
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(startSSEStream).not.toBeCalled();
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(startSSEStream).not.toHaveBeenCalled();
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -1281,7 +1281,7 @@ describe("listenerFactory for unknown handlers", () => {
       },
       runtimeContext
     )(event);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledWith(
       "unknown event listener action:",
       "oops"
     );
@@ -1294,7 +1294,7 @@ describe("listenerFactory for unknown handlers", () => {
       } as any,
       runtimeContext
     )(event);
-    expect(consoleError).toBeCalledWith("unknown event handler:", {
+    expect(consoleError).toHaveBeenCalledWith("unknown event handler:", {
       provider: "oops",
     });
   });
@@ -1434,15 +1434,15 @@ describe("if/else condition", () => {
     )(event);
 
     await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
 
     await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(myTimeoutProvider).toBeCalledTimes(2);
-    expect(consoleLog).toBeCalledTimes(6);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
+    expect(consoleLog).toHaveBeenCalledTimes(6);
 
     await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(myTimeoutProvider).toBeCalledTimes(2);
-    expect(consoleLog).toBeCalledTimes(7);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
+    expect(consoleLog).toHaveBeenCalledTimes(7);
 
     expect(consoleLog).toHaveBeenNthCalledWith(1, "进入 then 逻辑", "resolved");
 
@@ -1495,10 +1495,10 @@ describe("listenerFactory for message dispatcher", () => {
       },
       runtimeContext
     )(event);
-    expect(subscribe).toBeCalledWith("my-channel");
+    expect(subscribe).toHaveBeenCalledWith("my-channel");
     await (global as any).flushPromises();
-    expect(consoleInfo).toBeCalledWith("sub success", "ok");
-    expect(consoleInfo).toBeCalledWith("sub finally");
+    expect(consoleInfo).toHaveBeenCalledWith("sub success", "ok");
+    expect(consoleInfo).toHaveBeenCalledWith("sub finally");
     subscribe.mockReset();
   });
 
@@ -1525,10 +1525,10 @@ describe("listenerFactory for message dispatcher", () => {
       },
       runtimeContext
     )(event);
-    expect(unsubscribe).toBeCalledWith("my-channel");
+    expect(unsubscribe).toHaveBeenCalledWith("my-channel");
     await (global as any).flushPromises();
-    expect(consoleInfo).toBeCalledWith("unsub error", "failed");
-    expect(consoleInfo).toBeCalledWith("unsub finally");
+    expect(consoleInfo).toHaveBeenCalledWith("unsub error", "failed");
+    expect(consoleInfo).toHaveBeenCalledWith("unsub finally");
     unsubscribe.mockReset();
   });
 
@@ -1541,7 +1541,7 @@ describe("listenerFactory for message dispatcher", () => {
       },
       runtimeContext
     )(event);
-    expect(unsubscribe).toBeCalledWith("my-channel-2");
+    expect(unsubscribe).toHaveBeenCalledWith("my-channel-2");
     unsubscribe.mockReset();
   });
 });

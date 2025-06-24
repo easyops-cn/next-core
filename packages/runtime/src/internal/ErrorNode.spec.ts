@@ -254,7 +254,7 @@ describe("ErrorNode", () => {
       }),
     });
 
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
 
     consoleError.mockRestore();
   });

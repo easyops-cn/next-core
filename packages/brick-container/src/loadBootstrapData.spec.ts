@@ -313,7 +313,7 @@ describe("loadBootstrapData", () => {
     window.BOOTSTRAP_FILE = "bootstrap.app-a.json";
     window.APP_ROOT = "sa-static/app-a/versions/1.88.0/webroot/";
     const promise = loadBootstrapData();
-    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledWith("app-a", {
+    expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledWith("app-a", {
       version: "1.88.0",
     });
     const data = await promise;
@@ -358,8 +358,8 @@ describe("loadBootstrapData", () => {
     });
 
     await fulfilStoryboard(data.storyboards[0]);
-    expect(RuntimeApi_runtimeMicroAppStandalone).toBeCalledTimes(1);
-    expect(registerMocks).toBeCalledTimes(1);
+    expect(RuntimeApi_runtimeMicroAppStandalone).toHaveBeenCalledTimes(1);
+    expect(registerMocks).toHaveBeenCalledTimes(1);
 
     expect(data.storyboards[0]).toEqual({
       app: {
@@ -428,7 +428,7 @@ describe("loadBootstrapData", () => {
     window.BOOTSTRAP_FILE = "bootstrap.mini.g.json";
 
     const promise = loadBootstrapData();
-    expect(RuntimeApi_runtimeMicroAppStandalone).not.toBeCalled();
+    expect(RuntimeApi_runtimeMicroAppStandalone).not.toHaveBeenCalled();
 
     const data = await promise;
     expect(data).toEqual({
@@ -705,7 +705,7 @@ describe("loadBootstrapData", () => {
         },
       },
     });
-    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
   });
 
   test("standalone with invalid conf.yaml", async () => {
@@ -719,8 +719,8 @@ describe("loadBootstrapData", () => {
     await expect(promise).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Invalid conf.yaml"`
     );
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
   test("standalone with conf.yaml of user_config_by_apps", async () => {
@@ -745,7 +745,7 @@ describe("loadBootstrapData", () => {
         },
       ],
     });
-    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
   });
 
   test("standalone with conf.yaml of missing in user_config_by_apps", async () => {
@@ -768,9 +768,9 @@ describe("loadBootstrapData", () => {
         },
       ],
     });
-    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
     await fulfilStoryboard(data.storyboards[0]);
-    expect(consoleWarn).toBeCalledTimes(2);
+    expect(consoleWarn).toHaveBeenCalledTimes(2);
     consoleWarn.mockReset();
   });
 
@@ -794,7 +794,7 @@ describe("loadBootstrapData", () => {
         },
       ],
     });
-    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
   });
 
   test("non-standalone", async () => {
@@ -832,7 +832,7 @@ describe("loadBootstrapData", () => {
     });
 
     await fulfilStoryboard(data.storyboards[0]);
-    expect(mockGetAppStoryboardV2).toBeCalledTimes(1);
+    expect(mockGetAppStoryboardV2).toHaveBeenCalledTimes(1);
 
     expect(data.storyboards[0]).toEqual({
       app: {
