@@ -240,7 +240,7 @@ describe("preview", () => {
     ]);
 
     expect(container.innerHTML).toBe(
-      '<div data-error-boundary=""><div>UNKNOWN_ERROR: ReferenceError: QUERY is not defined, in "&lt;% QUERY.q %&gt;"</div></div>'
+      '<div data-error-boundary="" style="color: var(--color-error);"><div>UNKNOWN_ERROR: ReferenceError: QUERY is not defined, in "&lt;% QUERY.q %&gt;"</div></div>'
     );
     expect(portal.innerHTML).toBe("");
     expect(applyTheme).not.toHaveBeenCalled();

@@ -983,28 +983,29 @@ describe("Runtime", () => {
     getHistory().push("/app-a/sub-routes/3");
     await (global as any).flushPromises();
     expect(document.body.children).toMatchInlineSnapshot(`
-      HTMLCollection [
-        <div
-          id="main-mount-point"
-        >
-          <h1>
-            Hello
-          </h1>
-          <div>
-            <div
-              data-error-boundary=""
-            >
-              <div>
-                Oops! Something went wrong: SyntaxError: Unexpected parseExpression() input: The input should contain exactly one expression, but the first expression is followed by the unexpected character \`3\`. (1:4), in "&lt;% Sub 3 %&gt;"
-              </div>
-            </div>
-          </div>
-        </div>,
-        <div
-          id="portal-mount-point"
-        />,
-      ]
-    `);
+HTMLCollection [
+  <div
+    id="main-mount-point"
+  >
+    <h1>
+      Hello
+    </h1>
+    <div>
+      <div
+        data-error-boundary=""
+        style="color: var(--color-error);"
+      >
+        <div>
+          Oops! Something went wrong: SyntaxError: Unexpected parseExpression() input: The input should contain exactly one expression, but the first expression is followed by the unexpected character \`3\`. (1:4), in "&lt;% Sub 3 %&gt;"
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="portal-mount-point"
+  />,
+]
+`);
     expect(consoleError).toHaveBeenCalledTimes(1);
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "0" }],
@@ -1514,28 +1515,29 @@ describe("Runtime", () => {
     await (global as any).flushPromises();
     await new Promise((resolve) => setTimeout(resolve));
     expect(document.body.children).toMatchInlineSnapshot(`
-      HTMLCollection [
-        <div
-          id="main-mount-point"
-        >
-          <h1>
-            Sub-routes with error
-          </h1>
-          <div>
-            <div
-              data-error-boundary=""
-            >
-              <div>
-                Oops! Something went wrong: oops
-              </div>
-            </div>
-          </div>
-        </div>,
-        <div
-          id="portal-mount-point"
-        />,
-      ]
-    `);
+HTMLCollection [
+  <div
+    id="main-mount-point"
+  >
+    <h1>
+      Sub-routes with error
+    </h1>
+    <div>
+      <div
+        data-error-boundary=""
+        style="color: var(--color-error);"
+      >
+        <div>
+          Oops! Something went wrong: oops
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="portal-mount-point"
+  />,
+]
+`);
     expect(consoleError).toHaveBeenCalledTimes(1);
 
     getHistory().push("/app-a/sub-routes-with-error/ok");

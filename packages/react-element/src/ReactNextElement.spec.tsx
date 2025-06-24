@@ -301,6 +301,6 @@ describe("ReactNextElement", () => {
     expect(element.shadowRoot).toBeFalsy();
     expect(() => {
       element.connectedCallback();
-    }).toThrowError();
+    }).toThrow();
   });
 });

@@ -26,41 +26,41 @@ describe("deepFreeze", () => {
     expect(() => {
       // Add a new prop.
       (frozen as any).hello = "world";
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Override an existed prop.
       frozen.string = "overridden";
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Delete a prop.
       delete (frozen as Partial<typeof object>).string;
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Push a item to a prop of array.
       frozen.array.push("z");
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Pop a prop of array.
       frozen.array.pop();
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Delete a prop of array.
       delete (frozen as Partial<typeof object>).array;
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Override a nested object's prop.
       frozen.object.number = 2;
-    }).toThrowError();
+    }).toThrow();
 
     expect(() => {
       // Override a nested object's prop.
       frozen.object.array.push(9);
-    }).toThrowError();
+    }).toThrow();
   });
 });

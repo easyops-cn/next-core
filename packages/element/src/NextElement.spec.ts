@@ -409,7 +409,7 @@ describe("NextElement", () => {
       "change",
     ]);
 
-    // `expect(...).toThrowError()` does not work for decorators.
+    // `expect(...).toThrow()` does not work for decorators.
     let message: string | undefined;
     try {
       element.overrideEvent();

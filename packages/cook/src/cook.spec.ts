@@ -205,7 +205,7 @@ describe("evaluate", () => {
         if (!typescript && !containsExperimental(source)) {
           expect(() =>
             equivalentFunc(source, attemptToVisitGlobals)(...cloneDeep(args))
-          ).toThrowError();
+          ).toThrow();
         }
         expect(() => func(...cloneDeep(args))).toThrowErrorMatchingSnapshot();
       }
@@ -242,7 +242,7 @@ describe("evaluate", () => {
         return a;
       }
     `;
-    expect(() => equivalentFunc(source, new Set())).not.toThrowError();
+    expect(() => equivalentFunc(source, new Set())).not.toThrow();
     const { function: funcAst, attemptToVisitGlobals } =
       precookFunction(source);
     const globalVariables = supply(
@@ -271,7 +271,7 @@ describe("evaluate", () => {
       if (!containsExperimental(source)) {
         expect(() =>
           equivalentFunc(source, attemptToVisitGlobals, true)
-        ).toThrowError();
+        ).toThrow();
       }
       expect(() =>
         cook(exprAst, source, { globalVariables })
@@ -423,7 +423,7 @@ describe("evaluate", () => {
         return "abc".replace(reg, "");
       }
     `;
-    expect(() => equivalentFunc(source, new Set())).not.toThrowError();
+    expect(() => equivalentFunc(source, new Set())).not.toThrow();
     const { function: funcAst, attemptToVisitGlobals } =
       precookFunction(source);
     const globalVariables = supply(
