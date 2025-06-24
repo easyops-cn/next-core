@@ -1,6 +1,6 @@
 {
   "name": "@next-core/http",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "> TODO: description",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/http",
   "license": "GPL-3.0",
@@ -39,8 +39,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@next-core/build-next-libs": "^1.0.24",
-    "@next-core/test-next": "^1.1.9",
+    "@next-core/build-next-libs": "^1.0.25",
+    "@next-core/test-next": "^2.0.0",
     "whatwg-fetch": "^3.6.20"
   }
 }
