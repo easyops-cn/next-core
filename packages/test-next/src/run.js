@@ -1,7 +1,7 @@
 // @ts-check
 import path from "node:path";
 import { existsSync } from "node:fs";
-import jest from "jest";
+import { run } from "jest";
 import { createJestConfig } from "./createJestConfig.js";
 
 const packageDir = process.cwd();
@@ -23,4 +23,4 @@ args.push(
   )
 );
 
-jest.run(args);
+run(args);

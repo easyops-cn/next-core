@@ -44,7 +44,7 @@ describe("devtools", () => {
 
     devtoolsHookEmit("evaluation", "02");
     jest.advanceTimersByTime(1);
-    expect(emit).toBeCalledTimes(1);
+    expect(emit).toHaveBeenCalledTimes(1);
 
     // Toggle active
     window.dispatchEvent(
@@ -64,6 +64,6 @@ describe("devtools", () => {
 
     devtoolsHookEmit("evaluation", "03");
     jest.advanceTimersByTime(1);
-    expect(emit).toBeCalledTimes(1);
+    expect(emit).toHaveBeenCalledTimes(1);
   });
 });

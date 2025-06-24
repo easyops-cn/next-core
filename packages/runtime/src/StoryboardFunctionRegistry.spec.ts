@@ -132,8 +132,8 @@ describe("StoryboardFunctions", () => {
     expect(fn.sayHello({ en: "world", zh: "世界" })).toBe(
       "app/my-app:HELLO, 世界!"
     );
-    expect(consoleLog).toBeCalledTimes(1);
-    expect(consoleLog).toBeCalledWith({ en: "world", zh: "世界" });
+    expect(consoleLog).toHaveBeenCalledTimes(1);
+    expect(consoleLog).toHaveBeenCalledWith({ en: "world", zh: "世界" });
 
     expect(fn.sayExclamation("Oops")).toBe("Oops!");
     expect(fn.getImg()).toBe("/micro-apps/my-app/images/my-img.png");
@@ -297,11 +297,11 @@ describe("collect coverage", () => {
     ]);
 
     fn.test(1);
-    expect(collector.beforeVisit).toBeCalledTimes(9);
-    expect(collector.beforeEvaluate).toBeCalledTimes(6);
-    expect(collector.beforeCall).toBeCalledTimes(1);
-    expect(collector.beforeBranch).toBeCalledTimes(1);
-    expect(collector.beforeBranch).toBeCalledWith(
+    expect(collector.beforeVisit).toHaveBeenCalledTimes(9);
+    expect(collector.beforeEvaluate).toHaveBeenCalledTimes(6);
+    expect(collector.beforeCall).toHaveBeenCalledTimes(1);
+    expect(collector.beforeBranch).toHaveBeenCalledTimes(1);
+    expect(collector.beforeBranch).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "IfStatement",
       }),
@@ -309,10 +309,10 @@ describe("collect coverage", () => {
     );
 
     fn.test(0);
-    expect(collector.beforeVisit).toBeCalledTimes(9);
-    expect(collector.beforeEvaluate).toBeCalledTimes(10);
-    expect(collector.beforeCall).toBeCalledTimes(2);
-    expect(collector.beforeBranch).toBeCalledTimes(2);
+    expect(collector.beforeVisit).toHaveBeenCalledTimes(9);
+    expect(collector.beforeEvaluate).toHaveBeenCalledTimes(10);
+    expect(collector.beforeCall).toHaveBeenCalledTimes(2);
+    expect(collector.beforeBranch).toHaveBeenCalledTimes(2);
     expect(collector.beforeBranch).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({

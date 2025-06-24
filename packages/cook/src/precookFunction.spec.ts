@@ -293,8 +293,8 @@ describe("precookFunction", () => {
       "function test() { this }"
     );
     expect(Array.from(attemptToVisitGlobals.values())).toEqual([]);
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledWith(
       "Unsupported node type `ThisExpression`"
     );
   });

@@ -69,7 +69,7 @@ describe("", () => {
     expect(Array.from(precook(expression, { expressionOnly: true }))).toEqual(
       result
     );
-    expect(consoleWarn).not.toBeCalled();
+    expect(consoleWarn).not.toHaveBeenCalled();
   });
 
   it.each<[string, string, string[]]>([
@@ -506,7 +506,7 @@ describe("", () => {
         })
       )
     ).toEqual(result);
-    expect(consoleWarn).not.toBeCalled();
+    expect(consoleWarn).not.toHaveBeenCalled();
   });
 
   it("should visit nodes", () => {
@@ -524,7 +524,7 @@ describe("", () => {
     precook(func, {
       visitors,
     });
-    expect(visitors.CallExpression).not.toBeCalled();
+    expect(visitors.CallExpression).not.toHaveBeenCalled();
     expect(visitors.FunctionDeclaration).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "FunctionDeclaration",
@@ -556,7 +556,7 @@ describe("", () => {
       withParent: true,
       hooks: { beforeVisit, beforeVisitGlobal, beforeVisitUnknown },
     });
-    expect(beforeVisit).toBeCalledTimes(5);
+    expect(beforeVisit).toHaveBeenCalledTimes(5);
     expect(beforeVisit).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -649,7 +649,7 @@ describe("", () => {
       ]
     );
     expect(beforeVisitGlobal).toHaveBeenCalledTimes(1);
-    expect(beforeVisitGlobal).toBeCalledWith(
+    expect(beforeVisitGlobal).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "Identifier",
         name: "b",
@@ -677,7 +677,7 @@ describe("", () => {
       ]
     );
     expect(beforeVisitUnknown).toHaveBeenCalledTimes(1);
-    expect(beforeVisitUnknown).toBeCalledWith(
+    expect(beforeVisitUnknown).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "DebuggerStatement",
       }),
@@ -710,7 +710,7 @@ describe("", () => {
       withParent: true,
       hooks: { beforeVisit },
     });
-    expect(beforeVisit).toBeCalledTimes(4);
+    expect(beforeVisit).toHaveBeenCalledTimes(4);
     expect(beforeVisit).toHaveBeenNthCalledWith(
       4,
       expect.objectContaining({

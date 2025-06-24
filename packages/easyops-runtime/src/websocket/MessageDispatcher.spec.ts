@@ -97,10 +97,10 @@ describe("MessageDispatcher", () => {
       })
     );
 
-    expect(onMessage).toBeCalledTimes(2);
-    expect(onMessage).toBeCalledWith(message);
-    expect(onMessage).toBeCalledWith(message2);
-    expect(onMessage2).not.toBeCalled();
+    expect(onMessage).toHaveBeenCalledTimes(2);
+    expect(onMessage).toHaveBeenCalledWith(message);
+    expect(onMessage).toHaveBeenCalledWith(message2);
+    expect(onMessage2).not.toHaveBeenCalled();
 
     const unsubPromise = client.unsubscribe("c1");
     await expect(server).toReceiveMessage(
@@ -137,7 +137,7 @@ describe("MessageDispatcher", () => {
     expect(consoleError).toHaveBeenCalledTimes(2);
 
     server.close();
-    expect(onClose).not.toBeCalled();
+    expect(onClose).not.toHaveBeenCalled();
 
     client.reset();
   });

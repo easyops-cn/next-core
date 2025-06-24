@@ -41,7 +41,7 @@ describe("useCurrentApp", () => {
     expect(result.current).toEqual({ id: "hello" });
 
     unmount();
-    expect(spyOnRemoveEventListener).toBeCalledWith(
+    expect(spyOnRemoveEventListener).toHaveBeenCalledWith(
       ...spyOnAddEventListener.mock.calls[0]
     );
   });
@@ -71,7 +71,7 @@ describe("useCurrentApp", () => {
     expect(result.current).toEqual({ id: "hello" });
 
     unmount();
-    expect(spyOnRemoveEventListener).toBeCalledWith(
+    expect(spyOnRemoveEventListener).toHaveBeenCalledWith(
       ...spyOnAddEventListener.mock.calls[0]
     );
   });

@@ -58,8 +58,8 @@ describe("collectMemberUsageInFunction", () => {
       "FN"
     );
     expect([...used]).toEqual([]);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       'Parse storyboard function "test" failed:',
       expect.anything()
     );
@@ -107,6 +107,6 @@ describe("collectMemberUsageInFunction with silent errors", () => {
       true
     );
     expect([...used]).toEqual([]);
-    expect(consoleError).not.toBeCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 });

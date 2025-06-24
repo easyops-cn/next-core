@@ -34,26 +34,26 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@babel/parser": "^7.26.10",
-    "@babel/traverse": "^7.26.10",
+    "@babel/parser": "^7.27.5",
+    "@babel/traverse": "^7.27.4",
     "@next-core/babel-preset-next": "^1.0.25",
     "@svgr/webpack": "^8.1.0",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
-    "cssnano": "^7.0.6",
-    "cssnano-preset-lite": "^4.0.3",
+    "cssnano": "^7.0.7",
+    "cssnano-preset-lite": "^4.0.4",
     "doctrine": "^3.0.0",
-    "less": "^4.2.2",
-    "less-loader": "^12.2.0",
+    "less": "^4.3.0",
+    "less-loader": "^12.3.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.9.2",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.6",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^10.1.5",
-    "prettier": "^3.5.3",
+    "postcss-preset-env": "^10.2.3",
+    "prettier": "^3.6.0",
     "style-loader": "^4.0.0",
-    "typescript": "^5.8.2",
-    "webpack": "^5.98.0"
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9"
   },
   "devDependencies": {
     "@next-core/brick-manifest": "^0.7.2"

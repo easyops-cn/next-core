@@ -74,7 +74,7 @@ describe("ReactUseBrick", () => {
       <ListByUseBrick useBrick={useBrick} data={["a", "b"]} />
     );
 
-    expect(mockRenderUseBrick).toBeCalledTimes(2);
+    expect(mockRenderUseBrick).toHaveBeenCalledTimes(2);
     expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
       1,
       useBrick,
@@ -87,19 +87,19 @@ describe("ReactUseBrick", () => {
       "b",
       undefined
     );
-    expect(mockMountUseBrick).not.toBeCalled();
+    expect(mockMountUseBrick).not.toHaveBeenCalled();
 
     await act(() => (global as any).flushPromises());
 
-    expect(mockMountUseBrick).toBeCalledTimes(2);
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(2);
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "a"],
       },
       expect.any(HTMLDivElement)
     );
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "b"],
@@ -110,7 +110,7 @@ describe("ReactUseBrick", () => {
     // Re-render useBrick with the latter one props updated.
     rerender(<ListByUseBrick useBrick={useBrick} data={["a", "c"]} />);
 
-    expect(mockRenderUseBrick).toBeCalledTimes(3);
+    expect(mockRenderUseBrick).toHaveBeenCalledTimes(3);
     expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
       3,
       useBrick,
@@ -118,11 +118,11 @@ describe("ReactUseBrick", () => {
       undefined
     );
 
-    expect(mockUnmountUseBrick).not.toBeCalled();
+    expect(mockUnmountUseBrick).not.toHaveBeenCalled();
     await act(() => (global as any).flushPromises());
 
-    expect(mockUnmountUseBrick).toBeCalledTimes(1);
-    expect(mockUnmountUseBrick).toBeCalledWith(
+    expect(mockUnmountUseBrick).toHaveBeenCalledTimes(1);
+    expect(mockUnmountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "b"],
@@ -130,8 +130,8 @@ describe("ReactUseBrick", () => {
       "b"
     );
 
-    expect(mockMountUseBrick).toBeCalledTimes(3);
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(3);
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "c"],
@@ -140,16 +140,16 @@ describe("ReactUseBrick", () => {
     );
 
     unmount();
-    expect(mockHandleHttpError).not.toBeCalled();
-    expect(mockUnmountUseBrick).toBeCalledTimes(3);
-    expect(mockUnmountUseBrick).toBeCalledWith(
+    expect(mockHandleHttpError).not.toHaveBeenCalled();
+    expect(mockUnmountUseBrick).toHaveBeenCalledTimes(3);
+    expect(mockUnmountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "a"],
       },
       "a"
     );
-    expect(mockUnmountUseBrick).toBeCalledWith(
+    expect(mockUnmountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "c"],
@@ -176,20 +176,20 @@ describe("ReactUseBrick", () => {
       <ListByUseBrick useBrick={useBrick} data={["a"]} />
     );
 
-    expect(mockRenderUseBrick).toBeCalledTimes(1);
+    expect(mockRenderUseBrick).toHaveBeenCalledTimes(1);
     expect(mockRenderUseBrick).toHaveBeenNthCalledWith(
       1,
       useBrick,
       "a",
       undefined
     );
-    expect(mockMountUseBrick).not.toBeCalled();
+    expect(mockMountUseBrick).not.toHaveBeenCalled();
 
     jest.advanceTimersByTime(200);
     await act(() => (global as any).flushPromises());
 
-    expect(mockMountUseBrick).toBeCalledTimes(1);
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(1);
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "a"],
@@ -203,7 +203,7 @@ describe("ReactUseBrick", () => {
     jest.advanceTimersByTime(100);
     await act(() => (global as any).flushPromises());
 
-    expect(mockMountUseBrick).toBeCalledTimes(1);
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(1);
 
     // Second re-render before the first one completes.
     rerender(<ListByUseBrick useBrick={useBrick} data={["c"]} />);
@@ -211,12 +211,12 @@ describe("ReactUseBrick", () => {
     // The first re-render should be ignored.
     jest.advanceTimersByTime(100);
     await act(() => (global as any).flushPromises());
-    expect(mockMountUseBrick).toBeCalledTimes(1);
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(100);
     await act(() => (global as any).flushPromises());
 
-    expect(mockMountUseBrick).toBeCalledTimes(2);
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(2);
     expect(mockMountUseBrick).toHaveBeenNthCalledWith(
       2,
       {
@@ -247,12 +247,12 @@ describe("ReactUseBrick", () => {
     );
 
     await act(() => (global as any).flushPromises());
-    expect(ignoredCallback).toBeCalledTimes(2);
+    expect(ignoredCallback).toHaveBeenCalledTimes(2);
 
     unmount();
-    expect(mockHandleHttpError).not.toBeCalled();
-    expect(mockMountUseBrick).not.toBeCalled();
-    expect(mockUnmountUseBrick).not.toBeCalled();
+    expect(mockHandleHttpError).not.toHaveBeenCalled();
+    expect(mockMountUseBrick).not.toHaveBeenCalled();
+    expect(mockUnmountUseBrick).not.toHaveBeenCalled();
   });
 
   test("render failed", async () => {
@@ -265,19 +265,19 @@ describe("ReactUseBrick", () => {
     );
 
     await act(() => (global as any).flushPromises());
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       "Render useBrick failed:",
       useBrick,
       "with data:",
       "a"
     );
 
-    expect(mockHandleHttpError).toBeCalledWith(error);
+    expect(mockHandleHttpError).toHaveBeenCalledWith(error);
 
     unmount();
-    expect(mockMountUseBrick).not.toBeCalled();
-    expect(mockUnmountUseBrick).not.toBeCalled();
+    expect(mockMountUseBrick).not.toHaveBeenCalled();
+    expect(mockUnmountUseBrick).not.toHaveBeenCalled();
   });
 
   test("render failed but render id changed", async () => {
@@ -291,12 +291,12 @@ describe("ReactUseBrick", () => {
     );
 
     await act(() => (global as any).flushPromises());
-    expect(consoleError).toBeCalledTimes(0);
-    expect(mockHandleHttpError).not.toBeCalled();
+    expect(consoleError).toHaveBeenCalledTimes(0);
+    expect(mockHandleHttpError).not.toHaveBeenCalled();
 
     unmount();
-    expect(mockMountUseBrick).not.toBeCalled();
-    expect(mockUnmountUseBrick).not.toBeCalled();
+    expect(mockMountUseBrick).not.toHaveBeenCalled();
+    expect(mockUnmountUseBrick).not.toHaveBeenCalled();
     mockGetRenderId.mockReset();
   });
 
@@ -318,12 +318,12 @@ describe("ReactUseBrick", () => {
     );
 
     await act(() => (global as any).flushPromises());
-    expect(refCallback).toBeCalledTimes(2);
+    expect(refCallback).toHaveBeenCalledTimes(2);
     expect(refCallback).toHaveBeenNthCalledWith(1, expect.any(HTMLDivElement));
     expect(refCallback).toHaveBeenNthCalledWith(2, expect.any(HTMLDivElement));
 
     unmount();
-    expect(refCallback).toBeCalledTimes(4);
+    expect(refCallback).toHaveBeenCalledTimes(4);
     expect(refCallback).toHaveBeenNthCalledWith(3, null);
     expect(refCallback).toHaveBeenNthCalledWith(4, null);
   });
@@ -344,15 +344,15 @@ describe("ReactUseMultipleBricks", () => {
 
     await act(() => (global as any).flushPromises());
 
-    expect(mockMountUseBrick).toBeCalledTimes(2);
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(2);
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick[0], "m"],
       },
       expect.any(HTMLDivElement)
     );
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "span",
         args: [useBrick[1], "m"],
@@ -361,7 +361,7 @@ describe("ReactUseMultipleBricks", () => {
     );
 
     unmount();
-    expect(mockUnmountUseBrick).toBeCalledTimes(2);
+    expect(mockUnmountUseBrick).toHaveBeenCalledTimes(2);
   });
 
   test("with single useBrick", async () => {
@@ -378,8 +378,8 @@ describe("ReactUseMultipleBricks", () => {
 
     await act(() => (global as any).flushPromises());
 
-    expect(mockMountUseBrick).toBeCalledTimes(1);
-    expect(mockMountUseBrick).toBeCalledWith(
+    expect(mockMountUseBrick).toHaveBeenCalledTimes(1);
+    expect(mockMountUseBrick).toHaveBeenCalledWith(
       {
         tagName: "div",
         args: [useBrick, "m"],
@@ -388,6 +388,6 @@ describe("ReactUseMultipleBricks", () => {
     );
 
     unmount();
-    expect(mockUnmountUseBrick).toBeCalledTimes(1);
+    expect(mockUnmountUseBrick).toHaveBeenCalledTimes(1);
   });
 });

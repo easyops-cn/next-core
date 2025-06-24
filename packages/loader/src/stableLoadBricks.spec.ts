@@ -54,7 +54,7 @@ jest.mock("./loadSharedModule.js", () => ({
 }));
 
 const loadV2Bricks = jest.fn(
-  () => new Promise((resolve) => setTimeout(resolve, 100))
+  (..._args: unknown[]) => new Promise((resolve) => setTimeout(resolve, 100))
 );
 customElements.define(
   "v2-adapter.load-bricks",
@@ -91,7 +91,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -129,7 +129,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(6);
+    expect(consoleInfo).toHaveBeenCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -197,7 +197,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(6);
+    expect(consoleInfo).toHaveBeenCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -234,9 +234,9 @@ describe("loadBricksImperatively", () => {
       "bricks/icons",
       "./general-icon"
     );
-    expect(consoleError).toBeCalledTimes(0);
-    expect(loadV2Bricks).toBeCalledTimes(1);
-    expect(loadV2Bricks).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(0);
+    expect(loadV2Bricks).toHaveBeenCalledTimes(1);
+    expect(loadV2Bricks).toHaveBeenCalledWith(
       "bricks/v2-adapter/dist/index.hash.js",
       "bricks/legacy/dist/index.hash.js",
       ["legacy.some-brick"],
@@ -263,7 +263,7 @@ describe("loadBricksImperatively", () => {
       `[Error: Using v2 bricks, but v2-adapter not found]`
     );
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(0);
+    expect(consoleInfo).toHaveBeenCalledTimes(0);
   });
 
   test("load third-party bricks with no namespace", async () => {
@@ -280,7 +280,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -309,7 +309,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
   test("load brick failed", async () => {
@@ -330,7 +330,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -343,7 +343,7 @@ describe("loadBricksImperatively", () => {
       "bricks/unsure",
       "./not-existed"
     );
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
   test("load brick (with no namespace) with only deprecated element", async () => {
@@ -361,7 +361,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -396,7 +396,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -430,7 +430,7 @@ describe("loadBricksImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -443,7 +443,7 @@ describe("loadBricksImperatively", () => {
       "bricks/basic",
       "./eo-will-fail"
     );
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -483,7 +483,7 @@ describe("enqueueStableLoadBricks", () => {
     expect(requestsCount).toBe(3);
     await Promise.all(promises);
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(9);
+    expect(consoleInfo).toHaveBeenCalledTimes(9);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -554,7 +554,7 @@ describe("enqueueStableLoadBricks", () => {
     expect(requestsCount).toBe(1);
     await Promise.all(promises);
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -597,7 +597,7 @@ describe("enqueueStableLoadProcessors", () => {
     expect(requestsCount).toBe(1);
     await Promise.all(promises);
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -641,7 +641,7 @@ describe("loadProcessorsImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -685,7 +685,7 @@ describe("loadProcessorsImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -698,9 +698,9 @@ describe("loadProcessorsImperatively", () => {
       "bricks/v2-adapter",
       "./load-bricks"
     );
-    expect(consoleError).toBeCalledTimes(0);
-    expect(loadV2Bricks).toBeCalledTimes(1);
-    expect(loadV2Bricks).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(0);
+    expect(loadV2Bricks).toHaveBeenCalledTimes(1);
+    expect(loadV2Bricks).toHaveBeenCalledWith(
       "bricks/v2-adapter/dist/index.hash.js",
       "bricks/legacy/dist/index.hash.js",
       [],
@@ -748,7 +748,7 @@ describe("loadEditorsImperatively", () => {
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
       "loadScript done:",
@@ -773,9 +773,9 @@ describe("loadEditorsImperatively", () => {
       "bricks/v2-adapter",
       "./load-bricks"
     );
-    expect(consoleError).toBeCalledTimes(0);
-    expect(loadV2Bricks).toBeCalledTimes(1);
-    expect(loadV2Bricks).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(0);
+    expect(loadV2Bricks).toHaveBeenCalledTimes(1);
+    expect(loadV2Bricks).toHaveBeenCalledWith(
       "bricks/v2-adapter/dist/index.hash.js",
       "bricks/basic-bricks/dist/property-editors/index.hash.js",
       [],

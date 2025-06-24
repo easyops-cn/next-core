@@ -222,7 +222,7 @@ describe("renderRoutes", () => {
       }),
       path: "/home/:objectId",
     });
-    expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(2);
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenCalledTimes(2);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       1,
       route,
@@ -235,8 +235,11 @@ describe("renderRoutes", () => {
       expect.any(Function)
     );
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(2);
-    expect(loadBricksImperatively).toBeCalledWith(["my-pre-load-brick"], []);
-    expect(loadProcessorsImperatively).toBeCalledTimes(1);
+    expect(loadBricksImperatively).toHaveBeenCalledWith(
+      ["my-pre-load-brick"],
+      []
+    );
+    expect(loadProcessorsImperatively).toHaveBeenCalledTimes(1);
     expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
       1,
       new Set(["route.context"]),
@@ -357,8 +360,8 @@ describe("renderRoutes", () => {
     ).rejects.toMatchInlineSnapshot(
       `[Error: Unexpected type of redirect result: undefined]`
     );
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       "Unexpected redirect result:",
       undefined
     );
@@ -419,7 +422,7 @@ describe("renderRoutes", () => {
       }),
       path: "/home/:objectId/list",
     });
-    expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(3);
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenCalledTimes(3);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       1,
       route,
@@ -504,7 +507,7 @@ describe("renderRoutes", () => {
       }),
       path: "/home/:objectId/list",
     });
-    expect(preCheckPermissionsForBrickOrRoute).toBeCalledTimes(4);
+    expect(preCheckPermissionsForBrickOrRoute).toHaveBeenCalledTimes(4);
     expect(preCheckPermissionsForBrickOrRoute).toHaveBeenNthCalledWith(
       1,
       route,
@@ -745,8 +748,8 @@ describe("renderBrick", () => {
       {}
     );
     expect(output.blockingList.length).toBe(3);
-    expect(enqueueStableLoadBricks).toBeCalledWith(["test.my-brick"], []);
-    expect(loadProcessorsImperatively).toBeCalledTimes(2);
+    expect(enqueueStableLoadBricks).toHaveBeenCalledWith(["test.my-brick"], []);
+    expect(loadProcessorsImperatively).toHaveBeenCalledTimes(2);
     expect(loadProcessorsImperatively).toHaveBeenNthCalledWith(
       1,
       new Set(["def.rst"]),
@@ -780,7 +783,7 @@ describe("renderBrick", () => {
     expect(output.node?.child?.sibling?.child).toBe(undefined);
     expect(output.node?.child?.sibling?.sibling).toBe(undefined);
 
-    expect(consoleInfo).toBeCalledTimes(0);
+    expect(consoleInfo).toHaveBeenCalledTimes(0);
     rendererContext.dispatchBeforePageLoad();
     expect(consoleInfo).toHaveBeenNthCalledWith(
       1,
@@ -812,7 +815,7 @@ describe("renderBrick", () => {
 
     rendererContext.initializeScrollIntoView();
     rendererContext.initializeMediaChange();
-    expect(consoleInfo).toBeCalledTimes(5);
+    expect(consoleInfo).toHaveBeenCalledTimes(5);
 
     IntersectionObserver.mock.calls[0][0](
       [
@@ -877,7 +880,7 @@ describe("renderBrick", () => {
     );
 
     rendererContext.dispose();
-    expect(consoleInfo).toBeCalledTimes(13);
+    expect(consoleInfo).toHaveBeenCalledTimes(13);
     consoleInfo.mockReset();
     mockGetHistory.mockReset();
   });
@@ -918,8 +921,8 @@ describe("renderBrick", () => {
     expect(output).toEqual({
       blockingList: [],
     });
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       "Legacy templates are dropped in v3:",
       brick
     );
@@ -934,8 +937,8 @@ describe("renderBrick", () => {
     expect(output).toEqual({
       blockingList: [],
     });
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Invalid brick:", brick);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("Invalid brick:", brick);
   });
 
   test("error boundary", async () => {
@@ -989,8 +992,8 @@ describe("renderBrick", () => {
       },
       blockingList: [],
     });
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       "Error caught by error boundary:",
       new ReferenceError('ABC is not defined, in "<% ABC %>"')
     );
@@ -1190,10 +1193,10 @@ describe("renderBrick for control nodes", () => {
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
     mountTree(renderRoot);
-    expect(consoleInfo).not.toBeCalled();
+    expect(consoleInfo).not.toHaveBeenCalled();
     rendererContext.dispatchOnMount();
     rendererContext.initializeScrollIntoView();
-    expect(consoleInfo).toBeCalledTimes(3);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
     expect(consoleInfo).toHaveBeenNthCalledWith(3, ":forEach mount", false);
@@ -1209,11 +1212,11 @@ describe("renderBrick for control nodes", () => {
     );
 
     ctxStore.updateValue("list", ["a", "c"], "replace");
-    expect(consoleInfo).toBeCalledTimes(3);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
     // Wait for `_.debounce()`
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(consoleInfo).toBeCalledTimes(9);
+    expect(consoleInfo).toHaveBeenCalledTimes(9);
     expect(consoleInfo).toHaveBeenNthCalledWith(4, ":forEach unmount");
     expect(consoleInfo).toHaveBeenNthCalledWith(5, "onUnmount", "unmount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(6, "onUnmount", "unmount", "b");
@@ -1232,7 +1235,7 @@ describe("renderBrick for control nodes", () => {
     rendererContext.dispatchOnUnmount();
     rendererContext.dispose();
 
-    expect(consoleInfo).toBeCalledTimes(12);
+    expect(consoleInfo).toHaveBeenCalledTimes(12);
     expect(consoleInfo).toHaveBeenNthCalledWith(
       10,
       "onUnmount",
@@ -1363,21 +1366,21 @@ describe("renderBrick for control nodes", () => {
     renderRoot.child = output.node;
     await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
     mountTree(renderRoot);
-    expect(consoleInfo).not.toBeCalled();
+    expect(consoleInfo).not.toHaveBeenCalled();
     rendererContext.dispatchOnMount();
     rendererContext.initializeScrollIntoView();
-    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledTimes(1);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, ":forEach mount", false);
 
     expect(container.innerHTML).toBe("<h1>Before</h1><h2>After</h2>");
     expect(portal.innerHTML).toBe("<hr><br>");
 
     ctxStore.updateValue("list", ["a", "c"], "replace");
-    expect(consoleInfo).toBeCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledTimes(1);
     // Wait for `_.debounce()`
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(consoleInfo).toBeCalledTimes(5);
+    expect(consoleInfo).toHaveBeenCalledTimes(5);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, ":forEach unmount");
     expect(consoleInfo).toHaveBeenNthCalledWith(3, "onMount", "mount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(4, "onMount", "mount", "c");
@@ -1393,7 +1396,7 @@ describe("renderBrick for control nodes", () => {
     rendererContext.dispatchOnUnmount();
     rendererContext.dispose();
 
-    expect(consoleInfo).toBeCalledTimes(8);
+    expect(consoleInfo).toHaveBeenCalledTimes(8);
     expect(consoleInfo).toHaveBeenNthCalledWith(6, "onUnmount", "unmount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(7, "onUnmount", "unmount", "c");
     expect(consoleInfo).toHaveBeenNthCalledWith(8, ":forEach unmount");
@@ -2169,16 +2172,16 @@ describe("renderBrick for tpl", () => {
     const outerSpanClick = jest.fn();
     container.addEventListener("spanClick", outerSpanClick);
     container.querySelector("#inner-span")!.dispatchEvent(new Event("click"));
-    expect(consoleInfo).toBeCalledTimes(1);
-    expect(consoleInfo).toBeCalledWith("spanClick");
-    expect(outerSpanClick).toBeCalledTimes(0);
+    expect(consoleInfo).toHaveBeenCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledWith("spanClick");
+    expect(outerSpanClick).toHaveBeenCalledTimes(0);
 
     container
       .querySelector("#inner-span")!
       .dispatchEvent(new Event("click", { bubbles: true }));
-    expect(consoleInfo).toBeCalledTimes(2);
-    expect(consoleInfo).toBeCalledWith("spanClick");
-    expect(outerSpanClick).toBeCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledWith("spanClick");
+    expect(outerSpanClick).toHaveBeenCalledTimes(1);
 
     consoleInfo.mockReset();
   });
@@ -2274,10 +2277,10 @@ describe("renderBrick for tpl", () => {
       ),
     ]);
     mountTree(renderRoot);
-    expect(consoleInfo).not.toBeCalled();
+    expect(consoleInfo).not.toHaveBeenCalled();
     rendererContext.dispatchOnMount();
     rendererContext.initializeScrollIntoView();
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "onMount", "mount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "onMount", "mount", "b");
 
@@ -2339,11 +2342,11 @@ describe("renderBrick for tpl", () => {
       "test"
     );
     stateStore.updateValue("list", ["a", "c"], "replace");
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
     // Wait for `_.debounce()`
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(consoleInfo).toBeCalledTimes(6);
+    expect(consoleInfo).toHaveBeenCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(3, "onUnmount", "unmount", "a");
     expect(consoleInfo).toHaveBeenNthCalledWith(4, "onUnmount", "unmount", "b");
     expect(consoleInfo).toHaveBeenNthCalledWith(5, "onMount", "mount", "a");
@@ -3317,7 +3320,7 @@ describe("renderBrick for tpl", () => {
         type: "unknown.tpl-x",
       },
     });
-    expect(loadBricksImperatively).toBeCalledWith(["unknown.tpl-x"], []);
+    expect(loadBricksImperatively).toHaveBeenCalledWith(["unknown.tpl-x"], []);
   });
 
   test("slots in tpl", async () => {
@@ -3738,8 +3741,8 @@ describe("renderBrick for scripts", () => {
       {}
     );
     expect(output).toEqual({ blockingList: [] });
-    expect(loadScript).toBeCalledTimes(1);
-    expect(loadScript).toBeCalledWith("http://example.com/a.js", "", {
+    expect(loadScript).toHaveBeenCalledTimes(1);
+    expect(loadScript).toHaveBeenCalledWith("http://example.com/a.js", "", {
       type: "module",
     });
   });
@@ -3776,7 +3779,7 @@ describe("renderBrick for scripts", () => {
         },
       }),
     });
-    expect(loadScript).toBeCalledTimes(0);
+    expect(loadScript).toHaveBeenCalledTimes(0);
   });
 });
 
@@ -3806,8 +3809,8 @@ describe("renderBrick for stylesheets", () => {
       {}
     );
     expect(output).toEqual({ blockingList: [] });
-    expect(loadStyle).toBeCalledTimes(1);
-    expect(loadStyle).toBeCalledWith("http://example.com/b.css", "", {
+    expect(loadStyle).toHaveBeenCalledTimes(1);
+    expect(loadStyle).toHaveBeenCalledWith("http://example.com/b.css", "", {
       rel: "stylesheet",
     });
   });
@@ -3846,6 +3849,6 @@ describe("renderBrick for stylesheets", () => {
         },
       }),
     });
-    expect(loadStyle).toBeCalledTimes(0);
+    expect(loadStyle).toHaveBeenCalledTimes(0);
   });
 });

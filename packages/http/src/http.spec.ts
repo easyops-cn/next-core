@@ -142,15 +142,15 @@ describe("http", () => {
     });
 
     expect(spyOnFetch.mock.calls[0]).toMatchSnapshot();
-    expect(requestInterceptor).toBeCalledTimes(1);
-    expect(responseInterceptor).toBeCalledTimes(1);
-    expect(responseRejectInterceptor).not.toBeCalled();
-    expect(requestInterceptor).toBeCalledWith({
+    expect(requestInterceptor).toHaveBeenCalledTimes(1);
+    expect(responseInterceptor).toHaveBeenCalledTimes(1);
+    expect(responseRejectInterceptor).not.toHaveBeenCalled();
+    expect(requestInterceptor).toHaveBeenCalledWith({
       url: "http://example.com/for-good",
       method: "GET",
       options: {},
     });
-    expect(responseInterceptor).toBeCalledWith(
+    expect(responseInterceptor).toHaveBeenCalledWith(
       {
         status: 200,
         statusText: "",
@@ -250,9 +250,9 @@ describe("http", () => {
       await http.get("http://example.com");
     } catch (e) {
       expect(e).toBeInstanceOf(HttpParseError);
-      expect(responseInterceptor).not.toBeCalled();
-      expect(responseRejectInterceptor).toBeCalledTimes(1);
-      expect(responseRejectInterceptor).toBeCalledWith(
+      expect(responseInterceptor).not.toHaveBeenCalled();
+      expect(responseRejectInterceptor).toHaveBeenCalledTimes(1);
+      expect(responseRejectInterceptor).toHaveBeenCalledWith(
         e,
         expect.objectContaining({
           url: "http://example.com",

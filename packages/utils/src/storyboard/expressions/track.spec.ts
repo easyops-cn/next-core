@@ -21,7 +21,7 @@ describe("track", () => {
       "CTX"
     );
     expect(result).toBe(false);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringContaining(`no \`CTX\` usage found`)
     );
   });
@@ -57,7 +57,7 @@ describe("trackAll", () => {
     });
     const result = trackAll("<%= DATA.CTX.abc %>");
     expect(result).toBe(false);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringContaining(`no "CTX" or "STATE" or "FORM_STATE" usage found`)
     );
   });

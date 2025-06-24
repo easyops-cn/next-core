@@ -32,7 +32,7 @@ describe("Dialog", () => {
       type: "confirm",
       content: "Ouch!",
     });
-    expect(dialogService).toBeCalledWith({
+    expect(dialogService).toHaveBeenCalledWith({
       type: "confirm",
       content: "Ouch!",
     });
@@ -42,16 +42,19 @@ describe("Dialog", () => {
     consoleError.mockReturnValueOnce();
     loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
+      "Load dialog service failed:",
+      "oops"
+    );
 
     spyOnModalConfirm.mockReturnValueOnce(true);
     const promise = Dialog.show({
       type: "confirm",
       content: "Ouch!",
     });
-    expect(dialogService).not.toBeCalled();
-    expect(spyOnModalConfirm).toBeCalledTimes(1);
+    expect(dialogService).not.toHaveBeenCalled();
+    expect(spyOnModalConfirm).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 1));
     await promise;
   });
@@ -60,8 +63,11 @@ describe("Dialog", () => {
     consoleError.mockReturnValueOnce();
     loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
+      "Load dialog service failed:",
+      "oops"
+    );
 
     spyOnModalConfirm.mockReturnValueOnce(false);
     let errorCaught = false;
@@ -71,8 +77,8 @@ describe("Dialog", () => {
     }).catch(() => {
       errorCaught = true;
     });
-    expect(dialogService).not.toBeCalled();
-    expect(spyOnModalConfirm).toBeCalledTimes(1);
+    expect(dialogService).not.toHaveBeenCalled();
+    expect(spyOnModalConfirm).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 1));
     expect(errorCaught).toBe(true);
   });
@@ -81,17 +87,20 @@ describe("Dialog", () => {
     consoleError.mockReturnValueOnce();
     loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
+      "Load dialog service failed:",
+      "oops"
+    );
 
     spyOnModalAlert.mockReturnValueOnce();
     Dialog.show({
       type: "success",
       content: "Ouch!",
     });
-    expect(dialogService).not.toBeCalled();
-    expect(spyOnModalAlert).toBeCalledTimes(1);
-    expect(spyOnModalAlert).toBeCalledWith("Ouch!");
+    expect(dialogService).not.toHaveBeenCalled();
+    expect(spyOnModalAlert).toHaveBeenCalledTimes(1);
+    expect(spyOnModalAlert).toHaveBeenCalledWith("Ouch!");
     await new Promise((resolve) => setTimeout(resolve, 1000));
   });
 
@@ -99,16 +108,19 @@ describe("Dialog", () => {
     consoleError.mockReturnValueOnce();
     loadDialogService("undefined-dialog", loader);
     await (global as any).flushPromises();
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Load dialog service failed:", "oops");
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
+      "Load dialog service failed:",
+      "oops"
+    );
 
     spyOnModalAlert.mockReturnValueOnce();
     Dialog.show({
       type: "success",
       content: "Ouch!",
     });
-    expect(dialogService).not.toBeCalled();
-    expect(spyOnModalAlert).toBeCalledTimes(1);
-    expect(spyOnModalAlert).toBeCalledWith("Ouch!");
+    expect(dialogService).not.toHaveBeenCalled();
+    expect(spyOnModalAlert).toHaveBeenCalledTimes(1);
+    expect(spyOnModalAlert).toHaveBeenCalledWith("Ouch!");
   });
 });

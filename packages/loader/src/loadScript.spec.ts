@@ -27,7 +27,7 @@ describe("loadScript", () => {
 
   test("load ok", async () => {
     const promise = loadScript("x.js");
-    expect(dispatchEvent).toBeCalledTimes(1);
+    expect(dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({ type: "request.start" })
@@ -35,7 +35,7 @@ describe("loadScript", () => {
     const script = document.querySelector("script")!;
     fireEvent.load(script);
     await promise;
-    expect(dispatchEvent).toBeCalledTimes(2);
+    expect(dispatchEvent).toHaveBeenCalledTimes(2);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({ type: "request.end" })
@@ -44,7 +44,7 @@ describe("loadScript", () => {
 
   test("load failed", async () => {
     const promise = loadScript("x.js");
-    expect(dispatchEvent).toBeCalledTimes(1);
+    expect(dispatchEvent).toHaveBeenCalledTimes(1);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({ type: "request.start" })
@@ -52,7 +52,7 @@ describe("loadScript", () => {
     const script = document.querySelector("script")!;
     fireEvent.error(script);
     await expect(promise).rejects.toBeTruthy();
-    expect(dispatchEvent).toBeCalledTimes(2);
+    expect(dispatchEvent).toHaveBeenCalledTimes(2);
     expect(dispatchEvent).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({ type: "request.end" })

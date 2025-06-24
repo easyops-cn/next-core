@@ -366,14 +366,16 @@ describe("DataStore", () => {
       amount: 42,
     });
 
-    expect(consoleWarn).not.toBeCalled();
+    expect(consoleWarn).not.toHaveBeenCalled();
     consoleWarn.mockReturnValueOnce();
     ctxStore.updateValue("primitive", { amount: 42 }, "assign");
     expect(ctxStore.getValue("primitive")).toEqual({ amount: 42 });
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleWarn).toBeCalledWith(expect.stringContaining("Non-object"));
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledWith(
+      expect.stringContaining("Non-object")
+    );
 
-    expect(mockCallRealTimeDataInspectHooks).toBeCalledTimes(2);
+    expect(mockCallRealTimeDataInspectHooks).toHaveBeenCalledTimes(2);
   });
 
   test("state and onChange", async () => {
@@ -444,7 +446,7 @@ describe("DataStore", () => {
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("b")).toBe(42);
 
-    expect(mockCallRealTimeDataInspectHooks).toBeCalledTimes(2);
+    expect(mockCallRealTimeDataInspectHooks).toHaveBeenCalledTimes(2);
     expect(mockCallRealTimeDataInspectHooks).toHaveBeenNthCalledWith(1, {
       changeType: "update",
       tplStateStoreId,
@@ -504,7 +506,7 @@ describe("DataStore", () => {
     expect(ctxStore.getValue("lazyValue")).toBe("initial");
     expect(ctxStore.getValue("processedData")).toBe("processed: initial");
     expect(ctxStore.getValue("asyncValue")).toBe("async initial");
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
 
     ctxStore.mountAsyncData();
     await new Promise((resolve) => {
@@ -537,8 +539,8 @@ describe("DataStore", () => {
 
     await (global as any).flushPromises();
     // Will not load again if it is already LOADING.
-    expect(myTimeoutProvider).toBeCalledTimes(2);
-    expect(consoleInfo).not.toBeCalled();
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
+    expect(consoleInfo).not.toHaveBeenCalled();
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
@@ -547,7 +549,7 @@ describe("DataStore", () => {
       "processed: lazily updated"
     );
 
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "[1] success", {
       value: "lazily updated",
     });
@@ -569,8 +571,8 @@ describe("DataStore", () => {
     });
     await (global as any).flushPromises();
     // Will not load again if it is already LOADED.
-    expect(myTimeoutProvider).toBeCalledTimes(2);
-    expect(consoleInfo).toBeCalledTimes(6);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(6);
     expect(consoleInfo).toHaveBeenNthCalledWith(5, "[3] success", {
       value: "lazily updated",
     });
@@ -609,14 +611,14 @@ describe("DataStore", () => {
     );
     await ctxStore.waitForAll();
     expect(ctxStore.getValue("conditionalValue")).toBe("from fallback");
-    expect(myTimeoutProvider).not.toBeCalled();
+    expect(myTimeoutProvider).not.toHaveBeenCalled();
 
     ctxStore.updateValue("fallback", "fallback updated", "replace");
     expect(ctxStore.getValue("conditionalValue")).toBe("fallback updated");
 
     ctxStore.updateValue("remote", true, "replace");
     await (global as any).flushPromises();
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => {
       setTimeout(resolve, 1);
     });
@@ -657,7 +659,7 @@ describe("DataStore", () => {
     );
     await ctxStore.waitForAll();
     expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
 
     ctxStore.updateValue("fallback", "fallback updated", "replace");
     expect(ctxStore.getValue("conditionalValue")).toBe("from remote");
@@ -667,7 +669,7 @@ describe("DataStore", () => {
 
     // Await and make sure resolve is ignored.
     await (global as any).flushPromises();
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => {
       setTimeout(resolve, 1);
     });
@@ -681,7 +683,7 @@ describe("DataStore", () => {
     // Resume remote again.
     ctxStore.updateValue("remote", true, "replace");
     await (global as any).flushPromises();
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => {
       setTimeout(resolve, 1);
     });
@@ -733,8 +735,8 @@ describe("DataStore", () => {
       setTimeout(resolve, 10);
     });
 
-    expect(consoleInfo).toBeCalledTimes(2);
-    expect(handleHttpError).not.toBeCalled();
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
+    expect(handleHttpError).not.toHaveBeenCalled();
 
     ctxStore.updateValue("willFail2", undefined, "load", {
       finally: {
@@ -747,8 +749,8 @@ describe("DataStore", () => {
       setTimeout(resolve, 10);
     });
 
-    expect(consoleInfo).toBeCalledTimes(3);
-    expect(handleHttpError).toBeCalledTimes(1);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
+    expect(handleHttpError).toHaveBeenCalledTimes(1);
 
     consoleInfo.mockReset();
   });
@@ -783,7 +785,7 @@ describe("DataStore", () => {
       setTimeout(resolve, 10);
     });
 
-    expect(handleHttpError).not.toBeCalled();
+    expect(handleHttpError).not.toHaveBeenCalled();
   });
 
   test("load context without resolve", async () => {
@@ -895,7 +897,7 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("c")).toBe(4);
     expect(stateStore.getValue("d")).toBe(5);
-    expect(consoleInfo).toBeCalledTimes(3);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 4);
@@ -927,7 +929,7 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("b")).toBe(3);
     expect(stateStore.getValue("c")).toBe(5);
     expect(stateStore.getValue("d")).toBe(6);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "b change", 3);
@@ -959,7 +961,7 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("a")).toBe(2);
     expect(stateStore.getValue("c")).toBe(0);
     expect(stateStore.getValue("d")).toBe(1);
-    expect(consoleInfo).toBeCalledTimes(3);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 0);
@@ -990,7 +992,7 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("a")).toBe(1);
     expect(stateStore.getValue("c")).toBe(0);
     expect(stateStore.getValue("d")).toBe(1);
-    expect(consoleInfo).toBeCalledTimes(3);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "c change", 0);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "a change", 1);
@@ -1026,7 +1028,7 @@ describe("batchUpdate should work", () => {
     expect(stateStore.getValue("b")).toBe(20);
     expect(stateStore.getValue("c")).toBe(100);
     expect(stateStore.getValue("d")).toBe(101);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 10);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "b change", 20);
@@ -1053,7 +1055,7 @@ describe("batchUpdate should work", () => {
 
     expect(stateStore.getValue("c")).toBe(20);
     expect(stateStore.getValue("d")).toBe(21);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "c change", 20);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "d change", 21);
@@ -1082,7 +1084,7 @@ describe("batchUpdate should work", () => {
 
     expect(stateStore.getValue("d")).toBe(10);
     expect(stateStore.getValue("c")).toBe(20);
-    expect(consoleInfo).toBeCalledTimes(2);
+    expect(consoleInfo).toHaveBeenCalledTimes(2);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "d change", 10);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 20);
@@ -1220,7 +1222,7 @@ describe("batchUpdate with resolve should work", () => {
       "replace",
       argsFactory
     );
-    expect(consoleInfo).toBeCalledTimes(3);
+    expect(consoleInfo).toHaveBeenCalledTimes(3);
 
     expect(consoleInfo).toHaveBeenNthCalledWith(1, "a change", 2);
     expect(consoleInfo).toHaveBeenNthCalledWith(2, "c change", 4);
@@ -1232,7 +1234,7 @@ describe("batchUpdate with resolve should work", () => {
     });
     // `e` should only be changed after it's been resolved.
     expect(stateStore.getValue("e")).toBe(2);
-    expect(consoleInfo).toBeCalledTimes(4);
+    expect(consoleInfo).toHaveBeenCalledTimes(4);
     expect(consoleInfo).toHaveBeenNthCalledWith(4, "e change", 2);
 
     consoleInfo.mockReset();

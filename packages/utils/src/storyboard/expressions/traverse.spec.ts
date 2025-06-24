@@ -60,15 +60,17 @@ describe("traverseStoryboardExpressions", () => {
     expect([...usage.usedProperties]).toEqual(["abc"]);
     expect(usage.hasNonStaticUsage).toBe(true);
 
-    expect(visitNotMatchedExpressionString).toBeCalledTimes(1);
-    expect(visitNotMatchedExpressionString).toBeCalledWith("<% STATE.rst %>");
-    expect(visitNonExpressionString).toBeCalledTimes(1);
-    expect(visitNonExpressionString).toBeCalledWith("CTX.opq");
-    expect(visitObject).toBeCalledTimes(2);
-    expect(visitObject).toBeCalledWith(data);
-    expect(visitObject).toBeCalledWith(nest);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(visitNotMatchedExpressionString).toHaveBeenCalledTimes(1);
+    expect(visitNotMatchedExpressionString).toHaveBeenCalledWith(
+      "<% STATE.rst %>"
+    );
+    expect(visitNonExpressionString).toHaveBeenCalledTimes(1);
+    expect(visitNonExpressionString).toHaveBeenCalledWith("CTX.opq");
+    expect(visitObject).toHaveBeenCalledTimes(2);
+    expect(visitObject).toHaveBeenCalledWith(data);
+    expect(visitObject).toHaveBeenCalledWith(nest);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       expect.stringContaining("Parse storyboard expression failed"),
       expect.anything()
     );

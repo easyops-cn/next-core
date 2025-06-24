@@ -62,7 +62,7 @@ describe("checkInstalledApps", () => {
       doesNotHaveAppInBootstrap
     );
     await waitForCheckingApps(["app-a", "app-b", "app-x"]);
-    expect(RuntimeApi_searchMicroAppStandalone).toBeCalledTimes(1);
+    expect(RuntimeApi_searchMicroAppStandalone).toHaveBeenCalledTimes(1);
     expect(getCheckedApp("app-a")).toEqual({
       appId: "app-a",
       id: "app-a",
@@ -90,7 +90,7 @@ describe("checkInstalledApps", () => {
       doesNotHaveAppInBootstrap
     );
     await waitForCheckingApps(["app-z"]);
-    expect(RuntimeApi_searchMicroAppStandalone).toBeCalledTimes(0);
+    expect(RuntimeApi_searchMicroAppStandalone).toHaveBeenCalledTimes(0);
     expect(getCheckedApp("app-y")).toBe(undefined);
   });
 
@@ -110,10 +110,10 @@ describe("checkInstalledApps", () => {
       doesNotHaveAppInBootstrap
     );
     await waitForCheckingApps(["app-y"]);
-    expect(RuntimeApi_searchMicroAppStandalone).toBeCalledTimes(1);
+    expect(RuntimeApi_searchMicroAppStandalone).toHaveBeenCalledTimes(1);
     expect(getCheckedApp("app-y")).toBe(undefined);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       expect.stringContaining("failed"),
       expect.any(Error)
     );

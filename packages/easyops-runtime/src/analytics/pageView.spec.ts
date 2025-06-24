@@ -37,16 +37,16 @@ describe("analytics.pageView", () => {
 
   test("finish ok", () => {
     const finish = create();
-    expect(createPageView).toBeCalledTimes(1);
+    expect(createPageView).toHaveBeenCalledTimes(1);
     jest.advanceTimersByTime(123);
     finish({
       status: "ok",
       path: "/home/:objectId",
       pageTitle: "DevOps 管理专家",
     });
-    expect(earlyFinishPageView).not.toBeCalled();
-    expect(finishPageView).toBeCalledTimes(1);
-    expect(finishPageView).toBeCalledWith({
+    expect(earlyFinishPageView).not.toHaveBeenCalled();
+    expect(finishPageView).toHaveBeenCalledTimes(1);
+    expect(finishPageView).toHaveBeenCalledWith({
       _ver: 1694414400456,
       et: 1694414400579,
       lt: 123,
@@ -58,16 +58,16 @@ describe("analytics.pageView", () => {
       type: "page",
       username: "easyops",
     });
-    expect(dispatchEvent).toBeCalled();
+    expect(dispatchEvent).toHaveBeenCalled();
   });
 
   test("finish failed", () => {
     const finish = create();
-    expect(createPageView).toBeCalledTimes(1);
+    expect(createPageView).toHaveBeenCalledTimes(1);
     jest.advanceTimersByTime(123);
     finish({ status: "failed" });
-    expect(finishPageView).not.toBeCalled();
-    expect(earlyFinishPageView).toBeCalledTimes(1);
-    expect(dispatchEvent).not.toBeCalled();
+    expect(finishPageView).not.toHaveBeenCalled();
+    expect(earlyFinishPageView).toHaveBeenCalledTimes(1);
+    expect(dispatchEvent).not.toHaveBeenCalled();
   });
 });
