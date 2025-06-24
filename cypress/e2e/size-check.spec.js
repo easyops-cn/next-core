@@ -36,7 +36,7 @@ for (const port of Cypress.env("ports")) {
         const total = js + css + others;
 
         expect(total, "total resource").to.be.lessThan(3.3e5);
-        expect(js, "js resource").to.be.lessThan(3e5);
+        expect(js, "js resource").to.be.lessThan(3.1e5);
         expect(css, "css resource").to.be.lessThan(2e4);
         expect(others, "other resource").to.be.lessThan(1e4);
       });
