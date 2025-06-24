@@ -1403,12 +1403,12 @@ describe("debugDataValue", () => {
 
 describe("getLegalRuntimeValue", () => {
   const originLocation = window.location;
-
+  delete (window as any).location;
   window.location = {
-    href: "https://dev-easyops.cn/home/Host",
-    origin: "https://dev-easyops.cn",
-    hostname: "admin.easyops.local",
-    host: "admin.easyops.local",
+    href: "http://localhost/",
+    origin: "http://localhost",
+    hostname: "localhost",
+    host: "localhost",
   } as any;
 
   jest.spyOn(routeMatchedMap, "getMatchedRoute").mockReturnValueOnce({
@@ -1452,5 +1452,5 @@ describe("getLegalRuntimeValue", () => {
     query: {},
     sys: { org: 8888, username: "easyops" },
   });
-  window.location = originLocation;
+  (window as any).location = originLocation;
 });
