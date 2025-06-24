@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.58](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.57...@next-core/preview@0.7.58) (2025-05-29)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.57](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.56...@next-core/preview@0.7.57) (2025-04-30)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.56](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.55...@next-core/preview@0.7.56) (2025-04-22)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.55](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.54...@next-core/preview@0.7.55) (2025-04-17)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.54](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.53...@next-core/preview@0.7.54) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.53](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.52...@next-core/preview@0.7.53) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.52](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.51...@next-core/preview@0.7.52) (2025-03-24)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
 ## [0.7.51](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.50...@next-core/preview@0.7.51) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/preview

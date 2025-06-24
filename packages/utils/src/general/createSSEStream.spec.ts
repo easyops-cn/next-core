@@ -139,6 +139,53 @@ describe("createSSEStream", () => {
     expect(consoleError).toHaveBeenCalledWith("open error", "Internal Error");
   });
 
+  test("open error with json error", async () => {
+    mockFetchEventSource.mockImplementation(async (_url, options) => {
+      const { onopen, onerror } = options;
+      await Promise.resolve();
+      try {
+        await onopen?.({
+          ok: false,
+          statusText: "Internal Error",
+          text: () =>
+            Promise.resolve(
+              JSON.stringify({
+                error: "Something went wrong",
+              })
+            ),
+        } as Response);
+      } catch (e) {
+        await onerror?.(e);
+      }
+    });
+    await expect(createSSEStream(url)).rejects.toMatchInlineSnapshot(
+      `[Error: Something went wrong]`
+    );
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("open error", "Internal Error");
+  });
+
+  test("open error with non-json error", async () => {
+    mockFetchEventSource.mockImplementation(async (_url, options) => {
+      const { onopen, onerror } = options;
+      await Promise.resolve();
+      try {
+        await onopen?.({
+          ok: false,
+          statusText: "Internal Error",
+          text: () => Promise.resolve("Oops"),
+        } as Response);
+      } catch (e) {
+        await onerror?.(e);
+      }
+    });
+    await expect(createSSEStream(url)).rejects.toMatchInlineSnapshot(
+      `[Error: Oops]`
+    );
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("open error", "Internal Error");
+  });
+
   test("message error", async () => {
     mockFetchEventSource.mockImplementation(async (_url, options) => {
       const { onopen, onmessage } = options;

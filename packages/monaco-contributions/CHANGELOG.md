@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.13...@next-core/monaco-contributions@0.3.14) (2025-03-25)
+
+
+### Bug Fixes
+
+* **yaml:** fix expression highlight with multi line string literal ([6fa3b4a](https://github.com/easyops-cn/next-core/commit/6fa3b4a042b818bb46cc37c82c5203494e03e495))
+
+
+
+
+
 ## [0.3.13](https://github.com/easyops-cn/next-core/compare/@next-core/monaco-contributions@0.3.12...@next-core/monaco-contributions@0.3.13) (2024-11-01)
 
 

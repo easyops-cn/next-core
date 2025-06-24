@@ -33,11 +33,11 @@ class {{>className}} extends ReactNextElement implements {{>className}}Props {
   }
 }
 
-export interface {{>className}}ComponentProps extends {{>className}}Props {
+interface {{>className}}ComponentProps extends {{>className}}Props {
   // Define react event handlers here.
 }
 
-export function {{>className}}Component(props: {{>className}}ComponentProps) {
+function {{>className}}Component(props: {{>className}}ComponentProps) {
 {{#if useI18n}}
   const hello = t(K.HELLO);
   return <div>{hello} world!</div>;

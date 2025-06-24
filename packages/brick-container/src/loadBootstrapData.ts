@@ -13,7 +13,10 @@ import type {
 import { deepFreeze, hasOwnProperty } from "@next-core/utils/general";
 import { merge } from "lodash";
 import { JSON_SCHEMA, safeLoad } from "js-yaml";
-import { RuntimeApi_runtimeMicroAppStandalone } from "@next-api-sdk/micro-app-standalone-sdk";
+import {
+  RuntimeApi_runtimeMicroAppStandalone,
+  RuntimeApi_RuntimeMicroAppStandaloneResponseBody,
+} from "@next-api-sdk/micro-app-standalone-sdk";
 import { imagesFactory } from "./images.js";
 import { registerMocks } from "./mocks.js";
 import { i18n } from "@next-core/i18n";
@@ -124,10 +127,7 @@ function mergeConf(
     const { sys_settings, user_config, user_config_by_apps } = conf;
     if (sys_settings) {
       const { feature_flags: featureFlags, ...rest } = sys_settings;
-      bootstrapResult.settings = {
-        featureFlags,
-        ...rest,
-      } as BootstrapSettings;
+      bootstrapResult.settings = { featureFlags, ...rest } as BootstrapSettings;
     }
     if (user_config && bootstrapResult.storyboards.length === 1) {
       bootstrapResult.storyboards[0].app.userConfig = user_config;
@@ -174,27 +174,15 @@ function mergeRuntimeSettings(
   // Merge Feature Flags & Misc
   const { featureFlags, misc, ...rest } = runtimeSettings;
   const settings = (bootstrapResult.settings ??= {});
-  settings.featureFlags = {
-    ...settings.featureFlags,
-    ...featureFlags,
-  };
-  settings.misc = {
-    ...settings.misc,
-    ...misc,
-  };
+  settings.featureFlags = { ...settings.featureFlags, ...featureFlags };
+  settings.misc = { ...settings.misc, ...misc };
   Object.assign(settings, rest);
 }
 
 const appRuntimeDataMap = new Map<
   string,
-  Promise<RuntimeMicroAppStandaloneData | undefined>
+  Promise<RuntimeApi_RuntimeMicroAppStandaloneResponseBody | void>
 >();
-
-interface RuntimeMicroAppStandaloneData {
-  userConfig?: Record<string, unknown>;
-  // injectMenus?: MenuRawData[];
-  injectMenus?: any[];
-}
 
 async function safeGetRuntimeMicroAppStandalone(
   appId: string,
@@ -204,7 +192,7 @@ async function safeGetRuntimeMicroAppStandalone(
     return appRuntimeDataMap.get(appId);
   }
   const promise = RuntimeApi_runtimeMicroAppStandalone(appId, {
-    params: { version },
+    version,
   }).catch((error) => {
     // make it not crash when the backend service is not updated.
     // eslint-disable-next-line no-console
@@ -213,7 +201,7 @@ async function safeGetRuntimeMicroAppStandalone(
       error,
       ", something might went wrong running standalone micro app"
     );
-  }) as Promise<RuntimeMicroAppStandaloneData | undefined>;
+  });
   appRuntimeDataMap.set(appId, promise);
   return promise;
 }
@@ -243,7 +231,7 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
         storyboard.app.currentVersion
       );
       if (appRuntimeData) {
-        const { userConfig, injectMenus } = appRuntimeData;
+        const { userConfig, injectMenus, blackList } = appRuntimeData;
         // Merge `app.defaultConfig` and `app.userConfig` to `app.config`.
         storyboard.app.userConfig = {
           ...storyboard.app.userConfig,
@@ -257,6 +245,7 @@ export async function fulfilStoryboard(storyboard: RuntimeStoryboard) {
         storyboard.meta = {
           ...storyboard.meta,
           injectMenus,
+          blackList,
         };
       }
     }
@@ -283,10 +272,7 @@ function initializeAppConfig(app: MicroApp) {
   const mergedConfig =
     (app.userConfig?.__merge_method ?? app.defaultConfig?.__merge_method) ===
     "override"
-      ? {
-          ...app.defaultConfig,
-          ...app.userConfig,
-        }
+      ? { ...app.defaultConfig, ...app.userConfig }
       : merge({}, app.defaultConfig, app.userConfig);
   app.config = deepFreeze(mergedConfig);
 }

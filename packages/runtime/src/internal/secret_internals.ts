@@ -37,7 +37,6 @@ import type {
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
-import { computeRealValue } from "./compute/computeRealValue.js";
 import { isStrictMode } from "../isStrictMode.js";
 import { customTemplates } from "../CustomTemplates.js";
 import { registerAppI18n } from "./registerAppI18n.js";
@@ -47,7 +46,6 @@ import {
   loadEditorsImperatively,
 } from "@next-core/loader";
 import { getMatchedRoute } from "./routeMatchedMap.js";
-import { getV2RuntimeFromDll } from "../getV2RuntimeFromDll.js";
 
 export type { DataValueOption, RuntimeContext };
 
@@ -176,31 +174,6 @@ export function unmountUseBrick(
   }
   rendererContext.dispatchOnUnmount();
   rendererContext.dispose();
-}
-
-/** For v2 compatibility of `doTransform` from brick-kit. */
-export function legacyDoTransform(
-  data: unknown,
-  to: unknown,
-  options?: unknown
-) {
-  const v2Kit = getV2RuntimeFromDll();
-  if (v2Kit) {
-    return v2Kit.doTransform(data, to, options);
-  }
-  if (options) {
-    throw new Error("Legacy doTransform does not support options in v3");
-  }
-  return computeRealValue(
-    to,
-    {
-      ..._internalApiGetRuntimeContext()!,
-      data,
-    },
-    {
-      noInject: true,
-    }
-  );
 }
 
 export function updateStoryboard(
@@ -506,3 +479,9 @@ export {
   setRealTimeDataInspectRoot,
   addRealTimeDataInspectHook,
 } from "./data/realTimeDataInspect.js";
+
+export {
+  legacyDoTransform,
+  legacyTransformProperties,
+  legacyTransformIntermediateData,
+} from "./legacy_transform.js";

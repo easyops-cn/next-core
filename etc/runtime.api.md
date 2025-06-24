@@ -51,7 +51,6 @@ declare namespace __secret_internals {
         renderUseBrick,
         mountUseBrick,
         unmountUseBrick,
-        legacyDoTransform,
         updateStoryboard,
         updateStoryboardByRoute,
         updateStoryboardByTemplate,
@@ -74,7 +73,10 @@ declare namespace __secret_internals {
         MountUseBrickResult,
         updateSnippetPreviewSettings,
         setRealTimeDataInspectRoot,
-        addRealTimeDataInspectHook
+        addRealTimeDataInspectHook,
+        legacyDoTransform,
+        legacyTransformProperties,
+        legacyTransformIntermediateData
     }
 }
 export { __secret_internals }
@@ -117,6 +119,7 @@ export interface CreateRootOptions {
     portal?: HTMLElement;
     scope?: "page" | "fragment";
     unknownBricks?: "silent" | "throw";
+    unsafe_penetrate?: boolean;
 }
 
 // Warning: (ae-forgotten-export) The symbol "Runtime" needs to be exported by the entry point index.d.ts
@@ -258,6 +261,31 @@ export function isUnauthenticatedError(error: unknown): boolean;
 
 // @public
 function legacyDoTransform(data: unknown, to: unknown, options?: unknown): unknown;
+
+// @public (undocumented)
+export type LegacyGeneralTransform = string | LegacyTransformMap | LegacyTransformItem[] | null | undefined;
+
+// @public
+function legacyTransformIntermediateData(data: unknown, to: LegacyGeneralTransform, from?: string | string[], mapArray?: boolean | "auto"): unknown;
+
+// @public (undocumented)
+export interface LegacyTransformItem {
+    // (undocumented)
+    from?: string | string[];
+    // (undocumented)
+    mapArray?: boolean | "auto";
+    // (undocumented)
+    to: string | LegacyTransformMap;
+}
+
+// @public (undocumented)
+export interface LegacyTransformMap {
+    // (undocumented)
+    [propName: string]: unknown;
+}
+
+// @public
+function legacyTransformProperties(props: Record<string, unknown>, data: unknown, to: LegacyGeneralTransform, from?: string | string[], mapArray?: boolean | "auto", options?: unknown): Record<string, unknown>;
 
 // @public
 function loadBricks(bricks: string[]): Promise<void>;
@@ -431,6 +459,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     tplStateStoreMap: Map<string, DataStore<"STATE">>;
     // (undocumented)
     tplStateStoreScope?: DataStore<"STATE">[];
+    // (undocumented)
+    unsafe_penetrate?: boolean;
 }
 
 // @public (undocumented)
@@ -441,6 +471,7 @@ export interface RuntimeHooks {
         isLoggedIn(): boolean;
         authenticate?(...args: unknown[]): unknown;
         logout?(...args: unknown[]): unknown;
+        addPathToBlackList?(path: string): void;
         isBlockedPath?(pathname: string): boolean;
     };
     // (undocumented)
@@ -555,7 +586,7 @@ const symbolForRootRuntimeContext: unique symbol;
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
 
 // @public (undocumented)
-export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks }?: CreateRootOptions): {
+export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks, unsafe_penetrate, }?: CreateRootOptions): {
     render(brick: BrickConf | BrickConf[], { theme, uiVersion, language, context, functions, templates, i18n: i18nData, url, app, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };
@@ -587,7 +618,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
 // dist/types/StoryboardFunctionRegistry.d.ts:48:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
-// dist/types/internal/Runtime.d.ts:35:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
+// dist/types/internal/Runtime.d.ts:36:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

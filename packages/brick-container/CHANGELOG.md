@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.21.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.14...@next-core/brick-container@3.21.0) (2025-05-29)
+
+
+### Features
+
+* **Router:** Add support for blacklist in app runtime data ([1158c96](https://github.com/easyops-cn/next-core/commit/1158c961308537b9cc78b5200cabb9e62e8de64f))
+
+
+
+
+
+## [3.20.14](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.13...@next-core/brick-container@3.20.14) (2025-04-30)
+
+
+### Bug Fixes
+
+* fix cookie same site issue ([96c20c7](https://github.com/easyops-cn/next-core/commit/96c20c7d8d919b13a58f99990a904cedf2fba203))
+
+
+
+
+
+## [3.20.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.12...@next-core/brick-container@3.20.13) (2025-04-22)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.20.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.11...@next-core/brick-container@3.20.12) (2025-04-17)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.20.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.10...@next-core/brick-container@3.20.11) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.20.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.9...@next-core/brick-container@3.20.10) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
+## [3.20.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.8...@next-core/brick-container@3.20.9) (2025-03-24)
+
+**Note:** Version bump only for package @next-core/brick-container
+
+
+
+
+
 ## [3.20.8](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.20.7...@next-core/brick-container@3.20.8) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/brick-container

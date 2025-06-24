@@ -125,6 +125,7 @@ export interface AnnotationPropertySignature {
   kind?: "get" | "set";
   description?: string;
   deprecated?: boolean | string;
+  default?: string;
 }
 
 export interface AnnotationMethodSignature {

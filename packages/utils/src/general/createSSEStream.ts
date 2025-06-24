@@ -62,7 +62,24 @@ export async function createSSEStream<T = unknown>(
         } else {
           // eslint-disable-next-line no-console
           console.error("open error", response.statusText);
-          throw new Error(response.statusText);
+          let text: string;
+          try {
+            text = await response.text();
+          } catch {
+            throw new Error(response.statusText);
+          }
+
+          let json: any;
+          try {
+            json = JSON.parse(text);
+          } catch {
+            // Do nothing
+          }
+
+          if (typeof json?.error === "string") {
+            throw new Error(json.error);
+          }
+          throw new Error(text);
         }
       },
       onmessage(msg) {

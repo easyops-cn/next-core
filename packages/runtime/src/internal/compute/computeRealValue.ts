@@ -1,3 +1,4 @@
+import { omit, pick } from "lodash";
 import { isEvaluable } from "@next-core/cook";
 import { hasOwnProperty, isObject } from "@next-core/utils/general";
 import { transformAndInject, transform, inject } from "@next-core/inject";
@@ -14,6 +15,16 @@ import {
   isLazyContentInUseBrick,
 } from "./getNextStateOfUseBrick.js";
 import { hasBeenComputed, markAsComputed } from "./markAsComputed.js";
+import { _internalApiGetRuntimeContext } from "../Runtime.js";
+
+const penetrableCtxNames = [
+  "app",
+  "location",
+  "query",
+  "match",
+  "flags",
+  "sys",
+] as const;
 
 export interface ComputeOptions {
   $$lazyForUseBrick?: boolean;
@@ -42,16 +53,25 @@ export async function asyncComputeRealValue(
     if (preEvaluated || isEvaluable(value as string)) {
       result = await asyncEvaluate(value, runtimeContext, { lazy });
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
+    } else if (lazy) {
+      result = value;
     } else {
-      result = lazy
-        ? value
-        : (hasOwnProperty(runtimeContext, "data")
-            ? internalOptions.noInject
-              ? transform
-              : transformAndInject
-            : internalOptions.noInject
+      const penetrableCtx = runtimeContext.unsafe_penetrate
+        ? ({
+            ...pick(_internalApiGetRuntimeContext(), penetrableCtxNames),
+            ...omit(runtimeContext, penetrableCtxNames),
+          } as RuntimeContext)
+        : runtimeContext;
+
+      result = (
+        hasOwnProperty(penetrableCtx, "data")
+          ? internalOptions.noInject
+            ? transform
+            : transformAndInject
+          : internalOptions.noInject
             ? identity
-            : inject)(value, runtimeContext);
+            : inject
+      )(value, penetrableCtx);
     }
 
     if (!dismissMarkingComputed) {
@@ -121,16 +141,25 @@ export function computeRealValue(
     if (preEvaluated || isEvaluable(value as string)) {
       result = evaluate(value, runtimeContext);
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
+    } else if (lazy) {
+      result = value;
     } else {
-      result = lazy
-        ? value
-        : (hasOwnProperty(runtimeContext, "data")
-            ? internalOptions.noInject
-              ? transform
-              : transformAndInject
-            : internalOptions.noInject
+      const penetrableCtx = runtimeContext.unsafe_penetrate
+        ? ({
+            ...pick(_internalApiGetRuntimeContext(), penetrableCtxNames),
+            ...omit(runtimeContext, penetrableCtxNames),
+          } as RuntimeContext)
+        : runtimeContext;
+
+      result = (
+        hasOwnProperty(penetrableCtx, "data")
+          ? internalOptions.noInject
+            ? transform
+            : transformAndInject
+          : internalOptions.noInject
             ? identity
-            : inject)(value, runtimeContext);
+            : inject
+      )(value, penetrableCtx);
     }
 
     if (!dismissMarkingComputed) {

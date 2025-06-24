@@ -29,6 +29,7 @@ import { devtoolsHookEmit, getDevHook } from "../devtools.js";
 import { getMedia } from "../mediaQuery.js";
 import { getStorageItem } from "./getStorageItem.js";
 import {
+  _internalApiGetRuntimeContext,
   _internalApiGetStoryboardInBootstrapData,
   getBrickPackages,
   getRuntime,
@@ -204,7 +205,7 @@ function lowLevelEvaluate(
     };
   }
 
-  let usedCtx: Set<string>;
+  let usedCtx: Set<string> | undefined;
   let usedProcessors: Set<string>;
   let usedStates: Set<string>;
   let tplStateStore: DataStore<"STATE"> | undefined;
@@ -302,6 +303,12 @@ function lowLevelEvaluate(
   return {
     blockingList,
     run() {
+      const { ctxStore, data, event, unsafe_penetrate } = runtimeContext;
+
+      const penetrableCtx = unsafe_penetrate
+        ? _internalApiGetRuntimeContext()!
+        : runtimeContext;
+
       const {
         app: currentApp,
         location,
@@ -309,11 +316,8 @@ function lowLevelEvaluate(
         match,
         flags,
         sys,
-        ctxStore,
-        data,
-        event,
-      } = runtimeContext;
-      const app = runtimeContext.overrideApp ?? currentApp;
+      } = penetrableCtx;
+      const app = penetrableCtx.overrideApp ?? currentApp;
 
       for (const variableName of attemptToVisitGlobals) {
         switch (variableName) {
@@ -335,10 +339,18 @@ function lowLevelEvaluate(
           case "CTX":
             globalVariables[variableName] = getDynamicReadOnlyProxy({
               get(_target, key) {
+                // Allow accessing global `CTX.DS` from an isolated root such as dashboard.
+                if (key === "DS" && !ctxStore.has(key)) {
+                  const internalCtxStore =
+                    _internalApiGetRuntimeContext()?.ctxStore;
+                  if (internalCtxStore?.has(key)) {
+                    return internalCtxStore.getValue(key);
+                  }
+                }
                 return ctxStore.getValue(key as string);
               },
               ownKeys() {
-                return Array.from(usedCtx);
+                return usedCtx ? Array.from(usedCtx) : [];
               },
             });
             break;

@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.97](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.96...@next-core/yo@1.5.97) (2025-06-06)
+
+
+### Bug Fixes
+
+* refine brick template ([7790492](https://github.com/easyops-cn/next-core/commit/77904920d682eb70505edb3a482b536f2bed691d))
+
+
+
+
+
+## [1.5.96](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.95...@next-core/yo@1.5.96) (2025-05-29)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.95](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.94...@next-core/yo@1.5.95) (2025-04-30)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.94](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.93...@next-core/yo@1.5.94) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.93](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.92...@next-core/yo@1.5.93) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.92](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.91...@next-core/yo@1.5.92) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/yo

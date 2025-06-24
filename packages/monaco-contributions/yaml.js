@@ -299,6 +299,18 @@ export const language = {
           },
         ],
       ],
+      [
+        /(\s*)(<%[~=]?)$/,
+        [
+          "white",
+          {
+            token: "delimiter",
+            bracket: "@open",
+            next: "@expressionEmbedded",
+            nextEmbedded: "text/javascript",
+          },
+        ],
+      ],
     ],
 
     multiExpression: [

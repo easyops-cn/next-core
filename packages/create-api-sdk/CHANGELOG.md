@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.33](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.32...@next-core/create-api-sdk@1.0.33) (2025-03-21)
+
+
+### Bug Fixes
+
+* support custom service name ([1ad16d1](https://github.com/easyops-cn/next-core/commit/1ad16d1ce316dc5111aed57510798ca45d78fdeb))
+
+
+
+
+
+## [1.0.32](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.31...@next-core/create-api-sdk@1.0.32) (2025-03-21)
+
+**Note:** Version bump only for package @next-core/create-api-sdk
+
+
+
+
+
 ## [1.0.31](https://github.com/easyops-cn/next-core/compare/@next-core/create-api-sdk@1.0.30...@next-core/create-api-sdk@1.0.31) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/create-api-sdk

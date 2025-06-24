@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.3...@next-core/brick-playground@1.16.4) (2025-05-29)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.16.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.2...@next-core/brick-playground@1.16.3) (2025-04-30)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.16.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.1...@next-core/brick-playground@1.16.2) (2025-04-22)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.16.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.0...@next-core/brick-playground@1.16.1) (2025-04-17)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+# [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.58...@next-core/brick-playground@1.16.0) (2025-04-14)
+
+
+### Features
+
+* support api mocks in playground ([c55e2e3](https://github.com/easyops-cn/next-core/commit/c55e2e36488209a851e6e0d72449614487e54905))
+
+
+
+
+
+## [1.15.58](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.57...@next-core/brick-playground@1.15.58) (2025-04-02)
+
+
+### Bug Fixes
+
+* **playground:** support spell check ([944151b](https://github.com/easyops-cn/next-core/commit/944151b2bf01125808c5d161c1fe26ce28fb0449))
+
+
+
+
+
+## [1.15.57](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.56...@next-core/brick-playground@1.15.57) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.15.56](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.55...@next-core/brick-playground@1.15.56) (2025-03-27)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.15.55](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.54...@next-core/brick-playground@1.15.55) (2025-03-25)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
+## [1.15.54](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.53...@next-core/brick-playground@1.15.54) (2025-03-24)
+
+**Note:** Version bump only for package @next-core/brick-playground
+
+
+
+
+
 ## [1.15.53](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.15.52...@next-core/brick-playground@1.15.53) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/brick-playground
