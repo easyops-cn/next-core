@@ -34,19 +34,19 @@ describe("Notification", () => {
       type: "success",
       message: "Done!",
     });
-    expect(notificationService).toBeCalledWith({
+    expect(notificationService).toHaveBeenCalledWith({
       type: "success",
       message: "Done!",
     });
-    expect(spyOnModalAlert).not.toBeCalled();
+    expect(spyOnModalAlert).not.toHaveBeenCalled();
   });
 
   test("error: fallback", async () => {
     consoleError.mockReturnValueOnce();
     loadNotificationService("undefined-notification", loader);
     await (global as any).flushPromises();
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       "Load notification service failed:",
       "oops"
     );
@@ -56,8 +56,8 @@ describe("Notification", () => {
       type: "error",
       message: "Ouch!",
     });
-    expect(notificationService).not.toBeCalled();
-    expect(spyOnModalAlert).toBeCalledTimes(1);
-    expect(spyOnModalAlert).toBeCalledWith("Ouch!");
+    expect(notificationService).not.toHaveBeenCalled();
+    expect(spyOnModalAlert).toHaveBeenCalledTimes(1);
+    expect(spyOnModalAlert).toHaveBeenCalledWith("Ouch!");
   });
 });

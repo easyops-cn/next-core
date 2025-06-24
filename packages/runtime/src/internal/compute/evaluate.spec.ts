@@ -362,7 +362,7 @@ describe("evaluate", () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"ITEM is not defined, in "<% ITEM %>""`
     );
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
   test("Access QUERY but no query in context", () => {

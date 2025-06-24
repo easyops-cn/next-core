@@ -140,7 +140,7 @@ describe("historyExtended", () => {
     (callerArgs, calleeArgs) => {
       ext = historyExtended(history);
       ext.pushQuery(...callerArgs);
-      expect(history.push).toBeCalledWith(...calleeArgs);
+      expect(history.push).toHaveBeenCalledWith(...calleeArgs);
     }
   );
 
@@ -169,7 +169,7 @@ describe("historyExtended", () => {
     (callerArgs, calleeArgs) => {
       ext = historyExtended(history);
       ext.replaceQuery(...callerArgs);
-      expect(history.replace).toBeCalledWith(...calleeArgs);
+      expect(history.replace).toHaveBeenCalledWith(...calleeArgs);
     }
   );
 
@@ -220,7 +220,7 @@ describe("historyExtended", () => {
     (callerArgs, loc) => {
       ext = historyExtended(history);
       ext.pushAnchor(...callerArgs);
-      expect(history.push).toBeCalledWith(loc, undefined);
+      expect(history.push).toHaveBeenCalledWith(loc, undefined);
     }
   );
 
@@ -229,7 +229,7 @@ describe("historyExtended", () => {
     ext = historyExtended(history);
     const callback = jest.fn();
     ext.reload(callback);
-    expect(history.replace).toBeCalledWith(
+    expect(history.replace).toHaveBeenCalledWith(
       {
         pathname: "/a",
         search: "?b=1",
@@ -243,7 +243,7 @@ describe("historyExtended", () => {
       },
       undefined
     );
-    expect(callback).toBeCalledWith(false);
+    expect(callback).toHaveBeenCalledWith(false);
   });
 
   it("should work for callback of history.push", () => {
@@ -251,16 +251,16 @@ describe("historyExtended", () => {
     ext = historyExtended(history);
     const callback = jest.fn();
     ext.push("/a", undefined, callback);
-    expect(history.push).toBeCalledWith("/a", undefined);
-    expect(callback).toBeCalledWith(false);
+    expect(history.push).toHaveBeenCalledWith("/a", undefined);
+    expect(callback).toHaveBeenCalledWith(false);
   });
 
   it("should work for callback of history.replace", () => {
     ext = historyExtended(history);
     const callback = jest.fn();
     ext.replace("/a", { notify: false }, callback);
-    expect(history.replace).toBeCalledWith("/a", { notify: false });
-    expect(callback).toBeCalledWith(false);
+    expect(history.replace).toHaveBeenCalledWith("/a", { notify: false });
+    expect(callback).toHaveBeenCalledWith(false);
   });
 
   it.each<
@@ -296,7 +296,7 @@ describe("historyExtended", () => {
       mockIsOutsideApp.mockReturnValueOnce(false);
       ext = historyExtended(history);
       ext[method](...callerArgs);
-      expect(history[method]).toBeCalledWith(...calleeArgs);
+      expect(history[method]).toHaveBeenCalledWith(...calleeArgs);
     }
   );
 
@@ -325,7 +325,7 @@ describe("historyExtended", () => {
       ext[method](...callerArgs);
       expect(
         window.location[method === "push" ? "assign" : "replace"]
-      ).toBeCalledWith(url);
+      ).toHaveBeenCalledWith(url);
     }
   );
 });
@@ -335,6 +335,6 @@ describe("getUserConfirmation", () => {
     const callback = jest.fn();
     jest.spyOn(window, "confirm").mockReturnValueOnce(true);
     getUserConfirmation("hello", callback);
-    expect(callback).toBeCalledWith(true);
+    expect(callback).toHaveBeenCalledWith(true);
   });
 });

@@ -173,7 +173,7 @@ describe("setWatermark", () => {
     };
     await setWatermark();
 
-    expect(mockResolve).not.toBeCalled();
+    expect(mockResolve).not.toHaveBeenCalled();
   });
 
   it("watermark should not be called when content is empty", async () => {
@@ -186,6 +186,6 @@ describe("setWatermark", () => {
     };
     await setWatermark();
 
-    expect(mockResolve).not.toBeCalled();
+    expect(mockResolve).not.toHaveBeenCalled();
   });
 });

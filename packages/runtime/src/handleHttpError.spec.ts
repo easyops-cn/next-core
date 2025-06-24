@@ -123,15 +123,15 @@ describe("handleHttpError", () => {
     handleHttpError(error);
     // Mock triggering the same error twice.
     handleHttpError(error);
-    expect(Dialog.show).toBeCalledTimes(1);
+    expect(Dialog.show).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
-    expect(Dialog.show).toBeCalledWith(
+    expect(Dialog.show).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "error",
         content: "Error: oops",
       })
     );
-    expect(consoleError).toBeCalledTimes(2);
+    expect(consoleError).toHaveBeenCalledTimes(2);
     consoleError.mockReset();
   });
 
@@ -146,19 +146,19 @@ describe("handleHttpError", () => {
     handleHttpError(error);
     // Mock triggering the same error twice.
     handleHttpError(error);
-    expect(Dialog.show).toBeCalledTimes(1);
-    expect(Dialog.show).toBeCalledWith(
+    expect(Dialog.show).toHaveBeenCalledTimes(1);
+    expect(Dialog.show).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "confirm",
       })
     );
     await (global as any).flushPromises();
-    expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
+    expect(spyOnHistoryPush).toHaveBeenCalledWith("/auth/login", {
       from: {
         pathname: "/no-where",
       },
     });
-    expect(consoleError).not.toBeCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   it("should handle unauthenticated errors and redirect to sso login page", async () => {
@@ -170,19 +170,19 @@ describe("handleHttpError", () => {
       code: 100003,
     });
     handleHttpError(error);
-    expect(Dialog.show).toBeCalledTimes(1);
-    expect(Dialog.show).toBeCalledWith(
+    expect(Dialog.show).toHaveBeenCalledTimes(1);
+    expect(Dialog.show).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "confirm",
       })
     );
     await (global as any).flushPromises();
-    expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
+    expect(spyOnHistoryPush).toHaveBeenCalledWith("/sso-auth/login", {
       from: {
         pathname: "/no-where",
       },
     });
-    expect(consoleError).not.toBeCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   it("should handle unauthenticated errors and redirect to general login page", async () => {
@@ -194,15 +194,15 @@ describe("handleHttpError", () => {
       code: 100003,
     });
     handleHttpError(error);
-    expect(Dialog.show).toBeCalledTimes(1);
-    expect(Dialog.show).toBeCalledWith(
+    expect(Dialog.show).toHaveBeenCalledTimes(1);
+    expect(Dialog.show).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "confirm",
       })
     );
     await (global as any).flushPromises();
-    expect(spyOnHistoryPush).not.toBeCalled();
-    expect(consoleError).not.toBeCalled();
+    expect(spyOnHistoryPush).not.toHaveBeenCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   it("should not show modal to go to login page when unauthenticated error occurs while NO_AUTH_GUARD is enabled", () => {
@@ -213,17 +213,17 @@ describe("handleHttpError", () => {
     });
     showDialog.mockResolvedValueOnce();
     handleHttpError(error);
-    expect(Dialog.show).toBeCalledWith(
+    expect(Dialog.show).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "error",
         content: "HttpResponseError",
       })
     );
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
   it("should return undefined if abort http request", () => {
     handleHttpError(new HttpAbortError("The user aborted a request."));
-    expect(Dialog.show).not.toBeCalled();
+    expect(Dialog.show).not.toHaveBeenCalled();
   });
 });

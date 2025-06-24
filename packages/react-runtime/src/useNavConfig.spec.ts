@@ -33,7 +33,7 @@ describe("useNavConfig", () => {
     expect(result.current).toEqual({ breadcrumb: [{ text: "Test" }] });
 
     unmount();
-    expect(spyOnRemoveEventListener).toBeCalledWith(
+    expect(spyOnRemoveEventListener).toHaveBeenCalledWith(
       ...spyOnAddEventListener.mock.calls[0]
     );
   });

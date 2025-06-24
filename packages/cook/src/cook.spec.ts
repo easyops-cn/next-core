@@ -328,7 +328,7 @@ describe("evaluate", () => {
     }) as Function;
 
     func(1);
-    expect(beforeEvaluate).toBeCalledTimes(14);
+    expect(beforeEvaluate).toHaveBeenCalledTimes(14);
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -354,25 +354,25 @@ describe("evaluate", () => {
         value: true,
       })
     );
-    expect(beforeEvaluate).not.toBeCalledWith(
+    expect(beforeEvaluate).not.toHaveBeenCalledWith(
       expect.objectContaining({
         type: "Literal",
         value: false,
       })
     );
-    expect(beforeEvaluate).not.toBeCalledWith(
+    expect(beforeEvaluate).not.toHaveBeenCalledWith(
       expect.objectContaining({
         type: "ThrowStatement",
       })
     );
-    expect(beforeCall).toBeCalledTimes(1);
-    expect(beforeCall).toBeCalledWith(
+    expect(beforeCall).toHaveBeenCalledTimes(1);
+    expect(beforeCall).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "FunctionDeclaration",
       })
     );
-    expect(beforeBranch).toBeCalledTimes(1);
-    expect(beforeBranch).toBeCalledWith(
+    expect(beforeBranch).toHaveBeenCalledTimes(1);
+    expect(beforeBranch).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "IfStatement",
       }),
@@ -381,7 +381,7 @@ describe("evaluate", () => {
 
     jest.clearAllMocks();
     func(0);
-    expect(beforeEvaluate).toBeCalledTimes(12);
+    expect(beforeEvaluate).toHaveBeenCalledTimes(12);
     expect(beforeEvaluate).toHaveBeenNthCalledWith(
       7,
       expect.objectContaining({
@@ -401,14 +401,14 @@ describe("evaluate", () => {
         value: null,
       })
     );
-    expect(beforeCall).toBeCalledTimes(1);
-    expect(beforeCall).toBeCalledWith(
+    expect(beforeCall).toHaveBeenCalledTimes(1);
+    expect(beforeCall).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "FunctionDeclaration",
       })
     );
-    expect(beforeBranch).toBeCalledTimes(1);
-    expect(beforeBranch).toBeCalledWith(
+    expect(beforeBranch).toHaveBeenCalledTimes(1);
+    expect(beforeBranch).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "IfStatement",
       }),

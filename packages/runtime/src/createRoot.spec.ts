@@ -29,8 +29,8 @@ describe("preview", () => {
 
     expect(container.innerHTML).toBe("<div>Hello Preview</div>");
     expect(portal.innerHTML).toBe("");
-    expect(applyTheme).not.toBeCalled();
-    expect(scrollTo).not.toBeCalled();
+    expect(applyTheme).not.toHaveBeenCalled();
+    expect(scrollTo).not.toHaveBeenCalled();
 
     root.unmount();
     expect(container.innerHTML).toBe("");
@@ -63,8 +63,8 @@ describe("preview", () => {
     expect(container.innerHTML).toBe("<div>Hello Preview</div>");
     expect(portal.innerHTML).toBe("");
     expect(document.body.lastElementChild?.innerHTML).toBe("<p>I'm portal</p>");
-    expect(applyTheme).not.toBeCalled();
-    expect(scrollTo).not.toBeCalled();
+    expect(applyTheme).not.toHaveBeenCalled();
+    expect(scrollTo).not.toHaveBeenCalled();
 
     root.unmount();
     expect(container.innerHTML).toBe("");
@@ -126,8 +126,8 @@ describe("preview", () => {
       "<div>Goodbye Preview</div>"
     );
     expect(portal.innerHTML).toBe("<p>I'm also portal</p>");
-    expect(applyTheme).toBeCalledTimes(1);
-    expect(scrollTo).toBeCalledTimes(1);
+    expect(applyTheme).toHaveBeenCalledTimes(1);
+    expect(scrollTo).toHaveBeenCalledTimes(1);
 
     await root.render(bricks, {
       ...options,
@@ -209,10 +209,10 @@ describe("preview", () => {
 
     expect(container.innerHTML).toBe("<unknown-brick>silence</unknown-brick>");
     expect(portal.innerHTML).toBe("");
-    expect(applyTheme).not.toBeCalled();
-    expect(scrollTo).not.toBeCalled();
+    expect(applyTheme).not.toHaveBeenCalled();
+    expect(scrollTo).not.toHaveBeenCalled();
 
-    expect(consoleError).toBeCalledTimes(2);
+    expect(consoleError).toHaveBeenCalledTimes(2);
     expect(consoleError).toHaveBeenNthCalledWith(
       1,
       "Package for unknown-brick not found."
@@ -243,8 +243,8 @@ describe("preview", () => {
       '<div data-error-boundary=""><div>UNKNOWN_ERROR: ReferenceError: QUERY is not defined, in "&lt;% QUERY.q %&gt;"</div></div>'
     );
     expect(portal.innerHTML).toBe("");
-    expect(applyTheme).not.toBeCalled();
-    expect(scrollTo).not.toBeCalled();
+    expect(applyTheme).not.toHaveBeenCalled();
+    expect(scrollTo).not.toHaveBeenCalled();
 
     root.unmount();
     expect(container.innerHTML).toBe("");

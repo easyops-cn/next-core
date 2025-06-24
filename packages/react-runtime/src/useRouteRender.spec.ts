@@ -27,7 +27,7 @@ describe("useRouteRender", () => {
     });
 
     unmount();
-    expect(spyOnRemoveEventListener).toBeCalledWith(
+    expect(spyOnRemoveEventListener).toHaveBeenCalledWith(
       ...spyOnAddEventListener.mock.calls[0]
     );
   });

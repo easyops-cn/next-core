@@ -60,7 +60,7 @@ describe("resolveData", () => {
       runtimeContext
     );
     expect(result).toEqual("a");
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
 
     ctxStore.updateValue("current", "b", "replace");
     const result2 = await resolveData(
@@ -72,7 +72,7 @@ describe("resolveData", () => {
     );
     expect(result2).toEqual("b");
     // The actual args are changed, so the cache doesn't hit.
-    expect(myTimeoutProvider).toBeCalledTimes(2);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
 
     const result3 = await resolveData(
       {
@@ -84,7 +84,7 @@ describe("resolveData", () => {
     );
     expect(result3).toEqual("b");
     // The actual args are not changed, so the cache hits.
-    expect(myTimeoutProvider).toBeCalledTimes(2);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
   });
 
   test("cache with circular data in args", async () => {
@@ -113,7 +113,7 @@ describe("resolveData", () => {
       runtimeContext
     );
     expect(result).toHaveProperty("value", "Circular");
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
 
     const result2 = await resolveData(
       {
@@ -123,7 +123,7 @@ describe("resolveData", () => {
       runtimeContext
     );
     expect(result2).toHaveProperty("value", "Circular");
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
   });
 
   test("handle reject by transform", async () => {
@@ -186,8 +186,8 @@ describe("resolveData", () => {
       runtimeContext
     );
     expect(result).toEqual("cool");
-    expect(consoleWarn).toBeCalledTimes(1);
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+    expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringContaining("resolve.field")
     );
   });
@@ -206,7 +206,7 @@ describe("resolveData", () => {
       }
     );
     expect(result1).toEqual("should-not-cache");
-    expect(myTimeoutProvider).toBeCalledTimes(1);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
 
     const result2 = await resolveData(
       {
@@ -219,6 +219,6 @@ describe("resolveData", () => {
       }
     );
     expect(result2).toEqual("should-not-cache");
-    expect(myTimeoutProvider).toBeCalledTimes(2);
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(2);
   });
 });

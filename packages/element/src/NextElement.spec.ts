@@ -20,26 +20,26 @@ describe("NextElement", () => {
     }
 
     const element = document.createElement("my-element-str") as MyElement;
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     document.body.appendChild(element);
     expect(render).toHaveBeenNthCalledWith(1, undefined);
     expect(element.getAttribute("string-attr")).toBe(null);
 
     element.stringAttr = "hi";
     expect(element.getAttribute("string-attr")).toBe("hi");
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(2, "hi");
 
     element.setAttribute("string-attr", "Hi");
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(3, "Hi");
 
     element.setAttribute("string-attr", "Hi");
-    expect(render).toBeCalledTimes(3);
+    expect(render).toHaveBeenCalledTimes(3);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(3);
+    expect(render).toHaveBeenCalledTimes(3);
   });
 
   test("string property with default value", async () => {
@@ -55,7 +55,7 @@ describe("NextElement", () => {
     }
 
     const element = document.createElement("my-element-str-2") as MyElement;
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     document.body.appendChild(element);
     expect(render).toHaveBeenNthCalledWith(1, "initial");
 
@@ -64,7 +64,7 @@ describe("NextElement", () => {
 
     element.stringAttr = "updated";
     expect(element.getAttribute("string-attr")).toBe("updated");
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(2, "updated");
 
@@ -109,32 +109,32 @@ describe("NextElement", () => {
     }
 
     const element = document.createElement("my-element-bool") as MyElement;
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     document.body.appendChild(element);
     expect(render).toHaveBeenNthCalledWith(1, undefined);
     expect(element.getAttribute("boolean-attr")).toBe(null);
 
     element.booleanAttr = true;
     expect(element.getAttribute("boolean-attr")).toBe("");
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(2, true);
 
     element.booleanAttr = false;
     expect(element.getAttribute("boolean-attr")).toBe(null);
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(3, false);
 
     element.booleanAttr = undefined;
     expect(element.getAttribute("boolean-attr")).toBe(null);
-    expect(render).toBeCalledTimes(3);
+    expect(render).toHaveBeenCalledTimes(3);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(4, false);
 
     (element as any).booleanAttr = 0;
     expect(element.getAttribute("boolean-attr")).toBe(null);
-    expect(render).toBeCalledTimes(4);
+    expect(render).toHaveBeenCalledTimes(4);
     await (global as any).flushPromises();
     expect(render).toHaveBeenNthCalledWith(5, false);
   });
@@ -153,14 +153,14 @@ describe("NextElement", () => {
 
     const container = document.createElement("div");
     container.innerHTML = "<my-element-bool-true></my-element-bool-true>";
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     expect((container.firstElementChild as MyElement).booleanAttr).toBe(true);
 
     document.body.appendChild(container);
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     expect(render).toHaveBeenNthCalledWith(1, true);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
   });
 
   test("boolean property with default true but reset to false", async () => {
@@ -178,14 +178,14 @@ describe("NextElement", () => {
     const container = document.createElement("div");
     container.innerHTML =
       '<my-element-bool-true-to-false boolean-attr="false"></my-element-bool-true-to-false>';
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     expect((container.firstElementChild as MyElement).booleanAttr).toBe(false);
 
     document.body.appendChild(container);
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     expect(render).toHaveBeenNthCalledWith(1, false);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
   });
 
   test("number property", async () => {
@@ -201,32 +201,32 @@ describe("NextElement", () => {
     }
 
     const element = document.createElement("my-element-num") as MyElement;
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     document.body.appendChild(element);
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     expect(render).toHaveBeenNthCalledWith(1, undefined);
     expect(element.getAttribute("number-attr")).toBe(null);
 
     element.numberAttr = 42;
     expect(element.getAttribute("number-attr")).toBe("42");
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
     expect(render).toHaveBeenNthCalledWith(2, 42);
 
     (element as any).numberAttr = "7";
     expect(element.getAttribute("number-attr")).toBe("7");
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(3);
+    expect(render).toHaveBeenCalledTimes(3);
     // expect(render).toHaveBeenNthCalledWith(3, "7");
     expect(render).toHaveBeenNthCalledWith(3, 7);
 
     element.numberAttr = undefined;
     expect(element.getAttribute("number-attr")).toBe(null);
-    expect(render).toBeCalledTimes(3);
+    expect(render).toHaveBeenCalledTimes(3);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(4);
+    expect(render).toHaveBeenCalledTimes(4);
     // expect(render).toHaveBeenNthCalledWith(4, undefined);
     expect(render).toHaveBeenNthCalledWith(4, null);
   });
@@ -244,17 +244,17 @@ describe("NextElement", () => {
     }
 
     const element = document.createElement("my-element-obj") as MyElement;
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     document.body.appendChild(element);
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     expect(render).toHaveBeenNthCalledWith(1, undefined);
     expect(element.getAttribute("string-attr")).toBe(null);
 
     element.complexAttr = { quality: "good" };
     expect(element.getAttribute("complex-attr")).toBe(null);
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
     expect(render).toHaveBeenNthCalledWith(2, { quality: "good" });
   });
 
@@ -309,14 +309,14 @@ describe("NextElement", () => {
     expect(superElement.baseAttr).toBe("overridden");
 
     document.body.appendChild(baseElement);
-    expect(baseRender).toBeCalledTimes(1);
+    expect(baseRender).toHaveBeenCalledTimes(1);
     expect(baseRender).toHaveBeenNthCalledWith(1, {
       baseAttr: undefined,
       baseFinalAttr: undefined,
     });
 
     document.body.appendChild(superElement);
-    expect(superRender).toBeCalledTimes(1);
+    expect(superRender).toHaveBeenCalledTimes(1);
     expect(superRender).toHaveBeenNthCalledWith(1, {
       baseAttr: "overridden",
       baseFinalAttr: undefined,
@@ -326,7 +326,7 @@ describe("NextElement", () => {
     baseElement.baseAttr = "updated";
     expect(baseElement.baseAttr).toBe("updated");
     expect(superElement.baseAttr).toBe("overridden");
-    expect(baseRender).toBeCalledTimes(1);
+    expect(baseRender).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
     expect(baseRender).toHaveBeenNthCalledWith(2, {
       baseAttr: "updated",
@@ -336,7 +336,7 @@ describe("NextElement", () => {
     superElement.baseAttr = "updated-again";
     expect(baseElement.baseAttr).toBe("updated");
     expect(superElement.baseAttr).toBe("updated-again");
-    expect(superRender).toBeCalledTimes(1);
+    expect(superRender).toHaveBeenCalledTimes(1);
     await (global as any).flushPromises();
     expect(superRender).toHaveBeenNthCalledWith(2, {
       baseAttr: "updated-again",
@@ -367,17 +367,17 @@ describe("NextElement", () => {
     const container = document.createElement("div");
     container.innerHTML =
       '<my-element-parsed string-attr="Hi" boolean-attr number-attr="42"></my-element-parsed>';
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
 
     document.body.appendChild(container);
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
     expect(render).toHaveBeenNthCalledWith(1, {
       stringAttr: "Hi",
       booleanAttr: true,
       numberAttr: 42,
     });
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
   });
 
   test("methods and events", () => {
@@ -421,8 +421,8 @@ describe("NextElement", () => {
     const listener = jest.fn();
     element.addEventListener("change", listener);
     element.triggerChange("updated");
-    expect(listener).toBeCalledTimes(1);
-    expect(listener).toBeCalledWith(
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(listener).toHaveBeenCalledWith(
       expect.objectContaining({
         type: "change",
         detail: "updated",
@@ -520,17 +520,17 @@ describe("NextElement", () => {
 
     document.body.appendChild(element);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
 
     element.setAttribute("val", "NaN");
     expect(element.value).toBe(NaN);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
 
     element.value = NaN;
     expect(element.value).toBe(NaN);
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(2);
+    expect(render).toHaveBeenCalledTimes(2);
 
     element.remove();
   });
@@ -581,15 +581,15 @@ describe("NextElement", () => {
       "my-element-render-false"
     ) as MyElement;
     element.stringAttr = "hi";
-    expect(render).toBeCalledTimes(0);
+    expect(render).toHaveBeenCalledTimes(0);
     document.body.appendChild(element);
     expect(render).toHaveBeenNthCalledWith(1, "hi");
     expect(element.getAttribute("string-attr")).toBe("hi");
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
 
     element.stringAttr = "halo";
     await (global as any).flushPromises();
-    expect(render).toBeCalledTimes(1);
+    expect(render).toHaveBeenCalledTimes(1);
 
     element.remove();
   });

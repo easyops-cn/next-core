@@ -16,7 +16,7 @@ describe("index", () => {
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnMain).toBeCalledWith(undefined, {});
+    expect(spyOnMain).toHaveBeenCalledWith(undefined, {});
   });
 
   it("should work when a tag specified", () => {
@@ -24,7 +24,7 @@ describe("index", () => {
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnMain).toBeCalledWith("1.0.0", {});
+    expect(spyOnMain).toHaveBeenCalledWith("1.0.0", {});
   });
 
   it("should work when a tag specified", () => {
@@ -32,7 +32,7 @@ describe("index", () => {
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnMain).toBeCalledWith(undefined, { sdk: "test" });
+    expect(spyOnMain).toHaveBeenCalledWith(undefined, { sdk: "test" });
   });
 
   it("should work when args invalid", () => {
@@ -44,8 +44,8 @@ describe("index", () => {
     jest.isolateModules(() => {
       require("./");
     });
-    expect(spyOnExit).toBeCalledWith(2);
-    expect(consoleError).toBeCalled();
+    expect(spyOnExit).toHaveBeenCalledWith(2);
+    expect(consoleError).toHaveBeenCalled();
     spyOnExit.mockRestore();
     consoleError.mockRestore();
   });

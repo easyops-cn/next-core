@@ -28,17 +28,17 @@ describe("MessageService", () => {
     await expect(server).toReceiveMessage('"after"');
 
     server.send('"ok"');
-    expect(onMessage).toBeCalledWith("ok");
+    expect(onMessage).toHaveBeenCalledWith("ok");
 
     client.reset();
     server.send('"again"');
-    expect(onMessage).toBeCalledTimes(1);
+    expect(onMessage).toHaveBeenCalledTimes(1);
 
     client.close();
     server.close();
 
     // `onClose` is not called because of reset
-    expect(onClose).not.toBeCalled();
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   test("handle error and reconnect", async () => {
@@ -52,10 +52,13 @@ describe("MessageService", () => {
       reason: "test",
       wasClean: false,
     });
-    expect(consoleError).toBeCalledWith("WebSocket error:", expect.anything());
-    expect(onClose).not.toBeCalled();
+    expect(consoleError).toHaveBeenCalledWith(
+      "WebSocket error:",
+      expect.anything()
+    );
+    expect(onClose).not.toHaveBeenCalled();
 
-    expect(consoleLog).toBeCalledWith(
+    expect(consoleLog).toHaveBeenCalledWith(
       "WebSocket will reconnect after %d seconds",
       1
     );

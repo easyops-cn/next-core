@@ -746,8 +746,8 @@ describe("Runtime", () => {
     getHistory().push("/app-a");
     expect(window.DISABLE_REACT_FLUSH_SYNC).toBeFalsy();
     await getRuntime().bootstrap();
-    expect(loadNotificationService).not.toBeCalled();
-    expect(loadDialogService).not.toBeCalled();
+    expect(loadNotificationService).not.toHaveBeenCalled();
+    expect(loadDialogService).not.toHaveBeenCalled();
     const renderId0 = _internalApiGetRenderId();
     expect(renderId0).toBeDefined();
     expect(document.body.children).toMatchInlineSnapshot(`
@@ -869,8 +869,8 @@ describe("Runtime", () => {
     getHistory().push("/app-a/2");
     await getRuntime().bootstrap();
 
-    expect(loadNotificationService).toBeCalledTimes(1);
-    expect(loadDialogService).toBeCalledTimes(1);
+    expect(loadNotificationService).toHaveBeenCalledTimes(1);
+    expect(loadDialogService).toHaveBeenCalledTimes(1);
 
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
@@ -918,8 +918,8 @@ describe("Runtime", () => {
         </div>,
       ]
     `);
-    expect(finishPageView).toBeCalledTimes(1);
-    expect(finishPageView).toBeCalledWith({
+    expect(finishPageView).toHaveBeenCalledTimes(1);
+    expect(finishPageView).toHaveBeenCalledWith({
       status: "ok",
       path: "/app-a/3",
       pageTitle: "DevOps 管理专家",
@@ -1005,7 +1005,7 @@ describe("Runtime", () => {
         />,
       ]
     `);
-    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
     expect(getRuntime().getNavConfig()).toEqual({
       breadcrumb: [{ text: "0" }],
     });
@@ -1626,7 +1626,7 @@ describe("Runtime", () => {
     getHistory().push("/app-b/");
     await getRuntime().bootstrap();
     expect(getHistory().location.pathname).toBe("/auth/login");
-    expect(finishPageView).toBeCalledTimes(2);
+    expect(finishPageView).toHaveBeenCalledTimes(2);
     expect(finishPageView).toHaveBeenNthCalledWith(1, { status: "redirected" });
     expect(finishPageView).toHaveBeenNthCalledWith(2, {
       status: "ok",
@@ -1642,7 +1642,7 @@ describe("Runtime", () => {
     const beforeunload = new Event("beforeunload");
     const preventDefault = jest.spyOn(beforeunload, "preventDefault");
     fireEvent(window, beforeunload);
-    expect(preventDefault).toBeCalled();
+    expect(preventDefault).toHaveBeenCalled();
   });
 
   test("no app matched", async () => {
@@ -1683,7 +1683,7 @@ describe("Runtime", () => {
     getHistory().push("/app-unknown/");
     await getRuntime().bootstrap();
     expect(getHistory().location.pathname).toBe("/sso-auth/login");
-    expect(finishPageView).toBeCalledTimes(2);
+    expect(finishPageView).toHaveBeenCalledTimes(2);
     expect(finishPageView).toHaveBeenNthCalledWith(1, { status: "redirected" });
     expect(finishPageView).toHaveBeenNthCalledWith(2, { status: "not-found" });
   });
@@ -1746,8 +1746,8 @@ describe("Runtime", () => {
         />,
       ]
     `);
-    expect(finishPageView).toBeCalledTimes(1);
-    expect(finishPageView).toBeCalledWith({
+    expect(finishPageView).toHaveBeenCalledTimes(1);
+    expect(finishPageView).toHaveBeenCalledWith({
       status: "blocked",
     });
   });
@@ -1805,10 +1805,12 @@ describe("Runtime", () => {
     });
     getHistory().push("/blocked-app/blocked-path-1");
     await getRuntime().bootstrap();
-    expect(addPathToBlackList).toBeCalledWith(
+    expect(addPathToBlackList).toHaveBeenCalledWith(
       "/blocked-app/blocked-path-1/:subPath"
     );
-    expect(addPathToBlackList).toBeCalledWith("/blocked-app/blocked-path-2");
+    expect(addPathToBlackList).toHaveBeenCalledWith(
+      "/blocked-app/blocked-path-2"
+    );
   });
 
   test("failed to bootstrap", async () => {
@@ -1892,7 +1894,7 @@ describe("Runtime", () => {
         />,
       ]
     `);
-    expect(window.location.reload).toBeCalled();
+    expect(window.location.reload).toHaveBeenCalled();
     window.location = originalLocation;
   });
 
@@ -1915,8 +1917,8 @@ describe("Runtime", () => {
     expect(document.title).toBe("Hi there");
     getRuntime().applyPageTitle("");
     expect(document.title).toBe("Hi there");
-    expect(finishPageView).toBeCalledTimes(1);
-    expect(finishPageView).toBeCalledWith({
+    expect(finishPageView).toHaveBeenCalledTimes(1);
+    expect(finishPageView).toHaveBeenCalledWith({
       pageTitle: "DevOps 管理专家",
       path: "/app-b",
       status: "ok",
@@ -1933,9 +1935,9 @@ describe("Runtime", () => {
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-b/unauthenticated");
     await getRuntime().bootstrap();
-    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(myUnauthenticatedProvider).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("Router failed:", error);
     expect(getHistory().location.pathname).toBe("/auth/login");
   });
 
@@ -1946,9 +1948,9 @@ describe("Runtime", () => {
     createRuntime().initialize(getBootstrapData());
     getHistory().push("/app-b/aborted");
     await getRuntime().bootstrap();
-    expect(myAbortProvider).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(myAbortProvider).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("Router failed:", error);
     expect(document.body.children).toMatchInlineSnapshot(`
       HTMLCollection [
         <div
@@ -1975,9 +1977,9 @@ describe("Runtime", () => {
       return { noAuthGuardLoginPath: "/easy-core-console/login" };
     });
     await getRuntime().bootstrap();
-    expect(myUnauthenticatedProvider).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith("Router failed:", error);
+    expect(myUnauthenticatedProvider).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith("Router failed:", error);
     expect(getHistory().location.pathname).toBe("/easy-core-console/login");
   });
 
@@ -2021,8 +2023,8 @@ describe("Runtime", () => {
         />,
       ]
     `);
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(
       'Infinite redirect detected: from "/app-a/r2" to "/app-a/r1"'
     );
     expect(getHistory().location.pathname).toBe("/app-a/r2");
@@ -2039,7 +2041,7 @@ describe("Runtime", () => {
       ],
     });
     await runtime.loadBricks(["test.my-brick"]);
-    expect(loadBricksImperatively).toBeCalledWith(
+    expect(loadBricksImperatively).toHaveBeenCalledWith(
       ["test.my-brick"],
       [
         {
@@ -2135,7 +2137,7 @@ describe("Runtime", () => {
       ],
     });
     await runtime.loadBricks(["eo-antd-icon"]);
-    expect(loadBricksImperatively).toBeCalledWith(
+    expect(loadBricksImperatively).toHaveBeenCalledWith(
       ["eo-antd-icon"],
       [
         {

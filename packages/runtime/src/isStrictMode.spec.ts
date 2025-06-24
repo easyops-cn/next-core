@@ -23,37 +23,37 @@ describe("isStrictMode", () => {
 describe("warnAboutStrictMode", () => {
   test("strict mode", () => {
     warnAboutStrictMode(true, "`useBrick.transform`");
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledWith(
       "`useBrick.transform` is dropped in v3 strict mode"
     );
-    expect(consoleWarn).not.toBeCalled();
+    expect(consoleWarn).not.toHaveBeenCalled();
   });
 
   test("non-strict mode", () => {
     warnAboutStrictMode(false, "`useBrick.transform`");
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledWith(
       "`useBrick.transform` is deprecated in v3 and will be dropped in strict mode"
     );
-    expect(consoleError).not.toBeCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   test("strict mode with extra logs", () => {
     warnAboutStrictMode(true, "`useBrick.transform`", "extra", "logs");
-    expect(consoleError).toBeCalledWith(
+    expect(consoleError).toHaveBeenCalledWith(
       "`useBrick.transform` is dropped in v3 strict mode,",
       "extra",
       "logs"
     );
-    expect(consoleWarn).not.toBeCalled();
+    expect(consoleWarn).not.toHaveBeenCalled();
   });
 
   test("non-strict mode with extra logs", () => {
     warnAboutStrictMode(false, "`useBrick.transform`", "extra", "logs");
-    expect(consoleWarn).toBeCalledWith(
+    expect(consoleWarn).toHaveBeenCalledWith(
       "`useBrick.transform` is deprecated in v3 and will be dropped in strict mode,",
       "extra",
       "logs"
     );
-    expect(consoleError).not.toBeCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 });

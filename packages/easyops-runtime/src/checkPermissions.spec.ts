@@ -60,18 +60,18 @@ describe("checkPermissions", () => {
   it("should not request if is not loggedIn", async () => {
     mockIsLoggedIn.mockReturnValue(false);
     await preCheckPermissions(null!);
-    expect(mockValidatePermissions).not.toBeCalled();
+    expect(mockValidatePermissions).not.toHaveBeenCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
-    expect(mockConsoleError).not.toBeCalled();
+    expect(mockConsoleError).not.toHaveBeenCalled();
     mockIsLoggedIn.mockReturnValue(true);
   });
 
   it("should not request if action is empty", async () => {
     mockScanPermissionActionsInStoryboard.mockReturnValueOnce([]);
     await preCheckPermissions(null!);
-    expect(mockValidatePermissions).not.toBeCalled();
+    expect(mockValidatePermissions).not.toHaveBeenCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
-    expect(mockConsoleError).toBeCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       'Un-checked permission action: "my:action-a", please make sure the permission to check is defined in permissionsPreCheck.'
     );
   });
@@ -80,12 +80,12 @@ describe("checkPermissions", () => {
     mockScanPermissionActionsInStoryboard.mockReturnValueOnce(["my:action-a"]);
     mockValidatePermissions.mockRejectedValueOnce("oops");
     await preCheckPermissions(null!);
-    expect(mockConsoleError).toBeCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       "Pre-check permissions failed",
       "oops"
     );
     expect(checkPermissions("my:action-a")).toBe(false);
-    expect(mockConsoleError).toBeCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       'Un-checked permission action: "my:action-a", please make sure the permission to check is defined in permissionsPreCheck.'
     );
   });
@@ -104,14 +104,14 @@ describe("checkPermissions", () => {
       ],
     });
     await validatePermissions(["my:action-a", "my:action-b"]);
-    expect(mockValidatePermissions).toBeCalledWith(
+    expect(mockValidatePermissions).toHaveBeenCalledWith(
       {
         actions: ["my:action-a", "my:action-b"],
       },
       { noAbortOnRouteChange: true }
     );
     await validatePermissions(["my:action-a", "my:action-c"]);
-    expect(mockValidatePermissions).toBeCalledWith(
+    expect(mockValidatePermissions).toHaveBeenCalledWith(
       {
         actions: ["my:action-c"],
       },
@@ -259,13 +259,13 @@ describe("checkPermissions", () => {
       ],
     });
     await preCheckPermissions(null!);
-    expect(mockValidatePermissions).toBeCalledWith(
+    expect(mockValidatePermissions).toHaveBeenCalledWith(
       {
         actions: ["my:action-a", "my:action-b", "my:action-c"],
       },
       { noAbortOnRouteChange: true }
     );
-    expect(mockConsoleError).toBeCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       'Undefined permission action: "my:action-c"'
     );
 
@@ -285,13 +285,13 @@ describe("checkPermissions", () => {
       ],
     });
     await preCheckPermissions(null!);
-    expect(mockValidatePermissions).toBeCalledWith(
+    expect(mockValidatePermissions).toHaveBeenCalledWith(
       {
         actions: ["my:action-d"],
       },
       { noAbortOnRouteChange: true }
     );
-    expect(mockConsoleError).not.toBeCalled();
+    expect(mockConsoleError).not.toHaveBeenCalled();
 
     expect(checkPermissions("my:action-a")).toBe(true);
     expect(checkPermissions("my:action-b")).toBe(false);
@@ -300,10 +300,10 @@ describe("checkPermissions", () => {
     expect(checkPermissions("my:action-a", "my:action-b")).toBe(false);
     expect(checkPermissions("my:action-b", "my:action-c")).toBe(false);
     expect(checkPermissions("my:action-a", "my:action-d")).toBe(true);
-    expect(mockConsoleError).not.toBeCalled();
+    expect(mockConsoleError).not.toHaveBeenCalled();
 
     expect(checkPermissions("my:action-x")).toBe(false);
-    expect(mockConsoleError).toBeCalledWith(
+    expect(mockConsoleError).toHaveBeenCalledWith(
       'Un-checked permission action: "my:action-x", please make sure the permission to check is defined in permissionsPreCheck.'
     );
   });
@@ -318,7 +318,7 @@ describe("checkPermissions", () => {
   it("should not request if is not loggedIn for brick", async () => {
     mockIsLoggedIn.mockReturnValue(false);
     await preCheckPermissionsForBrickOrRoute(null!, null!);
-    expect(mockValidatePermissions).not.toBeCalled();
+    expect(mockValidatePermissions).not.toHaveBeenCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
     mockIsLoggedIn.mockReturnValue(true);
   });
@@ -330,14 +330,14 @@ describe("checkPermissions", () => {
       } as any,
       (v) => Promise.resolve(v)
     );
-    expect(mockValidatePermissions).not.toBeCalled();
+    expect(mockValidatePermissions).not.toHaveBeenCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
   });
 
   it("should not request if is not loggedIn for any", async () => {
     mockIsLoggedIn.mockReturnValue(false);
     await preCheckPermissionsForAny(null);
-    expect(mockValidatePermissions).not.toBeCalled();
+    expect(mockValidatePermissions).not.toHaveBeenCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
     mockIsLoggedIn.mockReturnValue(true);
   });
@@ -345,7 +345,7 @@ describe("checkPermissions", () => {
   it("should work for any", async () => {
     mockScanPermissionActionsInAny.mockReturnValueOnce([]);
     await preCheckPermissionsForAny({});
-    expect(mockValidatePermissions).not.toBeCalled();
+    expect(mockValidatePermissions).not.toHaveBeenCalled();
     expect(checkPermissions("my:action-a")).toBe(false);
   });
 

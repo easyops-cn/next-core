@@ -47,7 +47,7 @@ describe("listen", () => {
 
     await (global as any).flushPromises();
 
-    expect(loadBricksImperatively).toBeCalledWith(
+    expect(loadBricksImperatively).toHaveBeenCalledWith(
       ["visual-builder.inject-preview-agent"],
       [
         {
@@ -55,7 +55,7 @@ describe("listen", () => {
         },
       ]
     );
-    expect(injectPreview).toBeCalledWith(location.origin, {
+    expect(injectPreview).toHaveBeenCalledWith(location.origin, {
       foo: "bar",
     });
   });
@@ -87,7 +87,7 @@ describe("listen", () => {
 
     await (global as any).flushPromises();
 
-    expect(loadBricksImperatively).toBeCalledWith(
+    expect(loadBricksImperatively).toHaveBeenCalledWith(
       ["ui-test.inject-preview-agent"],
       [
         {
@@ -95,7 +95,7 @@ describe("listen", () => {
         },
       ]
     );
-    expect(injectUITest).toBeCalledWith(location.origin, {
+    expect(injectUITest).toHaveBeenCalledWith(location.origin, {
       foo: "bar",
     });
   });
@@ -111,7 +111,7 @@ describe("listen", () => {
 
     await (global as any).flushPromises();
 
-    expect(loadBricksImperatively).not.toBeCalled();
+    expect(loadBricksImperatively).not.toHaveBeenCalled();
   });
 
   test("initialize failed", async () => {
@@ -141,6 +141,6 @@ describe("listen", () => {
 
     await (global as any).flushPromises();
 
-    expect(loadBricksImperatively).not.toBeCalled();
+    expect(loadBricksImperatively).not.toHaveBeenCalled();
   });
 });

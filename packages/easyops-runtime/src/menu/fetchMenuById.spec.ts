@@ -489,12 +489,12 @@ describe("fetchMenuById", () => {
         },
       ],
     });
-    expect(preCheckPermissionsForAny).toBeCalledWith(
+    expect(preCheckPermissionsForAny).toHaveBeenCalledWith(
       expect.objectContaining({
         useProvider: "my-timeout-provider",
       })
     );
-    expect(preCheckPermissionsForAny).toBeCalledWith(expect.any(Array));
+    expect(preCheckPermissionsForAny).toHaveBeenCalledWith(expect.any(Array));
   });
 
   test("non-standalone", async () => {
@@ -559,8 +559,8 @@ describe("fetchMenuById", () => {
         },
       ],
     });
-    expect(consoleError).toBeCalledTimes(1);
-    expect(consoleError).toBeCalledWith(expect.any(YAMLException));
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    expect(consoleError).toHaveBeenCalledWith(expect.any(YAMLException));
     consoleError.mockReset();
   });
 

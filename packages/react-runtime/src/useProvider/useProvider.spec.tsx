@@ -135,7 +135,7 @@ describe("Error handing", () => {
       await (global as any).flushPromises();
     });
 
-    expect(onError).toBeCalled();
+    expect(onError).toHaveBeenCalled();
     expect(result.current.data).toBe(undefined);
     expect(result.current.loading).toBe(false);
     expect(result.current.error).toMatchObject(expectedError);

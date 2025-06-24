@@ -19,6 +19,9 @@ describe("matchStoryboard", () => {
     ).rejects.toMatchInlineSnapshot(
       `[Error: Invalid route with invalid type of path: undefined]`
     );
-    expect(consoleError).toBeCalledWith("Invalid route with invalid path:", {});
+    expect(consoleError).toHaveBeenCalledWith(
+      "Invalid route with invalid path:",
+      {}
+    );
   });
 });
