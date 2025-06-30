@@ -160,6 +160,13 @@ export class RendererContext {
       }
     >
   >;
+  #reversedMemoized?: WeakMap<
+    RenderChildNode,
+    Array<{
+      returnNode: RenderNode;
+      memKey: string;
+    }>
+  >;
 
   #initialMenuRequestNode?: MenuRequestNode;
   #memoizedMenuRequestNodeMap?: WeakMap<
@@ -404,12 +411,38 @@ export class RendererContext {
       this.#memoized.set(returnNode, mem);
     }
 
+    const last = getLastNode(node);
+    const lastNormal = getLastNormalNode(node);
+    const lastPortal = getLastPortalNode(node);
+
+    this.#reverseMemoize(returnNode, memKey, last);
+
     mem.set(memKey, {
       node,
-      last: getLastNode(node),
-      lastNormal: getLastNormalNode(node),
-      lastPortal: getLastPortalNode(node),
+      last,
+      lastNormal,
+      lastPortal,
     });
+  }
+
+  #reverseMemoize(
+    returnNode: RenderReturnNode,
+    memKey: string,
+    last: RenderChildNode | undefined
+  ) {
+    if (last) {
+      if (!this.#reversedMemoized) {
+        this.#reversedMemoized = new WeakMap();
+      }
+      let list = this.#reversedMemoized.get(last);
+      if (!list) {
+        this.#reversedMemoized.set(last, (list = []));
+      }
+      list.push({
+        returnNode,
+        memKey,
+      });
+    }
   }
 
   reRender(
@@ -419,7 +452,6 @@ export class RendererContext {
     returnNode: RenderReturnNode
   ) {
     const memKey = [slotId ?? "", ...keyPath].join(".");
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const memoized = this.#memoized!.get(returnNode)!.get(memKey)!;
     const {
       node: prevNode,
@@ -459,6 +491,23 @@ export class RendererContext {
     memoized.last = last;
     memoized.lastNormal = getLastNormalNode(node);
     memoized.lastPortal = getLastPortalNode(node);
+
+    if (prevLast) {
+      const prevList = this.#reversedMemoized?.get(prevLast);
+      for (const item of prevList ?? []) {
+        const mem = this.#memoized!.get(item.returnNode)!.get(item.memKey);
+        if (mem) {
+          mem.last = last;
+
+          if (mem.lastNormal === prevLast && memoized.lastNormal === last) {
+            mem.lastNormal = last;
+          }
+        }
+      }
+      this.#reversedMemoized?.delete(prevLast);
+    }
+
+    this.#reverseMemoize(returnNode, memKey, last);
 
     // Figure out the unchanged prev sibling and next sibling
     let prevSibling: RenderChildNode | undefined;
@@ -565,6 +614,7 @@ export class RendererContext {
       this.#mediaListener = undefined;
     }
     this.#memoized = undefined;
+    this.#reversedMemoized = undefined;
     this.#arbitraryLifeCycle.clear();
     this.#incrementalRenderStates.clear();
     this.#memoizedMenuRequestNodeMap = undefined;

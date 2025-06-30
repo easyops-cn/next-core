@@ -68,6 +68,7 @@ export interface RenderPlaceholder extends BaseRenderNode {
   tag: RenderTag.PLACEHOLDER;
   return: RenderReturnNode;
   tracking?: boolean;
+  iid?: string;
 }
 
 export interface BaseRenderNode {

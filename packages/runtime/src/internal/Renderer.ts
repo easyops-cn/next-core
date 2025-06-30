@@ -587,6 +587,7 @@ async function legacyRenderBrick(
 
       rawOutput!.node ??= {
         tag: RenderTag.PLACEHOLDER,
+        iid: brickConf.iid,
         return: returnNode,
         tracking,
       };
