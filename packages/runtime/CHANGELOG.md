@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.62.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.1...@next-core/runtime@1.62.2) (2025-07-01)
+
+
+### Bug Fixes
+
+* fix non-relevant nodes been removed when re-rendering nested :if ([1fc8263](https://github.com/easyops-cn/next-core/commit/1fc82631a00fa9a96a3952f0b65ee79275d76eed))
+
+
+
+
+
 ## [1.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.0...@next-core/runtime@1.62.1) (2025-06-24)
 
 **Note:** Version bump only for package @next-core/runtime
