@@ -1897,7 +1897,7 @@ HTMLCollection [
       ]
     `);
     expect(window.location.reload).toHaveBeenCalled();
-    window.location = originalLocation;
+    (window as any).location = originalLocation;
   });
 
   test("render locale title", async () => {

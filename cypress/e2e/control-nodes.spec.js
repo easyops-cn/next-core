@@ -263,5 +263,29 @@ for (const port of Cypress.env("ports")) {
 
       cy.get("@console.error").should("not.be.called");
     });
+
+    it("should handle nested :if rerender", () => {
+      cy.visit(`${origin}/e2e/nested-if`, {
+        onBeforeLoad(win) {
+          cy.spy(win.console, "error").as("console.error");
+        },
+      });
+
+      cy.expectMainContents([
+        "Click 1Click 2Second button is not clicked",
+        "This should always be shown",
+      ]);
+
+      cy.contains("Click 1").click();
+      cy.expectMainContents([
+        "Click 1Click 2Second button is not clicked",
+        "This should always be shown",
+      ]);
+
+      cy.contains("Click 2").click();
+      cy.expectMainContents(["Click 1Click 2", "This should always be shown"]);
+
+      cy.get("@console.error").should("not.be.called");
+    });
   });
 }

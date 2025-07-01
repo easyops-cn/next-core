@@ -148,19 +148,6 @@ export class RendererContext {
 
   #arbitraryLifeCycle = new Map<string, Set<() => void>>();
 
-  #memoized?: WeakMap<
-    RenderNode,
-    Map<
-      string,
-      {
-        node?: RenderChildNode;
-        last?: RenderChildNode;
-        lastNormal?: RenderBrick | undefined;
-        lastPortal?: RenderBrick | undefined;
-      }
-    >
-  >;
-
   #initialMenuRequestNode?: MenuRequestNode;
   #memoizedMenuRequestNodeMap?: WeakMap<
     RouteConf[],
@@ -388,83 +375,38 @@ export class RendererContext {
     }
   }
 
-  memoize(
-    slotId: string | undefined,
-    keyPath: number[],
-    node: RenderChildNode | undefined,
-    returnNode: RenderReturnNode
-  ) {
-    if (!this.#memoized) {
-      this.#memoized = new WeakMap();
-    }
-    const memKey = [slotId ?? "", ...keyPath].join(".");
-    let mem = this.#memoized.get(returnNode);
-    if (!mem) {
-      mem = new Map();
-      this.#memoized.set(returnNode, mem);
-    }
-
-    mem.set(memKey, {
-      node,
-      last: getLastNode(node),
-      lastNormal: getLastNormalNode(node),
-      lastPortal: getLastPortalNode(node),
-    });
-  }
-
   reRender(
-    slotId: string | undefined,
-    keyPath: number[],
-    node: RenderChildNode | undefined,
-    returnNode: RenderReturnNode
+    returnNode: RenderReturnNode,
+    node: RenderChildNode,
+    oldNode: RenderChildNode
   ) {
-    const memKey = [slotId ?? "", ...keyPath].join(".");
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const memoized = this.#memoized!.get(returnNode)!.get(memKey)!;
-    const {
-      node: prevNode,
-      last: prevLast,
-      lastNormal: prevLastNormal,
-      lastPortal: prevLastPortal,
-    } = memoized;
-
-    let insertBeforeChild: ChildNode | null;
+    const [prevLastNormal, prevLastPortal] = findLastChildNodes(oldNode);
+    const insertBeforeChild =
+      (prevLastNormal
+        ? prevLastNormal.element?.nextSibling
+        : findNextSiblingNode(oldNode, false)?.element) ?? null;
     const insertPortalBeforeChildCandidates: ChildNode[] = [];
-    if (prevNode?.tag === RenderTag.PLACEHOLDER) {
-      insertBeforeChild = getNextNormalNode(prevNode)?.element ?? null;
-      // Todo(steve): handle portal bricks from useBrick.
-      const nextSibling = getNextPortalNode(prevNode)?.element;
-      if (nextSibling) {
-        insertPortalBeforeChildCandidates.push(nextSibling);
+    let nextSibling = prevLastPortal
+      ? prevLastPortal?.element?.nextSibling
+      : findNextSiblingNode(oldNode, true)?.element;
+    while (nextSibling) {
+      insertPortalBeforeChildCandidates.push(nextSibling);
+      // Collect all portal bricks from useBrick, until found a normal portal
+      // brick other than from useBrick.
+      // Because useBrick could be removed during unmount.
+      if (
+        !(nextSibling instanceof HTMLElement && nextSibling.tagName === "DIV")
+      ) {
+        break;
       }
-    } else {
-      insertBeforeChild = prevLastNormal?.element?.nextSibling ?? null;
-      let nextSibling = prevLastPortal?.element?.nextSibling;
-      while (nextSibling) {
-        insertPortalBeforeChildCandidates.push(nextSibling);
-        // Collect all portal bricks from useBrick, until found a normal portal
-        // brick other than from useBrick.
-        // Because useBrick could be removed during unmount.
-        if (
-          !(nextSibling instanceof HTMLElement && nextSibling.tagName === "DIV")
-        ) {
-          break;
-        }
-        nextSibling = nextSibling.nextSibling;
-      }
+      nextSibling = nextSibling.nextSibling;
     }
-
-    const last = getLastNode(node);
-    memoized.node = node;
-    memoized.last = last;
-    memoized.lastNormal = getLastNormalNode(node);
-    memoized.lastPortal = getLastPortalNode(node);
 
     // Figure out the unchanged prev sibling and next sibling
     let prevSibling: RenderChildNode | undefined;
     let current = returnNode.child;
-    while (current && current !== prevLast) {
-      if (current.sibling === prevNode) {
+    while (current && current !== oldNode) {
+      if (current.sibling === oldNode) {
         prevSibling = current;
         break;
       }
@@ -488,7 +430,7 @@ export class RendererContext {
     }
 
     // Unmount previous bricks, including their descendants
-    const removeBricks = getBrickRange(prevNode, prevLast);
+    const removeBricks = getContainedBricks(oldNode);
     this.#unmountBricks(removeBricks);
 
     mountTree(renderRoot);
@@ -499,9 +441,7 @@ export class RendererContext {
     } else {
       returnNode.child = node;
     }
-    if (last) {
-      last.sibling = prevLast?.sibling;
-    }
+    node.sibling = oldNode.sibling;
 
     // Resume `return`
     current = node;
@@ -511,10 +451,11 @@ export class RendererContext {
     }
 
     if (fragment.hasChildNodes()) {
-      if (returnNode.tag === RenderTag.ROOT) {
-        returnNode.container?.insertBefore(fragment, insertBeforeChild);
+      const entityReturnNode = getEntityReturnNode(returnNode);
+      if (entityReturnNode.tag === RenderTag.ROOT) {
+        entityReturnNode.container?.insertBefore(fragment, insertBeforeChild);
       } else {
-        returnNode.element?.insertBefore(fragment, insertBeforeChild);
+        entityReturnNode.element?.insertBefore(fragment, insertBeforeChild);
       }
     }
 
@@ -545,7 +486,7 @@ export class RendererContext {
       portal.insertBefore(portalFragment, insertPortalBeforeChild);
     }
 
-    const newBricks = getBrickRange(node, last);
+    const newBricks = getContainedBricks(node);
     this.#initializeRerenderBricks(newBricks);
   }
 
@@ -564,7 +505,6 @@ export class RendererContext {
       mediaEventTarget.removeEventListener("change", this.#mediaListener);
       this.#mediaListener = undefined;
     }
-    this.#memoized = undefined;
     this.#arbitraryLifeCycle.clear();
     this.#incrementalRenderStates.clear();
     this.#memoizedMenuRequestNodeMap = undefined;
@@ -737,78 +677,87 @@ export class RendererContext {
   }
 }
 
-function getLastNode(
+/** Find the last normal and portal child nodes of the given node. */
+function findLastChildNodes(
   node: RenderChildNode | undefined
-): RenderChildNode | undefined {
-  let last = node;
-  while (last?.sibling) {
-    last = last.sibling;
+): [lastNormal: RenderBrick | undefined, lastPortal: RenderBrick | undefined] {
+  let lastNormal: RenderBrick | undefined;
+  let lastPortal: RenderBrick | undefined;
+  let current: RenderChildNode | undefined = node;
+  let level = 0;
+  while (current) {
+    if (current.tag === RenderTag.BRICK) {
+      if (current.portal) {
+        lastPortal = current;
+      } else {
+        lastNormal = current;
+      }
+    } else if (current.child && current.tag === RenderTag.ABSTRACT) {
+      // Only traverse down abstract nodes
+      current = current.child;
+      level++;
+      continue;
+    }
+    // Level > 0 means we are traversing down abstract nodes.
+    // But we do not traverse sibling nodes of the given node.
+    if (level <= 0) {
+      break;
+    }
+    if (current.sibling) {
+      current = current.sibling;
+    } else {
+      // After traversing down abstract nodes, we need to traverse up to find the next sibling.
+      let currentReturn: RenderReturnNode | null | undefined = current.return;
+      level--;
+      while (currentReturn) {
+        if (currentReturn.sibling) {
+          break;
+        }
+        currentReturn = currentReturn.return;
+        level--;
+      }
+      if (level <= 0) {
+        // Do not traverse up more than the given node.
+        break;
+      }
+      current = currentReturn?.sibling;
+    }
   }
-  return last;
+  return [lastNormal, lastPortal];
 }
 
-function getLastNormalNode(
-  node: RenderChildNode | undefined
-): RenderBrick | undefined {
-  return getSpecifiedNormalNode(node, false);
-}
-
-function getNextNormalNode(
-  node: RenderChildNode | undefined
-): RenderBrick | undefined {
-  return getSpecifiedNormalNode(node, true);
-}
-
-function getSpecifiedNormalNode(
+/** Find the normal or portal sibling node next to the given node (in DOM). */
+function findNextSiblingNode(
   node: RenderChildNode | undefined,
-  next: boolean
+  portal: boolean
 ): RenderBrick | undefined {
-  let last: RenderBrick | undefined;
   let current = node;
   while (current) {
-    if (current.tag === RenderTag.BRICK && !current.portal) {
-      if (next) {
-        return current;
-      }
-      last = current;
+    if (
+      current !== node &&
+      current.tag === RenderTag.BRICK &&
+      (portal ? current.portal : !current.portal)
+    ) {
+      return current;
     }
-    current = current.sibling;
-  }
-  return last;
-}
-
-function getLastPortalNode(
-  node: RenderChildNode | undefined
-): RenderBrick | undefined {
-  return getSpecifiedPortalNode(node, false);
-}
-
-function getNextPortalNode(
-  node: RenderChildNode | undefined
-): RenderBrick | undefined {
-  return getSpecifiedPortalNode(node, true);
-}
-
-function getSpecifiedPortalNode(
-  node: RenderChildNode | undefined,
-  next: boolean
-): RenderBrick | undefined {
-  let last: RenderBrick | undefined;
-  let current = node;
-  while (current) {
-    if (current.tag === RenderTag.BRICK && current.portal) {
-      if (next) {
-        return current;
-      }
-      last = current;
-    }
-    if (current.child) {
+    if (
+      current !== node &&
+      current.child &&
+      current.tag === RenderTag.ABSTRACT
+    ) {
+      // Traverse down sibling abstract nodes
       current = current.child;
     } else if (current.sibling) {
       current = current.sibling;
     } else {
+      // Traverse up abstract nodes to find the next sibling in DOM
       let currentReturn: RenderReturnNode | null | undefined = current.return;
       while (currentReturn) {
+        if (currentReturn.tag !== RenderTag.ABSTRACT) {
+          // End the loop when encounter a non-abstract return node,
+          // it means we can't find the target sibling node.
+          return;
+        }
         if (currentReturn.sibling) {
           break;
         }
@@ -817,38 +766,44 @@ function getSpecifiedPortalNode(
       current = currentReturn?.sibling;
     }
   }
-  return last;
 }
 
-function getBrickRange(
-  from: RenderChildNode | undefined,
-  to: RenderChildNode | undefined
-): Set<RenderBrick> {
+function getContainedBricks(node: RenderChildNode) {
   const range = new Set<RenderBrick>();
-  let current = from;
+  let current: RenderNode | undefined = node;
   while (current) {
     if (current.tag === RenderTag.BRICK) {
       range.add(current);
     }
     if (current.child) {
       current = current.child;
-    } else if (current === to) {
+    } else if (current === node) {
+      // End the loop when encounter the original node.
       break;
     } else if (current.sibling) {
       current = current.sibling;
     } else {
       let currentReturn: RenderReturnNode | null | undefined = current.return;
-      while (currentReturn && currentReturn !== to) {
+      while (currentReturn) {
+        if (currentReturn === node) {
+          // End the loop when encounter the original node.
+          return range;
+        }
         if (currentReturn.sibling) {
           break;
         }
         currentReturn = currentReturn.return;
       }
-      if (currentReturn === to) {
-        break;
-      }
       current = currentReturn?.sibling;
     }
   }
   return range;
+}
+
+function getEntityReturnNode(node: RenderReturnNode): RenderRoot | RenderBrick {
+  let current = node;
+  while (current.tag === RenderTag.ABSTRACT) {
+    current = current.return;
+  }
+  return current;
 }
