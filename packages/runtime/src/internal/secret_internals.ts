@@ -34,6 +34,8 @@ import type {
   DebugDataValue,
   RuntimeDataVale,
   RuntimeDataValueOption,
+  RenderBrick,
+  RenderChildNode,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -107,22 +109,23 @@ export async function renderUseBrick(
 
   await postAsyncRender(output, scopedRuntimeContext, scopedStores);
 
-  if (output.node?.tag === RenderTag.PLACEHOLDER) {
-    if (output.node.tracking) {
-      throw new Error(
-        "The root brick of useBrick cannot be an ignored tracking control node"
-      );
+  let brickNode: RenderBrick | undefined;
+  let currentNode: RenderChildNode | undefined = output.node;
+  while (currentNode) {
+    if (currentNode.tag === RenderTag.BRICK) {
+      brickNode = currentNode;
+      break;
     }
-    output.node = undefined;
+    currentNode = currentNode.child;
   }
 
-  if (output.node?.portal) {
+  if (brickNode?.portal) {
     throw new Error("The root brick of useBrick cannot be a portal brick");
   }
 
   renderRoot.child = output.node;
 
-  const tagName = output.node ? output.node.type : null;
+  const tagName = brickNode ? brickNode.type : null;
 
   return { tagName, renderRoot, rendererContext, scopedStores };
 }

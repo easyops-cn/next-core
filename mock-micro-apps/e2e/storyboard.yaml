@@ -1097,3 +1097,33 @@ routes:
     iid: 9
     properties:
       textContent: This should always be shown
+
+- path: '${APP.homepage}/debug'
+  context:
+  - name: debug
+    value: false
+  bricks:
+  - brick: button
+    properties:
+      textContent: Toggle Debug
+    events:
+      click:
+      - action: context.replace
+        args:
+        - debug
+        - <% !CTX.debug %>
+  - brick: e2e.list-by-use-brick
+    properties:
+      data: [1, 2]
+      useBrick:
+      - brick: div
+        children:
+        - brick: div
+          portal: true
+          children:
+          - brick: :if
+            dataSource: <%= CTX.debug %>
+            children:
+            - brick: p
+              properties:
+                textContent: '<% `Debug: ${DATA}` %>'

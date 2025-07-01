@@ -1068,30 +1068,31 @@ describe("renderBrick for control nodes", () => {
     expect(output1).toEqual({
       blockingList: [],
       node: expect.objectContaining({
-        tag: RenderTag.BRICK,
         return: renderRoot,
-        type: "div",
-        properties: {
-          textContent: "a",
-          title: "0/2",
-        },
-        slotId: undefined,
-        sibling: expect.objectContaining({
+        tag: RenderTag.ABSTRACT,
+        child: expect.objectContaining({
           tag: RenderTag.BRICK,
-          return: renderRoot,
           type: "div",
           properties: {
-            textContent: "b",
-            title: "1/2",
+            textContent: "a",
+            title: "0/2",
           },
           slotId: undefined,
+          sibling: expect.objectContaining({
+            tag: RenderTag.BRICK,
+            type: "div",
+            properties: {
+              textContent: "b",
+              title: "1/2",
+            },
+            slotId: undefined,
+          }),
         }),
       }),
     });
     expect(output2).toEqual({
       node: {
-        tag: RenderTag.PLACEHOLDER,
-        tracking: false,
+        tag: RenderTag.ABSTRACT,
         return: {
           tag: RenderTag.ROOT,
         },
@@ -1623,31 +1624,36 @@ describe("renderBrick for control nodes", () => {
     expect(output1).toEqual({
       blockingList: [],
       node: expect.objectContaining({
-        tag: RenderTag.BRICK,
+        tag: RenderTag.ABSTRACT,
         return: renderRoot,
-        type: "div",
-        properties: {
-          textContent: "Good",
-        },
-        slotId: undefined,
+        child: expect.objectContaining({
+          tag: RenderTag.BRICK,
+          type: "div",
+          properties: {
+            textContent: "Good",
+          },
+          slotId: undefined,
+        }),
       }),
     });
     expect(output2).toEqual({
       blockingList: [],
       node: expect.objectContaining({
-        tag: RenderTag.BRICK,
+        tag: RenderTag.ABSTRACT,
         return: renderRoot,
-        type: "div",
-        properties: {
-          textContent: "Bad",
-        },
-        slotId: undefined,
+        child: expect.objectContaining({
+          tag: RenderTag.BRICK,
+          type: "div",
+          properties: {
+            textContent: "Bad",
+          },
+          slotId: undefined,
+        }),
       }),
     });
     expect(output3).toEqual({
       node: {
-        tag: RenderTag.PLACEHOLDER,
-        tracking: false,
+        tag: RenderTag.ABSTRACT,
         return: {
           tag: RenderTag.ROOT,
         },
@@ -1691,28 +1697,34 @@ describe("renderBrick for control nodes", () => {
           },
         },
         {
-          iid: "if-a",
           brick: ":if",
-          dataSource: "<%= CTX.quality === 'bad' %>",
+          dataSource: true,
           children: [
             {
-              brick: "h2",
-              properties: {
-                textContent: "Warning",
-              },
+              iid: "if-a",
+              brick: ":if",
+              dataSource: "<%= CTX.quality === 'bad' %>",
+              children: [
+                {
+                  brick: "h2",
+                  properties: {
+                    textContent: "Warning",
+                  },
+                },
+              ],
             },
-          ],
-        },
-        {
-          iid: "if:b",
-          brick: ":if",
-          dataSource: "<%= CTX.quality === 'bad' %>",
-          children: [
             {
-              brick: "p",
-              properties: {
-                textContent: "Not good",
-              },
+              iid: "if:b",
+              brick: ":if",
+              dataSource: "<%= CTX.quality === 'bad' %>",
+              children: [
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "Not good",
+                  },
+                },
+              ],
             },
           ],
         },
@@ -1744,6 +1756,90 @@ describe("renderBrick for control nodes", () => {
     expect(container.innerHTML).toBe(
       "<h1>Before</h1><h2>Warning</h2><p>Not good</p>"
     );
+
+    unmountTree(container);
+    unmountTree(portal);
+    rendererContext.dispatchOnUnmount();
+    rendererContext.dispose();
+  });
+
+  test("nested if", async () => {
+    const container = document.createElement("div");
+    const portal = document.createElement("div");
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+      container,
+      createPortal: portal,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      tplStateStoreMap: new Map(),
+      formStateStoreMap: new Map(),
+      pendingPermissionsPreCheck: [] as undefined[],
+    } as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "quality",
+          value: "good",
+        },
+      ],
+      runtimeContext
+    );
+    const rendererContext = new RendererContext("page");
+    const output = await renderBricks(
+      renderRoot,
+      [
+        {
+          brick: ":if",
+          dataSource: "<%= CTX.quality !== 'bad' %>",
+          children: [
+            {
+              iid: "if-a",
+              brick: ":if",
+              dataSource: "<%= CTX.quality === 'better' %>",
+              children: [
+                {
+                  brick: "h2",
+                  properties: {
+                    textContent: "Better",
+                  },
+                },
+              ],
+            },
+            {
+              brick: ":if",
+              dataSource: true,
+              children: [
+                {
+                  brick: "p",
+                  properties: {
+                    textContent: "Cool",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      runtimeContext,
+      rendererContext,
+      [],
+      {}
+    );
+    renderRoot.child = output.node;
+    await Promise.all([...output.blockingList, ctxStore.waitForAll()]);
+    mountTree(renderRoot);
+    rendererContext.dispatchOnMount();
+    rendererContext.initializeScrollIntoView();
+
+    expect(container.innerHTML).toBe("<p>Cool</p>");
+
+    ctxStore.updateValue("quality", "better", "replace");
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(container.innerHTML).toBe("<h2>Better</h2><p>Cool</p>");
 
     unmountTree(container);
     unmountTree(portal);
@@ -1933,13 +2029,16 @@ describe("renderBrick for control nodes", () => {
     expect(output).toEqual({
       blockingList: [],
       node: expect.objectContaining({
-        tag: RenderTag.BRICK,
+        tag: RenderTag.ABSTRACT,
         return: renderRoot,
-        type: "div",
-        properties: {
-          textContent: "B",
-        },
-        slotId: undefined,
+        child: expect.objectContaining({
+          tag: RenderTag.BRICK,
+          type: "div",
+          properties: {
+            textContent: "B",
+          },
+          slotId: undefined,
+        }),
       }),
     });
   });
