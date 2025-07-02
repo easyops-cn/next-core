@@ -66,6 +66,8 @@ export interface RenderBrick extends BaseRenderNode, RuntimeBrick {
 export interface RenderAbstract extends BaseRenderNode {
   tag: RenderTag.ABSTRACT;
   return: RenderReturnNode;
+  iid?: string;
+  disposes?: (() => void)[];
 }
 
 export interface BaseRenderNode {
