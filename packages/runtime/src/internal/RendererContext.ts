@@ -15,6 +15,7 @@ import { getReadOnlyProxy } from "./proxyFactories.js";
 import { Media, mediaEventTarget } from "./mediaQuery.js";
 import type {
   MenuRequestNode,
+  RenderAbstract,
   RenderBrick,
   RenderChildNode,
   RenderNode,
@@ -359,6 +360,12 @@ export class RendererContext {
     }
   }
 
+  #unmountAbstracts(abstracts: Set<RenderAbstract>) {
+    for (const item of abstracts) {
+      item.disposes?.forEach((dispose) => dispose());
+    }
+  }
+
   #initializeRerenderBricks(bricks: Set<RenderBrick>): void {
     const mountEvent = new CustomEvent("mount");
     for (const { brick, handlers } of this.#memoizedLifeCycle.onMount) {
@@ -429,9 +436,11 @@ export class RendererContext {
       current = current.sibling;
     }
 
-    // Unmount previous bricks, including their descendants
-    const removeBricks = getContainedBricks(oldNode);
+    // Unmount previous brick and abstract nodes, including their descendants
+    const [removeBricks, removeAbstracts] =
+      getContainedBrickAndAbstractNodes(oldNode);
     this.#unmountBricks(removeBricks);
+    this.#unmountAbstracts(removeAbstracts);
 
     mountTree(renderRoot);
 
@@ -442,6 +451,11 @@ export class RendererContext {
       returnNode.child = node;
     }
     node.sibling = oldNode.sibling;
+
+    // Clean up old node
+    delete oldNode.child;
+    delete oldNode.sibling;
+    delete (oldNode as Partial<RenderChildNode>).return;
 
     // Resume `return`
     current = node;
@@ -486,7 +500,7 @@ export class RendererContext {
       portal.insertBefore(portalFragment, insertPortalBeforeChild);
     }
 
-    const newBricks = getContainedBricks(node);
+    const [newBricks] = getContainedBrickAndAbstractNodes(node);
     this.#initializeRerenderBricks(newBricks);
   }
 
@@ -768,12 +782,17 @@ function findNextSiblingNode(
   }
 }
 
-function getContainedBricks(node: RenderChildNode) {
-  const range = new Set<RenderBrick>();
+function getContainedBrickAndAbstractNodes(
+  node: RenderChildNode
+): [bricks: Set<RenderBrick>, abstracts: Set<RenderAbstract>] {
+  const bricks = new Set<RenderBrick>();
+  const abstracts = new Set<RenderAbstract>();
   let current: RenderNode | undefined = node;
   while (current) {
     if (current.tag === RenderTag.BRICK) {
-      range.add(current);
+      bricks.add(current);
+    } else if (current.tag === RenderTag.ABSTRACT) {
+      abstracts.add(current);
     }
     if (current.child) {
       current = current.child;
@@ -787,7 +806,7 @@ function getContainedBricks(node: RenderChildNode) {
       while (currentReturn) {
         if (currentReturn === node) {
           // End the loop when encounter the original node.
-          return range;
+          return [bricks, abstracts];
         }
         if (currentReturn.sibling) {
           break;
@@ -797,13 +816,19 @@ function getContainedBricks(node: RenderChildNode) {
       current = currentReturn?.sibling;
     }
   }
-  return range;
+  return [bricks, abstracts];
 }
 
 function getEntityReturnNode(node: RenderReturnNode): RenderRoot | RenderBrick {
   let current = node;
   while (current.tag === RenderTag.ABSTRACT) {
     current = current.return;
+    // istanbul ignore next
+    if (!current) {
+      throw new Error(
+        "Cannot find render root node. This is a bug of Brick Next, please report it."
+      );
+    }
   }
   return current;
 }

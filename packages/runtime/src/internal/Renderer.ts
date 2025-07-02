@@ -347,6 +347,7 @@ async function legacyRenderBrick(
       returnNode,
       {
         brick: ":if",
+        iid: brickConf.iid,
         dataSource: brickIf,
         // `permissionsPreCheck` maybe required before computing `if`.
         permissionsPreCheck,
@@ -463,11 +464,12 @@ async function legacyRenderBrick(
         (slots[slot] as SlotConfOfBricks)?.bricks;
 
       const output = getEmptyRenderOutput();
-      const controlNode: RenderAbstract = {
+      const abstractNode: RenderAbstract = {
         tag: RenderTag.ABSTRACT,
         return: returnNode,
+        iid: brickConf.iid,
       };
-      output.node = controlNode;
+      output.node = abstractNode;
 
       if (!Array.isArray(bricks)) {
         return output;
@@ -481,7 +483,7 @@ async function legacyRenderBrick(
             break;
           }
           childrenOutput = await renderForEach(
-            controlNode,
+            abstractNode,
             computedDataSource,
             bricks,
             runtimeContext,
@@ -497,7 +499,7 @@ async function legacyRenderBrick(
         case ":if":
         case ":switch": {
           childrenOutput = await renderBricks(
-            controlNode,
+            abstractNode,
             bricks,
             runtimeContext,
             rendererContext,
@@ -511,7 +513,7 @@ async function legacyRenderBrick(
       }
 
       if (childrenOutput) {
-        controlNode.child = childrenOutput.node;
+        abstractNode.child = childrenOutput.node;
         mergeRenderOutput(output, { ...childrenOutput, node: undefined });
       }
 
@@ -641,7 +643,7 @@ async function legacyRenderBrick(
         trailing: true,
       });
       const runtimeBrick =
-        returnNode.tag === RenderTag.BRICK ? returnNode : null;
+        returnNode.tag === RenderTag.ROOT ? null : returnNode;
       const disposes = runtimeBrick ? (runtimeBrick.disposes ??= []) : [];
       if (contextNames) {
         for (const contextName of contextNames) {
@@ -899,11 +901,11 @@ async function legacyRenderBrick(
         }
 
         let lastOutput = getEmptyRenderOutput();
-        const controlNode: RenderAbstract = {
+        const abstractNode: RenderAbstract = {
           tag: RenderTag.ABSTRACT,
           return: brick,
         };
-        lastOutput.node = controlNode;
+        lastOutput.node = abstractNode;
 
         const parentRoute = parentRoutes[parentRoutes.length - 1] as
           | RouteConfOfBricks
@@ -1034,7 +1036,7 @@ async function legacyRenderBrick(
         }
 
         const routesOutput = await renderRoutes(
-          controlNode,
+          abstractNode,
           slotConf.routes,
           childRuntimeContext,
           rendererContext,
@@ -1045,7 +1047,7 @@ async function legacyRenderBrick(
           initialTracker
         );
 
-        controlNode.child = routesOutput.node;
+        abstractNode.child = routesOutput.node;
         mergeRenderOutput(output, { ...routesOutput, node: undefined });
         appendMenuRequestNode(
           menuRequestReturnNode,
