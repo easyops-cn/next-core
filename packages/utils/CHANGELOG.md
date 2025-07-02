@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.36...@next-core/utils@1.8.0) (2025-07-02)
+
+
+### Features
+
+* createRoot supports useChildren ([5ceb8ff](https://github.com/easyops-cn/next-core/commit/5ceb8ff899cf9637c1f01025622c3a5acba73d64))
+
+
+
+
+
 ## [1.7.36](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.35...@next-core/utils@1.7.36) (2025-06-24)
 
 **Note:** Version bump only for package @next-core/utils

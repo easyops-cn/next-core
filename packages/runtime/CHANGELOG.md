@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.3...@next-core/runtime@1.63.0) (2025-07-02)
+
+
+### Features
+
+* createRoot supports useChildren ([5ceb8ff](https://github.com/easyops-cn/next-core/commit/5ceb8ff899cf9637c1f01025622c3a5acba73d64))
+
+
+
+
+
 ## [1.62.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.2...@next-core/runtime@1.62.3) (2025-07-02)
 
 
