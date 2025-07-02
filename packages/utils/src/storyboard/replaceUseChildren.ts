@@ -6,10 +6,16 @@ const USE_CHILDREN_SLOT_REGEXP = /^\[\w+\]$/;
 
 /**
  * Replace `useChildren: "[xxx]"` with `useBrick`.
+ *
+ * This will mutate the input.
  */
-export function replaceUseChildren(bricks: BrickConf[]) {
-  for (const brick of bricks) {
-    replaceInBrick(brick);
+export function replaceUseChildren(input: BrickConf | BrickConf[]) {
+  if (Array.isArray(input)) {
+    for (const brick of input) {
+      replaceInBrick(brick);
+    }
+  } else {
+    replaceInBrick(input);
   }
 }
 

@@ -26,7 +26,6 @@ import type {
   PreviewWindow,
 } from "../types.d.ts";
 import { get } from "lodash";
-import { replaceUseChildren } from "./replaceUseChildren.js";
 // Chrome supports `Element.prototype.replaceChildren` since version 86
 import "../../brick-container/src/replaceChildren.js";
 
@@ -92,6 +91,7 @@ const root = unstable_createRoot(container, {
   portal,
   scope: "page",
   unknownBricks: "silent",
+  supportsUseChildren: true,
 });
 
 const bootstrap = http
@@ -225,7 +225,6 @@ async function render(
             | BrickConf[])
         : null;
       const bricks = [].concat(parsed ?? []);
-      replaceUseChildren(bricks);
       if (styleText) {
         bricks.push({
           brick: "style",
@@ -243,14 +242,6 @@ async function render(
         templatesAreArrayOfYaml
       ) as CustomTemplate[];
       const parsedI18n = loadYaml(i18nData) as MetaI18n;
-
-      if (Array.isArray(parsedTemplates)) {
-        for (const template of parsedTemplates) {
-          if (Array.isArray(template.bricks)) {
-            replaceUseChildren(template.bricks);
-          }
-        }
-      }
 
       await bootstrap;
       await root.render(bricks, {
