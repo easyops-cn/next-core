@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.62.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.2...@next-core/runtime@1.62.3) (2025-07-02)
+
+
+### Bug Fixes
+
+* dispose abstract nodes ([13ba33a](https://github.com/easyops-cn/next-core/commit/13ba33a8959a0350dc91bce952204096ac10af01))
+
+
+
+
+
 ## [1.62.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.1...@next-core/runtime@1.62.2) (2025-07-01)
 
 
