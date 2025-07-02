@@ -30,10 +30,20 @@ import type { RenderOutput } from "./Renderer.js";
 
 type MemoizedLifeCycle<T> = {
   [Key in keyof T]: {
-    brick: RenderBrick;
+    node: RenderBrick | RenderAbstract;
     handlers: T[Key];
   }[];
 };
+
+interface BrickUnmountInfo {
+  node: RenderBrick;
+  handlers: BrickEventHandler | BrickEventHandler[];
+}
+
+interface AbstractUnmountInfo {
+  node: RenderAbstract;
+  handlers: BrickEventHandler | BrickEventHandler[];
+}
 
 type LocationChangeCallback = (
   location: Location<NextHistoryState>,
@@ -291,7 +301,7 @@ export class RendererContext {
       const handlers = (lifeCycle as BrickLifeCycle)[key as "onPageLoad"];
       if (handlers) {
         this.#memoizedLifeCycle[key as "onPageLoad"].push({
-          brick,
+          node: brick,
           handlers: handlers as BrickEventHandler | BrickEventHandler[],
         });
       }
@@ -317,19 +327,16 @@ export class RendererContext {
       ...commonLifeCycles,
       ...(this.scope === "page" ? pageOnlyLifeCycles : []),
     ];
-    const unmountList: {
-      brick: RenderBrick;
-      handlers: BrickEventHandler | BrickEventHandler[];
-    }[] = [];
+    const unmountList: BrickUnmountInfo[] = [];
 
     // Clear life cycle handlers, record `onUnmount` at the same time
     for (const key of lifeCycleTypes) {
       const removed = remove(
         this.#memoizedLifeCycle[key as "onPageLoad"],
-        (item) => bricks.has(item.brick)
+        (item) => item.node.tag === RenderTag.BRICK && bricks.has(item.node)
       );
       if (key === "onUnmount") {
-        unmountList.push(...removed);
+        unmountList.push(...(removed as BrickUnmountInfo[]));
       }
     }
 
@@ -355,29 +362,49 @@ export class RendererContext {
 
     // Dispatch unmount events
     const unmountEvent = new CustomEvent("unmount");
-    for (const { brick, handlers } of unmountList) {
-      listenerFactory(handlers, brick.runtimeContext, brick)(unmountEvent);
+    for (const { node, handlers } of unmountList) {
+      listenerFactory(handlers, node.runtimeContext, node)(unmountEvent);
     }
   }
 
   #unmountAbstracts(abstracts: Set<RenderAbstract>) {
+    const unmountList: AbstractUnmountInfo[] = [];
+
+    // Clean up
     for (const item of abstracts) {
       item.disposes?.forEach((dispose) => dispose());
+    }
+
+    // Dispatch unmount events
+    const unmountEvent = new CustomEvent("unmount", {
+      detail: { rerender: true },
+    });
+    for (const { node, handlers } of unmountList) {
+      listenerFactory(handlers, node.runtimeContext!)(unmountEvent);
     }
   }
 
   #initializeRerenderBricks(bricks: Set<RenderBrick>): void {
     const mountEvent = new CustomEvent("mount");
-    for (const { brick, handlers } of this.#memoizedLifeCycle.onMount) {
-      if (bricks.has(brick)) {
-        listenerFactory(handlers, brick.runtimeContext, brick)(mountEvent);
+    for (const { node, handlers } of this.#memoizedLifeCycle.onMount) {
+      if (node.tag === RenderTag.BRICK && bricks.has(node)) {
+        listenerFactory(handlers, node.runtimeContext!, node)(mountEvent);
       }
     }
 
-    for (const { brick, handlers: conf } of this.#memoizedLifeCycle
+    for (const { node, handlers: conf } of this.#memoizedLifeCycle
       .onScrollIntoView) {
-      if (bricks.has(brick)) {
-        this.#addObserver(brick, conf);
+      if (node.tag === RenderTag.BRICK && bricks.has(node)) {
+        this.#addObserver(node, conf);
+      }
+    }
+  }
+
+  #initializeRerenderAbstracts(abstracts: Set<RenderAbstract>): void {
+    const mountEvent = new CustomEvent("mount", { detail: { rerender: true } });
+    for (const { node, handlers } of this.#memoizedLifeCycle.onMount) {
+      if (node.tag === RenderTag.ABSTRACT && abstracts.has(node)) {
+        listenerFactory(handlers, node.runtimeContext!)(mountEvent);
       }
     }
   }
@@ -500,8 +527,9 @@ export class RendererContext {
       portal.insertBefore(portalFragment, insertPortalBeforeChild);
     }
 
-    const [newBricks] = getContainedBrickAndAbstractNodes(node);
+    const [newBricks, newAbstracts] = getContainedBrickAndAbstractNodes(node);
     this.#initializeRerenderBricks(newBricks);
+    this.#initializeRerenderAbstracts(newAbstracts);
   }
 
   dispose(): void {
@@ -549,8 +577,12 @@ export class RendererContext {
         `\`lifeCycle.${type}\` cannot be used in ${this.scope}.\nThis is a bug of Brick Next, please report it.`
       );
     }
-    for (const { brick, handlers } of this.#memoizedLifeCycle[type]) {
-      listenerFactory(handlers, brick.runtimeContext, brick)(event);
+    for (const { node, handlers } of this.#memoizedLifeCycle[type]) {
+      listenerFactory(
+        handlers,
+        node.runtimeContext!,
+        node.tag === RenderTag.BRICK ? node : undefined
+      )(event);
     }
     const arbitraryCallbacks = this.#arbitraryLifeCycle.get(type);
     if (arbitraryCallbacks) {
@@ -612,9 +644,9 @@ export class RendererContext {
   }
 
   initializeScrollIntoView(): void {
-    for (const { brick, handlers: conf } of this.#memoizedLifeCycle
+    for (const { node, handlers: conf } of this.#memoizedLifeCycle
       .onScrollIntoView) {
-      this.#addObserver(brick, conf);
+      this.#addObserver(node as RenderBrick, conf);
     }
   }
 
@@ -661,14 +693,14 @@ export class RendererContext {
   }
 
   initializeMessageDispatcher(): void {
-    for (const { brick, handlers: confList } of this.#memoizedLifeCycle
+    for (const { node, handlers: confList } of this.#memoizedLifeCycle
       .onMessage) {
       for (const conf of ([] as MessageConf[]).concat(confList)) {
         hooks?.messageDispatcher?.onMessage(conf.channel, (detail) => {
           listenerFactory(
             conf.handlers,
-            brick.runtimeContext,
-            brick
+            node.runtimeContext!,
+            node as RenderBrick
           )(new CustomEvent("message.push", { detail }));
         });
       }

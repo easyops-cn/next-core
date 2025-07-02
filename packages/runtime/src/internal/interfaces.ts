@@ -68,6 +68,7 @@ export interface RenderAbstract extends BaseRenderNode {
   return: RenderReturnNode;
   iid?: string;
   disposes?: (() => void)[];
+  runtimeContext?: RuntimeContext;
 }
 
 export interface BaseRenderNode {

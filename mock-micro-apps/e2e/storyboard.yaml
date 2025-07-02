@@ -1101,7 +1101,7 @@ routes:
 - path: '${APP.homepage}/debug'
   context:
   - name: debug
-    value: false
+    value: true
   bricks:
   - brick: button
     properties:
@@ -1112,18 +1112,42 @@ routes:
         args:
         - debug
         - <% !CTX.debug %>
-  - brick: e2e.list-by-use-brick
-    properties:
-      data: [1, 2]
-      useBrick:
-      - brick: div
-        children:
-        - brick: div
-          portal: true
-          children:
-          - brick: :if
-            dataSource: <%= CTX.debug %>
-            children:
-            - brick: p
-              properties:
-                textContent: '<% `Debug: ${DATA}` %>'
+  - brick: :if
+    dataSource: <%= CTX.debug %>
+    children:
+    - brick: h2
+      properties:
+        textContent: Debug Mode
+      lifeCycle:
+        onMount:
+          action: console.info
+          args:
+            - Debug title mounted
+        onUnmount:
+          action: console.info
+          args:
+            - Debug title unmounted
+    - brick: :if
+      dataSource: true
+      children:
+      - brick: p
+        properties:
+          textContent: Debugging is enabled
+      lifeCycle:
+        onMount:
+          action: console.info
+          args:
+            - Debug description mounted
+        onUnmount:
+          action: console.info
+          args:
+            - Debug description unmounted
+    lifeCycle:
+      onMount:
+        action: console.info
+        args:
+          - Debug mounted
+      onUnmount:
+        action: console.info
+        args:
+          - Debug unmounted
