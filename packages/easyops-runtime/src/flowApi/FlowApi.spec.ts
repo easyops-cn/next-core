@@ -51,6 +51,7 @@ jest
               method: "get",
               uri: "/api/status",
             },
+            request: {},
             namespace: [{ name: "easyops.custom_api" }],
           },
         } as any;
@@ -106,6 +107,87 @@ jest
             },
           },
         };
+      case "easyops.custom_api.TestPost":
+        return {
+          contractData: {
+            name: "TestPost",
+            version: "1.0.0",
+            endpoint: {
+              method: "POST",
+              uri: "/test/post/:id",
+            },
+            request: {
+              type: "object",
+              fields: [
+                {
+                  description: "id",
+                  name: "id",
+                  type: "string",
+                },
+                {
+                  name: "title",
+                },
+              ],
+            },
+            namespace: [{ name: "easyops.custom_api" }],
+          },
+        };
+      case "easyops.custom_api.TestPostWithExtFieldsQuery":
+        return {
+          contractData: {
+            name: "TestPostWithExtFieldsQuery",
+            version: "1.0.0",
+            endpoint: {
+              method: "POST",
+              uri: "/test/post",
+              ext_fields: [
+                {
+                  name: "args",
+                  source: "query",
+                },
+              ],
+            },
+            request: {
+              type: "object",
+              fields: [
+                {
+                  name: "args",
+                  type: "object",
+                },
+              ],
+            },
+            namespace: [{ name: "easyops.custom_api" }],
+          },
+        };
+      case "easyops.custom_api.TestPostWithExtFieldsBody":
+        return {
+          contractData: {
+            name: "TestPostWithExtFieldsBody",
+            version: "1.0.0",
+            endpoint: {
+              method: "POST",
+              uri: "/test/post/:id",
+              ext_fields: [
+                {
+                  name: "args",
+                  source: "body",
+                },
+              ],
+            },
+            request: {
+              type: "object",
+              fields: [
+                {
+                  name: "id",
+                },
+                {
+                  name: "args",
+                },
+              ],
+            },
+            namespace: [{ name: "easyops.custom_api" }],
+          },
+        };
       case "easyops.custom_api.noneMock":
         return {};
       case "easyops.custom_api.noUri":
@@ -134,7 +216,24 @@ describe("FlowApi", () => {
         method: "get",
         responseWrapper: false,
         isFileType: false,
+        request: {},
       },
+    ]);
+
+    expect(
+      await getArgsOfFlowApi("easyops.custom_api@getStatus:1.0.0", {
+        params: {},
+      })
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.getStatus@1.0.0/api/status",
+        originalUri: "/api/status",
+        method: "get",
+        responseWrapper: false,
+        isFileType: false,
+        request: {},
+      },
+      {},
     ]);
 
     expect(
@@ -163,6 +262,41 @@ describe("FlowApi", () => {
         isFileType: true,
       },
     ]);
+
+    expect(
+      await getArgsOfFlowApi(
+        "easyops.custom_api@exportMarkdown:1.0.0",
+        { params: { id: "123" }, filename: "test.md" },
+        "saveAs"
+      )
+    ).toEqual([
+      "test.md",
+      {
+        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export/123",
+        originalUri: "/api/export/:id",
+        method: "get",
+        request: {
+          fields: [
+            {
+              description: "id",
+              name: "id",
+              type: "string",
+            },
+          ],
+          type: "object",
+        },
+        responseWrapper: true,
+        isFileType: true,
+      },
+    ]);
+
+    expect(() =>
+      getArgsOfFlowApi(
+        "easyops.custom_api@exportMarkdown:1.0.0",
+        { params: { key: "123" }, filename: "test.md" },
+        "saveAs"
+      )
+    ).rejects.toMatchInlineSnapshot(`[Error: Missing required param: "id"]`);
 
     expect(
       await getArgsOfFlowApi("easyops.custom_api@exportMarkdown:1.0.0", ["123"])
@@ -223,6 +357,174 @@ describe("FlowApi", () => {
         originalUri: "/api/checkLogin",
         isFileType: false,
       },
+    ]);
+
+    expect(
+      await getArgsOfFlowApi("easyops.custom_api@TestPost:1.0.0", {
+        params: { id: "123", title: "Hello" },
+      })
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.TestPost@1.0.0/test/post/123",
+        originalUri: "/test/post/:id",
+        method: "POST",
+        request: {
+          fields: [
+            {
+              description: "id",
+              name: "id",
+              type: "string",
+            },
+            {
+              name: "title",
+            },
+          ],
+          type: "object",
+        },
+        responseWrapper: false,
+        isFileType: false,
+      },
+      {
+        title: "Hello",
+      },
+    ]);
+
+    expect(
+      await getArgsOfFlowApi(
+        "easyops.custom_api@TestPostWithExtFieldsQuery:1.0.0",
+        { params: { args: { id: "123" } } }
+      )
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsQuery@1.0.0/test/post",
+        originalUri: "/test/post",
+        method: "POST",
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "args",
+              type: "object",
+            },
+          ],
+        },
+        ext_fields: [
+          {
+            name: "args",
+            source: "query",
+          },
+        ],
+        responseWrapper: false,
+        isFileType: false,
+      },
+      {
+        id: "123",
+      },
+    ]);
+
+    // Missing query field in params
+    expect(
+      await getArgsOfFlowApi(
+        "easyops.custom_api@TestPostWithExtFieldsQuery:1.0.0",
+        {
+          params: { foo: "bar" },
+          options: { headers: { "X-Custom-Header": "value" } },
+        }
+      )
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsQuery@1.0.0/test/post",
+        originalUri: "/test/post",
+        method: "POST",
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "args",
+              type: "object",
+            },
+          ],
+        },
+        ext_fields: [
+          {
+            name: "args",
+            source: "query",
+          },
+        ],
+        responseWrapper: false,
+        isFileType: false,
+      },
+      undefined,
+      { headers: { "X-Custom-Header": "value" } },
+    ]);
+
+    expect(
+      await getArgsOfFlowApi(
+        "easyops.custom_api@TestPostWithExtFieldsBody:1.0.0",
+        { params: { id: "123", args: { title: "Hello" } } }
+      )
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsBody@1.0.0/test/post/123",
+        originalUri: "/test/post/:id",
+        method: "POST",
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "id",
+            },
+            {
+              name: "args",
+            },
+          ],
+        },
+        ext_fields: [
+          {
+            name: "args",
+            source: "body",
+          },
+        ],
+        responseWrapper: false,
+        isFileType: false,
+      },
+      {
+        title: "Hello",
+      },
+    ]);
+
+    // Missing body field in params
+    expect(
+      await getArgsOfFlowApi(
+        "easyops.custom_api@TestPostWithExtFieldsBody:1.0.0",
+        { params: { id: "123" } }
+      )
+    ).toEqual([
+      {
+        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsBody@1.0.0/test/post/123",
+        originalUri: "/test/post/:id",
+        method: "POST",
+        request: {
+          type: "object",
+          fields: [
+            {
+              name: "id",
+            },
+            {
+              name: "args",
+            },
+          ],
+        },
+        ext_fields: [
+          {
+            name: "args",
+            source: "body",
+          },
+        ],
+        responseWrapper: false,
+        isFileType: false,
+      },
+      undefined,
     ]);
   });
 

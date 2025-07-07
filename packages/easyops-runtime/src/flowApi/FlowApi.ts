@@ -4,7 +4,9 @@ import type {
   ContractResponse,
   ExtField,
   ContractRequest,
+  UseProviderContractConf,
 } from "@next-core/types";
+import { hasOwnProperty } from "@next-core/utils/general";
 import { getContract } from "./CollectContracts.js";
 
 export type MinimalContractRequest = Pick<ContractRequest, "type"> & {
@@ -36,7 +38,7 @@ export function isFlowApiProvider(provider: string): boolean {
 
 export async function getArgsOfFlowApi(
   provider: string,
-  originalArgs: unknown[],
+  originalArgs: unknown[] | UseProviderContractConf,
   method?: string,
   stream?: boolean
 ): Promise<unknown[]> {
@@ -58,40 +60,36 @@ export async function getArgsOfFlowApi(
 }
 
 function getApiArgsFromApiProfile(
-  {
-    uri,
-    method: apiMethod,
-    ext_fields,
-    name,
-    namespace,
-    serviceName,
-    responseWrapper,
-    version,
-    isFileType,
-    request,
-  }: CustomApiProfile,
-  originalArgs: unknown[],
+  api: CustomApiProfile,
+  originalArgs: unknown[] | UseProviderContractConf,
   method?: string,
   stream?: boolean
 ): unknown[] {
+  const {
+    uri,
+    method: apiMethod,
+    ext_fields,
+    responseWrapper,
+    isFileType,
+    request,
+  } = api;
   // `saveAs` requires the first argument to be the filename.
   const isDownload = method === "saveAs";
-  let fileName: string | undefined;
+  let filename: string | undefined;
+  let fixedArgs = originalArgs;
   if (isDownload) {
-    fileName = originalArgs.shift() as string;
+    if (Array.isArray(originalArgs)) {
+      fixedArgs = originalArgs.slice();
+      filename = fixedArgs.shift() as string;
+    } else {
+      filename = originalArgs.filename;
+    }
   }
 
-  const { url, args } = getTransformedUriAndRestArgs(
-    uri,
-    originalArgs,
-    name,
-    namespace,
-    serviceName,
-    version
-  );
+  const { url, args } = getTransformedUriAndRestArgs(api, fixedArgs);
 
   return [
-    ...(isDownload ? [fileName] : []),
+    ...(isDownload ? [filename] : []),
     {
       url,
       originalUri: uri,
@@ -107,13 +105,20 @@ function getApiArgsFromApiProfile(
 }
 
 function getTransformedUriAndRestArgs(
-  uri: string,
-  originalArgs: unknown[],
-  name: string,
-  namespace: string,
-  serviceName: string | undefined,
-  version?: string
+  api: CustomApiProfile,
+  originalArgs: unknown[] | UseProviderContractConf
 ): { url: string; args: unknown[] } {
+  const {
+    uri,
+    name,
+    namespace,
+    serviceName,
+    version,
+    method = "GET",
+    request,
+    ext_fields,
+  } = api;
+
   const prefix = version
     ? serviceName === "logic.api.gateway" ||
       serviceName?.startsWith("logic.api.gateway.")
@@ -122,11 +127,64 @@ function getTransformedUriAndRestArgs(
         ? `api/gateway/${serviceName}`
         : `api/gateway/${namespace}.${name}@${version}`
     : `api/gateway/api_service.${namespace}.${name}`;
-  const restArgs = originalArgs.slice();
-  const transformedUri = uri.replace(
-    /:([^/]+)/g,
-    () => restArgs.shift() as string
-  );
+
+  let transformedUri: string;
+  let restArgs: unknown[] = [];
+  if (Array.isArray(originalArgs)) {
+    restArgs = originalArgs.slice();
+    transformedUri = uri.replace(/:([^/]+)/g, () => restArgs.shift() as string);
+  } else {
+    const restParams = { ...originalArgs.params };
+    transformedUri = uri.replace(/:([^/]+)/g, (_, key) => {
+      if (hasOwnProperty(restParams, key)) {
+        const value = restParams[key] as string;
+        delete restParams[key];
+        return value;
+      }
+      throw new Error(`Missing required param: "${key}"`);
+    });
+
+    const isSimpleRequest = ["get", "delete", "head"].includes(
+      method.toLowerCase()
+    );
+    if (isSimpleRequest) {
+      const noParams =
+        request?.type === "object" &&
+        (uri.match(/:([^/]+)/g)?.length ?? 0) === (request.fields?.length ?? 0);
+      if (!noParams) {
+        restArgs.push(restParams);
+      }
+    } else {
+      const bodyField = ext_fields?.find((item) => item.source === "body");
+      if (bodyField) {
+        let body: Record<string, unknown> | undefined;
+        if (bodyField.name && hasOwnProperty(restParams, bodyField.name)) {
+          body = restParams[bodyField.name] as Record<string, unknown>;
+          delete restParams[bodyField.name];
+        }
+        restArgs.push(body);
+      }
+
+      const queryField = ext_fields?.find((item) => item.source === "query");
+      if (queryField) {
+        let query: Record<string, unknown> | undefined;
+        if (queryField.name && hasOwnProperty(restParams, queryField.name)) {
+          query = restParams[queryField.name] as Record<string, unknown>;
+          delete restParams[queryField.name];
+        }
+
+        restArgs.push(query);
+      }
+
+      if (!bodyField && !queryField) {
+        restArgs.push(restParams);
+      }
+    }
+
+    if (originalArgs.options) {
+      restArgs.push(originalArgs.options);
+    }
+  }
   return {
     url: prefix ? prefix + transformedUri : transformedUri.replace(/^\//, ""),
     args: restArgs,

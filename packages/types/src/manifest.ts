@@ -670,7 +670,8 @@ export type ResolveConf = UseProviderResolveConf;
 /**
  * 使用 `useProvider` 的异步数据处理配置。
  */
-export interface UseProviderResolveConf {
+export interface UseProviderResolveConf
+  extends Partial<UseProviderContractConf> {
   /** 指定要使用的构件名。 */
   useProvider: string;
 
@@ -678,7 +679,7 @@ export interface UseProviderResolveConf {
   method?: string;
 
   /**
-   * 需要传递给 `method` 的参数列表。
+   * 需要传递给 `method` 的参数列表。优先级高于 `params`。
    *
    * @injectable
    */
@@ -692,6 +693,17 @@ export interface UseProviderResolveConf {
 
   /** {@inheritDoc BuiltinBrickEventHandler.if} */
   if?: string | boolean;
+}
+
+export interface UseProviderContractConf {
+  /** 根据契约定义的参数对象。优先级低于 `args`。*/
+  params: Record<string, unknown>;
+
+  /** 配合 `params` 使用，传递给 http 库（fetch）的选项。 */
+  options?: RequestInit;
+
+  /** 配合 `saveAs` 使用，指定下载文件名 */
+  filename?: string;
 }
 
 /** {@inheritDoc HandleRejectByTransform} */
@@ -1018,7 +1030,8 @@ export interface BuiltinBrickEventHandler {
 /**
  * 使用 Provider 构件进行事件处理的配置。
  */
-export interface UseProviderEventHandler {
+export interface UseProviderEventHandler
+  extends Partial<UseProviderContractConf> {
   /** {@inheritDoc UseProviderResolveConf.useProvider} */
   useProvider: string;
 

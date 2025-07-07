@@ -9,6 +9,7 @@ import type {
   RouteConf,
   ResolveConf,
   BrickPackage,
+  UseProviderContractConf,
 } from "@next-core/types";
 import { i18n, initializeI18n } from "@next-core/i18n";
 import { loadBricksImperatively } from "@next-core/loader";
@@ -83,7 +84,7 @@ export interface RuntimeHooks {
     isFlowApiProvider(provider: string): boolean;
     getArgsOfFlowApi(
       provider: string,
-      originalArgs: unknown[],
+      originalArgs: unknown[] | UseProviderContractConf,
       method?: string,
       stream?: boolean
     ): Promise<unknown[]>;

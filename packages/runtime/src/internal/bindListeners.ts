@@ -11,9 +11,11 @@ import type {
   UseProviderEventHandler,
   ConditionalEventHandler,
   BatchUpdateContextItem,
+  UseProviderContractConf,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
+import { pick } from "lodash";
 import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { getHistory } from "../history.js";
@@ -449,7 +451,7 @@ async function brickCallback(
       );
     }
 
-    let computedArgs = argsFactory(
+    let computedArgs: unknown[] | UseProviderContractConf = argsFactory(
       handler.args,
       runtimeContext,
       event,
@@ -459,6 +461,16 @@ async function brickCallback(
       isUseProviderHandler(handler) &&
       hooks?.flowApi?.isFlowApiProvider(handler.useProvider)
     ) {
+      if (!Array.isArray(handler.args) && handler.params) {
+        computedArgs = computeRealValue(
+          pick(handler, "params", "options", "filename"),
+          {
+            ...runtimeContext,
+            event,
+          }
+        ) as UseProviderContractConf;
+      }
+
       computedArgs = await hooks.flowApi.getArgsOfFlowApi(
         handler.useProvider,
         computedArgs,
