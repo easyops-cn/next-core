@@ -43,6 +43,7 @@ import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
 import { supply } from '@next-core/supply';
+import type { UseProviderContractConf } from '@next-core/types';
 import type { UseProviderResolveConf } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';
 
@@ -492,7 +493,7 @@ export interface RuntimeHooks {
         FLOW_API_PROVIDER: string;
         registerFlowApiProvider(): void;
         isFlowApiProvider(provider: string): boolean;
-        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string, stream?: boolean): Promise<unknown[]>;
+        getArgsOfFlowApi(provider: string, originalArgs: unknown[] | UseProviderContractConf, method?: string, stream?: boolean): Promise<unknown[]>;
         collectContract(contracts: Contract[] | undefined): void;
         collectWidgetContract(contracts: Contract[] | undefined): void;
         clearCollectWidgetContract(): void;
