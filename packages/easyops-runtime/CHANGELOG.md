@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.4...@next-core/easyops-runtime@0.15.0) (2025-07-07)
+
+
+### Features
+
+* support use contract params when using useProvider with contract ([e396b04](https://github.com/easyops-cn/next-core/commit/e396b042a9032724d43f827f2233571c649dc382))
+
+
+
+
+
 ## [0.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.3...@next-core/easyops-runtime@0.14.4) (2025-07-02)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
