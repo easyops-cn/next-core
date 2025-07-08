@@ -351,6 +351,7 @@ async function legacyRenderBrick(
         dataSource: brickIf,
         // `permissionsPreCheck` maybe required before computing `if`.
         permissionsPreCheck,
+        iid: brickConf.iid,
         slots: {
           "": {
             type: "bricks",
