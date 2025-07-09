@@ -1,4 +1,4 @@
-import type { SiteMode, SiteTheme } from "@next-core/types";
+import type { SiteMode, SiteTheme, SiteVariant } from "@next-core/types";
 import { JsonStorage } from "@next-core/utils/general";
 
 interface AppThemes {
@@ -100,4 +100,25 @@ export function getCssPropertyValue(
 ): string {
   if (!el) return "";
   return window.getComputedStyle(el)?.getPropertyValue(name) || "";
+}
+
+let variant: SiteVariant = "default";
+
+export function setThemeVariant(value: unknown) {
+  if (value !== "default" && value !== "elevo") {
+    return setThemeVariant("default");
+  }
+  if (variant === value) {
+    return;
+  }
+  document.documentElement.dataset.variant = variant = value;
+  window.dispatchEvent(
+    new CustomEvent("variant.change", {
+      detail: value,
+    })
+  );
+}
+
+export function getThemeVariant(): SiteVariant {
+  return variant;
 }

@@ -1619,6 +1619,11 @@ export type SiteTheme = "light" | "dark" | "dark-v2";
 export type SiteMode = "default" | "dashboard";
 
 /**
+ * 站点变体。
+ */
+export type SiteVariant = "default" | "elevo";
+
+/**
  * 国际化数据，以语言为键、文本内容为值的键值对。
  */
 export interface I18nData {

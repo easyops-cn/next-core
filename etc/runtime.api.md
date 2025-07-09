@@ -38,6 +38,7 @@ import type { RuntimeSnippet } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
+import type { SiteVariant } from '@next-core/types';
 import type { SlotConfOfRoutes } from '@next-core/types';
 import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
@@ -231,6 +232,9 @@ function getRenderId(): string | undefined;
 
 // @public (undocumented)
 export const getRuntime: () => Runtime;
+
+// @public (undocumented)
+export function getThemeVariant(): SiteVariant;
 
 // Warning: (ae-forgotten-export) The symbol "Kit" needs to be exported by the entry point index.d.ts
 //
