@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.64.0...@next-core/runtime@1.65.0) (2025-07-09)
+
+
+### Features
+
+* support theme variant ([04d4b49](https://github.com/easyops-cn/next-core/commit/04d4b49099df43afa98fd638a3144c8133f49477))
+
+
+
+
+
 # [1.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.63.0...@next-core/runtime@1.64.0) (2025-07-07)
 
 
