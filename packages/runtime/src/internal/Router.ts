@@ -30,6 +30,7 @@ import {
   getLocalAppsTheme,
   setMode,
   setTheme,
+  setThemeVariant,
 } from "../themeAndMode.js";
 import {
   _internalApiGetAppInBootstrapData,
@@ -404,6 +405,7 @@ export class Router {
         "light"
     );
     setMode("default");
+    setThemeVariant(getRuntime().getMiscSettings().globalThemeVariant);
 
     if (currentApp && !blocked) {
       hooks?.checkInstalledApps?.preCheckInstalledApps(

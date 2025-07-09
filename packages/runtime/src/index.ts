@@ -25,6 +25,7 @@ export {
   getCssPropertyValue,
   getCurrentTheme,
   getCurrentMode,
+  getThemeVariant,
   batchSetAppsLocalTheme,
   applyTheme,
 } from "./themeAndMode.js";

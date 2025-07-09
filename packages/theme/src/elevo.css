@@ -1,0 +1,17 @@
+:root {
+  --elevo-color-brand-rgb-channel: 37, 64, 255;
+  --elevo-color-brand: #2540ff;
+  --elevo-color-brand-hover: #5166ff;
+  --elevo-color-brand-active: #1e33cc;
+  --elevo-border-color: #ccd1de;
+  --elevo-border-radius: 8px;
+  --elevo-divider-color: rgba(222, 222, 223, 0.6);
+
+  --elevo-component-background: rgba(255, 255, 255, 0.73);
+  --elevo-component-backdrop-filter: blur(33px);
+
+  --elevo-input-background: rgba(255, 255, 255, 0.8);
+  --elevo-input-box-shadow: inset 0px -1px 3px 0px
+    rgba(var(--elevo-color-brand-rgb-channel), 0.5);
+  --elevo-placeholder-color: rgba(0, 10, 26, 0.26);
+}
