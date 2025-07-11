@@ -167,20 +167,15 @@ describe("variant", () => {
     setThemeVariant("elevo");
     expect(getThemeVariant()).toEqual("elevo");
     expect(document.documentElement.dataset.variant).toBe("elevo");
-  });
 
-  test("should apply the current theme variant", () => {
-    expect(getThemeVariant()).toEqual("default");
-    expect(document.documentElement.dataset.variant).toBe("default");
-    setThemeVariant("elevo");
-    expect(document.documentElement.dataset.variant).toBe("elevo");
-  });
-
-  test("should apply the specified theme variant", () => {
-    expect(getThemeVariant()).toEqual("default");
-    expect(document.documentElement.dataset.variant).toBe("default");
+    // Set the same variant again
     setThemeVariant("elevo");
     expect(getThemeVariant()).toEqual("elevo");
-    expect(document.documentElement.dataset.variant).toBe("elevo");
+  });
+
+  test("should fallback to default variant if an invalid one is set", () => {
+    setThemeVariant("oops" as any);
+    expect(getThemeVariant()).toEqual("default");
+    expect(document.documentElement.dataset.variant).toBe("default");
   });
 });
