@@ -68,6 +68,7 @@ export interface RenderAbstract extends BaseRenderNode {
   return: RenderReturnNode;
   iid?: string;
   disposes?: (() => void)[];
+  disposed?: boolean;
 }
 
 export interface BaseRenderNode {
@@ -94,6 +95,7 @@ export interface RuntimeBrick {
   portal?: boolean;
   ref?: string;
   disposes?: (() => void)[];
+  disposed?: boolean;
 }
 
 export type MetaInfoOfEventListener = [

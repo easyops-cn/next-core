@@ -610,7 +610,10 @@ async function legacyRenderBrick(
         });
 
         // Ignore stale renders
-        if (renderId === currentRenderId) {
+        if (
+          renderId === currentRenderId &&
+          !(returnNode.tag !== RenderTag.ROOT && returnNode.disposed)
+        ) {
           if (onUnmount) {
             listenerFactory(
               onUnmount,
@@ -1002,6 +1005,11 @@ async function legacyRenderBrick(
                   return true;
                 }
                 ({ failed, output: incrementalOutput } = result);
+              }
+
+              // istanbul ignore next: covered by e2e tests
+              if (brick.disposed) {
+                return true;
               }
 
               newControlNode.child = incrementalOutput.node;

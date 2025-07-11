@@ -363,6 +363,21 @@ export class RendererContext {
   #unmountAbstracts(abstracts: Set<RenderAbstract>) {
     for (const item of abstracts) {
       item.disposes?.forEach((dispose) => dispose());
+      delete item.disposes;
+    }
+  }
+
+  #cleanUpNodes(nodes: Set<RenderAbstract | RenderBrick>) {
+    for (const node of nodes) {
+      delete node.child;
+      delete node.sibling;
+      delete (node as Partial<RenderChildNode>).return;
+      node.disposed = true;
+      if (node.tag === RenderTag.BRICK) {
+        delete node.element;
+        delete (node as Partial<RenderBrick>).runtimeContext;
+      }
+      Object.freeze(node);
     }
   }
 
@@ -387,6 +402,10 @@ export class RendererContext {
     node: RenderChildNode,
     oldNode: RenderChildNode
   ) {
+    // istanbul ignore next: defensive check
+    if (returnNode.tag !== RenderTag.ROOT && returnNode.disposed) {
+      return;
+    }
     const [prevLastNormal, prevLastPortal] = findLastChildNodes(oldNode);
     const insertBeforeChild =
       (prevLastNormal
@@ -452,10 +471,8 @@ export class RendererContext {
     }
     node.sibling = oldNode.sibling;
 
-    // Clean up old node
-    delete oldNode.child;
-    delete oldNode.sibling;
-    delete (oldNode as Partial<RenderChildNode>).return;
+    this.#cleanUpNodes(removeAbstracts);
+    this.#cleanUpNodes(removeBricks);
 
     // Resume `return`
     current = node;
