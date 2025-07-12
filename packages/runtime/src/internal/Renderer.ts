@@ -592,12 +592,16 @@ async function legacyRenderBrick(
       type: "initial",
       runtimeContext,
     });
-
     const { onMount, onUnmount } = brickConf.lifeCycle ?? {};
 
     if (tracking) {
       let renderId = 0;
       const listener = async () => {
+        // TODO(steve): start listeners when mounting, and handle changes between rendering and mounting.
+        if (!returnNode.mounted || returnNode.disposed) {
+          return;
+        }
+
         const currentRenderId = ++renderId;
         const [scopedRuntimeContext, tplStateStoreScope, formStateStoreScope] =
           createScopedRuntimeContext(runtimeContext);
@@ -612,7 +616,8 @@ async function legacyRenderBrick(
         // Ignore stale renders
         if (
           renderId === currentRenderId &&
-          !(returnNode.tag !== RenderTag.ROOT && returnNode.disposed)
+          returnNode.mounted &&
+          !returnNode.disposed
         ) {
           if (onUnmount) {
             listenerFactory(

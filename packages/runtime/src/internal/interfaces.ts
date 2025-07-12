@@ -68,7 +68,6 @@ export interface RenderAbstract extends BaseRenderNode {
   return: RenderReturnNode;
   iid?: string;
   disposes?: (() => void)[];
-  disposed?: boolean;
 }
 
 export interface BaseRenderNode {
@@ -77,6 +76,8 @@ export interface BaseRenderNode {
   sibling?: RenderChildNode;
   return?: RenderReturnNode | null;
   childElements?: HTMLElement[];
+  disposed?: boolean;
+  mounted?: boolean;
 }
 
 export type RenderNode = RenderRoot | RenderBrick | RenderAbstract;
