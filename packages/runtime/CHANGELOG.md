@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.0...@next-core/runtime@1.65.1) (2025-07-12)
+
+
+### Bug Fixes
+
+* do not re-render controlled node after disposed ([f0351d3](https://github.com/easyops-cn/next-core/commit/f0351d39708617e46976b6374545eb49db92ae93))
+
+
+
+
+
 # [1.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.64.0...@next-core/runtime@1.65.0) (2025-07-09)
 
 
