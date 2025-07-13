@@ -17,10 +17,12 @@ export function mountTree(
   root: RenderRoot,
   initializedElement?: RuntimeBrickElement
 ): void {
+  root.mounted = true;
   window.DISABLE_REACT_FLUSH_SYNC = false;
   let current = root.child;
   const portalElements: RuntimeBrickElement[] = [];
   while (current) {
+    current.mounted = true;
     if (current.tag === RenderTag.BRICK) {
       const tagName = current.type;
 
