@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.65.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.1...@next-core/runtime@1.65.2) (2025-07-13)
+
+
+### Bug Fixes
+
+* dot not re-render controlled nodes before mounted ([3aaf6ff](https://github.com/easyops-cn/next-core/commit/3aaf6ff1580303079978d5ec8227359e41f835bd))
+
+
+
+
+
 ## [1.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.0...@next-core/runtime@1.65.1) (2025-07-12)
 
 
