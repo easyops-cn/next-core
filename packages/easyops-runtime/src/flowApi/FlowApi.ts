@@ -1,5 +1,8 @@
 import yaml from "js-yaml";
-import { ContractApi_searchSingleContract } from "@next-api-sdk/api-gateway-sdk";
+import {
+  ContractCenterApi_batchSearchContract,
+  type ContractCenterApi_BatchSearchContractResponseBody_list_item,
+} from "@next-api-sdk/next-builder-sdk";
 import type {
   ContractResponse,
   ExtField,
@@ -260,25 +263,46 @@ async function fetchFlowApiDefinitionFromRemote(
   name: string,
   version: string
 ): Promise<CustomApiDefinition | null> {
-  const { contractData } = await ContractApi_searchSingleContract({
-    contractName: `${namespace}.${name}`,
-    version,
-  });
+  let contractData:
+    | ContractCenterApi_BatchSearchContractResponseBody_list_item
+    | undefined;
+  const fullContractName = `${namespace}@${name}`;
+  let error: unknown;
 
-  // return undefined if don't found contract
-  return contractData
-    ? {
-        name: contractData.name,
-        namespace: contractData.namespace?.[0]?.name,
-        serviceName: contractData.serviceName,
-        version: contractData.version,
-        contract: {
-          endpoint: contractData.endpoint,
-          response: contractData.response,
-          request: contractData.request,
+  try {
+    const { list: contractList } = await ContractCenterApi_batchSearchContract({
+      contract: [
+        {
+          fullContractName,
+          version,
         },
-      }
-    : null;
+      ],
+    });
+    contractData = contractList![0];
+  } catch (e) {
+    error = e;
+  }
+
+  if (!contractData) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Failed to fetch Flow API definition for "${fullContractName}:${version}"`,
+      error ?? "Contract not found"
+    );
+    return null;
+  }
+
+  return {
+    name: contractData.name,
+    namespace: contractData.namespaceId,
+    serviceName: contractData.serviceName,
+    version: contractData.version,
+    contract: {
+      endpoint: contractData.endpoint,
+      response: contractData.response,
+      request: contractData.request,
+    },
+  } as CustomApiDefinition;
 }
 
 export interface CustomApiDefinition {

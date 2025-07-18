@@ -2111,6 +2111,13 @@
   dependencies:
     "@next-core/http" "^1.0.0"
 
+"@next-api-sdk/next-builder-sdk@^1.2.2":
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/@next-api-sdk/next-builder-sdk/-/next-builder-sdk-1.2.4.tgz#56fc57424b9f5e470e52978a0840265bcf14dcd8"
+  integrity sha512-93ks5paSdXLVcWS3gdt3+q1gp4vIQSFc+ifcRMiIci62r1+HPgKp8YOe2VeN14aTB0HNHv+COUCNCRuKTTk+lw==
+  dependencies:
+    "@next-core/http" "^1.2.12"
+
 "@next-core/color-theme@^0.4.8":
   version "0.4.8"
   resolved "https://registry.npmjs.org/@next-core/color-theme/-/color-theme-0.4.8.tgz#aee66c3e2b6176afefc513e9e54a4c123eab87fe"
