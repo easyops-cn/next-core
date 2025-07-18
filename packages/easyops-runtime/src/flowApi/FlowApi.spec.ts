@@ -1,5 +1,5 @@
 import { jest, describe, it, expect } from "@jest/globals";
-import * as apiGatewaySdk from "@next-api-sdk/api-gateway-sdk";
+import * as nextBuilderSdk from "@next-api-sdk/next-builder-sdk";
 import { isFlowApiProvider, getArgsOfFlowApi } from "./FlowApi.js";
 import * as CollectContract from "./CollectContracts.js";
 
@@ -36,163 +36,180 @@ jest.spyOn(CollectContract, "getContract").mockImplementation((key) => {
   }
 });
 
-jest.mock("@next-api-sdk/api-gateway-sdk");
+jest.mock("@next-api-sdk/next-builder-sdk");
 
 jest
-  .spyOn(apiGatewaySdk, "ContractApi_searchSingleContract")
+  .spyOn(nextBuilderSdk, "ContractCenterApi_batchSearchContract")
   .mockImplementation((params) => {
-    switch (params.contractName) {
-      case "easyops.custom_api.getStatus":
+    switch (params.contract?.[0]?.fullContractName) {
+      case "easyops.custom_api@getStatus":
         return {
-          contractData: {
-            name: "getStatus",
-            version: "1.0.0",
-            endpoint: {
-              method: "get",
-              uri: "/api/status",
+          list: [
+            {
+              name: "getStatus",
+              version: "1.0.0",
+              endpoint: {
+                method: "get",
+                uri: "/api/status",
+              },
+              request: {},
+              namespaceId: "easyops.custom_api",
+              serviceName: "logic.custom",
             },
-            request: {},
-            namespace: [{ name: "easyops.custom_api" }],
-          },
+          ],
         } as any;
-      case "easyops.custom_api.exportMarkdown":
+      case "easyops.custom_api@exportMarkdown":
         return {
-          contractData: {
-            name: "exportMarkdown",
-            version: "1.0.0",
-            endpoint: {
-              method: "get",
-              uri: "/api/export/:id",
+          list: [
+            {
+              name: "exportMarkdown",
+              version: "1.0.0",
+              endpoint: {
+                method: "get",
+                uri: "/api/export/:id",
+              },
+              request: {
+                type: "object",
+                fields: [
+                  {
+                    description: "id",
+                    name: "id",
+                    type: "string",
+                  },
+                ],
+              },
+              response: {
+                type: "file",
+              },
+              namespaceId: "easyops.custom_api",
+              serviceName: "logic.custom",
             },
-            request: {
-              type: "object",
-              fields: [
-                {
-                  description: "id",
-                  name: "id",
-                  type: "string",
-                },
-              ],
-            },
-            response: {
-              type: "file",
-            },
-            namespace: [{ name: "easyops.custom_api" }],
-          },
-        } as any;
-      case "easyops.custom_api.TestMock":
-        return {
-          contractData: {
-            endpoint: {
-              method: "LIST",
-              uri: "/a/b/c/:objectId",
-            },
-            instanceId: "abcdefg",
-            name: "TestMock",
-            namespaceId: "easyops.api.test.sailor",
-            namespace: [{ name: "easyops.api.test.sailor" }],
-            // version: "1.0.0",
-            response: {
-              default: {},
-              description: "tt",
-              fields: [
-                {
-                  description: "tt",
-                  name: "data",
-                  type: "map",
-                },
-              ],
-              required: [],
-              type: "object",
-            },
-          },
+          ],
         };
-      case "easyops.custom_api.TestPost":
+      case "easyops.custom_api@TestMock":
         return {
-          contractData: {
-            name: "TestPost",
-            version: "1.0.0",
-            endpoint: {
-              method: "POST",
-              uri: "/test/post/:id",
+          list: [
+            {
+              endpoint: {
+                method: "LIST",
+                uri: "/a/b/c/:objectId",
+              },
+              instanceId: "abcdefg",
+              name: "TestMock",
+              namespaceId: "easyops.api.test.sailor",
+              // version: "1.0.0",
+              response: {
+                default: {},
+                description: "tt",
+                fields: [
+                  {
+                    description: "tt",
+                    name: "data",
+                    type: "map",
+                  },
+                ],
+                required: [],
+                type: "object",
+              },
+              serviceName: "logic.custom",
             },
-            request: {
-              type: "object",
-              fields: [
-                {
-                  description: "id",
-                  name: "id",
-                  type: "string",
-                },
-                {
-                  name: "title",
-                },
-              ],
-            },
-            namespace: [{ name: "easyops.custom_api" }],
-          },
+          ],
         };
-      case "easyops.custom_api.TestPostWithExtFieldsQuery":
+      case "easyops.custom_api@TestPost":
         return {
-          contractData: {
-            name: "TestPostWithExtFieldsQuery",
-            version: "1.0.0",
-            endpoint: {
-              method: "POST",
-              uri: "/test/post",
-              ext_fields: [
-                {
-                  name: "args",
-                  source: "query",
-                },
-              ],
+          list: [
+            {
+              name: "TestPost",
+              version: "1.0.0",
+              endpoint: {
+                method: "POST",
+                uri: "/test/post/:id",
+              },
+              request: {
+                type: "object",
+                fields: [
+                  {
+                    description: "id",
+                    name: "id",
+                    type: "string",
+                  },
+                  {
+                    name: "title",
+                  },
+                ],
+              },
+              namespace: [{ name: "easyops.custom_api" }],
+              serviceName: "logic.custom",
             },
-            request: {
-              type: "object",
-              fields: [
-                {
-                  name: "args",
-                  type: "object",
-                },
-              ],
-            },
-            namespace: [{ name: "easyops.custom_api" }],
-          },
+          ],
         };
-      case "easyops.custom_api.TestPostWithExtFieldsBody":
+      case "easyops.custom_api@TestPostWithExtFieldsQuery":
         return {
-          contractData: {
-            name: "TestPostWithExtFieldsBody",
-            version: "1.0.0",
-            endpoint: {
-              method: "POST",
-              uri: "/test/post/:id",
-              ext_fields: [
-                {
-                  name: "args",
-                  source: "body",
-                },
-              ],
+          list: [
+            {
+              name: "TestPostWithExtFieldsQuery",
+              version: "1.0.0",
+              endpoint: {
+                method: "POST",
+                uri: "/test/post",
+                ext_fields: [
+                  {
+                    name: "args",
+                    source: "query",
+                  },
+                ],
+              },
+              request: {
+                type: "object",
+                fields: [
+                  {
+                    name: "args",
+                    type: "object",
+                  },
+                ],
+              },
+              namespace: [{ name: "easyops.custom_api" }],
+              serviceName: "logic.custom",
             },
-            request: {
-              type: "object",
-              fields: [
-                {
-                  name: "id",
-                },
-                {
-                  name: "args",
-                },
-              ],
-            },
-            namespace: [{ name: "easyops.custom_api" }],
-          },
+          ],
         };
-      case "easyops.custom_api.noneMock":
-        return {};
-      case "easyops.custom_api.noUri":
+      case "easyops.custom_api@TestPostWithExtFieldsBody":
         return {
-          contractData: {},
+          list: [
+            {
+              name: "TestPostWithExtFieldsBody",
+              version: "1.0.0",
+              endpoint: {
+                method: "POST",
+                uri: "/test/post/:id",
+                ext_fields: [
+                  {
+                    name: "args",
+                    source: "body",
+                  },
+                ],
+              },
+              request: {
+                type: "object",
+                fields: [
+                  {
+                    name: "id",
+                  },
+                  {
+                    name: "args",
+                  },
+                ],
+              },
+              namespace: [{ name: "easyops.custom_api" }],
+              serviceName: "logic.custom",
+            },
+          ],
+        };
+      case "easyops.custom_api@noneMock":
+        return { list: [] };
+      case "easyops.custom_api@noUri":
+        return {
+          list: [{}],
         };
     }
   });
@@ -211,7 +228,7 @@ describe("FlowApi", () => {
       await getArgsOfFlowApi("easyops.custom_api@getStatus:1.0.0", [])
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.getStatus@1.0.0/api/status",
+        url: "api/gateway/logic.custom/api/status",
         originalUri: "/api/status",
         method: "get",
         responseWrapper: false,
@@ -226,7 +243,7 @@ describe("FlowApi", () => {
       })
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.getStatus@1.0.0/api/status",
+        url: "api/gateway/logic.custom/api/status",
         originalUri: "/api/status",
         method: "get",
         responseWrapper: false,
@@ -245,7 +262,7 @@ describe("FlowApi", () => {
     ).toEqual([
       "test.md",
       {
-        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export/123",
+        url: "api/gateway/logic.custom/api/export/123",
         originalUri: "/api/export/:id",
         method: "get",
         request: {
@@ -272,7 +289,7 @@ describe("FlowApi", () => {
     ).toEqual([
       "test.md",
       {
-        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export/123",
+        url: "api/gateway/logic.custom/api/export/123",
         originalUri: "/api/export/:id",
         method: "get",
         request: {
@@ -302,7 +319,7 @@ describe("FlowApi", () => {
       await getArgsOfFlowApi("easyops.custom_api@exportMarkdown:1.0.0", ["123"])
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.exportMarkdown@1.0.0/api/export/123",
+        url: "api/gateway/logic.custom/api/export/123",
         originalUri: "/api/export/:id",
         method: "get",
         request: {
@@ -365,7 +382,7 @@ describe("FlowApi", () => {
       })
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.TestPost@1.0.0/test/post/123",
+        url: "api/gateway/logic.custom/test/post/123",
         originalUri: "/test/post/:id",
         method: "POST",
         request: {
@@ -396,7 +413,7 @@ describe("FlowApi", () => {
       )
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsQuery@1.0.0/test/post",
+        url: "api/gateway/logic.custom/test/post",
         originalUri: "/test/post",
         method: "POST",
         request: {
@@ -433,7 +450,7 @@ describe("FlowApi", () => {
       )
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsQuery@1.0.0/test/post",
+        url: "api/gateway/logic.custom/test/post",
         originalUri: "/test/post",
         method: "POST",
         request: {
@@ -465,7 +482,7 @@ describe("FlowApi", () => {
       )
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsBody@1.0.0/test/post/123",
+        url: "api/gateway/logic.custom/test/post/123",
         originalUri: "/test/post/:id",
         method: "POST",
         request: {
@@ -501,7 +518,7 @@ describe("FlowApi", () => {
       )
     ).toEqual([
       {
-        url: "api/gateway/easyops.custom_api.TestPostWithExtFieldsBody@1.0.0/test/post/123",
+        url: "api/gateway/logic.custom/test/post/123",
         originalUri: "/test/post/:id",
         method: "POST",
         request: {
@@ -537,11 +554,16 @@ describe("FlowApi", () => {
   });
 
   it("getArgsOfCustomApi should throw error if API not found", async () => {
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
     await expect(() =>
       getArgsOfFlowApi("easyops.custom_api@noneMock:1.0.0", [])
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Flow API not found: "easyops.custom_api@noneMock:1.0.0""`
     );
+    expect(consoleError).toHaveBeenCalledTimes(1);
+    consoleError.mockRestore();
   });
 
   it("getArgsOfCustomApi should throw error if no uri", async () => {

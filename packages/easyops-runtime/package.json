@@ -45,6 +45,7 @@
     "@next-api-sdk/cmdb-sdk": "^1.1.0",
     "@next-api-sdk/micro-app-sdk": "^1.2.1",
     "@next-api-sdk/micro-app-standalone-sdk": "^1.1.0",
+    "@next-api-sdk/next-builder-sdk": "^1.2.2",
     "@next-core/cook": "^2.5.9",
     "@next-core/http": "^1.2.13",
     "@next-core/pipes": "^2.0.33",
