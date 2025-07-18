@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.4](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.3...@next-core/easyops-runtime@0.15.4) (2025-07-18)
+
+
+### Bug Fixes
+
+* using batch search contract which has serviceName while single search missing ([f37d5ca](https://github.com/easyops-cn/next-core/commit/f37d5ca3c8d441da2087ef5e81fd26061db5e6a4))
+
+
+
+
+
 ## [0.15.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.2...@next-core/easyops-runtime@0.15.3) (2025-07-13)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
