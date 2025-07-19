@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.65.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.2...@next-core/runtime@1.65.3) (2025-07-19)
+
+
+### Bug Fixes
+
+* refine incremental rendering: ignore checking numeric parent route params ([a3788d8](https://github.com/easyops-cn/next-core/commit/a3788d81ad69fa34e66b4335c18f54a0ee6e2877))
+
+
+
+
+
 ## [1.65.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.1...@next-core/runtime@1.65.2) (2025-07-13)
 
 
