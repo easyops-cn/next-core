@@ -20,7 +20,7 @@ import {
 import { isTrackAll } from "@next-core/cook";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { strictCollectMemberUsage } from "@next-core/utils/storyboard";
-import { debounce, isEqual } from "lodash";
+import { debounce, isEqual, omitBy } from "lodash";
 import { asyncCheckBrickIf } from "./compute/checkIf.js";
 import {
   asyncComputeRealPropertyEntries,
@@ -940,7 +940,7 @@ async function legacyRenderBrick(
                     )) &&
                     (newMatch = matchRoute(route, homepage, pathname)) &&
                     (route !== parentRoute ||
-                      isEqual(prevMatch.params, newMatch.params))
+                      isRouteParamsEqual(prevMatch.params, newMatch.params))
                   );
                 })
               ) {
@@ -1342,4 +1342,19 @@ function catchLoad(
         console.error(`Load %s "%s" failed:`, type, name, e);
       })
     : promise;
+}
+
+function isRouteParamsEqual(
+  a: Record<string, string>,
+  b: Record<string, string>
+) {
+  if (isEqual(a, b)) {
+    return true;
+  }
+  const omitNumericKeys = (v: unknown, k: string) => {
+    return String(Number(k)) === k;
+  };
+  const c = omitBy(a, omitNumericKeys);
+  const d = omitBy(b, omitNumericKeys);
+  return isEqual(c, d);
 }
