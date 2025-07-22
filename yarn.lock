@@ -1307,10 +1307,10 @@
     js-yaml "^3.13.1"
     resolve "^1.17.0"
 
-"@easyops-cn/brick-next-pipes@^0.7.2":
-  version "0.7.2"
-  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.7.2.tgz#5a94be6167875a8152d07d34e3ed4cf5391c577b"
-  integrity sha512-YzwqQpWG1sNeBcqPigev2Y9U2t1nLkGY2Bdx+/XkVBuIjRtiHQWopDx2ytMprq+fZgw4//On8KMd/hUvxLFlug==
+"@easyops-cn/brick-next-pipes@^0.7.3":
+  version "0.7.3"
+  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.7.3.tgz#ac22c224010183ba9ad2d6cd6ce91649edeaec40"
+  integrity sha512-ydwJJlWbyYB0ZC0pbNAmJ6mIdh6ykizm+l7FvkKwdWq1lRdweXyybvG+GAK26coEkwxfm7x8yEB4FWyNKdpwqQ==
 
 "@eslint/eslintrc@^1.3.3":
   version "1.3.3"
