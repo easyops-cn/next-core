@@ -1023,7 +1023,7 @@
     "@babel/plugin-transform-modules-commonjs" "^7.27.1"
     "@babel/plugin-transform-typescript" "^7.27.1"
 
-"@babel/runtime@7.23.4", "@babel/runtime@^7.1.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.0", "@babel/runtime@^7.20.6", "@babel/runtime@^7.23.2", "@babel/runtime@^7.27.6":
+"@babel/runtime@7.27.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.0", "@babel/runtime@^7.20.6", "@babel/runtime@^7.23.2", "@babel/runtime@^7.27.6":
   version "7.27.6"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.27.6.tgz#ec4070a04d76bae8ddbb10770ba55714a417b7c6"
   integrity sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==
@@ -4276,12 +4276,12 @@ braces@^3.0.3, braces@~3.0.2:
   dependencies:
     fill-range "^7.1.1"
 
-broadcast-channel@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/broadcast-channel/-/broadcast-channel-7.0.0.tgz#715823823a9c6eb4ade02abc26b9767d7cc1d075"
-  integrity sha512-a2tW0Ia1pajcPBOGUF2jXlDnvE9d5/dg6BG9h60OmRUcZVr/veUrU8vEQFwwQIhwG3KVzYwSk3v2nRRGFgQDXQ==
+broadcast-channel@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.npmjs.org/broadcast-channel/-/broadcast-channel-7.1.0.tgz#fe64bea202f45d0fa91ad19498154527fd78cfbe"
+  integrity sha512-InJljddsYWbEL8LBnopnCg+qMQp9KcowvYWOt4YWrjD5HmxzDYKdVbDS1w/ji5rFZdRD58V5UxJPtBdpEbEJYw==
   dependencies:
-    "@babel/runtime" "7.23.4"
+    "@babel/runtime" "7.27.0"
     oblivious-set "1.4.0"
     p-queue "6.6.2"
     unload "2.4.1"
