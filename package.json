@@ -38,8 +38,8 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.7",
-    "@babel/types": "^7.27.7",
+    "@babel/core": "^7.28.0",
+    "@babel/types": "^7.28.2",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@next-shared/common-bricks": "^0.54.0",
     "@types/doctrine": "^0.0.9",
@@ -77,8 +77,8 @@
     "packages/*"
   ],
   "resolutions": {
-    "@babel/parser": "^7.27.7",
-    "@babel/runtime": "^7.27.6",
+    "@babel/parser": "^7.28.0",
+    "@babel/runtime": "^7.28.2",
     "@types/react": "^18.3.23",
     "lodash": "^4.17.21",
     "moment": "^2.30.1"
