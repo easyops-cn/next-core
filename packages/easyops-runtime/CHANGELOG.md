@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.7](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.6...@next-core/easyops-runtime@0.15.7) (2025-07-31)
+
+
+### Bug Fixes
+
+* fix importing CommonJS modules in Node.js ([83759e5](https://github.com/easyops-cn/next-core/commit/83759e5187e76cce4e0cd0aed42031376c52787e))
+
+
+
+
+
 ## [0.15.6](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.5...@next-core/easyops-runtime@0.15.6) (2025-07-22)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.8.3...@next-core/utils@1.8.4) (2025-07-31)
+
+
+### Bug Fixes
+
+* fix importing CommonJS modules in Node.js ([83759e5](https://github.com/easyops-cn/next-core/commit/83759e5187e76cce4e0cd0aed42031376c52787e))
+
+
+
+
+
 ## [1.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.8.2...@next-core/utils@1.8.3) (2025-07-22)
 
 **Note:** Version bump only for package @next-core/utils
