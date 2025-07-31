@@ -234,7 +234,7 @@ async function fetchFlowApiDefinition(
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
 
-  // Do not cache the result of `geContract`, which will lead to no contract
+  // Do not cache the result of `getContract`, which will lead to no contract
   // will be found when render twice immediately.
   const contract = getContract(`${namespaceName}.${name}`);
   if (contract) {

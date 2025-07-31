@@ -1,6 +1,8 @@
 import type { BrickConf, SlotConfOfBricks } from "@next-core/types";
 import { isObject } from "@next-core/utils/general";
-import { pull } from "lodash";
+import lodash from "lodash";
+
+const { pull } = lodash;
 
 const USE_CHILDREN_SLOT_REGEXP = /^\[\w+\]$/;
 
