@@ -13,6 +13,7 @@ import {
   VariableDeclaration,
   type ArrowFunctionExpression,
   type FunctionExpression,
+  type VoidPattern,
 } from "@babel/types";
 
 export type EstreeNode =
@@ -23,7 +24,7 @@ export type EstreeNode =
   | EstreeChainExpression
   | EstreeLiteral;
 
-export type EstreeLVal = LVal | EstreeObjectPattern;
+export type EstreeLVal = LVal | EstreeObjectPattern | VoidPattern;
 
 export type EstreeObjectExpression = Omit<ObjectExpression, "properties"> & {
   properties: (EstreeProperty | SpreadElement)[];
@@ -60,6 +61,7 @@ export type FunctionDefinition = FunctionExpression | ArrowFunctionExpression;
 
 export type NodeWithBoundNames =
   | LVal
+  | VoidPattern
   | VariableDeclaration
   | FunctionDeclaration;
 
