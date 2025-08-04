@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.65.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.5...@next-core/runtime@1.65.6) (2025-08-04)
+
+
+### Bug Fixes
+
+* fix useProvider usage with params in events ([9c24e8b](https://github.com/easyops-cn/next-core/commit/9c24e8b98445747cbee425ae45e5dbccdd9d04d6))
+
+
+
+
+
 ## [1.65.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.4...@next-core/runtime@1.65.5) (2025-07-31)
 
 **Note:** Version bump only for package @next-core/runtime
