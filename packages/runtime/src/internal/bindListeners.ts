@@ -451,18 +451,20 @@ async function brickCallback(
       );
     }
 
-    let computedArgs: unknown[] | UseProviderContractConf = argsFactory(
-      handler.args,
-      runtimeContext,
-      event,
-      options
-    );
+    const isUseProvider = isUseProviderHandler(handler);
+    let computedArgs: unknown[];
+
+    let argsOrContractConf: unknown[] | UseProviderContractConf | undefined =
+      isUseProvider
+        ? computeArgs(handler.args, runtimeContext, event)
+        : argsFactory(handler.args, runtimeContext, event, options);
+
     if (
-      isUseProviderHandler(handler) &&
+      isUseProvider &&
       hooks?.flowApi?.isFlowApiProvider(handler.useProvider)
     ) {
       if (!Array.isArray(handler.args) && handler.params) {
-        computedArgs = computeRealValue(
+        argsOrContractConf = computeRealValue(
           pick(handler, "params", "options", "filename"),
           {
             ...runtimeContext,
@@ -473,10 +475,12 @@ async function brickCallback(
 
       computedArgs = await hooks.flowApi.getArgsOfFlowApi(
         handler.useProvider,
-        computedArgs,
+        argsOrContractConf ?? [],
         method,
         handler.sse?.stream
       );
+    } else {
+      computedArgs = argsOrContractConf as unknown[];
     }
     return (realTarget as any)[method](...computedArgs);
   };
@@ -907,4 +911,18 @@ function argsFactory(
       : options.useEventDetailAsDefault
         ? [(event as CustomEvent).detail]
         : [];
+}
+
+function computeArgs(
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext,
+  event: Event
+): unknown[] | undefined {
+  if (!Array.isArray(args)) {
+    return args;
+  }
+  return computeRealValue(args, {
+    ...runtimeContext,
+    event,
+  }) as unknown[];
 }
