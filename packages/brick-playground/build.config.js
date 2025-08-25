@@ -31,6 +31,13 @@ export default {
         rootMode: "upward",
       },
     },
+    {
+      test: /\.wasm$/,
+      type: "asset/resource",
+      generator: {
+        filename: "[name].[hash][ext]",
+      },
+    },
   ],
   plugins: [
     new HtmlWebpackPlugin({

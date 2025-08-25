@@ -2145,6 +2145,14 @@
   resolved "https://registry.npmjs.org/@next-shared/common-bricks/-/common-bricks-0.54.0.tgz#129c7100f8447538f39e1408c67b9ee7f8299f05"
   integrity sha512-olo5BboK0U+fm0KUO+Ipe0r9UNAfJQ7LwWKBiNXZxMTmx9IqBKc5t1FyOGBdhDvf3iCQrimRvoReSNGa84vvmA==
 
+"@next-shared/monaco-textmate@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@next-shared/monaco-textmate/-/monaco-textmate-0.1.2.tgz#e72c5f42c8e90e4f5c9e842915c9e7723477ed9b"
+  integrity sha512-gSoF4VtFpwh55gS9jYC71wOwnPCXBBDDIU+LgXhpAc08y7qQFCfHunDoTE6gPpoAuDUO+TKIjc4uvS8QJKGyxw==
+  dependencies:
+    vscode-oniguruma "^2.0.1"
+    vscode-textmate "^9.2.0"
+
 "@next-shared/spell-check@^0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@next-shared/spell-check/-/spell-check-0.1.1.tgz#2dfe56aa6cd1c4479d96c4e49bdfbb6a52303fd5"
@@ -13996,6 +14004,16 @@ void-elements@3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/void-elements/-/void-elements-3.1.0.tgz"
   integrity sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==
+
+vscode-oniguruma@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/vscode-oniguruma/-/vscode-oniguruma-2.0.1.tgz#1196a343635ff8d42eb880e325b5f4e70731c02f"
+  integrity sha512-poJU8iHIWnC3vgphJnrLZyI3YdqRlR27xzqDmpPXYzA93R4Gk8z7T6oqDzDoHjoikA2aS82crdXFkjELCdJsjQ==
+
+vscode-textmate@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.npmjs.org/vscode-textmate/-/vscode-textmate-9.2.0.tgz#be2b04b3f8853135b2d67274670540215c5bb92b"
+  integrity sha512-rkvG4SraZQaPSN/5XjwKswdU0OP9MF28QjrYzUBbhb8QyG3ljB1Ky996m++jiI7KdiAP2CkBiQZd9pqEDTClqA==
 
 w3c-xmlserializer@^5.0.0:
   version "5.0.0"
