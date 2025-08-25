@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.23.13",
-    "@next-core/monaco-contributions": "^0.3.14",
     "@next-core/preview": "^0.8.8",
+    "@next-shared/monaco-textmate": "^0.1.2",
     "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^13.0.0",
     "html-webpack-plugin": "^5.6.3",
