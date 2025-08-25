@@ -5,7 +5,6 @@ import { createRequire } from "node:module";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
-import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
 import _ from "lodash";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,20 +42,6 @@ export default {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: path.join(packageDir, "src/index.ejs"),
-    }),
-    new MonacoWebpackPlugin({
-      languages: ["javascript", "typescript", "css" /* , "html", "yaml" */],
-      features: [
-        "!codelens",
-        "!colorPicker",
-        "!documentSymbols",
-        "!fontZoom",
-        "!iPadShowKeyboard",
-        "!inspectTokens",
-      ],
-      filename: `workers/[name].${
-        process.env.NODE_ENV === "development" ? "bundle" : "[contenthash:8]"
-      }.worker.js`,
     }),
     new CopyPlugin({
       patterns: [
