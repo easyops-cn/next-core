@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.17...@next-core/brick-playground@1.16.18) (2025-08-26)
+
+
+### Bug Fixes
+
+* remove monaco-editor-webpack-plugin ([ce2c03a](https://github.com/easyops-cn/next-core/commit/ce2c03ae34a57c04bbf575adbc7a86417ad57ad9))
+
+
+
+
+
 ## [1.16.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.16...@next-core/brick-playground@1.16.17) (2025-08-25)
 
 
