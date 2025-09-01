@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.65.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.6...@next-core/runtime@1.65.7) (2025-09-01)
+
+
+### Bug Fixes
+
+* fix useProvider without args ([3bf06f6](https://github.com/easyops-cn/next-core/commit/3bf06f67f22ec4570452604b06a4984a23acb703))
+
+
+
+
+
 ## [1.65.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.5...@next-core/runtime@1.65.6) (2025-08-04)
 
 
