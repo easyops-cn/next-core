@@ -73,7 +73,9 @@ export async function resolveData(
     getProviderBrick(useProvider) as unknown as Promise<
       Record<string, Function>
     >,
-    asyncComputeRealValue(args, runtimeContext) as Promise<unknown[]>,
+    asyncComputeRealValue(args, runtimeContext) as Promise<
+      unknown[] | undefined
+    >,
     asyncComputeRealValue(
       contractConf,
       runtimeContext

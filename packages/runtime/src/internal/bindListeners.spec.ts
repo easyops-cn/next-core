@@ -1164,6 +1164,36 @@ describe("listenerFactory for useProvider", () => {
     expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
   });
 
+  test("useProvider without args", async () => {
+    const brick = {
+      element: {
+        callbackSuccess: jest.fn(),
+      },
+    };
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        callback: {
+          success: {
+            target: "_self",
+            method: "callbackSuccess",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
+      },
+      runtimeContext,
+      brick as any
+    )(event);
+
+    expect(brick.element.callbackSuccess).not.toHaveBeenCalled();
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(consoleError).not.toHaveBeenCalled();
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(brick.element.callbackSuccess).toHaveBeenCalledWith(null);
+  });
+
   test("useProvider with saveAs", async () => {
     const brick = {
       element: {

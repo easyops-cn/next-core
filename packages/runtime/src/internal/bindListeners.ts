@@ -480,7 +480,7 @@ async function brickCallback(
         handler.sse?.stream
       );
     } else {
-      computedArgs = argsOrContractConf as unknown[];
+      computedArgs = argsOrContractConf ?? [];
     }
     return (realTarget as any)[method](...computedArgs);
   };
