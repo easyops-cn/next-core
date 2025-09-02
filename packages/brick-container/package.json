@@ -39,7 +39,7 @@
     "body-parser": "^2.2.0",
     "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
-    "compression": "^1.8.0",
+    "compression": "^1.8.1",
     "express": "^4.21.2",
     "glob": "^8.1.0",
     "http-proxy-middleware": "^3.0.3",
