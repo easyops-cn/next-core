@@ -1,6 +1,7 @@
 export * from "./expressions/index.js";
 export * from "./functions/index.js";
 export * from "./permissions.js";
+export * from "./replaceUseChildren.js";
 import { createProviderClass, unwrapProvider } from "@next-core/utils/general";
 export {
   /** @deprecated import it from "@next-core/utils/general" instead */

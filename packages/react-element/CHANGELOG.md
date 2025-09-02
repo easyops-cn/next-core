@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.37](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.36...@next-core/react-element@1.0.37) (2025-06-24)
+
+
+### Bug Fixes
+
+* fix types after upgrade deps ([f45e008](https://github.com/easyops-cn/next-core/commit/f45e008a9fd862cfb01f995f1860852d26cae6ed))
+
+
+
+
+
 ## [1.0.36](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.35...@next-core/react-element@1.0.36) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/react-element

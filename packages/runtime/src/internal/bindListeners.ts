@@ -11,9 +11,11 @@ import type {
   UseProviderEventHandler,
   ConditionalEventHandler,
   BatchUpdateContextItem,
+  UseProviderContractConf,
 } from "@next-core/types";
 import { isEvaluable } from "@next-core/cook";
 import { isObject } from "@next-core/utils/general";
+import { pick } from "lodash";
 import { checkIf } from "./compute/checkIf.js";
 import { computeRealValue } from "./compute/computeRealValue.js";
 import { getHistory } from "../history.js";
@@ -449,22 +451,36 @@ async function brickCallback(
       );
     }
 
-    let computedArgs = argsFactory(
-      handler.args,
-      runtimeContext,
-      event,
-      options
-    );
+    const isUseProvider = isUseProviderHandler(handler);
+    let computedArgs: unknown[];
+
+    let argsOrContractConf: unknown[] | UseProviderContractConf | undefined =
+      isUseProvider
+        ? computeArgs(handler.args, runtimeContext, event)
+        : argsFactory(handler.args, runtimeContext, event, options);
+
     if (
-      isUseProviderHandler(handler) &&
+      isUseProvider &&
       hooks?.flowApi?.isFlowApiProvider(handler.useProvider)
     ) {
+      if (!Array.isArray(handler.args) && handler.params) {
+        argsOrContractConf = computeRealValue(
+          pick(handler, "params", "options", "filename"),
+          {
+            ...runtimeContext,
+            event,
+          }
+        ) as UseProviderContractConf;
+      }
+
       computedArgs = await hooks.flowApi.getArgsOfFlowApi(
         handler.useProvider,
-        computedArgs,
+        argsOrContractConf ?? [],
         method,
         handler.sse?.stream
       );
+    } else {
+      computedArgs = argsOrContractConf ?? [];
     }
     return (realTarget as any)[method](...computedArgs);
   };
@@ -895,4 +911,18 @@ function argsFactory(
       : options.useEventDetailAsDefault
         ? [(event as CustomEvent).detail]
         : [];
+}
+
+function computeArgs(
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext,
+  event: Event
+): unknown[] | undefined {
+  if (!Array.isArray(args)) {
+    return args;
+  }
+  return computeRealValue(args, {
+    ...runtimeContext,
+    event,
+  }) as unknown[];
 }

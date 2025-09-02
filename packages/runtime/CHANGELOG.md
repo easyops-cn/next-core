@@ -3,6 +3,140 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.65.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.6...@next-core/runtime@1.65.7) (2025-09-01)
+
+
+### Bug Fixes
+
+* fix useProvider without args ([3bf06f6](https://github.com/easyops-cn/next-core/commit/3bf06f67f22ec4570452604b06a4984a23acb703))
+
+
+
+
+
+## [1.65.6](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.5...@next-core/runtime@1.65.6) (2025-08-04)
+
+
+### Bug Fixes
+
+* fix useProvider usage with params in events ([9c24e8b](https://github.com/easyops-cn/next-core/commit/9c24e8b98445747cbee425ae45e5dbccdd9d04d6))
+
+
+
+
+
+## [1.65.5](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.4...@next-core/runtime@1.65.5) (2025-07-31)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.65.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.3...@next-core/runtime@1.65.4) (2025-07-22)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
+## [1.65.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.2...@next-core/runtime@1.65.3) (2025-07-19)
+
+
+### Bug Fixes
+
+* refine incremental rendering: ignore checking numeric parent route params ([a3788d8](https://github.com/easyops-cn/next-core/commit/a3788d81ad69fa34e66b4335c18f54a0ee6e2877))
+
+
+
+
+
+## [1.65.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.1...@next-core/runtime@1.65.2) (2025-07-13)
+
+
+### Bug Fixes
+
+* dot not re-render controlled nodes before mounted ([3aaf6ff](https://github.com/easyops-cn/next-core/commit/3aaf6ff1580303079978d5ec8227359e41f835bd))
+
+
+
+
+
+## [1.65.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.0...@next-core/runtime@1.65.1) (2025-07-12)
+
+
+### Bug Fixes
+
+* do not re-render controlled node after disposed ([f0351d3](https://github.com/easyops-cn/next-core/commit/f0351d39708617e46976b6374545eb49db92ae93))
+
+
+
+
+
+# [1.65.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.64.0...@next-core/runtime@1.65.0) (2025-07-09)
+
+
+### Features
+
+* support theme variant ([04d4b49](https://github.com/easyops-cn/next-core/commit/04d4b49099df43afa98fd638a3144c8133f49477))
+
+
+
+
+
+# [1.64.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.63.0...@next-core/runtime@1.64.0) (2025-07-07)
+
+
+### Features
+
+* support use contract params when using useProvider with contract ([e396b04](https://github.com/easyops-cn/next-core/commit/e396b042a9032724d43f827f2233571c649dc382))
+
+
+
+
+
+# [1.63.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.3...@next-core/runtime@1.63.0) (2025-07-02)
+
+
+### Features
+
+* createRoot supports useChildren ([5ceb8ff](https://github.com/easyops-cn/next-core/commit/5ceb8ff899cf9637c1f01025622c3a5acba73d64))
+
+
+
+
+
+## [1.62.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.2...@next-core/runtime@1.62.3) (2025-07-02)
+
+
+### Bug Fixes
+
+* dispose abstract nodes ([13ba33a](https://github.com/easyops-cn/next-core/commit/13ba33a8959a0350dc91bce952204096ac10af01))
+
+
+
+
+
+## [1.62.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.1...@next-core/runtime@1.62.2) (2025-07-01)
+
+
+### Bug Fixes
+
+* fix non-relevant nodes been removed when re-rendering nested :if ([1fc8263](https://github.com/easyops-cn/next-core/commit/1fc82631a00fa9a96a3952f0b65ee79275d76eed))
+
+
+
+
+
+## [1.62.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.62.0...@next-core/runtime@1.62.1) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/runtime
+
+
+
+
+
 # [1.62.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.61.1...@next-core/runtime@1.62.0) (2025-05-29)
 
 

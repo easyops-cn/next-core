@@ -2,6 +2,7 @@ import type {
   HandleReject,
   HandleRejectByTransform,
   ResolveConf,
+  UseProviderContractConf,
 } from "@next-core/types";
 import { asyncComputeRealValue } from "../compute/computeRealValue.js";
 import { getProviderBrick } from "./getProviderBrick.js";
@@ -29,9 +30,17 @@ export interface ResolveOptions {
 export async function resolveData(
   resolveConf: ResolveConf,
   runtimeContext: RuntimeContext,
-  options?: ResolveOptions
+  resolveOptions?: ResolveOptions
 ) {
-  const { useProvider, method = "resolve", args = [], onReject } = resolveConf;
+  const {
+    useProvider,
+    method = "resolve",
+    args,
+    params,
+    options,
+    filename,
+    onReject,
+  } = resolveConf;
 
   const { provider: legacyProvider, field: legacyField } = resolveConf as {
     provider?: string;
@@ -53,24 +62,37 @@ export async function resolveData(
     }
   }
 
-  const [providerBrick, actualArgs] = await Promise.all([
+  const contractConf =
+    !Array.isArray(args) &&
+    params &&
+    hooks?.flowApi?.isFlowApiProvider(useProvider)
+      ? ({ params, options, filename } as UseProviderContractConf)
+      : null;
+
+  const [providerBrick, actualArgs, actualContractConf] = await Promise.all([
     getProviderBrick(useProvider) as unknown as Promise<
       Record<string, Function>
     >,
-    asyncComputeRealValue(args, runtimeContext) as Promise<unknown[]>,
+    asyncComputeRealValue(args, runtimeContext) as Promise<
+      unknown[] | undefined
+    >,
+    asyncComputeRealValue(
+      contractConf,
+      runtimeContext
+    ) as Promise<UseProviderContractConf | null>,
   ]);
 
   // `clearResolveCache` maybe cleared during the above promise being
   // fulfilled, so we manually mark it as stale for this case.
-  const renderId = options?.renderId;
+  const renderId = resolveOptions?.renderId;
   const stale = !!renderId && renderId !== _internalApiGetRenderId();
 
   const promise = resolveByProvider(
     providerBrick,
     useProvider,
     method,
-    actualArgs,
-    options,
+    actualContractConf?.params ? actualContractConf : (actualArgs ?? []),
+    resolveOptions,
     args,
     stale
   );
@@ -112,7 +134,7 @@ export async function resolveByProvider(
   brick: Record<string, Function>,
   useProvider: string,
   method: string,
-  args: unknown[],
+  args: unknown[] | UseProviderContractConf,
   options?: ResolveOptions,
   originalArgs?: unknown[],
   stale?: boolean
@@ -145,7 +167,7 @@ export async function resolveByProvider(
     promise = (async () => {
       const finalArgs = hooks?.flowApi?.isFlowApiProvider(useProvider)
         ? await hooks.flowApi.getArgsOfFlowApi(useProvider, args, method)
-        : args;
+        : (args as unknown[]);
       return brick[method](...finalArgs);
     })();
 

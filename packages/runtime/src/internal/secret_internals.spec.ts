@@ -541,7 +541,9 @@ describe("useBrick", () => {
     );
   });
 
-  test("root as an ignored tracking control node", async () => {
+  // Now we allow root as an ignored tracking control node.
+  // But it will not be tracked for changes.
+  test.skip("root as an ignored tracking control node", async () => {
     mockInternalApiGetRuntimeContext.mockReturnValue({
       ctxStore: new DataStore("CTX"),
     } as RuntimeContext);

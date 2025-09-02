@@ -1040,3 +1040,90 @@ routes:
   #       - path: '${APP.homepage}/initial-rerender/apps/:group?'
   #         exact: true
   #         bricks: []
+
+- path: '${APP.homepage}/nested-if'
+  context:
+  - name: value
+    value: null
+  - name: alwaysFalsy
+    value: <% !!CTX.value %>
+    track: true
+  - name: secondButtonClicked
+    value: false
+  bricks:
+  - brick: div
+    iid: 1
+    children:
+    - brick: p
+      iid: 2
+      children:
+      - brick: button
+        iid: 3
+        properties:
+          textContent: Click 1
+        events:
+          click:
+          - action: context.replace
+            args:
+            - value
+            - false
+      - brick: button
+        iid: 4
+        properties:
+          textContent: Click 2
+        events:
+          click:
+          - action: context.replace
+            args:
+            - secondButtonClicked
+            - true
+    - brick: :if
+      iid: 5
+      dataSource: <%= !CTX.secondButtonClicked %>
+      children:
+      - brick: p
+        iid: 6
+        properties:
+          textContent: Second button is not clicked
+      - brick: :if
+        iid: 7
+        dataSource: <%= CTX.alwaysFalsy %>
+        children:
+        - brick: p
+          iid: 8
+          properties:
+            textContent: This should never be shown
+  - brick: p
+    iid: 9
+    properties:
+      textContent: This should always be shown
+
+- path: '${APP.homepage}/debug'
+  context:
+  - name: debug
+    value: false
+  bricks:
+  - brick: button
+    properties:
+      textContent: Toggle Debug
+    events:
+      click:
+      - action: context.replace
+        args:
+        - debug
+        - <% !CTX.debug %>
+  - brick: e2e.list-by-use-brick
+    properties:
+      data: [1, 2]
+      useBrick:
+      - brick: div
+        children:
+        - brick: div
+          portal: true
+          children:
+          - brick: :if
+            dataSource: <%= CTX.debug %>
+            children:
+            - brick: p
+              properties:
+                textContent: '<% `Debug: ${DATA}` %>'

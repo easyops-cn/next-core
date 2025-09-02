@@ -76,12 +76,10 @@ let ReactUseBrick = function ReactUseBrick({
     (element: HTMLElement | null) => {
       if (element) {
         mountResult.current = __secret_internals.mountUseBrick(
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           renderResult!,
           element
         );
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         __secret_internals.unmountUseBrick(renderResult!, mountResult.current!);
         mountResult.current = undefined;
       }
@@ -102,7 +100,7 @@ let ReactUseBrick = function ReactUseBrick({
     return null;
   }
 
-  const WebComponent = tagName as any;
+  const WebComponent = tagName as "div";
   return <WebComponent key={renderKey} ref={_refCallback} />;
 };
 

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.16.0...@next-core/types@1.17.0) (2025-07-09)
+
+
+### Features
+
+* support theme variant ([04d4b49](https://github.com/easyops-cn/next-core/commit/04d4b49099df43afa98fd638a3144c8133f49477))
+
+
+
+
+
+# [1.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.15.0...@next-core/types@1.16.0) (2025-07-07)
+
+
+### Features
+
+* support use contract params when using useProvider with contract ([e396b04](https://github.com/easyops-cn/next-core/commit/e396b042a9032724d43f827f2233571c649dc382))
+
+
+
+
+
 # [1.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.14.0...@next-core/types@1.15.0) (2025-05-29)
 
 

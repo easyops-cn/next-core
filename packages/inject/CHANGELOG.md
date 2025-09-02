@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.58](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.57...@next-core/inject@1.0.58) (2025-07-22)
+
+**Note:** Version bump only for package @next-core/inject
+
+
+
+
+
+## [1.0.57](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.56...@next-core/inject@1.0.57) (2025-07-09)
+
+**Note:** Version bump only for package @next-core/inject
+
+
+
+
+
+## [1.0.56](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.55...@next-core/inject@1.0.56) (2025-07-07)
+
+**Note:** Version bump only for package @next-core/inject
+
+
+
+
+
+## [1.0.55](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.54...@next-core/inject@1.0.55) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/inject
+
+
+
+
+
 ## [1.0.54](https://github.com/easyops-cn/next-core/compare/@next-core/inject@1.0.53...@next-core/inject@1.0.54) (2025-05-29)
 
 **Note:** Version bump only for package @next-core/inject

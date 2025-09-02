@@ -17,10 +17,12 @@ export function mountTree(
   root: RenderRoot,
   initializedElement?: RuntimeBrickElement
 ): void {
+  root.mounted = true;
   window.DISABLE_REACT_FLUSH_SYNC = false;
   let current = root.child;
   const portalElements: RuntimeBrickElement[] = [];
   while (current) {
+    current.mounted = true;
     if (current.tag === RenderTag.BRICK) {
       const tagName = current.type;
 
@@ -71,10 +73,18 @@ export function mountTree(
       if (current.portal) {
         portalElements.push(element);
       } else if (current.return) {
-        if (!current.return.childElements) {
-          current.return.childElements = [];
+        let currentReturn = current.return;
+        while (currentReturn) {
+          if (currentReturn.tag === RenderTag.ABSTRACT) {
+            currentReturn = currentReturn.return;
+          } else {
+            if (!currentReturn.childElements) {
+              currentReturn.childElements = [];
+            }
+            currentReturn.childElements.push(element);
+            break;
+          }
         }
-        current.return.childElements.push(element);
       }
     }
 
@@ -86,11 +96,13 @@ export function mountTree(
       let currentReturn: RenderReturnNode | null | undefined = current.return;
       while (currentReturn) {
         // Append elements inside out
-        if (currentReturn.childElements) {
+        if (
+          currentReturn.tag !== RenderTag.ABSTRACT &&
+          currentReturn.childElements
+        ) {
           if (currentReturn.tag === RenderTag.ROOT) {
             currentReturn.container?.append(...currentReturn.childElements);
           } else {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             currentReturn.element!.append(...currentReturn.childElements);
           }
           currentReturn.childElements = undefined;

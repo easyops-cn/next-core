@@ -1,23 +1,24 @@
 import "./index.css";
 // https://github.com/microsoft/monaco-editor/issues/2874
-// import * as monaco from "monaco-editor";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import * as monaco from "monaco-editor";
+import { initializeTokensProvider } from "@next-shared/monaco-textmate";
+import "@next-shared/monaco-textmate/workers.js";
+import tmVsDark from "@next-shared/monaco-textmate/themes/dark-modern.json";
 import copy from "copy-to-clipboard";
 import type {
   PreviewWindow,
   RenderType,
   Sources,
 } from "@next-core/preview/types";
-import { register as registerJavaScript } from "@next-core/monaco-contributions/javascript";
-import { register as registerTypeScript } from "@next-core/monaco-contributions/typescript";
-import { register as registerYaml } from "@next-core/monaco-contributions/yaml";
-import { register as registerHtml } from "@next-core/monaco-contributions/html";
 import { getRemoteSpellCheckWorker } from "./spellCheckRemoteWorker.js";
 
-registerJavaScript(monaco);
-registerTypeScript(monaco);
-registerYaml(monaco);
-registerHtml(monaco);
+monaco.editor.defineTheme(
+  "tm-vs-dark",
+  tmVsDark as monaco.editor.IStandaloneThemeData
+);
+
+initializeTokensProvider("brick_next_yaml");
+initializeTokensProvider("html");
 
 const GZIP_HASH_PREFIX = "#gzip,";
 const SPELL_CHECK = "spell_check";
@@ -227,7 +228,7 @@ async function main() {
     const storageKey = getStorageKey(type);
     const model = monaco.editor.createModel(
       sources[type],
-      type,
+      type === "yaml" ? "brick_next_yaml" : type,
       monaco.Uri.file(`workspace/index.${type}`)
     );
     models[type] = model;
@@ -236,7 +237,7 @@ async function main() {
     ) as HTMLElement;
     const editor = monaco.editor.create(editorContainer, {
       model,
-      theme: "vs-dark",
+      theme: "tm-vs-dark",
       minimap: {
         enabled: false,
       },

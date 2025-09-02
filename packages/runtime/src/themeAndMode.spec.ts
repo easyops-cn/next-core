@@ -7,6 +7,8 @@ import {
   applyMode as _applyMode,
   getLocalAppsTheme,
   batchSetAppsLocalTheme,
+  setThemeVariant as _setThemeVariant,
+  getThemeVariant as _getThemeVariant,
 } from "./themeAndMode.js";
 
 jest.spyOn(console, "error").mockImplementation();
@@ -143,5 +145,37 @@ describe("app themes", () => {
       "brick-next-apps-theme",
       '{"apm":"light","infra-monitor":"dark"}',
     ]);
+  });
+});
+
+describe("variant", () => {
+  let setThemeVariant: typeof _setThemeVariant;
+  let getThemeVariant: typeof _getThemeVariant;
+
+  beforeEach(() => {
+    jest.resetModules();
+    document.documentElement.dataset.variant = "default";
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const m = require("./themeAndMode");
+    setThemeVariant = m.setThemeVariant;
+    getThemeVariant = m.getThemeVariant;
+  });
+
+  test("should set theme variant", () => {
+    expect(getThemeVariant()).toEqual("default");
+    expect(document.documentElement.dataset.variant).toBe("default");
+    setThemeVariant("elevo");
+    expect(getThemeVariant()).toEqual("elevo");
+    expect(document.documentElement.dataset.variant).toBe("elevo");
+
+    // Set the same variant again
+    setThemeVariant("elevo");
+    expect(getThemeVariant()).toEqual("elevo");
+  });
+
+  test("should fallback to default variant if an invalid one is set", () => {
+    setThemeVariant("oops" as any);
+    expect(getThemeVariant()).toEqual("default");
+    expect(document.documentElement.dataset.variant).toBe("default");
   });
 });

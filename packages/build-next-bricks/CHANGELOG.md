@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.14](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.13...@next-core/build-next-bricks@1.23.14) (2025-08-25)
+
+
+### Bug Fixes
+
+* exclude *.d.ts when build ([84a3cd3](https://github.com/easyops-cn/next-core/commit/84a3cd35cf700bad719f78c01aa169ca5715e7d3))
+
+
+
+
+
+## [1.23.13](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.12...@next-core/build-next-bricks@1.23.13) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/build-next-bricks
+
+
+
+
+
 ## [1.23.12](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.11...@next-core/build-next-bricks@1.23.12) (2025-03-27)
 
 

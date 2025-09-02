@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.8.3...@next-core/utils@1.8.4) (2025-07-31)
+
+
+### Bug Fixes
+
+* fix importing CommonJS modules in Node.js ([83759e5](https://github.com/easyops-cn/next-core/commit/83759e5187e76cce4e0cd0aed42031376c52787e))
+
+
+
+
+
+## [1.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.8.2...@next-core/utils@1.8.3) (2025-07-22)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.8.1...@next-core/utils@1.8.2) (2025-07-09)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+## [1.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.8.0...@next-core/utils@1.8.1) (2025-07-07)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.36...@next-core/utils@1.8.0) (2025-07-02)
+
+
+### Features
+
+* createRoot supports useChildren ([5ceb8ff](https://github.com/easyops-cn/next-core/commit/5ceb8ff899cf9637c1f01025622c3a5acba73d64))
+
+
+
+
+
+## [1.7.36](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.35...@next-core/utils@1.7.36) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/utils
+
+
+
+
+
 ## [1.7.35](https://github.com/easyops-cn/next-core/compare/@next-core/utils@1.7.34...@next-core/utils@1.7.35) (2025-05-29)
 
 **Note:** Version bump only for package @next-core/utils

@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.104](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.103...@next-core/yo@1.5.104) (2025-08-25)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.103](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.102...@next-core/yo@1.5.103) (2025-07-31)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.102](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.101...@next-core/yo@1.5.102) (2025-07-22)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.101](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.100...@next-core/yo@1.5.101) (2025-07-09)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.100](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.99...@next-core/yo@1.5.100) (2025-07-07)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.99](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.98...@next-core/yo@1.5.99) (2025-07-02)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
+## [1.5.98](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.97...@next-core/yo@1.5.98) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.97](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.96...@next-core/yo@1.5.97) (2025-06-06)
 
 

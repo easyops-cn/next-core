@@ -3,6 +3,121 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.10](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.9...@next-core/preview@0.8.10) (2025-09-01)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.9](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.8...@next-core/preview@0.8.9) (2025-08-25)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.8](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.7...@next-core/preview@0.8.8) (2025-08-04)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.7](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.6...@next-core/preview@0.8.7) (2025-07-31)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.6](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.5...@next-core/preview@0.8.6) (2025-07-22)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.5](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.4...@next-core/preview@0.8.5) (2025-07-19)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.4](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.3...@next-core/preview@0.8.4) (2025-07-13)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.3](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.2...@next-core/preview@0.8.3) (2025-07-12)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.2](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.1...@next-core/preview@0.8.2) (2025-07-09)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.8.1](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.8.0...@next-core/preview@0.8.1) (2025-07-07)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+# [0.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.61...@next-core/preview@0.8.0) (2025-07-02)
+
+
+### Features
+
+* createRoot supports useChildren ([5ceb8ff](https://github.com/easyops-cn/next-core/commit/5ceb8ff899cf9637c1f01025622c3a5acba73d64))
+
+
+
+
+
+## [0.7.61](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.60...@next-core/preview@0.7.61) (2025-07-02)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.60](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.59...@next-core/preview@0.7.60) (2025-07-01)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
+## [0.7.59](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.58...@next-core/preview@0.7.59) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/preview
+
+
+
+
+
 ## [0.7.58](https://github.com/easyops-cn/next-core/compare/@next-core/preview@0.7.57...@next-core/preview@0.7.58) (2025-05-29)
 
 **Note:** Version bump only for package @next-core/preview

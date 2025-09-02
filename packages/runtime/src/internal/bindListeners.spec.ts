@@ -17,6 +17,8 @@ import { startPoll } from "./poll.js";
 import { hooks } from "./Runtime.js";
 import { startSSEStream } from "./sse.js";
 
+const FLOW_API_PROVIDER = "flow-api-provider";
+
 jest.mock("../history.js");
 jest.mock("../handleHttpError.js");
 jest.mock("../themeAndMode.js");
@@ -28,8 +30,26 @@ jest.mock("./Runtime.js", () => ({
       subscribe: jest.fn(),
       unsubscribe: jest.fn(),
     },
+    flowApi: {
+      FLOW_API_PROVIDER,
+      isFlowApiProvider(provider: string) {
+        return provider.includes("@");
+      },
+      getArgsOfFlowApi(_provider: string, conf: any) {
+        return [conf?.params?.input];
+      },
+    },
   },
 }));
+
+customElements.define(
+  "flow-api-provider",
+  class extends HTMLElement {
+    resolve(input: string) {
+      return `Flow received: ${input}`;
+    }
+  }
+);
 
 const consoleLog = jest.spyOn(console, "log");
 const consoleInfo = jest.spyOn(console, "info");
@@ -37,7 +57,7 @@ const consoleWarn = jest.spyOn(console, "warn");
 const consoleError = jest.spyOn(console, "error");
 const windowOpen = jest.spyOn(window, "open");
 const windowAlert = jest.spyOn(window, "alert");
-const windowPostMessage = jest.spyOn(window, "postMessage");
+const windowPostMessage = jest.spyOn(window as any, "postMessage");
 const mockGetHistory = getHistory as jest.Mock;
 const mockHandleHttpError = handleHttpError as jest.MockedFunction<
   typeof handleHttpError
@@ -241,7 +261,7 @@ describe("listenerFactory for location.*", () => {
     } as any;
   });
   afterAll(() => {
-    window.location = originalLocation;
+    (window as any).location = originalLocation;
   });
 
   test("location.assign", () => {
@@ -1024,7 +1044,7 @@ describe("listenerFactory for calling brick methods", () => {
     const error = new Error("oops");
     const brick = {
       element: {
-        callMe: jest.fn(() => Promise.reject(error)),
+        callMe: jest.fn((_input: string) => Promise.reject(error)),
         callbackSuccess: jest.fn(),
         callbackError: jest.fn(),
         callbackFinally: jest.fn(),
@@ -1142,6 +1162,36 @@ describe("listenerFactory for useProvider", () => {
     expect(brick.element.callbackSuccess).toHaveBeenCalledWith("resolved");
     expect(brick.element.callbackError).not.toHaveBeenCalled();
     expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
+  });
+
+  test("useProvider without args", async () => {
+    const brick = {
+      element: {
+        callbackSuccess: jest.fn(),
+      },
+    };
+    listenerFactory(
+      {
+        useProvider: "my-timeout-provider",
+        callback: {
+          success: {
+            target: "_self",
+            method: "callbackSuccess",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
+      },
+      runtimeContext,
+      brick as any
+    )(event);
+
+    expect(brick.element.callbackSuccess).not.toHaveBeenCalled();
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(consoleError).not.toHaveBeenCalled();
+    expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(brick.element.callbackSuccess).toHaveBeenCalledWith(null);
   });
 
   test("useProvider with saveAs", async () => {
@@ -1262,6 +1312,28 @@ describe("listenerFactory for useProvider", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(startSSEStream).not.toHaveBeenCalled();
     expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
+  });
+
+  test("useProvider with flow api", async () => {
+    consoleInfo.mockReturnValueOnce();
+    listenerFactory(
+      {
+        useProvider: "flow@api:1.0",
+        params: {
+          input: "<% EVENT.detail %>",
+        },
+        callback: {
+          success: {
+            action: "console.info",
+            args: ["<% EVENT.detail %>"],
+          },
+        },
+      },
+      runtimeContext
+    )(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(consoleInfo).toHaveBeenCalledWith("Flow received: ok");
   });
 });
 

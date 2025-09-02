@@ -9,6 +9,7 @@ import type {
   StoryboardFunction,
 } from "@next-core/types";
 import { i18n } from "@next-core/i18n";
+import { replaceUseChildren } from "@next-core/utils/storyboard";
 import { uniqueId } from "lodash";
 import {
   RenderOutput,
@@ -45,6 +46,11 @@ export interface CreateRootOptions {
   unknownBricks?: "silent" | "throw";
 
   /**
+   * Whether the root supports `useChildren`.
+   */
+  supportsUseChildren?: boolean;
+
+  /**
    * Set unsafe_penetrate to true to allow accessing global variables
    * from an isolated root.
    *
@@ -71,6 +77,7 @@ export function unstable_createRoot(
     portal: _portal,
     scope = "fragment",
     unknownBricks,
+    supportsUseChildren,
     unsafe_penetrate,
   }: CreateRootOptions = {}
 ) {
@@ -113,6 +120,16 @@ export function unstable_createRoot(
         );
       }
       const bricks = ([] as BrickConf[]).concat(brick);
+
+      if (supportsUseChildren) {
+        replaceUseChildren(bricks);
+
+        for (const template of templates ?? []) {
+          if (Array.isArray(template.bricks)) {
+            replaceUseChildren(template.bricks);
+          }
+        }
+      }
 
       const previousRendererContext = rendererContext;
       const renderId = uniqueId("render-id-");

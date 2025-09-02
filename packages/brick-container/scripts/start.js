@@ -28,6 +28,7 @@ const server = new WebpackDevServer(
     hot: true,
     client: {
       overlay: false,
+      logging: "warn",
     },
     devMiddleware: {
       publicPath: baseHref,

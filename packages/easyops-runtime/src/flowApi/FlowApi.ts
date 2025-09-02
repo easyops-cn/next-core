@@ -1,10 +1,15 @@
 import yaml from "js-yaml";
-import { ContractApi_searchSingleContract } from "@next-api-sdk/api-gateway-sdk";
+import {
+  ContractCenterApi_batchSearchContract,
+  type ContractCenterApi_BatchSearchContractResponseBody_list_item,
+} from "@next-api-sdk/next-builder-sdk";
 import type {
   ContractResponse,
   ExtField,
   ContractRequest,
+  UseProviderContractConf,
 } from "@next-core/types";
+import { hasOwnProperty } from "@next-core/utils/general";
 import { getContract } from "./CollectContracts.js";
 
 export type MinimalContractRequest = Pick<ContractRequest, "type"> & {
@@ -36,7 +41,7 @@ export function isFlowApiProvider(provider: string): boolean {
 
 export async function getArgsOfFlowApi(
   provider: string,
-  originalArgs: unknown[],
+  originalArgs: unknown[] | UseProviderContractConf,
   method?: string,
   stream?: boolean
 ): Promise<unknown[]> {
@@ -58,40 +63,36 @@ export async function getArgsOfFlowApi(
 }
 
 function getApiArgsFromApiProfile(
-  {
-    uri,
-    method: apiMethod,
-    ext_fields,
-    name,
-    namespace,
-    serviceName,
-    responseWrapper,
-    version,
-    isFileType,
-    request,
-  }: CustomApiProfile,
-  originalArgs: unknown[],
+  api: CustomApiProfile,
+  originalArgs: unknown[] | UseProviderContractConf,
   method?: string,
   stream?: boolean
 ): unknown[] {
+  const {
+    uri,
+    method: apiMethod,
+    ext_fields,
+    responseWrapper,
+    isFileType,
+    request,
+  } = api;
   // `saveAs` requires the first argument to be the filename.
   const isDownload = method === "saveAs";
-  let fileName: string | undefined;
+  let filename: string | undefined;
+  let fixedArgs = originalArgs;
   if (isDownload) {
-    fileName = originalArgs.shift() as string;
+    if (Array.isArray(originalArgs)) {
+      fixedArgs = originalArgs.slice();
+      filename = fixedArgs.shift() as string;
+    } else {
+      filename = originalArgs.filename;
+    }
   }
 
-  const { url, args } = getTransformedUriAndRestArgs(
-    uri,
-    originalArgs,
-    name,
-    namespace,
-    serviceName,
-    version
-  );
+  const { url, args } = getTransformedUriAndRestArgs(api, fixedArgs);
 
   return [
-    ...(isDownload ? [fileName] : []),
+    ...(isDownload ? [filename] : []),
     {
       url,
       originalUri: uri,
@@ -107,13 +108,20 @@ function getApiArgsFromApiProfile(
 }
 
 function getTransformedUriAndRestArgs(
-  uri: string,
-  originalArgs: unknown[],
-  name: string,
-  namespace: string,
-  serviceName: string | undefined,
-  version?: string
+  api: CustomApiProfile,
+  originalArgs: unknown[] | UseProviderContractConf
 ): { url: string; args: unknown[] } {
+  const {
+    uri,
+    name,
+    namespace,
+    serviceName,
+    version,
+    method = "GET",
+    request,
+    ext_fields,
+  } = api;
+
   const prefix = version
     ? serviceName === "logic.api.gateway" ||
       serviceName?.startsWith("logic.api.gateway.")
@@ -122,11 +130,64 @@ function getTransformedUriAndRestArgs(
         ? `api/gateway/${serviceName}`
         : `api/gateway/${namespace}.${name}@${version}`
     : `api/gateway/api_service.${namespace}.${name}`;
-  const restArgs = originalArgs.slice();
-  const transformedUri = uri.replace(
-    /:([^/]+)/g,
-    () => restArgs.shift() as string
-  );
+
+  let transformedUri: string;
+  let restArgs: unknown[] = [];
+  if (Array.isArray(originalArgs)) {
+    restArgs = originalArgs.slice();
+    transformedUri = uri.replace(/:([^/]+)/g, () => restArgs.shift() as string);
+  } else {
+    const restParams = { ...originalArgs.params };
+    transformedUri = uri.replace(/:([^/]+)/g, (_, key) => {
+      if (hasOwnProperty(restParams, key)) {
+        const value = restParams[key] as string;
+        delete restParams[key];
+        return value;
+      }
+      throw new Error(`Missing required param: "${key}"`);
+    });
+
+    const isSimpleRequest = ["get", "delete", "head"].includes(
+      method.toLowerCase()
+    );
+    if (isSimpleRequest) {
+      const noParams =
+        request?.type === "object" &&
+        (uri.match(/:([^/]+)/g)?.length ?? 0) === (request.fields?.length ?? 0);
+      if (!noParams) {
+        restArgs.push(restParams);
+      }
+    } else {
+      const bodyField = ext_fields?.find((item) => item.source === "body");
+      if (bodyField) {
+        let body: Record<string, unknown> | undefined;
+        if (bodyField.name && hasOwnProperty(restParams, bodyField.name)) {
+          body = restParams[bodyField.name] as Record<string, unknown>;
+          delete restParams[bodyField.name];
+        }
+        restArgs.push(body);
+      }
+
+      const queryField = ext_fields?.find((item) => item.source === "query");
+      if (queryField) {
+        let query: Record<string, unknown> | undefined;
+        if (queryField.name && hasOwnProperty(restParams, queryField.name)) {
+          query = restParams[queryField.name] as Record<string, unknown>;
+          delete restParams[queryField.name];
+        }
+
+        restArgs.push(query);
+      }
+
+      if (!bodyField && !queryField) {
+        restArgs.push(restParams);
+      }
+    }
+
+    if (originalArgs.options) {
+      restArgs.push(originalArgs.options);
+    }
+  }
   return {
     url: prefix ? prefix + transformedUri : transformedUri.replace(/^\//, ""),
     args: restArgs,
@@ -173,7 +234,7 @@ async function fetchFlowApiDefinition(
   const [namespaceName, nameWithVersion] = provider.split("@");
   const [name, version] = nameWithVersion.split(":");
 
-  // Do not cache the result of `geContract`, which will lead to no contract
+  // Do not cache the result of `getContract`, which will lead to no contract
   // will be found when render twice immediately.
   const contract = getContract(`${namespaceName}.${name}`);
   if (contract) {
@@ -202,25 +263,46 @@ async function fetchFlowApiDefinitionFromRemote(
   name: string,
   version: string
 ): Promise<CustomApiDefinition | null> {
-  const { contractData } = await ContractApi_searchSingleContract({
-    contractName: `${namespace}.${name}`,
-    version,
-  });
+  let contractData:
+    | ContractCenterApi_BatchSearchContractResponseBody_list_item
+    | undefined;
+  const fullContractName = `${namespace}@${name}`;
+  let error: unknown;
 
-  // return undefined if don't found contract
-  return contractData
-    ? {
-        name: contractData.name,
-        namespace: contractData.namespace?.[0]?.name,
-        serviceName: contractData.serviceName,
-        version: contractData.version,
-        contract: {
-          endpoint: contractData.endpoint,
-          response: contractData.response,
-          request: contractData.request,
+  try {
+    const { list: contractList } = await ContractCenterApi_batchSearchContract({
+      contract: [
+        {
+          fullContractName,
+          version,
         },
-      }
-    : null;
+      ],
+    });
+    contractData = contractList![0];
+  } catch (e) {
+    error = e;
+  }
+
+  if (!contractData) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Failed to fetch Flow API definition for "${fullContractName}:${version}"`,
+      error ?? "Contract not found"
+    );
+    return null;
+  }
+
+  return {
+    name: contractData.name,
+    namespace: contractData.namespaceId,
+    serviceName: contractData.serviceName,
+    version: contractData.version,
+    contract: {
+      endpoint: contractData.endpoint,
+      response: contractData.response,
+      request: contractData.request,
+    },
+  } as CustomApiDefinition;
 }
 
 export interface CustomApiDefinition {

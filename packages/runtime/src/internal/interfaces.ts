@@ -61,13 +61,13 @@ export interface RenderRoot extends BaseRenderNode {
 export interface RenderBrick extends BaseRenderNode, RuntimeBrick {
   tag: RenderTag.BRICK;
   return: RenderReturnNode;
-  hasTrackingControls?: boolean;
 }
 
-export interface RenderPlaceholder extends BaseRenderNode {
-  tag: RenderTag.PLACEHOLDER;
+export interface RenderAbstract extends BaseRenderNode {
+  tag: RenderTag.ABSTRACT;
   return: RenderReturnNode;
-  tracking?: boolean;
+  iid?: string;
+  disposes?: (() => void)[];
 }
 
 export interface BaseRenderNode {
@@ -76,12 +76,13 @@ export interface BaseRenderNode {
   sibling?: RenderChildNode;
   return?: RenderReturnNode | null;
   childElements?: HTMLElement[];
+  disposed?: boolean;
+  mounted?: boolean;
 }
 
-export type RenderNode = RenderRoot | RenderBrick | RenderPlaceholder;
-
-export type RenderChildNode = RenderBrick | RenderPlaceholder;
-export type RenderReturnNode = RenderRoot | RenderBrick;
+export type RenderNode = RenderRoot | RenderBrick | RenderAbstract;
+export type RenderChildNode = RenderBrick | RenderAbstract;
+export type RenderReturnNode = RenderNode;
 
 export interface RuntimeBrick {
   type: string;
@@ -95,6 +96,7 @@ export interface RuntimeBrick {
   portal?: boolean;
   ref?: string;
   disposes?: (() => void)[];
+  disposed?: boolean;
 }
 
 export type MetaInfoOfEventListener = [

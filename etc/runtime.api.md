@@ -38,11 +38,13 @@ import type { RuntimeSnippet } from '@next-core/types';
 import type { RuntimeStoryboard } from '@next-core/types';
 import type { SiteMode } from '@next-core/types';
 import type { SiteTheme } from '@next-core/types';
+import type { SiteVariant } from '@next-core/types';
 import type { SlotConfOfRoutes } from '@next-core/types';
 import type { StaticMenuConf } from '@next-core/types';
 import type { Storyboard } from '@next-core/types';
 import { StoryboardFunction } from '@next-core/types';
 import { supply } from '@next-core/supply';
+import type { UseProviderContractConf } from '@next-core/types';
 import type { UseProviderResolveConf } from '@next-core/types';
 import type { UseSingleBrickConf } from '@next-core/types';
 
@@ -118,6 +120,7 @@ export interface CreateRootOptions {
     // (undocumented)
     portal?: HTMLElement;
     scope?: "page" | "fragment";
+    supportsUseChildren?: boolean;
     unknownBricks?: "silent" | "throw";
     unsafe_penetrate?: boolean;
 }
@@ -229,6 +232,9 @@ function getRenderId(): string | undefined;
 
 // @public (undocumented)
 export const getRuntime: () => Runtime;
+
+// @public (undocumented)
+export function getThemeVariant(): SiteVariant;
 
 // Warning: (ae-forgotten-export) The symbol "Kit" needs to be exported by the entry point index.d.ts
 //
@@ -491,7 +497,7 @@ export interface RuntimeHooks {
         FLOW_API_PROVIDER: string;
         registerFlowApiProvider(): void;
         isFlowApiProvider(provider: string): boolean;
-        getArgsOfFlowApi(provider: string, originalArgs: unknown[], method?: string, stream?: boolean): Promise<unknown[]>;
+        getArgsOfFlowApi(provider: string, originalArgs: unknown[] | UseProviderContractConf, method?: string, stream?: boolean): Promise<unknown[]>;
         collectContract(contracts: Contract[] | undefined): void;
         collectWidgetContract(contracts: Contract[] | undefined): void;
         clearCollectWidgetContract(): void;
@@ -586,7 +592,7 @@ const symbolForRootRuntimeContext: unique symbol;
 function unmountUseBrick({ rendererContext }: RenderUseBrickResult, mountResult: MountUseBrickResult): void;
 
 // @public (undocumented)
-export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks, unsafe_penetrate, }?: CreateRootOptions): {
+export function unstable_createRoot(container: HTMLElement | DocumentFragment, { portal: _portal, scope, unknownBricks, supportsUseChildren, unsafe_penetrate, }?: CreateRootOptions): {
     render(brick: BrickConf | BrickConf[], { theme, uiVersion, language, context, functions, templates, i18n: i18nData, url, app, }?: RenderOptions): Promise<void>;
     unmount(): void;
 };

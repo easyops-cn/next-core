@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.9...@next-core/test-next@2.0.0) (2025-06-24)
+
+
+### Features
+
+* upgrade jest to v30 ([e1e61a7](https://github.com/easyops-cn/next-core/commit/e1e61a75794f408907cb91ae294ab324a87b41e9))
+
+
+### BREAKING CHANGES
+
+* upgrade jest to v30
+
+
+
+
+
 ## [1.1.9](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.8...@next-core/test-next@1.1.9) (2025-03-13)
 
 **Note:** Version bump only for package @next-core/test-next

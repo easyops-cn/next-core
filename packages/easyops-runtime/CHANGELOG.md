@@ -3,6 +3,127 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.9](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.8...@next-core/easyops-runtime@0.15.9) (2025-09-01)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.15.8](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.7...@next-core/easyops-runtime@0.15.8) (2025-08-04)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.15.7](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.6...@next-core/easyops-runtime@0.15.7) (2025-07-31)
+
+
+### Bug Fixes
+
+* fix importing CommonJS modules in Node.js ([83759e5](https://github.com/easyops-cn/next-core/commit/83759e5187e76cce4e0cd0aed42031376c52787e))
+
+
+
+
+
+## [0.15.6](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.5...@next-core/easyops-runtime@0.15.6) (2025-07-22)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.15.5](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.4...@next-core/easyops-runtime@0.15.5) (2025-07-19)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.15.4](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.3...@next-core/easyops-runtime@0.15.4) (2025-07-18)
+
+
+### Bug Fixes
+
+* using batch search contract which has serviceName while single search missing ([f37d5ca](https://github.com/easyops-cn/next-core/commit/f37d5ca3c8d441da2087ef5e81fd26061db5e6a4))
+
+
+
+
+
+## [0.15.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.2...@next-core/easyops-runtime@0.15.3) (2025-07-13)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.15.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.1...@next-core/easyops-runtime@0.15.2) (2025-07-12)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.15.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.0...@next-core/easyops-runtime@0.15.1) (2025-07-09)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+# [0.15.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.4...@next-core/easyops-runtime@0.15.0) (2025-07-07)
+
+
+### Features
+
+* support use contract params when using useProvider with contract ([e396b04](https://github.com/easyops-cn/next-core/commit/e396b042a9032724d43f827f2233571c649dc382))
+
+
+
+
+
+## [0.14.4](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.3...@next-core/easyops-runtime@0.14.4) (2025-07-02)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.14.3](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.2...@next-core/easyops-runtime@0.14.3) (2025-07-02)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.14.2](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.1...@next-core/easyops-runtime@0.14.2) (2025-07-01)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
+## [0.14.1](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.14.0...@next-core/easyops-runtime@0.14.1) (2025-06-24)
+
+**Note:** Version bump only for package @next-core/easyops-runtime
+
+
+
+
+
 # [0.14.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.13.9...@next-core/easyops-runtime@0.14.0) (2025-05-29)
 
 

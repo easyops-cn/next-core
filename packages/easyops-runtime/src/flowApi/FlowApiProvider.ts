@@ -21,19 +21,22 @@ export interface CustomApiParams {
   stream?: boolean;
 }
 
-function hasFields(ext_fields: ExtField[], type: "query" | "body"): boolean {
-  return ext_fields.some((item) => item.source === type);
+function hasFields(ext_fields: ExtField[] | undefined, type: "query" | "body") {
+  return ext_fields?.some((item) => item.source === type);
 }
 
 export function processExtFields(
-  ext_fields: ExtField[],
+  ext_fields: ExtField[] | undefined,
   ...args: unknown[]
 ): { data: unknown; options: HttpOptions } {
   const hasQueryParams = hasFields(ext_fields, "query");
-  const hasBodyParams = hasFields(ext_fields, "body");
 
   if (hasQueryParams) {
+    const hasBodyParams = hasFields(ext_fields, "body");
     if (hasBodyParams) {
+      // NOTE: The args order here is different from generated SDK,
+      // in SDK, it's [params, data, options]
+      // But we keep the current behavior for compatibility.
       const [data, params, options] = args;
       return {
         data: data,
@@ -120,7 +123,7 @@ export async function callFlowApi(
     originalUri,
     method = "GET",
     responseWrapper = true,
-    ext_fields = [],
+    ext_fields,
     request,
     isFileType,
     stream,
@@ -137,10 +140,10 @@ export async function callFlowApi(
 
   if (isSimpleRequest) {
     const noParams =
-      originalUri && request?.type === "object"
-        ? (originalUri.match(/:([^/]+)/g)?.length ?? 0) ===
-          (request.fields?.length ?? 0)
-        : false;
+      originalUri &&
+      request?.type === "object" &&
+      (originalUri.match(/:([^/]+)/g)?.length ?? 0) ===
+        (request.fields?.length ?? 0);
     let params: HttpParams | undefined;
     let options: HttpOptions | undefined;
 
