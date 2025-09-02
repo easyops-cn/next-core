@@ -25,6 +25,7 @@ check() {
 
 package() {
     cd next-core
+    cp -arf conf ${pkgdir}
     cp -arf packages/brick-container/deploy ${pkgdir}
     cp -arf --parents packages/brick-container/dist ${pkgdir}
     cp -arf --parents packages/brick-container/conf ${pkgdir}
