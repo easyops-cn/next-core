@@ -4,6 +4,8 @@ import { asyncCheckIf } from "./compute/checkIf.js";
 import type { RuntimeContext } from "./interfaces.js";
 import { hooks } from "./Runtime.js";
 
+const HOMEPAGE_PREFIX = "${APP.homepage}";
+
 type MatchRoutesResult =
   | {
       match: MatchResult;
@@ -49,9 +51,25 @@ export function matchRoute(
   homepage: string,
   pathname: string
 ) {
-  const routePath = route.path.replace(/^\$\{APP.homepage\}/, homepage);
+  const path = getRoutePath(route, homepage);
   return matchPath(pathname, {
-    path: routePath,
+    path,
     exact: route.exact,
   });
+}
+
+function getRoutePath(route: RouteConf, homepage: string): string | string[] {
+  if (route.path.startsWith(HOMEPAGE_PREFIX)) {
+    const restPath = route.path.slice(HOMEPAGE_PREFIX.length);
+    if (
+      restPath.startsWith("[") &&
+      restPath.endsWith("]") &&
+      restPath.includes(",")
+    ) {
+      const paths = restPath.slice(1, -1).split(",");
+      return paths.map((p) => `${homepage}${p}`);
+    }
+    return `${homepage}${restPath}`;
+  }
+  return route.path;
 }
