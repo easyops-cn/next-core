@@ -11,6 +11,9 @@ from  concurrent.futures import ThreadPoolExecutor,as_completed, wait, ALL_COMPL
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # 将 tools 目录加入 path
+from utils.get_headers import get_headers
+
 # 公共路径
 _INSTALL_BASE_PATH = "/usr/local/easyops"
 _APPLICATIONS_SA_FOLDER = "applications_sa"
@@ -50,7 +53,7 @@ def get_version(install_path):
 def collect_app_info(union_app_id, union_app_version, app_path, report_app_id, version):
     if not os.path.exists(app_path):
         print u"could not find app path {}".format(app_path)
-        return 
+        return
     bootstrap_file_name = ""
     for f in os.listdir(app_path):
         if f.startswith("bootstrap-mini.") and f.endswith(".json"):
@@ -115,7 +118,7 @@ def report(org, app):
 
 
 def create_or_update_micro_app_sa(org, app):
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
     url = "http://{}/api/v1/micro_app_standalone/report".format(MICRO_APP_SA_ADDR)
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
@@ -131,7 +134,7 @@ def import_micro_app_permissions(org, permission_path):
     if not os.path.exists(permission_path):
         print "permission path {} does not exist, return...".format(permission_path)
         return
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
 
     print "permission path is {}, will start import permissions".format(permission_path)
