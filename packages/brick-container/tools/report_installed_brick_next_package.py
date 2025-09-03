@@ -10,6 +10,9 @@ import tarfile
 
 from copy import deepcopy
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from utils.get_headers import get_headers
+
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
@@ -239,7 +242,7 @@ def collect(install_path):
 
 def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks_content, stories_content,
                        snippets_content):
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
     # report atom
     atom_url = "http://{}/api/v1/brick/atom/import".format(MICRO_APP_ADDR)
     data_dict = {"stories": stories_content, "bricks": bricks_content}
@@ -258,7 +261,8 @@ def report_bricks_atom(org, nb_targz_path, package_name, package_version, bricks
 
 def report_brick_next_package(org, brick_targz_path, package_name, package_version):
     # report brick_next or NT
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
+
     # report atom
     atom_url = "http://{}/api/v1/brick_next/report".format(MICRO_APP_ADDR)
     data = {"packageName": package_name, "packageVersion": package_version}
@@ -268,7 +272,8 @@ def report_brick_next_package(org, brick_targz_path, package_name, package_versi
 
 
 def report_provider_into_contract(org, package_name, contract_content):
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
+
     # report contract
     url = "http://{}/api/v1/brick/provider/import_into_contract".format(MICRO_APP_ADDR)
     param = {"packageName": package_name, "data": {
