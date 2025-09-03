@@ -7,6 +7,10 @@ plugin_name='brick_next_v3'
 
 install_path="${install_base}/${plugin_name}"
 
+deploy_init_path="/usr/local/easyops/deploy_init"
+config_tool="${deploy_init_path}/tools/config_tool"
+
+
 function check_service_availability() {
   services=$1
   for service in ${services[*]}; do
@@ -45,11 +49,25 @@ function report_package() {
   fi
 }
 
+export LD_LIBRARY_PATH=/usr/local/easyops/ens_client/sdk:${LD_LIBRARY_PATH}
+
 # 优先取环境变量里面的org
 if [[ ${org}X == X ]]; then
     org=$(/usr/local/easyops/deploy_init/tools/get_env.py common org)
     [[ $? -ne 0 ]] && echo "get org error, exit" && exit 1
 fi
+
+
+value=$(${config_tool} get --appID "deploy_init" --namespaceName "common" --key "check_auth_token.enable")
+if [[ ${value} == "true" ]]; then
+    # 初始化默认命名空间，并生成 clientId 和 secret
+    ${config_tool} init -f "${install_path}/conf/config.yaml"
+    if [[ $? -ne 0 ]];then
+       echo "import brick_next_v3 config namespace error, exit"
+       exit 1
+    fi
+fi
+
 
 # 上报当前安装小产品
 check_service
