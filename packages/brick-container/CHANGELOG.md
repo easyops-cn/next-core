@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.22.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.21.15...@next-core/brick-container@3.22.0) (2025-09-03)
+
+
+### Features
+
+* brick_next_v3 组件支持服务鉴权 ([c38ca44](https://github.com/easyops-cn/next-core/commit/c38ca44a0b5a6aa18a73b8398bc04416abb87e54))
+
+
+
+
+
 ## [3.21.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.21.14...@next-core/brick-container@3.21.15) (2025-09-01)
 
 **Note:** Version bump only for package @next-core/brick-container
