@@ -521,6 +521,7 @@ function lowLevelEvaluate(
           storyboardFunctions,
           app: app,
           appendI18nNamespace: runtimeContext.appendI18nNamespace,
+          isolatedRoot: runtimeContext.isolatedRoot,
         })
       );
 

@@ -28,6 +28,10 @@ import { registerAppI18n } from "./internal/registerAppI18n.js";
 import { registerCustomTemplates } from "./internal/registerCustomTemplates.js";
 import { setUIVersion } from "./setUIVersion.js";
 import { ErrorNode } from "./internal/ErrorNode.js";
+import {
+  isolatedFunctionRegistry,
+  registerIsolatedFunctions,
+} from "./internal/compute/IsolatedFunctions.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
@@ -98,6 +102,7 @@ export function unstable_createRoot(
   let unmounted = false;
   let rendererContext: RendererContext | undefined;
   let clearI18nBundles: Function | undefined;
+  const isolatedRoot = scope === "page" ? undefined : Symbol("IsolatedRoot");
 
   return {
     async render(
@@ -140,6 +145,7 @@ export function unstable_createRoot(
         pendingPermissionsPreCheck: [],
         tplStateStoreMap: new Map<string, DataStore<"STATE">>(),
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
+        isolatedRoot,
         unsafe_penetrate,
       } as Partial<RuntimeContext> as RuntimeContext;
 
@@ -190,6 +196,8 @@ export function unstable_createRoot(
 
         // Register functions.
         registerStoryboardFunctions(functions, app);
+      } else {
+        registerIsolatedFunctions(isolatedRoot!, functions ?? []);
       }
 
       runtimeContext.ctxStore.define(context, runtimeContext);
@@ -262,6 +270,9 @@ export function unstable_createRoot(
         return;
       }
       unmounted = true;
+      if (isolatedRoot) {
+        isolatedFunctionRegistry.delete(isolatedRoot);
+      }
       unmountTree(container);
       if (portal) {
         unmountTree(portal);

@@ -458,6 +458,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     // (undocumented)
     inUseBrick?: boolean;
     // (undocumented)
+    isolatedRoot?: symbol;
+    // (undocumented)
     pendingPermissionsPreCheck: (Promise<unknown> | undefined)[];
     // (undocumented)
     tplStateStoreId?: string;
@@ -570,9 +572,10 @@ export function shouldReloadForError(error: unknown): boolean;
 // Warning: (ae-internal-missing-underscore) The name "StoryboardFunctionRegistryFactory" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal (undocumented)
-export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, collectCoverage, debuggerOverrides, }?: {
+export function StoryboardFunctionRegistryFactory({ widgetId, widgetVersion, isolatedRoot, collectCoverage, debuggerOverrides, }?: {
     widgetId?: string;
     widgetVersion?: string;
+    isolatedRoot?: symbol;
     collectCoverage?: FunctionCoverageSettings;
     debuggerOverrides?: (ctx: {
         precookFunction: typeof precookFunction;
@@ -623,7 +626,7 @@ function updateTemplatePreviewSettings(appId: string, templateId: string, settin
 //
 // dist/types/Dialog.d.ts:10:5 - (ae-forgotten-export) The symbol "show_2" needs to be exported by the entry point index.d.ts
 // dist/types/Notification.d.ts:8:5 - (ae-forgotten-export) The symbol "show" needs to be exported by the entry point index.d.ts
-// dist/types/StoryboardFunctionRegistry.d.ts:48:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
+// dist/types/StoryboardFunctionRegistry.d.ts:49:5 - (ae-forgotten-export) The symbol "FunctionCoverageSettings" needs to be exported by the entry point index.d.ts
 // dist/types/internal/Runtime.d.ts:36:9 - (ae-forgotten-export) The symbol "AppForCheck" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

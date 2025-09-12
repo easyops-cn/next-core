@@ -318,4 +318,35 @@ describe("preview", () => {
 
     root.unmount();
   });
+
+  test("functions in scope fragment", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render(
+      [
+        {
+          brick: "p",
+          properties: {
+            textContent: "<% FN.testFn() %>",
+          },
+        },
+      ],
+      {
+        functions: [
+          {
+            name: "testFn",
+            source: `
+            function testFn() {
+              return "Hello";
+            }
+          `,
+          },
+        ],
+      }
+    );
+
+    expect(container.innerHTML).toBe("<p>Hello</p>");
+
+    root.unmount();
+  });
 });
