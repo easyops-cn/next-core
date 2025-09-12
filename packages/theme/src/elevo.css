@@ -14,4 +14,5 @@
   --elevo-input-box-shadow: inset 0px -1px 3px 0px
     rgba(var(--elevo-color-brand-rgb-channel), 0.5);
   --elevo-placeholder-color: rgba(0, 10, 26, 0.26);
+  --elevo-button-hover-background: rgba(0, 0, 0, 0.04);
 }
