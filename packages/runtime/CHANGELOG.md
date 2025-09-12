@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.66.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.7...@next-core/runtime@1.66.0) (2025-09-12)
+
+
+### Features
+
+* support FN in createRoot with scope fragment ([b5fb749](https://github.com/easyops-cn/next-core/commit/b5fb749d05aec7018aff16795a7f1c606f6becd5))
+
+
+
+
+
 ## [1.65.7](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.6...@next-core/runtime@1.65.7) (2025-09-01)
 
 
