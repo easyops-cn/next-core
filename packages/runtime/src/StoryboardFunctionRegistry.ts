@@ -78,11 +78,13 @@ export type PartialMicroApp = Pick<MicroApp, "id" | "isBuildPush" | "config">;
 export function StoryboardFunctionRegistryFactory({
   widgetId,
   widgetVersion,
+  isolatedRoot,
   collectCoverage,
   debuggerOverrides,
 }: {
   widgetId?: string;
   widgetVersion?: string;
+  isolatedRoot?: symbol;
   collectCoverage?: FunctionCoverageSettings;
   debuggerOverrides?: (ctx: {
     precookFunction: typeof precookFunction;
@@ -151,6 +153,7 @@ export function StoryboardFunctionRegistryFactory({
         collectCoverage,
         widgetId,
         widgetVersion,
+        isolatedRoot,
         app: currentApp,
         storyboardFunctions,
         isStoryboardFunction: true,

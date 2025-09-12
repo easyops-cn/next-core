@@ -7,11 +7,13 @@ import { getCssPropertyValue, getTheme } from "../../themeAndMode.js";
 import { getBasePath } from "../../getBasePath.js";
 import { getI18nNamespace } from "../registerAppI18n.js";
 import { ImagesFactory, hooks } from "../Runtime.js";
+import { isolatedFunctionRegistry } from "./IsolatedFunctions.js";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
   widgetId?: string;
   widgetVersion?: string;
+  isolatedRoot?: symbol;
   app?: PartialMicroApp;
   appendI18nNamespace?: string;
   storyboardFunctions?: unknown;
@@ -42,6 +44,7 @@ function getIndividualGlobal(
     collectCoverage,
     widgetId,
     widgetVersion,
+    isolatedRoot,
     app,
     appendI18nNamespace,
     storyboardFunctions,
@@ -52,7 +55,9 @@ function getIndividualGlobal(
     case "BASE_URL":
       return collectCoverage ? "/next" : getBasePath().replace(/\/$/, "");
     case "FN":
-      return storyboardFunctions;
+      return isolatedRoot
+        ? isolatedFunctionRegistry.get(isolatedRoot)
+        : storyboardFunctions;
     case "IMG":
       return collectCoverage
         ? fakeImageFactory()
