@@ -82,6 +82,7 @@ jest.mock("../devtools.js");
 
 i18n.init({
   fallbackLng: "en",
+  supportedLngs: ["en", "zh"],
 });
 i18n.addResourceBundle("en", getI18nNamespace("app", "hello"), {
   HELLO: "Hello",
@@ -255,6 +256,8 @@ const consoleError = jest.spyOn(console, "error");
 
 describe("evaluate", () => {
   beforeEach(() => {
+    i18n.changeLanguage("zh");
+
     (_internalApiGetRuntimeContext as jest.Mock).mockReset();
   });
 
@@ -291,7 +294,7 @@ describe("evaluate", () => {
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
-    ["<% __WIDGET_I18N__('my-widget')('WORLD') %>", "World"],
+    ["<% __WIDGET_I18N__('my-widget')('WORLD') %>", "世界"],
     ["<% I18N_TEXT({ en: 'hello', zh: '你好' }) %>", "你好"],
     ["<% CTX.myFreeContext %>", "good"],
     ["<% CTX.notExisted %>", undefined],
@@ -318,6 +321,7 @@ describe("evaluate", () => {
     ["<% SIZE %>", 2],
     ["<% STATE.myState %>", "better"],
     ["<% FORM_STATE.myFormItem %>", "input"],
+    ["<% LANGUAGE %>", "zh"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw, runtimeContext)).toEqual(result);
   });
