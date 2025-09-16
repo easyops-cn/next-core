@@ -32,6 +32,10 @@ import {
   isolatedFunctionRegistry,
   registerIsolatedFunctions,
 } from "./internal/compute/IsolatedFunctions.js";
+import {
+  isolatedTemplateRegistryMap,
+  registerIsolatedTemplates,
+} from "./internal/IsolatedTemplates.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
@@ -197,7 +201,8 @@ export function unstable_createRoot(
         // Register functions.
         registerStoryboardFunctions(functions, app);
       } else {
-        registerIsolatedFunctions(isolatedRoot!, functions ?? []);
+        registerIsolatedTemplates(isolatedRoot!, templates);
+        registerIsolatedFunctions(isolatedRoot!, functions);
       }
 
       runtimeContext.ctxStore.define(context, runtimeContext);
@@ -272,6 +277,7 @@ export function unstable_createRoot(
       unmounted = true;
       if (isolatedRoot) {
         isolatedFunctionRegistry.delete(isolatedRoot);
+        isolatedTemplateRegistryMap.delete(isolatedRoot);
       }
       unmountTree(container);
       if (portal) {

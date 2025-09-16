@@ -703,10 +703,7 @@ async function legacyRenderBrick(
     );
   }
 
-  const tplTagName = getTagNameOfCustomTemplate(
-    brickName,
-    runtimeContext.app?.id
-  );
+  const tplTagName = getTagNameOfCustomTemplate(brickName, runtimeContext);
 
   if (tplTagName) {
     const tplCount = tplStack.get(tplTagName) ?? 0;
