@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.207.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.206.2...@next-core/brick-kit@2.207.0) (2025-09-16)
+
+
+### Features
+
+* 框架支持`LANGUAGE`常量 ([fb465c3](https://github.com/easyops-cn/next-core/commit/fb465c32c5f526d496ccafd1ce1709bd7c671946))
+
+
+
+
+
 ## [2.206.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.206.1...@next-core/brick-kit@2.206.2) (2025-07-22)
 
 **Note:** Version bump only for package @next-core/brick-kit
