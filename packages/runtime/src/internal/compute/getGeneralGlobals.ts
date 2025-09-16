@@ -81,6 +81,9 @@ function getIndividualGlobal(
             );
     case "I18N_TEXT":
       return collectCoverage ? fakeI18nText : i18nText;
+    case "LANGUAGE": {
+      return collectCoverage ? "zh" : i18n.language || "zh";
+    }
     case "PERMISSIONS":
       return getReadOnlyProxy({
         check: collectCoverage
