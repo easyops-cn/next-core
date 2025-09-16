@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.66.0...@next-core/runtime@1.67.0) (2025-09-16)
+
+
+### Features
+
+* 框架支持`LANGUAGE`常量 ([ac0ed0d](https://github.com/easyops-cn/next-core/commit/ac0ed0dfef1d0c01c5dfff87eb45896d17ed81ee))
+
+
+
+
+
 # [1.66.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.65.7...@next-core/runtime@1.66.0) (2025-09-12)
 
 
