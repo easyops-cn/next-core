@@ -61,6 +61,7 @@ jest.mock("../history", () => ({
 
 i18next.init({
   fallbackLng: "en",
+  supportedLngs: ["en", "zh"],
 });
 i18next.addResourceBundle("en", "$app-hello", {
   HELLO: "Hello",
@@ -224,6 +225,9 @@ describe("shouldDismissRecursiveMarkingInjected", () => {
 });
 
 describe("evaluate", () => {
+  beforeEach(() => {
+    i18next.changeLanguage("zh");
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -261,7 +265,7 @@ describe("evaluate", () => {
     ["<% I18N('HELLO') %>", "Hello"],
     ["<% I18N('COUNT_ITEMS', { count: 5 }) %>", "Total 5 items"],
     ["<% I18N('NOT_EXISTED') %>", "NOT_EXISTED"],
-    ["<% __WIDGET_I18N__('my-widget')('WORLD') %>", "World"],
+    ["<% __WIDGET_I18N__('my-widget')('WORLD') %>", "世界"],
     ["<% I18N_TEXT({ en: 'hello', zh: '你好' }) %>", "你好"],
     ["<% CTX.myFreeContext %>", "good"],
     ["<% CTX.myPropContext %>", "better"],
@@ -284,6 +288,7 @@ describe("evaluate", () => {
     ['<% __WIDGET_FN__["widget-a"].abc() %>', "Hello, xyz"],
     ["<% MISC.hello %>", "world"],
     ["<% BASE_URL %>", ""],
+    ["<% LANGUAGE %>", "zh"],
   ])("evaluate(%j) should return %j", (raw, result) => {
     expect(evaluate(raw)).toEqual(result);
   });
