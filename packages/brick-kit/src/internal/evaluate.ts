@@ -26,7 +26,6 @@ import { getCustomTemplateContext } from "../core/CustomTemplates/CustomTemplate
 import { getMenu } from "./menu";
 import { getMedia } from "./mediaQuery";
 import { getCustomFormContext } from "../core/CustomForms/CustomFormContext";
-
 const symbolForRaw = Symbol.for("pre.evaluated.raw");
 const symbolForContext = Symbol.for("pre.evaluated.context");
 

@@ -1,4 +1,4 @@
-import { getFixedT } from "i18next";
+import i18next, { getFixedT } from "i18next";
 import { identity } from "lodash";
 import type { MicroApp } from "@next-core/brick-types";
 import { widgetI18nFactory } from "../core/WidgetI18n";
@@ -77,6 +77,9 @@ function getIndividualGlobal(
           );
     case "I18N_TEXT":
       return collectCoverage ? fakeI18nText : i18nText;
+    case "LANGUAGE": {
+      return collectCoverage ? "zh" : i18next.language || "zh";
+    }
     case "PERMISSIONS":
       return {
         check: collectCoverage ? fakeCheckPermissions : checkPermissions,
