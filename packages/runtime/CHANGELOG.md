@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.68.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.67.0...@next-core/runtime@1.68.0) (2025-09-17)
+
+
+### Features
+
+* support isolated templates ([f06f20d](https://github.com/easyops-cn/next-core/commit/f06f20d56216b79e0d128f67e9bb9e80947faf79))
+
+
+
+
+
 # [1.67.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.66.0...@next-core/runtime@1.67.0) (2025-09-16)
 
 
