@@ -1,6 +1,6 @@
-import { StoryboardFunction } from "@next-core/types";
+import type { StoryboardFunction } from "@next-core/types";
 import {
-  ReadonlyStoryboardFunctions,
+  type ReadonlyStoryboardFunctions,
   StoryboardFunctionRegistryFactory,
 } from "../../StoryboardFunctionRegistry.js";
 
@@ -11,7 +11,7 @@ export const isolatedFunctionRegistry = new Map<
 
 export function registerIsolatedFunctions(
   isolatedRoot: symbol,
-  functions: StoryboardFunction[]
+  functions: StoryboardFunction[] | undefined
 ): void {
   const { storyboardFunctions, registerStoryboardFunctions } =
     StoryboardFunctionRegistryFactory({ isolatedRoot });

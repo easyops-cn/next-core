@@ -1,6 +1,7 @@
 import type { DataStore } from "../data/DataStore.js";
 import type { RuntimeBrickElement, RuntimeContext } from "../interfaces.js";
 import { customTemplates } from "../../CustomTemplates.js";
+import { isolatedTemplateRegistryMap } from "../IsolatedTemplates.js";
 
 type MinimalTplStateStoreContext = Pick<
   RuntimeContext,
@@ -47,11 +48,21 @@ export function getTplHostElement(
 
 export function getTagNameOfCustomTemplate(
   brick: string,
-  appId?: string
+  runtimeContext: Pick<RuntimeContext, "app" | "isolatedRoot">
 ): false | string {
+  if (runtimeContext.isolatedRoot) {
+    const registry = isolatedTemplateRegistryMap.get(
+      runtimeContext.isolatedRoot
+    );
+    if (registry?.get(brick)) {
+      return brick;
+    }
+    return false;
+  }
+
   // When a template is registered by an app, it's namespace maybe missed.
-  if (!brick.includes(".") && brick.startsWith("tpl-") && appId) {
-    const tagName = `${appId}.${brick}`;
+  if (!brick.includes(".") && brick.startsWith("tpl-") && runtimeContext.app) {
+    const tagName = `${runtimeContext.app.id}.${brick}`;
     if (customTemplates.get(tagName)) {
       return tagName;
     }

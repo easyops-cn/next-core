@@ -6,6 +6,7 @@ import {
 } from "./utils.js";
 import { DataStore } from "../data/DataStore.js";
 import { customTemplates } from "../../CustomTemplates.js";
+import type { RuntimeContext } from "../interfaces.js";
 
 const tplStateStoreMap = new Map([
   ["tpl-state-1", new DataStore("STATE", {} as any)],
@@ -72,7 +73,11 @@ describe("getTagNameOfCustomTemplate", () => {
   ])(
     "getTagNameOfCustomTemplate(%j, %j) should return %j",
     (brick, appId, tagName) => {
-      expect(getTagNameOfCustomTemplate(brick, appId)).toEqual(tagName);
+      expect(
+        getTagNameOfCustomTemplate(brick, {
+          app: { id: appId },
+        } as RuntimeContext)
+      ).toEqual(tagName);
     }
   );
 });

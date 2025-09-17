@@ -349,4 +349,53 @@ describe("preview", () => {
 
     root.unmount();
   });
+
+  test("templates in scope fragment", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render(
+      [
+        {
+          brick: "isolated-tpl-a",
+        },
+      ],
+      {
+        templates: [
+          {
+            name: "isolated-tpl-a",
+            bricks: [
+              {
+                brick: "p",
+                properties: {
+                  textContent: "Template A",
+                },
+              },
+            ],
+          },
+        ],
+      }
+    );
+
+    const tpl = container.firstElementChild;
+    expect(tpl?.tagName.toLowerCase()).toBe("isolated-tpl-a");
+    expect(tpl?.innerHTML).toBe("<p>Template A</p>");
+
+    root.unmount();
+  });
+
+  test("using unknown templates in scope fragment", async () => {
+    const root = unstable_createRoot(container);
+
+    await root.render([
+      {
+        brick: "isolated-tpl-b",
+      },
+    ]);
+
+    const tpl = container.firstElementChild;
+    expect(tpl?.tagName.toLowerCase()).toBe("isolated-tpl-b");
+    expect(tpl?.innerHTML).toBe("");
+
+    root.unmount();
+  });
 });

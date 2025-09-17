@@ -114,7 +114,7 @@ export function StoryboardFunctionRegistryFactory({
   let currentApp: PartialMicroApp | undefined;
 
   function registerStoryboardFunctions(
-    functions: StoryboardFunction[],
+    functions: StoryboardFunction[] | undefined,
     app?: PartialMicroApp
   ): void {
     if (app) {

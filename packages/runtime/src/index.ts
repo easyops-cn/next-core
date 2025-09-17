@@ -1,7 +1,7 @@
 export * from "./auth.js";
 export * from "./CustomEditors.js";
 export * from "./CustomProcessors.js";
-export * from "./CustomTemplates.js";
+export { customTemplates } from "./CustomTemplates.js";
 export * from "./fetchByProvider.js";
 export * from "./getBasePath.js";
 export * from "./getPageInfo.js";

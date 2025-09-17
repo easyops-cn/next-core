@@ -18,8 +18,13 @@ interface LegacyTplPropProxy extends CustomTemplateProxyBasicProperty {
   refTransform?: unknown;
 }
 
-class CustomTemplateRegistry {
+export class CustomTemplateRegistry {
   readonly #registry = new Map<string, CustomTemplate>();
+  readonly #isolated: boolean | undefined;
+
+  constructor(isolated?: boolean) {
+    this.#isolated = isolated;
+  }
 
   define(tagName: string, constructor: CustomTemplateConstructor): void {
     let registered = this.#registry.has(tagName);
@@ -179,7 +184,6 @@ class CustomTemplateRegistry {
       }
       Object.defineProperty(TplElement.prototype, propName, {
         get(this: RuntimeBrickElement) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           return this.$$tplStateStore!.getValue(propName);
         },
         set(this: RuntimeBrickElement, value: unknown) {
@@ -194,7 +198,6 @@ class CustomTemplateRegistry {
     for (const [from, to] of validProxyProps) {
       Object.defineProperty(TplElement.prototype, from, {
         get(this: TplElement) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const element = this.$$getElementByRef!(to.ref) as unknown as Record<
             string,
             unknown
@@ -218,7 +221,6 @@ class CustomTemplateRegistry {
     for (const [from, to] of proxyMethods) {
       Object.defineProperty(TplElement.prototype, from, {
         value(this: TplElement, ...args: unknown[]) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const element = this.$$getElementByRef!(to.ref) as unknown as Record<
             string,
             Function
@@ -234,6 +236,12 @@ class CustomTemplateRegistry {
 
   get(tagName: string) {
     return this.#registry.get(tagName);
+  }
+
+  clearIsolatedRegistry() {
+    if (this.#isolated) {
+      this.#registry.clear();
+    }
   }
 }
 

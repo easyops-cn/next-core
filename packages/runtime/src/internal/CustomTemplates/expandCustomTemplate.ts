@@ -21,6 +21,7 @@ import { childrenToSlots } from "../Renderer.js";
 import { hooks } from "../Runtime.js";
 import type { RendererContext } from "../RendererContext.js";
 import { replaceSlotWithSlottedBricks } from "./replaceSlotWithSlottedBricks.js";
+import { isolatedTemplateRegistryMap } from "../IsolatedTemplates.js";
 
 export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
   tplTagName: string,
@@ -52,7 +53,12 @@ export function expandCustomTemplate<T extends BrickConf | UseSingleBrickConf>(
     runtimeContext.tplStateStoreScope.push(tplStateStore);
   }
 
-  const { bricks, proxy, state, contracts } = customTemplates.get(tplTagName)!;
+  const { bricks, proxy, state, contracts } = hostBrick.runtimeContext
+    .isolatedRoot
+    ? isolatedTemplateRegistryMap
+        .get(hostBrick.runtimeContext.isolatedRoot)!
+        .get(tplTagName)!
+    : customTemplates.get(tplTagName)!;
   hooks?.flowApi?.collectWidgetContract(contracts);
   tplStateStore.define(state, runtimeContext, asyncHostPropertyEntries);
 
