@@ -47,6 +47,7 @@ import {
   getCustomFormContext,
 } from "../core/CustomForms/CustomFormContext";
 import { StoryboardContextWrapper } from "../core/StoryboardContext";
+import { debugManager } from "./debugManager";
 
 export function bindListeners(
   brick: HTMLElement,
@@ -1084,6 +1085,14 @@ function builtinConsoleListenerFactory(
     if (!looseCheckIf(ifContainer, { ...context, event }, runtimeBrick)) {
       return;
     }
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    // 生产环境下，只有调试模式开启且符合日志级别才输出
+    if (isProduction && !debugManager.shouldLog(method)) {
+      return;
+    }
+
     // eslint-disable-next-line no-console
     console[method](
       ...argsFactory(args, context, event, {
