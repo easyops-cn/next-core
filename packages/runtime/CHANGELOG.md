@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.69.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.68.0...@next-core/runtime@1.69.0) (2025-09-18)
+
+
+### Features
+
+* brick_next框架在生产运行时去掉console.xxx的输出 ([f11d0fe](https://github.com/easyops-cn/next-core/commit/f11d0fe6e9112852c6678bbe713e69e07dc7bd42))
+
+
+
+
+
 # [1.68.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.67.0...@next-core/runtime@1.68.0) (2025-09-17)
 
 
