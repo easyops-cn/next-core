@@ -5,7 +5,7 @@ for (const port of Cypress.env("ports")) {
 
   describe(`Testing sub-routes incremental rendering on port ${port}`, () => {
     it("should render sub-routes", () => {
-      cy.visit(`${origin}/e2e/sub-routes/1`, {
+      cy.visit(`${origin}/e2e/sub-routes/1?__debugConsole__=true`, {
         onBeforeLoad(win) {
           cy.spy(win.console, "error").as("console.error");
           cy.spy(win.console, "info").as("console.info");
@@ -110,7 +110,7 @@ for (const port of Cypress.env("ports")) {
     });
 
     it("should render multiple sub-routes", () => {
-      cy.visit(`${origin}/e2e/sub-routes-alt`, {
+      cy.visit(`${origin}/e2e/sub-routes-alt?__debugConsole__=true`, {
         onBeforeLoad(win) {
           cy.spy(win.console, "error").as("console.error");
           cy.spy(win.console, "info").as("console.info");
@@ -215,12 +215,15 @@ for (const port of Cypress.env("ports")) {
     });
 
     it("should handle multiple clicks with sub-routes", () => {
-      cy.visit(`${origin}/e2e/sub-routes-multi-click-entry`, {
-        onBeforeLoad(win) {
-          cy.spy(win.console, "error").as("console.error");
-          cy.spy(win.console, "info").as("console.info");
-        },
-      });
+      cy.visit(
+        `${origin}/e2e/sub-routes-multi-click-entry?__debugConsole__=true`,
+        {
+          onBeforeLoad(win) {
+            cy.spy(win.console, "error").as("console.error");
+            cy.spy(win.console, "info").as("console.info");
+          },
+        }
+      );
 
       // Click twice
       cy.contains("Go App").click();
