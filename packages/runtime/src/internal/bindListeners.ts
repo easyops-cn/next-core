@@ -39,6 +39,7 @@ import { getFormStateStore } from "./FormRenderer/utils.js";
 import { DataStore } from "./data/DataStore.js";
 import { hooks } from "./Runtime.js";
 import { startSSEStream } from "./sse.js";
+import { debugManager } from "./debugManager.js";
 
 export function bindListeners(
   brick: RuntimeBrickElement,
@@ -806,6 +807,13 @@ function handleConsoleAction(
   args: unknown[] | undefined,
   runtimeContext: RuntimeContext
 ) {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  // 生产环境下，只有调试模式开启且符合日志级别才输出
+  if (isProduction && !debugManager.shouldLog(method)) {
+    return;
+  }
+
   // eslint-disable-next-line no-console
   console[method](
     ...argsFactory(args, runtimeContext, event, {
