@@ -216,7 +216,12 @@ describe("debugManager", () => {
 
   test("should initialize from URL parameter", () => {
     mockURLSearchParams.mockReturnValue({
-      get: jest.fn().mockReturnValue("true"),
+      get: (key: string) => {
+        if (key === "__debugConsole__") {
+          return "true";
+        }
+        return null;
+      },
     });
 
     // Create a new instance to test initialization
