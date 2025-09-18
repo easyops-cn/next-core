@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.208.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.0...@next-core/brick-kit@2.208.1) (2025-09-18)
+
+
+### Bug Fixes
+
+* 更改开启调试url的key ([168d1db](https://github.com/easyops-cn/next-core/commit/168d1db4b23354b5e09f218d43fa4bd258fffd88))
+
+
+
+
+
 # [2.208.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.207.0...@next-core/brick-kit@2.208.0) (2025-09-17)
 
 
