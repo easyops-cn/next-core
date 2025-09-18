@@ -7,7 +7,7 @@
   "commitMessagePrefix": "chore(deps):",
   "assignees": ["weareoutman"],
   "ignorePresets": [":ignoreModulesAndTests"],
-  "baseBranches": ["next", "v3", "master"],
+  "baseBranchPatterns": ["next", "v3", "master"],
   "packageRules": [
     {
       "matchBaseBranches": ["v3", "master"],
