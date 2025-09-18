@@ -266,8 +266,8 @@ describe("processPipes", () => {
   });
 
   const unitFormatParams: [any, [Identifier, Parameters], any][] = [
-    [1024.0, ["unitFormat", ["KBps"]], ["1.00", "MBps"]],
-    [1024.0, ["unitFormat", ["KBps", 3]], ["1.000", "MBps"]],
+    [1000.0, ["unitFormat", ["KBps"]], ["1.00", "MBps"]],
+    [1000.0, ["unitFormat", ["KBps", 3]], ["1.000", "MBps"]],
   ];
   it.each(unitFormatParams)(
     "pipeUnitFormat should work",
