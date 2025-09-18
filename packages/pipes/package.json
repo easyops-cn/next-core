@@ -39,7 +39,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@easyops-cn/brick-next-pipes": "^0.7.3",
+    "@easyops-cn/brick-next-pipes": "^0.7.6",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1"
