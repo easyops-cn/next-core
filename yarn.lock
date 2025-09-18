@@ -1312,6 +1312,11 @@
   resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.7.3.tgz#ac22c224010183ba9ad2d6cd6ce91649edeaec40"
   integrity sha512-ydwJJlWbyYB0ZC0pbNAmJ6mIdh6ykizm+l7FvkKwdWq1lRdweXyybvG+GAK26coEkwxfm7x8yEB4FWyNKdpwqQ==
 
+"@easyops-cn/brick-next-pipes@^0.7.6":
+  version "0.7.6"
+  resolved "https://registry.npmjs.org/@easyops-cn/brick-next-pipes/-/brick-next-pipes-0.7.6.tgz#adb4624b8f1dda0a114b19d3aad4b57ed2b48529"
+  integrity sha512-kpSU0lLJ78/E2v7aa3oG2IFvfxJtERjT0yjYje2p+oivUUDRy3Ydf1Rw2Kz20mlsfid9rKM7W6qcADiXfjX1tw==
+
 "@eslint/eslintrc@^1.3.3":
   version "1.3.3"
   resolved "https://registry.npmjs.org/@eslint/eslintrc/-/eslintrc-1.3.3.tgz#2b044ab39fdfa75b4688184f9e573ce3c5b0ff95"
