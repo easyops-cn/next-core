@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.3.4...@next-core/supply@1.3.5) (2025-09-18)
+
+**Note:** Version bump only for package @next-core/supply
+
+
+
+
+
 ## [1.3.4](https://github.com/easyops-cn/next-core/compare/@next-core/supply@1.3.3...@next-core/supply@1.3.4) (2025-07-22)
 
 **Note:** Version bump only for package @next-core/supply
