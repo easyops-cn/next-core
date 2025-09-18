@@ -32,7 +32,7 @@ for (const port of Cypress.env("ports")) {
     });
 
     it("work", () => {
-      cy.visit(`${origin}/next/home?lng=en&debugConsole=true`, {
+      cy.visit(`${origin}/next/home?lng=en&__debugConsole__=true`, {
         onBeforeLoad(win) {
           cy.spy(win.console, "error").as("console.error");
           cy.spy(win.console, "info").as("console.info");

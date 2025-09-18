@@ -18,7 +18,7 @@ class DebugManager {
   private initDebugMode(): void {
     // 1. 首先检查URL参数
     const urlParams = new URLSearchParams(window.location.search);
-    const debugFromUrl = urlParams.get("debugConsole");
+    const debugFromUrl = urlParams.get("__debugConsole__");
 
     if (debugFromUrl === "true") {
       this.activateSessionDebug();
@@ -159,7 +159,7 @@ class DebugManager {
   window.debugConsole.help()       - 显示此帮助信息
 
 🌐 URL参数：
-  ?debugConsole=true  - 通过URL激活会话调试模式
+  ?__debugConsole__=true  - 通过URL激活会话调试模式
 
 📝 说明：
   - 会话模式：刷新页面后仍然有效，关闭标签页后失效
