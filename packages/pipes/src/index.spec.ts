@@ -116,7 +116,7 @@ describe("processPipes", () => {
   ];
   it.each(stringCases)(
     "process %j with pipe %j should return %j",
-    (value, parameter, result) => {
+    (value, parameter) => {
       const [pipe, param1, param2] = parameter.split(":");
       expect(
         processPipes(value, [
@@ -133,7 +133,7 @@ describe("processPipes", () => {
   it.each([
     [[1, 2, 3, 4, 5], "slice:1:3", [2, 3]],
     [[1, 2, 3, 4, 5], "slice:1", [2, 3, 4, 5]],
-  ])("process %j with pipe %j should return %j", (value, parameter, result) => {
+  ])("process %j with pipe %j should return %j", (value, parameter) => {
     const [pipe, param1, param2] = parameter.split(":");
     expect(
       processPipes(value, [
@@ -266,8 +266,8 @@ describe("processPipes", () => {
   });
 
   const unitFormatParams: [any, [Identifier, Parameters], any][] = [
-    [1024.0, ["unitFormat", ["KBps"]], ["1.00", "MBps"]],
-    [1024.0, ["unitFormat", ["KBps", 3]], ["1.000", "MBps"]],
+    [1000.0, ["unitFormat", ["KBps"]], ["1.00", "MBps"]],
+    [1000.0, ["unitFormat", ["KBps", 3]], ["1.000", "MBps"]],
   ];
   it.each(unitFormatParams)(
     "pipeUnitFormat should work",
