@@ -3,7 +3,6 @@ import { unstable_createRoot } from "./createRoot.js";
 import { applyTheme } from "./themeAndMode.js";
 
 initializeI18n();
-const consoleError = jest.spyOn(console, "error");
 jest.mock("./themeAndMode.js");
 window.scrollTo = jest.fn();
 
@@ -200,6 +199,7 @@ describe("preview", () => {
   });
 
   test("unknown bricks", async () => {
+    const consoleError = jest.spyOn(console, "error");
     consoleError.mockReturnValue();
     const root = unstable_createRoot(container, { unknownBricks: "silent" });
 
@@ -230,6 +230,7 @@ describe("preview", () => {
     root.unmount();
     expect(container.innerHTML).toBe("");
     expect(portal.innerHTML).toBe("");
+    consoleError.mockRestore();
   });
 
   test("fail", async () => {
@@ -351,6 +352,8 @@ describe("preview", () => {
   });
 
   test("templates in scope fragment", async () => {
+    const consoleWarn = jest.spyOn(console, "warn");
+    consoleWarn.mockReturnValue();
     const root = unstable_createRoot(container);
 
     await root.render(
@@ -380,10 +383,43 @@ describe("preview", () => {
     expect(tpl?.tagName.toLowerCase()).toBe("isolated-tpl-a");
     expect(tpl?.innerHTML).toBe("<p>Template A</p>");
 
+    expect(consoleWarn).toHaveBeenCalledTimes(0);
+
+    // Redefine the same template.
+    await root.render(
+      [
+        {
+          brick: "isolated-tpl-a",
+        },
+      ],
+      {
+        templates: [
+          {
+            name: "isolated-tpl-a",
+            bricks: [
+              {
+                brick: "p",
+                properties: {
+                  textContent: "Template A Updated",
+                },
+              },
+            ],
+          },
+        ],
+      }
+    );
+    expect(container.firstElementChild?.innerHTML).toBe(
+      "<p>Template A Updated</p>"
+    );
+    expect(consoleWarn).toHaveBeenCalledTimes(1);
+
     root.unmount();
+    consoleWarn.mockRestore();
   });
 
   test("using unknown templates in scope fragment", async () => {
+    const consoleError = jest.spyOn(console, "error");
+    consoleError.mockReturnValue();
     const root = unstable_createRoot(container);
 
     await root.render([
@@ -397,5 +433,6 @@ describe("preview", () => {
     expect(tpl?.innerHTML).toBe("");
 
     root.unmount();
+    consoleError.mockRestore();
   });
 });

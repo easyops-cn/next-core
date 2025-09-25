@@ -11,7 +11,6 @@
   --elevo-component-backdrop-filter: blur(33px);
 
   --elevo-input-background: rgba(255, 255, 255, 0.8);
-  --elevo-input-box-shadow: inset 0px -1px 3px 0px
-    rgba(var(--elevo-color-brand-rgb-channel), 0.5);
+  --elevo-input-box-shadow: none;
   --elevo-placeholder-color: rgba(0, 10, 26, 0.26);
 }
