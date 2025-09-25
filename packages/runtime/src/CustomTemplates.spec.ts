@@ -102,14 +102,18 @@ describe("customTemplates", () => {
       runtimeContext,
     };
     (refA.element as any).propA = "a2";
-    const methodM = ((refA.element as any).methodM = jest.fn(() => "M"));
+    const methodM = ((refA.element as any).methodM = jest.fn(
+      (_v?: unknown) => "M"
+    ));
     const refB: RuntimeBrick = {
       type: "div",
       element: document.createElement("div"),
       runtimeContext,
     };
     (refB.element as any).propC = "b2";
-    const methodL = ((refB.element as any).methodL = jest.fn(() => "L"));
+    const methodL = ((refB.element as any).methodL = jest.fn(
+      (_v?: unknown) => "L"
+    ));
     const hostBrick: RuntimeBrick = {
       type: "tpl-proxy",
       tplHostMetadata: {
@@ -322,5 +326,9 @@ describe("customTemplates", () => {
     const tpl = document.createElement("tpl-existed") as RuntimeBrickElement;
     expect(tpl.$$typeof).toBe(undefined);
     expect(tpl.constructor).toBe(TplExistedElement);
+
+    // No effect for non-isolated registry
+    customTemplates.clearIsolatedRegistry();
+    expect(customTemplates.get("tpl-existed")).toBeDefined();
   });
 });
