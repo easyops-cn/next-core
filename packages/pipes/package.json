@@ -1,6 +1,6 @@
 {
   "name": "@next-core/pipes",
-  "version": "2.0.35",
+  "version": "2.0.36",
   "description": "Pipes for expressions and storyboard functions",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/pipes",
   "license": "GPL-3.0",
@@ -46,6 +46,6 @@
   },
   "devDependencies": {
     "@next-core/build-next-libs": "^1.0.25",
-    "@next-core/test-next": "^2.0.0"
+    "@next-core/test-next": "^2.0.1"
   }
 }

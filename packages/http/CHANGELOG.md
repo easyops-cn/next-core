@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.14](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.2.13...@next-core/http@1.2.14) (2025-09-26)
+
+**Note:** Version bump only for package @next-core/http
+
+
+
+
+
 ## [1.2.13](https://github.com/easyops-cn/next-core/compare/@next-core/http@1.2.12...@next-core/http@1.2.13) (2025-06-24)
 
 **Note:** Version bump only for package @next-core/http

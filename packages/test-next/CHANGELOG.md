@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@2.0.0...@next-core/test-next@2.0.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* transform mjs/mts ([c725017](https://github.com/easyops-cn/next-core/commit/c72501776634626569eb17c6693b70810c4eed70))
+
+
+
+
+
 # [2.0.0](https://github.com/easyops-cn/next-core/compare/@next-core/test-next@1.1.9...@next-core/test-next@2.0.0) (2025-06-24)
 
 

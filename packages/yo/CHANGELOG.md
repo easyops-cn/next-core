@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.107](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.106...@next-core/yo@1.5.107) (2025-09-26)
+
+**Note:** Version bump only for package @next-core/yo
+
+
+
+
+
 ## [1.5.106](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.105...@next-core/yo@1.5.106) (2025-09-25)
 
 **Note:** Version bump only for package @next-core/yo
