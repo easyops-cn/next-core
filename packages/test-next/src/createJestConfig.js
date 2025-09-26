@@ -36,7 +36,7 @@ export function createJestConfig({
     ],
     coverageReporters: ["text-summary", process.env.CI ? "cobertura" : "lcov"],
     transform: {
-      "^.+\\.[jt]sx?$": [
+      "^.+\\.m?[jt]sx?$": [
         "babel-jest",
         {
           configFile: findFileUpward(cwd, "babel.config.js"),
