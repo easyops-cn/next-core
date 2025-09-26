@@ -3,3 +3,5 @@ import "./data-providers/return-by-timeout.js";
 import "./async-wrap/index.js";
 import "./async-dep/index.js";
 import "./async-dep-alt/index.js";
+import "./test-use/index.js";
+import "./another-use/index.js";
