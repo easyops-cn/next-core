@@ -176,7 +176,7 @@ class DebugManager {
           this.debugType === "persistent" ? "持久模式" : "会话模式"
         }）`
       );
-    } else {
+    } else if (process.env.NODE_ENV !== "test") {
       // eslint-disable-next-line no-console
       console.log("💡 提示：使用 window.debugConsole.help() 查看使用说明");
     }

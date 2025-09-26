@@ -292,8 +292,6 @@ describe("debugManager", () => {
     DebugManagerClass.instance = undefined;
     const _manager = new DebugManagerClass();
 
-    expect(console.log).toHaveBeenCalledWith(
-      "💡 提示：使用 window.debugConsole.help() 查看使用说明"
-    );
+    expect(console.log).not.toHaveBeenCalled();
   });
 });
