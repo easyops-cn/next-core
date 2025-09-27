@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.69.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.69.3...@next-core/runtime@1.69.4) (2025-09-27)
+
+
+### Bug Fixes
+
+* disable debugger tips in test env ([14c5928](https://github.com/easyops-cn/next-core/commit/14c59280fa1eb2716b871efeacbfd6c2c94c5a15))
+
+
+
+
+
 ## [1.69.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.69.2...@next-core/runtime@1.69.3) (2025-09-26)
 
 **Note:** Version bump only for package @next-core/runtime
