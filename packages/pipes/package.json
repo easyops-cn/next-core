@@ -29,7 +29,8 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@easyops-cn/brick-next-pipes": "^0.7.6"
+    "@easyops-cn/brick-next-pipes": "^0.7.6",
+    "@next-libs/crontab": "^2.0.10"
   },
   "devDependencies": {
     "@next-core/rollup-config-factory": "^2.8.0",

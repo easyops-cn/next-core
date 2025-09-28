@@ -368,6 +368,24 @@ describe("processPipes", () => {
       ).toEqual(result);
     }
   );
+
+  const crontabFormatParams: [any, [Identifier, Parameters], any][] = [
+    ["0 6 * * *", ["crontabFormat", []], "在上午 06:00"],
+  ];
+  it.each(unitFormatParams)(
+    "crontabFormat should work",
+    (value, [identifier, parameters], result) => {
+      expect(
+        processPipes(value, [
+          {
+            type: "PipeCall",
+            identifier,
+            parameters,
+          },
+        ])
+      ).toEqual(result);
+    }
+  );
 });
 
 it.each([

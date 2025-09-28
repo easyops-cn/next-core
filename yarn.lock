@@ -2386,6 +2386,13 @@
   dependencies:
     "@next-core/styles-v3" "^0.3.5"
 
+"@next-libs/crontab@^2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmmirror.com/@next-libs/crontab/-/crontab-2.0.10.tgz#f6539ffee3944d17e5285f4f3b52c32f65529209"
+  integrity sha512-lGI0LtH9gApzr09NoUjcr5ELZk5dPadR6HK1yHPT4/keSfCliEQXsBZxWFylnlzJW1hZIH7dWkovmXxNzssKVg==
+  dependencies:
+    cronstrue "^1.88.0"
+
 "@next-sdk/api-gateway-sdk@^2.12.0":
   version "2.12.0"
   resolved "https://registry.npmjs.org/@next-sdk/api-gateway-sdk/-/api-gateway-sdk-2.12.0.tgz#645165fba3c0dc47a2232558cfacb3a448ad4247"
@@ -6210,6 +6217,11 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npmjs.org/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=
+
+cronstrue@^1.88.0:
+  version "1.125.0"
+  resolved "https://registry.npmmirror.com/cronstrue/-/cronstrue-1.125.0.tgz#8030816d033d00caade9b2a9f9b71e69175bcf42"
+  integrity sha512-qkC5mVbVGuuyBVXmam5anaRtbLcgfBUKajoyZqCdf/XBdgF43PsLSEm8eEi2dsI3YbqDPbLSH2mWNzM1dVqHgQ==
 
 cross-env@^7.0.3:
   version "7.0.3"

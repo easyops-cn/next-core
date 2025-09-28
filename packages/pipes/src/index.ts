@@ -1,4 +1,5 @@
 import { pipes } from "@easyops-cn/brick-next-pipes";
+import { crontabFormat } from "./crontabFormat";
 
 export { pipes, utils } from "@easyops-cn/brick-next-pipes";
 
@@ -23,7 +24,9 @@ export interface SourceLocation {
 const PipeRegistry = new Map<string, PipeFunction>(
   Array.from(Object.entries(pipes as Record<string, PipeFunction>))
 );
-
+PipeRegistry.set("crontabFormat", (value: unknown): unknown => {
+  return crontabFormat(value as string);
+});
 /** For next-core internal usage only. */
 export function processPipes(value: unknown, pipes: PipeCall[]): unknown {
   if (pipes.length === 0) {
