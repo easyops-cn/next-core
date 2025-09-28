@@ -36,10 +36,10 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
-    "babel-jest": "^30.1.2",
+    "babel-jest": "^30.2.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^30.1.2",
-    "jest-environment-jsdom": "^30.1.2",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "pascal-case": "^4.0.0",
     "ts-jest-resolver": "^2.0.1",
     "typescript": "^5.9.2"
