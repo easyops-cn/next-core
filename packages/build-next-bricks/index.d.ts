@@ -89,6 +89,7 @@ export interface BuildNextBricksConfig {
   imageAssetFilename?: string | ((pathData: any, assetInfo: any) => string);
   plugins?: Configuration["plugins"];
   moduleRules?: RuleSetRule[];
+  oneOfRulesForBabel?: RuleSetRule[];
   resolve?: ResolveOptions;
   exposes?: ConstructorParameters<
     typeof container.ModuleFederationPlugin
