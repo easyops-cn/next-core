@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.14...@next-core/build-next-bricks@1.24.0) (2025-09-29)
+
+
+### Features
+
+* new option: oneOfRulesForBabel ([f2d3a30](https://github.com/easyops-cn/next-core/commit/f2d3a30fb66d75743409cc2a2f9a202976e5c84e))
+
+
+
+
+
 ## [1.23.14](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.13...@next-core/build-next-bricks@1.23.14) (2025-08-25)
 
 
