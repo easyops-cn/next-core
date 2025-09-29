@@ -358,12 +358,17 @@ async function getWebpackConfig(config) {
           ],
         },
         {
-          test: /\.[tj]sx?$/,
-          loader: "babel-loader",
-          exclude: /node_modules|\.d\.ts$/,
-          options: {
-            rootMode: "upward",
-          },
+          oneOf: [
+            ...(config.oneOfRulesForBabel ?? []),
+            {
+              test: /\.[tj]sx?$/,
+              loader: "babel-loader",
+              exclude: /node_modules|\.d\.ts$/,
+              options: {
+                rootMode: "upward",
+              },
+            },
+          ],
         },
         {
           // Images
