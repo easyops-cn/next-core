@@ -789,6 +789,7 @@ describe("BrickAsComponent", () => {
     const wrapper = mount(<BrickAsComponent useBrick={useBrick} />);
 
     await (global as any).flushPromises();
+    jest.runAllTimers();
     onMountHandlers.map((handler) => {
       expect(spiedListenerFactory).toBeCalledWith(
         handler,
