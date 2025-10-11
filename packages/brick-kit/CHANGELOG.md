@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.208.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.2...@next-core/brick-kit@2.208.3) (2025-10-11)
+
+
+### Bug Fixes
+
+* **BrickAsComponent:** dispatch mount event after element of template brick is assigned ([382f7bb](https://github.com/easyops-cn/next-core/commit/382f7bb79d92b8dc3bc5c8a2658e70d9f22f6793))
+
+
+
+
+
 ## [2.208.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.1...@next-core/brick-kit@2.208.2) (2025-09-18)
 
 **Note:** Version bump only for package @next-core/brick-kit
