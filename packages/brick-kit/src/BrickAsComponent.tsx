@@ -405,11 +405,14 @@ export function SingleBrickAsComponentFactory(React: typeof _React) {
 
           const onMount = useBrick.lifeCycle?.onMount;
           if (onMount) {
-            dispatchLifeCycleEvent(
-              new CustomEvent("mount"),
-              transformEvents(data, { onMount }).onMount,
-              brick
-            );
+            // wait for element of template brick to be assigned
+            queueMicrotask(() => {
+              dispatchLifeCycleEvent(
+                new CustomEvent("mount"),
+                transformEvents(data, { onMount }).onMount,
+                brick
+              );
+            });
           }
 
           const onScrollIntoView = useBrick.lifeCycle?.onScrollIntoView;
