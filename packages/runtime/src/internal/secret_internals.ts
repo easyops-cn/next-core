@@ -365,6 +365,8 @@ export function getAllContextValues({
   return runtimeContext.ctxStore.getAllValues();
 }
 
+export { getBrickPackages };
+
 export function getBrickPackagesById(id: string) {
   return getBrickPackages().find((pkg) =>
     pkg.id ? pkg.id === id : pkg.filePath.startsWith(`${id}/`)
