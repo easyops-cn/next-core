@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.108...@next-core/yo@1.6.0) (2025-10-14)
+
+
+### Features
+
+* support setup vscode testing ([0c9ae17](https://github.com/easyops-cn/next-core/commit/0c9ae178dc038a8dc009110e3683cecf536096b5))
+
+
+
+
+
 ## [1.5.108](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.5.107...@next-core/yo@1.5.108) (2025-09-29)
 
 **Note:** Version bump only for package @next-core/yo

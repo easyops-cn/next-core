@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.69.4...@next-core/runtime@1.70.0) (2025-10-14)
+
+
+### Features
+
+* support app preview ([34186b9](https://github.com/easyops-cn/next-core/commit/34186b93f1320cfe9d5f063e265a95d0b25194db))
+
+
+
+
+
 ## [1.69.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.69.3...@next-core/runtime@1.69.4) (2025-09-27)
 
 
