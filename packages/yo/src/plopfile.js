@@ -1,7 +1,8 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
-import { readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { parse } from "jsonc-parser";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -122,6 +123,10 @@ export default function (
           {
             name: "Create a new shared library",
             value: "shared",
+          },
+          {
+            name: "Setup VSCode testing settings",
+            value: "vscode-testing",
           },
         ],
       },
@@ -387,6 +392,8 @@ export default function (
             templateFiles: "templates/shared",
           },
         ];
+      } else if (data.type === "vscode-testing") {
+        return [initVscodeTesting];
       }
       return [];
     },
@@ -395,4 +402,126 @@ export default function (
 
 function getObjectPartialInPackageJson(object) {
   return JSON.stringify(object, null, 4).replace(/\}\s*$/, "  }");
+}
+
+async function initVscodeTesting() {
+  const folders = await getWorkspaceFolders();
+  if (folders.length === 0) {
+    return "No workspace folders found, are you sure this is a monorepo?";
+  }
+
+  const vscodeDir = path.join(rootDir, ".vscode");
+  if (!existsSync(vscodeDir)) {
+    await mkdir(vscodeDir);
+  }
+
+  const settingsJson = path.join(vscodeDir, "settings.json");
+  let settings = {};
+  if (existsSync(settingsJson)) {
+    // settings = JSON.parse(await readFile(settingsJson, "utf-8"));
+    const errors = [];
+    settings = parse(await readFile(settingsJson, "utf-8"), errors, {
+      allowTrailingComma: true,
+    });
+    if (errors.length > 0) {
+      return `Failed to parse existing .vscode/settings.json: ${errors
+        .map((e) => `at offset ${e.offset} (${e.error})`)
+        .join(", ")}`;
+    }
+  }
+  Object.assign(settings, {
+    "jest.runMode": "on-demand",
+    "jest.jestCommandLine": "npx test-next",
+    "jest.useJest30": true,
+    "jest.nodeEnv": {
+      NODE_ENV: "test",
+    },
+    "jest.virtualFolders": folders.map((folder) => ({
+      name: folder,
+      rootPath: folder,
+    })),
+  });
+  await writeFile(settingsJson, JSON.stringify(settings, null, 2) + "\n");
+
+  const launchJson = path.join(vscodeDir, "launch.json");
+  let launchConfig = {};
+  if (existsSync(launchJson)) {
+    const errors = [];
+    launchConfig = parse(await readFile(launchJson, "utf-8"), errors, {
+      allowTrailingComma: true,
+    });
+    if (errors.length > 0) {
+      return `Failed to parse existing .vscode/launch.json: ${errors
+        .map((e) => `at offset ${e.offset} (${e.error})`)
+        .join(", ")}`;
+    }
+  }
+  const configs = folders.map((folder) => ({
+    type: "node",
+    name: `vscode-jest-tests.v2.${folder}`,
+    request: "launch",
+    args: [
+      "--runInBand",
+      "--watchAll=false",
+      "--testNamePattern",
+      "${jest.testNamePattern}",
+      "--runTestsByPath",
+      "${jest.testFile}",
+    ],
+    cwd: `${rootDir}/${folder}`,
+    console: "integratedTerminal",
+    internalConsoleOptions: "neverOpen",
+    program: `${rootDir}/node_modules/.bin/test-next`,
+    env: {
+      NODE_ENV: "test",
+    },
+  }));
+  launchConfig.configurations = [
+    ...(launchConfig.configurations?.filter(
+      (config) => !config.name?.startsWith("vscode-jest-tests.")
+    ) ?? []),
+    ...configs,
+  ];
+  await writeFile(launchJson, JSON.stringify(launchConfig, null, 2) + "\n");
+
+  return 'Updated VSCode testing settings in ".vscode/settings.json" and ".vscode/launch.json".';
+}
+
+async function getWorkspaceFolders() {
+  const { workspaces } = packageJson;
+  /** @type {string[]} */
+  const folders = (
+    await Promise.all(
+      workspaces.map(async (pattern) => {
+        const result = [];
+        if (pattern.endsWith("/*")) {
+          const folder = pattern.slice(0, -2);
+          const dir = path.join(rootDir, folder);
+          const dirs = await readdir(dir, {
+            withFileTypes: true,
+          });
+          for (const d of dirs) {
+            const pkgJsonPath = path.join(dir, d.name, "package.json");
+            if (d.isDirectory() && existsSync(pkgJsonPath)) {
+              const pkg = JSON.parse(await readFile(pkgJsonPath, "utf-8"));
+              if (pkg.scripts?.test) {
+                result.push(path.join(folder, d.name));
+              }
+            }
+          }
+        } else {
+          const dir = path.join(rootDir, pattern);
+          const pkgJsonPath = path.join(dir, "package.json");
+          if (existsSync(pkgJsonPath)) {
+            const pkg = JSON.parse(await readFile(pkgJsonPath, "utf-8"));
+            if (pkg.scripts?.test) {
+              result.push(pattern);
+            }
+          }
+        }
+        return result;
+      })
+    )
+  ).flat();
+  return folders;
 }

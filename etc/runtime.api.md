@@ -74,6 +74,7 @@ declare namespace __secret_internals {
         RenderUseBrickResult,
         MountUseBrickResult,
         updateSnippetPreviewSettings,
+        getBrickPackages,
         setRealTimeDataInspectRoot,
         addRealTimeDataInspectHook,
         legacyDoTransform,
@@ -194,6 +195,9 @@ export function getAuth(): object | undefined;
 
 // @public
 export function getBasePath(): string;
+
+// @public (undocumented)
+function getBrickPackages(): BrickPackage[];
 
 // @public (undocumented)
 function getBrickPackagesById(id: string): BrickPackage | undefined;
