@@ -378,6 +378,43 @@ describe("DataStore", () => {
     expect(mockCallRealTimeDataInspectHooks).toHaveBeenCalledTimes(2);
   });
 
+  test("context.set", async () => {
+    setRealTimeDataInspectRoot({});
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+    } as Partial<RuntimeContext> as RuntimeContext;
+    ctxStore.define(
+      [
+        {
+          name: "primitive",
+          value: "any",
+          onChange: {
+            action: "context.set",
+            args: ["count", "<% (count) => count + 1 %>"],
+          },
+        },
+        {
+          name: "count",
+          value: 0,
+        },
+      ],
+      runtimeContext
+    );
+    await ctxStore.waitForAll();
+    expect(ctxStore.getValue("primitive")).toEqual("any");
+    expect(ctxStore.getValue("count")).toBe(0);
+
+    const newValue = { amount: 42 };
+    ctxStore.updateValue("primitive", newValue, "set");
+    expect(ctxStore.getValue("primitive")).toEqual({ amount: 42 });
+    expect(ctxStore.getValue("count")).toBe(1);
+
+    ctxStore.updateValue("primitive", newValue, "set");
+    expect(ctxStore.getValue("primitive")).toEqual({ amount: 42 });
+    expect(ctxStore.getValue("count")).toBe(1);
+  });
+
   test("state and onChange", async () => {
     jest.useFakeTimers();
     const tplStateStoreId = "tpl-state-1";

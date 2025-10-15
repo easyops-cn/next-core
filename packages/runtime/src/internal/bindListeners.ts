@@ -223,6 +223,7 @@ export function listenerFactory(
           case "context.replace":
           case "context.refresh":
           case "context.load":
+          case "context.set":
             handleContextAction(
               event,
               method,
@@ -236,6 +237,7 @@ export function listenerFactory(
           case "state.update":
           case "state.refresh":
           case "state.load":
+          case "state.set":
             handleTplStateAction(
               event,
               method,
@@ -687,7 +689,7 @@ function batchUpdate(
 
 function handleContextAction(
   event: Event,
-  method: "assign" | "replace",
+  method: "assign" | "replace" | "refresh" | "load" | "set",
   args: unknown[] | undefined,
   batch: boolean,
   callback: BrickEventHandlerCallback | undefined,
@@ -717,7 +719,7 @@ function handleContextAction(
 
 function handleTplStateAction(
   event: Event,
-  method: "update" | "refresh" | "load",
+  method: "update" | "refresh" | "load" | "set",
   args: unknown[] | undefined,
   batch: boolean,
   callback: BrickEventHandlerCallback | undefined,

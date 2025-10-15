@@ -193,7 +193,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   updateValue(
     name: string,
     value: unknown,
-    method: "assign" | "replace" | "refresh" | "load",
+    method: "assign" | "replace" | "refresh" | "load" | "set",
     callback?: BrickEventHandlerCallback,
     callbackRuntimeContext?: RuntimeContext
   ): void {
@@ -276,7 +276,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
 
     if (method === "replace") {
       item.value = value;
-    } else {
+    } else if (method === "assign") {
       if (isObject(item.value)) {
         Object.assign(item.value, value);
       } else {
@@ -286,6 +286,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         );
         item.value = value;
       }
+    } else {
+      // method === "set"
+      // `context.set` and `state.set` is similar to React's setState,
+      // which accepts either a value or an updater function.
+      // And if the new value is the same as the current one, do nothing.
+      let nextValue = value;
+      if (typeof value === "function") {
+        nextValue = (value as (prevState: unknown) => unknown)(item.value);
+      }
+      if (Object.is(item.value, nextValue)) {
+        return;
+      }
+      item.value = nextValue;
     }
 
     if (this.batchUpdate) return;
