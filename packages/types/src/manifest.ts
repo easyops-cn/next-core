@@ -980,11 +980,13 @@ export interface BuiltinBrickEventHandler {
     | "context.replace"
     | "context.refresh"
     | "context.load"
+    | "context.set"
 
     // Update template state
     | "state.update"
     | "state.refresh"
     | "state.load"
+    | "state.set"
 
     // Find related tpl and dispatch event.
     | "tpl.dispatchEvent"
