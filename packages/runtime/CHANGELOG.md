@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.70.0...@next-core/runtime@1.71.0) (2025-10-15)
+
+
+### Bug Fixes
+
+* allow setting css custom properties ([38655e7](https://github.com/easyops-cn/next-core/commit/38655e7e702f9a078a65c02d775795bed614c00f))
+
+
+### Features
+
+* add support for context.set and state.set (like React setState) ([8218bba](https://github.com/easyops-cn/next-core/commit/8218bba965b5946f51c92cea09e82aa93c7ca1ba))
+
+
+
+
+
 # [1.70.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.69.4...@next-core/runtime@1.70.0) (2025-10-14)
 
 

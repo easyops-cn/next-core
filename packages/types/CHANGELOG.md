@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.18.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.17.0...@next-core/types@1.18.0) (2025-10-15)
+
+
+### Features
+
+* add support for context.set and state.set (like React setState) ([8218bba](https://github.com/easyops-cn/next-core/commit/8218bba965b5946f51c92cea09e82aa93c7ca1ba))
+
+
+
+
+
 # [1.17.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.16.0...@next-core/types@1.17.0) (2025-07-09)
 
 
