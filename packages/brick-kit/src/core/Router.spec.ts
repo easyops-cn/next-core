@@ -910,6 +910,9 @@ describe("Router", () => {
             url: "/next/blocked-app/blocked-path-2",
           },
           {
+            url: "http://aaa.com",
+          },
+          {
             to: {} as unknown as string,
           },
           null as unknown as { to: string },
@@ -954,6 +957,8 @@ describe("Router", () => {
     expect(spyOnAddPathToBlackList).toBeCalledWith(
       "/blocked-app/blocked-path-2"
     );
+    expect(spyOnAddPathToBlackList).not.toBeCalledWith("http://aaa.com");
+
     expect(spyOnIsBlockedPath).toBeCalledWith("/blocked-app/blocked-path-2");
 
     spyOnComputeRealValue.mockReset();
