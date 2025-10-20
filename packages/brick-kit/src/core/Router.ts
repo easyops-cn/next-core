@@ -344,7 +344,7 @@ export class Router {
           path = path.replace(/^\/next\//, "/");
         }
 
-        path && addPathToBlackList(path);
+        path && path.startsWith("/") && addPathToBlackList(path);
       });
 
       if (isBlockedPath(location.pathname)) {
