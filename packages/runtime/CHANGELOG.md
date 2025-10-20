@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.71.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.0...@next-core/runtime@1.71.1) (2025-10-20)
+
+
+### Bug Fixes
+
+* **Router:** ignore blacklist paths of external link ([4ba719a](https://github.com/easyops-cn/next-core/commit/4ba719a4ccb46dda95b294d5d19cf5988c041e4c))
+
+
+
+
+
 # [1.71.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.70.0...@next-core/runtime@1.71.0) (2025-10-15)
 
 

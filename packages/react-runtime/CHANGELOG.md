@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.40](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.7.39...@next-core/react-runtime@1.7.40) (2025-10-20)
+
+**Note:** Version bump only for package @next-core/react-runtime
+
+
+
+
+
 ## [1.7.39](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.7.38...@next-core/react-runtime@1.7.39) (2025-10-15)
 
 **Note:** Version bump only for package @next-core/react-runtime
