@@ -1790,6 +1790,9 @@ HTMLCollection [
                 url: "/next/blocked-app/blocked-path-2",
               },
               {
+                url: "http://aaa.com",
+              },
+              {
                 to: {} as unknown as string,
               },
               null as unknown as { to: string },
@@ -1813,6 +1816,7 @@ HTMLCollection [
     expect(addPathToBlackList).toHaveBeenCalledWith(
       "/blocked-app/blocked-path-2"
     );
+    expect(addPathToBlackList).not.toHaveBeenCalledWith("http://aaa.com");
   });
 
   test("failed to bootstrap", async () => {

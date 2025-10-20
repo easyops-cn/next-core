@@ -331,7 +331,7 @@ export class Router {
           path = path.replace(/^\/next\//, "/");
         }
 
-        path && hooks?.auth?.addPathToBlackList?.(path);
+        path && path.startsWith("/") && hooks?.auth?.addPathToBlackList?.(path);
       });
       blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
     }
