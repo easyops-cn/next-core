@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.208.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.4...@next-core/brick-kit@2.208.5) (2025-10-20)
+
+
+### Bug Fixes
+
+* **Router:** ignore blacklist paths of external link ([6abba07](https://github.com/easyops-cn/next-core/commit/6abba07634c7b53ecedf0bcf35a547763a1cd4d6))
+
+
+
+
+
 ## [2.208.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.3...@next-core/brick-kit@2.208.4) (2025-10-12)
 
 
