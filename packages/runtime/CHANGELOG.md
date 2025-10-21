@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.71.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.1...@next-core/runtime@1.71.2) (2025-10-21)
+
+
+### Bug Fixes
+
+* support plain data-* attributes ([0510f06](https://github.com/easyops-cn/next-core/commit/0510f06fa84b06bdfc63fb5a0cdce22cc6bb3514))
+
+
+
+
+
 ## [1.71.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.0...@next-core/runtime@1.71.1) (2025-10-20)
 
 
