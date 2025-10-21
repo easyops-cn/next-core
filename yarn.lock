@@ -2188,10 +2188,10 @@
     vscode-oniguruma "^2.0.1"
     vscode-textmate "^9.2.0"
 
-"@next-shared/spell-check@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.npmjs.org/@next-shared/spell-check/-/spell-check-0.1.3.tgz#fba3aece30382e419e58fc22d2c7f66c43510472"
-  integrity sha512-S0Cwe9yI7HfYcJspHZ1jw9InOfJr7c0WvNGXiVEMAjr3Q2cLQTFG2hGu4OCppXXq6iH75kGQIuWixtfW9fJHbg==
+"@next-shared/spell-check@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.npmjs.org/@next-shared/spell-check/-/spell-check-0.1.6.tgz#fb1f90c988390820b9a1024e4be84db78ec816dd"
+  integrity sha512-j41CpJ29n4zYUBJ9iug1EK8IzlP8jHl7Gfk9Cm5nLZ5aGlpHmeYfP3dXgP191F4heLFNFipNjACRoTqR4Jb9VQ==
   dependencies:
     change-case "^5.4.4"
     typo-js "^1.2.5"
