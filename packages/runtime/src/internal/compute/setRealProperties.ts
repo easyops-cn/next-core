@@ -25,7 +25,11 @@ export function setRealProperties(
         // `innerHTML` is dangerous, use `textContent` instead.
         throw new Error(`set \`${propName}\` is prohibited`);
       default:
-        (brick as unknown as Record<string, unknown>)[propName] = propValue;
+        if (propName.startsWith("data-")) {
+          brick.setAttribute(propName, String(propValue));
+        } else {
+          (brick as unknown as Record<string, unknown>)[propName] = propValue;
+        }
     }
   }
 }

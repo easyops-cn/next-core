@@ -1,4 +1,4 @@
-import { setValueForStyle } from "./setRealProperties.js";
+import { setRealProperties, setValueForStyle } from "./setRealProperties.js";
 
 describe("setValueForStyle", () => {
   let mockStyle: CSSStyleDeclaration;
@@ -34,5 +34,20 @@ describe("setValueForStyle", () => {
 
     expect((mockStyle as any).fontSize).toBe("16px");
     expect((mockStyle as any).margin).toBe("10px");
+  });
+});
+
+describe("setRealProperties", () => {
+  test("should set plain data attributes on the element", () => {
+    const brick = document.createElement("div");
+    const realProps = {
+      "data-test": "value1",
+      "data-info": "value2",
+    };
+
+    setRealProperties(brick, realProps);
+
+    expect(brick.getAttribute("data-test")).toBe("value1");
+    expect(brick.getAttribute("data-info")).toBe("value2");
   });
 });
