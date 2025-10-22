@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.71.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.2...@next-core/runtime@1.71.3) (2025-10-22)
+
+
+### Bug Fixes
+
+* clear resolve cache before render incremental sub routes ([1a50b50](https://github.com/easyops-cn/next-core/commit/1a50b5086e990e2e57e35d68fb04376ea4de55c8))
+* **createRoot:** support SYS.* usage ([7a0dfae](https://github.com/easyops-cn/next-core/commit/7a0dfae30c5bea63bf6fe2ff75c1f68024fbe5f9))
+
+
+
+
+
 ## [1.71.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.1...@next-core/runtime@1.71.2) (2025-10-21)
 
 
