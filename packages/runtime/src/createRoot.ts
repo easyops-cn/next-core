@@ -36,6 +36,7 @@ import {
   isolatedTemplateRegistryMap,
   registerIsolatedTemplates,
 } from "./internal/IsolatedTemplates.js";
+import { hooks } from "./internal/Runtime.js";
 
 export interface CreateRootOptions {
   portal?: HTMLElement;
@@ -151,6 +152,9 @@ export function unstable_createRoot(
         formStateStoreMap: new Map<string, DataStore<"FORM_STATE">>(),
         isolatedRoot,
         unsafe_penetrate,
+        sys: {
+          ...hooks?.auth?.getAuth(),
+        },
       } as Partial<RuntimeContext> as RuntimeContext;
 
       if (url) {
