@@ -26,7 +26,7 @@ import {
   asyncComputeRealPropertyEntries,
   constructAsyncProperties,
 } from "./compute/computeRealProperties.js";
-import { resolveData } from "./data/resolveData.js";
+import { clearResolveCache, resolveData } from "./data/resolveData.js";
 import { asyncComputeRealValue } from "./compute/computeRealValue.js";
 import {
   TrackingContextItem,
@@ -943,6 +943,8 @@ async function legacyRenderBrick(
               ) {
                 return false;
               }
+
+              clearResolveCache();
 
               const [
                 scopedRuntimeContext,

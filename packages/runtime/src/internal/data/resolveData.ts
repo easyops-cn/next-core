@@ -82,10 +82,10 @@ export async function resolveData(
     ) as Promise<UseProviderContractConf | null>,
   ]);
 
-  // `clearResolveCache` maybe cleared during the above promise being
+  // `clearResolveCache` maybe called during the above promise being
   // fulfilled, so we manually mark it as stale for this case.
   const renderId = resolveOptions?.renderId;
-  const stale = !!renderId && renderId !== _internalApiGetRenderId();
+  const isStale = () => !!renderId && renderId !== _internalApiGetRenderId();
 
   const promise = resolveByProvider(
     providerBrick,
@@ -94,7 +94,7 @@ export async function resolveData(
     actualContractConf?.params ? actualContractConf : (actualArgs ?? []),
     resolveOptions,
     args,
-    stale
+    isStale
   );
 
   let { transform } = resolveConf;
@@ -137,7 +137,7 @@ export async function resolveByProvider(
   args: unknown[] | UseProviderContractConf,
   options?: ResolveOptions,
   originalArgs?: unknown[],
-  stale?: boolean
+  isStale?: () => boolean
 ) {
   let cacheKey: string;
   try {
@@ -171,7 +171,7 @@ export async function resolveByProvider(
       return brick[method](...finalArgs);
     })();
 
-    if (!stale) {
+    if (!isStale?.()) {
       cache.set(cacheKey, promise);
     }
   }
