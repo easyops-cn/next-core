@@ -9,6 +9,9 @@ import simplejson
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # 将 tools 目录加入 path
+from utils.get_headers import get_headers
+
 class NameServiceError(Exception):
   pass
 
@@ -107,7 +110,7 @@ def report(org, app):
         raise e
 
 def create_or_update_micro_app_sa(org, app):
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
     url = "http://{}/api/v1/micro_app_standalone/report".format(MICRO_APP_SA_ADDR)
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
@@ -116,10 +119,9 @@ def create_or_update_micro_app_sa(org, app):
 def import_micro_app_permissions(install_path, version, org):
     permission_path = os.path.join(install_path, "versions", version, "webroot", "permissions", "permissions.json")
     if not os.path.exists(permission_path):
-        print "could not find permission path {}, will not import permissions".format(permission_path)
         return
 
-    headers = {"org": str(org), "user": "defaultUser"}
+    headers = get_headers(org)
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
 
     with open(permission_path) as f:
