@@ -26,7 +26,7 @@ function replaceInBrick(brick: BrickConf) {
   const useChildrenMap = new Map<string, BrickConf[]>();
   if (Array.isArray(brick.children) && !slots) {
     const removeBricks: BrickConf[] = [];
-    for (const child of brick.children) {
+    for (const child of brick.children as BrickConf[]) {
       const slot = child.slot ?? "";
       if (USE_CHILDREN_SLOT_REGEXP.test(slot)) {
         delete child.slot;
