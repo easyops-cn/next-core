@@ -179,6 +179,11 @@ export interface MicroApp {
    * UI 版本
    */
   uiVersion?: string;
+
+  /**
+   * 禁用占位符（求值表达式和 data transform）
+   */
+  noPlaceholders?: boolean;
 }
 
 /**
