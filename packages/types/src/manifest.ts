@@ -184,6 +184,11 @@ export interface MicroApp {
    * 禁用占位符（求值表达式和 data transform）
    */
   noPlaceholders?: boolean;
+
+  /**
+   * 应用全局常量
+   */
+  constants?: Record<string, unknown>;
 }
 
 /**

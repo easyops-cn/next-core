@@ -446,6 +446,26 @@ describe("evaluate", () => {
     expect(evaluate("<% FLAGS.unsafe %>", unsafeContext)).toBe(true);
     expect(evaluate("<% FLAGS.test %>", unsafeContext)).toBe(undefined);
   });
+
+  test("app constants", () => {
+    expect(() =>
+      evaluate("<% CONSTANTS.unknown %>", runtimeContext)
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"CONSTANTS.unknown is not defined, in "<% CONSTANTS.unknown %>""`
+    );
+
+    expect(
+      evaluate("<% CONSTANTS.quality %>", {
+        ...runtimeContext,
+        app: {
+          ...runtimeContext.app,
+          constants: {
+            quality: "good",
+          },
+        },
+      })
+    ).toBe("good");
+  });
 });
 
 describe("asyncEvaluate", () => {
