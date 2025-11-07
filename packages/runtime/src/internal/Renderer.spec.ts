@@ -474,12 +474,7 @@ describe("renderRoutes", () => {
       bricks: [
         {
           brick: "div",
-          slots: {
-            "": {
-              type: "routes",
-              routes: [subRoute],
-            },
-          },
+          children: [subRoute],
         },
       ],
     };
@@ -531,6 +526,53 @@ describe("renderRoutes", () => {
     expect(runtimeContext.pendingPermissionsPreCheck.length).toBe(4);
     await ctxStore.waitForAll();
     expect(ctxStore.getValue("objectId")).toBe("HOST");
+  });
+
+  test("Slot conflict", async () => {
+    const renderRoot = {
+      tag: RenderTag.ROOT,
+    } as RenderRoot;
+    const ctxStore = new DataStore("CTX");
+    const runtimeContext = {
+      ctxStore,
+      location: {
+        pathname: "/home/HOST/list",
+      },
+      app: {
+        homepage: "/home",
+        noAuthGuard: true,
+      },
+      pendingPermissionsPreCheck: [] as undefined[],
+      flags: {},
+    } as RuntimeContext;
+    const rendererContext = new RendererContext("page");
+    const brick = { brick: "div" };
+    const subRoute: RouteConf = {
+      path: "${APP.homepage}/:objectId/list",
+      exact: true,
+      bricks: [brick],
+    };
+    const route: RouteConf = {
+      path: "${APP.homepage}/:objectId",
+      exact: false,
+      context: [{ name: "objectId", value: "<% PATH.objectId %>" }],
+      bricks: [
+        {
+          brick: "div",
+          children: [
+            subRoute,
+            {
+              brick: "hr",
+            },
+          ],
+        },
+      ],
+    };
+    expect(() =>
+      renderRoutes(renderRoot, [route], runtimeContext, rendererContext, [], {})
+    ).rejects.toMatchInlineSnapshot(
+      `[Error: Slot "" conflict between bricks and routes.]`
+    );
   });
 
   test("missed", async () => {

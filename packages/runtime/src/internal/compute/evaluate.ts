@@ -503,6 +503,22 @@ function lowLevelEvaluate(
           case "SYS":
             globalVariables[variableName] = getReadOnlyProxy(sys ?? {});
             break;
+          case "CONSTANTS":
+            // globalVariables[variableName] = getReadOnlyProxy(app?.constants ?? {});
+            globalVariables[variableName] = getDynamicReadOnlyProxy({
+              get(_target, key) {
+                if (!app?.constants || !hasOwnProperty(app.constants, key)) {
+                  throw new ReferenceError(
+                    `CONSTANTS.${key as string} is not defined`
+                  );
+                }
+                return app.constants[key as string];
+              },
+              ownKeys() {
+                return app?.constants ? Object.keys(app.constants) : [];
+              },
+            });
+            break;
           case "__WIDGET_FN__":
             globalVariables[variableName] = widgetFunctions;
             break;
@@ -519,7 +535,7 @@ function lowLevelEvaluate(
         globalVariables,
         getGeneralGlobals(precooked.attemptToVisitGlobals, {
           storyboardFunctions,
-          app: app,
+          app,
           appendI18nNamespace: runtimeContext.appendI18nNamespace,
           isolatedRoot: runtimeContext.isolatedRoot,
         })

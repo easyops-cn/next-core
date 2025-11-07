@@ -1296,7 +1296,7 @@ function getEmptyRenderOutput(): RenderOutput {
 }
 
 export function childrenToSlots(
-  children: BrickConf[] | undefined,
+  children: (BrickConf | RouteConf)[] | undefined,
   originalSlots: SlotsConf | undefined
 ) {
   let newSlots = originalSlots;
@@ -1317,13 +1317,21 @@ export function childrenToSlots(
     newSlots = {};
     for (const { slot: sl, ...child } of children) {
       const slot = sl ?? "";
-      if (!hasOwnProperty(newSlots, slot)) {
+      const type = isRouteConf(child) ? "routes" : "bricks";
+      if (hasOwnProperty(newSlots, slot)) {
+        const slotConf = newSlots[slot];
+        if (slotConf.type !== type) {
+          throw new Error(`Slot "${slot}" conflict between bricks and routes.`);
+        }
+        (slotConf as SlotConfOfBricks)[type as "bricks"].push(
+          child as BrickConf
+        );
+      } else {
         newSlots[slot] = {
-          type: "bricks",
-          bricks: [],
+          type: type as "bricks",
+          [type as "bricks"]: [child as BrickConf],
         };
       }
-      (newSlots[slot] as SlotConfOfBricks).bricks.push(child);
     }
   }
   return newSlots;
@@ -1356,4 +1364,8 @@ function isRouteParamsEqual(
   const c = omitBy(a, omitNumericKeys);
   const d = omitBy(b, omitNumericKeys);
   return isEqual(c, d);
+}
+
+function isRouteConf(child: BrickConf | RouteConf): child is RouteConf {
+  return !!(child as RouteConf).path && !(child as BrickConf).brick;
 }

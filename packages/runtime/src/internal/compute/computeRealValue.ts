@@ -48,13 +48,14 @@ export async function asyncComputeRealValue(
       isLazyContentInUseBrick(internalOptions.$$stateOfUseBrick);
 
     let result: unknown;
-    let dismissMarkingComputed = lazy;
+    let dismissMarkingComputed = false;
 
     if (preEvaluated || isEvaluable(value as string)) {
       result = await asyncEvaluate(value, runtimeContext, { lazy });
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
-    } else if (lazy) {
+    } else if (lazy || runtimeContext.app?.noPlaceholders) {
       result = value;
+      dismissMarkingComputed = true;
     } else {
       const penetrableCtx = runtimeContext.unsafe_penetrate
         ? ({
@@ -136,13 +137,14 @@ export function computeRealValue(
       isLazyContentInUseBrick(internalOptions.$$stateOfUseBrick);
 
     let result: unknown;
-    let dismissMarkingComputed = lazy;
+    let dismissMarkingComputed = false;
 
     if (preEvaluated || isEvaluable(value as string)) {
       result = evaluate(value, runtimeContext);
       dismissMarkingComputed = shouldDismissMarkingComputed(value);
-    } else if (lazy) {
+    } else if (lazy || runtimeContext.app?.noPlaceholders) {
       result = value;
+      dismissMarkingComputed = true;
     } else {
       const penetrableCtx = runtimeContext.unsafe_penetrate
         ? ({

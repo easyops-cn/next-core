@@ -179,6 +179,16 @@ export interface MicroApp {
    * UI 版本
    */
   uiVersion?: string;
+
+  /**
+   * 禁用占位符（求值表达式和 data transform）
+   */
+  noPlaceholders?: boolean;
+
+  /**
+   * 应用全局常量
+   */
+  constants?: Record<string, unknown>;
 }
 
 /**
@@ -350,6 +360,9 @@ export interface BaseRouteConf {
 
   /** 构件编排 ID */
   iid?: string;
+
+  /** 插槽，用于构件下的路由 */
+  slot?: string;
 }
 
 /**
@@ -521,7 +534,7 @@ export interface BrickConf {
   slots?: SlotsConf;
 
   /** 子构件列表，优先级低于 `slots` */
-  children?: BrickConf[];
+  children?: (BrickConf | RouteConf)[];
 
   /** 当使用 children 而不是 slots 定义子构件时，子构件需要设置所属 slot */
   slot?: string;
