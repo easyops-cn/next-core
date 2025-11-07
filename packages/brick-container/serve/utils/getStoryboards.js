@@ -1,8 +1,8 @@
-import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import yaml from "js-yaml";
 import _ from "lodash";
+import { tryFiles } from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./sizeCheck.js";
 
 export function getStoryboards({ rootDir, localMicroApps }, full) {
@@ -25,13 +25,14 @@ export async function getSingleStoryboard(rootDir, appId) {
   if (appId === sizeCheckApp.id) {
     return { app: sizeCheckApp };
   }
-  const filePath = path.join(
-    rootDir,
-    "mock-micro-apps",
-    appId,
-    "storyboard.yaml"
+
+  const files = ["mock-micro-apps", "apps"].map((folder) =>
+    path.join(rootDir, folder, appId, "storyboard.yaml")
   );
-  if (!existsSync(filePath)) {
+
+  const filePath = tryFiles(files);
+
+  if (!filePath) {
     return null;
   }
   const content = await readFile(filePath, "utf-8");

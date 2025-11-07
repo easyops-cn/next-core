@@ -7,8 +7,10 @@ export default function liveReloadServer(env) {
   if (env.liveReload) {
     const wss = new WebSocketServer({ port: env.wsPort });
     const watcher = watch(
-      env.localMicroApps.map((appId) =>
-        path.join(env.rootDir, "mock-micro-apps", appId, "storyboard.yaml")
+      env.localMicroApps.flatMap((appId) =>
+        ["mock-micro-apps", "apps"].map((folder) =>
+          path.join(env.rootDir, folder, appId, "storyboard.yaml")
+        )
       )
     );
 
