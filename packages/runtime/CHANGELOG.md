@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.71.4](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.3...@next-core/runtime@1.71.4) (2025-11-07)
+
+
+### Bug Fixes
+
+* disable placeholders at app level ([d1f137f](https://github.com/easyops-cn/next-core/commit/d1f137f387666bf069c64043a99d75f124b91f33))
+* support app constants ([1dea7c7](https://github.com/easyops-cn/next-core/commit/1dea7c7042d2619058e0c0cc0c81ac47ccbeccc1))
+* support route children ([04982bb](https://github.com/easyops-cn/next-core/commit/04982bb87435a3cbb25567002733cbcd883b9552))
+
+
+
+
+
 ## [1.71.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.2...@next-core/runtime@1.71.3) (2025-10-22)
 
 
