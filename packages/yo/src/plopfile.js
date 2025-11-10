@@ -318,7 +318,7 @@ export default function (
             const jsxDtsFile = path.join(
               bricksDir,
               answers.pkgName,
-              "src/jsx.d.ts"
+              "src/jsx.ts"
             );
             /** @type {string} */
             let jsxDtsContent;
@@ -326,7 +326,7 @@ export default function (
               // jsxDtsContent = `import type { DetailedHTMLProps, HTMLAttributes } from "react"`;
               const jsxDtsTemplateFile = path.join(
                 __dirname,
-                "templates/bricks/src/jsx.d.ts.hbs"
+                "templates/bricks/src/jsx.ts.hbs"
               );
               jsxDtsContent = await readFile(jsxDtsTemplateFile, "utf-8");
             } else {
@@ -361,14 +361,14 @@ export default function (
               const newJsxDts = jsxDtsContent.replace(pattern, replacement);
               if (newJsxDts === jsxDtsContent) {
                 throw new Error(
-                  `Failed to add definition in jsx.d.ts for ${tagName}.`
+                  `Failed to add definition in jsx.ts for ${tagName}.`
                 );
               }
               jsxDtsContent = newJsxDts;
             }
 
             await writeFile(jsxDtsFile, jsxDtsContent);
-            return `Updated jsx.d.ts to include ${tagName} definition.`;
+            return `Updated jsx.ts to include ${tagName} definition.`;
           },
           async function modifyCommonBricksJson(answers) {
             if (answers.brickType === "common") {
