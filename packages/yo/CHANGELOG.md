@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.4](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.6.3...@next-core/yo@1.6.4) (2025-11-10)
+
+
+### Bug Fixes
+
+* replace . with -- for tag names in jsx.d.ts ([8edf609](https://github.com/easyops-cn/next-core/commit/8edf609a0c0d554c6f43ad3f81fe53e902081f14))
+
+
+
+
+
 ## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.6.2...@next-core/yo@1.6.3) (2025-11-10)
 
 
