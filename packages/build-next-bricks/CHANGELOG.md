@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.24.0...@next-core/build-next-bricks@1.25.0) (2025-11-10)
+
+
+### Features
+
+* support copy-jsx-d-ts ([28cf9e6](https://github.com/easyops-cn/next-core/commit/28cf9e6cad50966973903a39233de665724a3876))
+
+
+
+
+
 # [1.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.23.14...@next-core/build-next-bricks@1.24.0) (2025-09-29)
 
 

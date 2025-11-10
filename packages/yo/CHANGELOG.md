@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.6.2...@next-core/yo@1.6.3) (2025-11-10)
+
+
+### Bug Fixes
+
+* add jsx.d.ts ([38d794b](https://github.com/easyops-cn/next-core/commit/38d794be0a8a59df4364159cc6a1be074670b8a5))
+
+
+
+
+
 ## [1.6.2](https://github.com/easyops-cn/next-core/compare/@next-core/yo@1.6.1...@next-core/yo@1.6.2) (2025-11-07)
 
 **Note:** Version bump only for package @next-core/yo
