@@ -314,6 +314,62 @@ export default function (
             path: "bricks/{{pkgName}}/docs/{{>lastTagName}}.md",
             templateFile: "templates/brick.md.hbs",
           },
+          async function updateJsxDts(answers) {
+            const jsxDtsFile = path.join(
+              bricksDir,
+              answers.pkgName,
+              "src/jsx.d.ts"
+            );
+            /** @type {string} */
+            let jsxDtsContent;
+            if (!existsSync(jsxDtsFile)) {
+              // jsxDtsContent = `import type { DetailedHTMLProps, HTMLAttributes } from "react"`;
+              const jsxDtsTemplateFile = path.join(
+                __dirname,
+                "templates/bricks/src/jsx.d.ts.hbs"
+              );
+              jsxDtsContent = await readFile(jsxDtsTemplateFile, "utf-8");
+            } else {
+              jsxDtsContent = await readFile(jsxDtsFile, "utf-8");
+            }
+            const tagName = plop.renderString(
+              "{{getTagName brickType pkgName brickName false false}}",
+              answers
+            );
+            const className = plop.renderString(
+              "{{pascalCase (getTagName brickType pkgName brickName true true)}}",
+              answers
+            );
+            const propName = `${className}Props`;
+            const importStatement = `import type { ${className}, ${propName} } from "./${answers.brickName}";`;
+            const definitionProp = `      "${tagName}": DetailedHTMLProps<HTMLAttributes<${className}>, ${className}> & ${propName};`;
+
+            /** @type {[RegExp, string][]} */
+            const replacementPatterns = [
+              [
+                /(\r?\n)(\r?\n)?(declare global )/,
+                `$1${importStatement}$1$2$3`,
+              ],
+              [
+                // eslint-disable-next-line no-regex-spaces
+                /(\r?\n)(    \}\r?\n  \}\r?\n\}\r?\n)$/,
+                `$1${definitionProp}$1$2`,
+              ],
+            ];
+
+            for (const [pattern, replacement] of replacementPatterns) {
+              const newJsxDts = jsxDtsContent.replace(pattern, replacement);
+              if (newJsxDts === jsxDtsContent) {
+                throw new Error(
+                  `Failed to add definition in jsx.d.ts for ${tagName}.`
+                );
+              }
+              jsxDtsContent = newJsxDts;
+            }
+
+            await writeFile(jsxDtsFile, jsxDtsContent);
+            return `Updated jsx.d.ts to include ${tagName} definition.`;
+          },
           async function modifyCommonBricksJson(answers) {
             if (answers.brickType === "common") {
               const realBrickName = `eo-${answers.brickName}`;
