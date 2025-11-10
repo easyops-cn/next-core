@@ -9,8 +9,7 @@
   "bin": {
     "build-next-bricks": "./bin/build-next-bricks.js",
     "pre-build-next-bricks": "./bin/pre-build-next-bricks.js",
-    "post-build-next-bricks": "./bin/post-build-next-bricks.js",
-    "copy-jsx-d-ts": "./bin/copy-jsx-d-ts.js"
+    "post-build-next-bricks": "./bin/post-build-next-bricks.js"
   },
   "files": [
     "bin",
