@@ -342,7 +342,7 @@ export default function (
             );
             const propName = `${className}Props`;
             const importStatement = `import type { ${className}, ${propName} } from "./${answers.brickName}";`;
-            const definitionProp = `      "${tagName}": DetailedHTMLProps<HTMLAttributes<${className}>, ${className}> & ${propName};`;
+            const definitionProp = `      "${tagName.replaceAll(".", "--")}": DetailedHTMLProps<HTMLAttributes<${className}>, ${className}> & ${propName};`;
 
             /** @type {[RegExp, string][]} */
             const replacementPatterns = [
