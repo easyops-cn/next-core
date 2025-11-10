@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.25.0...@next-core/build-next-bricks@1.25.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* drop temp api: copy-jsx-d-ts ([01b7635](https://github.com/easyops-cn/next-core/commit/01b76353b4118c2e59ce3c053f31dd6afd7c677c))
+
+
+
+
+
 # [1.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.24.0...@next-core/build-next-bricks@1.25.0) (2025-11-10)
 
 
