@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.9...@next-core/brick-container@2.98.10) (2025-11-11)
+
+
+### Bug Fixes
+
+* 安装脚本名字写错修复 ([3292bbe](https://github.com/easyops-cn/next-core/commit/3292bbe9c89e4cd5cebe69e92c1605006fc426c1))
+
+
+
+
+
 ## [2.98.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.8...@next-core/brick-container@2.98.9) (2025-10-24)
 
 
