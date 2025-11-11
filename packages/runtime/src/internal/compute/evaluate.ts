@@ -189,6 +189,8 @@ function lowLevelEvaluate(
     options.lazy ||
     (attemptToVisitGlobals.has("EVENT") &&
       !hasOwnProperty(runtimeContext, "event")) ||
+    (attemptToVisitGlobals.has("EVENT_STACK") &&
+      !hasOwnProperty(runtimeContext, "eventStack")) ||
     (attemptToVisitGlobals.has("DATA") &&
       !hasOwnProperty(runtimeContext, "data"))
   ) {
@@ -303,7 +305,8 @@ function lowLevelEvaluate(
   return {
     blockingList,
     run() {
-      const { ctxStore, data, event, unsafe_penetrate } = runtimeContext;
+      const { ctxStore, data, event, eventStack, unsafe_penetrate } =
+        runtimeContext;
 
       const penetrableCtx = unsafe_penetrate
         ? _internalApiGetRuntimeContext()!
@@ -359,6 +362,9 @@ function lowLevelEvaluate(
             break;
           case "EVENT":
             globalVariables[variableName] = event;
+            break;
+          case "EVENT_STACK":
+            globalVariables[variableName] = eventStack;
             break;
           case "FLAGS":
             globalVariables[variableName] = getReadOnlyProxy(flags);

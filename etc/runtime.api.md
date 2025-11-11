@@ -448,6 +448,8 @@ interface RuntimeContext extends LegacyCompatibleRuntimeContext {
     // (undocumented)
     ctxStore: DataStore<"CTX">;
     // (undocumented)
+    eventStack?: Event[];
+    // (undocumented)
     forEachIndex?: number;
     // (undocumented)
     forEachItem?: unknown;

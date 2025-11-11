@@ -1120,9 +1120,12 @@ describe("listenerFactory for useProvider", () => {
   test("useProvider with callback", async () => {
     const brick = {
       element: {
-        callbackSuccess: jest.fn(),
+        callbackSuccess: jest.fn((_a: unknown, _b: unknown) =>
+          Promise.resolve("callback success")
+        ),
         callbackError: jest.fn(),
         callbackFinally: jest.fn(),
+        deepCallback: jest.fn(),
       },
     };
     listenerFactory(
@@ -1134,7 +1137,18 @@ describe("listenerFactory for useProvider", () => {
           success: {
             target: "_self",
             method: "callbackSuccess",
-            args: ["<% EVENT.detail %>"],
+            args: ["<% EVENT.detail %>", "<% EVENT_STACK[0].detail %>"],
+            callback: {
+              success: {
+                target: "_self",
+                method: "deepCallback",
+                args: [
+                  "<% EVENT.detail %>",
+                  "<% EVENT_STACK[0].detail %>",
+                  "<% EVENT_STACK[1].detail %>",
+                ],
+              },
+            },
           },
           error: {
             target: "_self",
@@ -1159,9 +1173,17 @@ describe("listenerFactory for useProvider", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(brick.element.callbackSuccess).toHaveBeenCalledWith("resolved");
+    expect(brick.element.callbackSuccess).toHaveBeenCalledWith(
+      "resolved",
+      "ok"
+    );
     expect(brick.element.callbackError).not.toHaveBeenCalled();
     expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
+    expect(brick.element.deepCallback).toHaveBeenCalledWith(
+      "callback success",
+      "resolved",
+      "ok"
+    );
   });
 
   test("useProvider without args", async () => {

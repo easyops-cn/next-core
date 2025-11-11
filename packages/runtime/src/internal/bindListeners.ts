@@ -494,6 +494,7 @@ async function brickCallback(
   }
 
   const callbackFactory = eventCallbackFactory(
+    event,
     handler.callback,
     runtimeContext,
     runtimeBrick
@@ -599,9 +600,9 @@ function handleHistoryAction(
   }
   if (hasCallback && callback) {
     const callbackFactory = eventCallbackFactory(
+      event,
       callback,
-      runtimeContext,
-      undefined
+      runtimeContext
     );
     computedArgs.push((blocked: boolean) => {
       callbackFactory(blocked ? "error" : "success")({ blocked });
@@ -856,6 +857,7 @@ async function handleMessageDispatcher(
     return;
   }
   const callbackFactory = eventCallbackFactory(
+    event,
     callback,
     runtimeContext,
     runtimeBrick
@@ -871,6 +873,7 @@ async function handleMessageDispatcher(
 }
 
 export function eventCallbackFactory(
+  event: Event | null,
   callback: BrickEventHandlerCallback,
   runtimeContext: RuntimeContext,
   runtimeBrick?: ElementHolder
@@ -882,10 +885,23 @@ export function eventCallbackFactory(
       const handlers = callback?.[type];
       if (handlers) {
         try {
-          const event = new CustomEvent(`callback.${type}`, {
+          const callbackEvent = new CustomEvent(`callback.${type}`, {
             detail: result,
           });
-          listenerFactory(handlers, runtimeContext, runtimeBrick)(event);
+
+          let ctx = runtimeContext;
+          if (event) {
+            ctx = {
+              ...runtimeContext,
+            };
+            // Using `EVENT_STACK` to refer to the event object stack in a
+            // callback hierarchy, not including the current event.
+            // Index starting with 0, from the innermost to the outermost.
+            ctx.eventStack ??= [];
+            ctx.eventStack.unshift(event);
+          }
+
+          listenerFactory(handlers, ctx, runtimeBrick)(callbackEvent);
         } catch (err) {
           // Do not throw errors in `callback.success` or `callback.progress`,
           // to avoid the following triggering of `callback.error`.

@@ -253,6 +253,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
 
       if (callback) {
         const callbackFactory = eventCallbackFactory(
+          null,
           callback,
           callbackRuntimeContext!
         );
