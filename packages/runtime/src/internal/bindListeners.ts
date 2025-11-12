@@ -123,11 +123,22 @@ export function isConditionalEventHandler(
 
 export function listenerFactory(
   handlers: BrickEventHandler | BrickEventHandler[],
-  runtimeContext: RuntimeContext,
+  _runtimeContext: RuntimeContext,
   runtimeBrick?: ElementHolder
 ) {
   return function (event: Event): void {
     for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
+      let runtimeContext = _runtimeContext;
+      if (handler.key && typeof handler.key === "string") {
+        runtimeContext = {
+          ..._runtimeContext,
+          eventMap: new Map([
+            ...(_runtimeContext.eventMap || []),
+            [handler.key, event],
+          ]),
+        };
+      }
+
       if (!checkIf(handler, { ...runtimeContext, event })) {
         if (handler.else) {
           listenerFactory(handler.else, runtimeContext, runtimeBrick)(event);

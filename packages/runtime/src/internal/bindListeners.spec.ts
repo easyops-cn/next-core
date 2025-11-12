@@ -1120,21 +1120,40 @@ describe("listenerFactory for useProvider", () => {
   test("useProvider with callback", async () => {
     const brick = {
       element: {
-        callbackSuccess: jest.fn(),
+        callbackSuccess: jest.fn((_a: unknown, _b: unknown) =>
+          Promise.resolve("callback success")
+        ),
         callbackError: jest.fn(),
         callbackFinally: jest.fn(),
+        deepCallback: jest.fn(),
       },
     };
     listenerFactory(
       {
+        key: "initialEvent",
         useProvider: "my-timeout-provider",
         method: "willBeReplacedByResolve" as "resolve",
         args: [100, "resolved"],
         callback: {
           success: {
+            key: "timeoutEvent",
             target: "_self",
             method: "callbackSuccess",
-            args: ["<% EVENT.detail %>"],
+            args: [
+              "<% EVENT_BY_KEY.timeoutEvent.detail %>",
+              "<% EVENT_BY_KEY.initialEvent.detail %>",
+            ],
+            callback: {
+              success: {
+                target: "_self",
+                method: "deepCallback",
+                args: [
+                  "<% EVENT.detail %>",
+                  "<% EVENT_BY_KEY.timeoutEvent.detail %>",
+                  "<% EVENT_BY_KEY.initialEvent.detail %>",
+                ],
+              },
+            },
           },
           error: {
             target: "_self",
@@ -1159,9 +1178,17 @@ describe("listenerFactory for useProvider", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(myTimeoutProvider).toHaveBeenCalledTimes(1);
     await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(brick.element.callbackSuccess).toHaveBeenCalledWith("resolved");
+    expect(brick.element.callbackSuccess).toHaveBeenCalledWith(
+      "resolved",
+      "ok"
+    );
     expect(brick.element.callbackError).not.toHaveBeenCalled();
     expect(brick.element.callbackFinally).toHaveBeenCalledWith(null);
+    expect(brick.element.deepCallback).toHaveBeenCalledWith(
+      "callback success",
+      "resolved",
+      "ok"
+    );
   });
 
   test("useProvider without args", async () => {

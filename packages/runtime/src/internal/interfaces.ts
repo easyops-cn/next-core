@@ -31,6 +31,7 @@ export interface RuntimeContext extends LegacyCompatibleRuntimeContext {
   forEachSize?: number;
   appendI18nNamespace?: string;
   isolatedRoot?: symbol;
+  eventMap?: Map<string, Event>;
 
   formStateStoreMap: Map<string, DataStore<"FORM_STATE">>;
   formStateStoreId?: string;

@@ -189,6 +189,8 @@ function lowLevelEvaluate(
     options.lazy ||
     (attemptToVisitGlobals.has("EVENT") &&
       !hasOwnProperty(runtimeContext, "event")) ||
+    (attemptToVisitGlobals.has("EVENT_BY_KEY") &&
+      !hasOwnProperty(runtimeContext, "eventMap")) ||
     (attemptToVisitGlobals.has("DATA") &&
       !hasOwnProperty(runtimeContext, "data"))
   ) {
@@ -303,7 +305,8 @@ function lowLevelEvaluate(
   return {
     blockingList,
     run() {
-      const { ctxStore, data, event, unsafe_penetrate } = runtimeContext;
+      const { ctxStore, data, event, eventMap, unsafe_penetrate } =
+        runtimeContext;
 
       const penetrableCtx = unsafe_penetrate
         ? _internalApiGetRuntimeContext()!
@@ -359,6 +362,17 @@ function lowLevelEvaluate(
             break;
           case "EVENT":
             globalVariables[variableName] = event;
+            break;
+          case "EVENT_BY_KEY":
+            globalVariables[variableName] = getDynamicReadOnlyProxy({
+              get(_target, key) {
+                return eventMap?.get(key as string);
+              },
+              // istanbul ignore next: dev only
+              ownKeys() {
+                return Array.from(eventMap?.keys() ?? []);
+              },
+            });
             break;
           case "FLAGS":
             globalVariables[variableName] = getReadOnlyProxy(flags);
