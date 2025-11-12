@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.19.0](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.18.1...@next-core/types@1.19.0) (2025-11-12)
+
+
+### Features
+
+* support accessing specific event object in nested event callbacks ([dff7e21](https://github.com/easyops-cn/next-core/commit/dff7e21d50ea39ddf74ced57789b2835ed3df6c4))
+
+
+
+
+
 ## [1.18.1](https://github.com/easyops-cn/next-core/compare/@next-core/types@1.18.0...@next-core/types@1.18.1) (2025-11-07)
 
 
