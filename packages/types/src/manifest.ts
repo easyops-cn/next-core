@@ -1040,6 +1040,12 @@ export interface BuiltinBrickEventHandler {
 
   /** {@inheritDoc ConditionalEventHandler.else} */
   else?: BrickEventHandler | BrickEventHandler[];
+
+  /**
+   * 设置事件对象的 key 名，在处理器和回调中可以通过 `EVENT_BY_KEY.<key>` 来访问该事件对象。
+   * 主要用于在嵌套的多个层级的事件回调中引用指定的事件对象。
+   */
+  key?: string;
 }
 
 /**
@@ -1069,6 +1075,9 @@ export interface UseProviderEventHandler
 
   /** {@inheritDoc ConditionalEventHandler.else} */
   else?: BrickEventHandler | BrickEventHandler[];
+
+  /** {@inheritDoc BuiltinBrickEventHandler.key} */
+  key?: string;
 }
 
 /**
@@ -1151,6 +1160,9 @@ export interface BaseCustomBrickEventHandler {
 
   /** {@inheritDoc ConditionalEventHandler.else} */
   else?: BrickEventHandler | BrickEventHandler[];
+
+  /** {@inheritDoc BuiltinBrickEventHandler.key} */
+  key?: string;
 }
 
 /*
@@ -1163,6 +1175,8 @@ export interface ConditionalEventHandler {
   then: BrickEventHandler | BrickEventHandler[];
   /** 不满足条件分支 */
   else?: BrickEventHandler | BrickEventHandler[];
+  /** {@inheritDoc BuiltinBrickEventHandler.key} */
+  key?: string;
 }
 
 /**
