@@ -52,7 +52,7 @@
     "@next-core/runtime": "^1.65.7",
     "@next-core/types": "^1.17.0",
     "@next-core/utils": "^1.8.4",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.0.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
