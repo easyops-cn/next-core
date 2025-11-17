@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.72.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.72.0...@next-core/runtime@1.72.1) (2025-11-17)
+
+
+### Bug Fixes
+
+* allow setting target event for event actions ([351d7dc](https://github.com/easyops-cn/next-core/commit/351d7dcdf9a4386fac571257aa29457ccd429ca0))
+
+
+
+
+
 # [1.72.0](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.71.4...@next-core/runtime@1.72.0) (2025-11-12)
 
 
