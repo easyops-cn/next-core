@@ -679,7 +679,7 @@ describe("listenerFactory for event.*", () => {
     listenerFactory(
       {
         action: "event.preventDefault",
-        args: ["<% EVENT.detail %>"],
+        args: ["<% EVENT %>"],
       },
       runtimeContext
     )(event);
@@ -691,11 +691,31 @@ describe("listenerFactory for event.*", () => {
     listenerFactory(
       {
         action: "event.stopPropagation",
-        args: ["<% EVENT.detail %>"],
       },
       runtimeContext
     )(event);
     expect(event.stopPropagation).toHaveBeenCalledWith();
+  });
+
+  test("non-Event object", () => {
+    consoleError.mockReturnValue();
+    const event = {
+      stopPropagation: jest.fn(),
+      detail: { someProp: 123 },
+    } as any;
+    listenerFactory(
+      {
+        action: "event.stopPropagation",
+        args: ["<% EVENT.detail %>"],
+      },
+      runtimeContext
+    )(event);
+    expect(consoleError).toHaveBeenCalledWith(
+      "call event.stopPropagation() on non-Event object:",
+      { someProp: 123 }
+    );
+    expect(event.stopPropagation).toHaveBeenCalledWith();
+    consoleError.mockReset();
   });
 });
 

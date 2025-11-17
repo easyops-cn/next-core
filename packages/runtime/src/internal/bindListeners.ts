@@ -206,10 +206,8 @@ export function listenerFactory(
             break;
 
           case "event.preventDefault":
-            event.preventDefault();
-            break;
           case "event.stopPropagation":
-            event.stopPropagation();
+            handleEventAction(event, method, handler.args, runtimeContext);
             break;
 
           case "console.log":
@@ -336,6 +334,27 @@ export function listenerFactory(
       }
     }
   };
+}
+
+function handleEventAction(
+  event: Event,
+  method: "preventDefault" | "stopPropagation",
+  args: unknown[] | undefined,
+  runtimeContext: RuntimeContext
+) {
+  const computedArgs = argsFactory(args, runtimeContext, event, {
+    useEventAsDefault: true,
+  });
+  const [e] = computedArgs as [Event];
+  if (e instanceof Event) {
+    e[method]();
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(`call event.${method}() on non-Event object:`, e);
+
+    // For compatibility, fallback to the original event.
+    event[method]();
+  }
 }
 
 function handleUseProviderAction(
