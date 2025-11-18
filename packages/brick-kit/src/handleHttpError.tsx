@@ -91,12 +91,19 @@ export function handleHttpError(
         const ssoEnabled = getRuntime().getFeatureFlags()["sso-enabled"];
         const history = getHistory();
         setLoginStateCookie(history.location);
-        history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
-          from: {
-            ...history.location,
-            state: undefined,
-          },
-        });
+        history.push(
+          ssoEnabled
+            ? `/sso-auth/login?return_url=${encodeURIComponent(
+                history.location.pathname + history.location.search
+              )}`
+            : "/auth/login",
+          {
+            from: {
+              ...history.location,
+              state: undefined,
+            },
+          }
+        );
       },
     });
     return;

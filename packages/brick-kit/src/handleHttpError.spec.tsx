@@ -34,6 +34,7 @@ const spyOnHistoryPush = jest.fn();
   push: spyOnHistoryPush,
   location: {
     pathname: "/no-where",
+    search: "",
     state: {
       notify: false,
     },
@@ -165,6 +166,8 @@ describe("handleHttpError", () => {
     expect(spyOnHistoryPush).toBeCalledWith("/auth/login", {
       from: {
         pathname: "/no-where",
+        search: "",
+        state: undefined,
       },
     });
 
@@ -198,11 +201,16 @@ describe("handleHttpError", () => {
     expect(spyOnHistoryPush).not.toBeCalled();
 
     spyOnModalConfirm.mock.calls[0][0].onOk();
-    expect(spyOnHistoryPush).toBeCalledWith("/sso-auth/login", {
-      from: {
-        pathname: "/no-where",
-      },
-    });
+    expect(spyOnHistoryPush).toBeCalledWith(
+      "/sso-auth/login?return_url=%2Fno-where",
+      {
+        from: {
+          pathname: "/no-where",
+          search: "",
+          state: undefined,
+        },
+      }
+    );
 
     mount(spyOnModalConfirm.mock.calls[0][0].content as any).unmount();
   });

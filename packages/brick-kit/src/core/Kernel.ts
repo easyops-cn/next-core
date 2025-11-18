@@ -213,9 +213,16 @@ export class Kernel {
       if (data.type === "auth.guard") {
         const history = getHistory();
         const ssoEnabled = this.getFeatureFlags()["sso-enabled"];
-        history.push(ssoEnabled ? "/sso-auth/login" : "/auth/login", {
-          from: history.location,
-        });
+        history.push(
+          ssoEnabled
+            ? `/sso-auth/login?return_url=${encodeURIComponent(
+                history.location.pathname + history.location.search
+              )}`
+            : "/auth/login",
+          {
+            from: history.location,
+          }
+        );
       }
     });
   }

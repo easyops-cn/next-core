@@ -456,7 +456,9 @@ export class Router {
       setLoginStateCookie(location);
       history.replace(
         this.kernel.getFeatureFlags()["sso-enabled"]
-          ? "/sso-auth/login"
+          ? `/sso-auth/login?return_url=${encodeURIComponent(
+              location.pathname + location.search
+            )}`
           : "/auth/login",
         {
           from: location,
