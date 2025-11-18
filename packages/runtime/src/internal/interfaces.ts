@@ -203,3 +203,9 @@ export interface RuntimeDataVale
 export interface RuntimeDataValueOption {
   routeId?: string;
 }
+
+export interface RouteNode {
+  route: RouteConf;
+  // All ordered sibling routes under the same parent including the route itself
+  routes: RouteConf[];
+}

@@ -52,6 +52,7 @@ import type {
   RenderReturnNode,
   RuntimeBrickConfWithSymbols,
   RuntimeContext,
+  RouteNode,
 } from "./interfaces.js";
 import {
   getTagNameOfCustomTemplate,
@@ -99,7 +100,7 @@ export async function renderRoutes(
   routes: RouteConf[],
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  parentRoutes: RouteConf[],
+  parentRoutes: RouteNode[],
   menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   isIncremental?: boolean,
@@ -131,7 +132,7 @@ export async function renderRoutes(
       if (isIncremental) {
         runtimeContext.ctxStore.disposeDataInRoutes(routes);
       }
-      const routePath = parentRoutes.concat(route);
+      const routePath = parentRoutes.concat({ route, routes });
       runtimeContext.ctxStore.define(
         route.context,
         runtimeContext,
@@ -246,7 +247,7 @@ export async function renderBricks(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  parentRoutes: RouteConf[],
+  parentRoutes: RouteNode[],
   menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   tplStack?: Map<string, number>,
@@ -283,7 +284,7 @@ export async function renderBrick(
   brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  parentRoutes: RouteConf[],
+  parentRoutes: RouteNode[],
   menuRequestReturnNode: MenuRequestNode,
   slotId?: string,
   tplStack = new Map<string, number>(),
@@ -320,7 +321,7 @@ async function legacyRenderBrick(
   brickConf: RuntimeBrickConfWithSymbols,
   _runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  parentRoutes: RouteConf[],
+  parentRoutes: RouteNode[],
   menuRequestReturnNode: MenuRequestNode,
   slotId: string | undefined,
   tplStack: Map<string, number>,
@@ -912,30 +913,34 @@ async function legacyRenderBrick(
         };
         lastOutput.node = abstractNode;
 
-        const parentRoute = parentRoutes[parentRoutes.length - 1] as
-          | RouteConfOfBricks
-          | undefined;
-        if (parentRoute?.incrementalSubRoutes) {
+        const { route: parentRoute } = parentRoutes[parentRoutes.length - 1];
+        if ((parentRoute as RouteConfOfBricks)?.incrementalSubRoutes) {
           routeSlotFromIndexToSlotId.set(index, childSlotId);
           rendererContext.performIncrementalRender(
             slotConf,
-            parentRoutes,
+            parentRoutes.map(({ route }) => route),
             async (location, prevLocation) => {
               const { homepage } = childRuntimeContext.app;
               const { pathname } = location;
               // Ignore if any one of homepage and parent routes not matched.
               if (
                 !matchHomepage(homepage, pathname) ||
-                !parentRoutes.every((route) => {
-                  let prevMatch: MatchResult | null;
-                  let newMatch: MatchResult | null;
+                !parentRoutes.every(({ route, routes }) => {
+                  let prevMatch: MatchResult | null = null;
+                  let newMatch: MatchResult | null = null;
                   return (
-                    (prevMatch = matchRoute(
+                    (prevMatch = matchTargetRoute(
                       route,
+                      routes,
                       homepage,
                       prevLocation.pathname
                     )) &&
-                    (newMatch = matchRoute(route, homepage, pathname)) &&
+                    (newMatch = matchTargetRoute(
+                      route,
+                      routes,
+                      homepage,
+                      pathname
+                    )) &&
                     (route !== parentRoute ||
                       isRouteParamsEqual(prevMatch.params, newMatch.params))
                   );
@@ -1124,7 +1129,7 @@ async function renderForEach(
   bricks: BrickConf[],
   runtimeContext: RuntimeContext,
   rendererContext: RendererContext,
-  parentRoutes: RouteConf[],
+  parentRoutes: RouteNode[],
   menuRequestReturnNode: MenuRequestNode,
   slotId: string | undefined,
   tplStack: Map<string, number>,
@@ -1368,4 +1373,24 @@ function isRouteParamsEqual(
 
 function isRouteConf(child: BrickConf | RouteConf): child is RouteConf {
   return !!(child as RouteConf).path && !(child as BrickConf).brick;
+}
+
+/**
+ * Find the first matched route among siblings.
+ *
+ * Return the match result only if it matches the target route.
+ */
+function matchTargetRoute(
+  route: RouteConf,
+  routes: RouteConf[],
+  homepage: string,
+  pathname: string
+) {
+  for (const sibling of routes) {
+    const match = matchRoute(sibling, homepage, pathname);
+    if (match) {
+      return sibling === route ? match : null;
+    }
+  }
+  return null;
 }

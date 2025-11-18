@@ -19,6 +19,7 @@ import { ResolveOptions, resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import type {
   AsyncPropertyEntry,
+  RouteNode,
   RuntimeBrick,
   RuntimeContext,
 } from "../interfaces.js";
@@ -330,7 +331,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     dataConfs: ContextConf[] | undefined,
     runtimeContext: RuntimeContext,
     asyncHostPropertyEntries?: AsyncPropertyEntry[],
-    routePath?: RouteConf[]
+    routePath?: RouteNode[]
   ): void {
     if (Array.isArray(dataConfs) && dataConfs.length > 0) {
       const pending = resolveDataStore(
@@ -346,7 +347,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
         isStrictMode(runtimeContext)
       );
       if (Array.isArray(routePath)) {
-        for (const route of routePath) {
+        for (const { route } of routePath) {
           const stack = this.routeStackMap.get(route);
           if (stack) {
             stack.add(pending);
@@ -414,7 +415,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     dataConf: ContextConf,
     runtimeContext: RuntimeContext,
     asyncHostPropertyEntries?: AsyncPropertyEntry[],
-    routePath?: RouteConf[]
+    routePath?: RouteNode[]
   ): Promise<boolean> {
     if (!(await asyncCheckIf(dataConf, runtimeContext))) {
       return false;
@@ -565,7 +566,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     this.data.set(dataConf.name, newData);
 
     if (Array.isArray(routePath)) {
-      for (const route of routePath) {
+      for (const { route } of routePath) {
         const names = this.routeMap.get(route);
         if (names) {
           names.add(dataConf.name);
