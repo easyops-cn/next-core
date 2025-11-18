@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.72.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.72.1...@next-core/runtime@1.72.2) (2025-11-18)
+
+
+### Bug Fixes
+
+* handle sibling routes matching order ([b64d8bd](https://github.com/easyops-cn/next-core/commit/b64d8bdfadc18bd7d37bc721d2bd866d91764f48))
+
+
+
+
+
 ## [1.72.1](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.72.0...@next-core/runtime@1.72.1) (2025-11-17)
 
 
