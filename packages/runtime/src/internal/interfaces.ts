@@ -209,3 +209,5 @@ export interface RouteNode {
   // All ordered sibling routes under the same parent including the route itself
   routes: RouteConf[];
 }
+
+export type Dispose = () => void;

@@ -19,6 +19,7 @@ import { ResolveOptions, resolveData } from "./resolveData.js";
 import { resolveDataStore } from "./resolveDataStore.js";
 import type {
   AsyncPropertyEntry,
+  Dispose,
   RouteNode,
   RuntimeBrick,
   RuntimeContext,
@@ -71,6 +72,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
   private readonly rendererContext?: RendererContext;
   private routeMap = new WeakMap<RouteConf, Set<string>>();
   private routeStackMap = new WeakMap<RouteConf, Set<PendingStackItem>>();
+  private disposableMap = new Map<string, Dispose[]>();
 
   // 把 `rendererContext` 放在参数列表的最后，并作为可选，以减少测试文件的调整
   constructor(
@@ -360,12 +362,14 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
-  onChange(dataName: string, listener: EventListener): () => void {
+  onChange(dataName: string, listener: EventListener): Dispose {
     const eventTarget = this.data.get(dataName)?.eventTarget;
     eventTarget?.addEventListener(this.changeEventType, listener);
-    return () => {
+    const disposable = () => {
       eventTarget?.removeEventListener(this.changeEventType, listener);
     };
+    this.addDisposable(dataName, disposable);
+    return disposable;
   }
 
   async waitFor(dataNames: string[] | Set<string>): Promise<void> {
@@ -509,7 +513,6 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     };
 
     if (resolvePolicy === "lazy") {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { trigger } = dataConf.resolve!;
       if (
         trigger &&
@@ -539,7 +542,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       );
       !load && (newData.deps = [...deps]);
       for (const dep of deps) {
-        this.onChange(
+        const disposable = this.onChange(
           dep,
           this.batchAddListener(() => {
             newData.useResolve = trackConditionalResolve
@@ -556,6 +559,7 @@ export class DataStore<T extends DataStoreType = "CTX"> {
             }
           }, dataConf)
         );
+        this.addDisposable(dataConf.name, disposable);
       }
     }
 
@@ -579,6 +583,15 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     return true;
   }
 
+  private addDisposable(name: string, disposable: Dispose) {
+    const existingDisposables = this.disposableMap.get(name);
+    if (existingDisposables) {
+      existingDisposables.push(disposable);
+    } else {
+      this.disposableMap.set(name, [disposable]);
+    }
+  }
+
   /**
    * For sub-routes to be incrementally rendered,
    * dispose their data and pending tasks.
@@ -589,6 +602,13 @@ export class DataStore<T extends DataStoreType = "CTX"> {
       if (names !== undefined) {
         for (const name of names) {
           this.data.delete(name);
+          const disposables = this.disposableMap.get(name);
+          if (disposables) {
+            for (const disposable of disposables) {
+              disposable();
+            }
+          }
+          this.disposableMap.delete(name);
         }
         this.routeMap.delete(route);
       }
