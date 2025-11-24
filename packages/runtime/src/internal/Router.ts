@@ -39,6 +39,7 @@ import {
 } from "./Runtime.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type {
+  Dispose,
   MenuRequestNode,
   RenderRoot,
   RuntimeContext,
@@ -376,7 +377,11 @@ export class Router {
       createPortal: portal,
     };
 
+    let disposeMount: Dispose | undefined;
+
     const cleanUpPreviousRender = (): void => {
+      disposeMount?.();
+      disposeMount = undefined;
       unmountTree(main);
       unmountTree(portal);
 
@@ -547,7 +552,7 @@ export class Router {
         applyMode();
 
         setUIVersion(currentApp?.uiVersion);
-        mountTree(renderRoot);
+        disposeMount = mountTree(renderRoot);
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
@@ -606,7 +611,7 @@ export class Router {
     );
     renderRoot.child = node;
 
-    mountTree(renderRoot);
+    disposeMount = mountTree(renderRoot);
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);

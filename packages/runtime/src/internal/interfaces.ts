@@ -112,10 +112,6 @@ export type RememberedEventListener = [string, EventListener];
 
 export interface RuntimeBrickElement extends HTMLElement {
   $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
-  /** Meta info of listeners, for devtools only */
-  $$eventListeners?: MetaInfoOfEventListener[];
-  /** Remembered listeners for unbinding */
-  $$listeners?: RememberedEventListener[];
   /** Remembered proxy listeners for unbinding */
   $$proxyListeners?: RememberedEventListener[];
   /** Find element by ref in a custom template */
