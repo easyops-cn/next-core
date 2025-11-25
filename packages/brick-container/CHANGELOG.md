@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.23.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.23.10...@next-core/brick-container@3.23.11) (2025-11-25)
+
+
+### Bug Fixes
+
+* support serve app images ([3a5b706](https://github.com/easyops-cn/next-core/commit/3a5b706ed2b6fb5d019b84d991f76979bdcdfdd4))
+
+
+
+
+
 ## [3.23.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.23.9...@next-core/brick-container@3.23.10) (2025-11-18)
 
 **Note:** Version bump only for package @next-core/brick-container
