@@ -1,10 +1,11 @@
 import jsYaml from "js-yaml";
+import { serveBricks } from "@next-core/serve-helpers";
 import bootstrapJson from "./bootstrapJson.js";
 import mockAuth from "./mockAuth.js";
 import singleAppBootstrapJson from "./singleAppBootstrapJson.js";
 import standaloneBootstrapJson from "./standaloneBootstrapJson.js";
 import serveBricksWithVersions from "./serveBricksWithVersions.js";
-import { serveBricks } from "@next-core/serve-helpers";
+import serveAppImages from "./serveAppImages.js";
 
 const { safeDump, JSON_SCHEMA } = jsYaml;
 
@@ -100,6 +101,16 @@ export function getPreMiddlewares(env) {
           res.send();
         }
       },
+    });
+
+    middlewares.push({
+      path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/images`,
+      middleware: serveAppImages(env, appId),
+    });
+
+    middlewares.push({
+      path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/micro-apps/${appId}/images`,
+      middleware: serveAppImages(env, appId),
     });
   }
 
