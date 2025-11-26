@@ -11,7 +11,6 @@ import type { BatchUpdateContextItem } from '@next-core/types';
 import type { BootstrapData } from '@next-core/types';
 import { BreadcrumbItemConf } from '@next-core/types';
 import type { BrickConf } from '@next-core/types';
-import type { BrickEventHandler } from '@next-core/types';
 import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
@@ -333,6 +332,10 @@ function mountUseBrick({ renderRoot, rendererContext, scopedStores }: RenderUseB
 
 // @public (undocumented)
 interface MountUseBrickResult {
+    // Warning: (ae-forgotten-export) The symbol "Dispose" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    dispose: Dispose;
     // (undocumented)
     portal?: HTMLElement;
 }
