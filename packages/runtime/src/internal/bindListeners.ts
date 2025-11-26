@@ -60,9 +60,12 @@ export function bindListeners(
     brick.addEventListener(eventType, listener);
 
     // Remember added listeners for unbinding.
-    disposables.push(() => {
+    const dispose = () => {
       brick.removeEventListener(eventType, listener);
-    });
+    };
+    disposables.push(dispose);
+    brick.$$disposes ??= [];
+    brick.$$disposes.push(dispose);
   });
 
   return () => {
@@ -70,6 +73,7 @@ export function bindListeners(
       dispose();
     }
     disposables.length = 0;
+    delete brick.$$disposes;
   };
 }
 

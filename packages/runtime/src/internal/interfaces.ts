@@ -69,7 +69,7 @@ export interface RenderAbstract extends BaseRenderNode {
   tag: RenderTag.ABSTRACT;
   return: RenderReturnNode;
   iid?: string;
-  disposes?: (() => void)[];
+  disposes?: Dispose[];
 }
 
 export interface BaseRenderNode {
@@ -97,7 +97,7 @@ export interface RuntimeBrick {
   tplHostMetadata?: TemplateHostMetadata;
   portal?: boolean;
   ref?: string;
-  disposes?: (() => void)[];
+  disposes?: Dispose[];
   disposed?: boolean;
 }
 
@@ -112,6 +112,7 @@ export type RememberedEventListener = [string, EventListener];
 
 export interface RuntimeBrickElement extends HTMLElement {
   $$typeof?: "brick" | "provider" | "custom-template" | "native" | "invalid";
+  $$disposes?: Dispose[];
   /** Remembered proxy listeners for unbinding */
   $$proxyListeners?: RememberedEventListener[];
   /** Find element by ref in a custom template */

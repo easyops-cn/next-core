@@ -620,6 +620,19 @@ export class DataStore<T extends DataStoreType = "CTX"> {
     }
   }
 
+  dispose() {
+    this.data.clear();
+    this.pendingStack.length = 0;
+    this.disposableMap.forEach((disposables) => {
+      for (const disposable of disposables) {
+        disposable();
+      }
+    });
+    this.disposableMap.clear();
+    this.routeMap = new WeakMap<RouteConf, Set<string>>();
+    this.routeStackMap = new WeakMap<RouteConf, Set<PendingStackItem>>();
+  }
+
   private batchAddListener(
     listener: EventListener,
     contextConf: ContextConf

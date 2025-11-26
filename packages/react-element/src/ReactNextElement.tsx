@@ -12,7 +12,8 @@ export abstract class ReactNextElement extends NextElement {
     }
     const ctor = this.constructor as typeof ReactNextElement;
     if (ctor.shadowOptions) {
-      const shadowRoot = this.attachShadow(ctor.shadowOptions);
+      const shadowRoot =
+        this.shadowRoot || this.attachShadow(ctor.shadowOptions);
       if (supportsAdoptingStyleSheets()) {
         if (ctor.styleTexts?.length) {
           const styleSheet = new CSSStyleSheet();
@@ -39,6 +40,12 @@ export abstract class ReactNextElement extends NextElement {
 
   disconnectedCallback() {
     this.#root?.render(null);
+    this.__secret_internal_dispose();
+  }
+
+  __secret_internal_dispose() {
+    this.#root?.unmount();
+    this.#root = undefined;
   }
 
   protected _render() {

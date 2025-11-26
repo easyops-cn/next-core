@@ -57,8 +57,6 @@ declare namespace __secret_internals {
         updateStoryboardByTemplate,
         updateTemplatePreviewSettings,
         updateStoryboardBySnippet,
-        getContextValue,
-        getAllContextValues,
         getBrickPackagesById,
         loadBricks,
         loadEditors,
@@ -186,9 +184,6 @@ export function fetchByProvider(provider: string, args: unknown[], options?: Res
 // @public (undocumented)
 function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, collectUsedContracts }: PreviewOption): Promise<string[]>;
 
-// @public (undocumented)
-function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
-
 // @public @deprecated (undocumented)
 export function getAuth(): object | undefined;
 
@@ -200,9 +195,6 @@ function getBrickPackages(): BrickPackage[];
 
 // @public (undocumented)
 function getBrickPackagesById(id: string): BrickPackage | undefined;
-
-// @public (undocumented)
-function getContextValue(name: string, { tplStateStoreId }: DataValueOption): unknown;
 
 // @public (undocumented)
 export function getCssPropertyValue(name: string, el?: HTMLElement): string;
