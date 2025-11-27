@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.10...@next-core/brick-container@2.98.11) (2025-11-27)
+
+
+### Bug Fixes
+
+* **brick_next:** 低发行版升级到 7.12，默认没有初始化 brick_next 的 clientId 和 secret；后续手动打开开关后，升级 NA/NB 组件时获取 token 失败 ([24a198b](https://github.com/easyops-cn/next-core/commit/24a198b4d7827f4b2df49238067a9455c4201f77))
+
+
+
+
+
 ## [2.98.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.9...@next-core/brick-container@2.98.10) (2025-11-11)
 
 
