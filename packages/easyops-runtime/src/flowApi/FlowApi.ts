@@ -11,6 +11,7 @@ import type {
 } from "@next-core/types";
 import { hasOwnProperty } from "@next-core/utils/general";
 import { getContract } from "./CollectContracts.js";
+import { isUnauthenticatedError } from "@next-core/runtime";
 
 export type MinimalContractRequest = Pick<ContractRequest, "type"> & {
   fields?: MinimalContractField[];
@@ -280,6 +281,10 @@ async function fetchFlowApiDefinitionFromRemote(
     });
     contractData = contractList![0];
   } catch (e) {
+    if (isUnauthenticatedError(e)) {
+      // If unauthenticated, throw the error to be handled by upper level
+      throw e;
+    }
     error = e;
   }
 
