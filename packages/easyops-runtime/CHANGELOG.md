@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.27](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.26...@next-core/easyops-runtime@0.15.27) (2025-11-28)
+
+
+### Bug Fixes
+
+* throw unauthenticated error when fetch contracts failed ([ac50ce3](https://github.com/easyops-cn/next-core/commit/ac50ce3bf4d469282c5bb7897e6cb5729645a167))
+
+
+
+
+
 ## [0.15.26](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.25...@next-core/easyops-runtime@0.15.26) (2025-11-18)
 
 **Note:** Version bump only for package @next-core/easyops-runtime
