@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.24.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.23.12...@next-core/brick-container@3.24.0) (2025-12-22)
+
+
+### Features
+
+* Brick Container支持合并本地菜单 ([b44e8dc](https://github.com/easyops-cn/next-core/commit/b44e8dca6d4cbc3782f4aee8143694300e9a141e))
+
+
+
+
+
 ## [3.23.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.23.11...@next-core/brick-container@3.23.12) (2025-11-28)
 
 **Note:** Version bump only for package @next-core/brick-container
