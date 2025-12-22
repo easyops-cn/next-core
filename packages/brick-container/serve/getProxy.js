@@ -4,12 +4,12 @@ import { responseInterceptor } from "http-proxy-middleware";
 import _ from "lodash";
 import jsYaml from "js-yaml";
 import { getBrickPackages } from "@next-core/serve-helpers";
-import { getStoryboards } from "./utils/getStoryboards.js";
+import { getStoryboards, getSingleStoryboard } from "./utils/getStoryboards.js";
 import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getProcessedPublicDeps } from "./utils/getProcessedPublicDeps.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
-
+import chalk from "chalk";
 // Create an http agent that always use IPv4
 let agent;
 const getAgent = (server) => {
@@ -223,6 +223,64 @@ export default function getProxy(env, getRawIndexHtml) {
               return JSON.stringify(result);
             }
 
+            if (
+              req.path.startsWith(
+                `${baseHref}api/gateway/logic.micro_app_standalone_service/api/v1/micro_app_standalone/runtime`
+              )
+            ) {
+              const appId = req.path.match(/runtime\/(.+)$/)?.[1];
+              console.log("appId", appId);
+              if (!appId) {
+                return responseBuffer;
+              }
+              const content = responseBuffer.toString("utf-8");
+              const result = JSON.parse(content);
+              const { data } = result;
+
+              // 替换 injectMenus 中的 menu 数据
+              if (data && data.injectMenus && Array.isArray(data.injectMenus)) {
+                // 从本地 storyboard 中查找匹配的 menu
+                const localStoryboard = await getSingleStoryboard(
+                  rootDir,
+                  appId
+                );
+
+                data.injectMenus = data.injectMenus.map((remoteMenu) => {
+                  const appId = remoteMenu.app?.[0]?.appId;
+                  const menuId = remoteMenu.menuId;
+                  if (!appId || !menuId) {
+                    return remoteMenu;
+                  }
+
+                  const localAppId = localStoryboard.app.id;
+                  if (
+                    localStoryboard &&
+                    localStoryboard.meta &&
+                    localStoryboard.meta.menus
+                  ) {
+                    const localMenu = localStoryboard.meta.menus.find(
+                      (menu) => menu.menuId === menuId && localAppId === appId
+                    );
+
+                    if (localMenu) {
+                      console.log(
+                        chalk.green(
+                          `Replaced menu from local storyboard: ${appId}/${menuId}`
+                        )
+                      );
+                      // 保留远程 menu 的 app 信息，使用本地 menu 的其他数据
+                      return {
+                        ...localMenu,
+                        app: remoteMenu.app,
+                      };
+                    }
+                  }
+                  return remoteMenu;
+                });
+              }
+              removeCacheHeaders(res);
+              return JSON.stringify(result);
+            }
             return responseBuffer;
           }
         ),
