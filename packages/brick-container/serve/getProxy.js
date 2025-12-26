@@ -9,7 +9,6 @@ import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getProcessedPublicDeps } from "./utils/getProcessedPublicDeps.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
-import chalk from "chalk";
 // Create an http agent that always use IPv4
 let agent;
 const getAgent = (server) => {
@@ -229,7 +228,6 @@ export default function getProxy(env, getRawIndexHtml) {
               )
             ) {
               const appId = req.path.match(/runtime\/(.+)$/)?.[1];
-              console.log("appId", appId);
               if (!appId) {
                 return responseBuffer;
               }
@@ -263,11 +261,6 @@ export default function getProxy(env, getRawIndexHtml) {
                     );
 
                     if (localMenu) {
-                      console.log(
-                        chalk.green(
-                          `Replaced menu from local storyboard: ${appId}/${menuId}`
-                        )
-                      );
                       // 保留远程 menu 的 app 信息，使用本地 menu 的其他数据
                       return {
                         ...localMenu,
