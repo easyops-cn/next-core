@@ -1,4 +1,4 @@
-import { getBasePath, matchPath } from "@next-core/runtime";
+import { getBasePath, getRuntime, matchPath } from "@next-core/runtime";
 import type { AuthApi_CheckLoginResponseBody } from "@next-api-sdk/api-gateway-sdk";
 import { createLocation, type LocationDescriptor } from "history";
 import { resetPermissionPreChecks } from "./checkPermissions.js";
@@ -64,21 +64,71 @@ export function addPathToBlackList(path: string): void {
 
 /**
  * 判断一个内部 URL 路径是否被屏蔽。
+ *
+ * @param pathnameWithQuery - 路径（可包含查询字符串）
+ * @returns 是否被屏蔽
  */
-export function isBlockedPath(pathname: string): boolean {
-  return [...pathBlackListSet].some((path) => matchPath(pathname, { path }));
+export function isBlockedPath(pathnameWithQuery: string): boolean {
+  return [...pathBlackListSet].some((pattern) => {
+    // 分离 pattern 的路径和查询字符串
+    const [patternPath, patternQuery] = pattern.split("?");
+
+    // 分离待检查路径的路径和查询字符串
+    const [pathname, pathQuery] = pathnameWithQuery.split("?");
+
+    // 首先匹配路径部分
+    const pathMatched = matchPath(pathname, { path: patternPath });
+    if (!pathMatched) {
+      return false;
+    }
+
+    // 如果 pattern 不包含查询字符串，只要路径匹配就返回 true
+    if (!patternQuery) {
+      return true;
+    }
+
+    // 如果 pattern 包含查询字符串，但待检查路径没有，返回 false
+    if (!pathQuery) {
+      return false;
+    }
+
+    // 精确匹配查询字符串（所有 pattern 中的参数必须存在且值相同）
+    const patternParams = new URLSearchParams(patternQuery);
+    const pathParams = new URLSearchParams(pathQuery);
+
+    for (const [key, value] of patternParams.entries()) {
+      if (pathParams.get(key) !== value) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+/**
+ * 根据特性开关决定是否拼接查询字符串
+ * @param pathname - 路径名
+ * @param search - 查询字符串（可选）
+ * @returns 拼接后的路径
+ */
+function getPathnameWithQuery(pathname: string, search?: string): string {
+  const flags = getRuntime().getFeatureFlags();
+  const blackListPreserveQueryFlag = flags?.["blacklist-preserve-query-string"];
+  return blackListPreserveQueryFlag && search ? pathname + search : pathname;
 }
 
 /**
  * 判断一个内部 URL 是否被屏蔽。
  */
 export function isBlockedUrl(url: string | LocationDescriptor): boolean {
-  const pathname = (typeof url === "string" ? createLocation(url) : url)
-    .pathname;
+  const location = typeof url === "string" ? createLocation(url) : url;
+  const pathname = location.pathname;
   if (typeof pathname !== "string") {
     return false;
   }
-  return isBlockedPath(pathname);
+  const pathnameWithQuery = getPathnameWithQuery(pathname, location.search);
+  return isBlockedPath(pathnameWithQuery);
 }
 
 /**
@@ -92,5 +142,7 @@ export function isBlockedHref(href: string): boolean {
     return false;
   }
   // 转换为内部路径
-  return isBlockedPath(url.pathname.substring(basePath.length - 1));
+  const internalPath = url.pathname.substring(basePath.length - 1);
+  const pathnameWithQuery = getPathnameWithQuery(internalPath, url.search);
+  return isBlockedPath(pathnameWithQuery);
 }
