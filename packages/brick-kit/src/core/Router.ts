@@ -251,7 +251,14 @@ export class Router {
   private async render(location: PluginLocation): Promise<void> {
     this.state = "initial";
     const renderId = (this.renderId = uniqueId("render-id-"));
-    let blocked = isBlockedPath(location.pathname);
+    const blackListPreserveQueryFlag =
+      getRuntime().getFeatureFlags()?.["blacklist-preserve-query-string"];
+
+    // 第一次检查：全局黑名单
+    const pathToCheck = `${location.pathname}${
+      blackListPreserveQueryFlag ? location.search : ""
+    }`;
+    let blocked = isBlockedPath(pathToCheck);
 
     resetAllInjected();
     clearPollTimeout();
@@ -326,9 +333,17 @@ export class Router {
 
         if (!path || typeof path !== "string") return;
 
-        path = path
-          .split("?")[0]
-          .replace(/\${\s*(?:(?:PATH|CTX)\.)?(\w+)\s*}/g, ":$1");
+        // 保留查询字符串（如果特性开关启用）
+        const pathParts = path.split("?");
+        const pathWithoutQuery = pathParts[0];
+        const queryString =
+          blackListPreserveQueryFlag && pathParts[1] ? `?${pathParts[1]}` : "";
+
+        path =
+          pathWithoutQuery.replace(
+            /\${\s*(?:(?:PATH|CTX)\.)?(\w+)\s*}/g,
+            ":$1"
+          ) + queryString;
 
         if (item.to) {
           try {
@@ -347,7 +362,7 @@ export class Router {
         path && path.startsWith("/") && addPathToBlackList(path);
       });
 
-      if (isBlockedPath(location.pathname)) {
+      if (isBlockedPath(pathToCheck)) {
         blocked = true;
       } else {
         setAppLocales(storyboard.app);

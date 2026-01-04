@@ -965,4 +965,176 @@ describe("Router", () => {
     mockGetHistoryLocation();
     mockedMatchPath.mockReset();
   });
+
+  it("should support query string in blacklist when feature flag is enabled", async () => {
+    // 启用特性开关
+    (getRuntime as jest.Mock).mockImplementation(() => ({
+      getFeatureFlags: () => ({
+        "enable-analyzer": false,
+        "support-ui-8.2-compact-layout": true,
+        "blacklist-preserve-query-string": true,
+      }),
+      getMiscSettings: () => ({
+        noAuthGuardLoginPath: "",
+      }),
+      getBrickPackages: () => ({}),
+    }));
+
+    __setMatchedStoryboard({
+      app: {
+        id: "query-blocked-app",
+        homepage: "/query-app",
+        name: "Query Blocked APP",
+      },
+      meta: {
+        blackList: [
+          {
+            url: "/next/query-app/delete?confirm=true",
+          },
+          {
+            to: "<% `${APP.homepage}/edit/:id?mode=admin` %>",
+          },
+        ],
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/delete",
+          bricks: [{ brick: "div" }],
+        },
+      ],
+    });
+    __setMountRoutesResults(
+      {
+        route: {
+          type: "routes",
+        },
+        main: [
+          {
+            type: "div",
+          },
+        ],
+      },
+      null
+    );
+    spyOnComputeRealValue.mockImplementation((value: string) =>
+      value === "<% `${APP.homepage}/edit/:id?mode=admin` %>"
+        ? "/query-app/edit/:id?mode=admin"
+        : value
+    );
+    mockGetHistoryLocation({
+      pathname: "/query-app/delete",
+      search: "?confirm=true",
+    } as unknown as Location);
+    mockedMatchPath.mockImplementation(
+      (pathname: string, { path }: MatchPathOptions) => pathname === path
+    );
+
+    await router.bootstrap();
+
+    // 验证黑名单路径被正确添加（包含查询字符串）
+    expect(spyOnAddPathToBlackList).toBeCalledWith(
+      "/query-app/delete?confirm=true"
+    );
+    expect(spyOnAddPathToBlackList).toBeCalledWith(
+      "/query-app/edit/:id?mode=admin"
+    );
+
+    // 验证 isBlockedPath 被调用时包含查询字符串
+    expect(spyOnIsBlockedPath).toBeCalledWith("/query-app/delete?confirm=true");
+
+    spyOnComputeRealValue.mockReset();
+    mockGetHistoryLocation();
+    mockedMatchPath.mockReset();
+
+    // 恢复默认 mock
+    (getRuntime as jest.Mock).mockImplementation(() => ({
+      getFeatureFlags: () => ({
+        "enable-analyzer": false,
+        "support-ui-8.2-compact-layout": true,
+      }),
+      getMiscSettings: () => ({
+        noAuthGuardLoginPath: "",
+      }),
+      getBrickPackages: () => ({}),
+    }));
+  });
+
+  it("should ignore query string in blacklist when feature flag is disabled (backward compatible)", async () => {
+    // 特性开关禁用（默认行为）
+    (getRuntime as jest.Mock).mockImplementation(() => ({
+      getFeatureFlags: () => ({
+        "enable-analyzer": false,
+        "support-ui-8.2-compact-layout": true,
+        // "blacklist-preserve-query-string" 未设置，默认为 false
+      }),
+      getMiscSettings: () => ({
+        noAuthGuardLoginPath: "",
+      }),
+      getBrickPackages: () => ({}),
+    }));
+
+    __setMatchedStoryboard({
+      app: {
+        id: "legacy-app",
+        homepage: "/legacy-app",
+        name: "Legacy APP",
+      },
+      meta: {
+        blackList: [
+          {
+            url: "/next/legacy-app/delete?confirm=true",
+          },
+        ],
+      },
+      routes: [
+        {
+          path: "${APP.homepage}/delete",
+          bricks: [{ brick: "div" }],
+        },
+      ],
+    });
+    __setMountRoutesResults(
+      {
+        route: {
+          type: "routes",
+        },
+        main: [
+          {
+            type: "div",
+          },
+        ],
+      },
+      null
+    );
+    mockGetHistoryLocation({
+      pathname: "/legacy-app/delete",
+      search: "?confirm=true",
+    } as unknown as Location);
+    mockedMatchPath.mockImplementation(
+      (pathname: string, { path }: MatchPathOptions) => pathname === path
+    );
+
+    await router.bootstrap();
+
+    // 验证查询字符串被忽略，只添加路径部分
+    expect(spyOnAddPathToBlackList).toBeCalledWith("/legacy-app/delete");
+
+    // 验证 isBlockedPath 被调用时不包含查询字符串
+    expect(spyOnIsBlockedPath).toBeCalledWith("/legacy-app/delete");
+
+    mockGetHistoryLocation();
+    mockedMatchPath.mockReset();
+
+    // 恢复默认 mock
+    (getRuntime as jest.Mock).mockImplementation(() => ({
+      getFeatureFlags: () => ({
+        "enable-analyzer": false,
+        "support-ui-8.2-compact-layout": true,
+      }),
+      getMiscSettings: () => ({
+        noAuthGuardLoginPath: "",
+      }),
+      getBrickPackages: () => ({}),
+    }));
+  });
 });
