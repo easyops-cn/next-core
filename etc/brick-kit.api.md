@@ -453,7 +453,7 @@ export function instantiateModalStack(initialIndex?: number): ModalStack;
 export function isBlockedHref(href: string): boolean;
 
 // @public
-export function isBlockedPath(pathname: string): boolean;
+export function isBlockedPath(pathnameWithQuery: string): boolean;
 
 // @public
 export function isBlockedUrl(url: string | LocationDescriptor): boolean;

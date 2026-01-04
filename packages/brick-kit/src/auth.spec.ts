@@ -96,4 +96,38 @@ describe("auth", () => {
     expect(resetPermissionPreChecks).toBeCalled();
     expect(spyOnSetUserId).toBeCalledWith();
   });
+
+  it("should support query string matching in blacklist", () => {
+    authenticate({
+      org: 8888,
+      username: "mock-user",
+      userInstanceId: "abc",
+      license: {
+        blackList: ["/api/delete?confirm=true", "/users/:id/edit?mode=admin"],
+      },
+    });
+
+    // 精确匹配：带查询字符串的黑名单
+    expect(isBlockedPath("/api/delete?confirm=true")).toEqual(true);
+    expect(isBlockedPath("/api/delete?confirm=false")).toEqual(false);
+    expect(isBlockedPath("/api/delete")).toEqual(false);
+
+    // 额外参数：待检查路径有额外参数应该匹配
+    expect(isBlockedPath("/api/delete?confirm=true&extra=value")).toEqual(true);
+
+    // 参数顺序：不同顺序应该匹配
+    expect(isBlockedPath("/api/delete?extra=value&confirm=true")).toEqual(true);
+
+    // 参数化路径 + 查询字符串
+    expect(isBlockedPath("/users/123/edit?mode=admin")).toEqual(true);
+    expect(isBlockedPath("/users/123/edit?mode=user")).toEqual(false);
+    expect(isBlockedPath("/users/123/edit")).toEqual(false);
+    expect(isBlockedPath("/users/456/edit?mode=admin")).toEqual(true);
+
+    // 向后兼容：不带查询字符串的黑名单仍然工作
+    addPathToBlackList("/old-api");
+    expect(isBlockedPath("/old-api")).toEqual(true);
+    expect(isBlockedPath("/old-api?any=param")).toEqual(true);
+    expect(isBlockedPath("/old-api/sub")).toEqual(true);
+  });
 });
