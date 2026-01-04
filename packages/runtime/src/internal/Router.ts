@@ -272,7 +272,6 @@ export class Router {
 
   async #render(location: NextLocation, isBootstrap: boolean): Promise<void> {
     const renderId = (this.#renderId = uniqueId("render-id-"));
-    let blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
 
     resetAllComputedMarks();
     clearResolveCache();
@@ -284,9 +283,7 @@ export class Router {
     // const renderStartTime = performance.now();
     const finishPageView = hooks?.pageView?.create();
 
-    const storyboard = blocked
-      ? undefined
-      : matchStoryboard(this.#storyboards, location.pathname);
+    const storyboard = matchStoryboard(this.#storyboards, location.pathname);
 
     const previousApp = this.#runtimeContext?.app;
     const currentAppId = storyboard?.app?.id;
@@ -308,15 +305,32 @@ export class Router {
 
     const currentApp = (this.#currentApp = storyboard?.app);
 
+    // Set `Router::#currentApp` before calling `getFeatureFlags()`
+    // 必须在 currentApp 设置后调用，才能获取应用级的 feature flags
+    const flags = getRuntime().getFeatureFlags();
+    const blackListPreserveQueryFlag = flags["blacklist-preserve-query-string"];
+
+    // 第一次检查：全局黑名单
+    const pathToCheck = `${location.pathname}${blackListPreserveQueryFlag ? location.search : ""}`;
+    let blocked = hooks?.auth?.isBlockedPath?.(pathToCheck);
+
     if (currentApp) {
       storyboard?.meta?.blackList?.forEach?.((item) => {
         let path = item && (item.to || item.url);
 
         if (!path || typeof path !== "string") return;
 
-        path = path
-          .split("?")[0]
-          .replace(/\${\s*(?:(?:PATH|CTX)\.)?(\w+)\s*}/g, ":$1");
+        // 保留查询字符串（如果特性开关启用）
+        const pathParts = path.split("?");
+        const pathWithoutQuery = pathParts[0];
+        const queryString =
+          blackListPreserveQueryFlag && pathParts[1] ? `?${pathParts[1]}` : "";
+
+        path =
+          pathWithoutQuery.replace(
+            /\${\s*(?:(?:PATH|CTX)\.)?(\w+)\s*}/g,
+            ":$1"
+          ) + queryString;
 
         if (item.to) {
           try {
@@ -333,7 +347,9 @@ export class Router {
 
         path && path.startsWith("/") && hooks?.auth?.addPathToBlackList?.(path);
       });
-      blocked = hooks?.auth?.isBlockedPath?.(location.pathname);
+
+      // 重新检查：全局黑名单 + 应用级黑名单
+      blocked = hooks?.auth?.isBlockedPath?.(pathToCheck);
     }
 
     setWatermark();
@@ -350,9 +366,6 @@ export class Router {
     }
 
     // TODO: handle favicon
-
-    // Set `Router::#currentApp` before calling `getFeatureFlags()`
-    const flags = getRuntime().getFeatureFlags();
     const prevRendererContext = this.#rendererContext;
 
     const redirectTo = (to: string, state?: NextHistoryState): void => {

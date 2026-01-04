@@ -1819,6 +1819,236 @@ HTMLCollection [
     expect(addPathToBlackList).not.toHaveBeenCalledWith("http://aaa.com");
   });
 
+  test("page blocked by app blackList with query string (feature flag disabled)", async () => {
+    window.NO_AUTH_GUARD = false;
+    const addPathToBlackList = jest.fn();
+    const isBlockedPath = jest.fn((path) => {
+      // 模拟特性开关关闭时的行为：只匹配路径部分
+      return path === "/test-app/api/delete";
+    });
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return true;
+          },
+          getAuth() {
+            return {};
+          },
+          addPathToBlackList,
+          isBlockedPath,
+        },
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "test-app",
+            homepage: "/test-app",
+            name: "Test APP",
+            config: {
+              settings: {
+                featureFlags: {
+                  // 特性开关关闭
+                  "blacklist-preserve-query-string": false,
+                },
+              },
+            },
+          },
+          meta: {
+            blackList: [
+              {
+                to: "/test-app/api/delete?confirm=true",
+              },
+            ],
+          },
+          routes: [
+            {
+              path: "${APP.homepage}/api/delete",
+              bricks: [{ brick: "div" }],
+            },
+          ],
+        },
+      ],
+      brickPackages: [],
+    });
+
+    // 访问带查询字符串的路径，但特性开关关闭，传给 isBlockedPath 的应该是不含查询字符串的路径
+    getHistory().push("/test-app/api/delete?confirm=true");
+    await getRuntime().bootstrap();
+
+    // 验证 addPathToBlackList 被调用，且不包含查询字符串
+    expect(addPathToBlackList).toHaveBeenCalledWith("/test-app/api/delete");
+
+    // 验证 isBlockedPath 被调用时传入的是不含查询字符串的路径
+    expect(isBlockedPath).toHaveBeenCalledWith("/test-app/api/delete");
+
+    // 页面应该被屏蔽
+    expect(finishPageView).toHaveBeenCalledWith({
+      status: "blocked",
+    });
+  });
+
+  test("page blocked by app blackList with query string (feature flag enabled)", async () => {
+    window.NO_AUTH_GUARD = false;
+    const addPathToBlackList = jest.fn();
+    const isBlockedPath = jest.fn((path) => {
+      // 模拟特性开关开启时的行为：匹配路径+查询字符串
+      return path === "/test-app/api/delete?confirm=true";
+    });
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return true;
+          },
+          getAuth() {
+            return {};
+          },
+          addPathToBlackList,
+          isBlockedPath,
+        },
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "test-app",
+            homepage: "/test-app",
+            name: "Test APP",
+            config: {
+              settings: {
+                featureFlags: {
+                  // 特性开关开启
+                  "blacklist-preserve-query-string": true,
+                },
+              },
+            },
+          },
+          meta: {
+            blackList: [
+              {
+                to: "/test-app/api/delete?confirm=true",
+              },
+            ],
+          },
+          routes: [
+            {
+              path: "${APP.homepage}/api/delete",
+              bricks: [{ brick: "div" }],
+            },
+          ],
+        },
+      ],
+      brickPackages: [],
+    });
+
+    // 访问带查询字符串的路径，特性开关开启，传给 isBlockedPath 的应该包含查询字符串
+    getHistory().push("/test-app/api/delete?confirm=true");
+    await getRuntime().bootstrap();
+
+    // 验证 addPathToBlackList 被调用，且包含查询字符串
+    expect(addPathToBlackList).toHaveBeenCalledWith(
+      "/test-app/api/delete?confirm=true"
+    );
+
+    // 验证 isBlockedPath 被调用时传入的路径包含查询字符串
+    expect(isBlockedPath).toHaveBeenCalledWith(
+      "/test-app/api/delete?confirm=true"
+    );
+
+    // 页面应该被屏蔽
+    expect(finishPageView).toHaveBeenCalledWith({
+      status: "blocked",
+    });
+  });
+
+  test("page not blocked when query string doesn't match (feature flag enabled)", async () => {
+    window.NO_AUTH_GUARD = false;
+    const addPathToBlackList = jest.fn();
+    const isBlockedPath = jest.fn((path) => {
+      // 只有 confirm=true 时才屏蔽
+      return path === "/test-app/api/delete?confirm=true";
+    });
+    const finishPageView = jest.fn();
+    createRuntime({
+      hooks: {
+        auth: {
+          isLoggedIn() {
+            return true;
+          },
+          getAuth() {
+            return {};
+          },
+          addPathToBlackList,
+          isBlockedPath,
+        },
+        pageView: {
+          create: jest.fn(() => finishPageView),
+        },
+      },
+    }).initialize({
+      storyboards: [
+        {
+          app: {
+            id: "test-app",
+            homepage: "/test-app",
+            name: "Test APP",
+            config: {
+              settings: {
+                featureFlags: {
+                  "blacklist-preserve-query-string": true,
+                },
+              },
+            },
+          },
+          meta: {
+            blackList: [
+              {
+                to: "/test-app/api/delete?confirm=true",
+              },
+            ],
+          },
+          routes: [
+            {
+              path: "${APP.homepage}/api/delete",
+              bricks: [{ brick: "div", properties: { id: "test-page" } }],
+            },
+          ],
+        },
+      ],
+      brickPackages: [],
+    });
+
+    // 访问带不同查询字符串的路径，应该不被屏蔽
+    getHistory().push("/test-app/api/delete?confirm=false");
+    await getRuntime().bootstrap();
+
+    // 验证 isBlockedPath 被调用时传入的路径包含查询字符串
+    expect(isBlockedPath).toHaveBeenCalledWith(
+      "/test-app/api/delete?confirm=false"
+    );
+
+    // 页面应该正常渲染，不被屏蔽
+    expect(finishPageView).toHaveBeenCalledWith({
+      status: "ok",
+      path: "/test-app/api/delete",
+      pageTitle: "DevOps 管理专家",
+    });
+
+    // 验证页面正常渲染
+    const testPage = document.querySelector("#test-page");
+    expect(testPage).toBeTruthy();
+  });
+
   test("failed to bootstrap", async () => {
     consoleError.mockReturnValueOnce();
     const finishPageView = jest.fn();
