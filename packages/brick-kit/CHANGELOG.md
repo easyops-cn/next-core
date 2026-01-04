@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.208.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.5...@next-core/brick-kit@2.208.6) (2026-01-04)
+
+
+### Bug Fixes
+
+* 售后工单_在launchpad添加的自定义链接，会影响ITSM的发起工单的权限。_kylinv10_arm ([6c3746c](https://github.com/easyops-cn/next-core/commit/6c3746ce23efaac6db7df55bace23d6e0d671470))
+
+
+
+
+
 ## [2.208.5](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.4...@next-core/brick-kit@2.208.5) (2025-10-20)
 
 
