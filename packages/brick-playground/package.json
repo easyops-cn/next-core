@@ -1,6 +1,6 @@
 {
   "name": "@next-core/brick-playground",
-  "version": "1.16.39",
+  "version": "1.16.40",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/brick-playground",
   "license": "GPL-3.0",
   "repository": {
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@next-core/build-next-bricks": "^1.25.1",
-    "@next-core/preview": "^0.8.30",
+    "@next-core/preview": "^0.8.31",
     "@next-shared/monaco-textmate": "^0.1.2",
     "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^13.0.0",

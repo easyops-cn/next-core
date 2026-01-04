@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.72.3](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.72.2...@next-core/runtime@1.72.3) (2026-01-04)
+
+
+### Bug Fixes
+
+* 售后工单_在launchpad添加的自定义链接，会影响ITSM的发起工单的权限。_kylinv10_arm ([0ff762a](https://github.com/easyops-cn/next-core/commit/0ff762a8209838ff7bc665dabd682f11ff6f08c2))
+
+
+
+
+
 ## [1.72.2](https://github.com/easyops-cn/next-core/compare/@next-core/runtime@1.72.1...@next-core/runtime@1.72.2) (2025-11-18)
 
 
