@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.24.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.2...@next-core/brick-container@3.24.3) (2026-01-07)
+
+
+### Bug Fixes
+
+* **serve:** Fix error when there is no localStoryboard ([0a5a82d](https://github.com/easyops-cn/next-core/commit/0a5a82daa0a6fec08789906d0ee6875a606a07ed))
+
+
+
+
+
 ## [3.24.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.1...@next-core/brick-container@3.24.2) (2026-01-04)
 
 **Note:** Version bump only for package @next-core/brick-container
