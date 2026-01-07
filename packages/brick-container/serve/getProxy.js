@@ -242,6 +242,9 @@ export default function getProxy(env, getRawIndexHtml) {
                   rootDir,
                   appId
                 );
+                if (!localStoryboard) {
+                  return responseBuffer;
+                }
 
                 data.injectMenus = data.injectMenus.map((remoteMenu) => {
                   const appId = remoteMenu.app?.[0]?.appId;
@@ -251,11 +254,7 @@ export default function getProxy(env, getRawIndexHtml) {
                   }
 
                   const localAppId = localStoryboard.app.id;
-                  if (
-                    localStoryboard &&
-                    localStoryboard.meta &&
-                    localStoryboard.meta.menus
-                  ) {
+                  if (localStoryboard.meta && localStoryboard.meta.menus) {
                     const localMenu = localStoryboard.meta.menus.find(
                       (menu) => menu.menuId === menuId && localAppId === appId
                     );
