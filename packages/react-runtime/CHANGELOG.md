@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.7.47...@next-core/react-runtime@1.8.0) (2026-01-13)
+
+
+### Features
+
+* **react-runtime:** add route and auth related React hooks ([d1b93d1](https://github.com/easyops-cn/next-core/commit/d1b93d1179e33ed2c38dad452a94babf313e724f))
+
+
+
+
+
 ## [1.7.47](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.7.46...@next-core/react-runtime@1.7.47) (2026-01-04)
 
 **Note:** Version bump only for package @next-core/react-runtime
