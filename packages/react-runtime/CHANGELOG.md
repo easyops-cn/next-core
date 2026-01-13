@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.8.0...@next-core/react-runtime@1.9.0) (2026-01-13)
+
+
+### Features
+
+* **react-runtime:** add useSystemInfo and useFeatureFlags hooks ([c126dbc](https://github.com/easyops-cn/next-core/commit/c126dbc08ad6e0bd7247cf85d025d30dde430e7a))
+
+
+
+
+
 # [1.8.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.7.47...@next-core/react-runtime@1.8.0) (2026-01-13)
 
 
