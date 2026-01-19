@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.208.7](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.6...@next-core/brick-kit@2.208.7) (2026-01-19)
+
+
+### Bug Fixes
+
+* fix loading lazy brick deps ([f3f9fcd](https://github.com/easyops-cn/next-core/commit/f3f9fcd040f8db59f55bbe4cd8e8c01aacf76646))
+
+
+
+
+
 ## [2.208.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.5...@next-core/brick-kit@2.208.6) (2026-01-04)
 
 
