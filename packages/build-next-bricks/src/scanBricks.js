@@ -38,6 +38,117 @@ const validProcessorName = /^[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]*$/;
 const validExposeName = /^[-\w]+$/;
 
 /**
+ * 读取外部包的构件依赖清单（支持选择性导入）
+ * @param {string} packageName - 包名，如 "@shared/common-helpers"
+ * @param {string[]} importedMembers - 导入的成员，如 ["renderButton", "renderModal"]
+ * @param {boolean} isNamespaceImport - 是否为命名空间导入（import * as）
+ * @param {string} packageDir - 当前 bricks 包的根目录
+ * @returns {string[] | null} 构件依赖列表，失败时返回 null
+ */
+function loadExternalDependencies(
+  packageName,
+  importedMembers,
+  isNamespaceImport,
+  packageDir
+) {
+  try {
+    // 解析包的位置
+    const packageJsonPath = path.resolve(
+      packageDir,
+      "node_modules",
+      packageName,
+      "package.json"
+    );
+
+    if (!existsSync(packageJsonPath)) {
+      console.warn(
+        `警告: 未找到 ${packageName} 的 package.json，` + `请确保该包已安装`
+      );
+      return null;
+    }
+
+    const packageRoot = path.dirname(packageJsonPath);
+
+    // 读取依赖清单文件
+    const manifestPath = path.join(
+      packageRoot,
+      "dist",
+      "brick-dependencies.json"
+    );
+
+    if (!existsSync(manifestPath)) {
+      console.warn(
+        `警告: 未找到 ${packageName} 的依赖清单文件，` +
+          `请先构建该包或确保其已包含 brick-dependencies.json`
+      );
+      return null;
+    }
+
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+
+    // 验证清单格式
+    if (!Array.isArray(manifest.brickDependencies)) {
+      console.warn(`警告: ${packageName} 的依赖清单格式无效`);
+      return null;
+    }
+
+    // 如果是命名空间导入（import * as），返回全量依赖
+    if (isNamespaceImport) {
+      console.log(
+        `✓ 加载 ${packageName} 的全量构件依赖: ${manifest.brickDependencies.length} 个（命名空间导入）`
+      );
+      return manifest.brickDependencies;
+    }
+
+    // 如果支持按导出成员分组，且有导入成员信息，进行选择性加载
+    if (
+      manifest.brickDependenciesByExport &&
+      importedMembers &&
+      importedMembers.length > 0
+    ) {
+      const selectedDeps = new Set();
+      let hasUnmappedMember = false;
+
+      for (const member of importedMembers) {
+        const memberDeps = manifest.brickDependenciesByExport[member];
+        if (memberDeps) {
+          memberDeps.forEach((dep) => selectedDeps.add(dep));
+        } else {
+          // 导入的成员在清单中找不到，标记为未映射
+          hasUnmappedMember = true;
+          console.warn(
+            `警告: ${packageName} 的清单中未找到导出成员 "${member}" 的依赖信息`
+          );
+        }
+      }
+
+      // 如果有未映射的成员，为安全起见，包含全量依赖
+      if (hasUnmappedMember) {
+        console.log(
+          `✓ 加载 ${packageName} 的全量构件依赖: ${manifest.brickDependencies.length} 个（包含未映射成员）`
+        );
+        return manifest.brickDependencies;
+      }
+
+      const selectedDepsArray = Array.from(selectedDeps);
+      console.log(
+        `✓ 加载 ${packageName} 的构件依赖: ${selectedDepsArray.length} 个（选择性导入: ${importedMembers.join(", ")}）`
+      );
+      return selectedDepsArray;
+    }
+
+    // 回退：使用全量依赖
+    console.log(
+      `✓ 加载 ${packageName} 的全量构件依赖: ${manifest.brickDependencies.length} 个`
+    );
+    return manifest.brickDependencies;
+  } catch (error) {
+    console.warn(`警告: 无法加载 ${packageName} 的依赖清单:`, error.message);
+    return null;
+  }
+}
+
+/**
  * Scan defined bricks by AST.
  *
  * @param {string} packageDir
@@ -77,6 +188,9 @@ export default async function scanBricks(packageDir) {
 
   /** @type {Map<string, Set<string>} */
   const importsMap = new Map();
+
+  /** @type {Map<string, Array<{packageName: string, importedMembers: string[], isNamespaceImport: boolean}>>} */
+  const externalImports = new Map();
 
   /** @type {{ filePath: string; declaration: Declaration; usedReferences: Set<string> }[]} */
   const typeDeclarations = [];
@@ -592,7 +706,7 @@ export default async function scanBricks(packageDir) {
           topLevelFunctions.set(node.id.name, nodePath);
         }
       },
-      ImportDeclaration({ node: { source, importKind } }) {
+      ImportDeclaration({ node: { source, importKind, specifiers } }) {
         // Match `import "..."`
         if (
           // Ignore import from node modules.
@@ -620,6 +734,64 @@ export default async function scanBricks(packageDir) {
             // When matching `import "./directory"`,
             // also look for "./directory/index.*"
             addImportFile(importPath, "index");
+          }
+        } else if (
+          // 收集对 @shared/* 和 @next-shared/* 的导入
+          (source.value.startsWith("@shared/") ||
+            source.value.startsWith("@next-shared/")) &&
+          importKind === "value"
+        ) {
+          const packageName = source.value.split("/").slice(0, 2).join("/");
+
+          // 收集导入的成员
+          const importedMembers = [];
+          let isNamespaceImport = false; // import * as foo
+
+          // 如果是副作用导入（import "@shared/pkg"），使用全量依赖
+          if (specifiers.length === 0) {
+            isNamespaceImport = true;
+          }
+
+          for (const specifier of specifiers) {
+            if (specifier.type === "ImportSpecifier") {
+              // import { foo, bar } from "@shared/helpers"
+              // 处理字符串导入名：import { "some-name" as alias } from "..."
+              const importedName =
+                specifier.imported.type === "StringLiteral"
+                  ? specifier.imported.value
+                  : specifier.imported.name;
+              importedMembers.push(importedName);
+            } else if (specifier.type === "ImportDefaultSpecifier") {
+              // import foo from "@shared/helpers"
+              importedMembers.push("default");
+            } else if (specifier.type === "ImportNamespaceSpecifier") {
+              // import * as foo from "@shared/helpers"
+              isNamespaceImport = true;
+            }
+          }
+
+          const existingImports = externalImports.get(filePath) ?? [];
+          const existing = existingImports.find(
+            (item) => item.packageName === packageName
+          );
+
+          if (existing) {
+            // 合并导入成员（去重）
+            if (isNamespaceImport) {
+              existing.isNamespaceImport = true;
+            }
+            const existingSet = new Set(existing.importedMembers);
+            importedMembers.forEach((member) => existingSet.add(member));
+            existing.importedMembers = [...existingSet];
+          } else {
+            externalImports.set(filePath, [
+              ...existingImports,
+              {
+                packageName,
+                importedMembers,
+                isNamespaceImport,
+              },
+            ]);
           }
         }
 
@@ -836,6 +1008,71 @@ export default async function scanBricks(packageDir) {
     analyze(sourcePath);
     if (deps.size > 0) {
       analyzedDeps[brickName] = [...deps];
+    }
+  }
+
+  // 收集外部包的构件依赖（支持选择性导入）
+  const externalDepsCache = new Map(); // 缓存外部包的依赖，键: "packageName:member1,member2,..."
+
+  for (const [brickName, sourcePath] of brickSourceFiles.entries()) {
+    const analyzedFiles = new Set();
+    const externalDeps = new Set();
+
+    const analyzeExternal = (filePath) => {
+      if (analyzedFiles.has(filePath)) {
+        return;
+      }
+      analyzedFiles.add(filePath);
+
+      // 收集该文件导入的外部包
+      for (const externalImport of externalImports.get(filePath) ?? []) {
+        const { packageName, importedMembers, isNamespaceImport } =
+          externalImport;
+
+        // 构建缓存键
+        const cacheKey = isNamespaceImport
+          ? `${packageName}:*` // 命名空间导入
+          : `${packageName}:${[...new Set(importedMembers)].sort().join(",")}`; // 选择性导入
+
+        // 从缓存或文件中加载外部依赖
+        let deps = externalDepsCache.get(cacheKey);
+        if (!deps) {
+          deps = loadExternalDependencies(
+            packageName,
+            importedMembers,
+            isNamespaceImport,
+            packageDir
+          );
+          if (deps) {
+            externalDepsCache.set(cacheKey, deps);
+          }
+        }
+
+        // 添加到当前构件的依赖中
+        if (deps) {
+          for (const dep of deps) {
+            if (dep !== brickName) {
+              externalDeps.add(dep);
+            }
+          }
+        }
+      }
+
+      // 递归分析本地导入的文件
+      for (const item of importsMap.get(filePath) ?? []) {
+        analyzeExternal(item);
+      }
+    };
+
+    analyzeExternal(sourcePath);
+
+    // 合并本地依赖和外部依赖（去重）
+    if (externalDeps.size > 0) {
+      const allDeps = new Set([
+        ...(analyzedDeps[brickName] ?? []),
+        ...externalDeps,
+      ]);
+      analyzedDeps[brickName] = [...allDeps];
     }
   }
 
