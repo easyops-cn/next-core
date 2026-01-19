@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.9.0...@next-core/react-runtime@1.10.0) (2026-01-19)
+
+
+### Features
+
+* **react-runtime:** add useCheckPermissions, useControlledState hooks ([8465ff9](https://github.com/easyops-cn/next-core/commit/8465ff931fb491132578a74bda8ac704b60e4a3e))
+
+
+
+
+
 # [1.9.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.8.0...@next-core/react-runtime@1.9.0) (2026-01-13)
 
 
