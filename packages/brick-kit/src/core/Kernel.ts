@@ -807,7 +807,11 @@ export class Kernel {
               "brick",
               V3WidgetMates[0]
             );
-            await loadBricksImperatively(eager.v3Bricks, brickPackages as any);
+            await loadBricksImperatively(
+              eager.v3Bricks,
+              brickPackages as any,
+              loadLazyBricks
+            );
           }
         })(),
         (async () => {
@@ -829,7 +833,11 @@ export class Kernel {
             await Promise.all([
               loadLazyBricks(bricks),
               v3Bricks?.length &&
-                loadBricksImperatively(v3Bricks, brickPackages as any),
+                loadBricksImperatively(
+                  v3Bricks,
+                  brickPackages as any,
+                  loadLazyBricks
+                ),
               v3Processors?.length &&
                 loadProcessorsImperatively(v3Processors, brickPackages as any),
             ]);
@@ -945,7 +953,11 @@ export class Kernel {
       }
       await Promise.all([
         v3Bricks?.length &&
-          loadBricksImperatively(v3Bricks, brickPackages as any),
+          loadBricksImperatively(
+            v3Bricks,
+            brickPackages as any,
+            loadLazyBricks
+          ),
         v3Processors?.length &&
           loadProcessorsImperatively(v3Processors, brickPackages as any),
       ]);
