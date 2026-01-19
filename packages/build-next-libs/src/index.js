@@ -1,6 +1,7 @@
 const path = require("path");
 const execa = require("execa");
 const { rimraf } = require("rimraf");
+const { generateDependencyManifest } = require("./scanDeps");
 
 const babel = getBinPath("@babel/cli", "babel");
 
@@ -47,10 +48,22 @@ function build(type) {
       );
 }
 
-Promise.all(["esm", "cjs"].map((type) => build(type))).catch((err) => {
-  console.error(err);
-  process.exitCode = 1;
-});
+Promise.all(["esm", "cjs"].map((type) => build(type)))
+  .then(() => {
+    // 构建完成后，生成依赖清单
+    try {
+      const packageDir = process.cwd();
+      const outputDir = path.join(packageDir, "dist");
+      generateDependencyManifest(packageDir, outputDir);
+    } catch (error) {
+      console.warn("警告: 生成构件依赖清单失败:", error.message);
+      // 不阻塞构建流程
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+  });
 
 function getBinPath(packageName, binName = packageName) {
   const packageJsonPath = require.resolve(`${packageName}/package.json`);

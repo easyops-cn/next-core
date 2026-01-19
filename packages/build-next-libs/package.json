@@ -21,8 +21,11 @@
   "dependencies": {
     "@babel/cli": "^7.27.2",
     "@babel/core": "^7.27.4",
+    "@babel/parser": "^7.27.5",
+    "@babel/traverse": "^7.27.4",
     "@next-core/babel-preset-next": "^1.0.26",
     "execa": "^5.1.1",
+    "glob": "^11.0.0",
     "rimraf": "^6.0.1"
   }
 }
