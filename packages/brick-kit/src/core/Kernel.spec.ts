@@ -313,7 +313,8 @@ describe("Kernel", () => {
     expect(loadBricksImperatively).toHaveBeenNthCalledWith(
       2,
       ["v3-widgets.tpl-my-widget"],
-      expect.any(Array)
+      expect.any(Array),
+      loadLazyBricks
     );
 
     await pendingTask;
@@ -324,7 +325,8 @@ describe("Kernel", () => {
     expect(loadBricksImperatively).toHaveBeenNthCalledWith(
       3,
       ["v3.my-brick"],
-      expect.any(Array)
+      expect.any(Array),
+      loadLazyBricks
     );
 
     spyOnLoadScript.mockClear();
