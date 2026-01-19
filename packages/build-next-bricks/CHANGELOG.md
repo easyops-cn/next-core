@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.25.1...@next-core/build-next-bricks@1.26.0) (2026-01-19)
+
+
+### Features
+
+* **build:** auto-collect brick dependencies from [@shared](https://github.com/shared) packages ([1a3748d](https://github.com/easyops-cn/next-core/commit/1a3748d5fcce130f331d3e3bc32edaa1118040b6))
+
+
+
+
+
 ## [1.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.25.0...@next-core/build-next-bricks@1.25.1) (2025-11-10)
 
 

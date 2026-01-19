@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.25...@next-core/build-next-libs@1.1.0) (2026-01-19)
+
+
+### Features
+
+* **build:** auto-collect brick dependencies from [@shared](https://github.com/shared) packages ([1a3748d](https://github.com/easyops-cn/next-core/commit/1a3748d5fcce130f331d3e3bc32edaa1118040b6))
+
+
+
+
+
 ## [1.0.25](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.24...@next-core/build-next-libs@1.0.25) (2025-06-24)
 
 **Note:** Version bump only for package @next-core/build-next-libs
