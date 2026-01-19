@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.18](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.17...@next-core/loader@1.6.18) (2026-01-19)
+
+
+### Bug Fixes
+
+* **loadBricksImperatively:** support postProcess (for v2 lazy loading) ([a865c84](https://github.com/easyops-cn/next-core/commit/a865c849c2c1cf5e98f1d040e4a0cf7bece6c306))
+
+
+
+
+
 ## [1.6.17](https://github.com/easyops-cn/next-core/compare/@next-core/loader@1.6.16...@next-core/loader@1.6.17) (2025-09-26)
 
 **Note:** Version bump only for package @next-core/loader

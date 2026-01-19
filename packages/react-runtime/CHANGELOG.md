@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.10.0...@next-core/react-runtime@1.10.1) (2026-01-19)
+
+
+### Bug Fixes
+
+* react-runtime requires easyops-runtime now ([c4d041a](https://github.com/easyops-cn/next-core/commit/c4d041a8f646a2bf1ecebb7dc59795f6c14a23ed))
+
+
+
+
+
 # [1.10.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.9.0...@next-core/react-runtime@1.10.0) (2026-01-19)
 
 
