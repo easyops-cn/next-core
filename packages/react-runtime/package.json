@@ -38,6 +38,7 @@
     "test:ci": "cross-env NODE_ENV='test' CI=true test-next"
   },
   "dependencies": {
+    "@next-core/easyops-runtime": "^0.15.28",
     "@next-core/react-element": "^1.0.38",
     "@next-core/runtime": "^1.72.3",
     "@next-core/types": "^1.19.0",
