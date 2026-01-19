@@ -445,6 +445,48 @@ describe("loadBricksImperatively", () => {
     );
     expect(consoleError).toHaveBeenCalledTimes(1);
   });
+
+  test("load bricks with postProcess", async () => {
+    const postProcess = jest.fn((_bricks: Iterable<string>) =>
+      Promise.resolve()
+    );
+    const promise = loadBricksImperatively(
+      ["advanced.general-table", "basic.general-button"],
+      [
+        {
+          id: "bricks/basic",
+          filePath: "bricks/basic/dist/index.hash.js",
+        },
+        {
+          id: "bricks/advanced",
+          filePath: "bricks/advanced/dist/index.hash.js",
+          dependencies: {
+            "advanced.general-table": [
+              "basic.general-link",
+              "basic.general-tag",
+            ],
+          },
+        },
+      ],
+      postProcess
+    );
+    expect(requestsCount).toBe(1);
+    await promise;
+    expect(requestsCount).toBe(0);
+    expect(postProcess).toHaveBeenCalledTimes(1);
+    // postProcess should receive all bricks including dependencies
+    const bricksArg = postProcess.mock.calls[0][0];
+    const bricksArray = Array.from(bricksArg);
+    expect(bricksArray).toEqual(
+      expect.arrayContaining([
+        "basic.general-link",
+        "basic.general-tag",
+        "basic.general-button",
+        "advanced.general-table",
+      ])
+    );
+    expect(bricksArray).toHaveLength(4);
+  });
 });
 
 describe("enqueueStableLoadBricks", () => {

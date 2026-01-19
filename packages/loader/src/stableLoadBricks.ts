@@ -58,9 +58,16 @@ export function enqueueStableLoadProcessors(
 
 export async function loadBricksImperatively(
   bricks: string[] | Set<string>,
-  brickPackages: BrickPackage[]
+  brickPackages: BrickPackage[],
+  // Post loading process hook with all bricks including their dependencies
+  postProcess?: (bricks: Iterable<string>) => Promise<void>
 ): Promise<void> {
-  const promise = enqueueStableLoad("bricks", bricks, brickPackages);
+  const promise = enqueueStableLoad(
+    "bricks",
+    bricks,
+    brickPackages,
+    postProcess
+  );
   flushStableLoadBricks();
   return dispatchRequestStatus(promise);
 }
@@ -234,7 +241,9 @@ function loadRestBricks(
 async function enqueueStableLoad(
   type: "bricks" | "processors" | "editors",
   list: string[] | Set<string>,
-  brickPackages: BrickPackage[]
+  brickPackages: BrickPackage[],
+  // Post loading process hook with all bricks including their dependencies
+  postProcess?: (bricks: Iterable<string>) => Promise<void>
 ): Promise<void> {
   const brickPackagesMap = new Map<string, BrickPackage>();
   for (const pkg of brickPackages) {
@@ -291,7 +300,7 @@ async function enqueueStableLoad(
     loadRestBricks(type, v3PackagesOtherThanBasic, itemsByPkg)
   );
 
-  if (v2Adapter && v2Packages.length > 0) {
+  if (v2Adapter && v2Packages.length > 0 && !isRunningInV2Container()) {
     if (!v2AdapterPromise) {
       // Load `v2-adapter.load-bricks` and its dependencies
       const v2AdapterItemsByPkg = getItemsByPkg(
@@ -339,6 +348,16 @@ async function enqueueStableLoad(
     );
   }
 
+  if (postProcess) {
+    pkgPromises.push(
+      postProcess(
+        [...itemsByPkg.values()]
+          .map((items) => items.map((item) => item.fullName))
+          .flat()
+      )
+    );
+  }
+
   await Promise.all(pkgPromises);
 }
 
@@ -359,4 +378,15 @@ function getProcessorPackageName(camelPackageName: string): string {
 
 function getPkgIdByFilePath(filePath: string) {
   return filePath.split("/").slice(0, 2).join("/");
+}
+
+function isRunningInV2Container() {
+  const { dll } = window as { dll?: unknown };
+  if (
+    dll &&
+    window.BRICK_NEXT_VERSIONS?.["brick-container"]?.startsWith("2.")
+  ) {
+    return true;
+  }
+  return false;
 }
