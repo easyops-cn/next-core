@@ -446,46 +446,53 @@ describe("loadBricksImperatively", () => {
     expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
-  test("load bricks with postProcess", async () => {
+  test("load v2 bricks with postProcess", async () => {
     const postProcess = jest.fn((_bricks: Iterable<string>) =>
       Promise.resolve()
     );
+    // Mock isRunningInV2Container to return true
+    const originalVersions = window.BRICK_NEXT_VERSIONS;
+    const originalDll = (window as any).dll;
+    (window as any).BRICK_NEXT_VERSIONS = { "brick-container": "2.0.0" };
+    (window as any).dll = {};
+
+    const brickPackages = [
+      {
+        filePath: "bricks/legacy/dist/index.hash.js",
+        dll: ["d3"],
+        dependencies: {
+          "legacy.some-brick": ["legacy.another-brick"],
+        },
+      },
+      {
+        filePath: "bricks/legacy-advanced/dist/index.hash.js",
+      },
+    ];
+
     const promise = loadBricksImperatively(
-      ["advanced.general-table", "basic.general-button"],
-      [
-        {
-          id: "bricks/basic",
-          filePath: "bricks/basic/dist/index.hash.js",
-        },
-        {
-          id: "bricks/advanced",
-          filePath: "bricks/advanced/dist/index.hash.js",
-          dependencies: {
-            "advanced.general-table": [
-              "basic.general-link",
-              "basic.general-tag",
-            ],
-          },
-        },
-      ],
+      ["legacy.some-brick", "legacy-advanced.table"],
+      brickPackages as any,
       postProcess
     );
     expect(requestsCount).toBe(1);
     await promise;
     expect(requestsCount).toBe(0);
     expect(postProcess).toHaveBeenCalledTimes(1);
-    // postProcess should receive all bricks including dependencies
+    // postProcess should receive all v2 bricks including dependencies
     const bricksArg = postProcess.mock.calls[0][0];
     const bricksArray = Array.from(bricksArg);
     expect(bricksArray).toEqual(
       expect.arrayContaining([
-        "basic.general-link",
-        "basic.general-tag",
-        "basic.general-button",
-        "advanced.general-table",
+        "legacy.some-brick",
+        "legacy.another-brick",
+        "legacy-advanced.table",
       ])
     );
-    expect(bricksArray).toHaveLength(4);
+    expect(bricksArray).toHaveLength(3);
+
+    // Restore original values
+    (window as any).BRICK_NEXT_VERSIONS = originalVersions;
+    (window as any).dll = originalDll;
   });
 });
 
