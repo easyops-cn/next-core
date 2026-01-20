@@ -16,6 +16,8 @@ import {
 import getTypeDeclaration from "./getTypeDeclaration.js";
 import isDeprecatedV2Packages from "./isDeprecatedV2Packages.js";
 import { handleExamplesInMarkdown } from "./getDocs.js";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
 /**
  *
