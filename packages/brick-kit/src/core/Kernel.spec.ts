@@ -314,7 +314,7 @@ describe("Kernel", () => {
       2,
       ["v3-widgets.tpl-my-widget"],
       expect.any(Array),
-      loadLazyBricks
+      expect.any(Function)
     );
 
     await pendingTask;
@@ -326,7 +326,7 @@ describe("Kernel", () => {
       3,
       ["v3.my-brick"],
       expect.any(Array),
-      loadLazyBricks
+      expect.any(Function)
     );
 
     spyOnLoadScript.mockClear();

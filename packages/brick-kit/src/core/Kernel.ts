@@ -810,7 +810,7 @@ export class Kernel {
             await loadBricksImperatively(
               eager.v3Bricks,
               brickPackages as any,
-              loadLazyBricks
+              this.loadV2Bricks
             );
           }
         })(),
@@ -836,7 +836,7 @@ export class Kernel {
                 loadBricksImperatively(
                   v3Bricks,
                   brickPackages as any,
-                  loadLazyBricks
+                  this.loadV2Bricks
                 ),
               v3Processors?.length &&
                 loadProcessorsImperatively(v3Processors, brickPackages as any),
@@ -956,7 +956,7 @@ export class Kernel {
           loadBricksImperatively(
             v3Bricks,
             brickPackages as any,
-            loadLazyBricks
+            this.loadV2Bricks
           ),
         v3Processors?.length &&
           loadProcessorsImperatively(v3Processors, brickPackages as any),
@@ -966,6 +966,10 @@ export class Kernel {
     await loadScriptOfDll(dll);
     await loadScriptOfBricksOrTemplates(deps);
     await Promise.all([loadLazyBricks(filteredBricks), loadV3Bricks()]);
+  };
+
+  loadV2Bricks = (bricks: Iterable<string>): Promise<void> => {
+    return this.loadDynamicBricks(Array.from(bricks));
   };
 
   loadDynamicBricks(bricks: string[], processors?: string[]): Promise<void> {
