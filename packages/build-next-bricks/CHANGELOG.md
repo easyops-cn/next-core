@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.1](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.26.0...@next-core/build-next-bricks@1.26.1) (2026-01-20)
+
+
+### Bug Fixes
+
+* **build:** fixed shared package.json path get field ([ced420e](https://github.com/easyops-cn/next-core/commit/ced420eb069dc4f23846adc86cfcb74d690b62b4))
+
+
+
+
+
 # [1.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.25.1...@next-core/build-next-bricks@1.26.0) (2026-01-19)
 
 
