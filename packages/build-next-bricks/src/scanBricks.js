@@ -52,15 +52,13 @@ function loadExternalDependencies(
   packageDir
 ) {
   try {
-    // 解析包的位置
-    const packageJsonPath = path.resolve(
-      packageDir,
-      "node_modules",
-      packageName,
-      "package.json"
-    );
-
-    if (!existsSync(packageJsonPath)) {
+    // 使用 Node.js 模块解析机制，支持依赖提升
+    let packageJsonPath;
+    try {
+      packageJsonPath = require.resolve(`${packageName}/package.json`, {
+        paths: [packageDir],
+      });
+    } catch (_e) {
       console.warn(
         `警告: 未找到 ${packageName} 的 package.json，` + `请确保该包已安装`
       );
