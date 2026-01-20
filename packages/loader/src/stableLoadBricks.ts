@@ -59,14 +59,14 @@ export function enqueueStableLoadProcessors(
 export async function loadBricksImperatively(
   bricks: string[] | Set<string>,
   brickPackages: BrickPackage[],
-  // Post loading process hook with all bricks including their dependencies
-  postProcess?: (bricks: Iterable<string>) => Promise<void>
+  // Post loading process hook with all v2 bricks including dependencies
+  postProcessV2Bricks?: (bricks: Iterable<string>) => Promise<void>
 ): Promise<void> {
   const promise = enqueueStableLoad(
     "bricks",
     bricks,
     brickPackages,
-    postProcess
+    postProcessV2Bricks
   );
   flushStableLoadBricks();
   return dispatchRequestStatus(promise);
@@ -242,8 +242,8 @@ async function enqueueStableLoad(
   type: "bricks" | "processors" | "editors",
   list: string[] | Set<string>,
   brickPackages: BrickPackage[],
-  // Post loading process hook with all bricks including their dependencies
-  postProcess?: (bricks: Iterable<string>) => Promise<void>
+  // Post loading process hook with all v2 bricks including dependencies
+  postProcessV2Bricks?: (bricks: Iterable<string>) => Promise<void>
 ): Promise<void> {
   const brickPackagesMap = new Map<string, BrickPackage>();
   for (const pkg of brickPackages) {
@@ -257,6 +257,7 @@ async function enqueueStableLoad(
   const v2Packages: BrickPackage[] = [];
   const v3PackagesOtherThanBasic: BrickPackage[] = [];
   let maybeV2Adapter: BrickPackage | undefined;
+  const isInV2Container = isRunningInV2Container();
   for (const pkg of itemsByPkg.keys()) {
     if (pkg.id) {
       if (pkg.id === "bricks/basic") {
@@ -267,9 +268,11 @@ async function enqueueStableLoad(
     } else {
       // Brick packages of v2 has no `id`
       v2Packages.push(pkg);
-      maybeV2Adapter = brickPackagesMap.get("bricks/v2-adapter");
-      if (!maybeV2Adapter) {
-        throw new Error("Using v2 bricks, but v2-adapter not found");
+      if (!isInV2Container) {
+        maybeV2Adapter = brickPackagesMap.get("bricks/v2-adapter");
+        if (!maybeV2Adapter) {
+          throw new Error("Using v2 bricks, but v2-adapter not found");
+        }
       }
     }
   }
@@ -300,7 +303,7 @@ async function enqueueStableLoad(
     loadRestBricks(type, v3PackagesOtherThanBasic, itemsByPkg)
   );
 
-  if (v2Adapter && v2Packages.length > 0 && !isRunningInV2Container()) {
+  if (v2Adapter && v2Packages.length > 0 && !isInV2Container) {
     if (!v2AdapterPromise) {
       // Load `v2-adapter.load-bricks` and its dependencies
       const v2AdapterItemsByPkg = getItemsByPkg(
@@ -348,11 +351,11 @@ async function enqueueStableLoad(
     );
   }
 
-  if (postProcess) {
+  if (postProcessV2Bricks && v2Packages.length > 0 && isInV2Container) {
     pkgPromises.push(
-      postProcess(
-        [...itemsByPkg.values()]
-          .map((items) => items.map((item) => item.fullName))
+      postProcessV2Bricks(
+        v2Packages
+          .map((pkg) => itemsByPkg.get(pkg)!.map((item) => item.fullName))
           .flat()
       )
     );
