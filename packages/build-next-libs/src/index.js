@@ -63,28 +63,60 @@ function build(type) {
 }
 
 if (isWatchMode) {
-  // Watch 模式：监听源文件变化并重新生成依赖清单
   const packageDir = process.cwd();
   const srcDir = path.join(packageDir, "src");
+  const distDir = path.join(packageDir, "dist");
 
-  // 启动构建任务
-  Promise.all(["esm", "cjs"].map((type) => build(type))).catch((err) => {
-    console.error("构建失败:", err);
-    process.exit(1);
-  });
-
-  // 初始生成依赖清单
-  console.log("🔍 初始扫描构件依赖...");
-  generateManifest();
-
-  // 监听 src 目录变化
   let debounceTimer;
   let watcher;
+  const buildProcesses = [];
+
+  const types = ["esm", "cjs"];
+  types.forEach((type) => {
+    const buildTask = build(type);
+    buildProcesses.push(buildTask.childProcess);
+    buildTask.catch((err) => {
+      console.error("构建失败:", err);
+      cleanup(1);
+    });
+  });
+
+  function waitForInitialBuild(maxAttempts = 10, interval = 500) {
+    return new Promise((resolve) => {
+      let attempts = 0;
+      const checkDist = () => {
+        attempts++;
+        if (
+          fs.existsSync(path.join(distDir, "esm")) &&
+          fs.existsSync(path.join(distDir, "cjs"))
+        ) {
+          resolve();
+        } else if (attempts < maxAttempts) {
+          setTimeout(checkDist, interval);
+        } else {
+          console.warn("警告: 等待初始构建超时");
+          resolve();
+        }
+      };
+      checkDist();
+    });
+  }
+
+  waitForInitialBuild().then(() => {
+    console.log("🔍 初始扫描构件依赖...");
+    generateManifest();
+  });
+
+  const watchOptions = { persistent: true };
+  const supportsRecursive =
+    process.platform === "darwin" || process.platform === "win32";
+  if (supportsRecursive) {
+    watchOptions.recursive = true;
+  }
 
   try {
-    watcher = fs.watch(srcDir, { recursive: true }, (_eventType, filename) => {
+    watcher = fs.watch(srcDir, watchOptions, (_eventType, filename) => {
       try {
-        // 忽略非代码文件
         if (
           !filename ||
           filename.includes("__snapshots__") ||
@@ -95,7 +127,6 @@ if (isWatchMode) {
           return;
         }
 
-        // 防抖：避免频繁触发
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
           console.log(`\n🔄 检测到文件变化: ${filename}`);
@@ -116,14 +147,23 @@ if (isWatchMode) {
     process.exit(1);
   }
 
+  if (!supportsRecursive) {
+    console.warn("警告: 当前平台不支持递归文件监听，仅监听顶层目录");
+  }
+
   function cleanup(exitCode = 0) {
-    console.log("\n正在停止文件监听...");
+    console.log("\n正在停止构建和文件监听...");
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
     if (watcher) {
       watcher.close();
     }
+    buildProcesses.forEach((proc) => {
+      if (proc && !proc.killed) {
+        proc.kill();
+      }
+    });
     process.exit(exitCode);
   }
 
