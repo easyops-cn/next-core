@@ -345,7 +345,7 @@ export default function getProxy(env, getRawIndexHtml) {
                       /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
                     )?.[1];
 
-                    if (publicDeps && localBricks?.length) {
+                    if (publicDeps) {
                       publicDeps = getProcessedPublicDeps(
                         publicDeps,
                         localBricks
@@ -437,7 +437,7 @@ export default function getProxy(env, getRawIndexHtml) {
                     /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
                   )?.[1];
 
-                  if (publicDeps && localBricks?.length) {
+                  if (publicDeps) {
                     htmlContent = htmlContent.replace(
                       /\bw\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;/,
                       `w.PUBLIC_DEPS=${getProcessedPublicDeps(
