@@ -69,8 +69,8 @@ if (isWatchMode) {
 
   // 启动构建任务
   Promise.all(["esm", "cjs"].map((type) => build(type))).catch((err) => {
-    console.error(err);
-    process.exitCode = 1;
+    console.error("构建失败:", err);
+    process.exit(1);
   });
 
   // 初始生成依赖清单
@@ -79,26 +79,56 @@ if (isWatchMode) {
 
   // 监听 src 目录变化
   let debounceTimer;
-  fs.watch(srcDir, { recursive: true }, (_eventType, filename) => {
-    // 忽略非代码文件
-    if (
-      !filename ||
-      filename.includes("__snapshots__") ||
-      filename.includes("__mocks__") ||
-      filename.includes("__fixtures__") ||
-      filename.match(/\.(spec|test)\.(ts|tsx|js|jsx)$/)
-    ) {
-      return;
-    }
+  let watcher;
 
-    // 防抖：避免频繁触发
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      console.log(`\n🔄 检测到文件变化: ${filename}`);
-      console.log("🔍 重新扫描构件依赖...");
-      generateManifest();
-    }, 1000);
-  });
+  try {
+    watcher = fs.watch(srcDir, { recursive: true }, (_eventType, filename) => {
+      try {
+        // 忽略非代码文件
+        if (
+          !filename ||
+          filename.includes("__snapshots__") ||
+          filename.includes("__mocks__") ||
+          filename.includes("__fixtures__") ||
+          filename.match(/\.(spec|test)\.(ts|tsx|js|jsx)$/)
+        ) {
+          return;
+        }
+
+        // 防抖：避免频繁触发
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          console.log(`\n🔄 检测到文件变化: ${filename}`);
+          console.log("🔍 重新扫描构件依赖...");
+          generateManifest();
+        }, 1000);
+      } catch (error) {
+        console.error("处理文件变化时出错:", error);
+      }
+    });
+
+    watcher.on("error", (error) => {
+      console.error("文件监听错误:", error);
+      cleanup(1);
+    });
+  } catch (error) {
+    console.error("无法启动文件监听:", error.message);
+    process.exit(1);
+  }
+
+  function cleanup(exitCode = 0) {
+    console.log("\n正在停止文件监听...");
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+    if (watcher) {
+      watcher.close();
+    }
+    process.exit(exitCode);
+  }
+
+  process.on("SIGINT", () => cleanup(0));
+  process.on("SIGTERM", () => cleanup(0));
 
   console.log("👀 正在监听源文件变化以更新构件依赖清单...\n");
 } else {
