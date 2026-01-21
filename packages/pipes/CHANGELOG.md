@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.38](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@2.0.37...@next-core/pipes@2.0.38) (2026-01-21)
+
+**Note:** Version bump only for package @next-core/pipes
+
+
+
+
+
 ## [2.0.37](https://github.com/easyops-cn/next-core/compare/@next-core/pipes@2.0.36...@next-core/pipes@2.0.37) (2026-01-19)
 
 **Note:** Version bump only for package @next-core/pipes

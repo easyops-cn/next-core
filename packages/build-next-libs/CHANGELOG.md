@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.1.0...@next-core/build-next-libs@1.2.0) (2026-01-21)
+
+
+### Bug Fixes
+
+* **build:** add error handling and graceful shutdown for watch mode ([ea8daea](https://github.com/easyops-cn/next-core/commit/ea8daeafbdfd073ac16b7ba45776ec40abd330e8))
+* **build:** resolve race condition and improve process lifecycle ([d28aee7](https://github.com/easyops-cn/next-core/commit/d28aee7552ab337cd35b3f22bc7e28ee8c53d579))
+
+
+### Features
+
+* **build:** support watch mode for brick dependencies in [@shared](https://github.com/shared) packages ([1287505](https://github.com/easyops-cn/next-core/commit/12875055900d41d5240a3beb9869057fa1aee793))
+
+
+
+
+
 # [1.1.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-libs@1.0.25...@next-core/build-next-libs@1.1.0) (2026-01-19)
 
 
