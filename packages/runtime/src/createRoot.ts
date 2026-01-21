@@ -19,7 +19,11 @@ import {
 } from "./internal/Renderer.js";
 import { RendererContext } from "./internal/RendererContext.js";
 import { DataStore } from "./internal/data/DataStore.js";
-import type { RenderRoot, RuntimeContext } from "./internal/interfaces.js";
+import type {
+  Dispose,
+  RenderRoot,
+  RuntimeContext,
+} from "./internal/interfaces.js";
 import { mountTree, unmountTree } from "./internal/mount.js";
 import { applyMode, applyTheme, setMode, setTheme } from "./themeAndMode.js";
 import { RenderTag } from "./internal/enums.js";
@@ -107,6 +111,7 @@ export function unstable_createRoot(
   let unmounted = false;
   let rendererContext: RendererContext | undefined;
   let clearI18nBundles: Function | undefined;
+  let disposeMount: Dispose | undefined;
   const isolatedRoot = scope === "page" ? undefined : Symbol("IsolatedRoot");
 
   return {
@@ -253,7 +258,7 @@ export function unstable_createRoot(
         applyMode();
       }
 
-      mountTree(renderRoot);
+      disposeMount = mountTree(renderRoot);
 
       if (scope === "page") {
         window.scrollTo(0, 0);
@@ -283,6 +288,8 @@ export function unstable_createRoot(
         isolatedFunctionRegistry.delete(isolatedRoot);
         isolatedTemplateRegistryMap.delete(isolatedRoot);
       }
+      disposeMount?.();
+      disposeMount = undefined;
       unmountTree(container);
       if (portal) {
         unmountTree(portal);
