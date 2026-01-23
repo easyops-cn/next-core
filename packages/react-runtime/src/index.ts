@@ -17,3 +17,4 @@ export * from "./useFeatureFlags.js";
 export * from "./useSystemInfo.js";
 export * from "./useCheckPermissions.js";
 export * from "./useControlledState.js";
+export * from "./useMessage.js";
