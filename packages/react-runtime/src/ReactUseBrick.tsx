@@ -1,5 +1,6 @@
 import React, {
   MutableRefObject,
+  ReactNode,
   useCallback,
   useEffect,
   useMemo,
@@ -15,7 +16,38 @@ import {
 
 export type { UseSingleBrickConf };
 
-export interface ReactUseBrickProps {
+/**
+ * useBrick 的 render 函数类型。
+ *
+ * @example
+ *
+ * ```tsx
+ * const columns = [
+ *   {
+ *     key: "status",
+ *     useBrick: (data) => <WrappedEoTag textContent={data.cellData} />
+ *   }
+ * ];
+ * ```
+ */
+export type UseBrickRenderFunction<T = unknown> = (data: T) => ReactNode;
+
+/**
+ * useBrick 配置，支持配置对象或 render 函数。
+ */
+export type UseBrickConfOrRenderFunction<T = unknown> =
+  | UseSingleBrickConf
+  | UseBrickRenderFunction<T>;
+
+export interface ReactUseBrickProps<T = unknown> {
+  useBrick: UseBrickConfOrRenderFunction<T>;
+  data?: T;
+  errorBoundary?: boolean;
+  refCallback?: (element: HTMLElement | null) => void;
+  ignoredCallback?: () => void;
+}
+
+interface ReactUseBrickInternalProps {
   useBrick: UseSingleBrickConf;
   data?: unknown;
   errorBoundary?: boolean;
@@ -25,13 +57,13 @@ export interface ReactUseBrickProps {
 
 // Note: always synchronize code in LegacyUseBrick:
 // `bricks/v2-adapter/src/data-providers/legacy-brick-kit/getLegacyUseBrick.ts`
-let ReactUseBrick = function ReactUseBrick({
+let ReactUseBrickInternal = function ReactUseBrickInternal({
   useBrick,
   data,
   errorBoundary,
   refCallback,
   ignoredCallback,
-}: ReactUseBrickProps): React.ReactElement | null {
+}: ReactUseBrickInternalProps): React.ReactElement | null {
   const [renderResult, setRenderResult] =
     useState<__secret_internals.RenderUseBrickResult | null>(null);
   const mountResult = useRef<__secret_internals.MountUseBrickResult>();
@@ -104,6 +136,31 @@ let ReactUseBrick = function ReactUseBrick({
   return <WebComponent key={renderKey} ref={_refCallback} />;
 };
 
+let ReactUseBrick = function ReactUseBrick({
+  useBrick,
+  data,
+  errorBoundary,
+  refCallback,
+  ignoredCallback,
+}: ReactUseBrickProps): React.ReactElement | null {
+  // 如果 useBrick 是 render 函数，直接调用返回
+  if (typeof useBrick === "function") {
+    const renderFn = useBrick;
+    return <>{renderFn(data)}</>;
+  }
+
+  // 否则使用原有的配置对象渲染逻辑
+  return (
+    <ReactUseBrickInternal
+      useBrick={useBrick}
+      data={data}
+      errorBoundary={errorBoundary}
+      refCallback={refCallback}
+      ignoredCallback={ignoredCallback}
+    />
+  );
+};
+
 function getUniqueId(ref: MutableRefObject<number>): number {
   return ++ref.current;
 }
@@ -113,9 +170,12 @@ function isTheSameRender(initialRenderId: string | undefined): boolean {
   return !initialRenderId || !newRenderId || initialRenderId === newRenderId;
 }
 
-export interface ReactUseMultipleBricksProps {
-  useBrick: UseSingleBrickConf | UseSingleBrickConf[];
-  data?: unknown;
+export interface ReactUseMultipleBricksProps<T = unknown> {
+  useBrick:
+    | UseSingleBrickConf
+    | UseSingleBrickConf[]
+    | UseBrickRenderFunction<T>;
+  data?: T;
   errorBoundary?: boolean;
 }
 
@@ -124,6 +184,11 @@ let ReactUseMultipleBricks = function ReactUseMultipleBricks({
   data,
   errorBoundary,
 }: ReactUseMultipleBricksProps): React.ReactElement | null {
+  // 如果 useBrick 是 render 函数，直接调用返回
+  if (typeof useBrick === "function") {
+    return <>{useBrick(data)}</>;
+  }
+
   if (Array.isArray(useBrick)) {
     return (
       <>
