@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.10.4...@next-core/react-runtime@1.11.0) (2026-01-28)
+
+
+### Features
+
+* **react-runtime:** add useMessage hooks ([5b55371](https://github.com/easyops-cn/next-core/commit/5b553718efb70b5b7a5194f8686e6e415179afdf))
+* **react-runtime:** support render function in useBrick ([b7e02ad](https://github.com/easyops-cn/next-core/commit/b7e02ad894c0a99c931e30caa8516c2091600cf2))
+
+
+
+
+
 ## [1.10.4](https://github.com/easyops-cn/next-core/compare/@next-core/react-runtime@1.10.3...@next-core/react-runtime@1.10.4) (2026-01-21)
 
 **Note:** Version bump only for package @next-core/react-runtime
