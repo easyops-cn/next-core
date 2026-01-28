@@ -391,3 +391,73 @@ describe("ReactUseMultipleBricks", () => {
     expect(mockUnmountUseBrick).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("ReactUseBrick with render function", () => {
+  test("render function should be called with data", () => {
+    const renderFn = jest.fn((data: unknown) => {
+      const d = data as { value: string };
+      return <span data-testid="rendered">{d.value}</span>;
+    });
+
+    const { getByTestId, unmount } = render(
+      <ReactUseBrick useBrick={renderFn} data={{ value: "hello" }} />
+    );
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(renderFn).toHaveBeenCalledWith({ value: "hello" });
+    expect(getByTestId("rendered").textContent).toBe("hello");
+
+    // render function 不应该调用 renderUseBrick
+    expect(mockRenderUseBrick).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  test("render function with undefined data", () => {
+    const renderFn = jest.fn(() => <span data-testid="rendered">no data</span>);
+
+    const { getByTestId, unmount } = render(
+      <ReactUseBrick useBrick={renderFn} />
+    );
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(renderFn).toHaveBeenCalledWith(undefined);
+    expect(getByTestId("rendered").textContent).toBe("no data");
+
+    unmount();
+  });
+
+  test("render function returning null", () => {
+    const renderFn = jest.fn(() => null);
+
+    const { container, unmount } = render(
+      <ReactUseBrick useBrick={renderFn} data={{ value: "test" }} />
+    );
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(container.innerHTML).toBe("");
+
+    unmount();
+  });
+});
+
+describe("ReactUseMultipleBricks with render function", () => {
+  test("render function should be called with data", () => {
+    const renderFn = jest.fn((data: unknown) => (
+      <span data-testid="rendered">{data as string}</span>
+    ));
+
+    const { getByTestId, unmount } = render(
+      <ReactUseMultipleBricks useBrick={renderFn} data="world" />
+    );
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(renderFn).toHaveBeenCalledWith("world");
+    expect(getByTestId("rendered").textContent).toBe("world");
+
+    // render function 不应该调用 renderUseBrick
+    expect(mockRenderUseBrick).not.toHaveBeenCalled();
+
+    unmount();
+  });
+});
