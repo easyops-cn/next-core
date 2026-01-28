@@ -1,8 +1,9 @@
-import { matchRoutes } from "./matchRoutes.js";
+import type { RouteConf } from "@next-core/types";
+import { matchRoutes, matchRoute } from "./matchRoutes.js";
 
 const consoleError = jest.spyOn(console, "error").mockImplementation();
 
-describe("matchStoryboard", () => {
+describe("matchRoutes", () => {
   test("handle path not string", async () => {
     await expect(() =>
       matchRoutes(
@@ -23,5 +24,47 @@ describe("matchStoryboard", () => {
       "Invalid route with invalid path:",
       {}
     );
+  });
+});
+
+describe("matchRoute", () => {
+  test("handle array path", () => {
+    const route: RouteConf = {
+      path: "${APP.homepage}[,/b/([^/]+)]",
+      exact: true,
+      bricks: [],
+    };
+    const homepage = "/home";
+
+    expect(matchRoute(route, homepage, "/home/b/123")).toEqual({
+      isExact: true,
+      params: {
+        "0": "123",
+      },
+      path: "/home/b/([^/]+)",
+      url: "/home/b/123",
+    });
+
+    expect(matchRoute(route, homepage, "/home")).toEqual({
+      isExact: true,
+      params: {},
+      path: "/home",
+      url: "/home",
+    });
+
+    expect(matchRoute(route, homepage, "/home/c")).toEqual(null);
+    expect(matchRoute(route, homepage, "/home/b/123/x")).toEqual(null);
+  });
+
+  test("handle not started with ${APP.homepage}", () => {
+    const route: RouteConf = {
+      path: "/home[,/b/([^/]+)]",
+      exact: true,
+      bricks: [],
+    };
+    const homepage = "/home";
+
+    expect(matchRoute(route, homepage, "/home")).toEqual(null);
+    expect(matchRoute(route, homepage, "/home/b/123")).toEqual(null);
   });
 });
