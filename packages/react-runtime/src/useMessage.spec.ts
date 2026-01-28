@@ -1,4 +1,4 @@
-import { describe, it, expect, jest } from "@jest/globals";
+import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { Notification } from "@next-core/runtime";
 import { useMessage } from "./useMessage.js";
@@ -63,5 +63,13 @@ describe("useMessage", () => {
     result.current.success("第一条消息");
     result.current.error("第二条消息");
     expect(mockNotificationShow).toHaveBeenCalledTimes(2);
+  });
+
+  it("should maintain reference stability across re-renders", () => {
+    const { result, rerender } = renderHook(() => useMessage());
+    const firstResult = result.current;
+
+    rerender();
+    expect(result.current).toBe(firstResult); // Same reference due to useMemo
   });
 });
