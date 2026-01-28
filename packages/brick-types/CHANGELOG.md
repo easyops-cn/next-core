@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.102.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.101.0...@next-core/brick-types@2.102.0) (2026-01-28)
+
+
+### Features
+
+* **brick-kit:** useBrick 支持 render 函数渲染 ([f9e25cc](https://github.com/easyops-cn/next-core/commit/f9e25ccf44c7a1fa31f2260f245710c947563689))
+
+
+
+
+
 # [2.101.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-types@2.100.0...@next-core/brick-types@2.101.0) (2025-05-29)
 
 
