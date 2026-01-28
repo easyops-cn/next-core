@@ -1505,8 +1505,27 @@ export interface DesktopItemCustom {
   url: string;
 }
 
+/**
+ * useBrick 的 render 函数类型。
+ *
+ * @example
+ *
+ * ```tsx
+ * const columns = [
+ *   {
+ *     key: "status",
+ *     useBrick: (data) => <WrappedEoTag textContent={data.cellData} />
+ *   }
+ * ];
+ * ```
+ */
+export type UseBrickRenderFunction<T = unknown> = (data: T) => unknown;
+
 /** 使用 `useBrick` 自行渲染子构件的配置。 */
-export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
+export type UseBrickConf<T = unknown> =
+  | UseSingleBrickConf
+  | UseSingleBrickConf[]
+  | UseBrickRenderFunction<T>;
 
 /** 使用 `useBrick` 自行渲染子构件的配置（单个）。 */
 export interface UseSingleBrickConf {
