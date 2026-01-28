@@ -1064,4 +1064,42 @@ describe("BrickAsComponent", () => {
         "</forms.general-form></basic-bricks.micro-view></div>"
     );
   });
+
+  it("should work with render function", async () => {
+    const renderFn = jest.fn((data: { value: string }) => (
+      <span data-testid="rendered">{data.value}</span>
+    ));
+
+    const wrapper = mount(
+      <BrickAsComponent useBrick={renderFn as any} data={{ value: "hello" }} />
+    );
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(renderFn).toHaveBeenCalledWith({ value: "hello" });
+    expect(wrapper.find('[data-testid="rendered"]').text()).toBe("hello");
+
+    // render function 不应该调用 _internalApiLoadDynamicBricksInBrickConf
+    expect(_internalApiLoadDynamicBricksInBrickConf).not.toHaveBeenCalled();
+  });
+
+  it("should work with render function returning null", () => {
+    const renderFn = jest.fn(() => null);
+
+    const wrapper = mount(
+      <BrickAsComponent useBrick={renderFn} data={{ value: "test" }} />
+    );
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(wrapper.html()).toBe(null);
+  });
+
+  it("should work with render function and undefined data", () => {
+    const renderFn = jest.fn(() => <span>no data</span>);
+
+    const wrapper = mount(<BrickAsComponent useBrick={renderFn} />);
+
+    expect(renderFn).toHaveBeenCalledTimes(1);
+    expect(renderFn).toHaveBeenCalledWith(undefined);
+    expect(wrapper.find("span").text()).toBe("no data");
+  });
 });

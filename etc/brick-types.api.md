@@ -2609,7 +2609,10 @@ export interface UseBackendConf {
 }
 
 // @public
-export type UseBrickConf = UseSingleBrickConf | UseSingleBrickConf[];
+export type UseBrickConf<T = unknown> = UseSingleBrickConf | UseSingleBrickConf[] | UseBrickRenderFunction<T>;
+
+// @public
+export type UseBrickRenderFunction<T = unknown> = (data: T) => unknown;
 
 // @public
 export interface UseBrickSlotConf {

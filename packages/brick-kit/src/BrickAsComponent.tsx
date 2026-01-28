@@ -521,6 +521,11 @@ export function BrickAsComponentFactory(
     useBrick,
     data,
   }: BrickAsComponentProps): React.ReactElement {
+    // 如果 useBrick 是 render 函数，直接调用返回
+    if (typeof useBrick === "function") {
+      return <>{(useBrick as (data: unknown) => unknown)(data)}</>;
+    }
+
     if (Array.isArray(useBrick)) {
       return (
         <>
