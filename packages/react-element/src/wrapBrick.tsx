@@ -25,19 +25,26 @@ type MapEvents<E, M> = {
   [key in keyof M]?: M[key] extends keyof E ? (e: E[M[key]]) => void : never;
 };
 
-export function wrapLocalBrick<T extends HTMLElement, P, E, M extends object>(
+export function wrapLocalBrick<
+  T extends Partial<HTMLElement>,
+  P,
+  E,
+  M extends object,
+>(
   brick: Constructable<T> | string,
   eventsMapping: M
 ): WrappedBrickWithEventsMap<T, P, E, M>;
 
-export function wrapLocalBrick<T extends HTMLElement, P>(
+export function wrapLocalBrick<T extends Partial<HTMLElement>, P>(
   brick: Constructable<T> | string
 ): WrappedBrick<T, P>;
 
-export function wrapLocalBrick<T extends HTMLElement, P, _E, M extends object>(
-  brick: Constructable<T> | string,
-  eventsMapping?: M
-) {
+export function wrapLocalBrick<
+  T extends Partial<HTMLElement>,
+  P,
+  _E,
+  M extends object,
+>(brick: Constructable<T> | string, eventsMapping?: M) {
   // istanbul ignore next
   if (process.env.NODE_ENV === "development") {
     if (typeof brick === "string" && !customElements.get(brick)) {
@@ -62,19 +69,23 @@ export function wrapLocalBrick<T extends HTMLElement, P, _E, M extends object>(
   );
 }
 
-export function wrapBrick<T extends HTMLElement, P, E, M extends object>(
-  BrickName: string,
-  eventsMapping: M
-): WrappedBrickWithEventsMap<T, P, E, M>;
+export function wrapBrick<
+  T extends Partial<HTMLElement>,
+  P,
+  E,
+  M extends object,
+>(BrickName: string, eventsMapping: M): WrappedBrickWithEventsMap<T, P, E, M>;
 
-export function wrapBrick<T extends HTMLElement, P>(
+export function wrapBrick<T extends Partial<HTMLElement>, P>(
   BrickName: string
 ): WrappedBrick<T, P>;
 
-export function wrapBrick<T extends HTMLElement, P, _E, M extends object>(
-  BrickName: string,
-  eventsMapping?: M
-) {
+export function wrapBrick<
+  T extends Partial<HTMLElement>,
+  P,
+  _E,
+  M extends object,
+>(BrickName: string, eventsMapping?: M) {
   return forwardRef<T, HTMLAttributes<T> & PropsWithChildren<P>>(
     function BrickReactWrapper({ children, ...props }, ref: Ref<T>) {
       const properties = getMappedProperties(
