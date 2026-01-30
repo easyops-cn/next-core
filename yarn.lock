@@ -1631,6 +1631,18 @@
   resolved "https://registry.npmjs.org/@hutson/parse-repository-url/-/parse-repository-url-3.0.2.tgz"
   integrity sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==
 
+"@isaacs/balanced-match@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/@isaacs/balanced-match/-/balanced-match-4.0.1.tgz#3081dadbc3460661b751e7591d7faea5df39dd29"
+  integrity sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==
+
+"@isaacs/brace-expansion@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/@isaacs/brace-expansion/-/brace-expansion-5.0.0.tgz#4b3dabab7d8e75a429414a96bd67bf4c1d13e0f3"
+  integrity sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==
+  dependencies:
+    "@isaacs/balanced-match" "^4.0.1"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -2061,29 +2073,30 @@
   dependencies:
     call-bind "^1.0.2"
 
-"@microsoft/api-extractor-model@7.30.6":
-  version "7.30.6"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.30.6.tgz#cd9c434521dda3b226cc0f6aefb9c20afaf99c92"
-  integrity sha512-znmFn69wf/AIrwHya3fxX6uB5etSIn6vg4Q4RB/tb5VDDs1rqREc+AvMC/p19MUN13CZ7+V/8pkYPTj7q8tftg==
+"@microsoft/api-extractor-model@7.32.2":
+  version "7.32.2"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor-model/-/api-extractor-model-7.32.2.tgz#2b891b2bad26d6ba19d7cc21c23510c8c6f05476"
+  integrity sha512-Ussc25rAalc+4JJs9HNQE7TuO9y6jpYQX9nWD1DhqUzYPBr3Lr7O9intf+ZY8kD5HnIqeIRJX7ccCT0QyBy2Ww==
   dependencies:
-    "@microsoft/tsdoc" "~0.15.1"
-    "@microsoft/tsdoc-config" "~0.17.1"
-    "@rushstack/node-core-library" "5.13.1"
+    "@microsoft/tsdoc" "~0.16.0"
+    "@microsoft/tsdoc-config" "~0.18.0"
+    "@rushstack/node-core-library" "5.19.1"
 
-"@microsoft/api-extractor@^7.52.8":
-  version "7.52.8"
-  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.52.8.tgz#7cc944f44ca1b1ad9d7272ab5d98e81987c1f8ca"
-  integrity sha512-cszYIcjiNscDoMB1CIKZ3My61+JOhpERGlGr54i6bocvGLrcL/wo9o+RNXMBrb7XgLtKaizZWUpqRduQuHQLdg==
+"@microsoft/api-extractor@^7.56.0":
+  version "7.56.0"
+  resolved "https://registry.npmjs.org/@microsoft/api-extractor/-/api-extractor-7.56.0.tgz#db10eb766c73433c5d1bb263b2e9426807533361"
+  integrity sha512-H0V69QG5jIb9Ayx35NVBv2lOgFSS3q+Eab2oyGEy0POL3ovYPST+rCNPbwYoczOZXNG8IKjWUmmAMxmDTsXlQA==
   dependencies:
-    "@microsoft/api-extractor-model" "7.30.6"
-    "@microsoft/tsdoc" "~0.15.1"
-    "@microsoft/tsdoc-config" "~0.17.1"
-    "@rushstack/node-core-library" "5.13.1"
-    "@rushstack/rig-package" "0.5.3"
-    "@rushstack/terminal" "0.15.3"
-    "@rushstack/ts-command-line" "5.0.1"
+    "@microsoft/api-extractor-model" "7.32.2"
+    "@microsoft/tsdoc" "~0.16.0"
+    "@microsoft/tsdoc-config" "~0.18.0"
+    "@rushstack/node-core-library" "5.19.1"
+    "@rushstack/rig-package" "0.6.0"
+    "@rushstack/terminal" "0.21.0"
+    "@rushstack/ts-command-line" "5.1.7"
+    diff "~8.0.2"
     lodash "~4.17.15"
-    minimatch "~3.0.3"
+    minimatch "10.0.3"
     resolve "~1.22.1"
     semver "~7.5.4"
     source-map "~0.6.1"
@@ -2094,20 +2107,20 @@
   resolved "https://registry.npmjs.org/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
   integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
-"@microsoft/tsdoc-config@~0.17.1":
-  version "0.17.1"
-  resolved "https://registry.npmjs.org/@microsoft/tsdoc-config/-/tsdoc-config-0.17.1.tgz#e0f0b50628f4ad7fe121ca616beacfe6a25b9335"
-  integrity sha512-UtjIFe0C6oYgTnad4q1QP4qXwLhe6tIpNTRStJ2RZEPIkqQPREAwE5spzVxsdn9UaEMUqhh0AqSx3X4nWAKXWw==
+"@microsoft/tsdoc-config@~0.18.0":
+  version "0.18.0"
+  resolved "https://registry.npmjs.org/@microsoft/tsdoc-config/-/tsdoc-config-0.18.0.tgz#02fd9924b888053ecbc3c0385a24532bf2106c98"
+  integrity sha512-8N/vClYyfOH+l4fLkkr9+myAoR6M7akc8ntBJ4DJdWH2b09uVfr71+LTMpNyG19fNqWDg8KEDZhx5wxuqHyGjw==
   dependencies:
-    "@microsoft/tsdoc" "0.15.1"
+    "@microsoft/tsdoc" "0.16.0"
     ajv "~8.12.0"
     jju "~1.4.0"
     resolve "~1.22.2"
 
-"@microsoft/tsdoc@0.15.1", "@microsoft/tsdoc@~0.15.1":
-  version "0.15.1"
-  resolved "https://registry.npmjs.org/@microsoft/tsdoc/-/tsdoc-0.15.1.tgz#d4f6937353bc4568292654efb0a0e0532adbcba2"
-  integrity sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==
+"@microsoft/tsdoc@0.16.0", "@microsoft/tsdoc@~0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/@microsoft/tsdoc/-/tsdoc-0.16.0.tgz#2249090633e04063176863a050c8f0808d2b6d2b"
+  integrity sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==
 
 "@napi-rs/wasm-runtime@^0.2.11":
   version "0.2.11"
@@ -2598,10 +2611,10 @@
   resolved "https://registry.npmjs.org/@pkgr/core/-/core-0.2.7.tgz#eb5014dfd0b03e7f3ba2eeeff506eed89b028058"
   integrity sha512-YLT9Zo3oNPJoBjBc4q8G2mjU4tqIbf5CEOORbUUr48dCD9q3umJ3IPlVqOqDakPfd2HuwccBaqlGhN4Gmr5OWg==
 
-"@rushstack/node-core-library@5.13.1":
-  version "5.13.1"
-  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-5.13.1.tgz#e56b915ecb08b5a92711acac6b233417353a32dc"
-  integrity sha512-5yXhzPFGEkVc9Fu92wsNJ9jlvdwz4RNb2bMso+/+TH0nMm1jDDDsOIf4l8GAkPxGuwPw5DH24RliWVfSPhlW/Q==
+"@rushstack/node-core-library@5.19.1":
+  version "5.19.1"
+  resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-5.19.1.tgz#2bafbb81cdd886798db2adc44ad41506fa80195a"
+  integrity sha512-ESpb2Tajlatgbmzzukg6zyAhH+sICqJR2CNXNhXcEbz6UGCQfrKCtkxOpJTftWc8RGouroHG0Nud1SJAszvpmA==
   dependencies:
     ajv "~8.13.0"
     ajv-draft-04 "~1.0.0"
@@ -2612,28 +2625,34 @@
     resolve "~1.22.1"
     semver "~7.5.4"
 
-"@rushstack/rig-package@0.5.3":
-  version "0.5.3"
-  resolved "https://registry.npmjs.org/@rushstack/rig-package/-/rig-package-0.5.3.tgz#ea4d8a3458540b1295500149c04e645f23134e5d"
-  integrity sha512-olzSSjYrvCNxUFZowevC3uz8gvKr3WTpHQ7BkpjtRpA3wK+T0ybep/SRUMfr195gBzJm5gaXw0ZMgjIyHqJUow==
+"@rushstack/problem-matcher@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@rushstack/problem-matcher/-/problem-matcher-0.1.1.tgz#db9303ef3c47010c8aba5841e8c9511e091159df"
+  integrity sha512-Fm5XtS7+G8HLcJHCWpES5VmeMyjAKaWeyZU5qPzZC+22mPlJzAsOxymHiWIfuirtPckX3aptWws+K2d0BzniJA==
+
+"@rushstack/rig-package@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.npmjs.org/@rushstack/rig-package/-/rig-package-0.6.0.tgz#c80f93fe2c0d9d4977fc925ed9ce9decb75047a5"
+  integrity sha512-ZQmfzsLE2+Y91GF15c65L/slMRVhF6Hycq04D4TwtdGaUAbIXXg9c5pKA5KFU7M4QMaihoobp9JJYpYcaY3zOw==
   dependencies:
     resolve "~1.22.1"
     strip-json-comments "~3.1.1"
 
-"@rushstack/terminal@0.15.3":
-  version "0.15.3"
-  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.15.3.tgz#365e0ae5ac73bb4883b096ae36c5011f52911861"
-  integrity sha512-DGJ0B2Vm69468kZCJkPj3AH5nN+nR9SPmC0rFHtzsS4lBQ7/dgOwtwVxYP7W9JPDMuRBkJ4KHmWKr036eJsj9g==
+"@rushstack/terminal@0.21.0":
+  version "0.21.0"
+  resolved "https://registry.npmjs.org/@rushstack/terminal/-/terminal-0.21.0.tgz#216d4383d5c10d6f3fe7530af43717b2c2513329"
+  integrity sha512-cLaI4HwCNYmknM5ns4G+drqdEB6q3dCPV423+d3TZeBusYSSm09+nR7CnhzJMjJqeRcdMAaLnrA4M/3xDz4R3w==
   dependencies:
-    "@rushstack/node-core-library" "5.13.1"
+    "@rushstack/node-core-library" "5.19.1"
+    "@rushstack/problem-matcher" "0.1.1"
     supports-color "~8.1.1"
 
-"@rushstack/ts-command-line@5.0.1":
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-5.0.1.tgz#e147394b5ce87ef79db95b5b4f155461d6f2c50e"
-  integrity sha512-bsbUucn41UXrQK7wgM8CNM/jagBytEyJqXw/umtI8d68vFm1Jwxh1OtLrlW7uGZgjCWiiPH6ooUNa1aVsuVr3Q==
+"@rushstack/ts-command-line@5.1.7":
+  version "5.1.7"
+  resolved "https://registry.npmjs.org/@rushstack/ts-command-line/-/ts-command-line-5.1.7.tgz#25a2e8aef034c293b062e31a1a59ff81cd4cd582"
+  integrity sha512-Ugwl6flarZcL2nqH5IXFYk3UR3mBVDsVFlCQW/Oaqidvdb/5Ota6b/Z3JXWIdqV3rOR2/JrYoAHanWF5rgenXA==
   dependencies:
-    "@rushstack/terminal" "0.15.3"
+    "@rushstack/terminal" "0.21.0"
     "@types/argparse" "1.0.38"
     argparse "~1.0.9"
     string-argv "~0.3.1"
@@ -5935,6 +5954,11 @@ diff@^4.0.1:
   version "4.0.2"
   resolved "https://registry.npmjs.org/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
+
+diff@~8.0.2:
+  version "8.0.3"
+  resolved "https://registry.npmjs.org/diff/-/diff-8.0.3.tgz#c7da3d9e0e8c283bb548681f8d7174653720c2d5"
+  integrity sha512-qejHi7bcSD4hQAZE0tNAawRK1ZtafHDmMTMkrrIGgSLl7hTnQHmKCeB45xAcbfTqK2zowkM3j3bHt/4b/ARbYQ==
 
 diffie-hellman@^5.0.0:
   version "5.0.3"
@@ -9910,6 +9934,13 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz"
 
+minimatch@10.0.3, minimatch@^10.0.0:
+  version "10.0.3"
+  resolved "https://registry.npmjs.org/minimatch/-/minimatch-10.0.3.tgz#cf7a0314a16c4d9ab73a7730a0e8e3c3502d47aa"
+  integrity sha512-IPZ167aShDZZUMdRk66cyQAW3qr0WzbHkPdMYa8bzZhlHhO3jALbKdxcaak7W9FfT2rZNpQuUu4Od7ILEpXSaw==
+  dependencies:
+    "@isaacs/brace-expansion" "^5.0.0"
+
 minimatch@3.0.5:
   version "3.0.5"
   resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.0.5.tgz"
@@ -9921,13 +9952,6 @@ minimatch@9.0.3:
   version "9.0.3"
   resolved "https://registry.npmjs.org/minimatch/-/minimatch-9.0.3.tgz#a6e00c3de44c3a542bfaae70abfc22420a6da825"
   integrity sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==
-  dependencies:
-    brace-expansion "^2.0.1"
-
-minimatch@^10.0.0:
-  version "10.0.1"
-  resolved "https://registry.npmjs.org/minimatch/-/minimatch-10.0.1.tgz#ce0521856b453c86e25f2c4c0d03e6ff7ddc440b"
-  integrity sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==
   dependencies:
     brace-expansion "^2.0.1"
 
@@ -9958,13 +9982,6 @@ minimatch@^9.0.0, minimatch@^9.0.1, minimatch@^9.0.4:
   integrity sha512-KqWh+VchfxcMNRAJjj2tnsSJdNbHsVgnkBhTNrW7AjVo6OvLtxw8zfT9oLw1JSohlFzJ8jCoTgaoXvJ+kHt6fw==
   dependencies:
     brace-expansion "^2.0.1"
-
-minimatch@~3.0.3:
-  version "3.0.8"
-  resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.0.8.tgz#5e6a59bd11e2ab0de1cfb843eb2d82e546c321c1"
-  integrity sha512-6FsRAQsxQ61mw+qP1ZzbL9Bc78x2p5OqNgNpnoAFLTrX8n5Kxph0CsnhmKKNXTWjXqU5L0pGPR7hYk+XWZr60Q==
-  dependencies:
-    brace-expansion "^1.1.7"
 
 minimist-options@4.1.0:
   version "4.1.0"
