@@ -19,8 +19,8 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@babel/cli": "^7.28.3",
-    "@babel/core": "^7.28.4",
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
     "@next-core/babel-preset-next": "^1.0.26",
     "execa": "^5.1.1",
     "rimraf": "^6.0.1"
