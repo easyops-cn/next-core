@@ -4,11 +4,16 @@ import { responseInterceptor } from "http-proxy-middleware";
 import _ from "lodash";
 import jsYaml from "js-yaml";
 import { getBrickPackages } from "@next-core/serve-helpers";
-import { getStoryboards, getSingleStoryboard } from "./utils/getStoryboards.js";
+import {
+  getStoryboards,
+  getSingleStoryboard,
+  getMatchedStoryboard,
+} from "./utils/getStoryboards.js";
 import { fixV2Storyboard } from "./utils/fixV2Storyboard.js";
 import { injectIndexHtml } from "./utils/injectIndexHtml.js";
 import { getProcessedPublicDeps } from "./utils/getProcessedPublicDeps.js";
 import { concatBrickPackages } from "./utils/concatBrickPackages.js";
+import { getStandaloneConfig } from "./utils/getStandaloneConfig.js";
 // Create an http agent that always use IPv4
 let agent;
 const getAgent = (server) => {
@@ -424,6 +429,14 @@ export default function getProxy(env, getRawIndexHtml) {
                       unionAppRoot,
                       bootstrapUnionFilePath,
                     });
+                  } else if (env.forceStandalone) {
+                    const storyboard = await getMatchedStoryboard(
+                      env,
+                      req.path.replace(/^\/next\//, "/")
+                    );
+                    const content = await getRawIndexHtml();
+                    const standaloneConfig = getStandaloneConfig(storyboard);
+                    return injectIndexHtml(env, content, standaloneConfig);
                   }
                   return injectIndexHtml(env, rawIndexHtml);
                 } else {
