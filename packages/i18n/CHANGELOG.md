@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.91](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.90...@next-core/i18n@1.0.91) (2026-02-06)
+
+
+### Bug Fixes
+
+* **i18n:** add explicit type annotation for i18n export ([6fc4652](https://github.com/easyops-cn/next-core/commit/6fc46527828f14eb2968dd4857fa32e554507381))
+
+
+
+
+
 ## [1.0.90](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.89...@next-core/i18n@1.0.90) (2026-01-21)
 
 **Note:** Version bump only for package @next-core/i18n
