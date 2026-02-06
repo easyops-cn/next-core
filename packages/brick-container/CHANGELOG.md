@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.24.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.9...@next-core/brick-container@3.24.10) (2026-02-06)
+
+
+### Bug Fixes
+
+* enable force standalone mode by default ([3fcd2c7](https://github.com/easyops-cn/next-core/commit/3fcd2c708f0d81efdba26e0cba55910ba093cf11))
+
+
+
+
+
 ## [3.24.9](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.8...@next-core/brick-container@3.24.9) (2026-02-06)
 
 **Note:** Version bump only for package @next-core/brick-container
