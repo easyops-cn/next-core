@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.24.11](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.10...@next-core/brick-container@3.24.11) (2026-02-27)
+
+
+### Bug Fixes
+
+* handle when local micro-apps not found ([3871c46](https://github.com/easyops-cn/next-core/commit/3871c46b482d60de3d1cc9ed687b124717df2a78))
+* remove useless flag: force-standalone ([b123904](https://github.com/easyops-cn/next-core/commit/b1239046955c29702ca104631f67a110e5b0a86a))
+
+
+
+
+
 ## [3.24.10](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.9...@next-core/brick-container@3.24.10) (2026-02-06)
 
 
