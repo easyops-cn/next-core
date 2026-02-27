@@ -429,16 +429,14 @@ export default function getProxy(env, getRawIndexHtml) {
                       unionAppRoot,
                       bootstrapUnionFilePath,
                     });
-                  } else if (env.forceStandalone) {
-                    const storyboard = await getMatchedStoryboard(
-                      env,
-                      req.path.replace(/^\/next\//, "/")
-                    );
-                    const content = await getRawIndexHtml();
-                    const standaloneConfig = getStandaloneConfig(storyboard);
-                    return injectIndexHtml(env, content, standaloneConfig);
                   }
-                  return injectIndexHtml(env, rawIndexHtml);
+
+                  const storyboard = await getMatchedStoryboard(
+                    env,
+                    req.path.replace(/^\/next\//, "/")
+                  );
+                  const standaloneConfig = getStandaloneConfig(storyboard);
+                  return injectIndexHtml(env, rawIndexHtml, standaloneConfig);
                 } else {
                   let htmlContent = content;
 

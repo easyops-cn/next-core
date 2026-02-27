@@ -2,22 +2,24 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import yaml from "js-yaml";
 import _ from "lodash";
+import chalk from "chalk";
 import { tryFiles } from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./sizeCheck.js";
 
-export function getStoryboards({ rootDir, localMicroApps }, full) {
-  const storyboards = Promise.all(
-    localMicroApps.map(async (appId) => ({
-      ...(await getSingleStoryboard(rootDir, appId)),
-      ...(full
-        ? null
-        : {
-            meta: null,
-            routes: null,
-          }),
-    }))
-  );
-  return storyboards;
+export async function getStoryboards({ rootDir, localMicroApps }, full) {
+  const localStoryboards = (
+    await Promise.all(
+      localMicroApps.map((appId) => getSingleStoryboard(rootDir, appId))
+    )
+  ).filter(Boolean);
+
+  return full
+    ? localStoryboards
+    : localStoryboards.map((storyboard) => ({
+        ...storyboard,
+        meta: null,
+        routes: null,
+      }));
 }
 
 export async function getSingleStoryboard(rootDir, appId) {
@@ -33,6 +35,11 @@ export async function getSingleStoryboard(rootDir, appId) {
   const filePath = tryFiles(files);
 
   if (!filePath) {
+    console.error(
+      chalk.red(
+        `Error: Storyboard file not found for local micro-app ${appId}.`
+      )
+    );
     return null;
   }
   const content = await readFile(filePath, "utf-8");

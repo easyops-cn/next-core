@@ -24,7 +24,6 @@ const cli = meow(
     --live-reload           Enable live reload (currently only for local micro-apps)
     --size-check            Enable size-check mode
     --cookie-same-site-none Append "Same-Site: none" for cookies
-    --no-force-standalone   Disable force standalone mode
     --verbose               Print verbose logs
     --help                  Show help message
     --version               Show brick container version
@@ -72,10 +71,6 @@ const cli = meow(
       },
       sizeCheck: {
         type: "boolean",
-      },
-      forceStandalone: {
-        type: "boolean",
-        default: true,
       },
       verbose: {
         type: "boolean",
@@ -163,7 +158,6 @@ export async function getEnv(rootDir, runtimeFlags) {
     server: getServerPath(flags.server),
     sizeCheck: flags.sizeCheck,
     sizeCheckFilter,
-    forceStandalone: flags.forceStandalone,
     verbose: flags.verbose,
   };
 
