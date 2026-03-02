@@ -263,7 +263,7 @@ export default function getProxy(env, getRawIndexHtml) {
                       // 保留远程 menu 的 app 信息，使用本地 menu 的其他数据
                       return {
                         ...localMenu,
-                        items: localMenu.items.map((item) =>
+                        items: localMenu.items?.map((item) =>
                           _.isNil(item.key) ? _.omit(item, "key") : item
                         ),
                         app: remoteMenu.app,
