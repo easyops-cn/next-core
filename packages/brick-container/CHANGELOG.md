@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.24.13](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.12...@next-core/brick-container@3.24.13) (2026-03-02)
+
+
+### Bug Fixes
+
+* **brick-container:** 修复菜单数据处理中的空值异常 ([62164b4](https://github.com/easyops-cn/next-core/commit/62164b4d3c3e51c76a9764fee1c54302327f57be))
+
+
+
+
+
 ## [3.24.12](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.11...@next-core/brick-container@3.24.12) (2026-03-02)
 
 **Note:** Version bump only for package @next-core/brick-container
