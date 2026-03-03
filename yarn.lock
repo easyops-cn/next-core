@@ -6779,12 +6779,18 @@ fast-safe-stringify@^2.0.7:
   resolved "https://registry.npmjs.org/fast-safe-stringify/-/fast-safe-stringify-2.0.7.tgz"
   integrity sha1-EkqohYmSYfaK7bQqfAgN6dpgh0M=
 
+fast-xml-builder@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/fast-xml-builder/-/fast-xml-builder-1.0.0.tgz#a485d7e8381f1db983cf006f849d1066e2935241"
+  integrity sha512-fpZuDogrAgnyt9oDDz+5DBz0zgPdPZz6D4IR7iESxRXElrlGTRkHJ9eEt+SACRJwT0FNFrt71DFQIUFBJfX/uQ==
+
 fast-xml-parser@^5.2.5:
-  version "5.2.5"
-  resolved "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.2.5.tgz#4809fdfb1310494e341098c25cb1341a01a9144a"
-  integrity sha512-pfX9uG9Ki0yekDHx2SiuRIyFdyAr1kMIMitPvb0YBo8SUfKvia7w7FIyd/l6av85pFYRhZscS75MwMnbvY+hcQ==
+  version "5.4.2"
+  resolved "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-5.4.2.tgz#7fc66463b59260b0c5fd57edf46148a418bde68b"
+  integrity sha512-pw/6pIl4k0CSpElPEJhDppLzaixDEuWui2CUQQBH/ECDf7+y6YwA4Gf7Tyb0Rfe4DIMuZipYj4AEL0nACKglvQ==
   dependencies:
-    strnum "^2.1.0"
+    fast-xml-builder "^1.0.0"
+    strnum "^2.1.2"
 
 fastq@^1.6.0:
   version "1.6.1"
@@ -13207,10 +13213,10 @@ strip-json-comments@^3.1.1, strip-json-comments@~3.1.1:
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha1-MfEoGzgyYwQ0gxwxDAHMzajL4AY=
 
-strnum@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/strnum/-/strnum-2.1.0.tgz#12c2c6de59d3820a8128b486c9c106c1bf6c4924"
-  integrity sha512-w0S//9BqZZGw0L0Y8uLSelFGnDJgTyyNQLmSlPnVz43zPAiqu3w4t8J8sDqqANOGeZIZ/9jWuPguYcEnsoHv4A==
+strnum@^2.1.2:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/strnum/-/strnum-2.2.0.tgz#8b582b637e4621f62ff714493e0ce30846f903a6"
+  integrity sha512-Y7Bj8XyJxnPAORMZj/xltsfo55uOiyHcU2tnAVzHUnSJR/KsEX+9RoDeXEnsXtl/CX4fAcrt64gZ13aGaWPeBg==
 
 strong-log-transformer@2.1.0, strong-log-transformer@^2.1.0:
   version "2.1.0"
