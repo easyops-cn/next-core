@@ -161,17 +161,23 @@ module.exports = (env, getRawIndexHtml) => {
           }
           const result = JSON.parse(raw);
           const data = isStandalone ? result : result.data;
+
+          // 智能判断是否使用 brief 模式：
+          // - 独立应用必须使用完整模式（包含 routes 和 meta.menus）
+          // - 普通应用根据请求参数决定
+          const useBrief = isStandalone ? false : req.query.brief === "true";
+
           if (localMicroApps.length > 0 || mockedMicroApps.length > 0) {
             data.storyboards = mockedMicroApps
               .map((id) =>
                 getSingleStoryboard(env, id, true, {
-                  brief: true,
+                  brief: useBrief,
                 })
               )
               .concat(
                 localMicroApps.map((id) =>
                   getSingleStoryboard(env, id, false, {
-                    brief: true,
+                    brief: useBrief,
                   })
                 )
               )
@@ -413,6 +419,82 @@ module.exports = (env, getRawIndexHtml) => {
               );
             }
           }
+          return JSON.stringify(result);
+        });
+      } else if (
+        req.path.includes(
+          "/api/gateway/logic.micro_app_standalone_service/api/v1/micro_app_standalone/runtime/"
+        )
+      ) {
+        // 独立应用运行时 API - 注入本地应用的菜单数据
+        modifyResponse(res, proxyRes, (raw) => {
+          if (res.statusCode !== 200) {
+            return raw;
+          }
+          const result = JSON.parse(raw);
+          const { data } = result;
+
+          // 从路径中提取 appId
+          const appId = req.path.match(/runtime\/(.+)$/)?.[1];
+          if (!appId) {
+            return raw;
+          }
+
+          // 如果是本地应用，注入本地菜单数据
+          if (localMicroApps.includes(appId)) {
+            const localStoryboard = getSingleStoryboard(env, appId, false);
+
+            if (!localStoryboard) {
+              return raw;
+            }
+
+            // 替换 injectMenus 中的 menu 数据
+            if (data && data.injectMenus && Array.isArray(data.injectMenus)) {
+              data.injectMenus = data.injectMenus.map((remoteMenu) => {
+                const remoteAppId = remoteMenu.app?.[0]?.appId;
+                const menuId = remoteMenu.menuId;
+                if (!remoteAppId || !menuId) {
+                  return remoteMenu;
+                }
+
+                const localAppId = localStoryboard.app.id;
+                // 检查 appId 是否匹配
+                if (
+                  localStoryboard.meta &&
+                  localStoryboard.meta.menus &&
+                  localAppId === remoteAppId
+                ) {
+                  // 从本地 storyboard 查找匹配的 menu
+                  const localMenu = localStoryboard.meta.menus.find(
+                    (menu) => menu.menuId === menuId
+                  );
+
+                  if (localMenu) {
+                    console.log(
+                      chalk.yellow(
+                        `Info: Injecting local menu "${menuId}" for app: ${appId}`
+                      )
+                    );
+                    // 保留远程 menu 的 app 信息，使用本地 menu 的其他数据
+                    return {
+                      ...localMenu,
+                      items: localMenu.items?.map((item) => {
+                        // 如果 key 为 null/undefined，则删除该字段
+                        if (item.key === null || item.key === undefined) {
+                          const { key, ...rest } = item;
+                          return rest;
+                        }
+                        return item;
+                      }),
+                      app: remoteMenu.app,
+                    };
+                  }
+                }
+                return remoteMenu;
+              });
+            }
+          }
+
           return JSON.stringify(result);
         });
       }
