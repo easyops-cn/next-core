@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.17...@next-core/brick-container@2.98.18) (2026-03-05)
+
+
+### Bug Fixes
+
+* **brick-container:** 支持本地调试独立打包应用时注入本地菜单 ([e76bbda](https://github.com/easyops-cn/next-core/commit/e76bbda8ee058e2d3724075a1729f771425e05b7))
+
+
+
+
+
 ## [2.98.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.16...@next-core/brick-container@2.98.17) (2026-01-28)
 
 **Note:** Version bump only for package @next-core/brick-container
