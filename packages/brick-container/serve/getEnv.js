@@ -8,6 +8,7 @@ const {
   getNamesOfBrickPackages,
   getNamesOfTemplatePackages,
   checkLocalPackages,
+  tryFiles,
 } = require("./utils");
 
 function getServerPath(server) {
@@ -325,7 +326,12 @@ module.exports = (runtimeFlags) => {
     nextRepoDir,
     `node_modules/${usePublicScope ? "@next-micro-apps" : "@micro-apps"}`
   );
-  const alternativeMicroAppsDir = path.join(nextRepoDir, "micro-apps");
+  // 优先使用 micro-apps 目录，如果不存在则使用 apps 目录
+  const alternativeMicroAppsDir =
+    tryFiles([
+      path.join(nextRepoDir, "micro-apps"),
+      path.join(nextRepoDir, "apps"),
+    ]) || path.join(nextRepoDir, "micro-apps");
 
   const brickPackagesDir = path.join(
     nextRepoDir,
@@ -428,7 +434,10 @@ module.exports = (runtimeFlags) => {
     env.localBrickPackages = getNamesOfBrickPackages(env).concat(
       env.localBrickPackages
     );
-    env.localMicroApps = getNamesOfMicroApps(env).concat(env.localMicroApps);
+    // 只有在用户没有显式指定时，才自动检测所有 app
+    if (!flags.localMicroApps) {
+      env.localMicroApps = getNamesOfMicroApps(env).concat(env.localMicroApps);
+    }
     env.localTemplates = getNamesOfTemplatePackages(env).concat(
       env.localTemplates
     );
