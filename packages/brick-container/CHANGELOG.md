@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.18...@next-core/brick-container@2.98.19) (2026-03-06)
+
+
+### Bug Fixes
+
+* **brick-container:** 修复 auto-remote 模式下的本地应用加载逻辑 ([4135e23](https://github.com/easyops-cn/next-core/commit/4135e23d3111ae5e5c911c41f05271903a6b7437))
+
+
+
+
+
 ## [2.98.18](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.17...@next-core/brick-container@2.98.18) (2026-03-05)
 
 
