@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.92](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.91...@next-core/i18n@1.0.92) (2026-03-13)
+
+
+### Bug Fixes
+
+* **i18n:** add fallback for i18next default export ([f24ba64](https://github.com/easyops-cn/next-core/commit/f24ba6404d0bc03789896d969edd6fb7215ab7b6))
+
+
+
+
+
 ## [1.0.91](https://github.com/easyops-cn/next-core/compare/@next-core/i18n@1.0.90...@next-core/i18n@1.0.91) (2026-02-06)
 
 
