@@ -34,6 +34,7 @@ export function initializeI18n(NS?: string, locales?: Locales) {
         react: {
           useSuspense: false,
         },
+        returnNull: false,
         compatibilityJSON: "v3",
         resources: {},
       });
