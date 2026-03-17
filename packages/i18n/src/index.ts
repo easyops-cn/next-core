@@ -1,5 +1,11 @@
 import i18next, { i18n as I18n } from "i18next";
 
+declare module "i18next" {
+  interface CustomTypeOptions {
+    returnNull: false;
+  }
+}
+
 export const i18n: I18n =
   process.env.NODE_ENV === "test"
     ? (i18next as unknown as typeof i18next.default)
