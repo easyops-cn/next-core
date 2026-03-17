@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import type { UseSingleBrickConf } from "@next-core/types";
+import type { UseBrickConf, UseSingleBrickConf } from "@next-core/types";
 import {
   __secret_internals,
   handleHttpError,
@@ -33,14 +33,21 @@ export type { UseSingleBrickConf };
 export type UseBrickRenderFunction<T = unknown> = (data: T) => ReactNode;
 
 /**
- * useBrick 配置，支持配置对象或 render 函数。
+ * 单个 useBrick 配置，支持配置对象或 render 函数。
  */
-export type UseBrickConfOrRenderFunction<T = unknown> =
+export type UseSingleBrickConfOrRenderFunction<T = unknown> =
   | UseSingleBrickConf
   | UseBrickRenderFunction<T>;
 
+/**
+ * useBrick 配置，支持配置对象、配置对象数组或 render 函数。
+ */
+export type UseBrickConfOrRenderFunction<T = unknown> =
+  | UseBrickConf
+  | UseBrickRenderFunction<T>;
+
 export interface ReactUseBrickProps<T = unknown> {
-  useBrick: UseBrickConfOrRenderFunction<T>;
+  useBrick: UseSingleBrickConfOrRenderFunction<T>;
   data?: T;
   errorBoundary?: boolean;
   refCallback?: (element: HTMLElement | null) => void;
@@ -171,10 +178,7 @@ function isTheSameRender(initialRenderId: string | undefined): boolean {
 }
 
 export interface ReactUseMultipleBricksProps<T = unknown> {
-  useBrick:
-    | UseSingleBrickConf
-    | UseSingleBrickConf[]
-    | UseBrickRenderFunction<T>;
+  useBrick: UseBrickConfOrRenderFunction<T>;
   data?: T;
   errorBoundary?: boolean;
 }
