@@ -465,6 +465,10 @@ export default function getProxy(env, getRawIndexHtml) {
                 }
               }
             }
+            const isBootstrapMini =
+              /^\/next\/sa-static\/.*\/bootstrap-mini\.[^.]+\.json$/.test(
+                req.path
+              );
             if (
               /^\/next\/[^/]+\/-\/bootstrap\.[^.]+\.json$/.test(req.path) ||
               //ignore bootstrap.mini.ac3eb.json, because it has no brickPackages information
@@ -473,22 +477,33 @@ export default function getProxy(env, getRawIndexHtml) {
               ) ||
               /^\/next\/sa-static\/.*\/bootstrap-union\.[^.]+\.json$/.test(
                 req.path
-              )
+              ) ||
+              isBootstrapMini
             ) {
               try {
                 const content = responseBuffer.toString("utf-8");
                 const result = JSON.parse(content);
+                // bootstrap-mini in union mode only has storyboards, no brickPackages
+                if (isBootstrapMini) {
+                  const storyboards = await getStoryboards(
+                    { rootDir, localMicroApps },
+                    true
+                  );
+                  result.storyboards = storyboards.concat(
+                    result.storyboards || []
+                  );
+                } else {
+                  const [storyboards, brickPackages] = await Promise.all([
+                    getStoryboards({ rootDir, localMicroApps }, true),
+                    getBrickPackages(localBrickFolders, true, localBricks),
+                  ]);
 
-                const [storyboards, brickPackages] = await Promise.all([
-                  getStoryboards({ rootDir, localMicroApps }, true),
-                  getBrickPackages(localBrickFolders, true, localBricks),
-                ]);
-
-                result.brickPackages = concatBrickPackages(
-                  brickPackages,
-                  result.brickPackages
-                );
-                result.storyboards = storyboards.concat(result.storyboards);
+                  result.brickPackages = concatBrickPackages(
+                    brickPackages,
+                    result.brickPackages
+                  );
+                  result.storyboards = storyboards.concat(result.storyboards);
+                }
 
                 // Make it compatible with v2 apps.
                 // delete result.templatePackages;
