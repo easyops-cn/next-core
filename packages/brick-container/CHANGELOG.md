@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.24.16](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.15...@next-core/brick-container@3.24.16) (2026-03-18)
+
+
+### Bug Fixes
+
+* **brick-container:** 优化 bootstrap-mini.json 的处理逻辑 ([e8e268c](https://github.com/easyops-cn/next-core/commit/e8e268cc252cd7b0af5db2b9a4433399bc4d3e29))
+
+
+
+
+
 ## [3.24.15](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.14...@next-core/brick-container@3.24.15) (2026-03-17)
 
 **Note:** Version bump only for package @next-core/brick-container
