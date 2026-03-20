@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.41](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.40...@next-core/react-element@1.0.41) (2026-03-20)
+
+
+### Bug Fixes
+
+* **react-element:** omit conflicting HTMLAttributes keys from custom event props ([798e53e](https://github.com/easyops-cn/next-core/commit/798e53ed0bc91abf5d52edda9cbd41f67876f6bb))
+
+
+
+
+
 ## [1.0.40](https://github.com/easyops-cn/next-core/compare/@next-core/react-element@1.0.39...@next-core/react-element@1.0.40) (2026-01-21)
 
 **Note:** Version bump only for package @next-core/react-element
