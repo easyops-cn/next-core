@@ -18,7 +18,10 @@ export type WrappedBrick<T, P> = ForwardRefExoticComponent<
 >;
 
 export type WrappedBrickWithEventsMap<T, P, E, M> = ForwardRefExoticComponent<
-  HTMLAttributes<T> & PropsWithChildren<P> & MapEvents<E, M> & RefAttributes<T>
+  Omit<HTMLAttributes<T>, keyof M> &
+    PropsWithChildren<P> &
+    MapEvents<E, M> &
+    RefAttributes<T>
 >;
 
 type MapEvents<E, M> = {
