@@ -120,10 +120,13 @@ module.exports = (env, getRawIndexHtml) => {
 
         const unionRegex =
           /^\/next\/sa-static\/.*\/bootstrap-union\.[^.]+\.json$/;
+        const isBootstrapMini =
+          /^\/next\/sa-static\/.*\/bootstrap-mini\.[^.]+\.json$/.test(req.path);
         if (
           regex.test(req.path) ||
           regexLegacy.test(req.path) ||
-          unionRegex.test(req.path)
+          unionRegex.test(req.path) ||
+          isBootstrapMini
         ) {
           reqIsBootstrap = true;
           isStandalone = true;
@@ -238,7 +241,7 @@ module.exports = (env, getRawIndexHtml) => {
               .map((id) => getSingleTemplatePackage(env, id))
               .filter(Boolean)
               .concat(
-                data[templatePackages].filter(
+                (data[templatePackages] || []).filter(
                   (item) =>
                     !localTemplates.includes(item.filePath.split("/")[1])
                 )
