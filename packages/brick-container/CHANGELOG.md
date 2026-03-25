@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.20](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.19...@next-core/brick-container@2.98.20) (2026-03-25)
+
+
+### Bug Fixes
+
+* **brick-container:** 支持 bootstrap-mini 路径识别并防御 templatePackages 为空 ([56c3114](https://github.com/easyops-cn/next-core/commit/56c31141ed82e7b3217cdcb12703569a96ef78c3))
+
+
+
+
+
 ## [2.98.19](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.18...@next-core/brick-container@2.98.19) (2026-03-06)
 
 
