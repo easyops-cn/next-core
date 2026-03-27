@@ -951,6 +951,27 @@ describe("Kernel", () => {
     );
   });
 
+  it("should not bootstrap loading bar for business layout when hideLoadingBar is set", async () => {
+    kernel.bootstrapData = {
+      settings: {
+        misc: {
+          hideLoadingBar: true,
+        },
+      },
+    } as RuntimeBootstrapData;
+    kernel.menuBar = {
+      bootstrap: jest.fn(),
+    } as unknown as MenuBar;
+    kernel.appBar = {
+      bootstrap: jest.fn(),
+    } as unknown as AppBar;
+    kernel.loadingBar = {
+      bootstrap: jest.fn(),
+    } as unknown as BaseBar;
+    await kernel.layoutBootstrap("business");
+    expect(kernel.loadingBar.bootstrap).not.toBeCalled();
+  });
+
   it("should throw for unknown layout", async () => {
     await expect(
       kernel.layoutBootstrap("oops" as unknown as LayoutType)
