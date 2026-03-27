@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.210.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.209.0...@next-core/brick-kit@2.210.0) (2026-03-27)
+
+
+### Features
+
+* **brick-kit:** 支持通过 misc.hideLoadingBar 配置隐藏 loading-bar ([7890201](https://github.com/easyops-cn/next-core/commit/789020194ac3f5c9cdfaaa2ec11337c87a69ae88))
+
+
+
+
+
 # [2.209.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.208.9...@next-core/brick-kit@2.209.0) (2026-01-28)
 
 
