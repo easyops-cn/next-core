@@ -193,13 +193,20 @@ export class Kernel {
       }
     }
 
-    await Promise.all([
+    const barBootstraps = [
       this.menuBar.bootstrap(this.presetBricks.menuBar, {
         testid: "brick-next-menu-bar",
       }),
       this.appBar.bootstrap(this.presetBricks.appBar),
-      this.loadingBar.bootstrap(this.presetBricks.loadingBar),
-    ]);
+    ];
+
+    if (!this.bootstrapData?.settings?.misc?.hideLoadingBar) {
+      barBootstraps.push(
+        this.loadingBar.bootstrap(this.presetBricks.loadingBar)
+      );
+    }
+
+    await Promise.all(barBootstraps);
   }
 
   private legacyAuthGuard(): void {
