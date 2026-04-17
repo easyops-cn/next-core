@@ -225,7 +225,7 @@ module.exports = (env, getRawIndexHtml) => {
               )
               .filter(Boolean)
               .concat(
-                data[brickPackages].filter(
+                (data[brickPackages] || []).filter(
                   (item) =>
                     !combinedLocalBrickPackages.includes(
                       item.filePath.split("/")[1]
