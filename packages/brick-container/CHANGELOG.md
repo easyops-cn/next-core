@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.98.22](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.21...@next-core/brick-container@2.98.22) (2026-04-17)
+
+
+### Bug Fixes
+
+* **brick-container:** add fallback for brickPackages data to prevent filter crash ([7d13b84](https://github.com/easyops-cn/next-core/commit/7d13b84baf45164a7da0d67b32efed94c57d5f16))
+
+
+
+
+
 ## [2.98.21](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.20...@next-core/brick-container@2.98.21) (2026-03-27)
 
 **Note:** Version bump only for package @next-core/brick-container
