@@ -254,6 +254,7 @@ export default function getProxy(env, getRawIndexHtml) {
                 data.injectMenus = data.injectMenus.map((remoteMenu) => {
                   const appId = remoteMenu.app?.[0]?.appId;
                   const menuId = remoteMenu.menuId;
+                   const menuType = remoteMenu.type;
                   if (!appId || !menuId) {
                     return remoteMenu;
                   }
@@ -261,7 +262,7 @@ export default function getProxy(env, getRawIndexHtml) {
                   const localAppId = localStoryboard.app.id;
                   if (localStoryboard.meta && localStoryboard.meta.menus) {
                     const localMenu = localStoryboard.meta.menus.find(
-                      (menu) => menu.menuId === menuId && localAppId === appId
+                      (menu) => menu.menuId === menuId&&menu.type===menuType && localAppId === appId
                     );
 
                     if (localMenu) {
