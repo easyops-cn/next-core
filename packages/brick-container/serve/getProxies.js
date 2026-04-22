@@ -456,6 +456,8 @@ module.exports = (env, getRawIndexHtml) => {
               data.injectMenus = data.injectMenus.map((remoteMenu) => {
                 const remoteAppId = remoteMenu.app?.[0]?.appId;
                 const menuId = remoteMenu.menuId;
+                const menuType = remoteMenu.type;
+
                 if (!remoteAppId || !menuId) {
                   return remoteMenu;
                 }
@@ -469,7 +471,7 @@ module.exports = (env, getRawIndexHtml) => {
                 ) {
                   // 从本地 storyboard 查找匹配的 menu
                   const localMenu = localStoryboard.meta.menus.find(
-                    (menu) => menu.menuId === menuId
+                    (menu) => menu.menuId === menuId && menu.type === menuType
                   );
 
                   if (localMenu) {
