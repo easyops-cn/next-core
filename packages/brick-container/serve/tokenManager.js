@@ -62,7 +62,7 @@ function httpRequest(fullUrl, options, body) {
 
     const req = mod.request(
       fullUrl,
-      { ...options, rejectUnauthorized: false, timeout: 30000 },
+      { ...options, timeout: 30000 },
       (res) => {
         let data = "";
         res.on("data", (chunk) => (data += chunk));
