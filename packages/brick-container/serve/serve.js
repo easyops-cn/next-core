@@ -6,11 +6,36 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const { escapeRegExp } = require("lodash");
 const chalk = require("chalk");
 const yaml = require("js-yaml");
+const { execSync } = require("child_process");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
 const { getIndexHtml, distDir, getRawIndexHtml } = require("./getIndexHtml");
 const liveReload = require("./liveReload");
+const { setupLocalProxies } = require("./localProxy");
+
+function killPortProcess(port) {
+  try {
+    const result = execSync(`lsof -ti :${port}`, { encoding: "utf-8" }).trim();
+    if (result) {
+      const pids = result.split("\n").filter(Boolean);
+      for (const pid of pids) {
+        if (String(pid) === String(process.pid)) continue;
+        console.log(
+          chalk.yellow("[serve]"),
+          `Killing process ${pid} on port ${port}`
+        );
+        try {
+          execSync(`kill -9 ${pid}`);
+        } catch (_e) {
+          /* ignore */
+        }
+      }
+    }
+  } catch (_e) {
+    /* ignore */
+  }
+}
 
 module.exports = function serve(runtimeFlags) {
   const env = getEnv(runtimeFlags);
@@ -85,6 +110,9 @@ module.exports = function serve(runtimeFlags) {
     // For legacy standalone apps.
     app.use(`${env.baseHref}:appId/-/core/`, express.static(distDir));
   }
+
+  // Register local service proxies before default proxies.
+  setupLocalProxies(app, env);
 
   // Using proxies.
   const proxies = getProxies(env, getRawIndexHtml);
@@ -167,9 +195,35 @@ module.exports = function serve(runtimeFlags) {
       },
       app
     );
+    server.on("error", (err) => {
+      if (err.code === "EADDRINUSE") {
+        console.log(
+          chalk.yellow("[serve]"),
+          `Port ${env.port} in use, killing occupying process...`
+        );
+        killPortProcess(env.port);
+        setTimeout(() => {
+          server.listen(env.port, env.host);
+          server.removeAllListeners("error");
+        }, 1000);
+      }
+    });
     server.listen(env.port, env.host);
   } else {
-    app.listen(env.port, env.host);
+    const server = app.listen(env.port, env.host);
+    server.on("error", (err) => {
+      if (err.code === "EADDRINUSE") {
+        console.log(
+          chalk.yellow("[serve]"),
+          `Port ${env.port} in use, killing occupying process...`
+        );
+        killPortProcess(env.port);
+        setTimeout(() => {
+          server.listen(env.port, env.host);
+          server.removeAllListeners("error");
+        }, 1000);
+      }
+    });
   }
 
   console.log(

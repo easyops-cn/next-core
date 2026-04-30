@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const meow = require("meow");
 const chalk = require("chalk");
+const yaml = require("js-yaml");
 const { getEasyopsConfig } = require("@next-core/repo-config");
 const {
   getNamesOfMicroApps,
@@ -163,6 +164,9 @@ module.exports = (runtimeFlags) => {
       useSkywalkingAnalysis: {
         type: "string",
       },
+      proxyConfig: {
+        type: "string",
+      },
     };
     const cli = meow(
       `
@@ -201,6 +205,7 @@ module.exports = (runtimeFlags) => {
         --help                    Show help message
         --version                 Show brick container version
         --use-skywalking-analysis Use skywalking analysis
+        --proxy-config            Specify custom proxy config file path (defaults to "dev.proxy.yaml" in project root)
       `,
       {
         flags: flagOptions,
@@ -246,6 +251,27 @@ module.exports = (runtimeFlags) => {
     (conf) => conf.standaloneVersion !== 2
   );
   const appConfig = (devConfig && devConfig.appConfig) || {};
+
+  function getLocalProxies() {
+    const customPath = flags.proxyConfig;
+    const proxyConfigPath = customPath
+      ? path.resolve(customPath)
+      : path.join(rootDir, "dev.proxy.yaml");
+    if (fs.existsSync(proxyConfigPath)) {
+      console.log(chalk.cyan("proxy config:"), proxyConfigPath);
+      const content = yaml.safeLoad(fs.readFileSync(proxyConfigPath, "utf8"));
+      if (!content) return {};
+      if (content.proxies) {
+        return content;
+      }
+      return { proxies: content };
+    }
+    if (customPath) {
+      console.error(chalk.red("proxy config not found:"), proxyConfigPath);
+    }
+    return {};
+  }
+  const localProxies = getLocalProxies();
 
   const { usePublicScope, standalone: confStandalone } =
     getEasyopsConfig(nextRepoDir);
@@ -412,6 +438,7 @@ module.exports = (runtimeFlags) => {
     publicCdn: flags.publicCdn,
     asCdn: flags.asCdn,
     useSkywalkingAnalysis,
+    localProxies,
     isWebpackServe,
   };
 
@@ -480,6 +507,22 @@ module.exports = (runtimeFlags) => {
   if (env.localTemplates.length > 0) {
     console.log();
     console.log("local templates:", env.localTemplates);
+  }
+
+  if (
+    env.localProxies.proxies &&
+    Object.keys(env.localProxies.proxies).length > 0
+  ) {
+    console.log();
+    console.log("local proxies:", env.localProxies.proxies);
+    if (env.localProxies.auth) {
+      console.log(
+        "local proxy auth: clientId=%s, org=%s, user=%s",
+        env.localProxies.auth.clientId,
+        env.localProxies.auth.org,
+        env.localProxies.auth.user
+      );
+    }
   }
 
   console.log();
