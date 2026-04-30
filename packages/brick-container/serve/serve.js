@@ -6,36 +6,12 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const { escapeRegExp } = require("lodash");
 const chalk = require("chalk");
 const yaml = require("js-yaml");
-const { execSync } = require("child_process");
 const getEnv = require("./getEnv");
 const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
 const { getIndexHtml, distDir, getRawIndexHtml } = require("./getIndexHtml");
 const liveReload = require("./liveReload");
 const { setupLocalProxies } = require("./localProxy");
-
-function killPortProcess(port) {
-  try {
-    const result = execSync(`lsof -ti :${port}`, { encoding: "utf-8" }).trim();
-    if (result) {
-      const pids = result.split("\n").filter(Boolean);
-      for (const pid of pids) {
-        if (String(pid) === String(process.pid)) continue;
-        console.log(
-          chalk.yellow("[serve]"),
-          `Killing process ${pid} on port ${port}`
-        );
-        try {
-          execSync(`kill -9 ${pid}`);
-        } catch (_e) {
-          /* ignore */
-        }
-      }
-    }
-  } catch (_e) {
-    /* ignore */
-  }
-}
 
 module.exports = function serve(runtimeFlags) {
   const env = getEnv(runtimeFlags);
@@ -195,41 +171,9 @@ module.exports = function serve(runtimeFlags) {
       },
       app
     );
-    let retried = false;
-    server.on("error", (err) => {
-      if (err.code === "EADDRINUSE" && !retried) {
-        retried = true;
-        console.log(
-          chalk.yellow("[serve]"),
-          `Port ${env.port} in use, killing occupying process...`
-        );
-        killPortProcess(env.port);
-        setTimeout(() => {
-          server.listen(env.port, env.host);
-        }, 1000);
-      } else {
-        console.error(chalk.red("[serve]"), "Server error:", err.message);
-      }
-    });
     server.listen(env.port, env.host);
   } else {
-    const server = app.listen(env.port, env.host);
-    let retried = false;
-    server.on("error", (err) => {
-      if (err.code === "EADDRINUSE" && !retried) {
-        retried = true;
-        console.log(
-          chalk.yellow("[serve]"),
-          `Port ${env.port} in use, killing occupying process...`
-        );
-        killPortProcess(env.port);
-        setTimeout(() => {
-          server.listen(env.port, env.host);
-        }, 1000);
-      } else {
-        console.error(chalk.red("[serve]"), "Server error:", err.message);
-      }
-    });
+    app.listen(env.port, env.host);
   }
 
   console.log(
