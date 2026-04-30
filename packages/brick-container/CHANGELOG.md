@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.99.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.23...@next-core/brick-container@2.99.0) (2026-04-30)
+
+
+### Bug Fixes
+
+* **brick-container:** address code review feedback ([d2211a2](https://github.com/easyops-cn/next-core/commit/d2211a20c946960d11c1f51178b2e7e09dadfcb8))
+
+
+### Features
+
+* **brick-container:** support local proxy config and port conflict auto-recovery ([0b7ed9b](https://github.com/easyops-cn/next-core/commit/0b7ed9bc0b9f6f9376fff44acd284836b3bb7418))
+
+
+### Reverts
+
+* **brick-container:** remove port conflict auto-recovery ([c9fc62f](https://github.com/easyops-cn/next-core/commit/c9fc62f0703f386b7a5e17cca5c9302e706e9a4f))
+
+
+
+
+
 ## [2.98.23](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.98.22...@next-core/brick-container@2.98.23) (2026-04-22)
 
 
