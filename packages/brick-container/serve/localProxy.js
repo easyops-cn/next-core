@@ -1,4 +1,5 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const { escapeRegExp } = require("lodash");
 const chalk = require("chalk");
 const { getToken } = require("./tokenManager");
 
@@ -35,7 +36,7 @@ function setupLocalProxies(app, env) {
       secure: false,
       changeOrigin: true,
       logLevel: "debug",
-      pathRewrite: { [`^${fullPath}`]: "" },
+      pathRewrite: { [`^${escapeRegExp(fullPath)}`]: "" },
       onProxyReq: (proxyReq) => {
         if (org && !proxyReq.getHeader("org")) {
           proxyReq.setHeader("org", String(org));

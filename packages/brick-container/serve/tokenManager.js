@@ -10,8 +10,8 @@ const DEFAULT_APP_ID = "api_gateway";
 const GATEWAY_INNER_PORT = 8107;
 const GATEWAY_SERVICE_PATH = "/api/gateway/user_service.apikey";
 
-let _tokenCache = null;
-let _credentialsCache = null;
+const _tokenCache = {};
+const _credentialsCache = {};
 
 function generateSignature(
   method,
@@ -62,7 +62,7 @@ function httpRequest(fullUrl, options, body) {
 
     const req = mod.request(
       fullUrl,
-      { ...options, rejectUnauthorized: false, timeout: 10000 },
+      { ...options, rejectUnauthorized: false, timeout: 30000 },
       (res) => {
         let data = "";
         res.on("data", (chunk) => (data += chunk));
@@ -93,9 +93,13 @@ function getInnerGatewayUrl(serverUrl) {
 }
 
 async function createServerApiKey(serverUrl, clientId) {
+  const cacheKey = `${serverUrl}:${clientId}`;
   const now = Date.now();
-  if (_credentialsCache && now < _credentialsCache.expireAt) {
-    return _credentialsCache.value;
+  if (
+    _credentialsCache[cacheKey] &&
+    now < _credentialsCache[cacheKey].expireAt
+  ) {
+    return _credentialsCache[cacheKey].value;
   }
 
   const timestamp = String(Math.floor(now / 1000));
@@ -139,7 +143,10 @@ async function createServerApiKey(serverUrl, clientId) {
   }
 
   const value = { clientId, secret };
-  _credentialsCache = { value, expireAt: now + CREDENTIALS_CACHE_TTL };
+  _credentialsCache[cacheKey] = {
+    value,
+    expireAt: now + CREDENTIALS_CACHE_TTL,
+  };
   return value;
 }
 
@@ -149,7 +156,10 @@ async function requestToken(serverUrl, clientId, secret, user, org) {
     clientId
   )}`;
 
-  const query = { user: user || "defaultUser", org: String(org) };
+  const query = {
+    user: user || "defaultUser",
+    org: org != null ? String(org) : "0",
+  };
   query.signature = generateSignature(
     "GET",
     servicePath,
@@ -186,10 +196,13 @@ async function getToken(serverUrl, auth) {
 
   const appId = auth.appId || DEFAULT_APP_ID;
   const clientId = `easyops_server_${appId}`;
+  const cacheKey = `${serverUrl}:${clientId}:${auth.org || ""}:${
+    auth.user || ""
+  }`;
 
   const now = Date.now();
-  if (_tokenCache && now < _tokenCache.expireAt) {
-    return _tokenCache.token;
+  if (_tokenCache[cacheKey] && now < _tokenCache[cacheKey].expireAt) {
+    return _tokenCache[cacheKey].token;
   }
 
   const creds = await createServerApiKey(serverUrl, clientId);
@@ -200,7 +213,7 @@ async function getToken(serverUrl, auth) {
     auth.user,
     auth.org
   );
-  _tokenCache = { token, expireAt: now + TOKEN_CACHE_TTL };
+  _tokenCache[cacheKey] = { token, expireAt: now + TOKEN_CACHE_TTL };
   console.log(
     chalk.green("[token-manager]"),
     "Token acquired, cached for 30 minutes"

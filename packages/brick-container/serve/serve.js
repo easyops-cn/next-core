@@ -195,8 +195,10 @@ module.exports = function serve(runtimeFlags) {
       },
       app
     );
+    let retried = false;
     server.on("error", (err) => {
-      if (err.code === "EADDRINUSE") {
+      if (err.code === "EADDRINUSE" && !retried) {
+        retried = true;
         console.log(
           chalk.yellow("[serve]"),
           `Port ${env.port} in use, killing occupying process...`
@@ -204,15 +206,18 @@ module.exports = function serve(runtimeFlags) {
         killPortProcess(env.port);
         setTimeout(() => {
           server.listen(env.port, env.host);
-          server.removeAllListeners("error");
         }, 1000);
+      } else {
+        console.error(chalk.red("[serve]"), "Server error:", err.message);
       }
     });
     server.listen(env.port, env.host);
   } else {
     const server = app.listen(env.port, env.host);
+    let retried = false;
     server.on("error", (err) => {
-      if (err.code === "EADDRINUSE") {
+      if (err.code === "EADDRINUSE" && !retried) {
+        retried = true;
         console.log(
           chalk.yellow("[serve]"),
           `Port ${env.port} in use, killing occupying process...`
@@ -220,8 +225,9 @@ module.exports = function serve(runtimeFlags) {
         killPortProcess(env.port);
         setTimeout(() => {
           server.listen(env.port, env.host);
-          server.removeAllListeners("error");
         }, 1000);
+      } else {
+        console.error(chalk.red("[serve]"), "Server error:", err.message);
       }
     });
   }

@@ -259,7 +259,17 @@ module.exports = (runtimeFlags) => {
       : path.join(rootDir, "dev.proxy.yaml");
     if (fs.existsSync(proxyConfigPath)) {
       console.log(chalk.cyan("proxy config:"), proxyConfigPath);
-      const content = yaml.safeLoad(fs.readFileSync(proxyConfigPath, "utf8"));
+      let content;
+      try {
+        content = yaml.safeLoad(fs.readFileSync(proxyConfigPath, "utf8"));
+      } catch (e) {
+        console.error(
+          chalk.red("Failed to parse proxy config:"),
+          proxyConfigPath,
+          e.message
+        );
+        return {};
+      }
       if (!content) return {};
       if (content.proxies) {
         return content;
@@ -517,8 +527,8 @@ module.exports = (runtimeFlags) => {
     console.log("local proxies:", env.localProxies.proxies);
     if (env.localProxies.auth) {
       console.log(
-        "local proxy auth: clientId=%s, org=%s, user=%s",
-        env.localProxies.auth.clientId,
+        "local proxy auth: appId=%s, org=%s, user=%s",
+        env.localProxies.auth.appId || "api_gateway",
         env.localProxies.auth.org,
         env.localProxies.auth.user
       );
