@@ -16,6 +16,7 @@ import {
   getPreMiddlewares,
 } from "./middlewares/getMiddlewares.js";
 import liveReloadServer from "./utils/liveReloadServer.js";
+import { setupLocalProxies } from "./localProxy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -54,6 +55,9 @@ for (const middleware of middlewares) {
     app.use(middleware.path, middleware.middleware);
   }
 }
+
+// Register local service proxies before remote proxies.
+setupLocalProxies(app, env);
 
 const proxy = getProxy(env, getRawIndexHtml);
 

@@ -1,8 +1,9 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import meow from "meow";
 import chalk from "chalk";
 import glob from "glob";
+import yaml from "js-yaml";
 import { getLocalBrickPackageNames } from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
@@ -25,6 +26,7 @@ const cli = meow(
     --size-check            Enable size-check mode
     --cookie-same-site-none Append "Same-Site: none" for cookies
     --verbose               Print verbose logs
+    --proxy-config          Specify custom proxy config file path (defaults to "dev.proxy.yaml" in project root)
     --help                  Show help message
     --version               Show brick container version
   `,
@@ -74,6 +76,9 @@ const cli = meow(
       },
       verbose: {
         type: "boolean",
+      },
+      proxyConfig: {
+        type: "string",
       },
     },
     allowUnknownFlags: false,
@@ -159,6 +164,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     sizeCheck: flags.sizeCheck,
     sizeCheckFilter,
     verbose: flags.verbose,
+    localProxies: getLocalProxies(rootDir, flags.proxyConfig),
   };
 
   env.localMocks = localMocks?.map((mock) => ({
@@ -222,7 +228,42 @@ export async function getEnv(rootDir, runtimeFlags) {
     env.useRemote || !env.useLocalContainer ? env.server : "N/A"
   );
 
+  if (
+    env.localProxies.proxies &&
+    Object.keys(env.localProxies.proxies).length > 0
+  ) {
+    console.log();
+    console.log("local proxies:", env.localProxies.proxies);
+    if (env.localProxies.auth) {
+      console.log(
+        "local proxy auth: clientId=%s, org=%s, user=%s",
+        env.localProxies.auth.clientId,
+        env.localProxies.auth.org,
+        env.localProxies.auth.user
+      );
+    }
+  }
+
   return env;
+}
+
+function getLocalProxies(rootDir, customPath) {
+  const proxyConfigPath = customPath
+    ? path.resolve(customPath)
+    : path.join(rootDir, "dev.proxy.yaml");
+  if (existsSync(proxyConfigPath)) {
+    console.log(chalk.cyan("proxy config:"), proxyConfigPath);
+    const content = yaml.load(readFileSync(proxyConfigPath, "utf8"));
+    if (!content) return {};
+    if (content.proxies) {
+      return content;
+    }
+    return { proxies: content };
+  }
+  if (customPath) {
+    console.error(chalk.red("proxy config not found:"), proxyConfigPath);
+  }
+  return {};
 }
 
 function getServerPath(server) {
