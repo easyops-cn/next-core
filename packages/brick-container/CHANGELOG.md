@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.25.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.17...@next-core/brick-container@3.25.0) (2026-04-30)
+
+
+### Features
+
+* **brick-container:** add local service proxy support for dev server ([1bf0382](https://github.com/easyops-cn/next-core/commit/1bf03825d373d0eb64b53ab06dd5e3b912b4fdf2))
+
+
+
+
+
 ## [3.24.17](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.24.16...@next-core/brick-container@3.24.17) (2026-04-22)
 
 
