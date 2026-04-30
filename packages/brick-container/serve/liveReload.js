@@ -4,7 +4,6 @@ const { throttle } = require("lodash");
 const { getPatternsToWatch } = require("./utils");
 
 module.exports = function liveReload(env) {
-  // 建立 websocket 连接支持自动刷新
   if (env.liveReload) {
     const wss = new WebSocket.Server({ port: env.wsPort });
 

@@ -11,6 +11,7 @@ const serveLocal = require("./serveLocal");
 const getProxies = require("./getProxies");
 const { getIndexHtml, distDir, getRawIndexHtml } = require("./getIndexHtml");
 const liveReload = require("./liveReload");
+const { setupLocalProxies } = require("./localProxy");
 
 module.exports = function serve(runtimeFlags) {
   const env = getEnv(runtimeFlags);
@@ -85,6 +86,9 @@ module.exports = function serve(runtimeFlags) {
     // For legacy standalone apps.
     app.use(`${env.baseHref}:appId/-/core/`, express.static(distDir));
   }
+
+  // Register local service proxies before default proxies.
+  setupLocalProxies(app, env);
 
   // Using proxies.
   const proxies = getProxies(env, getRawIndexHtml);
