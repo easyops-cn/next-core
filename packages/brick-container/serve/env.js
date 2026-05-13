@@ -25,6 +25,7 @@ const cli = meow(
     --live-reload           Enable live reload (currently only for local micro-apps)
     --size-check            Enable size-check mode
     --cookie-same-site-none Append "Same-Site: none" for cookies
+    --https                 Enable serving by https (auto-generates self-signed cert if missing)
     --verbose               Print verbose logs
     --proxy-config          Specify custom proxy config file path (defaults to "dev.proxy.yaml" in project root)
     --help                  Show help message
@@ -72,6 +73,9 @@ const cli = meow(
         default: "8090",
       },
       sizeCheck: {
+        type: "boolean",
+      },
+      https: {
         type: "boolean",
       },
       verbose: {
@@ -126,6 +130,26 @@ export async function getEnv(rootDir, runtimeFlags) {
       https = devConfig.https;
       sizeCheckFilter = devConfig.sizeCheckFilter;
     }
+  }
+
+  if (!https && flags.https) {
+    const keyPath = path.join(rootDir, "dev-https.key");
+    const certPath = path.join(rootDir, "dev-https.cert");
+
+    if (!existsSync(keyPath) || !existsSync(certPath)) {
+      const { execSync } = await import("node:child_process");
+      const san = `DNS:localhost${flags.host !== "localhost" ? ",IP:" + flags.host : ""}`;
+      console.log(chalk.cyan("Auto-generating self-signed certificate..."));
+      execSync(
+        `openssl req -x509 -newkey rsa:2048 -keyout "${keyPath}" -out "${certPath}" -days 365 -nodes -subj "/CN=localhost" -addext "subjectAltName=${san}"`,
+        { stdio: "inherit" }
+      );
+    }
+
+    https = {
+      key: readFileSync(keyPath, "utf8"),
+      cert: readFileSync(certPath, "utf8"),
+    };
   }
 
   const env = {
