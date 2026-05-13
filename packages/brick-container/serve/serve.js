@@ -164,10 +164,25 @@ module.exports = function serve(runtimeFlags) {
   }
 
   if (env.https) {
+    const keyPath = path.join(env.rootDir, "dev-https.key");
+    const certPath = path.join(env.rootDir, "dev-https.cert");
+
+    if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
+      const { execSync } = require("child_process");
+      const san = `DNS:localhost${
+        env.host !== "localhost" ? ",IP:" + env.host : ""
+      }`;
+      console.log(chalk.cyan("Auto-generating self-signed certificate..."));
+      execSync(
+        `openssl req -x509 -newkey rsa:2048 -keyout "${keyPath}" -out "${certPath}" -days 365 -nodes -subj "/CN=localhost" -addext "subjectAltName=${san}"`,
+        { stdio: "inherit" }
+      );
+    }
+
     const server = https.createServer(
       {
-        key: fs.readFileSync(path.join(env.rootDir, "dev-https.key"), "utf8"),
-        cert: fs.readFileSync(path.join(env.rootDir, "dev-https.cert"), "utf8"),
+        key: fs.readFileSync(keyPath, "utf8"),
+        cert: fs.readFileSync(certPath, "utf8"),
       },
       app
     );
