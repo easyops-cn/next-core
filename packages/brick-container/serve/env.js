@@ -118,7 +118,8 @@ export async function getEnv(rootDir, runtimeFlags) {
   let https;
   let sizeCheckFilter;
   if (existsSync(devConfigMjs)) {
-    const devConfig = (await import(devConfigMjs)).default;
+    const {pathToFileURL} = await import("url");
+    const devConfig = (await import(pathToFileURL(devConfigMjs).href)).default;
     if (devConfig) {
       if (Array.isArray(devConfig.brickFolders)) {
         brickFolders = devConfig.brickFolders;
@@ -165,7 +166,7 @@ export async function getEnv(rootDir, runtimeFlags) {
         brickFolders.map(
           (folder) =>
             new Promise((resolve, reject) => {
-              glob(path.resolve(rootDir, folder), {}, (err, matches) => {
+              glob(path.resolve(rootDir, folder).replace(/\\/g,"/"), {}, (err, matches) => {
                 if (err) {
                   reject(err);
                 } else {
