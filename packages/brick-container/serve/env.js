@@ -166,7 +166,7 @@ export async function getEnv(rootDir, runtimeFlags) {
         brickFolders.map(
           (folder) =>
             new Promise((resolve, reject) => {
-              glob(path.resolve(rootDir, folder).replace(/\\/g,"/"), {}, (err, matches) => {
+              glob(normalizeGlobPattern(path.resolve(rootDir, folder)), {}, (err, matches) => {
                 if (err) {
                   reject(err);
                 } else {
@@ -301,4 +301,8 @@ function getServerPath(server) {
   }
 
   return new URL(server).origin;
+}
+
+function normalizeGlobPattern(filePath) {
+  return filePath.split(path.win32.sep).join(path.posix.sep);
 }
