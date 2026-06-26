@@ -254,15 +254,29 @@ export default function getProxy(env, getRawIndexHtml) {
                 data.injectMenus = data.injectMenus.map((remoteMenu) => {
                   const appId = remoteMenu.app?.[0]?.appId;
                   const menuId = remoteMenu.menuId;
-                   const menuType = remoteMenu.type;
+                  const remoteGroupId = remoteMenu.injectMenuGroupId;
                   if (!appId || !menuId) {
                     return remoteMenu;
                   }
 
                   const localAppId = localStoryboard.app.id;
-                  if (localStoryboard.meta && localStoryboard.meta.menus) {
+                  if (
+                    localStoryboard.meta &&
+                    localStoryboard.meta.menus &&
+                    localAppId === appId
+                  ) {
+                    // 同一个 menuId 可能存在多个 inject 菜单（按 injectMenuGroupId 区分注入目标），
+                    // 按 menuId + injectMenuGroupId 精确匹配。无 group 时仅按 menuId 匹配。
                     const localMenu = localStoryboard.meta.menus.find(
-                      (menu) => menu.menuId === menuId&&menu.type===menuType && localAppId === appId
+                      (menu) => {
+                        if (menu.menuId !== menuId) {
+                          return false;
+                        }
+                        if (remoteGroupId) {
+                          return menu.injectMenuGroupId === remoteGroupId;
+                        }
+                        return true;
+                      }
                     );
 
                     if (localMenu) {
