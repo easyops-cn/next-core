@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.1...@next-core/brick-container@3.25.2) (2026-06-26)
+
+
+### Bug Fixes
+
+* **brick-container:** 精确匹配 inject 菜单的 injectMenuGroupId ([30b285e](https://github.com/easyops-cn/next-core/commit/30b285e6bd195cff0c70eb21f721288d8f3efa8d))
+
+
+
+
+
 ## [3.25.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.0...@next-core/brick-container@3.25.1) (2026-05-13)
 
 **Note:** Version bump only for package @next-core/brick-container
