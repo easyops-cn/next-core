@@ -456,7 +456,7 @@ module.exports = (env, getRawIndexHtml) => {
               data.injectMenus = data.injectMenus.map((remoteMenu) => {
                 const remoteAppId = remoteMenu.app?.[0]?.appId;
                 const menuId = remoteMenu.menuId;
-                const menuType = remoteMenu.type;
+                const remoteGroupId = remoteMenu.injectMenuGroupId;
 
                 if (!remoteAppId || !menuId) {
                   return remoteMenu;
@@ -469,10 +469,17 @@ module.exports = (env, getRawIndexHtml) => {
                   localStoryboard.meta.menus &&
                   localAppId === remoteAppId
                 ) {
-                  // 从本地 storyboard 查找匹配的 menu
-                  const localMenu = localStoryboard.meta.menus.find(
-                    (menu) => menu.menuId === menuId && menu.type === menuType
-                  );
+                  // 同一个 menuId 可能存在多个 inject 菜单（按 injectMenuGroupId 区分注入目标），
+                  // 按 menuId + injectMenuGroupId 精确匹配。无 group 时仅按 menuId 匹配。
+                  const localMenu = localStoryboard.meta.menus.find((menu) => {
+                    if (menu.menuId !== menuId) {
+                      return false;
+                    }
+                    if (remoteGroupId) {
+                      return menu.injectMenuGroupId === remoteGroupId;
+                    }
+                    return true;
+                  });
 
                   if (localMenu) {
                     console.log(
