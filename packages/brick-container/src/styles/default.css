@@ -140,6 +140,114 @@ html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
   display: none;
 }
 
+.initial-loading-screen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f7fa;
+  color: #595959;
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.initial-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.initial-loading-spinner {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  transform: rotate(45deg);
+  animation: initial-loading-spin 1.2s infinite linear;
+}
+
+.initial-loading-spinner-item {
+  position: absolute;
+  display: block;
+  width: 9px;
+  height: 9px;
+  background-color: #1890ff;
+  border-radius: 100%;
+  opacity: 0.3;
+  transform: scale(0.75);
+  transform-origin: 50% 50%;
+  animation: initial-loading-dot 1s infinite linear alternate;
+}
+
+.initial-loading-spinner-item:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+.initial-loading-spinner-item:nth-child(2) {
+  top: 0;
+  right: 0;
+  animation-delay: 0.4s;
+}
+
+.initial-loading-spinner-item:nth-child(3) {
+  right: 0;
+  bottom: 0;
+  animation-delay: 0.8s;
+}
+
+.initial-loading-spinner-item:nth-child(4) {
+  bottom: 0;
+  left: 0;
+  animation-delay: 1.2s;
+}
+
+.initial-loading-text {
+  margin-top: 16px;
+  color: #1890ff;
+}
+
+.initial-loading-letter {
+  display: inline-block;
+  min-width: 0.55em;
+  text-align: center;
+  animation: initial-loading-letter-jump 1.4s ease-in-out infinite;
+}
+
+.initial-loading-letter:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.initial-loading-letter:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.initial-loading-letter:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.initial-loading-letter:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.initial-loading-letter:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+.initial-loading-letter:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+.first-rendered .initial-loading-screen,
+.bootstrap-error .initial-loading-screen {
+  display: none;
+}
+
 @keyframes global-loading {
   from {
     transform: translateX(-30%) scaleX(0.3);
@@ -163,5 +271,38 @@ html[data-mode="dashboard"] body.has-sub-menu #main-mount-point {
 
   to {
     transform: translateX(120%);
+  }
+}
+
+@keyframes initial-loading-spin {
+  to {
+    transform: rotate(405deg);
+  }
+}
+
+@keyframes initial-loading-dot {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes initial-loading-letter-jump {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+
+  20% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .initial-loading-spinner,
+  .initial-loading-spinner-item,
+  .initial-loading-letter {
+    animation: none;
   }
 }
