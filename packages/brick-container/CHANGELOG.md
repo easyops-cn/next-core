@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.2...@next-core/brick-container@3.25.3) (2026-08-20)
+
+
+### Bug Fixes
+
+* **brick-container:** add animated initial loading ([62f22eb](https://github.com/easyops-cn/next-core/commit/62f22eb85b271cb71bd99212cce1a199f15fa2e2))
+
+
+
+
+
 ## [3.25.2](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.1...@next-core/brick-container@3.25.2) (2026-06-26)
 
 
