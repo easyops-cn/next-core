@@ -162,6 +162,7 @@ class AppPreviewer {
       const runtime = doCreateRuntime();
       await loadCheckLogin();
       await runtime.bootstrap(data);
+      document.body.classList.add("first-rendered");
     } catch (error) {
       handleError(error);
     }
@@ -206,6 +207,7 @@ async function main() {
         loadBootstrapData(),
       ]);
       await runtime.bootstrap(bootstrapData);
+      document.body.classList.add("first-rendered");
       resetReloadForError();
     }
     return "ok";
