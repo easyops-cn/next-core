@@ -11,7 +11,6 @@ import type { BatchUpdateContextItem } from '@next-core/types';
 import type { BootstrapData } from '@next-core/types';
 import { BreadcrumbItemConf } from '@next-core/types';
 import type { BrickConf } from '@next-core/types';
-import type { BrickEventHandler } from '@next-core/types';
 import type { BrickEventHandlerCallback } from '@next-core/types';
 import type { BrickEventsMap } from '@next-core/types';
 import type { BrickLifeCycle } from '@next-core/types';
@@ -58,8 +57,6 @@ declare namespace __secret_internals {
         updateStoryboardByTemplate,
         updateTemplatePreviewSettings,
         updateStoryboardBySnippet,
-        getContextValue,
-        getAllContextValues,
         getBrickPackagesById,
         loadBricks,
         loadEditors,
@@ -187,9 +184,6 @@ export function fetchByProvider(provider: string, args: unknown[], options?: Res
 // @public (undocumented)
 function getAddedContracts(storyboardPatch: PreviewStoryboardPatch, { appId, updateStoryboardType, collectUsedContracts }: PreviewOption): Promise<string[]>;
 
-// @public (undocumented)
-function getAllContextValues({ tplStateStoreId, }: DataValueOption): Record<string, unknown>;
-
 // @public @deprecated (undocumented)
 export function getAuth(): object | undefined;
 
@@ -201,9 +195,6 @@ function getBrickPackages(): BrickPackage[];
 
 // @public (undocumented)
 function getBrickPackagesById(id: string): BrickPackage | undefined;
-
-// @public (undocumented)
-function getContextValue(name: string, { tplStateStoreId }: DataValueOption): unknown;
 
 // @public (undocumented)
 export function getCssPropertyValue(name: string, el?: HTMLElement): string;
@@ -333,6 +324,10 @@ function mountUseBrick({ renderRoot, rendererContext, scopedStores }: RenderUseB
 
 // @public (undocumented)
 interface MountUseBrickResult {
+    // Warning: (ae-forgotten-export) The symbol "Dispose" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    dispose: Dispose;
     // (undocumented)
     portal?: HTMLElement;
 }

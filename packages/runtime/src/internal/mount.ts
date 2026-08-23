@@ -4,6 +4,7 @@ import { bindListeners } from "./bindListeners.js";
 import { setRealProperties } from "./compute/setRealProperties.js";
 import { RenderTag } from "./enums.js";
 import type {
+  Dispose,
   RenderReturnNode,
   RenderRoot,
   RuntimeBrickElement,
@@ -16,11 +17,12 @@ export function unmountTree(mountPoint: HTMLElement | DocumentFragment) {
 export function mountTree(
   root: RenderRoot,
   initializedElement?: RuntimeBrickElement
-): void {
+): Dispose {
   root.mounted = true;
   window.DISABLE_REACT_FLUSH_SYNC = false;
   let current = root.child;
   const portalElements: RuntimeBrickElement[] = [];
+  const disposables: Dispose[] = [];
   while (current) {
     current.mounted = true;
     if (current.tag === RenderTag.BRICK) {
@@ -56,7 +58,10 @@ export function mountTree(
           current.tplHostMetadata.tplStateStoreId;
       }
       setRealProperties(element, current.properties);
-      bindListeners(element, current.events, current.runtimeContext);
+      disposables.push(
+        bindListeners(element, current.events, current.runtimeContext)
+      );
+
       if (current.tplHostMetadata) {
         // 先设置属性，再设置 `$$tplStateStore`，这样，当触发属性设置时，
         // 避免初始化的一次 state update 操作及其 onChange 事件。
@@ -127,4 +132,10 @@ export function mountTree(
   setTimeout(() => {
     window.DISABLE_REACT_FLUSH_SYNC = true;
   });
+  return () => {
+    for (const dispose of disposables) {
+      dispose();
+    }
+    disposables.length = 0;
+  };
 }

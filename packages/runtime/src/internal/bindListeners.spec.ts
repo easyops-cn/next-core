@@ -675,6 +675,7 @@ describe("listenerFactory for handleHttpError", () => {
 
 describe("listenerFactory for event.*", () => {
   test("event.preventDefault", () => {
+    consoleError.mockReturnValue();
     const event = { preventDefault: jest.fn() } as any;
     listenerFactory(
       {
@@ -684,9 +685,11 @@ describe("listenerFactory for event.*", () => {
       runtimeContext
     )(event);
     expect(event.preventDefault).toHaveBeenCalledWith();
+    consoleError.mockReset();
   });
 
   test("event.stopPropagation", () => {
+    consoleError.mockReturnValue();
     const event = { stopPropagation: jest.fn() } as any;
     listenerFactory(
       {
@@ -695,6 +698,7 @@ describe("listenerFactory for event.*", () => {
       runtimeContext
     )(event);
     expect(event.stopPropagation).toHaveBeenCalledWith();
+    consoleError.mockReset();
   });
 
   test("non-Event object", () => {

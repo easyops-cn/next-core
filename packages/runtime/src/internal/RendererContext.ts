@@ -346,11 +346,18 @@ export class RendererContext {
 
       unbindTemplateProxy(brick);
       delete brick.element?.$$tplStateStore;
+      brick.element?.$$disposes?.forEach((dispose) => dispose());
+      delete brick.element?.$$disposes;
       // Also remove the element
       brick.element?.remove();
       // Dispose context listeners
       brick.disposes?.forEach((dispose) => dispose());
       delete brick.disposes;
+      (
+        brick.element as {
+          __secret_internal_dispose?: () => void;
+        }
+      )?.__secret_internal_dispose?.();
     }
 
     // Dispatch unmount events
