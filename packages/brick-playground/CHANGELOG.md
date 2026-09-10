@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.49](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.48...@next-core/brick-playground@1.16.49) (2026-09-10)
+
+
+### Bug Fixes
+
+* support Windows paths in local brick discovery ([b25debd](https://github.com/easyops-cn/next-core/commit/b25debd513218ce7ce0f29b4552859f958463cbf))
+
+
+
+
+
 ## [1.16.48](https://github.com/easyops-cn/next-core/compare/@next-core/brick-playground@1.16.47...@next-core/brick-playground@1.16.48) (2026-03-17)
 
 **Note:** Version bump only for package @next-core/brick-playground

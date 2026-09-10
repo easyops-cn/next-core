@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.25.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.3...@next-core/brick-container@3.25.4) (2026-09-10)
+
+
+### Bug Fixes
+
+* support Windows paths in local brick discovery ([b25debd](https://github.com/easyops-cn/next-core/commit/b25debd513218ce7ce0f29b4552859f958463cbf))
+
+
+
+
+
 ## [3.25.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.2...@next-core/brick-container@3.25.3) (2026-08-20)
 
 
