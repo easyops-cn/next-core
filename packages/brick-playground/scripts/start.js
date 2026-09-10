@@ -1,9 +1,11 @@
 import path from "node:path";
-import { existsSync } from "node:fs";
 import WebpackDevServer from "webpack-dev-server";
-import glob from "glob";
 import { build } from "@next-core/build-next-bricks";
-import { serveBricks } from "@next-core/serve-helpers";
+import {
+  loadDevConfig,
+  resolveLocalBrickFolders,
+  serveBricks,
+} from "@next-core/serve-helpers";
 import config from "../build.config.js";
 import bootstrapJson from "../serve/bootstrapJson.js";
 import examplesJson from "../serve/examplesJson.js";
@@ -13,35 +15,17 @@ const packageDir = process.cwd();
 const rootDir = path.resolve(packageDir, "../..");
 
 let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
-const devConfigMjs = path.join(rootDir, "dev.config.mjs");
 let configuredBrickFolders = false;
 
-if (existsSync(devConfigMjs)) {
-  const devConfig = (await import(devConfigMjs)).default;
-  if (devConfig) {
-    if (Array.isArray(devConfig.brickFolders)) {
-      brickFolders = devConfig.brickFolders;
-      configuredBrickFolders = true;
-    }
+const devConfig = await loadDevConfig(rootDir);
+if (devConfig) {
+  if (Array.isArray(devConfig.brickFolders)) {
+    brickFolders = devConfig.brickFolders;
+    configuredBrickFolders = true;
   }
 }
 
-const localBrickFolders = (
-  await Promise.all(
-    brickFolders.map(
-      (folder) =>
-        new Promise((resolve, reject) => {
-          glob(path.resolve(rootDir, folder), {}, (err, matches) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(matches);
-            }
-          });
-        })
-    )
-  )
-).flat();
+const localBrickFolders = await resolveLocalBrickFolders(rootDir, brickFolders);
 
 if (configuredBrickFolders) {
   console.log("local brick folders:", localBrickFolders);

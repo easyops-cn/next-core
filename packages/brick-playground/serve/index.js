@@ -1,10 +1,12 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { existsSync } from "node:fs";
 import express from "express";
 import compression from "compression";
-import glob from "glob";
-import { serveBricks } from "@next-core/serve-helpers";
+import {
+  loadDevConfig,
+  resolveLocalBrickFolders,
+  serveBricks,
+} from "@next-core/serve-helpers";
 import bootstrapJson from "./bootstrapJson.js";
 import examplesJson from "./examplesJson.js";
 
@@ -17,37 +19,19 @@ app.use(compression());
 const rootDir = process.cwd();
 
 let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
-const devConfigMjs = path.join(rootDir, "dev.config.mjs");
 let configuredBrickFolders = false;
 let mocks;
 
-if (existsSync(devConfigMjs)) {
-  const devConfig = (await import(devConfigMjs)).default;
-  if (devConfig) {
-    if (Array.isArray(devConfig.brickFolders)) {
-      brickFolders = devConfig.brickFolders;
-      configuredBrickFolders = true;
-    }
-    mocks = devConfig.mocks;
+const devConfig = await loadDevConfig(rootDir);
+if (devConfig) {
+  if (Array.isArray(devConfig.brickFolders)) {
+    brickFolders = devConfig.brickFolders;
+    configuredBrickFolders = true;
   }
+  mocks = devConfig.mocks;
 }
 
-const localBrickFolders = (
-  await Promise.all(
-    brickFolders.map(
-      (folder) =>
-        new Promise((resolve, reject) => {
-          glob(path.resolve(rootDir, folder), {}, (err, matches) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(matches);
-            }
-          });
-        })
-    )
-  )
-).flat();
+const localBrickFolders = await resolveLocalBrickFolders(rootDir, brickFolders);
 
 for (const mock of mocks ?? []) {
   app.use(mock);
