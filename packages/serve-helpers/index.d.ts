@@ -1,5 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 
+export function loadDevConfig(rootDir: string): Promise<any | undefined>;
+export function resolveLocalBrickFolders(
+  rootDir: string,
+  brickFolders: string[]
+): Promise<string[]>;
 export function getBrickPackages(
   localBrickFolders: string[],
   publicRootWithVersion?: boolean,

@@ -2,9 +2,12 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import meow from "meow";
 import chalk from "chalk";
-import glob from "glob";
 import yaml from "js-yaml";
-import { getLocalBrickPackageNames } from "@next-core/serve-helpers";
+import {
+  getLocalBrickPackageNames,
+  loadDevConfig,
+  resolveLocalBrickFolders,
+} from "@next-core/serve-helpers";
 import { getSizeCheckApp } from "./utils/sizeCheck.js";
 
 const cli = meow(
@@ -112,24 +115,21 @@ export async function getEnv(rootDir, runtimeFlags) {
   let localSettings, localMocks;
 
   let brickFolders = ["node_modules/@next-bricks", "node_modules/@bricks"];
-  const devConfigMjs = path.join(rootDir, "dev.config.mjs");
   let configuredBrickFolders = false;
   let userConfigByApps;
   let https;
   let sizeCheckFilter;
-  if (existsSync(devConfigMjs)) {
-    const devConfig = (await import(devConfigMjs)).default;
-    if (devConfig) {
-      if (Array.isArray(devConfig.brickFolders)) {
-        brickFolders = devConfig.brickFolders;
-        configuredBrickFolders = true;
-      }
-      localSettings = devConfig.settings;
-      localMocks = devConfig.mocks;
-      userConfigByApps = devConfig.userConfigByApps;
-      https = devConfig.https;
-      sizeCheckFilter = devConfig.sizeCheckFilter;
+  const devConfig = await loadDevConfig(rootDir);
+  if (devConfig) {
+    if (Array.isArray(devConfig.brickFolders)) {
+      brickFolders = devConfig.brickFolders;
+      configuredBrickFolders = true;
     }
+    localSettings = devConfig.settings;
+    localMocks = devConfig.mocks;
+    userConfigByApps = devConfig.userConfigByApps;
+    https = devConfig.https;
+    sizeCheckFilter = devConfig.sizeCheckFilter;
   }
 
   if (!https && flags.https) {
@@ -160,22 +160,7 @@ export async function getEnv(rootDir, runtimeFlags) {
     useLocalContainer: !flags.remote || flags.localContainer,
     localBricks: flags.localBricks ? flags.localBricks.split(",") : undefined,
     localMicroApps: flags.localMicroApps ? flags.localMicroApps.split(",") : [],
-    localBrickFolders: (
-      await Promise.all(
-        brickFolders.map(
-          (folder) =>
-            new Promise((resolve, reject) => {
-              glob(path.resolve(rootDir, folder), {}, (err, matches) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(matches);
-                }
-              });
-            })
-        )
-      )
-    ).flat(),
+    localBrickFolders: await resolveLocalBrickFolders(rootDir, brickFolders),
     cookieSameSiteNone: flags.cookieSameSiteNone,
     liveReload: flags.liveReload,
     localSettings,
