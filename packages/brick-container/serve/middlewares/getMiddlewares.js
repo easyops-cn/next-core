@@ -112,6 +112,17 @@ export function getPreMiddlewares(env) {
       path: `${baseHref}sa-static/${appId}/versions/0.0.0/webroot/-/micro-apps/${appId}/images`,
       middleware: serveAppImages(env, appId),
     });
+
+    middlewares.push({
+      path: `${baseHref}sa-static/micro-apps/v3/${appId}/:version/images`,
+      middleware: serveAppImages(env, appId),
+    });
+
+    // The locally injected storyboard may not have a current version.
+    middlewares.push({
+      path: `${baseHref}sa-static/micro-apps/v3/${appId}//images`,
+      middleware: serveAppImages(env, appId),
+    });
   }
 
   middlewares.push({
