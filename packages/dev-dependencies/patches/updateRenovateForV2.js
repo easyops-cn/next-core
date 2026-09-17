@@ -21,7 +21,17 @@ function updateRenovateForV2() {
       matchPackagePatterns: ["^@next-core/"],
       matchUpdateTypes: ["minor", "patch"],
       postUpgradeTasks:
-        packageJson.homepage && packageJson.homepage.includes("github.com")
+        (() => {
+          if (!packageJson.homepage) return false;
+          try {
+            const { hostname } = new URL(packageJson.homepage);
+            return (
+              hostname === "github.com" || hostname.endsWith(".github.com")
+            );
+          } catch (e) {
+            return false;
+          }
+        })()
           ? undefined
           : {
               commands: [
