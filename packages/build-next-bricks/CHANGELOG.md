@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.26.3](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.26.2...@next-core/build-next-bricks@1.26.3) (2026-09-17)
+
+
+### Bug Fixes
+
+* **build-next-bricks:** v3 构件文档支持英文标签与 docs/*.en.md ([1805eca](https://github.com/easyops-cn/next-core/commit/1805ecae2edd25fb8d9303d9023ceb4afc7a6046))
+
+
+
+
+
 ## [1.26.2](https://github.com/easyops-cn/next-core/compare/@next-core/build-next-bricks@1.26.1...@next-core/build-next-bricks@1.26.2) (2026-01-20)
 
 

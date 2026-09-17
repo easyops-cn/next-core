@@ -1,6 +1,6 @@
 {
   "name": "@next-core/preview",
-  "version": "0.8.39",
+  "version": "0.8.40",
   "homepage": "https://github.com/easyops-cn/next-core/tree/v3/packages/preview",
   "license": "GPL-3.0",
   "repository": {
@@ -25,7 +25,7 @@
     "build": "cross-env NODE_ENV='production' build-next-bricks"
   },
   "devDependencies": {
-    "@next-core/build-next-bricks": "^1.26.2",
+    "@next-core/build-next-bricks": "^1.26.3",
     "@next-core/http": "^1.2.16",
     "@next-core/loader": "^1.6.21",
     "@next-core/runtime": "^1.72.10",
