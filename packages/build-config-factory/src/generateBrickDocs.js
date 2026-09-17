@@ -54,10 +54,44 @@ function generateBrickDoc(doc) {
 }
 
 function convertTagsToMapByFields(tags, fields) {
+  const descriptionEn = tags.find((item) => item.tag === "description.en");
+  const descriptionZh = tags.find((item) => item.tag === "description.zh");
+
   return tags.reduce((prev, curr) => {
+    // Keep bilingual descriptions as an i18n object in stories.json. The
+    // regular @description tag remains the Chinese/default description for
+    // backwards compatibility with existing brick docs.
+    if (curr.tag === "description.en") {
+      prev.description = {
+        ...(prev.description && typeof prev.description === "object"
+          ? prev.description
+          : { zh: descriptionZh?.text?.trim() || prev.description }),
+        en: curr.text.trim(),
+      };
+      return prev;
+    }
+
+    if (curr.tag === "description.zh") {
+      if (!prev.description || typeof prev.description !== "object") {
+        prev.description = {
+          zh: curr.text.trim(),
+          ...(descriptionEn ? { en: descriptionEn.text.trim() } : {}),
+        };
+      } else {
+        prev.description.zh = curr.text.trim();
+      }
+      return prev;
+    }
+
     if (fields.includes(curr.tag)) {
       if (curr.tag === "slots") {
-        prev["slots"] = composeBrickDocSlots(curr.text);
+        // 英文说明写在 `@slots.en`，中文可写在 `@slots.zh` 或直接复用 `@slots`
+        const slotsZh = tags.find((item) => item.tag === "slots.zh");
+        const slotsEn = tags.find((item) => item.tag === "slots.en");
+        prev["slots"] = composeBrickDocSlots(
+          slotsZh?.text?.trim() || curr.text,
+          slotsEn?.text
+        );
         return prev;
       }
       if (curr.tag === "history") {
@@ -106,7 +140,26 @@ function convertTagsToMapByFields(tags, fields) {
         }
       }
 
-      prev[curr.tag] = curr.text.trim();
+      if (curr.tag === "memo") {
+        // 英文说明写在 `@memo.en`，中文可写在 `@memo.zh` 或直接复用 `@memo`；
+        // 没有英文时回退为原字符串，保持对既有构件文档的向后兼容
+        const memoZh = tags.find((item) => item.tag === "memo.zh");
+        const memoEn = tags.find((item) => item.tag === "memo.en");
+        const zh = memoZh?.text?.trim() || curr.text.trim();
+        prev["memo"] = memoEn ? { en: memoEn.text.trim(), zh } : zh;
+        return prev;
+      }
+
+      if (curr.tag === "description" && prev.description) {
+        prev.description = {
+          ...(typeof prev.description === "object"
+            ? prev.description
+            : { en: prev.description }),
+          zh: curr.text.trim(),
+        };
+      } else {
+        prev[curr.tag] = curr.text.trim();
+      }
     }
 
     return prev;
@@ -189,17 +242,54 @@ function composeBrickDocMethods(brick) {
 /**
  * slots字符串格式为 "items:子节点 content:内容",
  * 转换为 {"name": "items","description": "子节点"}
+ *
+ * 英文说明写在 `@slots.en`，按 slot 名与中文说明合并成 `{ en, zh }`；
+ * 没有英文的 slot 仍保持原字符串。
  */
-function composeBrickDocSlots(slot) {
+function composeBrickDocSlots(slot, slotEn) {
   if (!slot) return null;
-  return slot
-    .trim()
-    .split("\n")
-    .filter(Boolean)
-    .map((curr) => {
-      const [name, description] = curr.split(":");
-      return { name, description };
-    });
+
+  const parseSlots = (text) =>
+    (text || "")
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((curr) => {
+        const [name, description] = curr.split(":");
+        return { name, description };
+      });
+
+  const zhSlots = parseSlots(slot);
+  if (!slotEn) return zhSlots;
+
+  const enSlots = parseSlots(slotEn);
+  return zhSlots.map(({ name, description }) => {
+    const finder = enSlots.find((item) => item.name?.trim() === name?.trim());
+    return finder
+      ? {
+          name,
+          description: { en: finder.description?.trim(), zh: description },
+        }
+      : { name, description };
+  });
+}
+
+/**
+ * 从 TypeDoc 注释中提取双语说明。
+ *
+ * 中文优先取 `@description.zh`，其次取 JSDoc 摘要 `shortText`；
+ * 英文取 `@description.en`。只有存在英文时才返回 `{ en, zh }`，
+ * 否则回退为原字符串，保持对既有构件文档的向后兼容。
+ */
+function extractBilingualComment(comment) {
+  const shortText = get(comment, ["shortText"], "").trim();
+  const tags = get(comment, ["tags"], []);
+  const descriptionZh = tags.find((item) => item.tag === "description.zh");
+  const descriptionEn = tags.find((item) => item.tag === "description.en");
+  const zh = descriptionZh?.text?.trim() || shortText;
+  const en = descriptionEn?.text?.trim();
+
+  return en ? { en, zh } : zh;
 }
 
 function composeBrickDocHistory(history) {
@@ -431,7 +521,7 @@ function extractBrickDocTypes(type) {
     name: type.name,
     typeParameter: getTypeParameter(type),
     kind: "type",
-    description: get(type, ["comment", "shortText"], "").trim(),
+    description: extractBilingualComment(type?.comment),
     type: extractRealInterfaceType(type.type),
   };
 }
@@ -441,13 +531,13 @@ function extractBrickDocEnumerations(enumerations) {
     name: enumerations.name,
     typeParameter: null,
     kind: "enum",
-    description: enumerations?.comment?.shortText?.trim(),
+    description: extractBilingualComment(enumerations?.comment),
     children: [
       ...enumerations.children.map((child) => {
         return {
           name: child.name,
           value: get(child, ["defaultValue"], ""),
-          description: get(child, ["comment", "shortText"], "").trim(),
+          description: extractBilingualComment(child?.comment),
         };
       }),
     ],
@@ -488,7 +578,7 @@ function extractBrickDocInterface(typeIds, references) {
             typeParameter: getTypeParameter(finder),
             kind: "interface",
             extendedTypes: finder.extendedTypes,
-            description: finder?.comment?.shortText?.trim(),
+            description: extractBilingualComment(finder.comment),
             children:
               finder.children
                 ?.filter((child) => !child.inheritedFrom)
@@ -497,11 +587,7 @@ function extractBrickDocInterface(typeIds, references) {
                     name: child.name,
                     type: extractRealInterfaceType(child.type),
                     required: !get(child, ["flags", "isOptional"], false),
-                    description: get(
-                      child,
-                      ["comment", "shortText"],
-                      ""
-                    ).trim(),
+                    description: extractBilingualComment(child?.comment),
                   };
                 }) || [],
             indexSignature:
