@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.22](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.26.21...@next-core/build-config-factory@2.26.22) (2026-09-17)
+
+
+### Bug Fixes
+
+* **build-config-factory:** 构件文档生成器支持双语 JSDoc 标签 ([d03485e](https://github.com/easyops-cn/next-core/commit/d03485e349f9946b724b853b5e9d5c60db7147ca))
+
+
+
+
+
 ## [2.26.21](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.26.20...@next-core/build-config-factory@2.26.21) (2026-01-28)
 
 **Note:** Version bump only for package @next-core/build-config-factory
