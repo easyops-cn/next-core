@@ -69,7 +69,10 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
 
   const docComment = findDocComment(nodePath, source);
   if (docComment) {
-    manifest.description = docComment.description;
+    manifest.description = toI18nDescription(
+      getChineseText(docComment),
+      findTag(docComment.tags, "en")?.description
+    );
     manifest.deprecated = getDeprecatedInfo(docComment.tags);
     for (const tag of docComment.tags) {
       switch (tag.title) {
@@ -82,7 +85,10 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
           }
           manifest.slots.push({
             name: match[1] ?? null,
-            description: match[2],
+            description: toI18nDescription(
+              match[2],
+              findI18nTag(docComment.tags, "slotEn", match[1] ?? null)
+            ),
           });
           break;
         }
@@ -95,7 +101,10 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
           }
           manifest.parts.push({
             name: match[1],
-            description: match[2],
+            description: toI18nDescription(
+              match[2],
+              findI18nTag(docComment.tags, "partEn", match[1])
+            ),
           });
           break;
         }
@@ -115,7 +124,10 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
           }
           manifest.events.push({
             name: match[1],
-            description: match[2],
+            description: toI18nDescription(
+              match[2],
+              findI18nTag(docComment.tags, "eventEn", match[1])
+            ),
           });
           break;
         }
@@ -138,7 +150,7 @@ export default function makeBrickManifest(name, alias, nodePath, source) {
     manifest.properties.push({
       name: "textContent",
       type: "string",
-      description: "文本内容",
+      description: { zh: "文本内容", en: "Text content" },
     });
     manifest.types.properties.push({
       name: "textContent",
@@ -171,7 +183,10 @@ export function makeProviderManifest(name, nodePath, source) {
 
   const docComment = findDocComment(nodePath, source);
   if (docComment) {
-    manifest.description = docComment.description;
+    manifest.description = toI18nDescription(
+      getChineseText(docComment),
+      findTag(docComment.tags, "en")?.description
+    );
     manifest.deprecated = getDeprecatedInfo(docComment.tags);
   }
 
@@ -188,9 +203,12 @@ export function makeProviderManifest(name, nodePath, source) {
     if (param.type === "Identifier") {
       manifest.params.push({
         name: param.name,
-        description: docComment?.tags.find(
-          (tag) => tag.title === "param" && tag.name === param.name
-        )?.description,
+        description: toI18nDescription(
+          docComment?.tags.find(
+            (tag) => tag.title === "param" && tag.name === param.name
+          )?.description,
+          findParamEn(docComment, param.name)
+        ),
         annotation,
       });
     } else {
@@ -199,7 +217,10 @@ export function makeProviderManifest(name, nodePath, source) {
       )?.[index];
       manifest.params.push({
         name: paramTag?.name ?? `param_${index + 1}`,
-        description: paramTag?.description,
+        description: toI18nDescription(
+          paramTag?.description,
+          findParamEn(docComment, paramTag?.name ?? `param_${index + 1}`)
+        ),
         isRestElement: param.type === "RestElement",
         annotation,
       });
@@ -270,7 +291,10 @@ function scanFields(manifest, nodes, source) {
                 if (findTag(docComment.tags, "internal")) {
                   break;
                 }
-                prop.description = docComment.description;
+                prop.description = toI18nDescription(
+                  getChineseText(docComment),
+                  findTag(docComment.tags, "en")?.description
+                );
                 prop.required = getBooleanTag(docComment.tags, "required");
                 prop.deprecated = getDeprecatedInfo(docComment.tags);
                 prop.default = findTag(docComment.tags, "default")?.description;
@@ -382,12 +406,18 @@ function scanFields(manifest, nodes, source) {
               }
               const docComment = parseDocComment(node, source);
               if (docComment) {
-                event.description = docComment.description;
+                event.description = toI18nDescription(
+                  getChineseText(docComment),
+                  findTag(docComment.tags, "en")?.description
+                );
                 event.deprecated = getDeprecatedInfo(docComment.tags);
                 const detailTag = findTag(docComment.tags, "detail");
                 if (detailTag) {
                   event.detail ??= {};
-                  event.detail.description = detailTag.description;
+                  event.detail.description = toI18nDescription(
+                    detailTag.description,
+                    findTag(docComment.tags, "detailEn")?.description
+                  );
                 }
               }
               // Find out the type annotation for the event detail.
@@ -442,7 +472,10 @@ function scanFields(manifest, nodes, source) {
           };
           const docComment = parseDocComment(node, source);
           if (docComment) {
-            method.description = docComment.description;
+            method.description = toI18nDescription(
+              getChineseText(docComment),
+              findTag(docComment.tags, "en")?.description
+            );
             method.deprecated = getDeprecatedInfo(docComment.tags);
             method.returns = {
               description: docComment.tags.find(
@@ -476,9 +509,12 @@ function scanFields(manifest, nodes, source) {
               paramName = param.name;
               method.params.push({
                 name: paramName,
-                description: docComment?.tags.find(
-                  (tag) => tag.title === "param" && tag.name === param.name
-                )?.description,
+                description: toI18nDescription(
+                  docComment?.tags.find(
+                    (tag) => tag.title === "param" && tag.name === param.name
+                  )?.description,
+                  findParamEn(docComment, param.name)
+                ),
                 type: paramType,
               });
             } else {
@@ -488,7 +524,10 @@ function scanFields(manifest, nodes, source) {
               paramName = paramTag?.name ?? `param_${index + 1}`;
               method.params.push({
                 name: paramName,
-                description: paramTag?.description,
+                description: toI18nDescription(
+          paramTag?.description,
+          findParamEn(docComment, paramTag?.name ?? `param_${index + 1}`)
+        ),
                 type: paramType,
               });
             }
@@ -554,7 +593,10 @@ export function parseTypeComment(node, source) {
   const docComment = parseDocComment(node, source);
   if (docComment) {
     return {
-      description: docComment.description,
+      description: toI18nDescription(
+        getChineseText(docComment),
+        findTag(docComment.tags, "en")?.description
+      ),
       deprecated: getDeprecatedInfo(docComment.tags),
       ...(node.type === "TSPropertySignature"
         ? {
@@ -614,6 +656,73 @@ function findTag(tags, title) {
   for (const tag of tags) {
     if (tag.title === title) {
       return tag;
+    }
+  }
+}
+
+/**
+ * 把中文说明与英文说明整理成 `{ zh, en }`；没有英文时返回原字符串（向后兼容）。
+ * @param {string | undefined} zh
+ * @param {string | undefined} en
+ */
+function toI18nDescription(zh, en) {
+  return en ? { zh, en } : zh;
+}
+
+/**
+ * 取中文说明。JSDoc 摘要为空时回退到 `@description` 标签。
+ *
+ * 部分 `eo-*` 构件把事件的中文写在 `@description` 标签里（而非 JSDoc 摘要），
+ * 早期构建器只读摘要，导致这些事件的中文一直是空字符串。
+ * @param {ReturnType<typeof parseDocComment>} docComment
+ */
+/**
+ * 取 `@paramEn` 的英文说明。
+ *
+ * doctrine 只对内置的 `@param` 解析出 `name`，对 `@paramEn` 会把整段文本放进 description，
+ * 所以这里自行按 `<名字> <说明>`（允许 `名字 - 说明`）拆分并匹配参数名。
+ * @param {ReturnType<typeof parseDocComment>} docComment
+ * @param {string} paramName
+ */
+function findParamEn(docComment, paramName) {
+  for (const tag of docComment?.tags ?? []) {
+    if (tag.title !== "paramEn" || !tag.description) {
+      continue;
+    }
+    const match = tag.description.match(/^(\S+)\s+([\s\S]*)$/);
+    if (!match || match[1] !== paramName) {
+      continue;
+    }
+    return match[2].replace(/^\s*-\s*/, "");
+  }
+}
+
+function getChineseText(docComment) {
+  return (
+    docComment.description ||
+    findTag(docComment.tags, "description")?.description
+  );
+}
+
+/**
+ * 从同名的 `@slotEn` / `@partEn` / `@eventEn` 标签里取出英文说明。
+ * 标签格式与中文标签一致：`<名称> - <英文说明>`。
+ * @param {Tag[]} tags
+ * @param {string} title
+ * @param {string | null} name
+ */
+function findI18nTag(tags, title, name) {
+  for (const tag of tags) {
+    if (tag.title !== title || !tag.description) {
+      continue;
+    }
+    // 无名标签（如 `@slot - 按钮内容`）直接取整段说明（去掉前导的 `- `）。
+    if (name == null) {
+      return tag.description.replace(/^\s*-\s*/, "");
+    }
+    const match = tag.description.match(/^([-\w]+)\s+-\s+(.*)$/);
+    if (match && match[1] === name) {
+      return match[2];
     }
   }
 }

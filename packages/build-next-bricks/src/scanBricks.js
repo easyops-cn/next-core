@@ -1153,20 +1153,35 @@ export default async function scanBricks(packageDir) {
 
     /** @type {string} */
     let brickDoc;
+    /** @type {string | undefined} */
+    let brickDocSource;
     if (existsSync(srcFilePath)) {
-      brickDoc = await handleExamplesInMarkdown(
-        await readFile(srcFilePath, "utf-8"),
-        [manifest]
-      );
+      brickDocSource = srcFilePath;
     } else if (existsSync(srcFilePathAlt)) {
+      brickDocSource = srcFilePathAlt;
+    }
+    if (brickDocSource) {
       brickDoc = await handleExamplesInMarkdown(
-        await readFile(srcFilePathAlt, "utf-8"),
+        await readFile(brickDocSource, "utf-8"),
         [manifest]
       );
     }
+
+    // 英文版文档：与中文文档同目录、同名，追加 `.en.md` 后缀（可选）。
+    // 存在时输出 `{ zh, en }`，由前端按当前语言取值；不存在时保持原字符串，向后兼容。
+    const srcEnFilePath = brickDocSource?.replace(/\.md$/, ".en.md");
+    /** @type {string | undefined} */
+    let brickDocEn;
+    if (srcEnFilePath && existsSync(srcEnFilePath)) {
+      brickDocEn = await handleExamplesInMarkdown(
+        await readFile(srcEnFilePath, "utf-8"),
+        [manifest]
+      );
+    }
+
     if (brickDoc) {
       examples[brick.name] = {
-        doc: brickDoc,
+        doc: brickDocEn ? { zh: brickDoc, en: brickDocEn } : brickDoc,
       };
     }
   }
