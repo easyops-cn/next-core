@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.211.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.210.0...@next-core/brick-kit@2.211.0) (2026-09-21)
+
+
+### Features
+
+* **brick-kit:** 英文态接口报错按错误码词典展示英文文案 ([5f35dcb](https://github.com/easyops-cn/next-core/commit/5f35dcb0c3f7f28ac3421a8af9cf3a2db1bf2e66))
+
+
+
+
+
 # [2.210.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.209.0...@next-core/brick-kit@2.210.0) (2026-03-27)
 
 
