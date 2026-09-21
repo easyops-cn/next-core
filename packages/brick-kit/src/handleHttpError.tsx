@@ -15,6 +15,7 @@ import { isUnauthenticatedError } from "./internal/isUnauthenticatedError";
 import { getRuntime } from "./runtime";
 import { isHttpAbortError } from "./internal/isHttpAbortError";
 import { setLoginStateCookie } from "./setLoginStateCookie";
+import { errorCodeEnglishText } from "./errorCodeEnglishText";
 
 interface ErrorIllustrationConf {
   title: string;
@@ -30,7 +31,10 @@ interface ErrorIllustrationConf {
  *
  * @remarks
  *
- * 将依次尝试读取返回的 JSON 格式数据的字符串类型的 `error` 和 `msg` 字段，如果没有找到则返回 `error.toString()` 的结果。
+ * 英文态下优先按响应体 `code` 查错误码词典返回英文标识（重复码取首条定义，
+ * 未命中/无码/无响应体返回 `Unknown error.`）；其余情况依次尝试读取返回的
+ * JSON 格式数据的字符串类型的 `error` 和 `msg` 字段，如果没有找到则返回
+ * `error.toString()` 的结果。
  *
  * @param error - 错误对象。
  *
@@ -46,6 +50,12 @@ export function httpErrorToString(
     return i18next.t(`${NS_BRICK_KIT}:${K.NETWORK_ERROR}`);
   }
   if (error instanceof HttpResponseError) {
+    // 英文态判断置于 responseJson 分支之外：无响应体的英文态错误同样落到
+    // UNKNOWN_ERROR 兜底，避免 error.toString() 泄漏本地化文本。
+    const codeText = errorCodeEnglishText(error);
+    if (codeText) {
+      return codeText;
+    }
     if (error.responseJson) {
       if (typeof error.responseJson.error === "string") {
         return error.responseJson.error;

@@ -21,7 +21,8 @@ module.exports = [
   },
   {
     path: "packages/brick-container/dist/dll.*.js",
-    limit: "1.44 MB",
+    // +8 KB: 错误码词典数据（237 条中英文文案，015 方案错误国际化）
+    limit: "1448 KB",
   },
   {
     path: "packages/brick-container/dist/main.*.js",
@@ -45,7 +46,8 @@ module.exports = [
   },
   {
     path: "packages/brick-kit/dist/index.esm.js",
-    limit: "138 KB",
+    // +7 KB: 错误码词典数据（237 条中英文文案，015 方案错误国际化）
+    limit: "145 KB",
   },
   {
     path: "packages/brick-types/dist/index.esm.js",
