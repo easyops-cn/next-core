@@ -127,6 +127,81 @@ describe("httpErrorToString", () => {
   });
 });
 
+describe("httpErrorToString in English locale", () => {
+  const realLanguage = i18next.language;
+
+  beforeEach(() => {
+    Object.defineProperty(i18next, "language", {
+      value: "en",
+      configurable: true,
+    });
+  });
+
+  afterEach(() => {
+    Object.defineProperty(i18next, "language", {
+      value: realLanguage,
+      configurable: true,
+    });
+    jest.clearAllMocks();
+  });
+
+  it("should return the error-code identifier instead of the backend error message", () => {
+    expect(
+      httpErrorToString(
+        new HttpResponseError(
+          new Response("", {
+            status: 400,
+            statusText: "Bad Request",
+          }),
+          { code: 133126, error: "已存在重复的实例" }
+        )
+      )
+    ).toBe("A duplicate instance already exists.");
+  });
+
+  it("should return UNKNOWN_ERROR when responseJson is missing (dead-branch guard)", () => {
+    expect(
+      httpErrorToString(
+        new HttpResponseError(
+          new Response("", {
+            status: 500,
+            statusText: "Internal Server Error",
+          })
+        )
+      )
+    ).toBe("Unknown error.");
+  });
+
+  it("should return UNKNOWN_ERROR for an unmatched code", () => {
+    expect(
+      httpErrorToString(
+        new HttpResponseError(
+          new Response("", {
+            status: 400,
+            statusText: "Bad Request",
+          }),
+          { code: 999999, error: "某处中文报错" }
+        )
+      )
+    ).toBe("Unknown error.");
+  });
+
+  it("should never leak localized text in the English locale", () => {
+    const result = httpErrorToString(
+      new HttpResponseError(
+        new Response("", {
+          status: 400,
+          statusText: "Bad Request",
+        }),
+        { code: 130303, error: "查询失败" }
+      )
+    );
+    expect(result).toBe("Query failed.");
+    // 英文态输出不得包含任何中文字符
+    expect(result).toMatch(/^[\x20-\x7E]*$/);
+  });
+});
+
 describe("handleHttpError", () => {
   afterEach(() => {
     jest.clearAllMocks();

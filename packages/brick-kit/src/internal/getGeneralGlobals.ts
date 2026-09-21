@@ -9,6 +9,7 @@ import { getBasePath } from "./getBasePath";
 import { getTheme, getCssPropertyValue } from "../themeAndMode";
 import { checkPermissions } from "./checkPermissions";
 import { getReadOnlyProxy } from "./proxyFactories";
+import { errorCodeText } from "../errorCodeEnglishText";
 
 export interface GeneralGlobalsOptions {
   collectCoverage?: unknown;
@@ -77,6 +78,10 @@ function getIndividualGlobal(
           );
     case "I18N_TEXT":
       return collectCoverage ? fakeI18nText : i18nText;
+    case "ERROR_CODE_TEXT":
+      // Storyboard 表达式可用的错误码文案函数：非英文态返回 undefined（表达式用 `||`
+      // 落回原有字段，中文态行为不变）；英文态返回词典英文标识或 UNKNOWN_ERROR。
+      return collectCoverage ? fakeErrorCodeText : errorCodeText;
     case "LANGUAGE": {
       return collectCoverage ? "zh" : i18next.language || "zh";
     }
@@ -110,6 +115,10 @@ function getIndividualGlobal(
 
 function fakeI18nText(data: Record<string, string>): string {
   return data?.en;
+}
+
+function fakeErrorCodeText(): undefined {
+  return undefined;
 }
 
 function fakeImageFactory(): ImagesFactory {
