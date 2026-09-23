@@ -17,6 +17,10 @@ const locale: Locale = {
   [K.GO_BACK_HOME_PAGE]: "回到首页",
   [K.LOGIN_CHANGED]: "您已经登录另一个账号，点击确定刷新页面。",
   [K.LOGOUT_APPLIED]: "您的账号已经登出，点击确定刷新页面。",
+  [K.LICENSE_EXPIRES_IN_DAY]: "离License过期还有 {{count}} 天",
+  [K.PAGE_RENDER_SLOW_TIP]:
+    "您的页面存在性能问题, 当前页面渲染时间 {{renderTime}} 秒, 规定阈值为: {{suggestTime}} 秒, 您已超过。请您针对该页面进行性能优化!",
+  [K.VIEW_SUGGESTION]: "建议解决思路",
 };
 
 export default locale;
