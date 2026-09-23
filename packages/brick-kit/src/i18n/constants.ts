@@ -17,6 +17,13 @@ export enum K {
   GO_BACK_HOME_PAGE = "GO_BACK_HOME_PAGE",
   LOGIN_CHANGED = "LOGIN_CHANGED",
   LOGOUT_APPLIED = "LOGOUT_APPLIED",
+  LICENSE_EXPIRES_IN_DAY = "LICENSE_EXPIRES_IN_DAY",
+  PAGE_RENDER_SLOW_TIP = "PAGE_RENDER_SLOW_TIP",
+  VIEW_SUGGESTION = "VIEW_SUGGESTION",
 }
 
-export type Locale = { [key in K]: string };
+export type Locale = { [key in K]: string } & {
+  [key in K as `${key}_other`]?: string;
+} & {
+  [key in K as `${key}_plural`]?: string;
+};

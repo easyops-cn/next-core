@@ -787,11 +787,10 @@ export class Router {
           const getSecond = (time: number): number =>
             Math.floor(time * 100) / 100;
           tipsDetail.push({
-            text: `您的页面存在性能问题, 当前页面渲染时间 ${getSecond(
-              renderTime / 1000
-            )} 秒, 规定阈值为: ${getSecond(
-              (loadTime as number) / 1000
-            )} 秒, 您已超过。请您针对该页面进行性能优化!`,
+            text: i18next.t(`${NS_BRICK_KIT}:${K.PAGE_RENDER_SLOW_TIP}`, {
+              renderTime: getSecond(renderTime / 1000),
+              suggestTime: getSecond((loadTime as number) / 1000),
+            }),
             closable: false,
             isCenter: true,
             tipKey: getUnionKey("render"),
@@ -799,7 +798,7 @@ export class Router {
             ...(loadInfoPage
               ? {
                   info: {
-                    label: "建议解决思路",
+                    label: i18next.t(`${NS_BRICK_KIT}:${K.VIEW_SUGGESTION}`),
                     url: loadInfoPage,
                   },
                 }
@@ -810,7 +809,9 @@ export class Router {
         const validDaysLeft: number = getAuth().license?.validDaysLeft;
         if (validDaysLeft && validDaysLeft <= 15 && getAuth().isAdmin) {
           tipsDetail.push({
-            text: `离License过期还有 ${validDaysLeft} 天`,
+            text: i18next.t(`${NS_BRICK_KIT}:${K.LICENSE_EXPIRES_IN_DAY}`, {
+              count: validDaysLeft,
+            }),
             tipKey: getUnionKey("license"),
             closable: true,
             isCenter: true,
