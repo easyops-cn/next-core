@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.211.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.211.0...@next-core/brick-kit@2.211.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **brick-kit:** internationalize app bar tips in Router ([8016017](https://github.com/easyops-cn/next-core/commit/8016017cb00a769bd0a48175c38af2437fc67beb))
+
+
+
+
+
 # [2.211.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.210.0...@next-core/brick-kit@2.211.0) (2026-09-21)
 
 
