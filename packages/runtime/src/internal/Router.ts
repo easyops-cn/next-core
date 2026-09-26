@@ -39,6 +39,7 @@ import {
 } from "./Runtime.js";
 import { getPageInfo } from "../getPageInfo.js";
 import type {
+  Dispose,
   MenuRequestNode,
   RenderRoot,
   RuntimeContext,
@@ -84,6 +85,7 @@ export class Router {
   #runtimeContext?: RuntimeContext;
   #rendererContext?: RendererContext;
   #rendererContextTrashCan = new Set<RendererContext | undefined>();
+  #runtimeContextTrashCan = new Set<RuntimeContext | undefined>();
   #redirectCount = 0;
   #renderId?: string;
   #currentApp?: MicroApp;
@@ -367,10 +369,12 @@ export class Router {
 
     // TODO: handle favicon
     const prevRendererContext = this.#rendererContext;
+    const prevRuntimeContext = this.#runtimeContext;
 
     const redirectTo = (to: string, state?: NextHistoryState): void => {
       finishPageView?.({ status: "redirected" });
       this.#rendererContextTrashCan.add(prevRendererContext);
+      this.#runtimeContextTrashCan.add(prevRuntimeContext);
       this.#safeRedirect(to, state, location);
     };
 
@@ -389,7 +393,11 @@ export class Router {
       createPortal: portal,
     };
 
+    let disposeMount: Dispose | undefined;
+
     const cleanUpPreviousRender = (): void => {
+      disposeMount?.();
+      disposeMount = undefined;
       unmountTree(main);
       unmountTree(portal);
 
@@ -402,6 +410,18 @@ export class Router {
         }
       }
       this.#rendererContextTrashCan.clear();
+
+      this.#runtimeContextTrashCan.add(prevRuntimeContext);
+      this.#runtimeContextTrashCan.forEach((item) => {
+        if (item) {
+          const stores = getDataStores(item);
+          for (const store of stores) {
+            store.dispose();
+          }
+        }
+      });
+      this.#runtimeContextTrashCan.clear();
+
       hooks?.messageDispatcher?.reset();
 
       if (appChanged) {
@@ -452,6 +472,7 @@ export class Router {
             return;
           } else if (error instanceof HttpAbortError) {
             this.#rendererContextTrashCan.add(prevRendererContext);
+            this.#runtimeContextTrashCan.add(prevRuntimeContext);
             return;
           } else {
             const noAuthGuardLoginPath =
@@ -560,7 +581,7 @@ export class Router {
         applyMode();
 
         setUIVersion(currentApp?.uiVersion);
-        mountTree(renderRoot);
+        disposeMount = mountTree(renderRoot);
 
         // Scroll to top after each rendering.
         // See https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
@@ -619,7 +640,7 @@ export class Router {
     );
     renderRoot.child = node;
 
-    mountTree(renderRoot);
+    disposeMount = mountTree(renderRoot);
 
     // Scroll to top after each rendering.
     window.scrollTo(0, 0);

@@ -36,6 +36,7 @@ import type {
   RuntimeDataValueOption,
   RenderBrick,
   RenderChildNode,
+  Dispose,
 } from "./interfaces.js";
 import { mountTree, unmountTree } from "./mount.js";
 import { RenderTag } from "./enums.js";
@@ -132,6 +133,7 @@ export async function renderUseBrick(
 
 export interface MountUseBrickResult {
   portal?: HTMLElement;
+  dispose: Dispose;
 }
 
 export function mountUseBrick(
@@ -148,7 +150,7 @@ export function mountUseBrick(
     return portal;
   };
 
-  mountTree(renderRoot, element);
+  const dispose = mountTree(renderRoot, element);
 
   rendererContext.dispatchOnMount();
   rendererContext.initializeScrollIntoView();
@@ -161,6 +163,7 @@ export function mountUseBrick(
 
   return {
     portal,
+    dispose,
   };
 }
 
@@ -171,6 +174,7 @@ export function unmountUseBrick(
   // if (mountResult.mainBrick) {
   //   mountResult.mainBrick.unmount();
   // }
+  mountResult.dispose();
   if (mountResult.portal) {
     unmountTree(mountResult.portal);
     mountResult.portal.remove();
