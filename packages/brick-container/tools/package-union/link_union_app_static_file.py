@@ -152,6 +152,22 @@ def read_union_apps_file(install_app_path):
         return json.load(f)
 
 
+def check_symlink_exists(symlink_path):
+    if os.path.islink(symlink_path):
+        return True
+    else:
+        return False
+
+
+def create_current_link_to_app(target_path, symlink_path):
+    if check_symlink_exists(symlink_path):
+        os.remove(symlink_path)
+    try:
+        os.symlink(target_path, symlink_path)
+    except OSError as e:
+        raise RuntimeError("link file err: {}..".format(e))
+
+
 def link_install_app_static_file(install_app_path):
     # 读取union-apps.json文件
     union_apps = read_union_apps_file(install_app_path)
@@ -171,6 +187,11 @@ def link_install_app_static_file(install_app_path):
         
         if not os.path.exists(current_app_path_public):
             os.makedirs(current_app_path_public)
+        link_file_path = os.path.join(_DEPENDENCIES_LOCK_BASE_PATH, _MICRO_APPS_FOLDER,
+                                            subdir_snippet, app_id, "current")
+        create_current_link_to_app(current_app_path_public, link_file_path)
+
+        ### app的版本号加上current软链
 
         print u"current app path: {}, current_app_path_public: {}".format(current_app_path, current_app_path_public)
 
