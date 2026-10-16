@@ -1,5 +1,7 @@
 #!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 
 TOOLS_DIR = "/usr/local/easyops/deploy_init/tools"
 APP_ID = "brick_next"
