@@ -1,3 +1,4 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
 import sys
 import os
@@ -39,7 +40,7 @@ def report(org, theme_template_data):
 
 if __name__ == "__main__":
   if len(sys.argv) < 3:
-    print "Usage: ./report_installed_theme_template.py $org $install_path"
+    print("Usage: ./report_installed_theme_template.py $org $install_path")
     sys.exit(1)
 
   org = sys.argv[1]

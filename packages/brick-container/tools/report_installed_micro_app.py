@@ -1,3 +1,4 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
 import sys
 import os
@@ -79,7 +80,7 @@ def create_or_update_micro_app(app, org):
   headers = {"org": str(org), "user": "defaultUser"}
   url = "http://{}/api/micro_app/v1/installed_micro_app/report_result".format(address)
   param = {"installedApps": [{"microApp": app, "containerId": app["containerId"]}]}
-  if app.has_key("apiList"):
+  if "apiList" in app:
     apiList = app["apiList"]
     del app["apiList"]
     param = {"installedApps": [{"microApp": app, "containerId": app["containerId"], "apiList": apiList}]}
@@ -89,7 +90,7 @@ def create_or_update_micro_app(app, org):
 
 # 老的上报方法， 兼容ucpro还没升级的情况
 def create_or_update_micro_app_to_api_gw(app, org):
-  print "ucpro desktop service api not ready, use old way to report"
+  print("ucpro desktop service api not ready, use old way to report")
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.api.gateway")
   if session_id <= 0:
     raise NameServiceError("get nameservice logic.api.gateway error, session_id={}".format(session_id))
@@ -100,7 +101,7 @@ def create_or_update_micro_app_to_api_gw(app, org):
   rsp_json = rsp.json()
   # 100005 means object not found
   if rsp_json["code"] == 100005:
-    print 'object not init, exit'
+    print('object not init, exit')
     return
   # 100007 means already exists
   elif rsp_json["code"] == 100007:
@@ -110,10 +111,10 @@ def create_or_update_micro_app_to_api_gw(app, org):
     # 否则会出现应用商店部署任务和launchpad安装状态不一致的bug
     url = "http://{}:{}/api/micro_app/v1/installed_micro_app/{}".format(ip, port, app["appId"])
     rsp = requests.get(url, headers=headers)
-    print 'get app: {}'.format(app["appId"])
+    print('get app: {}'.format(app["appId"]))
     rsp.raise_for_status()
 
-    print 'update app: {}'.format(app["appId"])
+    print('update app: {}'.format(app["appId"]))
     app["installStatus"] = rsp.json()["data"]["installStatus"]
     # 小产品状态如果非空需要继承， 因为这个是用户设置的
     # 如果状态是空，则默认是enabled的
@@ -123,13 +124,13 @@ def create_or_update_micro_app_to_api_gw(app, org):
     rsp.raise_for_status()
   else:
     rsp.raise_for_status()
-    print 'create app: {}'.format(app["appId"])
+    print('create app: {}'.format(app["appId"]))
 
 
 def import_micro_app_permissions(install_path, org):
   permission_path = os.path.join(install_path, "micro_app_permissions", "permissions.json")
   if not os.path.exists(permission_path):
-    print "could not find permission path {}, will not import permissions".format(permission_path)
+    print("could not find permission path {}, will not import permissions".format(permission_path))
     return
 
   session_id, ip, port = ens_api.get_service_by_name("web.brick_next", "logic.micro_app_service")
@@ -170,9 +171,9 @@ def upload_micro_app_images(install_path, org):
 def report(org, app):
   try:
     create_or_update_micro_app(app, org)
-  except NameServiceError, e:
+  except NameServiceError as e:
     create_or_update_micro_app_to_api_gw(app, org)
-  except requests.HTTPError, e:
+  except requests.HTTPError as e:
     # micro_app_service还没有这个接口, 走回api_gw的方式上报
     if e.response.status_code == 404:
       create_or_update_micro_app_to_api_gw(app, org)
@@ -182,7 +183,7 @@ def report(org, app):
 
 if __name__ == "__main__":
   if len(sys.argv) < 3:
-    print "Usage: ./report_installed_micro_apps.py $org $install_path"
+    print("Usage: ./report_installed_micro_apps.py $org $install_path")
     sys.exit(1)
 
   org = sys.argv[1]

@@ -1,3 +1,4 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
 import logging
 import os
@@ -12,9 +13,6 @@ from copy import deepcopy
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from utils.get_headers import get_headers
-
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 logger = logging.getLogger("report_installed_brick_next_package")
 logging.basicConfig(level=logging.DEBUG,
@@ -310,7 +308,7 @@ def get_version(install_path):
             lines = f.readlines()
             package_version = str.strip(lines[1])
     except:
-        print "version.ini read error, use version", package_version
+        print("version.ini read error, use version", package_version)
     return package_version
 
 

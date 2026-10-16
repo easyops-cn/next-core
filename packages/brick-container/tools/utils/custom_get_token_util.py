@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
 
 TOOLS_DIR = "/usr/local/easyops/deploy_init/tools"
