@@ -1,13 +1,10 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
-import json as simplejson
 import sys
 import os
 import ens_api
 import requests
 import simplejson
-
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # 将 tools 目录加入 path
 from utils.get_headers import get_headers
@@ -58,7 +55,7 @@ def collect(install_path, report_app_id, version, set_active_version):
     for f in os.listdir(webroot_dir):
         if f.startswith("bootstrap.") and f.endswith(".json"):
             bootstrap_file_name = f
-    if bootstrap_file_name is "" :
+    if bootstrap_file_name == "" :
         raise Exception("bootstrap.***.json not found in dir {}".format(webroot_dir))
     bootstrap_file = os.path.join(webroot_dir, bootstrap_file_name)
     with open(bootstrap_file) as f:
@@ -90,7 +87,7 @@ def collect(install_path, report_app_id, version, set_active_version):
                     "author": story_board["app"].get("author"),
                     "unionAppInfo": get_union_app_info(story_board["app"].get("unionApps", [])),  #单na上报脚本不能记录union_app_id信息， 只记录relatedResourcePackages
                 }
-                print u"report app: {}, version: {}, related_resource_packages: {}".format(report_app_id, version, app["unionAppInfo"].get("relatedResourcePackages", []))
+                print("report app: {}, version: {}, related_resource_packages: {}".format(report_app_id, version, app["unionAppInfo"].get("relatedResourcePackages", [])))
                 return app
 
 def get_union_app_info(union_app_info):
@@ -104,9 +101,9 @@ def get_union_app_info(union_app_info):
 def report(org, app):
     try:
         create_or_update_micro_app_sa(org, app)
-    except NameServiceError, e:
+    except NameServiceError as e:
         raise e
-    except requests.HTTPError, e:
+    except requests.HTTPError as e:
         raise e
 
 def create_or_update_micro_app_sa(org, app):
@@ -114,7 +111,7 @@ def create_or_update_micro_app_sa(org, app):
     url = "http://{}/api/v1/micro_app_standalone/report".format(MICRO_APP_SA_ADDR)
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
-    print "report app end"
+    print("report app end")
 
 def import_micro_app_permissions(install_path, version, org):
     permission_path = os.path.join(install_path, "versions", version, "webroot", "permissions", "permissions.json")
@@ -133,7 +130,7 @@ def import_micro_app_permissions(install_path, version, org):
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print "Usage: ./report_installed_micro_app_sa.py $org $install_path $version $set_active_version"
+        print("Usage: ./report_installed_micro_app_sa.py $org $install_path $version $set_active_version")
         sys.exit(1)
     org = sys.argv[1]
     install_path = sys.argv[2]
@@ -145,7 +142,7 @@ if __name__ == "__main__":
         usePublicDependenciesFlag = app.get("usePublicDependencies")
         unionTags = app.get("unionTags")
         if not usePublicDependenciesFlag and unionTags:
-            print "union package must use common dependencies, please modify the config[usePublicDependencies] or config[unionTags]"
+            print("union package must use common dependencies, please modify the config[usePublicDependencies] or config[unionTags]")
             sys.exit(1)
         report(org, app)
         import_micro_app_permissions(install_path, version, org)

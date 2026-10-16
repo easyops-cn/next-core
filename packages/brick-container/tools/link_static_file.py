@@ -1,3 +1,4 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
 import os
 import traceback
@@ -6,9 +7,6 @@ import yaml
 import sys
 import errno
 import shutil
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 # 公共文件夹名
 _APPLICATIONS_SA_FOLDER = "applications_sa"
@@ -29,10 +27,10 @@ def init_dependencies_lock_dir():
     if not os.path.exists(_DEPENDENCIES_LOCK_BASE_PATH):
         try:
             os.makedirs(_DEPENDENCIES_LOCK_BASE_PATH)
-        except OSError, e:
+        except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-            print u"dependencies lock dir: {} already exist".format(_DEPENDENCIES_LOCK_BASE_PATH)
+            print("dependencies lock dir: {} already exist".format(_DEPENDENCIES_LOCK_BASE_PATH))
 
     # 初始化子目录 bricks、templates、core、micro_apps
     bricks_path = os.path.join(_DEPENDENCIES_LOCK_BASE_PATH, _BRICKS_FOLDER)
@@ -49,12 +47,12 @@ def init_dependencies_lock_dir():
             continue
         try:
             os.mkdir(path)
-        except OSError, e:
+        except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-            print u"dependencies lock dir: {} already exist".format(path)
+            print("dependencies lock dir: {} already exist".format(path))
             continue
-        print u"mkdir dependencies lock dir: {}".format(path)
+        print("mkdir dependencies lock dir: {}".format(path))
 
 
 def parse_plugin_name(plugin_name):
@@ -110,7 +108,7 @@ def build_dependencies_path_tree(dependencies):
         dependency["un_suffix_name"] = un_suffix_name
         dep_map[name] = dependency
 
-    print "\n\n"
+    print("\n\n")
 
     return dep_map
 
@@ -118,11 +116,11 @@ def build_dependencies_path_tree(dependencies):
 def read_dependencies_yaml(install_app_path):
     dependencies_yaml_path = os.path.join(
         install_app_path, "dependencies", "micro_app_dependencies.yaml")
-    print u"dependencies_yaml_path: {}".format(dependencies_yaml_path)
+    print("dependencies_yaml_path: {}".format(dependencies_yaml_path))
     dependencies_fp = open(dependencies_yaml_path, "r")
-    data = yaml.load(dependencies_fp)
+    data = yaml.safe_load(dependencies_fp)
     if not isinstance(data, dict):
-        raise u"micro_app_dependencies.yaml fmt error: {}".format(data)
+        raise Exception("micro_app_dependencies.yaml fmt error: {}".format(data))
     return data.get("dependencies_lock", [])
 
 
@@ -146,23 +144,23 @@ def link_install_app_static_file(install_app_path, plugin_name, app_version):
     current_app_path = os.path.join(install_app_path, "versions", app_version, "webroot", "-",
                                     _MICRO_APPS_FOLDER, plugin_name)
     if not os.path.exists(current_app_path):
-        print u"current app path: {} not exist".format(current_app_path)
+        print("current app path: {} not exist".format(current_app_path))
         return
     current_app_path_public = os.path.join(
-        _DEPENDENCIES_LOCK_BASE_PATH, _MICRO_APPS_FOLDER, plugin_name, version)
+        _DEPENDENCIES_LOCK_BASE_PATH, _MICRO_APPS_FOLDER, plugin_name, app_version)
     if not os.path.exists(current_app_path_public):
         os.makedirs(current_app_path_public)
 
-    print u"current app path: {}, current_app_path_public: {}".format(current_app_path, current_app_path_public)
+    print("current app path: {}, current_app_path_public: {}".format(current_app_path, current_app_path_public))
 
     static_file_map = get_static_file_map(current_app_path)
-    print u"---------------------------------------------"
+    print("---------------------------------------------")
     for file_path_base, files in static_file_map.items():
         _link_static_file(files, file_path_base,
                           current_app_path, current_app_path_public)
 
-    print u"---------------------------------------------"
-    print u"\n\n"
+    print("---------------------------------------------")
+    print("\n\n")
 
 
 # 硬链
@@ -290,7 +288,7 @@ def check_standalone_na_dep_dir(install_app_path, app_version):
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print u"Usage: ./symlink_dependencies.py $install_path $plugin_name $version, Got: {}".format(sys.argv)
+        print("Usage: ./symlink_dependencies.py $install_path $plugin_name $version, Got: {}".format(sys.argv))
         sys.exit(1)
     install_path = sys.argv[1]
     plugin_name = sys.argv[2]
