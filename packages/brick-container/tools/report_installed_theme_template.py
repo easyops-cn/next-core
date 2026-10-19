@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+import io
 import sys
 import os
 import simplejson
@@ -18,7 +19,7 @@ def collect(install_path):
   theme_template_path = os.path.join(install_path, "theme.json")
   if not os.path.exists(theme_template_path):
     raise Exception("could not find theme path {}".format(theme_template_path))
-  with open(theme_template_path) as f:
+  with io.open(theme_template_path, encoding="utf-8") as f:
     theme_content = f.read()
     theme_json = simplejson.loads(theme_content)
   return theme_json
