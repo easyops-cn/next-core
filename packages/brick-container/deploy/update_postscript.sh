@@ -41,7 +41,7 @@ function report_package() {
   org=$2
   install_path=$3
   if [[ -f ${install_base}/brick_next_v3/packages/brick-container/tools/report_installed_brick_next_package.py ]];then
-      ${install_base}/brick_next_v3/packages/brick-container/tools/report_installed_brick_next_package.py ${org} ${install_path}
+      ${install_base}/python3/bin/python3 ${install_base}/brick_next_v3/packages/brick-container/tools/report_installed_brick_next_package.py ${org} ${install_path}
       if [[ $? -ne 0 ]]; then
           echo "report brick next error"
           exit 1
