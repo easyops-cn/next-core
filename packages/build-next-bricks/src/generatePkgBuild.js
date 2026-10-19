@@ -71,7 +71,7 @@ export default async function generatePkgBuild(packageDir) {
 user: "easyops:easyops"
 dependencies:
   - name: brick_next
-    version: ^2.99.0 || ^3.0.0
+    version: ^2.86.3 || ^3.0.0
     local_deploy: true
 `
     );
