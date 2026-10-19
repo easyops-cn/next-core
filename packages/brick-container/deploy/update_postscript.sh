@@ -16,6 +16,10 @@ function check_service_availability() {
   for service in ${services[*]}; do
     ret=`${install_base}/ens_client/tools/get_all_service.py ${service}`
     arr=($ret)
+    if [[ -z "${arr[0]}" ]]; then
+        echo "service ${service} query failed (empty result)"
+        return 1
+    fi
     if [[ ${arr[0]} -lt 0 ]]; then
         echo "service ${service} not ready"
         return 1

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+import io
 import os
 import traceback
 
@@ -119,7 +120,7 @@ def read_dependencies_yaml(install_app_path):
     dependencies_yaml_path = os.path.join(
         install_app_path, "dependencies", "micro_app_dependencies.yaml")
     print("dependencies_yaml_path: {}".format(dependencies_yaml_path))
-    dependencies_fp = open(dependencies_yaml_path, "r")
+    dependencies_fp = io.open(dependencies_yaml_path, "r", encoding="utf-8")
     data = yaml.safe_load(dependencies_fp)
     if not isinstance(data, dict):
         raise Exception("micro_app_dependencies.yaml fmt error: {}".format(data))

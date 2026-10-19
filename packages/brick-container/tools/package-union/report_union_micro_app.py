@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+import io
 import sys
 import os
 import ens_api
@@ -44,7 +45,7 @@ def get_version(install_path):
     # 开发环境没有version.ini文件，直接返回0.0.0
     if not os.path.exists(os.path.join(install_path, "version.ini")):
         return "0.0.0"
-    with open(os.path.join(install_path, "version.ini")) as f:
+    with io.open(os.path.join(install_path, "version.ini"), encoding="utf-8") as f:
         lines = f.readlines()
         return lines[-1].strip()
 
@@ -61,7 +62,7 @@ def collect_app_info(app_path, report_app_id, version):
         return
     bootstrap_file = os.path.join(app_path, bootstrap_file_name)
     print("report app: {}, bootstrap_file: {}".format(report_app_id, bootstrap_file))
-    with open(bootstrap_file) as f:
+    with io.open(bootstrap_file, encoding="utf-8") as f:
         bootstrap_content = f.read()
         bootstrap_content_json = simplejson.loads(bootstrap_content)
         # 跳过没有app字段的storyboard
@@ -121,7 +122,7 @@ def import_micro_app_permissions(org, permission_path):
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
 
     print("permission path is {}, will start import permissions".format(permission_path))
-    with open(permission_path) as f:
+    with io.open(permission_path, encoding="utf-8") as f:
         p_f_content = f.read()
         permission_list = simplejson.loads(p_f_content)
         body = {"permissionList": permission_list}
@@ -132,12 +133,12 @@ def read_union_apps_file(install_app_path):
     union_app_file = os.path.join(install_app_path, "union-apps", "union-apps.json")
     if not os.path.exists(union_app_file):
         return []
-    with open(union_app_file, "r") as f:
+    with io.open(union_app_file, "r", encoding="utf-8") as f:
         return simplejson.load(f)
 
 def get_union_app_version(install_path):
     version_file_path = os.path.join(install_path, "version.ini")
-    with open(version_file_path) as f:
+    with io.open(version_file_path, encoding="utf-8") as f:
         version_content = f.readlines()
     return version_content[1].strip()
 
@@ -209,7 +210,7 @@ def is_develop_version(standalone_na_path):
     version_file_path = os.path.join(standalone_na_path, "version.ini")
     if not os.path.exists(version_file_path):
         return True
-    with open(version_file_path) as f:
+    with io.open(version_file_path, encoding="utf-8") as f:
         version_content = f.readlines()
         if "0.0.0" in version_content[1]:
             return True

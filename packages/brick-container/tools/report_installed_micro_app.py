@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+import io
 import sys
 import os
 import simplejson
@@ -20,7 +21,7 @@ def get_version(install_path):
   # 开发环境没有version.ini文件，直接返回0.0.0
   if not os.path.exists(os.path.join(install_path, "version.ini")):
     return "0.0.0"
-  with open(os.path.join(install_path, "version.ini")) as f:
+  with io.open(os.path.join(install_path, "version.ini"), encoding="utf-8") as f:
     lines = f.readlines()
     return lines[-1].strip()
 
@@ -28,7 +29,7 @@ def get_version(install_path):
 def _find_container_id(app_id, install_info_path):
   install_info = {}
   if os.path.exists(install_info_path):
-    with open(install_info_path) as f:
+    with io.open(install_info_path, encoding="utf-8") as f:
       install_info = simplejson.load(f)
   for micro_app in install_info.get("micro_app", []):
     if micro_app["app_id"] == app_id:
@@ -42,7 +43,7 @@ def collect(install_path):
   story_board_path = os.path.join(install_path, "storyboard.json")
   if not os.path.exists(story_board_path):
     raise Exception("could not find storyboard path {}".format(story_board_path))
-  with open(story_board_path) as f:
+  with io.open(story_board_path, encoding="utf-8") as f:
     story_board_content = f.read()
     story_board = simplejson.loads(story_board_content)
     # 跳过没有app字段的storyboard
@@ -65,7 +66,7 @@ def collect(install_path):
     }
     apis_path = os.path.join(install_path, "apis/api.json")
     if os.path.exists(apis_path):
-      with open(apis_path) as apisF:
+      with io.open(apis_path, encoding="utf-8") as apisF:
         apis_content = apisF.read()
         apiList = simplejson.loads(apis_content)
         app["apiList"] = apiList
@@ -142,7 +143,7 @@ def import_micro_app_permissions(install_path, org):
   headers = {"org": str(org), "user": "defaultUser"}
   url = "http://{}/api/micro_app/v1/permission/import".format(address)
   
-  with open(permission_path) as f:
+  with io.open(permission_path, encoding="utf-8") as f:
     p_f_content = f.read()
     permission_list = simplejson.loads(p_f_content)
     body = {"permissionList": permission_list}
