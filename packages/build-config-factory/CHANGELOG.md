@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.26.22...@next-core/build-config-factory@2.27.0) (2026-10-20)
+
+
+### Bug Fixes
+
+* **brick-container:** tools 调用面按解释器写法分流规则恢复显式 python3 前缀 ([138ebaf](https://github.com/easyops-cn/next-core/commit/138ebaf7a7de23b078b1d29b4673dba8725b6921))
+
+
+### Features
+
+* **brick-container:** python2 迁移 python3 改造（brick_next 包 deploy/tools 面） ([05e7a44](https://github.com/easyops-cn/next-core/commit/05e7a44f0447bd531db31178d76fd8002d01682c))
+
+
+
+
+
 ## [2.26.22](https://github.com/easyops-cn/next-core/compare/@next-core/build-config-factory@2.26.21...@next-core/build-config-factory@2.26.22) (2026-09-17)
 
 
