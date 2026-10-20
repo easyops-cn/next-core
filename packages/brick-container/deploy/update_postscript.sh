@@ -14,8 +14,12 @@ config_tool="${deploy_init_path}/tools/config_tool"
 function check_service_availability() {
   services=$1
   for service in ${services[*]}; do
-    ret=`${install_base}/python/bin/python ${install_base}/ens_client/tools/get_all_service.py ${service}`
+    ret=`${install_base}/ens_client/tools/get_all_service.py ${service}`
     arr=($ret)
+    if [[ -z "${arr[0]}" ]]; then
+        echo "service ${service} query failed (empty result)"
+        return 1
+    fi
     if [[ ${arr[0]} -lt 0 ]]; then
         echo "service ${service} not ready"
         return 1
@@ -41,7 +45,7 @@ function report_package() {
   org=$2
   install_path=$3
   if [[ -f ${install_base}/brick_next_v3/packages/brick-container/tools/report_installed_brick_next_package.py ]];then
-      ${install_base}/python/bin/python ${install_base}/brick_next_v3/packages/brick-container/tools/report_installed_brick_next_package.py ${org} ${install_path}
+      ${install_base}/python3/bin/python3 ${install_base}/brick_next_v3/packages/brick-container/tools/report_installed_brick_next_package.py ${org} ${install_path}
       if [[ $? -ne 0 ]]; then
           echo "report brick next error"
           exit 1
