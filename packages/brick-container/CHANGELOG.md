@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.6...@next-core/brick-container@3.26.0) (2026-10-20)
+
+
+### Bug Fixes
+
+* **brick-container:** tools 调用面按解释器写法分流规则恢复显式 python3 前缀 ([3e36a46](https://github.com/easyops-cn/next-core/commit/3e36a46adb20e2f2a08df522d288e9787e4a9a51))
+* **brick-container:** 依赖下限对齐 + tools 文本读取显式 UTF-8 + 服务检查空值防误放行 ([4046a11](https://github.com/easyops-cn/next-core/commit/4046a11d1d20e658c61bcf9236ce9125edcf88a3)), closes [#4895](https://github.com/easyops-cn/next-core/issues/4895)
+
+
+### Features
+
+* **brick-container:** python2 迁移 python3 改造（brick_next_v3 包 deploy/tools 面） ([82c7e85](https://github.com/easyops-cn/next-core/commit/82c7e85d51a3c62cf9007e72655750c542bef2ab))
+* **brick-container:** tools 脚本补 py2 调用方混装期兼容（__future__ print_function） ([1513e34](https://github.com/easyops-cn/next-core/commit/1513e34981a52e667ba578b6d4cfe0885f954cb2))
+
+
+
+
+
 ## [3.25.6](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.5...@next-core/brick-container@3.25.6) (2026-09-17)
 
 **Note:** Version bump only for package @next-core/brick-container
