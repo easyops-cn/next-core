@@ -1,5 +1,8 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
-import json as simplejson
+from __future__ import print_function
+
+import io
 import sys
 import os
 import ens_api
@@ -7,9 +10,6 @@ import requests
 import simplejson
 import shutil
 from  concurrent.futures import ThreadPoolExecutor,as_completed, wait, ALL_COMPLETED
-
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # 将 tools 目录加入 path
 from utils.get_headers import get_headers
@@ -45,24 +45,24 @@ def get_version(install_path):
     # 开发环境没有version.ini文件，直接返回0.0.0
     if not os.path.exists(os.path.join(install_path, "version.ini")):
         return "0.0.0"
-    with open(os.path.join(install_path, "version.ini")) as f:
+    with io.open(os.path.join(install_path, "version.ini"), encoding="utf-8") as f:
         lines = f.readlines()
         return lines[-1].strip()
 
 
 def collect_app_info(union_app_id, union_app_version, app_path, report_app_id, version):
     if not os.path.exists(app_path):
-        print u"could not find app path {}".format(app_path)
+        print("could not find app path {}".format(app_path))
         return
     bootstrap_file_name = ""
     for f in os.listdir(app_path):
         if f.startswith("bootstrap-mini.") and f.endswith(".json"):
             bootstrap_file_name = f
-    if bootstrap_file_name is "":
+    if bootstrap_file_name == "":
         return
     bootstrap_file = os.path.join(app_path, bootstrap_file_name)
-    print u"report app: {}, bootstrap_file: {}".format(report_app_id, bootstrap_file)
-    with open(bootstrap_file) as f:
+    print("report app: {}, bootstrap_file: {}".format(report_app_id, bootstrap_file))
+    with io.open(bootstrap_file, encoding="utf-8") as f:
         bootstrap_content = f.read()
         bootstrap_content_json = simplejson.loads(bootstrap_content)
         # 跳过没有app字段的storyboard
@@ -90,7 +90,7 @@ def collect_app_info(union_app_id, union_app_version, app_path, report_app_id, v
                     "isFromUnionApp": True,
                     "unionAppInfo": get_union_app_info(union_app_id, union_app_version, story_board["app"].get("unionApps", []))
                 }
-                print u"report app: {}, version: {},  related_resource_packages: {}".format(report_app_id, version, app["unionAppInfo"].get("relatedResourcePackages", []))
+                print("report app: {}, version: {},  related_resource_packages: {}".format(report_app_id, version, app["unionAppInfo"].get("relatedResourcePackages", [])))
                 return app
 
 def get_union_app_info(report_union_app_id, union_app_version, bootstrap_union_app_infos):
@@ -111,9 +111,9 @@ def get_union_app_info(report_union_app_id, union_app_version, bootstrap_union_a
 def report(org, app):
     try:
         return create_or_update_micro_app_sa(org, app)
-    except NameServiceError, e:
+    except NameServiceError as e:
         raise e
-    except requests.HTTPError, e:
+    except requests.HTTPError as e:
         raise e
 
 
@@ -123,7 +123,7 @@ def create_or_update_micro_app_sa(org, app):
     rsp = requests.post(url, json=app, headers=headers)
     rsp.raise_for_status()
     rsp_data = rsp.json().get("data", {})
-    print "report app: {} end".format(app["appId"])
+    print("report app: {} end".format(app["appId"]))
     # 兼容之前的report_sa_na接口的响应体没有appId的场景
     if rsp_data.get("appId") is None:
         rsp_data["appId"] = app["appId"]
@@ -132,13 +132,13 @@ def create_or_update_micro_app_sa(org, app):
 
 def import_micro_app_permissions(org, permission_path):
     if not os.path.exists(permission_path):
-        print "permission path {} does not exist, return...".format(permission_path)
+        print("permission path {} does not exist, return...".format(permission_path))
         return
     headers = get_headers(org)
     url = "http://{}/api/micro_app/v1/permission/import".format(MICRO_APP_ADDR)
 
-    print "permission path is {}, will start import permissions".format(permission_path)
-    with open(permission_path) as f:
+    print("permission path is {}, will start import permissions".format(permission_path))
+    with io.open(permission_path, encoding="utf-8") as f:
         p_f_content = f.read()
         permission_list = simplejson.loads(p_f_content)
         body = {"permissionList": permission_list}
@@ -149,12 +149,12 @@ def read_union_apps_file(install_app_path):
     union_app_file = os.path.join(install_app_path, "union-apps", "union-apps.json")
     if not os.path.exists(union_app_file):
         return []
-    with open(union_app_file, "r") as f:
+    with io.open(union_app_file, "r", encoding="utf-8") as f:
         return simplejson.load(f)
 
 def get_union_app_version(install_path):
     version_file_path = os.path.join(install_path, "version.ini")
-    with open(version_file_path) as f:
+    with io.open(version_file_path, encoding="utf-8") as f:
         version_content = f.readlines()
     return version_content[1].strip()
 
@@ -193,7 +193,7 @@ def report_union_apps(org, union_app_install_path):
         wait(all_task, return_when=ALL_COMPLETED)
         for future in as_completed(all_task):
             report_ret = future.result()
-            print u"report result: {}".format(report_ret)
+            print("report result: {}".format(report_ret))
             if report_ret is None:
                 continue
             is_skip_update = report_ret.get("skipUpdate")
@@ -202,26 +202,26 @@ def report_union_apps(org, union_app_install_path):
             else:
                 updated_apps.append(report_ret.get("appId"))
     except Exception as e:
-        print u"report union app:{}, {},  err: {}".format(union_app_id, union_app_version, e)
+        print("report union app:{}, {},  err: {}".format(union_app_id, union_app_version, e))
         sys.exit(1)
     finally:
         executor.shutdown()
 
-    print "report union_apps: updated sa_na: {}, skip updated sa_na: {}".format(",".join(updated_apps), ",".join(skip_updated_apps))
+    print("report union_apps: updated sa_na: {}, skip updated sa_na: {}".format(",".join(updated_apps), ",".join(skip_updated_apps)))
     return updated_apps
 
 def delete_directory(directory_path):
     try:
         shutil.rmtree(directory_path)
-        print u"delete directory: {}".format(directory_path)
+        print("delete directory: {}".format(directory_path))
     except Exception as e:
-        print u"error deleting directory: {}, err: {}".format(directory_path, e)
+        print("error deleting directory: {}, err: {}".format(directory_path, e))
 
 def is_develop_version(standalone_na_path):
     version_file_path = os.path.join(standalone_na_path, "version.ini")
     if not os.path.exists(version_file_path):
         return True
-    with open(version_file_path) as f:
+    with io.open(version_file_path, encoding="utf-8") as f:
         version_content = f.readlines()
         if "0.0.0" in version_content[1]:
             return True
@@ -231,10 +231,10 @@ def uninstall_old_sa_na(standalone_na_list):
     for sa_na_name in standalone_na_list:
         sa_na_path = os.path.join(_INSTALL_BASE_PATH, _APPLICATIONS_SA_FOLDER, sa_na_name+"-standalone-NA")
         if not os.path.exists(sa_na_path):
-            print u"old standalone_na dir: {} done not exist".format(sa_na_path)
+            print("old standalone_na dir: {} done not exist".format(sa_na_path))
             continue
         if is_develop_version(sa_na_path):
-            print u"standalone_na is developing: skip delete dir: {}".format(sa_na_path)
+            print("standalone_na is developing: skip delete dir: {}".format(sa_na_path))
             continue
 
         # 删除old standalone na
@@ -246,7 +246,7 @@ def uninstall_old_sa_na(standalone_na_list):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print "Usage: ./report_union_micro_app.py $org $union_app_install_path"
+        print("Usage: ./report_union_micro_app.py $org $union_app_install_path")
         sys.exit(1)
     org = sys.argv[1]
     union_app_install_path = sys.argv[2]

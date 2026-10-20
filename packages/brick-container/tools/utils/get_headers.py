@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from custom_get_token_util import get_token
+from .custom_get_token_util import get_token
 
 DEFAULT_USER = "defaultUser"
 

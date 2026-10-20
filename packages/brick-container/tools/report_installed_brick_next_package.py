@@ -1,4 +1,8 @@
+#!/usr/local/easyops/python3/bin/python3
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
+import io
 import logging
 import os
 import sys
@@ -12,9 +16,6 @@ from copy import deepcopy
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from utils.get_headers import get_headers
-
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 logger = logging.getLogger("report_installed_brick_next_package")
 logging.basicConfig(level=logging.DEBUG,
@@ -180,7 +181,7 @@ def collect_stories(install_path):
     bricks_path = os.path.join(install_path, "dist", "bricks.json")
     if not os.path.exists(stories_path):
       return []
-    with open(stories_path) as stories_file:
+    with io.open(stories_path, encoding="utf-8") as stories_file:
         stories_content = simplejson.load(stories_file)
     # v2 brick
     if not os.path.exists(manifest_path):
@@ -188,15 +189,15 @@ def collect_stories(install_path):
     # v3 brick
     elif os.path.exists(manifest_path):
         stories_list = []
-        with open(manifest_path) as manifest_file:
+        with io.open(manifest_path, encoding="utf-8") as manifest_file:
             manifest_content = simplejson.load(manifest_file)
             examples_content = {}
             if os.path.exists(examples_path):
-                with open(examples_path) as examples_file:
+                with io.open(examples_path, encoding="utf-8") as examples_file:
                     examples_content = simplejson.load(examples_file)
             types_content = {}
             if os.path.exists(types_path):
-                with open(types_path) as types_file:
+                with io.open(types_path, encoding="utf-8") as types_file:
                     types_content = simplejson.load(types_file)
             for br in manifest_content.get("bricks", []):
                 story = get_v3_story(br, examples_content, types_content, stories_content)
@@ -222,20 +223,20 @@ def collect(install_path):
         raise Exception(
             "could not find bricks.json path {}".format(bricks_path))
     stories_path = os.path.join(install_path, "dist", "stories.json")
-    with open(bricks_path) as bricks_file:
+    with io.open(bricks_path, encoding="utf-8") as bricks_file:
         bricks_content = simplejson.load(bricks_file)
     stories_content = collect_stories(install_path)
     snippets_from_stories = get_snippets_from_stories(stories_content)
     snippets_path = os.path.join(install_path, "dist", "snippets.json")
     snippets_content = {"snippets": []}
     if os.path.exists(snippets_path):
-        with open(snippets_path) as snippets_file:
+        with io.open(snippets_path, encoding="utf-8") as snippets_file:
             snippets_content = simplejson.load(snippets_file)
     snippets_content["snippets"].extend(snippets_from_stories)
     contract_path = os.path.join(install_path, "dist", "contracts.json")
     contract_content = {}
     if os.path.exists(contract_path):
-        with open(contract_path) as contract_file:
+        with io.open(contract_path, encoding="utf-8") as contract_file:
             contract_content = simplejson.load(contract_file)
     return package_name, bricks_content, stories_content, snippets_content, contract_content
 
@@ -306,11 +307,11 @@ def get_version(install_path):
     version_file = os.path.join(install_path, "version.ini")
     package_version = "0.0.0"
     try:
-        with open(version_file, "r") as f:
+        with io.open(version_file, "r", encoding="utf-8") as f:
             lines = f.readlines()
             package_version = str.strip(lines[1])
     except:
-        print "version.ini read error, use version", package_version
+        print("version.ini read error, use version", package_version)
     return package_version
 
 
