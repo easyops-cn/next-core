@@ -19,6 +19,7 @@ import {
   menu,
   messageDispatcher,
   analytics,
+  qtTracking,
 } from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import type { BootstrapData, Storyboard } from "@next-core/types";
@@ -41,6 +42,8 @@ customElements.define("easyops-default-error", DefaultError);
 analytics.initialize(
   `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
 );
+
+qtTracking.initialize();
 
 http.interceptors.request.use(analytics.http.onRequest);
 
@@ -206,6 +209,7 @@ async function main() {
         loadCheckLogin(),
         loadBootstrapData(),
       ]);
+      qtTracking.setUser();
       await runtime.bootstrap(bootstrapData);
       document.body.classList.add("first-rendered");
       resetReloadForError();
