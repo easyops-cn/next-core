@@ -20,6 +20,9 @@ function getQueue(): AplusCommand[] {
 describe("qtTracking", () => {
   beforeEach(() => {
     (window as any).aplus_queue = [];
+    document.head
+      .querySelectorAll("script")
+      .forEach((script) => script.remove());
     mockUsername.current = "easyops";
   });
 
@@ -41,6 +44,31 @@ describe("qtTracking", () => {
     getQueue().push({ action: "existing", arguments: [] });
     initialize();
     expect(getQueue()[0].action).toBe("existing");
+  });
+
+  test("initialize does not load sdk without sdkSrc", () => {
+    initialize();
+    expect(document.head.querySelectorAll("script")).toHaveLength(0);
+  });
+
+  test("initialize loads sdk script when sdkSrc given", () => {
+    initialize({ sdkSrc: "https://qt.example.com/aplus.js" });
+    const script = document.head.querySelector("script");
+    expect(script?.getAttribute("src")).toBe("https://qt.example.com/aplus.js");
+  });
+
+  test("initialize replaces pageConfig when given", () => {
+    const pageConfig = {
+      hashMode: true,
+      "/custom/page": { pageName: "custom_page" },
+    };
+    initialize({ pageConfig });
+    const pageConfigCommand = getQueue().find(
+      (item) =>
+        item.action === "aplus.setMetaInfo" &&
+        item.arguments[0] === "pageConfig"
+    );
+    expect(pageConfigCommand?.arguments[1]).toBe(pageConfig);
   });
 
   test("setUser binds username", () => {

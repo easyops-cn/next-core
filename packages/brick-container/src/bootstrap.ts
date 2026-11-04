@@ -43,8 +43,6 @@ analytics.initialize(
   `${getBasePath()}api/gateway/data_exchange.store.ClickHouseInsertData/api/v1/data_exchange/frontend_stat`
 );
 
-qtTracking.initialize();
-
 http.interceptors.request.use(analytics.http.onRequest);
 
 http.interceptors.request.use((config) => {
@@ -209,7 +207,14 @@ async function main() {
         loadCheckLogin(),
         loadBootstrapData(),
       ]);
-      qtTracking.setUser();
+      if (bootstrapData.settings?.featureFlags?.["qt-tracking-enabled"]) {
+        qtTracking.initialize(
+          bootstrapData.settings?.misc?.qtTracking as
+            | qtTracking.QtTrackingOptions
+            | undefined
+        );
+        qtTracking.setUser();
+      }
       await runtime.bootstrap(bootstrapData);
       document.body.classList.add("first-rendered");
       resetReloadForError();

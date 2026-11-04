@@ -1,7 +1,8 @@
 import { getAuth } from "../auth.js";
 
-// 页面编码映射，需与 QT 平台「埋点方案」登记一致（确认项 #11）
-const PAGE_CONFIG = {
+// 页面编码映射默认值，需与 QT 平台「埋点方案」登记一致（确认项 #11）；
+// 可由 bootstrap settings 的 misc.qtTracking.pageConfig 整体覆盖
+const DEFAULT_PAGE_CONFIG = {
   hashMode: false,
   "/next/portal": { pageName: "itops_portal", pageTitle: "首页" },
   "/next/itsc-ticket-center/ticket-apply": {
@@ -42,6 +43,13 @@ interface AplusCommand {
   arguments: unknown[];
 }
 
+export interface QtTrackingOptions {
+  // QT SDK 集成地址（金风 QT 平台生成的「SDK 集成代码」中的 script src，含 appkey）
+  sdkSrc?: string;
+  // 页面编码映射，传入则整体替换内置默认
+  pageConfig?: Record<string, unknown>;
+}
+
 function pushCommand(action: string, ...args: unknown[]): void {
   ((window as any).aplus_queue as AplusCommand[]).push({
     action,
@@ -62,18 +70,27 @@ function pushUserMeta(username: string | undefined): void {
   }
 }
 
-function loadSdk(): void {
-  // QT SDK 集成代码占位 — appkey 物料到位后，在此动态 createElement("script")
-  // 加载金风提供的 aplus 集成地址；到位前保持空实现，禁止空跑部署。
-  // SDK 加载后将按序消费 aplus_queue 积压指令并开始上报。
+function loadSdk(sdkSrc: string | undefined): void {
+  // SDK 集成地址未配置时不加载，避免未绑定 appkey 的空跑；
+  // SDK 加载后将按序消费 aplus_queue 积压指令并开始上报
+  if (!sdkSrc) {
+    return;
+  }
+  const script = document.createElement("script");
+  script.src = sdkSrc;
+  document.head.appendChild(script);
 }
 
-export function initialize(): void {
+export function initialize(options: QtTrackingOptions = {}): void {
   const w = window as any;
   // aplus 指令队列必须先于 SDK 存在，SDK 加载后按序消费
   w.aplus_queue = w.aplus_queue || [];
-  pushCommand("aplus.setMetaInfo", "pageConfig", PAGE_CONFIG);
-  loadSdk();
+  pushCommand(
+    "aplus.setMetaInfo",
+    "pageConfig",
+    options.pageConfig ?? DEFAULT_PAGE_CONFIG
+  );
+  loadSdk(options.sdkSrc);
 }
 
 export function setUser(): void {
