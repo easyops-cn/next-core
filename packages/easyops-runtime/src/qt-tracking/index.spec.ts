@@ -1,10 +1,4 @@
-import { describe, test, beforeEach, jest, expect } from "@jest/globals";
-
-const mockUsername = { current: "easyops" as string | undefined };
-
-jest.mock("../auth.js", () => ({
-  getAuth: () => ({ userInstanceId: "abc", username: mockUsername.current }),
-}));
+import { describe, test, beforeEach, expect } from "@jest/globals";
 
 import { initialize, setUser } from "./index.js";
 
@@ -23,7 +17,6 @@ describe("qtTracking", () => {
     document.head
       .querySelectorAll("script")
       .forEach((script) => script.remove());
-    mockUsername.current = "easyops";
   });
 
   test("initialize creates queue if absent and pushes pageConfig", () => {
@@ -72,7 +65,7 @@ describe("qtTracking", () => {
   });
 
   test("setUser binds username", () => {
-    setUser();
+    setUser("easyops");
     expect(getQueue()).toContainEqual({
       action: "aplus.setMetaInfo",
       arguments: ["_user_id", "easyops"],
@@ -80,10 +73,9 @@ describe("qtTracking", () => {
   });
 
   test("setUser clears username once when logged out", () => {
-    setUser();
-    mockUsername.current = undefined;
-    setUser();
-    setUser();
+    setUser("easyops");
+    setUser(undefined);
+    setUser(undefined);
     const clearCommands = getQueue().filter(
       (item) =>
         item.action === "aplus.setMetaInfo" &&
@@ -94,8 +86,7 @@ describe("qtTracking", () => {
   });
 
   test("setUser ignores logout when username was never set", () => {
-    mockUsername.current = undefined;
-    setUser();
+    setUser(undefined);
     expect(getQueue()).toHaveLength(0);
   });
 });

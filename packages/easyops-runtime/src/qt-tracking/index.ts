@@ -1,5 +1,3 @@
-import { getAuth } from "../auth.js";
-
 // 页面编码映射默认值，需与 QT 平台「埋点方案」登记一致（确认项 #11）；
 // 可由 bootstrap settings 的 misc.qtTracking.pageConfig 整体覆盖
 const DEFAULT_PAGE_CONFIG = {
@@ -59,7 +57,7 @@ function pushCommand(action: string, ...args: unknown[]): void {
 
 let userSet = false;
 
-// 登出后 getAuth().username 为 undefined：置空账号，退回设备维度
+// 登出后 username 为 undefined：置空账号，退回设备维度
 function pushUserMeta(username: string | undefined): void {
   if (username) {
     pushCommand("aplus.setMetaInfo", "_user_id", username);
@@ -93,6 +91,6 @@ export function initialize(options: QtTrackingOptions = {}): void {
   loadSdk(options.sdkSrc);
 }
 
-export function setUser(): void {
-  pushUserMeta(getAuth().username);
+export function setUser(username: string | undefined): void {
+  pushUserMeta(username);
 }

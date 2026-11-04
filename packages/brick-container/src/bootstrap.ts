@@ -213,7 +213,7 @@ async function main() {
             | qtTracking.QtTrackingOptions
             | undefined
         );
-        qtTracking.setUser();
+        qtTracking.setUser(auth.getAuth().username);
       }
       await runtime.bootstrap(bootstrapData);
       document.body.classList.add("first-rendered");
