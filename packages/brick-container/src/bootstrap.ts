@@ -19,6 +19,7 @@ import {
   menu,
   messageDispatcher,
   analytics,
+  qtTracking,
 } from "@next-core/easyops-runtime";
 import "@next-core/theme";
 import type { BootstrapData, Storyboard } from "@next-core/types";
@@ -206,6 +207,14 @@ async function main() {
         loadCheckLogin(),
         loadBootstrapData(),
       ]);
+      if (bootstrapData.settings?.featureFlags?.["qt-tracking-enabled"]) {
+        qtTracking.initialize(
+          bootstrapData.settings?.misc?.qtTracking as
+            | qtTracking.QtTrackingOptions
+            | undefined
+        );
+        qtTracking.setUser(auth.getAuth().username);
+      }
       await runtime.bootstrap(bootstrapData);
       document.body.classList.add("first-rendered");
       resetReloadForError();
