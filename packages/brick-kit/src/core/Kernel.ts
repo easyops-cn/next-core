@@ -54,7 +54,7 @@ import {
   loadBricksImperatively,
   loadProcessorsImperatively,
 } from "@next-core/loader";
-import { authenticate } from "../auth";
+import { authenticate, getAuth } from "../auth";
 import {
   Router,
   MenuBar,
@@ -78,6 +78,11 @@ import { loadAllLazyBricks, loadLazyBricks } from "./LazyBrickRegistry";
 import { isCustomApiProvider } from "./FlowApi";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
+import {
+  initialize as initializeQtTracking,
+  setUser as setQtTrackingUser,
+  QtTrackingOptions,
+} from "./qtTracking";
 import {
   safeGetRuntimeMicroAppStandalone,
   standaloneBootstrap,
@@ -153,6 +158,15 @@ export class Kernel {
     this.router = new Router(this);
 
     initAnalytics();
+
+    if (this.getFeatureFlags()["qt-tracking-enabled"]) {
+      initializeQtTracking(
+        this.bootstrapData?.settings?.misc?.qtTracking as
+          | QtTrackingOptions
+          | undefined
+      );
+      setQtTrackingUser(getAuth().username);
+    }
 
     this.originFaviconHref = (
       document.querySelector("link[rel='shortcut icon']") as HTMLLinkElement
