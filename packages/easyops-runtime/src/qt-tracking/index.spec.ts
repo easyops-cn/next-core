@@ -64,6 +64,35 @@ describe("qtTracking", () => {
     expect(pageConfigCommand?.arguments[1]).toBe(pageConfig);
   });
 
+  test("initialize pushes appKey and trackDomain when given", () => {
+    initialize({
+      sdkSrc:
+        "https://g.alicdn.com/QTSDK/qt-sdk-javascript/2.5.5/qt_web.cjs.js",
+      appKey: "aoqjwgbpw7c2mhfhhihbww55",
+      trackDomain: "https://quickaplus-he-api-cn-shanghai.aliyuncs.com",
+    });
+    expect(getQueue()).toContainEqual({
+      action: "aplus.setMetaInfo",
+      arguments: ["appKey", "aoqjwgbpw7c2mhfhhihbww55"],
+    });
+    expect(getQueue()).toContainEqual({
+      action: "aplus.setMetaInfo",
+      arguments: [
+        "trackDomain",
+        "https://quickaplus-he-api-cn-shanghai.aliyuncs.com",
+      ],
+    });
+  });
+
+  test("initialize omits appKey and trackDomain when not given", () => {
+    initialize({ sdkSrc: "https://qt.example.com/aplus.js" });
+    const metaKeys = getQueue()
+      .filter((item) => item.action === "aplus.setMetaInfo")
+      .map((item) => item.arguments[0]);
+    expect(metaKeys).not.toContain("appKey");
+    expect(metaKeys).not.toContain("trackDomain");
+  });
+
   test("setUser binds username", () => {
     setUser("easyops");
     expect(getQueue()).toContainEqual({
