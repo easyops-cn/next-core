@@ -42,8 +42,16 @@ interface AplusCommand {
 }
 
 export interface QtTrackingOptions {
-  // QT SDK 集成地址（金风 QT 平台生成的「SDK 集成代码」中的 script src，含 appkey）
+  // QT SDK 集成地址（QT 平台生成的「SDK 集成代码」中的 script src，
+  // 如官方 CDN 地址 https://g.alicdn.com/QTSDK/...，不含 appkey）
   sdkSrc?: string;
+  // QT 应用 appkey：集成代码为裸 src 时需另配，经 aplus.setMetaInfo 注入；
+  // 若 SDK src 的 query 已带 appkey 则可省略
+  appKey?: string;
+  // 日志上报域名：私有云/专有云部署必配（如金风环境
+  // https://quickaplus-he-api-cn-shanghai.aliyuncs.com）；
+  // 公有云默认收数域名可省略
+  trackDomain?: string;
   // 页面编码映射，传入则整体替换内置默认
   pageConfig?: Record<string, unknown>;
 }
@@ -83,6 +91,12 @@ export function initialize(options: QtTrackingOptions = {}): void {
   const w = window as any;
   // aplus 指令队列必须先于 SDK 存在，SDK 加载后按序消费
   w.aplus_queue = w.aplus_queue || [];
+  if (options.appKey) {
+    pushCommand("aplus.setMetaInfo", "appKey", options.appKey);
+  }
+  if (options.trackDomain) {
+    pushCommand("aplus.setMetaInfo", "trackDomain", options.trackDomain);
+  }
   pushCommand(
     "aplus.setMetaInfo",
     "pageConfig",
