@@ -57,7 +57,7 @@ describe("loadCheckLogin", () => {
     mockPush.mockReset();
     delete mockFeatureFlags["force-change-password-on-expiration"];
     mockHistory.location.pathname = "/";
-    // 清空上一个用例遗留的确认弹窗状态（passwordChangeConfirming 模块级标志）
+    // 清空上一个用例遗留的提示弹窗状态（passwordChangeConfirming 模块级标志）
     await flushPromises();
   });
 
@@ -99,7 +99,7 @@ describe("loadCheckLogin", () => {
 
     expect(mockDialogShow).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: "confirm",
+        type: "warn",
         content: "-/container:FORCE_CHANGE_PASSWORD_FOR_EXPIRED",
       })
     );
@@ -117,23 +117,10 @@ describe("loadCheckLogin", () => {
 
     expect(mockDialogShow).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: "confirm",
+        type: "warn",
         content: "-/container:FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN",
       })
     );
-  });
-
-  test("should force redirect even if the dialog is dismissed", async () => {
-    mockDialogShow.mockRejectedValueOnce(new Error("dismissed"));
-    mockCheckLogin.mockResolvedValueOnce({
-      loggedIn: true,
-      changePasswordRequired: true,
-      changePasswordReason: "expired",
-    } as CheckLoginResponseBody);
-    await loadCheckLogin();
-
-    await flushPromises();
-    expect(mockPush).toHaveBeenCalledWith("/next/account-setting/password");
   });
 
   test("should not redirect when changePasswordRequired is falsy", async () => {

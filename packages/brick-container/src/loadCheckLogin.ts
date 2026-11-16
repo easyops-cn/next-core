@@ -41,22 +41,16 @@ export async function loadCheckLogin(): Promise<void> {
 
 function redirectToChangePassword(reason?: "firstLogin" | "expired") {
   passwordChangeConfirming = true;
+  // warn 单按钮无取消路径：强制改密不允许停留在平台页面
   Dialog.show({
-    type: "confirm",
+    type: "warn",
     content: i18n.t(
       reason === "firstLogin"
         ? `${NS}:${K.FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN}`
         : `${NS}:${K.FORCE_CHANGE_PASSWORD_FOR_EXPIRED}`
     ),
-  }).then(
-    () => {
-      passwordChangeConfirming = false;
-      getHistory().push(CHANGE_PASSWORD_PAGE);
-    },
-    () => {
-      passwordChangeConfirming = false;
-      // 取消同样跳转：强制改密不允许停留在平台页面
-      getHistory().push(CHANGE_PASSWORD_PAGE);
-    }
-  );
+  }).then(() => {
+    passwordChangeConfirming = false;
+    getHistory().push(CHANGE_PASSWORD_PAGE);
+  });
 }
