@@ -23,7 +23,7 @@ import {
 import "@next-core/theme";
 import type { BootstrapData, Storyboard } from "@next-core/types";
 import "./XMLHttpRequest.js";
-import { loadCheckLogin } from "./loadCheckLogin.js";
+import { checkForceChangePassword, loadCheckLogin } from "./loadCheckLogin.js";
 import { fulfilStoryboard, loadBootstrapData } from "./loadBootstrapData.js";
 import { imagesFactory, widgetImagesFactory } from "./images.js";
 import { getSpanId } from "./utils.js";
@@ -160,8 +160,9 @@ class AppPreviewer {
       this.#setupCalled = true;
       history.replaceState(null, "", url);
       const runtime = doCreateRuntime();
-      await loadCheckLogin();
+      const checkLoginResult = await loadCheckLogin();
       await runtime.bootstrap(data);
+      checkForceChangePassword(checkLoginResult);
       document.body.classList.add("first-rendered");
     } catch (error) {
       handleError(error);
@@ -202,11 +203,13 @@ async function main() {
       return "ok";
     } else {
       const runtime = doCreateRuntime();
-      const [, bootstrapData] = await Promise.all([
+      const [checkLoginResult, bootstrapData] = await Promise.all([
         loadCheckLogin(),
         loadBootstrapData(),
       ]);
       await runtime.bootstrap(bootstrapData);
+      // 强制改密检查须在 runtime.bootstrap 完成后执行（featureFlags 此时才就绪）
+      checkForceChangePassword(checkLoginResult);
       document.body.classList.add("first-rendered");
       resetReloadForError();
     }

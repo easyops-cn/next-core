@@ -1,35 +1,228 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect, beforeEach } from "@jest/globals";
 import { AuthApi_checkLogin } from "@next-api-sdk/api-gateway-sdk";
 import { auth } from "@next-core/easyops-runtime";
-import { loadCheckLogin } from "./loadCheckLogin.js";
+import { Dialog } from "@next-core/runtime";
+import { checkForceChangePassword, loadCheckLogin } from "./loadCheckLogin.js";
+
+type CheckLoginResponseBody = Awaited<ReturnType<typeof AuthApi_checkLogin>>;
+
+const mockFeatureFlags: Record<string, unknown> = {};
+const mockPush = jest.fn();
+const mockHistory = {
+  location: { pathname: "/" },
+  push: mockPush,
+};
 
 jest.mock("@next-api-sdk/api-gateway-sdk");
-jest.mock("@next-core/easyops-runtime");
+jest.mock("@next-core/easyops-runtime", () => ({
+  auth: {
+    authenticate: jest.fn(),
+  },
+}));
+jest.mock("@next-core/i18n", () => ({
+  i18n: {
+    t: jest.fn((key: string) => key),
+  },
+}));
+jest.mock("@next-core/runtime", () => ({
+  Dialog: {
+    show: jest.fn(() => Promise.resolve()),
+  },
+  getRuntime() {
+    return {
+      getFeatureFlags() {
+        return mockFeatureFlags;
+      },
+    };
+  },
+  getHistory() {
+    return mockHistory;
+  },
+}));
 
 const mockCheckLogin = AuthApi_checkLogin as jest.MockedFunction<
   typeof AuthApi_checkLogin
 >;
+const mockDialogShow = Dialog.show as jest.Mock;
+
+async function flushPromises() {
+  await new Promise((resolve) => setTimeout(resolve, 0));
+}
 
 describe("loadCheckLogin", () => {
-  test("should work for when not logged in", async () => {
-    mockCheckLogin.mockResolvedValueOnce({ loggedIn: false });
-    await loadCheckLogin();
-    expect(auth.authenticate).not.toHaveBeenCalled();
+  beforeEach(async () => {
+    mockCheckLogin.mockReset();
+    mockDialogShow.mockReset();
+    mockDialogShow.mockImplementation(() => Promise.resolve());
+    mockPush.mockReset();
+    delete mockFeatureFlags["check_login_password_expiration_enabled"];
+    mockHistory.location.pathname = "/";
+    // 清空上一个用例遗留的提示弹窗状态（passwordChangeConfirming 模块级标志）
+    await flushPromises();
   });
 
-  test("should work for when logged in", async () => {
-    mockCheckLogin.mockResolvedValueOnce({ loggedIn: true });
-    await loadCheckLogin();
+  test("should return the check-login result when logged in", async () => {
+    mockCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    } as CheckLoginResponseBody);
+    const result = await loadCheckLogin();
+    // authenticate 的入参类型为 Omit<响应, "loggedIn">，断言仅校验透传结果
     expect(auth.authenticate).toHaveBeenCalledWith({
       loggedIn: true,
-    });
+    } as unknown as Parameters<typeof auth.authenticate>[0]);
+    expect(result).toEqual(expect.objectContaining({ loggedIn: true }));
   });
 
-  test("should work for no auth guard", async () => {
-    window.NO_AUTH_GUARD = true;
-    await loadCheckLogin();
-    expect(mockCheckLogin).not.toHaveBeenCalled();
+  test("should return undefined when not logged in", async () => {
+    mockCheckLogin.mockResolvedValueOnce({
+      loggedIn: false,
+    } as CheckLoginResponseBody);
+    const result = await loadCheckLogin();
     expect(auth.authenticate).not.toHaveBeenCalled();
+    expect(result).toBeUndefined();
+  });
+
+  test("should skip for no auth guard", async () => {
+    window.NO_AUTH_GUARD = true;
+    const result = await loadCheckLogin();
+    expect(mockCheckLogin).not.toHaveBeenCalled();
+    expect(result).toBeUndefined();
     window.NO_AUTH_GUARD = false;
+  });
+});
+
+describe("checkForceChangePassword", () => {
+  beforeEach(async () => {
+    mockCheckLogin.mockReset();
+    mockDialogShow.mockReset();
+    mockDialogShow.mockImplementation(() => Promise.resolve());
+    mockPush.mockReset();
+    delete mockFeatureFlags["check_login_password_expiration_enabled"];
+    mockHistory.location.pathname = "/";
+    // 清空上一个用例遗留的提示弹窗状态（passwordChangeConfirming 模块级标志）
+    await flushPromises();
+  });
+
+  test("should force redirect when password expired", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword({
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "expired",
+    } as CheckLoginResponseBody);
+
+    expect(mockDialogShow).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "warn",
+        content: "-/container:FORCE_CHANGE_PASSWORD_FOR_EXPIRED",
+      })
+    );
+    await flushPromises();
+    expect(mockPush).toHaveBeenCalledWith("/account-setting/password");
+  });
+
+  test("should force redirect on first login", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword({
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "firstLogin",
+    } as CheckLoginResponseBody);
+
+    expect(mockDialogShow).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "warn",
+        content: "-/container:FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN",
+      })
+    );
+  });
+
+  test("should do nothing for an undefined result", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword(undefined);
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  test("should not redirect when changePasswordRequired is falsy", async () => {
+    // 显式开启开关，使负向断言隔离验证 changePasswordRequired 条件
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword({
+      loggedIn: true,
+      changePasswordRequired: false,
+    } as CheckLoginResponseBody);
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  test("should not redirect when the feature flag is not configured", async () => {
+    // 共用后端开关：未配置（undefined）视为关闭，与后端默认关语义一致
+    checkForceChangePassword({
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "expired",
+    } as CheckLoginResponseBody);
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  test("should not redirect when feature flag is false", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = false;
+    checkForceChangePassword({
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "expired",
+    } as CheckLoginResponseBody);
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  test("should not redirect when already on the change password page", async () => {
+    // history 内部路径不含部署前缀（basename）
+    mockHistory.location.pathname = "/account-setting/password";
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword({
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "expired",
+    } as CheckLoginResponseBody);
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  test("should not show duplicate dialogs while confirming", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    let resolveDialog!: () => void;
+    mockDialogShow.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveDialog = () => resolve(undefined);
+        })
+    );
+    const result = {
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "expired",
+    } as CheckLoginResponseBody;
+
+    checkForceChangePassword(result);
+    expect(mockDialogShow).toHaveBeenCalledTimes(1);
+
+    // 弹窗挂起期间，不重复弹窗
+    checkForceChangePassword(result);
+    expect(mockDialogShow).toHaveBeenCalledTimes(1);
+
+    // 弹窗确认后标志复位，后续检查可以再次提示
+    resolveDialog();
+    await flushPromises();
+    checkForceChangePassword(result);
+    expect(mockDialogShow).toHaveBeenCalledTimes(2);
+    await flushPromises();
+    expect(mockPush).toHaveBeenCalledTimes(2);
   });
 });
