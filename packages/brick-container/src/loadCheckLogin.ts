@@ -13,31 +13,46 @@ type CheckLoginResult = AuthApi_CheckLoginResponseBody & {
   changePasswordReason?: "firstLogin" | "expired";
 };
 
-const CHANGE_PASSWORD_PAGE = "/next/account-setting/password";
+// history 内部路径不含部署前缀（basename，一般为 /next/）：
+// 浏览器地址 /next/account-setting/password 对应 history 路径 /account-setting/password，
+// 与 redirectToLogin 先例（push "/auth/login"）一致。
+const CHANGE_PASSWORD_PAGE = "/account-setting/password";
 
 let passwordChangeConfirming = false;
 
-export async function loadCheckLogin(): Promise<void> {
+export async function loadCheckLogin(): Promise<CheckLoginResult | undefined> {
   if (!window.NO_AUTH_GUARD) {
     const result = (await AuthApi_checkLogin()) as CheckLoginResult;
     if (result.loggedIn) {
       auth.authenticate(result);
       refreshPageIfAuthenticationChanged(result);
-      // 密码过期/首登强制修改密码：后端字段驱动，开关与后端共用
-      // check_login_password_expiration_enabled（apollo feature-switch namespace
-      // 经 bootstrap 接口并入 featureFlags 下发，未配置视为关闭，与后端默认关语义一致；
-      // 老版本后端时字段为 undefined，天然兼容）。
-      if (
-        result.changePasswordRequired &&
-        getRuntime().getFeatureFlags()[
-          "check_login_password_expiration_enabled"
-        ] === true &&
-        !passwordChangeConfirming &&
-        !getHistory().location.pathname.startsWith(CHANGE_PASSWORD_PAGE)
-      ) {
-        redirectToChangePassword(result.changePasswordReason);
-      }
+      return result;
     }
+  }
+  return undefined;
+}
+
+/**
+ * 强制改密检查。须在 `runtime.bootstrap` 完成、featureFlags 就绪后调用
+ * （bootstrap 数据在 runtime.initialize 时才写入，过早读取恒为空）。
+ */
+export function checkForceChangePassword(
+  result: CheckLoginResult | undefined
+): void {
+  // 密码过期/首登强制修改密码：后端字段驱动，开关与后端共用
+  // check_login_password_expiration_enabled（apollo feature-switch namespace
+  // 经 bootstrap 接口并入 featureFlags 下发，未配置视为关闭，与后端默认关语义一致；
+  // 老版本后端时字段为 undefined，天然兼容）。
+  if (
+    result?.loggedIn &&
+    result.changePasswordRequired &&
+    getRuntime().getFeatureFlags()[
+      "check_login_password_expiration_enabled"
+    ] === true &&
+    !passwordChangeConfirming &&
+    !getHistory().location.pathname.startsWith(CHANGE_PASSWORD_PAGE)
+  ) {
+    redirectToChangePassword(result.changePasswordReason);
   }
 }
 

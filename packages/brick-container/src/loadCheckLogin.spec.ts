@@ -2,7 +2,7 @@ import { describe, test, expect, beforeEach } from "@jest/globals";
 import { AuthApi_checkLogin } from "@next-api-sdk/api-gateway-sdk";
 import { auth } from "@next-core/easyops-runtime";
 import { Dialog } from "@next-core/runtime";
-import { loadCheckLogin } from "./loadCheckLogin.js";
+import { checkForceChangePassword, loadCheckLogin } from "./loadCheckLogin.js";
 
 type CheckLoginResponseBody = Awaited<ReturnType<typeof AuthApi_checkLogin>>;
 
@@ -61,42 +61,55 @@ describe("loadCheckLogin", () => {
     await flushPromises();
   });
 
-  test("should work for when not logged in", async () => {
-    mockCheckLogin.mockResolvedValueOnce({
-      loggedIn: false,
-    } as CheckLoginResponseBody);
-    await loadCheckLogin();
-    expect(auth.authenticate).not.toHaveBeenCalled();
-    expect(mockDialogShow).not.toHaveBeenCalled();
-  });
-
-  test("should work for when logged in", async () => {
+  test("should return the check-login result when logged in", async () => {
     mockCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
+    const result = await loadCheckLogin();
     // authenticate 的入参类型为 Omit<响应, "loggedIn">，断言仅校验透传结果
     expect(auth.authenticate).toHaveBeenCalledWith({
       loggedIn: true,
     } as unknown as Parameters<typeof auth.authenticate>[0]);
+    expect(result).toEqual(expect.objectContaining({ loggedIn: true }));
   });
 
-  test("should work for no auth guard", async () => {
-    window.NO_AUTH_GUARD = true;
-    await loadCheckLogin();
-    expect(mockCheckLogin).not.toHaveBeenCalled();
+  test("should return undefined when not logged in", async () => {
+    mockCheckLogin.mockResolvedValueOnce({
+      loggedIn: false,
+    } as CheckLoginResponseBody);
+    const result = await loadCheckLogin();
     expect(auth.authenticate).not.toHaveBeenCalled();
+    expect(result).toBeUndefined();
+  });
+
+  test("should skip for no auth guard", async () => {
+    window.NO_AUTH_GUARD = true;
+    const result = await loadCheckLogin();
+    expect(mockCheckLogin).not.toHaveBeenCalled();
+    expect(result).toBeUndefined();
     window.NO_AUTH_GUARD = false;
+  });
+});
+
+describe("checkForceChangePassword", () => {
+  beforeEach(async () => {
+    mockCheckLogin.mockReset();
+    mockDialogShow.mockReset();
+    mockDialogShow.mockImplementation(() => Promise.resolve());
+    mockPush.mockReset();
+    delete mockFeatureFlags["check_login_password_expiration_enabled"];
+    mockHistory.location.pathname = "/";
+    // 清空上一个用例遗留的提示弹窗状态（passwordChangeConfirming 模块级标志）
+    await flushPromises();
   });
 
   test("should force redirect when password expired", async () => {
     mockFeatureFlags["check_login_password_expiration_enabled"] = true;
-    mockCheckLogin.mockResolvedValueOnce({
+    checkForceChangePassword({
       loggedIn: true,
       changePasswordRequired: true,
       changePasswordReason: "expired",
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
 
     expect(mockDialogShow).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -105,17 +118,16 @@ describe("loadCheckLogin", () => {
       })
     );
     await flushPromises();
-    expect(mockPush).toHaveBeenCalledWith("/next/account-setting/password");
+    expect(mockPush).toHaveBeenCalledWith("/account-setting/password");
   });
 
   test("should force redirect on first login", async () => {
     mockFeatureFlags["check_login_password_expiration_enabled"] = true;
-    mockCheckLogin.mockResolvedValueOnce({
+    checkForceChangePassword({
       loggedIn: true,
       changePasswordRequired: true,
       changePasswordReason: "firstLogin",
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
 
     expect(mockDialogShow).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -125,12 +137,21 @@ describe("loadCheckLogin", () => {
     );
   });
 
+  test("should do nothing for an undefined result", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword(undefined);
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
   test("should not redirect when changePasswordRequired is falsy", async () => {
-    mockCheckLogin.mockResolvedValueOnce({
+    // 显式开启开关，使负向断言隔离验证 changePasswordRequired 条件
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword({
       loggedIn: true,
       changePasswordRequired: false,
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
 
     expect(mockDialogShow).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
@@ -138,12 +159,11 @@ describe("loadCheckLogin", () => {
 
   test("should not redirect when the feature flag is not configured", async () => {
     // 共用后端开关：未配置（undefined）视为关闭，与后端默认关语义一致
-    mockCheckLogin.mockResolvedValueOnce({
+    checkForceChangePassword({
       loggedIn: true,
       changePasswordRequired: true,
       changePasswordReason: "expired",
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
 
     expect(mockDialogShow).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
@@ -151,25 +171,25 @@ describe("loadCheckLogin", () => {
 
   test("should not redirect when feature flag is false", async () => {
     mockFeatureFlags["check_login_password_expiration_enabled"] = false;
-    mockCheckLogin.mockResolvedValueOnce({
+    checkForceChangePassword({
       loggedIn: true,
       changePasswordRequired: true,
       changePasswordReason: "expired",
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
 
     expect(mockDialogShow).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
   });
 
   test("should not redirect when already on the change password page", async () => {
-    mockHistory.location.pathname = "/next/account-setting/password";
-    mockCheckLogin.mockResolvedValueOnce({
+    // history 内部路径不含部署前缀（basename）
+    mockHistory.location.pathname = "/account-setting/password";
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
+    checkForceChangePassword({
       loggedIn: true,
       changePasswordRequired: true,
       changePasswordReason: "expired",
     } as CheckLoginResponseBody);
-    await loadCheckLogin();
 
     expect(mockDialogShow).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
@@ -184,32 +204,23 @@ describe("loadCheckLogin", () => {
           resolveDialog = () => resolve(undefined);
         })
     );
-    mockCheckLogin.mockResolvedValueOnce({
+    const result = {
       loggedIn: true,
       changePasswordRequired: true,
       changePasswordReason: "expired",
-    } as CheckLoginResponseBody);
-    await loadCheckLogin();
+    } as CheckLoginResponseBody;
+
+    checkForceChangePassword(result);
     expect(mockDialogShow).toHaveBeenCalledTimes(1);
 
-    // 确认弹窗挂起期间，不重复弹窗
-    mockCheckLogin.mockResolvedValueOnce({
-      loggedIn: true,
-      changePasswordRequired: true,
-      changePasswordReason: "expired",
-    } as CheckLoginResponseBody);
-    await loadCheckLogin();
+    // 弹窗挂起期间，不重复弹窗
+    checkForceChangePassword(result);
     expect(mockDialogShow).toHaveBeenCalledTimes(1);
 
-    // 弹窗确认后标志复位，后续整页加载可以再次提示
+    // 弹窗确认后标志复位，后续检查可以再次提示
     resolveDialog();
     await flushPromises();
-    mockCheckLogin.mockResolvedValueOnce({
-      loggedIn: true,
-      changePasswordRequired: true,
-      changePasswordReason: "expired",
-    } as CheckLoginResponseBody);
-    await loadCheckLogin();
+    checkForceChangePassword(result);
     expect(mockDialogShow).toHaveBeenCalledTimes(2);
     await flushPromises();
     expect(mockPush).toHaveBeenCalledTimes(2);
