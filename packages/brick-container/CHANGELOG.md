@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.26.0...@next-core/brick-container@3.27.0) (2026-11-16)
+
+
+### Bug Fixes
+
+* **brick-container:** address review findings on force change password ([e7d934f](https://github.com/easyops-cn/next-core/commit/e7d934fc170e1c7631d1a8e01308668e88869703))
+
+
+### Features
+
+* **brick-container:** force redirect to change password page on expiration ([fc878ec](https://github.com/easyops-cn/next-core/commit/fc878ecaf5a5dea91cca351e7a0d785285223bff))
+* **brick-container:** share backend feature switch for force password change ([e574444](https://github.com/easyops-cn/next-core/commit/e574444fb2b8481d7c889533d8783e0edb2556a3))
+
+
+
+
+
 # [3.26.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.25.6...@next-core/brick-container@3.26.0) (2026-10-20)
 
 
