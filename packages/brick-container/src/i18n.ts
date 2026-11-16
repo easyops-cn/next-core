@@ -4,6 +4,8 @@ export enum K {
   BOOTSTRAP_ERROR = "BOOTSTRAP_ERROR",
   NETWORK_ERROR = "NETWORK_ERROR",
   RELOAD = "RELOAD",
+  FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN = "FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN",
+  FORCE_CHANGE_PASSWORD_FOR_EXPIRED = "FORCE_CHANGE_PASSWORD_FOR_EXPIRED",
 }
 
 const en: Locale = {
@@ -14,6 +16,10 @@ const en: Locale = {
   [K.BOOTSTRAP_ERROR]: "Bootstrap Error",
   [K.NETWORK_ERROR]: "Network Error",
   [K.RELOAD]: "Reload",
+  [K.FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN]:
+    "This is your first login. Please set your new password before continuing.",
+  [K.FORCE_CHANGE_PASSWORD_FOR_EXPIRED]:
+    "Your password has expired. Please change your password before continuing.",
 };
 
 const zh: Locale = {
@@ -22,6 +28,10 @@ const zh: Locale = {
   [K.BOOTSTRAP_ERROR]: "启动错误",
   [K.NETWORK_ERROR]: "网络错误",
   [K.RELOAD]: "刷新",
+  [K.FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN]:
+    "初次登录，请先设置新密码后再继续使用平台。",
+  [K.FORCE_CHANGE_PASSWORD_FOR_EXPIRED]:
+    "密码已过期，修改密码后方可继续使用平台。",
 };
 
 export const NS = "-/container";
