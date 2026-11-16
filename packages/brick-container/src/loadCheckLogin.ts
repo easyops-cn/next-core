@@ -23,13 +23,15 @@ export async function loadCheckLogin(): Promise<void> {
     if (result.loggedIn) {
       auth.authenticate(result);
       refreshPageIfAuthenticationChanged(result);
-      // 密码过期/首登强制修改密码：后端字段驱动 + 前端 featureFlag 应急刹车。
-      // 后端开关关闭时字段恒为 false；老版本后端时字段为 undefined，均天然兼容。
+      // 密码过期/首登强制修改密码：后端字段驱动，开关与后端共用
+      // check_login_password_expiration_enabled（apollo feature-switch namespace
+      // 经 bootstrap 接口并入 featureFlags 下发，未配置视为关闭，与后端默认关语义一致；
+      // 老版本后端时字段为 undefined，天然兼容）。
       if (
         result.changePasswordRequired &&
         getRuntime().getFeatureFlags()[
-          "force-change-password-on-expiration"
-        ] !== false &&
+          "check_login_password_expiration_enabled"
+        ] === true &&
         !passwordChangeConfirming &&
         !getHistory().location.pathname.startsWith(CHANGE_PASSWORD_PAGE)
       ) {

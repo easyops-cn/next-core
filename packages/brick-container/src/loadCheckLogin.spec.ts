@@ -55,7 +55,7 @@ describe("loadCheckLogin", () => {
     mockDialogShow.mockReset();
     mockDialogShow.mockImplementation(() => Promise.resolve());
     mockPush.mockReset();
-    delete mockFeatureFlags["force-change-password-on-expiration"];
+    delete mockFeatureFlags["check_login_password_expiration_enabled"];
     mockHistory.location.pathname = "/";
     // 清空上一个用例遗留的提示弹窗状态（passwordChangeConfirming 模块级标志）
     await flushPromises();
@@ -90,6 +90,7 @@ describe("loadCheckLogin", () => {
   });
 
   test("should force redirect when password expired", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
     mockCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
       changePasswordRequired: true,
@@ -108,6 +109,7 @@ describe("loadCheckLogin", () => {
   });
 
   test("should force redirect on first login", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
     mockCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
       changePasswordRequired: true,
@@ -134,8 +136,21 @@ describe("loadCheckLogin", () => {
     expect(mockPush).not.toHaveBeenCalled();
   });
 
+  test("should not redirect when the feature flag is not configured", async () => {
+    // 共用后端开关：未配置（undefined）视为关闭，与后端默认关语义一致
+    mockCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+      changePasswordRequired: true,
+      changePasswordReason: "expired",
+    } as CheckLoginResponseBody);
+    await loadCheckLogin();
+
+    expect(mockDialogShow).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
   test("should not redirect when feature flag is false", async () => {
-    mockFeatureFlags["force-change-password-on-expiration"] = false;
+    mockFeatureFlags["check_login_password_expiration_enabled"] = false;
     mockCheckLogin.mockResolvedValueOnce({
       loggedIn: true,
       changePasswordRequired: true,
@@ -161,6 +176,7 @@ describe("loadCheckLogin", () => {
   });
 
   test("should not show duplicate dialogs while confirming", async () => {
+    mockFeatureFlags["check_login_password_expiration_enabled"] = true;
     let resolveDialog!: () => void;
     mockDialogShow.mockImplementationOnce(
       () =>
