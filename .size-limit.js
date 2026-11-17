@@ -47,7 +47,8 @@ module.exports = [
   {
     path: "packages/brick-kit/dist/index.esm.js",
     // +7 KB: 错误码词典数据（237 条中英文文案，015 方案错误国际化）
-    limit: "145 KB",
+    // +1 KB: qt-tracking 页面编码默认映射（金风 QT 前端监控埋点）
+    limit: "146 KB",
   },
   {
     path: "packages/brick-types/dist/index.esm.js",
