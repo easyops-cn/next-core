@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.212.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.211.1...@next-core/brick-kit@2.212.0) (2026-11-17)
+
+
+### Features
+
+* **brick-kit:** force redirect to change password page on expiration ([eef0e9d](https://github.com/easyops-cn/next-core/commit/eef0e9dc4101c0dede83a0b18243d71b7c5fbcc7))
+
+
+
+
+
 ## [2.211.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.211.0...@next-core/brick-kit@2.211.1) (2026-09-23)
 
 
