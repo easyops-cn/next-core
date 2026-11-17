@@ -68,12 +68,12 @@ describe("qtTracking", () => {
     initialize({
       sdkSrc:
         "https://g.alicdn.com/QTSDK/qt-sdk-javascript/2.5.5/qt_web.cjs.js",
-      appKey: "aoqjwgbpw7c2mhfhhihbww55",
+      appKey: "fake-app-key",
       trackDomain: "https://quickaplus-he-api-cn-shanghai.aliyuncs.com",
     });
     expect(getQueue()).toContainEqual({
       action: "aplus.setMetaInfo",
-      arguments: ["appKey", "aoqjwgbpw7c2mhfhhihbww55"],
+      arguments: ["appKey", "fake-app-key"],
     });
     expect(getQueue()).toContainEqual({
       action: "aplus.setMetaInfo",
