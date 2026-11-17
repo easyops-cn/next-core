@@ -29,7 +29,7 @@ import {
   Storyboard,
 } from "@next-core/brick-types";
 import { Kernel } from "./Kernel";
-import { authenticate, isLoggedIn } from "../auth";
+import { authenticate, getAuth, isLoggedIn } from "../auth";
 import { MenuBar, AppBar, BaseBar } from "./Bars";
 import { Router } from "./Router";
 import { registerCustomTemplate } from "./CustomTemplates";
@@ -38,6 +38,10 @@ import { CUSTOM_API_PROVIDER } from "../providers/CustomApi";
 import { loadLazyBricks, loadAllLazyBricks } from "./LazyBrickRegistry";
 import { getRuntime } from "../runtime";
 import { initAnalytics } from "./initAnalytics";
+import {
+  initialize as initializeQtTracking,
+  setUser as setQtTrackingUser,
+} from "./qtTracking";
 import {
   standaloneBootstrap,
   safeGetRuntimeMicroAppStandalone,
@@ -67,6 +71,7 @@ jest.mock("./LazyBrickRegistry");
 jest.mock("../auth");
 jest.mock("../runtime");
 jest.mock("./initAnalytics");
+jest.mock("./qtTracking");
 jest.mock("./standaloneBootstrap");
 jest.mock("../internal/applyColorTheme");
 
@@ -119,6 +124,9 @@ const spyOnAddResourceBundle = jest.spyOn(i18next, "addResourceBundle");
 
 const spyOnApplyPageTitle = jest.fn();
 const mockInitAnalytics = initAnalytics as jest.Mock;
+const mockInitializeQtTracking = initializeQtTracking as jest.Mock;
+const mockSetQtTrackingUser = setQtTrackingUser as jest.Mock;
+const mockGetAuth = getAuth as jest.Mock;
 
 (getRuntime as jest.Mock).mockImplementation(() => ({
   applyPageTitle: spyOnApplyPageTitle,
@@ -1269,6 +1277,57 @@ describe("Kernel", () => {
     });
     await kernel.bootstrap({} as any);
     expect(mockInitAnalytics).toBeCalled();
+  });
+
+  it("should initialize qt tracking and set user when qt-tracking-enabled flag is on", async () => {
+    const qtTrackingOptions = {
+      sdkSrc: "https://qt.example.com/sdk.js",
+      appKey: "fake-app-key",
+      trackDomain: "https://qt.example.com",
+    };
+    mockGetAuth.mockReturnValueOnce({ username: "easyops" });
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {
+          "qt-tracking-enabled": true,
+        },
+        misc: {
+          qtTracking: qtTrackingOptions,
+        },
+      },
+    });
+    await kernel.bootstrap({} as any);
+    expect(mockInitializeQtTracking).toBeCalledWith(qtTrackingOptions);
+    expect(mockSetQtTrackingUser).toBeCalledWith("easyops");
+  });
+
+  it("should not initialize qt tracking when qt-tracking-enabled flag is off", async () => {
+    spyOnCheckLogin.mockResolvedValueOnce({
+      loggedIn: true,
+    });
+    spyOnBootstrap.mockResolvedValueOnce({
+      storyboards: [
+        {
+          routes: [],
+        },
+      ],
+      brickPackages: [],
+      settings: {
+        featureFlags: {},
+      },
+    });
+    await kernel.bootstrap({} as any);
+    expect(mockInitializeQtTracking).not.toBeCalled();
+    expect(mockSetQtTrackingUser).not.toBeCalled();
   });
 
   it("should get standalone menus", async () => {
