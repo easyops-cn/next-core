@@ -21,6 +21,10 @@ const locale: Locale = {
   [K.PAGE_RENDER_SLOW_TIP]:
     "您的页面存在性能问题, 当前页面渲染时间 {{renderTime}} 秒, 规定阈值为: {{suggestTime}} 秒, 您已超过。请您针对该页面进行性能优化!",
   [K.VIEW_SUGGESTION]: "建议解决思路",
+  [K.FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN]:
+    "初次登录，请先设置新密码后再继续使用平台。",
+  [K.FORCE_CHANGE_PASSWORD_FOR_EXPIRED]:
+    "密码已过期，修改密码后方可继续使用平台。",
 };
 
 export default locale;

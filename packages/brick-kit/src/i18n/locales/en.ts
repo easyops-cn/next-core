@@ -32,6 +32,10 @@ const locale: Locale = {
   [K.PAGE_RENDER_SLOW_TIP]:
     "Your page is running slowly. The current render time is {{renderTime}} seconds, exceeding the threshold of {{suggestTime}} seconds. Please optimize this page.",
   [K.VIEW_SUGGESTION]: "View suggestions",
+  [K.FORCE_CHANGE_PASSWORD_FOR_FIRST_LOGIN]:
+    "This is your first login. Please set your new password before continuing.",
+  [K.FORCE_CHANGE_PASSWORD_FOR_EXPIRED]:
+    "Your password has expired. Please change your password before continuing.",
 };
 
 export default locale;
