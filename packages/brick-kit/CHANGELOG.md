@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.213.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.212.0...@next-core/brick-kit@2.213.0) (2026-11-17)
+
+
+### Features
+
+* **brick-kit:** add qt-tracking module for Quick Tracking integration ([793f93e](https://github.com/easyops-cn/next-core/commit/793f93e72da17866631c8b5764695e39e96ad3f5))
+* **brick-kit:** qt-tracking 支持 appKey 与 trackDomain 注入 ([6f75141](https://github.com/easyops-cn/next-core/commit/6f75141f49ab0dca1d8005f951e0b9cd241e1e4a))
+
+
+
+
+
 # [2.212.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-kit@2.211.1...@next-core/brick-kit@2.212.0) (2026-11-17)
 
 
