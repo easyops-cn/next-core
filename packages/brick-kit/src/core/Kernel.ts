@@ -56,6 +56,10 @@ import {
 } from "@next-core/loader";
 import { authenticate } from "../auth";
 import {
+  checkForceChangePassword,
+  type CheckLoginResult,
+} from "./forceChangePassword";
+import {
   Router,
   MenuBar,
   AppBar,
@@ -135,7 +139,13 @@ export class Kernel {
       document.body.classList.add("bars-hidden-in-iframe");
     }
 
-    await Promise.all([this.loadCheckLogin(), this.loadMicroApps()]);
+    const [checkLoginResult] = await Promise.all([
+      this.loadCheckLogin(),
+      this.loadMicroApps(),
+    ]);
+    // 强制改密检查须在 loadMicroApps 完成、bootstrapData 就绪后执行
+    // （featureFlags 读自 bootstrapData，过早读取恒为空）。
+    checkForceChangePassword(checkLoginResult);
     if (
       this.bootstrapData.storyboards.length === 0 &&
       !window.DEVELOPER_PREVIEW
@@ -227,14 +237,16 @@ export class Kernel {
     });
   }
 
-  private async loadCheckLogin(): Promise<void> {
+  private async loadCheckLogin(): Promise<CheckLoginResult | undefined> {
     if (!window.NO_AUTH_GUARD) {
-      const auth = await AuthSdk.checkLogin();
+      const auth = (await AuthSdk.checkLogin()) as CheckLoginResult;
       if (auth.loggedIn) {
         authenticate(auth);
         refreshPageIfAuthenticationChanged(auth);
+        return auth;
       }
     }
+    return undefined;
   }
 
   private async loadMicroApps(
