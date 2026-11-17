@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.35...@next-core/easyops-runtime@0.16.0) (2026-11-17)
+
+
+### Features
+
+* **easyops-runtime:** add qt-tracking module for Quick Tracking integration ([312bb28](https://github.com/easyops-cn/next-core/commit/312bb287573c56327c2fa3c5949d10bf937ad8c4))
+* **easyops-runtime:** make qt-tracking configurable via bootstrap settings ([3682b54](https://github.com/easyops-cn/next-core/commit/3682b546bb60f2803103c849e2f0c5ce72a0e090))
+* **easyops-runtime:** support appKey and trackDomain in qt-tracking options ([badc7ec](https://github.com/easyops-cn/next-core/commit/badc7ec2fa77b2818c04987ebe66d50572086235))
+
+
+
+
+
 ## [0.15.35](https://github.com/easyops-cn/next-core/compare/@next-core/easyops-runtime@0.15.34...@next-core/easyops-runtime@0.15.35) (2026-03-17)
 
 **Note:** Version bump only for package @next-core/easyops-runtime

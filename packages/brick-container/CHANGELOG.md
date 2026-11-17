@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.27.0...@next-core/brick-container@3.28.0) (2026-11-17)
+
+
+### Features
+
+* **easyops-runtime:** add qt-tracking module for Quick Tracking integration ([312bb28](https://github.com/easyops-cn/next-core/commit/312bb287573c56327c2fa3c5949d10bf937ad8c4))
+* **easyops-runtime:** make qt-tracking configurable via bootstrap settings ([3682b54](https://github.com/easyops-cn/next-core/commit/3682b546bb60f2803103c849e2f0c5ce72a0e090))
+
+
+
+
+
 # [3.27.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.26.0...@next-core/brick-container@3.27.0) (2026-11-16)
 
 
