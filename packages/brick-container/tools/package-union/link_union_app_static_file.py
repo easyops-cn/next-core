@@ -25,6 +25,30 @@ _INSTALL_BASE_PATH = "/usr/local/easyops"
 _DEPENDENCIES_LOCK_BASE_PATH = os.path.join(
     _INSTALL_BASE_PATH, _APPLICATIONS_SA_FOLDER, "dependencies_lock")
 
+# py2 混装期兼容：调用方（老版本 install_postscript.sh）可能仍以 python2 显式执行本脚本。
+# py2 下 io.open/json/yaml 读出的字符串是 unicode，而 os.listdir 返回的文件名是 bytes，
+# 两者在 os.path.join 相撞时会按 sys.getdefaultencoding()(ascii) 隐式解码，一旦安装树中
+# 存在非 ASCII 文件名（如 micro-app 静态资源中的中文命名切图）即抛 UnicodeDecodeError。
+# 处理：统一把配置文件读出的字符串 encode 为 bytes，保证路径链全程 bytes（py2 下 bytes
+# 链遍历/硬链按字节处理，行为与历史 py2 版本一致，实测安全）；python3 下为直通，零变化。
+PY2 = str is bytes
+
+if PY2:
+    def _normalize_strs(value):
+        if isinstance(value, unicode):
+            return value.encode("utf-8")
+        if isinstance(value, list):
+            return [_normalize_strs(v) for v in value]
+        if isinstance(value, dict):
+            return dict(
+                (_normalize_strs(k), _normalize_strs(v))
+                for k, v in value.items()
+            )
+        return value
+else:
+    def _normalize_strs(value):
+        return value
+
 
 def init_dependencies_lock_dir():
     # 初始化 /usr/local/easyops/applications_sa/dependencies_lock
@@ -125,7 +149,7 @@ def read_dependencies_yaml(install_app_path):
     data = yaml.safe_load(dependencies_fp)
     if not isinstance(data, dict):
         raise Exception("micro_app_dependencies.yaml fmt error: {}".format(data))
-    return data.get("dependencies_lock", [])
+    return _normalize_strs(data.get("dependencies_lock", []))
 
 
 def get_static_file_map(path):
@@ -149,7 +173,7 @@ def read_union_apps_file(install_app_path):
     if not os.path.exists(union_app_file):
         return []
     with io.open(union_app_file, "r", encoding="utf-8") as f:
-        return json.load(f)
+        return _normalize_strs(json.load(f))
 
 
 def link_install_app_static_file(install_app_path):
