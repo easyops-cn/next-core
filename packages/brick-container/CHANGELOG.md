@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.28.1](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.28.0...@next-core/brick-container@3.28.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* **brick-container:** link_union_app_static_file 补 py2 混装期非 ASCII 文件名兼容 ([4855304](https://github.com/easyops-cn/next-core/commit/485530400868a1fbb2ebcdf76f3d72abea1cc75d))
+* **brick-container:** 同款 py2 混装期非 ASCII 兼容扩展到 link_static_file 与两个 report 脚本 ([64880f0](https://github.com/easyops-cn/next-core/commit/64880f0c6896dd506b1a55b5ed5a7b1fed05a0f9)), closes [#4894](https://github.com/easyops-cn/next-core/issues/4894) [#4895](https://github.com/easyops-cn/next-core/issues/4895) [#4900](https://github.com/easyops-cn/next-core/issues/4900) [#4900](https://github.com/easyops-cn/next-core/issues/4900)
+
+
+
+
+
 # [3.28.0](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@3.27.0...@next-core/brick-container@3.28.0) (2026-11-17)
 
 
