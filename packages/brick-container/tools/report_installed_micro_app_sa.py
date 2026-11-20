@@ -12,6 +12,19 @@ import simplejson
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # 将 tools 目录加入 path
 from utils.get_headers import get_headers
 
+# py2 混装期兼容：调用方（老版本 install_postscript.sh）可能仍以 python2 显式执行本脚本。
+# py2 下 io.open 读出的字符串是 unicode，而 os.listdir 返回的文件名是 bytes，两者在
+# os.path.join 相撞时会按 sys.getdefaultencoding()(ascii) 隐式解码，一旦安装树中存在
+# 非 ASCII 文件名即抛 UnicodeDecodeError。处理：把读出的版本号 encode 为 bytes，保证
+# 路径链全程 bytes；python3 下为直通，零变化。
+PY2 = str is bytes
+
+
+def _normalize_str(value):
+    return value.encode("utf-8") if PY2 else value
+
+
+
 class NameServiceError(Exception):
   pass
 
@@ -38,7 +51,7 @@ def get_version(install_path):
         return "0.0.0"
     with io.open(os.path.join(install_path, "version.ini"), encoding="utf-8") as f:
         lines = f.readlines()
-        return lines[-1].strip()
+        return _normalize_str(lines[-1].strip())
 
 def get_entry_html(install_path, version):
     # entry_html_path
