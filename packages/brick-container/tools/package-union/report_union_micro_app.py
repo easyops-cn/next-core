@@ -18,6 +18,29 @@ from utils.get_headers import get_headers
 _INSTALL_BASE_PATH = "/usr/local/easyops"
 _APPLICATIONS_SA_FOLDER = "applications_sa"
 
+# py2 混装期兼容：调用方（老版本 install_postscript.sh）可能仍以 python2 显式执行本脚本。
+# py2 下 io.open/simplejson 读出的字符串是 unicode，而 os.listdir 返回的文件名是 bytes，
+# 两者在 os.path.join 相撞时会按 sys.getdefaultencoding()(ascii) 隐式解码，一旦安装树中
+# 存在非 ASCII 文件名即抛 UnicodeDecodeError。处理：统一把配置读出的字符串 encode 为
+# bytes，保证路径链全程 bytes；python3 下为直通，零变化。
+PY2 = str is bytes
+
+if PY2:
+    def _normalize_strs(value):
+        if isinstance(value, unicode):
+            return value.encode("utf-8")
+        if isinstance(value, list):
+            return [_normalize_strs(v) for v in value]
+        if isinstance(value, dict):
+            return dict(
+                (_normalize_strs(k), _normalize_strs(v))
+                for k, v in value.items()
+            )
+        return value
+else:
+    def _normalize_strs(value):
+        return value
+
 class NameServiceError(Exception):
     pass
 
@@ -134,7 +157,7 @@ def read_union_apps_file(install_app_path):
     if not os.path.exists(union_app_file):
         return []
     with io.open(union_app_file, "r", encoding="utf-8") as f:
-        return simplejson.load(f)
+        return _normalize_strs(simplejson.load(f))
 
 def get_union_app_version(install_path):
     version_file_path = os.path.join(install_path, "version.ini")
