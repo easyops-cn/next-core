@@ -1,5 +1,6 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 import chalk from "chalk";
+import { resolveLoginIdentity } from "./loginIdentity.js";
 import { getToken } from "./tokenManager.js";
 
 export function setupLocalProxies(app, env) {
@@ -44,7 +45,12 @@ export function setupLocalProxies(app, env) {
       },
       pathRewrite: { [`^${fullPath}`]: "" },
       on: {
-        proxyReq: (proxyReq) => {
+        proxyReq: (proxyReq, req) => {
+          if (auth?.followLogin) {
+            proxyReq.setHeader("org", String(req.localLoginIdentity.org));
+            proxyReq.setHeader("user", req.localLoginIdentity.username);
+            return;
+          }
           if (org && !proxyReq.getHeader("org")) {
             proxyReq.setHeader("org", String(org));
           }
@@ -62,6 +68,23 @@ export function setupLocalProxies(app, env) {
         chalk.yellow(req.method),
         chalk.white(req.url)
       );
+      if (auth?.followLogin) {
+        try {
+          req.localLoginIdentity = await resolveLoginIdentity(
+            serverUrl,
+            req.headers.cookie
+          );
+          // Never trust identity headers provided by the browser.
+          req.headers.org = String(req.localLoginIdentity.org);
+          req.headers.user = req.localLoginIdentity.username;
+        } catch (error) {
+          res.status(error.status || 502).json({
+            code: error.status === 401 ? 100004 : 500,
+            error: error.status === 401 ? "请先登录" : "无法验证远端登录状态",
+          });
+          return;
+        }
+      }
       if (auth) {
         try {
           const token = await getToken(serverUrl, auth);
@@ -74,6 +97,10 @@ export function setupLocalProxies(app, env) {
             "Failed to get token:",
             e.message
           );
+          if (auth.followLogin) {
+            res.status(502).json({ error: "本地代理认证失败" });
+            return;
+          }
         }
       }
       proxy(req, res, next);
