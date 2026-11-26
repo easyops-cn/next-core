@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.100.4](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.100.3...@next-core/brick-container@2.100.4) (2026-11-26)
+
+
+### Bug Fixes
+
+* **brick-container:** preserve local menus and follow browser login in v2 serve proxy ([f072b11](https://github.com/easyops-cn/next-core/commit/f072b11a49c263ce9decd53bbdffe9a0c09ef7fa))
+
+
+
+
+
 ## [2.100.3](https://github.com/easyops-cn/next-core/compare/@next-core/brick-container@2.100.2...@next-core/brick-container@2.100.3) (2026-11-20)
 
 
