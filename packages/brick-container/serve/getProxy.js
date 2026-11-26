@@ -292,6 +292,52 @@ export default function getProxy(env, getRawIndexHtml) {
                   }
                   return remoteMenu;
                 });
+
+                const localAppId = localStoryboard.app.id;
+                const localMenus =
+                  localStoryboard.meta?.menus?.filter((menu) => {
+                    if (!menu?.menuId || menu.type !== "main") {
+                      return false;
+                    }
+
+                    return !data.injectMenus.some((remoteMenu) => {
+                      if (
+                        remoteMenu.app?.[0]?.appId !== localAppId ||
+                        remoteMenu.menuId !== menu.menuId
+                      ) {
+                        return false;
+                      }
+
+                      const remoteGroupId = remoteMenu.injectMenuGroupId;
+                      if (remoteGroupId) {
+                        return menu.injectMenuGroupId === remoteGroupId;
+                      }
+
+                      return true;
+                    });
+                  }) ?? [];
+
+                if (localMenus.length > 0) {
+                  const remoteAppMenu = data.injectMenus.find(
+                    (remoteMenu) => remoteMenu.app?.[0]?.appId === localAppId
+                  );
+
+                  if (remoteAppMenu) {
+                    data.injectMenus.push(
+                      ...localMenus.map((menu) => ({
+                        ...menu,
+                        items: menu.items?.map((item) =>
+                          _.isNil(item.key) ? _.omit(item, "key") : item
+                        ),
+                        app: remoteAppMenu.app,
+                        overrideApp: remoteAppMenu.overrideApp,
+                        instanceId: remoteAppMenu.instanceId,
+                        menuUniqueId: menu.uuid,
+                        isCustom: true,
+                      }))
+                    );
+                  }
+                }
               }
               removeCacheHeaders(res);
               return JSON.stringify(result);
