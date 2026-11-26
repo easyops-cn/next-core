@@ -25,6 +25,7 @@ import { isPreEvaluated } from "./compute/evaluate.js";
 import { setProperties } from "./compute/setProperties.js";
 import { applyMode, applyTheme } from "../themeAndMode.js";
 import type {
+  Dispose,
   ElementHolder,
   RuntimeBrickElement,
   RuntimeContext,
@@ -45,10 +46,13 @@ export function bindListeners(
   brick: RuntimeBrickElement,
   eventsMap: BrickEventsMap | undefined,
   runtimeContext: RuntimeContext
-): void {
+): Dispose {
   if (!eventsMap) {
-    return;
+    return () => {};
   }
+
+  const disposables: Dispose[] = [];
+
   Object.entries(eventsMap).forEach(([eventType, handlers]) => {
     const listener = listenerFactory(handlers, runtimeContext, {
       element: brick,
@@ -56,28 +60,21 @@ export function bindListeners(
     brick.addEventListener(eventType, listener);
 
     // Remember added listeners for unbinding.
-    if (!brick.$$listeners) {
-      brick.$$listeners = [];
-    }
-    brick.$$listeners.push([eventType, listener]);
-
-    // Remember added listeners for devtools.
-    if (!brick.$$eventListeners) {
-      brick.$$eventListeners = [];
-    }
-    for (const handler of ([] as BrickEventHandler[]).concat(handlers)) {
-      brick.$$eventListeners.push([eventType, null, handler]);
-    }
-  });
-}
-
-export function unbindListeners(brick: RuntimeBrickElement): void {
-  if (brick.$$listeners) {
-    for (const [eventType, listener] of brick.$$listeners) {
+    const dispose = () => {
       brick.removeEventListener(eventType, listener);
+    };
+    disposables.push(dispose);
+    brick.$$disposes ??= [];
+    brick.$$disposes.push(dispose);
+  });
+
+  return () => {
+    for (const dispose of disposables) {
+      dispose();
     }
-    brick.$$listeners.length = 0;
-  }
+    disposables.length = 0;
+    delete brick.$$disposes;
+  };
 }
 
 export function isBuiltinHandler(

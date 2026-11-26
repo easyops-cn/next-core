@@ -1,0 +1,43 @@
+app:
+  name: Memory Leak
+  id: memory-leak
+  homepage: /memory-leak
+  noAuthGuard: true
+  standaloneMode: true
+
+routes:
+
+- path: '${APP.homepage}'
+  incrementalSubRoutes: true
+  bricks:
+  - brick: h1
+    properties:
+      textContent: Debugging with memory leak
+  - brick: p
+    children:
+    - brick: eo-link
+      properties:
+        url: '${APP.homepage}/1'
+        textContent: Go to 1
+  - brick: p
+    children:
+    - brick: eo-link
+      properties:
+        url: '${APP.homepage}/2'
+        textContent: Go to 2
+  - brick: div
+    slots:
+      '':
+        type: routes
+        routes:
+          - path: '${APP.homepage}/1'
+            bricks:
+            - brick: ai-portal.elevo-card
+              properties:
+                cardTitle: HR
+                description: Provide standard HR workflows.
+          - path: '${APP.homepage}/2'
+            bricks:
+            - brick: p
+              properties:
+                textContent: This is page 2
