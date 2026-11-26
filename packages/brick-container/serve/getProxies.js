@@ -78,7 +78,7 @@ module.exports = (env, getRawIndexHtml) => {
         "/next/sa-static/*/versions/*/webroot/-/**",
         "/sa-static/*/versions/*/webroot/-/**",
         "/next/auth/-/**",
-        "/sa-static/**"
+        "/sa-static/**",
       );
     } else {
       proxyPaths.push(
@@ -86,7 +86,7 @@ module.exports = (env, getRawIndexHtml) => {
         "(/next)?/sa-static/micro-apps/v2/:appId/",
         "(/next)?/sa-static/micro-apps/v3/:appId/",
         "/next/:appId/-/",
-        "/sa-static/"
+        "/sa-static/",
       );
     }
 
@@ -136,8 +136,8 @@ module.exports = (env, getRawIndexHtml) => {
           for (const standaloneConfig of legacyStandaloneAppsConfig) {
             const regex = new RegExp(
               `^${escapeRegExp(
-                standaloneConfig.appRoot
-              )}-/bootstrap\\.[^.]+\\.json$`
+                standaloneConfig.appRoot,
+              )}-/bootstrap\\.[^.]+\\.json$`,
             );
             if (regex.test(req.path)) {
               reqIsBootstrap = true;
@@ -175,20 +175,20 @@ module.exports = (env, getRawIndexHtml) => {
               .map((id) =>
                 getSingleStoryboard(env, id, true, {
                   brief: useBrief,
-                })
+                }),
               )
               .concat(
                 localMicroApps.map((id) =>
                   getSingleStoryboard(env, id, false, {
                     brief: useBrief,
-                  })
-                )
+                  }),
+                ),
               )
               .filter(Boolean)
               .concat(
                 data.storyboards.filter(
-                  (item) => !(item.app && localMicroApps.includes(item.app.id))
-                )
+                  (item) => !(item.app && localMicroApps.includes(item.app.id)),
+                ),
               );
           }
 
@@ -200,14 +200,14 @@ module.exports = (env, getRawIndexHtml) => {
               } else {
                 console.warn(
                   chalk.yellow(
-                    `Warning: micro app not found and dark mode cannot be used: ${id}`
-                  )
+                    `Warning: micro app not found and dark mode cannot be used: ${id}`,
+                  ),
                 );
               }
             });
           }
           const combinedLocalBrickPackages = Array.from(
-            new Set(localBrickPackages.concat(localEditorPackages))
+            new Set(localBrickPackages.concat(localEditorPackages)),
           );
           if (combinedLocalBrickPackages.length > 0) {
             const brickPackages = brickPreviewInDeveloperDoc
@@ -220,17 +220,17 @@ module.exports = (env, getRawIndexHtml) => {
                   env,
                   id,
                   data[brickPackages],
-                  publicRootWithVersion
-                )
+                  publicRootWithVersion,
+                ),
               )
               .filter(Boolean)
               .concat(
                 (data[brickPackages] || []).filter(
                   (item) =>
                     !combinedLocalBrickPackages.includes(
-                      item.filePath.split("/")[1]
-                    )
-                )
+                      item.filePath.split("/")[1],
+                    ),
+                ),
               );
           }
           if (localTemplates.length > 0) {
@@ -243,8 +243,8 @@ module.exports = (env, getRawIndexHtml) => {
               .concat(
                 (data[templatePackages] || []).filter(
                   (item) =>
-                    !localTemplates.includes(item.filePath.split("/")[1])
-                )
+                    !localTemplates.includes(item.filePath.split("/")[1]),
+                ),
               );
           }
           if (useLocalSettings) {
@@ -254,7 +254,7 @@ module.exports = (env, getRawIndexHtml) => {
             if (useMergeSettings) {
               data.settings = mergeSettings(
                 data.settings,
-                getUserSettings(env)
+                getUserSettings(env),
               );
             }
           }
@@ -275,7 +275,7 @@ module.exports = (env, getRawIndexHtml) => {
         });
       } else if (
         /\/next\/api\/gateway\/next_builder\.build\.GetStoriesJson(V2)?\/api\/(v1|v2)\/next-builder\/storiesjson/.test(
-          req.path
+          req.path,
         )
       ) {
         modifyResponse(res, proxyRes, (raw) => {
@@ -291,7 +291,7 @@ module.exports = (env, getRawIndexHtml) => {
                 alternativeBrickPackagesDir,
                 pkgId,
                 "dist",
-                "stories.json"
+                "stories.json",
               ),
             ]);
 
@@ -301,7 +301,7 @@ module.exports = (env, getRawIndexHtml) => {
               data.list = [
                 ...data.list.filter(
                   (v) =>
-                    !story.some((s) => [v.storyId, v.id].includes(s.storyId))
+                    !story.some((s) => [v.storyId, v.id].includes(s.storyId)),
                 ),
                 ...story,
               ];
@@ -328,12 +328,12 @@ module.exports = (env, getRawIndexHtml) => {
               path.join(
                 alternativeBrickPackagesDir,
                 pkgId,
-                "dist-snippets/index.js"
+                "dist-snippets/index.js",
               ),
               path.join(
                 alternativeBrickPackagesDir,
                 pkgId,
-                "dist/snippets.json"
+                "dist/snippets.json",
               ),
             ]);
             if (distPath) {
@@ -351,7 +351,7 @@ module.exports = (env, getRawIndexHtml) => {
                   ...snippets,
                   ...data.list.filter(
                     // Identify snippet by id.
-                    (v) => !snippets.some((s) => s.id === v.id)
+                    (v) => !snippets.some((s) => s.id === v.id),
                   ),
                 ];
               }
@@ -380,7 +380,7 @@ module.exports = (env, getRawIndexHtml) => {
                 }
               }
               return parts.join(separator);
-            }
+            },
           );
         } else if (!env.https) {
           proxyRes.headers["set-cookie"] = proxyRes.headers["set-cookie"].map(
@@ -394,7 +394,7 @@ module.exports = (env, getRawIndexHtml) => {
                 }
               }
               return filteredParts.join(separator);
-            }
+            },
           );
         }
       } else if (
@@ -418,7 +418,7 @@ module.exports = (env, getRawIndexHtml) => {
             if (useMergeSettings) {
               data.settings = mergeSettings(
                 data.settings,
-                getUserSettings(env)
+                getUserSettings(env),
               );
             }
           }
@@ -426,7 +426,7 @@ module.exports = (env, getRawIndexHtml) => {
         });
       } else if (
         req.path.includes(
-          "/api/gateway/logic.micro_app_standalone_service/api/v1/micro_app_standalone/runtime/"
+          "/api/gateway/logic.micro_app_standalone_service/api/v1/micro_app_standalone/runtime/",
         )
       ) {
         // 独立应用运行时 API - 注入本地应用的菜单数据
@@ -484,8 +484,8 @@ module.exports = (env, getRawIndexHtml) => {
                   if (localMenu) {
                     console.log(
                       chalk.yellow(
-                        `Info: Injecting local menu "${menuId}" for app: ${appId}`
-                      )
+                        `Info: Injecting local menu "${menuId}" for app: ${appId}`,
+                      ),
                     );
                     // 保留远程 menu 的 app 信息，使用本地 menu 的其他数据
                     return {
@@ -504,6 +504,57 @@ module.exports = (env, getRawIndexHtml) => {
                 }
                 return remoteMenu;
               });
+              const localAppId = localStoryboard.app.id;
+              const localMenus =
+                localStoryboard.meta?.menus?.filter((menu) => {
+                  if (!menu?.menuId || menu.type !== "main") {
+                    return false;
+                  }
+
+                  return !data.injectMenus.some((remoteMenu) => {
+                    if (
+                      remoteMenu.app?.[0]?.appId !== localAppId ||
+                      remoteMenu.menuId !== menu.menuId
+                    ) {
+                      return false;
+                    }
+
+                    const remoteGroupId = remoteMenu.injectMenuGroupId;
+                    if (remoteGroupId) {
+                      return menu.injectMenuGroupId === remoteGroupId;
+                    }
+
+                    return true;
+                  });
+                }) ?? [];
+
+              if (localMenus.length > 0) {
+                const remoteAppMenu = data.injectMenus.find(
+                  (remoteMenu) => remoteMenu.app?.[0]?.appId === localAppId,
+                );
+
+                if (remoteAppMenu) {
+                  data.injectMenus.push(
+                    ...localMenus.map((menu) => ({
+                      ...menu,
+                      items: menu.items?.map((item) =>
+                        item.key == null
+                          ? Object.fromEntries(
+                              Object.entries(item).filter(
+                                ([key]) => key !== "key",
+                              ),
+                            )
+                          : item,
+                      ),
+                      app: remoteAppMenu.app,
+                      overrideApp: remoteAppMenu.overrideApp,
+                      instanceId: remoteAppMenu.instanceId,
+                      menuUniqueId: menu.uuid,
+                      isCustom: true,
+                    })),
+                  );
+                }
+              }
             }
           }
 
@@ -552,7 +603,7 @@ module.exports = (env, getRawIndexHtml) => {
               ? req.path.replace(/^\/next\//, "/")
               : req.path;
             const standalone = /\bSTANDALONE_MICRO_APPS\s*=\s*(?:!0|true)/.test(
-              raw
+              raw,
             );
             if (standalone) {
               const appIdMatch = raw.match(/\bAPP_ID\s*=\s*("[^"]+")/);
@@ -572,32 +623,32 @@ module.exports = (env, getRawIndexHtml) => {
               const appRoot = JSON.parse(appRootMatches[1]);
 
               const unionAppRoot = raw.match(
-                /\b(var\s*\w+\s*=\s*w\.UNION_APP_ROOT\s*=\s*[^;]*\s*;)/
+                /\b(var\s*\w+\s*=\s*w\.UNION_APP_ROOT\s*=\s*[^;]*\s*;)/,
               )?.[1];
 
               const bootstrapUnionMatches = raw.match(
-                /\b(w\.BOOTSTRAP_UNION_FILE\s*=\s*[^;]*\s*;)/
+                /\b(w\.BOOTSTRAP_UNION_FILE\s*=\s*[^;]*\s*;)/,
               );
 
               const bootstrapUnionFilePath = bootstrapUnionMatches?.[1];
 
               const bootstrapHashMatches = raw.match(
-                /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/
+                /\bbootstrap(-pubDeps|-mini)?\.([^."]+)\.json\b/,
               );
 
               let publicDeps = raw.match(
-                /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
+                /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/,
               )?.[1];
 
               if (publicDeps && localBrickPackages?.length) {
                 publicDeps = getProcessedPublicDeps(
                   publicDeps,
-                  localBrickPackages
+                  localBrickPackages,
                 );
               }
 
               const appRootTpl = raw.match(
-                /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/
+                /(w\.APP_ROOT_TPL\s*=\s*[^;]*\s*;)/,
               )?.[1];
 
               if (!bootstrapHashMatches) {
@@ -611,7 +662,7 @@ module.exports = (env, getRawIndexHtml) => {
               const bootstrapPathPrefix = reverseBootstrapMatches[1];
 
               const bootstrapFilePath = raw.match(
-                /\b(w\.BOOTSTRAP_FILE\s*=\s*[^;]*\s*;)/
+                /\b(w\.BOOTSTRAP_FILE\s*=\s*[^;]*\s*;)/,
               )?.[1];
 
               const noAuthGuard = /\bNO_AUTH_GUARD\s*=\s*(?:!0|true)/.test(raw);
@@ -621,7 +672,7 @@ module.exports = (env, getRawIndexHtml) => {
 
               if (publicRootWithVersion) {
                 const publicPrefixMatches = raw.match(
-                  /\bvar\s+d\s*=\s*(?:w\.PUBLIC_PREFIX\s*)?=\s*("[^"]+")/
+                  /\bvar\s+d\s*=\s*(?:w\.PUBLIC_PREFIX\s*)?=\s*("[^"]+")/,
                 );
                 if (!publicPrefixMatches) {
                   const message =
@@ -653,7 +704,7 @@ module.exports = (env, getRawIndexHtml) => {
                     standaloneVersion: 2,
                   },
                   env,
-                  rawIndexHtml
+                  rawIndexHtml,
                 );
               }
               return injectIndexHtml(
@@ -671,7 +722,7 @@ module.exports = (env, getRawIndexHtml) => {
                   standaloneVersion: 1,
                 },
                 env,
-                rawIndexHtml
+                rawIndexHtml,
               );
             }
             return injectIndexHtml(null, env, rawIndexHtml);
@@ -679,7 +730,7 @@ module.exports = (env, getRawIndexHtml) => {
           let content = useSubdir ? raw : raw.replace(/\/next\//g, "/");
 
           const publicDeps = content.match(
-            /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/
+            /\bw\.PUBLIC_DEPS\s*=\s*(\[[^;]*\])\s*;/,
           )?.[1];
 
           if (publicDeps && localBrickPackages?.length) {
@@ -687,8 +738,8 @@ module.exports = (env, getRawIndexHtml) => {
               /\bw\.PUBLIC_DEPS\s*=\s*\[[^;]*\]\s*;/,
               `w.PUBLIC_DEPS=${getProcessedPublicDeps(
                 publicDeps,
-                localBrickPackages
-              )};`
+                localBrickPackages,
+              )};`,
             );
           }
 
@@ -697,7 +748,7 @@ module.exports = (env, getRawIndexHtml) => {
             : content;
         }
         return responseBuffer;
-      }
+      },
     );
   }
 
@@ -757,8 +808,8 @@ module.exports = (env, getRawIndexHtml) => {
             ].some((path) => seg.endsWith(path))
               ? apiProxyOptions
               : seg === ""
-              ? rootProxyOptions
-              : null),
+                ? rootProxyOptions
+                : null),
           };
           return acc;
         }, {}),

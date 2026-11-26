@@ -1,6 +1,7 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const { escapeRegExp } = require("lodash");
 const chalk = require("chalk");
+const { resolveLoginIdentity } = require("./loginIdentity");
 const { getToken } = require("./tokenManager");
 
 function setupLocalProxies(app, env) {
@@ -20,8 +21,8 @@ function setupLocalProxies(app, env) {
       console.error(
         chalk.red("[local-proxy]"),
         "Token pre-warm failed:",
-        e.message
-      )
+        e.message,
+      ),
     );
   }
 
@@ -37,7 +38,12 @@ function setupLocalProxies(app, env) {
       changeOrigin: true,
       logLevel: "debug",
       pathRewrite: { [`^${escapeRegExp(fullPath)}`]: "" },
-      onProxyReq: (proxyReq) => {
+      onProxyReq: (proxyReq, req) => {
+        if (auth?.followLogin) {
+          proxyReq.setHeader("org", String(req.localLoginIdentity.org));
+          proxyReq.setHeader("user", req.localLoginIdentity.username);
+          return;
+        }
         if (org && !proxyReq.getHeader("org")) {
           proxyReq.setHeader("org", String(org));
         }
@@ -52,8 +58,25 @@ function setupLocalProxies(app, env) {
         chalk.cyan("[local-proxy]"),
         chalk.green(pathPattern) + chalk.white(":"),
         chalk.yellow(req.method),
-        chalk.white(req.url)
+        chalk.white(req.url),
       );
+      if (auth?.followLogin) {
+        try {
+          req.localLoginIdentity = await resolveLoginIdentity(
+            serverUrl,
+            req.headers.cookie,
+          );
+          // Never trust identity headers provided by the browser.
+          req.headers.org = String(req.localLoginIdentity.org);
+          req.headers.user = req.localLoginIdentity.username;
+        } catch (error) {
+          res.status(error.status || 502).json({
+            code: error.status === 401 ? 100004 : 500,
+            error: error.status === 401 ? "请先登录" : "无法验证远端登录状态",
+          });
+          return;
+        }
+      }
       if (auth) {
         try {
           const token = await getToken(serverUrl, auth);
@@ -64,8 +87,12 @@ function setupLocalProxies(app, env) {
           console.error(
             chalk.red("[local-proxy]"),
             "Failed to get token:",
-            e.message
+            e.message,
           );
+          if (auth.followLogin) {
+            res.status(502).json({ error: "本地代理认证失败" });
+            return;
+          }
         }
       }
       proxy(req, res, next);
